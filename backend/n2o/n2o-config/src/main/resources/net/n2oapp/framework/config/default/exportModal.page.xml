@@ -4,8 +4,28 @@
     <form>
         <fields>
             <hidden id="exportDatasourceId" param="datasourceId"/>
+            <select label="Формат">
+                <options>
+                    <option id="1" name="CSV"/>
+                    <option id="2" name="XLSX"/>
+                    <option id="3" name="HTML"/>
+                    <option id="4" name="TXT"/>
+                </options>
+            </select>
+            <select label="Кодировка">
+                <options>
+                    <option id="1" name="sp1251"/>
+                    <option id="2" name="UTF-8"/>
+                </options>
+            </select>
+            <radio-group>
+                <options>
+                    <option id="1" name="Загрузить все(но не более 1000 записей)"/>
+                    <option id="2" name="Текущая страница {exportDatasourceId.paging} записей"/>
+                </options>
+            </radio-group>
         </fields>
-        <toolbar>
+        <toolbar place="bottomLeft">
             <button label="Загрузить" enabled="true">
                 <action type="n2o/api/utils/export">
                     <payload
@@ -14,6 +34,9 @@
                             baseUrl="/export/?type=csv&amp;code=utf8&amp;url=dataURL"
                     />
                 </action>
+                <close/>
+            </button>
+            <button label="Отменить" enabled="true">
                 <close/>
             </button>
         </toolbar>

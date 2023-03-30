@@ -5,10 +5,15 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Генерация кнопки экспорта таблицы
+ */
+@Component
 public class TableExportGenerator implements ButtonGenerator {
 
     @Override

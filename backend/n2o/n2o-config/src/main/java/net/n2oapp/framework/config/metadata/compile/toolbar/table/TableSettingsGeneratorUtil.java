@@ -96,7 +96,10 @@ public class TableSettingsGeneratorUtil {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String datasourceId = widgetScope == null ? null : widgetScope.getClientDatasourceId();
 
-        showModalAction.setPageId("exportModal");
+        String pageId = resolveExportPageId(p);
+        if (pageId == null)
+            pageId = "exportModal";
+        showModalAction.setPageId(pageId);
         showModalAction.setRoute("/:datasourceId/exportTable");
         N2oPathParam n2oPathParam = new N2oPathParam();
         n2oPathParam.setName("datasourceId");
@@ -109,5 +112,15 @@ public class TableSettingsGeneratorUtil {
         exportButton.setModel(ReduxModel.filter);
 
         return exportButton;
+    }
+
+    private static String resolveExportPageId(CompileProcessor p) {
+        String pageId;
+        try {
+            pageId = p.resolve(property("n2o.api.generate.button.export.page"), String.class);
+        } catch (Exception e) {
+            pageId = null;
+        }
+        return pageId;
     }
 }

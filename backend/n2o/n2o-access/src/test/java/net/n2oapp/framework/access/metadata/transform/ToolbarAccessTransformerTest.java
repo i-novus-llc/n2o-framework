@@ -41,8 +41,7 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         builder.packs(new N2oAllPagesPack(), new N2oAllDataPack(), new AccessSchemaPack())
                 .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.object.xml"),
                         new CompileInfo("net/n2oapp/framework/access/metadata/transform/testQuery.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"),
-                        new CompileInfo("net/n2oapp/framework/access/metadata/transform/exportModal.page.xml"))
+                        new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"))
                 .transformers(new ToolbarAccessTransformer(), new InvokeActionAccessTransformer());
     }
 

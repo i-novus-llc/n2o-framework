@@ -8,7 +8,7 @@
     <regions>
         <panel place="topLeft" >
             <form id="test" object-id="testToolbarAccessTransformer" query-id="testQuery">
-                <toolbar generate="tableSettings">
+                <toolbar>
                     <button id="update" widget-id="test">
                         <invoke operation-id="update"/>
                     </button>
