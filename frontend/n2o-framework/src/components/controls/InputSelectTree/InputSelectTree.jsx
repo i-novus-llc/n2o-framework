@@ -101,6 +101,8 @@ function InputSelectTree({
     const [dropdownExpanded, setDropdownExpanded] = useState(false)
     const [_control, setControlRef] = useState(null)
     const [searchValue, setSearchValue] = useState('')
+    // после изменения высоты инпута нужно пересчитывать Y позицию дропдауна по отношению к инпут контейнеру
+    const [dropdownYPositionKey, setDropdownYPositionKey] = useState(0)
 
     const popupProps = {
         prefixCls: 'n2o-select-tree',
@@ -264,7 +266,10 @@ function InputSelectTree({
         return true
     }
 
-    const clearSearch = () => setSearchValue('')
+    const clearSearch = () => {
+        setSearchValue('')
+        setDropdownYPositionKey(prevKey => prevKey + 1)
+    }
 
     /**
      * Функция для контроля открытия/закрытия popup
@@ -319,6 +324,7 @@ function InputSelectTree({
         <div className="w-100 d-flex position-relative">
             <TreeSelect
                 ref={setControlRef}
+                key={dropdownYPositionKey}
                 /* eslint-disable-next-line jsx-a11y/tabindex-no-positive */
                 tabIndex={1}
                 {...value && { value: setValue(value) }}
