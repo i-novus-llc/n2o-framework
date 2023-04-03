@@ -8,6 +8,8 @@ import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
+import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
+import net.n2oapp.framework.sandbox.templates.TemplateModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -17,10 +19,9 @@ import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
 
 /**
  * Тестовый провайдер данных для чтения/изменения json при работе с sandbox
@@ -28,6 +29,8 @@ import java.util.Map;
 @Component
 public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
 
+    @Autowired
+    private ProjectTemplateHolder templatesHolder;
     @Autowired
     private SandboxRestClient restClient;
 
@@ -66,10 +69,19 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
     protected InputStream getResourceInputStream(N2oTestDataProvider invocation) throws IOException {
         try {
             String projectId = ThreadLocalProjectId.getProjectId();
-            String response = restClient.getFile(projectId, invocation.getFile());
-            if (response != null)
-                return new ByteArrayInputStream(response.getBytes());
-            throw new FileNotFoundException(invocation.getFile());
+            if (isTemplate(projectId)) {
+                TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
+                List<FileModel> files = findResources(templateModel.getTemplateId());
+                Optional<FileModel> first = files.stream().filter(f -> f.getFile().equals(invocation.getFile())).findFirst();
+                if (first.isPresent())
+                    return new ByteArrayInputStream(first.get().getSource().getBytes());
+                throw new FileNotFoundException(invocation.getFile());
+            } else {
+                String response = restClient.getFile(projectId, invocation.getFile());
+                if (response != null)
+                    return new ByteArrayInputStream(response.getBytes());
+                throw new FileNotFoundException(invocation.getFile());
+            }
         } catch (HttpClientErrorException.NotFound e) {
             ClassPathResource classPathResource = new ClassPathResource(invocation.getFile());
             if (classPathResource.exists()) {
@@ -83,5 +95,9 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
     protected String richKey(String key) {
         String projectId = ThreadLocalProjectId.getProjectId();
         return projectId + "/" + key;
+    }
+
+    private boolean isTemplate(String projectId) {
+        return projectId.contains("_");
     }
 }
