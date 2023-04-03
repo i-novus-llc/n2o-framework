@@ -1,44 +1,47 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-             name="Экспорт">
-    <form>
-        <fields>
-            <hidden id="exportDatasourceId" param="datasourceId"/>
-            <select label="Формат">
-                <options>
-                    <option id="1" name="CSV"/>
-                    <option id="2" name="XLSX"/>
-                    <option id="3" name="HTML"/>
-                    <option id="4" name="TXT"/>
-                </options>
-            </select>
-            <select label="Кодировка">
-                <options>
-                    <option id="1" name="sp1251"/>
-                    <option id="2" name="UTF-8"/>
-                </options>
-            </select>
-            <radio-group>
-                <options>
-                    <option id="1" name="Загрузить все(но не более 1000 записей)"/>
-                    <option id="2" name="Текущая страница {exportDatasourceId.paging} записей"/>
-                </options>
-            </radio-group>
-        </fields>
-        <toolbar place="bottomLeft">
-            <button label="Загрузить" enabled="true">
-                <action type="n2o/api/utils/export">
-                    <payload
-                            exportDatasource="{exportDatasourceId}"
-                            datasource="exportModal"
-                            baseUrl="/export/?type=csv&amp;code=utf8&amp;url=dataURL"
-                    />
-                </action>
-                <close/>
-            </button>
-            <button label="Отменить" enabled="true">
-                <close/>
-            </button>
-        </toolbar>
-    </form>
-</simple-page>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Экспортировать">
+    <datasources>
+        <datasource id="exportModal" query-id="test">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+        </datasource>
+    </datasources>
+
+    <regions>
+        <form>
+            <fields>
+                <hidden id="exportDatasourceId"/>
+
+                <set field-label-location="left" field-label-width="100px">
+                    <input-text id="format" label="Формат" default-value="CSV" enabled="false"/>
+                    <input-text id="charset" label="Кодировка" default-value="UTF-8" enabled="false"/>
+                    <radio-group id="type" no-label="true">
+                        <options>
+                            <option id="all" name="Загрузить все (но не более 1000 записей)" />
+                            <option id="page" name="Текущая страница" />
+                        </options>
+                        <default-value id="all"/>
+                    </radio-group>
+                </set>
+            </fields>
+        </form>
+    </regions>
+
+    <toolbar>
+        <button label="Загрузить" icon="fa fa-download" color="primary">
+            <action type="n2o/api/utils/export">
+                <payload
+                        exportDatasource="{exportDatasourceId}"
+                        configDatasource="exportModal"
+                        baseURL="адрес_n2o_для_экспорта"
+                />
+            </action>
+            <close/>
+        </button>
+        <button label="Закрыть">
+            <close/>
+        </button>
+    </toolbar>
+</page>
