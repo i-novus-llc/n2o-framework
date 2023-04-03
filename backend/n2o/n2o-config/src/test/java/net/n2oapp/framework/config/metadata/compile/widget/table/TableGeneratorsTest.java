@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget.table;
 
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
+import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -61,13 +62,14 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
                 .get(new PageContext("table_settings"));
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
-        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().size(), is(5));
+        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().size(), is(6));
 
         AbstractButton filtersBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(0);
         AbstractButton columnsBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(1);
         AbstractButton refreshBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(2);
         AbstractButton resizeBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(3);
         AbstractButton wordwrapBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(4);
+        AbstractButton exportBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(5);
 
         assertThat(((CustomAction) filtersBtn.getAction()).getType(), Matchers.is("n2o/widgets/TOGGLE_FILTER_VISIBILITY"));
         assertThat(filtersBtn.getHint(), is("Изменить видимость фильтров"));
@@ -87,6 +89,11 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(wordwrapBtn.getSrc(), is("WordWrap"));
         assertThat(wordwrapBtn.getHint(), is("Перенос по словам"));
         assertThat(wordwrapBtn.getIcon(), is("fa-solid fa-grip-lines"));
+        assertThat(exportBtn.getAction(), Matchers.instanceOf(ShowModal.class));
+        assertThat(((ShowModal) exportBtn.getAction()).getPageId(), Matchers.is("exportModal"));
+        assertThat(((ShowModal) exportBtn.getAction()).getPayload().getPageUrl(), Matchers.is("/table_settings/:datasourceId/exportTable"));
+        assertThat(exportBtn.getHint(), is("Экспортировать"));
+        assertThat(exportBtn.getIcon(), is("fa-solid fa-arrow-up-from-bracket"));
     }
 
     @Test
@@ -165,5 +172,22 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(button.getSrc(), is("WordWrap"));
         assertThat(button.getHint(), is("Перенос по словам"));
         assertThat(button.getIcon(), is("fa-solid fa-grip-lines"));
+    }
+
+    @Test
+    public void generateExport() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/export.page.xml")
+                .get(new PageContext("export"));
+        Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
+
+        assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().size(), is(1));
+
+        AbstractButton button = t.getToolbar().get("bottomRight").get(0).getButtons().get(0);
+
+        assertThat(button.getAction(), Matchers.instanceOf(ShowModal.class));
+        assertThat(((ShowModal) button.getAction()).getPageId(), Matchers.is("exportModal"));
+        assertThat(((ShowModal) button.getAction()).getPayload().getPageUrl(), Matchers.is("/export/:datasourceId/exportTable"));
+        assertThat(button.getHint(), is("Экспортировать"));
+        assertThat(button.getIcon(), is("fa-solid fa-arrow-up-from-bracket"));
     }
 }

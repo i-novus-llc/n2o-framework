@@ -103,8 +103,8 @@ public class TableSettingsGeneratorUtil {
         n2oPathParam.setValue(datasourceId);
         showModalAction.setParams(new N2oParam[]{n2oPathParam});
 
-        exportButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.export.description"));
-        exportButton.setIcon("fa-solid fa-arrow-up-from-bracket");
+        exportButton.setDescription(p.getMessage("n2o.api.generate.button.export.description"));
+        exportButton.setIcon(p.resolve(property("n2o.api.generate.button.export.icon"), String.class));
         exportButton.setActions(new N2oShowModal[]{showModalAction});
         exportButton.setModel(ReduxModel.filter);
 
