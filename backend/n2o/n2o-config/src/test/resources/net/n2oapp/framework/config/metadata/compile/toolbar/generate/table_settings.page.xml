@@ -1,6 +1,9 @@
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
     <regions>
-        <table object-id="utBlank">
+        <table id="tb1" object-id="utBlank" datasource="ds1">
             <toolbar place="topLeft" generate="tableSettings"/>
         </table>
     </regions>

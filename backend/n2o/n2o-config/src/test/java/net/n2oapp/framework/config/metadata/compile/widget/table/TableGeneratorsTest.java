@@ -72,16 +72,18 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(((CustomAction) filtersBtn.getAction()).getType(), Matchers.is("n2o/widgets/TOGGLE_FILTER_VISIBILITY"));
         assertThat(filtersBtn.getHint(), is("Изменить видимость фильтров"));
         assertThat(filtersBtn.getIcon(), is("fa fa-filter"));
+        assertThat(((CustomAction) filtersBtn.getAction()).getPayload().getAttributes().get("widgetId"), Matchers.is("table_settings_tb1"));
         assertThat(columnsBtn.getSrc(), is("ToggleColumn"));
         assertThat(columnsBtn.getHint(), is("Изменить видимость колонок"));
         assertThat(columnsBtn.getIcon(), is("fa fa-table"));
-        assertThat(((RefreshAction) refreshBtn.getAction()).getType(), Matchers.is("n2o/datasource/DATA_REQUEST"));
+        assertThat(refreshBtn.getAction(), Matchers.instanceOf(RefreshAction.class));
         assertThat(refreshBtn.getHint(), is("Обновить данные"));
         assertThat(refreshBtn.getIcon(), is("fa fa-refresh"));
         assertThat(resizeBtn.getSrc(), is("ChangeSize"));
         assertThat(resizeBtn.getHint(), is("Изменить размер"));
         assertThat(resizeBtn.getIcon(), is("fa fa-bars"));
         assertThat(((CustomAction) wordwrapBtn.getAction()).getType(), Matchers.is("n2o/widgets/TOGGLE_WORD_WRAP"));
+        assertThat(((CustomAction) wordwrapBtn.getAction()).getPayload().getAttributes().get("datasource"), Matchers.is("ds1"));
         assertThat(wordwrapBtn.getSrc(), is("WordWrap"));
         assertThat(wordwrapBtn.getHint(), is("Перенос по словам"));
         assertThat(wordwrapBtn.getIcon(), is("fa-solid fa-grip-lines"));
@@ -113,6 +115,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         AbstractButton button = t.getToolbar().get("bottomRight").get(0).getButtons().get(0);
 
         assertThat(((CustomAction) button.getAction()).getType(), Matchers.is("n2o/widgets/TOGGLE_FILTER_VISIBILITY"));
+        assertThat(((CustomAction) button.getAction()).getPayload().getAttributes().get("widgetId"), Matchers.is("filters_tb1"));
         assertThat(button.getHint(), is("Изменить видимость фильтров"));
         assertThat(button.getIcon(), is("fa fa-filter"));
     }
@@ -127,7 +130,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
 
         AbstractButton button = t.getToolbar().get("bottomRight").get(0).getButtons().get(0);
 
-        assertThat(((RefreshAction) button.getAction()).getType(), Matchers.is("n2o/datasource/DATA_REQUEST"));
+        assertThat(button.getAction(), Matchers.instanceOf(RefreshAction.class));
         assertThat(button.getHint(), is("Обновить данные"));
         assertThat(button.getIcon(), is("fa fa-refresh"));
     }
@@ -158,6 +161,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         AbstractButton button = t.getToolbar().get("bottomRight").get(0).getButtons().get(0);
 
         assertThat(((CustomAction) button.getAction()).getType(), Matchers.is("n2o/widgets/TOGGLE_WORD_WRAP"));
+        assertThat(((CustomAction) button.getAction()).getPayload().getAttributes().get("datasource"), Matchers.is("ds1"));
         assertThat(button.getSrc(), is("WordWrap"));
         assertThat(button.getHint(), is("Перенос по словам"));
         assertThat(button.getIcon(), is("fa-solid fa-grip-lines"));
