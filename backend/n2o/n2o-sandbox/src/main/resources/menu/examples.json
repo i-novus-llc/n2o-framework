@@ -94,6 +94,10 @@
         {
           "templateId": "examples/dynamic_page",
           "name": "Динамические страницы"
+        },
+        {
+          "templateId": "examples/placeholder_context",
+          "name": "Настройки пользователя"
         }
       ]
     }
