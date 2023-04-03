@@ -23,9 +23,9 @@ public class TableSettingsGeneratorUtil {
 
     public static N2oButton generateColumns(CompileProcessor p) {
         N2oButton columnsButton = new N2oButton();
-        columnsButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.columns.description"));
-        columnsButton.setIcon("fa fa-table");
-        columnsButton.setSrc(p.resolve(property("n2o.api.action.columns.src"), String.class));
+        columnsButton.setDescription(p.getMessage("n2o.api.generate.button.columns.description"));
+        columnsButton.setIcon(p.resolve(property("n2o.api.generate.button.columns.icon"), String.class));
+        columnsButton.setSrc(p.resolve(property("n2o.api.generate.button.columns.action.src"), String.class));
         columnsButton.setModel(ReduxModel.filter);
         return columnsButton;
     }
@@ -37,10 +37,10 @@ public class TableSettingsGeneratorUtil {
             widgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
         }
         N2oButton filterButton = new N2oButton();
-        filterButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.filter.description"));
-        filterButton.setIcon("fa fa-filter");
+        filterButton.setDescription(p.getMessage("n2o.api.generate.button.filters.description"));
+        filterButton.setIcon(p.resolve(property("n2o.api.generate.button.filters.icon"), String.class));
         N2oCustomAction filterAction = new N2oCustomAction();
-        filterAction.setType(p.resolve(property("n2o.api.action.filters.type"), String.class));
+        filterAction.setType(p.resolve(property("n2o.api.generate.button.filters.action.type"), String.class));
         Map<String, String> payload = Collections.singletonMap("widgetId", widgetId);
         filterAction.setPayload(payload);
         filterButton.setActions(new N2oCustomAction[]{filterAction});
@@ -50,8 +50,8 @@ public class TableSettingsGeneratorUtil {
 
     public static N2oButton generateRefresh(CompileProcessor p) {
         N2oButton refreshButton = new N2oButton();
-        refreshButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.refresh.description"));
-        refreshButton.setIcon("fa fa-refresh");
+        refreshButton.setDescription(p.getMessage("n2o.api.generate.button.refresh.description"));
+        refreshButton.setIcon(p.resolve(property("n2o.api.generate.button.refresh.icon"), String.class));
         N2oRefreshAction refreshAction = new N2oRefreshAction();
         refreshButton.setActions(new N2oRefreshAction[]{refreshAction});
         refreshButton.setModel(ReduxModel.filter);
@@ -60,9 +60,9 @@ public class TableSettingsGeneratorUtil {
 
     public static N2oButton generateResize(CompileProcessor p) {
         N2oButton resizeButton = new N2oButton();
-        resizeButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.resize.description"));
-        resizeButton.setIcon("fa fa-bars");
-        resizeButton.setSrc(p.resolve(property("n2o.api.action.resize.src"), String.class));
+        resizeButton.setDescription(p.getMessage("n2o.api.generate.button.resize.description"));
+        resizeButton.setIcon(p.resolve(property("n2o.api.generate.button.resize.icon"), String.class));
+        resizeButton.setSrc(p.resolve(property("n2o.api.generate.button.resize.action.src"), String.class));
         resizeButton.setModel(ReduxModel.filter);
         return resizeButton;
     }
@@ -78,10 +78,10 @@ public class TableSettingsGeneratorUtil {
         }
         Map<String, String> payload = Collections.singletonMap("datasource", datasourceId);
 
-        wordWrapButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.wordwrap.description"));
-        wordWrapButton.setIcon("fa-solid fa-grip-lines");
-        wordWrapButton.setSrc(p.resolve(property("n2o.api.action.wordwrap.src"), String.class));
-        wordWrapAction.setType(p.resolve(property("n2o.api.action.wordwrap.type"), String.class));
+        wordWrapButton.setDescription(p.getMessage("n2o.api.generate.button.wordwrap.description"));
+        wordWrapButton.setIcon(p.resolve(property("n2o.api.generate.button.wordwrap.icon"), String.class));
+        wordWrapButton.setSrc(p.resolve(property("n2o.api.generate.button.wordwrap.action.src"), String.class));
+        wordWrapAction.setType(p.resolve(property("n2o.api.generate.button.wordwrap.action.type"), String.class));
         wordWrapAction.setPayload(payload);
         wordWrapButton.setActions(new N2oCustomAction[]{wordWrapAction});
         wordWrapButton.setModel(ReduxModel.filter);
@@ -103,8 +103,8 @@ public class TableSettingsGeneratorUtil {
         n2oPathParam.setValue(datasourceId);
         showModalAction.setParams(new N2oParam[]{n2oPathParam});
 
-        exportButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.export.description"));
-        exportButton.setIcon("fa-solid fa-arrow-up-from-bracket");
+        exportButton.setDescription(p.getMessage("n2o.api.generate.button.export.description"));
+        exportButton.setIcon(p.resolve(property("n2o.api.generate.button.export.icon"), String.class));
         exportButton.setActions(new N2oShowModal[]{showModalAction});
         exportButton.setModel(ReduxModel.filter);
 
