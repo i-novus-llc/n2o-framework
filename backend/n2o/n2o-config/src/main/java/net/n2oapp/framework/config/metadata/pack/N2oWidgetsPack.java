@@ -48,6 +48,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new TableRefreshGenerator(),
                 new TableResizeGenerator(),
                 new TableWordWrapGenerator(),
+                new TableExportGenerator(),
                 new TableSettingsGenerator());
         b.binders(new WidgetBinder(),
                 new TableBinder(),
