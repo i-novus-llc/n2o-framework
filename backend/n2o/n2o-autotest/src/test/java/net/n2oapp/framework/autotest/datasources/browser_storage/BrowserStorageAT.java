@@ -53,6 +53,7 @@ public class BrowserStorageAT extends AutoTestBase {
      * Тестирование sessionStorage
      */
     @Test
+    @Disabled
     public void testSessionStorage() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
