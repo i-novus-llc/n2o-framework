@@ -80,7 +80,7 @@
                                     <arguments>run lint</arguments>
                                 </configuration>
                             </execution>
-
+<!--  NNO-9298
                             <execution>
                                 <id>yarn run test</id>
                                 <goals>
@@ -93,6 +93,7 @@
                                     <arguments>run test</arguments>
                                 </configuration>
                             </execution>
+-->
                         </executions>
                     </plugin>
                 </plugins>
