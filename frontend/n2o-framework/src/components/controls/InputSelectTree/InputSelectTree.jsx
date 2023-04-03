@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import TreeSelect from 'rc-tree-select'
 import { findDOMNode } from 'react-dom'
 import difference from 'lodash/difference'
@@ -103,6 +103,10 @@ function InputSelectTree({
     const [searchValue, setSearchValue] = useState('')
     // после изменения высоты инпута нужно пересчитывать Y позицию дропдауна по отношению к инпут контейнеру
     const [dropdownYPositionKey, setDropdownYPositionKey] = useState(0)
+
+    useEffect(() => {
+        console.log('dropdownYPositionKey', dropdownYPositionKey)
+    }, [dropdownYPositionKey])
 
     const popupProps = {
         prefixCls: 'n2o-select-tree',
@@ -268,7 +272,7 @@ function InputSelectTree({
 
     const clearSearch = () => {
         setSearchValue('')
-        setDropdownYPositionKey(prevKey => prevKey + 1)
+        setTimeout(() => setDropdownYPositionKey(prevKey => prevKey + 1), 400)
     }
 
     /**
