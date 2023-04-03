@@ -35,7 +35,7 @@
                 <payload
                         exportDatasource="{exportDatasourceId}"
                         configDatasource="exportModal"
-                        baseURL="адрес_n2o_для_экспорта"
+                        baseURL="/n2o/export"
                 />
             </action>
             <close/>
