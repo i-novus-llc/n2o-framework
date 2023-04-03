@@ -45,8 +45,9 @@ public class Validator implements Iterable<Validation> {
                 String commonFieldId = v.getFieldId();
                 String commonMessage = StringUtils.resolveLinks(v.getMessage(), dataSet);
                 String commonMessageTitle = StringUtils.resolveLinks(v.getMessageTitle(), dataSet);
-                int count = ((DataList) dataSet.get(getMultiSetId(v.getFieldId()))).size();
-                for (int i = 0; i< count; i++) {
+                String multiSetId = getMultiSetId(v.getFieldId());
+                int count = dataSet.containsKey(multiSetId) ? ((DataList) dataSet.get(multiSetId)).size() : 0;
+                for (int i = 0; i < count; i++) {
                     v.setFieldId(replaceIndex(commonFieldId, i));
                     v.setMessage(replaceIndex(commonMessage, i));
                     v.setMessageTitle(replaceIndex(commonMessageTitle, i));
