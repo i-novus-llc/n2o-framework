@@ -147,19 +147,21 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(t.getToolbar().get("topRight").get(0).getButtons().get(1).getId(), is("update"));
         assertThat(t.getToolbar().get("topRight").get(0).getButtons().get(2).getId(), is("delete"));
 
-        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().size(), is(5));
+        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().size(), is(6));
         assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(0).getHint(), is("Изменить видимость фильтров"));
         assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(1).getSrc(), is("ToggleColumn"));
         assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(2).getHint(), is("Обновить данные"));
         assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(3).getSrc(), is("ChangeSize"));
         assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(4).getSrc(), is("WordWrap"));
+        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(5).getHint(), is("Экспортировать"));
 
-        assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().size(), is(5));
+        assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().size(), is(6));
         assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(0).getHint(), is("Изменить видимость фильтров"));
         assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(1).getSrc(), is("ToggleColumn"));
         assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(2).getHint(), is("Обновить данные"));
         assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(3).getSrc(), is("ChangeSize"));
         assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(4).getSrc(), is("WordWrap"));
+        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(5).getHint(), is("Экспортировать"));
 
         assertThat(t.getToolbar().get("bottomLeft").get(0).getButtons().size(), is(3));
         assertThat(t.getToolbar().get("bottomLeft").get(1).getButtons().size(), is(1));
