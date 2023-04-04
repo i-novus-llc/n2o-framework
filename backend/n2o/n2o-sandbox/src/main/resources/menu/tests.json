@@ -16,283 +16,227 @@
       "templates": [
         {
           "templateId": "cases/7.23/dev_mode",
-          "name": "Отображение ошибок метаданных в develop режиме",
-          "since": "7.23"
+          "name": "Отображение ошибок метаданных в develop режиме"
         },
         {
           "templateId": "cases/7.23/html_field",
-          "name": "Html поле",
-          "since": "7.23"
+          "name": "Html поле"
         },
         {
           "templateId": "cases/7.23/html_widget",
-          "name": "Html виджет",
-          "since": "7.23"
+          "name": "Html виджет"
         },
         {
           "templateId": "cases/7.23/button_badge",
-          "name": "Кнопки со значком",
-          "since": "7.23"
+          "name": "Кнопки со значком"
         },
         {
           "templateId": "cases/7.23/sidebars",
-          "name": "Боковая панель в зависимости от адреса страницы",
-          "since": "7.23"
+          "name": "Боковая панель в зависимости от адреса страницы"
         },
         {
           "templateId": "cases/7.23/ref_sidebar",
-          "name": "Боковые панели в отдельных файлах",
-          "since": "7.23"
+          "name": "Боковые панели в отдельных файлах"
         },
         {
           "templateId": "cases/7.23/show_modal_options",
-          "name": "Вывод сообщений об ошибке/успехе после выполнения операций на открываемых страницах",
-          "since": "7.23"
+          "name": "Вывод сообщений об ошибке/успехе после выполнения операций на открываемых страницах"
         },
         {
           "templateId": "cases/7.23/sidebar_inline_datasource",
-          "name": "Внутренний источник данных боковой панели",
-          "since": "7.23"
+          "name": "Внутренний источник данных боковой панели"
         },
         {
           "templateId": "cases/7.23/browser_storage",
-          "name": "Browser storage. Восстановление модели из указанного кэша",
-          "since": "7.23"
+          "name": "Browser storage. Восстановление модели из указанного кэша"
         },
         {
           "templateId": "cases/7.23/inherited_ds",
-          "name": "Inherited datasource. Источник данных, получающий данные из другого источника",
-          "since": "7.23"
+          "name": "Inherited datasource. Источник данных, получающий данные из другого источника"
         },
         {
           "templateId": "cases/7.23/inherited_ds_multi",
-          "name": "Inherited datasource. Модель multi",
-          "since": "7.23"
+          "name": "Inherited datasource. Модель multi"
         },
         {
           "templateId": "cases/7.23/inherited_ds_source_field",
-          "name": "Inherited datasource с указанием из какого поля копировать",
-          "since": "7.23"
+          "name": "Inherited datasource с указанием из какого поля копировать"
         },
         {
           "templateId": "cases/7.23/inherited_ds_modal",
-          "name": "Inherited datasource. Передача данных в модальное окно",
-          "since": "7.23"
+          "name": "Inherited datasource. Передача данных в модальное окно"
         },
         {
           "templateId": "cases/7.23/inherited_ds_one_to_many",
-          "name": "Inherited datasource. Форма и таблицы одним запросом",
-          "since": "7.23"
+          "name": "Inherited datasource. Форма и таблицы одним запросом"
         },
         {
           "templateId": "cases/7.23/app_datasource",
-          "name": "App datasource. Ссылка на источник данных, объявленный в application.xml",
-          "since": "7.23"
+          "name": "App datasource. Ссылка на источник данных, объявленный в application.xml"
         },
         {
           "templateId": "cases/7.23/clear_after_invoke",
-          "name": "Очистка модели после выполнения invoke",
-          "since": "7.23"
+          "name": "Очистка модели после выполнения invoke"
         },
         {
           "templateId": "cases/7.23/copy",
-          "name": "Зависимость copy",
-          "since": "7.23"
+          "name": "Зависимость copy"
         },
         {
           "templateId": "cases/7.23/copy_attributes",
-          "name": "Копирование данных из виджета в текущую/родительскую страницу",
-          "since": "7.23"
+          "name": "Копирование данных из виджета в текущую/родительскую страницу"
         },
         {
           "templateId": "cases/7.23/confirm_buttons_color",
-          "name": "Цвета кнопок в окне подтверждения",
-          "since": "7.23"
+          "name": "Цвета кнопок в окне подтверждения"
         },
         {
           "templateId": "cases/7.23/images_in_badge",
-          "name": "Компоненты с картинками в badge",
-          "since": "7.23"
+          "name": "Компоненты с картинками в badge"
         },
         {
           "templateId": "cases/7.23/widget_without_init",
-          "name": "Виджет без запроса данных при открытии",
-          "since": "7.23"
+          "name": "Виджет без запроса данных при открытии"
         },
         {
           "templateId": "cases/7.23/nested_fields",
-          "name": "Вложенные поля выборки",
-          "since": "7.23"
+          "name": "Вложенные поля выборки"
         },
         {
           "templateId": "cases/7.23/hierarchical_select",
-          "name": "Иерархический select в GraphQL провайдере данных",
-          "since": "7.23"
+          "name": "Иерархический select в GraphQL провайдере данных"
         },
         {
           "templateId": "cases/7.23/result_normalize",
-          "name": "result-normalize выборки",
-          "since": "7.23"
+          "name": "result-normalize выборки"
         },
         {
           "templateId": "cases/7.23/nested_fields_filters",
-          "name": "Фильтрация с использованием вложенных полей",
-          "since": "7.23"
+          "name": "Фильтрация с использованием вложенных полей"
         },
         {
           "templateId": "cases/7.23/alerts_handle",
-          "name": "Отображение уведомлений в стэке",
-          "since": "7.23"
+          "name": "Отображение уведомлений в стэке"
         },
         {
           "templateId": "cases/7.23/custom_action",
-          "name": "Кастомное действие",
-          "since": "7.23"
+          "name": "Кастомное действие"
         },
         {
           "templateId": "cases/7.23/table_alignment",
-          "name": "Выравнивание контента в ячейках таблицы",
-          "since": "7.23"
+          "name": "Выравнивание контента в ячейках таблицы"
         },
         {
           "templateId": "cases/7.23/fetch_data_on_error_validation",
-          "name": "Таблица не запрашивает данные при ошибке валидации фильтров",
-          "since": "7.23"
+          "name": "Таблица не запрашивает данные при ошибке валидации фильтров"
         },
         {
           "templateId": "cases/7.23/normalize_base64",
-          "name": "Нормализация base64 в текст и обратно",
-          "since": "7.23"
+          "name": "Нормализация base64 в текст и обратно"
         },
         {
           "templateId": "cases/7.23/normalize_fio_format",
-          "name": "Нормализация по ФИО",
-          "since": "7.23"
+          "name": "Нормализация по ФИО"
         },
         {
           "templateId": "cases/7.23/normalize_json_to_map",
-          "name": "Нормализация из json в map",
-          "since": "7.23"
+          "name": "Нормализация из json в map"
         },
         {
           "templateId": "cases/7.23/normalize_map_to_json",
-          "name": "Нормализация из map в json",
-          "since": "7.23"
+          "name": "Нормализация из map в json"
         },
         {
           "templateId": "cases/7.23/normalize_mask_format",
-          "name": "Нормализация по маске",
-          "since": "7.23"
+          "name": "Нормализация по маске"
         },
         {
           "templateId": "cases/7.23/multi_level_navigation_menu",
-          "name": "Многоуровневая вложенность меню навигации",
-          "since": "7.23"
+          "name": "Многоуровневая вложенность меню навигации"
         },
         {
           "templateId": "cases/7.23/additional_info",
-          "name": "Дополнительная информация в ответе запроса данных",
-          "since": "7.23"
+          "name": "Дополнительная информация в ответе запроса данных"
         },
         {
           "templateId": "cases/7.23/breadcrumb",
-          "name": "Настройка хлебных крошек текущей страницы",
-          "since": "7.23"
+          "name": "Настройка хлебных крошек текущей страницы"
         },
         {
           "templateId": "cases/7.23/breadcrumb_from_action",
-          "name": "Настройка хлебных крошек открываемой страницы",
-          "since": "7.23"
+          "name": "Настройка хлебных крошек открываемой страницы"
         },
         {
           "templateId": "cases/7.23/parent_datasource",
-          "name": "Parent datasource. Источник родительской страницы",
-          "since": "7.23"
+          "name": "Parent datasource. Источник родительской страницы"
         },
         {
           "templateId": "cases/7.23/text_cell_with_icon",
-          "name": "Текстовая ячейка с иконкой",
-          "since": "7.23"
+          "name": "Текстовая ячейка с иконкой"
         },
         {
           "templateId": "cases/7.23/edit_list_single",
-          "name": "edit-list. Создание, изменение, удаление записи таблицы",
-          "since": "7.23"
+          "name": "edit-list. Создание, изменение, удаление записи таблицы"
         },
         {
           "templateId": "cases/7.23/edit_list_multi",
-          "name": "edit-list. Удаление нескольких записей таблицы",
-          "since": "7.23"
+          "name": "edit-list. Удаление нескольких записей таблицы"
         },
         {
           "templateId": "cases/7.23/success_fail_message",
-          "name": "Настраиваемый заголовок сообщения об успехе и неудачи",
-          "since": "7.23"
+          "name": "Настраиваемый заголовок сообщения об успехе и неудачи"
         },
         {
           "templateId": "cases/7.23/fetch_on_clear",
-          "name": "Отсутствие запроса за данными при очистке фильтров",
-          "since": "7.23"
+          "name": "Отсутствие запроса за данными при очистке фильтров"
         },
         {
           "templateId": "cases/7.23/multi_actions",
-          "name": "Выполнение нескольких действий",
-          "since": "7.23"
+          "name": "Выполнение нескольких действий"
         },
         {
           "templateId": "cases/7.23/if_else",
-          "name": "Условие if-else для действий",
-          "since": "7.23"
+          "name": "Условие if-else для действий"
         },
         {
           "templateId": "cases/7.23/switch_case",
-          "name": "Ветвление switch-case для действий",
-          "since": "7.23"
+          "name": "Ветвление switch-case для действий"
         },
         {
           "templateId": "cases/7.23/input_select_throttle_delay",
-          "name": "Input-select и input-select-tree с настраиваемым ожиданием ввода",
-          "since": "7.23"
+          "name": "Input-select и input-select-tree с настраиваемым ожиданием ввода"
         },
         {
           "templateId": "cases/7.23/data_change_events",
-          "name": "События при изменении данных на странице",
-          "since": "7.23"
+          "name": "События при изменении данных на странице"
         },
         {
           "templateId": "cases/7.23/multi_set/path_param",
-          "name": "Multi-set. Генерация первичного ключа и фильтрация inherited-datasource",
-          "since": "7.23"
+          "name": "Multi-set. Генерация первичного ключа и фильтрация inherited-datasource"
         },
         {
           "templateId": "cases/7.23/multi_set/set_value_case",
-          "name": "Редактирование элемeнтов multi-set через модальное окно c помощью set-value",
-          "since": "7.23"
+          "name": "Редактирование элемeнтов multi-set через модальное окно c помощью set-value"
         },
         {
           "templateId": "cases/7.23/multi_set/validation",
-          "name": "Валидация в полях multi-set",
-          "since": "7.23"
+          "name": "Валидация в полях multi-set"
         },
         {
           "templateId": "cases/7.23/markdown",
-          "name": "Поле markdown разметки",
-          "since": "7.23"
+          "name": "Поле markdown разметки"
         },
         {
           "templateId": "cases/7.23/select_datasource",
-          "name": "Выпадающий список из datasource",
-          "since": "7.23"
+          "name": "Выпадающий список из datasource"
         },
         {
           "templateId": "cases/7.23/active_tab",
-          "name": "Активные вкладки в модели данных",
-          "since": "7.23"
+          "name": "Активные вкладки в модели данных"
         },
         {
           "templateId": "cases/7.23/inherited_datasource_fetch_submit",
-          "name": "fetch-value и submit в inherited-datasource",
-          "since": "7.23"
+          "name": "fetch-value и submit в inherited-datasource"
         }
       ]
     },
@@ -301,38 +245,31 @@
       "templates": [
         {
           "templateId": "cases/7.22/fieldset_help",
-          "name": "Филдсет с подсказкой",
-          "since": "7.22"
+          "name": "Филдсет с подсказкой"
         },
         {
           "templateId": "cases/7.22/alert_field",
-          "name": "Поле уведомления",
-          "since": "7.22"
+          "name": "Поле уведомления"
         },
         {
           "templateId": "cases/7.22/pop_up_notifications",
-          "name": "Всплывающие уведомления",
-          "since": "7.22"
+          "name": "Всплывающие уведомления"
         },
         {
           "templateId": "cases/7.22/filters_datasource",
-          "name": "Значение по умолчанию для фильтров таблицы с использованием datasource",
-          "since": "7.22"
+          "name": "Значение по умолчанию для фильтров таблицы с использованием datasource"
         },
         {
           "templateId": "cases/7.22/graphql",
-          "name": "GraphQL провайдер данных",
-          "since": "7.22"
+          "name": "GraphQL провайдер данных"
         },
         {
           "templateId": "cases/7.22/scrollspy",
-          "name": "Регион с автоматически прокручиваемым меню",
-          "since": "7.22"
+          "name": "Регион с автоматически прокручиваемым меню"
         },
         {
           "templateId": "cases/7.22/websocket_notifications",
-          "name": "Отправка уведомлений по web-socket",
-          "since": "7.22"
+          "name": "Отправка уведомлений по web-socket"
         }
       ]
     },
@@ -341,18 +278,15 @@
       "templates": [
         {
           "templateId": "cases/7.21/column_access",
-          "name": "Доступ к колонкам по sec атрибутам",
-          "since": "7.21"
+          "name": "Доступ к колонкам по sec атрибутам"
         },
         {
           "templateId": "cases/7.21/websocket_badge",
-          "name": "Изменение счетчика в меню навигации по web-socket",
-          "since": "7.21"
+          "name": "Изменение счетчика в меню навигации по web-socket"
         },
         {
           "templateId": "cases/7.21/target_new_window",
-          "name": "Открытие open-page в отдельной вкладке",
-          "since": "7.21"
+          "name": "Открытие open-page в отдельной вкладке"
         }
       ]
     },
@@ -361,53 +295,43 @@
       "templates": [
         {
           "templateId": "cases/7.20/menu_with_icon_and_badge_in_header",
-          "name": "Меню с иконкой и баджем в хедере",
-          "since": "7.20"
+          "name": "Меню с иконкой и баджем в хедере"
         },
         {
           "templateId": "cases/7.20/menu_with_icon_text_and_badge_in_header",
-          "name": "Меню с иконкой, текстом и баджем в хедере",
-          "since": "7.20"
+          "name": "Меню с иконкой, текстом и баджем в хедере"
         },
         {
           "templateId": "cases/7.20/menu_with_picture_and_badge_in_header",
-          "name": "Меню с картинкой и баджем в хедере",
-          "since": "7.20"
+          "name": "Меню с картинкой и баджем в хедере"
         },
         {
           "templateId": "cases/7.20/menu_with_picture_text_and_badge_in_header",
-          "name": "Меню с картинкой, текстом и баджем в хедере",
-          "since": "7.20"
+          "name": "Меню с картинкой, текстом и баджем в хедере"
         },
         {
           "templateId": "cases/7.20/dropdown_menu_with_picture_in_header",
-          "name": "Подменю с картинкой в хедере",
-          "since": "7.20"
+          "name": "Подменю с картинкой в хедере"
         },
         {
           "templateId": "cases/7.20/menu_with_icon_text_and_badge_in_sidebar",
-          "name": "Меню с иконкой, текстом и баджем в сайдбаре",
-          "since": "7.20"
+          "name": "Меню с иконкой, текстом и баджем в сайдбаре"
         },
         {
           "templateId": "cases/7.20/menu_with_picture_and_text_in_sidebar",
-          "name": "Меню с картинкой и текстом в сайдбаре",
-          "since": "7.20"
+          "name": "Меню с картинкой и текстом в сайдбаре"
         },
         {
           "templateId": "cases/7.20/menu_with_picture_text_and_badge_in_sidebar",
-          "name": "Меню с картинкой, текстом и баджем в сайдбаре",
-          "since": "7.20"
+          "name": "Меню с картинкой, текстом и баджем в сайдбаре"
         },
         {
           "templateId": "cases/7.20/highlighting_invalid_fields",
-          "name": "Подсветка невалидных полей в неактивных вкладках",
-          "since": "7.20"
+          "name": "Подсветка невалидных полей в неактивных вкладках"
         },
         {
           "templateId": "cases/7.20/cards_block_style",
-          "name": "Стили для блоков карточек",
-          "since": "7.20"
+          "name": "Стили для блоков карточек"
         }
       ]
     },
@@ -416,13 +340,11 @@
       "templates": [
         {
           "templateId": "cases/7.19/datasource",
-          "name": "Datasource",
-          "since": "7.19"
+          "name": "Datasource"
         },
         {
           "templateId": "cases/7.19/dialog_title",
-          "name": "Заголовок диалога",
-          "since": "7.19"
+          "name": "Заголовок диалога"
         }
       ]
     },
@@ -431,8 +353,7 @@
       "templates": [
         {
           "templateId": "cases/7.18/file_upload_cell",
-          "name": "Ячейка загрузки файлов",
-          "since": "7.18"
+          "name": "Ячейка загрузки файлов"
         }
       ]
     },
@@ -441,53 +362,43 @@
       "templates": [
         {
           "templateId": "cases/7.17/tiles_style",
-          "name": "Стили для блоков плиток",
-          "since": "7.17"
+          "name": "Стили для блоков плиток"
         },
         {
           "name": "При автофокусе на date-time и date-interval открывается pop-up",
-          "templateId": "cases/7.17/date_popup",
-          "since": "7.17"
+          "templateId": "cases/7.17/date_popup"
         },
         {
           "name": "Радиогруппа в виде табов",
-          "templateId": "cases/7.17/radiogroup_tabs",
-          "since": "7.17"
+          "templateId": "cases/7.17/radiogroup_tabs"
         },
         {
           "templateId": "cases/7.17/pagination_attributes_variability",
-          "name": "Расширенные возможности пагинации",
-          "since": "7.17"
+          "name": "Расширенные возможности пагинации"
         },
         {
           "templateId": "cases/7.17/pagination_layouts",
-          "name": "Варианты представления пагинации",
-          "since": "7.17"
+          "name": "Варианты представления пагинации"
         },
         {
           "templateId": "cases/7.17/simple_application",
-          "name": "Навигация, заданная в application.xml",
-          "since": "7.17"
+          "name": "Навигация, заданная в application.xml"
         },
         {
           "templateId": "cases/7.17/multi_set_first_children_label",
-          "name": "Заголовок первого элемента мультисета",
-          "since": "7.17"
+          "name": "Заголовок первого элемента мультисета"
         },
         {
           "name": "Проброс значений обратно из модального окна",
-          "templateId": "cases/7.17/data_back_from_modal",
-          "since": "7.17"
+          "templateId": "cases/7.17/data_back_from_modal"
         },
         {
           "templateId": "cases/7.17/alert_position",
-          "name": "Позиция сообщения об ошибке/успехе",
-          "since": "7.17"
+          "name": "Позиция сообщения об ошибке/успехе"
         },
         {
           "templateId": "cases/7.17/form_validations",
-          "name": "Валидация форм страницы",
-          "since": "7.17"
+          "name": "Валидация форм страницы"
         }
       ]
     },
@@ -496,53 +407,43 @@
       "templates": [
         {
           "templateId": "cases/7.16/auto_complete_prefilter",
-          "name": "Префильтры в AutoComplete",
-          "since": "7.16"
+          "name": "Префильтры в AutoComplete"
         },
         {
           "templateId": "cases/7.16/table_filters_default_values",
-          "name": "Значения по умолчанию для фильтров таблицы",
-          "since": "7.16"
+          "name": "Значения по умолчанию для фильтров таблицы"
         },
         {
           "templateId": "cases/7.16/invoke_object",
-          "name": "Ссылка на объект в invoke",
-          "since": "7.16"
+          "name": "Ссылка на объект в invoke"
         },
         {
           "templateId": "cases/7.16/submit_widget",
-          "name": "Ссылка на виджет в submit",
-          "since": "7.16"
+          "name": "Ссылка на виджет в submit"
         },
         {
           "templateId": "cases/7.16/fieldset_dynamic_label",
-          "name": "Динамический заголовок филдсетов",
-          "since": "7.16"
+          "name": "Динамический заголовок филдсетов"
         },
         {
           "templateId": "cases/7.16/datetime_placeholder",
-          "name": "Подсказка в компоненте ввода даты",
-          "since": "7.16"
+          "name": "Подсказка в компоненте ввода даты"
         },
         {
           "templateId": "cases/7.16/page_regions_style",
-          "name": "Стили в регионах и страницах",
-          "since": "7.16"
+          "name": "Стили в регионах и страницах"
         },
         {
           "templateId": "cases/7.16/page_breadcrumb_title",
-          "name": "Разный заголовок страницы и бредкрампа",
-          "since": "7.16"
+          "name": "Разный заголовок страницы и бредкрампа"
         },
         {
           "templateId": "cases/7.16/refresh_after_close",
-          "name": "Обновление виджета после закрытия модального окна",
-          "since": "7.16"
+          "name": "Обновление виджета после закрытия модального окна"
         },
         {
           "templateId": "cases/7.16/fieldset_description",
-          "name": "Подзаголовки в филдсетах",
-          "since": "7.16"
+          "name": "Подзаголовки в филдсетах"
         }
       ]
     },
@@ -551,23 +452,19 @@
       "templates": [
         {
           "templateId": "cases/7.15/refresh_action",
-          "name": "Действие обновления данных виджета",
-          "since": "7.15"
+          "name": "Действие обновления данных виджета"
         },
         {
           "templateId": "cases/7.15/dependencies_short_form",
-          "name": "Короткий способ задания зависимостей",
-          "since": "7.15"
+          "name": "Короткий способ задания зависимостей"
         },
         {
           "templateId": "cases/7.15/nesting_object_fields_for_map_provider",
-          "name": "Вложенные поля в объекте на примере TestProvider",
-          "since": "7.15"
+          "name": "Вложенные поля в объекте на примере TestProvider"
         },
         {
           "templateId": "cases/7.15/nesting_object_fields_for_args_provider",
-          "name": "Вложенные поля в объекте на примере JavaProvider",
-          "since": "7.15"
+          "name": "Вложенные поля в объекте на примере JavaProvider"
         }
       ]
     },
@@ -576,23 +473,19 @@
       "templates": [
         {
           "templateId": "cases/7.14/resolve_submodels_on_form",
-          "name": "Разрешение submodels в полях формы",
-          "since": "7.14"
+          "name": "Разрешение submodels в полях формы"
         },
         {
           "templateId": "cases/7.14/resolve_submodels_on_table",
-          "name": "Разрешение submodels в фильтрах таблицы",
-          "since": "7.14"
+          "name": "Разрешение submodels в фильтрах таблицы"
         },
         {
           "templateId": "cases/7.14/print_action",
-          "name": "Действие Печать",
-          "since": "7.14"
+          "name": "Действие Печать"
         },
         {
           "templateId": "cases/7.14/chart_y_restrictions",
-          "name": "Ограничение оси Y графиков",
-          "since": "7.14"
+          "name": "Ограничение оси Y графиков"
         }
       ]
     },
@@ -601,58 +494,47 @@
       "templates": [
         {
           "templateId": "cases/7.13/sized_table",
-          "name": "Таблица с регулируемой высотой/шириной",
-          "since": "7.13"
+          "name": "Таблица с регулируемой высотой/шириной"
         },
         {
           "templateId": "cases/7.13/dialog_after_fail_operation",
-          "name": "Диалог после выполнения операции с ошибкой",
-          "since": "7.13"
+          "name": "Диалог после выполнения операции с ошибкой"
         },
         {
           "templateId": "cases/7.13/dialog_before_operation",
-          "name": "Диалог перед выполнением операции с вызовом invocation",
-          "since": "7.13"
+          "name": "Диалог перед выполнением операции с вызовом invocation"
         },
         {
           "templateId": "cases/7.13/dialog_before_operation_without_invocation",
-          "name": "Диалог перед выполнением операции без вызова invocation",
-          "since": "7.13"
+          "name": "Диалог перед выполнением операции без вызова invocation"
         },
         {
           "templateId": "cases/7.13/table_header_style",
-          "name": "Стили для заголовков таблицы",
-          "since": "7.13"
+          "name": "Стили для заголовков таблицы"
         },
         {
           "templateId": "cases/7.13/input_text_numeric_precision",
-          "name": "Ограничение длины дробной части в поле ввода чисел",
-          "since": "7.13"
+          "name": "Ограничение длины дробной части в поле ввода чисел"
         },
         {
           "templateId": "cases/7.13/clear_masked_input",
-          "name": "Возможность не сбрасывать не полностью введенное значение в masked-input",
-          "since": "7.13"
+          "name": "Возможность не сбрасывать не полностью введенное значение в masked-input"
         },
         {
           "templateId": "cases/7.13/editable_rating_cell",
-          "name": "Редактируемая ячейка-рейтинг",
-          "since": "7.13"
+          "name": "Редактируемая ячейка-рейтинг"
         },
         {
           "templateId": "cases/7.13/image_cell_status",
-          "name": "Статус у ячейки и поля с картинкой",
-          "since": "7.13"
+          "name": "Статус у ячейки и поля с картинкой"
         },
         {
           "templateId": "cases/7.13/fetch_value",
-          "name": "unique и list запросы в fetch-value",
-          "since": "7.13"
+          "name": "unique и list запросы в fetch-value"
         },
         {
           "templateId": "cases/7.13/ref_modal",
-          "name": "Прокидывание модели на форму в модальное окно или drawer",
-          "since": "7.13"
+          "name": "Прокидывание модели на форму в модальное окно или drawer"
         }
       ]
     },
@@ -661,73 +543,59 @@
       "templates": [
         {
           "templateId": "cases/7.12/number_picker",
-          "name": "Поле ввода числа из диапазона",
-          "since": "7.12"
+          "name": "Поле ввода числа из диапазона"
         },
         {
           "templateId": "cases/7.12/image_field",
-          "name": "Поле вывода изображения",
-          "since": "7.12"
+          "name": "Поле вывода изображения"
         },
         {
           "templateId": "cases/7.12/fixed_tabs",
-          "name": "Вкладки с фиксированной высотой содержимого",
-          "since": "7.12"
+          "name": "Вкладки с фиксированной высотой содержимого"
         },
         {
           "templateId": "cases/7.12/drawer_fixed_footer",
-          "name": "Фиксированный футер в Drawer",
-          "since": "7.12"
+          "name": "Фиксированный футер в Drawer"
         },
         {
           "templateId": "cases/7.12/line_region_new_attr",
-          "name": "Новые атрибуты региона с горизонтальным делителем",
-          "since": "7.12"
+          "name": "Новые атрибуты региона с горизонтальным делителем"
         },
         {
           "templateId": "cases/7.12/close_with_clear",
-          "name": "Очистка формы с закрытием",
-          "since": "7.12"
+          "name": "Очистка формы с закрытием"
         },
         {
           "templateId": "cases/7.12/hide_on_blur_table",
-          "name": "Появление тулбара при наведении на строку в таблице",
-          "since": "7.12"
+          "name": "Появление тулбара при наведении на строку в таблице"
         },
         {
           "templateId": "cases/7.12/image_cell",
-          "name": "Название и описание у ячейки с картинкой",
-          "since": "7.12"
+          "name": "Название и описание у ячейки с картинкой"
         },
         {
           "templateId": "cases/7.12/cards",
-          "name": "Виджет Карточки",
-          "since": "7.12"
+          "name": "Виджет Карточки"
         },
         {
           "templateId": "cases/7.12/enable_on_empty_model_button",
-          "name": "Доступность кнопки при пустой модели",
-          "since": "7.12"
+          "name": "Доступность кнопки при пустой модели"
         },
         {
           "templateId": "cases/7.12/modal_customize",
-          "name": "Модальное окно с настраиваемыми фоном и хедером",
-          "since": "7.12"
+          "name": "Модальное окно с настраиваемыми фоном и хедером"
         },
         {
           "templateId": "cases/7.12/bulk_operation",
-          "name": "Bulk операции",
-          "since": "7.12"
+          "name": "Bulk операции"
         },
         {
           "templateId": "cases/7.12/time_picker",
-          "name": "Поле ввода времени",
-          "since": "7.12"
+          "name": "Поле ввода времени"
         },
         {
           "templateId": "cases/7.12/search_header",
-          "name": "Поиск в хедере",
-          "since": "7.12"
+          "name": "Поиск в хедере"
         }
       ]
     },
@@ -736,43 +604,35 @@
       "templates": [
         {
           "templateId": "cases/7.11/toggle_icon",
-          "name": "Скрытие иконки раскрытия подменю",
-          "since": "7.11"
+          "name": "Скрытие иконки раскрытия подменю"
         },
         {
           "templateId": "cases/7.11/custom_region_advanced",
-          "name": "Простой регион с несколькими виджетами и регионами",
-          "since": "7.11"
+          "name": "Простой регион с несколькими виджетами и регионами"
         },
         {
           "templateId": "cases/7.11/tabs_region_advanced",
-          "name": "Регион в виде вкладок (усложненный)",
-          "since": "7.11"
+          "name": "Регион в виде вкладок (усложненный)"
         },
         {
           "templateId": "cases/7.11/panel_region_advanced",
-          "name": "Регион в виде панелей (усложненный)",
-          "since": "7.11"
+          "name": "Регион в виде панелей (усложненный)"
         },
         {
           "templateId": "cases/7.11/line_region_advanced",
-          "name": "Регион с горизонтальным делителем (усложненный)",
-          "since": "7.11"
+          "name": "Регион с горизонтальным делителем (усложненный)"
         },
         {
           "templateId": "cases/7.11/overlay_prompt",
-          "name": "Подтверждение закрытия в overlay окне",
-          "since": "7.11"
+          "name": "Подтверждение закрытия в overlay окне"
         },
         {
           "templateId": "cases/7.11/refresh_toolbar_cell",
-          "name": "Динамическое обновление ячеек таблицы",
-          "since": "7.11"
+          "name": "Динамическое обновление ячеек таблицы"
         },
         {
           "templateId": "cases/7.11/internationalization",
-          "name": "Мультиязычность",
-          "since": "7.11"
+          "name": "Мультиязычность"
         }
       ]
     },
@@ -781,43 +641,35 @@
       "templates": [
         {
           "templateId": "cases/7.10/params_passing",
-          "name": "Передача path-param и query-param между страницами",
-          "since": "7.10"
+          "name": "Передача path-param и query-param между страницами"
         },
         {
           "templateId": "cases/7.10/invoke_delete_put",
-          "name": "Использование методов POST, PUT, DELETE в invoke",
-          "since": "7.10"
+          "name": "Использование методов POST, PUT, DELETE в invoke"
         },
         {
           "templateId": "cases/7.10/save_multiform",
-          "name": "Сохранение нескольких форм одновременно",
-          "since": "7.10"
+          "name": "Сохранение нескольких форм одновременно"
         },
         {
           "templateId": "cases/7.10/image_upload",
-          "name": "Компонент загрузки изображения с превью",
-          "since": "7.10"
+          "name": "Компонент загрузки изображения с превью"
         },
         {
           "templateId": "cases/7.10/parameters_of_all_kinds",
-          "name": "Использование параметров разного типа",
-          "since": "7.10"
+          "name": "Использование параметров разного типа"
         },
         {
           "templateId": "cases/7.10/simple_page_width",
-          "name": "Шаблон страницы для небольших форм",
-          "since": "7.10"
+          "name": "Шаблон страницы для небольших форм"
         },
         {
           "templateId": "cases/7.10/pagination",
-          "name": "Пагинация в списковых виджетах",
-          "since": "7.10"
+          "name": "Пагинация в списковых виджетах"
         },
         {
           "templateId": "cases/7.10/tiles",
-          "name": "Виджет Плитки",
-          "since": "7.10"
+          "name": "Виджет Плитки"
         }
       ]
     },
@@ -826,18 +678,15 @@
       "templates": [
         {
           "templateId": "cases/7.9/open_page_routes",
-          "name": "Корректные переходы между open page",
-          "since": "7.9"
+          "name": "Корректные переходы между open page"
         },
         {
           "templateId": "cases/7.9/modal_scrollable",
-          "name": "Модальное окно с фиксированной высотой",
-          "since": "7.9"
+          "name": "Модальное окно с фиксированной высотой"
         },
         {
           "templateId": "cases/7.9/output_list",
-          "name": "Многострочный вывод текста",
-          "since": "7.9"
+          "name": "Многострочный вывод текста"
         }
       ]
     },
@@ -846,38 +695,31 @@
       "templates": [
         {
           "templateId": "cases/7.8/button_enabled_message",
-          "name": "Подсказка на кнопке по условию недоступности",
-          "since": "7.8"
+          "name": "Подсказка на кнопке по условию недоступности"
         },
         {
           "templateId": "cases/7.8/fieldset_enabled",
-          "name": "Блокирование всех полей филдсета по атрибуту enabled",
-          "since": "7.8"
+          "name": "Блокирование всех полей филдсета по атрибуту enabled"
         },
         {
           "templateId": "cases/7.8/form_submit",
-          "name": "Автоматическое сохранение формы",
-          "since": "7.8"
+          "name": "Автоматическое сохранение формы"
         },
         {
           "templateId": "cases/7.8/calendar",
-          "name": "Виджет Календарь",
-          "since": "7.8"
+          "name": "Виджет Календарь"
         },
         {
           "templateId": "cases/7.8/one_to_many",
-          "name": "Один ко многим",
-          "since": "7.8"
+          "name": "Один ко многим"
         },
         {
           "templateId": "cases/7.8/mongodb_one_to_many",
-          "name": "MongoDb один ко многим",
-          "since": "7.8"
+          "name": "MongoDb один ко многим"
         },
         {
           "templateId": "cases/7.8/mongodb_one_to_many_second",
-          "name": "MongoDb один ко многим с редиректом",
-          "since": "7.8"
+          "name": "MongoDb один ко многим с редиректом"
         }
       ]
     },
@@ -886,73 +728,59 @@
       "templates": [
         {
           "templateId": "cases/7.7/switch_cell",
-          "name": "Переключаемые ячейки",
-          "since": "7.7"
+          "name": "Переключаемые ячейки"
         },
         {
           "templateId": "cases/7.7/show_modal_advanced_search",
-          "name": "Расширенный поиск через модальное окно",
-          "since": "7.7"
+          "name": "Расширенный поиск через модальное окно"
         },
         {
           "templateId": "cases/7.7/show_modal_multi_adding",
-          "name": "Мульти добавление через модальное окно",
-          "since": "7.7"
+          "name": "Мульти добавление через модальное окно"
         },
         {
           "templateId": "cases/7.7/show_modal_advanced_input",
-          "name": "Расширенный ввод через модальное окно",
-          "since": "7.7"
+          "name": "Расширенный ввод через модальное окно"
         },
         {
           "templateId": "cases/7.7/tlr_page_example",
-          "name": "Страница с формой статуса, списком и 3х колоночной формой",
-          "since": "7.7"
+          "name": "Страница с формой статуса, списком и 3х колоночной формой"
         },
         {
           "templateId": "cases/7.7/adding_radio_selection_object",
-          "name": "Добавление объекта с радио выбором",
-          "since": "7.7"
+          "name": "Добавление объекта с радио выбором"
         },
         {
           "templateId": "cases/7.7/drawer_page_example",
-          "name": "Перевод статуса в Drawer странице",
-          "since": "7.7"
+          "name": "Перевод статуса в Drawer странице"
         },
         {
           "templateId": "cases/7.7/field_submit",
-          "name": "Автоматическое сохранение полей",
-          "since": "7.7"
+          "name": "Автоматическое сохранение полей"
         },
         {
           "templateId": "cases/7.7/range_field",
-          "name": "Поле интервал",
-          "since": "7.7"
+          "name": "Поле интервал"
         },
         {
           "templateId": "cases/7.7/list_field_description",
-          "name": "Отображение дополнительной информации в опциях списковых компонентов",
-          "since": "7.7"
+          "name": "Отображение дополнительной информации в опциях списковых компонентов"
         },
         {
           "templateId": "cases/7.7/input_select_tree_max_tag_text_length",
-          "name": "Установка максимальной длины выбранных элементов в виджете дерево",
-          "since": "7.7"
+          "name": "Установка максимальной длины выбранных элементов в виджете дерево"
         },
         {
           "templateId": "cases/7.7/set_value",
-          "name": "Вычисление, копирование и очистка значений полей",
-          "since": "7.7"
+          "name": "Вычисление, копирование и очистка значений полей"
         },
         {
           "templateId": "cases/7.7/select_status_field_id",
-          "name": "Статус в списковых компонентах",
-          "since": "7.7"
+          "name": "Статус в списковых компонентах"
         },
         {
           "templateId": "cases/7.7/select_enabled_field_id",
-          "name": "Блокирование варианта выбора в выпадающем списках",
-          "since": "7.7"
+          "name": "Блокирование варианта выбора в выпадающем списках"
         }
       ]
     },
@@ -961,93 +789,75 @@
       "templates": [
         {
           "templateId": "cases/7.6/form_params",
-          "name": "Передача параметров",
-          "since": "7.6"
+          "name": "Передача параметров"
         },
         {
           "templateId": "cases/7.6/drawer",
-          "name": "Drawer",
-          "since": "7.6"
+          "name": "Drawer"
         },
         {
           "templateId": "cases/7.6/text_cell_second_level",
-          "name": "Второй уровень текста в TextCell",
-          "since": "7.6"
+          "name": "Второй уровень текста в TextCell"
         },
         {
           "templateId": "cases/7.6/status_cell",
-          "name": "Ячейка-статус",
-          "since": "7.6"
+          "name": "Ячейка-статус"
         },
         {
           "templateId": "cases/7.6/restore_tabs_by_url",
-          "name": "Восстановление вкладок Tabs по url",
-          "since": "7.6"
+          "name": "Восстановление вкладок Tabs по url"
         },
         {
           "templateId": "cases/7.6/filter_column",
-          "name": "Фильтры в столбцах таблицы",
-          "since": "7.6"
+          "name": "Фильтры в столбцах таблицы"
         },
         {
           "templateId": "cases/7.6/multi_column",
-          "name": "Многоуровневые столбцы таблицы",
-          "since": "7.6"
+          "name": "Многоуровневые столбцы таблицы"
         },
         {
           "templateId": "cases/7.6/table_selection",
-          "name": "Варианты выбора записей таблицы",
-          "since": "7.6"
+          "name": "Варианты выбора записей таблицы"
         },
         {
           "templateId": "cases/7.6/copy_widget_data",
-          "name": "Копирование данных из одного виджета в другой",
-          "since": "7.6"
+          "name": "Копирование данных из одного виджета в другой"
         },
         {
           "templateId": "cases/7.6/copy_modal_widget_data",
-          "name": "Копирование данных из виджета модального окна",
-          "since": "7.6"
+          "name": "Копирование данных из виджета модального окна"
         },
         {
           "templateId": "cases/7.6/input_measure",
-          "name": "Единицы измерения у input компонентов",
-          "since": "7.6"
+          "name": "Единицы измерения у input компонентов"
         },
         {
           "templateId": "cases/7.6/tooltip_list_cell",
-          "name": "Ячейка с тултипом и раскрывающимся текстовым списком",
-          "since": "7.6"
+          "name": "Ячейка с тултипом и раскрывающимся текстовым списком"
         },
         {
           "templateId": "cases/7.6/rounded_button",
-          "name": "Круглые кнопки",
-          "since": "7.6"
+          "name": "Круглые кнопки"
         },
         {
           "templateId": "cases/7.6/status_field",
-          "name": "Поле статус",
-          "since": "7.6"
+          "name": "Поле статус"
         },
         {
           "templateId": "cases/7.6/progress_control",
-          "name": "Шкала прогресса",
-          "since": "7.6"
+          "name": "Шкала прогресса"
         },
         {
           "templateId": "cases/7.6/icon_cell_tooltip",
-          "name": "Подсказка у IconCell",
-          "since": "7.6"
+          "name": "Подсказка у IconCell"
         },
         {
           "templateId": "cases/7.6/select_counter_format",
-          "name": "Отображение счетчика выбранных элементов в Select",
-          "since": "7.6"
+          "name": "Отображение счетчика выбранных элементов в Select"
         },
         {
           "templateId": "cases/7.6/multi_fieldset",
-          "name": "Филдсет с динамическим числом полей",
-          "since": "7.6"
+          "name": "Филдсет с динамическим числом полей"
         }
       ]
     },
@@ -1056,73 +866,59 @@
       "templates": [
         {
           "templateId": "cases/7.5/case58",
-          "name": "Воспроизводится потеря параметров при переходе между страницами",
-          "since": "7.5"
+          "name": "Воспроизводится потеря параметров при переходе между страницами"
         },
         {
           "templateId": "cases/7.5/case64",
-          "name": "Управление параметрами фильтров",
-          "since": "7.5"
+          "name": "Управление параметрами фильтров"
         },
         {
           "templateId": "cases/7.5/case65",
-          "name": "Ленивая загрузка вкладок",
-          "since": "7.5"
+          "name": "Ленивая загрузка вкладок"
         },
         {
           "templateId": "cases/7.5/href_access",
-          "name": "Доступ к ссылкам",
-          "since": "7.5"
+          "name": "Доступ к ссылкам"
         },
         {
           "templateId": "cases/7.5/code_viewer",
-          "name": "Компонент Code",
-          "since": "7.5"
+          "name": "Компонент Code"
         },
         {
           "templateId": "cases/7.5/rating_cell",
-          "name": "Ячейка-рейтинг",
-          "since": "7.5"
+          "name": "Ячейка-рейтинг"
         },
         {
           "templateId": "cases/7.5/alert_field",
-          "name": "Поле вывода оповещения",
-          "since": "7.5"
+          "name": "Поле вывода оповещения"
         },
         {
           "templateId": "cases/7.5/optimistic_query",
-          "name": "Режим optimistic запросов на сервер",
-          "since": "7.5"
+          "name": "Режим optimistic запросов на сервер"
         },
         {
           "templateId": "cases/7.5/area_chart",
-          "name": "Диаграмма-область",
-          "since": "7.5"
+          "name": "Диаграмма-область"
         },
         {
           "templateId": "cases/7.5/bar_chart",
-          "name": "Гистограмма",
-          "since": "7.5"
+          "name": "Гистограмма"
         },
         {
           "templateId": "cases/7.5/line_chart",
-          "name": "Линейный график",
-          "since": "7.5"
+          "name": "Линейный график"
         },
         {
           "templateId": "cases/7.5/pie_chart",
-          "name": "Круговая диаграмма",
-          "since": "7.5"
+          "name": "Круговая диаграмма"
         },
         {
           "templateId": "cases/7.5/button_field",
-          "name": "Кнопки в fields",
-          "since": "7.5"
+          "name": "Кнопки в fields"
         },
         {
           "templateId": "cases/7.5/panel_region",
-          "name": "Настройки региона Панель",
-          "since": "7.5"
+          "name": "Настройки региона Панель"
         }
       ]
     },
@@ -1131,33 +927,27 @@
       "templates": [
         {
           "templateId": "cases/7.4/case53",
-          "name": "Пример работы валидаций в модальном окне",
-          "since": "7.4"
+          "name": "Пример работы валидаций в модальном окне"
         },
         {
           "templateId": "cases/7.4/case54",
-          "name": "Таблица для проверки строгости фильтров",
-          "since": "7.4"
+          "name": "Таблица для проверки строгости фильтров"
         },
         {
           "templateId": "cases/7.4/case55",
-          "name": "Тестирование fetch-value на форме",
-          "since": "7.4"
+          "name": "Тестирование fetch-value на форме"
         },
         {
           "templateId": "cases/7.4/case56",
-          "name": "Тестирование Фильтров",
-          "since": "7.4"
+          "name": "Тестирование Фильтров"
         },
         {
           "templateId": "cases/7.4/case57",
-          "name": "Кейс проверки фильтрации виджетов с одной query на одной странице",
-          "since": "7.4"
+          "name": "Кейс проверки фильтрации виджетов с одной query на одной странице"
         },
         {
           "templateId": "cases/7.4/access_tab",
-          "name": "Скрытие вкладок, если нет доступа к виджету",
-          "since": "7.4"
+          "name": "Скрытие вкладок, если нет доступа к виджету"
         }
       ]
     },
@@ -1166,13 +956,11 @@
       "templates": [
         {
           "templateId": "cases/7.3/case6",
-          "name": "Стили для строк в таблице",
-          "since": "7.3"
+          "name": "Стили для строк в таблице"
         },
         {
           "templateId": "cases/7.3/case52",
-          "name": "Фильтрация input-select по array фильтру",
-          "since": "7.3"
+          "name": "Фильтрация input-select по array фильтру"
         }
       ]
     },
@@ -1181,28 +969,23 @@
       "templates": [
         {
           "templateId": "cases/7.2/case47",
-          "name": "Предупреждение о несохраненных данных",
-          "since": "7.2"
+          "name": "Предупреждение о несохраненных данных"
         },
         {
           "templateId": "cases/7.2/case48",
-          "name": "Виджет Дерево",
-          "since": "7.2"
+          "name": "Виджет Дерево"
         },
         {
           "templateId": "cases/7.2/case49",
-          "name": "Сокращенный URL",
-          "since": "7.2"
+          "name": "Сокращенный URL"
         },
         {
           "templateId": "cases/7.2/case50",
-          "name": "Редактируемые ячейки",
-          "since": "7.2"
+          "name": "Редактируемые ячейки"
         },
         {
           "templateId": "cases/7.2/case51",
-          "name": "Добавление confirm в menu-item",
-          "since": "7.2"
+          "name": "Добавление confirm в menu-item"
         }
       ]
     },
@@ -1211,33 +994,27 @@
       "templates": [
         {
           "templateId": "cases/7.1/case40",
-          "name": "Скрытие виджета по условию",
-          "since": "7.1"
+          "name": "Скрытие виджета по условию"
         },
         {
           "templateId": "cases/7.1/case41",
-          "name": "Клик по row и контекстные кнопки",
-          "since": "7.1"
+          "name": "Клик по row и контекстные кнопки"
         },
         {
           "templateId": "cases/7.1/case43",
-          "name": "Разрешение ссылок в названии страницы",
-          "since": "7.1"
+          "name": "Разрешение ссылок в названии страницы"
         },
         {
           "templateId": "cases/7.1/case44",
-          "name": "Обновление виджетов после invoke",
-          "since": "7.1"
+          "name": "Обновление виджетов после invoke"
         },
         {
           "templateId": "cases/7.1/case45",
-          "name": "Валидация невидимых полей",
-          "since": "7.1"
+          "name": "Валидация невидимых полей"
         },
         {
           "templateId": "cases/7.1/case46",
-          "name": "Блокирование виджета/страницы при invoke",
-          "since": "7.1"
+          "name": "Блокирование виджета/страницы при invoke"
         }
       ]
     },
@@ -1246,143 +1023,115 @@
       "templates": [
         {
           "templateId": "cases/7.0/case1",
-          "name": "Значения по умолчанию",
-          "since": "7.0"
+          "name": "Значения по умолчанию"
         },
         {
           "templateId": "cases/7.0/case3",
-          "name": "Префильтрация модальных окон",
-          "since": "7.0"
+          "name": "Префильтрация модальных окон"
         },
         {
           "templateId": "cases/7.0/case4",
-          "name": "Скрытие кнопки dropdown при скрытии последнего подменю",
-          "since": "7.0"
+          "name": "Скрытие кнопки dropdown при скрытии последнего подменю"
         },
         {
           "templateId": "cases/7.0/case8",
-          "name": "Сортировка по sorting-field-id",
-          "since": "7.0"
+          "name": "Сортировка по sorting-field-id"
         },
         {
           "templateId": "cases/7.0/case10",
-          "name": "Тест валидаций",
-          "since": "7.0"
+          "name": "Тест валидаций"
         },
         {
           "templateId": "cases/7.0/case11",
-          "name": "Фильтрация списковых полей",
-          "since": "7.0"
+          "name": "Фильтрация списковых полей"
         },
         {
           "templateId": "cases/7.0/case12",
-          "name": "Форма как фильтры таблицы",
-          "since": "7.0"
+          "name": "Форма как фильтры таблицы"
         },
         {
           "templateId": "cases/7.0/case13",
-          "name": "Условия на кнопках формы",
-          "since": "7.0"
+          "name": "Условия на кнопках формы"
         },
         {
           "templateId": "cases/7.0/case14",
-          "name": "Стиль поля текста",
-          "since": "7.0"
+          "name": "Стиль поля текста"
         },
         {
           "templateId": "cases/7.0/case15",
-          "name": "Значки в ячейках таблицы",
-          "since": "7.0"
+          "name": "Значки в ячейках таблицы"
         },
         {
           "templateId": "cases/7.0/case16",
-          "name": "Зависимости полей",
-          "since": "7.0"
+          "name": "Зависимости полей"
         },
         {
           "templateId": "cases/7.0/case19",
-          "name": "Скрытие филдсетов",
-          "since": "7.0"
+          "name": "Скрытие филдсетов"
         },
         {
           "templateId": "cases/7.0/case20",
-          "name": "Тулбар в ячейках таблицы",
-          "since": "7.0"
+          "name": "Тулбар в ячейках таблицы"
         },
         {
           "templateId": "cases/7.0/case21",
-          "name": "Форма с двумя моделями, загруженная через выборку",
-          "since": "7.0"
+          "name": "Форма с двумя моделями, загруженная через выборку"
         },
         {
           "templateId": "cases/7.0/case22",
-          "name": "Ссылки в ячейках",
-          "since": "7.0"
+          "name": "Ссылки в ячейках"
         },
         {
           "templateId": "cases/7.0/case24",
-          "name": "Тестирование динамических страниц",
-          "since": "7.0"
+          "name": "Тестирование динамических страниц"
         },
         {
           "templateId": "cases/7.0/case25",
-          "name": "Десериализация LocalDateTime",
-          "since": "7.0"
+          "name": "Десериализация LocalDateTime"
         },
         {
           "templateId": "cases/7.0/case26",
-          "name": "Зависимости на кнопках от master виджета",
-          "since": "7.0"
+          "name": "Зависимости на кнопках от master виджета"
         },
         {
           "templateId": "cases/7.0/case27",
-          "name": "Редирект с изменением значения",
-          "since": "7.0"
+          "name": "Редирект с изменением значения"
         },
         {
           "templateId": "cases/7.0/case28",
-          "name": "Обновление формы кнопкой",
-          "since": "7.0"
+          "name": "Обновление формы кнопкой"
         },
         {
           "templateId": "cases/7.0/case30",
-          "name": "Кнопки поиска в таблице",
-          "since": "7.0"
+          "name": "Кнопки поиска в таблице"
         },
         {
           "templateId": "cases/7.0/case32",
-          "name": "Зависимости на Page Actions",
-          "since": "7.0"
+          "name": "Зависимости на Page Actions"
         },
         {
           "templateId": "cases/7.0/case33",
-          "name": "Восстановление списковых фильтров после F5",
-          "since": "7.0"
+          "name": "Восстановление списковых фильтров после F5"
         },
         {
           "templateId": "cases/7.0/case34",
-          "name": "Функции значений по умолчанию",
-          "since": "7.0"
+          "name": "Функции значений по умолчанию"
         },
         {
           "templateId": "cases/7.0/case35",
-          "name": "Динамические свойства в полях",
-          "since": "7.0"
+          "name": "Динамические свойства в полях"
         },
         {
           "templateId": "cases/7.0/case36",
-          "name": "Ячейка чекбокс",
-          "since": "7.0"
+          "name": "Ячейка чекбокс"
         },
         {
           "templateId": "cases/7.0/case38",
-          "name": "Инлайн валидации на фильтрах",
-          "since": "7.0"
+          "name": "Инлайн валидации на фильтрах"
         },
         {
           "templateId": "cases/7.0/case39",
-          "name": "Компонент дерево",
-          "since": "7.0"
+          "name": "Компонент дерево"
         }
       ]
     }

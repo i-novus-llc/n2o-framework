@@ -56,7 +56,7 @@ public class PlaceholderContextAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().shouldHaveBrandName("N2O");
-        page.breadcrumb().crumb(0).shouldHaveLabel("Placeholder context");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Настройки пользователя");
 
         OutputText email = page.widget(FormWidget.class).fields().field("email")
                 .control(OutputText.class);
