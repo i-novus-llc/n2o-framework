@@ -50,6 +50,7 @@ public abstract class N2oWidget extends N2oMetadata
     private String datasourceId;
     private N2oStandardDatasource datasource;
     private Boolean fetchOnInit;
+    private Boolean fetchOnVisibility;
     @Deprecated
     private Integer size;
     private String cssClass;

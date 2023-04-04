@@ -130,6 +130,11 @@
                 <xs:documentation>Получение данных виджета при инициализации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="fetch-on-visibility" type="xs:boolean">
+            <xs:annotation>
+                <xs:documentation>Получение данных виджета при появлении по условию видимости.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>

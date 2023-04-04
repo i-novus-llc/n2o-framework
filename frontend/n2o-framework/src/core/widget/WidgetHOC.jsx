@@ -40,6 +40,7 @@ export const WidgetHOC = (WidgetComponent) => {
 
     WithDataSourceWidget.defaultProps = {
         fetchOnInit: true,
+        fetchOnVisibility: true,
         fetch: FETCH_TYPE.always,
         visible: true,
         isInit: false,
