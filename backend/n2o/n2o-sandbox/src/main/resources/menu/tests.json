@@ -6,8 +6,7 @@
       "templates": [
         {
           "templateId": "cases/7.24/badge_line_fieldset",
-          "name": "Badge в line филдсет",
-          "since": "7.24"
+          "name": "Badge в line филдсете"
         }
       ]
     },
