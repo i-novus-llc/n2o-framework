@@ -27,6 +27,10 @@ const SCROLL_OFFSET = 100
  * @reactProps {function} onFetchMore - callback при клика на "Загрузить еще" или скролле
  * @reactProps {string|number} selectedId - id выбранной записи
  */
+
+/* FIXME виджет требует рефакторинга frontend + backend xml api
+    избавиться от react-virtualized */
+
 class List extends Component {
     constructor(props) {
         super(props)
