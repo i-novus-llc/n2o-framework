@@ -22,6 +22,7 @@ public class N2oWidgetMerger<T extends N2oWidget> implements BaseSourceMerger<T>
         setIfNotNull(source::setDatasourceId, override::getDatasourceId);
         setIfNotNull(source::setDatasource, override::getDatasource);
         setIfNotNull(source::setFetchOnInit, override::getFetchOnInit);
+        setIfNotNull(source::setFetchOnVisibility, override::getFetchOnVisibility);
         setIfNotNull(source::setSize, override::getSize);
         setIfNotNull(source::setCssClass, override::getCssClass);
         setIfNotNull(source::setStyle, override::getStyle);
