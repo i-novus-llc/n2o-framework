@@ -5,18 +5,15 @@
       "templates": [
         {
           "templateId": "routing/header",
-          "name": "Хедер",
-          "since": "7.16"
+          "name": "Хедер"
         },
         {
           "templateId": "routing/widget",
-          "name": "Виджет",
-          "since": "7.16"
+          "name": "Виджет"
         },
         {
           "templateId": "routing/widget_master_detail",
-          "name": "Master-Detail",
-          "since": "7.16"
+          "name": "Master-Detail"
         }
       ]
     }

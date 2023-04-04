@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Открываемая страница">
+    <datasources>
+        <datasource id="dsMod" query-id="test">
+            <dependencies>
+                <fetch on="snilsFilter" model="filter"/>
+            </dependencies>
+            <filters>
+                <eq field-id="snils" value="{snils}" datasource="snilsFilter" model="filter"/>
+            </filters>
+        </datasource>
+        <datasource id="snilsFilter"/>
+    </datasources>
+    <regions>
+        <form datasource="snilsFilter">
+            <fields>
+                <masked-input mask="999-999-999 99" placeholder="___-___-___ __" label="СНИЛС" id="snils" help="Поиск среди пациентов по СНИЛС"/>
+                <button label="Поиск по СНИЛС" icon="fa fa-search"
+                        description="Поиск среди пациентов по СНИЛС" tooltip-position="right" enabled="{snils}">
+                    <copy source-field-id="snils" target-field-id="snils" target-model="filter" close-on-success="false"/>
+                </button>
+            </fields>
+        </form>
+        <form datasource="dsMod" fetch-on-init="false">
+            <fields>
+                <hidden id="id"/>
+                <input-text id="surname" label="Фамилия" required="{!id}" enabled="{!id}"/>
+            </fields>
+        </form>
+    </regions>
+</page>
