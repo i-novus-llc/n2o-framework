@@ -267,4 +267,13 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getDatasources().size(), is(1));
         assertThat(((StandardDatasource) page.getDatasources().get("testFormInlineDatasource_main")).getPaging().getSize(), is(1));
     }
+
+    @Test
+    public void testFetchOnInitAndOnVisibility() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFetchOnInitOnVisibility.page.xml")
+                .get(new PageContext("testFetchOnInitOnVisibility"));
+
+        assertThat(page.getWidget().getFetchOnInit(), is(false));
+        assertThat(page.getWidget().getFetchOnVisibility(), is(false));
+    }
 }
