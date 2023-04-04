@@ -55,8 +55,14 @@ function ListItem({
     measure = () => {},
 }) {
     useEffect(() => {
-        measure()
-    }, [style, measure])
+        /* FIXME временный костыль до рефакторинга List widget.
+            measure пересчитывает выстоту прокидывая style через CellMeasurer,
+            style не может быть dependency useEffect уйдет в беск. цикл.
+            Использование height не приносит результата, пересчет прерывается.
+            Решение 1 рачсет с delay. При медленном рендере может несработать */
+        setTimeout(() => measure(), 400)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const renderImage = (image) => {
         if (isValidElement(image)) {
