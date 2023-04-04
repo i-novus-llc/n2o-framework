@@ -1,53 +1,47 @@
 package net.n2oapp.framework.ui.controller;
 
-import com.aspose.cells.Workbook;
-import com.aspose.cells.Worksheet;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.rest.ExportResponse;
-import org.springframework.stereotype.Controller;
+import net.n2oapp.framework.api.rest.GetDataResponse;
+import net.n2oapp.framework.api.user.UserContext;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+public class ExportController extends AbstractController {
 
-@Controller
-public class ExportController {
+    private final DataController dataController;
 
-    public ExportResponse export(Map<String, String[]> parameters, String type) {
+    public ExportController(MetadataEnvironment environment,
+                            DataController dataController) {
+        super(environment);
+        this.dataController = dataController;
+    }
+
+    public ExportController(MetadataEnvironment environment, MetadataRouter router, DataController dataController) {
+        super(environment, router);
+        this.dataController = dataController;
+    }
+
+    public ExportResponse export(List<DataSet> body, String format, String charset) {
         ExportResponse response = new ExportResponse();
-        DataSet params = getParams(parameters);
 
-        switch (type) {
-            case "csv":
-                response.setFileName(createScv(params));
-        }
+        byte[] file = createScv(null, "export.csv");
 
-        if (response.getFileName() != null)
-            response.setStatus(400);
+        response.setFile(file);
+        response.setCharset(charset);
+        response.setFormat(format);
+        response.setFileName("export.csv");
         return response;
     }
 
-    private String createScv(DataSet params) {
-        Workbook wkb = new Workbook();
-
-        // Доступ к первому рабочему листу рабочей книги.
-        Worksheet worksheet = wkb.getWorksheets().get(0);
-
-        // Добавьте соответствующий контент в ячейку
-        params.forEach((k, v) -> worksheet.getCells().get(k).putValue(v));
-
-        try {
-            wkb.save("Excel.csv");
-            return "Excel.csv";
-        } catch (Exception e) {
-            return null;
-        }
+    public GetDataResponse getData(String path, Map<String, String[]> parameters, UserContext user) {
+        return dataController.getData(path, parameters, user);
     }
 
-    private DataSet getParams(Map<String, String[]> queryParams) {
-        DataSet data = new DataSet();
-        if (queryParams != null)
-            queryParams.forEach((k, v) -> data.put(k, v.length == 1 ? v[0] : Arrays.asList(v)));
-        return data;
+    private byte[] createScv(String body, String fileName) {
+        return null;
     }
 }
