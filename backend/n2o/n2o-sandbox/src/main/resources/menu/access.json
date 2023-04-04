@@ -6,28 +6,23 @@
       "templates": [
         {
           "templateId": "access/attributes/header",
-          "name": "Меню навигации",
-          "since": "7.16"
+          "name": "Меню навигации"
         },
         {
           "templateId": "access/attributes/widgets",
-          "name": "Виджеты",
-          "since": "7.16"
+          "name": "Виджеты"
         },
         {
           "templateId": "access/attributes/buttons",
-          "name": "Кнопки",
-          "since": "7.16"
+          "name": "Кнопки"
         },
         {
           "templateId": "access/attributes/fields",
-          "name": "Поля",
-          "since": "7.16"
+          "name": "Поля"
         },
         {
           "templateId": "access/attributes/columns",
-          "name": "Колонки",
-          "since": "7.21"
+          "name": "Колонки"
         }
       ]
     },
@@ -36,13 +31,11 @@
       "templates": [
         {
           "templateId": "access/schema/header",
-          "name": "Меню навигации",
-          "since": "7.16"
+          "name": "Меню навигации"
         },
         {
           "templateId": "access/schema/buttons",
-          "name": "Кнопки",
-          "since": "7.16"
+          "name": "Кнопки"
         }
       ]
     }

@@ -113,4 +113,29 @@ public class ClearActionAT extends AutoTestBase {
         clearBtn.click();
         inputText.shouldBeEmpty();
     }
+
+    @Test
+    public void clearModelInTable() {
+        setJsonPath("net/n2oapp/framework/autotest/action/clear/clear_model_in_table");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/clear_model_in_table/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/clear_model_in_table/test.query.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(TableWidget.class);
+        table.shouldExists();
+        table.columns().rows().shouldHaveSize(4);
+
+        StandardButton clearBtn = page.toolbar().bottomRight().button("Очистить");
+        clearBtn.shouldExists();
+
+        clearBtn.click();
+
+        table.columns().rows().shouldNotHaveRows();
+    }
 }
