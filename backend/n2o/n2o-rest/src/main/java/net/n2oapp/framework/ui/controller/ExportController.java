@@ -25,6 +25,9 @@ public class ExportController extends AbstractController {
 
     private static final String FILES_DIRECTORY_NAME = "src/main/resources/META-INF/resources/export_files/";
     private static final String CSV_FILE_NAME = "export.csv";
+    private static final String CONTENT_TYPE_FORMAT = "%s;charset=%s";
+    private static final String CONTENT_DISPOSITION_FORMAT = "attachment;filename=%s";
+    private static final char CSV_SEPARATOR = ';';
     private final DataController dataController;
 
     public ExportController(MetadataEnvironment environment, MetadataRouter router, DataController dataController) {
@@ -34,20 +37,17 @@ public class ExportController extends AbstractController {
 
     public ExportResponse export(List<DataSet> data, String format, String charset) {
         ExportResponse response = new ExportResponse();
-        byte[] fileBytes = null;
-
-        switch (format) {
-            case ("csv"):
-                fileBytes = createScv(data, charset);
-                response.setFileName(CSV_FILE_NAME);
-        }
+        byte[] fileBytes = createScv(data, charset);
 
         if (fileBytes == null)
            response.setStatus(500);
 
         response.setFile(fileBytes);
-        response.setCharset(charset);
-        response.setFormat(format);
+        response.setContentType(String.format(CONTENT_TYPE_FORMAT, format, charset));
+        response.setContentDisposition(String.format(CONTENT_DISPOSITION_FORMAT, CSV_FILE_NAME));
+        response.setCharacterEncoding(charset);
+        response.setContentLength(fileBytes == null ? 0 : fileBytes.length);
+
         return response;
     }
 
@@ -61,7 +61,7 @@ public class ExportController extends AbstractController {
         try {
             FileWriter fileWriter = new FileWriter(FILES_DIRECTORY_NAME + CSV_FILE_NAME, resolveCharset(charset));
 
-            CSVWriter writer = new CSVWriter(fileWriter, ';',
+            CSVWriter writer = new CSVWriter(fileWriter, CSV_SEPARATOR,
                     CSVWriter.NO_QUOTE_CHARACTER,
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                     CSVWriter.DEFAULT_LINE_END);
