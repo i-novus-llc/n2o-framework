@@ -47,7 +47,7 @@ public class SimpleAccessSchemaValidator extends TypedMetadataValidator<N2oSimpl
             for (N2oPreFilter f : accessPoint.getFilters()) {
                 if (f.getFieldId() == null)
                     throw new N2oMetadataValidationException("n2o.fieldIdNotSpecified").addData(accessPoint.getObjectId());
-                if ((f.getType() == null || !f.getType().arity.equals(FilterType.Arity.nullary)) && f.getValueAttr() == null && (f.getValues() == null || f.getValues().length < 1))
+                if ((f.getType() == null || !f.getType().arity.equals(FilterType.Arity.nullary)) && f.getValue() == null && (f.getValues() == null || f.getValues().length < 1))
                     throw new N2oMetadataValidationException("n2o.filterValueNotSpecified").addData(accessPoint.getObjectId());
             }
         }
