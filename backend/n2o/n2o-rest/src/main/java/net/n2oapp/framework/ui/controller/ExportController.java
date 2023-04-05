@@ -30,6 +30,11 @@ public class ExportController extends AbstractController {
     private static final char CSV_SEPARATOR = ';';
     private final DataController dataController;
 
+    public ExportController(MetadataEnvironment environment, DataController dataController) {
+        super(environment);
+        this.dataController = dataController;
+    }
+
     public ExportController(MetadataEnvironment environment, MetadataRouter router, DataController dataController) {
         super(environment, router);
         this.dataController = dataController;

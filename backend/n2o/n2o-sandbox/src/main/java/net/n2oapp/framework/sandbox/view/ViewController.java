@@ -1,6 +1,7 @@
 package net.n2oapp.framework.sandbox.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.net.httpserver.Headers;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextEngine;
@@ -11,6 +12,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
@@ -19,6 +21,7 @@ import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.api.rest.ControllerFactory;
+import net.n2oapp.framework.api.rest.ExportResponse;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.N2oResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
@@ -47,6 +50,7 @@ import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.templates.TemplateModel;
 import net.n2oapp.framework.ui.controller.DataController;
+import net.n2oapp.framework.ui.controller.ExportController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
 import net.n2oapp.framework.ui.controller.query.CopyValuesController;
@@ -72,6 +76,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -197,6 +202,40 @@ public class ViewController {
             n2oSubModelsProcessor.setEnvironment(builder.getEnvironment());
 
             return builder.read().transform().validate().compile().transform().bind().get(context, context.getParams(path, request.getParameterMap()), n2oSubModelsProcessor);
+        } finally {
+            sandboxContext.refresh();
+            ThreadLocalProjectId.clear();
+        }
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping({"/view/{projectId}/n2o/export/**", "/view/{projectId}/n2o/export/", "/view/{projectId}/n2o/export"})
+    @ResponseBody
+    public ResponseEntity<byte[]> export(@PathVariable(value = "projectId") String projectId,
+                                              HttpServletRequest request) {
+        try {
+            String url = request.getParameter("url");
+            String format = request.getParameter("format");
+            String charset = request.getParameter("charset");
+
+            ThreadLocalProjectId.setProjectId(projectId);
+            N2oApplicationBuilder builder = getBuilder(projectId);
+            getIndex(builder);
+            getMenu(builder);
+
+            DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
+            GetDataResponse dataResponse = dataController.getData(url, request.getParameterMap(),
+                    new UserContext(sandboxContext));
+
+            ExportController exportController = new ExportController(builder.getEnvironment(), dataController);
+            ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset);
+
+            return ResponseEntity.status(exportResponse.getStatus())
+                    .contentLength(exportResponse.getContentLength())
+                    .header(HttpHeaders.CONTENT_TYPE, exportResponse.getContentType())
+                    .header(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition())
+                    .header(HttpHeaders.CONTENT_ENCODING, exportResponse.getCharacterEncoding())
+                    .body(exportResponse.getFile());
         } finally {
             sandboxContext.refresh();
             ThreadLocalProjectId.clear();
