@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.annotation.DirtiesContext;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URL;
@@ -24,7 +25,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.doReturn;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class ExportServletTest {
 
     @Autowired
@@ -58,9 +60,9 @@ public class ExportServletTest {
         doReturn(exportResponse).when(exportController).export(any(), any(), any());
 
         doReturn(200).when(exportResponse).getStatus();
-        doReturn("csv").when(exportResponse).getFormat();
-        doReturn("UTF-8").when(exportResponse).getCharset();
-        doReturn("testExport.csv").when(exportResponse).getFileName();
+        doReturn("csv;charset=UTF-8").when(exportResponse).getContentType();
+        doReturn("UTF-8").when(exportResponse).getCharacterEncoding();
+        doReturn("attachment;filename=testExport.csv").when(exportResponse).getContentDisposition();
         doReturn(bytes).when(exportResponse).getFile();
 
         ((ExportServlet) exportServlet.getServlet()).safeDoGet(request, response);

@@ -6,8 +6,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ExportResponse extends N2oResponse{
-    String fileName;
     byte[] file;
-    String format;
-    String charset;
+
+    String contentType;
+
+    String contentDisposition;
+
+    int contentLength;
+
+    String characterEncoding;
 }
