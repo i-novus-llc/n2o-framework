@@ -162,10 +162,10 @@ describe('Сага для перехвата меты, сайд-эффектов
 
         })
 
-        it('Проверяет отсутствие placement в payload, если его не было в meta', () => {
+        it('Проверяет подстановку placement = GLOBAL_KEY в payload, если его не было в meta', () => {
             const { alertWithoutPlacement } = setupAlertEffect()
             let gen = alertWithoutPlacement.next()
-            expect(gen.value.payload.action.payload.alerts[0].placement).toBeUndefined()
+            expect(gen.value.payload.action.payload.alerts[0].placement).toBe(GLOBAL_KEY)
         })
 
         it('Проверяет диспатч экшена создания нескольких Alert - ADD_MULTI', () => {
