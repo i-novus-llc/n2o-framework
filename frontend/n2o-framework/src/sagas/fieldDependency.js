@@ -41,6 +41,8 @@ import { makeDatasourceIdSelector, makeWidgetByIdSelector } from '../ducks/widge
 import { ModelPrefix } from '../core/datasource/const'
 import { getModelByPrefixAndNameSelector } from '../ducks/models/selectors'
 import { ValidationsKey } from '../core/validation/IValidation'
+import { addAlert } from '../ducks/alerts/store'
+import { GLOBAL_KEY } from '../ducks/alerts/constants'
 
 import fetchSaga from './fetch'
 
@@ -86,6 +88,17 @@ export function* fetchValue(values, form, field, { dataProvider, valueFieldId })
         if (values[field] !== null) {
             yield put(updateModel(ModelPrefix.active, form, field, null))
         }
+
+        const error = e.json || {}
+        const { messages } = error?.meta?.alert
+
+        if (messages) {
+            const [alert] = messages
+            const { placement } = alert || GLOBAL_KEY
+
+            yield put(addAlert(placement, alert))
+        }
+
         // eslint-disable-next-line no-console
         console.error(e)
     } finally {

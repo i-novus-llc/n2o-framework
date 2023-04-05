@@ -102,6 +102,7 @@ export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknow
 
         // eslint-disable-next-line no-console
         console.warn(`JS Error: DataSource(${id}) fetch saga. ${err.message}`)
+
         yield put(
             rejectRequest(
                 id,
