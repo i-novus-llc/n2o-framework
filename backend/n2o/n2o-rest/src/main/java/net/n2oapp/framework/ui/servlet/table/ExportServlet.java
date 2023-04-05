@@ -41,9 +41,9 @@ public class ExportServlet extends N2oServlet {
         ExportResponse exportResponse = controller.export(result.getList(), format, charset);
 
         resp.setStatus(exportResponse.getStatus());
-        resp.setContentType(exportResponse.getFormat());
-        resp.setCharacterEncoding(exportResponse.getCharset());
-        resp.setHeader( "Content-Disposition", "attachment;filename=" + exportResponse.getFileName());
+        resp.setContentType(exportResponse.getContentType());
+        resp.setCharacterEncoding(exportResponse.getCharacterEncoding());
+        resp.setHeader("Content-Disposition", exportResponse.getContentDisposition());
         resp.setContentLength(exportResponse.getFile().length);
 
         ServletOutputStream outputStream = resp.getOutputStream();

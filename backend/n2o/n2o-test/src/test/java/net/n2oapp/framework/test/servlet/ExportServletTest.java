@@ -58,9 +58,9 @@ public class ExportServletTest {
         doReturn(exportResponse).when(exportController).export(any(), any(), any());
 
         doReturn(200).when(exportResponse).getStatus();
-        doReturn("csv").when(exportResponse).getFormat();
-        doReturn("UTF-8").when(exportResponse).getCharset();
-        doReturn("testExport.csv").when(exportResponse).getFileName();
+        doReturn("csv;charset=UTF-8").when(exportResponse).getContentType();
+        doReturn("UTF-8").when(exportResponse).getCharacterEncoding();
+        doReturn("attachment;filename=testExport.csv").when(exportResponse).getContentDisposition();
         doReturn(bytes).when(exportResponse).getFile();
 
         ((ExportServlet) exportServlet.getServlet()).safeDoGet(request, response);

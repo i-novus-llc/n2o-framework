@@ -14,34 +14,16 @@ public class ExportController extends AbstractController {
 
     private final DataController dataController;
 
-    public ExportController(MetadataEnvironment environment,
-                            DataController dataController) {
-        super(environment);
-        this.dataController = dataController;
-    }
-
     public ExportController(MetadataEnvironment environment, MetadataRouter router, DataController dataController) {
         super(environment, router);
         this.dataController = dataController;
     }
 
     public ExportResponse export(List<DataSet> body, String format, String charset) {
-        ExportResponse response = new ExportResponse();
-
-        byte[] file = createScv(null, "export.csv");
-
-        response.setFile(file);
-        response.setCharset(charset);
-        response.setFormat(format);
-        response.setFileName("export.csv");
-        return response;
+        return null;
     }
 
     public GetDataResponse getData(String path, Map<String, String[]> parameters, UserContext user) {
         return dataController.getData(path, parameters, user);
-    }
-
-    private byte[] createScv(String body, String fileName) {
-        return null;
     }
 }
