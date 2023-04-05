@@ -13,7 +13,7 @@ import { DataSourceContext, METHODS } from './context'
 export const WithDatasourceLifeCycle = (Component) => {
     class WithDatasourceLifeCycle extends React.Component {
         componentDidUpdate({ visible: prevVisible, isInit: prevInit }) {
-            const { visible, isInit, fetchOnInit } = this.props
+            const { visible, isInit, fetchOnInit, fetchOnVisibility } = this.props
 
             if (isInit !== prevInit) {
                 this.switchRegistration(visible)
@@ -23,7 +23,10 @@ export const WithDatasourceLifeCycle = (Component) => {
                 }
             } else if (visible !== prevVisible) {
                 this.switchRegistration(visible)
-                this.fetchData()
+
+                if (fetchOnVisibility) {
+                    this.fetchData()
+                }
             }
         }
 

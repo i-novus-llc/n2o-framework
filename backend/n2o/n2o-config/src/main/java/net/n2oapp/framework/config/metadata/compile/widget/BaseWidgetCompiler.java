@@ -60,6 +60,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setSrc(initSrc(source, p));
         compiled.setIcon(source.getIcon());
         compiled.setFetchOnInit(p.cast(source.getFetchOnInit(), true));
+        compiled.setFetchOnVisibility(p.cast(source.getFetchOnVisibility(), true));
         compileComponent(compiled, source, p);
         compileDependencies(compiled, source, p);
     }
