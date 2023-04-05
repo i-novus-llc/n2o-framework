@@ -496,11 +496,19 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         if (patterns.isEmpty())
             return data;
         List<String> splittedField = new ArrayList<>(Arrays.asList(field.split("\\.")));
-        if (splittedField.size() == 1)
-            return Collections.emptyList();
+        if (splittedField.size() == 1) {
+            return data
+                    .stream()
+                    .filter(m -> {
+                        if (!m.containsKey(splittedField.get(0)) || !(m.get(splittedField.get(0)) instanceof List))
+                            return false;
+                        return m.getList(splittedField.get(0)).containsAll(patterns);
+                    })
+                    .collect(Collectors.toList());
+        }
         String indexedField = splittedField.remove(splittedField.size() - 1);
         String parentField = String.join(".", splittedField);
-        data = data
+        return data
                 .stream()
                 .filter(m -> {
                     if (!m.containsKey(parentField) || !(m.get(parentField) instanceof List))
@@ -513,7 +521,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                     return mappedData.containsAll(patterns);
                 })
                 .collect(Collectors.toList());
-        return data;
     }
 
     private List<DataSet> lessFilterData(String field, Object pattern, List<DataSet> data) {
