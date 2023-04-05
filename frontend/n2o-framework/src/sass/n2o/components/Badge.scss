@@ -5,11 +5,17 @@
 
 .n2o-badge {
     &.n2o-badge--circle {
-        width: 1.375rem;
-        height: 1.375rem;
+        width: auto;
+        height: auto;
+        min-width: 1.375rem;
+        min-height: 1.375rem;
         padding: 0;
         justify-content: center;
         overflow: hidden;
+    }
+
+    &.n2o-badge--circle.with-image {
+        padding: 0 5px;
     }
 
     .n2o-badge-image {
