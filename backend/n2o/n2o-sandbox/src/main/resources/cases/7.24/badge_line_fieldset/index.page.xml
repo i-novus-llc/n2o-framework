@@ -1,9 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-      name="Badge в line филдсете"
-      show-title="true">
+      name="Badge в line филдсете">
     <datasources>
-        <datasource id="ds1" query-id="data" size="5"/>
+        <datasource id="ds1" query-id="test" size="5"/>
     </datasources>
 
     <events>

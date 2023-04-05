@@ -1,18 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
-        <test file="data.json" operation="findAll"/>
+        <test file="test.json"/>
     </list>
     <count>
-        <test file="data.json" operation="count"/>
+        <test file="test.json" operation="count"/>
     </count>
 
     <filters>
         <eq filter-id="id" field-id="id"/>
         <like filter-id="fio" field-id="fio"/>
         <eq filter-id="snils" field-id="snils"/>
-        <eq filter-id="region.id" field-id="region" mapping="['region.id']">region.id:eq:region.id</eq>
-        <eq filter-id="department.id" field-id="department" mapping="['department.id']">department.id:eq:department.id</eq>
+        <eq filter-id="region.id" field-id="region" mapping="['region.id']"/>
+        <eq filter-id="department.id" field-id="department" mapping="['department.id']"/>
     </filters>
 
     <fields>
