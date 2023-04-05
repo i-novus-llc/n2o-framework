@@ -73,7 +73,7 @@ public class CardsAT extends AutoTestBase {
         imageCell.shouldHaveSrc(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
 
         BadgeCell badgeCell = card.columns().column(0).blocks().block(2).cell(BadgeCell.class);
-        badgeCell.shouldHaveText("Germany");
+        badgeCell.badgeShouldHaveText("Germany");
 
         ToolbarCell toolbarCell = card.columns().column(0).blocks().block(3).cell(ToolbarCell.class);
         toolbarCell.toolbar().button("Info").shouldHaveColor(Colors.SUCCESS);
@@ -100,7 +100,7 @@ public class CardsAT extends AutoTestBase {
         imageCell.shouldHaveSrc(getBaseUrl() +"/images/paris-3193674__340.jpg");
 
         badgeCell = card.columns().column(0).blocks().block(2).cell(BadgeCell.class);
-        badgeCell.shouldHaveText("France");
+        badgeCell.badgeShouldHaveText("France");
 
         toolbarCell = card.columns().column(0).blocks().block(3).cell(ToolbarCell.class);
         toolbarCell.toolbar().button("Info").shouldHaveColor(Colors.SUCCESS);
@@ -138,7 +138,7 @@ public class CardsAT extends AutoTestBase {
         iconCell.shouldHaveText("ship");
 
         BadgeCell badgeCell = card.columns().column(1).blocks().block(1).cell(BadgeCell.class);
-        badgeCell.shouldHaveText("Germany");
+        badgeCell.badgeShouldHaveText("Germany");
 
         ProgressBarCell progressBarCell = card.columns().column(1).blocks().block(2).cell(ProgressBarCell.class);
         progressBarCell.shouldHaveValue("50");
@@ -169,7 +169,7 @@ public class CardsAT extends AutoTestBase {
         iconCell.shouldHaveText("bicycle");
 
         badgeCell = card.columns().column(1).blocks().block(1).cell(BadgeCell.class);
-        badgeCell.shouldHaveText("France");
+        badgeCell.badgeShouldHaveText("France");
 
         progressBarCell = card.columns().column(1).blocks().block(2).cell(ProgressBarCell.class);
         progressBarCell.shouldHaveValue("70");

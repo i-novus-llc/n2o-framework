@@ -21,6 +21,10 @@ class HelpPopover extends React.Component {
   render() {
       const { help, placement, icon } = this.props
 
+      if (!help) {
+          return null
+      }
+
       return (
           <div className="n2o-popover">
               <button

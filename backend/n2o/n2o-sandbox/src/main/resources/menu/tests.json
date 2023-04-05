@@ -2,6 +2,15 @@
   "name": "Тесты",
   "sections": [
     {
+      "name": "7.24",
+      "templates": [
+        {
+          "templateId": "cases/7.24/badge_line_fieldset",
+          "name": "Badge в line филдсете"
+        }
+      ]
+    },
+    {
       "name": "7.23",
       "templates": [
         {

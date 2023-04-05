@@ -56,7 +56,7 @@ public class SwitchCellAT extends AutoTestBase {
     public void switchCellTest() {
         BadgeCell cell1 = rows.row(0).cell(0, BadgeCell.class);
         cell1.shouldExists();
-        cell1.shouldHaveText("test1");
+        cell1.badgeShouldHaveText("test1");
         cell1.shouldHaveColor(Colors.INFO);
         IconCell cell2 = rows.row(1).cell(0, IconCell.class);
         cell2.shouldExists();
