@@ -14,9 +14,11 @@ import queryString from 'query-string'
 import { destroyOverlay } from '../overlays/store'
 import { FETCH_PAGE_METADATA } from '../../core/api'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
-import { changeRootPage } from '../global/store'
+import { changeRootPage, rootPageSelector } from '../global/store'
 import fetchSaga from '../../sagas/fetch'
 
+import { mappingUrlToRedux } from './sagas/mapUrlToRedux'
+import { makePageRoutesByIdSelector } from './selectors'
 import {
     metadataFail,
     metadataSuccess,
@@ -26,7 +28,20 @@ import {
 } from './store'
 import { flowDefaultModels } from './sagas/defaultModels'
 
+export function* processUrl() {
+    try {
+        const pageId = yield select(rootPageSelector)
+        const routes = yield select(makePageRoutesByIdSelector(pageId))
+
+        yield call(mappingUrlToRedux, routes)
+    } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn(err)
+    }
+}
+
 function* setDefaultModels(models) {
+    yield processUrl()
     yield race([
         call(flowDefaultModels, models),
         take(resetPage.type),
