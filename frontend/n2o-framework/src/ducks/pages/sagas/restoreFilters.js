@@ -1,4 +1,4 @@
-import { call, put, select, fork, race, take } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import queryString from 'query-string'
 import isEmpty from 'lodash/isEmpty'
 import mapValues from 'lodash/mapValues'
@@ -13,11 +13,6 @@ import { replace } from 'connected-react-router'
 import { getParams } from '../../../core/dataProviderResolver'
 import { getLocation, rootPageSelector } from '../../global/store'
 import { makePageRoutesByIdSelector } from '../selectors'
-import filtersCache from '../utils/FiltersCache'
-import { resetPage } from '../store'
-
-import { mappingUrlToRedux } from './mapUrlToRedux'
-import { flowDefaultModels } from './defaultModels'
 
 export function* generateNewQuery(pageId, query) {
     const state = yield select()
@@ -51,7 +46,6 @@ export function* generateNewQuery(pageId, query) {
 export function* mapQueryToUrl(
     pageId,
     query,
-    withoutCache,
 ) {
     const rootPageId = yield select(rootPageSelector)
     const newQuery = yield call(
@@ -62,25 +56,5 @@ export function* mapQueryToUrl(
 
     if (newQuery && pageId === rootPageId) {
         yield put(replace({ search: queryString.stringify(newQuery), state: { silent: true } }))
-
-        if (!filtersCache.checkCacheExists(pageId) && !withoutCache) {
-            filtersCache.addCache(pageId, newQuery)
-        } else if (!withoutCache) {
-            filtersCache.setQueryTo(pageId, newQuery)
-            filtersCache.clearFromPage(pageId)
-        }
     }
-}
-
-export function* mapPageQueryToUrl(pageId, defaultModels) {
-    const state = yield select()
-    const routes = makePageRoutesByIdSelector(pageId)(state)
-
-    if (!filtersCache.checkCacheExists(pageId)) {
-        yield race([call(flowDefaultModels, defaultModels), take(resetPage.type)])
-    } else {
-        yield call(mapQueryToUrl, pageId, filtersCache.getCacheByPageId(pageId)?.query)
-    }
-
-    yield fork(mappingUrlToRedux, routes)
 }

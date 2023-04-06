@@ -4,7 +4,6 @@ import {
     removeModel,
     syncModel,
     copyModel,
-    updateMapModel,
     removeAllModel,
 } from '../store'
 
@@ -70,17 +69,6 @@ describe('Тесты экшенов models', () => {
             expect(action.payload.source).toEqual(source)
             expect(action.payload.target).toEqual(target)
             expect(action.payload.mode).toEqual('replace')
-        })
-    })
-
-    describe('Проверка экшена updateMapModel', () => {
-        it('Возвращает правильный payload', () => {
-            const action = updateMapModel(prefix, key, field, value, map)
-            expect(action.payload.prefix).toEqual(prefix)
-            expect(action.payload.key).toEqual(key)
-            expect(action.payload.field).toEqual(field)
-            expect(action.payload.value).toEqual(value)
-            expect(action.payload.map).toEqual(map)
         })
     })
 

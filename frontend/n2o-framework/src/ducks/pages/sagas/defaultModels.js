@@ -19,7 +19,6 @@ import {
     copyModel,
     removeModel,
     setModel,
-    updateMapModel,
     updateModel,
 } from '../../models/store'
 import linkResolver from '../../../utils/linkResolver'
@@ -76,7 +75,6 @@ export function* flowDefaultModels(config) {
             copyModel.type,
             removeModel.type,
             updateModel.type,
-            updateMapModel.type,
         ])
 
         try {

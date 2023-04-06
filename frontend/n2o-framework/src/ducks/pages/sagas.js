@@ -1,47 +1,36 @@
 import {
     call,
     fork,
+    race,
+    take,
     put,
     select,
     takeEvery,
-    throttle,
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
-import { getAction, getLocation } from 'connected-react-router'
+import { getLocation } from 'connected-react-router'
 import queryString from 'query-string'
 
 import { destroyOverlay } from '../overlays/store'
 import { FETCH_PAGE_METADATA } from '../../core/api'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
-import { changeRootPage, rootPageSelector } from '../global/store'
+import { changeRootPage } from '../global/store'
 import fetchSaga from '../../sagas/fetch'
 
-import { mapPageQueryToUrl } from './sagas/restoreFilters'
-import { mappingUrlToRedux } from './sagas/mapUrlToRedux'
-import { makePageRoutesByIdSelector } from './selectors'
-import { MAP_URL } from './constants'
 import {
     metadataFail,
     metadataSuccess,
     setStatus,
     metadataRequest,
+    resetPage,
 } from './store'
+import { flowDefaultModels } from './sagas/defaultModels'
 
-// TODO выпилить?
-export function* processUrl() {
-    try {
-        const location = yield select(getLocation)
-        const pageId = yield select(rootPageSelector)
-        const routes = yield select(makePageRoutesByIdSelector(pageId))
-        const routerAction = yield select(getAction)
-
-        if (routerAction !== 'POP' && !(location.state && location.state.silent)) {
-            yield call(mappingUrlToRedux, routes)
-        }
-    } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err)
-    }
+function* setDefaultModels(models) {
+    yield race([
+        call(flowDefaultModels, models),
+        take(resetPage.type),
+    ])
 }
 
 /**
@@ -87,7 +76,7 @@ export function* getMetadata(apiProvider, action) {
         yield put(setStatus(metadata.id, 200))
         yield put(metadataSuccess(metadata.id, metadata))
 
-        yield fork(mapPageQueryToUrl, metadata.id, metadata.models)
+        yield fork(setDefaultModels, metadata.models)
     } catch (err) {
         if (err && err.status) {
             yield put(setStatus(pageId, err.status))
@@ -119,5 +108,4 @@ export function* getMetadata(apiProvider, action) {
  */
 export default apiProvider => [
     takeEvery(metadataRequest, getMetadata, apiProvider),
-    throttle(500, MAP_URL, processUrl),
 ]
