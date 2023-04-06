@@ -35,6 +35,8 @@ import { resolveRequest, startValidate } from '../ducks/datasource/store'
 import { combineModels } from '../ducks/models/store'
 import { makeWidgetByIdSelector } from '../ducks/widgets/selectors'
 import { ValidationsKey } from '../core/validation/IValidation'
+import { addAlert } from '../ducks/alerts/store'
+import { GLOBAL_KEY } from '../ducks/alerts/constants'
 
 import fetchSaga from './fetch'
 
@@ -91,6 +93,17 @@ export function* fetchValue(values, form, field, { dataProvider, valueFieldId })
                 }),
             )
         }
+
+        const error = e.json || {}
+        const { messages } = error?.meta?.alert
+
+        if (messages) {
+            const [alert] = messages
+            const { placement } = alert || GLOBAL_KEY
+
+            yield put(addAlert(placement, alert))
+        }
+
         // eslint-disable-next-line no-console
         console.error(e)
     } finally {
