@@ -45,16 +45,6 @@
  */
 
 /**
- * Payload для UPDATE_MAP
- * @typedef ModelsStore.updateMapModelPayload
- * @property {string} prefix
- * @property {string} key
- * @property {string} field
- * @property {any} value
- * @property {string} map
- */
-
-/**
  * Payload для CLEAR
  * @typedef ModelsStore.clearModelPayload
  * @property {string[]} prefixes

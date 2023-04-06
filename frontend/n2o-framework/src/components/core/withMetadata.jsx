@@ -14,7 +14,6 @@ import pick from 'lodash/pick'
 import {
     metadataRequest,
     resetPage,
-    mapUrl,
 } from '../../ducks/pages/store'
 import {
     makePageMetadataByIdSelector,
@@ -36,23 +35,21 @@ const withMetadata = (Component) => {
         }
 
         componentDidUpdate(prevProps) {
-            const { pageId, metadata, error, routeMap, reset } = this.props
+            const { metadata, error, reset } = this.props
 
             if (
                 isEqual(metadata, prevProps.metadata) &&
-        !isEmpty(metadata) &&
-        this.shouldGetPageMetadata(prevProps)
+                !isEmpty(metadata) &&
+                this.shouldGetPageMetadata(prevProps)
             ) {
                 reset(prevProps.pageId)
                 this.fetchMetadata()
             } else if (
                 this.isEqualPageId(prevProps) &&
-        !this.isEqualPageUrl(prevProps)
+                !this.isEqualPageUrl(prevProps) &&
+                error
             ) {
-                routeMap(pageId)
-                if (error) {
-                    this.fetchMetadata()
-                }
+                this.fetchMetadata()
             }
         }
 
@@ -120,7 +117,6 @@ const withMetadata = (Component) => {
                 'error',
                 'getMetadata',
                 'reset',
-                'routeMap',
             ])
         }
 
@@ -140,7 +136,6 @@ const withMetadata = (Component) => {
         location: PropTypes.object,
         getMetadata: PropTypes.func,
         reset: PropTypes.func,
-        routeMap: PropTypes.func,
     }
 
     ComponentWithMetadata.defaultProps = {
@@ -160,7 +155,6 @@ const withMetadata = (Component) => {
                 pageId, rootPage, pageUrl, pageMapping,
             )),
             reset: pageId => dispatch(batchActions([resetPage(pageId)])),
-            routeMap: pageId => dispatch(mapUrl(pageId)),
         }
     }
 

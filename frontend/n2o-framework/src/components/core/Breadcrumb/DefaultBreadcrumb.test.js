@@ -1,8 +1,13 @@
 import React from 'react'
 import { mount, shallow } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import configureMockStore from 'redux-mock-store'
 
 import DefaultBreadcrumb from './DefaultBreadcrumb'
+
+const mockStore = configureMockStore()
+const store = mockStore({ global: { breadcrumbs: {} } })
 
 const setup = (propsOverride) => {
     const props = {
@@ -19,9 +24,11 @@ const setup = (propsOverride) => {
     }
 
     return mount(
-        <Router>
-            <DefaultBreadcrumb {...props} {...propsOverride} />
-        </Router>,
+        <Provider store={store}>
+            <Router>
+                <DefaultBreadcrumb {...props} {...propsOverride} />
+            </Router>
+        </Provider>
     )
 }
 
@@ -44,9 +51,11 @@ const setup2 = (propsOverride) => {
     }
 
     return mount(
-        <Router>
-            <DefaultBreadcrumb {...props} {...propsOverride} />
-        </Router>,
+        <Provider store={store}>
+            <Router>
+                <DefaultBreadcrumb {...props} {...propsOverride} />
+            </Router>
+        </Provider>
     )
 }
 

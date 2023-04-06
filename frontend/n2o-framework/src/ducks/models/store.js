@@ -1,8 +1,6 @@
 import { createSlice, createAction } from '@reduxjs/toolkit'
 import isArray from 'lodash/isArray'
 import isObject from 'lodash/isObject'
-import isString from 'lodash/isString'
-import mapFn from 'lodash/map'
 import pick from 'lodash/pick'
 import merge from 'lodash/merge'
 import omit from 'lodash/omit'
@@ -150,36 +148,6 @@ const modelsSlice = createSlice({
             },
         },
 
-        UPDATE_MAP: {
-            /**
-             * @param {string} prefix
-             * @param {string} key
-             * @param {string} field
-             * @param {any} value
-             * @param {string} map
-             * @return {{payload: ModelsStore.updateMapModelPayload}}
-             */
-            prepare(prefix, key, field, value, map) {
-                return ({
-                    payload: { prefix, key, field, value, map },
-                })
-            },
-
-            /**
-             * Обновление массива с маппингом
-             * @param {ModelsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {ModelsStore.updateMapModelPayload} action.payload
-             */
-            reducer(state, action) {
-                const { prefix, value, key, field, map } = action.payload
-                const newValue = isString(value) ? [value] : value
-
-                state[prefix] = setIn(state[prefix], [key, field], mapFn(newValue, v => ({ [map]: v })))
-            },
-        },
-
         /**
          * Очистка моделий. которая учивает список исключений (поля которые не нужно очищать)
          * @param {ModelsStore.state} state
@@ -258,7 +226,6 @@ export const {
     REMOVE: removeModel,
     SYNC: syncModel,
     UPDATE: updateModel,
-    UPDATE_MAP: updateMapModel,
     CLEAR: clearModel,
     MERGE: combineModels,
     REMOVE_ALL: removeAllModel,

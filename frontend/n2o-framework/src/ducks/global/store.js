@@ -1,4 +1,5 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit'
+import { LOCATION_CHANGE } from 'connected-react-router'
 
 const initialState = {
     ready: false,
@@ -8,6 +9,7 @@ const initialState = {
     messages: {},
     menu: {},
     rootPageId: null,
+    breadcrumbs: {},
 }
 const globalSlice = createSlice({
     name: 'n2o/global',
@@ -102,6 +104,29 @@ const globalSlice = createSlice({
             state.locales = action.payload
         },
     },
+    extraReducers: {
+        /**
+         * Отслеживание изменения адреса для восстановления значения фильтров/табов при переходе по хлебным крошкам назад
+         */
+        [LOCATION_CHANGE](state, { payload }) {
+            const { breadcrumbs } = state
+            const { location } = payload
+            const { pathname, search } = location
+            const routes = {}
+
+            for (const [path, query] of Object.entries(breadcrumbs)) {
+                if (pathname.startsWith(path)) {
+                    // step in or replace query
+                    routes[path] = query
+                }
+                // else = step out or replace path
+            }
+
+            routes[pathname] = search
+
+            state.breadcrumbs = routes
+        },
+    },
 })
 
 export default globalSlice.reducer
@@ -192,6 +217,11 @@ export const rootPageSelector = createSelector(
 export const readySelector = createSelector(
     globalSelector,
     global => global.ready,
+)
+
+export const breadcrumbsSelector = createSelector(
+    globalSelector,
+    global => global.breadcrumbs || {},
 )
 
 /**
