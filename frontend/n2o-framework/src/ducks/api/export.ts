@@ -16,14 +16,10 @@ import { EffectWrapper } from './utils/effectWrapper'
 const ATTRIBUTES_ERROR = 'Ошибка экспорта attributes содержит не все параметры'
 const PARAMS_ERROR = 'Ошибка экспорта не передан формат или кодировка'
 
-type attributesType = {
+export type Payload = {
     'exportDatasource': string,
     'configDatasource': string,
-    'baseUrl': string
-}
-
-export type Payload = {
-    'attributes': attributesType
+    'baseURL': string
 }
 
 export const creator = createAction(
@@ -35,10 +31,9 @@ export const creator = createAction(
 )
 
 export function* effect({ payload }: Action<string, Payload>) {
-    const { attributes } = payload
-    const { exportDatasource, configDatasource, baseUrl } = attributes
+    const { exportDatasource, configDatasource, baseURL } = payload
 
-    if (!exportDatasource || !configDatasource || !baseUrl) {
+    if (!exportDatasource || !configDatasource || !baseURL) {
         // eslint-disable-next-line no-console
         console.error(ATTRIBUTES_ERROR)
 
@@ -62,7 +57,7 @@ export function* effect({ payload }: Action<string, Payload>) {
     const { provider, paging = {}, sorting = {} } = dataSource
     const { url } = dataProviderResolver(state, provider, { ...paging, sorting })
 
-    const exportUrl = `${baseUrl}/?format=${format}&charset=${charset}&$url=${url}`
+    const exportUrl = `${baseURL}/?format=${format}&charset=${charset}&$url=${url}`
 
     window.open(exportUrl, '_blank')
 }
