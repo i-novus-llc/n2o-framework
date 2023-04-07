@@ -23,7 +23,9 @@ import java.nio.file.Paths;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
+
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
@@ -56,7 +58,7 @@ public class ExportServletTest {
         doReturn("charset").when(request).getParameter("UTF-8");
         doReturn("/n2o/data/_main?main_minPrice=5000&page=1&size=10&sorting.name=DESC").when(request).getParameter("url");
 
-        doReturn(getDataResponse).when(exportController).getData(any(), anyMap(), any());
+        doReturn(getDataResponse).when(exportController).getData(eq("/_main"), anyMap(), any());
         doReturn(exportResponse).when(exportController).export(any(), any(), any());
 
         doReturn(200).when(exportResponse).getStatus();
