@@ -49,7 +49,7 @@ public class ExportControllerTest {
 
         assertThat(act, is(exp));
         assertThat(export.getCharacterEncoding(), is("UTF-8"));
-        assertThat(export.getContentType(), is("csv;charset=UTF-8"));
+        assertThat(export.getContentType(), is("text/csv"));
         assertThat(export.getContentDisposition(), is("attachment;filename=export.csv"));
         assertThat(export.getContentLength(), is(exp.getBytes(StandardCharsets.UTF_8).length));
     }

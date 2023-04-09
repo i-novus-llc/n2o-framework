@@ -25,7 +25,7 @@ public class ExportController extends AbstractController {
 
     private static final String FILES_DIRECTORY_NAME = "src/main/resources/META-INF/resources/export_files/";
     private static final String CSV_FILE_NAME = "export.csv";
-    private static final String CONTENT_TYPE_FORMAT = "%s;charset=%s";
+    private static final String CONTENT_TYPE = "text/csv";
     private static final String CONTENT_DISPOSITION_FORMAT = "attachment;filename=%s";
     private static final char CSV_SEPARATOR = ';';
     private final DataController dataController;
@@ -48,7 +48,7 @@ public class ExportController extends AbstractController {
            response.setStatus(500);
 
         response.setFile(fileBytes);
-        response.setContentType(String.format(CONTENT_TYPE_FORMAT, format, charset));
+        response.setContentType(CONTENT_TYPE);
         response.setContentDisposition(String.format(CONTENT_DISPOSITION_FORMAT, CSV_FILE_NAME));
         response.setCharacterEncoding(charset);
         response.setContentLength(fileBytes == null ? 0 : fileBytes.length);
