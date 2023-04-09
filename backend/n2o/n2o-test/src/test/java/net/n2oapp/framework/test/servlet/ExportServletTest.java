@@ -62,7 +62,7 @@ public class ExportServletTest {
         doReturn(exportResponse).when(exportController).export(any(), any(), any());
 
         doReturn(200).when(exportResponse).getStatus();
-        doReturn("csv;charset=UTF-8").when(exportResponse).getContentType();
+        doReturn("text/csv").when(exportResponse).getContentType();
         doReturn("UTF-8").when(exportResponse).getCharacterEncoding();
         doReturn("attachment;filename=testExport.csv").when(exportResponse).getContentDisposition();
         doReturn(bytes).when(exportResponse).getFile();
@@ -70,7 +70,7 @@ public class ExportServletTest {
         ((ExportServlet) exportServlet.getServlet()).safeDoGet(request, response);
 
         assertThat(response.getStatus()).isEqualTo(200);
-        assertThat(response.getContentType()).isEqualTo("csv;charset=UTF-8");
+        assertThat(response.getContentType()).isEqualTo("text/csv;charset=UTF-8");
         assertThat(response.getCharacterEncoding()).isEqualTo("UTF-8");
         assertThat(response.getHeader("Content-Disposition")).isEqualTo("attachment;filename=testExport.csv");
         String exp = new String(bytes, StandardCharsets.UTF_8);
