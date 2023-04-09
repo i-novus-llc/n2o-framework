@@ -1,7 +1,6 @@
 package net.n2oapp.framework.sandbox.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.net.httpserver.Headers;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextEngine;
@@ -12,7 +11,6 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
@@ -76,7 +74,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -224,10 +221,9 @@ public class ViewController {
             getMenu(builder);
 
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
-            GetDataResponse dataResponse = dataController.getData(url, request.getParameterMap(),
-                    new UserContext(sandboxContext));
 
             ExportController exportController = new ExportController(builder.getEnvironment(), dataController);
+            GetDataResponse dataResponse = exportController.getData(getPath(url, "/n2o/data"), getParameters(url), new UserContext(sandboxContext));
             ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset);
 
             return ResponseEntity.status(exportResponse.getStatus())
@@ -514,5 +510,38 @@ public class ViewController {
             result.put(name, new String[]{req.getHeader(name)});
         }
         return result;
+    }
+
+    /**
+     * Получение пути для запроса за данными для экспорта из исходного url-параметра
+     * @param url - исходные путь для запроса за данными со всеми параметрами
+     * @param prefix - первая часть пути
+     * @return путь для запроса за данными
+     */
+    private String getPath(String url, String prefix) {
+        String urlWithoutParameters = url.substring(0, url.indexOf("?"));
+        String path = urlWithoutParameters.substring(urlWithoutParameters.indexOf(prefix) + prefix.length());
+
+        return RouteUtil.normalize(!path.isEmpty() ? path : "/");
+    }
+
+    /**
+     * Получение параметров для запроса за данными из исходного url-параметра
+     * @param url - исходный url параметр
+     * @return словарь <названия переданных атрибутов, их значения>
+     */
+    private Map<String, String[]> getParameters(String url) {
+        Map<String, String[]> parameters = new HashMap<>();
+
+        String[] strings = url.substring(url.indexOf("?") + 1).split("&");
+
+        for (String str : strings) {
+            String key = str.split("=")[0];
+            String value = str.split("=")[1];
+
+            parameters.put(key, new String[] {value});
+        }
+
+        return parameters;
     }
 }

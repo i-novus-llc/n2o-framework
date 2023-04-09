@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.user.UserContext;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,11 +20,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static java.nio.charset.StandardCharsets.*;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class ExportController extends AbstractController {
 
-    private static final String FILES_DIRECTORY_NAME = "src/main/resources/META-INF/resources/export_files/";
+    private static final String FILES_DIRECTORY_NAME = "/META-INF/resources/export_files/";
     private static final String CSV_FILE_NAME = "export.csv";
     private static final String CONTENT_TYPE = "text/csv";
     private static final String CONTENT_DISPOSITION_FORMAT = "attachment;filename=%s";
@@ -64,7 +65,8 @@ public class ExportController extends AbstractController {
         byte[] fileBytes = null;
 
         try {
-            FileWriter fileWriter = new FileWriter(FILES_DIRECTORY_NAME + CSV_FILE_NAME, resolveCharset(charset));
+            String filePath = getClass().getResource(FILES_DIRECTORY_NAME + CSV_FILE_NAME).toURI().getPath();
+            FileWriter fileWriter = new FileWriter(filePath, resolveCharset(charset));
 
             CSVWriter writer = new CSVWriter(fileWriter, CSV_SEPARATOR,
                     CSVWriter.NO_QUOTE_CHARACTER,
@@ -76,9 +78,9 @@ public class ExportController extends AbstractController {
 
             writer.close();
 
-            fileBytes = Files.readAllBytes(Path.of(FILES_DIRECTORY_NAME + CSV_FILE_NAME));
+            fileBytes = Files.readAllBytes(Path.of(filePath));
         }
-        catch (IOException e) {
+        catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
 
@@ -107,7 +109,7 @@ public class ExportController extends AbstractController {
                 if (value instanceof List)
                     csvStr[i] = str.getList(key).toString();
                 else
-                    csvStr[i] = str.getString(key);
+                    csvStr[i] = str.get(key).toString();
                 i++;
             }
 
