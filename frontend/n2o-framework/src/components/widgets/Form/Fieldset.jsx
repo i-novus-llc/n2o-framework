@@ -147,13 +147,13 @@ class Fieldset extends React.Component {
     }
 
     setVisible(nextVisibleField) {
-        const { showMultiFields, hideMultiFields, form } = this.props
+        const { showMultiFields, hideMultiFields, form, modelPrefix } = this.props
 
         this.setState(() => {
             if (nextVisibleField) {
-                showMultiFields(form, this.fields)
+                showMultiFields(modelPrefix, form, this.fields)
             } else {
-                hideMultiFields(form, this.fields)
+                hideMultiFields(modelPrefix, form, this.fields)
             }
 
             return {
@@ -163,12 +163,12 @@ class Fieldset extends React.Component {
     }
 
     setEnabled(nextEnabledField) {
-        const { enableMultiFields, disableMultiFields, form } = this.props
+        const { enableMultiFields, disableMultiFields, form, modelPrefix } = this.props
 
         if (nextEnabledField) {
-            enableMultiFields(form, this.fields)
+            enableMultiFields(modelPrefix, form, this.fields)
         } else {
-            disableMultiFields(form, this.fields)
+            disableMultiFields(modelPrefix, form, this.fields)
         }
         this.setState({
             enabled: nextEnabledField,
