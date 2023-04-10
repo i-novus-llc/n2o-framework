@@ -8,7 +8,7 @@
                     <date-interval id="birthday">
                         <default-value begin="21.10.2018" end="22.11.2018"/>
                     </date-interval>
-                    <input-select id="gender" query-id="testTable4Compile">
+                    <input-select id="gender" query-id="testTable5Compile">
                         <default-value id="1" name="test"/>
                     </input-select>
                     <input-text id="age" domain="integer" default-value="18"/>
