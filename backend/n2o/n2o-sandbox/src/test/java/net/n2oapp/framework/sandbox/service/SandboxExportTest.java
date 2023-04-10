@@ -78,7 +78,7 @@ public class SandboxExportTest {
 
     @SneakyThrows
     @Test
-    public void testGetData() {
+    public void export() {
         String expectedBody = "id;name\n" +
                 "1;test1\n" +
                 "2;test2\n" +
