@@ -17,12 +17,12 @@ import java.util.List;
 public class WidgetDependency implements Compiled {
 
     @JsonProperty
-    private List<Dependency> enable;
+    private List<Dependency> enabled;
 
     @JsonProperty
     private List<Dependency> visible;
 
     public boolean isEmpty() {
-        return visible == null && enable == null;
+        return visible == null && enabled == null;
     }
 }

@@ -60,7 +60,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
                         new N2oWidgetsPack(), new N2oRegionsPack())
                 .ios(new SimplePageElementIOv4(), new SimplePageElementIOv3(), new StandardPageElementIOv3(), new SimplePageElementIOv3(), new StandardPageElementIOv3())
                 .compilers(new SimplePageCompiler(), new StandardPageCompiler(), new StandardDatasourceCompiler())
-                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4Compile.query.xml"),
+                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable5Compile.query.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));
     }
 
