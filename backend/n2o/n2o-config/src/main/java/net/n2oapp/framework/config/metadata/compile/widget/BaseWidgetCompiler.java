@@ -211,7 +211,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 }
             }
             if (!enableConditions.isEmpty())
-                dependency.setEnable(enableConditions);
+                dependency.setEnabled(enableConditions);
         }
 
         if (!visibleConditions.isEmpty())
