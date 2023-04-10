@@ -4,8 +4,6 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.http.JvmProxyConfigurer;
 import lombok.SneakyThrows;
-import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
@@ -13,30 +11,27 @@ import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
-import net.n2oapp.framework.ui.controller.DataController;
 import org.apache.catalina.util.ParameterMap;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.util.StreamUtils;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
@@ -44,10 +39,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyMap;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doReturn;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class, ProjectTemplateHolder.class,
@@ -60,12 +52,6 @@ public class SandboxExportTest {
     private static final MockHttpServletRequest request = new MockHttpServletRequest();
     private static final WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort()
             .enableBrowserProxying(true));
-
-    @MockBean
-    private DataController dataController;
-
-    @Mock
-    private GetDataResponse dataResponse;
 
     @Value("${n2o.sandbox.api.host}")
     private String host;
@@ -93,31 +79,11 @@ public class SandboxExportTest {
     @SneakyThrows
     @Test
     public void testGetData() {
-        String exp = "id;name;list\n" +
-                "1;test1;[1, 2, 3]\n" +
-                "2;test2;[1, 2, 3]\n" +
-                "3;test3;[1, 2, 3]\n";
-
-        DataSet body1 = new DataSet();
-        DataSet body2 = new DataSet();
-        DataSet body3 = new DataSet();
-
-        body1.put("id", "1");
-        body1.put("name", "test1");
-        body1.put("list", Arrays.asList(1, 2, 3));
-
-        body2.put("id", "2");
-        body2.put("name", "test2");
-        body2.put("list", Arrays.asList(1, 2, 3));
-
-        body3.put("id", "3");
-        body3.put("name", "test3");
-        body3.put("list", Arrays.asList(1, 2, 3));
-
-        List<DataSet> list = new ArrayList<>();
-        list.add(body1);
-        list.add(body2);
-        list.add(body3);
+        String expectedBody = "id;name\n" +
+                "1;test1\n" +
+                "2;test2\n" +
+                "3;test3\n" +
+                "4;test4\n";
 
         request.setRequestURI("/sandbox/view/myProjectId/n2o/export/_main");
         request.setParameters(new ParameterMap<>(Map.of(
@@ -149,17 +115,20 @@ public class SandboxExportTest {
                 "  }\n" +
                 "]")));
 
-        doReturn(dataResponse).when(dataController).getData(anyString(), anyMap(), any());
-        doReturn(list).when(dataResponse).getList();
-
         ResponseEntity<byte[]> response = viewController.export("myProjectId", request);
         assertThat(response.getStatusCodeValue(), is(200));
-        assertThat(response.getBody(), is(exp.getBytes(StandardCharsets.UTF_8)));
+        assertThat(response.getBody(), is(expectedBody.getBytes(StandardCharsets.UTF_8)));
         HttpHeaders headers = response.getHeaders();
-        assertThat(headers.getContentDisposition(), is("attachment;filename=export.csv"));
-        assertThat(headers.getContentType(), is("csv;charset=UTF-8"));
-        assertThat(headers.getContentLength(), is(exp.getBytes(StandardCharsets.UTF_8).length));
-        assertThat(headers.get("Content-Type"), is("csv;charset=UTF-8"));
-        assertThat(headers.get("Content-Encoding"), is("UTF-8"));
+        assertThat(headers.getContentDisposition().toString(), is("attachment; filename=\"export.csv\""));
+
+        Optional<MediaType> contentType = Optional.ofNullable(headers.getContentType());
+        assertTrue(contentType.isPresent());
+        assertThat(contentType.get().toString(), is("text/csv"));
+
+        Optional<List<String>> contentEncoding = Optional.ofNullable(headers.get("Content-Encoding"));
+        assertTrue(contentEncoding.isPresent());
+        assertThat(contentEncoding.get().toString(), is("[UTF-8]"));
+
+        assertThat(headers.getContentLength(), is(Integer.toUnsignedLong(expectedBody.getBytes(StandardCharsets.UTF_8).length)));
     }
 }
