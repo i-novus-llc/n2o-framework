@@ -36,7 +36,6 @@ import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
@@ -85,10 +84,9 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 appDatasourceIdsScope, context, p);
         initContextDatasources(datasourcesScope, appDatasourceIdsScope, parentDatasourceIdsScope, pageScope, context, p);
 
+        //actions
+        mergeActions(source, context, p);
         MetaActions metaActions = initMetaActions(source, p);
-        if (source.getActions() != null)
-            context.setActions(Arrays.stream(source.getActions())
-                    .collect(Collectors.toMap(ActionBar::getId, Function.identity())));
 
         FiltersScope filtersScope = new FiltersScope();
 
@@ -111,6 +109,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setRoutes(pageRoutes);
 
         //toolbars
+        mergeToolbars(source, context, p);
+        //todo удалить
         initToolbarGenerate(source, context, resultWidget);
         compileToolbarAndAction(page, source, context, p, metaActions, pageIndexScope, pageScope, routeScope, pageRoutes,
                 object, breadcrumb, metaActions, validationScope, datasourcesScope, appDatasourceIdsScope,
@@ -338,6 +338,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     }
 
     private void initToolbarGenerate(S source, PageContext context, N2oWidget resultWidget) {
+        //todo перенести в компиляцию open-page
         if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType())) {
             N2oToolbar n2oToolbar = new N2oToolbar();
             String[] generate = new String[]{GenerateType.submit.name(), GenerateType.close.name()};
@@ -353,5 +354,24 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             n2oToolbars[length] = n2oToolbar;
             source.setToolbars(n2oToolbars);
         }
+    }
+
+    private void mergeActions(S source, PageContext context, CompileProcessor p) {
+        if (context.getActions() == null || context.getActions().isEmpty()) return;
+        Map<String, ActionBar> actionBars = new HashMap<>(context.getActions());
+        if (source.getActions() != null) {
+            Arrays.stream(source.getActions()).forEach(a -> actionBars.putIfAbsent(a.getId(), a));
+        }
+        source.setActions(actionBars.values().toArray(new ActionBar[0]));
+    }
+
+    private void mergeToolbars(S source, PageContext context, CompileProcessor p) {
+        if (context.getToolbars() == null || context.getToolbars().isEmpty()) return;
+        Map<String, N2oToolbar> toolbars = new HashMap<>();
+        context.getToolbars().forEach(t -> toolbars.put(t.getPlace(), t));
+        if (source.getToolbars() != null) {
+            Arrays.stream(source.getToolbars()).forEach(t -> toolbars.putIfAbsent(t.getPlace(), t));
+        }
+        source.setToolbars(toolbars.values().toArray(new N2oToolbar[0]));
     }
 }

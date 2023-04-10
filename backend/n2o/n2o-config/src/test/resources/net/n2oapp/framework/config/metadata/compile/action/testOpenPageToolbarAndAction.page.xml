@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <toolbar>
+        <button id="modal">
+            <open-page page-id="testShowModalPage2" route="/create">
+                <toolbars>
+                    <toolbar place="bottomCenter">
+                        <button label="Button in center" id="but1" action-id="act1"/>
+                    </toolbar>
+                </toolbars>
+                <actions>
+                    <action id="act1">
+                        <a href="http://i-novus.ru"/>
+                    </action>
+                </actions>
+            </open-page>
+        </button>
+        <button id="modal2">
+            <open-page page-id="testShowModalPage4" route="/update">
+                <toolbars>
+                    <toolbar place="bottomCenter">
+                        <button label="Button in center" id="but1" action-id="act2"/>
+                    </toolbar>
+                </toolbars>
+                <actions>
+                    <action id="act2">
+                        <a href="http://i-novus.ru"/>
+                    </action>
+                </actions>
+            </open-page>
+        </button>
+    </toolbar>
+</page>

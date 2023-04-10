@@ -134,6 +134,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
     }
 
     private Toolbar compileToolbar(PageContext context, CompileProcessor p, String datasourceId, PageScope pageScope, Object... scopes) {
+        //todo убрать тут генерацию кнопок, вместо этого генерировать тулбар в компиляции open-page
         if ((context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType()))) {
             N2oToolbar n2oToolbar = new N2oToolbar();
             n2oToolbar.setGenerate(new String[]{GenerateType.submit.name(), GenerateType.close.name()});
