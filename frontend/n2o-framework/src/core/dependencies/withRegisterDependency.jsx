@@ -23,9 +23,9 @@ export default (Component) => {
         }
 
         registerDependency() {
-            const { id, form, dependency, registerFieldDependency } = this.props
+            const { id, form, dependency, registerFieldDependency, modelPrefix } = this.props
 
-            registerFieldDependency(form, id, dependency)
+            registerFieldDependency(modelPrefix, form, id, dependency)
         }
 
         render() {
@@ -33,7 +33,9 @@ export default (Component) => {
         }
     }
     const mapDispatchToProps = dispatch => ({
-        registerFieldDependency: (form, id, dependency) => dispatch(registerFieldDependency(form, id, dependency)),
+        registerFieldDependency: (modelPrefix, form, id, dependency) => (
+            dispatch(registerFieldDependency(modelPrefix, form, id, dependency))
+        ),
     })
 
     DependencyContainer.propTypes = {
