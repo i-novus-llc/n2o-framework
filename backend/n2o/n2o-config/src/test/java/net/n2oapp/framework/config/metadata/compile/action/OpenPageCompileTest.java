@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
+import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
@@ -29,6 +30,7 @@ import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
@@ -46,6 +48,7 @@ import org.junit.Test;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -71,6 +74,8 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testGender.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage2.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage4.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction1.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageMasterDetail.page.xml"),
@@ -576,5 +581,33 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(openPage.getBreadcrumb().get(2).getPath(), nullValue());
         assertThat(openPage.getPageProperty().getTitle(), is("Id 123"));
         assertThat(openPage.getPageProperty().getHtmlTitle(), is("Id 123"));
+    }
+
+    /**
+     * Проверяет переопределение toolbar и action
+     */
+    @Test
+    public void testOpenPageToolbarAndActions() {
+        PageContext pageContext = new PageContext("testOpenPageToolbarAndAction", "/p");
+        compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageToolbarAndAction.page.xml")
+                .get(pageContext);
+
+        StandardPage page = (StandardPage) routeAndGet("/p/create", Page.class);
+        List<Group> toolbar = page.getToolbar().get("bottomCenter");
+        assertThat(toolbar.get(0).getButtons().size(), is(1));
+        assertThat(toolbar.get(0).getButtons().get(0).getLabel(), is("Button in center"));
+        assertThat(toolbar.get(0).getButtons().get(0).getAction(), instanceOf(LinkAction.class));
+        assertThat(((LinkAction)toolbar.get(0).getButtons().get(0).getAction()).getUrl(), is("http://i-novus.ru"));
+
+        page = (StandardPage) routeAndGet("/p/update", Page.class);
+        toolbar = page.getToolbar().get("bottomCenter");
+        assertThat(toolbar.get(0).getButtons().size(), is(1));
+        assertThat(toolbar.get(0).getButtons().get(0).getLabel(), is("Button in center"));
+        assertThat(toolbar.get(0).getButtons().get(0).getAction(), instanceOf(LinkAction.class));
+        assertThat(((LinkAction)toolbar.get(0).getButtons().get(0).getAction()).getUrl(), is("http://i-novus.ru"));
+        toolbar = page.getToolbar().get("bottomRight");
+        assertThat(toolbar.get(0).getButtons().size(), is(1));
+        assertThat(toolbar.get(0).getButtons().get(0).getLabel(), is("Button2"));
+        assertThat(toolbar.get(0).getButtons().get(0).getAction(), instanceOf(ClearAction.class));
     }
 }

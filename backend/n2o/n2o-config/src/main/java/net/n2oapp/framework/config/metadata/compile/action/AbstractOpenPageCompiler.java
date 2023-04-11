@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
+import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
@@ -35,6 +36,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
@@ -172,6 +174,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         if (source.getDatasources() != null)
             pageContext.setDatasources(Arrays.asList(source.getDatasources()));
+        if (source.getToolbars() != null)
+            pageContext.setToolbars(Arrays.asList(source.getToolbars()));
+        if (source.getActions() != null)
+            pageContext.setActions(Arrays.stream(source.getActions())
+                    .collect(Collectors.toMap(ActionBar::getId, Function.identity())));
 
         String parentWidgetId = initWidgetId(p);
         pageContext.setParentWidgetId(parentWidgetId);

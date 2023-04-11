@@ -11,6 +11,8 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -27,6 +29,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -61,6 +64,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPageSecondFlow.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage3.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage4.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml"),
@@ -455,5 +459,33 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(provider, notNullValue());
         assertThat(provider.getQueryMapping().get("modal_id").normalizeLink(), is("models.resolve['p_form'].id"));
         assertThat(provider.getQueryMapping().get("modal_name").getValue(), is(123));
+    }
+
+    /**
+     * Проверяет переопределение toolbar и action
+     */
+    @Test
+    public void testShowModalToolbarAndActions() {
+        PageContext pageContext = new PageContext("testShowModalToolbarAndAction", "/p");
+        compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalToolbarAndAction.page.xml")
+                .get(pageContext);
+
+        StandardPage page = (StandardPage) routeAndGet("/p/create", Page.class);
+        List<Group> toolbar = page.getToolbar().get("bottomCenter");
+        assertThat(toolbar.get(0).getButtons().size(), is(1));
+        assertThat(toolbar.get(0).getButtons().get(0).getLabel(), is("Button in center"));
+        assertThat(toolbar.get(0).getButtons().get(0).getAction(), instanceOf(LinkAction.class));
+        assertThat(((LinkAction)toolbar.get(0).getButtons().get(0).getAction()).getUrl(), is("http://i-novus.ru"));
+
+        page = (StandardPage) routeAndGet("/p/update", Page.class);
+        toolbar = page.getToolbar().get("bottomCenter");
+        assertThat(toolbar.get(0).getButtons().size(), is(1));
+        assertThat(toolbar.get(0).getButtons().get(0).getLabel(), is("Button in center"));
+        assertThat(toolbar.get(0).getButtons().get(0).getAction(), instanceOf(LinkAction.class));
+        assertThat(((LinkAction)toolbar.get(0).getButtons().get(0).getAction()).getUrl(), is("http://i-novus.ru"));
+        toolbar = page.getToolbar().get("bottomRight");
+        assertThat(toolbar.get(0).getButtons().size(), is(1));
+        assertThat(toolbar.get(0).getButtons().get(0).getLabel(), is("Button2"));
+        assertThat(toolbar.get(0).getButtons().get(0).getAction(), instanceOf(ClearAction.class));
     }
 }

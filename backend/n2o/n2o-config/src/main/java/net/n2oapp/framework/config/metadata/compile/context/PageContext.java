@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 
@@ -21,6 +22,9 @@ import java.util.*;
 @Setter
 public class PageContext extends BaseCompileContext<Page, N2oPage> {
 
+    /**
+     * Список действий на странице
+     */
     private Map<String, ActionBar> actions;
 
     private List<Breadcrumb> breadcrumbs;
@@ -162,6 +166,10 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      * Список всех родительских маршрутов
      */
     private List<String> parentRoutes;
+    /**
+     * Список тулбаров открываемой страницы
+     */
+    private List<N2oToolbar> toolbars;
 
     public PageContext(String sourcePageId) {
         super(sourcePageId, N2oPage.class, Page.class);
