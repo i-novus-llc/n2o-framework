@@ -1,6 +1,7 @@
 package net.n2oapp.framework.ui.controller;
 
 import com.opencsv.CSVWriter;
+import com.opencsv.ICSVWriter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
@@ -10,7 +11,6 @@ import net.n2oapp.framework.api.user.UserContext;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class ExportController extends AbstractController {
 
     public ExportResponse export(List<DataSet> data, String format, String charset) {
         ExportResponse response = new ExportResponse();
-        byte[] fileBytes = createScv(data, charset);
+        byte[] fileBytes = createCsv(data);
 
         if (fileBytes == null)
            response.setStatus(500);
@@ -55,16 +55,16 @@ public class ExportController extends AbstractController {
         return dataController.getData(path, parameters, user);
     }
 
-    private byte[] createScv(List<DataSet> data, String charset) {
+    private byte[] createCsv(List<DataSet> data) {
         byte[] fileBytes = null;
 
         try {
-            FileWriter fileWriter = new FileWriter(FILES_DIRECTORY_NAME + CSV_FILE_NAME, resolveCharset(charset));
+            FileWriter fileWriter = new FileWriter(FILES_DIRECTORY_NAME + CSV_FILE_NAME, UTF_8);
 
             CSVWriter writer = new CSVWriter(fileWriter, CSV_SEPARATOR,
-                    CSVWriter.NO_QUOTE_CHARACTER,
-                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    CSVWriter.DEFAULT_LINE_END);
+                    ICSVWriter.NO_QUOTE_CHARACTER,
+                    ICSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    ICSVWriter.DEFAULT_LINE_END);
 
             List<String[]> csvData = resolveToCsvFormat(data);
             writer.writeAll(csvData);
@@ -110,9 +110,5 @@ public class ExportController extends AbstractController {
         }
 
         return csvData;
-    }
-
-    private Charset resolveCharset(String charset) {
-        return UTF_8;
     }
 }
