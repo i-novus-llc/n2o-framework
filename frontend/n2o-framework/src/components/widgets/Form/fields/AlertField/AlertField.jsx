@@ -34,8 +34,9 @@ export function AlertField({
     id,
     dispatch,
     visible = true,
+    modelPrefix,
 }) {
-    const onClose = () => dispatch(hideField(form, id))
+    const onClose = () => dispatch(hideField(modelPrefix, form, id))
 
     if (!visible) {
         return null

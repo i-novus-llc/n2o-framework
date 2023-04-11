@@ -10,6 +10,7 @@ import { registerFieldDependency } from '../../ducks/form/store'
 import { setModel } from '../../ducks/models/store'
 
 import withObserveDependency from './withObserveDependency'
+import { ModelPrefix } from '../datasource/const'
 
 const setup = (store, props = {}, onChange) => {
     const Component = withObserveDependency({
@@ -48,6 +49,7 @@ describe('Проверка хока withObserveDependency', () => {
             {
                 id: 'testField',
                 form: 'testForm',
+                modelPrefix: ModelPrefix.active,
                 dependency: [
                     {
                         type: 'reRender',
@@ -84,6 +86,7 @@ describe('Проверка хока withObserveDependency', () => {
             {
                 id: 'testField',
                 form: 'testForm',
+                modelPrefix: ModelPrefix.active,
                 dependency: [
                     {
                         type: 'reRender',
@@ -120,6 +123,7 @@ describe('Проверка хока withObserveDependency', () => {
             {
                 id: 'testField',
                 form: 'testForm',
+                modelPrefix: ModelPrefix.active,
                 dependency: [
                     {
                         type: 'fetch',

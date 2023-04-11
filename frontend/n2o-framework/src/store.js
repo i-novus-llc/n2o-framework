@@ -24,14 +24,22 @@ export default (initialState, history, config = {}) => {
 
     const middlewares = [
         thunkMiddleware,
-        () => next => (action) => {
-            if (Object.prototype.toString.call(action) === '[object Object]') {
-                const { payload = {}, meta = {}, ...actionFields } = action
+        ({ getState }) => (next) => {
+            let prevState = {}
 
-                return next({ ...actionFields, payload, meta })
+            return (action) => {
+                let nextAction = action
+
+                if (Object.prototype.toString.call(action) === '[object Object]') {
+                    const { payload = {}, meta = {}, ...actionFields } = action
+
+                    nextAction = { ...actionFields, payload, meta: { ...meta, prevState } }
+                }
+
+                prevState = getState()
+
+                return next(nextAction)
             }
-
-            return next(action)
         },
         sagaMiddleware,
         routerMiddleware(history),

@@ -81,11 +81,11 @@ ReduxField.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const { form: formName, name: fieldName } = ownProps
+    const { form: formName, name: fieldName, modelPrefix } = ownProps
 
     return ({
-        loading: loadingSelector(formName, fieldName)(state),
-        touched: touchedSelector(formName, fieldName)(state),
+        loading: loadingSelector(modelPrefix, formName, fieldName)(state),
+        touched: touchedSelector(modelPrefix, formName, fieldName)(state),
     })
 }
 

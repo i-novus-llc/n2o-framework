@@ -77,11 +77,15 @@ function Application(props: IApplicationProps) {
 
     return (
         <>
-            <Block disabled={loading}>
-                {ready && render()}
-            </Block>
+            {!ready && FactorySpinner
+                ? <FactorySpinner type="cover" loading={loading} />
+                : null }
 
-            <FactorySpinner type="cover" loading={loading} />
+            {ready ? (
+                <Block disabled={loading}>
+                    {render()}
+                </Block>
+            ) : null}
         </>
     )
 }
