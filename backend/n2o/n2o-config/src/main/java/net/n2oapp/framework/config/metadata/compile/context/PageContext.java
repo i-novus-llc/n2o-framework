@@ -23,7 +23,7 @@ import java.util.*;
 public class PageContext extends BaseCompileContext<Page, N2oPage> {
 
     /**
-     * Список действий на старнице
+     * Список действий на странице
      */
     private Map<String, ActionBar> actions;
 

@@ -34,6 +34,7 @@ import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.ParentDatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.StylesResolver;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -357,7 +358,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     }
 
     private void mergeActions(S source, PageContext context, CompileProcessor p) {
-        if (context.getActions() == null || context.getActions().isEmpty()) return;
+        if (CollectionUtils.isEmpty(context.getActions())) return;
         Map<String, ActionBar> actionBars = new HashMap<>(context.getActions());
         if (source.getActions() != null) {
             Arrays.stream(source.getActions()).forEach(a -> actionBars.putIfAbsent(a.getId(), a));
@@ -366,7 +367,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     }
 
     private void mergeToolbars(S source, PageContext context, CompileProcessor p) {
-        if (context.getToolbars() == null || context.getToolbars().isEmpty()) return;
+        if (CollectionUtils.isEmpty(context.getToolbars())) return;
         Map<String, N2oToolbar> toolbars = new HashMap<>();
         context.getToolbars().forEach(t -> toolbars.put(t.getPlace(), t));
         if (source.getToolbars() != null) {
