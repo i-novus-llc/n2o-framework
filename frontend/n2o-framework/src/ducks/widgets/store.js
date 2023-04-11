@@ -340,6 +340,37 @@ const widgetSlice = createSlice({
                 delete state[payload.widgetId]
             },
         },
+        TOGGLE_WORD_WRAP: {
+            /**
+             * @return {{payload: {widgetId: string}}}
+             */
+
+            // eslint-disable-next-line sonarjs/no-identical-functions
+            prepare(widgetId) {
+                return ({
+                    payload: { widgetId },
+                })
+            },
+
+            /**
+             * Установить перенос текста в таблице
+             * @param {WidgetsStore.state} state
+             * @param {Object} action
+             * @param {{widgetId: string}} action.payload
+             */
+            reducer(state, { payload }) {
+                const { widgetId } = payload
+                const { table } = state[widgetId]
+
+                if (!table) {
+                    return
+                }
+
+                const { textWrap } = table
+
+                state[widgetId].table.textWrap = !textWrap
+            },
+        },
     },
 })
 
@@ -358,6 +389,7 @@ export const {
     TOGGLE_FILTER_VISIBILITY: toggleWidgetFilters,
     REMOVE: removeWidget,
     SET_ACTIVE: setActive,
+    TOGGLE_WORD_WRAP: toggleWidgetsWordWrap,
 } = widgetSlice.actions
 
 /**

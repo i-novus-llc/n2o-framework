@@ -40,6 +40,16 @@
     padding: 0 20px;
 }
 
+.n2o-advanced-table-row {
+    .no-wrap {
+        .n2o-widget-list-cell {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    }
+}
+
 .n2o-advanced-table-row-hover {
     background-color: rgba(0, 0, 0, 0.075);
 }
@@ -142,10 +152,6 @@
         &.n2o-advanced-table-fixed {
             width: 100% !important;
         }
-    }
-
-    .n2o-advanced-table-cell-expand.text-no-wrap {
-        min-width: max-content;
     }
 
     .react-resizable {
