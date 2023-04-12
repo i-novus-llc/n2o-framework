@@ -255,8 +255,7 @@ export function validate(
             const asyncValidating = get(state, `form.${formName}.asyncValidating`) === key
             const active = get(state, `form.${formName}.active`) === key
 
-            if (!currentError && errorInStore &&
-                (asyncValidating || active || field.disabled)) {
+            if (!currentError && (errorInStore || (asyncValidating || active || field.disabled))) {
                 dispatch(removeFieldMessage(formName, key))
             }
         })
