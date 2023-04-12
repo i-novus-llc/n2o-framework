@@ -8,4 +8,6 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
  */
 public interface ModelAware extends Compiled {
     ReduxModel getModel();
+
+    void setModel(ReduxModel model);
 }

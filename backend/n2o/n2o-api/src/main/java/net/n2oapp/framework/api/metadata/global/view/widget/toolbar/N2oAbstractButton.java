@@ -16,7 +16,7 @@ import net.n2oapp.framework.api.metadata.meta.badge.Position;
  */
 @Getter
 @Setter
-public abstract class N2oAbstractButton extends N2oComponent implements IdAware, BadgeAware {
+public abstract class N2oAbstractButton extends N2oComponent implements GroupItem, IdAware, BadgeAware {
     @N2oAttribute("Идентификатор")
     private String id;
     @N2oAttribute("Заголовок")
