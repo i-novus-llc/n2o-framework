@@ -11,8 +11,6 @@ import net.n2oapp.framework.api.user.UserContext;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -66,8 +64,7 @@ public class ExportController extends AbstractController {
         byte[] fileBytes = null;
 
         try {
-            String filePath = getClass().getResource(FILES_DIRECTORY_NAME + CSV_FILE_NAME).toURI().getPath();
-            FileWriter fileWriter = new FileWriter(filePath, UTF_8);
+            FileWriter fileWriter = new FileWriter(FILES_DIRECTORY_NAME + CSV_FILE_NAME, UTF_8);
 
             CSVWriter writer = new CSVWriter(fileWriter, CSV_SEPARATOR,
                     ICSVWriter.NO_QUOTE_CHARACTER,
@@ -79,9 +76,9 @@ public class ExportController extends AbstractController {
 
             writer.close();
 
-            fileBytes = Files.readAllBytes(Path.of(filePath));
+            fileBytes = Files.readAllBytes(Path.of(FILES_DIRECTORY_NAME + CSV_FILE_NAME));
         }
-        catch (IOException | URISyntaxException e) {
+        catch (IOException e) {
             e.printStackTrace();
         }
 
