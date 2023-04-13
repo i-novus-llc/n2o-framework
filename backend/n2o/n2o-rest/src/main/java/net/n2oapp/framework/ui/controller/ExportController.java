@@ -1,6 +1,7 @@
 package net.n2oapp.framework.ui.controller;
 
 import com.opencsv.CSVWriter;
+import com.opencsv.ICSVWriter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
@@ -24,7 +25,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class ExportController extends AbstractController {
 
-    private static final String FILES_DIRECTORY_NAME = "/META-INF/resources/export_files/";
+    private static final String FILES_DIRECTORY_NAME = "src/main/resources/META-INF/resources/";
     private static final String CSV_FILE_NAME = "export.csv";
     private static final String CONTENT_TYPE = "text/csv";
     private static final String CONTENT_DISPOSITION_FORMAT = "attachment;filename=%s";
@@ -43,7 +44,7 @@ public class ExportController extends AbstractController {
 
     public ExportResponse export(List<DataSet> data, String format, String charset) {
         ExportResponse response = new ExportResponse();
-        byte[] fileBytes = createScv(data, charset);
+        byte[] fileBytes = createCsv(data);
 
         if (fileBytes == null)
            response.setStatus(500);
@@ -61,17 +62,17 @@ public class ExportController extends AbstractController {
         return dataController.getData(path, parameters, user);
     }
 
-    private byte[] createScv(List<DataSet> data, String charset) {
+    private byte[] createCsv(List<DataSet> data) {
         byte[] fileBytes = null;
 
         try {
             String filePath = getClass().getResource(FILES_DIRECTORY_NAME + CSV_FILE_NAME).toURI().getPath();
-            FileWriter fileWriter = new FileWriter(filePath, resolveCharset(charset));
+            FileWriter fileWriter = new FileWriter(filePath, UTF_8);
 
             CSVWriter writer = new CSVWriter(fileWriter, CSV_SEPARATOR,
-                    CSVWriter.NO_QUOTE_CHARACTER,
-                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    CSVWriter.DEFAULT_LINE_END);
+                    ICSVWriter.NO_QUOTE_CHARACTER,
+                    ICSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    ICSVWriter.DEFAULT_LINE_END);
 
             List<String[]> csvData = resolveToCsvFormat(data);
             writer.writeAll(csvData);
@@ -117,9 +118,5 @@ public class ExportController extends AbstractController {
         }
 
         return csvData;
-    }
-
-    private Charset resolveCharset(String charset) {
-        return UTF_8;
     }
 }

@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.mvc.n2o.N2oServlet;
 import net.n2oapp.framework.ui.controller.ExportController;
+import org.springframework.http.HttpHeaders;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -13,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ExportServlet extends N2oServlet {
 
@@ -35,10 +34,9 @@ public class ExportServlet extends N2oServlet {
         String charset = req.getParameter("charset");
         String url = req.getParameter("url");
 
-        String path = getPath(url, "/n2o/data");
-
-        GetDataResponse result = controller.getData(path,
-                getParameters(url),
+        GetDataResponse result = controller.getData(
+                getPath(url, "/n2o/data"),
+                RouteUtil.parseQueryParams(RouteUtil.parseQuery(url)),
                 (UserContext) req.getAttribute(USER));
 
         ExportResponse exportResponse = controller.export(result.getList(), format, charset);
@@ -46,7 +44,7 @@ public class ExportServlet extends N2oServlet {
         resp.setStatus(exportResponse.getStatus());
         resp.setContentType(exportResponse.getContentType());
         resp.setCharacterEncoding(exportResponse.getCharacterEncoding());
-        resp.setHeader("Content-Disposition", exportResponse.getContentDisposition());
+        resp.setHeader(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition());
         resp.setContentLength(exportResponse.getFile().length);
 
         ServletOutputStream outputStream = resp.getOutputStream();
@@ -54,24 +52,8 @@ public class ExportServlet extends N2oServlet {
     }
 
     private String getPath(String url, String prefix) {
-        String urlWithoutParameters = url.substring(0, url.indexOf("?"));
-        String path = urlWithoutParameters.substring(urlWithoutParameters.indexOf(prefix) + prefix.length());
+        String path = RouteUtil.parsePath(url).substring(prefix.length());
 
         return RouteUtil.normalize(!path.isEmpty() ? path : "/");
-    }
-
-    private Map<String, String[]> getParameters(String url) {
-        Map<String, String[]> parameters = new HashMap<>();
-
-        String[] strings = url.substring(url.indexOf("?") + 1).split("&");
-
-        for (String str : strings) {
-            String key = str.split("=")[0];
-            String value = str.split("=")[1];
-
-            parameters.put(key, new String[] {value});
-        }
-
-        return parameters;
     }
 }

@@ -102,12 +102,6 @@
                 <version>0.10.2</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.luhuiguo</groupId>
-                <artifactId>aspose-cells</artifactId>
-                <version>23.1</version>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 

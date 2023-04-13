@@ -9,11 +9,12 @@ import classNames from 'classnames'
  * @param hasSpan - флаг возможности colSpan/rowSpan в этой колонке
  * @param record - модель строки
  * @param textWrap - флаг на запрет/разрешение переноса текста в cell (default = true)
+ * @param wordWrap - динамичный флаг на запрет/разрешение переноса текста в cell (default = undefined)
  * @param needRender - флаг отрисовки cell
  * @returns {*}
  * @constructor
  */
-function AdvancedTableCell({ children, hasSpan, record, textWrap, needRender }) {
+function AdvancedTableCell({ children, hasSpan, record, textWrap, needRender, style }) {
     const { span } = record
 
     let colSpan = 1
@@ -28,15 +29,21 @@ function AdvancedTableCell({ children, hasSpan, record, textWrap, needRender }) 
         rowSpan = span.rowSpan
     }
 
+    const childrenWithProps = React.Children.map(children, (child) => {
+        if (React.isValidElement(child)) {
+            return React.cloneElement(child, { style })
+        }
+
+        return child
+    })
+
     return (
-        <td className={classNames({ 'd-none': !needRender })} colSpan={colSpan} rowSpan={rowSpan}>
-            <div
-                className={classNames('n2o-advanced-table-cell-expand', {
-                    'text-no-wrap': textWrap === false,
-                })}
-            >
-                {children}
-            </div>
+        <td
+            className={classNames({ 'd-none': !needRender, 'no-wrap': !textWrap })}
+            colSpan={colSpan}
+            rowSpan={rowSpan}
+        >
+            <div className="n2o-advanced-table-cell-expand">{childrenWithProps}</div>
         </td>
     )
 }
