@@ -23,7 +23,7 @@ import static java.nio.charset.StandardCharsets.*;
 
 public class ExportController extends AbstractController {
 
-    private static final String FILES_DIRECTORY_NAME = "src/main/resources/META-INF/resources/";
+    private static final String FILES_DIRECTORY_NAME = System.getProperty("java.io.tmpdir");
     private static final String CSV_FILE_NAME = "export.csv";
     private static final String CONTENT_TYPE = "text/csv";
     private static final String CONTENT_DISPOSITION_FORMAT = "attachment;filename=%s";
