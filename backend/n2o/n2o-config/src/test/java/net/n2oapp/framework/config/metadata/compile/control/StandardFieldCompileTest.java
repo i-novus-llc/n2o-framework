@@ -133,7 +133,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     @Test
     public void testValidations() {
         PageContext pageContext = new PageContext("testStandardField");
-        pageContext.setSubmitOperationId("update");
+     //   pageContext.setSubmitOperationId("update");
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardField.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(pageContext);
@@ -180,11 +180,11 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     @Test
     public void testInlineValidations() {
         PageContext pageContext = new PageContext("testStandardFieldInlineValidations");
-        pageContext.setSubmitOperationId("update");
+       // pageContext.setSubmitOperationId("update");
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldInlineValidations.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(pageContext);
-        pageContext.setSubmitOperationId("update");
+       // pageContext.setSubmitOperationId("update");
         List<Validation> clientValidations = ((StandardDatasource) page.getDatasources().get("testStandardFieldInlineValidations_form")).getValidations().get("city");
         assertThat(clientValidations.size(), is(1));
         assertThat(clientValidations.get(0).getSeverity(), is(SeverityType.danger));

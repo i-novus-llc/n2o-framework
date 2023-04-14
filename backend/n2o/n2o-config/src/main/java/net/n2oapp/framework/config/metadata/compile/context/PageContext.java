@@ -4,11 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
@@ -33,22 +31,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      * Задан ли бредкрамб на родительской странице
      */
     private Boolean breadcrumbFromParent;
-    /**
-     * Операция на кнопке отправки формы
-     */
-    private String submitOperationId;
-    /**
-     * Модель данных на кнопке отправки формы
-     */
-    private ReduxModel submitModel;
-    /**
-     * Заголовок кнопки отправки формы
-     */
-    private String submitLabel;
-    /**
-     * Тип действия кнопки отправки формы
-     */
-    private SubmitActionType submitActionType;
     /**
      * Модель, которая будет скопирована
      */
@@ -107,22 +89,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String pageName;
     /**
-     * Закрыть окно после успешной отправки формы
-     */
-    private Boolean closeOnSuccessSubmit;
-    /**
-     * Показать сообщение об успешном выполнении действия
-     */
-    private Boolean submitMessageOnSuccess;
-    /**
-     * Показать сообщение о неудачном выполнении действия
-     */
-    private Boolean submitMessageOnFail;
-    /**
-     * Обновить данные виджета после успешной отправки формы
-     */
-    private Boolean refreshOnSuccessSubmit;
-    /**
      * Идентификаторы источников данных, которые необходимо обновить после успешной отправки формы
      */
     private List<String> refreshClientDataSourceIds;
@@ -130,14 +96,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      * Обновить данные родительского виджета после закрытия страницы
      */
     private Boolean refreshOnClose;
-    /**
-     * Направить на URL адрес после успешной отправки формы
-     */
-    private String redirectUrlOnSuccessSubmit;
-    /**
-     * Сценарий перенаправления после успешной отправки формы
-     */
-    private Target redirectTargetOnSuccessSubmit;
     /**
      * Предупредить о несохраненных данных на форме при закрытии?
      */

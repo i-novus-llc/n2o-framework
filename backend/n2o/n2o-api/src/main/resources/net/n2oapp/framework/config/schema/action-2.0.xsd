@@ -125,51 +125,10 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="submit-operation-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            На открываемой странице будут добавлены кнопки "Сохранить" и "Отмена".
-                            Кнопка "Сохранить" будет выполнять заданную операцию объекта
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="submit-message-on-success" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Показать сообщение после успешного выполнения операции объекта.
-                            Выполняется только при заданном атрибуте submit-operation-id
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="submit-message-on-fail" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Показать сообщение после неудачного выполнения операции объекта.
-                            Выполняется только при заданном атрибуте submit-operation-id
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="object-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
                             Идентификатор объекта, содержащий выполняемую операцию
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="submit-model" type="clientModel">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель, используемая на сгенерированной кнопке "Сохранить".
-                            Выполняется только при заданном атрибуте submit-operation-id
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="submit-label" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Название кнопки отправки формы на открываемой странице.
-                            Выполняется только при заданном атрибуте submit-operation-id.
-                            По умолчанию "Сохранить"
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -188,27 +147,6 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="close-after-submit" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Закрыть окно после успешного выполнения операции объекта
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="redirect-url-after-submit" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            URL адрес, на который произойдет переход после успешного выполнения операции объекта
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="redirect-target-after-submit" type="targetType">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Сценарий переадресации после успешного выполнения операции объекта
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="refresh-datasources" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
@@ -222,13 +160,6 @@
                     <xs:annotation>
                         <xs:documentation>
                             Обновление источника данных после закрытия модального окна
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="refresh-after-submit" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Обновление источника данных после успешного выполнения операции
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -427,13 +358,6 @@
                     <xs:annotation>
                         <xs:documentation>
                             Предупредить о несохраненных данных на форме при закрытии модального окна
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="submit-action-type" type="submitActionType" default="invoke">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Действие при нажатии кнопки "Сохранить"
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

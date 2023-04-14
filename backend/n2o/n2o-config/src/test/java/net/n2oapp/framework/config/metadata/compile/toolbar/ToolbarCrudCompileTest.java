@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -99,9 +98,9 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
     @Test
     public void testGenerationCloseModal() {
         PageContext context = new ModalPageContext("testCloseActionModal", "/test");
-        context.setSubmitOperationId("update");
-        context.setRedirectUrlOnSuccessSubmit("/test/:id");
-        context.setRedirectTargetOnSuccessSubmit(Target.application);
+      //  context.setSubmitOperationId("update");
+        //context.setRedirectUrlOnSuccessSubmit("/test/:id");
+        //context.setRedirectTargetOnSuccessSubmit(Target.application);
         context.setRefreshOnClose(true);
         context.setParentRoute("/test");
 

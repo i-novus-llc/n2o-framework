@@ -4,14 +4,12 @@ import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.SourceComponent;
-import net.n2oapp.framework.api.metadata.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
-import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
@@ -19,6 +17,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
@@ -39,6 +38,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientWidgetId;
@@ -86,7 +86,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         initContextDatasources(datasourcesScope, appDatasourceIdsScope, parentDatasourceIdsScope, pageScope, context, p);
 
         //actions
-        mergeActions(source, context, p);
+        mergeActions(source, context);
         MetaActions metaActions = initMetaActions(source, p);
 
         FiltersScope filtersScope = new FiltersScope();
@@ -110,9 +110,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setRoutes(pageRoutes);
 
         //toolbars
-        mergeToolbars(source, context, p);
-        //todo удалить
-        initToolbarGenerate(source, context, resultWidget);
+        mergeToolbars(source, context, resultWidget, p);
         compileToolbarAndAction(page, source, context, p, metaActions, pageIndexScope, pageScope, routeScope, pageRoutes,
                 object, breadcrumb, metaActions, validationScope, datasourcesScope, appDatasourceIdsScope,
                 parentDatasourceIdsScope);
@@ -338,26 +336,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 metaActions, metaActions, new ComponentScope(source), pageIndexScope, scopes));
     }
 
-    private void initToolbarGenerate(S source, PageContext context, N2oWidget resultWidget) {
-        //todo перенести в компиляцию open-page
-        if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType())) {
-            N2oToolbar n2oToolbar = new N2oToolbar();
-            String[] generate = new String[]{GenerateType.submit.name(), GenerateType.close.name()};
-            n2oToolbar.setGenerate(generate);
-            n2oToolbar.setTargetWidgetId(resultWidget != null ? resultWidget.getId() : null);
-            n2oToolbar.setDatasourceId(resultWidget.getDatasourceId());
-            if (source.getToolbars() == null) {
-                source.setToolbars(new N2oToolbar[0]);
-            }
-            int length = source.getToolbars().length;
-            N2oToolbar[] n2oToolbars = new N2oToolbar[length + 1];
-            System.arraycopy(source.getToolbars(), 0, n2oToolbars, 0, length);
-            n2oToolbars[length] = n2oToolbar;
-            source.setToolbars(n2oToolbars);
-        }
-    }
 
-    private void mergeActions(S source, PageContext context, CompileProcessor p) {
+    private void mergeActions(S source, PageContext context) {
         if (CollectionUtils.isEmpty(context.getActions())) return;
         Map<String, ActionBar> actionBars = new HashMap<>(context.getActions());
         if (source.getActions() != null) {
@@ -366,10 +346,20 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         source.setActions(actionBars.values().toArray(new ActionBar[0]));
     }
 
-    private void mergeToolbars(S source, PageContext context, CompileProcessor p) {
+    private void mergeToolbars(S source, PageContext context, N2oWidget resultWidget, CompileProcessor p) {
         if (CollectionUtils.isEmpty(context.getToolbars())) return;
         Map<String, N2oToolbar> toolbars = new HashMap<>();
-        context.getToolbars().forEach(t -> toolbars.put(t.getPlace(), t));
+        context.getToolbars().forEach(t -> {
+            if (t.getItems() != null) {
+                Arrays.stream(t.getItems())
+                        .filter(toolbarItem -> N2oAbstractButton.class.isAssignableFrom(toolbarItem.getClass()))
+                        .forEach(toolbarItem -> ((N2oAbstractButton) toolbarItem)
+                                .setDatasourceId(((N2oAbstractButton) toolbarItem).getDatasourceId() == null ?
+                                        resultWidget.getDatasourceId() : ((N2oAbstractButton) toolbarItem).getDatasourceId()));
+            }
+            t.setPlace(p.cast(t.getPlace(), p.resolve(property("n2o.api.page.toolbar.place"), String.class)));
+            toolbars.put(t.getPlace(), t);
+        });
         if (source.getToolbars() != null) {
             Arrays.stream(source.getToolbars()).forEach(t -> toolbars.putIfAbsent(t.getPlace(), t));
         }

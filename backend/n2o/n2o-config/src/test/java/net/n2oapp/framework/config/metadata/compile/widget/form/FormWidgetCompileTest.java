@@ -92,7 +92,6 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     @Test
     public void testFormClientValidations() {
         PageContext pageContext = new PageContext("testFormValidations");
-        pageContext.setSubmitOperationId("test");
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.object.xml")
                 .get(pageContext);

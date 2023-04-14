@@ -50,11 +50,17 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private Boolean refreshOnClose;
     private Boolean unsavedDataPromptOnClose;
     //on submit
+    @Deprecated
     private String submitOperationId;
+    @Deprecated
     private String submitLabel;
+    @Deprecated
     private ReduxModel submitModel;
+    @Deprecated
     private SubmitActionType submitActionType;
+    @Deprecated
     private Boolean submitMessageOnSuccess;
+    @Deprecated
     private Boolean submitMessageOnFail;
 
     private CopyMode copyMode;
@@ -67,9 +73,13 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private PageRef targetPage;
 
     private Boolean createMore;
+    @Deprecated
     private Boolean closeAfterSubmit;
+    @Deprecated
     private String redirectUrlAfterSubmit;
+    @Deprecated
     private Target redirectTargetAfterSubmit;
+    @Deprecated
     private Boolean refreshAfterSubmit;
     private String[] refreshDatasourceIds;
     //on resolve

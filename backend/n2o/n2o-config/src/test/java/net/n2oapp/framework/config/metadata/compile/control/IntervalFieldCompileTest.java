@@ -40,7 +40,6 @@ public class IntervalFieldCompileTest extends SourceCompileTestBase {
     public void testIntervalField() {
 
         PageContext pageContext = new PageContext("testIntervalField");
-        pageContext.setSubmitOperationId("update");
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testIntervalField.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
                 .get(pageContext);
