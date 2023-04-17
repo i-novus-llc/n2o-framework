@@ -62,6 +62,7 @@ export default (Field) => {
                 registerFieldExtra,
                 parentIndex,
                 validation,
+                enabled,
                 modelPrefix,
             } = props
 
@@ -69,7 +70,7 @@ export default (Field) => {
                 registerFieldExtra(modelPrefix, form, name, {
                     visible: visibleToRegister,
                     visible_field: visibleToRegister,
-                    disabled: disabledToRegister,
+                    disabled: disabledToRegister && enabled === false,
                     disabled_field: disabledToRegister,
                     parentIndex,
                     dependency: this.modifyDependency(dependency, parentIndex),
@@ -161,12 +162,15 @@ export default (Field) => {
     }
 
     const mapStateToProps = (state, ownProps) => {
-        const { form: formName, name: fieldName, modelPrefix } = ownProps
+        const { form: formName, name: fieldName, modelPrefix, multiSetDisabled } = ownProps
+        const disabled = multiSetDisabled
+            ? multiSetDisabled || isDisabledSelector(formName, fieldName)(state)
+            : isDisabledSelector(modelPrefix, formName, fieldName)(state)
 
         return {
             isInit: isInitSelector(modelPrefix, formName, fieldName)(state),
             visible: isVisibleSelector(modelPrefix, formName, fieldName)(state),
-            disabled: isDisabledSelector(modelPrefix, formName, fieldName)(state),
+            disabled,
             required: requiredSelector(modelPrefix, formName, fieldName)(state),
             message: messageSelector(formName, fieldName, modelPrefix)(state),
             model: getModelByPrefixAndNameSelector(modelPrefix, formName)(state),

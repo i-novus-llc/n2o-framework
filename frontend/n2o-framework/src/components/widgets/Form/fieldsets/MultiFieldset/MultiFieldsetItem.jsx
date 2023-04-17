@@ -24,7 +24,10 @@ function MultiFieldsetItem({
     onRemoveAll,
     onCopyField,
     enabled,
+    disabled: propsDisabled,
 }) {
+    const disabled = propsDisabled || !enabled
+
     return (
         <>
             {map(fields, (field, index) => (
@@ -47,6 +50,7 @@ function MultiFieldsetItem({
                         {render(rows, {
                             parentName: `${parentName}[${index}]`,
                             parentIndex: index,
+                            multiSetDisabled: disabled,
                         })}
                     </div>
                 </div>
