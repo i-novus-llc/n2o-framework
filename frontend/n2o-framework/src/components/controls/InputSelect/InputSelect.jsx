@@ -1,3 +1,4 @@
+import isFunction from 'lodash/isFunction'
 import React from 'react'
 import { compose, setDisplayName } from 'recompose'
 import PropTypes from 'prop-types'
@@ -38,7 +39,8 @@ import { getValueArray } from './utils'
  * @reactProps {function} onSelect
  * @reactProps {function} onScrollENd - callback при прокрутке скролла popup
  * @reactProps {string} placeHolder - подсказка в инпуте
- * @reactProps {boolean} resetOnBlur - фича, при которой: (значение - true) - сбрасывается значение контрола, если оно не выбрано из popup, (значение - false) - создает объект в текущем value
+ * @reactProps {boolean} resetOnBlur - фича, при которой: (значение - true) - сбрасывается значение контрола, если оно
+ *     не выбрано из popup, (значение - false) - создает объект в текущем value
  * @reactProps {function} onOpen - callback на открытие попапа
  * @reactProps {function} onClose - callback на закрытие попапа
  * @reactProps {boolean} multiSelect - флаг мульти выбора
@@ -104,7 +106,8 @@ class InputSelect extends React.Component {
     }
 
     /**
-     * обработка изменения значения при потери фокуса(считаем, что при потере фокуса пользователь закончил вводить новое значение)
+     * обработка изменения значения при потери фокуса(считаем, что при потере фокуса пользователь закончил вводить
+     * новое значение)
      * @private
      */
     handleValueChangeOnBlur = () => {
@@ -456,11 +459,15 @@ class InputSelect extends React.Component {
         }
     }
 
-    onFocus = () => {
-        const { openOnFocus } = this.props
+    onFocus = (e) => {
+        const { openOnFocus, onFocus } = this.props
 
         if (openOnFocus) {
             this.setIsExpanded(true)
+        }
+
+        if (isFunction(onFocus)) {
+            onFocus(e)
         }
     }
 
@@ -541,6 +548,7 @@ class InputSelect extends React.Component {
                             onClearClick={this.handleElementClear}
                             disabled={disabled}
                             className={`${className} ${isExpanded ? 'focus' : ''}`}
+                            onFocus={this.onFocus}
                         >
                             <InputContent
                                 setRef={this.setInputRef}
@@ -765,6 +773,7 @@ InputSelect.propTypes = {
     statusFieldId: PropTypes.string,
     enabledFieldId: PropTypes.string,
     onDismiss: PropTypes.func,
+    onFocus: PropTypes.func,
 }
 
 InputSelect.defaultProps = {
