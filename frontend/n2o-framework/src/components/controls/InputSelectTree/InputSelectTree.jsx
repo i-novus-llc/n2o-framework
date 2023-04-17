@@ -268,7 +268,7 @@ function InputSelectTree({
 
     const clearSearch = () => {
         setSearchValue('')
-        setDropdownYPositionKey(prevKey => prevKey + 1)
+        setTimeout(() => setDropdownYPositionKey(prevKey => prevKey + 1), 400)
     }
 
     /**
