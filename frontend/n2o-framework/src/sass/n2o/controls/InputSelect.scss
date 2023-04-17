@@ -300,10 +300,6 @@
     }
 
     .n2o-input-control {
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
         height: auto;
         display: flex;
         align-items: center;
@@ -352,19 +348,11 @@
             text-align: center;
             margin: 0;
         }
-
-        &:hover {
-            background-color: #fff;
-        }
     }
 
     &:hover {
         .n2o-input-clear {
             visibility: visible !important;
-        }
-
-        .n2o-input-control {
-            background-color: #fff;
         }
     }
 }
