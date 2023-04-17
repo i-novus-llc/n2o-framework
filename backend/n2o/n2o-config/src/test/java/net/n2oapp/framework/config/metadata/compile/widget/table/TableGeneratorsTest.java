@@ -100,8 +100,6 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(((ShowModal) exportBtn.getAction()).getPayload().getPageUrl(), Matchers.is("/table_settings/:datasourceId/exportTable"));
         assertThat(exportBtn.getHint(), is("Экспортировать"));
         assertThat(exportBtn.getIcon(), is("fa fa-share-square-o"));
-        assertThat(context.getExport().get("configDatasource"), is("exportModal_exportModalDs"));
-        assertThat(context.getExport().get("exportDatasource"), is("table_settings_ds1"));
     }
 
     @Test
@@ -198,7 +196,5 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(((ShowModal) button.getAction()).getPayload().getPageUrl(), Matchers.is("/export/:datasourceId/exportTable"));
         assertThat(button.getHint(), is("Экспортировать"));
         assertThat(button.getIcon(), is("fa fa-share-square-o"));
-        assertThat(context.getExport().get("configDatasource"), is("exportModal_exportModalDs"));
-        assertThat(context.getExport().get("exportDatasource"), is("export_ds1"));
     }
 }

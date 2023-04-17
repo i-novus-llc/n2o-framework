@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar.table;
 
+import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.action.N2oCustomAction;
 import net.n2oapp.framework.api.metadata.action.N2oRefreshAction;
@@ -9,10 +10,10 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.DatasourceUtil;
+import org.jdom2.Namespace;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -93,7 +94,7 @@ public class TableSettingsGeneratorUtil {
         return wordWrapButton;
     }
 
-    public static N2oButton generateExport(PageContext context, CompileProcessor p) {
+    public static N2oButton generateExport(CompileProcessor p) {
         N2oButton exportButton = new N2oButton();
         N2oShowModal showModalAction = new N2oShowModal();
 
@@ -105,11 +106,11 @@ public class TableSettingsGeneratorUtil {
                 datasourceId,
                 p.getScope(PageScope.class).getPageId(),
                 p);
-
         Map<String, String> payload = new HashMap<>();
         payload.put("configDatasource", configDatasource);
         payload.put("exportDatasource", exportDatasource);
-        context.setExport(payload);
+
+        showModalAction.setExtAttributes(Collections.singletonMap(new N2oNamespace(Namespace.NO_NAMESPACE), payload));
 
         N2oPathParam n2oPathParam = new N2oPathParam();
         n2oPathParam.setName("datasourceId");

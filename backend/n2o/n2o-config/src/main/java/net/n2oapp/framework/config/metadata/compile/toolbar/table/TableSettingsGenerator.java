@@ -29,7 +29,7 @@ public class TableSettingsGenerator implements ButtonGenerator {
         result.add(TableSettingsGeneratorUtil.generateRefresh(p));
         result.add(TableSettingsGeneratorUtil.generateResize(p));
         result.add(TableSettingsGeneratorUtil.generateWordWrap(toolbar, p));
-        result.add(TableSettingsGeneratorUtil.generateExport((PageContext) context, p));
+        result.add(TableSettingsGeneratorUtil.generateExport(p));
         return result;
     }
 }

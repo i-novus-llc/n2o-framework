@@ -58,8 +58,8 @@ public class CustomActionCompiler extends AbstractMetaActionCompiler<CustomActio
         }
 
         if (source.getType().equals("n2o/api/utils/export") && ((PageContext)context).getExport() != null) {
-            ((PageContext) context).getExport().forEach(
-                    (k, v) -> payload.getAttributes().put(k, v));
+            ((PageContext) context).getExport()
+                    .forEach((k, v) -> payload.getAttributes().put(k, v));
         }
 
         return payload;

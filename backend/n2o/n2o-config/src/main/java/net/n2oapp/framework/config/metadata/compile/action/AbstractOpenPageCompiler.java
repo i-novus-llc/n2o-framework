@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
@@ -31,6 +32,7 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -216,6 +218,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         initPageRoute(compiled, route, pathMapping, queryMapping);
         initOtherPageRoute(p, context, route);
         p.addRoute(pageContext);
+
+        if (source.getExtAttributes() != null && source.getExtAttributes().get(new N2oNamespace(Namespace.NO_NAMESPACE)) != null) {
+            pageContext.setExport(source.getExtAttributes().get(new N2oNamespace(Namespace.NO_NAMESPACE)));
+        }
+
         return pageContext;
     }
 
