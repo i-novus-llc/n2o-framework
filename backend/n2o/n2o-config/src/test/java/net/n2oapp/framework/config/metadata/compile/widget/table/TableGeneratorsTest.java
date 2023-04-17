@@ -58,8 +58,9 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
 
     @Test
     public void generateTableSettings() {
+        PageContext context = new PageContext("table_settings");
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/table_settings.page.xml")
-                .get(new PageContext("table_settings"));
+                .get(context);
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
         assertThat(t.getToolbar().get("topLeft").get(0).getButtons().size(), is(6));
@@ -75,25 +76,32 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(filtersBtn.getHint(), is("Изменить видимость фильтров"));
         assertThat(filtersBtn.getIcon(), is("fa fa-filter"));
         assertThat(((CustomAction) filtersBtn.getAction()).getPayload().getAttributes().get("widgetId"), Matchers.is("table_settings_tb1"));
+
         assertThat(columnsBtn.getSrc(), is("ToggleColumn"));
         assertThat(columnsBtn.getHint(), is("Изменить видимость колонок"));
         assertThat(columnsBtn.getIcon(), is("fa fa-table"));
+
         assertThat(refreshBtn.getAction(), Matchers.instanceOf(RefreshAction.class));
         assertThat(refreshBtn.getHint(), is("Обновить данные"));
         assertThat(refreshBtn.getIcon(), is("fa fa-refresh"));
+
         assertThat(resizeBtn.getSrc(), is("ChangeSize"));
         assertThat(resizeBtn.getHint(), is("Изменить размер"));
         assertThat(resizeBtn.getIcon(), is("fa fa-bars"));
+
         assertThat(((CustomAction) wordwrapBtn.getAction()).getType(), Matchers.is("n2o/widgets/TOGGLE_WORD_WRAP"));
         assertThat(((CustomAction) wordwrapBtn.getAction()).getPayload().getAttributes().get("datasource"), Matchers.is("ds1"));
         assertThat(wordwrapBtn.getSrc(), is("WordWrap"));
         assertThat(wordwrapBtn.getHint(), is("Перенос по словам"));
-        assertThat(wordwrapBtn.getIcon(), is("fa-solid fa-grip-lines"));
+        assertThat(wordwrapBtn.getIcon(), is("fa fa-exchange"));
+
         assertThat(exportBtn.getAction(), Matchers.instanceOf(ShowModal.class));
         assertThat(((ShowModal) exportBtn.getAction()).getPageId(), Matchers.is("exportModal"));
         assertThat(((ShowModal) exportBtn.getAction()).getPayload().getPageUrl(), Matchers.is("/table_settings/:datasourceId/exportTable"));
         assertThat(exportBtn.getHint(), is("Экспортировать"));
-        assertThat(exportBtn.getIcon(), is("fa-solid fa-arrow-up-from-bracket"));
+        assertThat(exportBtn.getIcon(), is("fa fa-share-square-o"));
+        assertThat(context.getExport().get("configDatasource"), is("exportModal_exportModalDs"));
+        assertThat(context.getExport().get("exportDatasource"), is("table_settings_ds1"));
     }
 
     @Test
@@ -171,13 +179,14 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(((CustomAction) button.getAction()).getPayload().getAttributes().get("datasource"), Matchers.is("ds1"));
         assertThat(button.getSrc(), is("WordWrap"));
         assertThat(button.getHint(), is("Перенос по словам"));
-        assertThat(button.getIcon(), is("fa-solid fa-grip-lines"));
+        assertThat(button.getIcon(), is("fa fa-exchange"));
     }
 
     @Test
     public void generateExport() {
+        PageContext context = new PageContext("export");
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/export.page.xml")
-                .get(new PageContext("export"));
+                .get(context);
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
         assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().size(), is(1));
@@ -188,6 +197,8 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(((ShowModal) button.getAction()).getPageId(), Matchers.is("exportModal"));
         assertThat(((ShowModal) button.getAction()).getPayload().getPageUrl(), Matchers.is("/export/:datasourceId/exportTable"));
         assertThat(button.getHint(), is("Экспортировать"));
-        assertThat(button.getIcon(), is("fa-solid fa-arrow-up-from-bracket"));
+        assertThat(button.getIcon(), is("fa fa-share-square-o"));
+        assertThat(context.getExport().get("configDatasource"), is("exportModal_exportModalDs"));
+        assertThat(context.getExport().get("exportDatasource"), is("export_ds1"));
     }
 }

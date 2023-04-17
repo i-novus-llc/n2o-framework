@@ -162,6 +162,10 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      * Список всех родительских маршрутов
      */
     private List<String> parentRoutes;
+    /**
+     * Значения datasource для экспортирования данных из таблицы
+     */
+    private Map<String, String> export;
 
     public PageContext(String sourcePageId) {
         super(sourcePageId, N2oPage.class, Page.class);

@@ -9,9 +9,13 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.util.DatasourceUtil;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -89,19 +93,31 @@ public class TableSettingsGeneratorUtil {
         return wordWrapButton;
     }
 
-    public static N2oButton generateExport(CompileProcessor p) {
+    public static N2oButton generateExport(PageContext context, CompileProcessor p) {
         N2oButton exportButton = new N2oButton();
         N2oShowModal showModalAction = new N2oShowModal();
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String datasourceId = widgetScope == null ? null : widgetScope.getClientDatasourceId();
+        String datasourceId = widgetScope == null ? null : widgetScope.getDatasourceId();
 
-        showModalAction.setPageId(p.resolve(property("n2o.api.generate.button.export.page"), String.class));
-        showModalAction.setRoute("/:datasourceId/exportTable");
+        String configDatasource = DatasourceUtil.getClientDatasourceId("exportModalDs", "exportModal", p);
+        String exportDatasource = DatasourceUtil.getClientDatasourceId(
+                datasourceId,
+                p.getScope(PageScope.class).getPageId(),
+                p);
+
+        Map<String, String> payload = new HashMap<>();
+        payload.put("configDatasource", configDatasource);
+        payload.put("exportDatasource", exportDatasource);
+        context.setExport(payload);
+
         N2oPathParam n2oPathParam = new N2oPathParam();
         n2oPathParam.setName("datasourceId");
         n2oPathParam.setValue(datasourceId);
+
         showModalAction.setParams(new N2oParam[]{n2oPathParam});
+        showModalAction.setPageId(p.resolve(property("n2o.api.generate.button.export.page"), String.class));
+        showModalAction.setRoute("/:datasourceId/exportTable");
 
         exportButton.setDescription(p.getMessage("n2o.api.generate.button.export.description"));
         exportButton.setIcon(p.resolve(property("n2o.api.generate.button.export.icon"), String.class));

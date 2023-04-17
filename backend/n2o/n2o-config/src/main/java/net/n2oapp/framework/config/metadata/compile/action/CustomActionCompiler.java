@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.action.N2oCustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomActionPayload;
 import net.n2oapp.framework.config.metadata.compile.N2oExtensionAttributeMapperFactory;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.util.CompileUtil;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
@@ -34,14 +35,14 @@ public class CustomActionCompiler extends AbstractMetaActionCompiler<CustomActio
         compileAction(customAction, source, p);
         customAction.setType(source.getType());
 
-        customAction.setPayload(initPayload(source, p));
+        customAction.setPayload(initPayload(source, context, p));
         customAction.getMeta().setSuccess(initSuccessMeta(customAction, source, context, p));
         customAction.getMeta().setFail(initFailMeta(customAction, source, context));
 
         return customAction;
     }
 
-    private CustomActionPayload initPayload(N2oCustomAction source, CompileProcessor p) {
+    private CustomActionPayload initPayload(N2oCustomAction source, CompileContext<?, ?> context, CompileProcessor p) {
         CustomActionPayload payload = new CustomActionPayload();
         ExtensionAttributeMapperFactory extensionAttributeMapperFactory = new N2oExtensionAttributeMapperFactory();
         if (source.getPayload() != null) {
@@ -55,6 +56,12 @@ public class CustomActionCompiler extends AbstractMetaActionCompiler<CustomActio
                 }
             });
         }
+
+        if (source.getType().equals("n2o/api/utils/export") && ((PageContext)context).getExport() != null) {
+            ((PageContext) context).getExport().forEach(
+                    (k, v) -> payload.getAttributes().put(k, v));
+        }
+
         return payload;
     }
 }
