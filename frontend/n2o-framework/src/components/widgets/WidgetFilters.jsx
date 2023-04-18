@@ -12,10 +12,10 @@ import { createStructuredSelector } from 'reselect'
 
 import { Filter } from '../snippets/Filter/Filter'
 import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selectors'
-import { setModel } from '../../ducks/models/store'
 import { generateFormFilterId } from '../../utils/generateFormFilterId'
 import { FILTER_DELAY } from '../../constants/time'
 import { ModelPrefix } from '../../core/datasource/const'
+import { reset as resetModels } from '../../ducks/datasource/store'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
@@ -93,8 +93,8 @@ class WidgetFilters extends React.Component {
             blackResetList,
             reduxFormFilter,
             resetFilterModel,
+            resetModels,
             setFilter,
-            clearModel,
         } = this.props
         const newReduxForm = cloneDeep(reduxFormFilter)
         const toReset = difference(
@@ -129,7 +129,7 @@ class WidgetFilters extends React.Component {
                     if (fetchOnClear) {
                         this.handleFilter()
                     } else {
-                        clearModel()
+                        resetModels(this.formName)
                     }
                 },
             ))
@@ -195,7 +195,7 @@ WidgetFilters.propTypes = {
     hideButtons: PropTypes.bool,
     searchOnChange: PropTypes.bool,
     resetFilterModel: PropTypes.func,
-    clearModel: PropTypes.func,
+    resetModels: PropTypes.func,
     dispatch: PropTypes.func,
 }
 
@@ -209,10 +209,10 @@ const mapStateToProps = createStructuredSelector({
     reduxFormFilter: (state, props) => getFormValues(generateFormFilterId(props.datasource))(state) || {},
 })
 
-const mapDispatchToProps = (dispatch, { datasource }) => ({
+const mapDispatchToProps = dispatch => ({
     dispatch,
     resetFilterModel: formName => dispatch(reset(formName)),
-    clearModel: () => dispatch(setModel(ModelPrefix.source, datasource, [])),
+    resetModels: formName => dispatch(resetModels(formName)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetFilters)
