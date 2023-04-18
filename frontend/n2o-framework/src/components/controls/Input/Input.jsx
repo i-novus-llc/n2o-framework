@@ -156,6 +156,7 @@ Input.propTypes = {
     onClick: PropTypes.func,
     onKeyDown: PropTypes.func,
     inputRef: PropTypes.func,
+    label: PropTypes.string,
 }
 
 Input.defaultProps = {
