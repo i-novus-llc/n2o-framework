@@ -61,6 +61,7 @@ function CheckboxN2O({
                 onFocus={onFocus}
                 onBlur={onBlur}
                 tabIndex={tabIndex}
+                label={label}
             />
             <label className="custom-control-label" htmlFor={elementId}>
                 {label}
