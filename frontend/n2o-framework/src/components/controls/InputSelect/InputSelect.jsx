@@ -38,7 +38,8 @@ import { getValueArray } from './utils'
  * @reactProps {function} onSelect
  * @reactProps {function} onScrollENd - callback при прокрутке скролла popup
  * @reactProps {string} placeHolder - подсказка в инпуте
- * @reactProps {boolean} resetOnBlur - фича, при которой: (значение - true) - сбрасывается значение контрола, если оно не выбрано из popup, (значение - false) - создает объект в текущем value
+ * @reactProps {boolean} resetOnBlur - фича, при которой: (значение - true) - сбрасывается значение контрола, если оно
+ *     не выбрано из popup, (значение - false) - создает объект в текущем value
  * @reactProps {function} onOpen - callback на открытие попапа
  * @reactProps {function} onClose - callback на закрытие попапа
  * @reactProps {boolean} multiSelect - флаг мульти выбора
@@ -69,6 +70,8 @@ class InputSelect extends React.Component {
             options,
             input,
         }
+
+        this.inputHeightRef = React.createRef()
     }
 
     // eslint-disable-next-line react/no-deprecated
@@ -104,7 +107,8 @@ class InputSelect extends React.Component {
     }
 
     /**
-     * обработка изменения значения при потери фокуса(считаем, что при потере фокуса пользователь закончил вводить новое значение)
+     * обработка изменения значения при потери фокуса(считаем, что при потере фокуса пользователь закончил вводить
+     * новое значение)
      * @private
      */
     handleValueChangeOnBlur = () => {
@@ -544,6 +548,7 @@ class InputSelect extends React.Component {
                 <Dropdown
                     isOpen={isExpanded}
                     toggle={this.toggle}
+                    ref={this.inputHeightRef}
                 >
                     <DropdownToggle tag="div" className="n2o-input-select__toggle">
                         <InputSelectGroup
@@ -598,6 +603,18 @@ class InputSelect extends React.Component {
                         className={classNames('n2o-input-select__menu', {
                             'n2o-input-select__menu--autosize': popupAutoSize,
                         })}
+                        modifiers={[
+                            {
+                                name: 'offset',
+                                options: {
+                                    offset: {
+                                        enabled: true,
+                                        offset: `0 ${this.inputHeightRef?.current?.containerRef?.current.clientHeight}px`,
+                                    },
+                                },
+                            },
+                        ]
+                        }
                     >
                         <PopupList
                             handleMouseEnter={this.handlePopupListMouseEnter}
