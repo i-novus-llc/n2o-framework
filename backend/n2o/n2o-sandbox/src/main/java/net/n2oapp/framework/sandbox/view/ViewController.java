@@ -208,22 +208,27 @@ public class ViewController {
     @CrossOrigin(origins = "*")
     @GetMapping({"/view/{projectId}/n2o/export/**", "/view/{projectId}/n2o/export/", "/view/{projectId}/n2o/export"})
     @ResponseBody
-    public ResponseEntity<byte[]> export(@PathVariable(value = "projectId") String projectId,
-                                              HttpServletRequest request) {
+    public ResponseEntity<byte[]> export(@PathVariable(value = "projectId") String projectId, HttpServletRequest request) {
         try {
-            String url = request.getParameter("url");
-            String format = request.getParameter("format");
-            String charset = request.getParameter("charset");
-
             ThreadLocalProjectId.setProjectId(projectId);
             N2oApplicationBuilder builder = getBuilder(projectId);
             getIndex(builder);
             getMenu(builder);
 
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
-
             ExportController exportController = new ExportController(builder.getEnvironment(), dataController);
-            GetDataResponse dataResponse = exportController.getData(getPath(url, "/n2o/data"), getParameters(url), new UserContext(sandboxContext));
+
+            String url = request.getParameter("url");
+            String format = request.getParameter("format");
+            String charset = request.getParameter("charset");
+
+            String path = RouteUtil.parsePath(url).substring("/n2o/data".length());
+            path = RouteUtil.normalize(!path.isEmpty() ? path : "/");
+
+            GetDataResponse dataResponse = exportController.getData(
+                    path,
+                    RouteUtil.parseQueryParams(RouteUtil.parseQuery(url)),
+                    new UserContext(sandboxContext));
             ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset);
 
             return ResponseEntity.status(exportResponse.getStatus())
@@ -510,38 +515,5 @@ public class ViewController {
             result.put(name, new String[]{req.getHeader(name)});
         }
         return result;
-    }
-
-    /**
-     * Получение пути для запроса за данными для экспорта из исходного url-параметра
-     * @param url - исходные путь для запроса за данными со всеми параметрами
-     * @param prefix - первая часть пути
-     * @return путь для запроса за данными
-     */
-    private String getPath(String url, String prefix) {
-        String urlWithoutParameters = url.substring(0, url.indexOf("?"));
-        String path = urlWithoutParameters.substring(urlWithoutParameters.indexOf(prefix) + prefix.length());
-
-        return RouteUtil.normalize(!path.isEmpty() ? path : "/");
-    }
-
-    /**
-     * Получение параметров для запроса за данными из исходного url-параметра
-     * @param url - исходный url параметр
-     * @return словарь <названия переданных атрибутов, их значения>
-     */
-    private Map<String, String[]> getParameters(String url) {
-        Map<String, String[]> parameters = new HashMap<>();
-
-        String[] strings = url.substring(url.indexOf("?") + 1).split("&");
-
-        for (String str : strings) {
-            String key = str.split("=")[0];
-            String value = str.split("=")[1];
-
-            parameters.put(key, new String[] {value});
-        }
-
-        return parameters;
     }
 }

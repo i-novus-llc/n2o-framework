@@ -96,7 +96,8 @@ public class SandboxExportTest {
                 StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
         wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
         wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/project/myProjectId/test.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("[\n" +
+        wireMockServer.stubFor(get("/project/myProjectId/test.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody(
+                "[\n" +
                 "  {\n" +
                 "    \"id\": 1,\n" +
                 "    \"name\": \"test1\"\n" +
