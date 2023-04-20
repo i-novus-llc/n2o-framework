@@ -18,6 +18,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBreadcrumb;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
@@ -80,6 +81,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private N2oBreadcrumb[] breadcrumbs;
     @Deprecated
     private String width;
+    private N2oToolbar[] toolbars;
 
     @Deprecated // при удалении убрать, N2oStandardDatasourceMerger, а также его вызов в PageCompiler
     public void adaptV1() {

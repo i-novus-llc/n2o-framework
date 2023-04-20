@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.action.N2oCustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomActionPayload;
 import net.n2oapp.framework.config.metadata.compile.N2oExtensionAttributeMapperFactory;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.util.CompileUtil;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
@@ -55,11 +54,6 @@ public class CustomActionCompiler extends AbstractMetaActionCompiler<CustomActio
                     payload.setAttributes(res);
                 }
             });
-        }
-
-        if (source.getType().equals("n2o/api/utils/export") && ((PageContext)context).getExport() != null) {
-            ((PageContext) context).getExport()
-                    .forEach((k, v) -> payload.getAttributes().put(k, v));
         }
 
         return payload;

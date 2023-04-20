@@ -1,16 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Экспортировать">
-    <datasources>
-        <datasource id="exportModal" query-id="test">
-            <filters>
-                <eq field-id="id" param="id"/>
-            </filters>
-        </datasource>
-    </datasources>
-
     <regions>
-        <form>
+        <form datasource="exportModalDs">
             <fields>
                 <set field-label-location="left" field-label-width="100px">
                     <input-text id="format" label="Формат" default-value="CSV" enabled="false"/>
@@ -26,18 +18,4 @@
             </fields>
         </form>
     </regions>
-
-    <toolbar>
-        <button label="Загрузить" icon="fa fa-download" color="primary">
-            <action type="n2o/api/utils/export">
-                <payload
-                        baseURL="/n2o/export"
-                />
-            </action>
-            <close/>
-        </button>
-        <button label="Закрыть">
-            <close/>
-        </button>
-    </toolbar>
 </page>

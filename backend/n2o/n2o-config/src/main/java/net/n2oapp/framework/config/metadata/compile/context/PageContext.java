@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 
@@ -163,9 +164,9 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private List<String> parentRoutes;
     /**
-     * Значения datasource для экспортирования данных из таблицы
+     * Список тулбаров открываемой страницы
      */
-    private Map<String, String> export;
+    private List<N2oToolbar> toolbars;
 
     public PageContext(String sourcePageId) {
         super(sourcePageId, N2oPage.class, Page.class);
