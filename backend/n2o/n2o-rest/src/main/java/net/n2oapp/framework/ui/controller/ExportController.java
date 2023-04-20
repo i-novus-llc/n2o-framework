@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static java.nio.charset.StandardCharsets.*;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class ExportController extends AbstractController {
 
@@ -29,6 +29,11 @@ public class ExportController extends AbstractController {
     private static final String CONTENT_DISPOSITION_FORMAT = "attachment;filename=%s";
     private static final char CSV_SEPARATOR = ';';
     private final DataController dataController;
+
+    public ExportController(MetadataEnvironment environment, DataController dataController) {
+        super(environment);
+        this.dataController = dataController;
+    }
 
     public ExportController(MetadataEnvironment environment, MetadataRouter router, DataController dataController) {
         super(environment, router);
@@ -102,7 +107,7 @@ public class ExportController extends AbstractController {
                 if (value instanceof List)
                     csvStr[i] = str.getList(key).toString();
                 else
-                    csvStr[i] = str.getString(key);
+                    csvStr[i] = str.get(key).toString();
                 i++;
             }
 
