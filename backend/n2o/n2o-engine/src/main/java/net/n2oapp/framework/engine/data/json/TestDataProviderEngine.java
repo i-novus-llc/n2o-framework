@@ -471,13 +471,19 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private List<DataSet> inFilterData(String field, Object pattern, List<DataSet> data) {
         List patterns = pattern instanceof List ? (List) pattern : Arrays.asList(pattern);
         if (patterns != null) {
+            String parent;
+            String child;
+            if (field.contains(".")) {
+                parent = field.split("\\.")[0];
+                child = field.split("\\.")[1];
+            } else {
+                child = null;
+                parent = null;
+            }
             data = data
                     .stream()
                     .filter(m -> {
-                        if (field.contains(".")) {
-                            String parent = field.split("\\.")[0];
-                            String child = field.split("\\.")[1];
-
+                        if (child != null) {
                             if (!m.containsKey(parent))
                                 return false;
 
