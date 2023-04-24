@@ -4,7 +4,7 @@ import TitleFieldset from './TitleFieldset'
 
 const setup = (propsOverride) => {
     const props = {
-        title: 'title',
+        label: 'label',
         subTitle: 'subTitle',
     }
     return mount(
@@ -19,7 +19,7 @@ describe('Тесты TitleFieldset', () => {
     })
     it('Отрисовываются все тексты', () => {
         const wrapper = setup()
-        expect(wrapper.find('.title-fieldset-text').text()).toEqual('title')
+        expect(wrapper.find('.title-fieldset-text').text()).toEqual('label')
         expect(wrapper.find('.title-fieldset-subtitle').text()).toEqual('subTitle')
     })
     it('Отрисовывается линия', () => {

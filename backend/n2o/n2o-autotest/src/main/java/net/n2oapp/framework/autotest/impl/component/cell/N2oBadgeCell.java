@@ -15,7 +15,7 @@ public class N2oBadgeCell extends N2oCell implements BadgeCell {
     }
 
     @Override
-    public void shouldHaveText(String text) {
+    public void badgeShouldHaveText(String text) {
         element().shouldHave(Condition.text(text));
     }
 }

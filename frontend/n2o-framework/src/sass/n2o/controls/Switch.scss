@@ -47,7 +47,7 @@
     background-color: $n2o-switch-checked-background-color;
 
     &::after {
-        left: ($n2o-switch-width / 2);
+        left: calc($n2o-switch-width / 2);
     }
 }
 

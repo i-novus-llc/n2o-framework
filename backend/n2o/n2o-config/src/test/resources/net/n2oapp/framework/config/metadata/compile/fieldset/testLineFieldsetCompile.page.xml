@@ -1,10 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
             <line/>
             <line src="testLine" label="test" collapsible="false" expand="false" has-separator="false"
                   description="description"/>
+            <line label="testBadge" badge="{test}"/>
+            <line label="testBadge" badge="text" badge-position="left" badge-shape="circle" badge-image="test" badge-image-position="right" badge-image-shape="square"/>
         </fields>
     </form>
 </simple-page>
