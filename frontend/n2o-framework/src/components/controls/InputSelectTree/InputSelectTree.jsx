@@ -234,6 +234,8 @@ function InputSelectTree({
      */
     const handleChange = (value) => {
         onChange(getItemByValue(value))
+
+        setDropdownYPositionKey(prevKey => prevKey + 1)
     }
 
     /**
@@ -262,7 +264,6 @@ function InputSelectTree({
 
     const clearSearch = () => {
         setSearchValue('')
-        setDropdownYPositionKey(prevKey => prevKey + 1)
     }
 
     /**
@@ -355,6 +356,7 @@ function InputSelectTree({
                 onChange={handleChange}
                 onSelect={handleSelect}
                 onSearch={handleSearch}
+                treeDefaultExpandedKeys={treeExpandedKeys.current}
                 onTreeExpand={onTreeExpand}
                 dropdownPopupAlign={dropdownPopupAlign}
                 prefixCls="n2o-select-tree"
