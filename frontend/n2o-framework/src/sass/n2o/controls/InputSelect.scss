@@ -53,13 +53,15 @@
             display: block;
         }
 
-        > .dropdown-item {
-            padding: $input-select-item-padding;
+        > div > {
+            .dropdown-item {
+                padding: $input-select-item-padding;
 
-            &.active,
-            &:active {
-                color: #1c2429;
-                background-color: $gray-100;
+                &.active,
+                &:active {
+                    color: #1c2429;
+                    background-color: $gray-100;
+                }
             }
         }
 
