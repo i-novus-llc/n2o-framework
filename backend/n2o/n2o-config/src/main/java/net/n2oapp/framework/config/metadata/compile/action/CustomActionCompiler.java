@@ -34,14 +34,14 @@ public class CustomActionCompiler extends AbstractMetaActionCompiler<CustomActio
         compileAction(customAction, source, p);
         customAction.setType(source.getType());
 
-        customAction.setPayload(initPayload(source, context, p));
+        customAction.setPayload(initPayload(source, p));
         customAction.getMeta().setSuccess(initSuccessMeta(customAction, source, context, p));
         customAction.getMeta().setFail(initFailMeta(customAction, source, context));
 
         return customAction;
     }
 
-    private CustomActionPayload initPayload(N2oCustomAction source, CompileContext<?, ?> context, CompileProcessor p) {
+    private CustomActionPayload initPayload(N2oCustomAction source, CompileProcessor p) {
         CustomActionPayload payload = new CustomActionPayload();
         ExtensionAttributeMapperFactory extensionAttributeMapperFactory = new N2oExtensionAttributeMapperFactory();
         if (source.getPayload() != null) {

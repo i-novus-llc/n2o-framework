@@ -132,7 +132,7 @@ public class TableSettingsGeneratorUtil {
         showModalAction.setDatasources(new N2oAbstractDatasource[]{exportModalDS});
         showModalAction.setToolbars(new N2oToolbar[]{toolbar});
         showModalAction.setPageId(p.resolve(property("n2o.api.generate.button.export.page"), String.class));
-        showModalAction.setRoute("/exportTable/exportTable");
+        showModalAction.setRoute("/exportTable");
 
         N2oButton exportButton = new N2oButton();
         exportButton.setDescription(p.getMessage("n2o.api.generate.button.export.description"));

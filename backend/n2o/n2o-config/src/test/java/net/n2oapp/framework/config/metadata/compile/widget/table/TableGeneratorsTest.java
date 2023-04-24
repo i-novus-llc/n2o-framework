@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.widget.table;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshAction;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
@@ -97,9 +98,19 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
 
         assertThat(exportBtn.getAction(), Matchers.instanceOf(ShowModal.class));
         assertThat(((ShowModal) exportBtn.getAction()).getPageId(), Matchers.is("exportModal"));
-        assertThat(((ShowModal) exportBtn.getAction()).getPayload().getPageUrl(), Matchers.is("/table_settings/:datasourceId/exportTable"));
+        assertThat(((ShowModal) exportBtn.getAction()).getPayload().getPageUrl(), Matchers.is("/table_settings/exportTable"));
         assertThat(exportBtn.getHint(), is("Экспортировать"));
         assertThat(exportBtn.getIcon(), is("fa fa-share-square-o"));
+
+        PageContext modalPageContext = (PageContext) route("/table_settings/exportTable", Page.class);
+        assertThat(modalPageContext.getParentDatasourceIdsMap().size(), is(1));
+        assertThat(modalPageContext.getParentDatasourceIdsMap().get("ds1"), is("table_settings_ds1"));
+
+        StandardPage modalPage = (StandardPage) compile("net/n2oapp/framework/config/default/exportModal.page.xml")
+                .get(modalPageContext);
+        assertThat(modalPage.getDatasources().size(), is(2));
+        assertThat(modalPage.getDatasources().containsKey("table_settings_exportTable_exportModal_exportModalDs"), is(true));
+        assertThat(modalPage.getDatasources().get("table_settings_exportTable_exportModal_exportModalDs").getId(), is("table_settings_exportTable_exportModal_exportModalDs"));
     }
 
     @Test
@@ -182,7 +193,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
 
     @Test
     public void generateExport() {
-        PageContext context = new PageContext("export");
+        PageContext context = new PageContext("export", "/export");
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/export.page.xml")
                 .get(context);
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
@@ -193,8 +204,18 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
 
         assertThat(button.getAction(), Matchers.instanceOf(ShowModal.class));
         assertThat(((ShowModal) button.getAction()).getPageId(), Matchers.is("exportModal"));
-        assertThat(((ShowModal) button.getAction()).getPayload().getPageUrl(), Matchers.is("/export/exportTable/exportTable"));
+        assertThat(((ShowModal) button.getAction()).getPayload().getPageUrl(), Matchers.is("/export/exportTable"));
         assertThat(button.getHint(), is("Экспортировать"));
         assertThat(button.getIcon(), is("fa fa-share-square-o"));
+
+        PageContext modalPageContext = (PageContext) route("/export/exportTable", Page.class);
+        assertThat(modalPageContext.getParentDatasourceIdsMap().size(), is(1));
+        assertThat(modalPageContext.getParentDatasourceIdsMap().get("ds1"), is("export_ds1"));
+
+        StandardPage modalPage = (StandardPage) compile("net/n2oapp/framework/config/default/exportModal.page.xml")
+                .get(modalPageContext);
+        assertThat(modalPage.getDatasources().size(), is(2));
+        assertThat(modalPage.getDatasources().containsKey("export_exportTable_exportModal_exportModalDs"), is(true));
+        assertThat(modalPage.getDatasources().get("export_exportTable_exportModal_exportModalDs").getId(), is("export_exportTable_exportModal_exportModalDs"));
     }
 }
