@@ -7,6 +7,10 @@
         {
           "templateId": "cases/7.24/badge_line_fieldset",
           "name": "Badge в line филдсете"
+        },
+        {
+          "templateId": "cases/7.24/table_settings_buttons",
+          "name": "Таблица с кнопками для экспортирования и переноса слов"
         }
       ]
     },

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0" name="Документ">
+
+    <operations>
+        <operation id="create">
+            <invocation>
+                <test file="data.json" operation="create"/>
+            </invocation>
+            <in>
+                <field id="id_"/>
+                <field id="id_ips"/>
+                <field id="name"/>
+                <field id="region"/>
+                <field id="activity" domain="boolean"/>
+            </in>
+            <out>
+                <field id="id"/>
+            </out>
+        </operation>
+
+        <operation id="update">
+            <invocation>
+                <test file="data.json" operation="update"/>
+            </invocation>
+            <in>
+                <field id="id"/>
+                <field id="id_"/>
+                <field id="id_ips"/>
+                <field id="name"/>
+                <field id="region"/>
+                <field id="activity" domain="boolean"/>
+            </in>
+        </operation>
+
+        <operation id="delete">
+            <invocation>
+                <test file="data.json" operation="delete"/>
+            </invocation>
+            <in>
+                <field id="id"/>
+            </in>
+        </operation>
+
+        <operation id="deleteMany">
+            <invocation>
+                <test file="data.json" operation="deleteMany"/>
+            </invocation>
+            <in>
+                <field id="$list*.id" mapping="['ids']"/>
+            </in>
+        </operation>
+
+    </operations>
+</object>

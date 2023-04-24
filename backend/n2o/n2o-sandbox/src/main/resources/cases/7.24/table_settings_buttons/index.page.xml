@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Пример таблицы с кнопками для экспортирования и переноса слов" show-title="true">
+    <datasources>
+        <datasource id="ds1" query-id="data" size="5"/>
+    </datasources>
+    <regions>
+        <table datasource="ds1" checkboxes="true" selection="none">
+            <columns>
+                <column text-field-id="id_"/>
+                <column text-field-id="id_ips"/>
+                <column text-field-id="name"/>
+                <column text-field-id="region"/>
+                <column text-field-id="activity">
+                    <checkbox>
+                        <invoke operation-id="update" route="/:id/updateVip">
+                            <path-param name="id" value="{id}"/>
+                        </invoke>
+                    </checkbox>
+                </column>
+                <column text-field-id="">
+                    <toolbar>
+                        <sub-menu icon="fa fa-ellipsis-v"
+                                  show-toggle-icon="false">
+                            <menu-item label="Просмотр" icon="fa fa-search">
+                                <show-modal page-id="data"
+                                            route="/:id/view"
+                                            page-name="Карточка клиента">
+                                    <params>
+                                        <path-param name="id" value="{id}"/>
+                                    </params>
+                                </show-modal>
+                            </menu-item>
+                            <menu-item label="Изменить" icon="fa fa-pencil">
+                                <show-modal page-id="data"
+                                            submit-operation-id="update"
+                                            route="/:id/edit"
+                                            page-name="Карточка клиента">
+                                    <params>
+                                        <path-param name="id" value="{id}"/>
+                                    </params>
+                                </show-modal>
+                            </menu-item>
+                        </sub-menu>
+                    </toolbar>
+                </column>
+            </columns>
+            <filters place="top">
+                <row>
+                    <col size="3">
+                        <input-text id="id_"/>
+                    </col>
+                    <col size="3">
+                        <input-text id="id_ips"/>
+                    </col>
+                    <col size="3">
+                        <input-text id="name"/>
+                    </col>
+                </row>
+                <row>
+                    <input-text id="region"/>
+                    <checkbox id="activity"/>
+                    <search-buttons id="search"/>
+                </row>
+            </filters>
+            <toolbar place="topLeft">
+                <button label="Добавить" icon="fa fa-plus" model="filter" color="primary">
+                    <show-modal page-id="data"
+                                route="/new"
+                                submit-operation-id="create"
+                                page-name="Карточка нового клиента">
+                        <datasources>
+                            <datasource id="ds1" default-values-mode="defaults"/>
+                        </datasources>
+                    </show-modal>
+                </button>
+                <button label="Удалить" model="multi" icon="fa fa-times">
+                    <invoke operation-id="deleteMany" route="/delete"/>
+                    <dependencies>
+                        <enabling model="multi">!_.isEmpty(this)</enabling>
+                    </dependencies>
+                </button>
+            </toolbar>
+            <toolbar place="topRight">
+                <group generate="filters"/>
+                <group generate="columns"/>
+                <group generate="refresh"/>
+                <group generate="resize"/>
+                <group generate="export"/>
+                <group generate="word-wrap"/>
+            </toolbar>
+        </table>
+    </regions>
+
+</page>
