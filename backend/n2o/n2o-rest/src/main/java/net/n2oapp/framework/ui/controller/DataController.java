@@ -2,6 +2,7 @@ package net.n2oapp.framework.ui.controller;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.saga.*;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.rest.ControllerFactory;
@@ -83,7 +84,14 @@ public class DataController extends AbstractController {
         PollingSaga resolvedPolling = new PollingSaga();
         resolvedPolling.setDelay(requestInfo.getPolling().getDelay());
         resolvedPolling.setMaxAttempts(requestInfo.getPolling().getMaxAttempts());
-        resolvedPolling.setDataProvider(requestInfo.getPolling().getDataProvider());
+        ClientDataProvider dataProvider = requestInfo.getPolling().getDataProvider();
+        if (dataProvider != null && dataProvider.getUrl() != null) {
+            String url = dataProvider.getUrl();
+            url = RouteUtil.resolveUrlParams(url, requestInfo.getQueryData());
+            url = RouteUtil.resolveUrlParams(url, response.getData());
+            dataProvider.setUrl(url);
+        }
+        resolvedPolling.setDataProvider(dataProvider);
         resolvedPolling.setDatasource(requestInfo.getPolling().getDatasource());
         resolvedPolling.setModel(requestInfo.getPolling().getModel());
         response.addPolling(resolvedPolling);
