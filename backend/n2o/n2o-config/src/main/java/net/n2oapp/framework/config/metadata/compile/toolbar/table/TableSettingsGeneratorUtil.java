@@ -73,16 +73,12 @@ public class TableSettingsGeneratorUtil {
         return resizeButton;
     }
 
-    public static N2oButton generateWordWrap(N2oToolbar toolbar, CompileProcessor p) {
+    public static N2oButton generateWordWrap(CompileProcessor p) {
         N2oButton wordWrapButton = new N2oButton();
         N2oCustomAction wordWrapAction = new N2oCustomAction();
 
-        String datasourceId = toolbar.getDatasourceId();
-        if (datasourceId == null) {
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            datasourceId = widgetScope == null ? null : widgetScope.getDatasourceId();
-        }
-        Map<String, String> payload = Collections.singletonMap("datasource", datasourceId);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        Map<String, String> payload = Collections.singletonMap("widgetId", widgetScope.getClientWidgetId());
 
         wordWrapButton.setDescription(p.getMessage("n2o.api.generate.button.wordwrap.description"));
         wordWrapButton.setIcon(p.resolve(property("n2o.api.generate.button.wordwrap.icon"), String.class));

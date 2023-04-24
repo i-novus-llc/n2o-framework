@@ -90,7 +90,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(resizeBtn.getIcon(), is("fa fa-bars"));
 
         assertThat(((CustomAction) wordwrapBtn.getAction()).getType(), Matchers.is("n2o/widgets/TOGGLE_WORD_WRAP"));
-        assertThat(((CustomAction) wordwrapBtn.getAction()).getPayload().getAttributes().get("datasource"), Matchers.is("ds1"));
+        assertThat(((CustomAction) wordwrapBtn.getAction()).getPayload().getAttributes().get("widgetId"), Matchers.is("table_settings_tb1"));
         assertThat(wordwrapBtn.getSrc(), is("WordWrap"));
         assertThat(wordwrapBtn.getHint(), is("Перенос по словам"));
         assertThat(wordwrapBtn.getIcon(), is("fa fa-exchange"));
@@ -174,7 +174,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         AbstractButton button = t.getToolbar().get("bottomRight").get(0).getButtons().get(0);
 
         assertThat(((CustomAction) button.getAction()).getType(), Matchers.is("n2o/widgets/TOGGLE_WORD_WRAP"));
-        assertThat(((CustomAction) button.getAction()).getPayload().getAttributes().get("datasource"), Matchers.is("ds1"));
+        assertThat(((CustomAction) button.getAction()).getPayload().getAttributes().get("widgetId"), Matchers.is("wordwrap_w1"));
         assertThat(button.getSrc(), is("WordWrap"));
         assertThat(button.getHint(), is("Перенос по словам"));
         assertThat(button.getIcon(), is("fa fa-exchange"));
@@ -193,7 +193,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
 
         assertThat(button.getAction(), Matchers.instanceOf(ShowModal.class));
         assertThat(((ShowModal) button.getAction()).getPageId(), Matchers.is("exportModal"));
-        assertThat(((ShowModal) button.getAction()).getPayload().getPageUrl(), Matchers.is("/export/:datasourceId/exportTable"));
+        assertThat(((ShowModal) button.getAction()).getPayload().getPageUrl(), Matchers.is("/export/exportTable/exportTable"));
         assertThat(button.getHint(), is("Экспортировать"));
         assertThat(button.getIcon(), is("fa fa-share-square-o"));
     }
