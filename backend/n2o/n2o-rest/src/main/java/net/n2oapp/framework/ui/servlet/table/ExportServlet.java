@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.mvc.n2o.N2oServlet;
 import net.n2oapp.framework.ui.controller.ExportController;
+import org.springframework.http.HttpHeaders;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -43,7 +44,7 @@ public class ExportServlet extends N2oServlet {
         resp.setStatus(exportResponse.getStatus());
         resp.setContentType(exportResponse.getContentType());
         resp.setCharacterEncoding(exportResponse.getCharacterEncoding());
-        resp.setHeader("Content-Disposition", exportResponse.getContentDisposition());
+        resp.setHeader(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition());
         resp.setContentLength(exportResponse.getFile().length);
 
         ServletOutputStream outputStream = resp.getOutputStream();
