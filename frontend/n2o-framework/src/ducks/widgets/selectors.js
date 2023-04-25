@@ -41,6 +41,24 @@ export const makeWidgetIsInitSelector = widgetId => createSelector(
     widgetState => widgetState.isInit,
 )
 
+/**
+ * Селектор-генератор для получения свойства виджета - fetchOnInit
+ * @param widgetId
+ */
+export const makeWidgetFetchOnInit = widgetId => createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.fetchOnInit,
+)
+
+/**
+ * Селектор-генератор для получения свойства виджета - fetchOnVisibility
+ * @param widgetId
+ */
+export const makeWidgetFetchOnVisibility = widgetId => createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.fetchOnVisibility,
+)
+
 export const makeDatasourceIdSelector = widgetId => createSelector(
     makeWidgetByIdSelector(widgetId),
     widgetState => widgetState.datasource,
