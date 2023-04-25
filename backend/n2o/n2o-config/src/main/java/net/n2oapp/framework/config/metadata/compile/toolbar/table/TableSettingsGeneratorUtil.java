@@ -112,6 +112,7 @@ public class TableSettingsGeneratorUtil {
         Map<String, String> payload = new HashMap<>();
         payload.put("baseURL", "/n2o/export");
         payload.put("exportDatasource", exportDatasource);
+        payload.put("configDatasource", configDatasource);
         uploadAction.setPayload(payload);
         uploadAction.setType("n2o/api/utils/export");
         uploadBtn.setActions(new N2oAction[]{uploadAction});
@@ -132,7 +133,7 @@ public class TableSettingsGeneratorUtil {
         showModalAction.setDatasources(new N2oAbstractDatasource[]{exportModalDS});
         showModalAction.setToolbars(new N2oToolbar[]{toolbar});
         showModalAction.setPageId(p.resolve(property("n2o.api.generate.button.export.page"), String.class));
-        showModalAction.setRoute("/exportTable");
+        showModalAction.setRoute("/exportModal");
 
         N2oButton exportButton = new N2oButton();
         exportButton.setDescription(p.getMessage("n2o.api.generate.button.export.description"));
