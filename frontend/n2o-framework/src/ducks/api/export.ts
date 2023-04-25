@@ -12,6 +12,7 @@ import { State } from '../State'
 
 import { UTILS_PREFIX } from './constants'
 import { EffectWrapper } from './utils/effectWrapper'
+import { createQueryUrl } from './utils/createQueryUrl'
 
 const ATTRIBUTES_ERROR = 'Ошибка экспорта attributes содержит не все параметры'
 const PARAMS_ERROR = 'Ошибка экспорта не передан формат или кодировка'
@@ -44,7 +45,7 @@ export function* effect({ payload }: Action<string, Payload>) {
     const model: { format: string, charset: string } = yield select(getModelSelector(modelLink))
     const { format, charset } = model
 
-    if (!format || charset) {
+    if (!format || !charset) {
         // eslint-disable-next-line no-console
         console.error(PARAMS_ERROR)
 
@@ -55,9 +56,13 @@ export function* effect({ payload }: Action<string, Payload>) {
 
     const dataSource: DataSourceState = yield select(dataSourceByIdSelector(exportDatasource))
     const { provider, paging = {}, sorting = {} } = dataSource
-    const { url } = dataProviderResolver(state, provider, { ...paging, sorting })
+    const { url } = dataProviderResolver(state, provider, { ...paging })
+    const { pathname } = window.location
 
-    const exportUrl = `${baseURL}/?format=${format}&charset=${charset}&$url=${url}`
+    const queryUrl = createQueryUrl(url, sorting)
+    const path = pathname.slice(0, -1)
+
+    const exportUrl = `${path}${baseURL}?format=${format}&charset=${charset}&url=${queryUrl}`
 
     window.open(exportUrl, '_blank')
 }
