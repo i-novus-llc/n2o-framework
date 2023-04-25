@@ -222,8 +222,9 @@ public class ViewController {
             String format = request.getParameter("format");
             String charset = request.getParameter("charset");
 
-            String path = RouteUtil.parsePath(url).substring("/n2o/data".length());
-            path = path.substring(path.indexOf("n2o/data/") + "n2o/data/".length() - 1);
+            String dataPrefix = "/n2o/data";
+            String path = RouteUtil.parsePath(url).substring(dataPrefix.length());
+            path = path.substring(path.indexOf(dataPrefix) + dataPrefix.length());
 
             GetDataResponse dataResponse = exportController.getData(
                     path,
