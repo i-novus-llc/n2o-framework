@@ -22,6 +22,7 @@ import {
     removeFieldFromArray,
     copyFieldArray,
     updateModel,
+    combineModels,
 } from '../ducks/models/store'
 import { registerButton, removeButton } from '../ducks/toolbar/store'
 // eslint-disable-next-line import/no-cycle
@@ -117,6 +118,18 @@ function* watchModel(entities, action) {
     }
 }
 
+function* watchCombineModels(entities, { payload: { combine } }) {
+    const groupTypes = keys(entities)
+    const [prefix] = keys(combine)
+    const [key] = keys(combine[prefix])
+
+    for (let i = 0; i < groupTypes.length; i++) {
+        const type = groupTypes[i]
+
+        yield call(callConditionHandlers, entities, prefix, key, type)
+    }
+}
+
 function watchRemove(entities, action) {
     const { type, payload } = action
     const conditions = entities[REMOVE_TO_ADD_ACTIONS_NAMES_DICT[type]]
@@ -147,6 +160,7 @@ function* conditionWatchers() {
         removeFieldFromArray,
         copyFieldArray,
     ], watchModel, entities)
+    yield takeEvery(combineModels, watchCombineModels, entities)
     yield takeEvery(removeButton, watchRemove, entities)
 }
 
