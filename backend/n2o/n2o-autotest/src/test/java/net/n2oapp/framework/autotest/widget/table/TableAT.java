@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
@@ -9,15 +10,19 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.control.Select;
+import net.n2oapp.framework.autotest.api.component.fieldset.FieldSet;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
+import net.n2oapp.framework.autotest.impl.component.fieldset.N2oSimpleFieldSet;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.autotest.run.N2oController;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -30,6 +35,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.exceptions.verification.TooManyActualInvocations;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -324,6 +335,57 @@ public class TableAT extends AutoTestBase {
         tableWidget.filters().toolbar().button("Сбросить").click();
         tableWidget.columns().rows().shouldHaveSize(0);
         verifyNeverGetDataInvocation("Запрос за данными таблицы при fetch-on-clear=false");
+    }
+
+    @Test
+    public void exportBtnTest() throws IOException {
+//        Configuration.headless=false;
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/export_wordwrap_buttons");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_wordwrap_buttons/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_wordwrap_buttons/data.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_wordwrap_buttons/exportModal.page.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        table.shouldExists();
+        table.columns().rows().shouldHaveSize(5);
+
+        StandardButton exportBtn = table.toolbar().topRight().button(Condition.cssClass("btn"));
+        exportBtn.shouldBeVisible();
+
+        exportBtn.click();
+
+        StandardPage modalPage = N2oSelenide.modal().content(StandardPage.class);
+        modalPage.shouldExists();
+
+        FormWidget form = modalPage.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+
+        InputText format = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Формат").control(InputText.class);
+        format.shouldHaveValue("CSV");
+        format.shouldBeDisabled();
+
+        InputText charset = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Кодировка").control(InputText.class);
+        charset.shouldHaveValue("UTF-8");
+        charset.shouldBeDisabled();
+
+        RadioGroup radioGroup = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Текущая страница").control(RadioGroup.class);
+        radioGroup.shouldBeChecked("Загрузить все");
+
+        StandardButton download = modalPage.toolbar().bottomRight().button("Загрузить");
+        download.shouldExists();
+        StandardButton close = modalPage.toolbar().bottomRight().button("Закрыть");
+        close.shouldExists();
+
+        File file = download.element().download();
+        FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8);
+        char[] chars = new char[(int) file.length()];
+        fileReader.read(chars);
+
+        String fileContent = new String(chars);
     }
 
     private void verifyNeverGetDataInvocation(String errorMessage) {
