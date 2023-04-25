@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar.table;
 
-import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.action.N2oCloseAction;
@@ -8,7 +7,6 @@ import net.n2oapp.framework.api.metadata.action.N2oCustomAction;
 import net.n2oapp.framework.api.metadata.action.N2oRefreshAction;
 import net.n2oapp.framework.api.metadata.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
@@ -104,17 +102,18 @@ public class TableSettingsGeneratorUtil {
                 p.getScope(PageScope.class).getPageId(),
                 p);
 
-        N2oButton uploadBtn = new N2oButton();
-        uploadBtn.setLabel("Загрузить");
-        uploadBtn.setIcon("fa fa-download");
-        uploadBtn.setColor("primary");
-        N2oCustomAction uploadAction = new N2oCustomAction();
+        N2oButton downloadBtn = new N2oButton();
+        downloadBtn.setLabel("Загрузить");
+        downloadBtn.setIcon("fa fa-download");
+        downloadBtn.setColor("primary");
+        N2oCustomAction downloadAction = new N2oCustomAction();
         Map<String, String> payload = new HashMap<>();
         payload.put("baseURL", "/n2o/export");
         payload.put("exportDatasource", exportDatasource);
-        uploadAction.setPayload(payload);
-        uploadAction.setType("n2o/api/utils/export");
-        uploadBtn.setActions(new N2oAction[]{uploadAction});
+        payload.put("configDatasource", configDatasource);
+        downloadAction.setPayload(payload);
+        downloadAction.setType("n2o/api/utils/export");
+        downloadBtn.setActions(new N2oAction[]{downloadAction});
 
         N2oButton closeBtn = new N2oButton();
         closeBtn.setLabel("Закрыть");
@@ -123,16 +122,12 @@ public class TableSettingsGeneratorUtil {
 
         N2oToolbar toolbar = new N2oToolbar();
         toolbar.setPlace("bottomRight");
-        toolbar.setItems(new ToolbarItem[]{uploadBtn, closeBtn});
-
-        N2oStandardDatasource exportModalDS = new N2oStandardDatasource();
-        exportModalDS.setId(configDatasource);
+        toolbar.setItems(new ToolbarItem[]{downloadBtn, closeBtn});
 
         N2oShowModal showModalAction = new N2oShowModal();
-        showModalAction.setDatasources(new N2oAbstractDatasource[]{exportModalDS});
         showModalAction.setToolbars(new N2oToolbar[]{toolbar});
         showModalAction.setPageId(p.resolve(property("n2o.api.generate.button.export.page"), String.class));
-        showModalAction.setRoute("/exportTable");
+        showModalAction.setRoute("/exportModal");
 
         N2oButton exportButton = new N2oButton();
         exportButton.setDescription(p.getMessage("n2o.api.generate.button.export.description"));
