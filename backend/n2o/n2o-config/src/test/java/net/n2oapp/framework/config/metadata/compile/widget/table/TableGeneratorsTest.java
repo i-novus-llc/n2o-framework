@@ -109,7 +109,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
 
         StandardPage modalPage = (StandardPage) compile("net/n2oapp/framework/config/default/exportModal.page.xml")
                 .get(modalPageContext);
-        assertThat(modalPage.getDatasources().size(), is(2));
+        assertThat(modalPage.getDatasources().size(), is(1));
         assertThat(modalPage.getDatasources().containsKey("table_settings_exportModal_exportModalDs"), is(true));
         assertThat(modalPage.getDatasources().get("table_settings_exportModal_exportModalDs").getId(), is("table_settings_exportModal_exportModalDs"));
 
@@ -229,7 +229,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
 
         StandardPage modalPage = (StandardPage) compile("net/n2oapp/framework/config/default/exportModal.page.xml")
                 .get(modalPageContext);
-        assertThat(modalPage.getDatasources().size(), is(2));
+        assertThat(modalPage.getDatasources().size(), is(1));
         assertThat(modalPage.getDatasources().containsKey("export_exportModal_exportModalDs"), is(true));
         assertThat(modalPage.getDatasources().get("export_exportModal_exportModalDs").getId(), is("export_exportModal_exportModalDs"));
 

@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar.table;
 
-import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.action.N2oCloseAction;
@@ -8,7 +7,6 @@ import net.n2oapp.framework.api.metadata.action.N2oCustomAction;
 import net.n2oapp.framework.api.metadata.action.N2oRefreshAction;
 import net.n2oapp.framework.api.metadata.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
@@ -126,11 +124,7 @@ public class TableSettingsGeneratorUtil {
         toolbar.setPlace("bottomRight");
         toolbar.setItems(new ToolbarItem[]{downloadBtn, closeBtn});
 
-        N2oStandardDatasource exportModalDS = new N2oStandardDatasource();
-        exportModalDS.setId(configDatasource);
-
         N2oShowModal showModalAction = new N2oShowModal();
-        showModalAction.setDatasources(new N2oAbstractDatasource[]{exportModalDS});
         showModalAction.setToolbars(new N2oToolbar[]{toolbar});
         showModalAction.setPageId(p.resolve(property("n2o.api.generate.button.export.page"), String.class));
         showModalAction.setRoute("/exportModal");
