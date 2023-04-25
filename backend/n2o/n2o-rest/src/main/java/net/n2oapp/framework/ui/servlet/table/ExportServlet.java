@@ -54,6 +54,6 @@ public class ExportServlet extends N2oServlet {
     private String getPath(String url, String prefix) {
         String path = RouteUtil.parsePath(url).substring(prefix.length());
 
-        return RouteUtil.normalize(!path.isEmpty() ? path : "/");
+        return path.substring(path.indexOf(prefix) + prefix.length() - 1);
     }
 }
