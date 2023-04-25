@@ -16,7 +16,12 @@ import { rootPageSelector } from '../global/store'
 import { modelsSelector } from '../models/selectors'
 import { authSelector } from '../user/selectors'
 import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
-import { makeDatasourceIdSelector } from '../widgets/selectors'
+import {
+    makeDatasourceIdSelector,
+    makeWidgetIsInitSelector,
+    makeWidgetFetchOnInit,
+    makeWidgetFetchOnVisibility,
+} from '../widgets/selectors'
 import { registerWidget } from '../widgets/store'
 import { failValidate, dataRequest, resetValidation } from '../datasource/store'
 import { dataSourceErrors } from '../datasource/selectors'
@@ -198,11 +203,18 @@ function* lazyFetch(id) {
                 })
             }
         })
-
         for (const widgetId of idsToFetch) {
             const datasource = yield select(makeDatasourceIdSelector(widgetId))
 
-            yield put(dataRequest(datasource))
+            const isInit = yield select(makeWidgetIsInitSelector(widgetId))
+            const fetchOnInit = yield select(makeWidgetFetchOnInit(widgetId))
+            const fetchOnVisibility = yield select(makeWidgetFetchOnVisibility(widgetId))
+
+            const needToFetch = isInit && (fetchOnInit || fetchOnVisibility)
+
+            if (needToFetch) {
+                yield put(dataRequest(datasource))
+            }
         }
 
         idsToFetch.length = 0
