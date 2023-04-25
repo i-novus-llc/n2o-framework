@@ -12,7 +12,6 @@ import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.control.Select;
-import net.n2oapp.framework.autotest.api.component.fieldset.FieldSet;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -37,11 +36,14 @@ import org.mockito.exceptions.verification.TooManyActualInvocations;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import static com.codeborne.selenide.DownloadOptions.using;
+import static com.codeborne.selenide.FileDownloadMode.FOLDER;
+import static com.codeborne.selenide.files.FileFilters.withName;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -339,7 +341,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void exportBtnTest() throws IOException {
-//        Configuration.headless=false;
+        Configuration.headless=false;
         setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/export_wordwrap_buttons");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_wordwrap_buttons/index.page.xml"),
@@ -359,7 +361,8 @@ public class TableAT extends AutoTestBase {
 
         exportBtn.click();
 
-        StandardPage modalPage = N2oSelenide.modal().content(StandardPage.class);
+        Modal modal = N2oSelenide.modal();
+        StandardPage modalPage = modal.content(StandardPage.class);
         modalPage.shouldExists();
 
         FormWidget form = modalPage.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
@@ -375,17 +378,29 @@ public class TableAT extends AutoTestBase {
         RadioGroup radioGroup = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Текущая страница").control(RadioGroup.class);
         radioGroup.shouldBeChecked("Загрузить все");
 
-        StandardButton download = modalPage.toolbar().bottomRight().button("Загрузить");
+        StandardButton download = modal.toolbar().bottomRight().button("Загрузить");
         download.shouldExists();
-        StandardButton close = modalPage.toolbar().bottomRight().button("Закрыть");
+        StandardButton close = modal.toolbar().bottomRight().button("Закрыть");
         close.shouldExists();
 
-        File file = download.element().download();
+        File file = download.element().download(
+                using(FOLDER).withFilter(withName("export"))
+        );
+
         FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8);
         char[] chars = new char[(int) file.length()];
         fileReader.read(chars);
 
-        String fileContent = new String(chars);
+        String actual = new String(chars);
+        String expected = "\"id;id_;id_ips;name;region\n" +
+                "13;eadad;asdaa;asdads;adad\n" +
+                "12;asd;asd;adad;asdada\n" +
+                "1;emdr_mris-1;ey88ee-rugh34-asd4;РМИС Республика Адыгея(СТП);Республика Адыгея\n" +
+                "2;emdr_mris-2;ey88ee-ruqah34-54eqw;РМИС Республика Татарстан(тестовая для ПСИ);Республика Татарстан\n" +
+                "3;emdr_mris-3;ey88ea-ruaah34-54eqw;ТМК;\n" +
+                "\u0000";
+
+        assertThat(actual).contains(expected);
     }
 
     private void verifyNeverGetDataInvocation(String errorMessage) {

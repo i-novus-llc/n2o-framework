@@ -140,7 +140,7 @@ public class N2oPage extends N2oComponent implements Page {
 
     public class N2oPageToolbar implements PageToolbar {
 
-        private static final String TOOLBAR = ".toolbar_placement_%s .btn";
+        private static final String TOOLBAR = ".n2o-page-body .toolbar_placement_%s .btn";
         @Override
         public Toolbar topLeft() {
             return N2oSelenide.collection(element().$$(String.format(TOOLBAR, "topLeft")), Toolbar.class);
