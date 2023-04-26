@@ -44,7 +44,7 @@ export function* effect({ payload }: Action<string, Payload>) {
     const model: { format: string, charset: string } = yield select(getModelSelector(modelLink))
     const { format, charset } = model
 
-    if (!format || charset) {
+    if (!format || !charset) {
         // eslint-disable-next-line no-console
         console.error(PARAMS_ERROR)
 
