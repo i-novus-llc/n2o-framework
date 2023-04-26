@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import { compose, setDisplayName } from 'recompose'
 import PropTypes from 'prop-types'
 import onClickOutside from 'react-onclickoutside'
@@ -15,6 +15,7 @@ import InputSelectGroup from './InputSelectGroup'
 import PopupList from './PopupList'
 import InputContent from './InputContent'
 import { getValueArray } from './utils'
+import { DEFAULT_POPUP_HEIGHT, MEASURE } from './constants'
 
 /**
  * InputSelect
@@ -51,7 +52,10 @@ import { getValueArray } from './utils'
  * @reactProps {boolean} expandPopUp
  * @reactProps {array} alerts
  * @reactProps {boolean} popupAutoSize - флаг включения автоматическиого расчета длины PopUp
+ * @reactProps {number} size - кол-во запрашиваемых записей
+ * @reactProps {number} count - всего записей
  */
+
 class InputSelect extends React.Component {
     constructor(props) {
         super(props)
@@ -67,11 +71,13 @@ class InputSelect extends React.Component {
             value: valueArray,
             activeValueId: null,
             isPopupFocused: false,
+            popUpMaxHeight: DEFAULT_POPUP_HEIGHT,
             options,
             input,
         }
 
         this.inputHeightRef = React.createRef()
+        this.popUpItemRef = createRef()
     }
 
     // eslint-disable-next-line react/no-deprecated
@@ -94,6 +100,39 @@ class InputSelect extends React.Component {
 
         if (!isEmpty(state)) {
             this.setState(state)
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        const { popUpMaxHeight } = this.state
+        const { size, count } = this.props
+
+        // контроль макс высоты и скрола с подгрузкой данных
+        const overSize = count > 0 && count > size
+
+        if (popUpMaxHeight < DEFAULT_POPUP_HEIGHT || !overSize) {
+            return
+        }
+
+        const { data } = this.props
+
+        if (!isEqual(data, prevProps.data)) {
+            const popUpItem = this.popUpItemRef.current
+
+            if (!popUpItem) {
+                return
+            }
+
+            const popUpItemHeight = popUpItem.offsetHeight
+            const calculatedMaxHeight = size * popUpItemHeight - 10
+
+            if (calculatedMaxHeight > DEFAULT_POPUP_HEIGHT) {
+                this.setState({ popUpMaxHeight: DEFAULT_POPUP_HEIGHT })
+
+                return
+            }
+
+            this.setState({ popUpMaxHeight: calculatedMaxHeight })
         }
     }
 
@@ -323,7 +362,7 @@ class InputSelect extends React.Component {
             this.setSelected(false)
             this.setState({ input }, () => onSetNewInputValue(input))
 
-            if (!input && !throttleDelay) {
+            if (!input) {
                 this.clearSelected()
             }
         }
@@ -533,10 +572,12 @@ class InputSelect extends React.Component {
             activeValueId,
             options,
             isInputSelected,
+            popUpMaxHeight,
         } = this.state
 
         const inputSelectStyle = { width: '100%', cursor: 'text', ...style }
         const needAddFilter = !find(stateValue, item => item[labelFieldId] === input)
+        const popUpStyle = { maxHeight: `${popUpMaxHeight}${MEASURE}` }
 
         return (
             <div
@@ -647,6 +688,8 @@ class InputSelect extends React.Component {
                             hasCheckboxes={hasCheckboxes}
                             onRemoveItem={this.removeSelectedItem}
                             format={format}
+                            popUpItemRef={this.popUpItemRef}
+                            style={popUpStyle}
                         >
                             <div className="n2o-alerts">
                                 {alerts &&
@@ -799,6 +842,7 @@ InputSelect.propTypes = {
     datasource: PropTypes.string,
     setFilter: PropTypes.func,
     models: PropTypes.object,
+    count: PropTypes.number,
 }
 
 InputSelect.defaultProps = {

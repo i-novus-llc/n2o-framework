@@ -23,7 +23,7 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
 
     switch (type) {
         case DependencyTypes.fetch: {
-            yield put(dataRequest(id))
+            yield put(dataRequest(id, { page: 1 }))
 
             break
         }

@@ -51,5 +51,15 @@ export function activeTabHasErrors(activeEntity, tabs) {
 
 export function tabsIncludesId(id, tabsRegions = []) {
     return tabsRegions
-        .some(({ tabs = [] }) => tabs.some(({ content = [] }) => content.some(({ datasource }) => datasource === id)))
+        .some(({ tabs = [] }) => tabs.some(({ content = [] }) => tabIncludeId(id, content)))
+}
+
+export function tabIncludeId(id, content = []) {
+    return content.some(({ content: nestedContent, datasource }) => {
+        if (nestedContent) {
+            return tabIncludeId(id, nestedContent)
+        }
+
+        return datasource === id
+    })
 }
