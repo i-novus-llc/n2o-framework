@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-      name="Страница для автотестов по проверке кнопок 'экспортировать' и 'перенос слов' в таблице" show-title="true">
+      name="Страница для автотестов по проверке кнопки 'экспортировать' в таблице" show-title="true">
     <datasources>
         <datasource id="ds1" query-id="data" size="5"/>
     </datasources>
@@ -14,7 +14,6 @@
             </columns>
             <toolbar place="topRight">
                 <group generate="export"/>
-<!--                <group generate="word-wrap"/>-->
             </toolbar>
         </table>
     </regions>

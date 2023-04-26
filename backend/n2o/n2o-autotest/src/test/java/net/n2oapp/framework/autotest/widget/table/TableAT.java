@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
@@ -33,6 +32,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.exceptions.verification.TooManyActualInvocations;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.io.File;
@@ -42,8 +42,9 @@ import java.nio.charset.StandardCharsets;
 
 import static com.codeborne.selenide.DownloadOptions.using;
 import static com.codeborne.selenide.FileDownloadMode.FOLDER;
-import static com.codeborne.selenide.files.FileFilters.withName;
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.codeborne.selenide.files.FileFilters.withExtension;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -341,12 +342,17 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void exportBtnTest() throws IOException {
-        Configuration.headless=false;
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/export_wordwrap_buttons");
+        ChromeOptions options = new ChromeOptions();
+        //Раскомменить при запуске с chrome версии 109 и выше
+        //options.addArguments("--headless=new");
+        //Использовать с chrome версии 96 - 108
+//        options.addArguments("--headless=chrome");
+//        Configuration.browserCapabilities = options;
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_wordwrap_buttons/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_wordwrap_buttons/data.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_wordwrap_buttons/exportModal.page.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/data.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/exportModal.page.xml")
         );
 
         StandardPage page = open(StandardPage.class);
@@ -384,23 +390,26 @@ public class TableAT extends AutoTestBase {
         close.shouldExists();
 
         File file = download.element().download(
-                using(FOLDER).withFilter(withName("export"))
+                using(FOLDER).withFilter(withExtension("csv"))
         );
 
-        FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8);
-        char[] chars = new char[(int) file.length()];
-        fileReader.read(chars);
+        try(FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8)) {
+            char[] chars = new char[(int) file.length() - 1];
+            fileReader.read(chars);
 
-        String actual = new String(chars);
-        String expected = "\"id;id_;id_ips;name;region\n" +
-                "13;eadad;asdaa;asdads;adad\n" +
-                "12;asd;asd;adad;asdada\n" +
-                "1;emdr_mris-1;ey88ee-rugh34-asd4;РМИС Республика Адыгея(СТП);Республика Адыгея\n" +
-                "2;emdr_mris-2;ey88ee-ruqah34-54eqw;РМИС Республика Татарстан(тестовая для ПСИ);Республика Татарстан\n" +
-                "3;emdr_mris-3;ey88ea-ruaah34-54eqw;ТМК;\n" +
-                "\u0000";
+            String actual = new String(chars);
+            String expected = "id;id_;id_ips;name;region\n" +
+                    "13;eadad;asdaa;asdads;adad\n" +
+                    "12;asd;asd;adad;asdada\n" +
+                    "1;emdr_mris-1;ey88ee-rugh34-asd4;РМИС Республика Адыгея(СТП);Республика Адыгея\n" +
+                    "2;emdr_mris-2;ey88ee-ruqah34-54eqw;РМИС Республика Татарстан(тестовая для ПСИ);Республика Татарстан\n" +
+                    "3;emdr_mris-3;ey88ea-ruaah34-54eqw;ТМК;\n" +
+                    "\u0000";
 
-        assertThat(actual).contains(expected);
+            assertTrue(actual.contains(expected));
+        } catch (IOException e) {
+            fail();
+        }
     }
 
     private void verifyNeverGetDataInvocation(String errorMessage) {
