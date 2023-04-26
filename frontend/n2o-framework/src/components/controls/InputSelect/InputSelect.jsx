@@ -362,7 +362,7 @@ class InputSelect extends React.Component {
             this.setSelected(false)
             this.setState({ input }, () => onSetNewInputValue(input))
 
-            if (!input && !throttleDelay) {
+            if (!input) {
                 this.clearSelected()
             }
         }
