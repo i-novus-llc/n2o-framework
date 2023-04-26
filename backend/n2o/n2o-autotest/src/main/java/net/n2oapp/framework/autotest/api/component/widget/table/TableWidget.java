@@ -13,6 +13,11 @@ import java.util.List;
 public interface TableWidget extends StandardWidget {
 
     /**
+     * Проверка недоступности виджета/компонентов внутри него
+     */
+    void shouldBeDisabled();
+
+    /**
      * @return Компонент колонки таблицы для автотестирования
      */
     Columns columns();

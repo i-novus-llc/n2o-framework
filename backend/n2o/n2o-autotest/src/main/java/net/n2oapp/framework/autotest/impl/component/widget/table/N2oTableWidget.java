@@ -35,6 +35,10 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         return new N2oPaging(element());
     }
 
+    public void shouldBeDisabled() {
+        element().$(".n2o-standard-widget-layout").shouldHave(Condition.cssClass("n2o-disabled"));
+    }
+
     public class N2oFilters implements Filters {
 
         @Override
