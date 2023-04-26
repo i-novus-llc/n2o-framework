@@ -1,13 +1,14 @@
 package net.n2oapp.framework.config.metadata.validation.standard;
 
-import net.n2oapp.framework.api.metadata.aware.IdAware;
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oConditionBranch;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oElseBranchAction;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oElseIfBranchAction;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import org.springframework.util.StringUtils;
@@ -65,11 +66,28 @@ public final class ValidationUtils {
     /**
      * Проверка наличия источника данных по указанному идентификатору
      *
+     * @param dsId               Идентификатор проверямого источника данных
+     * @param p                  Процессор исходных метаданных
+     * @param msg                Сообщение об ошибке
+     */
+    //fixme упразднить этот метод с удалением лишних скоупов datasource
+    public static void checkDatasourceExistence(String dsId, SourceProcessor p, String msg) {
+        DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
+        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+        if ((datasourceIdsScope == null || !datasourceIdsScope.contains(dsId))
+                && (dataSourcesScope == null || !dataSourcesScope.containsKey(dsId))) {
+            throw new N2oMetadataValidationException(msg);
+        }
+    }
+
+    /**
+     * Проверка наличия источника данных по указанному идентификатору
+     *
      * @param dsId Идентификатор проверямого источника данных
      * @param p    Процессор исходных метаданных
      * @param tag  Название тега, использующего атрибут datasource
      */
-    public static void checkDatasourceExistence(String dsId, SourceProcessor p, @Nonnull String tag) {
+    public static void checkDatasourceExistenceInTag(String dsId, SourceProcessor p, @Nonnull String tag) {
         if (dsId != null) {
             ValidationUtils.checkDatasourceExistence(dsId, p.getScope(DatasourceIdsScope.class),
                     String.format("Тег %s в атрибуте 'datasource' ссылается на несуществующий источник данных %s",
@@ -101,7 +119,7 @@ public final class ValidationUtils {
             throw new N2oMetadataValidationException("Условный оператор if-else начинается не с тега <if>");
 
         LinkedList<N2oConditionBranch> operator = constructOperator(branches);
-        checkDatasourceExistence(((N2oIfBranchAction) operator.getFirst()).getDatasourceId(), p, "<if>");
+        checkDatasourceExistenceInTag(((N2oIfBranchAction) operator.getFirst()).getDatasourceId(), p, "<if>");
         Optional<N2oElseIfBranchAction> elseIfBranch = findFirstByInstance(operator, N2oElseIfBranchAction.class);
         Optional<N2oElseBranchAction> elseBranch = findFirstByInstance(operator, N2oElseBranchAction.class);
 

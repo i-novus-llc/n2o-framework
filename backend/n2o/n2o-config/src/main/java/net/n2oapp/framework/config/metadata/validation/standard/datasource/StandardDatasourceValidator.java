@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
@@ -30,10 +30,10 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
     public void validate(N2oStandardDatasource datasource, SourceProcessor p) {
         checkForExistsObject(datasource, p);
         N2oQuery query = checkQueryExists(datasource, p);
-        DatasourceIdsScope scope = p.getScope(DatasourceIdsScope.class);
-        checkDependencies(datasource, scope);
-        checkSubmit(datasource, scope);
-        checkPrefilters(datasource, query, scope, p);
+        DataSourcesScope scope = p.getScope(DataSourcesScope.class);
+        checkDependencies(datasource, p);
+        checkSubmit(datasource, p);
+        checkPrefilters(datasource, query, p);
     }
 
     /**
@@ -51,14 +51,14 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
      * Проверка существования источников данных, указанных в зависимостях
      *
      * @param datasource Источник данных, зависимости которого проверяются
-     * @param scope      Скоуп источников данных
+     * @param p          Процессор исходных метаданных
      */
-    private void checkDependencies(N2oStandardDatasource datasource, DatasourceIdsScope scope) {
+    private void checkDependencies(N2oStandardDatasource datasource, SourceProcessor p) {
         if (datasource.getDependencies() != null) {
             for (N2oStandardDatasource.Dependency d : datasource.getDependencies()) {
                 if (d.getOn() != null) {
                     String on = d.getOn();
-                    ValidationUtils.checkDatasourceExistence(on, scope,
+                    ValidationUtils.checkDatasourceExistence(on, p,
                             String.format("Атрибут \"on\" в зависимости источника данных '%s' ссылается на несуществующий источник данных '%s'",
                                     datasource.getId(), on));
                 }
@@ -70,12 +70,12 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
      * Проверка существования источников данных, содержащихся в сабмите
      *
      * @param datasource Источник данных, сабмит которого исследуется
-     * @param scope      Скоуп источников данных
+     * @param p          Процессор исходных метаданных
      */
-    private void checkSubmit(N2oStandardDatasource datasource, DatasourceIdsScope scope) {
+    private void checkSubmit(N2oStandardDatasource datasource, SourceProcessor p) {
         if (datasource.getSubmit() != null && datasource.getSubmit().getRefreshDatasourceIds() != null) {
             for (String refreshDs : datasource.getSubmit().getRefreshDatasourceIds()) {
-                ValidationUtils.checkDatasourceExistence(refreshDs, scope,
+                ValidationUtils.checkDatasourceExistence(refreshDs, p,
                         String.format("Тег <submit> источника данных '%s' содержит несуществующий источник данных '%s' в атрибуте \"refresh-datasources\"",
                                 datasource.getId(), refreshDs));
             }
@@ -87,10 +87,9 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
      *
      * @param datasource Источник данных
      * @param query      Запрос за данными
-     * @param scope      Скоуп источников данных
      * @param p          Процессор исходных метаданных
      */
-    private void checkPrefilters(N2oStandardDatasource datasource, N2oQuery query, DatasourceIdsScope scope, SourceProcessor p) {
+    private void checkPrefilters(N2oStandardDatasource datasource, N2oQuery query, SourceProcessor p) {
         if (datasource.getFilters() != null) {
             if (query == null)
                 throw new N2oMetadataValidationException(
@@ -108,7 +107,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
 
                 String queryId = ValidationUtils.getIdOrEmptyString(query.getId());
                 if (preFilter.getDatasourceId() != null)
-                    ValidationUtils.checkDatasourceExistence(preFilter.getDatasourceId(), scope,
+                    ValidationUtils.checkDatasourceExistence(preFilter.getDatasourceId(), p,
                             String.format("В префильтре по полю '%s' указан несуществующий источник данных '%s'",
                                     preFilter.getFieldId(), preFilter.getDatasourceId()));
                 AbstractField exField = query.getSimpleFieldByAbsoluteId(preFilter.getFieldId());
