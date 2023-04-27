@@ -2,6 +2,15 @@
   "name": "Тесты",
   "sections": [
     {
+      "name": "7.25",
+      "templates": [
+        {
+          "templateId": "cases/7.25/source_ds_for_parent_app_ds",
+          "name": "Прокидывание разных parent-datasource из родительских страниц"
+        }
+      ]
+    },
+    {
       "name": "7.24",
       "templates": [
         {

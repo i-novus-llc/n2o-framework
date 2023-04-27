@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Прокидывание разных parent-datasource из родительских страниц">
+    <datasources>
+        <datasource id="ds1" size="1" query-id="test"/>
+        <!-- Первая таблица -->
+        <inherited-datasource id="ds2" source-field-id="dto.list1"
+                              source-model="resolve" source-datasource="ds1">
+            <dependencies>
+                <fetch on="ds1" />
+            </dependencies>
+        </inherited-datasource>
+        <!-- Вторая таблица -->
+        <inherited-datasource id="ds3" source-field-id="dto.list2"
+                              source-model="resolve" source-datasource="ds1">
+            <dependencies>
+                <fetch on="ds1" />
+            </dependencies>
+        </inherited-datasource>
+    </datasources>
+
+    <regions>
+        <form datasource="ds1"/>
+        <table datasource="ds2">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+            <toolbar>
+                <button label="Открыть">
+                    <show-modal page-id="modal" route="/modal">
+                        <datasources>
+                            <parent-datasource id="parent_ds" source-datasource="ds2"/>
+                        </datasources>
+                    </show-modal>
+                </button>
+            </toolbar>
+        </table>
+
+        <table datasource="ds3">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+            <toolbar>
+                <button label="Открыть">
+                    <show-modal page-id="modal" route="/modal2">
+                        <datasources>
+                            <parent-datasource id="parent_ds" source-datasource="ds3"/>
+                        </datasources>
+                    </show-modal>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>
