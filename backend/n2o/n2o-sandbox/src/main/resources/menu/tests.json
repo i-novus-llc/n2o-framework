@@ -5,8 +5,12 @@
       "name": "7.25",
       "templates": [
         {
-          "templateId": "cases/7.25/source_ds_for_parent_app_ds",
-          "name": "Прокидывание разных parent-datasource из родительских страниц"
+          "templateId": "cases/7.25/source_ds_for_parent_ds",
+          "name": "Прокидывание разных parent-datasource из родительской страницы"
+        },
+        {
+          "templateId": "cases/7.25/source_ds_for_app_ds",
+          "name": "Прокидывание разных app-datasource из родительской страницы"
         }
       ]
     },
