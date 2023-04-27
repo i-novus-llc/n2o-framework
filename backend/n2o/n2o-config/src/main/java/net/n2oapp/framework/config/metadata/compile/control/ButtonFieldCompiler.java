@@ -49,10 +49,6 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         return "n2o.api.control.button_field.src";
     }
 
-    public String executeInitLocalDatasourceId(CompileProcessor p) {
-        return initLocalDatasourceId(p);
-    }
-
     protected void initItem(ButtonField button, N2oButtonField source,
                             CompileContext<?, ?> context, CompileProcessor p) {
         button.setProperties(p.mapAttributes(source));
@@ -90,7 +86,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         if (source.getModel() == null)
             source.setModel(ReduxModel.resolve);
 
-        button.setConfirm(ButtonCompileUtil.compileConfirm(source, p, operation, this));
+        button.setConfirm(ButtonCompileUtil.compileConfirm(source, p, operation));
 
         String datasource = initDatasource(source, p);
         boolean validate = initValidate(source, p, datasource);

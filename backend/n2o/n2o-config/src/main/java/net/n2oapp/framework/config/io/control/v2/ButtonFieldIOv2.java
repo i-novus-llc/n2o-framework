@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.control.N2oButtonField;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
-import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOUtil;
+import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOAware;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
@@ -14,14 +14,14 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class ButtonFieldIOv2 extends FieldIOv2<N2oButtonField> implements ControlIOv2 {
+public class ButtonFieldIOv2 extends FieldIOv2<N2oButtonField> implements ControlIOv2, ButtonIOAware<N2oButtonField> {
 
     private final Namespace actionDefaultNamespace = ActionIOv1.NAMESPACE;
 
     @Override
     public void io(Element e, N2oButtonField m, IOProcessor p) {
         super.io(e, m, p);
-        ButtonIOUtil.generalIO12(e, m, p, actionDefaultNamespace);
+        button(e, m, p, actionDefaultNamespace);
 
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "color", m::getColor, m::setColor);

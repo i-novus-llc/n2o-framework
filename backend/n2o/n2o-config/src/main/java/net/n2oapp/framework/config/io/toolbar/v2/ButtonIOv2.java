@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.io.toolbar.v2;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Button;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -13,7 +12,8 @@ import org.springframework.stereotype.Component;
  * Чтение\запись кнопки версии 2.0
  */
 @Component
-public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> implements ActionsAwareIO<Button> {
+public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> implements ActionsAwareIO<N2oButton>, ButtonIOAware<N2oButton> {
+
     @Override
     public Class<N2oButton> getElementClass() {
         return N2oButton.class;
@@ -27,7 +27,7 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> implements Actions
     @Override
     public void io(Element e, N2oButton b, IOProcessor p) {
         super.io(e, b, p);
-        ButtonIOUtil.generalIOv23(e, b, p, this);
+        button(e, b, p, this);
 
         p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
         p.attributeEnum(e, "disable-on-empty-model", b::getDisableOnEmptyModel, b::setDisableOnEmptyModel, DisableOnEmptyModelType.class);

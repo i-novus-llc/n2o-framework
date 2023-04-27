@@ -5,9 +5,8 @@ import net.n2oapp.framework.api.metadata.control.N2oButtonField;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
-import net.n2oapp.framework.config.io.common.ActionsAwareIO;
 import net.n2oapp.framework.config.io.common.BadgeAwareIO;
-import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOUtil;
+import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOAware;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
@@ -17,14 +16,14 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class ButtonFieldIOv3 extends ActionFieldIOv3<N2oButtonField> implements ControlIOv3, BadgeAwareIO<N2oButtonField> {
+public class ButtonFieldIOv3 extends ActionFieldIOv3<N2oButtonField> implements ControlIOv3, BadgeAwareIO<N2oButtonField>, ButtonIOAware<N2oButtonField> {
 
     private final Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
 
     @Override
     public void io(Element e, N2oButtonField m, IOProcessor p) {
         super.io(e, m, p);
-        ButtonIOUtil.generalIOv23(e, m, p, (ActionsAwareIO)this);
+        button(e, m, p, this);
         badge(e, m, p);
 
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);

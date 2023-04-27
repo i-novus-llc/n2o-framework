@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOUtil;
+import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOAware;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
  * Чтение\запись кнопки
  */
 @Component
-public class ButtonIO extends AbstractButtonIO<N2oButton> {
+public class ButtonIO extends AbstractButtonIO<N2oButton> implements ButtonIOAware<N2oButton> {
 
     @Override
     public void io(Element e, N2oButton b, IOProcessor p) {
         super.io(e, b, p);
-        ButtonIOUtil.generalIO12(e, b, p, actionDefaultNamespace);
+        button(e, b, p, actionDefaultNamespace);
 
         p.attribute(e, "visible", b::getVisible, b::setVisible);
         p.attribute(e, "enabled", b::getEnabled, b::setEnabled);

@@ -9,9 +9,9 @@ import net.n2oapp.framework.config.io.common.ActionsAwareIO;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
-public class ButtonIOUtil {
+public interface ButtonIOAware<T extends Button> {
 
-    public static void generalIO12(Element e, Button b, IOProcessor p, Namespace namespace) {
+    default void button(Element e, T b, IOProcessor p, Namespace namespace) {
         p.attribute(e, "action-id",  b::getActionId, b::setActionId);
         p.attribute(e, "validate", b::getValidateString, b::setValidateString);
         p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
@@ -28,7 +28,7 @@ public class ButtonIOUtil {
         p.anyChildren(e, null, b::getActions, b::setActions, p.anyOf(N2oAction.class).ignore("dependencies"), namespace);
     }
 
-    public static void generalIOv23(Element e, Button b, IOProcessor p, ActionsAwareIO<Button> action) {
+    default void button(Element e, T b, IOProcessor p, ActionsAwareIO<T> action) {
         action.action(e, b, p, "dependencies");
 
         p.attributeBoolean(e, "validate", b::getValidate, b::setValidate);

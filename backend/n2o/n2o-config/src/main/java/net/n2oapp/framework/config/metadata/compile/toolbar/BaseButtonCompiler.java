@@ -105,7 +105,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         source.setTooltipPosition(initTooltipPosition(source, p));
         source.setColor(initColor(source, p));
 
-        String datasource = initDatasource(source, p);
+        String datasource = ButtonCompileUtil.initDatasource((N2oButton)source, p);
         source.setDatasourceId(datasource);
         source.setModel(p.cast(source.getModel(), ReduxModel.resolve));
     }
@@ -165,14 +165,5 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         if (!button.getConditions().containsKey(type))
             button.getConditions().put(type, new ArrayList<>());
         button.getConditions().get(type).add(condition);
-    }
-
-    protected String initDatasource(N2oAbstractButton source, CompileProcessor p) {
-        if (source.getDatasourceId() != null)
-            return source.getDatasourceId();
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null)
-            return widgetScope.getDatasourceId();
-        return null;
     }
 }
