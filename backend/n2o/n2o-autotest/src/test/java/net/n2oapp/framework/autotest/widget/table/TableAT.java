@@ -16,6 +16,7 @@ import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -341,14 +342,9 @@ public class TableAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        FormWidget form = page.regions()
-                .region(0, SimpleRegion.class)
-                .content()
-                .widget(0, FormWidget.class);
-        TableWidget table = page.regions()
-                .region(0, SimpleRegion.class)
-                .content()
-                .widget(1, TableWidget.class);
+        RegionItems regionItems = page.regions().region(0, SimpleRegion.class).content();
+        FormWidget form = regionItems.widget(0, FormWidget.class);
+        TableWidget table = regionItems.widget(1, TableWidget.class);
 
         form.shouldBeVisible();
         table.shouldBeVisible();
@@ -362,7 +358,7 @@ public class TableAT extends AutoTestBase {
 
         checkbox.setChecked(false);
 
-        table.shouldNotExists();
+        regionItems.shouldHaveSize(1);
         verifyNeverGetDataInvocation(1, "Запрос за данными таблицы при fetch-on-visibility=false");
     }
 
