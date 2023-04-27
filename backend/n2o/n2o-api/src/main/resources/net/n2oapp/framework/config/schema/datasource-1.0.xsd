@@ -48,6 +48,14 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="source-datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор источника данных для получения данных с родительской страницы,
+                            указывается если идентификаторы источника данных на родительской и открываемой странице отличаются
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -163,6 +171,14 @@
                     <xs:annotation>
                         <xs:documentation>
                             Идентификатор источника данных из application.xml
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="source-datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор источника данных для получения данных с родительской страницы,
+                            указывается если идентификаторы источника данных на родительской и открываемой странице отличаются
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

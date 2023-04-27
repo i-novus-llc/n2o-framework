@@ -193,10 +193,13 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
                     dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));
                 else {
                     ctxDs.setId(dsId);
-                    if (ctxDs instanceof N2oApplicationDatasource)
-                        appDatasourceIdsScope.add(dsId);
-                    else if (ctxDs instanceof N2oParentDatasource && context.getParentDatasourceIdsMap().containsKey(dsId))
-                        parentDatasourceIdsScope.put(dsId, context.getParentDatasourceIdsMap().get(dsId));
+                    if (ctxDs instanceof N2oApplicationDatasource) {
+                        appDatasourceIdsScope.put(ctxDs.getId(), p.cast(((N2oApplicationDatasource) ctxDs).getSourceDatasource(), ctxDs.getId()));
+                    } else if (ctxDs instanceof N2oParentDatasource) {
+                        String sourceDatasourceId = p.cast(((N2oParentDatasource) ctxDs).getSourceDatasource(), ctxDs.getId());
+                        if (context.getParentDatasourceIdsMap().containsKey(sourceDatasourceId))
+                            parentDatasourceIdsScope.put(dsId, context.getParentDatasourceIdsMap().get(sourceDatasourceId));
+                    }
                     dataSourcesScope.put(dsId, ctxDs);
                 }
             }
