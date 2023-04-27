@@ -1,3 +1,4 @@
+import isFunction from 'lodash/isFunction'
 import React, { createRef } from 'react'
 import PropTypes from 'prop-types'
 import { compose, setDisplayName } from 'recompose'
@@ -412,6 +413,14 @@ class N2OSelect extends React.Component {
         this.handleResetOnBlur()
     }
 
+    onFocus = (e) => {
+        const { onFocus } = this.props
+
+        if (isFunction(onFocus)) {
+            onFocus(e)
+        }
+    }
+
     setControlRef(el) {
         this.control = el
     }
@@ -483,6 +492,7 @@ class N2OSelect extends React.Component {
                 className="n2o-input-select"
                 title={title}
                 style={inputSelectStyle}
+                onFocus={this.onFocus}
                 onBlur={this.handleOnBlur}
                 ref={this.n2oSelectRef}
             >
@@ -647,6 +657,7 @@ N2OSelect.propTypes = {
     hasSearch: PropTypes.bool,
     type: PropTypes.string,
     closePopupOnSelect: PropTypes.bool,
+    onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     descriptionFieldId: PropTypes.string,
     selectFormat: PropTypes.string,

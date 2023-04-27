@@ -1,3 +1,4 @@
+import isFunction from 'lodash/isFunction'
 import React from 'react'
 import PropTypes from 'prop-types'
 import MaskedInput from 'react-text-mask'
@@ -167,13 +168,17 @@ class InputMask extends React.Component {
       }
   };
 
-  onFocus = () => {
-      const { guide } = this.props
+  onFocus = (e) => {
+      const { guide, onFocus } = this.props
       const { value } = this.state
 
       this.valid = this.isValid(value)
       if (!this.valid) {
           this.setState({ guide })
+      }
+
+      if (isFunction(onFocus)) {
+          onFocus(e)
       }
   };
 
@@ -314,6 +319,7 @@ InputMask.propTypes = {
      * Callback на потерю фокуса
      */
     onBlur: PropTypes.func,
+    onFocus: PropTypes.func,
     disabled: PropTypes.bool,
     autoFocus: PropTypes.bool,
 }
