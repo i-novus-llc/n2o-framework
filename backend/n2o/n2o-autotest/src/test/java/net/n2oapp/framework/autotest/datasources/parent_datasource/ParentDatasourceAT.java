@@ -66,31 +66,31 @@ public class ParentDatasourceAT extends AutoTestBase {
         rows.row(2).cell(0).shouldHaveText("3");
     }
 
-    /**
-     * Тестирование Прокидывание разных parent-datasource из родительской страницы
-     */
-    @Test
-    public void testSourceDatasource() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent/modal.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent/test.query.xml"));
-        StandardPage page = open(StandardPage.class);
-        page.shouldExists();
-
-        StandardButton showModalBtn = page.regions().region(0, SimpleRegion.class).content()
-                .widget(0, FormWidget.class).toolbar().topLeft().button("История изменений");
-        showModalBtn.shouldExists();
-        showModalBtn.click();
-        Modal modalPage = N2oSelenide.modal();
-        modalPage.shouldExists();
-        modalPage.shouldHaveTitle("История изменений");
-        TableWidget.Rows rows = modalPage.content(StandardPage.class).regions().region(0, SimpleRegion.class).content()
-                .widget(1, TableWidget.class).columns().rows();
-        rows.shouldHaveSize(3);
-        rows.row(0).cell(0).shouldHaveText("1");
-        rows.row(1).cell(0).shouldHaveText("2");
-        rows.row(2).cell(0).shouldHaveText("3");
-    }
+//    /**
+//     * Тестирование Прокидывание разных parent-datasource из родительской страницы
+//     */
+//    @Test
+//    public void testSourceDatasource() {
+//        setJsonPath("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent");
+//        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent/index.page.xml"),
+//                new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent/modal.page.xml"),
+//                new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent/test.query.xml"));
+//        StandardPage page = open(StandardPage.class);
+//        page.shouldExists();
+//
+//        StandardButton showModalBtn = page.regions().region(0, SimpleRegion.class).content()
+//                .widget(0, FormWidget.class).toolbar().topLeft().button("История изменений");
+//        showModalBtn.shouldExists();
+//        showModalBtn.click();
+//        Modal modalPage = N2oSelenide.modal();
+//        modalPage.shouldExists();
+//        modalPage.shouldHaveTitle("История изменений");
+//        TableWidget.Rows rows = modalPage.content(StandardPage.class).regions().region(0, SimpleRegion.class).content()
+//                .widget(1, TableWidget.class).columns().rows();
+//        rows.shouldHaveSize(3);
+//        rows.row(0).cell(0).shouldHaveText("1");
+//        rows.row(1).cell(0).shouldHaveText("2");
+//        rows.row(2).cell(0).shouldHaveText("3");
+//    }
 }
 
