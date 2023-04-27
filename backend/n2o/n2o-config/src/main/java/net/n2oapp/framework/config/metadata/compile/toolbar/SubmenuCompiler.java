@@ -6,6 +6,8 @@ import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.compile.ButtonGeneratorFactory;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Button;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
@@ -13,6 +15,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -42,6 +45,8 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
     @Override
     public Submenu compile(N2oSubmenu source, CompileContext<?, ?> context, CompileProcessor p) {
         initDefaults(source, context, p);
+        source.setDatasourceId(initDatasource(source, p));
+
         Submenu submenu = new Submenu();
         IndexScope idx = p.getScope(IndexScope.class);
         compileBase(submenu, source, context, p);
@@ -56,6 +61,15 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
         initGenerate(source, submenu, idx, context, p);
 
         return submenu;
+    }
+
+    private String initDatasource(N2oSubmenu source, CompileProcessor p) {
+        if (source.getDatasourceId() != null)
+            return source.getDatasourceId();
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null)
+            return widgetScope.getDatasourceId();
+        return null;
     }
 
     private void initMenuItems(N2oSubmenu source, Submenu button, IndexScope idx,

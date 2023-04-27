@@ -104,9 +104,6 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         source.setType(initType(source));
         source.setTooltipPosition(initTooltipPosition(source, p));
         source.setColor(initColor(source, p));
-
-        String datasource = ButtonCompileUtil.initDatasource((N2oButton)source, p);
-        source.setDatasourceId(datasource);
         source.setModel(p.cast(source.getModel(), ReduxModel.resolve));
     }
 

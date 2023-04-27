@@ -30,6 +30,7 @@ import java.util.List;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.compileValidate;
+import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.initDatasource;
 import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.initValidate;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
@@ -52,7 +53,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         button.setRounded(source.getRounded());
         button.setValidate(compileValidate(source,
                 p,
-                ButtonCompileUtil.initDatasource(source, p)));
+                initDatasource(source, p)));
         CompiledObject compiledObject = initObject(p, source);
         Action action = compileAction(source, context, p, compiledObject);
         button.setAction(action);
@@ -77,12 +78,13 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     protected void initDefaults(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
         source.setId(p.cast(source.getId(), source.getActionId()));
         super.initDefaults(source, context, p);
+
+        source.setDatasourceId(initDatasource(source, p));
         source.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.button.src"), String.class)));
         source.setRounded(p.cast(source.getRounded(), false));
-        String datasource = ButtonCompileUtil.initDatasource(source, p);
-        boolean validate = initValidate(source, p, datasource);
+        boolean validate = initValidate(source, p, source.getDatasourceId());
         source.setValidate(validate);
-        source.setValidateDatasourceIds(initValidateDatasources(source, validate, datasource));
+        source.setValidateDatasourceIds(initValidateDatasources(source, validate, source.getDatasourceId()));
         source.setActions(initActions(source, p));
     }
 
