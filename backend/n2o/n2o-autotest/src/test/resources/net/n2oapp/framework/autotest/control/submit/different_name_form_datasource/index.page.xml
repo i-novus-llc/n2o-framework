@@ -1,7 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
-        <form>
-            <datasource query-id="test" object-id="test"/>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+    name="Автотест для проверки автосохранения с разными именами формы и датасорса">
+    <datasources>
+        <datasource id="ds" query-id="test" object-id="test"/>
+    </datasources>
+    <regions>
+        <form id="form" datasource="ds">
             <fields>
                 <input-text id="name" label="Имя">
                     <submit operation-id="updateField">
@@ -32,4 +36,5 @@
                 </date-interval>
             </fields>
         </form>
-</simple-page>
+    </regions>
+</page>
