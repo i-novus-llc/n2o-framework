@@ -199,13 +199,6 @@ class AdvancedTable extends Component {
         if (!isEqual(prevProps, this.props)) {
             let state = {}
 
-            if (
-                isEqual(prevProps.filters, filters) &&
-                !isEmpty(prevProps.filters) &&
-                !isEmpty(filters)
-            ) {
-                this.closeAllRows()
-            }
             if (data && !isEqual(prevProps.data, data)) {
                 const checked = this.mapChecked(multi)
 
@@ -485,7 +478,7 @@ class AdvancedTable extends Component {
         const { data } = this.props
         const keys = []
         const getKeys = array => map(array, (item) => {
-            keys.push(item.id)
+            keys.push(item.key)
             if (item.children) {
                 getKeys(item.children)
             }
