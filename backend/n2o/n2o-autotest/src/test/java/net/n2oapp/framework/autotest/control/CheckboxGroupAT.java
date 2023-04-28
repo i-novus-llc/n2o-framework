@@ -49,11 +49,16 @@ public class CheckboxGroupAT extends AutoTestBase {
         checkboxGroup.check("One");
         checkboxGroup.check("Two");
         checkboxGroup.check("Three");
-        checkboxGroup.shouldBeChecked("Two");
-        checkboxGroup.uncheck("Two");
         checkboxGroup.shouldBeChecked("One");
-        checkboxGroup.shouldBeUnchecked("Two");
+        checkboxGroup.shouldBeChecked("Two");
         checkboxGroup.shouldBeChecked("Three");
+
+        checkboxGroup.uncheck("Two");
+        checkboxGroup.shouldBeUnchecked("Two");
+
+        checkboxGroup.shouldHaveTitle("One");
+        checkboxGroup.shouldHaveTitle("Two");
+        checkboxGroup.shouldHaveTitle("Three");
     }
 
     @Test

@@ -35,4 +35,9 @@ public interface CheckboxGroup extends Control {
      * @param labels метки ожидаемых чекбоксов
      */
     void shouldHaveOptions(String... labels);
+
+    /**
+     * Проверка наличия атрибута title у чекбокса. И соответствия его значения метки.
+     */
+    void shouldHaveTitle(String label);
 }
