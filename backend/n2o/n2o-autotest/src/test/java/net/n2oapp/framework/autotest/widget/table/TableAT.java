@@ -358,7 +358,7 @@ public class TableAT extends AutoTestBase {
 
         checkbox.setChecked(false);
 
-        regionItems.shouldHaveSize(1);
+        table.shouldBeHidden();
         verifyNeverGetDataInvocation(1, "Запрос за данными таблицы при fetch-on-visibility=false");
     }
 
