@@ -361,7 +361,8 @@ class AdvancedTable extends Component {
         if (needToReturn) {
             return
         }
-        if (rowSelection === rowSelectionType.RADIO || (!rowSelection && hasSelect)) {
+
+        if (rowSelection === rowSelectionType.RADIO) {
             this.selectModel(model)
         }
 
@@ -395,6 +396,7 @@ class AdvancedTable extends Component {
             if (!hasSelect) {
                 setResolve(find(this.dataStorage, { id }))
             }
+
             onRowClickAction(model)
         }
 
