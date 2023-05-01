@@ -73,10 +73,15 @@ public class WidgetEnablingAT extends AutoTestBase {
 
         Checkbox checkbox = form.fieldsets()
                 .fieldset(0, SimpleFieldSet.class)
-                .fields().field("enabled")
+                .fields()
+                .field("enabled")
                 .control(Checkbox.class);
         checkbox.setChecked(false);
 
         table.shouldBeDisabled();
+
+        checkbox.setChecked(true);
+
+        table.shouldBeEnabled();
     }
 }
