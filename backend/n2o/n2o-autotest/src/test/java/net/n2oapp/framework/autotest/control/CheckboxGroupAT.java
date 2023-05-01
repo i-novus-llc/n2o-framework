@@ -56,9 +56,9 @@ public class CheckboxGroupAT extends AutoTestBase {
         checkboxGroup.uncheck("Two");
         checkboxGroup.shouldBeUnchecked("Two");
 
-        checkboxGroup.shouldHaveTitle("One");
-        checkboxGroup.shouldHaveTitle("Two");
-        checkboxGroup.shouldHaveTitle("Three");
+        checkboxGroup.shouldHaveTooltip("One");
+        checkboxGroup.shouldHaveTooltip("Two");
+        checkboxGroup.shouldHaveTooltip("Three");
     }
 
     @Test

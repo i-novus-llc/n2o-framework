@@ -37,7 +37,9 @@ public interface CheckboxGroup extends Control {
     void shouldHaveOptions(String... labels);
 
     /**
-     * Проверка наличия атрибута title у чекбокса. И соответствия его значения метки.
+     * Проверка соответствия тултипа при наведении на чекбокс со значением самой метки чекбокса
+     *
+     * @param label значение метки проверяемого чекбокса
      */
-    void shouldHaveTitle(String label);
+    void shouldHaveTooltip(String label);
 }

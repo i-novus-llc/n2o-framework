@@ -51,7 +51,7 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
     }
 
     @Override
-    public void shouldHaveTitle(String label) {
+    public void shouldHaveTooltip(String label) {
         inputElement(label).shouldHave(Condition.attribute("title", label));
     }
 
