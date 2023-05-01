@@ -10,15 +10,9 @@
         </field>
         <field id="name">
             <select/>
-            <filters>
-                <like filter-id="name"/>
-            </filters>
         </field>
         <field id="type">
             <select/>
-            <filters>
-                <eq filter-id="type"/>
-            </filters>
         </field>
     </fields>
 </query>

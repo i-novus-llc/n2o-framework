@@ -357,8 +357,11 @@ public class TableAT extends AutoTestBase {
         checkbox.shouldBeChecked();
 
         checkbox.setChecked(false);
-
         table.shouldBeHidden();
+
+        checkbox.setChecked(true);
+        table.shouldBeVisible();
+
         verifyNeverGetDataInvocation(1, "Запрос за данными таблицы при fetch-on-visibility=false");
     }
 
