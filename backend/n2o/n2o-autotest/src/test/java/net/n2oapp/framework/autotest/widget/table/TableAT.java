@@ -43,6 +43,7 @@ import static org.mockito.Mockito.*;
  * Автотест для виджета Таблица
  */
 public class TableAT extends AutoTestBase {
+
     @SpyBean
     private N2oController controller;
 
@@ -320,15 +321,18 @@ public class TableAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        TableWidget tableWidget = page.widget(TableWidget.class);
-        tableWidget.filters().fields().field("name").control(InputText.class).click();
-        tableWidget.filters().fields().field("name").control(InputText.class).setValue("test");
-        tableWidget.filters().toolbar().button("Найти").click();
-        tableWidget.columns().rows().shouldHaveSize(4);
+        TableWidget table = page.widget(TableWidget.class);
+        InputText input = table.filters().fields().field("name").control(InputText.class);
+        input.click();
+        input.setValue("test");
+        table.filters().toolbar().button("Найти").click();
+        table.columns().rows().shouldHaveSize(4);
 
-        tableWidget.filters().toolbar().button("Сбросить").click();
-        tableWidget.columns().rows().shouldHaveSize(0);
+        table.filters().toolbar().button("Сбросить").click();
+        table.columns().rows().shouldHaveSize(0);
         verifyNeverGetDataInvocation(2, "Запрос за данными таблицы при fetch-on-clear=false");
+        input.shouldBeEmpty();
+        table.paging().shouldNotHaveTotalElements();
     }
 
     @Test
