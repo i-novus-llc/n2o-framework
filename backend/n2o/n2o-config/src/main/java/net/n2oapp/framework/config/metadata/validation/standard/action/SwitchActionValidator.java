@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.metadata.validation.standard.action;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.action.N2oSwitchAction;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
@@ -26,7 +26,7 @@ public class SwitchActionValidator extends TypedMetadataValidator<N2oSwitchActio
     public void validate(N2oSwitchAction source, SourceProcessor p) {
         if (source.getValueFieldId() == null)
             throw new N2oMetadataValidationException("В действии <switch> не указан 'value-field-id'");
-        ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p, "<switch>");
+        ValidationUtils.checkDatasourceExistenceInTag(source.getDatasourceId(), p, "<switch>");
         N2oSwitchAction.AbstractCase[] cases = source.getCases();
         if (isEmpty(cases))
             return;

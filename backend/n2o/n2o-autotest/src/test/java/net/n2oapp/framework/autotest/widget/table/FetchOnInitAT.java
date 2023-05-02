@@ -6,6 +6,7 @@ import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -38,15 +39,15 @@ public class FetchOnInitAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+    }
+
+    @Test
+    public void test() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/fetch_on_init");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/form.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/table.query.xml"));
-    }
-
-    @Test
-    public void test() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -73,5 +74,22 @@ public class FetchOnInitAT extends AutoTestBase {
         rows.shouldNotHaveRows();
         tableWidget.filters().toolbar().button("Найти").click();
         rows.shouldHaveSize(4);
+    }
+
+    @Test
+    public void testOnTabs() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/fetch_on_init");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/tabs/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/form.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/table.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TabsRegion tabsRegion = page.regions().region(0, TabsRegion.class);
+        tabsRegion.tab(0).content().widget(0, TableWidget.class).columns().rows().shouldHaveSize(0);
+        tabsRegion.tab(1).click();
+        tabsRegion.tab(1).content().widget(0, TableWidget.class).columns().rows().shouldHaveSize(0);
+        tabsRegion.tab(1).content().widget(1, TableWidget.class).columns().rows().shouldHaveSize(4);
     }
 }
