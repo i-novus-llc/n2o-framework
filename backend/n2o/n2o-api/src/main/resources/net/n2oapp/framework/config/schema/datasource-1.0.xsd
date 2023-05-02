@@ -41,10 +41,10 @@
                 </xs:documentation>
             </xs:annotation>
             <xs:extension base="datasourceDefinition">
-                <xs:attribute name="id" type="xs:string" use="required">
+                <xs:attribute name="source-datasource" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор источника данных родительской страницы
+                            Идентификатор источника данных родительской страницы. По умолчанию: значение `id`
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -159,10 +159,10 @@
                 </xs:documentation>
             </xs:annotation>
             <xs:extension base="datasourceDefinition">
-                <xs:attribute name="id" type="xs:string" use="required">
+                <xs:attribute name="source-datasource" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор источника данных из application.xml
+                            Идентификатор источника данных из application.xml. По умолчанию: значение `id`
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
