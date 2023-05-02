@@ -29,6 +29,7 @@ function FieldsetColComponent({
     autoSubmit,
     onChange,
     onBlur,
+    multiSetDisabled,
 }) {
     if (!colVisible) { return null }
 
@@ -57,6 +58,7 @@ function FieldsetColComponent({
                                 autoSubmit={autoSubmit}
                                 onChange={onChange}
                                 onBlur={onBlur}
+                                multiSetDisabled={multiSetDisabled}
                                 {...field}
                             />
                         )
@@ -80,6 +82,7 @@ function FieldsetColComponent({
                                 activeModel={activeModel}
                                 onChange={onChange}
                                 onBlur={onBlur}
+                                multiSetDisabled={multiSetDisabled}
                                 {...rest}
                             />
                         )

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import { compose, setDisplayName } from 'recompose'
 import PropTypes from 'prop-types'
 import onClickOutside from 'react-onclickoutside'
@@ -15,6 +15,7 @@ import InputSelectGroup from './InputSelectGroup'
 import PopupList from './PopupList'
 import InputContent from './InputContent'
 import { getValueArray } from './utils'
+import { DEFAULT_POPUP_HEIGHT, MEASURE } from './constants'
 
 /**
  * InputSelect
@@ -38,7 +39,8 @@ import { getValueArray } from './utils'
  * @reactProps {function} onSelect
  * @reactProps {function} onScrollENd - callback при прокрутке скролла popup
  * @reactProps {string} placeHolder - подсказка в инпуте
- * @reactProps {boolean} resetOnBlur - фича, при которой: (значение - true) - сбрасывается значение контрола, если оно не выбрано из popup, (значение - false) - создает объект в текущем value
+ * @reactProps {boolean} resetOnBlur - фича, при которой: (значение - true) - сбрасывается значение контрола, если оно
+ *     не выбрано из popup, (значение - false) - создает объект в текущем value
  * @reactProps {function} onOpen - callback на открытие попапа
  * @reactProps {function} onClose - callback на закрытие попапа
  * @reactProps {boolean} multiSelect - флаг мульти выбора
@@ -50,7 +52,10 @@ import { getValueArray } from './utils'
  * @reactProps {boolean} expandPopUp
  * @reactProps {array} alerts
  * @reactProps {boolean} popupAutoSize - флаг включения автоматическиого расчета длины PopUp
+ * @reactProps {number} size - кол-во запрашиваемых записей
+ * @reactProps {number} count - всего записей
  */
+
 class InputSelect extends React.Component {
     constructor(props) {
         super(props)
@@ -66,9 +71,13 @@ class InputSelect extends React.Component {
             value: valueArray,
             activeValueId: null,
             isPopupFocused: false,
+            popUpMaxHeight: DEFAULT_POPUP_HEIGHT,
             options,
             input,
         }
+
+        this.inputHeightRef = React.createRef()
+        this.popUpItemRef = createRef()
     }
 
     // eslint-disable-next-line react/no-deprecated
@@ -94,6 +103,39 @@ class InputSelect extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        const { popUpMaxHeight } = this.state
+        const { size, count } = this.props
+
+        // контроль макс высоты и скрола с подгрузкой данных
+        const overSize = count > 0 && count > size
+
+        if (popUpMaxHeight < DEFAULT_POPUP_HEIGHT || !overSize) {
+            return
+        }
+
+        const { data } = this.props
+
+        if (!isEqual(data, prevProps.data)) {
+            const popUpItem = this.popUpItemRef.current
+
+            if (!popUpItem) {
+                return
+            }
+
+            const popUpItemHeight = popUpItem.offsetHeight
+            const calculatedMaxHeight = size * popUpItemHeight - 10
+
+            if (calculatedMaxHeight > DEFAULT_POPUP_HEIGHT) {
+                this.setState({ popUpMaxHeight: DEFAULT_POPUP_HEIGHT })
+
+                return
+            }
+
+            this.setState({ popUpMaxHeight: calculatedMaxHeight })
+        }
+    }
+
     /**
      * установить акстивный элемент дропдауна
      * @param activeValueId
@@ -104,7 +146,8 @@ class InputSelect extends React.Component {
     }
 
     /**
-     * обработка изменения значения при потери фокуса(считаем, что при потере фокуса пользователь закончил вводить новое значение)
+     * обработка изменения значения при потери фокуса(считаем, что при потере фокуса пользователь закончил вводить
+     * новое значение)
      * @private
      */
     handleValueChangeOnBlur = () => {
@@ -247,9 +290,7 @@ class InputSelect extends React.Component {
      * @private
      */
     setIsExpanded = (isExpanded) => {
-        const { disabled, onToggle, onOpen, labelFieldId, multiSelect, datasource } = this.props
-
-        const { value } = this.state
+        const { disabled, onToggle, onOpen } = this.props
 
         if (!isExpanded || disabled) {
             return null
@@ -258,17 +299,7 @@ class InputSelect extends React.Component {
         this.setState({
             isExpanded,
             inputFocus: isExpanded,
-        }, () => {
-            if (datasource) {
-                return
-            }
-
-            if ((multiSelect || value.length < 1)) {
-                onOpen()
-            } else {
-                onOpen({ [labelFieldId]: value[0][labelFieldId] })
-            }
-        })
+        }, onOpen)
 
         onToggle(isExpanded)
 
@@ -319,7 +350,7 @@ class InputSelect extends React.Component {
             this.setSelected(false)
             this.setState({ input }, () => onSetNewInputValue(input))
 
-            if (!input && !throttleDelay) {
+            if (!input) {
                 this.clearSelected()
             }
         }
@@ -529,10 +560,12 @@ class InputSelect extends React.Component {
             activeValueId,
             options,
             isInputSelected,
+            popUpMaxHeight,
         } = this.state
 
         const inputSelectStyle = { width: '100%', cursor: 'text', ...style }
         const needAddFilter = !find(stateValue, item => item[labelFieldId] === input)
+        const popUpStyle = { maxHeight: `${popUpMaxHeight}${MEASURE}` }
 
         return (
             <div
@@ -544,6 +577,7 @@ class InputSelect extends React.Component {
                 <Dropdown
                     isOpen={isExpanded}
                     toggle={this.toggle}
+                    ref={this.inputHeightRef}
                 >
                     <DropdownToggle tag="div" className="n2o-input-select__toggle">
                         <InputSelectGroup
@@ -598,6 +632,18 @@ class InputSelect extends React.Component {
                         className={classNames('n2o-input-select__menu', {
                             'n2o-input-select__menu--autosize': popupAutoSize,
                         })}
+                        modifiers={[
+                            {
+                                name: 'offset',
+                                options: {
+                                    offset: {
+                                        enabled: true,
+                                        offset: `0 ${this.inputHeightRef?.current?.containerRef?.current.clientHeight}px`,
+                                    },
+                                },
+                            },
+                        ]
+                        }
                     >
                         <PopupList
                             handleMouseEnter={this.handlePopupListMouseEnter}
@@ -630,6 +676,8 @@ class InputSelect extends React.Component {
                             hasCheckboxes={hasCheckboxes}
                             onRemoveItem={this.removeSelectedItem}
                             format={format}
+                            popUpItemRef={this.popUpItemRef}
+                            style={popUpStyle}
                         >
                             <div className="n2o-alerts">
                                 {alerts &&
@@ -782,6 +830,7 @@ InputSelect.propTypes = {
     datasource: PropTypes.string,
     setFilter: PropTypes.func,
     models: PropTypes.object,
+    count: PropTypes.number,
 }
 
 InputSelect.defaultProps = {

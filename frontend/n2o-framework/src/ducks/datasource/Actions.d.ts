@@ -33,6 +33,10 @@ export type RemoveComponentAction = DatasourceAction<{
     componentId: string
 }>
 
+export type ResetDatasourceAction = DatasourceAction<{
+    id: string
+}>
+
 export type DataRequestAction = DatasourceAction<{
     id: string
     options: {

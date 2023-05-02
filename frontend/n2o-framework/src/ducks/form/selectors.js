@@ -26,41 +26,33 @@ export const getFormFieldsByName = name => createSelector(
 
 /**
  * селктор для поля формы
- * @param formName
- * @param fieldName
  */
-export const makeFieldByName = (formName, fieldName) => createSelector(
+export const makeFieldByName = (prefix, formName, fieldName) => createSelector(
     makeFormByName(formName),
-    form => get(form, ['registeredFields', fieldName], {}),
+    form => get(form, [prefix, 'registeredFields', fieldName], {}),
 )
 
 /**
  * селектор для значения видимости поля
- * @param formName
- * @param fieldName
  */
-export const isVisibleSelector = (formName, fieldName) => createSelector(
-    makeFieldByName(formName, fieldName),
+export const isVisibleSelector = (prefix, formName, fieldName) => createSelector(
+    makeFieldByName(prefix, formName, fieldName),
     field => field.visible,
 )
 
 /**
  * селектор для значения активности поля
- * @param formName
- * @param fieldName
  */
-export const isDisabledSelector = (formName, fieldName) => createSelector(
-    makeFieldByName(formName, fieldName),
+export const isDisabledSelector = (prefix, formName, fieldName) => createSelector(
+    makeFieldByName(prefix, formName, fieldName),
     field => field.disabled,
 )
 
 /**
  * селектор для свойства, отвечающего за инициализацию дополнительных свойств
- * @param formName
- * @param fieldName
  */
-export const isInitSelector = (formName, fieldName) => createSelector(
-    makeFieldByName(formName, fieldName),
+export const isInitSelector = (prefix, formName, fieldName) => createSelector(
+    makeFieldByName(prefix, formName, fieldName),
     field => field.isInit,
 )
 
@@ -84,33 +76,30 @@ export const messageSelector = (datasourceId, fieldName, modelPrefix) => createS
     },
 )
 
-export const dependencySelector = (formName, fieldName) => createSelector(
-    makeFieldByName(formName, fieldName),
+export const dependencySelector = (prefix, formName, fieldName) => createSelector(
+    makeFieldByName(prefix, formName, fieldName),
     field => field.dependency,
 )
 
-export const filterSelector = (formName, fieldName) => createSelector(
-    makeFieldByName(formName, fieldName),
+export const filterSelector = (prefix, formName, fieldName) => createSelector(
+    makeFieldByName(prefix, formName, fieldName),
     field => field.filter,
 )
 
-export const requiredSelector = (formName, fieldName) => createSelector(
-    makeFieldByName(formName, fieldName),
+export const requiredSelector = (prefix, formName, fieldName) => createSelector(
+    makeFieldByName(prefix, formName, fieldName),
     field => field.required,
 )
 /**
  * Селектор флага загрузки
- * @param formName
- * @param fieldName
- * @return
  */
-export const loadingSelector = (formName, fieldName) => createSelector(
-    makeFieldByName(formName, fieldName),
+export const loadingSelector = (prefix, formName, fieldName) => createSelector(
+    makeFieldByName(prefix, formName, fieldName),
     field => field.loading,
 )
 
-export const touchedSelector = (formName, fieldName) => createSelector(
-    makeFieldByName(formName, fieldName),
+export const touchedSelector = (prefix, formName, fieldName) => createSelector(
+    makeFieldByName(prefix, formName, fieldName),
     field => field.touched,
 )
 
