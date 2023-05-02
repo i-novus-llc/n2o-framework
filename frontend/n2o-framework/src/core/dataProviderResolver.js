@@ -6,8 +6,11 @@ import includes from 'lodash/includes'
 import each from 'lodash/each'
 import isNil from 'lodash/isNil'
 import startsWith from 'lodash/startsWith'
+import flatten from 'flat'
 
 import linkResolver from '../utils/linkResolver'
+
+import { clearEmptyParams } from './api'
 
 /**
  * Получение разрешенных параметров dataProvider
@@ -17,6 +20,7 @@ import linkResolver from '../utils/linkResolver'
  * @param options
  * @returns
  */
+
 export function dataProviderResolver(state, dataProvider, query, options) {
     const {
         url,
@@ -52,12 +56,19 @@ export function dataProviderResolver(state, dataProvider, query, options) {
     let compiledUrl = basePath
 
     if (!isEmpty(queryParams) || !isEmpty(query) || !isEmpty(queryFromUrl) || size) {
-        compiledUrl = `${compiledUrl}?${queryString.stringify({
+        const params = {
             ...queryParams,
             ...query,
             ...queryString.parse(queryFromUrl),
             size,
-        })}`
+        }
+
+        compiledUrl = `${compiledUrl}?${queryString
+            .stringify(
+                flatten(
+                    clearEmptyParams(params), { safe: true },
+                ),
+            )}`
     }
 
     if (includes(url, origin)) {
