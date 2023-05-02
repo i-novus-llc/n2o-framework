@@ -40,6 +40,8 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
 
     public class N2oDropDownTreeItem extends N2oComponent implements DropDownTreeItem {
 
+        private static final String SELECTED_NODE = "n2o-select-tree-tree-node-selected";
+
         private static final String SWITCHER = "n2o-select-tree-tree-switcher";
 
         public N2oDropDownTreeItem(SelenideElement element) {
@@ -75,6 +77,14 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
 
         public void shouldHaveValue(String value) {
             element().shouldHave(Condition.text(value));
+        }
+
+        public void shouldBeSelected() {
+            element().shouldHave(Condition.cssClass(SELECTED_NODE));
+        }
+
+        public void shouldNotBeSelected() {
+            element().shouldNotHave(Condition.cssClass(SELECTED_NODE));
         }
 
         private Condition isExpanded() {
