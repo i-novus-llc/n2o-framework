@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment from 'moment/moment'
 import flattenDeep from 'lodash/flattenDeep'
 import keys from 'lodash/keys'
 import map from 'lodash/map'

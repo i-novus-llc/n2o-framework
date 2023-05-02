@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница для автотеста проверяющего условие 'visibility' у кнопок">
+    <datasources>
+        <datasource id="getUserTaskList" query-id="test"/>
+    </datasources>
+
+    <regions>
+        <form datasource="getUserTaskList"/>
+
+        <form id="getHiddenUserId">
+            <fields>
+                <input-text id="operatorId" default-value="48c176e3-e618-4003-ac72-17d8655ec182"/>
+
+                <input-text id="assigneeId" default-value="{assignee}"
+                            ref-datasource="getUserTaskList" ref-field-id="assignee"/>
+            </fields>
+        </form>
+    </regions>
+
+
+    <toolbar place="topLeft">
+        <button label="Кнопка" color="primary" icon="ps-icon-x">
+            <dependencies>
+                <visibility datasource="getHiddenUserId" model="resolve">
+                    operatorId === assigneeId
+                </visibility>
+            </dependencies>
+        </button>
+    </toolbar>
+
+</page>

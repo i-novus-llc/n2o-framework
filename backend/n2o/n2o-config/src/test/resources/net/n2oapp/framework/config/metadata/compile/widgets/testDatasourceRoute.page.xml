@@ -6,7 +6,7 @@
                 <input-text id="id"/>
             </fields>
         </form>
-        <table id="w1" query-id="testTable4Compile" depends-on="main" master-field-id="id"
+        <table id="w1" query-id="testTable5Compile" depends-on="main" master-field-id="id"
                detail-field-id="type" route="/report">
             <columns>
                 <column text-field-id="name"/>

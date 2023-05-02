@@ -10,9 +10,7 @@ import forEach from 'lodash/forEach'
 import toString from 'lodash/toString'
 import isEqual from 'lodash/isEqual'
 import cx from 'classnames'
-import { findDOMNode } from 'react-dom'
 import { DropdownItem } from 'reactstrap'
-import scrollIntoView from 'scroll-into-view-if-needed'
 
 import propsResolver from '../../../utils/propsResolver'
 import { Icon } from '../../snippets/Icon/Icon'
@@ -27,8 +25,8 @@ import {
     groupData,
     inArray,
     isDisabled,
-    UNKNOWN_GROUP_FIELD_ID,
 } from './utils'
+import { UNKNOWN_GROUP_FIELD_ID } from './constants'
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -75,18 +73,8 @@ function PopupItems({
     activeValueId,
     autocomplete,
     renderIfEmpty,
+    popUpItemRef,
 }) {
-    const handleRef = (item) => {
-        if (item) {
-            // eslint-disable-next-line react/no-find-dom-node
-            const el = findDOMNode(item)
-
-            if (el.classList.contains('active')) {
-                scrollIntoView(el, { scrollMode: 'if-needed', block: 'nearest' })
-            }
-        }
-    }
-
     // eslint-disable-next-line consistent-return
     const handleItemClick = ({ target }, item) => {
         if (target.nodeName === 'LABEL') { return false }
@@ -171,41 +159,42 @@ function PopupItems({
         const disabled = getDisabled(item)
 
         return (
-            <DropdownItem
-                className={cx('n2o-eclipse-content', {
-                    active: activeValueId === item[valueFieldId] && !disabled,
-                    'n2o-eclipse-content__with-status': withStatus(item),
-                })}
-                onMouseOver={() => onMouseOver(item)}
-                onMouseLeave={onMouseLeave}
-                disabled={disabled}
-                ref={handleRef}
-                key={index}
-                onClick={e => handleItemClick(e, item)}
-                title={displayTitle(item)}
-                toggle={false}
-            >
-                {iconFieldId && renderIcon(item, iconFieldId)}
-                {imageFieldId && renderImage(item, imageFieldId)}
-                {badgeFieldId && isBadgeLeftPosition(badgePosition) && <Badge key="badge-left" {...resolveBadgeProps(badge, item)} shape={badge?.shape || Shape.Square} />}
-                {hasCheckboxes ? renderCheckbox(item, selected) : renderLabel(item)}
-                {badgeFieldId && isBadgeRightPosition(badgePosition) && <Badge key="badge-right" {...resolveBadgeProps(badge, item)} shape={badge?.shape || Shape.Square} />}
-                {descriptionFieldId && !isUndefined(item[descriptionFieldId]) && (
-                    <DropdownItem
-                        className={cx('n2o-eclipse-content__description', {
-                            'n2o-eclipse-content__description-with-icon':
+            <div ref={popUpItemRef}>
+                <DropdownItem
+                    className={cx('n2o-eclipse-content', {
+                        active: activeValueId === item[valueFieldId] && !disabled,
+                        'n2o-eclipse-content__with-status': withStatus(item),
+                    })}
+                    onMouseOver={() => onMouseOver(item)}
+                    onMouseLeave={onMouseLeave}
+                    disabled={disabled}
+                    key={index}
+                    onClick={e => handleItemClick(e, item)}
+                    title={displayTitle(item)}
+                    toggle={false}
+                >
+                    {iconFieldId && renderIcon(item, iconFieldId)}
+                    {imageFieldId && renderImage(item, imageFieldId)}
+                    {badgeFieldId && isBadgeLeftPosition(badgePosition) && <Badge key="badge-left" {...resolveBadgeProps(badge, item)} shape={badge?.shape || Shape.Square} />}
+                    {hasCheckboxes ? renderCheckbox(item, selected) : renderLabel(item)}
+                    {badgeFieldId && isBadgeRightPosition(badgePosition) && <Badge key="badge-right" {...resolveBadgeProps(badge, item)} shape={badge?.shape || Shape.Square} />}
+                    {descriptionFieldId && !isUndefined(item[descriptionFieldId]) && (
+                        <DropdownItem
+                            className={cx('n2o-eclipse-content__description', {
+                                'n2o-eclipse-content__description-with-icon':
                                 !hasCheckboxes && item[iconFieldId],
-                            'n2o-eclipse-content__description-with-checkbox':
+                                'n2o-eclipse-content__description-with-checkbox':
                                 hasCheckboxes && !item[iconFieldId],
-                            'n2o-eclipse-content__description-with-icon-checkbox':
+                                'n2o-eclipse-content__description-with-icon-checkbox':
                                 hasCheckboxes && item[iconFieldId],
-                        })}
-                        header
-                    >
-                        {item[descriptionFieldId]}
-                    </DropdownItem>
-                )}
-            </DropdownItem>
+                            })}
+                            header
+                        >
+                            {item[descriptionFieldId]}
+                        </DropdownItem>
+                    )}
+                </DropdownItem>
+            </div>
         )
     }
 

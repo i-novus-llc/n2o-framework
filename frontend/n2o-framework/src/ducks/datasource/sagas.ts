@@ -18,6 +18,7 @@ import {
     removeFieldFromArray,
 } from '../models/store'
 import { EffectWrapper } from '../api/utils/effectWrapper'
+import { ModelPrefix } from '../../core/datasource/const'
 
 import { dataRequest as query } from './sagas/query'
 import { validate as validateSaga } from './sagas/validate'
@@ -27,6 +28,7 @@ import {
     dataRequest,
     DATA_REQUEST,
     register,
+    reset,
     remove,
     setSorting,
     startValidate,
@@ -36,6 +38,7 @@ import { applyOnInitDependencies, watchDependencies } from './sagas/dependencies
 import type { ChangePageAction, DataRequestAction, RemoveAction } from './Actions'
 import { submitSaga } from './sagas/submit'
 import { clear } from './Providers/Storage'
+import { ResetDatasourceAction } from './Actions'
 
 // Запуск запроса за данными при изменении мета-данных (фильтр, сортировка, страница)
 export function* runDataRequest({ payload }: ChangePageAction) {
@@ -122,4 +125,7 @@ export default (apiProvider: unknown) => [
     }),
     // @ts-ignore FIXME: проставить тип action
     takeEvery(action => action.meta?.clear, clear),
+    takeEvery(reset, function* resetModels({ payload: { id } }: ResetDatasourceAction) {
+        yield put(clearModel({ prefixes: Object.values(ModelPrefix), key: id }))
+    }),
 ]

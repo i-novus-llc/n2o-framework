@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import isNull from 'lodash/isNull'
-import moment from 'moment'
+import moment from 'moment/moment'
 import cx from 'classnames'
 
 import Day from './Day'
