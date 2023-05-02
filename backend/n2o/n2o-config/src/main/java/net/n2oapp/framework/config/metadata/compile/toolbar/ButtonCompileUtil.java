@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oButtonField;
@@ -79,9 +80,6 @@ public class ButtonCompileUtil {
     }
 
     protected static String initClientDatasourceId(Button source, CompileProcessor p) {
-        if (source.getDatasourceId() != null)
-            return getClientDatasourceId(source.getDatasourceId(), p);
-
         String datasourceId = initDatasource(source, p);
         if (datasourceId != null)
             return getClientDatasourceId(datasourceId, p);
@@ -89,7 +87,7 @@ public class ButtonCompileUtil {
             throw new N2oException(String.format("Unknown datasource for submit in field %s!", ((N2oButtonField)source).getId()));
     }
 
-    public static String initDatasource(Button source, CompileProcessor p) {
+    public static String initDatasource(DatasourceIdAware source, CompileProcessor p) {
         if (source.getDatasourceId() != null)
             return source.getDatasourceId();
         WidgetScope widgetScope = p.getScope(WidgetScope.class);

@@ -45,7 +45,6 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
     @Override
     public Submenu compile(N2oSubmenu source, CompileContext<?, ?> context, CompileProcessor p) {
         initDefaults(source, context, p);
-        source.setDatasourceId(initDatasource(source, p));
 
         Submenu submenu = new Submenu();
         IndexScope idx = p.getScope(IndexScope.class);
@@ -61,15 +60,6 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
         initGenerate(source, submenu, idx, context, p);
 
         return submenu;
-    }
-
-    private String initDatasource(N2oSubmenu source, CompileProcessor p) {
-        if (source.getDatasourceId() != null)
-            return source.getDatasourceId();
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null)
-            return widgetScope.getDatasourceId();
-        return null;
     }
 
     private void initMenuItems(N2oSubmenu source, Submenu button, IndexScope idx,

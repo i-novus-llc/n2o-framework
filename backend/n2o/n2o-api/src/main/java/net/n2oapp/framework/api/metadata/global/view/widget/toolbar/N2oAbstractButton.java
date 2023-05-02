@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
@@ -16,7 +17,7 @@ import net.n2oapp.framework.api.metadata.meta.badge.Position;
  */
 @Getter
 @Setter
-public abstract class N2oAbstractButton extends N2oComponent implements GroupItem, IdAware, BadgeAware {
+public abstract class N2oAbstractButton extends N2oComponent implements GroupItem, IdAware, BadgeAware, DatasourceIdAware {
     @N2oAttribute("Идентификатор")
     private String id;
     @N2oAttribute("Заголовок")

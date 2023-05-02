@@ -53,7 +53,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         button.setRounded(source.getRounded());
         button.setValidate(compileValidate(source,
                 p,
-                initDatasource(source, p)));
+                source.getDatasourceId()));
         CompiledObject compiledObject = initObject(p, source);
         Action action = compileAction(source, context, p, compiledObject);
         button.setAction(action);

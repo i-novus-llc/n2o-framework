@@ -24,6 +24,7 @@ import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.initDatasource;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -104,6 +105,8 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         source.setType(initType(source));
         source.setTooltipPosition(initTooltipPosition(source, p));
         source.setColor(initColor(source, p));
+
+        source.setDatasourceId(initDatasource(source, p));
         source.setModel(p.cast(source.getModel(), ReduxModel.resolve));
     }
 
