@@ -104,14 +104,4 @@
 
         </dependencies>
     </dependencyManagement>
-
-    <profiles>
-        <profile>
-            <id>frontend</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-    </profiles>
-
 </project>

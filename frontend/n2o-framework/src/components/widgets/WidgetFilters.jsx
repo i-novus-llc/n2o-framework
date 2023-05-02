@@ -13,6 +13,7 @@ import propsResolver from '../../utils/propsResolver'
 import { ModelPrefix } from '../../core/datasource/const'
 import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { setModel } from '../../ducks/models/store'
+import { reset } from '../../ducks/datasource/store'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
@@ -41,7 +42,7 @@ const WidgetFilters = (props) => {
     const reduxFormFilter = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.filter, formName))
 
     const clearDatasourceModel = useCallback(() => {
-        dispatch(setModel(ModelPrefix.source, formName, []))
+        dispatch(reset(formName))
     }, [dispatch, formName])
 
     const defaultValues = useRef(reduxFormFilter)
@@ -50,20 +51,21 @@ const WidgetFilters = (props) => {
         fetchData({ page: 1 })
     }, [fetchData])
     const handleReset = useCallback((fetchOnClear = true) => {
+        const filterModel = getModelByPrefixAndNameSelector(ModelPrefix.filter, formName)(getState())
+        const newReduxForm = clone(filterModel)
+        const toReset = difference(
+            map(flatFields(fieldsets, []), 'id'),
+            blackResetList,
+        )
+
+        toReset.forEach((field) => {
+            unset(newReduxForm, field)
+        })
+
+        dispatch(setModel(ModelPrefix.filter, formName, newReduxForm))
+
         if (fetchOnClear) {
-            const filterModel = getModelByPrefixAndNameSelector(ModelPrefix.filter, formName)(getState())
-            const newReduxForm = clone(filterModel)
-            const toReset = difference(
-                map(flatFields(fieldsets, []), 'id'),
-                blackResetList,
-            )
-
-            toReset.forEach((field) => {
-                unset(newReduxForm, field)
-            })
-
-            dispatch(setModel(ModelPrefix.filter, formName, newReduxForm))
-            handleFilter(newReduxForm)
+            handleFilter()
         } else {
             clearDatasourceModel()
         }
