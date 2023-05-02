@@ -341,7 +341,7 @@ public class TableAT extends AutoTestBase {
     }
 
     @Test
-    public void exportBtnTest() throws IOException {
+    public void exportCurrentPageTest() throws IOException {
         ChromeOptions options = new ChromeOptions();
         //Раскомменить при запуске с chrome версии 109 и выше
         //options.addArguments("--headless=new");
@@ -382,7 +382,7 @@ public class TableAT extends AutoTestBase {
         charset.shouldBeDisabled();
 
         RadioGroup radioGroup = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Текущая страница").control(RadioGroup.class);
-        radioGroup.shouldBeChecked("Загрузить все");
+        radioGroup.shouldBeChecked("Текущая страница");
 
         StandardButton download = modal.toolbar().bottomRight().button("Загрузить");
         download.shouldExists();
@@ -406,7 +406,80 @@ public class TableAT extends AutoTestBase {
                     "3;emdr_mris-3;ey88ea-ruaah34-54eqw;ТМК;\n" +
                     "\u0000";
 
-            assertTrue(actual.contains(expected));
+            assertTrue(actual.contains(expected), "Экспортированное значение таблицы не соответствует ожидаемому");
+        } catch (IOException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void exportAllTableTest() throws IOException {
+        ChromeOptions options = new ChromeOptions();
+        //Раскомменить при запуске с chrome версии 109 и выше
+        //options.addArguments("--headless=new");
+        //Использовать с chrome версии 96 - 108
+//        options.addArguments("--headless=chrome");
+//        Configuration.browserCapabilities = options;
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/data.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/exportModal.page.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        table.shouldExists();
+        table.columns().rows().shouldHaveSize(5);
+
+        StandardButton exportBtn = table.toolbar().topRight().button(Condition.cssClass("btn"));
+        exportBtn.shouldBeVisible();
+
+        exportBtn.click();
+
+        Modal modal = N2oSelenide.modal();
+        StandardPage modalPage = modal.content(StandardPage.class);
+        modalPage.shouldExists();
+
+        FormWidget form = modalPage.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+
+        InputText format = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Формат").control(InputText.class);
+        format.shouldHaveValue("CSV");
+        format.shouldBeDisabled();
+
+        InputText charset = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Кодировка").control(InputText.class);
+        charset.shouldHaveValue("UTF-8");
+        charset.shouldBeDisabled();
+
+        RadioGroup radioGroup = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Текущая страница").control(RadioGroup.class);
+        radioGroup.shouldBeChecked("Загрузить все (но не более 1000 записей)");
+
+        StandardButton download = modal.toolbar().bottomRight().button("Загрузить");
+        download.shouldExists();
+        StandardButton close = modal.toolbar().bottomRight().button("Закрыть");
+        close.shouldExists();
+
+        File file = download.element().download(
+                using(FOLDER).withFilter(withExtension("csv"))
+        );
+
+        try(FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8)) {
+            char[] chars = new char[(int) file.length() - 1];
+            fileReader.read(chars);
+
+            String actual = new String(chars);
+            String expected = "id;id_;id_ips;name;region\n" +
+                    "13;eadad;asdaa;asdads;adad\n" +
+                    "12;asd;asd;adad;asdada\n" +
+                    "1;emdr_mris-1;ey88ee-rugh34-asd4;РМИС Республика Адыгея(СТП);Республика Адыгея\n" +
+                    "2;emdr_mris-2;ey88ee-ruqah34-54eqw;РМИС Республика Татарстан(тестовая для ПСИ);Республика Татарстан\n" +
+                    "3;emdr_mris-3;ey88ea-ruaah34-54eqw;ТМК;\n" +
+                    "4;emdr_mris-4;ey88ee-asd52a-54eqw;МИС +МЕД;Республика Адыгея;\n" +
+                    "\u0000";
+
+            assertTrue(actual.contains(expected), "Экспортированное значение таблицы не соответствует ожидаемому");
         } catch (IOException e) {
             fail();
         }
