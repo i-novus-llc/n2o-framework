@@ -1,18 +1,4 @@
 [ {
-  "id" : 13,
-  "id_" : "eadad",
-  "id_ips" : "asdaa",
-  "name" : "asdads",
-  "region" : "adad",
-  "activity" : true
-}, {
-  "id" : 12,
-  "id_" : "asd",
-  "id_ips" : "asd",
-  "name" : "adad",
-  "region" : "asdada",
-  "activity" : true
-}, {
   "id" : 1,
   "id_" : "emdr_mris-1",
   "id_ips" : "ey88ee-rugh34-asd4",
