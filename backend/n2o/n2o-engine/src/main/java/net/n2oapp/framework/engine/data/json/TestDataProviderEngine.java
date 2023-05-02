@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.dataset.NestedList;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
@@ -470,11 +471,24 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private List<DataSet> inFilterData(String field, Object pattern, List<DataSet> data) {
         List patterns = pattern instanceof List ? (List) pattern : Arrays.asList(pattern);
         if (patterns != null) {
+            String[] splittedField = field.split("\\.");
+            String parent = splittedField[0];
+            String child = splittedField.length > 1 ? splittedField[1] : null;
             data = data
                     .stream()
                     .filter(m -> {
-                        if (!m.containsKey(field) || m.get(field) == null)
-                            return false;
+                        if (child != null) {
+                            if (!m.containsKey(parent))
+                                return false;
+
+                            if (m.get(parent) instanceof NestedList) {
+                                return ((NestedList)m.get(parent)).stream().anyMatch(c ->
+                                    ((DataSet) c).containsKey(child) && patterns.contains(((DataSet) c).get(child))
+                                );
+                            } else {
+                                return m.containsKey(field) && patterns.contains(m.get(field));
+                            }
+                        }
                         if (m.get(field) instanceof Number) {
                             List<Long> longPatterns = new ArrayList<>();
                             patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
@@ -496,11 +510,19 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         if (patterns.isEmpty())
             return data;
         List<String> splittedField = new ArrayList<>(Arrays.asList(field.split("\\.")));
-        if (splittedField.size() == 1)
-            return Collections.emptyList();
+        if (splittedField.size() == 1) {
+            return data
+                    .stream()
+                    .filter(m -> {
+                        if (!m.containsKey(splittedField.get(0)) || !(m.get(splittedField.get(0)) instanceof List))
+                            return false;
+                        return m.getList(splittedField.get(0)).containsAll(patterns);
+                    })
+                    .collect(Collectors.toList());
+        }
         String indexedField = splittedField.remove(splittedField.size() - 1);
         String parentField = String.join(".", splittedField);
-        data = data
+        return data
                 .stream()
                 .filter(m -> {
                     if (!m.containsKey(parentField) || !(m.get(parentField) instanceof List))
@@ -513,7 +535,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                     return mappedData.containsAll(patterns);
                 })
                 .collect(Collectors.toList());
-        return data;
     }
 
     private List<DataSet> lessFilterData(String field, Object pattern, List<DataSet> data) {

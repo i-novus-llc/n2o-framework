@@ -42,9 +42,9 @@ export default (Field) => {
         }
 
         componentWillUnmount() {
-            const { unRegisterExtraField, form, name } = this.props
+            const { unRegisterExtraField, form, name, modelPrefix } = this.props
 
-            unRegisterExtraField(form, name)
+            unRegisterExtraField(modelPrefix, form, name)
         }
 
         /**
@@ -62,13 +62,15 @@ export default (Field) => {
                 registerFieldExtra,
                 parentIndex,
                 validation,
+                enabled,
+                modelPrefix,
             } = props
 
             if (!isInit) {
-                registerFieldExtra(form, name, {
+                registerFieldExtra(modelPrefix, form, name, {
                     visible: visibleToRegister,
                     visible_field: visibleToRegister,
-                    disabled: disabledToRegister,
+                    disabled: disabledToRegister && enabled === false,
                     disabled_field: disabledToRegister,
                     parentIndex,
                     dependency: this.modifyDependency(dependency, parentIndex),
@@ -160,13 +162,16 @@ export default (Field) => {
     }
 
     const mapStateToProps = (state, ownProps) => {
-        const { form: formName, name: fieldName, modelPrefix } = ownProps
+        const { form: formName, name: fieldName, modelPrefix, multiSetDisabled } = ownProps
+        const disabled = multiSetDisabled
+            ? multiSetDisabled || isDisabledSelector(formName, fieldName)(state)
+            : isDisabledSelector(modelPrefix, formName, fieldName)(state)
 
         return {
-            isInit: isInitSelector(formName, fieldName)(state),
-            visible: isVisibleSelector(formName, fieldName)(state),
-            disabled: isDisabledSelector(formName, fieldName)(state),
-            required: requiredSelector(formName, fieldName)(state),
+            isInit: isInitSelector(modelPrefix, formName, fieldName)(state),
+            visible: isVisibleSelector(modelPrefix, formName, fieldName)(state),
+            disabled,
+            required: requiredSelector(modelPrefix, formName, fieldName)(state),
             message: messageSelector(formName, fieldName, modelPrefix)(state),
             model: getModelByPrefixAndNameSelector(modelPrefix, formName)(state),
         }
@@ -174,8 +179,10 @@ export default (Field) => {
 
     const mapDispatchToProps = dispatch => ({
         dispatch,
-        registerFieldExtra: (form, name, initialState) => dispatch(registerFieldExtra(form, name, initialState)),
-        unRegisterExtraField: (form, name) => dispatch(unRegisterExtraField(form, name)),
+        registerFieldExtra: (prefix, form, name, initialState) => (
+            dispatch(registerFieldExtra(prefix, form, name, initialState))
+        ),
+        unRegisterExtraField: (prefix, form, name) => dispatch(unRegisterExtraField(prefix, form, name)),
     })
 
     return compose(

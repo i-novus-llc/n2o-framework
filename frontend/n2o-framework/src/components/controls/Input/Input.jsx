@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import isObject from 'lodash/isObject'
 import isArray from 'lodash/isArray'
 import omit from 'lodash/omit'
+import isString from 'lodash/isString'
 
 /**
  * Контрол Input
@@ -90,21 +91,22 @@ class Input extends React.Component {
 
     render() {
         const {
-            placeholder,
-            className,
-            style,
-            id,
-            name,
-            type,
-            disabled,
-            inputRef,
             autoFocus,
-            readOnly,
-            value,
-            onFocus,
+            className,
+            disabled,
+            id,
+            inputRef,
+            label,
+            name,
             onBlur,
-            onPaste,
             onClick,
+            onFocus,
+            onPaste,
+            placeholder,
+            readOnly,
+            style,
+            type,
+            value,
             ...restProps
         } = this.props
 
@@ -129,7 +131,7 @@ class Input extends React.Component {
                 readOnly={readOnly}
                 {...omit(restProps, ['length', 'onChange', 'onKeyDown'])}
                 onChange={this.handleChange}
-                title={value}
+                title={isString(value) ? value : label}
             />
         )
     }
@@ -154,6 +156,7 @@ Input.propTypes = {
     onClick: PropTypes.func,
     onKeyDown: PropTypes.func,
     inputRef: PropTypes.func,
+    label: PropTypes.string,
 }
 
 Input.defaultProps = {

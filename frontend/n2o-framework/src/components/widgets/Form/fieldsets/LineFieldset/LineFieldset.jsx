@@ -4,76 +4,43 @@ import PropTypes from 'prop-types'
 import CollapseFieldset from '../CollapseFieldset/CollapseFieldSet'
 import TitleFieldset from '../TitleFieldset/TitleFieldset'
 import { withFieldsetHeader } from '../withFieldsetHeader'
+import propsResolver from '../../../../../utils/propsResolver'
 
-class LineFieldset extends React.Component {
-    constructor(props) {
-        super(props)
+function LineFieldset(props) {
+    const {
+        render,
+        rows,
+        type,
+        label,
+        expand,
+        className,
+        hasSeparator,
+        description,
+        help,
+        disabled,
+        collapsible,
+        badge: badgeProps,
+        activeModel,
+    } = props
 
-        this.getCollapseProps = this.getCollapseProps.bind(this)
-        this.getTitleProps = this.getTitleProps.bind(this)
+    const badge = propsResolver(badgeProps, activeModel)
+    const commonProps = {
+        render,
+        rows,
+        label,
+        className,
+        hasSeparator,
+        description,
+        help,
+        disabled,
+        badge,
     }
 
-    getCollapseProps() {
-        const {
-            render,
-            rows,
-            type,
-            label,
-            expand,
-            className,
-            hasSeparator,
-            description,
-            help,
-            disabled,
-        } = this.props
-
-        return {
-            render,
-            rows,
-            type,
-            label,
-            expand,
-            className,
-            hasSeparator,
-            description,
-            help,
-            disabled,
-        }
+    if (collapsible) {
+        return <CollapseFieldset {...commonProps} type={type} expand={expand} />
     }
 
-    getTitleProps() {
-        const {
-            render,
-            rows,
-            label: title,
-            className,
-            hasSeparator,
-            description,
-            help,
-            disabled,
-        } = this.props
-
-        return {
-            render,
-            rows,
-            title,
-            className,
-            hasSeparator,
-            description,
-            help,
-            disabled,
-        }
-    }
-
-    render() {
-        const { collapsible } = this.props
-
-        if (collapsible) {
-            return <CollapseFieldset {...this.getCollapseProps()} />
-        }
-
-        return <TitleFieldset {...this.getTitleProps()} />
-    }
+    return <TitleFieldset {...commonProps} />
 }
 
 LineFieldset.defaultProps = {
@@ -96,6 +63,7 @@ LineFieldset.propTypes = {
     disabled: PropTypes.bool,
     description: PropTypes.string,
     activeModel: PropTypes.object,
+    badge: PropTypes.object,
 }
 
 export default withFieldsetHeader(LineFieldset)

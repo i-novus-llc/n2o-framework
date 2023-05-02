@@ -16,6 +16,7 @@ import type {
     DataRequestAction,
     FailRequestAction,
     FailValidateAction,
+    ResetDatasourceAction,
     RegisterAction,
     RemoveAction,
     RemoveComponentAction,
@@ -271,6 +272,33 @@ const datasource = createSlice({
             },
         },
 
+        reset: {
+            // eslint-disable-next-line sonarjs/no-identical-functions
+            prepare(id: string) {
+                return ({
+                    payload: { id },
+                })
+            },
+
+            reducer(state, action: ResetDatasourceAction) {
+                const { id } = action.payload
+                const datasource = state[id]
+
+                // reset pagination to default
+                datasource.paging.page = 1
+                datasource.paging.count = 0
+
+                // reset all errors
+                Object.values(ModelPrefix).forEach((prefix) => {
+                    const model = datasource.errors[prefix]
+
+                    if (model) {
+                        datasource.errors[prefix] = {}
+                    }
+                })
+            },
+        },
+
         resetValidation: {
             // @ts-ignore поправить типы
             prepare(id, fields, prefix = ModelPrefix.active) {
@@ -412,6 +440,7 @@ export const {
     setAdditionalInfo,
     startValidate,
     resetValidation,
+    reset,
     failValidate,
     changePage,
     changeSize,

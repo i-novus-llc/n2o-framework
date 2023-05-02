@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oLineFieldSet;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.fieldset.LineFieldSet;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,8 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  */
 @Component
 public class LineFieldSetCompiler extends AbstractFieldSetCompiler<LineFieldSet, N2oLineFieldSet> {
+
+    private static final String PROPERTY_PREFIX = "n2o.api.fieldset.line";
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -33,7 +36,7 @@ public class LineFieldSetCompiler extends AbstractFieldSetCompiler<LineFieldSet,
                 p.resolve(property("n2o.api.fieldset.line.expand"), Boolean.class)));
         fieldSet.setSrc(p.cast(source.getSrc(),
                 p.resolve(property("n2o.api.fieldset.line.src"), String.class)));
-
+        fieldSet.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
         return fieldSet;
     }
 }

@@ -80,7 +80,7 @@ const modelsSlice = createSlice({
         },
 
         /**
-         * Очистка моделий. которая учивает список исключений (поля которые не нужно очищать)
+         * Очистка моделей. которая учитывает список исключений (поля которые не нужно очищать)
          */
         CLEAR(state, action: ClearModelAction) {
             const { prefixes, key } = action.payload
@@ -133,6 +133,7 @@ const modelsSlice = createSlice({
         },
 
         REMOVE_ALL: {
+            // eslint-disable-next-line sonarjs/no-identical-functions
             prepare(key: string) {
                 return ({
                     payload: { key },

@@ -80,7 +80,7 @@ export const ScrollContainer = ({
 
     return (
         <div
-            className="n2o-scrollcontainer overflow-auto"
+            className={`n2o-scrollcontainer overflow-auto ${className}`}
             onScroll={onScroll}
             ref={containerRef}
         >
