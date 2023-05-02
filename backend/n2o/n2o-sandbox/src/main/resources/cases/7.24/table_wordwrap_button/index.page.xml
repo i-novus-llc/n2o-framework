@@ -5,7 +5,7 @@
         <datasource id="ds1" query-id="data" size="5"/>
     </datasources>
     <regions>
-        <table datasource="ds1" checkboxes="true" selection="none">
+        <table datasource="ds1" selection="none">
             <columns>
                 <column text-field-id="id_"/>
                 <column text-field-id="id_ips"/>
