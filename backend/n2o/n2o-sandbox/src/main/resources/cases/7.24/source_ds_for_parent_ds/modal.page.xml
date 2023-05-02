@@ -2,9 +2,6 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Модальное окно">
     <datasources>
-        <!-- нужны для того, чтобы прокидываемые с предыдущей страницы датасорсы переопределили их.
-             Без них нельзя, т.к на текущей странице есть указания на modal_ds2 и modal_ds3 и
-             если их не указать, то ломалось бы -->
         <datasource id="parent_ds"/>
         <datasource id="modal_ds"/>
     </datasources>
@@ -12,7 +9,7 @@
     <regions>
         <form datasource="modal_ds">
             <fields>
-                <input-text id="id"/>
+                <hidden id="id" default-value="{$.uuid()}"/>
                 <input-text id="name"/>
             </fields>
         </form>
