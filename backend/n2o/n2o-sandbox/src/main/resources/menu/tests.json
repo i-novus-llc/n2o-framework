@@ -9,8 +9,12 @@
           "name": "Badge в line филдсете"
         },
         {
-          "templateId": "cases/7.24/table_settings_buttons",
-          "name": "Таблица с кнопками для экспортирования и переноса слов"
+          "templateId": "cases/7.24/table_export_buttons",
+          "name": "Пример работы кнопки экспортирования таблицы"
+        },
+        {
+          "templateId": "cases/7.24/table_wordwrap_buttons",
+          "name": "Пример работы кнопки переноса слов"
         }
       ]
     },

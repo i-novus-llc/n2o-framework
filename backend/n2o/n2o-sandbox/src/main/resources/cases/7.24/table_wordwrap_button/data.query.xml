@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list>
+        <test file="data.json" operation="findAll"/>
+    </list>
+    <count>
+        <test file="data.json" operation="count"/>
+    </count>
+
+    <fields>
+        <field id="id" domain="integer">
+            <select/>
+        </field>
+        <field id="id_" domain="string" name="Идентификатор">
+            <select/>
+            <sorting/>
+        </field>
+        <field id="id_ips" name="Идентификатор ИПС">
+            <select/>
+            <sorting/>
+        </field>
+        <field id="name" name="Наименование">
+            <select/>
+            <filters>
+                <like filter-id="name"/>
+            </filters>
+            <sorting/>
+        </field>
+        <field id="region" domain="string" name="Регион">
+            <select/>
+        </field>
+        <field id="activity" name="Активность" domain="boolean">
+            <select/>
+        </field>
+    </fields>
+</query>

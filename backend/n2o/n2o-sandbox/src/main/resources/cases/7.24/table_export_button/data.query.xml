@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" object-id="data">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
     <list>
         <test file="data.json" operation="findAll"/>
     </list>
@@ -10,22 +10,13 @@
     <fields>
         <field id="id" domain="integer">
             <select/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
         </field>
         <field id="id_" domain="string" name="Идентификатор">
             <select/>
-            <filters>
-                <like filter-id="id_"/>
-            </filters>
             <sorting/>
         </field>
         <field id="id_ips" name="Идентификатор ИПС">
             <select/>
-            <filters>
-                <like filter-id="id_ips"/>
-            </filters>
             <sorting/>
         </field>
         <field id="name" name="Наименование">
@@ -37,15 +28,9 @@
         </field>
         <field id="region" domain="string" name="Регион">
             <select/>
-            <filters>
-                <like filter-id="region"/>
-            </filters>
         </field>
         <field id="activity" name="Активность" domain="boolean">
             <select/>
-            <filters>
-                <eq filter-id="activity"/>
-            </filters>
         </field>
     </fields>
 </query>
