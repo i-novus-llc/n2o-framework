@@ -34,6 +34,7 @@ import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.ParentDatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.StylesResolver;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.function.Function;
@@ -111,6 +112,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setRoutes(pageRoutes);
 
         //toolbars
+        mergeToolbars(source, context);
         initToolbarGenerate(source, context, resultWidget);
         compileToolbarAndAction(page, source, context, p, metaActions, pageIndexScope, pageScope, routeScope, pageRoutes,
                 object, breadcrumb, metaActions, validationScope, datasourcesScope, appDatasourceIdsScope,
@@ -353,5 +355,15 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             n2oToolbars[length] = n2oToolbar;
             source.setToolbars(n2oToolbars);
         }
+    }
+
+    private void mergeToolbars(S source, PageContext context) {
+        if (CollectionUtils.isEmpty(context.getToolbars())) return;
+        Map<String, N2oToolbar> toolbars = new HashMap<>();
+        context.getToolbars().forEach(t -> toolbars.put(t.getPlace(), t));
+        if (source.getToolbars() != null) {
+            Arrays.stream(source.getToolbars()).forEach(t -> toolbars.putIfAbsent(t.getPlace(), t));
+        }
+        source.setToolbars(toolbars.values().toArray(new N2oToolbar[0]));
     }
 }

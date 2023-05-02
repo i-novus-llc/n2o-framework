@@ -1,8 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.widget.table;
 
+import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshAction;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
@@ -58,8 +60,9 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
 
     @Test
     public void generateTableSettings() {
+        PageContext context = new PageContext("table_settings");
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/table_settings.page.xml")
-                .get(new PageContext("table_settings"));
+                .get(context);
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
         assertThat(t.getToolbar().get("topLeft").get(0).getButtons().size(), is(6));
@@ -75,25 +78,54 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(filtersBtn.getHint(), is("Изменить видимость фильтров"));
         assertThat(filtersBtn.getIcon(), is("fa fa-filter"));
         assertThat(((CustomAction) filtersBtn.getAction()).getPayload().getAttributes().get("widgetId"), Matchers.is("table_settings_tb1"));
+
         assertThat(columnsBtn.getSrc(), is("ToggleColumn"));
         assertThat(columnsBtn.getHint(), is("Изменить видимость колонок"));
         assertThat(columnsBtn.getIcon(), is("fa fa-table"));
+
         assertThat(refreshBtn.getAction(), Matchers.instanceOf(RefreshAction.class));
         assertThat(refreshBtn.getHint(), is("Обновить данные"));
         assertThat(refreshBtn.getIcon(), is("fa fa-refresh"));
+
         assertThat(resizeBtn.getSrc(), is("ChangeSize"));
         assertThat(resizeBtn.getHint(), is("Изменить размер"));
         assertThat(resizeBtn.getIcon(), is("fa fa-bars"));
+
         assertThat(((CustomAction) wordwrapBtn.getAction()).getType(), Matchers.is("n2o/widgets/TOGGLE_WORD_WRAP"));
-        assertThat(((CustomAction) wordwrapBtn.getAction()).getPayload().getAttributes().get("datasource"), Matchers.is("ds1"));
+        assertThat(((CustomAction) wordwrapBtn.getAction()).getPayload().getAttributes().get("widgetId"), Matchers.is("table_settings_tb1"));
         assertThat(wordwrapBtn.getSrc(), is("WordWrap"));
         assertThat(wordwrapBtn.getHint(), is("Перенос по словам"));
-        assertThat(wordwrapBtn.getIcon(), is("fa-solid fa-grip-lines"));
+        assertThat(wordwrapBtn.getIcon(), is("fa fa-exchange"));
+
         assertThat(exportBtn.getAction(), Matchers.instanceOf(ShowModal.class));
         assertThat(((ShowModal) exportBtn.getAction()).getPageId(), Matchers.is("exportModal"));
-        assertThat(((ShowModal) exportBtn.getAction()).getPayload().getPageUrl(), Matchers.is("/table_settings/:datasourceId/exportTable"));
+        assertThat(((ShowModal) exportBtn.getAction()).getPayload().getPageUrl(), Matchers.is("/table_settings/exportModal"));
         assertThat(exportBtn.getHint(), is("Экспортировать"));
-        assertThat(exportBtn.getIcon(), is("fa-solid fa-arrow-up-from-bracket"));
+        assertThat(exportBtn.getIcon(), is("fa fa-share-square-o"));
+
+        PageContext modalPageContext = (PageContext) route("/table_settings/exportModal", Page.class);
+        assertThat(modalPageContext.getParentDatasourceIdsMap().size(), is(1));
+        assertThat(modalPageContext.getParentDatasourceIdsMap().get("ds1"), is("table_settings_ds1"));
+
+        StandardPage modalPage = (StandardPage) compile("net/n2oapp/framework/config/default/exportModal.page.xml")
+                .get(modalPageContext);
+        assertThat(modalPage.getDatasources().size(), is(1));
+        assertThat(modalPage.getDatasources().containsKey("table_settings_exportModal_exportModalDs"), is(true));
+        assertThat(modalPage.getDatasources().get("table_settings_exportModal_exportModalDs").getId(), is("table_settings_exportModal_exportModalDs"));
+
+        AbstractButton downloadBtn = modalPage.getToolbar().getButton("table_settings_exportModal_mi0");
+        assertThat(downloadBtn.getLabel(), is("Загрузить"));
+        assertThat(downloadBtn.getIcon(), is("fa fa-download"));
+        assertThat(downloadBtn.getColor(), is("primary"));
+        CustomAction download = ((CustomAction) downloadBtn.getAction());
+        assertThat(download.getType(), is("n2o/api/utils/export"));
+        assertThat(download.getPayload().getAttributes().get("baseURL"), is("/n2o/export"));
+        assertThat(download.getPayload().getAttributes().get("configDatasource"), is("exportModal_exportModalDs"));
+        assertThat(download.getPayload().getAttributes().get("exportDatasource"), is("table_settings_ds1"));
+
+        AbstractButton closeBtn = modalPage.getToolbar().getButton("table_settings_exportModal_mi1");
+        assertThat(closeBtn.getLabel(), is("Закрыть"));
+        assertThat(closeBtn.getAction().getClass(), is(CloseAction.class));
     }
 
     @Test
@@ -168,16 +200,17 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         AbstractButton button = t.getToolbar().get("bottomRight").get(0).getButtons().get(0);
 
         assertThat(((CustomAction) button.getAction()).getType(), Matchers.is("n2o/widgets/TOGGLE_WORD_WRAP"));
-        assertThat(((CustomAction) button.getAction()).getPayload().getAttributes().get("datasource"), Matchers.is("ds1"));
+        assertThat(((CustomAction) button.getAction()).getPayload().getAttributes().get("widgetId"), Matchers.is("wordwrap_w1"));
         assertThat(button.getSrc(), is("WordWrap"));
         assertThat(button.getHint(), is("Перенос по словам"));
-        assertThat(button.getIcon(), is("fa-solid fa-grip-lines"));
+        assertThat(button.getIcon(), is("fa fa-exchange"));
     }
 
     @Test
     public void generateExport() {
+        PageContext context = new PageContext("export", "/export");
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/export.page.xml")
-                .get(new PageContext("export"));
+                .get(context);
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
         assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().size(), is(1));
@@ -186,8 +219,32 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
 
         assertThat(button.getAction(), Matchers.instanceOf(ShowModal.class));
         assertThat(((ShowModal) button.getAction()).getPageId(), Matchers.is("exportModal"));
-        assertThat(((ShowModal) button.getAction()).getPayload().getPageUrl(), Matchers.is("/export/:datasourceId/exportTable"));
+        assertThat(((ShowModal) button.getAction()).getPayload().getPageUrl(), Matchers.is("/export/exportModal"));
         assertThat(button.getHint(), is("Экспортировать"));
-        assertThat(button.getIcon(), is("fa-solid fa-arrow-up-from-bracket"));
+        assertThat(button.getIcon(), is("fa fa-share-square-o"));
+
+        PageContext modalPageContext = (PageContext) route("/export/exportModal", Page.class);
+        assertThat(modalPageContext.getParentDatasourceIdsMap().size(), is(1));
+        assertThat(modalPageContext.getParentDatasourceIdsMap().get("ds1"), is("export_ds1"));
+
+        StandardPage modalPage = (StandardPage) compile("net/n2oapp/framework/config/default/exportModal.page.xml")
+                .get(modalPageContext);
+        assertThat(modalPage.getDatasources().size(), is(1));
+        assertThat(modalPage.getDatasources().containsKey("export_exportModal_exportModalDs"), is(true));
+        assertThat(modalPage.getDatasources().get("export_exportModal_exportModalDs").getId(), is("export_exportModal_exportModalDs"));
+
+        AbstractButton downloadBtn = modalPage.getToolbar().getButton("export_exportModal_mi0");
+        assertThat(downloadBtn.getLabel(), is("Загрузить"));
+        assertThat(downloadBtn.getIcon(), is("fa fa-download"));
+        assertThat(downloadBtn.getColor(), is("primary"));
+        CustomAction download = ((CustomAction) downloadBtn.getAction());
+        assertThat(download.getType(), is("n2o/api/utils/export"));
+        assertThat(download.getPayload().getAttributes().get("baseURL"), is("/n2o/export"));
+        assertThat(download.getPayload().getAttributes().get("configDatasource"), is("exportModal_exportModalDs"));
+        assertThat(download.getPayload().getAttributes().get("exportDatasource"), is("export_ds1"));
+
+        AbstractButton closeBtn = modalPage.getToolbar().getButton("export_exportModal_mi1");
+        assertThat(closeBtn.getLabel(), is("Закрыть"));
+        assertThat(closeBtn.getAction().getClass(), is(CloseAction.class));
     }
 }
