@@ -57,10 +57,10 @@ export function dataProviderResolver(state, dataProvider, query, options) {
 
     if (!isEmpty(queryParams) || !isEmpty(query) || !isEmpty(queryFromUrl) || size) {
         const params = {
+            size,
             ...queryParams,
             ...query,
             ...queryString.parse(queryFromUrl),
-            size,
         }
 
         compiledUrl = `${compiledUrl}?${queryString
