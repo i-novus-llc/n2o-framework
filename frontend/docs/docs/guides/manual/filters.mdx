@@ -26,7 +26,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 В теле `<filters>` перечисляются [типы фильтрации](../manual/data#Selection_filters) с указанием поля `field-id` и значения `value`.
 
-<Sandbox height={400} projectId="documentation_filters_filters" showHeader />
+<Sandbox height={400} projectId="interactions_filters_filters" showHeader />
 
 :::important
 Перечисленные типы фильтров должны быть объявлены в соотствествующих полях выборки.
@@ -48,7 +48,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 ```
 В теле `<filters>` перечисляются [типы фильтрации](../manual/data#Selection_filters) аналогично источникам данных.
 
-<Sandbox height={400} projectId="documentation_filters_filterslist" showHeader />
+<Sandbox height={400} projectId="interactions_filters_filterslist" showHeader />
 
 ### Фильтрация окон {#Modals}
 
@@ -88,7 +88,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 Для страниц с хлебными крошками рекомендуется использовать фильтрацию через [параметры адресной строки](filters#Values_param).
 :::
 
-<Sandbox height={420} projectId="documentation_filters_filterswindow" showHeader />
+<Sandbox height={420} projectId="interactions_filters_filterswindow" showHeader />
 
 ### Значения фильтров {#Values}
 
@@ -151,7 +151,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 Атрибутами `datasource` и `model` можно указать источник данных и модель, где находится значение.
 Если они не заданы - будут использоваться текущие источник и модель данных.
 
-<Sandbox height={400} projectId="documentation_filters_filterslink" showHeader />
+<Sandbox height={400} projectId="interactions_filters_filterslink" showHeader />
 
 В одном значении можно соединить несколько ссылок:
 ```xml title="Фильтрация по нескольким ссылкам"
@@ -208,7 +208,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 Параметры в адресном пути страницы задаются в разделе [Маршрутизация](routing).
 :::
 
-<Sandbox height={420} projectId="documentation_filters_filtersparam" showHeader />
+<Sandbox height={420} projectId="interactions_filters_filtersparam" showHeader />
 
 #### Фильтрация по параметру боковой панели {#Values_sidebar}
 
@@ -267,4 +267,4 @@ Master Detail фильтрация - это распространенный ш�
 Атрибут `required` фильтра задает обязательность фильтрации.
 Если значения не будет, запрос за данными не выполнится.
 
-<Sandbox height={550} projectId="documentation_filters_masterdetail" showHeader />
+<Sandbox height={550} projectId="interactions_filters_masterdetail" showHeader />

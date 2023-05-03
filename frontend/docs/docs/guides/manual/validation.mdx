@@ -42,7 +42,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
                field-id="age">age >= 18</condition>
 </validations>
 ```
-<Sandbox height={300} projectId="documentation_validation_condition" showHeader />
+<Sandbox height={300} projectId="interactions_validation_condition" showHeader />
 
 Атрибут `id` задаёт идентификатор валидации в объекте.
 В дальнейшем, через `id` на валидацию можно будет сослаться в тех местах,
@@ -84,7 +84,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
     </constraint>
 </validations>
 ```
-<Sandbox height={350} projectId="documentation_validation_constraint" showHeader />
+<Sandbox height={350} projectId="interactions_validation_constraint" showHeader />
 
 Обращение к провайдеру данных задаётся в элементе `<invocation>`.
 В элементе `<in>` задаются входные параметры провайдера.
@@ -111,7 +111,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
     </in>
 </operation>
 ```
-<Sandbox height={400} projectId="documentation_validation_required" showHeader />
+<Sandbox height={400} projectId="interactions_validation_required" showHeader />
 
 В этом случае для поля выполняется стандартная проверка заполненности и
 выводится сообщение.
@@ -125,7 +125,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
                message="Имя должно быть заполнено"/>
 </validations>
 ```
-<Sandbox height={400} projectId="documentation_validation_mandatory" showHeader />
+<Sandbox height={400} projectId="interactions_validation_mandatory" showHeader />
 
 #### Серьезность валидации
 
@@ -195,7 +195,7 @@ __*Серверные моменты вызова валидации*__
                enabled="{gender == 'woman'}"/>
 </validations>
 ```
-<Sandbox height={450} projectId="documentation_validation_mandatoryenabled" showHeader />
+<Sandbox height={450} projectId="interactions_validation_mandatoryenabled" showHeader />
 
 ### Валидация операций
 
@@ -285,7 +285,7 @@ __*Серверные моменты вызова валидации*__
     </validations>
 </operation>
 ```
-<Sandbox height={450} projectId="documentation_validation_dialog" showHeader />
+<Sandbox height={450} projectId="interactions_validation_dialog" showHeader />
 
 #### Использование диалога с вызовом провайдера данных и без
 
@@ -312,7 +312,7 @@ __*Серверные моменты вызова валидации*__
                field-id="age">...</condition>
 </validations>
 ```
-<Sandbox height={300} projectId="documentation_validation_condition" showHeader />
+<Sandbox height={300} projectId="interactions_validation_condition" showHeader />
 
 В самих полях так же можно указать список валидаций, сообщения которых прикрепятся к полю.
 Это задаётся в элементе `<validations>`:
@@ -322,7 +322,7 @@ __*Серверные моменты вызова валидации*__
     <validations white-list="checkAdult"/>
 </input-text>
 ```
-<Sandbox height={300} projectId="documentation_validation_whitelist" showHeader />
+<Sandbox height={300} projectId="interactions_validation_whitelist" showHeader />
 
 #### Вложенная валидация поля
 

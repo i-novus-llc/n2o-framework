@@ -769,7 +769,7 @@
     },
 
     {
-      "name": "Взаимодействие",
+      "name": "Действия",
       "templates": [
         {
           "templateId": "uxcomponents/actions/link",

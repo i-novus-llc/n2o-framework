@@ -1,0 +1,475 @@
+{
+  "name": "Взаимодействия",
+  "sections": [
+    {
+      "name": "Маршрутизация",
+      "templates": [
+        {
+          "templateId": "interactions/routing/routingnav",
+          "name": "Маршрут страниц в меню навигации"
+        },
+        {
+          "templateId": "interactions/routing/homepage",
+          "name": "Начальная страница приложения"
+        },
+        {
+          "templateId": "interactions/routing/childpage",
+          "name": "Маршрутизация вложенных страниц"
+        },
+        {
+          "templateId": "interactions/routing/pathparam",
+          "name": "Маршрут дочерней страницы с параметром пути"
+        },
+        {
+          "templateId": "interactions/routing/queryparam",
+          "name": "Маршрут дочерней страницы с параметром запроса"
+        },
+        {
+          "templateId": "interactions/routing/pageparam",
+          "name": "Передача и использование параметра страницы"
+        },
+        {
+          "templateId": "interactions/routing/queryroute",
+          "name": "Маршрутизация выборки"
+        },
+        {
+          "templateId": "interactions/routing/queryfilter",
+          "name": "Параметры запроса фильтра выборки"
+        },
+        {
+          "templateId": "interactions/routing/operation",
+          "name": "Маршрутизация операций"
+        },
+        {
+          "templateId": "interactions/routing/operationpath",
+          "name": "Маршрут операции с параметром пути"
+        },
+        {
+          "templateId": "interactions/routing/operationbody",
+          "name": "Маршрут операции с параметром тела запроса"
+        },
+        {
+          "templateId": "interactions/routing/field",
+          "name": "Значение простого поля заданное через параметр"
+        },
+        {
+          "templateId": "interactions/routing/fieldlist",
+          "name": "Задание значений списковых полей через параметры"
+        },
+        {
+          "templateId": "interactions/routing/fieldinterval",
+          "name": "Задание значений интервальных полей через параметры"
+        }
+
+      ]
+    },
+    {
+      "name": "Зависимости",
+      "templates": [
+        {
+          "templateId": "interactions/dependency/enabling",
+          "name": "Блокирование поля по условию"
+        },
+        {
+          "templateId": "interactions/dependency/enabledshort",
+          "name": "Короткая запись условия блокировки поля"
+        },
+        {
+          "templateId": "interactions/dependency/enabledset",
+          "name": "Блокирование филдсета по условию"
+        },
+        {
+          "templateId": "interactions/dependency/enablingbutton",
+          "name": "Блокирование кнопки по условию в элементе"
+        },
+        {
+          "templateId": "interactions/dependency/enabledbutton",
+          "name": "Блокирование кнопки по условию в атрибуте"
+        },
+        {
+          "templateId": "interactions/dependency/enabledcell",
+          "name": "Блокирование кнопки ячейки по условию в атрибуте "
+        },
+        {
+          "templateId": "interactions/dependency/visibility",
+          "name": "Скрытие поля по условию через элемент"
+        },
+        {
+          "templateId": "interactions/dependency/visible",
+          "name": "Скрытие поля по условию через атрибут"
+        },
+        {
+          "templateId": "interactions/dependency/visibleset",
+          "name": "Скрытие филдсета по условию"
+        },
+        {
+          "templateId": "interactions/dependency/visibilitybutton",
+          "name": "Скрытие кнопки по условию через элемент"
+        },
+        {
+          "templateId": "interactions/dependency/visiblebutton",
+          "name": "Скрытие кнопки по условию через атрибут"
+        },
+        {
+          "templateId": "interactions/dependency/visibilitycolumn",
+          "name": "Скрытие столбца таблицы по условию через элемент"
+        },
+        {
+          "templateId": "interactions/dependency/visibilitycell",
+          "name": "Скрытие кнопки ячейки по условию в атрибуте"
+        },
+        {
+          "templateId": "interactions/dependency/setvalue",
+          "name": "Установка значения в простом поле"
+        },
+        {
+          "templateId": "interactions/dependency/setvaluelist",
+          "name": "Установка значения в списковом поле"
+        },
+        {
+          "templateId": "interactions/dependency/setvaluecheckbox",
+          "name": "Установка значения в чекбоксе"
+        },
+        {
+          "templateId": "interactions/dependency/requiring",
+          "name": "Условие обязательности заполнения поля через элемент"
+        },
+        {
+          "templateId": "interactions/dependency/required",
+          "name": "Условие обязательности заполнения поля через атрибут"
+        }
+      ]
+    },
+    {
+      "name": "Фильтрация",
+      "templates": [
+        {
+          "templateId": "interactions/filters/filters",
+          "name": "Фильтрация источника данных"
+        },
+        {
+          "templateId": "interactions/filters/filterslist",
+          "name": "Фильтрация спискового поля"
+        },
+        {
+          "templateId": "interactions/filters/filterswindow",
+          "name": "Фильтрация в дочернем окне"
+        },
+        {
+          "templateId": "interactions/filters/filterslink",
+          "name": "Фильтрация по ссылке"
+        },
+        {
+          "templateId": "interactions/filters/filtersparam",
+          "name": "Фильтрация по параметру"
+        },
+        {
+          "templateId": "interactions/filters/masterdetail",
+          "name": "Master Detail фильтрация источников данных"
+        }
+      ]
+    },
+    {
+      "name": "Валидации",
+      "templates": [
+        {
+          "templateId": "interactions/validation/condition",
+          "name": "Валидация по условию"
+        },
+        {
+          "templateId": "interactions/validation/constraint",
+          "name": "Валидация с запросом к провайдеру данных"
+        },
+        {
+          "templateId": "interactions/validation/required",
+          "name": "Обязательность заполнения входящего параметра операции"
+        },
+        {
+          "templateId": "interactions/validation/mandatory",
+          "name": "Валидация обязательности заполнения"
+        },
+        {
+          "templateId": "interactions/validation/mandatoryenabled",
+          "name": "Отключение валидации"
+        },
+        {
+          "templateId": "interactions/validation/dialog",
+          "name": "Настраиваемый диалог"
+        },
+        {
+          "templateId": "interactions/validation/whitelist",
+          "name": "Список валидаций прикрепленных к полю"
+        }
+      ]
+    },
+    {
+      "name": "Значения по умолчанию",
+      "templates": [
+        {
+          "templateId": "interactions/defaultvalue/field",
+          "name": "Значение по умолчанию для простых полей"
+        },
+        {
+          "templateId": "interactions/defaultvalue/list",
+          "name": "Значение по умолчанию для списковых полей"
+        },
+        {
+          "templateId": "interactions/defaultvalue/query",
+          "name": "Выборка значений по умолчанию"
+        },
+        {
+          "templateId": "interactions/defaultvalue/js",
+          "name": "Значение по умолчанию в виде JavaScript выражения"
+        },
+        {
+          "templateId": "interactions/defaultvalue/datetime",
+          "name": "Значение по умолчанию в виде функции даты и времени"
+        },
+        {
+          "templateId": "interactions/defaultvalue/ref",
+          "name": "Значение по умолчанию через ссылку на данные"
+        }
+      ]
+    },
+    {
+      "name": "Визуальные компоненты",
+      "templates": [
+        {
+          "templateId": "interactions/components/header",
+          "name": "Структура шапки"
+        },
+        {
+          "templateId": "interactions/components/sidebar",
+          "name": "Структура боковой панели"
+        },
+        {
+          "templateId": "interactions/components/sidebars",
+          "name": "Множественные боковые панели"
+        },
+        {
+          "templateId": "interactions/components/sidebarpath",
+          "name": "Использование шаблонных путей"
+        },
+        {
+          "templateId": "interactions/components/footer",
+          "name": "Структура подвала"
+        },
+        {
+          "templateId": "interactions/components/mymenu",
+          "name": "Меню навигации в отдельном файле"
+        },
+        {
+          "templateId": "interactions/components/menu",
+          "name": "Меню навигации в приложении"
+        },
+        {
+          "templateId": "interactions/components/simplepage",
+          "name": "Простая страница"
+        },
+        {
+          "templateId": "interactions/components/page",
+          "name": "Страница с разметкой регионов (page)"
+        },
+        {
+          "templateId": "interactions/components/lrpage",
+          "name": "Страница с разметкой регионов (left-right-page)"
+        },
+        {
+          "templateId": "interactions/components/toplrpage",
+          "name": "Страница с разметкой регионов (top-left-right-page)"
+        },
+        {
+          "templateId": "interactions/components/searchablepage",
+          "name": "Страница с поисковой строкой"
+        },
+        {
+          "templateId": "interactions/components/tabs",
+          "name": "Регион в виде вкладок"
+        },
+        {
+          "templateId": "interactions/components/table",
+          "name": "Виджет таблица"
+        },
+        {
+          "templateId": "interactions/components/form",
+          "name": "Виджет форма"
+        }
+      ]
+    },
+    {
+      "name": "Динамика",
+      "templates": [
+        {
+          "templateId": "interactions/dynamic/icon",
+          "name": "Иконка в таблице по данным строки"
+        },
+        {
+          "templateId": "interactions/dynamic/textlabel",
+          "name": "Заголовок поля по значению другого поля"
+        },
+        {
+          "templateId": "interactions/dynamic/checkboxenabled",
+          "name": "Доступность чекбокса по условию"
+        },
+        {
+          "templateId": "interactions/dynamic/columnformat",
+          "name": "Форматирование значения столбца таблицы"
+        },
+        {
+          "templateId": "interactions/dynamic/columnswitch",
+          "name": "Переключатель ячейки столбца таблицы"
+        },
+        {
+          "templateId": "interactions/dynamic/pagelink",
+          "name": "Динамическая ссылка на страницу"
+        }
+      ]
+    },
+
+    {
+      "name": "Объект",
+      "templates": [
+        {
+          "templateId": "interactions/data/object/operations",
+          "name": "Операции объекта"
+        },
+        {
+          "templateId": "interactions/data/object/validation_condition",
+          "name": "Валидация на месте"
+        },
+        {
+          "templateId": "interactions/data/object/validation_constraint",
+          "name": "Валидация в сервисе"
+        },
+        {
+          "templateId": "interactions/data/object/nesting_object_fields_for_map_provider",
+          "name": "Вложенные поля в объекте на примере TestProvider"
+        },
+        {
+          "templateId": "interactions/data/object/nesting_object_fields_for_args_provider",
+          "name": "Вложенные поля в объекте на примере JavaProvider"
+        }
+      ]
+    },
+    {
+      "name": "Выборка данных",
+      "templates": [
+        {
+          "templateId": "interactions/data/query/list",
+          "name": "Пагинация"
+        },
+        {
+          "templateId": "interactions/data/query/list_filters",
+          "name": "Фильтрация"
+        },
+        {
+          "templateId": "interactions/data/query/unique",
+          "name": "Уникальность"
+        }
+      ]
+    },
+    {
+      "name": "Связывание данных",
+      "templates": [
+        {
+          "templateId": "interactions/data/binding/simple",
+          "name": "Простое поле"
+        },
+        {
+          "templateId": "interactions/data/binding/select",
+          "name": "Списковое поле"
+        },
+        {
+          "templateId": "interactions/data/binding/interval",
+          "name": "Интервальное поле"
+        }
+      ]
+    },
+    {
+      "name": "Провайдеры данных",
+      "templates": [
+        {
+          "templateId": "interactions/data/providers/sql",
+          "name": "SQL"
+        },
+        {
+          "templateId": "interactions/data/providers/sql_mapping",
+          "name": "Маппинг в SQL"
+        },
+        {
+          "templateId": "interactions/data/providers/rest",
+          "name": "REST"
+        },
+        {
+          "templateId": "interactions/data/providers/rest_mapping",
+          "name": "Маппинг в REST"
+        },
+        {
+          "templateId": "interactions/data/providers/java",
+          "name": "Java"
+        },
+        {
+          "templateId": "interactions/data/providers/mapping_java_primitive",
+          "name": "Маппинг примитивов в Java"
+        },
+        {
+          "templateId": "interactions/data/providers/mapping_java_entity",
+          "name": "Маппинг сущности в Java"
+        },
+        {
+          "templateId": "interactions/data/providers/mapping_java_criteria",
+          "name": "Маппинг критериев в Java"
+        },
+        {
+          "templateId": "interactions/data/providers/mongodb",
+          "name": "MongoDb"
+        },
+        {
+          "templateId": "interactions/data/providers/graphql",
+          "name": "GraphQL"
+        }
+      ]
+    },
+
+    {
+      "name": "Доступ по атрибутам",
+      "templates": [
+        {
+          "templateId": "interactions/access/attributes/header",
+          "name": "Меню навигации"
+        },
+        {
+          "templateId": "interactions/access/attributes/widgets",
+          "name": "Виджеты"
+        },
+        {
+          "templateId": "interactions/access/attributes/buttons",
+          "name": "Кнопки"
+        },
+        {
+          "templateId": "interactions/access/attributes/fields",
+          "name": "Поля"
+        },
+        {
+          "templateId": "interactions/access/attributes/columns",
+          "name": "Колонки"
+        }
+      ]
+    },
+    {
+      "name": "Доступ по схеме",
+      "templates": [
+        {
+          "templateId": "interactions/access/schema/header",
+          "name": "Меню навигации"
+        },
+        {
+          "templateId": "interactions/access/schema/buttons",
+          "name": "Кнопки"
+        }
+      ]
+    }
+
+
+  ]
+}
