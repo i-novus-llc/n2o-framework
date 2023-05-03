@@ -5,4 +5,6 @@ package net.n2oapp.framework.api.metadata.aware;
  */
 public interface DatasourceIdAware {
     String getDatasourceId();
+
+    void setDatasourceId(String datasourceId);
 }

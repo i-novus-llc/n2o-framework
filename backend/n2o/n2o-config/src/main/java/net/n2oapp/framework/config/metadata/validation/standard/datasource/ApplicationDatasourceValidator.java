@@ -25,8 +25,14 @@ public class ApplicationDatasourceValidator extends AbstractDataSourceValidator<
     @Override
     public void validate(N2oApplicationDatasource datasource, SourceProcessor p) {
         N2oApplication n2oApplication = p.getSource(p.resolve("${n2o.application.id}", String.class), N2oApplication.class);
-        if (isNull(n2oApplication.getDatasources()) || Arrays.stream(n2oApplication.getDatasources()).noneMatch(ds -> ds.getId().equals(datasource.getId())))
+        if (isNull(n2oApplication.getDatasources()) ||
+                Arrays.stream(n2oApplication.getDatasources()).noneMatch(ds -> ds.getId()
+                        .equals(getDatasourceId(datasource))))
             throw new N2oMetadataValidationException(String.format("Источник данных <app-datasource> ссылается на несуществующий в %s.application.xml источник данных '%s'",
-                    n2oApplication.getId(), datasource.getId()));
+                    n2oApplication.getId(), getDatasourceId(datasource)));
+    }
+
+    private String getDatasourceId(N2oApplicationDatasource datasource) {
+        return datasource.getSourceDatasource() == null ? datasource.getId() : datasource.getSourceDatasource();
     }
 }

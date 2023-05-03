@@ -7,6 +7,14 @@
         {
           "templateId": "cases/7.24/badge_line_fieldset",
           "name": "Badge в line филдсете"
+        },
+        {
+          "templateId": "cases/7.24/source_ds_for_parent_ds",
+          "name": "Прокидывание разных parent-datasource из родительской страницы"
+        },
+        {
+          "templateId": "cases/7.24/source_ds_for_app_ds",
+          "name": "Прокидывание разных app-datasource из родительской страницы"
         }
       ]
     },

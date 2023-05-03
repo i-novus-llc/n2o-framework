@@ -18,6 +18,7 @@ public class ImageFieldIOv3 extends ActionFieldIOv3<N2oImageField> {
     @Override
     public void io(Element e, N2oImageField m, IOProcessor p) {
         super.io(e, m, p);
+        action(e, m, p, "statuses");
         p.attribute(e, "url", m::getUrl, m::setUrl);
         p.attribute(e, "data", m::getData, m::setData);
         p.attribute(e, "title", m::getTitle, m::setTitle);

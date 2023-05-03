@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.widget;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
@@ -11,6 +12,16 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
  * Стандартный виджет для автотестирования
  */
 public class N2oStandardWidget extends N2oWidget implements StandardWidget {
+
+    @Override
+    public void shouldBeEnabled() {
+        element().$(".n2o-standard-widget-layout").shouldNotHave(Condition.cssClass("n2o-disabled"));
+    }
+
+    @Override
+    public void shouldBeDisabled() {
+        element().$(".n2o-standard-widget-layout").shouldHave(Condition.cssClass("n2o-disabled"));
+    }
 
     @Override
     public WidgetToolbar toolbar() {

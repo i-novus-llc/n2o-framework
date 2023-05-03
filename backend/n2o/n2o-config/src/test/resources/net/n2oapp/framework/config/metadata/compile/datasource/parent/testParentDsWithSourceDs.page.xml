@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Inherited datasource. Передача данных в модальное окно">
+    <datasources>
+        <!-- Первая таблица -->
+        <datasource id="ds2"/>
+        <!-- Вторая таблица -->
+        <datasource id="ds3"/>
+    </datasources>
+
+    <regions>
+        <table datasource="ds2">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+            <toolbar>
+                <button label="Открыть">
+                    <show-modal page-id="testParentDsWithSourceDsModal" route="/modal">
+                        <!-- Можно при открытии модалки прокидывать датасорсы и
+                             тем самым переопределять их на открываемой странице -->
+                        <datasources>
+                            <parent-datasource id="parentDs" source-datasource="ds2"/>
+                            <inherited-datasource
+                                    id="modal_ds3"
+                                    source-datasource="ds2"
+                                    source-model="resolve">
+                            </inherited-datasource>
+                        </datasources>
+                    </show-modal>
+                </button>
+            </toolbar>
+        </table>
+
+        <table datasource="ds3">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+            <toolbar>
+                <button label="Открыть">
+                    <!-- ВАЖНО ЗАДАТЬ РАЗНЫЙ route !!! -->
+                    <show-modal page-id="testParentDsWithSourceDsModal" route="/modal2">
+                        <datasources>
+                            <parent-datasource id="parentDs" source-datasource="ds3"/>
+                            <inherited-datasource
+                                    id="modal_ds3"
+                                    source-datasource="ds3"
+                                    source-model="resolve">
+                            </inherited-datasource>
+                        </datasources>
+                    </show-modal>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>
