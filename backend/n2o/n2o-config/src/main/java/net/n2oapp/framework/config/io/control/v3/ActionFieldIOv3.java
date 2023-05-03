@@ -13,6 +13,5 @@ public abstract class ActionFieldIOv3<T extends N2oActionField> extends FieldIOv
     @Override
     public void io(Element e, T m, IOProcessor p) {
         super.io(e, m, p);
-        action(e, m, p, "statuses", "dependencies");
     }
 }

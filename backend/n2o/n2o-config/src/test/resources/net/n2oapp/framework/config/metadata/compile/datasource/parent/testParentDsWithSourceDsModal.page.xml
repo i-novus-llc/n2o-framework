@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Модальное окно">
+    <datasources>
+        <!-- нужны для того, чтобы прокидываемые с предыдущей страницы датасорсы переопределили их.
+             Без них нельзя, т.к на текущей странице есть указания на modal_ds2 и modal_ds3 и
+             если их не указать, то ломалось бы -->
+        <datasource id="parentDs"/>
+        <datasource id="modal_ds3"/>
+    </datasources>
+
+    <regions>
+        <form datasource="modal_ds3">
+            <fields>
+                <input-text id="id" enabled="false"/>
+                <input-text id="name"/>
+            </fields>
+        </form>
+    </regions>
+    <toolbar>
+        <button label="Сохранить" color="primary">
+            <edit-list
+                    operation="update"
+                    datasource="parentDs"
+                    model="datasource"
+                    item-datasource="modal_ds3"
+                    item-model="resolve"
+            />
+            <close/>
+        </button>
+        <button label="Закрыть">
+            <close/>
+        </button>
+    </toolbar>
+</page>
