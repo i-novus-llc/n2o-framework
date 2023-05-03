@@ -80,7 +80,7 @@ public class InputSelectAT extends AutoTestBase {
         input.openPopup();
         input.dropdown().item(1).shouldBeSelected();
 
-        input.clearUsingIcon();
+        input.clear();
         input.shouldBeEmpty();
 
         input.openPopup();
