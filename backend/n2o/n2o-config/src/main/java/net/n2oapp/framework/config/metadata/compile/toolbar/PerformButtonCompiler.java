@@ -1,17 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
-import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -27,19 +22,17 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
+import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.compileValidate;
+import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.initDatasource;
+import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.initValidate;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
-import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 /**
  * Компиляция кнопки
@@ -53,16 +46,18 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
     @Override
     public PerformButton compile(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
         PerformButton button = new PerformButton();
+        initDefaults(source, context, p);
         compileBase(button, source, context, p);
         button.setSrc(source.getSrc());
         button.setRounded(source.getRounded());
-        button.setValidate(compileValidate(source, p));
+        button.setValidate(compileValidate(source,
+                p,
+                source.getDatasourceId()));
         CompiledObject compiledObject = initObject(p, source);
         Action action = compileAction(source, context, p, compiledObject);
         button.setAction(action);
-        button.setConfirm(compileConfirm(source, action, p, compiledObject));
+        button.setConfirm(ButtonCompileUtil.compileConfirm(source, p, getOperation(action, compiledObject)));
         compileDependencies(source, button, p);
         return button;
     }
@@ -83,29 +78,14 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     protected void initDefaults(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
         source.setId(p.cast(source.getId(), source.getActionId()));
         super.initDefaults(source, context, p);
+
+        source.setDatasourceId(initDatasource(source, p));
         source.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.button.src"), String.class)));
         source.setRounded(p.cast(source.getRounded(), false));
-        String datasource = initDatasource(source, p);
-        boolean validate = initValidate(source, p, datasource);
+        boolean validate = initValidate(source, p, source.getDatasourceId());
         source.setValidate(validate);
-        source.setValidateDatasourceIds(initValidateDatasources(source, validate, datasource));
+        source.setValidateDatasourceIds(initValidateDatasources(source, validate, source.getDatasourceId()));
         source.setActions(initActions(source, p));
-    }
-
-    private Boolean initValidate(N2oButton source, CompileProcessor p, String datasource) {
-        if (isEmpty(source.getActions()))
-            return p.cast(source.getValidate(), false);
-        return p.cast(source.getValidate(), datasource != null || source.getValidateDatasourceIds() != null);
-    }
-
-    private List<String> compileValidate(N2oButton source, CompileProcessor p) {
-        if (!Boolean.TRUE.equals(source.getValidate()))
-            return null;
-        if (source.getValidateDatasourceIds() == null || source.getValidateDatasourceIds().length == 0)
-            throw new N2oException(String.format("validate-datasources is not defined in button [%s]", source.getId()));
-        return Stream.of(source.getValidateDatasourceIds())
-                .map(ds -> getClientDatasourceId(ds, p))
-                .collect(Collectors.toList());
     }
 
     private String[] initValidateDatasources(N2oButton source, boolean validate, String datasource) {
@@ -132,77 +112,6 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             }
         }
         return p.getScope(CompiledObject.class);
-    }
-
-    private Confirm compileConfirm(N2oButton source,
-                                   Action action,
-                                   CompileProcessor p, CompiledObject object) {
-        CompiledObject.Operation operation = getOperation(action, object);
-        boolean operationConfirm = operation != null && operation.getConfirm() != null && operation.getConfirm();
-        if (source.getConfirm() != null) {
-            Object condition = p.resolveJS(source.getConfirm(), Boolean.class);
-            if (condition instanceof Boolean) {
-                if (!((Boolean) condition || operationConfirm))
-                    return null;
-                return initConfirm(source, p, operation, true);
-            }
-            if (condition instanceof String) {
-                return initConfirm(source, p, operation, condition);
-            }
-        }
-        if (operationConfirm)
-            return initConfirm(source, p, operation, true);
-        return null;
-    }
-
-    private Confirm initConfirm(N2oButton source, CompileProcessor p, CompiledObject.Operation operation, Object condition) {
-        Confirm confirm = new Confirm();
-        confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.MODAL));
-        confirm.setTitle(p.cast(source.getConfirmTitle(), operation != null ? operation.getFormSubmitLabel() : null, p.getMessage("n2o.confirm.title")));
-        confirm.setOk(new Confirm.Button(
-                p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")),
-                p.cast(source.getConfirmOkColor(), p.resolve(property("n2o.api.button.confirm.ok_color"), String.class))));
-        confirm.setCancel(new Confirm.Button(
-                p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")),
-                p.cast(source.getConfirmCancelColor(), p.resolve(property("n2o.api.button.confirm.cancel_color"), String.class))));
-        confirm.setText(initExpression(
-                p.cast(source.getConfirmText(), operation != null ? operation.getConfirmationText() : null, p.getMessage("n2o.confirm.text"))));
-        confirm.setCondition(initConfirmCondition(condition));
-        confirm.setCloseButton(p.resolve(property("n2o.api.button.confirm.close_button"), Boolean.class));
-        confirm.setReverseButtons(p.resolve(property("n2o.api.button.confirm.reverse_buttons"), Boolean.class));
-
-        if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getCondition())) {
-            String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
-            confirm.setModelLink(new ModelLink(source.getModel(), clientDatasource).getBindLink());
-        }
-        return confirm;
-    }
-
-    private String initConfirmCondition(Object condition) {
-        if (condition instanceof Boolean)
-            return Placeholders.js(Boolean.toString(true));
-        return initExpression((String) condition);
-    }
-
-    private String initExpression(String attr) {
-        if (StringUtils.hasLink(attr)) {
-            Set<String> links = StringUtils.collectLinks(attr);
-            String text = js("'" + attr + "'");
-            for (String link : links) {
-                text = text.replace(ref(link), "' + this." + link + " + '");
-            }
-            return text;
-        }
-        return attr;
-    }
-
-    private String initDatasource(N2oButton source, CompileProcessor p) {
-        if (source.getDatasourceId() != null)
-            return source.getDatasourceId();
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null)
-            return widgetScope.getDatasourceId();
-        return null;
     }
 
     /**
