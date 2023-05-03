@@ -6,7 +6,7 @@ import isUndefined from 'lodash/isUndefined'
 import isFunction from 'lodash/isFunction'
 import isNull from 'lodash/isNull'
 import PropTypes from 'prop-types'
-import moment from 'moment'
+import moment from 'moment/moment'
 import { Manager, Reference, Popper } from 'react-popper'
 
 import {
