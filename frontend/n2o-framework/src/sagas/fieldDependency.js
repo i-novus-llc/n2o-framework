@@ -9,8 +9,6 @@ import {
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
-import some from 'lodash/some'
-import includes from 'lodash/includes'
 import get from 'lodash/get'
 import keys from 'lodash/keys'
 import { actionTypes, change } from 'redux-form'
@@ -218,6 +216,40 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
     }
 }
 
+const shouldBeResolved = ({
+    dependency,
+    actionType,
+    actionField,
+    currentField,
+}) => {
+    const { applyOnInit, on } = dependency
+    const isChangeAction = actionType === actionTypes.CHANGE
+
+    // apply on init
+    if (applyOnInit && (
+        actionType === initializeDependencies.type ||
+        (
+            actionField === currentField &&
+            actionType === registerFieldExtra.type
+        )
+    )) { return true }
+
+    // apply on change
+    /*
+     * условие 2 нужно чтобы стрелть событиями когда обновлённое поле это объект,
+     * а подписка на внутренее значение
+     * update({ field: { id: 1 } }) on=['field.id'] => fieldName="field"
+     * из-за этого условия стреляют лишние зависимости: on=['field.count']
+     * FIXME: Переделать на реальное сравнение изменения вложенных полей
+     */
+    return isChangeAction && on?.some(dependencyField => (
+        dependencyField === actionField || // full equality
+        dependencyField.startsWith(`${actionField}.`) || // fieldName: "field", on: "field.id"
+        actionField.startsWith(`${dependencyField}.`) || // fieldName: "field.inner", on: "field"
+        actionField.startsWith(`${dependencyField}[`) // fieldName: "field[index]", on: "field"
+    ))
+}
+
 export function* checkAndModify(
     values,
     fields,
@@ -230,23 +262,12 @@ export function* checkAndModify(
 
         if (field.dependency) {
             for (const dep of field.dependency) {
-                const needRunOnInit = dep.applyOnInit && (
-                    actionType === initializeDependencies.type ||
-                    (fieldName === fieldId &&
-                        actionType === registerFieldExtra.type)
-                )
-                const someDepNeedRun = some(
-                    dep.on,
-                    field => (
-                        field === fieldName ||
-                        (includes(field, '.') && includes(field, fieldName))
-                    ),
-                )
-
-                if (
-                    needRunOnInit ||
-                    (someDepNeedRun && (actionType === actionTypes.CHANGE || actionType === actionTypes.INITIALIZE))
-                ) {
+                if (shouldBeResolved({
+                    actionField: fieldName,
+                    actionType,
+                    currentField: fieldId,
+                    dependency: dep,
+                })) {
                     yield fork(modify, values, formName, fieldId, dep, field)
                 }
             }
