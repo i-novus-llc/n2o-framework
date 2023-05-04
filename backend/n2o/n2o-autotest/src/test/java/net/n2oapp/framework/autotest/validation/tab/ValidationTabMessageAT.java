@@ -181,10 +181,4 @@ public class ValidationTabMessageAT extends AutoTestBase {
         saveBtn.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
     }
-
-    @Test
-    public void trs() {
-
-    }
-
 }
