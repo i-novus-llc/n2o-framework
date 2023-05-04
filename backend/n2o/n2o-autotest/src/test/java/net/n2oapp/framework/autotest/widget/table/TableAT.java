@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
@@ -344,10 +345,10 @@ public class TableAT extends AutoTestBase {
     public void exportCurrentPageTest() throws IOException {
         ChromeOptions options = new ChromeOptions();
         //Раскомменить при запуске с chrome версии 109 и выше
-        //options.addArguments("--headless=new");
+//        options.addArguments("--headless=new");
         //Использовать с chrome версии 96 - 108
-//        options.addArguments("--headless=chrome");
-//        Configuration.browserCapabilities = options;
+        options.addArguments("--headless=chrome");
+        Configuration.browserCapabilities = options;
         setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/index.page.xml"),
@@ -382,6 +383,7 @@ public class TableAT extends AutoTestBase {
         charset.shouldBeDisabled();
 
         RadioGroup radioGroup = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Текущая страница").control(RadioGroup.class);
+        radioGroup.check("Текущая страница");
         radioGroup.shouldBeChecked("Текущая страница");
 
         StandardButton download = modal.toolbar().bottomRight().button("Загрузить");
@@ -416,10 +418,10 @@ public class TableAT extends AutoTestBase {
     public void exportAllTableTest() throws IOException {
         ChromeOptions options = new ChromeOptions();
         //Раскомменить при запуске с chrome версии 109 и выше
-        //options.addArguments("--headless=new");
+//        options.addArguments("--headless=new");
         //Использовать с chrome версии 96 - 108
-//        options.addArguments("--headless=chrome");
-//        Configuration.browserCapabilities = options;
+        options.addArguments("--headless=chrome");
+        Configuration.browserCapabilities = options;
         setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/index.page.xml"),
@@ -476,7 +478,7 @@ public class TableAT extends AutoTestBase {
                     "1;emdr_mris-1;ey88ee-rugh34-asd4;РМИС Республика Адыгея(СТП);Республика Адыгея\n" +
                     "2;emdr_mris-2;ey88ee-ruqah34-54eqw;РМИС Республика Татарстан(тестовая для ПСИ);Республика Татарстан\n" +
                     "3;emdr_mris-3;ey88ea-ruaah34-54eqw;ТМК;\n" +
-                    "4;emdr_mris-4;ey88ee-asd52a-54eqw;МИС +МЕД;Республика Адыгея;\n" +
+                    "4;emdr_mris-4;ey88ee-asd52a-54eqw;МИС +МЕД;Республика Адыгея\n" +
                     "\u0000";
 
             assertTrue(actual.contains(expected), "Экспортированное значение таблицы не соответствует ожидаемому");
