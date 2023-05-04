@@ -35,4 +35,11 @@ public interface CheckboxGroup extends Control {
      * @param labels метки ожидаемых чекбоксов
      */
     void shouldHaveOptions(String... labels);
+
+    /**
+     * Проверка соответствия тултипа при наведении на чекбокс со значением самой метки чекбокса
+     *
+     * @param label значение метки проверяемого чекбокса
+     */
+    void shouldHaveTooltip(String label);
 }

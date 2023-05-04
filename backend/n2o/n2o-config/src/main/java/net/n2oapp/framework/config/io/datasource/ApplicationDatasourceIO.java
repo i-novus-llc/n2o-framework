@@ -14,6 +14,7 @@ public class ApplicationDatasourceIO extends AbstractDatasourceIO<N2oApplication
     @Override
     public void io(Element e, N2oApplicationDatasource ds, IOProcessor p) {
         super.io(e, ds, p);
+        p.attribute(e, "source-datasource", ds::getSourceDatasource, ds::setSourceDatasource);
     }
 
     @Override

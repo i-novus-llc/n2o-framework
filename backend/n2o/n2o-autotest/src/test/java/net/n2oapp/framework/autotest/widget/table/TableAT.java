@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
@@ -9,12 +8,15 @@ import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
+import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.control.Select;
+import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -33,7 +35,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.exceptions.verification.TooManyActualInvocations;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.io.File;
@@ -47,12 +48,14 @@ import static com.codeborne.selenide.files.FileFilters.withExtension;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Автотест для виджета Таблица
  */
 public class TableAT extends AutoTestBase {
+
     @SpyBean
     private N2oController controller;
 
@@ -330,25 +333,56 @@ public class TableAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        TableWidget tableWidget = page.widget(TableWidget.class);
-        tableWidget.filters().fields().field("name").control(InputText.class).click();
-        tableWidget.filters().fields().field("name").control(InputText.class).setValue("test");
-        tableWidget.filters().toolbar().button("Найти").click();
-        tableWidget.columns().rows().shouldHaveSize(4);
+        TableWidget table = page.widget(TableWidget.class);
+        InputText input = table.filters().fields().field("name").control(InputText.class);
+        input.click();
+        input.setValue("test");
+        table.filters().toolbar().button("Найти").click();
+        table.columns().rows().shouldHaveSize(4);
 
-        tableWidget.filters().toolbar().button("Сбросить").click();
-        tableWidget.columns().rows().shouldHaveSize(0);
-        verifyNeverGetDataInvocation("Запрос за данными таблицы при fetch-on-clear=false");
+        table.filters().toolbar().button("Сбросить").click();
+        table.columns().rows().shouldHaveSize(0);
+        verifyNeverGetDataInvocation(2, "Запрос за данными таблицы при fetch-on-clear=false");
+        input.shouldBeEmpty();
+        table.paging().shouldNotHaveTotalElements();
+    }
+
+    @Test
+    public void fetchOnVisibilityTest() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/fetch_on_visibility");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_visibility/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_visibility/test.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        RegionItems regionItems = page.regions().region(0, SimpleRegion.class).content();
+        FormWidget form = regionItems.widget(0, FormWidget.class);
+        TableWidget table = regionItems.widget(1, TableWidget.class);
+
+        form.shouldBeVisible();
+        table.shouldBeVisible();
+
+        Checkbox checkbox = form.fieldsets()
+                .fieldset(0, SimpleFieldSet.class)
+                .fields()
+                .field("Видимость таблицы")
+                .control(Checkbox.class);
+        checkbox.shouldBeChecked();
+
+        checkbox.setChecked(false);
+        table.shouldBeHidden();
+
+        checkbox.setChecked(true);
+        table.shouldBeVisible();
+
+        verifyNeverGetDataInvocation(1, "Запрос за данными таблицы при fetch-on-visibility=false");
     }
 
     @Test
     public void exportCurrentPageTest() throws IOException {
-        ChromeOptions options = new ChromeOptions();
-        //Раскомменить при запуске с chrome версии 109 и выше
-//        options.addArguments("--headless=new");
-        //Использовать с chrome версии 96 - 108
-        options.addArguments("--headless=chrome");
-        Configuration.browserCapabilities = options;
         setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/index.page.xml"),
@@ -361,7 +395,8 @@ public class TableAT extends AutoTestBase {
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
         table.shouldExists();
-        table.columns().rows().shouldHaveSize(5);
+        table.columns().rows().shouldHaveSize(3);
+        table.paging().selectPage("2");
 
         StandardButton exportBtn = table.toolbar().topRight().button(Condition.cssClass("btn"));
         exportBtn.shouldBeVisible();
@@ -395,17 +430,15 @@ public class TableAT extends AutoTestBase {
                 using(FOLDER).withFilter(withExtension("csv"))
         );
 
-        try(FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8)) {
+        try (FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8)) {
             char[] chars = new char[(int) file.length() - 1];
             fileReader.read(chars);
 
             String actual = new String(chars);
             String expected = "id;id_;id_ips;name;region\n" +
-                    "13;eadad;asdaa;asdads;adad\n" +
-                    "12;asd;asd;adad;asdada\n" +
-                    "1;emdr_mris-1;ey88ee-rugh34-asd4;РМИС Республика Адыгея(СТП);Республика Адыгея\n" +
                     "2;emdr_mris-2;ey88ee-ruqah34-54eqw;РМИС Республика Татарстан(тестовая для ПСИ);Республика Татарстан\n" +
                     "3;emdr_mris-3;ey88ea-ruaah34-54eqw;ТМК;\n" +
+                    "4;emdr_mris-4;ey88ee-asd52a-54eqw;МИС +МЕД;Республика Адыгея\n" +
                     "\u0000";
 
             assertTrue(actual.contains(expected), "Экспортированное значение таблицы не соответствует ожидаемому");
@@ -416,12 +449,6 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void exportAllTableTest() throws IOException {
-        ChromeOptions options = new ChromeOptions();
-        //Раскомменить при запуске с chrome версии 109 и выше
-//        options.addArguments("--headless=new");
-        //Использовать с chrome версии 96 - 108
-        options.addArguments("--headless=chrome");
-        Configuration.browserCapabilities = options;
         setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/index.page.xml"),
@@ -434,7 +461,7 @@ public class TableAT extends AutoTestBase {
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
         table.shouldExists();
-        table.columns().rows().shouldHaveSize(5);
+        table.columns().rows().shouldHaveSize(3);
 
         StandardButton exportBtn = table.toolbar().topRight().button(Condition.cssClass("btn"));
         exportBtn.shouldBeVisible();
@@ -467,7 +494,7 @@ public class TableAT extends AutoTestBase {
                 using(FOLDER).withFilter(withExtension("csv"))
         );
 
-        try(FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8)) {
+        try (FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8)) {
             char[] chars = new char[(int) file.length() - 1];
             fileReader.read(chars);
 
@@ -487,9 +514,9 @@ public class TableAT extends AutoTestBase {
         }
     }
 
-    private void verifyNeverGetDataInvocation(String errorMessage) {
+    private void verifyNeverGetDataInvocation(int times, String errorMessage) {
         try {
-            verify(controller, times(2)).getData(any());
+            verify(controller, times(times)).getData(any());
         } catch (TooManyActualInvocations e) {
             throw new AssertionError(errorMessage);
         }

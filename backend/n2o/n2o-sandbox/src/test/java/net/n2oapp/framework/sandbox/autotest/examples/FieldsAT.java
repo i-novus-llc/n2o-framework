@@ -166,12 +166,12 @@ public class FieldsAT extends AutoTestBase {
         selectInput.openPopup();
         selectInput.dropdown().selectItem(0);
         selectInput.shouldHaveValue("test1");
-        selectInput.clear();
+        selectInput.clearUsingIcon();
         selectInput.shouldBeEmpty();
         selectInput.openPopup();
         selectInput.dropdown().selectItem(2);
         selectInput.shouldHaveValue("test3");
-        selectInput.clear();
+        selectInput.clearUsingIcon();
         selectInput.shouldBeEmpty();
     }
 
@@ -187,7 +187,7 @@ public class FieldsAT extends AutoTestBase {
         selectInput.openPopup();
         selectInput.dropdown().selectMulti(1, 2);
         selectInput.shouldSelectedMulti("test1", "test2", "test3");
-        selectInput.clear();
+        selectInput.clearUsingIcon();
         selectInput.shouldBeEmpty();
     }
 

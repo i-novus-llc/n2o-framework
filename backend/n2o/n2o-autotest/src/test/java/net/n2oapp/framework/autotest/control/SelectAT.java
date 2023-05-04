@@ -171,9 +171,9 @@ public class SelectAT extends AutoTestBase {
         DropDown dropdown = input.dropdown();
         dropdown.shouldHaveOptions("name1", "name2", "name3");
         input.openPopup();
-        dropdown.optionShouldHaveDescription("name1", "desc1");
+        dropdown.item("name1").shouldHaveDescription("desc1");
         input.openPopup();
-        dropdown.optionShouldHaveDescription("name3", "desc3");
+        dropdown.item("name3").shouldHaveDescription("desc3");
         dropdown.selectItem(1);
         input.shouldSelected("name2");
         input.clear();
@@ -191,9 +191,9 @@ public class SelectAT extends AutoTestBase {
         DropDown dropdown2 = input2.dropdown();
         dropdown2.shouldHaveOptions("name1", "name2", "name3");
         input2.openPopup();
-        dropdown2.optionShouldHaveDescription("name1", "desc1");
+        dropdown2.item("name1").shouldHaveDescription("desc1");
         input2.openPopup();
-        dropdown2.optionShouldHaveDescription("name3", "desc3");
+        dropdown2.item("name3").shouldHaveDescription("desc3");
         dropdown2.selectMulti(1, 2);
         dropdown2.shouldBeChecked(1, 2);
         input2.shouldSelected("Объектов 2 шт");
