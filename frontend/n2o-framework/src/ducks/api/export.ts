@@ -31,6 +31,15 @@ export const creator = createAction(
     }),
 )
 
+type ExportConfig = {
+    format: string
+    charset: string
+    type: {
+        id: 'all' | 'page'
+        name: string
+    }
+}
+
 export function* effect({ payload }: Action<string, Payload>) {
     const { exportDatasource, configDatasource, baseURL } = payload
 
@@ -42,8 +51,8 @@ export function* effect({ payload }: Action<string, Payload>) {
     }
 
     const modelLink = `models.${ModelPrefix.active}.${configDatasource}`
-    const model: { format: string, charset: string } = yield select(getModelSelector(modelLink))
-    const { format, charset } = model
+    const model: ExportConfig = yield select(getModelSelector(modelLink))
+    const { format, charset, type } = model
 
     if (!format || !charset) {
         // eslint-disable-next-line no-console
@@ -55,8 +64,12 @@ export function* effect({ payload }: Action<string, Payload>) {
     const state: State = yield select()
 
     const dataSource: DataSourceState = yield select(dataSourceByIdSelector(exportDatasource))
-    const { provider, paging = {}, sorting = {} } = dataSource
-    const { url } = dataProviderResolver(state, provider, { ...paging, sorting })
+    const { provider, paging, sorting = {} } = dataSource
+    const { url } = dataProviderResolver(state, provider, {
+        size: type.id === 'page' ? paging.size : 1000,
+        page: type.id === 'page' ? paging.page : 1,
+        sorting,
+    })
     const { pathname } = window.location
 
     const escapedUrl = escapeUrl(url)
