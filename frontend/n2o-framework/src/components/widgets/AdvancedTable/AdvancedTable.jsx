@@ -154,10 +154,6 @@ class AdvancedTable extends Component {
         if (!isEqual(prevProps, this.props)) {
             let state = {}
 
-            if (isEqual(prevProps.filters, filters) && !isEmpty(prevProps.filters) && !isEmpty(filters)) {
-                this.closeAllRows()
-            }
-
             const isDataChanged = data && !isEqual(data, prevProps.data)
             /* checking for an array here because of the multi init state = {} */
             const isMultiModelHasBeenCleared = !Array.isArray(multi) && isEmpty(multi) && !isEmpty(prevProps.multi)
@@ -450,7 +446,7 @@ class AdvancedTable extends Component {
         const { data } = this.props
         const keys = []
         const getKeys = array => map(array, (item) => {
-            keys.push(item.id)
+            keys.push(item.key)
             if (item.children) {
                 getKeys(item.children)
             }

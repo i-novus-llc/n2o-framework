@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.condition.visibility.widget;
+package net.n2oapp.framework.autotest.condition.widget.visibility;
 
 import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
  */
 
 public class WidgetVisibilityAT extends AutoTestBase {
+
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -35,11 +36,11 @@ public class WidgetVisibilityAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPack());
-        setJsonPath("net/n2oapp/framework/autotest/condition/visibility/widget");
+        setJsonPath("net/n2oapp/framework/autotest/condition/widget/visibility");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/condition/visibility/widget/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/condition/visibility/widget/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/condition/visibility/widget/test2.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/condition/widget/visibility/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/widget/visibility/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/widget/visibility/test2.query.xml"));
     }
 
     @Test

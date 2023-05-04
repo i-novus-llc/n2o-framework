@@ -1,11 +1,15 @@
 package net.n2oapp.framework.autotest.control;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
+import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -38,6 +42,7 @@ public class InputSelectAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(
+                new N2oRegionsPack(),
                 new N2oPagesPack(),
                 new N2oApplicationPack(),
                 new N2oWidgetsPack(),
@@ -143,7 +148,7 @@ public class InputSelectAT extends AutoTestBase {
         input.openPopup();
         input.dropdown().selectMulti(1, 2);
         input.shouldSelectedMulti("Two", "Three");
-        input.clearUsingIcon();
+        input.clear();
         input.shouldBeEmpty();
 
         input.openPopup();
@@ -176,7 +181,7 @@ public class InputSelectAT extends AutoTestBase {
         input.openPopup();
         input.dropdown().selectMulti(1, 2);
         input.shouldSelectedMulti("Two", "Three");
-        input.clearUsingIcon();
+        input.clear();
         input.shouldBeEmpty();
 
         input.openPopup();
@@ -225,7 +230,7 @@ public class InputSelectAT extends AutoTestBase {
         input.openPopup();
         dropdown.selectItem(1);
         input.shouldHaveValue("name2");
-        input.clearUsingIcon();
+        input.clear();
         input.shouldBeEmpty();
         input.setValue("name3");
         input.shouldHaveValue("name3");
@@ -248,7 +253,7 @@ public class InputSelectAT extends AutoTestBase {
         input2.openPopup();
         dropdown2.selectMulti(1, 2);
         input2.shouldSelectedMulti("name2", "name3");
-        input2.clearUsingIcon();
+        input2.clear();
         input2.shouldBeEmpty();
     }
 
@@ -345,5 +350,39 @@ public class InputSelectAT extends AutoTestBase {
 
         inputSelect.setValue("aud");
         dropdown.shouldHaveOptions(1);
+    }
+
+    @Test
+    public void dropdownOptionsPermanentAfterSelectSomeone() {
+        setJsonPath("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent/test.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(0, TableWidget.class);
+        table.shouldExists();
+
+        InputSelect inputSelect = table.filters()
+                .fieldsets()
+                .fieldset(0, SimpleFieldSet.class)
+                .fields()
+                .field("status")
+                .control(InputSelect.class);
+
+        inputSelect.openPopup();
+        DropDown dropdown = inputSelect.dropdown();
+        dropdown.shouldHaveOptions("Новая", "Средняя", "Старая");
+        dropdown.selectItemBy(Condition.text("Средняя"));
+        inputSelect.shouldHaveValue("Средняя");
+
+        inputSelect.openPopup();
+        dropdown.shouldHaveOptions("Новая", "Средняя", "Старая");
     }
 }

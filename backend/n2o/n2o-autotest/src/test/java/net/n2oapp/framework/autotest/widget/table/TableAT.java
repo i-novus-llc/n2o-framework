@@ -8,13 +8,18 @@ import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
+import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
+import net.n2oapp.framework.autotest.api.component.field.Field;
+import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -325,14 +330,48 @@ public class TableAT extends AutoTestBase {
 
         table.filters().toolbar().button("Сбросить").click();
         table.columns().rows().shouldHaveSize(0);
-        verifyNeverGetDataInvocation("Запрос за данными таблицы при fetch-on-clear=false");
+        verifyNeverGetDataInvocation(2, "Запрос за данными таблицы при fetch-on-clear=false");
         input.shouldBeEmpty();
         table.paging().shouldNotHaveTotalElements();
     }
 
-    private void verifyNeverGetDataInvocation(String errorMessage) {
+    @Test
+    public void fetchOnVisibilityTest() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/fetch_on_visibility");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_visibility/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_visibility/test.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        RegionItems regionItems = page.regions().region(0, SimpleRegion.class).content();
+        FormWidget form = regionItems.widget(0, FormWidget.class);
+        TableWidget table = regionItems.widget(1, TableWidget.class);
+
+        form.shouldBeVisible();
+        table.shouldBeVisible();
+
+        Checkbox checkbox = form.fieldsets()
+                .fieldset(0, SimpleFieldSet.class)
+                .fields()
+                .field("Видимость таблицы")
+                .control(Checkbox.class);
+        checkbox.shouldBeChecked();
+
+        checkbox.setChecked(false);
+        table.shouldBeHidden();
+
+        checkbox.setChecked(true);
+        table.shouldBeVisible();
+
+        verifyNeverGetDataInvocation(1, "Запрос за данными таблицы при fetch-on-visibility=false");
+    }
+
+    private void verifyNeverGetDataInvocation(int times, String errorMessage) {
         try {
-            verify(controller, times(2)).getData(any());
+            verify(controller, times(times)).getData(any());
         } catch (TooManyActualInvocations e) {
             throw new AssertionError(errorMessage);
         }
