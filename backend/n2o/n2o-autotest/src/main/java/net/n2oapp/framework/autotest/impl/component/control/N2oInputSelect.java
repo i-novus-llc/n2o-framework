@@ -43,8 +43,13 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void clear() {
+    public void clearUsingIcon() {
         element().$(".n2o-input-clear").hover().shouldBe(Condition.visible).click();
+    }
+
+    @Override
+    public void clear() {
+        input().clear();
     }
 
     @Override

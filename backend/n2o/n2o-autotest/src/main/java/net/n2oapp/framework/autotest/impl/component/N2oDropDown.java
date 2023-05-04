@@ -14,83 +14,127 @@ public class N2oDropDown extends N2oComponent implements DropDown {
 
     @Override
     public DropDownItem item(int index) {
-        return new N2oDropDownItem(element().$$(".dropdown-item").get(index));
+        return new N2oDropDownItem(itemByIndex(index));
+    }
+
+    @Override
+    public DropDownItem item(String label) {
+        return new N2oDropDownItem(itemByLabel(label));
     }
 
     @Override
     public void shouldHaveOptions(String... options) {
-        element().$$("button .text-cropped,.custom-control-label").shouldHave(CollectionCondition.exactTexts(options));
+        if (options.length > 0) {
+            items().shouldBe(
+                    CollectionCondition.sizeGreaterThan(options.length - 1)
+            );
+            element().$$(".dropdown-item .text-cropped, .dropdown-item .custom-control-label")
+                    .shouldHave(CollectionCondition.exactTexts(options));
+        }
     }
 
     public void selectItem(int index) {
-        element().$$("button").shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
+        items().shouldBe(CollectionCondition.sizeGreaterThan(index))
+                .get(index)
+                .click();
     }
 
     public void selectItemBy(Condition by) {
-        element().$$("button").findBy(by).click();
+        items().findBy(by).click();
     }
 
     public void selectMulti(int... indexes) {
         OptionalInt maxIndex = Arrays.stream(indexes).max();
-        if (maxIndex.isPresent()) {
-            ElementsCollection checkBoxes = element().$$("button")
-                    .shouldBe(CollectionCondition.sizeGreaterThan(maxIndex.getAsInt()));
+        ElementsCollection items = items();
 
-            Arrays.stream(indexes).forEach(index -> checkBoxes.get(index).click());
+        if (maxIndex.isPresent()) {
+            items().shouldBe(
+                    CollectionCondition.sizeGreaterThan(maxIndex.getAsInt())
+            );
+            Arrays.stream(indexes).forEach(
+                    index -> items.get(index).click()
+            );
         }
     }
 
     public void shouldBeChecked(int... indexes) {
         OptionalInt maxIndex = Arrays.stream(indexes).max();
-        if (maxIndex.isPresent()) {
-            ElementsCollection checkBoxes = element().$$(".n2o-input")
-                    .shouldBe(CollectionCondition.sizeGreaterThan(maxIndex.getAsInt()));
+        ElementsCollection items = items();
 
-            Arrays.stream(indexes).forEach(index -> checkBoxes.get(index).shouldBe(Condition.checked));
+        if (maxIndex.isPresent()) {
+            Arrays.stream(indexes).forEach(
+                    index -> items.get(index).$(".n2o-input").shouldBe(Condition.checked)
+            );
         }
     }
 
     public void shouldNotBeChecked(int... indexes) {
-        ElementsCollection checkBoxes = element().$$(".n2o-input")
-                .shouldBe(CollectionCondition.sizeGreaterThan(Arrays.stream(indexes).max().getAsInt()));
+        OptionalInt maxIndex = Arrays.stream(indexes).max();
+        ElementsCollection items = items();
 
-        Arrays.stream(indexes).forEach(index -> checkBoxes.get(index).shouldNotBe(Condition.checked));
-    }
-
-    public void optionShouldHaveDescription(String item, String description) {
-        SelenideElement elm = element().$$("button .text-cropped,.custom-control-label")
-                .findBy(Condition.text(item)).parent();
-        if (elm.is(Condition.cssClass("custom-checkbox")))
-            elm = elm.parent();
-        elm.$(".dropdown-header").shouldHave(Condition.text(description));
-    }
-
-    public void optionShouldHaveStatusColor(String option, Colors color) {
-        element().$$("button").findBy(Condition.text(option))
-                .$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")
-                .shouldHave(Condition.cssClass(color.name("bg-")));
+        if (maxIndex.isPresent()) {
+            Arrays.stream(indexes).forEach(
+                    index -> items.get(index).$(".n2o-input").shouldNotBe(Condition.checked)
+            );
+        }
     }
 
     @Override
     public void shouldHaveOptions(int size) {
-        element().$$(".dropdown-item").shouldHave(CollectionCondition.size(size));
+        items().shouldHave(CollectionCondition.size(size));
     }
 
-    public void optionShouldBeEnabled(String option) {
-        element().$$("button").findBy(Condition.text(option)).shouldBe(Condition.enabled);
+    private ElementsCollection items() {
+        return element().$$(".dropdown-item");
     }
 
-    public void optionShouldBeDisabled(String option) {
-        element().$$("button").findBy(Condition.text(option)).shouldBe(Condition.disabled);
+    private SelenideElement itemByIndex(int index) {
+        return items().get(index);
+    }
+
+    private SelenideElement itemByLabel(String label) {
+        return items().findBy(Condition.text(label));
     }
 
     public class N2oDropDownItem extends N2oComponent  implements DropDownItem {
+
         public N2oDropDownItem(SelenideElement element) {
             setElement(element);
         }
 
         public void shouldHaveValue(String value) {
             element().shouldHave(Condition.text(value));
+        }
+
+        @Override
+        public void shouldBeSelected() {
+            element().shouldHave(Condition.cssClass("disabled"));
+        }
+
+        @Override
+        public void shouldNotBeSelected() {
+            element().shouldNotHave(Condition.cssClass("disabled"));
+        }
+
+        @Override
+        public void shouldHaveDescription(String description) {
+            element().$(".dropdown-header").shouldHave(Condition.text(description));
+        }
+
+        @Override
+        public void shouldHaveStatusColor(Colors color) {
+            element().$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")
+                    .shouldHave(Condition.cssClass(color.name("bg-")));
+        }
+
+        @Override
+        public void shouldBeEnabled() {
+            element().shouldBe(Condition.enabled);
+        }
+
+        @Override
+        public void shouldBeDisabled() {
+            element().shouldBe(Condition.disabled);
         }
     }
 }
