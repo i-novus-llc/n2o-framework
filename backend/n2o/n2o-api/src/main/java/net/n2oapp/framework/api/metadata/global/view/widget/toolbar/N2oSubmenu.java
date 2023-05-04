@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class N2oSubmenu extends N2oAbstractButton implements GroupItem {
+public class N2oSubmenu extends N2oAbstractButton {
     private String[] generate;
     private Boolean showToggleIcon;
     private N2oButton[] menuItems;

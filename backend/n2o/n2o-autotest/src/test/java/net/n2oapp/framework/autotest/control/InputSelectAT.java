@@ -1,11 +1,15 @@
 package net.n2oapp.framework.autotest.control;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
+import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -37,13 +41,25 @@ public class InputSelectAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oActionsPack(),
-                new N2oFieldSetsPack(), new N2oControlsPack(), new N2oAllDataPack(), new N2oCellsPack());
+        builder.packs(
+                new N2oRegionsPack(),
+                new N2oPagesPack(),
+                new N2oApplicationPack(),
+                new N2oWidgetsPack(),
+                new N2oActionsPack(),
+                new N2oFieldSetsPack(),
+                new N2oControlsPack(),
+                new N2oAllDataPack(),
+                new N2oCellsPack()
+        );
     }
 
     @Test
     public void testSingle() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/simple/index.page.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/simple/index.page.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -88,7 +104,10 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     public void testColorStatus() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/simple/index.page.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/simple/index.page.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -105,7 +124,10 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     public void testMulti() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/multi/index.page.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/multi/index.page.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -135,7 +157,10 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     public void testCheckboxes() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/checkboxes/index.page.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/checkboxes/index.page.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -175,8 +200,11 @@ public class InputSelectAT extends AutoTestBase {
     @Test
     public void testReadFromQuery() {
         setJsonPath("net/n2oapp/framework/autotest/control/input_select/query");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/query/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/query/test.query.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/query/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/query/test.query.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -223,10 +251,13 @@ public class InputSelectAT extends AutoTestBase {
     @Test
     public void testPrefilterByQueryParam() {
         setJsonPath("net/n2oapp/framework/autotest/control/input_select/prefilter");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param/index.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/modalForm.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/gender.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/gender.query.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         TableWidget tableWidget = page.widget(TableWidget.class);
@@ -254,10 +285,13 @@ public class InputSelectAT extends AutoTestBase {
     @Test
     public void testPrefilterByPathParam() {
         setJsonPath("net/n2oapp/framework/autotest/control/input_select/prefilter");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param/index.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/modalForm.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/gender.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/gender.query.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         TableWidget tableWidget = page.widget(TableWidget.class);
@@ -285,8 +319,10 @@ public class InputSelectAT extends AutoTestBase {
     @Test
     public void testSearchMinLength() {
         setJsonPath("net/n2oapp/framework/autotest/control/input_select/throttle_delay");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/test.query.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/test.query.xml")
+        );
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
@@ -305,5 +341,39 @@ public class InputSelectAT extends AutoTestBase {
 
         inputSelect.setValue("aud");
         dropdown.shouldHaveOptions(1);
+    }
+
+    @Test
+    public void dropdownOptionsPermanentAfterSelectSomeone() {
+        setJsonPath("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent/test.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(0, TableWidget.class);
+        table.shouldExists();
+
+        InputSelect inputSelect = table.filters()
+                .fieldsets()
+                .fieldset(0, SimpleFieldSet.class)
+                .fields()
+                .field("status")
+                .control(InputSelect.class);
+
+        inputSelect.openPopup();
+        DropDown dropdown = inputSelect.dropdown();
+        dropdown.shouldHaveOptions("Новая", "Средняя", "Старая");
+        dropdown.selectItemBy(Condition.text("Средняя"));
+        inputSelect.shouldHaveValue("Средняя");
+
+        inputSelect.openPopup();
+        dropdown.shouldHaveOptions("Новая", "Средняя", "Старая");
     }
 }
