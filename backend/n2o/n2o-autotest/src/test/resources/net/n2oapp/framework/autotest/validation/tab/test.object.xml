@@ -15,9 +15,14 @@
             </out>
             <validations white-list="uniqueName, uniqueOrg"/>
         </operation>
+        <operation id="save">
+            <invocation>
+                <test operation="echo"/>
+            </invocation>
+        </operation>
     </operations>
     <validations>
-        <constraint id="uniqueName" result="[name] != 'test'" message="Имя {name} уже существует" severity="danger">
+        <constraint id="uniqueName" result="[name] != 'test'" message="Имя {name} уже существует">
             <invocation>
                 <test operation="echo"/>
             </invocation>
@@ -25,7 +30,7 @@
                 <field id="name"/>
             </in>
         </constraint>
-        <condition id="uniqueOrg" on="org" message="Организация {org} уже существует" severity="danger">
+        <condition id="uniqueOrg" on="org" message="Организация {org} уже существует">
             <![CDATA[ org != 'test' ]]>
         </condition>
     </validations>

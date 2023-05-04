@@ -6,11 +6,23 @@
     </datasources>
 
     <toolbar>
-        <button label="Сохранить" validate="true" datasource="ds1" validate-datasources="ds1">
+        <button label="Сохранить" datasource="ds1" validate-datasources="ds1">
             <invoke operation-id="create" object-id="test" close-on-success="true" disable-on-empty="false">
                 <form-param id="name" value="{name}" datasource="ds1"/>
                 <form-param id="address" value="{address}" datasource="ds1"/>
                 <form-param id="org" value="{org}" datasource="ds1"/>
+                <form-param id="com" value="{com}" datasource="ds1"/>
+            </invoke>
+        </button>
+        <button label="Валидировать страницу"
+                datasource="ds1"
+                validate-datasources="ds1"
+                disable-on-empty-model="false">
+            <invoke operation-id="save">
+                <form-param id="name" value="{name}" datasource="ds1"/>
+                <form-param id="address" value="{address}" datasource="ds1"/>
+                <form-param id="org" value="{org}" datasource="ds1"/>
+                <form-param id="com" value="{com}" datasource="ds1"/>
             </invoke>
         </button>
     </toolbar>
@@ -36,6 +48,13 @@
                         <input-text id="org" label="Название организации" required="true" description="Введите 'test' для проверки валидации">
                             <validations white-list="uniqueOrg"/>
                         </input-text>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="Отдел">
+                <form object-id="test" datasource="ds1">
+                    <fields>
+                        <input-text id="com" label="Отдел" required="true"/>
                     </fields>
                 </form>
             </tab>
