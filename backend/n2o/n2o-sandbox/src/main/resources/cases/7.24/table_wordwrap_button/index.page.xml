@@ -13,15 +13,8 @@
                 <column text-field-id="name" width="300px"/>
                 <column text-field-id="region" width="300px"/>
             </columns>
-            <filters place="top">
-                <row>
-                    <col size="3">
-                        <input-text id="name"/>
-                    </col>
-                </row>
-            </filters>
             <toolbar place="topRight">
-                <group generate="tableSettings"/>
+                <group generate="word-wrap"/>
             </toolbar>
         </table>
     </regions>
