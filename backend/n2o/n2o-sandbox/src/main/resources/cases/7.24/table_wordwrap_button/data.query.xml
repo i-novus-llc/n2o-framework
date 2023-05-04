@@ -29,8 +29,5 @@
         <field id="region" domain="string" name="Регион">
             <select/>
         </field>
-        <field id="activity" name="Активность" domain="boolean">
-            <select/>
-        </field>
     </fields>
 </query>
