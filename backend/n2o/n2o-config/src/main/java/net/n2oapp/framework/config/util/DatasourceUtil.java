@@ -78,8 +78,8 @@ public class DatasourceUtil {
 
         // app-datasource
         ApplicationDatasourceIdsScope appDatasourceIds = p.getScope(ApplicationDatasourceIdsScope.class);
-        if (appDatasourceIds != null && appDatasourceIds.contains(datasourceId))
-            return datasourceId;
+        if (appDatasourceIds != null && appDatasourceIds.containsKey(datasourceId))
+            return appDatasourceIds.get(datasourceId);
 
         // parent-datasource
         ParentDatasourceIdsScope parentDatasourceIdsScope = p.getScope(ParentDatasourceIdsScope.class);

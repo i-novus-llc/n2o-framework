@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница для автотеста, проверяющего постоянным наличием всех опций в dropdown после в выбора любой из них">
+    <datasources>
+        <datasource id="ds1" query-id="test" size="5"/>
+    </datasources>
+    <regions>
+        <region>
+            <table name="Заявки на получение заграничного паспорта" datasource="ds1">
+                <columns>
+                    <column text-field-id="id"/>
+                    <column text-field-id="name"/>
+                </columns>
+                <filters>
+                    <row>
+                        <input-select id="status" label="status" query-id="test"/>
+                    </row>
+                </filters>
+                <pagination/>
+            </table>
+        </region>
+    </regions>
+</page>

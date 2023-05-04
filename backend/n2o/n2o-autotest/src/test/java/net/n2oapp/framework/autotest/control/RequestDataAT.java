@@ -81,7 +81,7 @@ public class RequestDataAT extends AutoTestBase {
 
         inputSelect.click();
         inputSelect.shouldBeOpened();
-        inputSelect.clear();
+        inputSelect.clearUsingIcon();
         inputSelect.shouldBeEmpty();
         inputSelect.openPopup();
         inputSelect.dropdown().selectItemBy(Condition.text("test6"));
@@ -125,7 +125,7 @@ public class RequestDataAT extends AutoTestBase {
 
         inputSelect.click();
         inputSelect.shouldBeOpened();
-        inputSelect.clear();
+        inputSelect.clearUsingIcon();
         inputSelect.shouldBeEmpty();
 
         autoComplete.click();

@@ -81,7 +81,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
         ApplicationDatasourceIdsScope appDatasourceIdsScope = new ApplicationDatasourceIdsScope();
         ParentDatasourceIdsScope parentDatasourceIdsScope = new ParentDatasourceIdsScope();
-        DataSourcesScope datasourcesScope = initDataSourcesScope(source, sourceWidgets, appDatasourceIdsScope, parentDatasourceIdsScope, context);
+        DataSourcesScope datasourcesScope = initDataSourcesScope(source, sourceWidgets, appDatasourceIdsScope,
+                parentDatasourceIdsScope, context, p);
         PageScope pageScope = initPageScope(source, page.getId(), sourceWidgets, resultWidget,
                 appDatasourceIdsScope, context, p);
         initContextDatasources(datasourcesScope, appDatasourceIdsScope, parentDatasourceIdsScope, pageScope, context, p);
@@ -139,14 +140,14 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     private DataSourcesScope initDataSourcesScope(S source, List<N2oWidget> sourceWidgets,
                                                   ApplicationDatasourceIdsScope appDatasourceIdsScope,
                                                   ParentDatasourceIdsScope parentDatasourceIdsScope,
-                                                  PageContext context) {
+                                                  PageContext context, CompileProcessor p) {
         DataSourcesScope datasourcesScope = new DataSourcesScope();
         Set<String> parentDatasourceIds = new HashSet<>();
 
         if (source.getDatasources() != null)
             for (N2oAbstractDatasource ds : source.getDatasources()) {
                 if (ds instanceof N2oApplicationDatasource)
-                    appDatasourceIdsScope.add(ds.getId());
+                    appDatasourceIdsScope.put(ds.getId(), p.cast(((N2oApplicationDatasource) ds).getSourceDatasource(), ds.getId()));
                 if (ds instanceof N2oParentDatasource) {
                     parentDatasourceIds.add(ds.getId());
                     if (context.getParentDatasourceIdsMap() != null && !context.getParentDatasourceIdsMap().containsKey(ds.getId())) {
@@ -168,7 +169,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                     continue;
 
                 if (!datasourcesScope.containsKey(dsId))
-                    datasourcesScope.put(dsId, new N2oParentDatasource(dsId, true));
+                    datasourcesScope.put(dsId, new N2oParentDatasource(dsId, context.getParentDatasourceIdsMap().get(dsId), true));
                 parentDatasourceIdsScope.put(dsId, context.getParentDatasourceIdsMap().get(dsId));
             }
 
@@ -212,8 +213,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 .collect(Collectors.toMap(w -> getClientWidgetId(w.getId(), pageId),
                         w -> {
                             String datasourceId = w.getDatasourceId() == null ? w.getId() : w.getDatasourceId();
-                            if (applicationDatasourceIds.contains(datasourceId))
-                                return datasourceId;
+                            if (applicationDatasourceIds.containsKey(datasourceId))
+                                return applicationDatasourceIds.get(datasourceId);
                             else
                                 return getClientDatasourceId(datasourceId, pageId, p);
                         })));
@@ -317,13 +318,12 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     private void createRegion(N2oRegion n2oRegion, Map<String, List<Region>> regionMap, String defaultPlace,
                               PageContext context, CompileProcessor p, Object... scopes) {
         Region region = p.compile(n2oRegion, context, scopes);
-        String place = defaultPlace;
-        if (regionMap.get(place) != null) {
-            regionMap.get(place).add(region);
+        if (regionMap.get(defaultPlace) != null) {
+            regionMap.get(defaultPlace).add(region);
         } else {
             List<Region> regionList = new ArrayList<>();
             regionList.add(region);
-            regionMap.put(place, regionList);
+            regionMap.put(defaultPlace, regionList);
         }
     }
 

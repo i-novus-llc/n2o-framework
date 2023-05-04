@@ -50,6 +50,11 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
                 .shouldHave(CollectionCondition.exactTexts(labels));
     }
 
+    @Override
+    public void shouldHaveTooltip(String label) {
+        inputElement(label).shouldHave(Condition.attribute("title", label));
+    }
+
     protected SelenideElement inputElement(String label) {
         return element().$$(".custom-control")
                 .findBy(Condition.text(label))

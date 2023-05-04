@@ -10,11 +10,19 @@
         },
         {
           "templateId": "cases/7.24/table_export_buttons",
-          "name": "Пример работы кнопки экспортирования таблицы"
+          "name": "Кнопка экспорта таблицы"
         },
         {
           "templateId": "cases/7.24/table_wordwrap_buttons",
-          "name": "Пример работы кнопки переноса слов"
+          "name": "Кнопка переноса слов таблицы"
+        },
+        {
+          "templateId": "cases/7.24/source_ds_for_parent_ds",
+          "name": "Прокидывание разных parent-datasource из родительской страницы"
+        },
+        {
+          "templateId": "cases/7.24/source_ds_for_app_ds",
+          "name": "Прокидывание разных app-datasource из родительской страницы"
         }
       ]
     },

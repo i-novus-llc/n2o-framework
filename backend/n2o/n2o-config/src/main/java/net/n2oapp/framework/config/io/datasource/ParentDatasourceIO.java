@@ -14,6 +14,7 @@ public class ParentDatasourceIO extends AbstractDatasourceIO<N2oParentDatasource
     @Override
     public void io(Element e, N2oParentDatasource ds, IOProcessor p) {
         super.io(e, ds, p);
+        p.attribute(e, "source-datasource", ds::getSourceDatasource, ds::setSourceDatasource);
     }
 
     @Override

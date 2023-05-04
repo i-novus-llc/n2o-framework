@@ -8,10 +8,7 @@
     </count>
 
     <fields>
-        <field id="id" domain="integer">
-            <select/>
-        </field>
-        <field id="id_" domain="string" name="Идентификатор">
+        <field id="id" domain="integer" name="Идентификатор">
             <select/>
             <sorting/>
         </field>

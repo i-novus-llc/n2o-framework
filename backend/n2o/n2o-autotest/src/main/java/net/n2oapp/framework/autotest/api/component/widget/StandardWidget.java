@@ -9,6 +9,16 @@ import net.n2oapp.framework.autotest.api.collection.Toolbar;
 public interface StandardWidget extends Widget {
 
     /**
+     * Проверка доступности виджета
+     */
+    void shouldBeEnabled();
+
+    /**
+     * Проверка недоступности виджета
+     */
+    void shouldBeDisabled();
+
+    /**
      * @return Панель кнопок виджета для автотестирования
      */
     WidgetToolbar toolbar();
