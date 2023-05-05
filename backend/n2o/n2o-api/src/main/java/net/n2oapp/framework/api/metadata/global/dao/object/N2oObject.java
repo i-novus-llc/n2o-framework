@@ -48,11 +48,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
     public static class Operation implements Source, IdAware, ExtensionAttributesAware {
         private String id;
         private String name;
-        private String formSubmitLabel;
         private String note;
-        private String confirmationText;
-        private Boolean confirm;
-        private String bulkConfirmationText;
         private String successText;
         private String successTitle;
         private String failText;

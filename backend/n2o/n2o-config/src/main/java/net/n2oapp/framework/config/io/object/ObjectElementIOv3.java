@@ -6,8 +6,8 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConstraint;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatory;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -71,12 +71,9 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
     private void operation(Element e, N2oObject.Operation t, IOProcessor p) {
         p.attribute(e, "id", t::getId, t::setId);
         p.attribute(e, "name", t::getName, t::setName);
-        p.attribute(e, "submit-label", t::getFormSubmitLabel, t::setFormSubmitLabel);
         p.attribute(e, "description", t::getDescription, t::setDescription);
         p.attribute(e, "success-text", t::getSuccessText, t::setSuccessText);
         p.attribute(e, "fail-text", t::getFailText, t::setFailText);
-        p.attribute(e, "confirm-text", t::getConfirmationText, t::setConfirmationText);
-        p.attributeBoolean(e, "confirm", t::getConfirm, t::setConfirm);
         p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
         p.anyChildren(e, "in-parameters", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
                 .add("param", ObjectSimpleField.class, this::param));

@@ -90,7 +90,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b1.getAction(), notNullValue());
         assertThat(b1.getConditions().get(ValidationType.enabled).size(), is(1));
         assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("!$.isEmptyModel(this)"));
-        assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['testToolbar_main']"));
+        assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['testToolbar_w1']"));
 
         AbstractButton b2 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(0);
         assertThat(b2.getId(), is("testId2"));
@@ -104,7 +104,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(f.getToolbar().getButton("testId3"), notNullValue());
         assertThat(b3.getConditions().get(ValidationType.enabled).size(), is(1));
         assertThat(b3.getConfirm().getMode(), is(ConfirmType.POPOVER));
-        assertThat(b3.getConfirm().getModelLink(), is("models.resolve['testToolbar_main']"));
+        assertThat(b3.getConfirm().getModelLink(), is("models.resolve['testToolbar_w1']"));
         assertThat(b3.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
         assertThat(b3.getSrc(), is("StandardButton"));
         assertThat(((LinkAction) b3.getAction()).getUrl(), is("http://example.com"));
@@ -132,7 +132,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(item.getId(), is("tesId10"));
         assertThat(item.getConfirm(), notNullValue());
         assertThat(item.getConfirm().getMode(), is(ConfirmType.MODAL));
-        assertThat(item.getConfirm().getModelLink(), is("models.resolve['testToolbar_main']"));
+        assertThat(item.getConfirm().getModelLink(), is("models.resolve['testToolbar_w1']"));
         assertThat(item.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
     }
 

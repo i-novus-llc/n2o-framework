@@ -27,4 +27,17 @@ public class N2oGroup implements ToolbarItem, GroupItems<GroupItem> {
         }
         return actions;
     }
+
+    @Override
+    public ToolbarItem clone() {
+        N2oGroup group = new N2oGroup();
+        GroupItem[] items = new GroupItem[getItems().length];
+        for (int i = 0; i < getItems().length; i++) {
+            items[i] = (GroupItem) getItems()[i].clone();
+        }
+        group.setItems(items);
+        group.setGenerate(generate);
+        group.setNamespaceUri(namespaceUri);
+        return group;
+    }
 }

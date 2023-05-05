@@ -166,7 +166,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Test
     public void testSortableColumns() {
         Table table = (Table) ((SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.page.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml").get(new PageContext("testTable4SortableCompile"))).getWidget();
-        assertThat(table.getId(), is("testTable4SortableCompile_main"));
+        assertThat(table.getId(), is("testTable4SortableCompile_w1"));
         assertThat(table.getComponent().getHeaders().size(), is(6));
         List<ColumnHeader> headers = table.getComponent().getHeaders();
 
@@ -188,7 +188,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(4).getId(), is("notInQuery"));
         assertThat(headers.get(4).getLabel(), is("notInQueryLabel"));
 
-        QueryContext context = (QueryContext) route("/testTable4SortableCompile/main", CompiledQuery.class);
+        QueryContext context = (QueryContext) route("/testTable4SortableCompile/w1", CompiledQuery.class);
         assertThat(context.getSortingMap().get("sorting.id"), is("id"));
         assertThat(context.getSortingMap().get("sorting.name"), is("name"));
 
@@ -244,7 +244,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Test
     public void testColumnsWidth() {
         Table table = (Table) ((SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.page.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml").get(new PageContext("testTable4SortableCompile"))).getWidget();
-        assertThat(table.getId(), is("testTable4SortableCompile_main"));
+        assertThat(table.getId(), is("testTable4SortableCompile_w1"));
         assertThat(table.getComponent().getHeaders().size(), is(6));
         List<ColumnHeader> headers = table.getComponent().getHeaders();
 
@@ -255,7 +255,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Test
     public void testRequiredPrefilters() {
         compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableRequiredPrefilters.page.xml").get(new PageContext("testTableRequiredPrefilters"));
-        QueryContext queryContext = ((QueryContext) route("/testTableRequiredPrefilters/main", CompiledQuery.class));
+        QueryContext queryContext = ((QueryContext) route("/testTableRequiredPrefilters/w1", CompiledQuery.class));
 
         assertThat(queryContext.getValidations().get(0).getId(), is("genders*.id"));
         assertThat(queryContext.getValidations().get(0).getFieldId(), is("genders*.id"));
@@ -289,13 +289,13 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(columnHeaders.get(0).getFilterControl(), instanceOf(InputText.class));
         assertThat(columnHeaders.get(0).getFilterControl().getId(), is("name"));
 
-        PageRoutes.Query query = page.getRoutes().getQueryMapping().get("main_name");
-        assertThat(query.getOnSet().getBindLink(), is("models.filter['testFilterColumns_main']"));
+        PageRoutes.Query query = page.getRoutes().getQueryMapping().get("w1_name");
+        assertThat(query.getOnSet().getBindLink(), is("models.filter['testFilterColumns_w1']"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
 
-        BindLink link = ((StandardDatasource) page.getDatasources().get("testFilterColumns_main")).getProvider().getQueryMapping().get("main_name");
+        BindLink link = ((StandardDatasource) page.getDatasources().get("testFilterColumns_w1")).getProvider().getQueryMapping().get("w1_name");
         assertThat(link.getValue(), is("`name`"));
-        assertThat(link.getBindLink(), is("models.filter['testFilterColumns_main']"));
+        assertThat(link.getBindLink(), is("models.filter['testFilterColumns_w1']"));
 
         List<Cell> cells = ((Table) page.getWidget()).getComponent().getCells();
         assertThat(cells.get(0), instanceOf(BadgeCell.class));

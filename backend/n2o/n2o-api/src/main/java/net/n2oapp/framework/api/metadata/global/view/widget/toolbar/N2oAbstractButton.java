@@ -12,6 +12,9 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
 import net.n2oapp.framework.api.metadata.meta.badge.Position;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * Абстрактная модель пункта меню.
  */
@@ -61,5 +64,38 @@ public abstract class N2oAbstractButton extends N2oComponent implements GroupIte
     @Deprecated
     public void setWidgetId(String widgetId) {
         this.datasourceId = widgetId;
+    }
+
+    @Override
+    public ToolbarItem clone() {
+        try {
+            Class<?> cl = this.getClass();
+            Constructor<?> cons = cl.getConstructor();
+            N2oAbstractButton button = (N2oAbstractButton) cons.newInstance();
+            button.setId(id);
+            button.setLabel(label);
+            button.setIcon(icon);
+            button.setType(type);
+            button.setBadge(badge);
+            button.setBadgeColor(badgeColor);
+            button.setBadgePosition(badgePosition);
+            button.setBadgeShape(badgeShape);
+            button.setBadgeImage(badgeImage);
+            button.setBadgeImagePosition(badgeImagePosition);
+            button.setBadgeImageShape(badgeImageShape);
+            button.setColor(color);
+            button.setDescription(description);
+            button.setTooltipPosition(tooltipPosition);
+            button.setModel(model);
+            button.setDatasourceId(datasourceId);
+            button.setVisible(visible);
+            button.setEnabled(enabled);
+            return button;
+        } catch (NoSuchMethodException | SecurityException |
+                InstantiationException | IllegalAccessException |
+                IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

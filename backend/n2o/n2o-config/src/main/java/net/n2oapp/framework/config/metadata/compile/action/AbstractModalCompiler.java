@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.convertPathToId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
 
 /**
  * Компиляция абстрактного действия открытия окна
@@ -70,7 +71,7 @@ public abstract class AbstractModalCompiler<D extends AbstractModal<? extends Mo
         } else {
             refreshDsIds.addAll(Arrays.asList(source.getRefreshDatasourceIds()));
         }
-        refreshSaga.setDatasources(refreshDsIds);
+        refreshSaga.setDatasources(getClientDatasourceIds(refreshDsIds, p));
         compiled.getMeta().getOnClose().setRefresh(refreshSaga);
     }
 }

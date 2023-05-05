@@ -48,16 +48,16 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getLabel(), is("delete"));
         assertThat(field.getIcon(), nullValue());
         assertThat(field.getColor(), is("danger"));
-        assertThat(field.getValidate().get(0), is("testButtonFieldCompile_main"));
+        assertThat(field.getValidate().get(0), is("testButtonFieldCompile_w1"));
 
         assertThat(((LinkAction) field.getAction()).getUrl(), is("/testButtonFieldCompile/test2/:param1/:param2?param3=:param3"));
         assertThat(((LinkAction) field.getAction()).getTarget(), is(Target.application));
         assertThat(((LinkAction) field.getAction()).getPathMapping().size(), is(2));
-        assertThat(((LinkAction) field.getAction()).getPathMapping().get("param1").getBindLink(), is("models.resolve['testButtonFieldCompile_main']"));
+        assertThat(((LinkAction) field.getAction()).getPathMapping().get("param1").getBindLink(), is("models.resolve['testButtonFieldCompile_w1']"));
         assertThat(((LinkAction) field.getAction()).getPathMapping().get("param1").getValue(), is("`field1`"));
         assertThat(((LinkAction) field.getAction()).getPathMapping().get("param2").getValue(), is("1"));
         assertThat(((LinkAction) field.getAction()).getQueryMapping().size(), is(1));
-        assertThat(((LinkAction) field.getAction()).getQueryMapping().get("param3").getBindLink(), is("models.resolve['testButtonFieldCompile_main']"));
+        assertThat(((LinkAction) field.getAction()).getQueryMapping().get("param3").getBindLink(), is("models.resolve['testButtonFieldCompile_w1']"));
         assertThat(((LinkAction) field.getAction()).getQueryMapping().get("param3").getValue(), is("`field3`"));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
@@ -89,7 +89,7 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getConfirm().getCloseButton(), is(false));
         assertThat(field.getConfirm().getMode(), is(ConfirmType.MODAL));
         assertThat(field.getConfirm().getCondition(), is("`true`"));
-        assertThat(field.getConfirm().getModelLink(), is("models.resolve['testButtonFieldCompile_main']"));
+        assertThat(field.getConfirm().getModelLink(), is("models.resolve['testButtonFieldCompile_w1']"));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(7).getCols().get(0).getFields().get(0);
         assertThat(field.getConfirm().getText(), is("Зарегистрировать заявление?"));
@@ -102,7 +102,7 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getConfirm().getCloseButton(), is(false));
         assertThat(field.getConfirm().getMode(), is(ConfirmType.MODAL));
         assertThat(field.getConfirm().getCondition(), is("`test === '1'|| test === '2'`"));
-        assertThat(field.getConfirm().getModelLink(), is("models.resolve['testButtonFieldCompile_main']"));
+        assertThat(field.getConfirm().getModelLink(), is("models.resolve['testButtonFieldCompile_w1']"));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(8).getCols().get(0).getFields().get(0);
         assertThat(field.getDescription(), is("`description`"));

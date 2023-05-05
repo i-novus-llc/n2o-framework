@@ -27,4 +27,17 @@ public class N2oSubmenu extends N2oAbstractButton {
         }
         return actions;
     }
+
+    @Override
+    public ToolbarItem clone() {
+        N2oSubmenu submenu = (N2oSubmenu) super.clone();
+        submenu.setGenerate(generate);
+        submenu.setShowToggleIcon(showToggleIcon);
+        N2oButton[] items = new N2oButton[menuItems.length];
+        for (int i = 0; i < menuItems.length; i++) {
+            items[i] = (N2oButton) menuItems[i].clone();
+        }
+        submenu.setMenuItems(items);
+        return submenu;
+    }
 }

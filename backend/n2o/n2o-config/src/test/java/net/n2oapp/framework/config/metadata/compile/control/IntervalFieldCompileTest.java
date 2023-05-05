@@ -2,6 +2,11 @@ package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
+import net.n2oapp.framework.api.metadata.action.N2oInvokeAction;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
@@ -16,6 +21,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -40,6 +46,14 @@ public class IntervalFieldCompileTest extends SourceCompileTestBase {
     public void testIntervalField() {
 
         PageContext pageContext = new PageContext("testIntervalField");
+        N2oToolbar n2oToolbar = new N2oToolbar();
+        N2oButton n2oButton = new N2oButton();
+        n2oButton.setId("submit");
+        N2oInvokeAction n2oInvokeAction = new N2oInvokeAction();
+        n2oInvokeAction.setOperationId("update");
+        n2oButton.setActions(new N2oAction[]{n2oInvokeAction});
+        n2oToolbar.setItems(new ToolbarItem[]{n2oButton});
+        pageContext.setToolbars(List.of(n2oToolbar));
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testIntervalField.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
                 .get(pageContext);
@@ -59,7 +73,7 @@ public class IntervalFieldCompileTest extends SourceCompileTestBase {
         assertThat(serverValidations.get(0).getSeverity(), is(SeverityType.danger));
         assertThat(serverValidations.get(0).getFieldId(), is("range"));
 
-        assertThat(page.getModels().get("resolve['testIntervalField_main'].range.begin").getValue(), is(5));
-        assertThat(page.getModels().get("resolve['testIntervalField_main'].range.end").getValue(), is(7));
+        assertThat(page.getModels().get("resolve['testIntervalField_w1'].range.begin").getValue(), is(5));
+        assertThat(page.getModels().get("resolve['testIntervalField_w1'].range.end").getValue(), is(7));
     }
 }

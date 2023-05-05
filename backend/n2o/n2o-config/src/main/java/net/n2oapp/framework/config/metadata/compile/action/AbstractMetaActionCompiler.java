@@ -82,7 +82,8 @@ public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2o
                     PageScope pageScope = p.getScope(PageScope.class);
                     if (pageScope != null)
                         meta.getRefresh().setDatasources(getClientDatasourceIds(Arrays.asList(source.getRefreshDatasourceIds()), p));
-                }
+                } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSourceIds() != null)
+                    meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSourceIds());
             }
         }
     }

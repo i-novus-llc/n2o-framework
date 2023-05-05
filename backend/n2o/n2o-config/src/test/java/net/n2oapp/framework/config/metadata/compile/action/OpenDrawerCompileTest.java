@@ -215,14 +215,14 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
                 .get(pageContext);
         SimplePage openDrawer = (SimplePage) routeAndGet("/p/createUpdate", Page.class);
-        InvokeAction submit = (InvokeAction) openDrawer.getToolbar().getButton("submit").getAction();
+        InvokeAction submit = (InvokeAction) ((MultiAction) openDrawer.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(0);
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), notNullValue());
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id/update"));
         //Есть обновление, потому что по умолчанию true. Обновится родительский виджет, потому что close-after-submit=true
-        assertThat(submit.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("p_main"));
+        RefreshAction refresh = (RefreshAction) ((MultiAction) openDrawer.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
+        assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("p_main"));
         //Есть уведомление, потому что по умолчанию true. Уведомление будет на родительском виджете, потому что close-after-submit=true
-
-        CloseAction close = (CloseAction) openDrawer.getToolbar().getButton("close").getAction();
+        CloseAction close = (CloseAction) ((MultiAction) openDrawer.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
         assertThat(close.getMeta().getRedirect(), nullValue());
         assertThat(close.getMeta().getRefresh(), nullValue());
     }
@@ -282,11 +282,14 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(buttons.get(1).getId(), is("close"));
         assertThat(buttons.get(1).getAction(), notNullValue());
 //        assertThat(buttons.get(1).getLabel(), is("Закрыть"));
-        InvokeAction submit = (InvokeAction) drawerPage.getToolbar().getButton("submit").getAction();
-        assertThat(submit.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("p_main"));
-        assertThat(submit.getMeta().getSuccess().getModalsToClose(), notNullValue());
-        assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:id/updateWithPrefilters/submit"));
-        ActionContext submitContext = (ActionContext) route("/p/:id/updateWithPrefilters/submit", CompiledObject.class);
+        InvokeAction submit = (InvokeAction) ((MultiAction) drawerPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(0);
+        assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:id/updateWithPrefilters/multi1"));
+        RefreshAction refresh = (RefreshAction) ((MultiAction) drawerPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
+        assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("p_main"));
+        CloseAction close = (CloseAction) ((MultiAction) drawerPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
+        assertThat(close.getMeta().getModalsToClose(), is(1));
+        assertThat(((CloseActionPayload)close.getPayload()).getPrompt(), is(true));
+        ActionContext submitContext = (ActionContext) route("/p/:id/updateWithPrefilters/multi1", CompiledObject.class);
         assertThat(submitContext.getSourceId(null), is("testShowModal"));
         assertThat(submitContext.getOperationId(), is("update"));
         assertThat(submitContext.getOperationId(), is("update"));
@@ -295,7 +298,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         data.put("id", 222);
         drawerPage = (SimplePage) read().compile().bind().get(drawerContext, data);
         assertThat(((StandardDatasource) drawerPage.getDatasources().get(drawerPage.getWidget().getId())).getProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters/modal"));
-        submit = (InvokeAction) drawerPage.getToolbar().getButton("submit").getAction();
+        submit = (InvokeAction) ((MultiAction) drawerPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(0);
         assertThat(submit.getPayload().getDataProvider().getPathMapping(), not(hasKey("id")));
     }
 

@@ -250,21 +250,6 @@
                 <xs:documentation>Заголовок сообщения в случае непредвиденной ошибки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="confirm" type="xs:boolean">
-            <xs:annotation>
-                <xs:documentation>Требуется ли подтверждение действия?</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="confirm-text" type="xs:string" default="Вы уверены, что хотите выполнить действие?">
-            <xs:annotation>
-                <xs:documentation>Текст подтверждения действия.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="submit-label" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Наименование кнопки отправки операции.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>

@@ -55,7 +55,7 @@ public class FileUploadCompileTest extends SourceCompileTestBase {
         assertThat(fileUpload.getUrlFieldId(), is("urlId"));
         assertThat(fileUpload.getResponseFieldId(), is("messageId"));
         assertThat(fileUpload.getRequestParam(), is("param"));
-        DefaultValues values = (DefaultValues) page.getModels().get("resolve['testFileUpload_main'].fileUpload").getValue();
+        DefaultValues values = (DefaultValues) page.getModels().get("resolve['testFileUpload_w1'].fileUpload").getValue();
         assertThat(values.getValues().get("id"), is("value1"));
         assertThat(values.getValues().get("filename"), is("file"));
         assertThat(values.getValues().get("url"), is("/test"));

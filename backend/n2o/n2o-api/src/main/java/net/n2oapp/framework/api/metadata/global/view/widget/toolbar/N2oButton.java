@@ -73,5 +73,26 @@ public class N2oButton extends N2oAbstractButton implements Button, WidgetIdAwar
 
     public static class VisibilityDependency extends Dependency {
     }
+
+    @Override
+    public ToolbarItem clone() {
+        N2oButton newButton = (N2oButton) super.clone();
+        newButton.setActionId(actionId);
+        newButton.setActions(actions);
+        newButton.setRounded(rounded);
+        newButton.setValidate(validate);
+        newButton.setValidateDatasourceIds(validateDatasourceIds);
+        newButton.setConfirm(confirm);
+        newButton.setConfirmType(confirmType);
+        newButton.setConfirmText(confirmText);
+        newButton.setConfirmTitle(confirmTitle);
+        newButton.setConfirmOkLabel(confirmOkLabel);
+        newButton.setConfirmOkColor(confirmOkColor);
+        newButton.setConfirmCancelLabel(confirmCancelLabel);
+        newButton.setConfirmCancelColor(confirmCancelColor);
+        newButton.setDisableOnEmptyModel(disableOnEmptyModel);
+        newButton.setDependencies(dependencies);
+        return newButton;
+    }
 }
 

@@ -68,10 +68,10 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     public void uploadDefaults() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormCompile.page.xml")
                 .get(new PageContext("testFormCompile"));
-        assertThat(page.getWidget().getId(), is("testFormCompile_main"));
+        assertThat(page.getWidget().getId(), is("testFormCompile_w1"));
         Form form = (Form) page.getWidget();
         assertThat(form.getComponent().getPrompt(), is(true));
-        StandardDatasource datasource = (StandardDatasource) page.getDatasources().get("testFormCompile_main");
+        StandardDatasource datasource = (StandardDatasource) page.getDatasources().get("testFormCompile_w1");
         assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         assertThat(datasource.getProvider(), nullValue());
     }
@@ -80,12 +80,12 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     public void uploadQuery() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormCompile2.page.xml")
                 .get(new PageContext("testFormCompile2"));
-        assertThat(page.getWidget().getId(), is("testFormCompile2_main"));
+        assertThat(page.getWidget().getId(), is("testFormCompile2_w1"));
         assertThat(page.getWidget().getDatasource(), notNullValue());
         StandardDatasource datasource = (StandardDatasource) page.getDatasources().get(page.getWidget().getDatasource());
         assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesMode.query));
         assertThat(datasource.getPaging().getSize(), is(1));
-        QueryContext queryContext = (QueryContext) route("/testFormCompile2/main", CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/testFormCompile2/w1", CompiledQuery.class);
         assertThat(queryContext, notNullValue());
     }
 
@@ -97,9 +97,8 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
 
 
-        List<Validation> validations = ((StandardDatasource) page.getDatasources().get("testFormValidations_main")).getValidations().get("testField");
+        List<Validation> validations = page.getDatasources().get("testFormValidations_w1").getValidations().get("testField");
 
-//        assertThat(validations.size(), is(11));
         assertThat(validations.get(0).getId(), is("Mandatory1"));
         assertThat(validations.get(0).getSide().contains("client"), is(true));
 
@@ -241,7 +240,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         SimplePage detailPage = (SimplePage) read().compile().bind().get(detailContext, data);
         Form form = (Form) detailPage.getWidget();
         assertThat(((StandardDatasource) detailPage.getDatasources().get(form.getDatasource())).getSubmit().getPathMapping().size(), is(1));
-        assertThat(((StandardDatasource) detailPage.getDatasources().get(form.getDatasource())).getSubmit().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open/main"));
+        assertThat(((StandardDatasource) detailPage.getDatasources().get(form.getDatasource())).getSubmit().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open/w1"));
         AbstractButton closeBtn = detailPage.getWidget().getToolbar().get("bottomRight").get(0).getButtons().get(0);
         assertThat(closeBtn, notNullValue());
         assertThat(closeBtn.getConfirm(), nullValue());
@@ -264,7 +263,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testFormInlineDatasource"));
 
         assertThat(page.getDatasources().size(), is(1));
-        assertThat(((StandardDatasource) page.getDatasources().get("testFormInlineDatasource_main")).getPaging().getSize(), is(1));
+        assertThat(((StandardDatasource) page.getDatasources().get("testFormInlineDatasource_w1")).getPaging().getSize(), is(1));
     }
 
     @Test

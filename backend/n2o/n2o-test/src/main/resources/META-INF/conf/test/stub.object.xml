@@ -32,7 +32,7 @@
                 <field id="id" mapping="[0][0]"/>
             </out>
         </operation>
-        <operation id="update" name="Изменить" submit-label="Сохранить" success-text="Успешно обновлены данные пациента с фамилией {surname}">
+        <operation id="update" name="Изменить" success-text="Успешно обновлены данные пациента с фамилией {surname}">
             <invocation>
                 <sql data-source="jdbc/test">
                     update pim_individual set surname = :surname, name = :name, patr_name = :patrName, birth_dt = :birthday, gender_id = :genderId, nationality_id = :nationalityId where id = :id;
@@ -48,7 +48,7 @@
                 <field id="id" mapping="['id']"/>
             </in>
         </operation>
-        <operation id="delete" name="Удалить" confirm-text="Вы уверены, что хотите удалить пациента '{surname}'?"
+        <operation id="delete" name="Удалить"
         fail-text="Не удалось удалить пациента '{surname}'">
             <invocation>
                 <sql data-source="jdbc/test">

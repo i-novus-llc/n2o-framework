@@ -1,7 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
-import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
-import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
@@ -49,9 +47,9 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/widgets/testToolbarCrudCompile.page.xml");
         SimplePage page = (SimplePage) pipeline.get(new PageContext("testToolbarCrudCompile"));
         Form form = (Form) page.getWidget();
-        assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/main/create", Page.class, null))
+        assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/w1/create", Page.class, null))
                 .getPageName(), is("Пустой объект для unit тестов - Создание"));
-        assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/main/1/update", Page.class, null))
+        assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/w1/1/update", Page.class, null))
                 .getPageName(), is("Пустой объект для unit тестов - Изменение"));
 
         assertThat(form.getToolbar().size(), is(2));
@@ -93,25 +91,5 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
         }
 
         assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().get(0).getConfirm(), notNullValue());//action2
-    }
-
-    @Test
-    public void testGenerationCloseModal() {
-        PageContext context = new ModalPageContext("testCloseActionModal", "/test");
-      //  context.setSubmitOperationId("update");
-        //context.setRedirectUrlOnSuccessSubmit("/test/:id");
-        //context.setRedirectTargetOnSuccessSubmit(Target.application);
-        context.setRefreshOnClose(true);
-        context.setParentRoute("/test");
-
-        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseActionModal.page.xml").get(context);
-        CloseAction close = (CloseAction) page.getToolbar().getButton("close").getAction();
-
-        assertThat(close.getType(), is("n2o/overlays/CLOSE"));
-        assertThat(((CloseActionPayload) close.getPayload()).getPrompt(), is(true));
-//        assertThat(close.getOptions().getMeta().getRedirect().getPath(), is("/test/:id"));
-//        assertThat(close.getOptions().getMeta().getRedirect().getTarget(), is(RedirectTargetType.application));
-//        assertThat(close.getOptions().getMeta().getRedirect().getPathMapping().get("id").getBindLink(), is("models.resolve['testCloseActionModal_update_main'].id"));
-
     }
 }

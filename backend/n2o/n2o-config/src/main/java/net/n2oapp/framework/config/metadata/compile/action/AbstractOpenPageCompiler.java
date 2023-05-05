@@ -468,10 +468,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             N2oAction[] actions = null;
             ReduxModel saveButtonModel = null;
             SubmitActionType submitActionType = source.getSubmitActionType() == null ? SubmitActionType.invoke : source.getSubmitActionType();
-            String submitLabel = source.getSubmitLabel();
             Boolean closeOnSuccess = p.cast(source.getCloseAfterSubmit(), true);
             Boolean refreshOnSuccessSubmit = p.cast(source.getRefreshAfterSubmit(), true);
-
 
             switch (submitActionType) {
                 case copy: {
@@ -480,9 +478,13 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                     copyAction.setSourceDatasourceId(source.getCopyDatasourceId());
                     copyAction.setSourceFieldId(source.getCopyFieldId());
                     copyAction.setTargetModel(source.getTargetModel());
-                    copyAction.setTargetDatasourceId(source.getTargetDatasourceId());
-                    copyAction.setTargetFieldId(source.getTargetFieldId());
                     copyAction.setTargetPage(p.cast(source.getTargetPage(), PageRef.PARENT));
+                    if (copyAction.getTargetPage().equals(PageRef.PARENT)) {
+                        copyAction.setTargetDatasourceId(p.cast(source.getTargetDatasourceId(), getLocalDatasourceId(p)));
+                    } else {
+                        copyAction.setTargetDatasourceId(source.getTargetDatasourceId());
+                    }
+                    copyAction.setTargetFieldId(source.getTargetFieldId());
                     copyAction.setMode(source.getCopyMode());
                     copyAction.setCloseOnSuccess(closeOnSuccess);
                     actions = new N2oAction[]{copyAction};
@@ -502,11 +504,12 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                                 // добавляем refresh action для каждого датасурса
                                 N2oRefreshAction refreshAction = new N2oRefreshAction();
                                 refreshAction.setDatasourceId(refreshDatasourceId);
+                                refreshAction.setPage(PageRef.PARENT);
                                 actionList.add(refreshAction);
                                 // добавляем parent-datasource чтобы в модалке был этот датасурс
                                 if (context.getDatasources() == null)
                                     context.setDatasources(new ArrayList<>());
-                                context.getDatasources().add(new N2oParentDatasource(refreshDatasourceId, false));
+                                context.getDatasources().add(new N2oParentDatasource("parent_" + refreshDatasourceId, refreshDatasourceId, false));
                             }
                             N2oCloseAction closeAction = new N2oCloseAction();
                             actionList.add(closeAction);
@@ -520,7 +523,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                         invokeAction.setRefreshOnSuccess(false);
                     }
 
-//todo разобраться
                     if (source.getRedirectUrlAfterSubmit() != null) {
                         invokeAction.setRedirectTarget(p.cast(source.getRedirectTargetAfterSubmit(),
                                 RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? Target.application : Target.self));
@@ -528,20 +530,12 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                     }
 
                     invokeAction.setOperationId(source.getSubmitOperationId());
-                    CompiledObject compiledObject = p.getScope(CompiledObject.class);
-                    if (compiledObject != null && compiledObject.getOperations().containsKey(source.getSubmitOperationId())) {
-                        Boolean confirm = compiledObject.getOperations().get(source.getSubmitOperationId()).getConfirm();
-                        saveButton.setConfirm(confirm != null ? confirm.toString() : null);
-                        if (submitLabel == null) {
-                            submitLabel = compiledObject.getOperations().get(source.getSubmitOperationId()).getFormSubmitLabel();
-                        }
-                    }
                     actions = actionList.toArray(new N2oAction[0]);
                     saveButtonModel = source.getSubmitModel();
                 }
                 break;
             }
-            saveButton.setLabel(p.cast(submitLabel, p.getMessage("n2o.api.action.toolbar.button.submit.label")));
+            saveButton.setLabel(p.cast(source.getSubmitLabel(), p.getMessage("n2o.api.action.toolbar.button.submit.label")));
             saveButton.setActions(actions);
             saveButton.setModel(p.cast(saveButtonModel, ReduxModel.resolve));
             saveButton.setValidate(true);

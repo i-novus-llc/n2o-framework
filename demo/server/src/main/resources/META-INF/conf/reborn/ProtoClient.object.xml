@@ -32,7 +32,7 @@
             </out-parameters>
         </operation>
 
-        <operation id="update" name="${update}" submit-label="${save}" success-text="${client.save.success} {surname}">
+        <operation id="update" name="${update}" success-text="${client.save.success} {surname}">
             <invocation>
                 <sql data-source="jdbc/test">
                     update pim_individual set surname = :surname, name = :name, patr_name = :patrName, birth_dt = :birthday, gender_id = :genderId, nationality_id = :nationalityId, vip = :vip where id = :id;
@@ -49,7 +49,7 @@
                 <param id="id" mapping="['id']"/>
             </in-parameters>
         </operation>
-        <operation id="delete" name="${delete}" confirm-text="${client.delete.confirm} {surname} {name}?" confirm="true"
+        <operation id="delete" name="${delete}"
                    success-text="${client} {surname} ${deleted}" fail-text="${client.delete.failed} '{surname}'">
             <invocation>
                 <sql data-source="jdbc/test">

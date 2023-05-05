@@ -66,7 +66,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         InvokeAction testAction = (InvokeAction) table.getToolbar().getButton("test2").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(testAction.getPayload().getModel(), is(ReduxModel.filter));
-        assertThat(testAction.getPayload().getDatasource(), is("w_main"));
+        assertThat(testAction.getPayload().getDatasource(), is("w_w1"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.POST));
         assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/test"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
@@ -78,8 +78,8 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         InvokeAction menuItem0action = (InvokeAction) table.getToolbar().getButton("test1").getAction();
         assertThat(menuItem0action.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(menuItem0action.getPayload().getModel(), is(ReduxModel.resolve));
-        assertThat(menuItem0action.getPayload().getDatasource(), is("w_main"));
-        assertThat(menuItem0action.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("w_main"));
+        assertThat(menuItem0action.getPayload().getDatasource(), is("w_w1"));
+        assertThat(menuItem0action.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("w_w1"));
 //        assertThat(menuItem0action.getOptions().getMeta().getSuccess().getModalsToClose(), is(1));
         ClientDataProvider dataProvider = menuItem0action.getPayload().getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
@@ -98,7 +98,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         testAction = (InvokeAction) table.getToolbar().getButton("testDefault").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(testAction.getPayload().getModel(), is(ReduxModel.filter));
-        assertThat(testAction.getPayload().getDatasource(), is("w_main"));
+        assertThat(testAction.getPayload().getDatasource(), is("w_w1"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.POST));
         assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testDefault"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
@@ -107,19 +107,19 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         testAction = (InvokeAction) table.getToolbar().getButton("testPut").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(testAction.getPayload().getModel(), is(ReduxModel.resolve));
-        assertThat(testAction.getPayload().getDatasource(), is("w_main"));
+        assertThat(testAction.getPayload().getDatasource(), is("w_w1"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.PUT));
         assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/:id"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         Map<String, ModelLink> pathMapping = testAction.getPayload().getDataProvider().getPathMapping();
         assertThat(pathMapping.size(), is(1));
-        assertThat(pathMapping.get("id").getBindLink(), is("models.resolve['w_main']"));
+        assertThat(pathMapping.get("id").getBindLink(), is("models.resolve['w_w1']"));
         assertThat(pathMapping.get("id").getValue(), is("`id`"));
 
         testAction = (InvokeAction) table.getToolbar().getButton("testDelete").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(testAction.getPayload().getModel(), is(ReduxModel.resolve));
-        assertThat(testAction.getPayload().getDatasource(), is("w_main"));
+        assertThat(testAction.getPayload().getDatasource(), is("w_w1"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.DELETE));
         assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testDelete"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
@@ -229,8 +229,8 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         //default datasource and model
         assertThat(provider1.getPathMapping().get("ppName1").getValue(), is("`ppValue1`"));
         assertThat(provider1.getPathMapping().get("ppName1").getModel(), is(ReduxModel.filter));
-        assertThat(provider1.getPathMapping().get("ppName1").getDatasource(), is("w_main"));
-        assertThat(provider1.getPathMapping().get("ppName1").getBindLink(), is("models.filter['w_main']"));
+        assertThat(provider1.getPathMapping().get("ppName1").getDatasource(), is("w_w1"));
+        assertThat(provider1.getPathMapping().get("ppName1").getBindLink(), is("models.filter['w_w1']"));
 
         //resolve model
         InvokeAction menuItem0action = (InvokeAction) table.getToolbar().getButton("test2").getAction();

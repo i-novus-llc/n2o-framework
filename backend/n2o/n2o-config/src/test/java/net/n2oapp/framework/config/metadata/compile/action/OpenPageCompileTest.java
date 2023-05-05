@@ -14,10 +14,14 @@ import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
+import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
+import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
+import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshAction;
+import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshPayload;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.InputSelect;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -97,18 +101,17 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(openPage.getBreadcrumb().get(0).getLabel(), is("first"));
         assertThat(openPage.getBreadcrumb().get(1).getLabel(), is("second"));
 
-        InvokeAction submit = (InvokeAction) openPage.getToolbar().getButton("submit").getAction();
+        InvokeAction submit = (InvokeAction) ((MultiAction) openPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(0);
         InvokeActionPayload submitPayload = submit.getPayload();
-        assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/page/action1/submit"));
+        assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/page/action1/multi1"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
         assertThat(submitPayload.getModel(), is(ReduxModel.resolve));
-        assertThat(submitPayload.getDatasource(), is("page_action1_main"));
-        AsyncMetaSaga meta = submit.getMeta();
-        assertThat(meta.getSuccess().getRefresh().getDatasources(), hasItem("page_test"));
-        assertThat(meta.getSuccess().getMessageWidgetId(), is("page_test"));
-        assertThat(meta.getSuccess().getModalsToClose(), nullValue());
-        assertThat(meta.getSuccess().getRedirect().getPath(), is("/page"));
-        ActionContext submitContext = (ActionContext) route("/page/action1/submit", CompiledObject.class);
+        assertThat(submitPayload.getDatasource(), is("page_action1_w1"));
+        RefreshAction refresh = (RefreshAction) ((MultiAction) openPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
+        assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("page_test"));
+        LinkAction redirect = (LinkAction) ((MultiAction) openPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
+        assertThat(redirect.getUrl(), is("/page"));
+        ActionContext submitContext = (ActionContext) route("/page/action1/multi1", CompiledObject.class);
         assertThat(submitContext.getRedirect(), nullValue());
 
         LinkActionImpl close = (LinkActionImpl) openPage.getToolbar().getButton("close").getAction();
@@ -154,17 +157,18 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(provider.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test']"));
         assertThat(provider.getPathMapping().get("page_test_id").getValue(), is("`id`"));
 
-        InvokeAction submit = (InvokeAction) openPage.getToolbar().getButton("submit").getAction();
+        InvokeAction submit = (InvokeAction) ((MultiAction) openPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(0);
         InvokeActionPayload submitPayload = submit.getPayload();
-        assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/page/:page_test_id/action2/submit"));
+        assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/page/:page_test_id/action2/multi1"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
         assertThat(submitPayload.getModel(), is(ReduxModel.resolve));
         assertThat(submitPayload.getDatasource(), is("page_action2_main"));
-        AsyncMetaSaga meta = submit.getMeta();
-        assertThat(meta.getSuccess().getRefresh().getDatasources(), hasItem("page_test"));
-        assertThat(meta.getSuccess().getModalsToClose(), nullValue());
-        assertThat(meta.getSuccess().getRedirect().getPath(), is("/page"));
-        ActionContext submitContext = (ActionContext) route("/page/123/action2/submit", CompiledObject.class);
+        RefreshAction refresh = (RefreshAction) ((MultiAction) openPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
+        assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("page_test"));
+        LinkAction redirect = (LinkAction) ((MultiAction) openPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
+        assertThat(redirect.getUrl(), is("/page"));
+
+        ActionContext submitContext = (ActionContext) route("/page/123/action2/multi1", CompiledObject.class);
         assertThat(submitContext.getRedirect(), nullValue());
 
         LinkActionImpl close = (LinkActionImpl) openPage.getToolbar().getButton("close").getAction();
@@ -385,10 +389,8 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(openPage.getBreadcrumb().get(0).getLabel(), is("first"));
         assertThat(openPage.getBreadcrumb().get(1).getLabel(), is("second"));
 
-        assertThat(openPage.getWidget().getId(), is("page_testOpenPageSimplePageAction1_id1_main"));
-
+        assertThat(openPage.getWidget().getId(), is("page_testOpenPageSimplePageAction1_id1_w1"));
         assertThat(openPage.getRoutes().getList().get(0).getPath(), is("/page/testOpenPageSimplePageAction1/id1"));
-
         assertThat(openPage.getWidget(), instanceOf(Form.class));
 
         context = (PageContext) route("/page/testOpenPageSimplePageAction2/id1", Page.class);
@@ -443,26 +445,26 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         ReduxAction onGet = queryMapping.get("name").getOnGet();
         UpdateModelPayload payload = (UpdateModelPayload) onGet.getPayload();
         assertThat(payload.getPrefix(), is("resolve"));
-        assertThat(payload.getKey(), is("page_defaultValue_main"));
+        assertThat(payload.getKey(), is("page_defaultValue_w1"));
         assertThat(payload.getField(), is("surname"));
         assertThat(payload.getValue(), is(":name"));
-        assertThat(queryMapping.get("name").getOnSet().getBindLink(), is("models.resolve['page_defaultValue_main'].surname"));
+        assertThat(queryMapping.get("name").getOnSet().getBindLink(), is("models.resolve['page_defaultValue_w1'].surname"));
         payload = (UpdateModelPayload) queryMapping.get("gender_id").getOnGet().getPayload();
         assertThat(payload.getPrefix(), is("resolve"));
-        assertThat(payload.getKey(), is("page_defaultValue_main"));
+        assertThat(payload.getKey(), is("page_defaultValue_w1"));
         assertThat(payload.getField(), is("gender.id"));
         assertThat(payload.getValue(), is(":gender_id"));
-        assertThat(queryMapping.get("gender_id").getOnSet().getBindLink(), is("models.resolve['page_defaultValue_main'].gender"));
+        assertThat(queryMapping.get("gender_id").getOnSet().getBindLink(), is("models.resolve['page_defaultValue_w1'].gender"));
 
         payload = (UpdateModelPayload) queryMapping.get("start").getOnGet().getPayload();
         assertThat(payload.getField(), is("birthDate.begin"));
         assertThat(payload.getValue(), is(":start"));
-        assertThat(queryMapping.get("start").getOnSet().getBindLink(), is("models.resolve['page_defaultValue_main'].birthDate.begin"));
+        assertThat(queryMapping.get("start").getOnSet().getBindLink(), is("models.resolve['page_defaultValue_w1'].birthDate.begin"));
 
         payload = (UpdateModelPayload) queryMapping.get("end").getOnGet().getPayload();
         assertThat(payload.getField(), is("birthDate.end"));
         assertThat(payload.getValue(), is(":end"));
-        assertThat(queryMapping.get("end").getOnSet().getBindLink(), is("models.resolve['page_defaultValue_main'].birthDate.end"));
+        assertThat(queryMapping.get("end").getOnSet().getBindLink(), is("models.resolve['page_defaultValue_w1'].birthDate.end"));
 
         DataSet data = new DataSet();
         data.put("detailId", 222);
@@ -472,12 +474,12 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         data.put("surname", "Ivanov");
         data.put("gender_id", 1);
         openPage = (SimplePage) read().compile().bind().get(context, data);
-        assertThat(openPage.getModels().get("resolve['page_defaultValue_main'].surname").getValue(), is("testName"));
-        assertThat(openPage.getModels().get("resolve['page_defaultValue_main'].birthDate.begin").getValue(), is("2022-02-14T00:00:00"));
-        assertThat(openPage.getModels().get("resolve['page_defaultValue_main'].birthDate.end").getValue(), is("2022-03-20T00:00:00"));
-        assertThat(((DefaultValues) openPage.getModels().get("resolve['page_defaultValue_main'].birthDate")
+        assertThat(openPage.getModels().get("resolve['page_defaultValue_w1'].surname").getValue(), is("testName"));
+        assertThat(openPage.getModels().get("resolve['page_defaultValue_w1'].birthDate.begin").getValue(), is("2022-02-14T00:00:00"));
+        assertThat(openPage.getModels().get("resolve['page_defaultValue_w1'].birthDate.end").getValue(), is("2022-03-20T00:00:00"));
+        assertThat(((DefaultValues) openPage.getModels().get("resolve['page_defaultValue_w1'].birthDate")
                 .getValue()).getValues().get("begin"), is("2019-02-16T00:00:00"));
-        assertThat(((DefaultValues)openPage.getModels().get("resolve['page_defaultValue_main'].gender").getValue()).getValues().get("id"), is(1));
+        assertThat(((DefaultValues)openPage.getModels().get("resolve['page_defaultValue_w1'].gender").getValue()).getValues().get("id"), is(1));
 
         context = (PageContext) route("/page/defaultValueQuery", Page.class);
         openPage = (SimplePage) read().compile().get(context);
@@ -531,7 +533,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         data.put("name", "test");
         SimplePage openPage = (SimplePage) read().compile().bind().get(context, data);
         ClientDataProvider provider = ((StandardDatasource) openPage.getDatasources().get(openPage.getWidget().getDatasource())).getProvider();
-        assertThat(provider.getUrl(), is("n2o/data/page/show/main"));
+        assertThat(provider.getUrl(), is("n2o/data/page/show/w1"));
         assertThat(provider.getQueryMapping().size(), is(1));
         assertThat(provider.getQueryMapping().get("name").isConst(), is(true));
 
@@ -541,7 +543,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         context = (PageContext) route("/testBind", Page.class);
         openPage = (SimplePage) read().compile().bind().get(context, data);
         provider = ((StandardDatasource) openPage.getDatasources().get(openPage.getWidget().getDatasource())).getProvider();
-        assertThat(provider.getUrl(), is("n2o/data/testBind/main"));
+        assertThat(provider.getUrl(), is("n2o/data/testBind/w1"));
         assertThat(provider.getQueryMapping().size(), is(1));
         assertThat(provider.getQueryMapping().get("name").getValue(), is("test"));
     }

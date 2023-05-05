@@ -66,7 +66,7 @@ public class ImageUploadCompileTest extends SourceCompileTestBase {
         assertThat(imageUpload.getUrlFieldId(), is("urlId"));
         assertThat(imageUpload.getResponseFieldId(), is("messageId"));
         assertThat(imageUpload.getRequestParam(), is("param"));
-        DefaultValues values = (DefaultValues) page.getModels().get("resolve['testImageUpload_main'].imageUpload").getValue();
+        DefaultValues values = (DefaultValues) page.getModels().get("resolve['testImageUpload_w1'].imageUpload").getValue();
         assertThat(values.getValues().get("id"), is("value1"));
         assertThat(values.getValues().get("filename"), is("file"));
         assertThat(values.getValues().get("url"), is("/test"));

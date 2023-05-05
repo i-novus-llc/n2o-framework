@@ -19,6 +19,7 @@ import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.event.Event;
@@ -349,16 +350,28 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     private void mergeToolbars(S source, PageContext context, N2oWidget resultWidget, CompileProcessor p) {
         if (CollectionUtils.isEmpty(context.getToolbars())) return;
         Map<String, N2oToolbar> toolbars = new HashMap<>();
+        /* клонируем тулбары из контекста в тулбары страницы, это необходимо, чтобы просатвить значения по умолчанию
+         для datasource и при это не испортить контекст изменениями */
         context.getToolbars().forEach(t -> {
+            N2oToolbar toolbar = new N2oToolbar();
+            toolbar.setPlace(p.cast(t.getPlace(), p.resolve(property("n2o.api.page.toolbar.place"), String.class)));
+            toolbar.setGenerate(t.getGenerate());
+            toolbar.setStyle(t.getStyle());
+            toolbar.setDatasourceId(t.getDatasourceId());
+            toolbar.setCssClass(t.getCssClass());
             if (t.getItems() != null) {
-                Arrays.stream(t.getItems())
-                        .filter(toolbarItem -> N2oAbstractButton.class.isAssignableFrom(toolbarItem.getClass()))
-                        .forEach(toolbarItem -> ((N2oAbstractButton) toolbarItem)
-                                .setDatasourceId(((N2oAbstractButton) toolbarItem).getDatasourceId() == null ?
-                                        resultWidget.getDatasourceId() : ((N2oAbstractButton) toolbarItem).getDatasourceId()));
+                ToolbarItem[] items = new ToolbarItem[t.getItems().length];
+                for (int i = 0; i < t.getItems().length; i++) {
+                    items[i] = t.getItems()[i].clone();
+                    if (N2oAbstractButton.class.isAssignableFrom(items[i].getClass())) {
+                        ((N2oAbstractButton) items[i])
+                                .setDatasourceId(((N2oAbstractButton) items[i]).getDatasourceId() == null ?
+                                        resultWidget.getDatasourceId() : ((N2oAbstractButton) items[i]).getDatasourceId());
+                    }
+                }
+                toolbar.setItems(items);
             }
-            t.setPlace(p.cast(t.getPlace(), p.resolve(property("n2o.api.page.toolbar.place"), String.class)));
-            toolbars.put(t.getPlace(), t);
+            toolbars.put(t.getPlace(), toolbar);
         });
         if (source.getToolbars() != null) {
             Arrays.stream(source.getToolbars()).forEach(t -> toolbars.putIfAbsent(t.getPlace(), t));

@@ -68,27 +68,6 @@
                         <xs:documentation>Кастомное имя открываемой страницы</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="submit-operation-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>На открываемой странице будут добавлены кнопки "Сохранить" и "Отмена". Кнопка
-                            "Сохранить" будет выполнять заданную операцию объекта.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="submit-model" type="reduxModel" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>На открываемой странице будут добавлены кнопки "Сохранить" и "Отмена". Кнопка
-                            "Сохранить" будет выполнять с заданной моделью.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="submit-label" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Название кнопки отправки формы на открываемой странице. По умолчанию
-                            "Сохранить".
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="upload" type="uploadType" use="optional">
                     <xs:annotation>
                         <xs:documentation>Источник данных виджета при открытии страницы. По умолчанию query.
@@ -100,23 +79,6 @@
                         <xs:documentation>URL действия. По умолчанию вычисляется на основании идентификаторов страницы,
                             виджета
                             и действия.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="close-after-submit" type="xs:boolean" use="optional" default="true">
-                    <xs:annotation>
-                        <xs:documentation>Закрыть окно после успешного выполнения операции объекта</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="redirect-url-after-submit" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Переадресовать на URL после успешного выполнения операции объекта.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="redirect-target-after-submit" type="redirectTargetType" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Сценарий переадресации после успешного выполнения операции объекта.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
