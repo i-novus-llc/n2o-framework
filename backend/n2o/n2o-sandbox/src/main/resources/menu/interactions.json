@@ -231,72 +231,7 @@
         }
       ]
     },
-    {
-      "name": "Визуальные компоненты",
-      "templates": [
-        {
-          "templateId": "interactions/components/header",
-          "name": "Структура шапки"
-        },
-        {
-          "templateId": "interactions/components/sidebar",
-          "name": "Структура боковой панели"
-        },
-        {
-          "templateId": "interactions/components/sidebars",
-          "name": "Множественные боковые панели"
-        },
-        {
-          "templateId": "interactions/components/sidebarpath",
-          "name": "Использование шаблонных путей"
-        },
-        {
-          "templateId": "interactions/components/footer",
-          "name": "Структура подвала"
-        },
-        {
-          "templateId": "interactions/components/mymenu",
-          "name": "Меню навигации в отдельном файле"
-        },
-        {
-          "templateId": "interactions/components/menu",
-          "name": "Меню навигации в приложении"
-        },
-        {
-          "templateId": "interactions/components/simplepage",
-          "name": "Простая страница"
-        },
-        {
-          "templateId": "interactions/components/page",
-          "name": "Страница с разметкой регионов (page)"
-        },
-        {
-          "templateId": "interactions/components/lrpage",
-          "name": "Страница с разметкой регионов (left-right-page)"
-        },
-        {
-          "templateId": "interactions/components/toplrpage",
-          "name": "Страница с разметкой регионов (top-left-right-page)"
-        },
-        {
-          "templateId": "interactions/components/searchablepage",
-          "name": "Страница с поисковой строкой"
-        },
-        {
-          "templateId": "interactions/components/tabs",
-          "name": "Регион в виде вкладок"
-        },
-        {
-          "templateId": "interactions/components/table",
-          "name": "Виджет таблица"
-        },
-        {
-          "templateId": "interactions/components/form",
-          "name": "Виджет форма"
-        }
-      ]
-    },
-    {
+     {
       "name": "Динамика",
       "templates": [
         {
@@ -325,7 +260,6 @@
         }
       ]
     },
-
     {
       "name": "Объект",
       "templates": [

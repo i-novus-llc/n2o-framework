@@ -190,11 +190,24 @@
       ]
     },
     {
-      "name": "Html виджет",
+      "name": "HTML виджет",
       "templates": [
         {
-          "templateId": "uxcomponents/html_widget/withDS",
+          "templateId": "uxcomponents/widget/html_withDS",
           "name": "Html виджет с плейсхолдером"
+        }
+      ]
+    },
+    {
+      "name": "Виджет в отдельном файле",
+      "templates": [
+        {
+          "templateId": "uxcomponents/widget/table",
+          "name": "Виджет таблица"
+        },
+        {
+          "templateId": "uxcomponents/widget/form",
+          "name": "Виджет форма"
         }
       ]
     },
@@ -678,9 +691,39 @@
         {
           "templateId": "uxcomponents/menu/sidebar/overlay",
           "name": "Боковая панель перекрывает страницу"
+        },
+        {
+          "templateId": "uxcomponents/nav/header",
+          "name": "Структура шапки"
+        },
+        {
+          "templateId": "uxcomponents/nav/sidebar",
+          "name": "Структура боковой панели"
+        },
+        {
+          "templateId": "uxcomponents/nav/sidebars",
+          "name": "Множественные боковые панели"
+        },
+        {
+          "templateId": "uxcomponents/nav/sidebarpath",
+          "name": "Использование шаблонных путей"
+        },
+        {
+          "templateId": "uxcomponents/nav/footer",
+          "name": "Структура подвала"
+        },
+        {
+          "templateId": "uxcomponents/nav/mymenu",
+          "name": "Меню навигации в отдельном файле"
+        },
+        {
+          "templateId": "uxcomponents/nav/menu",
+          "name": "Меню навигации в приложении"
         }
       ]
     },
+
+
     {
       "name": "Пагинация",
       "templates": [
