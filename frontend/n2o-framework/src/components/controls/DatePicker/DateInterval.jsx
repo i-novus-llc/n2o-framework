@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import defaults from 'lodash/defaults'
 import { getContext } from 'recompose'
 
 import DateTimeControl from './DateTimeControl'
@@ -9,7 +8,8 @@ import DateTimeControl from './DateTimeControl'
 /**
  * Компонент для выбора временного интервала. Состоит 2 {@link DatePicker}
  * @reactProps {object} defaultTime
- * @reactProps {array} value - массив, объекты которого задают дефолтные значения, имя ('beginDate' или 'endDate') и дефолтное время каждому пикеру.
+ * @reactProps {array} value - массив, объекты которого задают дефолтные значения, имя ('beginDate' или 'endDate') и
+ *     дефолтное время каждому пикеру.
  * @reactProps {string|moment|Date} min - самая ранняя доступная даустанавливает времята
  * @reactProps {string|moment|Date} max - самая поздняя доступная дата
  * @reactProps {function} onChange - вызывается при изменении
@@ -32,7 +32,10 @@ function DateInterval({
     config,
     ...rest
 }) {
-    const newValue = defaults(value, defaultValue)
+    const newValue = useMemo(() => ({
+        ...defaultValue,
+        ...value,
+    }), [value, defaultValue])
 
     const handleChange = (data) => {
         onChange({
