@@ -19,5 +19,5 @@ export const useHtmlResolver = (html: string, model: IModel) => {
         return null
     }
 
-    return evalExpression(parsedExpression.replace(/\n/g, ''), model)
+    return evalExpression(parsedExpression.replace(/\n/g, '\\n'), model)
 }
