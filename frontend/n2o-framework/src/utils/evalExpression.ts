@@ -16,15 +16,7 @@ export function parseExpression(value: unknown): false | string {
     if (typeof value !== 'string') { return false }
 
     if (value.startsWith('`') && value.endsWith('`')) {
-        const parsed = value.substring(1, value.length - 1)
-
-        if (parsed.includes('\n')) {
-            const exp = new RegExp('\\n', 'g')
-
-            return parsed.replace(exp, '\\n')
-        }
-
-        return parsed
+        return value.substring(1, value.length - 1)
     }
 
     return false
