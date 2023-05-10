@@ -3,10 +3,12 @@ import { sagas as actionsSagas } from './action'
 import { sagas as alertSagas } from './alerts'
 import { sagas as modelsSagas } from './models'
 import { sagas as pageSagas } from './page'
+import { sagas as exportSagas } from './export'
 
 export const sagas = [
     ...actionsSagas,
     ...alertSagas,
     ...modelsSagas,
     ...pageSagas,
+    ...exportSagas,
 ]

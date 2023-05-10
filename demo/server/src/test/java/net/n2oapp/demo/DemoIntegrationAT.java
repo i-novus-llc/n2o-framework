@@ -197,6 +197,7 @@ public class DemoIntegrationAT {
     /**
      * Проверка корректности работы пагинации
      */
+
     @Test
     public void testPagination() {
         protoPage.tableShouldHaveSize(10);
@@ -591,6 +592,7 @@ public class DemoIntegrationAT {
     /**
      * Тест удаления клиента (предпоследняя строка) из тулбара таблицы
      */
+
     @Test
     public void testTableRowDelete() {
         int row = 8;

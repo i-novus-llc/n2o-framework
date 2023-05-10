@@ -1126,29 +1126,14 @@
                 <xs:documentation>Показать/скрыть кнопку быстрого перехода на следующую страницу.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="last" type="xs:boolean" default="false">
-            <xs:annotation>
-                <xs:documentation>Показать/скрыть кнопку быстрого перехода на последнюю страницу.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="first" type="xs:boolean" default="true">
-            <xs:annotation>
-                <xs:documentation>Показать/скрыть кнопку быстрого перехода на первую страницу.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="show-count" type="xs:boolean" default="true">
             <xs:annotation>
                 <xs:documentation>Показать общее количество записей.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="show-single-page" type="xs:boolean" default="false">
+        <xs:attribute name="show-last" type="xs:boolean" default="true">
             <xs:annotation>
-                <xs:documentation>Показать пагинацию на единственной странице.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="layout" type="layoutEnum" default="separated">
-            <xs:annotation>
-                <xs:documentation>Устанавливает представление компонента.</xs:documentation>
+                <xs:documentation>Показать/скрыть кнопку с номером последней страницы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="prev-label" type="xs:string">
@@ -1169,31 +1154,6 @@
         <xs:attribute name="next-icon" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Иконка кнопки "Следующая страница".</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="first-label" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Текст кнопки "Первая страница".</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="first-icon" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Иконка кнопки "Первая страница".</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="last-label" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Текст кнопки "Последняя страница".</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="last-icon" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Иконка кнопки "Последняя страница".</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="max-pages" type="xs:integer">
-            <xs:annotation>
-                <xs:documentation>Максимальное кол-во кнопок перехода между страницами.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">

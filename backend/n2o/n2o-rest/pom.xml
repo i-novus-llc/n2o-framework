@@ -53,6 +53,13 @@
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>4.6</version>
+        </dependency>
+
+
         <!--logging-->
         <dependency>
             <groupId>org.slf4j</groupId>

@@ -8,6 +8,5 @@
             <image src="cell2" width="100px"/>
         </block>
     </content>
-    <pagination next="true" prev="true" last="true" first="false"
-                show-single-page="false" show-count="false"/>
+    <pagination next="true" prev="true" show-last="false"/>
 </tiles>

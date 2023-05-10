@@ -19,6 +19,7 @@ import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.api.rest.ControllerFactory;
+import net.n2oapp.framework.api.rest.ExportResponse;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.N2oResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
@@ -47,6 +48,7 @@ import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.templates.TemplateModel;
 import net.n2oapp.framework.ui.controller.DataController;
+import net.n2oapp.framework.ui.controller.ExportController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
 import net.n2oapp.framework.ui.controller.query.CopyValuesController;
@@ -197,6 +199,44 @@ public class ViewController {
             n2oSubModelsProcessor.setEnvironment(builder.getEnvironment());
 
             return builder.read().transform().validate().compile().transform().bind().get(context, context.getParams(path, request.getParameterMap()), n2oSubModelsProcessor);
+        } finally {
+            sandboxContext.refresh();
+            ThreadLocalProjectId.clear();
+        }
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping({"/view/{projectId}/n2o/export/**", "/view/{projectId}/n2o/export/", "/view/{projectId}/n2o/export"})
+    @ResponseBody
+    public ResponseEntity<byte[]> export(@PathVariable(value = "projectId") String projectId, HttpServletRequest request) {
+        try {
+            ThreadLocalProjectId.setProjectId(projectId);
+            N2oApplicationBuilder builder = getBuilder(projectId);
+            getIndex(builder);
+            getMenu(builder);
+
+            DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
+            ExportController exportController = new ExportController(builder.getEnvironment(), dataController);
+
+            String url = request.getParameter("url");
+            String format = request.getParameter("format");
+            String charset = request.getParameter("charset");
+
+            String dataPrefix = "/n2o/data";
+            String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
+
+            GetDataResponse dataResponse = exportController.getData(
+                    path,
+                    RouteUtil.parseQueryParams(RouteUtil.parseQuery(url)),
+                    new UserContext(sandboxContext));
+            ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset);
+
+            return ResponseEntity.status(exportResponse.getStatus())
+                    .contentLength(exportResponse.getContentLength())
+                    .header(HttpHeaders.CONTENT_TYPE, exportResponse.getContentType())
+                    .header(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition())
+                    .header(HttpHeaders.CONTENT_ENCODING, exportResponse.getCharacterEncoding())
+                    .body(exportResponse.getFile());
         } finally {
             sandboxContext.refresh();
             ThreadLocalProjectId.clear();

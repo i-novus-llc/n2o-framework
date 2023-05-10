@@ -6,9 +6,7 @@ import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
-import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
-import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
@@ -134,33 +132,5 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(item.getConfirm().getMode(), is(ConfirmType.MODAL));
         assertThat(item.getConfirm().getModelLink(), is("models.resolve['testToolbar_w1']"));
         assertThat(item.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
-    }
-
-    @Test
-    public void testGenerate() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbarGenerate.page.xml")
-                .get(new PageContext("testToolbarGenerate"));
-        Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
-        assertThat(t.getToolbar().size(), is(4));
-        assertThat(t.getToolbar().get("topRight").get(0).getButtons().size(), is(3));
-        assertThat(t.getToolbar().get("topRight").get(0).getButtons().get(0).getId(), is("create"));
-        assertThat(t.getToolbar().get("topRight").get(0).getButtons().get(1).getId(), is("update"));
-        assertThat(t.getToolbar().get("topRight").get(0).getButtons().get(2).getId(), is("delete"));
-
-        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().size(), is(4));
-        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(0).getHint(), is("Изменить видимость фильтров"));
-        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(1).getSrc(), is("ToggleColumn"));
-        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(2).getHint(), is("Обновить данные"));
-        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(3).getSrc(), is("ChangeSize"));
-
-        assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().size(), is(4));
-        assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(0).getHint(), is("Изменить видимость фильтров"));
-        assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(1).getSrc(), is("ToggleColumn"));
-        assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(2).getHint(), is("Обновить данные"));
-        assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(3).getSrc(), is("ChangeSize"));
-
-        assertThat(t.getToolbar().get("bottomLeft").get(0).getButtons().size(), is(3));
-        assertThat(t.getToolbar().get("bottomLeft").get(1).getButtons().size(), is(1));
-        assertThat(((Submenu) t.getToolbar().get("bottomLeft").get(1).getButtons().get(0)).getSubMenu().size(), is(4));
     }
 }

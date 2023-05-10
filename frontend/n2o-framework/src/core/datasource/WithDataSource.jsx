@@ -64,8 +64,8 @@ export const useDatasourceMethods = (id, datasource) => {
             setSorting(field, sorting) {
                 dispatch(setDataSourceSorting(datasource, field, sorting))
             },
-            setPage(page = 1) {
-                dispatch(changePage(datasource, page))
+            setPage(page = 1, withCount) {
+                dispatch(changePage(datasource, page, withCount))
             },
             setSize(size) {
                 dispatch(changeSize(datasource, size))

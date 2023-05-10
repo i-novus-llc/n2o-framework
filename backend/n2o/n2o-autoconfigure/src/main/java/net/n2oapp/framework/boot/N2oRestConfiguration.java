@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.ui.N2oAlertMessagesConstructor;
 import net.n2oapp.framework.ui.controller.DataController;
+import net.n2oapp.framework.ui.controller.ExportController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.SetController;
 import net.n2oapp.framework.ui.controller.query.GetController;
@@ -48,6 +49,15 @@ public class N2oRestConfiguration {
         DataController dataController = new DataController(controllerFactory, environment, router);
         dataController.setMessageBuilder(messageBuilder(environment));
         return dataController;
+    }
+
+    @Bean
+    public ExportController exportController(MetadataEnvironment environment,
+                                             MetadataRouter router,
+                                             DataController dataController) {
+        ExportController exportController = new ExportController(environment, router, dataController);
+        exportController.setMessageBuilder(messageBuilder(environment));
+        return exportController;
     }
 
     @Bean

@@ -68,6 +68,7 @@ export type SetAdditionalInfoAction = DatasourceAction<{
 export type ChangePageAction = DatasourceAction<{
     id: string
     page: number
+    withCount?: boolean
 }>
 
 export type ChangeSizeAction = DatasourceAction<{

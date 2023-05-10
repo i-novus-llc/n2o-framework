@@ -1,0 +1,7 @@
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <table object-id="utBlank">
+            <toolbar place="bottomRight" generate="columns"/>
+        </table>
+    </regions>
+</page>

@@ -14,7 +14,6 @@ import { RegionContent } from '../RegionContent'
  * @reactProps {bool} expand - флаг открыт ли при загрузке (default = true)
  * @reactProps {bool} hasSeparator - есть ли разделительная линия (default = true)
  * @reactProps {string} pageId - идентификатор страницы
- * @reactProps {function} getWidget - функция получения виджета
  * @reactProps {bool} forceRender - Флаг отключения ленивого рендера
  */
 
@@ -72,7 +71,6 @@ ListRegion.propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
     content: PropTypes.array.isRequired,
-    getWidget: PropTypes.func.isRequired,
     pageId: PropTypes.string.isRequired,
     forceRender: PropTypes.bool,
     resolveVisibleDependency: PropTypes.func,

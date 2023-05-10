@@ -15,6 +15,8 @@ public class Paging implements Compiled {
     private Integer size;
     @JsonProperty
     private Integer count;
+    @JsonProperty
+    private Boolean hasNext;
 
     public Paging() {
     }
@@ -27,5 +29,11 @@ public class Paging implements Compiled {
         this.page = page;
         this.size = size;
         this.count = count;
+    }
+
+    public Paging(Integer page, Integer size, Boolean hasNext) {
+        this.page = page;
+        this.size = size;
+        this.hasNext = hasNext;
     }
 }

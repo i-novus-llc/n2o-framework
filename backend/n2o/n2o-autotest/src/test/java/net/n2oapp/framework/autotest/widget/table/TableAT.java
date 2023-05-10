@@ -10,8 +10,8 @@ import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.control.Select;
-import net.n2oapp.framework.autotest.api.component.field.Field;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -20,9 +20,9 @@ import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
+import net.n2oapp.framework.autotest.impl.component.fieldset.N2oSimpleFieldSet;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.autotest.run.N2oController;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -36,8 +36,19 @@ import org.junit.jupiter.api.Test;
 import org.mockito.exceptions.verification.TooManyActualInvocations;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+import static com.codeborne.selenide.DownloadOptions.using;
+import static com.codeborne.selenide.FileDownloadMode.FOLDER;
+import static com.codeborne.selenide.files.FileFilters.withExtension;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Автотест для виджета Таблица
@@ -219,61 +230,6 @@ public class TableAT extends AutoTestBase {
     }
 
     @Test
-    public void testPaging() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/test.query.xml"));
-        StandardPage page = open(StandardPage.class);
-        page.shouldExists();
-
-        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
-        Paging paging = table.paging();
-        paging.shouldHaveTotalElements(8);
-        paging.shouldHaveLayout(Paging.Layout.SEPARATED);
-        paging.shouldNotHavePrev();
-        paging.shouldNotHaveNext();
-        paging.shouldHaveFirst();
-        paging.firstShouldHaveIcon("fa-angle-double-left");
-        paging.shouldNotHaveLast();
-
-        paging.shouldHaveActivePage("1");
-        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test1");
-        paging.selectPage("3");
-        paging.shouldHaveActivePage("3");
-        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test7");
-        paging.selectFirst();
-        paging.shouldHaveActivePage("1");
-
-
-        TableWidget table2 = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
-        paging = table2.paging();
-        paging.shouldNotHaveTotalElements();
-        paging.shouldHaveLayout(Paging.Layout.FLAT);
-        paging.shouldHavePrev();
-        paging.prevShouldHaveLabel("Prev");
-        paging.prevShouldHaveIcon("fa-angle-down");
-        paging.shouldHaveNext();
-        paging.nextShouldHaveLabel("Next");
-        paging.nextShouldHaveIcon("fa-angle-up");
-        paging.shouldHaveFirst();
-        paging.firstShouldHaveLabel("First");
-        paging.firstShouldHaveIcon("fa-angle-double-down");
-        paging.shouldHaveLast();
-        paging.lastShouldHaveLabel("Last");
-        paging.lastShouldHaveIcon("fa-angle-double-up");
-
-        paging.shouldHaveActivePage("1");
-        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test1");
-        paging.selectNext();
-        paging.shouldHaveActivePage("2");
-        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test4");
-        paging.selectPrev();
-        paging.shouldHaveActivePage("1");
-        paging.selectLast();
-        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test7");
-    }
-
-    @Test
     public void testSortOfColumn() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/sort_column");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/sort_column/index.page.xml"),
@@ -367,6 +323,139 @@ public class TableAT extends AutoTestBase {
         table.shouldBeVisible();
 
         verifyNeverGetDataInvocation(1, "Запрос за данными таблицы при fetch-on-visibility=false");
+    }
+
+    @Test
+    public void exportCurrentPageTest() throws IOException {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/data.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/exportModal.page.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        table.shouldExists();
+        table.columns().rows().shouldHaveSize(3);
+        table.paging().selectPage("2");
+
+        StandardButton exportBtn = table.toolbar().topRight().button(Condition.cssClass("btn"));
+        exportBtn.shouldBeVisible();
+
+        exportBtn.click();
+
+        Modal modal = N2oSelenide.modal();
+        StandardPage modalPage = modal.content(StandardPage.class);
+        modalPage.shouldExists();
+
+        FormWidget form = modalPage.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+
+        InputText format = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Формат").control(InputText.class);
+        format.shouldHaveValue("CSV");
+        format.shouldBeDisabled();
+
+        InputText charset = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Кодировка").control(InputText.class);
+        charset.shouldHaveValue("UTF-8");
+        charset.shouldBeDisabled();
+
+        RadioGroup radioGroup = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Текущая страница").control(RadioGroup.class);
+        radioGroup.check("Текущая страница");
+        radioGroup.shouldBeChecked("Текущая страница");
+
+        StandardButton download = modal.toolbar().bottomRight().button("Загрузить");
+        download.shouldExists();
+        StandardButton close = modal.toolbar().bottomRight().button("Закрыть");
+        close.shouldExists();
+
+        File file = download.element().download(
+                using(FOLDER).withFilter(withExtension("csv"))
+        );
+
+        try (FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8)) {
+            char[] chars = new char[(int) file.length() - 1];
+            fileReader.read(chars);
+
+            String actual = new String(chars);
+            String expected = "id;id_;id_ips;name;region\n" +
+                    "2;emdr_mris-2;ey88ee-ruqah34-54eqw;РМИС Республика Татарстан(тестовая для ПСИ);Республика Татарстан\n" +
+                    "3;emdr_mris-3;ey88ea-ruaah34-54eqw;ТМК;\n" +
+                    "4;emdr_mris-4;ey88ee-asd52a-54eqw;МИС +МЕД;Республика Адыгея\n" +
+                    "\u0000";
+
+            assertTrue(actual.contains(expected), "Экспортированное значение таблицы не соответствует ожидаемому");
+        } catch (IOException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void exportAllTableTest() throws IOException {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/data.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/export_buttons/exportModal.page.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        table.shouldExists();
+        table.columns().rows().shouldHaveSize(3);
+
+        StandardButton exportBtn = table.toolbar().topRight().button(Condition.cssClass("btn"));
+        exportBtn.shouldBeVisible();
+
+        exportBtn.click();
+
+        Modal modal = N2oSelenide.modal();
+        StandardPage modalPage = modal.content(StandardPage.class);
+        modalPage.shouldExists();
+
+        FormWidget form = modalPage.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+
+        InputText format = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Формат").control(InputText.class);
+        format.shouldHaveValue("CSV");
+        format.shouldBeDisabled();
+
+        InputText charset = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Кодировка").control(InputText.class);
+        charset.shouldHaveValue("UTF-8");
+        charset.shouldBeDisabled();
+
+        RadioGroup radioGroup = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Текущая страница").control(RadioGroup.class);
+        radioGroup.shouldBeChecked("Загрузить все (но не более 1000 записей)");
+
+        StandardButton download = modal.toolbar().bottomRight().button("Загрузить");
+        download.shouldExists();
+        StandardButton close = modal.toolbar().bottomRight().button("Закрыть");
+        close.shouldExists();
+
+        File file = download.element().download(
+                using(FOLDER).withFilter(withExtension("csv"))
+        );
+
+        try (FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8)) {
+            char[] chars = new char[(int) file.length() - 1];
+            fileReader.read(chars);
+
+            String actual = new String(chars);
+            String expected = "id;id_;id_ips;name;region\n" +
+                    "13;eadad;asdaa;asdads;adad\n" +
+                    "12;asd;asd;adad;asdada\n" +
+                    "1;emdr_mris-1;ey88ee-rugh34-asd4;РМИС Республика Адыгея(СТП);Республика Адыгея\n" +
+                    "2;emdr_mris-2;ey88ee-ruqah34-54eqw;РМИС Республика Татарстан(тестовая для ПСИ);Республика Татарстан\n" +
+                    "3;emdr_mris-3;ey88ea-ruaah34-54eqw;ТМК;\n" +
+                    "4;emdr_mris-4;ey88ee-asd52a-54eqw;МИС +МЕД;Республика Адыгея\n" +
+                    "\u0000";
+
+            assertTrue(actual.contains(expected), "Экспортированное значение таблицы не соответствует ожидаемому");
+        } catch (IOException e) {
+            fail();
+        }
     }
 
     private void verifyNeverGetDataInvocation(int times, String errorMessage) {

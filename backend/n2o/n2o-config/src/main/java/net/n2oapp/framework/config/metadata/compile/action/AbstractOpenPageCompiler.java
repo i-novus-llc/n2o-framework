@@ -38,6 +38,7 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
+
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -212,6 +213,10 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         initPageRoute(compiled, route, pathMapping, queryMapping);
         initOtherPageRoute(p, context, route);
         p.addRoute(pageContext);
+
+        if (source.getToolbars() != null)
+            pageContext.setToolbars(Arrays.asList(source.getToolbars()));
+
         return pageContext;
     }
 

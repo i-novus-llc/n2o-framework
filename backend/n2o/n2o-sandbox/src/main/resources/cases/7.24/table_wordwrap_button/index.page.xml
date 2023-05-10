@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Кнопка переноса слов в таблице">
+    <datasources>
+        <datasource id="ds1" query-id="data" size="5"/>
+    </datasources>
+
+    <regions>
+        <table datasource="ds1" selection="none">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="id_ips"/>
+                <column text-field-id="name" width="300px"/>
+                <column text-field-id="region" width="300px"/>
+            </columns>
+            <toolbar place="topRight">
+                <group generate="word-wrap"/>
+            </toolbar>
+        </table>
+    </regions>
+</page>

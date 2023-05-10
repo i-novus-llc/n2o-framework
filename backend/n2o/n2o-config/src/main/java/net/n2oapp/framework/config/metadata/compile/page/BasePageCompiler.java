@@ -37,6 +37,7 @@ import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -90,6 +91,9 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         //actions
         mergeActions(source, context);
         MetaActions metaActions = initMetaActions(source, p);
+        if (source.getActions() != null)
+            context.setActions(Arrays.stream(source.getActions())
+                    .collect(Collectors.toMap(ActionBar::getId, Function.identity())));
 
         FiltersScope filtersScope = new FiltersScope();
 

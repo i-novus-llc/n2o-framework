@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageCell;
 import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -69,16 +70,13 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tile.getComponent(), instanceOf(ImageCell.class));
         assertThat(((ImageCell) tile.getComponent()).getData(), is("/test"));
 
-        assertThat(tiles.getPaging().getFirst(), is(false));
-        assertThat(tiles.getPaging().getShowSinglePage(), is(true));
-        assertThat(tiles.getPaging().getLast(), is(true));
         assertThat(tiles.getPaging().getNext(), is(true));
         assertThat(tiles.getPaging().getPrev(), is(true));
-        assertThat(tiles.getPaging().getShowCount(), is(false));
-        assertThat(tiles.getPaging().getSize(), is(5));
+        assertThat(tiles.getPaging().getShowCount(), is(ShowCountType.NEVER));
+        assertThat(tiles.getPaging().getShowLast(), is(true));
         assertThat(tiles.getPaging().getSrc(), is("pagingSrc"));
 
-        assertThat(((StandardDatasource) page.getDatasources().get(tiles.getDatasource())).getProvider().getSize(), is(5));
+        assertThat(page.getDatasources().get(tiles.getDatasource()).getPaging().getSize(), is(5));
 
         tiles = (Tiles) page.getRegions().get("single").get(0).getContent().get(1);
         assertThat(tiles.getSrc(), is("TilesWidget"));
@@ -86,12 +84,9 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tiles.getColsMd(), is(2));
         assertThat(tiles.getColsLg(), is(4));
 
-        assertThat(tiles.getPaging().getFirst(), is(true));
-        assertThat(tiles.getPaging().getShowSinglePage(), is(false));
-        assertThat(tiles.getPaging().getLast(), is(false));
         assertThat(tiles.getPaging().getNext(), is(false));
         assertThat(tiles.getPaging().getPrev(), is(false));
-        assertThat(tiles.getPaging().getShowCount(), is(true));
+        assertThat(tiles.getPaging().getShowCount(), is(ShowCountType.ALWAYS));
         assertThat(tiles.getPaging().getSize(), is(10));
     }
 }
