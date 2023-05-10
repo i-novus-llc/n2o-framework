@@ -97,7 +97,7 @@ public class DefaultValuesControllerTest {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipelineForQuery();
         Map<String, String[]> params = new HashMap<>();
         params.put("id", new String[]{"2"});
-        GetDataResponse response = testQuery("/testDefaults/main", pipeline, params);
+        GetDataResponse response = testQuery("/testDefaults/w1", pipeline, params);
         assertThat(response.getList().size(), is(1));
         assertThat(response.getList().get(0).size(), is(2));
         assertThat(response.getList().get(0).get("id"), is(2L));

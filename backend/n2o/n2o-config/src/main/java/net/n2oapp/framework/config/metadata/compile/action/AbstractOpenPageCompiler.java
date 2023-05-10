@@ -512,6 +512,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                                 context.getDatasources().add(new N2oParentDatasource("parent_" + refreshDatasourceId, refreshDatasourceId, false));
                             }
                             N2oCloseAction closeAction = new N2oCloseAction();
+                            closeAction.setPrompt(false);
                             actionList.add(closeAction);
                         } else {
                             invokeAction.setRefreshOnSuccess(true);
