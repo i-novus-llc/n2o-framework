@@ -57,7 +57,7 @@ public class N2oMessagesConfiguration {
         messageSource.setFallbackToSystemLocale(false);
         messageSource.setBasenames(StringUtils.commaDelimitedListToStringArray(
                 StringUtils.trimAllWhitespace(basename)));
-        messageSource.addBasenames("n2o_api_messages", "n2o_config_messages", "n2o_rest_messages");
+        messageSource.addBasenames("n2o_api_messages", "n2o_config_messages", "n2o_rest_messages", "n2o_engine_messages");
         return messageSource;
     }
 
