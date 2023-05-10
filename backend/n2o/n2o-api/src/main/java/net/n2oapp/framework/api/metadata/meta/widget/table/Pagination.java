@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
 
 import java.util.Map;
 
@@ -24,15 +24,9 @@ public class Pagination implements Compiled {
     @JsonProperty
     private String src;
     @JsonProperty
-    private Boolean last;
+    private ShowCountType showCount;
     @JsonProperty
-    private Boolean first;
-    @JsonProperty
-    private Boolean showCount;
-    @JsonProperty
-    private Boolean showSinglePage;
-    @JsonProperty
-    private Layout layout;
+    private Boolean showLast;
     @JsonProperty
     private String prevLabel;
     @JsonProperty
@@ -41,16 +35,6 @@ public class Pagination implements Compiled {
     private String nextLabel;
     @JsonProperty
     private String nextIcon;
-    @JsonProperty
-    private String firstLabel;
-    @JsonProperty
-    private String firstIcon;
-    @JsonProperty
-    private String lastLabel;
-    @JsonProperty
-    private String lastIcon;
-    @JsonProperty
-    private Integer maxPages;
     @JsonProperty
     private String className;
     @JsonProperty

@@ -9,6 +9,10 @@
           "name": "Badge в line филдсете"
         },
         {
+          "templateId": "cases/7.24/infinite_pagination",
+          "name": "Бесконечная пагинация"
+        },
+        {
           "templateId": "cases/7.24/table_export_buttons",
           "name": "Кнопка экспорта таблицы"
         },
@@ -388,14 +392,6 @@
           "templateId": "cases/7.17/radiogroup_tabs"
         },
         {
-          "templateId": "cases/7.17/pagination_attributes_variability",
-          "name": "Расширенные возможности пагинации"
-        },
-        {
-          "templateId": "cases/7.17/pagination_layouts",
-          "name": "Варианты представления пагинации"
-        },
-        {
           "templateId": "cases/7.17/simple_application",
           "name": "Навигация, заданная в application.xml"
         },
@@ -677,10 +673,6 @@
         {
           "templateId": "cases/7.10/simple_page_width",
           "name": "Шаблон страницы для небольших форм"
-        },
-        {
-          "templateId": "cases/7.10/pagination",
-          "name": "Пагинация в списковых виджетах"
         },
         {
           "templateId": "cases/7.10/tiles",

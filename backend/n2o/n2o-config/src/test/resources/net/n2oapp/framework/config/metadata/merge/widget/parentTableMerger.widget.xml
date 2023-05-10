@@ -4,7 +4,7 @@
     <filters search-on-change="true" default-values-query-id="test" place="left">
         <input-text id="test1"/>
     </filters>
-    <pagination first="true" last="true" show-single-page="true" next="true" prev="true" show-count="true"/>
+    <pagination next="true" prev="true" show-count="true" show-last="true"/>
     <rows>
         <click action-id="actionId"/>
     </rows>

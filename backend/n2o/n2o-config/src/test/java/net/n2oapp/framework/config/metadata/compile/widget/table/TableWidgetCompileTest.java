@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
@@ -369,22 +370,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4PaginationNonDefault.widget.xml").get(new WidgetContext("testTable4PaginationNonDefault"));
         Pagination pagination = table.getPaging();
 
-        assertThat(pagination.getFirst(), is(true));
-        assertThat(pagination.getLast(), is(true));
         assertThat(pagination.getPrev(), is(true));
         assertThat(pagination.getNext(), is(true));
-        assertThat(pagination.getShowSinglePage(), is(false));
-        assertThat(pagination.getShowCount(), is(true));
-        assertThat(pagination.getLayout(), is(Layout.separatedRounded));
+        assertThat(pagination.getShowCount(), is(ShowCountType.BY_REQUEST));
+        assertThat(pagination.getShowLast(), is(false));
         assertThat(pagination.getPrevLabel(), is("prev"));
         assertThat(pagination.getPrevIcon(), is("fa fa-angle-left"));
         assertThat(pagination.getNextLabel(), is("next"));
         assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
-        assertThat(pagination.getFirstLabel(), is("first"));
-        assertThat(pagination.getFirstIcon(), is("fa fa-angle-double-left"));
-        assertThat(pagination.getLastLabel(), is("last"));
-        assertThat(pagination.getLastIcon(), is("fa fa-angle-double-right"));
-        assertThat(pagination.getMaxPages(), is(10));
         assertThat(pagination.getClassName(), is("class"));
         assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
         assertThat(pagination.getPlace(), is(Place.topLeft));
@@ -400,22 +393,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     private void checkDefaultPagingParams(Pagination pagination) {
-        assertThat(pagination.getFirst(), is(true));
-        assertThat(pagination.getLast(), is(false));
         assertThat(pagination.getPrev(), is(false));
         assertThat(pagination.getNext(), is(false));
-        assertThat(pagination.getShowSinglePage(), is(false));
-        assertThat(pagination.getShowCount(), is(true));
-        assertThat(pagination.getLayout(), is(Layout.separated));
+        assertThat(pagination.getShowCount(), is(ShowCountType.ALWAYS));
+        assertThat(pagination.getShowLast(), is(true));
         assertThat(pagination.getPrevLabel(), is(nullValue()));
         assertThat(pagination.getPrevIcon(), is("fa fa-angle-left"));
         assertThat(pagination.getNextLabel(), is(nullValue()));
         assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
-        assertThat(pagination.getFirstLabel(), is(nullValue()));
-        assertThat(pagination.getFirstIcon(), is("fa fa-angle-double-left"));
-        assertThat(pagination.getLastLabel(), is(nullValue()));
-        assertThat(pagination.getLastIcon(), is("fa fa-angle-double-right"));
-        assertThat(pagination.getMaxPages(), is(5));
         assertThat(pagination.getClassName(), is(nullValue()));
         assertThat(pagination.getStyle(), is(nullValue()));
         assertThat(pagination.getPlace(), is(Place.bottomLeft));

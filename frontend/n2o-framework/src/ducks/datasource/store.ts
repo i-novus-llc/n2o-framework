@@ -211,9 +211,9 @@ const datasource = createSlice({
         },
 
         changePage: {
-            prepare(id: string, page: number) {
+            prepare(id: string, page: number, withCount: boolean) {
                 return ({
-                    payload: { id, page },
+                    payload: { id, page, withCount },
                 })
             },
             reducer(state, action: ChangePageAction) {

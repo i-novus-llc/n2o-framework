@@ -8,6 +8,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.widget.ListWidgetValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
@@ -34,7 +35,7 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oAllDataPack());
-        builder.validators(new PageValidator(), new BasePageValidator(), new WidgetValidator());
+        builder.validators(new PageValidator(), new BasePageValidator(), new WidgetValidator(), new ListWidgetValidator());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank2.object.xml"),
@@ -85,5 +86,12 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         exception.expect(N2oMetadataValidationException.class);
         exception.expectMessage("Идентификатор действия 'test' дублируется на странице и в виджете 'main'");
         validate("net/n2oapp/framework/config/metadata/validation/widget/testPageAndWidgetActionIdsUnique.page.xml");
+    }
+
+    @Test
+    public void testPaginationShowLastAndCount() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Используется некорректная комбинация атрибутов 'show-last=\"false\"' и 'show-count=\"always\"' пагинации виджета 'testPaginationShowLastAndCount'");
+        validate("net/n2oapp/framework/config/metadata/validation/widget/testPaginationShowLastAndCount.widget.xml");
     }
 }

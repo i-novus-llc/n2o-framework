@@ -42,10 +42,10 @@ import { ResetDatasourceAction } from './Actions'
 
 // Запуск запроса за данными при изменении мета-данных (фильтр, сортировка, страница)
 export function* runDataRequest({ payload }: ChangePageAction) {
-    const { id, page } = payload
+    const { id, page, withCount } = payload
 
     // @ts-ignore поправить типы
-    yield put(dataRequest(id, { page: page || 1 }))
+    yield put(dataRequest(id, { page: page || 1, withCount }))
 }
 
 /** Список активных задач dataRequest, которые надо отменить при дестрое */

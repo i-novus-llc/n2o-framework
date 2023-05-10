@@ -4,7 +4,7 @@
     <filters search-on-change="true" datasource="ds_filter" place="left">
         <input-text id="test1"/>
     </filters>
-    <pagination first="true" last="true" show-single-page="true" next="true" prev="true" show-count="true"/>
+    <pagination next="true" prev="true" show-count="never" show-last="true"/>
     <rows>
         <click action-id="actionId"/>
     </rows>

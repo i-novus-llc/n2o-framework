@@ -1,8 +1,0 @@
-<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
-       size="5"
-       query-id="test">
-    <columns>
-        <column text-field-id="id" label="Идентфикатор"/>
-        <column text-field-id="name" label="Имя"/>
-    </columns>
-</table>
