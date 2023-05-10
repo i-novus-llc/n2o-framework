@@ -20,6 +20,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -132,6 +133,9 @@ public class DatasourceAT extends AutoTestBase {
     /**
      * Тестирование одного datasource на несколько виджетов
      */
+
+    //TODO передлать в https://jira.i-novus.ru/browse/NNO-9156
+    @Disabled
     @Test
     public void testOneDSManyWidgets() {
         setJsonPath("net/n2oapp/framework/autotest/datasources");

@@ -16,6 +16,8 @@ public class Criteria implements Serializable {
     private int size = 15;
     private Integer count;//if you know the total number of records
 
+    private Boolean withCount;
+
     public Criteria() {
     }
 
@@ -24,6 +26,7 @@ public class Criteria implements Serializable {
         this.page = criteria.page;
         this.size = criteria.size;
         this.count = criteria.count;
+        this.withCount = criteria.withCount;
     }
 
     public int getFirst() {

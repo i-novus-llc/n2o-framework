@@ -26,12 +26,6 @@ public interface Paging extends Component {
     void shouldHavePageNumber(String number);
 
     /**
-     * Проверка соответствия макета пагинации
-     * @param layout ожидаемый тип макета
-     */
-    void shouldHaveLayout(Layout layout);
-
-    /**
      * Возвращает общее количества элементов у виджета
      * @return Число элементов
      */
@@ -49,14 +43,24 @@ public interface Paging extends Component {
     void shouldNotHaveTotalElements();
 
     /**
+     * Проверка наличия кнопки перехода на предыдущую страницу
+     */
+    void shouldHavePrev();
+
+    /**
      * Проверка отсутствия кнопки перехода на предыдущую страницу
      */
     void shouldNotHavePrev();
 
     /**
-     * Проверка наличия кнопки перехода на предыдущую страницу
+     * Проверка доступности кнопки перехода на предыдущую страницу
      */
-    void shouldHavePrev();
+    void prevButtonShouldBeEnabled();
+
+    /**
+     * Проверка недоступности кнопки перехода на предыдущую страницу
+     */
+    void prevButtonShouldBeDisabled();
 
     /**
      * Проверка метки кнопки перехода на предыдущую страницу
@@ -103,26 +107,19 @@ public interface Paging extends Component {
     void selectNext();
 
     /**
-     * Проверка отсутствия кнопки перехода на первую страницу
+     * Проверка доступности кнопки перехода на следующую страницу
      */
-    void shouldNotHaveFirst();
+    void nextButtonShouldBeEnabled();
+
+    /**
+     * Проверка недоступности кнопки перехода на следующую страницу
+     */
+    void nextButtonShouldBeDisabled();
 
     /**
      * Проверка наличия кнопки перехода на первую страницу
      */
     void shouldHaveFirst();
-
-    /**
-     * Проверка метки кнопки перехода на первую страницу
-     * @param label ожидаемое значение метки
-     */
-    void firstShouldHaveLabel(String label);
-
-    /**
-     * Проверка иконки кнопки перехода на первую страницу
-     * @param icon ожидаемая иконка
-     */
-    void firstShouldHaveIcon(String icon);
 
     /**
      * Переход на первую страницу
@@ -140,22 +137,62 @@ public interface Paging extends Component {
     void shouldHaveLast();
 
     /**
-     * Проверка метки кнопки перехода на последнюю страницу
-     * @param label ожидаемое значение метки
+     * Проверка значения кнопки перехода на последнюю страницу
+     * @param page ожидаемое значение кнопки
      */
-    void lastShouldHaveLabel(String label);
-
-    /**
-     * Проверка иконки кнопки перехода на последнюю страницу
-     * @param icon ожидаемая иконка
-     */
-    void lastShouldHaveIcon(String icon);
+    void lastShouldHavePage(String page);
 
     /**
      * Переход на последнюю страницу
      */
     void selectLast();
 
+    /**
+     * Проверки наличия многоточия у кнопки перехода на первую страницу
+     */
+    void firstPageShouldHaveEllipsis();
+
+    /**
+     * Проверки отсутствия многоточия у кнопки перехода на первую страницу
+     */
+    void firstPageShouldNotHaveEllipsis();
+
+    /**
+     * Проверки наличия многоточия у кнопки перехода на последнюю страницу
+     */
+    void lastPageShouldHaveEllipsis();
+
+    /**
+     * Проверки отсутствия многоточия у кнопки перехода на последнюю страницу
+     */
+    void lastPageShouldNotHaveEllipsis();
+
+    /**
+     * Проверка видимости кнопки перехода на страницу
+     * @param number ожидаемая страница
+     */
+    void pageNumberButtonShouldBeVisible(String number);
+
+    /**
+     * Проверка отсутствия видимости кнопки перехода на страницу
+     * @param number ожидаемая страница
+     */
+    void pageNumberButtonShouldNotBeVisible(String number);
+
+    /**
+     * Проверка видимости кнопки запроса на количество записей
+     */
+    void countButtonShouldBeVisible();
+
+    /**
+     * Проверка отсутствия видимости кнопки запроса на количество записей
+     */
+    void countButtonShouldNotBeVisible();
+
+    /**
+     * Клик по "Узнать кол-во записей"
+     */
+    void countButtonClick();
 
     enum Layout {
         BORDERED("bordered"),

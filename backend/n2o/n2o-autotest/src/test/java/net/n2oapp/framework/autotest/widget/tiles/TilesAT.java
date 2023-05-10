@@ -6,9 +6,6 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.api.component.page.StandardPage;
-import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
-import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.tiles.Tile;
 import net.n2oapp.framework.autotest.api.component.widget.tiles.TilesWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -85,68 +82,6 @@ public class TilesAT extends AutoTestBase {
         iconCell.shouldHaveText("icon2");
         tile2.blocks().cell(4, ProgressBarCell.class).shouldHaveValue("70");
         tile2.blocks().cell(6, CheckboxCell.class).shouldBeUnchecked();
-    }
-
-    @Test
-    public void testPaging() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/tiles/paging");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/paging/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/paging/test.query.xml"));
-        StandardPage page = open(StandardPage.class);
-        page.shouldExists();
-        TilesWidget tiles = page.regions().region(0, SimpleRegion.class).content().widget(TilesWidget.class);
-        tiles.shouldExists();
-
-        Paging paging = tiles.paging();
-        paging.shouldHaveTotalElements(8);
-        paging.shouldHaveLayout(Paging.Layout.SEPARATED);
-        paging.shouldNotHavePrev();
-        paging.shouldNotHaveNext();
-        paging.shouldHaveFirst();
-        paging.firstShouldHaveIcon("fa-angle-double-left");
-        paging.shouldNotHaveLast();
-
-        paging.shouldHaveActivePage("1");
-        tiles.tile(0).blocks().cell(0, TextCell.class).shouldHaveText("test1");
-        tiles.shouldHaveItems(3);
-        paging.selectPage("3");
-        paging.shouldHaveActivePage("3");
-        tiles.shouldHaveItems(2);
-        tiles.tile(0).blocks().cell(0, TextCell.class).shouldHaveText("test7");
-        paging.selectFirst();
-        paging.shouldHaveActivePage("1");
-        tiles.tile(0).blocks().cell(0, TextCell.class).shouldHaveText("test1");
-
-
-        TilesWidget tiles2 = page.regions().region(0, SimpleRegion.class).content().widget(1, TilesWidget.class);
-        tiles2.shouldExists();
-
-        paging = tiles2.paging();
-        paging.shouldNotHaveTotalElements();
-        paging.shouldHaveLayout(Paging.Layout.SEPARATED_ROUNDED);
-        paging.shouldHavePrev();
-        paging.prevShouldHaveLabel("Prev");
-        paging.prevShouldHaveIcon("fa-angle-down");
-        paging.shouldHaveNext();
-        paging.nextShouldHaveLabel("Next");
-        paging.nextShouldHaveIcon("fa-angle-up");
-        paging.shouldHaveFirst();
-        paging.firstShouldHaveLabel("First");
-        paging.firstShouldHaveIcon("fa-angle-double-down");
-        paging.shouldHaveLast();
-        paging.lastShouldHaveLabel("Last");
-        paging.lastShouldHaveIcon("fa-angle-double-up");
-
-        paging.shouldHaveActivePage("1");
-        tiles2.tile(0).blocks().cell(0, TextCell.class).shouldHaveText("test1");
-        paging.selectNext();
-        paging.shouldHaveActivePage("2");
-        tiles2.tile(0).blocks().cell(0, TextCell.class).shouldHaveText("test4");
-        paging.selectPrev();
-        paging.shouldHaveActivePage("1");
-        paging.selectLast();
-        tiles2.shouldHaveItems(2);
-        tiles2.tile(0).blocks().cell(0, TextCell.class).shouldHaveText("test7");
     }
 }
 

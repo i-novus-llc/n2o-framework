@@ -7,7 +7,8 @@
         margin: 0.1rem 0.1rem;
     }
 
-    .page-item.active .page-link {
+    .page-item.active .page-link,
+    .page-item.page-link.active {
         z-index: 3;
         color: #fff;
         background-color: $primary;
@@ -72,6 +73,55 @@
     &.separated-rounded {
         .page-item .page-link {
             border-radius: 50rem;
+        }
+    }
+}
+
+.pagination-container {
+    display: flex;
+    align-items: center;
+
+    .pagination__total__text,
+    .pagination__total__button {
+        margin-right: 16px;
+        display: flex;
+        align-items: center;
+    }
+
+    .pagination__total__button {
+        color: $primary;
+        cursor: pointer;
+    }
+
+    .page-item.page-link.disabled {
+        user-select: none;
+        color: #d7d7d7;
+        border-color: #d7d7d7;
+    }
+
+    .page-item.page-link.disabled:hover {
+        border-color: #d7d7d7;
+    }
+
+    .page-item.page-link {
+        min-width: 32px;
+        max-width: 32px;
+        min-height: 32px;
+        max-height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+    }
+
+    .extra-page-item {
+        .ellipsis {
+            min-width: 32px;
+            max-width: 32px;
+            min-height: 32px;
+            max-height: 32px;
+            align-items: flex-end;
+            justify-content: center;
         }
     }
 }

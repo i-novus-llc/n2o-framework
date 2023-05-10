@@ -84,6 +84,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private ActionBar[] actions;
     @Deprecated
     private String width;
+    private N2oToolbar[] toolbars;
 
     @Deprecated // при удалении убрать, N2oStandardDatasourceMerger, а также его вызов в PageCompiler
     public void adaptV1() {

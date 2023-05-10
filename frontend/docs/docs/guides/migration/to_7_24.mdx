@@ -3,6 +3,15 @@ title: Миграция с 7.23 на 7.24
 description: ""
 ---
 
+## Изменения в XML API {#changes-xml-api}
+
+- Атрибуты `first`, `first-label`, `first-icon`, `last`, `last-label`, `last-icon`, `layout`, `max-pages`,
+`show-single-page` пагинации `<pagination>` упразднены.
+- Атрибут `show-count` пагинации `<pagination>` теперь принимает значения `always`, `never`, `by-request`.
+Для обратной совместимости в старых схемах сохранено использование `true`, `false`.
+- Реализован тип `word-wrap` для генерации кнопки переноса строк в toolbar у таблиц.
+Также эта кнопка будет генерироваться при использовании генератора `tableSettings`.
+
 ## Изменения в API автотестов {#changes-autotest-api}
 
 - Перешли на Selenide версии 6.6.0

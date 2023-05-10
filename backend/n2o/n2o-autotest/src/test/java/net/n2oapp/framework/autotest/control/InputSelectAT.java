@@ -81,8 +81,15 @@ public class InputSelectAT extends AutoTestBase {
         input.dropdown().selectItem(1);
         input.shouldBeClosed();
         input.shouldHaveValue("Two");
+
+        input.openPopup();
+        input.dropdown().item(1).shouldBeSelected();
+
         input.clear();
         input.shouldBeEmpty();
+
+        input.openPopup();
+        input.dropdown().item(1).shouldNotBeSelected();
 
         input.setValue("Three");
         input.shouldHaveValue("Three");
@@ -90,10 +97,10 @@ public class InputSelectAT extends AutoTestBase {
 
         InputSelect input2 = fields.field("InputSelect1").control(InputSelect.class);
         input2.click();
-        input2.dropdown().optionShouldBeEnabled("One");
-        input2.dropdown().optionShouldBeEnabled("Two");
-        input2.dropdown().optionShouldBeDisabled("Three");
-        input2.dropdown().optionShouldBeEnabled("Four");
+        input2.dropdown().item("One").shouldBeEnabled();
+        input2.dropdown().item("Two").shouldBeEnabled();
+        input2.dropdown().item("Three").shouldBeDisabled();
+        input2.dropdown().item("Four").shouldBeEnabled();
 
         // close popup by click on outside area
         input2.openPopup();
@@ -117,9 +124,9 @@ public class InputSelectAT extends AutoTestBase {
 
         input.click();
         DropDown dropdown = input.dropdown();
-        dropdown.optionShouldHaveStatusColor("One", Colors.SUCCESS);
-        dropdown.optionShouldHaveStatusColor("Two", Colors.PRIMARY);
-        dropdown.optionShouldHaveStatusColor("Three", Colors.DANGER);
+        dropdown.item("One").shouldHaveStatusColor(Colors.SUCCESS);
+        dropdown.item("Two").shouldHaveStatusColor(Colors.PRIMARY);
+        dropdown.item("Three").shouldHaveStatusColor(Colors.DANGER);
     }
 
     @Test
@@ -191,10 +198,10 @@ public class InputSelectAT extends AutoTestBase {
         input = page.widget(FormWidget.class).fields().field("InputSelect3")
                 .control(InputSelect.class);
         input.click();
-        input.dropdown().optionShouldBeEnabled("One");
-        input.dropdown().optionShouldBeEnabled("Two");
-        input.dropdown().optionShouldBeDisabled("Three");
-        input.dropdown().optionShouldBeEnabled("Four");
+        input.dropdown().item("One").shouldBeEnabled();
+        input.dropdown().item("Two").shouldBeEnabled();
+        input.dropdown().item("Three").shouldBeDisabled();
+        input.dropdown().item("Four").shouldBeEnabled();
     }
 
     @Test
@@ -214,13 +221,14 @@ public class InputSelectAT extends AutoTestBase {
 
         input.shouldBeEmpty();
         input.openPopup();
-        input.dropdown().shouldHaveOptions("name1", "name2", "name3");
+        DropDown dropdown = input.dropdown();
+        dropdown.shouldHaveOptions("name1", "name2", "name3");
         input.openPopup();
-        input.dropdown().optionShouldHaveDescription("name1", "desc1");
+        dropdown.item("name1").shouldHaveDescription("desc1");
         input.openPopup();
-        input.dropdown().optionShouldHaveDescription("name3", "desc3");
+        dropdown.item("name3").shouldHaveDescription("desc3");
         input.openPopup();
-        input.dropdown().selectItem(1);
+        dropdown.selectItem(1);
         input.shouldHaveValue("name2");
         input.clear();
         input.shouldBeEmpty();
@@ -236,13 +244,14 @@ public class InputSelectAT extends AutoTestBase {
 
         input2.shouldBeEmpty();
         input2.openPopup();
-        input2.dropdown().optionShouldHaveDescription("name1", "desc1");
+        DropDown dropdown2 = input2.dropdown();
+        dropdown2.item("name1").shouldHaveDescription("desc1");
         input2.openPopup();
-        input2.dropdown().optionShouldHaveDescription("name3", "desc3");
+        dropdown2.item("name3").shouldHaveDescription("desc3");
         input2.openPopup();
-        input2.dropdown().shouldHaveOptions("name1", "name2", "name3");
+        dropdown2.shouldHaveOptions("name1", "name2", "name3");
         input2.openPopup();
-        input2.dropdown().selectMulti(1, 2);
+        dropdown2.selectMulti(1, 2);
         input2.shouldSelectedMulti("name2", "name3");
         input2.clear();
         input2.shouldBeEmpty();

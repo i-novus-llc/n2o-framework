@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Бесконечная пагинация">
+    <regions>
+        <table id="table">
+            <datasource query-id="test" size="3"/>
+            <columns>
+                <column text-field-id="name"/>
+            </columns>
+            <pagination show-last="false" show-count="by-request"/>
+        </table>
+    </regions>
+</page>

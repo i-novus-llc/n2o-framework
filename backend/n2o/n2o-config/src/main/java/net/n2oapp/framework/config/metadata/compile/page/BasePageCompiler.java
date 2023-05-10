@@ -37,6 +37,7 @@ import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
@@ -89,6 +90,9 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         //actions
         mergeActions(source, context, p);
         MetaActions metaActions = initMetaActions(source, p);
+        if (source.getActions() != null)
+            context.setActions(Arrays.stream(source.getActions())
+                    .collect(Collectors.toMap(ActionBar::getId, Function.identity())));
 
         FiltersScope filtersScope = new FiltersScope();
 
@@ -339,7 +343,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     }
 
     private void initToolbarGenerate(S source, PageContext context, N2oWidget resultWidget) {
-        //todo перенести в компиляцию open-page
         if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType())) {
             N2oToolbar n2oToolbar = new N2oToolbar();
             String[] generate = new String[]{GenerateType.submit.name(), GenerateType.close.name()};

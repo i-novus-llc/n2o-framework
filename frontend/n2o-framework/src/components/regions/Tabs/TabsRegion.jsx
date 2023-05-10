@@ -161,6 +161,7 @@ class TabRegion extends React.Component {
             style,
             pageId,
             disabled,
+            lazy,
         } = this.props
 
         const { permissionsVisibleTabs } = this.state
@@ -202,12 +203,16 @@ class TabRegion extends React.Component {
                             disabled: behaviorDisable && !tabHasAccess,
                         }
 
+                        const { active } = tabProps
+
                         const tabElement = (
                             <Tab {...tabProps}>
                                 <RegionContent
                                     content={content}
                                     pageId={pageId}
                                     tabSubContentClass="tab-sub-content"
+                                    lazy={lazy}
+                                    active={active}
                                 />
                             </Tab>
                         )
@@ -236,7 +241,6 @@ TabRegion.propTypes = {
      * Список табов
      */
     tabs: PropTypes.array.isRequired,
-    getWidget: PropTypes.func.isRequired,
     /**
      * контент Tab, (регион или виджет)
      */

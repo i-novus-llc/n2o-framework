@@ -108,6 +108,7 @@ export class Base extends Component {
             copyable,
             editable,
             className,
+            style,
             ...rest
         } = this.props
 
@@ -146,6 +147,7 @@ export class Base extends Component {
                 tag={tag}
                 onBlur={this.editableTagOnBlur}
                 color={color}
+                style={style}
             >
                 <ContentEditable editable={edit} onChange={this.handleContentEditable}>
                     <PropsEnd.Provider value={{ text, format, children }}>
