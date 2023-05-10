@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import filter from 'lodash/filter'
 import map from 'lodash/map'
-import isArray from 'lodash/isArray'
 import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { connect } from 'react-redux'
 
 import { toggleColumnVisibility } from '../../../ducks/columns/store'
 import { getContainerColumns } from '../../../ducks/columns/selectors'
+import { TABLE_ICON } from '../../buttons/constants'
 
 /**
  * Дропдаун для скрытия/показа колонок в таблице
@@ -16,6 +16,7 @@ import { getContainerColumns } from '../../../ducks/columns/selectors'
  * @example
  * <ToggleColumn entityKey='TestEntityKey'/>
  */
+
 class ToggleColumn extends React.Component {
     constructor(props) {
         super(props)
@@ -41,7 +42,6 @@ class ToggleColumn extends React.Component {
             col => col.key,
         )
 
-        /* eslint-disable react/no-array-index-key */
         return columns.map((column, i) => {
             const checked = !notActive.includes(column.key)
 
@@ -66,22 +66,17 @@ class ToggleColumn extends React.Component {
      * @returns {*}
      */
     render() {
-        const { columns } = this.props
+        const { columns, icon } = this.props
         const columnsArray = map(columns || {}, (value, key) => ({ key, value }))
-        const filteredColumns = filter(
-            columnsArray,
-            ({ value }) => value.frozen !== true,
-        )
+        const filteredColumns = filter(columnsArray, ({ value }) => value.frozen !== true)
 
         return (
             <UncontrolledButtonDropdown>
                 <DropdownToggle caret>
-                    <i className="fa fa-table" />
+                    <i className={icon || TABLE_ICON} />
                 </DropdownToggle>
                 <DropdownMenu>
-                    {isArray(filteredColumns)
-                        ? this.renderColumnDropdown(filteredColumns)
-                        : null}
+                    {Array.isArray(filteredColumns) ? this.renderColumnDropdown(filteredColumns) : null}
                 </DropdownMenu>
             </UncontrolledButtonDropdown>
         )
@@ -92,6 +87,7 @@ ToggleColumn.propTypes = {
     columns: PropTypes.object,
     entityKey: PropTypes.string,
     dispatch: PropTypes.func,
+    icon: PropTypes.string,
 }
 
 const mapStateToProps = (state, props) => ({

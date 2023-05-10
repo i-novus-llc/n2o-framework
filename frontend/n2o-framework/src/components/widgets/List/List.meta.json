@@ -48,61 +48,6 @@
             "widgetId": "Page_Table"
           }
         }
-      },
-      "exportModal": {
-        "widgetId": "Page_Table",
-        "src": "perform",
-        "options": {
-          "type": "n2o/overlays/INSERT",
-          "payload": {
-            "widgetId": "Page_Table",
-            "type": "n2o/overlays/INSERT",
-            "name": "test2",
-            "src": "exportModal",
-            "title": "Экспортровать",
-            "size": "sm",
-            "visible": true,
-            "closeButton": false,
-            "actions": {
-              "export": {
-                "src": "exportTable",
-                "notification": {
-                  "severity": "danger",
-                  "text": "Это сообщение будет отображаться 10 секунд",
-                  "timeout": 10000
-                },
-                "redirectTo": "/test",
-                "options": {
-                  "widgetId": "Page_Table"
-                }
-              },
-              "destroyModal": {
-                "src": "perform",
-                "options": {
-                  "type": "n2o/overlays/DESTROY"
-                }
-              }
-            },
-            "toolbar": [
-              {
-                "buttons": [
-                  {
-                    "id": "export",
-                    "label": "Загрузить",
-                    "actionId": "export",
-                    "className": "btn-primary",
-                    "icon": "fa fa-download"
-                  },
-                  {
-                    "id": "cancelExport",
-                    "label": "Отменить",
-                    "actionId": "destroyModal"
-                  }
-                ]
-              }
-            ]
-          }
-        }
       }
     },
     "hasMoreButton": true,

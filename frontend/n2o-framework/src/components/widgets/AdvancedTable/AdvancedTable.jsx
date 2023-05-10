@@ -83,6 +83,7 @@ class AdvancedTable extends Component {
             columns: [],
             checked: props.data && !isEmpty(props.multi) ? this.mapChecked(props.multi) : {},
             children: get(props, 'children', 'collapse'),
+            currentTableWidth: 0,
         }
 
         this.rows = {}
@@ -137,6 +138,7 @@ class AdvancedTable extends Component {
             resolveModel,
             setSelected,
             filters,
+            textWrap,
         } = this.props
 
         const { checked, children } = this.state
@@ -182,7 +184,8 @@ class AdvancedTable extends Component {
                     this.openAllRows()
                 }
             }
-            if (!isEqual(prevProps.columns, columns)) {
+
+            if (!isEqual(prevProps.columns, columns) || (prevProps.textWrap !== textWrap)) {
                 state = {
                     ...state,
                     columns: this.mapColumns(columns),
@@ -298,6 +301,10 @@ class AdvancedTable extends Component {
             tableBody.style.width = width
             tableBody.style.overflow = 'auto'
         }
+
+        this.setState({
+            currentTableWidth: tableBody.offsetWidth,
+        })
     };
 
     setSelectionRef = (el) => {
@@ -648,10 +655,29 @@ class AdvancedTable extends Component {
         )
     };
 
+    getAverageColumnWidth = () => {
+        const { textWrap, columns = [] } = this.props
+
+        if (textWrap || !columns.length) {
+            return null
+        }
+
+        const { currentTableWidth } = this.state
+
+        if (!currentTableWidth) {
+            return null
+        }
+
+        return `${currentTableWidth / columns.length}px`
+    }
+
     mapColumns = (columns = []) => {
         const { rowSelection, filters, textWrap } = this.props
 
         let newColumns = columns
+
+        const averageColumnWidth = this.getAverageColumnWidth()
+        const cellStyle = averageColumnWidth ? { maxWidth: averageColumnWidth } : {}
 
         newColumns = map(newColumns, (col, columnIndex) => ({
             ...col,
@@ -668,6 +694,7 @@ class AdvancedTable extends Component {
                 needRender: col.needRender,
                 textWrap,
                 alignment: col.alignment,
+                style: cellStyle,
             }),
         }))
 

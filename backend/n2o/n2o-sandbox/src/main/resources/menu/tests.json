@@ -9,6 +9,14 @@
           "name": "Badge в line филдсете"
         },
         {
+          "templateId": "cases/7.24/table_export_buttons",
+          "name": "Кнопка экспорта таблицы"
+        },
+        {
+          "templateId": "cases/7.24/table_wordwrap_buttons",
+          "name": "Кнопка переноса слов в таблице"
+        },
+        {
           "templateId": "cases/7.24/source_ds_for_parent_ds",
           "name": "Прокидывание разных parent-datasource из родительской страницы"
         },

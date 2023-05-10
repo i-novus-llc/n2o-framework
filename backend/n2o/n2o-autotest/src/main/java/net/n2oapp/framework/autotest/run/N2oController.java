@@ -13,11 +13,13 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.rest.ControllerFactory;
+import net.n2oapp.framework.api.rest.ExportResponse;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.N2oResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
+import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.N2oConfigBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
@@ -26,6 +28,7 @@ import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.ui.controller.DataController;
+import net.n2oapp.framework.ui.controller.ExportController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
 import net.n2oapp.framework.ui.controller.query.CopyValuesController;
@@ -33,6 +36,7 @@ import net.n2oapp.framework.ui.controller.query.QueryController;
 import net.n2oapp.framework.ui.controller.query.SimpleDefaultValuesController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -119,6 +123,32 @@ public class N2oController {
         dataController.setMessageBuilder(messageBuilder);
         SetDataResponse dataResponse = dataController.setData(path, request.getParameterMap(), getHeaders(request), getBody(body), null);
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
+    }
+
+    @GetMapping({"/n2o/export/**", "/n2o/export/", "/n2o/export"})
+    public ResponseEntity<byte[]> export(HttpServletRequest request) {
+            DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
+            ExportController exportController = new ExportController(builder.getEnvironment(), dataController);
+
+            String url = request.getParameter("url");
+            String format = request.getParameter("format");
+            String charset = request.getParameter("charset");
+
+            String dataPrefix = "/n2o/data";
+            String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
+
+            GetDataResponse dataResponse = exportController.getData(
+                    path,
+                    RouteUtil.parseQueryParams(RouteUtil.parseQuery(url)),
+                    null);
+            ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset);
+
+            return ResponseEntity.status(exportResponse.getStatus())
+                    .contentLength(exportResponse.getContentLength())
+                    .header(HttpHeaders.CONTENT_TYPE, exportResponse.getContentType())
+                    .header(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition())
+                    .header(HttpHeaders.CONTENT_ENCODING, exportResponse.getCharacterEncoding())
+                    .body(exportResponse.getFile());
     }
 
     @ExceptionHandler(N2oException.class)
