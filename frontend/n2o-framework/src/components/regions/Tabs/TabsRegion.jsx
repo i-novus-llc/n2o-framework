@@ -241,7 +241,6 @@ TabRegion.propTypes = {
      * Список табов
      */
     tabs: PropTypes.array.isRequired,
-    getWidget: PropTypes.func.isRequired,
     /**
      * контент Tab, (регион или виджет)
      */
