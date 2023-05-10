@@ -1,6 +1,6 @@
 import React from 'react'
 import get from 'lodash/get'
-import moment from 'moment'
+import moment from 'moment/moment'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 

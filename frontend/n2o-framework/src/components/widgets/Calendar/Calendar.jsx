@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
-import moment from 'moment'
+import moment from 'moment/moment'
 import classNames from 'classnames'
 import { getContext } from 'recompose'
 import { useTranslation } from 'react-i18next'
