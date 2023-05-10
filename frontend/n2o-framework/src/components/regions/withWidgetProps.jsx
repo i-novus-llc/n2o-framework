@@ -4,14 +4,11 @@ import { connect, ReactReduxContext } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
-import reduce from 'lodash/reduce'
-import isEmpty from 'lodash/isEmpty'
 
 import { makeModelIdSelector, widgetsSelector } from '../../ducks/widgets/selectors'
 import {
     makeModelsByPrefixSelector,
     modelsSelector,
-    getModelsByDependency,
 } from '../../ducks/models/selectors'
 import { pagesSelector, makePageMetadataByIdSelector } from '../../ducks/pages/selectors'
 import {
@@ -21,7 +18,6 @@ import {
     enableWidget,
 } from '../../ducks/widgets/store'
 import { ModelPrefix } from '../../core/datasource/const'
-import { reduceFunction } from '../../sagas/widgetDependency/resolve'
 
 /**
  * HOC для работы с данными
@@ -35,7 +31,6 @@ function withGetWidget(WrappedComponent) {
 
             this.getWidget = this.getWidget.bind(this)
             this.getWidgetProps = this.getWidgetProps.bind(this)
-            this.getVisible = this.getVisible.bind(this)
         }
 
         getWidget(pageId, widgetId) {
@@ -46,25 +41,6 @@ function withGetWidget(WrappedComponent) {
                 'widgets',
                 widgetId,
             ])
-        }
-
-        getVisible(pageId, widgetId) {
-            const { store } = this.context
-            const dependencies = get(
-                this.props,
-                `pages[${pageId}].metadata.widgets[${widgetId}].dependency.visible`,
-                [],
-            )
-
-            if (isEmpty(dependencies)) {
-                return true
-            }
-
-            const model = getModelsByDependency(dependencies)(
-                store.getState(),
-            )
-
-            return reduce(model, reduceFunction, true)
         }
 
         getWidgetProps(widgetId) {
@@ -84,7 +60,6 @@ function withGetWidget(WrappedComponent) {
                     {...props}
                     getWidget={this.getWidget}
                     getWidgetProps={this.getWidgetProps}
-                    getVisible={this.getVisible}
                 />
             )
         }

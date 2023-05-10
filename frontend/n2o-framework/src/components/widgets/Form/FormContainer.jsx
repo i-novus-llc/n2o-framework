@@ -38,6 +38,13 @@ class Container extends React.Component {
         }
     }
 
+    componentDidMount() {
+        const { models } = this.props
+        const { resolve } = models
+
+        if (!resolve) { this.updateActiveModel({}) }
+    }
+
     componentWillUnmount() {
         const { dispatch, datasource: datasourceId, id, formsByDatasource } = this.props
 
