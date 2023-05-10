@@ -13,11 +13,11 @@
           "name": "Бесконечная пагинация"
         },
         {
-          "templateId": "cases/7.24/table_export_buttons",
+          "templateId": "cases/7.24/table_export_button",
           "name": "Кнопка экспорта таблицы"
         },
         {
-          "templateId": "cases/7.24/table_wordwrap_buttons",
+          "templateId": "cases/7.24/table_wordwrap_button",
           "name": "Кнопка переноса слов в таблице"
         },
         {
