@@ -3,7 +3,7 @@ import get from 'lodash/get'
 import isNumber from 'lodash/isNumber'
 import isEmpty from 'lodash/isEmpty'
 import split from 'lodash/split'
-import moment from 'moment'
+import moment from 'moment/moment'
 
 export function isDayOff(day) {
     return [0, 6].indexOf(day.getDay()) !== -1
