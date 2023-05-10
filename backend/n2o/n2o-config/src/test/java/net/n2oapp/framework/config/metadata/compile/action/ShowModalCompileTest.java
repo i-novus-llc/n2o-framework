@@ -132,7 +132,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("p_second"));
         CloseAction close = (CloseAction) ((MultiAction) modalPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
         assertThat(close.getMeta().getModalsToClose(), is(1));
-        assertThat(((CloseActionPayload)close.getPayload()).getPrompt(), is(true));
+        assertThat(((CloseActionPayload)close.getPayload()).getPrompt(), is(false));
 
         ActionContext submitContext = (ActionContext) route("/p/create/multi1", CompiledObject.class);
         assertThat(submitContext.getSourceId(null), is("testShowModal"));
@@ -193,7 +193,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("p_main"));
         CloseAction close = (CloseAction) ((MultiAction) showModal.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
         assertThat(close.getMeta().getModalsToClose(), is(1));
-        assertThat(((CloseActionPayload)close.getPayload()).getPrompt(), is(true));
+        assertThat(((CloseActionPayload)close.getPayload()).getPrompt(), is(false));
         close = (CloseAction) showModal.getToolbar().getButton("close").getAction();
         assertThat(close.getMeta().getRedirect(), nullValue());
         assertThat(close.getMeta().getRefresh(), nullValue());
@@ -209,7 +209,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("p_main"));
         CloseAction close = (CloseAction) ((MultiAction) showModal.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
         assertThat(close.getMeta().getModalsToClose(), is(1));
-        assertThat(((CloseActionPayload)close.getPayload()).getPrompt(), is(true));
+        assertThat(((CloseActionPayload)close.getPayload()).getPrompt(), is(false));
         close = (CloseAction) showModal.getToolbar().getButton("close").getAction();
         assertThat(close.getMeta().getRedirect(), nullValue());
         assertThat(close.getMeta().getRefresh(), nullValue());
@@ -318,7 +318,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("p_main"));
         CloseAction close = (CloseAction) ((MultiAction) modalPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
         assertThat(close.getMeta().getModalsToClose(), is(1));
-        assertThat(((CloseActionPayload)close.getPayload()).getPrompt(), is(true));
+        assertThat(((CloseActionPayload)close.getPayload()).getPrompt(), is(false));
 
         DataSet data = new DataSet();
         data.put("id", 222);

@@ -288,7 +288,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("p_main"));
         CloseAction close = (CloseAction) ((MultiAction) drawerPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
         assertThat(close.getMeta().getModalsToClose(), is(1));
-        assertThat(((CloseActionPayload)close.getPayload()).getPrompt(), is(true));
+        assertThat(((CloseActionPayload)close.getPayload()).getPrompt(), is(false));
         ActionContext submitContext = (ActionContext) route("/p/:id/updateWithPrefilters/multi1", CompiledObject.class);
         assertThat(submitContext.getSourceId(null), is("testShowModal"));
         assertThat(submitContext.getOperationId(), is("update"));
