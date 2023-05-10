@@ -20,7 +20,6 @@ import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.impl.component.fieldset.N2oSimpleFieldSet;
@@ -228,61 +227,6 @@ public class TableAT extends AutoTestBase {
         button.shouldBeDisabled();
         button = rows.row(2).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
         button.shouldNotExists();
-    }
-
-    @Test
-    public void testPaging() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/test.query.xml"));
-        StandardPage page = open(StandardPage.class);
-        page.shouldExists();
-
-        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
-        Paging paging = table.paging();
-        paging.shouldHaveTotalElements(8);
-        paging.shouldHaveLayout(Paging.Layout.SEPARATED);
-        paging.shouldNotHavePrev();
-        paging.shouldNotHaveNext();
-        paging.shouldHaveFirst();
-        paging.firstShouldHaveIcon("fa-angle-double-left");
-        paging.shouldNotHaveLast();
-
-        paging.shouldHaveActivePage("1");
-        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test1");
-        paging.selectPage("3");
-        paging.shouldHaveActivePage("3");
-        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test7");
-        paging.selectFirst();
-        paging.shouldHaveActivePage("1");
-
-
-        TableWidget table2 = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
-        paging = table2.paging();
-        paging.shouldNotHaveTotalElements();
-        paging.shouldHaveLayout(Paging.Layout.FLAT);
-        paging.shouldHavePrev();
-        paging.prevShouldHaveLabel("Prev");
-        paging.prevShouldHaveIcon("fa-angle-down");
-        paging.shouldHaveNext();
-        paging.nextShouldHaveLabel("Next");
-        paging.nextShouldHaveIcon("fa-angle-up");
-        paging.shouldHaveFirst();
-        paging.firstShouldHaveLabel("First");
-        paging.firstShouldHaveIcon("fa-angle-double-down");
-        paging.shouldHaveLast();
-        paging.lastShouldHaveLabel("Last");
-        paging.lastShouldHaveIcon("fa-angle-double-up");
-
-        paging.shouldHaveActivePage("1");
-        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test1");
-        paging.selectNext();
-        paging.shouldHaveActivePage("2");
-        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test4");
-        paging.selectPrev();
-        paging.shouldHaveActivePage("1");
-        paging.selectLast();
-        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test7");
     }
 
     @Test

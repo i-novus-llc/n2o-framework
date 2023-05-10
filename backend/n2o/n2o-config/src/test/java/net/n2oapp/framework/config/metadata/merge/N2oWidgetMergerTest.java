@@ -109,12 +109,10 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(((N2oInputText) filters[1]).getId(), is("test1"));
 
         N2oPagination pagination = table.getPagination();
-        assertThat(pagination.getFirst(), is(true));
-        assertThat(pagination.getLast(), is(true));
         assertThat(pagination.getPrev(), is(true));
         assertThat(pagination.getNext(), is(true));
-        assertThat(pagination.getShowSinglePage(), is(true));
-        assertThat(pagination.getShowCount(), is(true));
+        assertThat(pagination.getShowLast(), is(true));
+        assertThat(pagination.getShowCount(), is(ShowCountType.ALWAYS));
 
         N2oRow rows = table.getRows();
         assertThat(rows.getRowClick().getActionId(), is("actionId"));
@@ -147,12 +145,10 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(((N2oInputText) filters[1]).getId(), is("test1"));
 
         N2oPagination pagination = table.getPagination();
-        assertThat(pagination.getFirst(), is(true));
-        assertThat(pagination.getLast(), is(true));
         assertThat(pagination.getPrev(), is(true));
         assertThat(pagination.getNext(), is(true));
-        assertThat(pagination.getShowSinglePage(), is(true));
-        assertThat(pagination.getShowCount(), is(true));
+        assertThat(pagination.getShowLast(), is(true));
+        assertThat(pagination.getShowCount(), is(ShowCountType.NEVER));
 
         N2oRow rows = table.getRows();
         assertThat(rows.getRowClick().getActionId(), is("actionId"));

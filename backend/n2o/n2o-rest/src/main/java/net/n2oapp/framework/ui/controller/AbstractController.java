@@ -147,6 +147,8 @@ public abstract class AbstractController {
         );
         Integer count = data.getInteger("count");
         criteria.setCount(count);
+        Boolean withCount = data.getBoolean("withCount");
+        criteria.setWithCount(withCount);
         if (query != null) {
             criteria.setSortings(getSortings(data, queryCtx.getSortingMap()));
             prepareRestrictions(query, criteria, queryCtx, data);

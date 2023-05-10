@@ -1,8 +1,18 @@
-import PropTypes from 'prop-types'
+import PropTypes, { bool } from 'prop-types'
 import { omit } from 'lodash'
 
 import { widgetInitialTypes, widgetPropTypes } from '../../../core/widget/propTypes'
-import { pagingType } from '../../snippets/Pagination/types'
+
+const pagingType = {
+    prev: PropTypes.bool,
+    next: PropTypes.bool,
+    size: PropTypes.number,
+    showCount: PropTypes.oneOf('always', 'by-request', 'never', bool),
+    showLast: bool,
+    prevIcon: PropTypes.string,
+    nextIcon: PropTypes.string,
+    place: PropTypes.string,
+}
 
 export const WidgetTableTypes = {
     autoCheckboxOnSelect: PropTypes.bool,

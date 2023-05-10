@@ -9,6 +9,7 @@ public class CollectionPage<T> implements Serializable {
     protected Collection<T> collection;//current page with records
     protected Collection<Integer> ids;
     protected Criteria criteria;
+    protected Boolean hasNext;
     @Deprecated protected Class<T> entityClass;
     protected Object additionalInfo;
 
@@ -36,6 +37,12 @@ public class CollectionPage<T> implements Serializable {
     public CollectionPage(int count, Collection<T> collection, Criteria criteria) {
         this.criteria = criteria;
         init(count, collection);
+    }
+
+    public CollectionPage(Boolean hasNext, Collection<T> collection, Criteria criteria){
+        this.criteria = criteria;
+        this.collection = collection;
+        this.hasNext = hasNext;
     }
 
     @Deprecated
@@ -115,5 +122,13 @@ public class CollectionPage<T> implements Serializable {
 
     public void setAdditionalInfo(Object additionalInfo) {
         this.additionalInfo = additionalInfo;
+    }
+
+    public Boolean getHasNext() {
+        return hasNext;
+    }
+
+    public void setHasNext(Boolean bool) {
+        this.hasNext = bool;
     }
 }

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+    name="Автотест к бесконечной пагинации с show-count = by-request">
+    <regions>
+        <table id="table2">
+            <datasource query-id="test" size="3"/>
+            <columns>
+                <column text-field-id="name"/>
+            </columns>
+            <pagination next="true" prev="true" show-last="false" show-count="by-request"/>
+        </table>
+    </regions>
+</page>
+
+

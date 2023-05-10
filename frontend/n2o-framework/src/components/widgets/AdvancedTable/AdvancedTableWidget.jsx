@@ -18,7 +18,7 @@ import { AdvancedTableWidgetTypes } from './propTypes'
 const AdvancedTable = (props) => {
     const {
         id, disabled, toolbar, datasource, className, setPage, loading, fetchData,
-        style, paging, filter, table, size, count, page,
+        style, paging, filter, table, size, count, page, hasNext,
     } = props
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
 
@@ -33,6 +33,8 @@ const AdvancedTable = (props) => {
                 activePage={page}
                 datasource={datasourceModel}
                 setPage={setPage}
+                hasNext={hasNext}
+                loading={loading}
             />
         ),
     }
