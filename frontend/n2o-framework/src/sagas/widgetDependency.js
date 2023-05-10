@@ -7,7 +7,6 @@ import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
 import cloneDeep from 'lodash/cloneDeep'
 import sortBy from 'lodash/sortBy'
-import get from 'lodash/get'
 
 import {
     REGISTER_DEPENDENCY,
@@ -21,7 +20,6 @@ import {
 } from '../ducks/models/store'
 import { DEPENDENCY_ORDER } from '../core/dependencyTypes'
 import { getModelsByDependency } from '../ducks/models/selectors'
-import { makeWidgetVisibleSelector } from '../ducks/widgets/selectors'
 
 import { getWidgetDependency } from './widgetDependency/getWidgetDependency'
 import { resolveDependency } from './widgetDependency/resolve'
@@ -77,7 +75,6 @@ export function* resolveWidgetDependency(
         const widgetDependenciesKeys = sortBy(keys(dependency), item => DEPENDENCY_ORDER.indexOf(item))
 
         for (let j = 0; j < widgetDependenciesKeys.length; j++) {
-            const isVisible = yield select(makeWidgetVisibleSelector(widgetId))
             const prevModel = getModelsByDependency(
                 dependency[widgetDependenciesKeys[j]],
             )(prevState)
@@ -86,15 +83,11 @@ export function* resolveWidgetDependency(
             )(state)
 
             if (!isEqual(prevModel, model)) {
-                const dependentWidgetId = get(model, '[0].model.dependentWidgetId')
-
                 yield call(
                     resolveDependency,
                     widgetDependenciesKeys[j],
                     widgetId,
                     model,
-                    isVisible,
-                    dependentWidgetId,
                 )
             }
         }
