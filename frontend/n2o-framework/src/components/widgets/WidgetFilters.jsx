@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getFormValues, reset } from 'redux-form'
 import { batchActions } from 'redux-batched-actions'
+import cloneDeep from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import difference from 'lodash/difference'
@@ -112,7 +113,8 @@ class WidgetFilters extends React.Component {
             setFilterModel,
             resetFilterModel,
         } = this.props
-        const newReduxForm = { ...reduxFormFilter }
+
+        const newReduxForm = cloneDeep(reduxFormFilter)
         const toReset = difference(
             map(flatFields(fieldsets, []), 'id'),
             blackResetList,
