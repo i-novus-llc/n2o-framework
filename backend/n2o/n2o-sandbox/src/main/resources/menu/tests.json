@@ -21,6 +21,10 @@
           "name": "Кнопка переноса слов в таблице"
         },
         {
+          "templateId": "cases/7.24/scrollspy",
+          "name": "Scrollspy. Группировка элементов"
+        },
+        {
           "templateId": "cases/7.24/source_ds_for_parent_ds",
           "name": "Прокидывание разных parent-datasource из родительской страницы"
         },

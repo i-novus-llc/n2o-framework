@@ -37,7 +37,7 @@ const useResizeObserver = (element, callback) => {
     }, [callbackRef, element])
 }
 
-const getState = (element, scrollTo) => {
+export const getState = (element, scrollTo) => {
     const { top, left } = element.getBoundingClientRect()
 
     return {
