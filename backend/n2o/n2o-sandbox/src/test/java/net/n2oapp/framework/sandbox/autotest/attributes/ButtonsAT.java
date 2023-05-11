@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootTest(properties = {"n2o.engine.test.classpath=/access/attributes/buttons/"},
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/interactions/access/attributes/buttons/"},
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ButtonsAT extends AutoTestBase {
@@ -43,7 +43,7 @@ public class ButtonsAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
-        builder.sources(new CompileInfo("access/attributes/buttons/index.page.xml"),
+        builder.sources(new CompileInfo("interactions/access/attributes/buttons/index.page.xml"),
                 new CompileInfo("META-INF/conf/default.access.xml"));
     }
 

@@ -39,8 +39,8 @@ public class AlertAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("cases/7.23/alerts_handle/alert.object.xml"),
-                new CompileInfo("cases/7.23/alerts_handle/index.page.xml"));
+        builder.sources(new CompileInfo("versions/7.23/alerts_handle/alert.object.xml"),
+                new CompileInfo("versions/7.23/alerts_handle/index.page.xml"));
     }
 
     @Test
