@@ -1,20 +1,24 @@
 package net.n2oapp.watchdir;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -37,7 +41,7 @@ public class WatchDir2Test {
         return customTestPath.toString();
     }
 
-    @Before
+    @BeforeEach
     public void setUpClass() throws Exception
     {
         File testDir = new File(TEST_DIR);
@@ -51,7 +55,7 @@ public class WatchDir2Test {
         watchDir = new WatchDir(Paths.get(TEST_DIR), false, listener);
     }
 
-    @After
+    @AfterEach
     public void tearDownClass() throws Exception
     {
         watchDir.stop();
@@ -66,8 +70,8 @@ public class WatchDir2Test {
     /**
      * проверить, что было событие на создание и только
      */
+    @Disabled
     @Test
-    @Ignore
     public void testEventOnCreate() throws Exception
     {
         watchDir.start();
@@ -85,8 +89,8 @@ public class WatchDir2Test {
      * проверить, что было событие на изменение и только
      *
      */
+    @Disabled
     @Test
-    @Ignore
     public void testEventOnChange() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
@@ -105,8 +109,8 @@ public class WatchDir2Test {
      * проверить, что было событие удаления
      *
      */
+    @Disabled
     @Test
-    @Ignore
     public void testEventOnDelete() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
@@ -121,8 +125,8 @@ public class WatchDir2Test {
         watchDir.stop();
     }
 
+    @Disabled
     @Test
-    @Ignore
     public void testChangeDir() throws Exception
     {
         String dir = TEST_DIR + "dir" + File.separator;
@@ -165,8 +169,8 @@ public class WatchDir2Test {
         watchDir.stop();
     }
 
+    @Disabled
     @Test
-    @Ignore
     public void testCreateChangeDelete() throws Exception {
         watchDir.start();
         FileUtils.touch(new File(path.toString()));

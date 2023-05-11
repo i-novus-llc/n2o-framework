@@ -1,19 +1,23 @@
 package net.n2oapp.watchdir;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.timeout;
+import static org.mockito.Mockito.verify;
 
 /**
  * User: Belyaev Gleb
@@ -67,7 +71,7 @@ public class WatchDirTest
      * проверка срабатывания в подпапках
      */
     @Test
-    @Ignore
+    @Disabled
     public void testWithRecursive() throws Exception
     {
         watchDir.start();
@@ -127,7 +131,7 @@ public class WatchDirTest
      *
      */
     @Test
-    @Ignore
+    @Disabled
     public void testRestartMonitoring() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
@@ -152,7 +156,7 @@ public class WatchDirTest
      *
      */
     @Test
-    @Ignore
+    @Disabled
     public void testChangeIsFile() throws Exception
     {
         watchDir.start();
@@ -169,7 +173,7 @@ public class WatchDirTest
      *
      */
     @Test
-    @Ignore
+    @Disabled
     public void testChangeIsDirectory() throws Exception
     {
         watchDir.start();
@@ -189,7 +193,7 @@ public class WatchDirTest
      *
      */
     @Test
-    @Ignore
+    @Disabled
     public void testEventOnCreate() throws Exception
     {
         watchDir.start();
@@ -207,7 +211,7 @@ public class WatchDirTest
      *
      */
     @Test
-    @Ignore //todo почему то не срабатывает тест на https://ci.i-novus.ru/view/util/job/watchdir.master.build/lastBuild/net.n2oapp.watchdir$watchdir/testReport/net.n2oapp.watchdir/WatchDirTest/testEventOnChange/
+    @Disabled //todo почему то не срабатывает тест на https://ci.i-novus.ru/view/util/job/watchdir.master.build/lastBuild/net.n2oapp.watchdir$watchdir/testReport/net.n2oapp.watchdir/WatchDirTest/testEventOnChange/
     public void testEventOnChange() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
@@ -231,7 +235,7 @@ public class WatchDirTest
      *
      */
     @Test
-    @Ignore
+    @Disabled
     public void testEventOnDelete() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
@@ -248,7 +252,7 @@ public class WatchDirTest
      *
      */
     @Test
-    @Ignore
+    @Disabled
     public void testStartMonitoring() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
@@ -266,7 +270,7 @@ public class WatchDirTest
      * после остановки события не срабатывают
      */
     @Test
-    @Ignore
+    @Disabled
     public void testStopMonitoring() throws Exception
     {
         watchDir.start();
@@ -282,7 +286,7 @@ public class WatchDirTest
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void testEqPath() {
         Path path1 = Paths.get(TEST_DIR + "test.txt");
         Path path2 = Paths.get(TEST_DIR + "test.txt");
@@ -296,7 +300,7 @@ public class WatchDirTest
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void testIncorrectCreate() {
         watchDir = new WatchDir();
         //старт без listener
@@ -333,7 +337,7 @@ public class WatchDirTest
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void testImmutableAfterStart() {
         watchDir = new WatchDir();
         watchDir.setListener(listener);

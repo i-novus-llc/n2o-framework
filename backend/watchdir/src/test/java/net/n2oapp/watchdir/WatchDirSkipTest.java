@@ -1,19 +1,23 @@
 package net.n2oapp.watchdir;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+
 import static net.n2oapp.watchdir.WatchDirTestUtil.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.timeout;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author iryabov
@@ -25,7 +29,7 @@ public class WatchDirSkipTest {
     private FileChangeListener listener = mock(FileChangeListener.class);
 
 
-    @Before
+    @BeforeEach
     public void setUpClass() throws Exception
     {
         createTestDir();
@@ -33,7 +37,7 @@ public class WatchDirSkipTest {
         watchDir = new WatchDir(Paths.get(TEST_DIR), true, listener);
     }
 
-    @After
+    @AfterEach
     public void tearDownClass() throws Exception
     {
         watchDir.stop();
@@ -44,7 +48,7 @@ public class WatchDirSkipTest {
      * Проверяем, что если пропустить файл, то он пропустится один раз, а на следующий сработает
      */
     @Test
-    @Ignore
+    @Disabled
     public void testSkip() throws Exception {
         watchDir.start();
         watchDir.skipOn(TEST_FILE);
@@ -64,7 +68,7 @@ public class WatchDirSkipTest {
      * Проверяем, что директория не регистрируется, если она в skipOn
      */
     @Test
-    @Ignore
+    @Disabled
     public void testSkipBeforeStart() throws Exception {
         WatchDir watchDir = new WatchDir(Paths.get(TEST_DIR), true, listener);
         String baseExcludeDir = TEST_DIR + "exclude1" + File.separator;
