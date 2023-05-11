@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <unique>
+        <test file="test.json" operation="findOne"/>
+    </unique>
+
+    <fields>
+        <field id="text"/>
+        <field id="list" normalize="T(java.lang.String).join(' &lt;br/&gt;', #this)"/>
+    </fields>
+</query>
