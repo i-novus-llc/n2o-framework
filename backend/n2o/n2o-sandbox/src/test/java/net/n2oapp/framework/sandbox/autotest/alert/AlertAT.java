@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
-@SpringBootTest(properties = {"n2o.engine.test.classpath=/cases/7.23/alerts_handle/"},
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/versions/7.23/alerts_handle/"},
         classes = AlertATConfig.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AlertAT extends AutoTestBase {
