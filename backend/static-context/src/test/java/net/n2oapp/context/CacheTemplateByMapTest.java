@@ -1,6 +1,6 @@
 package net.n2oapp.context;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author operehod
