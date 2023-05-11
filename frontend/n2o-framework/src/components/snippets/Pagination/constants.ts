@@ -32,6 +32,7 @@ type onSelectType = (page: number, withCount?: boolean) => void
 export interface IPagination {
     className: string,
     style: object,
+    showSinglePage: boolean,
     showLast: boolean,
     showCount: showCountType,
     count?: number,
@@ -78,6 +79,7 @@ export interface IPages {
     showLast: boolean,
     hasNext: boolean,
     loading: boolean,
+    visible: boolean,
 }
 
 export interface IExtraPage {
