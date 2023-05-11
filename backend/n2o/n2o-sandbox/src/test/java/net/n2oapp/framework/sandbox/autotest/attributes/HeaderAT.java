@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootTest(properties = {"n2o.engine.test.classpath=/access/attributes/header/"},
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/interactions/access/attributes/header/"},
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HeaderAT extends AutoTestBase {
@@ -42,12 +42,12 @@ public class HeaderAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
-        builder.sources(new CompileInfo("access/attributes/header/tutorial.application.xml"),
-                new CompileInfo("access/attributes/header/index.page.xml"),
-                new CompileInfo("access/attributes/header/menu1.page.xml"),
-                new CompileInfo("access/attributes/header/menu2.page.xml"),
-                new CompileInfo("access/attributes/header/menu3.page.xml"),
-                new CompileInfo("access/attributes/header/menu4.page.xml"),
+        builder.sources(new CompileInfo("interactions/access/attributes/header/tutorial.application.xml"),
+                new CompileInfo("interactions/access/attributes/header/index.page.xml"),
+                new CompileInfo("interactions/access/attributes/header/menu1.page.xml"),
+                new CompileInfo("interactions/access/attributes/header/menu2.page.xml"),
+                new CompileInfo("interactions/access/attributes/header/menu3.page.xml"),
+                new CompileInfo("interactions/access/attributes/header/menu4.page.xml"),
                 new CompileInfo("META-INF/conf/default.access.xml"));
     }
 

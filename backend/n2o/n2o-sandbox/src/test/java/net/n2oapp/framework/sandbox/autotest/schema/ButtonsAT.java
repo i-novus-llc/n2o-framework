@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootTest(properties = {"n2o.engine.test.classpath=/access/schema/buttons/"},
+@SpringBootTest(properties = {"n2o.engine.test.classpath=interactions/access/schema/buttons/"},
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ButtonsAT extends AutoTestBase {
@@ -44,12 +44,12 @@ public class ButtonsAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
-        builder.sources(new CompileInfo("access/schema/buttons/index.page.xml"),
-                new CompileInfo("access/schema/buttons/page1.page.xml"),
-                new CompileInfo("access/schema/buttons/page2.page.xml"),
-                new CompileInfo("access/schema/buttons/page3.page.xml"),
-                new CompileInfo("access/schema/buttons/page4.page.xml"),
-                new CompileInfo("access/schema/buttons/schema.access.xml"));
+        builder.sources(new CompileInfo("interactions/access/schema/buttons/index.page.xml"),
+                new CompileInfo("interactions/access/schema/buttons/page1.page.xml"),
+                new CompileInfo("interactions/access/schema/buttons/page2.page.xml"),
+                new CompileInfo("interactions/access/schema/buttons/page3.page.xml"),
+                new CompileInfo("interactions/access/schema/buttons/page4.page.xml"),
+                new CompileInfo("interactions/access/schema/buttons/schema.access.xml"));
     }
 
     @Test

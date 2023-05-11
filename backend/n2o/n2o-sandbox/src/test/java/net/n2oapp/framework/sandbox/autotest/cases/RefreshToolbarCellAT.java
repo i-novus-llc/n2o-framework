@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = {"n2o.engine.test.classpath=/cases/7.11/refresh_toolbar_cell"},
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/versions/7.11/refresh_toolbar_cell"},
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RefreshToolbarCellAT extends AutoTestBase {
@@ -42,10 +42,10 @@ public class RefreshToolbarCellAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("cases/7.11/refresh_toolbar_cell/index.page.xml"),
-                new CompileInfo("cases/7.11/refresh_toolbar_cell/test.page.xml"),
-                new CompileInfo("cases/7.11/refresh_toolbar_cell/test.object.xml"),
-                new CompileInfo("cases/7.11/refresh_toolbar_cell/test.query.xml"));
+        builder.sources(new CompileInfo("versions/7.11/refresh_toolbar_cell/index.page.xml"),
+                new CompileInfo("versions/7.11/refresh_toolbar_cell/test.page.xml"),
+                new CompileInfo("versions/7.11/refresh_toolbar_cell/test.object.xml"),
+                new CompileInfo("versions/7.11/refresh_toolbar_cell/test.query.xml"));
     }
 
     @Test
