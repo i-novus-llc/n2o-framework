@@ -76,7 +76,6 @@ module.exports = {
                 'guides/migration/to_7_6',
                 'guides/migration/to_7_5',
                 'guides/migration/to_7_4',
-                'guides/migration/to_7_3',
                 'guides/migration/to_7_2',
                 'guides/migration/to_7_1',
                 'guides/migration/to_7_0',
