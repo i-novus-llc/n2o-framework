@@ -76,7 +76,7 @@ public class SandboxDataProviderTest {
     @SneakyThrows
     @Test
     public void testGetData() {
-        request.setRequestURI("/sandbox/view/myProjectId/n2o/data/_main");
+        request.setRequestURI("/sandbox/view/myProjectId/n2o/data/_w1");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
         wireMockServer.stubFor(get(urlMatching("/project/myProjectId")).withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
@@ -118,7 +118,7 @@ public class SandboxDataProviderTest {
     @SneakyThrows
     @Test
     public void testSetData() {
-        request.setRequestURI("/sandbox/view/myProjectId/n2o/data/main/3/update/submit");
+        request.setRequestURI("/sandbox/view/myProjectId/n2o/data/w1/3/update/multi1");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
         wireMockServer.stubFor(get("/project/myProjectId").willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
@@ -144,7 +144,8 @@ public class SandboxDataProviderTest {
                 "  }\n" +
                 "]")));
 
-        ResponseEntity<SetDataResponse> response = viewController.setData("myProjectId", new LinkedHashMap<>(Map.of("name", "name3", "id", 3)), request);
+        ResponseEntity<SetDataResponse> response = viewController.setData("myProjectId",
+                new LinkedHashMap<>(Map.of("name", "name3", "id", 3)), request);
         assertThat(response.getStatusCodeValue(), is(200));
         assertThat(response.getBody().getData().get("id"), is(3));
         assertThat(response.getBody().getData().get("name"), is("name3"));
