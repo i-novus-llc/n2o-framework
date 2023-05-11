@@ -65,7 +65,7 @@ public class DemoApplicationTest {
         Map<?, ?> page = restTemplate.getForObject("http://localhost:" + port + "/n2o/page/clients/1/update", Map.class);
         assertThat(((Map) page.get("widget")).get("src"), is("FormWidget"));
 
-        Map<?, ?> data = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/clients/1/update/main", Map.class);
+        Map<?, ?> data = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/clients/1/update/w1", Map.class);
         assertThat(((List) data.get("list")).size(), is(1));
     }
 }
