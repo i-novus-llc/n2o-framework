@@ -4,29 +4,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.meta.region.CompiledRegionItem;
-import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 
 import java.util.List;
 
 /**
- * Клиентская модель региона с отслеживанием прокрутки
+ * Клиентская модель элемента scrollspy-региона с вложенными элементами
  */
 @Getter
 @Setter
-public class ScrollspyRegion extends Region implements CompiledRegionItem {
+public class MenuScrollspyElement extends ScrollspyElement implements CompiledRegionItem {
 
     @JsonProperty
-    private String placement;
-    @JsonProperty
-    private String title;
-    @JsonProperty
-    private String active;
-    @JsonProperty
-    private Boolean headlines;
-    @JsonProperty
-    private Integer maxHeight;
-    @JsonProperty("content")
     private List<ScrollspyElement> menu;
 
     @Override

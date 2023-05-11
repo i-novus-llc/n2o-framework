@@ -22,9 +22,11 @@ public class ScrollspyRegionIOv3 extends AbstractRegionIOv3<N2oScrollspyRegion> 
         p.attributeBoolean(e, "headlines", r::getHeadlines, r::setHeadlines);
         p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
         p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
+        p.attributeInteger(e, "max-height", r::getMaxHeight, r::setMaxHeight);
         p.anyChildren(e, null, r::getMenu, r::setMenu, p.oneOf(N2oScrollspyRegion.AbstractMenuItem.class)
             .add("menu-item", N2oScrollspyRegion.MenuItem.class, this::menuItem)
-            .add("sub-menu", N2oScrollspyRegion.SubMenuItem.class, this::subMenu));
+            .add("sub-menu", N2oScrollspyRegion.SubMenuItem.class, this::subMenu)
+            .add("group", N2oScrollspyRegion.GroupItem.class, this::group));
     }
 
     private void menuItem(Element e, N2oScrollspyRegion.MenuItem m, IOProcessor p) {
@@ -36,6 +38,14 @@ public class ScrollspyRegionIOv3 extends AbstractRegionIOv3<N2oScrollspyRegion> 
     private void subMenu(Element e, N2oScrollspyRegion.SubMenuItem m, IOProcessor p) {
         initItem(e, m, p);
         p.anyChildren(e, null, m::getSubMenu, m::setSubMenu, p.oneOf(N2oScrollspyRegion.AbstractMenuItem.class)
+            .add("menu-item", N2oScrollspyRegion.MenuItem.class, this::menuItem)
+            .add("sub-menu", N2oScrollspyRegion.SubMenuItem.class, this::subMenu));
+    }
+
+    private void group(Element e, N2oScrollspyRegion.GroupItem g, IOProcessor p) {
+        initItem(e, g, p);
+        p.attributeBoolean(e, "headline", g::getHeadline, g::setHeadline);
+        p.anyChildren(e, null, g::getGroup, g::setGroup, p.oneOf(N2oScrollspyRegion.AbstractMenuItem.class)
             .add("menu-item", N2oScrollspyRegion.MenuItem.class, this::menuItem)
             .add("sub-menu", N2oScrollspyRegion.SubMenuItem.class, this::subMenu));
     }
