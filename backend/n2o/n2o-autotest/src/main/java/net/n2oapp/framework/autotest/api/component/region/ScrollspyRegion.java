@@ -53,6 +53,16 @@ public interface ScrollspyRegion extends Region {
          * @return Элемент региона (виджет/регион) для автотестирования
          */
         RegionItems content();
+
+        /**
+         * Низ региона будет выровнен по низу
+         */
+        void scrollDown();
+
+        /**
+         * Верх региона будет выровнен по верху
+         */
+        void scrollUp();
     }
 
     interface Menu extends Component {
@@ -90,6 +100,20 @@ public interface ScrollspyRegion extends Region {
          * @return элементы меню выпадающего списка для автотестирования
          */
         DropdownMenuItem dropdownMenuItem(String label);
+
+        /**
+         * Возвращает элементы меню из групп по номеру
+         * @param index номер возвращаемого элемента
+         * @return элементы меню выпадающего списка для автотестирования
+         */
+        GroupItem group(int index);
+
+        /**
+         * Возвращает элементы меню из групп по метке
+         * @param label метка возвращаемого элемента
+         * @return элементы меню выпадающего списка для автотестирования
+         */
+        GroupItem group(String label);
     }
 
     interface MenuItem extends Component {
@@ -121,6 +145,29 @@ public interface ScrollspyRegion extends Region {
          * @return элемент меню для автотестирования
          */
         MenuItem menuItem(String title);
+
+        /**
+         * Проверка раскрыто ли выпадающее меню
+         */
+        void shouldBeExpand();
+
+        /**
+         * Проверка закрыто ли выпадающее меню
+         */
+        void shouldBeCollapse();
+    }
+
+    interface GroupItem extends Menu {
+
+        /**
+         * Проверка наличия разделительной линии
+         */
+        void shouldHaveHeadline();
+
+        /**
+         * Проверка отсутствия разделительной линии
+         */
+        void shouldNotHaveHeadline();
     }
 
     enum MenuPosition {

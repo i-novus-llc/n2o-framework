@@ -693,7 +693,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         InputText inputInFieldset = item.fields().field("input").control(InputText.class);
 
         input.setValue("1234");
-        outputInFieldset.shouldNotBeEmpty();
+        outputInFieldset.shouldBeEmpty();
         inputInFieldset.setValue("43553");
         outputInFieldset.shouldNotBeEmpty();
 

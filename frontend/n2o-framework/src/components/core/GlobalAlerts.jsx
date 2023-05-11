@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import moment from 'moment'
+import moment from 'moment/moment'
 
 import { Alerts } from '../snippets/Alerts/Alerts'
 import { STORE_KEY_PATH, SUPPORTED_PLACEMENTS } from '../../ducks/alerts/constants'

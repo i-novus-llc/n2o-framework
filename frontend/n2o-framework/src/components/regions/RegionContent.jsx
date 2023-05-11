@@ -7,15 +7,30 @@ import get from 'lodash/get'
 import { Factory } from '../../core/factory/Factory'
 import { WIDGETS } from '../../core/factory/factoryLevels'
 
-export function RegionContent({ content, tabSubContentClass, pageId, className }) {
+function getFetchOnInit(metaFetchOnInit, lazy, active) {
+    if (!lazy || active) {
+        return metaFetchOnInit
+    }
+
+    return false
+}
+
+export function RegionContent({
+    content,
+    tabSubContentClass,
+    pageId,
+    className,
+    active,
+    lazy = false,
+}) {
     const mapClassNames = {
         TabsRegion: tabSubContentClass,
     }
 
     return (
         <div className={className}>
-            {map(content, (meta, index) => {
-                const src = get(meta, 'src')
+            {map(content, (meta = {}, index) => {
+                const { src, fetchOnInit: metaFetchOnInit } = meta
 
                 const getClassName = (meta, path) => get(meta, path) || ''
 
@@ -27,6 +42,8 @@ export function RegionContent({ content, tabSubContentClass, pageId, className }
                     [metaClassName]: metaClassName,
                 })
 
+                const fetchOnInit = getFetchOnInit(metaFetchOnInit, lazy, active)
+
                 return (
                     <Factory
                         level={WIDGETS}
@@ -34,6 +51,7 @@ export function RegionContent({ content, tabSubContentClass, pageId, className }
                         pageId={pageId}
                         {...meta}
                         className={className}
+                        fetchOnInit={fetchOnInit}
                     />
                 )
             })}
@@ -46,6 +64,8 @@ RegionContent.propTypes = {
     pageId: PropTypes.string,
     className: PropTypes.string,
     tabSubContentClass: PropTypes.any,
+    active: PropTypes.bool,
+    lazy: PropTypes.bool,
 }
 
 export default RegionContent

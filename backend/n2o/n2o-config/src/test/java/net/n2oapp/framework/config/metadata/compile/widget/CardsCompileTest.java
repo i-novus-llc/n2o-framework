@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
 import net.n2oapp.framework.api.metadata.meta.cell.Cell;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageCell;
 import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
@@ -68,12 +69,9 @@ public class CardsCompileTest extends SourceCompileTestBase {
         assertThat(cell, instanceOf(TextCell.class));
         assertThat(cell.getSrc(), is("TextCell"));
 
-        assertThat(cards.getPaging().getFirst(), is(false));
-        assertThat(cards.getPaging().getShowSinglePage(), is(true));
-        assertThat(cards.getPaging().getLast(), is(true));
         assertThat(cards.getPaging().getNext(), is(true));
         assertThat(cards.getPaging().getPrev(), is(true));
-        assertThat(cards.getPaging().getShowCount(), is(false));
+        assertThat(cards.getPaging().getShowCount(), is(ShowCountType.NEVER));
         assertThat(cards.getPaging().getSize(), is(5));
         assertThat(cards.getPaging().getSrc(), is("pagingSrc"));
 
@@ -92,12 +90,9 @@ public class CardsCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSrc(), is("ImageCell"));
         assertThat(cell.getId(), is("31"));
 
-        assertThat(cards.getPaging().getFirst(), is(true));
-        assertThat(cards.getPaging().getShowSinglePage(), is(false));
-        assertThat(cards.getPaging().getLast(), is(false));
         assertThat(cards.getPaging().getNext(), is(false));
         assertThat(cards.getPaging().getPrev(), is(false));
-        assertThat(cards.getPaging().getShowCount(), is(true));
+        assertThat(cards.getPaging().getShowCount(), is(ShowCountType.ALWAYS));
         assertThat(cards.getPaging().getSize(), is(10));
     }
 }

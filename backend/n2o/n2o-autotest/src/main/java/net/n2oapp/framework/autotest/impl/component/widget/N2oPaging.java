@@ -9,13 +9,30 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
  * Компонент пагинации для автотестирования
  */
 public class N2oPaging extends N2oComponent implements Paging {
+
+    protected String ellipsisLocator = ".ellipsis";
+
+    protected String pageItemLocator = ".page-item";
+
+    protected String countButtonLocator = ".pagination__total__button";
+
+    protected String pagesLocator = ".pagination-pages";
+
+    protected String nextButtonLocator = ".next";
+
+    protected String prevButtonLocator = ".prev";
+
+    protected String paginationLocator = ".pagination-container";
+
+    protected String totalTextLocator = ".pagination__total__text";
+
     public N2oPaging(SelenideElement element) {
         setElement(element);
     }
 
     @Override
     public void shouldHaveActivePage(String label) {
-        element().$(".n2o-pagination .page-item.active .page-link").shouldHave(Condition.text(label));
+        element().$(paginationLocator.concat(" ").concat(pageItemLocator).concat(".active.page-link .title")).shouldHave(Condition.text(label));
     }
 
     @Override
@@ -29,14 +46,9 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void shouldHaveLayout(Layout layout) {
-        element().$(".n2o-pagination .pagination").shouldHave(Condition.cssClass(layout.getTitle()));
-    }
-
-    @Override
     public int totalElements() {
         String info = paginationInfo().text();
-        info = info.split(" ")[1];
+        info = info.split(" ")[2];
         return Integer.parseInt(info);
     }
 
@@ -50,14 +62,25 @@ public class N2oPaging extends N2oComponent implements Paging {
         paginationInfo().shouldNotBe(Condition.exist);
     }
 
+
+    @Override
+    public void shouldHavePrev() {
+        prevButton().shouldBe(Condition.exist);
+    }
+
     @Override
     public void shouldNotHavePrev() {
         prevButton().shouldNotBe(Condition.exist);
     }
 
     @Override
-    public void shouldHavePrev() {
-        prevButton().shouldBe(Condition.exist);
+    public void prevButtonShouldBeEnabled() {
+        prevButton().shouldNotHave(Condition.cssClass("disabled"));
+    }
+
+    @Override
+    public void prevButtonShouldBeDisabled() {
+        prevButton().shouldHave(Condition.cssClass("disabled"));
     }
 
     @Override
@@ -67,7 +90,7 @@ public class N2oPaging extends N2oComponent implements Paging {
 
     @Override
     public void prevShouldHaveIcon(String icon) {
-        prevButton().shouldHave(Condition.cssClass(icon));
+        prevButton().$("i").shouldHave(Condition.attribute("class", icon));
     }
 
     @Override
@@ -92,7 +115,7 @@ public class N2oPaging extends N2oComponent implements Paging {
 
     @Override
     public void nextShouldHaveIcon(String icon) {
-        nextButton().shouldHave(Condition.cssClass(icon));
+        nextButton().$("i").shouldHave(Condition.attribute("class", icon));
     }
 
     @Override
@@ -101,77 +124,125 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void shouldNotHaveFirst() {
-        firstButton().shouldNotBe(Condition.exist);
+    public void nextButtonShouldBeEnabled() {
+        nextButton().shouldNotHave(Condition.cssClass("disabled"));
     }
+
+    @Override
+    public void nextButtonShouldBeDisabled() {
+        nextButton().shouldHave(Condition.cssClass("disabled"));
+    }
+
 
     @Override
     public void shouldHaveFirst() {
-        firstButton().shouldBe(Condition.exist);
-    }
-
-    @Override
-    public void firstShouldHaveLabel(String label) {
-        firstButton().parent().shouldHave(Condition.text(label));
-    }
-
-    @Override
-    public void firstShouldHaveIcon(String icon) {
-        firstButton().shouldHave(Condition.cssClass(icon));
+        firstPage().shouldBe(Condition.exist);
     }
 
     @Override
     public void selectFirst() {
-        firstButton().click();
+        if (firstPage().$(pageItemLocator).exists()) {
+            firstPage().$(pageItemLocator).click();
+        }
+        else {
+            firstPage().click();
+        }
     }
 
     @Override
     public void shouldNotHaveLast() {
-        lastButton().shouldNotBe(Condition.exist);
+        lastPage().$(".title").shouldNotBe(Condition.exist);
     }
 
     @Override
     public void shouldHaveLast() {
-        lastButton().shouldBe(Condition.exist);
+        lastPage().$(".title").shouldBe(Condition.exist);
     }
 
     @Override
-    public void lastShouldHaveLabel(String label) {
-        lastButton().parent().shouldHave(Condition.text(label));
-    }
-
-    @Override
-    public void lastShouldHaveIcon(String icon) {
-        lastButton().shouldHave(Condition.cssClass(icon));
+    public void lastShouldHavePage(String label) {
+        lastPage().parent().shouldHave(Condition.text(label));
     }
 
     @Override
     public void selectLast() {
-        lastButton().click();
+        if (lastPage().$(pageItemLocator).is(Condition.exist)) {
+            lastPage().$(pageItemLocator).click();
+        }
+        else {
+            lastPage().click();
+        }
     }
 
+    @Override
+    public void firstPageShouldHaveEllipsis() {
+        firstPage().$(ellipsisLocator).shouldBe(Condition.visible);
+    }
+    @Override
+    public void firstPageShouldNotHaveEllipsis() {
+        firstPage().$(ellipsisLocator).shouldNotBe(Condition.exist);
+    }
+
+    @Override
+    public void lastPageShouldHaveEllipsis() {
+        lastPage().$(ellipsisLocator).shouldBe(Condition.visible);
+    }
+
+    @Override
+    public void lastPageShouldNotHaveEllipsis() {
+        lastPage().$(ellipsisLocator).shouldNotBe(Condition.exist);
+    }
+
+    @Override
+    public void pageNumberButtonShouldBeVisible(String number) {
+        pageNumberButton(number).shouldBe(Condition.visible);
+    }
+
+    @Override
+    public void pageNumberButtonShouldNotBeVisible(String number) {
+        pageNumberButton(number).shouldNotBe(Condition.visible);
+    }
+
+    @Override
+    public void countButtonShouldBeVisible() {
+        countButton().shouldBe(Condition.visible);
+    }
+
+    @Override
+    public void countButtonShouldNotBeVisible() {
+        countButton().shouldNot(Condition.exist);
+    }
+
+    @Override
+    public void countButtonClick() {
+        countButton().click();
+    }
 
     protected SelenideElement pageNumberButton(String number) {
-        return element().$$(".n2o-pagination .page-link").findBy(Condition.text(number));
+        return element().$$(paginationLocator.concat(" ").concat(pageItemLocator)).findBy(Condition.text(number));
     }
 
     protected SelenideElement paginationInfo() {
-        return element().$(".n2o-pagination .n2o-pagination-total");
+        return element().$(paginationLocator.concat(" ").concat(totalTextLocator));
     }
 
     protected SelenideElement prevButton() {
-        return element().$(".n2o-pagination .page-link .previous-button");
+        return element().$(paginationLocator.concat(" ").concat(prevButtonLocator));
     }
 
     protected SelenideElement nextButton() {
-        return element().$(".n2o-pagination .page-link .next-button");
+        return element().$(paginationLocator.concat(" ").concat(nextButtonLocator));
     }
 
-    protected SelenideElement firstButton() {
-        return element().$(".n2o-pagination .page-link .first-button");
+    protected SelenideElement firstPage() {
+        return element().$$(pagesLocator.concat( " > div")).first();
     }
 
-    protected SelenideElement lastButton() {
-        return element().$(".n2o-pagination .page-link .last-button");
+    protected SelenideElement lastPage() {
+       return element().$$(pagesLocator.concat( " > div")).last();
+    }
+
+    protected SelenideElement countButton() {
+        return element().$(countButtonLocator);
     }
 }

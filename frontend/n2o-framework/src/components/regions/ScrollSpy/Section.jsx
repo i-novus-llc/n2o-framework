@@ -1,4 +1,5 @@
 import React, { forwardRef, useCallback } from 'react'
+import get from 'lodash/get'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
@@ -6,21 +7,33 @@ import { RegionContent } from '../RegionContent'
 
 import { Title } from './Title'
 
-const Section = forwardRef(({ id, title, headlines, children, active }, forwardedRef) => (
-    <div
-        ref={forwardedRef}
-        id={id}
-        key={id}
-        className={classNames('n2o-scroll-spy-region__content-wrapper', { active: id === active })}
-    >
-        <Title
-            title={title}
-            className="n2o-scroll-spy-region__content-title"
-            visible={headlines}
-        />
-        {children}
-    </div>
-))
+const Section = forwardRef(({ id, title, headlines, active, children }, forwardedRef) => {
+    /* simplifies auto testing */
+    const hasActiveChild = Array.isArray(children) &&
+        children.some(child => get(child, 'props.id', null) === active)
+
+    return (
+        <div
+            ref={forwardedRef}
+            id={id}
+            key={id}
+            className={classNames(
+                'n2o-scroll-spy-region__content-wrapper',
+                {
+                    active: id === active || hasActiveChild,
+                },
+            )
+            }
+        >
+            <Title
+                title={title}
+                className="n2o-scroll-spy-region__content-title"
+                visible={headlines}
+            />
+            {children}
+        </div>
+    )
+})
 
 Section.propTypes = {
     id: PropTypes.string.isRequired,
@@ -31,11 +44,10 @@ Section.propTypes = {
 }
 
 /**
- * Рекурсивная отрисовка вложенных в друг друга секций и регистрация рефок на них
+ * Рекурсивная отрисовка вложенных друг в друга секций и регистрация рефок на них
  */
 export function SectionGroup({ id, title, headlines, content, menu: items, active, setSectionRef, pageId }) {
     let contentElement = null
-    let sectionTitle
     const hasContent = !(items?.length)
 
     const setRef = useCallback((ref) => {
@@ -53,7 +65,6 @@ export function SectionGroup({ id, title, headlines, content, menu: items, activ
                 className="n2o-scroll-spy-region__content"
             />
         )
-        sectionTitle = title
     } else {
         contentElement = items.map(item => (
             <SectionGroup
@@ -62,12 +73,11 @@ export function SectionGroup({ id, title, headlines, content, menu: items, activ
                 pageId={pageId}
             />
         ))
-        sectionTitle = null
     }
 
     return (
         <Section
-            title={sectionTitle}
+            title={title}
             id={id}
             headlines={headlines}
             active={active}

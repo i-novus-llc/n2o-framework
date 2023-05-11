@@ -1,0 +1,10 @@
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+    <regions>
+        <table object-id="utBlank" datasource="ds1">
+            <toolbar place="bottomRight" generate="word-wrap"/>
+        </table>
+    </regions>
+</page>

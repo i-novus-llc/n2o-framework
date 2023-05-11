@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import get from 'lodash/get'
 
 /**
  * Преключатель состояния с таймером обратного отключения
@@ -24,7 +25,7 @@ export const useTimeoutSwitcher = (timeout, initialValue = false) => {
  * Поиск активной секции в контейнере
  * @param {HTMLElement} container
  * @param {{[key: string]: HTMLElement}} sections
- * @param {number} direction Направление скрола (разница между предыдущим и текущим скролом)
+ * @param {number} offset разница между предыдущим и текущим скролом
  */
 export const getActive = (container, sections, offset) => {
     const { scrollTop, scrollHeight, clientHeight } = container
@@ -59,4 +60,44 @@ export const getActive = (container, sections, offset) => {
 
         return (offsetTop <= viewPort[1] && bottom >= viewPort[1])
     })?.[0]
+}
+
+export const createStyle = (height, style = {}) => {
+    if (!height) {
+        return style
+    }
+
+    const maxHeight = typeof height === 'number' ? `${height}px` : height
+
+    return { ...style, maxHeight }
+}
+
+const isWidgetVisible = (widgets, id) => get(widgets, `${id}.visible`, true)
+
+export function hasVisibleWidget(item = [], widgets = {}) {
+    if (item?.content) {
+        return item.content.some(({ id }) => isWidgetVisible(widgets, id))
+    }
+
+    return item?.menu?.some(({ id }) => isWidgetVisible(widgets, id))
+}
+
+export function mapContextItems(items = []) {
+    return items.reduce((acc, item) => {
+        const { group } = item
+
+        if (group) {
+            const { title: groupTitle } = item
+
+            for (const groupItem of group) {
+                acc.push({ ...groupItem, groupTitle })
+            }
+
+            return acc
+        }
+
+        acc.push(item)
+
+        return acc
+    }, [])
 }

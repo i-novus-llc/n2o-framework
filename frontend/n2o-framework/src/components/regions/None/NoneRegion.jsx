@@ -10,7 +10,6 @@ import { RegionContent } from '../RegionContent'
 /**
  * Регион None (простой див)
  * @reactProps {array} content - массив из объектов, которые описывают виджет{id}
- * @reactProps {function} getWidget - функция получения виджета
  * @reactProps {string} pageId - идентификатор страницы
  */
 

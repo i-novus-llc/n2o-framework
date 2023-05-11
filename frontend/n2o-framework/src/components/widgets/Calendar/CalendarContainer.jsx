@@ -2,7 +2,7 @@ import React from 'react'
 import { compose, withHandlers, mapProps, defaultProps } from 'recompose'
 import map from 'lodash/map'
 import get from 'lodash/get'
-import moment from 'moment'
+import moment from 'moment/moment'
 import { connect } from 'react-redux'
 
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'

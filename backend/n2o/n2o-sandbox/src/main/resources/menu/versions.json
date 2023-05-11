@@ -9,6 +9,22 @@
           "name": "Badge в line филдсете"
         },
         {
+          "templateId": "versions/7.24/infinite_pagination",
+          "name": "Бесконечная пагинация"
+        },
+        {
+          "templateId": "versions/7.24/table_export_button",
+          "name": "Кнопка экспорта таблицы"
+        },
+        {
+          "templateId": "versions/7.24/table_wordwrap_button",
+          "name": "Кнопка переноса слов в таблице"
+        },
+        {
+          "templateId": "versions/7.24/scrollspy",
+          "name": "Scrollspy. Группировка элементов"
+        },
+        {
           "templateId": "versions/7.24/source_ds_for_parent_ds",
           "name": "Прокидывание разных parent-datasource из родительской страницы"
         },
@@ -380,14 +396,6 @@
           "templateId": "versions/7.17/radiogroup_tabs"
         },
         {
-          "templateId": "versions/7.17/pagination_attributes_variability",
-          "name": "Расширенные возможности пагинации"
-        },
-        {
-          "templateId": "versions/7.17/pagination_layouts",
-          "name": "Варианты представления пагинации"
-        },
-        {
           "templateId": "versions/7.17/simple_application",
           "name": "Навигация, заданная в application.xml"
         },
@@ -669,10 +677,6 @@
         {
           "templateId": "versions/7.10/simple_page_width",
           "name": "Шаблон страницы для небольших форм"
-        },
-        {
-          "templateId": "versions/7.10/pagination",
-          "name": "Пагинация в списковых виджетах"
         },
         {
           "templateId": "versions/7.10/tiles",

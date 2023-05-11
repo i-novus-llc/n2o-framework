@@ -5,8 +5,7 @@ import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem 
 
 import { makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
 import { DataSourceContext } from '../../../core/widget/context'
-
-const SIZES = [5, 10, 20, 50]
+import { LIST_ICON, SIZES } from '../constants'
 
 /**
  * Дропдаун для выбора размера(size) виджета
@@ -15,22 +14,26 @@ const SIZES = [5, 10, 20, 50]
  * @example
  * <ChangeSize entityKey='TestEntityKey'/>
  */
-function ChangeSizeComponent({ size: currentSize }) {
+function ChangeSizeComponent({ size: currentSize, icon }) {
     const { setSize } = useContext(DataSourceContext)
 
-    const items = SIZES.map((size, i) => (
-        <DropdownItem toggle={false} onClick={() => setSize(size)}>
-            <span className="n2o-dropdown-check-container">
-                {currentSize === size && <i className="fa fa-check" aria-hidden="true" />}
-            </span>
-            <span>{size}</span>
-        </DropdownItem>
-    ))
+    const items = SIZES.map((size, i) => {
+        const onClick = () => setSize(size)
+
+        return (
+            <DropdownItem toggle={false} onClick={onClick}>
+                <span className="n2o-dropdown-check-container">
+                    {currentSize === size && <i className="fa fa-check" aria-hidden="true" />}
+                </span>
+                <span>{size}</span>
+            </DropdownItem>
+        )
+    })
 
     return (
         <UncontrolledButtonDropdown>
             <DropdownToggle caret>
-                <i className="fa fa-list" />
+                <i className={icon || LIST_ICON} />
             </DropdownToggle>
             <DropdownMenu>{items}</DropdownMenu>
         </UncontrolledButtonDropdown>
@@ -38,6 +41,7 @@ function ChangeSizeComponent({ size: currentSize }) {
 }
 ChangeSizeComponent.propTypes = {
     size: PropTypes.number,
+    icon: PropTypes.string,
 }
 
 const mapStateToProps = (state, { entityKey: widgetId }) => ({

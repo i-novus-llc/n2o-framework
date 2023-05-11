@@ -463,8 +463,8 @@ context binary
 
 #### Репликации роутов через Redis {#Routing_redis}
 
-1. Задайте настройку `n2o.config.register.store-type=redis.
-2. Настройте RedisTemplate с помощью Jedis или Lettuce:
+1. Задайте настройку `n2o.config.register.store-type=redis`.
+2. Настройте ConnectionFactory для Jedis или Lettuce:
 
 ````js title="Jedis"
 @Bean
@@ -483,6 +483,8 @@ LettuceConnectionFactory redisConnectionFactory() {
     return connectionFactory;
 }
 ```
+
+3. Настройте RedisTemplate
 
 ````js
 @Bean

@@ -1,9 +1,39 @@
 .page-item {
+    cursor: pointer;
+
     > .page-link {
         &.no-border {
             border-color: transparent !important;
             background-color: transparent !important;
             color: $primary;
         }
+    }
+}
+
+@mixin switchButtonWithTitle {
+    width: auto;
+    max-width: max-content;
+    display: flex;
+}
+
+.page-item.page-link.prev.with-title {
+    @include switchButtonWithTitle;
+}
+
+.page-item.page-link.prev.with-title.with-icon {
+    .title {
+        margin-left: 5px;
+    }
+}
+
+.page-item.page-link.next.with-title {
+    flex-flow: row-reverse;
+
+    @include switchButtonWithTitle;
+}
+
+.page-item.page-link.next.with-title.with-icon {
+    .title {
+        margin-right: 5px;
     }
 }

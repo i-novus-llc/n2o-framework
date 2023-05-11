@@ -1,5 +1,7 @@
 package net.n2oapp.framework.autotest.api.component;
 
+import net.n2oapp.framework.autotest.Colors;
+
 /**
  * Выпадающий список в виде древа для автотестирования
  */
@@ -41,5 +43,25 @@ public interface DropDownTree extends Component {
          * @param label метка для поиска
          */
         void shouldHaveOption(String label);
+
+        @Override
+        default void shouldHaveDescription(String description) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        default void shouldHaveStatusColor(Colors color) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        default void shouldBeEnabled() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        default void shouldBeDisabled() {
+            throw new UnsupportedOperationException();
+        }
     }
 }

@@ -732,32 +732,16 @@
           "name": "Пагинация"
         },
         {
-          "templateId": "uxcomponents/pagination/layout_separated",
-          "name": "Пагинация c разделёнными кнопками"
+          "templateId": "uxcomponents/pagination/count_never",
+          "name": "Пагинация без отображения количества записей"
         },
         {
-          "templateId": "uxcomponents/pagination/layout_flat",
-          "name": "Пагинация с плоскими кнопками"
+          "templateId": "uxcomponents/pagination/infinite",
+          "name": "Бесконечная пагинация"
         },
         {
-          "templateId": "uxcomponents/pagination/layout_bordered",
-          "name": "Пагинация с окаймлёнными кнопками"
-        },
-        {
-          "templateId": "uxcomponents/pagination/layout_separated_rounded",
-          "name": "Пагинация с круглыми кнопками"
-        },
-        {
-          "templateId": "uxcomponents/pagination/layout_flat_rounded",
-          "name": "Пагинация с плоскими круглыми кнопками"
-        },
-        {
-          "templateId": "uxcomponents/pagination/layout_bordered_rounded",
-          "name": "Пагинация с окаймлёнными кнопками со скруглением"
-        },
-        {
-          "templateId": "uxcomponents/pagination/without_numbers",
-          "name": "Пагинация без нумерации страниц"
+          "templateId": "uxcomponents/pagination/count_by_request",
+          "name": "Пагинация с отображением количества записей по запросу"
         }
       ]
     },

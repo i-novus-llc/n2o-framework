@@ -40,7 +40,7 @@
                 </toolbar>
             </extra>
         </content>
-        <pagination prev="true" next="true" show-single-page="false" first="true" last="true" show-count="true"
+        <pagination prev="true" next="true"
                     src="pagingSrc"/>
     </list>
 </simple-page>

@@ -13,19 +13,25 @@ import { DataSourceContext, METHODS } from './context'
 export const WithDatasourceLifeCycle = (Component) => {
     class WithDatasourceLifeCycle extends React.Component {
         componentDidUpdate({ visible: prevVisible, isInit: prevInit }) {
-            const { visible, isInit, fetchOnInit, fetchOnVisibility } = this.props
+            const { visible, isInit, fetchOnInit, fetchOnVisibility, paging = {} } = this.props
+            const options = { withCount: true }
+            const { showLast = true } = paging
+
+            if (!showLast) {
+                options.withCount = false
+            }
 
             if (isInit !== prevInit) {
                 this.switchRegistration(visible)
 
                 if (fetchOnInit) {
-                    this.fetchData()
+                    this.fetchData(options)
                 }
             } else if (visible !== prevVisible) {
                 this.switchRegistration(visible)
 
                 if (fetchOnVisibility) {
-                    this.fetchData()
+                    this.fetchData(options)
                 }
             }
         }
