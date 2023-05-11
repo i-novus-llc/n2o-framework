@@ -5,7 +5,6 @@
     </unique>
 
     <fields>
-        <field id="text"/>
         <field id="list" normalize="T(java.lang.String).join(' &lt;br/&gt;', #this)"/>
     </fields>
 </query>

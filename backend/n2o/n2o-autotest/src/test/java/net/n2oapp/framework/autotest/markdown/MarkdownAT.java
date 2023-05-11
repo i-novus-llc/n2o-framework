@@ -41,12 +41,12 @@ public class MarkdownAT extends AutoTestBase {
     }
 
     @Test
-    public void n2obuttonCompile() {
-        setJsonPath("net/n2oapp/framework/autotest/markdown/n2obutton");
+    public void buttonCompile() {
+        setJsonPath("net/n2oapp/framework/autotest/markdown/button");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/markdown/n2obutton/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/markdown/n2obutton/page.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/markdown/n2obutton/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/markdown/button/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/markdown/button/page.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/markdown/button/test.query.xml")
         );
 
         StandardPage page = open(StandardPage.class);
@@ -86,9 +86,9 @@ public class MarkdownAT extends AutoTestBase {
         Markdown markdown = formWidget.fields().field(0, Markdown.class);
         markdown.shouldExists();
         markdown.shouldHaveText("aaa\nbbb\nccc\n" +
-                "Курсив\nЖирный\nМоноширный\n" +
-                "Курсив Жирный Моноширный");
-        markdown.shouldHaveElement("p > br");
-        markdown.shouldHaveElement("p + p > br");
+                "Жирный\nМоноширный\n" +
+                "Курсив Моноширный");
+        markdown.shouldHaveElement("p > strong + br + code");
+        markdown.shouldHaveElement("p > em + br + code");
     }
 }
