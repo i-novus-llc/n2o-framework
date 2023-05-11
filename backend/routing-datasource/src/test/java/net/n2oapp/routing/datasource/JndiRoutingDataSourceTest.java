@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 public class JndiRoutingDataSourceTest {
 
     @Test
-    public void testGetConnection() throws Exception {
+    void testGetConnection() throws Exception {
         JndiRoutingDataSource jndiRoutingDataSource = new JndiRoutingDataSource();
         try {
             Connection connection = jndiRoutingDataSource.getConnection();
@@ -63,7 +63,7 @@ public class JndiRoutingDataSourceTest {
     }
 
     @Test
-    public void testAddDataSource() throws Exception {
+    void testAddDataSource() throws Exception {
         JndiRoutingDataSource jndiRoutingDataSource = new JndiRoutingDataSource();
         DataSourceLookup dataSourceLookup = mock(DataSourceLookup.class);
         when(dataSourceLookup.getDataSource("test")).thenReturn(mock(DataSource.class));

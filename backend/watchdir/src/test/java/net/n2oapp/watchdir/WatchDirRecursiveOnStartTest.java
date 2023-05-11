@@ -31,7 +31,7 @@ public class WatchDirRecursiveOnStartTest {
 
 
     @BeforeEach
-    public void setUpClass() throws Exception
+    void setUpClass() throws Exception
     {
         createTestDir();
         assertTrue(new File(SUB_DIR).mkdirs());
@@ -40,7 +40,7 @@ public class WatchDirRecursiveOnStartTest {
     }
 
     @AfterEach
-    public void tearDownClass() throws Exception
+    void tearDownClass() throws Exception
     {
         watchDir.stop();
         clearTestDir();
@@ -55,7 +55,7 @@ public class WatchDirRecursiveOnStartTest {
      */
     @Test
     @Disabled
-    public void testCreateEmptySubDir() {
+    void testCreateEmptySubDir() {
         //создание пустой подпапки
         watchDir.start();
         assertTrue(new File(SUB2_DIR).mkdir());
@@ -75,7 +75,7 @@ public class WatchDirRecursiveOnStartTest {
      **/
     @Test
     @Disabled
-    public void testCreateSubDir() throws IOException {
+    void testCreateSubDir() throws IOException {
         //создание подпапки с файлом
         watchDir.start();
         assertTrue(new File(SUB2_DIR).mkdir());
@@ -99,7 +99,7 @@ public class WatchDirRecursiveOnStartTest {
      */
     @Test
     @Disabled
-    public void testChangeFilesInSubDir() throws IOException {
+    void testChangeFilesInSubDir() throws IOException {
         //изменение файла в подпапке
         //папка создаётся до старта вочдира, поэтому изменения в ней должны ловиться
         assertTrue(new File(SUB2_DIR).mkdir());
@@ -125,7 +125,7 @@ public class WatchDirRecursiveOnStartTest {
      **/
     @Test
     @Disabled //не стабильно удаляется папка
-    public void testDeleteSubDir() throws IOException {
+    void testDeleteSubDir() throws IOException {
         //удаление подпапки с файлом
         assertTrue(new File(SUB2_DIR).mkdir());
         FileUtils.touch(new File(SUB2_FILE1));
@@ -151,7 +151,7 @@ public class WatchDirRecursiveOnStartTest {
      **/
     @Test
     @Disabled
-    public void testDeleteEmptySubDir() throws IOException {
+    void testDeleteEmptySubDir() throws IOException {
         //удаление пустой подпапки
         assertTrue(new File(SUB2_DIR).mkdir());
         watchDir.start();
@@ -164,7 +164,7 @@ public class WatchDirRecursiveOnStartTest {
 
     @Test
     @Disabled
-    public void testCreateAndDeleteEmptySubDir() {
+    void testCreateAndDeleteEmptySubDir() {
         //удаление пустой подпапки
         watchDir.start();
         assertTrue(new File(SUB2_DIR).mkdir());

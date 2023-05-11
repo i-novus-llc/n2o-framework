@@ -72,7 +72,7 @@ public class WatchDirTest
      */
     @Test
     @Disabled
-    public void testWithRecursive() throws Exception
+    void testWithRecursive() throws Exception
     {
         watchDir.start();
 
@@ -132,7 +132,7 @@ public class WatchDirTest
      */
     @Test
     @Disabled
-    public void testRestartMonitoring() throws Exception
+    void testRestartMonitoring() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
         verify(listener, timeout(100).never()).fileCreated(eq(path));
@@ -157,7 +157,7 @@ public class WatchDirTest
      */
     @Test
     @Disabled
-    public void testChangeIsFile() throws Exception
+    void testChangeIsFile() throws Exception
     {
         watchDir.start();
 
@@ -174,7 +174,7 @@ public class WatchDirTest
      */
     @Test
     @Disabled
-    public void testChangeIsDirectory() throws Exception
+    void testChangeIsDirectory() throws Exception
     {
         watchDir.start();
 
@@ -194,7 +194,7 @@ public class WatchDirTest
      */
     @Test
     @Disabled
-    public void testEventOnCreate() throws Exception
+    void testEventOnCreate() throws Exception
     {
         watchDir.start();
 
@@ -212,7 +212,7 @@ public class WatchDirTest
      */
     @Test
     @Disabled //todo почему то не срабатывает тест на https://ci.i-novus.ru/view/util/job/watchdir.master.build/lastBuild/net.n2oapp.watchdir$watchdir/testReport/net.n2oapp.watchdir/WatchDirTest/testEventOnChange/
-    public void testEventOnChange() throws Exception
+    void testEventOnChange() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
 
@@ -236,7 +236,7 @@ public class WatchDirTest
      */
     @Test
     @Disabled
-    public void testEventOnDelete() throws Exception
+    void testEventOnDelete() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
         watchDir.start();
@@ -253,7 +253,7 @@ public class WatchDirTest
      */
     @Test
     @Disabled
-    public void testStartMonitoring() throws Exception
+    void testStartMonitoring() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
         verify(listener, timeout(100).never()).fileCreated(any(Path.class));
@@ -271,7 +271,7 @@ public class WatchDirTest
      */
     @Test
     @Disabled
-    public void testStopMonitoring() throws Exception
+    void testStopMonitoring() throws Exception
     {
         watchDir.start();
 
@@ -287,7 +287,7 @@ public class WatchDirTest
 
     @Test
     @Disabled
-    public void testEqPath() {
+    void testEqPath() {
         Path path1 = Paths.get(TEST_DIR + "test.txt");
         Path path2 = Paths.get(TEST_DIR + "test.txt");
         Path path3 = Paths.get(TEST_DIR);
@@ -301,7 +301,7 @@ public class WatchDirTest
 
     @Test
     @Disabled
-    public void testIncorrectCreate() {
+    void testIncorrectCreate() {
         watchDir = new WatchDir();
         //старт без listener
         try {
@@ -338,7 +338,7 @@ public class WatchDirTest
 
     @Test
     @Disabled
-    public void testImmutableAfterStart() {
+    void testImmutableAfterStart() {
         watchDir = new WatchDir();
         watchDir.setListener(listener);
         watchDir.addPath(TEST_DIR);

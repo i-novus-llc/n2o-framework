@@ -30,7 +30,7 @@ public class WatchDirSkipTest {
 
 
     @BeforeEach
-    public void setUpClass() throws Exception
+    void setUpClass() throws Exception
     {
         createTestDir();
         reset(listener);
@@ -38,7 +38,7 @@ public class WatchDirSkipTest {
     }
 
     @AfterEach
-    public void tearDownClass() throws Exception
+    void tearDownClass() throws Exception
     {
         watchDir.stop();
         clearTestDir();
@@ -49,7 +49,7 @@ public class WatchDirSkipTest {
      */
     @Test
     @Disabled
-    public void testSkip() throws Exception {
+    void testSkip() throws Exception {
         watchDir.start();
         watchDir.skipOn(TEST_FILE);
         FileUtils.touch(new File(TEST_FILE));
@@ -69,7 +69,7 @@ public class WatchDirSkipTest {
      */
     @Test
     @Disabled
-    public void testSkipBeforeStart() throws Exception {
+    void testSkipBeforeStart() throws Exception {
         WatchDir watchDir = new WatchDir(Paths.get(TEST_DIR), true, listener);
         String baseExcludeDir = TEST_DIR + "exclude1" + File.separator;
         String excludeDir = baseExcludeDir + "exclude2" + File.separator + "exclude3";

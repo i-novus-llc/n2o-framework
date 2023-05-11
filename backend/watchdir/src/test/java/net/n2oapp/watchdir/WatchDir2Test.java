@@ -42,7 +42,7 @@ public class WatchDir2Test {
     }
 
     @BeforeEach
-    public void setUpClass() throws Exception
+    void setUpClass() throws Exception
     {
         File testDir = new File(TEST_DIR);
         if (testDir.exists())
@@ -56,7 +56,7 @@ public class WatchDir2Test {
     }
 
     @AfterEach
-    public void tearDownClass() throws Exception
+    void tearDownClass() throws Exception
     {
         watchDir.stop();
         File testDir = new File(TEST_DIR);
@@ -72,7 +72,7 @@ public class WatchDir2Test {
      */
     @Disabled
     @Test
-    public void testEventOnCreate() throws Exception
+    void testEventOnCreate() throws Exception
     {
         watchDir.start();
 
@@ -91,7 +91,7 @@ public class WatchDir2Test {
      */
     @Disabled
     @Test
-    public void testEventOnChange() throws Exception
+    void testEventOnChange() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
 
@@ -111,7 +111,7 @@ public class WatchDir2Test {
      */
     @Disabled
     @Test
-    public void testEventOnDelete() throws Exception
+    void testEventOnDelete() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
         watchDir.start();
@@ -127,7 +127,7 @@ public class WatchDir2Test {
 
     @Disabled
     @Test
-    public void testChangeDir() throws Exception
+    void testChangeDir() throws Exception
     {
         String dir = TEST_DIR + "dir" + File.separator;
 
@@ -171,7 +171,7 @@ public class WatchDir2Test {
 
     @Disabled
     @Test
-    public void testCreateChangeDelete() throws Exception {
+    void testCreateChangeDelete() throws Exception {
         watchDir.start();
         FileUtils.touch(new File(path.toString()));
         FileUtils.write(new File(path.toString()), "test");
