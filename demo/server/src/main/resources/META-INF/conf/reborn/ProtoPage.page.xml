@@ -90,7 +90,8 @@
                             <path-param name="id" value="{id}"/>
                         </show-modal>
                     </button>
-                    <button id="delete" label="${delete}" description="${delete}" icon="fa fa-trash" type="text">
+                    <button id="delete" label="${delete}" description="${delete}" icon="fa fa-trash" type="text"
+                            confirm-text="${client.delete.confirm}" confirm="true">
                         <invoke operation-id="delete" route="/clients/delete"/>
                     </button>
                 </toolbar>
