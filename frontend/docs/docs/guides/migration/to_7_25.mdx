@@ -1,0 +1,58 @@
+---
+title: Миграция с 7.24 на 7.25
+description: ""
+---
+
+## Изменения в XML API {#changes-xml-api}
+
+- Атрибуты `confirm`, `confirm-text`, `submit-label` у операций объектов упразднены.
+- Атрибуты `submit-operation-id`, `submit-message-on-success`, `submit-message-on-fail`, `submit-model`, `submit-label`,
+ `close-after-submit`, `redirect-target-after-submit`, `refresh-after-submit` у дейстивий открытия страниц и окон упразднены.
+- Атрибуты `submit-action-type`, `copy-datasource`, `copy-model`, `copy-field-id`, `target-datasource`, `target-model`,
+`target-field-id`, `copy-mode`, `target-page` у дейстивий `show-modal` и `open-drawer` упразднены.
+Вместо них необходимо использовать новую функционал - прокидывание тулбара на страницу.
+
+```xml title="Было"
+<show-modal page-id="personCard" submit-operation-id="update" submit-label="Сохранить"/>
+
+<show-modal page-id="personCard" submit-action-type="copy" copy-datasource="modal_ds" target-datasource="ds1"/>
+```
+
+```xml title="Стало"
+<show-modal page-id="personCard">
+    <actions>
+        <action id="saveAction">
+            <invoke operation-id="save"/>
+        </action>
+    </actions>
+    <toolbars>
+        <toolbar>
+            <button label="Сохранить">
+                <invoke operation-id="update"/>
+            </button>
+        </toolbar>
+    </toolbars>
+</show-modal>
+
+<show-modal page-id="personCard">
+    <toolbars>
+        <toolbar>
+            <button label="Копировать">
+                <copy copy-datasource="modal_ds" target-datasource="ds1"/>
+            </button>
+        </toolbar>
+    </toolbars>
+    <datasources>
+        <parent-datasource id="ds1"/>
+    </datasources>
+</show-modal>
+```
+
+## Изменения функциональности
+
+Изменилась логика формирования идентификатора виджета в `simple-page`. Раньше, если не указывали в xml он был равен `main`.
+Теперь идентификатор формируется также как и у `page` 'w' + индекс.
+
+:::note
+Если где-то в route вы использовали `main`, то необходимо проверить не является ли это сгенированный идентификатор виджета.
+:::

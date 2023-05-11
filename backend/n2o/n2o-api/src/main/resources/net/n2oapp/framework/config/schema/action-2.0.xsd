@@ -361,66 +361,6 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="copy-datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор источника данных открываемой страницы, из которого будет скопировано значение.
-                            По умолчанию: идентификатор источника данных родительского компонента
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-model" type="clientModel" default="resolve">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель открываемой страницы, из которой будет скопировано значение
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-field-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор поля открываемой страницы, из которого будет скопировано значение.
-                            По умолчанию: вся модель
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Источник данных текущей страницы, в который будут скопированы данные.
-                            По умолчанию: идентификатор источника данных родительского виджета
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-model" type="clientModel" default="resolve">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель текущей страницы, в которую будут скопированы данные
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-field-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор поля текущей страницы, в которое будут скопированы данные.
-                            По умолчанию: вся модель
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-page" type="refPageType" default="parent">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Страница, в источник данных которой будут скопированы данные
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-mode" type="mergeType" default="merge">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Тип слияния
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -496,88 +436,9 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="submit-action-type" type="submitActionType" default="invoke">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Действие при нажатии кнопки "Сохранить"
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор источника данных открываемой страницы, из которого будет скопировано значение.
-                            По умолчанию: идентификатор источника данных родительского компонента
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-model" type="clientModel" default="resolve">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель открываемой страницы, из которой будет скопировано значение
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-field-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор поля открываемой страницы, из которого будет скопировано значение.
-                            По умолчанию: вся модель
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Источник данных текущей страницы, в который будут скопированы данные.
-                            По умолчанию: идентификатор источника данных родительского виджета
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-model" type="clientModel" default="resolve">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель текущей страницы, в которую будут скопированы данные
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-field-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор поля текущей страницы, в которое будут скопированы данные.
-                            По умолчанию: вся модель
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-page" type="refPageType" default="parent">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Страница, в источник данных которой будут скопированы данные
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-mode" type="mergeType" default="merge">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Тип слияния
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-
-    <xs:simpleType name="submitActionType">
-        <xs:annotation>
-            <xs:documentation>
-                Действие при нажатии кнопки "Сохранить"
-            </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="invoke"/>
-            <xs:enumeration value="copy"/>
-        </xs:restriction>
-    </xs:simpleType>
 
     <xs:simpleType name="modalSize">
         <xs:annotation>
@@ -1522,30 +1383,6 @@
                 <xs:annotation>
                     <xs:documentation>
                         В текущем приложении
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="refPageType">
-        <xs:annotation>
-            <xs:documentation>
-                Тип используемой страницы
-            </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="this">
-                <xs:annotation>
-                    <xs:documentation>
-                        Текущая страница
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="parent">
-                <xs:annotation>
-                    <xs:documentation>
-                        Родительская страница
                     </xs:documentation>
                 </xs:annotation>
             </xs:enumeration>

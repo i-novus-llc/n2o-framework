@@ -126,6 +126,41 @@ description: ""
 
 ### Открытие страниц {#open_page_actions}
 
+## Проброс кнопок и действий в открываемые страницы {#open_window_toolbar}
+
+Кнопки и действия на странице можно переопределять в открывающих страницах. Это удобно когда необходимо использовать
+одну и ту же страницу, отличающуюся только кнопками и дейстивиями.
+
+```xml title="Проброс кнопок и действий в открываемые страницы"
+<show-modal page-id="personCard">
+    <actions>
+        <action id="saveAction">
+            <invoke operation-id="save"/>
+        </action>
+    </actions>
+    <toolbars>
+        <toolbar>
+            <button label="Сохранить">
+                <invoke operation-id="update"/>
+            </button>
+        </toolbar>
+    </toolbars>
+</show-modal>
+
+<show-modal page-id="personCard">
+    <toolbars>
+        <toolbar>
+            <button label="Копировать">
+                <copy copy-datasource="modal_ds" target-datasource="ds1"/>
+            </button>
+        </toolbar>
+    </toolbars>
+    <datasources>
+        <parent-datasource id="ds1"/>
+    </datasources>
+</show-modal>
+```
+
 ## Действие редактирования списка данных без обращения к серверу
 
 Одним из типовых вариантов использования списковых данных являются таблицы и мультифилдсеты.

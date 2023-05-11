@@ -499,8 +499,8 @@ n2o.api.action.print.base64 = false
 Действие открытия страницы
 
 |Наименование                 |Тип        |Описание                                                                                                                                                        |Значение по умолчанию |
-|-----------------------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
-|unsaved-data-prompt-on-close |true false |Предупредить о несохраненных данных на форме при закрытии страницы. Срабатывает только при генерации кнопки "Закрыть" через использование `submit-operation-id` |true                  |
+|-----------------------------|-----------|--------------------------------------------------------------------|----------------------|
+|unsaved-data-prompt-on-close |true false |Предупредить о несохраненных данных на форме при закрытии страницы. |true                  |
 
 **Тело**
 
@@ -515,8 +515,7 @@ n2o.api.action.print.base64 = false
 ```xml
 <open-page
        page-id="employee"
-       route="/open"
-       submit-operation-id="create">
+       route="/open">
     <params>
         <path-param>...</path-param>
         <query-param>...</query-param>
@@ -547,15 +546,6 @@ n2o.api.action.print.base64 = false
 |style                         |CSS свойство                                                             |Стиль модального окна                                                                       |                                                        |
 |backdrop                      |false true static                                                        |Наличие фона модального окна и закрытие по клику на фон:<br/>`false` - прозрачный фон, клик по фону не закрывает модальное окно<br/>`true` - темный фон, клик по фону закрывает модальное окно<br/>`static` - темный фон, клик по фону не закрывает модальное окно |static |
 |unsaved-data-prompt-on-close  |true false                                                               |Предупредить о несохраненных данных на форме при закрытии модального окна                   |true                                                    |
-|submit-action-type            |invoke copy                                                              |Действие при нажатии кнопки "Сохранить"                                                     |invoke                                                  |
-|copy-datasource               |Ссылка на [источник данных](../xml/datasource#datasources)               |Идентификатор источника данных открываемой страницы, из которого будет скопировано значение |Идентификатор источника данных родительского компонента |
-|copy-model                    |resolve edit filter multi datasource                                     |Модель открываемой страницы, из которой будет скопировано значение                          |resolve                                                 |
-|copy-field-id                 |Строка                                                                   |Идентификатор поля виджета открываемой страницы, данные которого будут копироваться         |Вся модель                                              |
-|target-datasource             |Ссылка на [источник данных](../xml/datasource#datasources)               |Источник данных текущей страницы, в который будут скопированы данные                        |Идентификатор источника данных родительского виджета    |
-|target-model                  |resolve edit filter multi datasource                                     |Модель текущей страницы, в которую будут скопированы данные                                 |resolve                                                 |
-|target-field-id               |Строка                                                                   |Идентификатор поля виджета текущей страницы, в которое будут скопированы данные             |Вся модель                                              |
-|target-page                   |parent this                                                              |Страница, в источник данных которой будут скопированы данные                                |parent                                                  |
-|copy-mode                     |merge replace add                                                        |Тип слияния данных:<br/>`merge` - за основу берется модель target, значения из source копируются с заменой<br/>`replace` - за основу берется модель source<br/>`add` - используется для массивов. За основу берется массив target, к нему добавляются все записи из source массива |merge |
 
 **Настройки**
 ```yaml
@@ -581,8 +571,7 @@ n2o.api.action.show_modal.backdrop = static
 
 ```xml
 <show-modal
-       page-id="employee"
-       submit-operation-id="create">
+       page-id="employee">
     <params>
         <path-param>...</path-param>
         <query-param>...</query-param>
@@ -615,15 +604,6 @@ n2o.api.action.show_modal.backdrop = static
 |placement                    |left top right bottom                                      |Позиция окна                                                                                |right                                                   |
 |fixed-footer                 |true false                                                 |Фиксирование подвала (footer)                                                               |false                                                   |
 |unsaved-data-prompt-on-close |true false                                                 |Предупредить о несохраненных данных на форме при закрытии drawer окна                       |true                                                    |
-|submit-action-type           |invoke copy                                                |Действие при нажатии кнопки "Сохранить"                                                     |invoke                                                  |
-|copy-datasource              |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных открываемой страницы, из которого будет скопировано значение |Идентификатор источника данных родительского компонента |
-|copy-model                   |resolve edit filter multi datasource                       |Модель открываемой страницы, из которой будет скопировано значение                          |resolve                                                 |
-|copy-field-id                |Строка                                                     |Идентификатор поля виджета открываемой страницы, данные которого будут копироваться         |Вся модель                                              |
-|target-datasource            |Ссылка на [источник данных](../xml/datasource#datasources) |Источник данных текущей страницы, в который будут скопированы данные                        |Идентификатор источника данных родительского виджета    |
-|target-model                 |resolve edit filter multi datasource                       |Модель текущей страницы, в которую будут скопированы данные                                 |resolve                                                 |
-|target-field-id              |Строка                                                     |Идентификатор поля виджета текущей страницы, в которое будут скопированы данные             |Вся модель                                              |
-|target-page                  |parent this                                                |Страница, в источник данных которой будут скопированы данные                                |parent                                                  |
-|copy-mode                    |merge replace add                                          |Тип слияния данных:<br/>`merge` - за основу берется модель target, значения из source копируются с заменой<br/>`replace` - за основу берется модель source<br/>`add` - используется для массивов. За основу берется массив target, к нему добавляются все записи из source массива |merge |
 
 **Настройки**
 ```yaml
@@ -655,8 +635,7 @@ n2o.api.action.open_drawer.fixed_footer = false
 
 ```xml
 <open-drawer
-       page-id="employee"
-       submit-operation-id="create">
+       page-id="employee">
     <params>
         <path-param>...</path-param>
         <query-param>...</query-param>
