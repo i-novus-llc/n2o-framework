@@ -1,12 +1,13 @@
 package net.n2oapp.routing.datasource;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.datasource.lookup.DataSourceLookup;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -21,7 +22,7 @@ public class JndiRoutingDataSourceTest {
         JndiRoutingDataSource jndiRoutingDataSource = new JndiRoutingDataSource();
         try {
             Connection connection = jndiRoutingDataSource.getConnection();
-            Assert.fail();
+            fail();
         } catch (IllegalStateException e) {
 
         }
@@ -37,12 +38,12 @@ public class JndiRoutingDataSourceTest {
         jndiRoutingDataSource.setDataSourceLookup(dataSourceLookup);
         jndiRoutingDataSource.setDefaultLookupKey("test");
         Connection connection1 = jndiRoutingDataSource.getConnection();
-        Assert.assertTrue(connection == connection1);
+        assertSame(connection, connection1);
 
 //        Test: determineTargetDataSource(): dataSource = resolveDataSourceByLookupKey(key), dataSource instanceof String
         jndiRoutingDataSource.addDataSource("test");
         Connection connection4 = jndiRoutingDataSource.getConnection();
-        Assert.assertTrue(connection == connection4);
+        assertSame(connection, connection4);
 
 //        Test: determineTargetDataSource(): dataSource = defaultTargetDataSource
         DataSource defaultTargetDataSource = mock(DataSource.class);
@@ -52,13 +53,13 @@ public class JndiRoutingDataSourceTest {
         jndiRoutingDataSource.setDefaultLookupKey("test");
         jndiRoutingDataSource.setDefaultTargetDataSource(defaultTargetDataSource);
         Connection connection2 = jndiRoutingDataSource.getConnection();
-        Assert.assertTrue(connection == connection2);
+        assertSame(connection, connection2);
 
 //        Test: determineTargetDataSource(): dataSource = defaultTargetDataSource, getConnection(String str1, String str2)
         Connection connectionWithParameters = mock(Connection.class);
         when(defaultTargetDataSource.getConnection("test", "test")).thenReturn(connectionWithParameters);
         Connection connection3 = jndiRoutingDataSource.getConnection("test", "test");
-        Assert.assertTrue(connectionWithParameters == connection3);
+        assertSame(connectionWithParameters, connection3);
     }
 
     @Test
@@ -72,6 +73,6 @@ public class JndiRoutingDataSourceTest {
         DataSource dataSource1 = dataSourceLookup.getDataSource("test");
         jndiRoutingDataSource.addDataSource("test");
         DataSource dataSource2 = dataSourceLookup.getDataSource("test");
-        Assert.assertTrue(dataSource1 == dataSource2);
+        assertSame(dataSource1, dataSource2);
     }
 }
