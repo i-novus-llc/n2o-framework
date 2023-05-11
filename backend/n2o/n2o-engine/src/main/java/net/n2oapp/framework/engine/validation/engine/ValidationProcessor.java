@@ -1,6 +1,5 @@
 package net.n2oapp.framework.engine.validation.engine;
 
-import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.exception.N2oValidationException;
@@ -11,7 +10,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.engine.validation.engine.info.ObjectValidationInfo;
 import net.n2oapp.framework.engine.validation.engine.info.QueryValidationInfo;
 import net.n2oapp.framework.engine.validation.engine.info.ValidationInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +19,6 @@ public class ValidationProcessor {
 
     private InvocationProcessor invocationProcessor;
     private DomainProcessor domainProcessor;
-
-    @Autowired
-    private MetadataEnvironment env;
 
     public ValidationProcessor(InvocationProcessor invocationProcessor) {
         this.invocationProcessor = invocationProcessor;
@@ -87,10 +82,9 @@ public class ValidationProcessor {
         String userMessage = null;
         N2oDialog dialog = null;
         for (FailInfo fail : fails) {
-            String failMessage = fail.getMessage() != null ? fail.getMessage() : env.getMessageSource().getMessage("n2o.engine.validation.fail.message");
-            messages.add(new ValidationMessage(failMessage, fail.getMessageTitle(), fail.getFieldId(), fail.getValidationId()));
+            messages.add(new ValidationMessage(fail.getMessage(), fail.getMessageTitle(), fail.getFieldId(), fail.getValidationId()));
             if (fail.getFieldId() == null) {
-                userMessage = failMessage;
+                userMessage = fail.getMessage();
             }
             if (fail.getDialog() != null)
                 dialog = fail.getDialog();
