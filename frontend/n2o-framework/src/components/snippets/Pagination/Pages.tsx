@@ -15,9 +15,10 @@ export function Pages(props: IPages) {
         showLast,
         hasNext,
         loading,
+        visible,
     } = props
 
-    if (!pages.length) {
+    if (!pages.length || !visible) {
         return null
     }
 
