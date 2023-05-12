@@ -396,6 +396,9 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                 case "in":
                     data = inFilterData(field, pattern, data);
                     break;
+                case "notIn":
+                    data = notInFilterData(field, pattern, data);
+                    break;
                 case "more":
                     data = moreFilterData(field, pattern, data);
                     break;
@@ -480,7 +483,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                         if (child != null) {
                             if (!m.containsKey(parent))
                                 return false;
-
                             if (m.get(parent) instanceof NestedList) {
                                 return ((NestedList)m.get(parent)).stream().anyMatch(c ->
                                     ((DataSet) c).containsKey(child) && patterns.contains(((DataSet) c).get(child))
@@ -499,6 +501,38 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                                 return true;
                         }
                         return false;
+                    })
+                    .collect(Collectors.toList());
+        }
+        return data;
+    }
+
+    private List<DataSet> notInFilterData(String field, Object pattern, List<DataSet> data) {
+        List patterns = pattern instanceof List ? (List) pattern : Arrays.asList(pattern);
+        if (patterns != null) {
+            String[] splittedField = field.split("\\.");
+            String parent = splittedField[0];
+            String child = splittedField.length > 1 ? splittedField[1] : null;
+            data = data
+                    .stream()
+                    .filter(m -> {
+                        if (child != null) {
+                            if (!m.containsKey(parent))
+                                return false;
+                            if (m.get(parent) instanceof NestedList) {
+                                return ((NestedList)m.get(parent)).stream().anyMatch(c ->
+                                        ((DataSet) c).containsKey(child) && !patterns.contains(((DataSet) c).get(child))
+                                );
+                            } else {
+                                return m.containsKey(field) && !patterns.contains(m.get(field));
+                            }
+                        }
+                        if (m.get(field) instanceof Number) {
+                            List<Long> longPatterns = new ArrayList<>();
+                            patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
+                            return !longPatterns.contains(((Number) m.get(field)).longValue());
+                        }
+                        return !patterns.contains(m.get(field).toString());
                     })
                     .collect(Collectors.toList());
         }

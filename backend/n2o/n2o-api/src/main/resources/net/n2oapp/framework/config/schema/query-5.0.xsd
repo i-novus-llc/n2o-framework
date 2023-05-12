@@ -257,6 +257,7 @@
             <xs:element name="less" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="like" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="in" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="notIn" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <!-- only for Test provider -->
             <xs:element name="contains" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="isNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
@@ -264,7 +265,6 @@
             <xs:element name="eqOrIsNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <!-- only for MongoDB provider -->
             <xs:element name="likeStart" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="notIn" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
