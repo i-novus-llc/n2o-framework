@@ -37,10 +37,10 @@ import {
 } from './store'
 import { flowDefaultModels } from './sagas/defaultModels'
 
-function* setDefaultModels(models) {
+function* setDefaultModels(models, pageId) {
     yield race([
         call(flowDefaultModels, models),
-        take(resetPage.type),
+        take(({ type, payload }) => (type === resetPage.type && payload === pageId)),
     ])
 }
 
@@ -89,7 +89,7 @@ export function* getMetadata(apiProvider, action) {
         yield put(setStatus(metadata.id, 200))
         yield put(metadataSuccess(metadata.id, metadata))
 
-        yield fork(setDefaultModels, metadata.models)
+        yield fork(setDefaultModels, metadata.models, metadata.id)
     } catch (err) {
         if (err && err.status) {
             yield put(setStatus(pageId, err.status))
