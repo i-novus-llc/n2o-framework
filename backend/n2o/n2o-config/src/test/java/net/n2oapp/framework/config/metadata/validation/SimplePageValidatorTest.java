@@ -6,18 +6,15 @@ import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.SimplePageValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SimplePageValidatorTest extends SourceValidationTestBase {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -30,9 +27,11 @@ public class SimplePageValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    public void testMissingWidget() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Не задан виджет простой страницы");
-        validate("net/n2oapp/framework/config/metadata/validation/page/simple/testMissingWidget.page.xml");
+    void testMissingWidget() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () ->validate("net/n2oapp/framework/config/metadata/validation/page/simple/testMissingWidget.page.xml"),
+                "Не задан виджет простой страницы"
+        );
     }
 }

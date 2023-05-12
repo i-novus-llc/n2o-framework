@@ -16,8 +16,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.nullValue;
 
 public class ToolbarCellCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -40,7 +40,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testToolbarCell() {
+    void testToolbarCell() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testToolbarCell.page.xml")
                 .get(new PageContext("testToolbarCell"));
 
@@ -80,7 +80,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testExternalDatasources() {
+    void testExternalDatasources() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/mapping/testToolbarCellExternalDatasources.page.xml")
                 .get(new PageContext("testToolbarCellExternalDatasources"));
 

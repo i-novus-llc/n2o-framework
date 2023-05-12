@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.register;
 
 import net.n2oapp.framework.config.register.storage.Node;
 import net.n2oapp.framework.config.util.FileSystemUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Set;
@@ -18,7 +18,7 @@ import static net.n2oapp.framework.config.util.FileSystemUtil.getNodesByLocation
 public class FileSystemUtilTest {
 
     @Test
-    public void testGetNodesByLocationPattern() throws Exception {
+    void testGetNodesByLocationPattern() {
         String xmlPath = "classpath*:net/n2oapp/framework/config/register/file/**/*.xml";
         String groovyPath = "classpath*:net/n2oapp/framework/config/register/file/**/*.groovy";
         Set<String> tmp;
@@ -50,7 +50,7 @@ public class FileSystemUtilTest {
     }
 
     @Test
-    public void testRetrieveContent() throws Exception {
+    void testRetrieveContent() {
         String path = "classpath:net/n2oapp/framework/config/register/file/a/b/c/test.xml";
         assert FileSystemUtil.getContentByUri(path).equals("<xml/>");
 

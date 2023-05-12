@@ -4,10 +4,10 @@ import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.test.N2oTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class CheckFieldIdTest extends N2oTestBase {
 
@@ -15,7 +15,7 @@ public class CheckFieldIdTest extends N2oTestBase {
     N2oInputText field;
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
         processor = new N2oCompileProcessor(builder.getEnvironment());
@@ -23,7 +23,7 @@ public class CheckFieldIdTest extends N2oTestBase {
     }
 
     @Test
-    public void testFieldId() {
+    void testFieldId() {
         checkId(null);
         checkId("_");
         checkId("a");

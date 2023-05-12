@@ -11,15 +11,15 @@ import net.n2oapp.framework.config.register.ConfigRepository;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 
 /**
  * Тестирование поиска метаданных по url
@@ -28,8 +28,8 @@ public class RouterTest {
 
     private N2oApplicationBuilder builder;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         N2oEnvironment env = new N2oEnvironment();
         env.setSystemProperties(new SimplePropertyResolver(new Properties()));
         env.setNamespacePersisterFactory(new PersisterFactoryByMap());
@@ -38,7 +38,7 @@ public class RouterTest {
     }
 
     @Test
-    public void get_single() {
+    void get_single() {
         N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
         env.getRouteRegister().addRoute("/", new MockCompileContext<>("/", "p", null, Page.class));
         env.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, Page.class));
@@ -54,7 +54,7 @@ public class RouterTest {
     }
 
     @Test
-    public void get_coincidence() {
+    void get_coincidence() {
         N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
         env.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, Page.class));
         env.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, CompiledQuery.class));
@@ -70,7 +70,7 @@ public class RouterTest {
     }
 
     @Test
-    public void get_similar() {
+    void get_similar() {
         N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
         env.getRouteRegister().addRoute("/p/:id", new MockCompileContext<>("/p/:id", "p", null, Page.class));
         env.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, Page.class));
@@ -86,7 +86,7 @@ public class RouterTest {
     }
 
     @Test
-    public void get_repair() {
+    void get_repair() {
         N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
         env.getRouteRegister().addRoute("/", new MockCompileContext<>("/", "p", null, Page.class));
         MockBindPipeline pipeline = new MockBindPipeline(env);
@@ -106,7 +106,7 @@ public class RouterTest {
     }
 
     @Test
-    public void get_repair2() {
+    void get_repair2() {
         N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
         env.getRouteRegister().addRoute("/", new MockCompileContext<>("/", "p", null, Page.class));
         MockBindPipeline pipeline = new MockBindPipeline(env);
@@ -141,7 +141,7 @@ public class RouterTest {
     }
 
     @Test
-    public void get_repair3() {
+    void get_repair3() {
         N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
         env.getRouteRegister().addRoute("/", new MockCompileContext<>("/", "p", null, Page.class));
         MockBindPipeline pipeline = new MockBindPipeline(env);
@@ -161,7 +161,7 @@ public class RouterTest {
     }
 
     @Test
-    public void get_repair4() {
+    void get_repair4() {
         N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
         env.getRouteRegister().addRoute("/p", new MockCompileContext<>("/p", "p", null, Page.class));
         MockBindPipeline pipeline = new MockBindPipeline(env);
@@ -177,7 +177,7 @@ public class RouterTest {
     }
 
     @Test
-    public void get_repairDynamic() {
+    void get_repairDynamic() {
         N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
         env.getRouteRegister().addRoute("/", new MockCompileContext<>("/p", "p", null, Page.class));
         MockBindPipeline pipeline = new MockBindPipeline(env);
@@ -212,7 +212,7 @@ public class RouterTest {
     }
 
     @Test
-    public void get_root_application() {
+    void get_root_application() {
         N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
         ((SimplePropertyResolver)env.getSystemProperties()).setProperty("n2o.application.id", "header");
         MockBindPipeline pipeline = new MockBindPipeline(env);
@@ -232,7 +232,7 @@ public class RouterTest {
     }
 
     @Test
-    public void get_root_homepage() {
+    void get_root_homepage() {
         N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
         ((SimplePropertyResolver)env.getSystemProperties()).setProperty("n2o.application.id", "");
         ((SimplePropertyResolver)env.getSystemProperties()).setProperty("n2o.homepage.id", "index");
@@ -253,7 +253,7 @@ public class RouterTest {
     }
 
     @Test
-    public void route_repository() {
+    void route_repository() {
         N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
         TestRouteRepository repository = new TestRouteRepository();
         env.setRouteRegister(new N2oRouteRegister(repository));
