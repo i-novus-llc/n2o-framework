@@ -1,7 +1,7 @@
 package net.n2oapp.framework.engine;
 
-import org.junit.Test;
 import net.n2oapp.criteria.dataset.NestedMap;
+import org.junit.jupiter.api.Test;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -18,7 +18,7 @@ public class ScriptableNestedMapTest {
     private ScriptEngineManager engineMgr = new ScriptEngineManager();
 
     @Test
-    public void testGetMap() throws Exception {
+    void testGetMap() throws Exception {
         ScriptEngine scriptEngine = engineMgr.getEngineByName("JavaScript");
         NestedMap map = new NestedMap();
         map.put("b.c", 1);
@@ -29,7 +29,7 @@ public class ScriptableNestedMapTest {
     }
 
     @Test
-    public void testGetList() throws Exception {
+    void testGetList() throws Exception {
         ScriptEngine scriptEngine = engineMgr.getEngineByName("JavaScript");
         NestedMap map = new NestedMap();
         map.put("list[0]", 1);
@@ -46,7 +46,7 @@ public class ScriptableNestedMapTest {
     }
 
     @Test
-    public void testPutGetList() throws Exception {
+    void testPutGetList() throws Exception {
         ScriptEngine scriptEngine = engineMgr.getEngineByName("JavaScript");
         scriptEngine.put("list", Arrays.asList(1, 2, 10).toArray());
         Object val = scriptEngine.eval("list[0]");
@@ -58,7 +58,7 @@ public class ScriptableNestedMapTest {
     }
 
     @Test
-    public void testUndefined() throws Exception {
+    void testUndefined() throws Exception {
         ScriptEngine scriptEngine = engineMgr.getEngineByName("JavaScript");
         NestedMap map = new NestedMap();
         scriptEngine.put("a", map);

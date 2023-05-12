@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.data;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.Interval;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -23,7 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class DomainProcessorTest {
 
     @Test
-    public void testNullEmpty() throws Exception {
+    void testNullEmpty() {
         DomainProcessor proc = new DomainProcessor();
         String nullDomain = null;
         Object val = proc.deserialize(null, nullDomain);
@@ -51,7 +51,7 @@ public class DomainProcessorTest {
     }
 
     @Test
-    public void testDynamicValue() throws Exception {
+    void testDynamicValue() throws Exception {
         DomainProcessor proc = new DomainProcessor();
         assert "{id}".equals(proc.deserialize("{id}", "integer"));
         assert "`1 == 1`".equals(proc.deserialize("`1 == 1`", "boolean"));
@@ -59,7 +59,7 @@ public class DomainProcessorTest {
     }
 
     @Test
-    public void testAutoCast() throws Exception {
+    void testAutoCast() throws Exception {
         DomainProcessor proc = new DomainProcessor();
         assert proc.deserialize("abc123") instanceof String;
         assert proc.deserialize(100) instanceof Integer;
@@ -71,7 +71,7 @@ public class DomainProcessorTest {
     }
 
     @Test
-    public void testEscapeString() {
+    void testEscapeString() {
         DomainProcessor proc = new DomainProcessor();
         assertThat(proc.deserialize("'true'"), is("true"));
         assertThat(proc.deserialize("''true''"), is("'true'"));
@@ -82,7 +82,7 @@ public class DomainProcessorTest {
     }
 
     @Test
-    public void testSimpleTyping() {
+    void testSimpleTyping() {
         DomainProcessor proc = DomainProcessor.getInstance();
         assert proc.deserialize("true", "Boolean") instanceof Boolean;
         assert proc.deserialize("1", "Byte") instanceof Byte;
@@ -108,7 +108,7 @@ public class DomainProcessorTest {
     }
 
     @Test
-    public void testArrays() throws Exception {
+    void testArrays() throws Exception {
         DomainProcessor proc = new DomainProcessor();
 
         //список чисел с доменом
@@ -174,7 +174,7 @@ public class DomainProcessorTest {
     }
 
     @Test
-    public void testIntervals() throws Exception {
+    void testIntervals() throws Exception {
         DomainProcessor proc = new DomainProcessor();
         Date date1 = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("01.02.2014 11:11");
         Date date2 = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("02.02.2014 11:11");
@@ -216,7 +216,7 @@ public class DomainProcessorTest {
     }
 
     @Test
-    public void testDateDeserialize() {
+    void testDateDeserialize() {
         DomainProcessor proc = new DomainProcessor();
         assertThat(proc.deserialize("2019-12-15T23:50:40", "date"), instanceOf(Date.class));
         assertThat(proc.deserialize("2019-12-01", "localdate"), instanceOf(LocalDate.class));
@@ -229,7 +229,7 @@ public class DomainProcessorTest {
     }
 
     @Test
-    public void serialize() throws ParseException {
+    void serialize() throws ParseException {
         DomainProcessor proc = new DomainProcessor();
         assert "test".equals(proc.serialize("test"));
         assert "true".equals(proc.serialize(true));

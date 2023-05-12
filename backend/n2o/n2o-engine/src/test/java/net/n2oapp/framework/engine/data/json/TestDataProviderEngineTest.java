@@ -4,15 +4,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -22,41 +24,39 @@ import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider
 import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyType.string;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Тест {@link TestDataProviderEngine}
  */
 public class TestDataProviderEngineTest {
-
-    @Rule
-    public TemporaryFolder testFolder = new TemporaryFolder();
-
+    
+    @TempDir
+    public Path testFolder;
     private File testFile;
     private File emptyFile;
 
-
-    @Before
-    public void prepareJsonFile() throws IOException {
-        testFile = testFolder.newFile("test.json");
+    @BeforeEach
+    void prepareJsonFile() throws IOException {
+        testFile = Files.createFile(testFolder.resolve("test.json")).toFile();
         FileWriter fileWriter = new FileWriter(testFile);
         fileWriter.write("[" +
                 "{\"id\":1, \"name\":\"test1\", \"type\":\"1\"}" +
                 "]");
         fileWriter.close();
 
-        emptyFile = testFolder.newFile("test2.json");
+        emptyFile = Files.createFile(testFolder.resolve("test2.json")).toFile();
         fileWriter = new FileWriter(emptyFile);
         fileWriter.write("[]");
         fileWriter.close();
     }
 
     @Test
-    public void testInitFromDisk() {
+    void testInitFromDisk() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
-        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        engine.setPathOnDisk(testFolder.toAbsolutePath() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile(testFile.getName());
@@ -72,10 +72,10 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testCreateOnFile() throws IOException {
+    void testCreateOnFile() throws IOException {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
-        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        engine.setPathOnDisk(testFolder.toAbsolutePath() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile(testFile.getName());
@@ -107,10 +107,10 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testCreateOnReadonlyFile() throws IOException {
+    void testCreateOnReadonlyFile() throws IOException {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
-        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        engine.setPathOnDisk(testFolder.toAbsolutePath() + "/");
         engine.setReadonly(true);
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -143,10 +143,10 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testUpdateOnFile() throws IOException {
+    void testUpdateOnFile() throws IOException {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
-        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        engine.setPathOnDisk(testFolder.toAbsolutePath() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile(testFile.getName());
@@ -175,10 +175,10 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testUpdateFieldOnFile() throws IOException {
+    void testUpdateFieldOnFile() throws IOException {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
-        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        engine.setPathOnDisk(testFolder.toAbsolutePath() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile(testFile.getName());
@@ -207,10 +207,10 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testUpdateManyOnFile() throws IOException {
+    void testUpdateManyOnFile() throws IOException {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
-        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        engine.setPathOnDisk(testFolder.toAbsolutePath() + "/");
         //Добавление новых данных
         FileWriter fileWriter = new FileWriter(testFile);
         fileWriter.write("[" +
@@ -244,10 +244,10 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testDeleteOnFile() throws IOException {
+    void testDeleteOnFile() throws IOException {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
-        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        engine.setPathOnDisk(testFolder.toAbsolutePath() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile(testFile.getName());
@@ -271,10 +271,10 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testDeleteManyOnFile() throws IOException {
+    void testDeleteManyOnFile() throws IOException {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
-        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        engine.setPathOnDisk(testFolder.toAbsolutePath() + "/");
         //Добавление новых данных
         FileWriter fileWriter = new FileWriter(testFile);
         fileWriter.write("[" +
@@ -305,10 +305,10 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testFindAllAfterChangeInFile() throws IOException {
+    void testFindAllAfterChangeInFile() throws IOException {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
-        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        engine.setPathOnDisk(testFolder.toAbsolutePath() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile(testFile.getName());
@@ -340,10 +340,10 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testFindOneAfterChangeInFile() throws IOException {
+    void testFindOneAfterChangeInFile() throws IOException {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
-        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        engine.setPathOnDisk(testFolder.toAbsolutePath() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile(testFile.getName());
@@ -377,10 +377,10 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testCountAfterChangeInFile() throws IOException {
+    void testCountAfterChangeInFile() throws IOException {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
-        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        engine.setPathOnDisk(testFolder.toAbsolutePath() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile(testFile.getName());
@@ -412,7 +412,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testFindAllOperation() {
+    void testFindAllOperation() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -436,7 +436,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testFindOneOperation() {
+    void testFindOneOperation() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -455,7 +455,7 @@ public class TestDataProviderEngineTest {
      * Проверка, что при пустом фильтре в findOne будет по умолчанию использоваться :eq
      */
     @Test
-    public void testFindOneWithoutFilterOperation() {
+    void testFindOneWithoutFilterOperation() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -471,7 +471,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testCountQuery() {
+    void testCountQuery() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -493,7 +493,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testOneSizeQuery() {
+    void testOneSizeQuery() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -517,7 +517,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testPagination() {
+    void testPagination() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -541,7 +541,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testSorting() {
+    void testSorting() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -570,7 +570,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testFilters() {
+    void testFilters() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -703,7 +703,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testFiltersLongValues() {
+    void testFiltersLongValues() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -769,7 +769,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testEchoOperation() {
+    void testEchoOperation() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setOperation(echo);
@@ -783,7 +783,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testCreateWithNumericPK() {
+    void testCreateWithNumericPK() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -823,7 +823,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testUpdateWithNumericPK() {
+    void testUpdateWithNumericPK() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -873,7 +873,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testUpdateFieldWithNumericPK() {
+    void testUpdateFieldWithNumericPK() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -904,7 +904,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testDeleteWithNumericPK() {
+    void testDeleteWithNumericPK() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -937,7 +937,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testCreateWithStringPK() {
+    void testCreateWithStringPK() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -979,7 +979,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testUpdateWithStringPK() {
+    void testUpdateWithStringPK() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -1031,7 +1031,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testUpdateManyWithStringPK() {
+    void testUpdateManyWithStringPK() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -1074,7 +1074,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testUpdateFieldWithStringPK() {
+    void testUpdateFieldWithStringPK() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -1107,7 +1107,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testDeleteWithStringPK() {
+    void testDeleteWithStringPK() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -1141,7 +1141,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testDeleteManyWithStringPK() {
+    void testDeleteManyWithStringPK() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
@@ -1174,10 +1174,10 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testCreateOnEmptyFile() throws IOException {
+    void testCreateOnEmptyFile() throws IOException {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
-        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        engine.setPathOnDisk(testFolder.toAbsolutePath() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile(emptyFile.getName());
@@ -1203,8 +1203,4 @@ public class TestDataProviderEngineTest {
         assertThat(result.get(0).get("name"), is("test10"));
         assertThat(result.get(0).get("type"), is("10"));
     }
-
-
-
-
 }
