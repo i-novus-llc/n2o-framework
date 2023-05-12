@@ -469,7 +469,7 @@ const formSlice = createSlice({
                 const { names } = action.payload
 
                 names.forEach((name) => {
-                    const field = state.registeredFields[name]
+                    const field = get(state, `registeredFields.${name}`)
 
                     if (!field) { return warnNonExistent(name, 'disabled') }
 

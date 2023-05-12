@@ -63,13 +63,14 @@ export default (Field) => {
                 registerFieldExtra,
                 parentIndex,
                 validation,
+                enabled,
             } = this.props
 
             if (!isInit) {
                 registerFieldExtra(form, name, {
                     visible: visibleToRegister,
                     visible_field: visibleToRegister,
-                    disabled: disabledToRegister,
+                    disabled: disabledToRegister && enabled === false,
                     disabled_field: disabledToRegister,
                     parentIndex,
                     dependency: this.modifyDependency(dependency, parentIndex),
@@ -224,19 +225,25 @@ export default (Field) => {
         validation: PropTypes.any,
         control: PropTypes.object,
         action: PropTypes.object,
+        enabled: PropTypes.bool,
     }
 
     const mapStateToProps = (state, { modelPrefix, visible: propsVisible, ...ownProps }) => {
         const { form } = ownProps.meta
         const { name } = ownProps.input
+        const { multiSetDisabled } = ownProps
 
         const visibleFromRedux = isVisibleSelector(form, name)(state)
         const visible = visibleFromRedux === undefined ? propsVisible : visibleFromRedux
 
+        const disabled = multiSetDisabled
+            ? multiSetDisabled || isDisabledSelector(form, name)(state)
+            : isDisabledSelector(form, name)(state)
+
         return {
             isInit: isInitSelector(form, name)(state),
             visible,
-            disabled: isDisabledSelector(form, name)(state),
+            disabled,
             message: messageSelector(form, name, modelPrefix)(state),
             required: requiredSelector(form, name)(state),
             model: getFormValues(form)(state),

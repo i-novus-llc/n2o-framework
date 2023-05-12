@@ -30,6 +30,7 @@ function FieldsetColComponent({
     activeField,
     onChange,
     onBlur,
+    multiSetDisabled,
 }) {
     if (!colVisible) { return null }
 
@@ -59,6 +60,7 @@ function FieldsetColComponent({
                                 active={activeField === field.id}
                                 onChange={onChange}
                                 onBlur={onBlur}
+                                multiSetDisabled={multiSetDisabled}
                                 {...field}
                             />
                         )
@@ -82,6 +84,7 @@ function FieldsetColComponent({
                                 activeModel={activeModel}
                                 onChange={onChange}
                                 onBlur={onBlur}
+                                multiSetDisabled={multiSetDisabled}
                                 {...rest}
                             />
                         )
@@ -133,6 +136,7 @@ FieldsetColComponent.propTypes = {
     activeField: PropTypes.string,
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
+    multiSetDisabled: PropTypes.bool,
 }
 
 const FieldsetCol = enhance(FieldsetColComponent)
