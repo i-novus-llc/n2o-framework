@@ -642,6 +642,21 @@ public class TestDataProviderEngineTest {
         assertThat(result.size(), is(1));
         assertThat(result.get(0).get("name"), is("Денис"));
 
+        inParams.put("filters", Arrays.asList("id :notIn :id"));
+        inParams.put("id", Arrays.asList(999, 5607628, 5607628));
+        //Фильтр по id "notIn"
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(10));
+        assertThat(result.get(0).get("id"), is(1L));
+        assertThat(result.get(1).get("id"), is(5607627L));
+        assertThat(result.get(2).get("id"), is(5607629L));
+        inParams.put("filters", Arrays.asList("name :notIn :name"));
+        inParams.put("name", "Мария");
+        //Фильтр по name "notIn" (проверка одиночного значения)
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(10));
+        assertThat(result.get(0).get("name"), is("Test20121026"));
+
         inParams.put("filters", Arrays.asList("groups.id :in :groups.id"));
         inParams.put("groups.id", Arrays.asList(12));
         //Фильтр по паттерну *.* "in"
