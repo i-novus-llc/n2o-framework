@@ -1,25 +1,32 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" route="/client">
-    <form query-id="ProtoClient" name="${clients.card}">
-        <fields>
-            <row>
-                <input-text label="${surname}" id="surname" required="true" placeholder="${enter.value}"/>
-                <input-text label="${name}" id="name" required="true"/>
-                <input-text label="${patronymic}" id="patrName" default-value="Тест"/>
-            </row>
-            <row>
-                <col size="5">
-                    <radio-group id="gender" label="${gender}" required="true"
-                            query-id="ProtoGender" label-field-id="name"/>
-                </col>
-                <col size="5">
-                    <date-time id="birthday" label="${bdate}" date-format="DD.MM.YYYY"/>
-                </col>
-                <checkbox id="vip">
-                </checkbox>
-            </row>
-        </fields>
-        <pre-filters>
-            <eq field-id="id" param="id"/>
-        </pre-filters>
-    </form>
-</simple-page>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" route="/client">
+    <datasources>
+        <datasource id="protoClient" query-id="ProtoClient">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+        </datasource>
+        <parent-datasource id="clientsDs"/>
+    </datasources>
+    <regions>
+        <form name="${clients.card}">
+            <fields>
+                <row>
+                    <input-text label="${surname}" id="surname" required="true" placeholder="${enter.value}"/>
+                    <input-text label="${name}" id="name" required="true"/>
+                    <input-text label="${patronymic}" id="patrName" default-value="Тест"/>
+                </row>
+                <row>
+                    <col size="5">
+                        <radio-group id="gender" label="${gender}" required="true"
+                                     query-id="ProtoGender" label-field-id="name"/>
+                    </col>
+                    <col size="5">
+                        <date-time id="birthday" label="${bdate}" date-format="DD.MM.YYYY"/>
+                    </col>
+                    <checkbox id="vip">
+                    </checkbox>
+                </row>
+            </fields>
+        </form>
+    </regions>
+</page>

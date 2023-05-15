@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -39,32 +40,29 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"),
                 new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.object.xml"),
-                new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.page.xml"))
+                new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.page.xml"),
+                new CompileInfo("net/n2oapp/framework/access/metadata/transform/testOpenPageTransformerModal.page.xml"))
                 .packs(new N2oAllPagesPack(), new AccessSchemaPack(), new N2oObjectsPack(), new N2oDataProvidersPack())
                 .transformers(new ToolbarAccessTransformer(), new OpenPageAccessTransformer());
     }
 
     @Test
     public void testOpenPageTransform() {
-        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testShowModal");
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testOpenPage");
 
-        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testShowModal.access.xml",
+        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testOpenPage.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testOpenPageAccessTransformer.page.xml");
 
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new PageContext("testOpenPageAccessTransformer"));
 
-        Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
-                .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+        Map<String, Security.SecurityObject> securityMap = ((Security) page.getToolbar().get("bottomRight")
+                .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap();
+        Security.SecurityObject securityObject = securityMap.get("url");
         assertThat(securityObject.getPermissions().size(), is(1));
         assertTrue(securityObject.getPermissions().contains("permission"));
-        assertThat(securityObject.getRoles().size(), is(1));
-        assertTrue(securityObject.getRoles().contains("admin"));
-        assertThat(securityObject.getUsernames().size(), is(1));
-        assertTrue(securityObject.getUsernames().contains("user"));
 
-        securityObject = ((Security) page.getToolbar().get("bottomRight")
-                .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page");
+        securityObject = securityMap.get("page");
         assertThat(securityObject.getUsernames(), nullValue());
         assertThat(securityObject.getPermissions(), nullValue());
         assertThat(securityObject.getRoles().size(), is(1));
@@ -72,10 +70,7 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
 
         List<AbstractButton> buttons = ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().get("topLeft")
                 .get(0).getButtons();
-        securityObject = (((Security) buttons.get(0).getProperties().get(SECURITY_PROP_NAME))).getSecurityMap().get("object");
-        assertThat(securityObject.getPermissions().size(), is(2));
-        assertTrue(securityObject.getPermissions().contains("permission"));
-        assertTrue(securityObject.getPermissions().contains("permission2"));
+        securityObject = (((Security) buttons.get(0).getProperties().get(SECURITY_PROP_NAME))).getSecurityMap().get("url");
         assertThat(securityObject.getRoles().size(), is(1));
         assertTrue(securityObject.getRoles().contains("role"));
         assertThat(securityObject.getUsernames(), nullValue());
@@ -91,64 +86,6 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObject.getRoles(), nullValue());
         assertThat(securityObject.getPermissions().size(), is(1));
         assertTrue(securityObject.getPermissions().contains("permission2"));
-    }
-
-    @Test
-    public void testOpenPageTransformV2() {
-        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testShowModalV2");
-
-        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testShowModalV2.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testOpenPageAccessTransformer.page.xml");
-
-        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testOpenPageAccessTransformer"));
-
-        Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
-                .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        assertThat(securityObject.getPermissions().size(), is(1));
-        assertTrue(securityObject.getPermissions().contains("permission"));
-        assertThat(securityObject.getRoles().size(), is(1));
-        assertTrue(securityObject.getRoles().contains("admin"));
-        assertThat(securityObject.getUsernames().size(), is(1));
-        assertTrue(securityObject.getUsernames().contains("user"));
-        assertThat(securityObject.getAnonymous(), nullValue());
-
-        securityObject = ((Security) page.getToolbar().get("bottomRight")
-                .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page");
-        assertThat(securityObject.getUsernames(), nullValue());
-        assertThat(securityObject.getPermissions(), nullValue());
-        assertThat(securityObject.getRoles().size(), is(1));
-        assertTrue(securityObject.getRoles().contains("admin"));
-        assertThat(securityObject.getAnonymous(), nullValue());
-
-        List<AbstractButton> buttons = ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
-                .getToolbar().get("topLeft").get(0).getButtons();
-        securityObject = (((Security) buttons.get(0).getProperties().get(SECURITY_PROP_NAME))).getSecurityMap().get("object");
-        assertThat(securityObject.getPermissions().size(), is(2));
-        assertTrue(securityObject.getPermissions().contains("permission"));
-        assertTrue(securityObject.getPermissions().contains("permission2"));
-        assertThat(securityObject.getRoles().size(), is(1));
-        assertTrue(securityObject.getRoles().contains("role"));
-        assertThat(securityObject.getUsernames(), nullValue());
-        assertTrue(securityObject.getAnonymous());
-
-        securityObject = ((Security) buttons.get(1).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        assertTrue(securityObject.getPermissions().contains("permission"));
-        assertTrue(securityObject.getRoles().contains("admin"));
-        assertTrue(securityObject.getUsernames().contains("user"));
-        assertThat(securityObject.getAnonymous(), nullValue());
-
-        securityObject = ((Security) buttons.get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page");
-        assertThat(securityObject.getUsernames(), nullValue());
-        assertThat(securityObject.getPermissions(), nullValue());
-        assertThat(securityObject.getRoles().size(), is(1));
-        assertTrue(securityObject.getRoles().contains("admin"));
-        assertThat(securityObject.getAnonymous(), nullValue());
-
-        securityObject = ((Security) buttons.get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url");
-        assertThat(securityObject.getUsernames(), nullValue());
-        assertThat(securityObject.getRoles(), nullValue());
-        assertThat(securityObject.getPermissions(), nullValue());
         assertTrue(securityObject.getAnonymous());
     }
 }

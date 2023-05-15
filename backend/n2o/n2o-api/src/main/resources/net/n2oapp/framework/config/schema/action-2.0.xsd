@@ -125,13 +125,6 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="object-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор объекта, содержащий выполняемую операцию
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="route" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>

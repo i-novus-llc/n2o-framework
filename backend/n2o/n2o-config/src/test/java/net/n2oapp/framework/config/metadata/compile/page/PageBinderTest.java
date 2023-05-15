@@ -215,7 +215,6 @@ public class PageBinderTest extends SourceCompileTestBase {
     public void refModelBinderTest() {
         DataSet data = new DataSet("id", 2);
         PageContext context = new PageContext("testRefModel", "/table/:id/modal");
-        context.setParentWidgetId("table");
         context.setClientPageId("table_modal");
         context.setParentClientPageId("_");
         context.setParentClientWidgetId("table");

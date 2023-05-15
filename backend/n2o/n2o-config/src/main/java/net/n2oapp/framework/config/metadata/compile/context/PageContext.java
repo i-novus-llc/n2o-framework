@@ -68,10 +68,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String parentRoute;
     /**
-     * Родительский виджет (исходный), в котором находилось действие
-     */
-    private String parentWidgetId;
-    /**
      * Родительский виджет (клиентский), в котором находилось действие
      */
     @Deprecated

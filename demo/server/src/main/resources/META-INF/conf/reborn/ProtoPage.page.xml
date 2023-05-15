@@ -1,17 +1,34 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
                  name="${contact.list}" route="/">
+    <datasources>
+        <datasource id="clientsDs" query-id="ProtoClient" size="10"/>
+    </datasources>
     <toolbar place="topRight">
-        <button id="create2" widget-id="clients" description="${client.add}"
+        <button id="create2" datasource="clientsDs" description="${client.add}"
                 color="primary" label="${client.add}" icon="fa fa-plus"
                 model="filter">
-            <open-page page-id="ProtoClient" route="/clients/create2"
-                       submit-operation-id="create" upload="defaults"/>
+            <open-page page-id="ProtoClient" route="/clients/create2">
+                <datasources>
+                    <parent-datasource id="clients"/>
+                    <datasource id="protoClient" default-values-mode="defaults"/>
+                </datasources>
+                <toolbars>
+                    <toolbar>
+                        <button label="Save">
+                            <invoke operation-id="create"/>
+                            <refresh datasource="clientsDs"/>
+                            <close/>
+                        </button>
+                    </toolbar>
+                </toolbars>
+            </open-page>
         </button>
     </toolbar>
     <left width="60%">
         <panel place="left" collapsible="false" title="${clients.title}">
-            <table id="clients" name="${clients.table.name}" query-id="ProtoClient" size="10" selection="checkbox" route="/">
+            <table id="clients" datasource="clientsDs" name="${clients.table.name}" selection="checkbox"
+                   route="/">
                 <actions>
                     <action id="update_birthday">
                         <invoke operation-id="update" route="/clients/update_birthday"/>
@@ -21,17 +38,45 @@
                 <columns>
                     <column text-field-id="surname">
                         <link>
-                            <open-page page-id="ProtoClient" submit-operation-id="update"
+                            <open-page page-id="ProtoClient"
                                        page-name="${clients.card}: {id}" route="/clients/:id/surname">
-                                <path-param name="id" value="{id}"/>
+                                <params>
+                                    <path-param name="id" value="{id}"/>
+                                </params>
+                                <datasources>
+                                    <parent-datasource id="clients"/>
+                                </datasources>
+                                <toolbars>
+                                    <toolbar>
+                                        <button label="Save">
+                                            <invoke operation-id="update"/>
+                                            <refresh datasource="clientsDs"/>
+                                            <close/>
+                                        </button>
+                                    </toolbar>
+                                </toolbars>
                             </open-page>
                         </link>
                     </column>
                     <column text-field-id="name">
                         <link>
-                            <show-modal page-id="ProtoClient" submit-operation-id="update"
+                            <show-modal page-id="ProtoClient"
                                         page-name="${clients.card}: {id}" route="/clients/:id/name">
-                                <path-param name="id" value="{id}"/>
+                                <params>
+                                    <path-param name="id" value="{id}"/>
+                                </params>
+                                <datasources>
+                                    <parent-datasource id="clients"/>
+                                </datasources>
+                                <toolbars>
+                                    <toolbar>
+                                        <button label="Save">
+                                            <invoke operation-id="update"/>
+                                            <refresh datasource="clientsDs"/>
+                                            <close/>
+                                        </button>
+                                    </toolbar>
+                                </toolbars>
                             </show-modal>
                         </link>
                     </column>
@@ -80,14 +125,41 @@
                 </filters>
                 <toolbar place="topLeft">
                     <button id="create" label="${create}" description="${create}" icon="fa fa-plus" model="filter">
-                        <show-modal page-id="ProtoClient" submit-operation-id="create"
-                                    upload="defaults"
-                                    redirect-url-after-submit="../clients/:id/update2"/>
+                        <show-modal page-id="ProtoClient">
+                            <datasources>
+                                <parent-datasource id="clients"/>
+                                <datasource id="protoClient" default-values-mode="defaults"/>
+                            </datasources>
+                            <toolbars>
+                                <toolbar>
+                                    <button label="Save">
+                                        <invoke operation-id="create"/>
+                                        <a href="../clients/:id/update2">
+                                            <path-param name="id" value="{id}" datasource="protoClient"/>
+                                        </a>
+                                    </button>
+                                </toolbar>
+                            </toolbars>
+                        </show-modal>
                     </button>
                     <button id="update_client" label="${update}" description="${update}" icon="fa fa-pencil">
-                        <show-modal page-id="ProtoClient" submit-operation-id="update"
+                        <show-modal page-id="ProtoClient"
                                     page-name="${clients.card}: {id}" route="/clients/:id/update_client">
-                            <path-param name="id" value="{id}"/>
+                            <params>
+                                <path-param name="id" value="{id}"/>
+                            </params>
+                            <datasources>
+                                <parent-datasource id="clients"/>
+                            </datasources>
+                            <toolbars>
+                                <toolbar>
+                                    <button label="Save">
+                                        <invoke operation-id="update"/>
+                                        <refresh datasource="clientsDs"/>
+                                        <close/>
+                                    </button>
+                                </toolbar>
+                            </toolbars>
                         </show-modal>
                     </button>
                     <button id="delete" label="${delete}" description="${delete}" icon="fa fa-trash" type="text"
@@ -99,16 +171,32 @@
                     <button id="update2" type="icon" color="light" label="${update}" icon="fa fa-edit"
                             visible="{name != 'Мария'}"
                             description="${button.update2.description}">
-                        <open-page page-id="ProtoClient" submit-operation-id="update"
+                        <open-page page-id="ProtoClient"
                                    page-name="${clients.card}: {id}" route="/clients/:id/update2">
-                            <path-param name="id" value="{id}"/>
+                            <params>
+                                <path-param name="id" value="{id}"/>
+                            </params>
+                            <datasources>
+                                <parent-datasource id="clients"/>
+                            </datasources>
+                            <toolbars>
+                                <toolbar>
+                                    <button label="Save">
+                                        <invoke operation-id="update"/>
+                                        <refresh datasource="clientsDs"/>
+                                        <close/>
+                                    </button>
+                                </toolbar>
+                            </toolbars>
                         </open-page>
                     </button>
                     <button id="view" label="${view}" color="info" icon="fa fa-book"
                             enabled="{name != 'Анна'}" tooltip-position="right"
                             description="${button.view.description}">
                         <show-modal page-id="ProtoClientView" route="/clients/:id/view">
-                            <path-param name="id" value="{id}"/>
+                            <params>
+                                <path-param name="id" value="{id}"/>
+                            </params>
                         </show-modal>
                     </button>
                 </toolbar>
@@ -137,14 +225,28 @@
                         <text/>
                     </body>
                     <extra>
-                        <toolbar generate="update,delete"/> 
+                        <toolbar generate="update,delete"/>
                     </extra>
                 </content>
                 <toolbar>
                     <button id="createContact" label="${create}" model="filter">
-                        <show-modal page-id="ProtoContacts" upload="defaults" route="/contacts/:client_id/createContact"
-                            submit-operation-id="create">
-                                <path-param name="client_id" value="{id}" ref-model="resolve" ref-widget-id="clients"/>
+                        <show-modal page-id="ProtoContacts" route="/contacts/:client_id/createContact">
+                            <params>
+                                <path-param name="client_id" value="{id}" model="resolve" datasource="clientsDs"/>
+                            </params>
+                            <datasources>
+                                <parent-datasource id="clients"/>
+                                <datasource id="protoClient" default-values-mode="defaults"/>
+                            </datasources>
+                            <toolbars>
+                                <toolbar>
+                                    <button label="Save">
+                                        <invoke operation-id="create"/>
+                                        <refresh datasource="clientsDs"/>
+                                        <close/>
+                                    </button>
+                                </toolbar>
+                            </toolbars>
                         </show-modal>
                     </button>
                 </toolbar>

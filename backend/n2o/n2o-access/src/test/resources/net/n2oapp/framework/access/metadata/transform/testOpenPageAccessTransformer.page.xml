@@ -1,19 +1,62 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" object-id="testToolbarAccessTransformer">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1" object-id="testObjectAccessTransformer"/>
+    </datasources>
     <toolbar>
-        <button id="update" widget-id="widgetId">
-            <open-page  page-id="testToolbarAccessTransformer" submit-operation-id="update" object-id="testToolbarAccessTransformer"/>
+        <button id="update" datasource="ds1">
+            <open-page  page-id="testOpenPageTransformerModal" route="/update">
+                <datasources>
+                    <parent-datasource id="ds1"/>
+                </datasources>
+                <toolbars>
+                    <toolbar>
+                        <button label="Сохранить">
+                            <invoke operation-id="update"/>
+                            <refresh datasource="ds1"/>
+                            <close/>
+                        </button>
+                    </toolbar>
+                </toolbars>
+            </open-page>
         </button>
     </toolbar>
     <regions>
         <panel place="topLeft">
-            <table id="widgetId" object-id="testObjectAccessTransformer">
+            <table datasource="ds1">
                 <toolbar>
                     <button id="create">
-                        <open-page page-id="testToolbarAccessTransformer" submit-operation-id="create" object-id="testObjectAccessTransformer"/>
+                        <open-page page-id="testOpenPageTransformerModal">
+                            <datasources>
+                                <parent-datasource id="ds1"/>
+                                <datasource id="modalDs" object-id="testObjectAccessTransformer"/>
+                            </datasources>
+                            <toolbars>
+                                <toolbar>
+                                    <button label="Сохранить">
+                                        <invoke operation-id="create"/>
+                                        <refresh datasource="ds1"/>
+                                        <close/>
+                                    </button>
+                                </toolbar>
+                            </toolbars>
+                        </open-page>
                     </button>
                     <button id="update">
-                        <open-page page-id="testToolbarAccessTransformer" submit-operation-id="update"/>
+                        <open-page page-id="testOpenPageTransformerModal" route="/update">
+                            <datasources>
+                                <parent-datasource id="ds1"/>
+                            </datasources>
+                            <toolbars>
+                                <toolbar>
+                                    <button label="Сохранить">
+                                        <invoke operation-id="update"/>
+                                        <refresh datasource="ds1"/>
+                                        <close/>
+                                    </button>
+                                </toolbar>
+                            </toolbars>
+                        </open-page>
                     </button>
                     <button>
                         <a href="/test/access"/>

@@ -1,25 +1,81 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Вывод сообщений об ошибке/успехе после выполнения операций на открываемых страницах">
-    <table>
-        <datasource query-id="test"/>
+    <datasources>
+        <datasource id="ds1" query-id="test"/>
+    </datasources>
+    <regions>
+    <table datasource="ds1">
         <columns>
             <column text-field-id="id"/>
             <column text-field-id="name"/>
         </columns>
         <toolbar place="topLeft">
             <button id="createWithMessage" label="Добавить запись с сообщением об успехе" icon="fa fa-plus" disable-on-empty-model="false">
-                <show-modal page-id="test" submit-operation-id="create"/>
+                <show-modal page-id="test">
+                    <datasources>
+                        <parent-datasource id="ds1"/>
+                    </datasources>
+                    <toolbars>
+                        <toolbar>
+                            <button label="Сохранить">
+                                <invoke operation-id="create"/>
+                                <refresh datasource="ds1"/>
+                                <close/>
+                            </button>
+                        </toolbar>
+                    </toolbars>
+                </show-modal>
             </button>
             <button id="create" label="Добавить запись без сообщения" icon="fa fa-plus" disable-on-empty-model="false">
-                <show-modal page-id="test" submit-operation-id="create" submit-message-on-success="false"/>
+                <show-modal page-id="test">
+                    <datasources>
+                        <parent-datasource id="ds1"/>
+                    </datasources>
+                    <toolbars>
+                        <toolbar>
+                            <button label="Сохранить">
+                                <invoke operation-id="create" message-on-success="false"/>
+                                <refresh datasource="ds1"/>
+                                <close/>
+                            </button>
+                        </toolbar>
+                    </toolbars>
+                </show-modal>
             </button>
             <button id="updateWithMessage" label="Изменить запись с сообщением об ошибке" disable-on-empty-model="false">
-                <show-modal page-id="test" submit-operation-id="updateWithFail"/>
+                <show-modal page-id="test">
+                    <datasources>
+                        <parent-datasource id="ds1"/>
+                    </datasources>
+                    <toolbars>
+                        <toolbar>
+                            <button label="Сохранить">
+                                <invoke operation-id="updateWithFail"/>
+                                <refresh datasource="ds1"/>
+                                <close/>
+                            </button>
+                        </toolbar>
+                    </toolbars>
+                </show-modal>
             </button>
             <button id="update" label="Изменить запись без сообщения об ошибке" disable-on-empty-model="false">
-                <show-modal page-id="test" submit-operation-id="updateWithFail" submit-message-on-fail="false"/>
+                <show-modal page-id="test">
+                    <datasources>
+                        <parent-datasource id="ds1"/>
+                    </datasources>
+                    <toolbars>
+                        <toolbar>
+                            <button label="Сохранить">
+                                <invoke operation-id="updateWithFail" message-on-fail="false"/>
+                                <refresh datasource="ds1"/>
+                                <close/>
+                            </button>
+                        </toolbar>
+                    </toolbars>
+                </show-modal>
             </button>
         </toolbar>
     </table>
-</simple-page>
+    </regions>
+</page>

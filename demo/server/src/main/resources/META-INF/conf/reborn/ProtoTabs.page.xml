@@ -1,57 +1,80 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="${tabs}">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="${tabs}">
+    <datasources>
+        <datasource id="dataGrid" query-id="ProtoClient"/>
+    </datasources>
     <regions>
         <tabs place="single" id="clients">
-            <table src="DataGrid" id="first" name="${tab} #1" query-id="ProtoClient" icon="fa fa-medkit">
-                <filters place="top">
-                    <row>
-                        <input-text id="surname"/>
-                        <input-text id="name"/>
-                    </row>
-                </filters>
-                <toolbar place="topRight">
-                    <button id="create" label="${create}" icon="fa fa-plus">
-                        <show-modal page-id="ProtoClient" submit-operation-id="create" model="filter"
-                                    redirect-url-after-submit="../:id/update2"/>
-                    </button>
-                </toolbar>
-                <columns>
-                    <column text-field-id="id"/>
-                    <column text-field-id="surname"/>
-                    <column text-field-id="name"/>
-                    <column text-field-id="patrName"/>
-                    <column text-field-id="birthday"/>
-                    <column text-field-id="age"/>
-                    <column text-field-id="genderName"/>
-                    <column text-field-id="ethnicGroupName"/>
-                    <column text-field-id="socialGroupName"/>
-                    <column text-field-id="nationality.name"/>
-                </columns>
-            </table>
-            <table id="second" name="${tab} #2" query-id="ProtoClient" icon="fa fa-ambulance">
-                <pagination/>
-                <columns>
-                    <column text-field-id="fullName" label="${avatar}">
-                        <cell src="AvatarCell" />
-                    </column>
-                    <column text-field-id="name"/>
-                    <column text-field-id="surname"/>
-                    <column text-field-id="patrName"/>
-                </columns>
-            </table>
-            <table id="third" name="${tab} #3" query-id="ProtoClient" icon="fa fa-heartbeat">
-                <pagination/>
-                <columns>
-                    <column text-field-id="name"/>
-                    <column text-field-id="surname"/>
-                    <column text-field-id="genderName">
-                        <badge/>
-                    </column>
-                    <column text-field-id="vip">
-                        <checkbox/>
-                    </column>
-                </columns>
-            </table>
+            <tab>
+                <table src="DataGrid" id="first" name="${tab} #1" icon="fa fa-medkit">
+                    <filters place="top">
+                        <row>
+                            <input-text id="surname"/>
+                            <input-text id="name"/>
+                        </row>
+                    </filters>
+                    <toolbar place="topRight">
+                        <button id="create" label="${create}" icon="fa fa-plus">
+                            <show-modal page-id="ProtoClient">
+                                <datasources>
+                                    <parent-datasource id="clients"/>
+                                    <datasource id="protoClient" default-values-mode="defaults"/>
+                                </datasources>
+                                <toolbars>
+                                    <toolbar>
+                                        <button label="Save">
+                                            <invoke operation-id="create"/>
+                                            <a href="../:id/update2">
+                                                <path-param name="id" value="{id}" datasource="protoClient"/>
+                                            </a>
+                                        </button>
+                                    </toolbar>
+                                </toolbars>
+                            </show-modal>
+                        </button>
+                    </toolbar>
+                    <columns>
+                        <column text-field-id="id"/>
+                        <column text-field-id="surname"/>
+                        <column text-field-id="name"/>
+                        <column text-field-id="patrName"/>
+                        <column text-field-id="birthday"/>
+                        <column text-field-id="age"/>
+                        <column text-field-id="genderName"/>
+                        <column text-field-id="ethnicGroupName"/>
+                        <column text-field-id="socialGroupName"/>
+                        <column text-field-id="nationality.name"/>
+                    </columns>
+                </table>
+            </tab>
+            <tab>
+                <table id="second" name="${tab} #2" query-id="ProtoClient" icon="fa fa-ambulance">
+                    <pagination/>
+                    <columns>
+                        <column text-field-id="fullName" label="${avatar}">
+                            <cell src="AvatarCell"/>
+                        </column>
+                        <column text-field-id="name"/>
+                        <column text-field-id="surname"/>
+                        <column text-field-id="patrName"/>
+                    </columns>
+                </table>
+            </tab>
+            <tab>
+                <table id="third" name="${tab} #3" query-id="ProtoClient" icon="fa fa-heartbeat">
+                    <pagination/>
+                    <columns>
+                        <column text-field-id="name"/>
+                        <column text-field-id="surname"/>
+                        <column text-field-id="genderName">
+                            <badge/>
+                        </column>
+                        <column text-field-id="vip">
+                            <checkbox/>
+                        </column>
+                    </columns>
+                </table>
+            </tab>
         </tabs>
 
     </regions>

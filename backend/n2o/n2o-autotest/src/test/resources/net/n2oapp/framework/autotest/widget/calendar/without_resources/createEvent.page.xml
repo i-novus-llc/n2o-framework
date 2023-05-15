@@ -1,11 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             name="Создание события">
-    <form object-id="test">
-        <fields>
-            <input-text id="title" label="Название события"/>
-            <date-interval id="date" time-format="HH:mm:ss" label="Дата"
-                           begin-param="start" end-param="end"/>
-        </fields>
-    </form>
-</simple-page>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Создание события">
+    <datasources>
+        <datasource id="ds1" object-id="test"/>
+        <parent-datasource id="calendar"/>
+    </datasources>
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <input-text id="title" label="Название события"/>
+                <date-interval id="date" time-format="HH:mm:ss" label="Дата"
+                               begin-param="start" end-param="end"/>
+            </fields>
+        </form>
+    </regions>
+</page>
