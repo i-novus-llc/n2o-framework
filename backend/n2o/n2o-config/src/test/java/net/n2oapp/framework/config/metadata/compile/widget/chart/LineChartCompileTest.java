@@ -3,15 +3,11 @@ package net.n2oapp.framework.config.metadata.compile.widget.chart;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.*;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.v4.ChartWidgetIOv4;
-import net.n2oapp.framework.config.io.widget.v4.charts.LineChartIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.page.SimplePageCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.ChartCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -23,7 +19,7 @@ import static org.hamcrest.Matchers.is;
  */
 public class LineChartCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -35,7 +31,7 @@ public class LineChartCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testLineChart() {
+    void testLineChart() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/chart/testLineChartCompile.page.xml")
                 .get(new PageContext("testLineChartCompile"));
         Chart chart = (Chart) page.getWidget();

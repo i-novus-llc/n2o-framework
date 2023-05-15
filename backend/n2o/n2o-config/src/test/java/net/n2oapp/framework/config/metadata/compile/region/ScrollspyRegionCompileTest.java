@@ -17,14 +17,14 @@ import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 
 /**
  * Тестирование компиляции региона с отслеживанием прокрутки
@@ -32,7 +32,7 @@ import static org.junit.Assert.assertThat;
 public class ScrollspyRegionCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -44,7 +44,7 @@ public class ScrollspyRegionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testScrollspyRegion() {
+    void testScrollspyRegion() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testScrollspyRegion.page.xml")
                 .get(new PageContext("testScrollspyRegion"));
 
@@ -73,7 +73,7 @@ public class ScrollspyRegionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testElements() {
+    void testElements() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testScrollspyRegionElements.page.xml")
                 .get(new PageContext("testScrollspyRegionElements"));
 
@@ -143,7 +143,7 @@ public class ScrollspyRegionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testScrollspyRegionRoute() {
+    void testScrollspyRegionRoute() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testScrollspyRegionRoute.page.xml")
                 .get(new PageContext("testScrollspyRegionRoute"));
 

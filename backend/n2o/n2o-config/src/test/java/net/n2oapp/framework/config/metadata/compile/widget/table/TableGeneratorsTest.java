@@ -20,8 +20,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,7 +29,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TableGeneratorsTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -46,7 +46,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void generateCrud() {
+    void generateCrud() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/crud.page.xml")
                 .get(new PageContext("crud"));
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);

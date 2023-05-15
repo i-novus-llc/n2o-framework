@@ -10,8 +10,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class InputSelectTreeCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -36,7 +36,7 @@ public class InputSelectTreeCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testInputSelectTree() {
+    void testInputSelectTree() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/field/testInputSelectTree.page.xml")
                 .get(new PageContext("testInputSelectTree"));
         Form form = (Form) page.getWidget();

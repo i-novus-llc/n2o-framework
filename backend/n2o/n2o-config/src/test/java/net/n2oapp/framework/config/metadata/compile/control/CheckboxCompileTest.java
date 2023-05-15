@@ -6,15 +6,15 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CheckboxCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -28,7 +28,7 @@ public class CheckboxCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCheckboxDefault() {
+    void testCheckboxDefault() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/field/testCheckbox.page.xml")
                 .get(new PageContext("testCheckbox"));
 

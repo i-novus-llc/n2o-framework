@@ -6,8 +6,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oDataProvidersPack;
 import net.n2oapp.framework.config.metadata.pack.N2oQueriesPack;
 import net.n2oapp.framework.config.test.SourceTransformTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.is;
  */
 public class TestInvocationTransformTest extends SourceTransformTestBase {
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -31,7 +31,7 @@ public class TestInvocationTransformTest extends SourceTransformTestBase {
     }
 
     @Test
-    public void test() {
+    void test() {
         N2oQuery query = transform("net/n2oapp/framework/config/metadata/compile/query/testTestInvocationTransformer.query.xml")
                 .get("testTestInvocationTransformer", N2oQuery.class);
         assertThat(query.getFields()[0].getId(), is("id"));

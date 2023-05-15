@@ -16,8 +16,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -30,7 +30,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 public class SimplePageCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -46,7 +46,7 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void simplePage() {
+    void simplePage() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/page/testSimplePage.page.xml")
                 .get(new PageContext("testSimplePage"));
         assertThat(page.getId(), is("test_route"));
@@ -66,7 +66,7 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCompileWithNonExistentAction() {
+    void testCompileWithNonExistentAction() {
         try {
             compile("net/n2oapp/framework/config/metadata/compile/page/testCompileWithNonExistentAction.page.xml",
                     "net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml")
@@ -80,7 +80,7 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
      * Тест настроек простой страницы при открытии в модальном окне
      */
     @Test
-    public void simplePageInModal() {
+    void simplePageInModal() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/page/testSimpleModalPage.page.xml")
                 .get(new ModalPageContext("testSimpleModalPage", "/modal"));
         assertThat(page.getId(), is("modal"));
