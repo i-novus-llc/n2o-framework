@@ -16,25 +16,25 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
     }
 
     @Override
-    public void val(String value) {
+    public void setValue(String value) {
+        inputElement().setValue(value).pressTab();
+    }
+
+    @Override
+    public void click() {
         inputElement().click();
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
-        // focus out
-        inputElement().pressTab();
     }
 
     @Override
     public void clear() {
-        inputElement().click();
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
-        // focus out
+        inputElement().clear();
         inputElement().pressTab();
     }
 
     @Override
     public void shouldHaveValue(String value) {
-        inputElement().shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.value(value));
+        inputElement().shouldHave(
+                value == null || value.isEmpty() ? Condition.empty : Condition.value(value));
     }
 
     @Override
@@ -42,52 +42,56 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
         plusButton().click();
     }
 
+    @Override
     public void minusStepButtonShouldBeEnabled() {
         minusButton().parent().shouldBe(Condition.enabled);
     }
 
+    @Override
     public void minusStepButtonShouldBeDisabled() {
         minusButton().parent().shouldBe(Condition.disabled);
     }
 
     @Override
     public void clickMinusStepButton() {
-        element().parent().$$(".n2o-number-picker__button .fa-minus").get(0).click();
+        minusButton().click();
     }
 
+    @Override
     public void plusStepButtonShouldBeEnabled() {
         plusButton().parent().shouldBe(Condition.enabled);
     }
 
+    @Override
     public void plusStepButtonShouldBeDisabled() {
         plusButton().parent().shouldBe(Condition.disabled);
     }
 
     @Override
-    public void minShouldBe(String val) {
-        inputElement().shouldBe(Condition.attribute("min", val));
+    public void shouldHaveMin(String min) {
+        inputElement().shouldBe(Condition.attribute("min", min));
     }
 
     @Override
-    public void maxShouldBe(String val) {
-        inputElement().shouldBe(Condition.attribute("max", val));
+    public void shouldHaveMax(String max) {
+        inputElement().shouldBe(Condition.attribute("max", max));
     }
 
     @Override
-    public void stepShouldBe(String val) {
-        inputElement().shouldBe(Condition.attribute("step", val));
+    public void shouldHaveStep(String step) {
+        inputElement().shouldBe(Condition.attribute("step", step));
     }
 
-    private SelenideElement inputElement() {
+    protected SelenideElement inputElement() {
         element().shouldBe(Condition.exist);
         return element().parent().$(".n2o-number-picker__input");
     }
 
-    private SelenideElement minusButton() {
+    protected SelenideElement minusButton() {
         return element().parent().$(".n2o-number-picker__button .fa-minus");
     }
 
-    private SelenideElement plusButton() {
+    protected SelenideElement plusButton() {
         return element().parent().$(".n2o-number-picker__button .fa-plus");
     }
 }

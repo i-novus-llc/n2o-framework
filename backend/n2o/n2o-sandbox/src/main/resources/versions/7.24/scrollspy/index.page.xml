@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Scrollspy. Группировка элементов">
+    <regions>
+        <scrollspy
+                id="r1"
+                title="Меню"
+                headlines="true"
+                placement="left"
+                max-height="500">
+            <group title="Основная информация">
+                <menu-item id="mi1" title="Личные данные">
+                    <form>
+                        <fields>
+                            <row>
+                                <input-text id="firstname" label="Имя"/>
+                                <input-text id="lastname" label="Фамилия"/>
+                            </row>
+                            <row>
+                                <select id="gender" label="Пол">
+                                    <options>
+                                        <option id="1" name="Мужской"/>
+                                        <option id="2" name="Женский"/>
+                                    </options>
+                                </select>
+                                <date-time id="birthday" label="Дата рождения"/>
+                            </row>
+                            <text-area id="address" label="Адрес"/>
+                        </fields>
+                    </form>
+                </menu-item>
+                <menu-item id="mi2" title="Документы">
+                    <form>
+                        <fields>
+                            <input-select id="type" label="Документ удостоверяющий личность">
+                                <options>
+                                    <option id="1" name="Паспорт гражданина РФ"/>
+                                    <option id="2" name="Свидетельстов о рождении"/>
+                                    <option id="3" name="Паспорт иностранного гражданина"/>
+                                    <option id="4" name="Не определен"/>
+                                </options>
+                            </input-select>
+                            <row>
+                                <input-text id="serie" label="Серия"/>
+                                <input-text id="number" label="Номер"/>
+                            </row>
+                            <row>
+                                <input-text id="date" label="Дата выдачи"/>
+                                <input-text id="code" label="Код подразделения"/>
+                            </row>
+                        </fields>
+                    </form>
+                </menu-item>
+            </group>
+
+            <group title="Медицинская информация" headline="true">
+                <sub-menu id="mi3" title="Медицинское страхование">
+                    <menu-item id="mi4" title="Обязательное">
+                        <form>
+                            <fields>
+                                <row>
+                                    <input-text id="serie" label="Серия"/>
+                                    <input-text id="number" label="Номер"/>
+                                </row>
+                                <input-text id="org" label="Страховая организация"/>
+                            </fields>
+                        </form>
+                    </menu-item>
+                    <menu-item id="mi5" title="Добровольное">
+                        <form>
+                            <fields>
+                                <input-text id="org" label="Страховая организация"/>
+                                <input-text id="number" label="Номер договора страхования  жизни"/>
+                            </fields>
+                        </form>
+                    </menu-item>
+                </sub-menu>
+                <menu-item id="mi6" title="Медицинская организация прикрепления">
+                    <form>
+                        <fields>
+                            <input-text id="organization.name" label="Медицинская организация"/>
+                            <text-area id="organization.address" label="Адрес медицинской организации"/>
+                        </fields>
+                    </form>
+                </menu-item>
+                <menu-item id="mi7" title="Диагнозы">
+                    <table>
+                        <toolbar place="topLeft">
+                            <button label="Добавить диагноз" enabled="true"/>
+                        </toolbar>
+                        <columns>
+                            <column text-field-id="diagnosisKey" label="Основной диагноз"/>
+                            <column text-field-id="date" label="Дата постановки"/>
+                            <column text-field-id="org" label="Медицинская орагнизация"/>
+                        </columns>
+                    </table>
+                </menu-item>
+            </group>
+        </scrollspy>
+    </regions>
+</page>

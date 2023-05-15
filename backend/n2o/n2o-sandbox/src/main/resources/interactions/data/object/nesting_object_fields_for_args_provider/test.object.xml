@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
+        entity-class="net.n2oapp.framework.sandbox.cases.nesting_object_fields.Employee">
+    <fields>
+        <field id="name" mapping="['employee'].name" required="true" domain="string"
+               normalize="#this.toUpperCase()"/>
+        <reference id="org" mapping="['employee'].organization" object-id="org"/>
+        <list id="departments" mapping="['employee'].departments"
+              entity-class="net.n2oapp.framework.sandbox.cases.nesting_object_fields.Department">
+            <field id="id"/>
+            <field id="name"/>
+        </list>
+    </fields>
+
+    <operations>
+        <operation id="create">
+            <invocation>
+                <java method="create">
+                    <spring bean="employeeService"/>
+                    <arguments>
+                        <argument type="entity" name="employee"/>
+                    </arguments>
+                </java>
+            </invocation>
+            <in>
+                <field id="name"/>
+                <reference id="org"/>
+                <list id="departments"/>
+            </in>
+            <out>
+                <field id="id"/>
+            </out>
+        </operation>
+
+        <operation id="update">
+            <invocation>
+                <java method="update">
+                    <spring bean="employeeService"/>
+                    <arguments>
+                        <argument type="entity" name="employee"/>
+                    </arguments>
+                </java>
+            </invocation>
+            <in>
+                <field id="id" mapping="['employee'].id"/>
+                <field id="name"/>
+                <reference id="org"/>
+                <list id="departments"/>
+            </in>
+        </operation>
+
+        <operation id="delete">
+            <invocation>
+               <java method="delete">
+                   <spring bean="employeeService"/>
+                   <arguments>
+                       <argument type="primitive"/>
+                   </arguments>
+               </java>
+            </invocation>
+            <in>
+                <field id="id"/>
+            </in>
+        </operation>
+    </operations>
+</object>

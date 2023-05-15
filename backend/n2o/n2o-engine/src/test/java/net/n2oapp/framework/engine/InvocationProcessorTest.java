@@ -380,10 +380,10 @@ public class InvocationProcessorTest {
         parameters[1].setMapping("valueStr");
         parameters[2] = new ObjectReferenceField();
         parameters[2].setId("innerObj");
-        ((ObjectReferenceField)parameters[2]).setFields(new AbstractParameter[]{inParam1, inParam2});
+        ((ObjectReferenceField) parameters[2]).setFields(new AbstractParameter[]{inParam1, inParam2});
         parameters[3] = new ObjectListField();
         parameters[3].setId("innerObjList");
-        ((ObjectListField)parameters[3]).setFields(new AbstractParameter[]{inParam3, inParam4});
+        ((ObjectListField) parameters[3]).setFields(new AbstractParameter[]{inParam3, inParam4});
         outParam.setFields(parameters);
         outMapping.add(outParam);
 
@@ -393,12 +393,12 @@ public class InvocationProcessorTest {
         DataSet resultValue = (DataSet) resultDataSet.get("testValue");
         assertThat(resultValue.get("id"), nullValue());
         assertThat(resultValue.get("name"), nullValue());
-        assertThat(((DataSet)resultValue.get("innerObj")).get("id"), is(123));
-        assertThat(((DataSet)resultValue.get("innerObj")).get("name"), is("testName"));
-        assertThat(((DataSet)resultValue.get("innerObj")).get("surname"), nullValue());
-        assertThat(((DataSet)((DataList)resultValue.get("innerObjList")).get(0)).get("name"), is("testname1"));
-        assertThat(((DataSet)((DataList)resultValue.get("innerObjList")).get(1)).get("id"), is(12345));
-        assertThat(((DataSet)((DataList)resultValue.get("innerObjList")).get(1)).get("name"), is("testname2"));
+        assertThat(((DataSet) resultValue.get("innerObj")).get("id"), is(123));
+        assertThat(((DataSet) resultValue.get("innerObj")).get("name"), is("testName"));
+        assertThat(((DataSet) resultValue.get("innerObj")).get("surname"), nullValue());
+        assertThat(((DataSet) ((DataList) resultValue.get("innerObjList")).get(0)).get("name"), is("testname1"));
+        assertThat(((DataSet) ((DataList) resultValue.get("innerObjList")).get(1)).get("id"), is(12345));
+        assertThat(((DataSet) ((DataList) resultValue.get("innerObjList")).get(1)).get("name"), is("testname2"));
     }
 
     @Test
@@ -472,7 +472,12 @@ public class InvocationProcessorTest {
         simpleListChildField2.setId("name");
         simpleListChildField2.setNormalize("#this.toUpperCase()");
 
-        listField.setFields(new AbstractParameter[]{simpleListChildField1, simpleListChildField2});
+        //Inner simple3
+        ObjectSimpleField simpleListChildField3 = new ObjectSimpleField();
+        simpleListChildField3.setId("name2");
+        simpleListChildField3.setNormalize("#data['name']");
+
+        listField.setFields(new AbstractParameter[]{simpleListChildField1, simpleListChildField2, simpleListChildField3});
 
         //Out simple fields
         ObjectSimpleField simpleOutId = new ObjectSimpleField();
@@ -481,6 +486,9 @@ public class InvocationProcessorTest {
         ObjectSimpleField simpleOutName = new ObjectSimpleField();
         simpleOutName.setId("name");
         simpleOutName.setMapping("['employees[0].name']");
+        ObjectSimpleField simpleOutName2 = new ObjectSimpleField();
+        simpleOutName2.setId("name2");
+        simpleOutName2.setMapping("['employees[0].name2']");
         ObjectSimpleField simpleOutSize = new ObjectSimpleField();
         simpleOutSize.setId("processedListSize");
         simpleOutSize.setMapping("['employees'].size()");
@@ -500,9 +508,10 @@ public class InvocationProcessorTest {
         DataSet dataSet = new DataSet("employees", dataList);
 
         DataSet result = invocationProcessor.invoke(invocation, dataSet, singletonList(listField),
-                Arrays.asList(simpleOutId, simpleOutName, simpleOutSize));
+                Arrays.asList(simpleOutId, simpleOutName, simpleOutName2, simpleOutSize));
         assertThat(result.getInteger("id"), is(102));
         assertThat(result.getString("name"), is("TEST2"));
+        assertThat(result.getString("name2"), is("test2"));
         assertThat(result.getInteger("processedListSize"), is(1));
     }
 
@@ -585,15 +594,15 @@ public class InvocationProcessorTest {
         assertThat(entity.get("valueStr"), is("test"));
         DataList innerObjList = (DataList) entity.get("innerObjList");
         assertThat(innerObjList.size(), is(2));
-        assertThat(((DataSet)innerObjList.get(0)).get("valueInt"), is(666));
-        assertThat(((DataSet)innerObjList.get(0)).get("valueStr"), is("testStr1"));
-        DataList innerInnerObjSet = (DataList) ((DataSet)innerObjList.get(0)).get("innerInnerObjSet");
+        assertThat(((DataSet) innerObjList.get(0)).get("valueInt"), is(666));
+        assertThat(((DataSet) innerObjList.get(0)).get("valueStr"), is("testStr1"));
+        DataList innerInnerObjSet = (DataList) ((DataSet) innerObjList.get(0)).get("innerInnerObjSet");
         assertThat(innerInnerObjSet.size(), is(2));
         assertThat(innerInnerObjSet.contains(new DataSet("innerName", "code2")), is(true));
         assertThat(innerInnerObjSet.contains(new DataSet("innerName", "code1")), is(true));
 
-        assertThat(((DataSet)innerObjList.get(1)).get("valueInt"), is(777));
-        assertThat(((DataSet)innerObjList.get(1)).get("valueStr"), is("testStr2"));
+        assertThat(((DataSet) innerObjList.get(1)).get("valueInt"), is(777));
+        assertThat(((DataSet) innerObjList.get(1)).get("valueStr"), is("testStr2"));
         innerInnerObjSet = (DataList) ((DataSet) innerObjList.get(1)).get("innerInnerObjSet");
         assertThat(innerInnerObjSet.size(), is(1));
         assertThat(innerInnerObjSet.contains(new DataSet("innerName", "code3")), is(true));

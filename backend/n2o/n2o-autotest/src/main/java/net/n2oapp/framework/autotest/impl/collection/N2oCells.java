@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.collection;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
@@ -10,6 +11,8 @@ import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import static net.n2oapp.framework.autotest.N2oSelenide.component;
 
 public class N2oCells extends N2oComponentsCollection implements Cells {
+
+    private static final String ROW_CLICK_CSS_CONDITION = "row-click";
 
     @Override
     public TextCell cell(int index) {
@@ -28,26 +31,30 @@ public class N2oCells extends N2oComponentsCollection implements Cells {
 
     @Override
     public void click() {
-        elements().get(0).parent().click();
+        row().click();
     }
 
     @Override
     public void shouldBeClickable() {
-        elements().get(0).parent().shouldHave(Condition.cssClass("row-click"));
+        row().shouldHave(Condition.cssClass(ROW_CLICK_CSS_CONDITION));
     }
 
     @Override
     public void shouldNotBeClickable() {
-        elements().get(0).parent().shouldNotHave(Condition.cssClass("row-click"));
+        row().shouldNotHave(Condition.cssClass(ROW_CLICK_CSS_CONDITION));
     }
 
     @Override
     public void hover() {
-        elements().get(0).parent().hover();
+        row().hover();
     }
 
     @Override
     public void shouldHaveColor(Colors color) {
-        elements().get(0).parent().shouldHave(Condition.cssClass(color.name("bg-")));
+        row().shouldHave(Condition.cssClass(color.name("bg-")));
+    }
+
+    protected SelenideElement row() {
+        return elements().get(0).parent();
     }
 }

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+        name="Автотест к обычной пагинации с show-count = never">
+    <regions>
+        <table id="table1">
+            <datasource query-id="test" size="3"/>
+            <columns>
+                <column text-field-id="name"/>
+            </columns>
+            <pagination show-count="never" next="true" prev="true"/>
+        </table>
+    </regions>
+</page>
+
+

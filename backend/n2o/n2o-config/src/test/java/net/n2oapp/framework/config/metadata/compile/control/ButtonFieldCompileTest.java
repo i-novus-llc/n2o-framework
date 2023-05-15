@@ -10,6 +10,7 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
+import org.apache.commons.collections.ListUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -87,6 +88,8 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getConfirm().getReverseButtons(), is(false));
         assertThat(field.getConfirm().getCloseButton(), is(false));
         assertThat(field.getConfirm().getMode(), is(ConfirmType.MODAL));
+        assertThat(field.getConfirm().getCondition(), is("`true`"));
+        assertThat(field.getConfirm().getModelLink(), is("models.resolve['testButtonFieldCompile_main']"));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(7).getCols().get(0).getFields().get(0);
         assertThat(field.getConfirm().getText(), is("Зарегистрировать заявление?"));
@@ -98,5 +101,11 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getConfirm().getReverseButtons(), is(false));
         assertThat(field.getConfirm().getCloseButton(), is(false));
         assertThat(field.getConfirm().getMode(), is(ConfirmType.MODAL));
+        assertThat(field.getConfirm().getCondition(), is("`test === '1'|| test === '2'`"));
+        assertThat(field.getConfirm().getModelLink(), is("models.resolve['testButtonFieldCompile_main']"));
+
+        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(8).getCols().get(0).getFields().get(0);
+        assertThat(field.getDescription(), is("`description`"));
+        assertThat(field.getHint(), is("`description`"));
     }
 }

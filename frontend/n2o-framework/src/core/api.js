@@ -34,7 +34,7 @@ export const CHANGE_LOCALE = 'CHANGE_LOCALE'
  * @param obj
  * @returns {*}
  */
-function clearEmptyParams(obj) {
+export function clearEmptyParams(obj) {
     return pickBy(obj, (value) => {
         if (isNil(value)) { return false }
         if (isObject(value)) { return !isEmpty(value) }

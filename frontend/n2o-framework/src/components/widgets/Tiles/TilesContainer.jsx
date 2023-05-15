@@ -1,20 +1,26 @@
 import React from 'react'
 import { compose, mapProps } from 'recompose'
+import { useSelector } from 'react-redux'
 
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
+import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { ModelPrefix } from '../../../core/datasource/const'
 
 // eslint-disable-next-line import/no-named-as-default
 import Tiles from './Tiles'
 
 function TilesContainer(props) {
-    return <Tiles {...props} />
+    // eslint-disable-next-line react/prop-types
+    const { datasource } = props
+    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
+
+    return <Tiles {...props} data={datasourceModel} />
 }
 
 export default compose(
     withWidgetHandlers,
     mapProps(
         ({
-            models,
             className,
             widgetId,
             tile,
@@ -30,7 +36,6 @@ export default compose(
             className,
             id: widgetId,
             tile,
-            data: models.datasource,
             colsSm,
             colsMd,
             colsLg,

@@ -3,13 +3,11 @@ import PropTypes from 'prop-types'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import isFunction from 'lodash/isFunction'
-import get from 'lodash/get'
 import filter from 'lodash/filter'
 import includes from 'lodash/includes'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
 import isArray from 'lodash/isArray'
-import isString from 'lodash/isString'
 import isNil from 'lodash/isNil'
 import pick from 'lodash/pick'
 import { compose, mapProps } from 'recompose'
@@ -85,9 +83,9 @@ class AutoComplete extends React.Component {
     };
 
     /**
-    * Обрабатывает клик за пределы компонента
-    * вызывается библиотекой react-onclickoutside
-    */
+     * Обрабатывает клик за пределы компонента
+     * вызывается библиотекой react-onclickoutside
+     */
     handleClickOutside = () => {
         const { isExpanded } = this.state
 
@@ -141,17 +139,17 @@ class AutoComplete extends React.Component {
     }
 
     handleDataSearch = (input, delay = 400, callback) => {
-        const { onSearch, filter, valueFieldId, options } = this.props
+        const { onSearch, filter, labelFieldId, options } = this.props
 
         if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
             const filterFunc = item => String.prototype[filter].call(item, input)
-            const filteredData = filter(options, item => filterFunc(item[valueFieldId]))
+            const filteredData = filter(options, item => filterFunc(item[labelFieldId]))
 
             this.setState({ options: filteredData })
         } else {
-        // серверная фильтрация
+            // серверная фильтрация
             const { value } = this.state
-            const labels = map(value, item => item[valueFieldId])
+            const labels = map(value, item => item[labelFieldId])
 
             if (labels.some(label => label === input)) {
                 onSearch('', delay, callback)
@@ -206,14 +204,12 @@ class AutoComplete extends React.Component {
     }
 
     onSelect = (item) => {
-        const { valueFieldId, onChange, closePopupOnSelect, tags } = this.props
-
-        const currentValue = isString(item) ? item : get(item, valueFieldId)
+        const { onChange, closePopupOnSelect, tags, labelFieldId } = this.props
 
         this.setState(
             prevState => ({
-                value: tags ? [...prevState.value, currentValue] : [currentValue],
-                input: !tags ? currentValue : '',
+                value: tags ? [...prevState.value, item] : [item],
+                input: !tags ? item[labelFieldId] : '',
             }),
             () => {
                 const { value, input } = this.state
@@ -222,14 +218,17 @@ class AutoComplete extends React.Component {
                     this.setIsExpanded(false)
                 }
 
-                if (isString(currentValue)) {
+                if (typeof item === 'string') {
                     this.forceUpdate()
                 }
+
                 if (tags) {
                     onChange(value)
-                } else {
-                    onChange(input)
+
+                    return
                 }
+
+                onChange(input)
             },
         )
     }
@@ -284,6 +283,7 @@ class AutoComplete extends React.Component {
             loading,
             className,
             valueFieldId,
+            labelFieldId,
             iconFieldId,
             disabled,
             placeholder,
@@ -303,11 +303,11 @@ class AutoComplete extends React.Component {
             maxTagTextLength,
             onDismiss,
         } = this.props
-        const needAddFilter = !find(value, item => item[valueFieldId] === input)
+        const needAddFilter = !find(value, item => item[labelFieldId] === input)
         const optionsList = !isEmpty(data) ? data : options
         const filteredOptions = filter(
             optionsList,
-            item => includes(item[valueFieldId], input) || isEmpty(input),
+            item => includes(item[labelFieldId], input) || isEmpty(input),
         )
 
         return (
@@ -363,7 +363,7 @@ class AutoComplete extends React.Component {
                                     placeholder={placeholder}
                                     iconFieldId={iconFieldId}
                                     imageFieldId={imageFieldId}
-                                    labelFieldId={valueFieldId}
+                                    labelFieldId={labelFieldId}
                                     autoFocus={autoFocus}
                                 />
                             </InputSelectGroup>
@@ -395,7 +395,7 @@ class AutoComplete extends React.Component {
                                         needAddFilter={needAddFilter}
                                         options={filteredOptions}
                                         valueFieldId={valueFieldId}
-                                        labelFieldId={valueFieldId}
+                                        labelFieldId={labelFieldId}
                                         iconFieldId={iconFieldId}
                                         imageFieldId={imageFieldId}
                                         badge={badge}
@@ -409,13 +409,13 @@ class AutoComplete extends React.Component {
                                     >
                                         <div className="n2o-alerts">
                                             {alerts &&
-                        alerts.map(alert => (
-                            <Alert
-                                key={alert.id}
-                                onDismiss={() => onDismiss(alert.id)}
-                                {...alert}
-                            />
-                        ))}
+                                            alerts.map(alert => (
+                                                <Alert
+                                                    key={alert.id}
+                                                    onDismiss={() => onDismiss(alert.id)}
+                                                    {...alert}
+                                                />
+                                            ))}
                                         </div>
                                     </PopupList>
                                 </div>
@@ -445,6 +445,10 @@ AutoComplete.propTypes = {
      * Ключ значения
      */
     valueFieldId: PropTypes.string,
+    /**
+     * Ключ отображаемого значения
+     */
+    labelFieldId: PropTypes.string,
     /**
      * Ключ icon в данных
      */
@@ -555,6 +559,7 @@ AutoComplete.propTypes = {
 
 AutoComplete.defaultProps = {
     valueFieldId: 'label',
+    labelFieldId: 'name',
     iconFieldId: 'icon',
     imageFieldId: 'image',
     badge: {

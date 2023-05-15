@@ -44,6 +44,11 @@ function ImageUpload(props) {
         return null
     }
 
+    const defaultClassName = 'n2o-image-uploader-control'
+    const compiledClassName = shape
+        ? `${defaultClassName}--shape-${shape}`
+        : defaultClassName
+
     return (
         <div>
             <div
@@ -53,13 +58,11 @@ function ImageUpload(props) {
             >
                 {!disabled && (
                     <Dropzone
-                        className={classNames('n2o-image-uploader-control', componentClass, {
+                        className={classNames('n2o-image-uploader-control', componentClass, compiledClassName, {
                             'd-none': !showControl,
                             [className]: className,
                             [uploaderClass]: uploaderClass,
                             'img-error': !isEmpty(imgError),
-                            'n2o-image-uploader-control--shape-circle':
-            shape === 'circle',
                         })}
                         style={customUploaderSize}
                         accept={accept}

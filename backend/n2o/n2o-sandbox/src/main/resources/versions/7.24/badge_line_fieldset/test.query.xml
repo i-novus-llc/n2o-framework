@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list>
+        <test file="test.json"/>
+    </list>
+    <count>
+        <test file="test.json" operation="count"/>
+    </count>
+
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+        <like filter-id="fio" field-id="fio"/>
+        <eq filter-id="snils" field-id="snils"/>
+        <eq filter-id="region.id" field-id="region" mapping="['region.id']"/>
+        <eq filter-id="department.id" field-id="department" mapping="['department.id']"/>
+    </filters>
+
+    <fields>
+        <field id="id" name="Номер заявки"/>
+        <field id="fio" name="Фамилия Имя Отчество"/>
+        <field id="birthday"/>
+        <field id="snils" name="СНИЛС"/>
+        <field id="region" name="Регион" mapping="['region.name']"/>
+        <field id="department" name="Отделение" mapping="['department.name']"/>
+    </fields>
+</query>

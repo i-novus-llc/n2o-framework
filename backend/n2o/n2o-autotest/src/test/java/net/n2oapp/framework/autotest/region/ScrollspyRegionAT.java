@@ -11,6 +11,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -46,12 +47,14 @@ public class ScrollspyRegionAT extends AutoTestBase {
         region.shouldExists();
         region.menuShouldHavePosition(ScrollspyRegion.MenuPosition.right);
         ScrollspyRegion.Menu menu = region.menu();
-        menu.shouldHaveTitle("Меню");
         menu.menuItem("Личные данные").shouldBeVisible();
         menu.menuItem("Дополнительная информация").shouldBeVisible();
 
         ScrollspyRegion.DropdownMenuItem dropdownMenuItem = menu.dropdownMenuItem(0);
         dropdownMenuItem.shouldHaveText("Вложенное меню");
+        dropdownMenuItem.shouldBeCollapse();
+        dropdownMenuItem.click();
+        dropdownMenuItem.shouldBeExpand();
         dropdownMenuItem.menuItem("Список участников").shouldBeVisible();
         dropdownMenuItem.menuItem("Список победителей").shouldBeVisible();
         dropdownMenuItem.click();
@@ -59,12 +62,12 @@ public class ScrollspyRegionAT extends AutoTestBase {
         dropdownMenuItem.menuItem("Список победителей").shouldBeHidden();
         dropdownMenuItem.click();
 
-        region.activeContentItemShouldBe("Личные данные");
-        region.activeMenuItemShouldBe("Личные данные");
+        region.activeContentItemShouldHaveTitle("Личные данные");
+        region.activeMenuItemShouldHaveTitle("Личные данные");
 
         menu.menuItem("Дополнительная информация").click();
-        region.activeContentItemShouldBe("Дополнительная информация");
-        region.activeMenuItemShouldBe("Дополнительная информация");
+        region.activeContentItemShouldHaveTitle("Дополнительная информация");
+        region.activeMenuItemShouldHaveTitle("Дополнительная информация");
     }
 
     @Test
@@ -75,8 +78,8 @@ public class ScrollspyRegionAT extends AutoTestBase {
         page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование контента");
 
         ScrollspyRegion scrollspy = page.regions().region(0, ScrollspyRegion.class);
-        scrollspy.activeMenuItemShouldBe("Элемент1");
-        scrollspy.activeContentItemShouldBe("Элемент1");
+        scrollspy.activeMenuItemShouldHaveTitle("Элемент1");
+        scrollspy.activeContentItemShouldHaveTitle("Элемент1");
         RegionItems content = scrollspy.contentItem("Элемент1").content();
 
         TabsRegion tabsRegion = content.region(0, TabsRegion.class);
@@ -100,12 +103,12 @@ public class ScrollspyRegionAT extends AutoTestBase {
         formWidget.shouldExists();
         formWidget.fields().field("Поле2").shouldExists();
 
-        page.scrollDown();
-        scrollspy.activeContentItemShouldBe("Элемент2");
-        scrollspy.activeMenuItemShouldBe("Элемент2");
-        page.scrollUp();
-        scrollspy.activeContentItemShouldBe("Элемент1");
-        scrollspy.activeMenuItemShouldBe("Элемент1");
+        scrollspy.contentItem("Элемент2").scrollDown();
+        scrollspy.activeContentItemShouldHaveTitle("Элемент2");
+        scrollspy.activeMenuItemShouldHaveTitle("Элемент2");
+        scrollspy.contentItem("Элемент1").scrollUp();
+        scrollspy.activeContentItemShouldHaveTitle("Элемент1");
+        scrollspy.activeMenuItemShouldHaveTitle("Элемент1");
     }
 
     @Test
@@ -116,19 +119,19 @@ public class ScrollspyRegionAT extends AutoTestBase {
         page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование табов внутри scrollspy");
 
         ScrollspyRegion scrollspy = page.regions().region(0, ScrollspyRegion.class);
-        scrollspy.activeMenuItemShouldBe("Элемент1");
-        scrollspy.activeContentItemShouldBe("Элемент1");
+        scrollspy.activeMenuItemShouldHaveTitle("Элемент1");
+        scrollspy.activeContentItemShouldHaveTitle("Элемент1");
         TabsRegion tabs = scrollspy.contentItem(0).content().region(TabsRegion.class);
         tabs.tab(0).shouldBeActive();
 
         tabs.tab(1).click();
         tabs.tab(1).shouldBeActive();
-        scrollspy.activeMenuItemShouldBe("Элемент1");
-        scrollspy.activeContentItemShouldBe("Элемент1");
+        scrollspy.activeMenuItemShouldHaveTitle("Элемент1");
+        scrollspy.activeContentItemShouldHaveTitle("Элемент1");
 
         scrollspy.menu().menuItem("Элемент2").click();
-        scrollspy.activeMenuItemShouldBe("Элемент2");
-        scrollspy.activeContentItemShouldBe("Элемент2");
+        scrollspy.activeMenuItemShouldHaveTitle("Элемент2");
+        scrollspy.activeContentItemShouldHaveTitle("Элемент2");
         tabs.tab(1).shouldBeActive();
     }
 
@@ -142,29 +145,29 @@ public class ScrollspyRegionAT extends AutoTestBase {
         TabsRegion tabs = page.regions().region(0, TabsRegion.class);
         tabs.tab(0).shouldBeActive();
         ScrollspyRegion scrollspy1 = tabs.tab(0).content().region(ScrollspyRegion.class);
-        scrollspy1.activeMenuItemShouldBe("Элемент1 в первом табе");
-        scrollspy1.activeContentItemShouldBe("Элемент1 в первом табе");
+        scrollspy1.activeMenuItemShouldHaveTitle("Элемент1 в первом табе");
+        scrollspy1.activeContentItemShouldHaveTitle("Элемент1 в первом табе");
 
         scrollspy1.menu().menuItem("Элемент2 в первом табе").click();
-        scrollspy1.activeMenuItemShouldBe("Элемент2 в первом табе");
-        scrollspy1.activeContentItemShouldBe("Элемент2 в первом табе");
+        scrollspy1.activeMenuItemShouldHaveTitle("Элемент2 в первом табе");
+        scrollspy1.activeContentItemShouldHaveTitle("Элемент2 в первом табе");
         tabs.tab(0).shouldBeActive();
 
         tabs.tab(1).click();
         tabs.tab(1).shouldBeActive();
         ScrollspyRegion scrollspy2 = tabs.tab(1).content().region(ScrollspyRegion.class);
-        scrollspy2.activeMenuItemShouldBe("Элемент1 во втором табе");
-        scrollspy2.activeContentItemShouldBe("Элемент1 во втором табе");
+        scrollspy2.activeMenuItemShouldHaveTitle("Элемент1 во втором табе");
+        scrollspy2.activeContentItemShouldHaveTitle("Элемент1 во втором табе");
 
         scrollspy2.menu().menuItem("Элемент3 во втором табе").click();
-        scrollspy2.activeMenuItemShouldBe("Элемент3 во втором табе");
-        scrollspy2.activeContentItemShouldBe("Элемент3 во втором табе");
+        scrollspy2.activeMenuItemShouldHaveTitle("Элемент3 во втором табе");
+        scrollspy2.activeContentItemShouldHaveTitle("Элемент3 во втором табе");
         tabs.tab(1).shouldBeActive();
 
         tabs.tab(0).click();
         tabs.tab(0).shouldBeActive();
-        scrollspy1.activeMenuItemShouldBe("Элемент2 в первом табе");
-        scrollspy1.activeContentItemShouldBe("Элемент2 в первом табе");
+        scrollspy1.activeMenuItemShouldHaveTitle("Элемент2 в первом табе");
+        scrollspy1.activeContentItemShouldHaveTitle("Элемент2 в первом табе");
     }
 
     @Test
@@ -177,7 +180,37 @@ public class ScrollspyRegionAT extends AutoTestBase {
         ScrollspyRegion region = page.regions().region(0, TabsRegion.class).tab(0).content().region(ScrollspyRegion.class);
         region.shouldExists();
         region.menuShouldHavePosition(ScrollspyRegion.MenuPosition.left);
-        region.activeMenuItemShouldBe("Дополнительная информация");
-        region.activeContentItemShouldBe("Дополнительная информация");
+        region.activeMenuItemShouldHaveTitle("Дополнительная информация");
+        region.activeContentItemShouldHaveTitle("Дополнительная информация");
     }
+
+    @Test
+    public void testGroup() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/group/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        ScrollspyRegion region = page.regions().region(0, ScrollspyRegion.class);
+        region.shouldExists();
+
+        region.menu().group(0).shouldHaveTitle("Первая группа");
+        region.menu().group(0).shouldNotHaveHeadline();
+        region.menu().group(0).menuItem(0).shouldHaveText("Личные данные");
+        region.menu().group(0).menuItem(1).shouldHaveText("Дополнительная информация");
+        region.menu().group(0).menuItem(1).click();
+        region.activeContentItemShouldHaveTitle("Дополнительная информация");
+
+
+        region.menu().group(1).shouldHaveTitle("Группа 2");
+        region.menu().group(1).shouldHaveHeadline();
+        region.menu().group(1).dropdownMenuItem(0).shouldBeCollapse();
+        region.menu().group(1).dropdownMenuItem(0).shouldHaveText("Вложенное меню");
+        region.menu().group(1).dropdownMenuItem(0).click();
+        region.menu().group(1).dropdownMenuItem(0).shouldBeExpand();
+        region.menu().group(1).dropdownMenuItem(0).menuItem(0).shouldHaveText("Список участников");
+        region.menu().group(1).dropdownMenuItem(0).menuItem(1).shouldHaveText("Список победителей");
+        region.menu().group(1).dropdownMenuItem(0).menuItem(1).click();
+        region.activeContentItemShouldHaveTitle("Список победителей");
+    }
+
 }

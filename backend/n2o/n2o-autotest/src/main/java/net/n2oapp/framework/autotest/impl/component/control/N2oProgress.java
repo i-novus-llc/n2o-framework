@@ -45,7 +45,7 @@ public class N2oProgress extends N2oControl implements Progress {
         progressBar().shouldHave(Condition.cssClass(color.name("bg-")));
     }
 
-    private SelenideElement progressBar() {
+    protected SelenideElement progressBar() {
         return element().$(".progress-bar");
     }
 }

@@ -39,6 +39,7 @@ public class TableCheckboxesAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/checkboxes");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/checkboxes/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/checkboxes/test.query.xml"));
@@ -53,8 +54,8 @@ public class TableCheckboxesAT extends AutoTestBase {
         TableWidget.Rows rows = table.columns().rows();
         Paging paging = table.paging();
         rows.shouldHaveSize(10);
-        paging.totalElementsShouldBe(12);
-        paging.activePageShouldBe("1");
+        paging.shouldHaveTotalElements(12);
+        paging.shouldHaveActivePage("1");
 
         CheckboxCell cell1 = rows.row(0).cell(0, CheckboxCell.class);
         CheckboxCell cell2 = rows.row(1).cell(0, CheckboxCell.class);
@@ -69,7 +70,7 @@ public class TableCheckboxesAT extends AutoTestBase {
         cell4.shouldBeUnchecked();
         // переходим на вторую страницу
         paging.selectPage("2");
-        paging.activePageShouldBe("2");
+        paging.shouldHaveActivePage("2");
         rows.shouldHaveSize(2);
         CheckboxCell cell11 = rows.row(0).cell(0, CheckboxCell.class);
         CheckboxCell cell12 = rows.row(1).cell(0, CheckboxCell.class);
@@ -78,7 +79,7 @@ public class TableCheckboxesAT extends AutoTestBase {
         // выбираем все строки
         table.columns().headers().header(0).click();
         paging.selectPage("1");
-        paging.activePageShouldBe("1");
+        paging.shouldHaveActivePage("1");
         // переходим на первую страницу
         // вторая и третья строка должны быть выбраны, остальные - нет
         cell1.shouldBeUnchecked();

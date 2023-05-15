@@ -94,6 +94,7 @@ describe('<AutoCompelte />', () => {
         it('значение выбирается из списка', () => {
             const wrapper = setup({
                 tags: true,
+                options: ['a', 'abc'],
             })
             const textarea = wrapper.find('textarea')
             textarea.simulate('click')
@@ -106,6 +107,34 @@ describe('<AutoCompelte />', () => {
             buttons.last().simulate('click')
 
             expect(wrapper.state().value).toEqual(['a', 'abc'])
+        })
+
+        it('значение выбирается из списка c указанным labelFieldId', () => {
+            const wrapper = setup({
+                tags: true,
+                valueFieldId: 'id',
+                labelFieldId: 'name',
+            })
+            const textarea = wrapper.find('textarea')
+            textarea.simulate('click')
+            wrapper.update()
+
+            const buttons = wrapper.find('button.n2o-eclipse-content')
+            buttons.first().simulate('click')
+
+            textarea.simulate('click')
+            buttons.last().simulate('click')
+
+            expect(wrapper.state().value).toEqual([
+                {
+                    id: 1,
+                    name: 'a',
+                },
+                {
+                    id: 3,
+                    name: 'abc',
+                },
+            ])
         })
 
         it('значение удаляется', () => {

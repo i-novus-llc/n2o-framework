@@ -16,15 +16,7 @@ export function parseExpression(value: unknown): false | string {
     if (typeof value !== 'string') { return false }
 
     if (value.startsWith('`') && value.endsWith('`')) {
-        const parsed = value.substring(1, value.length - 1)
-
-        if (parsed.includes('\n')) {
-            const exp = new RegExp('\\n', 'g')
-
-            return parsed.replace(exp, '\\n')
-        }
-
-        return parsed
+        return value.substring(1, value.length - 1)
     }
 
     return false
@@ -154,14 +146,13 @@ export function evalExpression<
         const entries = Object.entries(argsExtended)
         const keys = entries.map(arr => arr[0])
         const values = entries.map(arr => arr[1])
-
         const fn = createContextFn(keys, expression)
 
         return fn.apply(context, values) as ResultType<TExpression, TExpectedResult> | void
     } catch (error) {
         warning(
             true,
-            `Ошибка при выполнение evalExpression! ${error instanceof Error ? error.message : error}.
+            `Ошибка при выполнении evalExpression! ${error instanceof Error ? error.message : error}.
       \nВыражение: ${expression}
       \nКонтекст: ${JSON.stringify(context)}`,
         )

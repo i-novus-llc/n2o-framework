@@ -27,6 +27,10 @@ const SCROLL_OFFSET = 100
  * @reactProps {function} onFetchMore - callback при клика на "Загрузить еще" или скролле
  * @reactProps {string|number} selectedId - id выбранной записи
  */
+
+/* FIXME виджет требует рефакторинга frontend + backend xml api
+    избавиться от react-virtualized */
+
 class List extends Component {
     constructor(props) {
         super(props)
@@ -225,16 +229,19 @@ class List extends Component {
                   columnIndex={0}
                   rowIndex={index}
               >
-                  <ListItem
-                      {...data[index]}
-                      hasSelect={hasSelect}
-                      key={key}
-                      style={style}
-                      divider={divider}
-                      selected={selectedIndex === index}
-                      onClick={() => this.onItemClick(index, isEmpty(rows) || permissions)
-                      }
-                  />
+                  {
+                      ({ measure }) => (
+                          <ListItem
+                              {...data[index]}
+                              hasSelect={hasSelect}
+                              key={key}
+                              style={style}
+                              divider={divider}
+                              selected={selectedIndex === index}
+                              onClick={() => this.onItemClick(index, isEmpty(rows) || permissions)}
+                              measure={measure}
+                          />
+                      ) }
               </CellMeasurer>
               {moreBtn}
           </>

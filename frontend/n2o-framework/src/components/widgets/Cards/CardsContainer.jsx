@@ -1,17 +1,25 @@
 import React from 'react'
 import { compose, mapProps } from 'recompose'
+import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
+import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { ModelPrefix } from '../../../core/datasource/const'
 
 import { Cards } from './Cards'
 
-const CardsContainer = props => <Cards {...props} />
+const CardsContainer = (props) => {
+    const { datasource } = props
+    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
+
+    return <Cards {...props} data={datasourceModel} />
+}
 
 export default compose(
     withWidgetHandlers,
     mapProps(
         ({
-            models,
             className,
             id,
             cards,
@@ -24,7 +32,6 @@ export default compose(
             className,
             id,
             cards,
-            data: models.datasource,
             onResolve: setResolve,
             dispatch,
             align,
@@ -33,3 +40,7 @@ export default compose(
         }),
     ),
 )(CardsContainer)
+
+CardsContainer.propTypes = {
+    datasource: PropTypes.string,
+}

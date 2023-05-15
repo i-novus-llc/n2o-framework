@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
-import { makeGetResolveModelSelector } from '../../../../../ducks/models/selectors'
+import { getModelByPrefixAndNameSelector } from '../../../../../ducks/models/selectors'
 import { DataSourceContext } from '../../../../../core/widget/context'
+import { ModelPrefix } from '../../../../../core/datasource/const'
 
 export default (EditableCell) => {
     function EditableCellWithActions(props) {
@@ -20,7 +21,10 @@ export default (EditableCell) => {
     }
 
     const mapStateToProps = createStructuredSelector({
-        prevResolveModel: (state, props) => makeGetResolveModelSelector(props.modelId)(state) || {},
+        prevResolveModel: (state, props) => getModelByPrefixAndNameSelector(
+            ModelPrefix.active,
+            props.modelId,
+        )(state) || {},
     })
 
     return connect(

@@ -1,0 +1,12 @@
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Html поле">
+    <form>
+        <fields>
+            <html>
+                <![CDATA[
+                    <div class='test'><h3 class='class3' style='color:green; font-size: 2em'>Hello, World!</h3></div>
+                ]]>
+            </html>
+        </fields>
+    </form>
+</simple-page>

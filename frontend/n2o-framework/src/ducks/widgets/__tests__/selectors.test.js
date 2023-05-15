@@ -8,13 +8,9 @@ import {
     makeWidgetCountSelector,
     makeWidgetSortingSelector,
     makeWidgetFilterVisibilitySelector,
-    makeWidgetValidationSelector,
     makeIsActiveSelector,
     makeWidgetPageSelector,
     makeWidgetPageIdSelector,
-    makeTypeSelector,
-    makeWidgetDataProviderSelector,
-    isAnyTableFocusedSelector,
 } from '../selectors'
 
 const state = {
@@ -98,11 +94,6 @@ describe('Проверка селекторов widgets', () => {
             state.widgets.widget1.isFilterVisible,
         )
     })
-    it('makeWidgetValidationSelector должен вернуть validation по id', () => {
-        expect(makeWidgetValidationSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.validation,
-        )
-    })
     it('makeIsActiveSelector должен вернуть isActive по id', () => {
         expect(makeIsActiveSelector('widget1')(state)).toEqual(
             state.widgets.widget1.isActive,
@@ -117,18 +108,5 @@ describe('Проверка селекторов widgets', () => {
         expect(makeWidgetPageIdSelector('widget1')(state)).toEqual(
             state.widgets.widget1.pageId,
         )
-    })
-    it('makeTypeSelector должен вернуть type по id', () => {
-        expect(makeTypeSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.type,
-        )
-    })
-    it('makeWidgetDataProviderSelector должен вернуть type по id', () => {
-        expect(makeWidgetDataProviderSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.dataProvider,
-        )
-    })
-    it('isAnyTableFocusedSelector должен вернуть true', () => {
-        expect(isAnyTableFocusedSelector(state)).toEqual(true)
     })
 })

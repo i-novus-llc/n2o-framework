@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.widget.table;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.Control;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
@@ -24,15 +25,19 @@ public class N2oTableFilterHeader extends N2oTableSimpleHeader implements TableF
 
     @Override
     public void clickSearchButton() {
-        filterDropdown().$$(".n2o-advanced-table-filter-dropdown-buttons button").find(Condition.text("Искать")).click();
+        buttons().find(Condition.text("Искать")).click();
     }
 
     @Override
     public void clickResetButton() {
-        filterDropdown().$$(".n2o-advanced-table-filter-dropdown-buttons button").find(Condition.text("Сбросить")).click();
+        buttons().find(Condition.text("Сбросить")).click();
     }
 
-    private SelenideElement filterDropdown() {
+    protected SelenideElement filterDropdown() {
         return element().$(".n2o-advanced-table-filter-dropdown").shouldBe(Condition.exist);
+    }
+
+    protected ElementsCollection buttons() {
+        return filterDropdown().$$(".n2o-advanced-table-filter-dropdown-buttons button");
     }
 }

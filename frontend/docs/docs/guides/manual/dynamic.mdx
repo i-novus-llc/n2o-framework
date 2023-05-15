@@ -2,6 +2,7 @@
 title: Динамика
 description: ""
 ---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 N2O разделяет шаблон и данные.
 Это хорошо сказывается на производительности, но может вызвать проблемы с реализацией интерфейсов, у которых шаблон зависит от данных.
@@ -19,6 +20,8 @@ N2O разделяет шаблон и данные.
     <icon class="{iconClass}"/>
 </column>
 ```
+<Sandbox height={380} projectId="interactions_dynamic_icon" showHeader />
+
 
 ```xml {10} title="Заголовок поля по значению другого поля"
 <radio-group id="contactType"
@@ -33,6 +36,8 @@ N2O разделяет шаблон и данные.
             label="{contactType.name}"/>
 <!-- Заголовок поменяется при выборе типа контакта -->
 ```
+<Sandbox height={380} projectId="interactions_dynamic_textlabel" showHeader />
+
 
 ```xml {3} title="Доступность чекбокса по условию"
 <column label="Активность">
@@ -40,16 +45,20 @@ N2O разделяет шаблон и данные.
     <checkbox enabled="`status == 'open'`"/>
 </column>
 ```
+<Sandbox height={380} projectId="interactions_dynamic_checkboxenabled" showHeader />
+
 
 #### Форматирование значений
 
 Ссылки на значения можно объединять с текстом:
 
-```xml title="Форматирование значения столбца таблицы"
-<column label="ФИО">
-    <text format="{firstName} {lastName} ({positionName})"/>
-</column>
+```xml title="Форматирование значений"
+<fields>
+    <alert id="success" text="Привет, {name}!" color="success"/>
+    <input-text id="name" default-value="Мир"/>
+</fields>
 ```
+<Sandbox height={380} projectId="interactions_dynamic_columnformat" showHeader />
 
 ### Переключатели вложенных метаданных
 
@@ -74,6 +83,8 @@ N2O разделяет шаблон и данные.
     </switch>
 </column>
 ```
+<Sandbox height={380} projectId="interactions_dynamic_columnswitch" showHeader />
+
 
 ### Динамические ссылки на метаданные
 
@@ -85,6 +96,7 @@ N2O разделяет шаблон и данные.
     <open-page page-id="{tableName}"/>
 </button>
 ```
+<Sandbox height={380} projectId="interactions_dynamic_pagelink" showHeader />
 
 ### Параметризованные метаданные
 

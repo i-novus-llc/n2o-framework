@@ -12,7 +12,8 @@ import { Factory } from '../../core/factory/Factory'
 import { BUTTONS } from '../../core/factory/factoryLevels'
 
 function Toolbar({ className, toolbar, entityKey, onClick, tooltipTriggerRef = null }) {
-    const { className: toolbarClassName, style } = toolbar[0] || {}
+    const { className: toolbarClassName, style, id } = toolbar[0] || {}
+
     const handleClick = (e) => {
         e.stopPropagation()
         onClick()
@@ -59,9 +60,12 @@ function Toolbar({ className, toolbar, entityKey, onClick, tooltipTriggerRef = n
         )
     }
 
+    const idWithoutNumbers = id?.replace(/\d/g, '')
     const visibleButtons = toolbar.filter(({ buttons }) => buttons.some(({ visible }) => visible !== false))
+
     const toolbarClass = classNames(
         'buttons-toolbar',
+        [`toolbar_placement_${idWithoutNumbers}`],
         className,
         toolbarClassName,
         {

@@ -39,6 +39,7 @@ public class FormAsFilterAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/form/filter");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/test.query.xml"));
@@ -58,29 +59,32 @@ public class FormAsFilterAT extends AutoTestBase {
         table.shouldExists();
         table.columns().rows().shouldHaveSize(4);
 
-        page.urlShouldMatches(".*/#/");
+        page.shouldHaveUrlMatches(".*/#/");
 
         Select select = form.fields().field("Period").control(Select.class);
-        select.select(0);
+        select.openPopup();
+        select.dropdown().selectItem(0);
         select.shouldSelected("Week");
 
         table.columns().rows().shouldHaveSize(1);
-        page.urlShouldMatches(".*/#/\\?period=WEEK");
+        page.shouldHaveUrlMatches(".*/#/\\?period=WEEK");
 
         select.clear();
 
         table.columns().rows().shouldHaveSize(4);
-        page.urlShouldMatches(".*/#/");
+        page.shouldHaveUrlMatches(".*/#/");
 
         InputText inputText = form.fields().field("Uid").control(InputText.class);
-        inputText.val("1");
+        inputText.click();
+        inputText.setValue("1");
 
         table.columns().rows().shouldHaveSize(1);
-        page.urlShouldMatches(".*/#/\\?uid=1");
+        page.shouldHaveUrlMatches(".*/#/\\?uid=1");
 
+        inputText.click();
         inputText.clear();
         table.columns().rows().shouldHaveSize(4);
-        page.urlShouldMatches(".*/#/");
+        page.shouldHaveUrlMatches(".*/#/");
     }
 
     @Test
@@ -97,10 +101,11 @@ public class FormAsFilterAT extends AutoTestBase {
         table.shouldExists();
         table.columns().rows().shouldHaveSize(1);
 
-        page.urlShouldMatches(".*/#/\\?uid=3");
+        page.shouldHaveUrlMatches(".*/#/\\?uid=3");
 
         InputText inputText = form.fields().field("Uid").control(InputText.class);
         inputText.shouldHaveValue("3");
+        inputText.click();
         inputText.clear();
         table.columns().rows().shouldHaveSize(4);
     }
@@ -119,7 +124,7 @@ public class FormAsFilterAT extends AutoTestBase {
         table.shouldExists();
         table.columns().rows().shouldHaveSize(1);
 
-        page.urlShouldMatches(".*/#/\\?period=MONTH");
+        page.shouldHaveUrlMatches(".*/#/\\?period=MONTH");
 
         InputText inputText = form.fields().field("Uid").control(InputText.class);
         inputText.shouldBeEmpty();
@@ -132,10 +137,12 @@ public class FormAsFilterAT extends AutoTestBase {
 
     @Test
     public void filterByButtonClick() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/form/filter/button_click");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/button_click/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/button_click/test.query.xml"));
 
         StandardPage page = open(StandardPage.class);
+        page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Фильтрация по нажатию кнопки");
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
@@ -145,10 +152,11 @@ public class FormAsFilterAT extends AutoTestBase {
         form.shouldExists();
 
         InputText searchField = form.fields().field("Поиск").control(InputText.class);
-        searchField.val("test2");
+        searchField.click();
+        searchField.setValue("test2");
         form.toolbar().topLeft().button("Найти").click();
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(0).textShouldHave("test2");
+        table.columns().rows().row(0).cell(0).shouldHaveText("test2");
 
         form.toolbar().topLeft().button("Очистить").click();
         searchField.shouldHaveValue("");

@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "test1",
+    "gender.id": 1,
+    "type.id": 1
+  },
+  {
+    "id": 2,
+    "name": "test2",
+    "gender.id": 1,
+    "type.id": 2
+  },
+  {
+    "id": 3,
+    "name": "test3",
+    "gender.id": 2,
+    "type.id": 3
+  },
+  {
+    "id": 4,
+    "name": "test4",
+    "gender.id": 2,
+    "type.id": 1
+  }
+]

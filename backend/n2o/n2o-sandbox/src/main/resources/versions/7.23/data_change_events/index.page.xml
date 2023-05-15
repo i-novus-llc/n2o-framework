@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="События при изменении данных на странице">
+    <datasources>
+        <datasource id="ds1"/>
+        <datasource id="ds2"/>
+    </datasources>
+
+    <events>
+        <on-change datasource="ds1" model="resolve">
+            <alert text="Событие при изменение ds1" color="success"/>
+        </on-change>
+        <on-change datasource="ds2" model="resolve">
+            <alert text="Событие при изменение ds2" color="info"/>
+        </on-change>
+    </events>
+
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <radio-group id="rg1" inline="true"
+                             label="При изменении состояния поля будет показано success сообщение">
+                    <options>
+                        <option id="1" name="One"/>
+                        <option id="2" name="Two"/>
+                        <option id="3" name="Three"/>
+                    </options>
+                </radio-group>
+            </fields>
+        </form>
+
+        <form datasource="ds2">
+            <fields>
+                <radio-group id="rg1" inline="true"
+                             label="При изменении состояния поля будет показано info сообщение">
+                    <options>
+                        <option id="1" name="One"/>
+                        <option id="2" name="Two"/>
+                        <option id="3" name="Three"/>
+                    </options>
+                </radio-group>
+            </fields>
+        </form>
+    </regions>
+</page>

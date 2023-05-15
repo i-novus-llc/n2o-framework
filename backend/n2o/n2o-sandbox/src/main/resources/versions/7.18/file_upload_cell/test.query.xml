@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" object-id="test">
+    <list result-mapping="#this.persons" count-mapping="#this.persons.length">
+        <java method="getList" >
+            <spring bean="personStorageController"/>
+        </java>
+    </list>
+
+    <unique>
+        <java method="getById">
+            <spring bean="personStorageController"/>
+            <arguments>
+                <argument name="id" type="primitive"/>
+            </arguments>
+        </java>
+    </unique>
+
+    <fields>
+        <field id="id" domain="string">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        <field id="surname">
+            <select/>
+        </field>
+        <field id="name">
+            <select/>
+        </field>
+        <field id="patronymic">
+            <select/>
+        </field>
+        <field id="docs" domain="object[]">
+            <select/>
+        </field>
+    </fields>
+</query>

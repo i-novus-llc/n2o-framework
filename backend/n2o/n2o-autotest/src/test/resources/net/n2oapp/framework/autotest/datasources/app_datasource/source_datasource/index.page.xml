@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="App datasource. Передача данных в модальное окно">
+    <datasources>
+        <app-datasource id="ds"/>
+        <app-datasource id="ds1"/>
+        <app-datasource id="ds2"/>
+    </datasources>
+
+    <regions>
+        <form datasource="ds"/>
+        <table datasource="ds1">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+            <toolbar>
+                <button label="Открыть">
+                    <show-modal page-id="modal" route="/modal">
+                        <datasources>
+                            <app-datasource id="parent_ds" source-datasource="ds1"/>
+                        </datasources>
+                    </show-modal>
+                </button>
+            </toolbar>
+        </table>
+
+        <table datasource="ds2">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+            <toolbar>
+                <button label="Открыть">
+                    <show-modal page-id="modal" route="/modal2">
+                        <datasources>
+                            <app-datasource id="parent_ds" source-datasource="ds2"/>
+                        </datasources>
+                    </show-modal>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

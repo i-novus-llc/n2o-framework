@@ -20,8 +20,8 @@ import org.springframework.test.context.TestPropertySource;
 @SpringBootTest(properties = {"n2o.engine.test.classpath=/examples/placeholder_context/"},
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource("classpath:/autotest/examples/placeholder_context/user.properties")
-public class PlaceholderContextAT extends AutoTestBase {//TODO работает на файлах из classpath, т.к. файлы примера больше не сетятся в templatesHolder
+@TestPropertySource("classpath:/examples/placeholder_context/user.properties")
+public class PlaceholderContextAT extends AutoTestBase {
 
     @Value("${username}")
     private String username;
@@ -48,16 +48,15 @@ public class PlaceholderContextAT extends AutoTestBase {//TODO работает 
         builder.getEnvironment().getContextProcessor().set("email", email);
         builder.getEnvironment().getContextProcessor().set("roles", roles);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(
-                new CompileInfo("autotest/examples/placeholder_context/index.page.xml"));
+        builder.sources(new CompileInfo("/examples/placeholder_context/index.page.xml"));
     }
 
     @Test
     public void PlaceholderContextTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().crumb(0).shouldHaveLabel("Placeholder context");
+        page.header().shouldHaveBrandName("N2O");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Настройки пользователя");
 
         OutputText email = page.widget(FormWidget.class).fields().field("email")
                 .control(OutputText.class);

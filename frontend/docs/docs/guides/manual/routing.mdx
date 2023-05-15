@@ -48,7 +48,7 @@ http://localhost:8080/#/[route]
 </application>
 ````
 
-<Sandbox height={200} projectId="documentation_routing_routingnav" showHeader />
+<Sandbox height={200} projectId="interactions_routing_routingnav" showHeader />
 
 :::note
 Если `route` не задан, адресом по умолчанию будет id страницы.
@@ -63,8 +63,11 @@ http://localhost:8080/#/[route]
   ...
 </application>
 ````
+:::note
+Если в качестве welcome-page-id используется не index.page.xml, то в application.properties нужно добавить настройку с указанием домашней страницы n2o.homepage.id=homePage.
+:::
 
-<Sandbox height={200} projectId="documentation_routing_homepage" showHeader />
+<Sandbox height={200} projectId="interactions_routing_homepage" showHeader />
 
 ### Маршрутизация в боковых панелях {#Routing_sidebar}
 
@@ -123,7 +126,7 @@ http://localhost:8080/#/[route]
 ````
 
 Если `route` не задан, маршрутом по умолчанию будет идентификатор действия (или кнопки).
-<Sandbox height={200} projectId="documentation_routing_childpage" showHeader />
+<Sandbox height={200} projectId="interactions_routing_childpage" showHeader />
 
 #### Параметры пути страницы {#Routing_path_param}
 
@@ -146,7 +149,7 @@ http://localhost:8080/#/[route]
 </open-page>
 ````
 
-<Sandbox height={420} projectId="documentation_routing_pathparam" showHeader />
+<Sandbox height={420} projectId="interactions_routing_pathparam" showHeader />
 
 
 #### Параметры запроса страницы {#Routing_query_param}
@@ -178,7 +181,7 @@ http://localhost:8080/#/[route]?param1=[value1]&param2=[value2]
 </open-page>
 ````
 
-<Sandbox height={420} projectId="documentation_routing_queryparam" showHeader />
+<Sandbox height={420} projectId="interactions_routing_queryparam" showHeader />
 
 
 #### Использование параметров страницы {#Routing_use_param}
@@ -208,7 +211,7 @@ http://localhost:8080/#/[route]?param1=[value1]&param2=[value2]
 </open-page>
 ````
 
-<Sandbox height={420} projectId="documentation_routing_pageparam" showHeader />
+<Sandbox height={420} projectId="interactions_routing_pageparam" showHeader />
 
 
 
@@ -236,7 +239,7 @@ GET http://localhost:8080/n2o/data/[route]
 </datasources>
 ````
 
-<Sandbox height={350} projectId="documentation_routing_queryroute" showHeader />
+<Sandbox height={350} projectId="interactions_routing_queryroute" showHeader />
 
 
 Фильтрам выборки можно задать имя параметра запроса через атрибут `param`:
@@ -254,7 +257,7 @@ GET http://localhost:8080/n2o/data/[route]
 </datasource>
 ````
 
-<Sandbox height={400} projectId="documentation_routing_queryfilter" showHeader />
+<Sandbox height={400} projectId="interactions_routing_queryfilter" showHeader />
 
 
 ### Маршрутизация операций {#Routing_operation}
@@ -281,7 +284,7 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 </button>
 ````
 
-<Sandbox height={420} projectId="documentation_routing_operation" showHeader />
+<Sandbox height={420} projectId="interactions_routing_operation" showHeader />
 
 
 #### Параметры пути операции {#Routing_operation_path}
@@ -306,7 +309,7 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 </button>
 ````
 
-<Sandbox height={420} projectId="documentation_routing_operationpath" showHeader />
+<Sandbox height={420} projectId="interactions_routing_operationpath" showHeader />
 
 #### Параметры тела запроса {#Routing_operation_body}
 
@@ -346,7 +349,7 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 :::
 
 
-<Sandbox height={500} projectId="documentation_routing_operationbody" showHeader />
+<Sandbox height={500} projectId="interactions_routing_operationbody" showHeader />
 
 
 #### Использование параметров операции
@@ -393,7 +396,7 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 только если источник данных этих полей загружается значениями по умолчанию.
 :::
 
-<Sandbox height={420} projectId="documentation_routing_field" showHeader />
+<Sandbox height={420} projectId="interactions_routing_field" showHeader />
 
 #### Задание значений списковых полей через параметры {#Routing_field_list}
 
@@ -412,7 +415,7 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 </select>
 ````
 
-<Sandbox height={420} projectId="documentation_routing_fieldlist" showHeader />
+<Sandbox height={420} projectId="interactions_routing_fieldlist" showHeader />
 
 
 #### Задание значений интервальных полей через параметры {#Routing_field_interval}
@@ -428,7 +431,7 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
                end-param="end"/>
 ````
 
-<Sandbox height={420} projectId="documentation_routing_fieldinterval" showHeader />
+<Sandbox height={420} projectId="interactions_routing_fieldinterval" showHeader />
 
 
 ### Репликация маршрутизации {#Routing_replication}
@@ -460,8 +463,8 @@ context binary
 
 #### Репликации роутов через Redis {#Routing_redis}
 
-1. Задайте настройку `n2o.config.register.store-type=redis.
-2. Настройте RedisTemplate с помощью Jedis или Lettuce:
+1. Задайте настройку `n2o.config.register.store-type=redis`.
+2. Настройте ConnectionFactory для Jedis или Lettuce:
 
 ````js title="Jedis"
 @Bean
@@ -480,6 +483,8 @@ LettuceConnectionFactory redisConnectionFactory() {
     return connectionFactory;
 }
 ```
+
+3. Настройте RedisTemplate
 
 ````js
 @Bean

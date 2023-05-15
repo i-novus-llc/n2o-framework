@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.datasource;
 
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
@@ -28,10 +27,10 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
  */
 public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends AbstractDatasource> extends AbstractDatasourceCompiler<S, D> {
 
-    public void compileDatasource(S source, D compiled, CompileContext<?, ?> context, CompileProcessor p) {
+    public void compileDatasource(S source, D compiled, CompileProcessor p) {
         initDatasource(source, compiled, p);
-        compiled.setPaging(
-                new Paging(p.cast(source.getSize(), p.resolve(property("n2o.api.datasource.size"), Integer.class))));
+        compiled.setPaging(new Paging(p.cast(source.getSize(),
+                p.resolve(property("n2o.api.datasource.size"), Integer.class))));
         compiled.setDependencies(initDependencies(source, p));
         compiled.setValidations(initValidations(source, p, ReduxModel.resolve));
         compiled.setFilterValidations(initValidations(source, p, ReduxModel.filter));
@@ -69,8 +68,10 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
                     copyDependency.setModel(p.cast(dependency.getTargetModel(), ReduxModel.resolve));
                     copyDependency.setField(dependency.getTargetFieldId());
                     copyDependency.setType(DependencyType.copy);
-                    copyDependency.setSubmit(p.cast(dependency.getSubmit(), false));
-                    copyDependency.setApplyOnInit(p.cast(dependency.getApplyOnInit(), false));
+                    copyDependency.setSubmit(p.cast(dependency.getSubmit(),
+                            p.resolve(property("n2o.api.datasource.dependency.copy.submit"), Boolean.class)));
+                    copyDependency.setApplyOnInit(p.cast(dependency.getApplyOnInit(),
+                            p.resolve(property("n2o.api.datasource.dependency.copy.apply_on_init"), Boolean.class)));
                     dependencies.add(copyDependency);
                 }
             }

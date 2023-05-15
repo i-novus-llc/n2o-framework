@@ -47,6 +47,7 @@ public class ButtonBindingAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/button/path_binding");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/button/path_binding/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/button/path_binding/test.object.xml"),
@@ -59,7 +60,8 @@ public class ButtonBindingAT extends AutoTestBase {
         FormWidget form = page.widget(FormWidget.class);
         StandardField field = form.fields().field("Put name");
         field.shouldExists();
-        field.control(InputText.class).val("Ivan");
+        field.control(InputText.class).click();
+        field.control(InputText.class).setValue("Ivan");
         StandardButton button = form.toolbar().bottomLeft().button("Press");
         button.shouldExists();
         button.click();

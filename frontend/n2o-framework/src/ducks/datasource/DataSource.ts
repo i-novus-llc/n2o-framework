@@ -7,10 +7,7 @@ import type { IProvider, ISubmit, Paging } from './Provider'
 
 export type State = Record<string, DataSourceState>
 
-export interface DataSourceState<
-    // TModel extends object = object,
-    TKey extends string = string // TKey = keyof TModel
-> {
+export interface DataSourceState {
     provider?: IProvider
     [ValidationsKey.Validations]: Record<string, IValidation[]>
     [ValidationsKey.FilterValidations]: Record<string, IValidation[]>
@@ -19,16 +16,16 @@ export interface DataSourceState<
     paging: Paging
     additionalInfo: object
     loading: boolean
-    sorting: Partial<Record<TKey, SortDirection>>
+    sorting: Partial<Record<string, SortDirection>>
     submit?: ISubmit
-    fieldsSubmit: Record<TKey, IProvider>
+    fieldsSubmit: Record<string, IProvider>
     pageId?: string
     // TODO: rename to "messages"
     errors: Record<
-    ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter,
-    Partial<Record<TKey, IValidationResult[]>>
+    ModelPrefix,
+    Partial<Record<string, IValidationResult[]>>
     >
-    error?: Error | object
+    error?: object
 }
 
 export class DataSource {
@@ -50,6 +47,8 @@ export class DataSource {
                 [ModelPrefix.active]: {},
                 [ModelPrefix.edit]: {},
                 [ModelPrefix.filter]: {},
+                [ModelPrefix.selected]: {},
+                [ModelPrefix.source]: {},
             },
             fieldsSubmit: {},
         })

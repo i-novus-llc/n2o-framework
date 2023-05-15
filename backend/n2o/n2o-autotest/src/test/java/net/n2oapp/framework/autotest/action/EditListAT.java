@@ -64,47 +64,53 @@ public class EditListAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(0);
         addButton.click();
         modalPage.shouldExists();
-        description.val("test2");
-        url.val("test2url");
+        description.click();
+        description.setValue("test2");
+        url.click();
+        url.setValue("test2url");
         saveButton.click();
         modalPage.close();
 
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(0).textShouldHave("test2");
-        table.columns().rows().row(0).cell(1).textShouldHave("test2url");
+        table.columns().rows().row(0).cell(0).shouldHaveText("test2");
+        table.columns().rows().row(0).cell(1).shouldHaveText("test2url");
 
         addButton.click();
         modalPage.shouldExists();
-        description.val("test1");
-        url.val("test1url");
+        description.click();
+        description.setValue("test1");
+        url.click();
+        url.setValue("test1url");
         saveButton.click();
         modalPage.close();
 
         table.columns().rows().shouldHaveSize(2);
-        table.columns().rows().row(0).cell(0).textShouldHave("test2");
-        table.columns().rows().row(0).cell(1).textShouldHave("test2url");
-        table.columns().rows().row(1).cell(0).textShouldHave("test1");
-        table.columns().rows().row(1).cell(1).textShouldHave("test1url");
+        table.columns().rows().row(0).cell(0).shouldHaveText("test2");
+        table.columns().rows().row(0).cell(1).shouldHaveText("test2url");
+        table.columns().rows().row(1).cell(0).shouldHaveText("test1");
+        table.columns().rows().row(1).cell(1).shouldHaveText("test1url");
 
         table.columns().rows().row(1).cell(2, ToolbarCell.class).toolbar().button("update").click();
         modalPage.shouldExists();
         description.shouldHaveValue("test1");
         url.shouldHaveValue("test1url");
-        description.val("update-test1");
-        url.val("update-test1url");
+        description.click();
+        description.setValue("update-test1");
+        url.click();
+        url.setValue("update-test1url");
         saveButton.click();
         modalPage.close();
 
         table.columns().rows().shouldHaveSize(2);
-        table.columns().rows().row(0).cell(0).textShouldHave("test2");
-        table.columns().rows().row(0).cell(1).textShouldHave("test2url");
-        table.columns().rows().row(1).cell(0).textShouldHave("update-test1");
-        table.columns().rows().row(1).cell(1).textShouldHave("update-test1url");
+        table.columns().rows().row(0).cell(0).shouldHaveText("test2");
+        table.columns().rows().row(0).cell(1).shouldHaveText("test2url");
+        table.columns().rows().row(1).cell(0).shouldHaveText("update-test1");
+        table.columns().rows().row(1).cell(1).shouldHaveText("update-test1url");
 
         table.columns().rows().row(1).cell(2, ToolbarCell.class).toolbar().button("delete").click();
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(0).textShouldHave("test2");
-        table.columns().rows().row(0).cell(1).textShouldHave("test2url");
+        table.columns().rows().row(0).cell(0).shouldHaveText("test2");
+        table.columns().rows().row(0).cell(1).shouldHaveText("test2url");
     }
 
     @Test
@@ -125,21 +131,23 @@ public class EditListAT extends AutoTestBase {
 
         addButton.click();
         addModal.shouldExists();
-        items.selectMulti(0, 2);
+        items.openPopup();
+        items.dropdown().selectMulti(0, 2);
         addButtonModal.click();
         table.columns().rows().shouldHaveSize(2);
-        table.columns().rows().row(0).cell(1).textShouldHave("test1");
-        table.columns().rows().row(1).cell(1).textShouldHave("test3");
+        table.columns().rows().row(0).cell(1).shouldHaveText("test1");
+        table.columns().rows().row(1).cell(1).shouldHaveText("test3");
 
         addButton.click();
         addModal.shouldExists();
-        items.selectMulti(1, 3);
+        items.openPopup();
+        items.dropdown().selectMulti(1, 3);
         addButtonModal.click();
         table.columns().rows().shouldHaveSize(4);
-        table.columns().rows().row(0).cell(1).textShouldHave("test1");
-        table.columns().rows().row(1).cell(1).textShouldHave("test3");
-        table.columns().rows().row(2).cell(1).textShouldHave("test2");
-        table.columns().rows().row(3).cell(1).textShouldHave("test4");
+        table.columns().rows().row(0).cell(1).shouldHaveText("test1");
+        table.columns().rows().row(1).cell(1).shouldHaveText("test3");
+        table.columns().rows().row(2).cell(1).shouldHaveText("test2");
+        table.columns().rows().row(3).cell(1).shouldHaveText("test4");
 
         table.columns().rows().shouldHaveSize(4);
         table.columns().rows().row(0).cell(0, CheckboxCell.class).setChecked(true);
@@ -147,8 +155,8 @@ public class EditListAT extends AutoTestBase {
         deleteButton.click();
 
         table.columns().rows().shouldHaveSize(2);
-        table.columns().rows().row(0).cell(1).textShouldHave("test3");
-        table.columns().rows().row(1).cell(1).textShouldHave("test2");
+        table.columns().rows().row(0).cell(1).shouldHaveText("test3");
+        table.columns().rows().row(1).cell(1).shouldHaveText("test2");
 
 
         table.columns().rows().row(1).cell(0, CheckboxCell.class).setChecked(true);

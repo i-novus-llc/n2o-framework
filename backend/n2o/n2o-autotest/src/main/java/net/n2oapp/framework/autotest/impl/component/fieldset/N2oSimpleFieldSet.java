@@ -30,7 +30,7 @@ public class N2oSimpleFieldSet extends N2oFieldSet implements SimpleFieldSet {
         label().shouldNot(Condition.exist);
     }
 
-    private SelenideElement label() {
+    protected SelenideElement label() {
         return element().$(".n2o-fieldset__label");
     }
 }

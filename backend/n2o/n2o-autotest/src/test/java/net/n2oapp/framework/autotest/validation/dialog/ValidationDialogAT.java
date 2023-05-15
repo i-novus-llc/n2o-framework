@@ -74,22 +74,25 @@ public class ValidationDialogAT extends AutoTestBase {
         InputText age = modalForm.fields().field("age").control(InputText.class);
 
         // save with correct data (without dialog)
-        name.val("Mark");
-        age.val("20");
+        name.click();
+        name.setValue("Mark");
+        age.click();
+        age.setValue("20");
         modalSaveBtn.click();
 
         modal.shouldNotExists();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(3);
-        tableRows.row(2).cell(0).textShouldHave("3");
-        tableRows.row(2).cell(1).textShouldHave("Mark");
-        tableRows.row(2).cell(2).textShouldHave("20");
+        tableRows.row(2).cell(0).shouldHaveText("3");
+        tableRows.row(2).cell(1).shouldHaveText("Mark");
+        tableRows.row(2).cell(2).shouldHaveText("20");
 
         // save without name (calling dialog 'nameCheck')
         create.click();
         modal.shouldExists();
 
-        age.val("25");
+        age.click();
+        age.setValue("25");
         modalSaveBtn.click();
 
         Page.Dialog dialog = page.dialog("Вы не заполнили имя.");
@@ -108,15 +111,16 @@ public class ValidationDialogAT extends AutoTestBase {
         modal.shouldNotExists();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(4);
-        tableRows.row(3).cell(0).textShouldHave("4");
-        tableRows.row(3).cell(1).textShouldHave("default");
-        tableRows.row(3).cell(2).textShouldHave("25");
+        tableRows.row(3).cell(0).shouldHaveText("4");
+        tableRows.row(3).cell(1).shouldHaveText("default");
+        tableRows.row(3).cell(2).shouldHaveText("25");
 
         // save without age (calling dialog 'ageCheck')
         create.click();
         modal.shouldExists();
 
-        name.val("Ann");
+        name.click();
+        name.setValue("Ann");
         modalSaveBtn.click();
 
         dialog = page.dialog("Вы не заполнили возраст.");
@@ -136,9 +140,9 @@ public class ValidationDialogAT extends AutoTestBase {
         modal.shouldNotExists();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(5);
-        tableRows.row(4).cell(0).textShouldHave("5");
-        tableRows.row(4).cell(1).textShouldHave("Ann");
-        tableRows.row(4).cell(2).textShouldHave("0");
+        tableRows.row(4).cell(0).shouldHaveText("5");
+        tableRows.row(4).cell(1).shouldHaveText("Ann");
+        tableRows.row(4).cell(2).shouldHaveText("0");
     }
 
     /**
@@ -161,7 +165,8 @@ public class ValidationDialogAT extends AutoTestBase {
 
         InputText inputText = form.fields().field("text").control(InputText.class);
         inputText.shouldExists();
-        inputText.val("test resolve title");
+        inputText.click();
+        inputText.setValue("test resolve title");
 
         form.toolbar().topLeft().button("open").click();
         Modal modal = N2oSelenide.modal();

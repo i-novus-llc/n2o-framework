@@ -62,7 +62,8 @@ public class ChangeDataEventAT extends AutoTestBase {
         page.alerts(Alert.Placement.top).alert(0).shouldHaveColor(Colors.SUCCESS);
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Событие при изменение ds1");
 
-        text.val("test");
+        text.click();
+        text.setValue("test");
         page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
         radioGroup2.check("two");
         page.alerts(Alert.Placement.top).alert(0).shouldHaveColor(Colors.INFO);
@@ -81,10 +82,14 @@ public class ChangeDataEventAT extends AutoTestBase {
         InputText test = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
                 .fields().field("test").control(InputText.class);
 
-        test.val("5");
+        test.click();
+        test.setValue("5");
         N2oSelenide.modal().shouldExists();
         N2oSelenide.modal().close();
-        test.clear();
+        N2oSelenide.modal().shouldNotExists();
+        test.click();
+        test.setValue("3");
+        test.shouldHaveValue("3");
         page.alerts(Alert.Placement.top).alert(0).shouldExists();
     }
 

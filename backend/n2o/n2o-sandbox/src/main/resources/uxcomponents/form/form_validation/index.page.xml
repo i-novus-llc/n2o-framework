@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form name="Форма c валидацией">
+        <datasource object-id="test"/>
+        <fields>
+            <row>
+                <input-text id="field1" label="Обязательное поле" required="true"/>
+                <input-text id="field3" label="Максимальная длина">
+                    <validations>
+                        <condition id="maxLength" severity="danger"
+                                   message="Максимальная длина равна 5 символам">
+                            <![CDATA[field3.length <= 5]]>
+                        </condition>
+                    </validations>
+                </input-text>
+
+                <input-text id="field4" label="Минимальная длина">
+                    <validations>
+                        <condition id="field4"
+                                   severity="danger"
+                                   message="Минимальная длина равна 5 символам">
+                            field4.length >= 5
+                        </condition>
+                    </validations>
+                </input-text>
+            </row>
+            <row>
+                <input-text id="field5" label="Целое число">
+                    <validations>
+                        <condition id="field5" severity="danger"
+                                   message="Введите целое число">
+                            /^[0-9\s]+$/.test(field5)
+                        </condition>
+                    </validations>
+                </input-text>
+                <input-text id="field6" label="Русский язык">
+                    <validations>
+                        <condition id="field6"
+                                   severity="danger"
+                                   message="Введите значение, используя кириллицу">
+                            /^[?!,.а-яА-ЯёЁ0-9\s]+$/.test(field6)
+                        </condition>
+                    </validations>
+                </input-text>
+                <input-text id="field7" label="Заглавная буква">
+                    <validations>
+                        <condition id="field7" severity="danger"
+                                   message="В значении должна быть как минимум одна заглавная буква">
+                            field7[0] !== field7[0].toLowerCase()
+                        </condition>
+                    </validations>
+                </input-text>
+            </row>
+        </fields>
+        <toolbar place="bottomRight">
+            <button label="Очистить">
+                <clear/>
+            </button>
+            <button color="primary"
+                    label="Отправить"
+                    validate="true"
+                    description="Проверить валидацию">
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

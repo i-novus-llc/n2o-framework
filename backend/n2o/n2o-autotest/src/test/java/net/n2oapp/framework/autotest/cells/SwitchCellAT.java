@@ -32,6 +32,7 @@ public class SwitchCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
+        setJsonPath("net/n2oapp/framework/autotest/cells");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/switch/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
@@ -55,17 +56,17 @@ public class SwitchCellAT extends AutoTestBase {
     public void switchCellTest() {
         BadgeCell cell1 = rows.row(0).cell(0, BadgeCell.class);
         cell1.shouldExists();
-        cell1.textShouldHave("test1");
-        cell1.colorShouldBe(Colors.INFO);
+        cell1.badgeShouldHaveText("test1");
+        cell1.shouldHaveColor(Colors.INFO);
         IconCell cell2 = rows.row(1).cell(0, IconCell.class);
         cell2.shouldExists();
-        cell2.textShouldHave("test2");
-        cell2.iconShouldBe("fa-plus");
+        cell2.shouldHaveText("test2");
+        cell2.shouldHaveIcon("fa-plus");
         CheckboxCell cell3 = rows.row(2).cell(0, CheckboxCell.class);
         cell3.shouldExists();
         cell3.shouldBeChecked();
         TextCell cell4 = rows.row(3).cell(0, TextCell.class);
         cell4.shouldExists();
-        cell4.textShouldHave("test4");
+        cell4.shouldHaveText("test4");
     }
 }

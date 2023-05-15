@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 
-import Pagination from '../../snippets/Pagination/Pagination'
+import { Pagination } from '../../snippets/Pagination/Pagination'
 
 /**
  * Компонент табличной пейджинации. По `widgetId` автоматически определяет все свойства для `Paging`
@@ -28,22 +28,26 @@ export class N2OPagination extends Component {
 
     render() {
         const {
-            count,
             datasource,
             setPage,
-            showCount,
+            showCount: propShowCount,
+            loading,
+            hasNext,
+            count,
         } = this.props
 
-        const currentShowCount = typeof showCount === 'boolean' ? showCount : !isEmpty(datasource)
+        const showCount = propShowCount || !isEmpty(datasource)
+        const calculatedHasNext = count ? hasNext : (!loading && hasNext)
 
         return (
-            count > 0 && (
-                <Pagination
-                    {...this.props}
-                    onSelect={setPage}
-                    showCount={currentShowCount}
-                />
-            )
+            <Pagination
+                {...this.props}
+                onSelect={setPage}
+                showCount={showCount}
+                hasNext={calculatedHasNext}
+                loading={loading}
+                showSinglePage={false}
+            />
         )
     }
 }
@@ -54,7 +58,6 @@ N2OPagination.propTypes = {
     activePage: PropTypes.number,
     setPage: PropTypes.func,
     datasource: PropTypes.array,
-    maxPages: PropTypes.number,
     layout: PropTypes.oneOf([
         'bordered',
         'flat',
@@ -65,18 +68,11 @@ N2OPagination.propTypes = {
     ]),
     prev: PropTypes.bool,
     prevIcon: PropTypes.string,
-    prevLabel: PropTypes.string,
     next: PropTypes.bool,
     nextIcon: PropTypes.string,
-    nextLabel: PropTypes.string,
-    first: PropTypes.bool,
-    firstIcon: PropTypes.string,
-    firstLabel: PropTypes.string,
     last: PropTypes.bool,
     lastIcon: PropTypes.string,
-    lastLabel: PropTypes.string,
     showCount: PropTypes.bool,
-    showSinglePage: PropTypes.bool,
     className: PropTypes.string,
     style: PropTypes.object,
 }

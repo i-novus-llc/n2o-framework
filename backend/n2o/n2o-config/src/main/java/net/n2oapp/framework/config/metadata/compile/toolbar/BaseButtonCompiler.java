@@ -24,6 +24,7 @@ import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.initDatasource;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -70,7 +71,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
             hint = source.getDescription();
 
         if (hint != null) {
-            button.setHint(hint.trim());
+            button.setHint(p.resolveJS(hint.trim()));
             button.setHintPosition(source.getTooltipPosition());
         }
     }
@@ -105,8 +106,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         source.setTooltipPosition(initTooltipPosition(source, p));
         source.setColor(initColor(source, p));
 
-        String datasource = initDatasource(source, p);
-        source.setDatasourceId(datasource);
+        source.setDatasourceId(initDatasource(source, p));
         source.setModel(p.cast(source.getModel(), ReduxModel.resolve));
     }
 
@@ -165,14 +165,5 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         if (!button.getConditions().containsKey(type))
             button.getConditions().put(type, new ArrayList<>());
         button.getConditions().get(type).add(condition);
-    }
-
-    protected String initDatasource(N2oAbstractButton source, CompileProcessor p) {
-        if (source.getDatasourceId() != null)
-            return source.getDatasourceId();
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null)
-            return widgetScope.getDatasourceId();
-        return null;
     }
 }

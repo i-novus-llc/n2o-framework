@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "fio": "Иванов П.И.",
+    "url": "https://google.com"
+  },
+  {
+    "id": 2,
+    "fio": "Васильев Г.П.",
+    "url": "https://yandex.ru"
+  }
+]

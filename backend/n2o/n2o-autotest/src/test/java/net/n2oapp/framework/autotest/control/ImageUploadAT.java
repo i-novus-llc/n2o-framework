@@ -63,12 +63,13 @@ public class ImageUploadAT extends AutoTestBase {
         fileStoreController.clearFileStore();
 
         imageUpload.uploadAreaShouldHaveIcon("fa fa-upload");
+        imageUpload.uploadAreaShouldHaveShape(ShapeType.SQUARE);
 
         imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/image_upload/image.png");
         imageUpload.shouldHaveSize(1);
 
-        imageUpload.nameInfoShouldNotExist(0);
-        imageUpload.sizeInfoShouldNotBeVisible(0);
+        imageUpload.shouldNotHaveNameInfo(0);
+        imageUpload.shouldNotHaveVisibleSizeInfo(0);
         imageUpload.shouldNotHavePreview(0);
 
         assertThat(fileStoreController.getFileStore().size(), is(1));
@@ -86,7 +87,7 @@ public class ImageUploadAT extends AutoTestBase {
 
         imageUpload.shouldHaveSize(0);
         imageUpload.uploadAreaShouldHaveIcon("fa fa-plus");
-        imageUpload.uploadAreaIconShouldHaveSize(100);
+        imageUpload.uploadAreaShouldHaveIconSize(100);
         imageUpload.uploadAreaShouldHaveWidth(200);
         imageUpload.uploadAreaShouldHaveHeight(200);
 
@@ -99,10 +100,10 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/image_upload/image.png");
         imageUpload.shouldHaveSize(1);
 
-        imageUpload.nameInfoShouldExist(0);
-        imageUpload.uploadAreaShapeShouldBe(ShapeType.CIRCLE);
-        imageUpload.nameShouldBe(0, "image.png");
-        imageUpload.sizeShouldBe(0, "186");
+        imageUpload.shouldHaveNameInfo(0);
+        imageUpload.uploadAreaShouldHaveShape(ShapeType.CIRCLE);
+        imageUpload.shouldHaveName(0, "image.png");
+        imageUpload.shouldHaveSize(0, "186");
         imageUpload.shouldHavePreview(0);
 
         ImageUploadControl.PreviewDialog previewDialog = imageUpload.openPreviewDialog(simplePage, 0);

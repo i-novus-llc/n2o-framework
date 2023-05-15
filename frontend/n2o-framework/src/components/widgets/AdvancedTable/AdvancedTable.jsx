@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { compose, pure, setDisplayName } from 'recompose'
+import { compose, setDisplayName } from 'recompose'
 import ReactDom from 'react-dom'
 import PropTypes from 'prop-types'
 import Table from 'rc-table'
@@ -16,12 +16,14 @@ import findIndex from 'lodash/findIndex'
 import values from 'lodash/values'
 import eq from 'lodash/eq'
 import get from 'lodash/get'
+import { ReactReduxContext } from 'react-redux'
 
 import propsResolver from '../../../utils/propsResolver'
 import { SecurityController } from '../../../core/auth/SecurityController'
 // eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O'
 import { InputRadio } from '../../controls/Radio/Input'
+import { makeIsActiveSelector } from '../../../ducks/widgets/selectors'
 
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableExpandIcon from './AdvancedTableExpandIcon'
@@ -34,7 +36,7 @@ import AdvancedTableCell from './AdvancedTableCell'
 import AdvancedTableHeaderRow from './AdvancedTableHeaderRow'
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn'
-import { KEY_CODES, rowSelectionType } from './const'
+import { KEY_CODES, rowSelectionType, NATIVE_CHECKED_PARAM } from './const'
 
 export const getIndex = (data, selectedId) => {
     const index = findIndex(data, model => model.id === selectedId)
@@ -81,6 +83,7 @@ class AdvancedTable extends Component {
             columns: [],
             checked: props.data && !isEmpty(props.multi) ? this.mapChecked(props.multi) : {},
             children: get(props, 'children', 'collapse'),
+            currentTableWidth: 0,
         }
 
         this.rows = {}
@@ -135,6 +138,7 @@ class AdvancedTable extends Component {
             resolveModel,
             setSelected,
             filters,
+            textWrap,
         } = this.props
 
         const { checked, children } = this.state
@@ -152,12 +156,18 @@ class AdvancedTable extends Component {
         if (!isEqual(prevProps, this.props)) {
             let state = {}
 
-            if (isEqual(prevProps.filters, filters) && !isEmpty(prevProps.filters) && !isEmpty(filters)) {
-                this.closeAllRows()
-            }
+            const isDataChanged = data && !isEqual(data, prevProps.data)
+            /* checking for an array here because of the multi init state = {} */
+            const isMultiModelHasBeenCleared = !Array.isArray(multi) && isEmpty(multi) && !isEmpty(prevProps.multi)
 
-            if (data && !isEqual(prevProps.data, data)) {
-                const checked = this.mapChecked(multi)
+            if (isDataChanged || isMultiModelHasBeenCleared) {
+                let checked = {}
+
+                if (isEmpty(multi)) {
+                    checked = this.mapChecked([])
+                } else {
+                    checked = this.mapChecked(multi)
+                }
 
                 state = {
                     data: isArray(data) ? mappingKeysIntoData(data) : mappingKeysIntoData([data]),
@@ -174,7 +184,8 @@ class AdvancedTable extends Component {
                     this.openAllRows()
                 }
             }
-            if (!isEqual(prevProps.columns, columns)) {
+
+            if (!isEqual(prevProps.columns, columns) || (prevProps.textWrap !== textWrap)) {
                 state = {
                     ...state,
                     columns: this.mapColumns(columns),
@@ -198,6 +209,7 @@ class AdvancedTable extends Component {
 
             selectAllCheckbox.indeterminate = isSomeOneChecked && !isAllChecked
             selectAllCheckbox.checked = isAllChecked
+            selectAllCheckbox.setAttribute(NATIVE_CHECKED_PARAM, isAllChecked)
 
             this.setState({})
         }
@@ -289,6 +301,10 @@ class AdvancedTable extends Component {
             tableBody.style.width = width
             tableBody.style.overflow = 'auto'
         }
+
+        this.setState({
+            currentTableWidth: tableBody.offsetWidth,
+        })
     };
 
     setSelectionRef = (el) => {
@@ -350,7 +366,8 @@ class AdvancedTable extends Component {
         if (needToReturn) {
             return
         }
-        if (rowSelection === rowSelectionType.RADIO || (!rowSelection && hasSelect)) {
+
+        if (rowSelection === rowSelectionType.RADIO) {
             this.selectModel(model)
         }
 
@@ -363,17 +380,22 @@ class AdvancedTable extends Component {
         }
     }
 
+    // eslint-disable-next-line complexity
     handleRowClickWithAction(id, needReturn, noResolve, model) {
         const {
+            id: widgetId,
             hasFocus,
             hasSelect,
             rowClick,
             onRowClickAction,
             setResolve,
-            isActive,
             autoCheckboxOnSelect,
             rowSelection,
         } = this.props
+        const { store } = this?.context || {}
+        /* FIXME: Используется свойство isActive напрямую из стора.
+            На автотестах, значение не успевает измениться, тесты слишком быстро отрабатывают */
+        const isActive = store ? makeIsActiveSelector(widgetId)(store.getState()) : false
         const needToReturn = isActive === needReturn
 
         if (!needToReturn && hasSelect && !noResolve) {
@@ -384,6 +406,7 @@ class AdvancedTable extends Component {
             if (!hasSelect) {
                 setResolve(find(this.dataStorage, { id }))
             }
+
             onRowClickAction(model)
         }
 
@@ -430,7 +453,7 @@ class AdvancedTable extends Component {
         const { data } = this.props
         const keys = []
         const getKeys = array => map(array, (item) => {
-            keys.push(item.id)
+            keys.push(item.key)
             if (item.children) {
                 getKeys(item.children)
             }
@@ -632,10 +655,29 @@ class AdvancedTable extends Component {
         )
     };
 
+    getAverageColumnWidth = () => {
+        const { textWrap, columns = [] } = this.props
+
+        if (textWrap || !columns.length) {
+            return null
+        }
+
+        const { currentTableWidth } = this.state
+
+        if (!currentTableWidth) {
+            return null
+        }
+
+        return `${currentTableWidth / columns.length}px`
+    }
+
     mapColumns = (columns = []) => {
         const { rowSelection, filters, textWrap } = this.props
 
         let newColumns = columns
+
+        const averageColumnWidth = this.getAverageColumnWidth()
+        const cellStyle = averageColumnWidth ? { maxWidth: averageColumnWidth } : {}
 
         newColumns = map(newColumns, (col, columnIndex) => ({
             ...col,
@@ -652,6 +694,7 @@ class AdvancedTable extends Component {
                 needRender: col.needRender,
                 textWrap,
                 alignment: col.alignment,
+                style: cellStyle,
             }),
         }))
 
@@ -715,7 +758,10 @@ class AdvancedTable extends Component {
     }
 }
 
+AdvancedTable.contextType = ReactReduxContext
+
 AdvancedTable.propTypes = {
+    id: PropTypes.string,
     children: PropTypes.any,
     selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     rowClass: PropTypes.string,
@@ -808,4 +854,4 @@ AdvancedTable.defaultProps = {
 }
 
 export { AdvancedTable }
-export default compose(setDisplayName('AdvancedTable'), pure)(AdvancedTable)
+export default compose(setDisplayName('AdvancedTable'))(AdvancedTable)

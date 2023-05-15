@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0"
+             welcome-page-id="index" navigation-layout="fullSizeSidebar">
+    <header logo-src="static/logo.png" sidebar-icon="fa fa-bars"
+            sidebar-toggled-icon="fa fa-bars" home-page-url="#"/>
+    <sidebars>
+        <sidebar title="Меню" home-page-url="#">
+            <nav>
+                <menu-item name="Пункт 1">
+                    <a href="#"/>
+                </menu-item>
+                <menu-item name="Пункт 2">
+                    <a href="#"/>
+                </menu-item>
+                <menu-item name="Пункт 3">
+                    <a href="#"/>
+                </menu-item>
+                <menu-item name="Пункт 4">
+                    <a href="#"/>
+                </menu-item>
+            </nav>
+        </sidebar>
+    </sidebars>
+</application>

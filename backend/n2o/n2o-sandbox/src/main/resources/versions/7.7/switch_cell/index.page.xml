@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Переключаемые ячейки">
+    <table query-id="test">
+        <columns>
+            <column text-field-id="id" label="ID"/>
+            <column text-field-id="name" label="Type">
+                <switch value-field-id="type">
+                    <case value="type1">
+                        <badge color="info"/>
+                    </case>
+                    <case value="type2">
+                        <icon icon="fa fa-plus" type="iconAndText"/>
+                    </case>
+                    <case value="type3">
+                        <checkbox/>
+                    </case>
+                    <default>
+                        <text/>
+                    </default>
+                </switch>
+            </column>
+        </columns>
+    </table>
+</simple-page>

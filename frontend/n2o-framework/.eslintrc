@@ -49,11 +49,11 @@
     // Дефолтного экспорта быть не должно
     "import/prefer-default-export": "off",
     "import/extensions": ["error", "always", {
-        "ts": "never",
-        "tsx": "never",
-        "js": "never",
-        "jsx": "never"
-      }],
+      "ts": "never",
+      "tsx": "never",
+      "js": "never",
+      "jsx": "never"
+    }],
     // Отступы внутри объектов и массивов
     "object-curly-spacing": ["error", "always"],
     // Не выносить контент объектов на отдельную строку
@@ -68,6 +68,7 @@
     "react/require-default-props": ["off"],
     // Теперь можно использовать any в propTypes
     "react/forbid-prop-types": ["off"],
+    "react/prop-types": ["off"],
     // Теперь при сравнении можно писать числа слева от знака, н.р.: 6 < from
     "yoda": ["off"],
     // Запрет <a href="#"> или <a href="javascript:void(0)">
@@ -88,9 +89,9 @@
     //
     "optimize-regex/optimize-regex": "warn",
     // Пустая стока перед return
-//    "newline-before-return": "error",
+    //    "newline-before-return": "error",
     // Пустая стока после блока объявления переменных переменными
-//    "newline-after-var": ["error", "always"],
+    //    "newline-after-var": ["error", "always"],
     "padding-line-between-statements": [
       "error",
       // Вставлять пробел после блока переменных
@@ -114,8 +115,8 @@
     "react/sort-comp": "off",
     // Расширения файлов, которые могут содержать jsx
     "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }],
-// Sonar
-  // Bug Detection
+    // Sonar
+    // Bug Detection
     // Дублировние кода в if-else, switch ветках
     "sonarjs/no-all-duplicated-branches": "error",
     // Переприсваивание значений
@@ -128,7 +129,7 @@
     "sonarjs/no-one-iteration-loop": "error",
     // Попытка использования резульата функции, которая ничего не возвращает
     "sonarjs/no-use-of-empty-return-value": "error",
-  // Code Smell Detection
+    // Code Smell Detection
     // Схлопывание вложенных if  в один
     "sonarjs/no-collapsible-if": "error",
     // Отказ от проверки отрицательной на размер коллекций, и что он ">=0"

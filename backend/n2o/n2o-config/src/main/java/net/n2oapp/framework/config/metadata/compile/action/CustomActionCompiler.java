@@ -55,6 +55,7 @@ public class CustomActionCompiler extends AbstractMetaActionCompiler<CustomActio
                 }
             });
         }
+
         return payload;
     }
 }

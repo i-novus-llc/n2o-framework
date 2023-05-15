@@ -5,10 +5,7 @@ import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
-import net.n2oapp.framework.api.metadata.meta.region.scrollspy.GroupScrollspyElement;
-import net.n2oapp.framework.api.metadata.meta.region.scrollspy.ScrollspyElement;
-import net.n2oapp.framework.api.metadata.meta.region.scrollspy.ScrollspyRegion;
-import net.n2oapp.framework.api.metadata.meta.region.scrollspy.SingleScrollspyElement;
+import net.n2oapp.framework.api.metadata.meta.region.scrollspy.*;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -60,6 +57,7 @@ public class ScrollspyRegionCompileTest extends SourceCompileTestBase {
         assertThat(region.getActive(), is("mi2"));
         assertThat(region.getPlacement(), is("right"));
         assertThat(region.getHeadlines(), is(true));
+        assertThat(region.getMaxHeight(), is(700));
 
         region =  ((ScrollspyRegion) regions.get(1));
         assertThat(region.getId(), is("scrollspy1"));
@@ -70,6 +68,7 @@ public class ScrollspyRegionCompileTest extends SourceCompileTestBase {
         assertThat(region.getActive(), nullValue());
         assertThat(region.getPlacement(), is("left"));
         assertThat(region.getHeadlines(), is(false));
+        assertThat(region.getMaxHeight(), is(nullValue()));
     }
 
     @Test
@@ -117,29 +116,41 @@ public class ScrollspyRegionCompileTest extends SourceCompileTestBase {
         assertThat(element.getTitle(), is("Third item title in the list"));
 
         //single element in group
-        assertThat(((GroupScrollspyElement) element).getMenu().size(), is(3));
-        assertThat((((GroupScrollspyElement) element).getMenu().get(0)).getId(), is("mi2"));
-        assertThat((((GroupScrollspyElement) element).getMenu().get(0)).getTitle(), is("Title1"));
-        assertThat(((SingleScrollspyElement) ((GroupScrollspyElement) element).getMenu().get(0)).getContent().size(), is(2));
-        assertThat(((Table) ((SingleScrollspyElement) ((GroupScrollspyElement) element).getMenu().get(0)).getContent().get(0)).getName(), is("table2"));
-        assertThat(((Form) ((SingleScrollspyElement) ((GroupScrollspyElement) element).getMenu().get(0)).getContent().get(1)).getName(), is("form3"));
+        assertThat(((MenuScrollspyElement) element).getMenu().size(), is(3));
+        assertThat((((MenuScrollspyElement) element).getMenu().get(0)).getId(), is("mi2"));
+        assertThat((((MenuScrollspyElement) element).getMenu().get(0)).getTitle(), is("Title1"));
+        assertThat(((SingleScrollspyElement) ((MenuScrollspyElement) element).getMenu().get(0)).getContent().size(), is(2));
+        assertThat(((Table) ((SingleScrollspyElement) ((MenuScrollspyElement) element).getMenu().get(0)).getContent().get(0)).getName(), is("table2"));
+        assertThat(((Form) ((SingleScrollspyElement) ((MenuScrollspyElement) element).getMenu().get(0)).getContent().get(1)).getName(), is("form3"));
 
         //single element in group
-        assertThat((((GroupScrollspyElement) element).getMenu().get(1)).getId(), is("element_scrollspy8"));
-        assertThat((((GroupScrollspyElement) element).getMenu().get(1)).getTitle(), is("Title2"));
-        assertThat(((SingleScrollspyElement) ((GroupScrollspyElement) element).getMenu().get(1)).getContent().size(), is(1));
-        assertThat(((Form) ((SingleScrollspyElement) ((GroupScrollspyElement) element).getMenu().get(1)).getContent().get(0)).getName(), is("form4"));
+        assertThat((((MenuScrollspyElement) element).getMenu().get(1)).getId(), is("element_scrollspy8"));
+        assertThat((((MenuScrollspyElement) element).getMenu().get(1)).getTitle(), is("Title2"));
+        assertThat(((SingleScrollspyElement) ((MenuScrollspyElement) element).getMenu().get(1)).getContent().size(), is(1));
+        assertThat(((Form) ((SingleScrollspyElement) ((MenuScrollspyElement) element).getMenu().get(1)).getContent().get(0)).getName(), is("form4"));
 
         //group element in group
-        assertThat((((GroupScrollspyElement) element).getMenu().get(2)).getId(), is("element_scrollspy9"));
-        assertThat((((GroupScrollspyElement) element).getMenu().get(2)).getTitle(), is("Title3"));
-        assertThat(((GroupScrollspyElement) ((GroupScrollspyElement) element).getMenu().get(2)).getMenu().size(), is(1));
+        assertThat((((MenuScrollspyElement) element).getMenu().get(2)).getId(), is("element_scrollspy9"));
+        assertThat((((MenuScrollspyElement) element).getMenu().get(2)).getTitle(), is("Title3"));
+        assertThat(((MenuScrollspyElement) ((MenuScrollspyElement) element).getMenu().get(2)).getMenu().size(), is(1));
 
         //single element in group element in group
-        assertThat((((GroupScrollspyElement) ((GroupScrollspyElement) element).getMenu().get(2)).getMenu().get(0)).getId(), is("mi3"));
-        assertThat((((GroupScrollspyElement) ((GroupScrollspyElement) element).getMenu().get(2)).getMenu().get(0)).getTitle(), is("Title4"));
-        assertThat(((SingleScrollspyElement) ((GroupScrollspyElement) ((GroupScrollspyElement) element).getMenu().get(2)).getMenu().get(0)).getContent().size(), is(1));
-        assertThat(((Form) ((SingleScrollspyElement) ((GroupScrollspyElement) ((GroupScrollspyElement) element).getMenu().get(2)).getMenu().get(0)).getContent().get(0)).getName(), is("form5"));
+        assertThat((((MenuScrollspyElement) ((MenuScrollspyElement) element).getMenu().get(2)).getMenu().get(0)).getId(), is("mi3"));
+        assertThat((((MenuScrollspyElement) ((MenuScrollspyElement) element).getMenu().get(2)).getMenu().get(0)).getTitle(), is("Title4"));
+        assertThat(((SingleScrollspyElement) ((MenuScrollspyElement) ((MenuScrollspyElement) element).getMenu().get(2)).getMenu().get(0)).getContent().size(), is(1));
+        assertThat(((Form) ((SingleScrollspyElement) ((MenuScrollspyElement) ((MenuScrollspyElement) element).getMenu().get(2)).getMenu().get(0)).getContent().get(0)).getName(), is("form5"));
+
+        element = region.getMenu().get(3);
+        assertThat(element.getTitle(), is("group"));
+        assertThat(((GroupScrollspyElement) element).getHeadline(), is(true));
+        assertThat(((GroupScrollspyElement) element).getGroup().get(0).getId(), is("GroupItem"));
+        assertThat(((GroupScrollspyElement) element).getGroup().get(0).getTitle(), is("Item in group"));
+        assertThat(((Table) ((SingleScrollspyElement) ((GroupScrollspyElement) element).getGroup().get(0)).getContent().get(0)).getName(), is("table3"));
+        assertThat(((GroupScrollspyElement) element).getGroup().get(1).getTitle(), is("Sub-menu in group"));
+        assertThat((((MenuScrollspyElement) ((GroupScrollspyElement) element).getGroup().get(1)).getMenu().get(0)).getId(), is("mi4"));
+        assertThat((((MenuScrollspyElement) ((GroupScrollspyElement) element).getGroup().get(1)).getMenu().get(0)).getTitle(), is("Title5"));
+        assertThat(((Form) ((SingleScrollspyElement) ((MenuScrollspyElement) ((GroupScrollspyElement) element).getGroup().get(1)).getMenu().get(0)).getContent().get(0)).getName(), is("form7"));
+
     }
 
     @Test

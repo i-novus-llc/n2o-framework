@@ -12,39 +12,45 @@ public class N2oMaskedInput extends N2oControl implements MaskedInput {
 
     @Override
     public void shouldBeEmpty() {
-        SelenideElement elm = inputElement();
-        if (elm.exists()) inputElement().shouldBe(Condition.empty);
-        else cellInputElement().shouldBe(Condition.empty);
+        SelenideElement input = inputElement();
+
+        if (input.exists())
+            inputElement().shouldBe(Condition.empty);
+        else
+            cellInputElement().shouldBe(Condition.empty);
     }
 
     @Override
-    public String val() {
-        SelenideElement elm = inputElement();
-        return elm.exists() ? elm.val() : cellInputElement().text();
+    public String getValue() {
+        SelenideElement input = inputElement();
+
+        return input.exists() ? input.getValue() : cellInputElement().text();
     }
 
     @Override
-    public void val(String value) {
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
-        inputElement().pressEnter();
+    public void setValue(String value) {
+        inputElement().setValue(value).pressEnter();
     }
 
     @Override
     public void shouldHaveValue(String value) {
-        SelenideElement elm = element().parent().$(".n2o-input-mask");
-        if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.value(value));
-        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.text(value));
+        SelenideElement input = inputElement();
+
+        if (input.exists())
+            input.shouldHave(Condition.value(value));
+        else
+            cellInputElement().shouldHave(Condition.text(value));
     }
 
     @Override
     public void shouldHavePlaceholder(String value) {
         Condition condition = Condition.attribute("placeholder", value);
+        SelenideElement input = inputElement();
 
-        SelenideElement elm = element().parent().$(".n2o-input-mask");
-        if (elm.exists()) elm.shouldHave(condition);
-        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(condition);
+        if (input.exists())
+            input.shouldHave(condition);
+        else
+            cellInputElement().shouldHave(condition);
     }
 
     @Override
@@ -53,20 +59,19 @@ public class N2oMaskedInput extends N2oControl implements MaskedInput {
     }
 
     @Override
-    public void measureShouldHaveText(String text) {
+    public void shouldHaveMeasureText(String text) {
         inputMeasure().shouldHave(Condition.text(text));
     }
 
-    private SelenideElement inputElement() {
-        element().shouldBe(Condition.exist);
-        return element().parent().$(".n2o-input-mask");
+    protected SelenideElement inputElement() {
+        return element().shouldBe(Condition.exist).parent().$(".n2o-input-mask");
     }
 
-    private SelenideElement cellInputElement() {
+    protected SelenideElement cellInputElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
     }
 
-    private SelenideElement inputMeasure() {
+    protected SelenideElement inputMeasure() {
         return element().parent().$(".n2o-control-container-placeholder");
     }
 }

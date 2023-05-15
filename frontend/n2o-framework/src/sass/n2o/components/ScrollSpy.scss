@@ -1,61 +1,89 @@
+@mixin defaultItem {
+    position: relative;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: $menu-item-color;
+}
+
+@mixin defaultItemHover {
+    cursor: pointer;
+    color: $n2o-ui-primary-hover;
+}
+
 .n2o-scroll-spy-region {
     position: relative;
-    align-items: start;
+    overflow-y: auto;
+
+    .n2o-scroll-spy-region__group-items {
+        .n2o-scroll-spy-region__group-items-divider {
+            height: 1px;
+        }
+
+        .n2o-scroll-spy-region__group-items-divider::before {
+            border-bottom: 1px solid #e4e4e4;
+        }
+
+        .n2o-scroll-spy-region__group-items-title {
+            padding: 8px 16px;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 16px;
+            text-transform: uppercase;
+            color: #bababa;
+        }
+    }
 
     .n2o-scroll-spy-region__menu-group {
         position: sticky;
         top: 0;
-
-        .n2o-scroll-spy-region__menu-title {
-            margin-bottom: 15px;
-            padding: 0 30px;
-            font-weight: bold;
-            color: #163851;
-        }
+        height: inherit;
+        align-self: start;
+        border-right: 1px solid #ebebeb;
 
         .n2o-scroll-spy-region__menu-item {
-            margin-bottom: 5px;
-            padding: 5px 30px;
-            font-size: 16px;
-            cursor: pointer;
-            color: $gray-light;
-        }
+            padding: 8px 16px;
 
-        .n2o-scroll-spy-region__menu-item.active {
-            color: white;
-            background-color: #163851;
+            @include defaultItem;
         }
 
         .n2o-scroll-spy-region__menu-item:hover {
-            background-color: #c9c9c9;
-            color: white;
+            @include defaultItemHover;
+        }
+
+        .n2o-scroll-spy-region__menu-item.active {
+            color: $n2o-ui-primary;
+        }
+
+        .n2o-scroll-spy-region__menu-item.active::after {
+            height: 100%;
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            border-right: 2px solid $n2o-ui-primary;
         }
 
         .n2o-scroll-spy-region__menu-item.active:hover {
-            color: white;
-            background-color: #163851;
+            color: $n2o-ui-primary;
         }
 
         .n2o-scroll-spy-region__menu-wrapper.visible {
             height: auto;
             opacity: 1;
             transition: max-height 0.25s ease-in;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
 
         .n2o-scroll-spy-region__menu-wrapper {
             width: max-content;
             height: 0;
-            padding: 15px 0 15px 0;
             opacity: 0;
             transition: 0.1s ease;
 
             .n2o-scroll-spy-region__dropdown-menu-items-wrapper {
                 width: 100%;
-
-                .n2o-scroll-spy-region__dropdown-menu-title {
-                    font-weight: bold;
-                }
 
                 .n2o-scroll-spy-region__menu-wrapper {
                     height: 0;
@@ -79,44 +107,44 @@
             }
 
             .n2o-scroll-spy-region__dropdown-toggle {
-                margin-bottom: 10px;
-                padding-left: 30px;
-                width: 100%;
+                padding: 8px 16px;
                 display: flex;
                 align-items: center;
-                cursor: pointer;
-
-                .n2o-scroll-spy-region__dropdown-icon {
-                    font-size: 12px;
-                }
-
-                .n2o-scroll-spy-region__dropdown-icon.up {
-                    margin-top: 5px;
-                }
-
-                .n2o-scroll-spy-region__dropdown-icon.down {
-                    margin-bottom: 5px;
-                }
-            }
-
-            .n2o-scroll-spy-region__dropdown-menu-item {
-                width: 100%;
-
-                .n2o-scroll-spy-region__menu-wrapper.visible {
-                    width: 100%;
-                    padding-left: 5px;
-
-                    .n2o-scroll-spy-region__menu-item {
-                        width: 100%;
-                        padding-left: 40px;
-                    }
-                }
 
                 .n2o-scroll-spy-region__dropdown-menu-title {
-                    margin-left: 5px;
-                    color: #163851;
+                    @include defaultItem;
+                }
+
+                .n2o-scroll-spy-region__dropdown-icon {
+                    padding-left: 10.5px;
+                    font-size: 12px;
+                    color: $menu-item-color;
                 }
             }
+
+            .n2o-scroll-spy-region__dropdown-toggle.open,
+            .n2o-scroll-spy-region__dropdown-toggle.hasActive {
+                .n2o-scroll-spy-region__dropdown-menu-title,
+                .n2o-scroll-spy-region__dropdown-icon {
+                    color: $n2o-ui-primary;
+                }
+            }
+
+            .n2o-scroll-spy-region__dropdown-toggle:hover {
+                .n2o-scroll-spy-region__dropdown-menu-title,
+                .n2o-scroll-spy-region__dropdown-icon {
+                    @include defaultItemHover;
+                }
+            }
+        }
+    }
+
+    .n2o-scroll-spy-region__menu-group.nested {
+        border-right: none;
+
+        .n2o-scroll-spy-region__menu-wrapper.nested {
+            width: 100%;
+            padding-left: 16px;
         }
     }
 

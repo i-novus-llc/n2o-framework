@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Условие if-else для действий">
+    <form>
+        <fields>
+            <alert text="Нахождение корней квадратного уравнения вида a*x^2 + b*x + c = 0"/>
+            <row>
+                <input-text id="a" default-value="0" required="true"/>
+                <input-text id="b" default-value="0" required="true"/>
+                <input-text id="c" default-value="0" required="true"/>
+            </row>
+            <output-text id="x1" label="Корень 1"/>
+            <output-text id="x2" label="Корень 2"/>
+            <hidden id="d"/>
+        </fields>
+        <toolbar place="bottomLeft">
+            <button label="Рассчитать">
+                <set-value to="d">
+                    return (b**2 - 4*a*c)
+                </set-value>
+
+                <if test="d > 0">
+                    <set-value to="x1">
+                        return ((-b+d**(1/2))/(2*a))
+                    </set-value>
+                    <set-value to="x2">
+                        return ((-b-d**(1/2))/(2*a))
+                    </set-value>
+                </if>
+                <else-if test="d == 0">
+                    <set-value to="x1">
+                        return ((-b)/(2*a))
+                    </set-value>
+                    <set-value to="x2">
+                        return "У данного уравнения один корень"
+                    </set-value>
+                </else-if>
+                <else>
+                    <set-value to="x1">
+                        return "Нет корней"
+                    </set-value>
+                    <set-value to="x2">
+                        return "Нет корней"
+                    </set-value>
+                </else>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

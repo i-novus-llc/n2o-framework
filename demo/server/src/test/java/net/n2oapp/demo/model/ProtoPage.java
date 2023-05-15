@@ -1,6 +1,7 @@
 package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirection;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
@@ -18,7 +19,6 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Страница "Список контактов" ProtoPage.page.xml
@@ -32,7 +32,8 @@ public class ProtoPage {
     }
 
     public void shouldBeClientsPage() {
-        leftRightPage.breadcrumb().titleShouldHaveText("Список контактов");
+        leftRightPage.shouldExists();
+        leftRightPage.breadcrumb().crumb(0).shouldHaveLabel("Список контактов");
     }
 
     public void tableShouldHaveSize(int size) {
@@ -44,7 +45,7 @@ public class ProtoPage {
     }
 
     public void tableCellShouldHaveText(int row, int col, String text) {
-        getTable().columns().rows().row(row).cell(col).textShouldHave(text);
+        getTable().columns().rows().row(row).cell(col).shouldHaveText(text);
     }
 
     public void tableCellShouldHaveText(int col, String text) {
@@ -56,11 +57,11 @@ public class ProtoPage {
     }
 
     public void searchClients() {
-        getTable().filters().search();
+        getTable().filters().toolbar().button("Найти").click();
     }
 
     public void resetFilter() {
-        getTable().filters().clear();
+        getTable().filters().toolbar().button("Сбросить").click();
     }
 
     public TableSimpleHeader getSurnameHeader() {
@@ -96,27 +97,38 @@ public class ProtoPage {
     }
 
     public void setBirthdayStartFilter(String value) {
-        getFilterFields().field("Дата рождения").control(DateInterval.class).beginVal(value);
+        getFilterFields().field("Дата рождения").control(DateInterval.class).setValueInBegin(value);
     }
 
     public void setBirthdayEndFilter(String value) {
-        getFilterFields().field("Дата рождения").control(DateInterval.class).endVal(value);
+        getFilterFields().field("Дата рождения").control(DateInterval.class).setValueInEnd(value);
     }
 
     public void getGenderColumnShouldHaveTexts(List<String> values) {
-        getTable().columns().rows().columnShouldHaveTexts(5, values);
+        if (values.size() == 0)
+            getTable().columns().rows().columnShouldBeEmpty(5);
+        else
+            getTable().columns().rows().columnShouldHaveTexts(5, values);
     }
 
     public List<String> getSurnameColumn() {
         return getTable().columns().rows().columnTexts(1);
     }
 
+    public void surnameColumnShouldBeSortedBy(SortingDirection direction) {
+        getTable().columns().rows().columnShouldBeSortedBy(1, direction);
+    }
+
+    public void surnameColumnShouldNotBeSorted(List<String> text) {
+        getTable().columns().rows().columnShouldHaveTexts(1, text);
+    }
+
     public void currentPageShouldBe(String label) {
-        getTable().paging().activePageShouldBe(label);
+        getTable().paging().shouldHaveActivePage(label);
     }
 
     public void tableShouldHavePage(String number) {
-        getTable().paging().pagingShouldHave(number);
+        getTable().paging().shouldHavePageNumber(number);
     }
 
     public void selectPage(String number) {
@@ -128,7 +140,7 @@ public class ProtoPage {
     }
 
     public void clientsCountShouldBe(int count) {
-        getTable().paging().totalElementsShouldBe(count);
+        getTable().paging().shouldHaveTotalElements(count);
     }
 
     public ProtoClient clickSurnameCell(int row) {
@@ -244,7 +256,7 @@ public class ProtoPage {
     }
 
     public void contactsListShouldHaveText(int index, String text) {
-        getContacts().content(index).body(TextCell.class).textShouldHave(text);
+        getContacts().content(index).body(TextCell.class).shouldHaveText(text);
     }
 
     public void contactsListShouldHaveSize(int size) {

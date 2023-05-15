@@ -19,19 +19,15 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
-import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryListField;
-import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.util.MappingProcessor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
-import javax.xml.crypto.Data;
 import java.util.*;
 
 import static java.util.Objects.isNull;
@@ -89,8 +85,8 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     /**
      * Преобразование исходящих данных вызова
      *
-     * @param parameters Исходящие поля операции
-     * @param resultDataSet        Исходящие данные вызова
+     * @param parameters    Исходящие поля операции
+     * @param resultDataSet Исходящие данные вызова
      */
     protected void resolveOutValues(Collection<AbstractParameter> parameters, DataSet resultDataSet) {
         if (parameters == null) return;
@@ -113,12 +109,10 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     }
 
     private void resolveOutField(ObjectSimpleField simpleField, DataSet resultDataSet, Object value) {
-        if (value == null && simpleField.getDefaultValue() != null && simpleField.getMapping() == null) {
+        if (value == null && simpleField.getDefaultValue() != null && simpleField.getMapping() == null)
             value = contextProcessor.resolve(simpleField.getDefaultValue());
-        }
-        if (value != null && simpleField.getNormalize() != null) {
+        if (value != null && simpleField.getNormalize() != null)
             value = tryToNormalize(value, simpleField, resultDataSet, applicationContext);
-        }
         resultDataSet.put(simpleField.getId(), value);
     }
 
@@ -143,9 +137,8 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         // normalize values
         invocationParameters.forEach(parameter -> {
             Object value = inDataSet.get(parameter.getId());
-            if (value != null && parameter.getNormalize() != null) {
-                value = tryToNormalize(value, parameter, resultDataSet, applicationContext);
-            }
+            if (parameter.getNormalize() != null)
+                value = tryToNormalize(value, parameter, inDataSet, applicationContext);
             resultDataSet.put(parameter.getId(), value);
         });
         // remove not enabled data
@@ -202,27 +195,6 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                         prepareInValues(Arrays.asList(((ObjectReferenceField) parameter).getFields()), (DataSet) dataSet);
             }
         }
-    }
-
-    /**
-     * Нормализация входящих данных вызова
-     *
-     * @param invocationParameters Входящие поля операции
-     * @param inDataSet            Входящие данные вызова
-     * @return Нормализованные входящие данные вызова
-     */
-    private DataSet normalize(Collection<AbstractParameter> invocationParameters, DataSet inDataSet) {
-        DataSet copiedDataSet = new DataSet(inDataSet);
-        for (AbstractParameter parameter : invocationParameters) {
-            if (parameter.getNormalize() != null) {
-                Object value = inDataSet.get(parameter.getId());
-                if (value != null) {
-                    value = tryToNormalize(value, parameter, inDataSet, applicationContext);
-                    copiedDataSet.put(parameter.getId(), value);
-                }
-            }
-        }
-        return copiedDataSet;
     }
 
     private Object tryToNormalize(Object value,

@@ -1786,10 +1786,8 @@
             <xs:enumeration value="more"/>
             <xs:enumeration value="less"/>
             <xs:enumeration value="eqOrIsNull"/>
-            <xs:enumeration value="inOrIsNull"/>
             <xs:enumeration value="like"/>
             <xs:enumeration value="likeStart"/>
-            <xs:enumeration value="overlap"/>
             <xs:enumeration value="contains"/>
         </xs:restriction>
     </xs:simpleType>

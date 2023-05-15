@@ -1,40 +1,41 @@
-import React from 'react';
-import { some, isEqual, get, has } from 'lodash';
-import Factory from '../src/core/factory/Factory';
-import FactoryProvider from '../src/core/factory/FactoryProvider';
-import createFactoryConfig from '../src/core/factory/createFactoryConfig';
-import { WIDGETS } from '../src/core/factory/factoryLevels';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import rootReducer from '../src/reducers';
-import history from '../src/history';
+import React from 'react'
+import { some, isEqual, get } from 'lodash'
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
+
+import Factory from '../src/core/factory/Factory'
+import FactoryProvider from '../src/core/factory/FactoryProvider'
+import createFactoryConfig from '../src/core/factory/createFactoryConfig'
+import { WIDGETS } from '../src/core/factory/factoryLevels'
+import rootReducer from '../src/reducers'
+import history from '../src/history'
 
 const setValueToForm = (override = {}) => ({
-  src: 'FormWidget',
-  form: {
-    fieldsets: [
-      {
-        src: 'StandardFieldset',
-        rows: [
-          {
-            cols: [
-              {
-                fields: [
-                  {
-                    id: 'testControl',
-                    dependency: [],
-                    control: {},
-                    ...override,
-                  },
+    src: 'FormWidget',
+    form: {
+        fieldsets: [
+            {
+                src: 'StandardFieldset',
+                rows: [
+                    {
+                        cols: [
+                            {
+                                fields: [
+                                    {
+                                        id: 'testControl',
+                                        dependency: [],
+                                        control: {},
+                                        ...override,
+                                    },
+                                ],
+                            },
+                        ],
+                    },
                 ],
-              },
-            ],
-          },
+            },
         ],
-      },
-    ],
-  },
-});
+    },
+})
 
 /**
  * вспомогательная функция для тестов
@@ -43,8 +44,7 @@ const setValueToForm = (override = {}) => ({
  * @param object
  * @returns {*}
  */
-export const toMathInCollection = (collection, object) =>
-  some(collection, item => isEqual(item, object));
+export const toMathInCollection = (collection, object) => some(collection, item => isEqual(item, object))
 
 /**
  * вспомогательная функция
@@ -53,8 +53,16 @@ export const toMathInCollection = (collection, object) =>
  * @param store
  * @returns {*}
  */
-export const getField = store =>
-  get(store.getState(), 'form["Page_Form"].fields.testControl', false);
+export const getField = store => get(store.getState(), 'form["Page_Form"].fields.testControl', false)
+
+/**
+ * вспомогательная функция
+ * для взятия touched
+ * при событии onFocus, onBlur
+ * @param store
+ * @returns {*}
+ */
+export const isTouched = store => get(store.getState(), 'form["Page_Form"].registeredFields.testControl.touched', false)
 
 /**
  * Вспомогательная функция для интеграционного тестировани
@@ -62,31 +70,32 @@ export const getField = store =>
  * @returns {{store, wrapper: *}}
  */
 
-export default props => {
-  const actions = [];
+export default (props) => {
+    const actions = []
 
-  // мидлваре слушаем и пушем actions в массив
-  const actionLogger = store => next => action => {
-    actions.push(action);
-    return next(action);
-  };
+    // мидлваре слушаем и пушем actions в массив
+    const actionLogger = store => next => (action) => {
+        actions.push(action)
 
-  const store = createStore(
-    rootReducer(history),
-    applyMiddleware(actionLogger)
-  );
+        return next(action)
+    }
 
-  const wrapper = mount(
-    <Provider store={store}>
-      <FactoryProvider config={createFactoryConfig({})}>
-        <Factory level={WIDGETS} {...setValueToForm(props)} id="Page_Form" />
-      </FactoryProvider>
-    </Provider>
-  );
+    const store = createStore(
+        rootReducer(history),
+        applyMiddleware(actionLogger),
+    )
 
-  return {
-    actions,
-    store,
-    wrapper,
-  };
-};
+    const wrapper = mount(
+        <Provider store={store}>
+            <FactoryProvider config={createFactoryConfig({})}>
+                <Factory level={WIDGETS} {...setValueToForm(props)} id="Page_Form" />
+            </FactoryProvider>
+        </Provider>,
+    )
+
+    return {
+        actions,
+        store,
+        wrapper,
+    }
+}

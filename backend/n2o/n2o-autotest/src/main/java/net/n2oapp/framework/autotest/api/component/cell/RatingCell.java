@@ -5,9 +5,21 @@ package net.n2oapp.framework.autotest.api.component.cell;
  */
 public interface RatingCell extends Cell {
 
-    void maxShouldBe(int max);
+    /**
+     * Проверка максимально возможного значения
+     * @param max максимальное ожидаемое значение
+     */
+    void shouldHaveMax(int max);
 
-    void valueShouldBe(String value);
+    /**
+     * Проверка актуального значения
+     * @param value ожидаемое актуальное значение
+     */
+    void shouldHaveValue(String value);
 
+    /**
+     * Выбор значения рейтинга
+     * @param value значение рейтинга
+     */
     void value(String value);
 }

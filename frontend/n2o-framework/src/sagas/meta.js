@@ -6,7 +6,6 @@ import {
 } from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 import isArray from 'lodash/isArray'
-import { reset } from 'redux-form'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 
@@ -15,14 +14,14 @@ import { id } from '../utils/id'
 import { CALL_ALERT_META } from '../constants/meta'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { addAlert, addMultiAlerts } from '../ducks/alerts/store'
-import { GLOBAL_KEY, STORE_KEY_PATH } from '../ducks/alerts/constants'
-import { removeAllModel } from '../ducks/models/store'
+import { CLOSE_BUTTON_PATH, DEFAULT_CLOSE_BUTTON, GLOBAL_KEY, STORE_KEY_PATH } from '../ducks/alerts/constants'
+import { removeAllModel, setModel } from '../ducks/models/store'
 import { register } from '../ducks/datasource/store'
 import { requestConfigSuccess } from '../ducks/global/store'
 
 const mapMessage = message => ({
     ...message,
-    id: message.id || id(),
+    id: message?.id || id(),
 })
 
 const separateMessagesByPlacement = messages => messages.reduce((acc, message) => {
@@ -52,16 +51,20 @@ export function* alertEffect(action) {
         if (!alerts?.length) { return }
 
         if (alerts.length === 1) {
-            const alertsStoreKey = get(alerts[0], STORE_KEY_PATH) || GLOBAL_KEY
+            const [alert] = alerts
+            const placement = get(alert, STORE_KEY_PATH, GLOBAL_KEY)
+            const closeButton = get(alert, CLOSE_BUTTON_PATH, DEFAULT_CLOSE_BUTTON)
 
-            yield put(addAlert(alertsStoreKey, alerts[0]))
-        } else {
-            const separatedAlerts = separateMessagesByPlacement(alerts)
-            const alertsStoreKeys = Object.keys(separatedAlerts)
+            yield put(addAlert(placement, { ...alert, placement, closeButton }))
 
-            for (const key of alertsStoreKeys) {
-                yield put(addMultiAlerts(key, separatedAlerts[`${key}`]))
-            }
+            yield cancel()
+        }
+
+        const separatedAlerts = separateMessagesByPlacement(alerts)
+        const placements = Object.keys(separatedAlerts)
+
+        for (const placement of placements) {
+            yield put(addMultiAlerts(placement, separatedAlerts[`${placement}`]))
         }
     } catch (e) {
         // eslint-disable-next-line no-console
@@ -106,7 +109,7 @@ export function* redirectEffect(action) {
 }
 
 export function* clearFormEffect(action) {
-    yield put(reset(action.meta.clearForm))
+    yield put(setModel(action.meta.clearForm))
 }
 
 export function* userDialogEffect({ meta }) {
@@ -150,7 +153,10 @@ function* dataSourcesRegister(action) {
 
 export const metaSagas = [
     takeEvery(
-        [action => action.meta && action.meta.alert, CALL_ALERT_META],
+        [
+            action => action.meta && action.meta.alert,
+            CALL_ALERT_META,
+        ],
         alertEffect,
     ),
     takeEvery(action => action.meta && action.meta.redirect, redirectEffect),

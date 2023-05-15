@@ -19,6 +19,9 @@ import HelpPopover from './HelpPopover'
  */
 
 const Label = ({ id, value, required, className, style, help }) => {
+    if (!value) {
+        return null
+    }
     const newProps = {
         className: cx('col-form-label', className),
         style: { display: 'inline-block', ...style },

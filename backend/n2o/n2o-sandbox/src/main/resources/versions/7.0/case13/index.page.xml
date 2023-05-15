@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Условия на кнопках формы">
+    <form>
+        <fields>
+            <input-text id="test" domain="integer" default-value="12"
+                        description="Если 1, то кнопка блокируется, если 2 - скрывается"/>
+        </fields>
+        <toolbar>
+            <button id="btn" label="Кнопка" enabled="{test != 1}" visible="{test != 2}"/>
+        </toolbar>
+    </form>
+</simple-page>

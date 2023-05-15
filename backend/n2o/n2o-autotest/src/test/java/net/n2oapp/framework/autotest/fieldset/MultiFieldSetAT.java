@@ -4,12 +4,14 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.FieldSets;
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
+import net.n2oapp.framework.autotest.api.component.fieldset.FieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
@@ -20,7 +22,9 @@ import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,14 +66,14 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset1.shouldExists();
         fieldset1.shouldNotHaveLabel();
         fieldset1.shouldBeEmpty();
-        fieldset1.addButtonShouldNotBeExist();
+        fieldset1.shouldNotHaveAddButton();
 
         // 2.стандартный случай
         MultiFieldSet fieldset2 = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
         fieldset2.shouldExists();
         fieldset2.shouldHaveLabel("Заголовок");
         fieldset2.shouldHaveDescription("Подзаголовок филдсета");
-        fieldset2.addButtonShouldBeExist();
+        fieldset2.shouldHaveAddButton();
         fieldset2.addButtonShouldHaveLabel("Добавить участника");
         fieldset2.clickAddButton();
         fieldset2.clickAddButton();
@@ -88,9 +92,11 @@ public class MultiFieldSetAT extends AutoTestBase {
         InputText age2 = item2.fields().field("age").control(InputText.class);
         age2.shouldExists();
         // задаем значения для полей первого элемента
-        name1.val("Joe");
+        name1.click();
+        name1.setValue("Joe");
         name1.shouldHaveValue("Joe");
-        age1.val("15");
+        age1.click();
+        age1.setValue("15");
         age1.shouldHaveValue("15");
         // проверяем, что значения не копируются в поля второго элемента
         name2.shouldBeEmpty();
@@ -108,11 +114,11 @@ public class MultiFieldSetAT extends AutoTestBase {
         MultiFieldSet fieldset1 = page.widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
         fieldset1.clickAddButton();
         fieldset1.clickAddButton();
-        fieldset1.removeAllButtonShouldNotBeExist();
+        fieldset1.shouldNotHaveRemoveAllButton();
         MultiFieldSetItem item1 = fieldset1.item(0);
         MultiFieldSetItem item2 = fieldset1.item(1);
-        item1.removeButtonShouldNotExists();
-        item2.removeButtonShouldNotExists();
+        item1.shouldNotHaveRemoveButton();
+        item2.shouldNotHaveRemoveButton();
 
         // 2.стандартный случай
         MultiFieldSet fieldset2 = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
@@ -127,13 +133,16 @@ public class MultiFieldSetAT extends AutoTestBase {
         InputText name2 = item2.fields().field("name").control(InputText.class);
         InputText name3 = item3.fields().field("name").control(InputText.class);
         // проверяем наличие кнопок удалить у всех кроме первого элемента
-        item1.removeButtonShouldNotExists();
-        item2.removeButtonShouldExists();
-        item3.removeButtonShouldExists();
+        item1.shouldNotHaveRemoveButton();
+        item2.shouldHaveRemoveButton();
+        item3.shouldHaveRemoveButton();
         // задаем значения чтобы различать элементы
-        name1.val("AAA");
-        name2.val("BBB");
-        name3.val("CCC");
+        name1.click();
+        name1.setValue("AAA");
+        name2.click();
+        name2.setValue("BBB");
+        name3.click();
+        name3.setValue("CCC");
         // проверяем, что при удалении второго у третьего изменится подпись
         item2.clickRemoveButton();
         fieldset2.shouldHaveItems(2);
@@ -150,9 +159,9 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset3.shouldHaveItems(3);
         // задаем значение только у первого элемента
         name1 = fieldset3.item(0).fields().field("name").control(InputText.class);
-        name1.val("AAA");
+        name1.setValue("AAA");
         // проверяем кнопку удалить всех
-        fieldset3.removeAllButtonShouldBeExist();
+        fieldset3.shouldHaveRemoveAllButton();
         fieldset3.removeAllButtonShouldHaveLabel("Удалить всех участников");
         fieldset3.clickRemoveAllButton();
         fieldset3.shouldHaveItems(1);
@@ -181,8 +190,8 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset1.clickAddButton();
         MultiFieldSetItem item1 = fieldset1.item(0);
         MultiFieldSetItem item2 = fieldset1.item(1);
-        item1.copyButtonShouldNotExists();
-        item2.copyButtonShouldNotExists();
+        item1.shouldNotHaveCopyButton();
+        item2.shouldNotHaveCopyButton();
 
         // 2.копирование включено
         MultiFieldSet fieldset2 = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
@@ -191,19 +200,21 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset2.shouldHaveItems(2);
         item1 = fieldset2.item(0);
         item2 = fieldset2.item(1);
-        item1.copyButtonShouldExists();
-        item2.copyButtonShouldExists();
+        item1.shouldHaveCopyButton();
+        item2.shouldHaveCopyButton();
         // копируем второй элемент
         InputText name1 = item1.fields().field("name").control(InputText.class);
         InputText name2 = item2.fields().field("name").control(InputText.class);
-        name2.val("AAA");
+        name2.click();
+        name2.setValue("AAA");
         item2.clickCopyButton();
         fieldset2.shouldHaveItems(3);
         MultiFieldSetItem item3 = fieldset2.item(1);
         InputText name3 = item3.fields().field("name").control(InputText.class);
         name3.shouldHaveValue("AAA");
         // изменяем значение второго элемента и удаляем
-        name2.val("BBB");
+        name2.click();
+        name2.setValue("BBB");
         item2.clickRemoveButton();
         fieldset2.shouldHaveItems(2);
         // проверяем значение третьего элемента, который стал вторым
@@ -225,7 +236,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset2.shouldExists();
         // проверяем функционал вложенного мультифилдсета
         // add
-        fieldset2.addButtonShouldBeExist();
+        fieldset2.shouldHaveAddButton();
         fieldset2.addButtonShouldHaveLabel("Добавить участника");
         fieldset2.clickAddButton();
         fieldset2.clickAddButton();
@@ -233,14 +244,15 @@ public class MultiFieldSetAT extends AutoTestBase {
         MultiFieldSetItem item2 = fieldset2.item(1);
         item1.shouldHaveLabel("Участник 1");
         item2.shouldHaveLabel("Участник 2");
-        item1.removeButtonShouldNotExists();
-        item1.copyButtonShouldExists();
-        item2.removeButtonShouldExists();
-        item2.copyButtonShouldExists();
+        item1.shouldNotHaveRemoveButton();
+        item1.shouldHaveCopyButton();
+        item2.shouldHaveRemoveButton();
+        item2.shouldHaveCopyButton();
         InputText name2 = item2.fields().field("name2").control(InputText.class);
         // copy
-        name2.val("AAA");
-        item2.copyButtonShouldExists();
+        name2.click();
+        name2.setValue("AAA");
+        item2.shouldHaveCopyButton();
         item2.clickCopyButton();
         fieldset2.shouldHaveItems(3);
         MultiFieldSetItem item3 = fieldset2.item(2);
@@ -251,7 +263,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset2.shouldHaveItems(4);
         item2.clickRemoveButton();
         fieldset2.shouldHaveItems(3);
-        fieldset2.removeAllButtonShouldBeExist();
+        fieldset2.shouldHaveRemoveAllButton();
         fieldset2.removeAllButtonShouldHaveLabel("Удалить всех участников");
         fieldset2.clickRemoveAllButton();
         fieldset2.shouldHaveItems(1);
@@ -259,6 +271,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
     @Test
     public void testQueryData() {
+        setJsonPath("net/n2oapp/framework/autotest/fieldset/multiset/query_data");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/query_data/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/query_data/test.query.xml"));
 
@@ -293,7 +306,8 @@ public class MultiFieldSetAT extends AutoTestBase {
         name3.shouldHaveValue("Joe");
         InputText age3 = item3.fields().field("1.2.(3) age").control(InputText.class);
         age3.shouldHaveValue("15");
-        age3.val("30");
+        age3.click();
+        age3.setValue("30");
         // удаляем первый элемент и проверяем, что у третьего (теперь второго) не поменялись значения
         item1.clickRemoveButton();
         name2.shouldHaveValue("Joe");
@@ -318,16 +332,20 @@ public class MultiFieldSetAT extends AutoTestBase {
         InputText age2 = item2.fields().field("age").control(InputText.class);
         name1.shouldBeDisabled();
         name2.shouldBeDisabled();
-        age1.val("2");
+        age1.click();
+        age1.setValue("2");
         name1.shouldBeDisabled();
         name2.shouldBeDisabled();
-        age2.val("20");
+        age2.click();
+        age2.setValue("20");
         name1.shouldBeDisabled();
         name2.shouldBeEnabled();
-        age1.val("50");
+        age1.click();
+        age1.setValue("50");
         name1.shouldBeEnabled();
         name2.shouldBeEnabled();
-        age2.val("15");
+        age2.click();
+        age2.setValue("15");
         name1.shouldBeEnabled();
         name2.shouldBeDisabled();
     }
@@ -348,10 +366,11 @@ public class MultiFieldSetAT extends AutoTestBase {
         multiSet1.shouldBeHidden();
         multiSet2.shouldBeHidden();
 
-        inputText.val("test");
+        inputText.click();
+        inputText.setValue("test");
         multiSet1.shouldBeHidden();
         multiSet2.shouldBeVisible();
-        multiSet2.addButtonShouldBeExist();
+        multiSet2.shouldHaveAddButton();
     }
 
     @Test
@@ -370,7 +389,8 @@ public class MultiFieldSetAT extends AutoTestBase {
         multiSet1.addButtonShouldBeDisabled();
         multiSet2.addButtonShouldBeDisabled();
 
-        inputText.val("test");
+        inputText.click();
+        inputText.setValue("test");
         multiSet1.addButtonShouldBeDisabled();
         multiSet2.addButtonShouldBeEnabled();
     }
@@ -387,7 +407,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         formWidget.shouldExists();
 
         MultiFieldSet fieldset = formWidget.fieldsets().fieldset(MultiFieldSet.class);
-        fieldset.addButtonShouldBeExist();
+        fieldset.shouldHaveAddButton();
         fieldset.addButtonShouldBeEnabled();
         fieldset.clickAddButton();
 
@@ -397,7 +417,8 @@ public class MultiFieldSetAT extends AutoTestBase {
         id.shouldNotBeEmpty();
 
         InputText surnameMulti = item.fields().field("Фамилия").control(InputText.class);
-        surnameMulti.val("text");
+        surnameMulti.click();
+        surnameMulti.setValue("text");
 
         ButtonField changeBtnMulti = item.fields().field("Изменить", ButtonField.class);
         changeBtnMulti.click();
@@ -409,13 +430,14 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         InputText surnameModal = widgetModal.fields().field("Фамилия").control(InputText.class);
         surnameModal.shouldHaveValue("text");
-        surnameModal.val("text2");
+        surnameModal.click();
+        surnameModal.setValue("text2");
         StandardButton changeBtnModal = widgetModal.toolbar().topLeft().button("Изменить");
         changeBtnModal.click();
 
         surnameMulti.shouldHaveValue("text2");
 
-        item.copyButtonShouldExists();
+        item.shouldHaveCopyButton();
         item.clickCopyButton();
 
         MultiFieldSetItem itemCopy = fieldset.item(1);
@@ -427,7 +449,8 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         modalPage.shouldExists();
 
-        surnameModal.val("textCopy");
+        surnameModal.click();
+        surnameModal.setValue("textCopy");
         changeBtnModal.click();
 
         surnameMulti.shouldHaveValue("text2");
@@ -436,6 +459,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
     @Test
     public void testFiltering() {
+        setJsonPath("net/n2oapp/framework/autotest/fieldset/multiset/filtering");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/filtering/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/filtering/test.query.xml"));
 
@@ -446,7 +470,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         formWidget.shouldExists();
 
         MultiFieldSet fieldset = formWidget.fieldsets().fieldset(MultiFieldSet.class);
-        fieldset.addButtonShouldBeExist();
+        fieldset.shouldHaveAddButton();
         fieldset.addButtonShouldBeEnabled();
         fieldset.clickAddButton();
 
@@ -455,16 +479,18 @@ public class MultiFieldSetAT extends AutoTestBase {
         InputText inputText = item.fields().field("chapter").control(InputText.class);
         InputSelect inputSelect = item.fields().field("Вид ТСР").control(InputSelect.class);
 
-        inputText.val("1");
+        inputText.click();
+        inputText.setValue("1");
         inputSelect.click();
         inputSelect.dropdown().shouldExists();
-        inputSelect.dropdown().shouldHaveItems(1);
+        inputSelect.dropdown().shouldHaveOptions(1);
         inputSelect.dropdown().item(0).shouldHaveValue("test1");
 
-        inputText.val("2");
+        inputText.click();
+        inputText.setValue("2");
         inputSelect.click();
         inputSelect.dropdown().shouldExists();
-        inputSelect.dropdown().shouldHaveItems(1);
+        inputSelect.dropdown().shouldHaveOptions(1);
         inputSelect.dropdown().item(0).shouldHaveValue("test2");
     }
 
@@ -480,7 +506,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         formWidget.shouldExists();
 
         MultiFieldSet fieldset = formWidget.fieldsets().fieldset(MultiFieldSet.class);
-        fieldset.addButtonShouldBeExist();
+        fieldset.shouldHaveAddButton();
         fieldset.addButtonShouldBeEnabled();
         fieldset.clickAddButton();
 
@@ -511,9 +537,12 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         validateBtn.click();
 
-        surnameSecond.control(InputText.class).val("1");
-        nameSecond.control(InputText.class).val("1");
-        ageSecond.control(InputText.class).val("1");
+        surnameSecond.control(InputText.class).click();
+        surnameSecond.control(InputText.class).setValue("1");
+        nameSecond.control(InputText.class).click();
+        nameSecond.control(InputText.class).setValue("1");
+        ageSecond.control(InputText.class).click();
+        ageSecond.control(InputText.class).setValue("1");
 
         surnameSecond.shouldHaveValidationMessage(Condition.empty);
         nameSecond.shouldHaveValidationMessage(Condition.empty);
@@ -521,7 +550,72 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
+    public void testValidationOnClear() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validation/when_clean/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        FormWidget formWidget = page.widget(FormWidget.class);
+        formWidget.shouldExists();
+
+        StandardField test = formWidget.fields().field("test");
+        StandardField test2 = formWidget.fields().field("test");
+        MultiFieldSet fieldset = formWidget.fieldsets().fieldset(1, MultiFieldSet.class);
+        fieldset.shouldHaveAddButton();
+        fieldset.addButtonShouldBeEnabled();
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+        fieldset.item(0).fields().field("surname").control(InputText.class).setValue("test");
+        fieldset.item(1).fields().field("name").control(InputText.class).setValue("test");
+        fieldset.item(2).fields().field("age").control(InputText.class).setValue("3");
+        fieldset.item(3).fields().field("name").control(InputText.class).setValue("test");
+        formWidget.toolbar().topLeft().button("Validate").click();
+
+        test.shouldHaveValidationMessage(Condition.exist);
+        test2.shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(0).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(0).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(1).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(1).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(2).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(2).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(3).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(3).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(1).clickRemoveButton();
+        test.shouldHaveValidationMessage(Condition.exist);
+        test2.shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(0).fields().field("surname").control(InputText.class).shouldHaveValue("test");
+        fieldset.item(0).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(0).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(1).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(1).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(1).fields().field("age").control(InputText.class).shouldHaveValue("3");
+
+        fieldset.item(2).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(2).fields().field("name").control(InputText.class).shouldHaveValue("test");
+        fieldset.item(2).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.clickRemoveAllButton();
+        test.shouldHaveValidationMessage(Condition.exist);
+        test2.shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.shouldHaveItems(1);
+        fieldset.item(0).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(0).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+    }
+
+    @Test
     public void testCreateMany() {
+        setJsonPath("net/n2oapp/framework/autotest/fieldset/multiset/create_many");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/create_many/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/create_many/add.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/create_many/test.query.xml"));
@@ -540,7 +634,8 @@ public class MultiFieldSetAT extends AutoTestBase {
         FormWidget formWidget = standardPage.regions().region(0, N2oSimpleRegion.class).content().widget(FormWidget.class);
         InputSelect inputSelect = formWidget.fields().field("items").control(InputSelect.class);
         inputSelect.click();
-        inputSelect.selectMulti(2, 3);
+        inputSelect.openPopup();
+        inputSelect.dropdown().selectMulti(2, 3);
         modal.toolbar().bottomRight().button("Добавить").click();
 
         MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
@@ -549,5 +644,150 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset.item(1).fields().field("Имя").control(OutputText.class).shouldHaveValue("test4");
         fieldset.item(1).fields().field("trash", ButtonField.class).click();
         fieldset.item(1).shouldNotExists();
+    }
+
+    @Test
+    public void testLabelResolve() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/label_resolve/index.page.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
+        InputText firstLabelDef = page.widget(FormWidget.class).fields().field("first label").control(InputText.class);
+        InputText labelDef = page.widget(FormWidget.class).fields().field("default label").control(InputText.class);
+
+        fieldset.clickAddButton();
+        fieldset.item(0).shouldHaveLabel("test first");
+        firstLabelDef.click();
+        firstLabelDef.setValue("new first label");
+        fieldset.item(0).shouldHaveLabel("new first label");
+        fieldset.item(0).fields().field("Имя").control(InputText.class).click();
+        fieldset.item(0).fields().field("Имя").control(InputText.class).setValue("Иван");
+        fieldset.item(0).shouldHaveLabel("Иван");
+
+        fieldset.clickAddButton();
+        fieldset.item(1).shouldHaveLabel("test");
+        labelDef.click();
+        labelDef.setValue("new label");
+        fieldset.item(1).shouldHaveLabel("new label");
+        fieldset.item(1).fields().field("Имя").control(InputText.class).click();
+        fieldset.item(1).fields().field("Имя").control(InputText.class).setValue("Петр");
+        fieldset.item(1).shouldHaveLabel("Петр");
+    }
+
+    @Test
+    public void deleteItemWithSetValue() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/set_value/index.page.xml"));
+
+        page = open(SimplePage.class);
+        page.shouldExists();
+
+        MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
+        InputText input = page.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields().field("input").control(InputText.class);
+
+        fieldset.clickAddButton();
+
+        MultiFieldSetItem item = fieldset.item(0);
+        OutputText outputInFieldset = item.fields().field("output").control(OutputText.class);
+        InputText inputInFieldset = item.fields().field("input").control(InputText.class);
+
+        input.setValue("1234");
+        outputInFieldset.shouldBeEmpty();
+        inputInFieldset.setValue("43553");
+        outputInFieldset.shouldNotBeEmpty();
+
+        item.clickRemoveButton();
+
+        fieldset.shouldHaveItems(0);
+        input.shouldHaveValue("1234");
+    }
+
+    @Test
+    public void setRowIndexInFields() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/set_row_index/index.page.xml"));
+
+        page = open(SimplePage.class);
+        page.shouldExists();
+
+        MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
+
+        fieldset.clickAddButton();
+
+        Fields firstFields = fieldset.item(0).fields();
+        OutputText value = firstFields.field("значение").control(OutputText.class);
+        OutputText string = firstFields.field("строка").control(OutputText.class);
+        OutputText doubleValue = firstFields.field("значение + значение").control(OutputText.class);
+        OutputText valueAndStr = firstFields.field("значение + строка").control(OutputText.class);
+        OutputText doubleStr = firstFields.field("строка + строка").control(OutputText.class);
+        OutputText undefinedValue = firstFields.field("значение несуществующей переменной").control(OutputText.class);
+        OutputText overrideValue = firstFields.field("переопределение переменной").control(OutputText.class);
+        OutputText anotherString = firstFields.field("ещё строка").control(OutputText.class);
+
+        value.shouldHaveValue("0");
+        string.shouldHaveValue("index");
+        doubleValue.shouldHaveValue("0");
+        valueAndStr.shouldHaveValue("index0");
+        doubleStr.shouldHaveValue("indexindex");
+        undefinedValue.shouldHaveValue("undefined");
+        overrideValue.shouldHaveValue("test");
+        anotherString.shouldHaveValue("- index -");
+
+        fieldset.clickAddButton();
+
+        Fields secondFields = fieldset.item(1).fields();
+        value = secondFields.field("значение").control(OutputText.class);
+        string = secondFields.field("строка").control(OutputText.class);
+        doubleValue = secondFields.field("значение + значение").control(OutputText.class);
+        valueAndStr = secondFields.field("значение + строка").control(OutputText.class);
+        doubleStr = secondFields.field("строка + строка").control(OutputText.class);
+        undefinedValue = secondFields.field("значение несуществующей переменной").control(OutputText.class);
+        overrideValue = secondFields.field("переопределение переменной").control(OutputText.class);
+        anotherString = secondFields.field("ещё строка").control(OutputText.class);
+
+        value.shouldHaveValue("1");
+        string.shouldHaveValue("index");
+        doubleValue.shouldHaveValue("2");
+        valueAndStr.shouldHaveValue("index1");
+        doubleStr.shouldHaveValue("indexindex");
+        undefinedValue.shouldHaveValue("undefined");
+        overrideValue.shouldHaveValue("test");
+        anotherString.shouldHaveValue("- index -");
+    }
+
+    @Test
+    public void checkUpdateParentIndexAfterDeleteItem() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/update_parent_index/index.page.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(0, MultiFieldSet.class);
+
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+
+        OutputText zero = fieldset.item(0).fields().field("0").control(OutputText.class);
+        OutputText one = fieldset.item(1).fields().field("1").control(OutputText.class);
+        OutputText two = fieldset.item(2).fields().field("2").control(OutputText.class);
+        OutputText free = fieldset.item(3).fields().field("3").control(OutputText.class);
+
+        zero.shouldHaveValue("0");
+        one.shouldHaveValue("1");
+        two.shouldHaveValue("2");
+        free.shouldHaveValue("3");
+
+        fieldset.item(2).clickRemoveButton();
+
+        zero.shouldHaveValue("0");
+        one.shouldHaveValue("1");
+        two.shouldHaveValue("2");
+
+        fieldset.item(0).clickRemoveButton();
+
+        zero.shouldHaveValue("0");
+        one.shouldHaveValue("1");
     }
 }

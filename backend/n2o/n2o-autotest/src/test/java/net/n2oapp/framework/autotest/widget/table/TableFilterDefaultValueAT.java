@@ -37,6 +37,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/test.query.xml"));
     }
@@ -53,15 +54,16 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
         filter.shouldHaveValue("2");
         rows.shouldHaveSize(1);
-        rows.row(0).cell(1).textShouldHave("test2");
+        rows.row(0).cell(1).shouldHaveText("test2");
 
-        filter.val("4");
+        filter.click();
+        filter.setValue("4");
         table.filters().toolbar().button("Найти").click();
-        rows.row(0).cell(1).textShouldHave("test4");
+        rows.row(0).cell(1).shouldHaveText("test4");
 
         // filter value should saved after refresh
         Selenide.refresh();
-        rows.row(0).cell(1).textShouldHave("test4");
+        rows.row(0).cell(1).shouldHaveText("test4");
 
         table.filters().toolbar().button("Сбросить").click();
         rows.shouldHaveSize(4);
@@ -70,6 +72,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
     @Test
     public void testDefaultValuesQueryId() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default_values_query_id/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -81,11 +84,12 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
         filter.shouldHaveValue("test3");
         rows.shouldHaveSize(1);
-        rows.row(0).cell(1).textShouldHave("test3");
+        rows.row(0).cell(1).shouldHaveText("test3");
 
-        filter.val("4");
+        filter.click();
+        filter.setValue("4");
         table.filters().toolbar().button("Найти").click();
-        rows.row(0).cell(1).textShouldHave("test4");
+        rows.row(0).cell(1).shouldHaveText("test4");
 
         //todo NNO-7523 filter value should saved after refresh
         /*Selenide.refresh();
@@ -98,6 +102,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
     @Test
     public void testPriority() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/priority/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -109,11 +114,12 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
         filter.shouldHaveValue("test3");
         rows.shouldHaveSize(1);
-        rows.row(0).cell(1).textShouldHave("test3");
+        rows.row(0).cell(1).shouldHaveText("test3");
 
-        filter.val("4");
+        filter.click();
+        filter.setValue("4");
         table.filters().toolbar().button("Найти").click();
-        rows.row(0).cell(1).textShouldHave("test4");
+        rows.row(0).cell(1).shouldHaveText("test4");
 
         //todo NNO-7523 filter value should saved after refresh
         /*Selenide.refresh();
@@ -126,6 +132,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
     @Test
     public void testFormAsFilter() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/form_as_filter");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/form_as_filter/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/form_as_filter/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -151,6 +158,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
     @Test
     public void testFiltersDatasource() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/filters_datasource/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -162,11 +170,12 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
         filter.shouldHaveValue("test3");
         rows.shouldHaveSize(1);
-        rows.row(0).cell(1).textShouldHave("test3");
+        rows.row(0).cell(1).shouldHaveText("test3");
 
-        filter.val("4");
+        filter.click();
+        filter.setValue("4");
         table.filters().toolbar().button("Найти").click();
-        rows.row(0).cell(1).textShouldHave("test4");
+        rows.row(0).cell(1).shouldHaveText("test4");
 
         //todo NNO-7523 filter value should saved after refresh
         /*Selenide.refresh();

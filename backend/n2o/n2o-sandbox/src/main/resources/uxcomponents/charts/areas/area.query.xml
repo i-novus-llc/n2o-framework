@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list>
+        <test file="area.json" operation="findAll"/>
+    </list>
+    <count>
+        <test file="area.json" operation="count"/>
+    </count>
+
+    <fields>
+        <field id="name">
+            <select/>
+        </field>
+        <field id="income">
+            <select/>
+        </field>
+        <field id="expenses">
+            <select/>
+        </field>
+    </fields>
+</query>

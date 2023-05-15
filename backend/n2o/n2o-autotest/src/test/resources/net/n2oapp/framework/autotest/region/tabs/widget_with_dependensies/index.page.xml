@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Автотест к табам с виджетами содержащие dependencies visible">
+    <datasources>
+        <browser-storage id="policyholder" key="cs.policyholder" type="localStorage">
+            <submit auto="true"/>
+        </browser-storage>
+    </datasources>
+
+    <regions>
+        <form datasource="policyholder">
+            <fields>
+                <hidden id="visible" apply-on-init="true" default-value="true"/>
+            </fields>
+        </form>
+        <tabs id="tabs" routable="false" lazy="false">
+            <tab id="tab_1" name="tab_1">
+                <form>
+                    <dependencies>
+                        <visibility datasource="policyholder">
+                            visible
+                        </visibility>
+                    </dependencies>
+                </form>
+            </tab>
+
+            <tab id="tab_2" name="tab_2">
+                <form>
+                    <dependencies>
+                        <visibility datasource="policyholder">
+                            true
+                        </visibility>
+                    </dependencies>
+                </form>
+            </tab>
+        </tabs>
+    </regions>
+</page>

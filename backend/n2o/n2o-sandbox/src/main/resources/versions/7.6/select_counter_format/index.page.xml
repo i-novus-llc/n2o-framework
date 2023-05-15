@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Отображение счетчика выбранных элементов в Select">
+    <form>
+        <fields>
+            <select id="select1" type="checkboxes" select-format-one="{size} объект"
+                    select-format-few="{size} объекта" select-format-many="{size} объектов">
+                <options>
+                    <option id="1" name="One"/>
+                    <option id="2" name="Two"/>
+                    <option id="3" name="Three"/>
+                    <option id="4" name="Four"/>
+                    <option id="5" name="Five"/>
+                </options>
+            </select>
+            <select id="select2" type="checkboxes" select-format="Объектов {size} шт">
+                <options>
+                    <option id="1" name="One"/>
+                    <option id="2" name="Two"/>
+                    <option id="3" name="Three"/>
+                    <option id="4" name="Four"/>
+                    <option id="5" name="Five"/>
+                </options>
+            </select>
+        </fields>
+    </form>
+</simple-page>

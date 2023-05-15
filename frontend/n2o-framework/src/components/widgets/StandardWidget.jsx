@@ -10,6 +10,7 @@ import Toolbar from '../buttons/Toolbar'
 import { Spinner } from '../snippets/Spinner/Spinner'
 import { dataSourceError } from '../../ducks/datasource/selectors'
 import { errorController } from '../errors/errorController'
+import { resolveToolbarText } from '../../utils/toolbarTextResolver'
 
 import WidgetFilters from './WidgetFilters'
 
@@ -37,7 +38,7 @@ const PLACES = {
 class StandardWidget extends React.Component {
     // eslint-disable-next-line consistent-return
     renderSection(place) {
-        const { widgetId, datasource, toolbar, filter, setFilter, filterModel, fetchData } = this.props
+        const { widgetId, toolbar, filter, fetchData, datasource, activeModel = {} } = this.props
 
         const filterProps = {
             ...filter,
@@ -50,11 +51,9 @@ class StandardWidget extends React.Component {
             case PLACES.right: {
                 return (
                     <WidgetFilters
-                        datasource={datasource}
                         widgetId={widgetId}
-                        setFilter={setFilter}
                         fetchData={fetchData}
-                        filterModel={filterModel}
+                        datasource={datasource}
                         {...filterProps}
                     />
                 )
@@ -76,6 +75,8 @@ class StandardWidget extends React.Component {
                         'align-items-end': place.toLowerCase().includes(PLACES.right),
                     },
                 )
+                const currentToolbar = toolbar[place]
+                const resolvedToolbar = resolveToolbarText(currentToolbar, activeModel)
 
                 return (
                     <div className={toolbarClassNames}>
@@ -84,7 +85,7 @@ class StandardWidget extends React.Component {
                                 {propsPlace}
                             </div>
                         )}
-                        <Toolbar toolbar={toolbar[place]} entityKey={widgetId} />
+                        <Toolbar toolbar={resolvedToolbar} entityKey={widgetId} />
                     </div>
                 )
             }

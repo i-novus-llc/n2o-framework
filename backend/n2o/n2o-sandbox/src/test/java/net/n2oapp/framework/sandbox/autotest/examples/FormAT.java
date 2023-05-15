@@ -7,19 +7,17 @@ import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.control.TextArea;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = {"n2o.sandbox.project-id=examples_form"},
-        classes = SandboxAutotestApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class FormAT extends SandboxAutotestBase {
+public class FormAT extends AutoTestBase {
 
     private SimplePage page;
 
@@ -35,13 +33,15 @@ public class FormAT extends SandboxAutotestBase {
 
         page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Форма");
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        builder.sources(new CompileInfo("/examples/form/index.page.xml"));
     }
 
     @Test
@@ -60,14 +60,16 @@ public class FormAT extends SandboxAutotestBase {
         InputText name = page.widget(FormWidget.class).fields().field("Имя").control(InputText.class);
         name.shouldExists();
         name.shouldBeEmpty();
-        name.val("test-name");
+        name.click();
+        name.setValue("test-name");
         name.shouldHaveValue("test-name");
 
         InputText lastName = page.widget(FormWidget.class).fields().field("Фамилия")
                 .control(InputText.class);
         lastName.shouldExists();
         lastName.shouldBeEmpty();
-        lastName.val("test-lastName");
+        lastName.click();
+        lastName.setValue("test-lastName");
         lastName.shouldHaveValue("test-lastName");
     }
 
@@ -76,9 +78,11 @@ public class FormAT extends SandboxAutotestBase {
         Select gender = page.widget(FormWidget.class).fields().field("Пол").control(Select.class);
         gender.shouldExists();
         gender.shouldBeEmpty();
-        gender.select(0);
+        gender.openPopup();
+        gender.dropdown().selectItem(0);
         gender.shouldSelected("Мужской");
-        gender.select(1);
+        gender.openPopup();
+        gender.dropdown().selectItem(1);
         gender.shouldSelected("Женский");
         gender.clear();
         gender.shouldBeEmpty();
@@ -91,7 +95,7 @@ public class FormAT extends SandboxAutotestBase {
         date.shouldExists();
 
         date.shouldBeEmpty();
-        date.val("15.02.2020");
+        date.setValue("15.02.2020");
         date.shouldHaveValue("15.02.2020");
         date.clickCalendarButton();
         date.shouldBeActiveDay("15");
@@ -115,7 +119,7 @@ public class FormAT extends SandboxAutotestBase {
         TextArea textArea = page.widget(FormWidget.class).fields().field("Адрес").control(TextArea.class);
         textArea.shouldBeEnabled();
         textArea.shouldHaveValue("");
-        textArea.val("1\n2\n3\n4\na\nb\nC");
+        textArea.setValue("1\n2\n3\n4\na\nb\nC");
         textArea.shouldHaveValue("1\n2\n3\n4\na\nb\nC");
     }
 

@@ -42,6 +42,7 @@ public class FilterColumnAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filter_column");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/table.widget.xml"),
@@ -73,11 +74,12 @@ public class FilterColumnAT extends AutoTestBase {
         // проверка фильтрации через текстовое поле
         header2.openFilterDropdown();
         InputText header2Input = header2.filterControl(InputText.class);
-        header2Input.val("1");
+        header2Input.click();
+        header2Input.setValue("1");
         header2.clickSearchButton();
         rows.shouldHaveSize(2);
-        rows.row(0).cell(0).textShouldHave("1");
-        rows.row(1).cell(0).textShouldHave("2");
+        rows.row(0).cell(0).shouldHaveText("1");
+        rows.row(1).cell(0).shouldHaveText("2");
         header2.openFilterDropdown();
         header2.clickResetButton();
         rows.shouldHaveSize(4);
@@ -85,11 +87,12 @@ public class FilterColumnAT extends AutoTestBase {
         // проверка фильтрации через списковое поле
         header3.openFilterDropdown();
         Select header3Input = header3.filterControl(Select.class);
-        header3Input.select(0);
+        header3Input.openPopup();
+        header3Input.dropdown().selectItem(0);
         header3.clickSearchButton();
         rows.shouldHaveSize(2);
-        rows.row(0).cell(0).textShouldHave("1");
-        rows.row(1).cell(0).textShouldHave("4");
+        rows.row(0).cell(0).shouldHaveText("1");
+        rows.row(1).cell(0).shouldHaveText("4");
         header3.openFilterDropdown();
         header3.clickResetButton();
         rows.shouldHaveSize(4);
@@ -98,33 +101,35 @@ public class FilterColumnAT extends AutoTestBase {
         header4.openFilterDropdown();
         DateInterval header4Input = header4.filterControl(DateInterval.class);
 
-        header4Input.shouldBeCollapsed();
-        header4Input.beginVal("01.01.2019");
-        header4Input.endVal("01.01.2021");
-        header4Input.shouldBeExpanded();
+        header4Input.shouldBeClosed();
+        header4Input.setValueInBegin("01.01.2019");
+        header4Input.setValueInEnd("01.01.2021");
+        header4Input.shouldBeOpened();
         header4.clickSearchButton();
-        header4Input.shouldBeCollapsed();
+        header4Input.shouldBeClosed();
         rows.shouldHaveSize(2);
-        rows.row(0).cell(0).textShouldHave("2");
-        rows.row(1).cell(0).textShouldHave("3");
+        rows.row(0).cell(0).shouldHaveText("2");
+        rows.row(1).cell(0).shouldHaveText("3");
         header4.openFilterDropdown();
         header4.clickResetButton();
         rows.shouldHaveSize(4);
 
         // два фильтра одновременно
         header2.openFilterDropdown();
-        header2Input.val("1");
+        header2Input.click();
+        header2Input.setValue("1");
         header2.clickSearchButton();
         header3.openFilterDropdown();
-        header3Input.select(0);
+        header3Input.openPopup();
+        header3Input.dropdown().selectItem(0);
         header3.clickSearchButton();
         rows.shouldHaveSize(1);
-        rows.row(0).cell(0).textShouldHave("1");
+        rows.row(0).cell(0).shouldHaveText("1");
         // должен сбрасываться только один фильтр
         header2.openFilterDropdown();
         header2.clickResetButton();
         rows.shouldHaveSize(2);
-        rows.row(0).cell(0).textShouldHave("1");
-        rows.row(1).cell(0).textShouldHave("4");
+        rows.row(0).cell(0).shouldHaveText("1");
+        rows.row(1).cell(0).shouldHaveText("4");
     }
 }

@@ -20,6 +20,7 @@
     min-width: $calendar-min-width;
     max-width: $calendar-max-width;
     min-height: $calendar-height;
+    border: 1px solid $gray-200;
     padding: 5px;
 
     .n2o-calendar-body {

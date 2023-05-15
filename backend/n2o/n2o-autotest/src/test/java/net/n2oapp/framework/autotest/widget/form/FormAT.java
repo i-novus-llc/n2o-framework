@@ -51,18 +51,23 @@ public class FormAT extends AutoTestBase {
         form.fields().shouldHaveSize(2);
 
         StandardField surname = form.fields().field("Фамилия");
-        surname.labelShouldHave(Condition.text("Фамилия"));
-        surname.control(InputText.class).val("test");
+        surname.shouldHaveLabelBy(Condition.text("Фамилия"));
+        surname.control(InputText.class).click();
+        surname.control(InputText.class).setValue("test");
 
         StandardField name = form.fields().field("Имя");
         name.shouldBeRequired();
         name.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
 
-        name.control(InputText.class).val("1");
-        surname.control(InputText.class).val("test");
+        name.control(InputText.class).click();
+        name.control(InputText.class).setValue("1");
+        surname.control(InputText.class).click();
+        surname.control(InputText.class).setValue("test");
         name.shouldHaveValidationMessage(Condition.text("Имя должно быть test"));
-        name.control(InputText.class).val("test");
-        surname.control(InputText.class).val("test");
+        name.control(InputText.class).click();
+        name.control(InputText.class).setValue("test");
+        surname.control(InputText.class).click();
+        surname.control(InputText.class).setValue("test");
         name.shouldHaveValidationMessage(Condition.empty);
     }
 
@@ -88,7 +93,8 @@ public class FormAT extends AutoTestBase {
         button2.hover();
         button2.tooltip().shouldHaveText("Заполните имя");
 
-        name.val("test");
+        name.click();
+        name.setValue("test");
         // подсказка при доступности кнопки1 и кнопки2
         button1.shouldBeEnabled();
         button1.hover();
@@ -101,6 +107,7 @@ public class FormAT extends AutoTestBase {
     
     @Test
     public void testMode() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/form/mode");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -121,13 +128,17 @@ public class FormAT extends AutoTestBase {
         master2Name.shouldHaveValue("test");
         child2Name.shouldHaveValue("test");
 
-        childName.val("123");
-        child2Name.val("123");
+        childName.click();
+        childName.setValue("123");
+        child2Name.click();
+        child2Name.setValue("123");
         childName.shouldHaveValue("123");
         child2Name.shouldHaveValue("123");
 
-        masterName.val("test1");
-        master2Name.val("test1");
+        masterName.click();
+        masterName.setValue("test1");
+        master2Name.click();
+        master2Name.setValue("test1");
 
         // one-model (запрос будет -> значение поля вернется к исходному)
         childName.shouldHaveValue("test");

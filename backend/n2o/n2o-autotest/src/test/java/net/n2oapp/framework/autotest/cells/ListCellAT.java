@@ -28,6 +28,7 @@ public class ListCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
+        setJsonPath("net/n2oapp/framework/autotest/cells");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/list/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
@@ -54,21 +55,21 @@ public class ListCellAT extends AutoTestBase {
         rows.row(2).cell(col, ListCell.class).shouldHaveSize(0);
         rows.row(3).cell(col, ListCell.class).shouldHaveSize(3);
 
-        rows.row(0).cell(col, ListCell.class).shouldHaveCollapseExpand(false);
-        rows.row(1).cell(col, ListCell.class).shouldHaveCollapseExpand(false);
-        rows.row(2).cell(col, ListCell.class).shouldHaveCollapseExpand(false);
-        rows.row(3).cell(col, ListCell.class).shouldHaveCollapseExpand(true);
+        rows.row(0).cell(col, ListCell.class).shouldNotBeExpandable();
+        rows.row(1).cell(col, ListCell.class).shouldNotBeExpandable();
+        rows.row(2).cell(col, ListCell.class).shouldNotBeExpandable();
+        rows.row(3).cell(col, ListCell.class).shouldBeExpandable();
 
         rows.row(0).cell(col, ListCell.class).shouldHaveText(0, "val1");
         rows.row(1).cell(col, ListCell.class).shouldHaveText(1, "val2");
         rows.row(3).cell(col, ListCell.class).shouldHaveText(2, "val3");
 
-        rows.row(3).cell(col, ListCell.class).clickCollapseExpand();
+        rows.row(3).cell(col, ListCell.class).expand();
         rows.row(3).cell(col, ListCell.class).shouldHaveSize(5);
         rows.row(3).cell(col, ListCell.class).shouldHaveText(3, "val4");
         rows.row(3).cell(col, ListCell.class).shouldHaveText(4, "val5");
-        rows.row(3).cell(col, ListCell.class).shouldHaveCollapseExpand(true);
-        rows.row(3).cell(col, ListCell.class).clickCollapseExpand();
+        rows.row(3).cell(col, ListCell.class).shouldBeExpandable();
+        rows.row(3).cell(col, ListCell.class).expand();
         rows.row(3).cell(col, ListCell.class).shouldHaveSize(3);
     }
 

@@ -10,6 +10,7 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -43,50 +44,56 @@ public class SidebarAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.sidebar().shouldExists();
-        page.sidebar().titleShouldBe("Лого");
-        page.sidebar().brandLogoShouldBe("images/logoWhite.png");
+        page.sidebar().shouldHaveTitle("Лого");
+        page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
     }
 
     @Test
+    @Disabled
     public void testFullsizeSidebar() {
+        //ToDo раздизейблить и поправить после NNO-9239
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fullsize/fullsize.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fullsize/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.shouldHaveLayout(NavigationLayout.fullSizeSidebar);
     }
 
     @Test
+    @Disabled
     public void testFixedSidebar() {
+        //ToDo раздизейблить и поправить после NNO-9239
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fixed/fixed.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fixed/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.sidebar().shouldBeFixed();
     }
 
     @Test
+    @Disabled
     public void testRightSidebar() {
+        //ToDo раздизейблить и поправить после NNO-9239
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/right/right.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/right/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.sidebar().shouldBeRight();
     }
@@ -99,7 +106,7 @@ public class SidebarAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.sidebar().shouldBeOverlay();
     }

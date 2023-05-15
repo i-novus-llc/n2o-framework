@@ -1,5 +1,5 @@
 import React from 'react'
-import cn from 'classnames'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
 import { Panel, Collapse } from '../../../../snippets/Collapse/Collapse'
@@ -16,17 +16,22 @@ function CollapseFieldSet({
     description,
     help,
     disabled,
+    badge,
 }) {
     const currentType = hasSeparator ? type : 'divider'
 
     return (
-        <Collapse className={cn({ 'n2o-disabled': disabled })} defaultActiveKey={expand ? '0' : null}>
+        <Collapse
+            className={classNames({ 'n2o-disabled': disabled })}
+            defaultActiveKey={expand ? '0' : null}
+        >
             <Panel
                 header={label}
                 description={description}
                 type={currentType}
                 showArrow={hasArrow}
                 help={help}
+                badge={badge}
                 forceRender
             >
                 {render(rows)}
@@ -46,6 +51,7 @@ CollapseFieldSet.propTypes = {
     description: PropTypes.string,
     help: PropTypes.string,
     disabled: PropTypes.bool,
+    badge: PropTypes.object,
 }
 
 CollapseFieldSet.defaultProps = {

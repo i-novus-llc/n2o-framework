@@ -1,11 +1,13 @@
-import { useDispatch } from 'react-redux'
-import React, { useCallback, useContext, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import React, { useContext, useEffect } from 'react'
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
 
 import { addComponent, register, removeComponent } from '../../ducks/datasource/store'
 import { resolveExpression } from '../withItemsResolver/utils'
 import { DataSourceContext } from '../../core/widget/context'
+import { dataSourceModelByPrefixSelector } from '../../ducks/datasource/selectors'
+import { ModelPrefix } from '../../core/datasource/const'
 
 import { queryMappingResolver } from './utils'
 
@@ -19,7 +21,6 @@ export function WithContextDataSource(Component) {
             location,
             path,
             force,
-            models,
             id,
         } = props
         /*
@@ -31,6 +32,7 @@ export function WithContextDataSource(Component) {
 
         const hasSource = datasources && datasource
         const { key: queryKey, value } = resolveExpression(location, path)
+        const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
 
         const dispatch = useDispatch()
         const { setResolve } = useContext(DataSourceContext)
@@ -68,14 +70,11 @@ export function WithContextDataSource(Component) {
         }, [value, queryKey])
 
         /* the current resolve ds model received by custom mapping */
-        const model = models.datasource[0]
-        const resolveModel = useCallback(() => setResolve(model), [setResolve, model])
-
         useEffect(() => {
-            if (model) {
-                resolveModel()
+            if (datasourceModel) {
+                setResolve(datasourceModel)
             }
-        }, [model, resolveModel])
+        }, [datasourceModel, setResolve])
 
         return <Component {...props} queryKey={queryKey} value={value} />
     }
@@ -88,7 +87,6 @@ export function WithContextDataSource(Component) {
         location: PropTypes.string,
         path: PropTypes.string,
         force: PropTypes.bool,
-        models: PropTypes.object,
     }
 
     return Register

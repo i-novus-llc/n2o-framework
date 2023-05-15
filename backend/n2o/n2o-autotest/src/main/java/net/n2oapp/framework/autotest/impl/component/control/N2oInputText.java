@@ -1,9 +1,9 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
-import org.openqa.selenium.Keys;
 
 /**
  * Компонент ввода текста для автотестирования
@@ -12,56 +12,61 @@ public class N2oInputText extends N2oControl implements InputText {
 
     @Override
     public void shouldBeEmpty() {
-        SelenideElement elm = inputElement();
-        if (elm.exists()) inputElement().shouldBe(Condition.empty);
+        SelenideElement input = inputElement();
+        if (input.exists()) input.shouldBe(Condition.empty);
         else cellInputElement().shouldBe(Condition.empty);
     }
 
     @Override
-    public String val() {
-        SelenideElement elm = inputElement();
-        return elm.exists() ? elm.val() : cellInputElement().text();
+    public String getValue() {
+        SelenideElement input = inputElement();
+        return input.exists() ? input.getValue() : cellInputElement().text();
     }
 
     @Override
-    public void val(String value) {
+    public void setValue(String value) {
+        inputElement().setValue(value);
+    }
+
+    @Override
+    public void click() {
         inputElement().click();
-        clear();
-        inputElement().sendKeys(value);
     }
 
     @Override
     public void clear() {
-        inputElement().sendKeys(Keys.CONTROL + "a");
-        inputElement().sendKeys(Keys.BACK_SPACE);
+        inputElement().clear();
     }
 
     @Override
     public void shouldHaveValue(String value) {
-        SelenideElement elm = inputElement();
-        if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.exactValue(value));
-        else cellInputElement().shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.selectedText(value));
+        SelenideElement input = inputElement();
+
+        if (input.exists())
+            input.shouldHave(Condition.exactValue(value));
+        else
+            cellInputElement().shouldHave(Condition.selectedText(value));
     }
 
     @Override
     public void shouldHavePlaceholder(String placeholder) {
         Condition condition = Condition.attribute("placeholder", placeholder);
+        SelenideElement input = inputElement();
 
-        SelenideElement elm = inputElement();
-        if (elm.exists()) elm.shouldHave(condition);
-        else cellInputElement().shouldHave(condition);
+        if (input.exists())
+            input.shouldHave(condition);
+        else
+            cellInputElement().shouldHave(condition);
     }
 
     @Override
     public void clickPlusStepButton() {
-        element().parent().$$(".n2o-input-number-buttons button").get(0).click();
+        stepButton().get(0).click();
     }
 
     @Override
     public void clickMinusStepButton() {
-        element().parent().$$(".n2o-input-number-buttons button").get(1).click();
+        stepButton().get(1).click();
     }
 
     @Override
@@ -70,20 +75,23 @@ public class N2oInputText extends N2oControl implements InputText {
     }
 
     @Override
-    public void measureShouldHaveText(String text) {
+    public void shouldHaveMeasureText(String text) {
         inputMeasure().shouldHave(Condition.text(text));
     }
 
-    private SelenideElement inputElement() {
-        element().shouldBe(Condition.exist);
-        return element().parent().$(".n2o-input");
+    protected ElementsCollection stepButton() {
+        return element().parent().$$(".n2o-input-number-buttons button");
     }
 
-    private SelenideElement cellInputElement() {
+    protected SelenideElement inputElement() {
+        return element().shouldBe(Condition.exist).parent().$(".n2o-input");
+    }
+
+    protected SelenideElement cellInputElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
     }
 
-    private SelenideElement inputMeasure() {
+    protected SelenideElement inputMeasure() {
         SelenideElement elm = element().parent();
         if (elm.is(Condition.cssClass("n2o-input-number")))
             elm = elm.parent();

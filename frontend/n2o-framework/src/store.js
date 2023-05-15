@@ -6,13 +6,13 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import generateReducer from './reducers'
 import generateSagas from './sagas'
+import { updateModel } from './ducks/models/store'
 
 const sagaMiddleware = createSagaMiddleware()
 
 export default (initialState, history, config = {}) => {
     const [squasherMiddleware, squasherStorePatcher] = createSquasher([
-        '@@redux-form/CHANGE',
-        '@@redux-form/INITIALIZE',
+        updateModel.type,
         'n2o/models/SET',
         'n2o/widgets/CHANGE_PAGE',
         'n2o/widgets/DATA_SUCCESS',
@@ -24,14 +24,22 @@ export default (initialState, history, config = {}) => {
 
     const middlewares = [
         thunkMiddleware,
-        () => next => (action) => {
-            if (Object.prototype.toString.call(action) === '[object Object]') {
-                const { payload = {}, meta = {}, ...actionFields } = action
+        ({ getState }) => (next) => {
+            let prevState = {}
 
-                return next({ ...actionFields, payload, meta })
+            return (action) => {
+                let nextAction = action
+
+                if (Object.prototype.toString.call(action) === '[object Object]') {
+                    const { payload = {}, meta = {}, ...actionFields } = action
+
+                    nextAction = { ...actionFields, payload, meta: { ...meta, prevState } }
+                }
+
+                prevState = getState()
+
+                return next(nextAction)
             }
-
-            return next(action)
         },
         sagaMiddleware,
         routerMiddleware(history),

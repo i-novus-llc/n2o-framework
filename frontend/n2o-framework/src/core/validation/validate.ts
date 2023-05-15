@@ -1,6 +1,9 @@
 import { isEmpty } from 'lodash'
 
-import { dataSourceModelsSelector, dataSourceValidationSelector } from '../../ducks/datasource/selectors'
+import {
+    dataSourceModelByPrefixSelector,
+    dataSourceValidationSelector,
+} from '../../ducks/datasource/selectors'
 import { failValidate, resetValidation } from '../../ducks/datasource/store'
 import type { State as GlobalState } from '../../ducks/State'
 import { ModelPrefix } from '../datasource/const'
@@ -14,6 +17,7 @@ import { ValidationsKey } from './IValidation'
  * @param {string} datasourceId
  * @param {ModelPrefix} prefix
  * @param {Function} dispatch
+ * @param {boolean} touched
  * @returns {boolean}
  * TODO переместить из ядра. Получается ядро завсит от редакса, а редакс от ядра
  */
@@ -28,14 +32,15 @@ export const validate = async (
         datasourceId,
         prefix === ModelPrefix.filter ? ValidationsKey.FilterValidations : ValidationsKey.Validations,
     )(state)
-    const models = dataSourceModelsSelector(datasourceId)(state)
-    const model = models[prefix] || {}
+    const model = dataSourceModelByPrefixSelector(datasourceId, prefix)(state)
 
+    // @ts-ignore поправить типы
     dispatch(resetValidation(datasourceId, [], prefix))
 
     const messages = await validateModel(model, validation)
 
     if (!isEmpty(messages)) {
+        // @ts-ignore поправить типы
         dispatch(failValidate(datasourceId, messages, prefix, { touched }))
     }
 

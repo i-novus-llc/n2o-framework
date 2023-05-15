@@ -7,6 +7,14 @@ import type { State as GlobalState } from '../State'
 /**
  * Базовый селектор всех моделей
  * @param state
+ * @return GlobalState
+ */
+const getGlobalState = (state: GlobalState) => state
+
+/**
+ * Базовый селектор всех моделей
+ * @param state
+ * @return GlobalState['models']
  */
 const modelsSelector = (state: GlobalState) => state.models || {}
 
@@ -15,6 +23,25 @@ const modelsSelector = (state: GlobalState) => state.models || {}
  * @param modelLink
  */
 const getModelSelector = (modelLink: string) => (state: GlobalState) => get(state, modelLink)
+
+/**
+ * Селектор получения данных из глобал стора по линкуy
+ */
+const getGlobalFieldByPath = (path: string) => createSelector(
+    [
+        getGlobalState,
+    ],
+    state => get(state, path, null),
+)
+/**
+ * Селектор получения данных из модели по линку
+ */
+const getModelFieldByPath = (path: string) => createSelector(
+    [
+        modelsSelector,
+    ],
+    modelsState => get(modelsState, path, null),
+)
 
 const getModelsByDependency = (dependency: Array<{ on: string }>) => (state: GlobalState) => (
     dependency.map(config => ({
@@ -33,38 +60,22 @@ const makeModelsByPrefixSelector = (prefix: ModelPrefix) => createSelector(
 )
 
 /**
- * Селектор получения resolve моделей
- * @param state
- * @deprecated
- */
-const resolveSelector = makeModelsByPrefixSelector(ModelPrefix.active)
-
-/**
  * Селектор-генератор для получения конкретной модели
- * @param prefix
- * @param key
  */
-const makeGetModelByPrefixSelector = (prefix: ModelPrefix, key: string) => createSelector(
-    makeModelsByPrefixSelector(prefix),
-    prefixModelsState => prefixModelsState[key],
-)
-
-/**
- * Селектор-генератор для получения resolve модели
- * @param key
- * @deprecated
- */
-const makeGetResolveModelSelector = (key: string) => createSelector(
-    resolveSelector,
-    modelsState => modelsState[key],
-)
+const getModelByPrefixAndNameSelector =
+    (prefix: ModelPrefix, fieldKey: string, defaultValue?: unknown) => createSelector(
+        [
+            makeModelsByPrefixSelector(prefix),
+        ],
+        prefixModelsState => prefixModelsState[fieldKey] || defaultValue,
+    )
 
 export {
     modelsSelector,
-    resolveSelector,
     makeModelsByPrefixSelector,
-    makeGetModelByPrefixSelector,
-    makeGetResolveModelSelector,
-    getModelSelector,
+    getModelByPrefixAndNameSelector,
+    getGlobalFieldByPath,
     getModelsByDependency,
+    getModelFieldByPath,
+    getModelSelector,
 }

@@ -8,7 +8,7 @@
         <form id="main">
             <fields>
                 <auto-complete id="auto1" label="Auto complete" query-id="testSelect" placeholder="{message}"
-                               tags="true" value-field-id="name" search-filter-id="search">
+                               tags="true" value-field-id="id" label-field-id="name" search-filter-id="search">
                     <filters>
                         <eq field-id="id" value="{org_id}" reset-on-change="true" model="resolve"
                             datasource="test"/>

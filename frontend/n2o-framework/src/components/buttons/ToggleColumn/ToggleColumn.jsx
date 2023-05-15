@@ -2,15 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
-import filter from 'lodash/filter'
 import map from 'lodash/map'
-import includes from 'lodash/includes'
-import isArray from 'lodash/isArray'
 import isEmpty from 'lodash/isEmpty'
 import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 import { getContainerColumns } from '../../../ducks/columns/selectors'
 import { toggleColumnVisibility } from '../../../ducks/columns/store'
+import { TABLE_ICON } from '../constants'
 
 /**
  * Дропдаун для скрытия/показа колонок в таблице
@@ -20,23 +18,18 @@ import { toggleColumnVisibility } from '../../../ducks/columns/store'
  * <ToggleColumn entityKey='TestEntityKey'/>
  */
 function ToggleColumnComponent(props) {
-    const { columns, renderColumnDropdown } = props
-    const columnsArray = map(columns || {}, (value, key) => ({ key, value }))
-    const filteredColumns = filter(
-        columnsArray,
-        ({ value }) => value.frozen !== true,
+    const { columns, renderColumnDropdown, icon } = props
+    const arrayOfColumns = map(columns, (value, key) => ({ key, value }))
+    const filteredColumns = arrayOfColumns.filter(
+        ({ key, value = {} }) => key && value.label && value.frozen !== true,
     )
 
     return (
         <UncontrolledButtonDropdown>
             <DropdownToggle caret>
-                <i className="fa fa-table" />
+                <i className={icon || TABLE_ICON} />
             </DropdownToggle>
-            <DropdownMenu>
-                {isArray(filteredColumns)
-                    ? renderColumnDropdown(filteredColumns)
-                    : null}
-            </DropdownMenu>
+            <DropdownMenu>{renderColumnDropdown(filteredColumns)}</DropdownMenu>
         </UncontrolledButtonDropdown>
     )
 }
@@ -44,6 +37,7 @@ function ToggleColumnComponent(props) {
 ToggleColumnComponent.propTypes = {
     columns: PropTypes.object,
     renderColumnDropdown: PropTypes.func,
+    icon: PropTypes.string,
 }
 
 const mapStateToProps = (state, props) => ({
@@ -57,13 +51,10 @@ const enhance = compose(
     }),
     withHandlers({
         renderColumnDropdown: ({ toggleVisibility }) => (columns) => {
-            const notActive = map(
-                filter(columns, item => !item.value.visible) || [],
-                col => col.key,
-            )
+            const notSelected = columns.filter(col => !col.value.visible).map(col => col.key)
 
             return map(columns, ({ key, value }, i) => {
-                const checked = !includes(notActive, key)
+                const selected = !notSelected.includes(key)
                 const { conditions } = value
 
                 return (
@@ -74,7 +65,7 @@ const enhance = compose(
                             onClick={() => toggleVisibility(key)}
                         >
                             <span className="n2o-dropdown-check-container">
-                                {checked && <i className="fa fa-check" aria-hidden="true" />}
+                                {selected && <i className="fa fa-check" aria-hidden="true" />}
                             </span>
                             <span>{value.label || key}</span>
                         </DropdownItem>

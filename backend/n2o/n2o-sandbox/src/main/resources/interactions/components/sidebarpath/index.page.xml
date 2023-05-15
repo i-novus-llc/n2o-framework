@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Использование шаблонных путей">
+    <regions>
+        <form>
+            <toolbar>
+                <button label="Список пользователей" disable-on-empty-model="false">
+                    <open-page page-id="list" route="/person/list"/>
+                </button>
+                <button label="Профиль пользователя" disable-on-empty-model="false">
+                    <open-page page-id="profile" route="/person/1/profile"/>
+                </button>
+                <button label="Другие страницы пользователей" disable-on-empty-model="false">
+                    <open-page page-id="other" route="/profiles/1/2/3"/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Тестирование fetch-value на форме">
+    <form>
+        <fields>
+            <input-text id="value" label="Тестирование fetch-value на форме. Введите id" domain="integer"/>
+            <input-text id="name" label="Должно появиться имя">
+                <dependencies>
+                    <fetch-value query-id="test" on="value" value-field-id="name" apply-on-init="false">
+                        <pre-filters>
+                            <eq field-id="id" value="{value}"/>
+                        </pre-filters>
+                    </fetch-value>
+                </dependencies>
+            </input-text>
+        </fields>
+    </form>
+</simple-page>

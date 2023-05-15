@@ -1,4 +1,4 @@
-@import '~rc-collapse/assets/index.css';
+@import 'rc-collapse/assets/index';
 
 .n2o-collapse {
     border: 0;
@@ -123,6 +123,12 @@
             padding: 5px 21px;
             margin: 0;
             color: black;
+        }
+    }
+
+    .n2o-collapse-panel.with-badge {
+        .n2o-panel-header .n2o-panel-header-text {
+            max-width: 100%;
         }
     }
 }

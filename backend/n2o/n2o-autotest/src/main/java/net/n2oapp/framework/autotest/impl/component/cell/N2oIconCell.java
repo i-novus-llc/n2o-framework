@@ -11,23 +11,27 @@ import net.n2oapp.framework.autotest.api.component.cell.IconCell;
  */
 public class N2oIconCell extends N2oCell implements IconCell {
     @Override
-    public void iconShouldBe(String icon) {
-        element().$(".n2o-icon").shouldBe(Condition.cssClass(icon));
+    public void shouldHaveIcon(String icon) {
+        icon().shouldHave(Condition.cssClass(icon));
     }
 
     @Override
-    public void textShouldHave(String text) {
-        element().$(".n2o-cell-text").shouldHave(Condition.text(text));
+    public void shouldHaveText(String text) {
+        element().$(".n2o-cell-text").shouldHave(Condition.exactText(text));
     }
 
     @Override
     public void hover() {
-        element().$(".n2o-icon").hover();
+        icon().hover();
     }
 
     @Override
     public Tooltip tooltip() {
         SelenideElement element = element().$(".tooltip-container");
         return N2oSelenide.component(element, Tooltip.class);
+    }
+
+    protected SelenideElement icon() {
+        return element().$(".n2o-icon");
     }
 }

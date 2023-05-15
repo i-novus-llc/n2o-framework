@@ -48,11 +48,11 @@ public class TimePickerAT extends AutoTestBase {
         time.shouldExists();
         time.shouldNotHavePrefix();
 
-        time.shouldBeCollapsed();
-        time.expand();
-        time.shouldBeExpanded();
-        time.collapse();
-        time.shouldBeCollapsed();
+        time.shouldBeClosed();
+        time.openPopup();
+        time.shouldBeOpened();
+        time.closePopup();
+        time.shouldBeClosed();
 
         time.shouldHaveValue("15 ч 25 мин 30 сек");
         time.shouldSelectedHoursMinutesSeconds("15", "25", "30");

@@ -37,6 +37,7 @@ public class BreadcrumbsAT extends AutoTestBase {
 
     @Test
     public void breadcrumbsTest() {
+        setJsonPath("net/n2oapp/framework/autotest/breadcrumbs");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/reader.page.xml"),
@@ -108,6 +109,7 @@ public class BreadcrumbsAT extends AutoTestBase {
 
     @Test
     public void testOpenPage() {
+        setJsonPath("net/n2oapp/framework/autotest/breadcrumbs/open_page");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/open_page/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/open_page/page2.page.xml"),
@@ -144,7 +146,7 @@ public class BreadcrumbsAT extends AutoTestBase {
 
         page.breadcrumb().crumb(0).click();
         page.shouldExists();
-        page.urlShouldMatches(url + "/#/");
+        page.shouldHaveUrlMatches(url + "/#/");
         page.toolbar().bottomLeft().button("Вторая страница").click();
         page.shouldExists();
         page.toolbar().bottomLeft().button("Третья страница").click();
@@ -154,6 +156,7 @@ public class BreadcrumbsAT extends AutoTestBase {
 
     @Test
     public void testResolve() {
+        setJsonPath("net/n2oapp/framework/autotest/breadcrumbs/resolve");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/resolve/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/resolve/page2.page.xml"),
@@ -167,7 +170,7 @@ public class BreadcrumbsAT extends AutoTestBase {
         page.breadcrumb().crumb(0).shouldHaveLink(getBaseUrl() + "/#/");
         page.breadcrumb().crumb(1).shouldHaveLabel("test3");
         page.breadcrumb().crumb(1).shouldHaveLink(getBaseUrl() + "/#/3/page2");
-        page.titleShouldHaveText("2");
+        page.shouldHaveTitle("2");
     }
 
     private void checkPageAndClickRow(SimplePage page, String firstTableRow, String secondTableRow, Integer clickRow) {
@@ -184,8 +187,8 @@ public class BreadcrumbsAT extends AutoTestBase {
         TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(2);
 
-        rows.row(0).cell(0).textShouldHave(firstTableRow);
-        rows.row(1).cell(0).textShouldHave(secondTableRow);
+        rows.row(0).cell(0).shouldHaveText(firstTableRow);
+        rows.row(1).cell(0).shouldHaveText(secondTableRow);
 
         rows.row(clickRow).click();
         openButton.click();

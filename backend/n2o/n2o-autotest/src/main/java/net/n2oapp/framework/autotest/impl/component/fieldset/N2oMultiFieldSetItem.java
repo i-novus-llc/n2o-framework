@@ -14,16 +14,16 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 public class N2oMultiFieldSetItem extends N2oComponent implements MultiFieldSetItem {
     @Override
     public void shouldHaveLabel(String label) {
-        element().$(".n2o-multi-fieldset__label").shouldHave(Condition.text(label));
+        label().shouldHave(Condition.text(label));
     }
 
     @Override
-    public void removeButtonShouldExists() {
+    public void shouldHaveRemoveButton() {
         removeButton().shouldBe(Condition.exist);
     }
 
     @Override
-    public void removeButtonShouldNotExists() {
+    public void shouldNotHaveRemoveButton() {
         removeButton().shouldNotBe(Condition.exist);
     }
 
@@ -33,12 +33,12 @@ public class N2oMultiFieldSetItem extends N2oComponent implements MultiFieldSetI
     }
 
     @Override
-    public void copyButtonShouldExists() {
+    public void shouldHaveCopyButton() {
         copyButton().shouldBe(Condition.exist);
     }
 
     @Override
-    public void copyButtonShouldNotExists() {
+    public void shouldNotHaveCopyButton() {
         copyButton().shouldNotBe(Condition.exist);
     }
 
@@ -57,11 +57,15 @@ public class N2oMultiFieldSetItem extends N2oComponent implements MultiFieldSetI
         return N2oSelenide.collection(element().$$(".n2o-fieldset"), FieldSets.class);
     }
 
-    private SelenideElement removeButton() {
+    protected SelenideElement removeButton() {
         return element().$(".n2o-multi-fieldset__remove.btn");
     }
 
-    private SelenideElement copyButton() {
+    protected SelenideElement copyButton() {
         return element().$(".n2o-multi-fieldset__copy.btn");
+    }
+
+    protected SelenideElement label() {
+        return element().$(".n2o-multi-fieldset__label");
     }
 }

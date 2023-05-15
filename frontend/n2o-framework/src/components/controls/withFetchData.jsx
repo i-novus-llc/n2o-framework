@@ -16,6 +16,8 @@ import { addAlert, removeAllAlerts } from '../../ducks/alerts/store'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { fetchError } from '../../actions/fetch'
 import { WithDataSource } from '../../core/widget/WithDataSource'
+import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
+import { ModelPrefix } from '../../core/datasource/const'
 
 /**
  * HOC для работы с данными
@@ -48,30 +50,25 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
 
         componentDidMount() {
             const { data } = this.state
-            const { datasource } = this.props
+            const { datasourceModel } = this.props
 
-            if (datasource) {
-                const { models = {} } = this.props
-                const { datasource: dsModel } = models
+            if (datasourceModel) {
+                const { datasourceModel } = this.props
 
-                if (isEmpty(data) && !isEmpty(dsModel)) {
-                    this.setState({ data: dsModel })
+                if (isEmpty(data) && !isEmpty(datasourceModel)) {
+                    this.setState({ data: datasourceModel })
                 }
             }
         }
 
-        componentDidUpdate(prevProps) {
-            const { datasource } = this.props
+        componentDidUpdate({ datasourceModel: prevDatasourceModel }) {
+            const { datasourceModel } = this.props
 
-            if (datasource) {
-                const { models = {} } = this.props
-                const { models: prevModels = {} } = prevProps
+            if (datasourceModel) {
+                const isNotEqual = !isEqual(datasourceModel, prevDatasourceModel)
 
-                const { datasource: dsModel } = models
-                const { datasource: prevDsModel } = prevModels
-
-                if (!isEqual(dsModel, prevDsModel)) {
-                    this.setState({ data: dsModel })
+                if (isNotEqual) {
+                    this.setState({ data: datasourceModel })
                 }
             }
         }
@@ -191,12 +188,6 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
 
         /**
          *  Обновить данные если запрос успешен
-         * @param list
-         * @param count
-         * @param size
-         * @param page
-         * @param merge
-         * @private
          */
         setResponseToData({ list, count, size, page, paging }, merge = false) {
             const { valueFieldId } = this.props
@@ -290,8 +281,8 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         valueFieldId: PropTypes.string,
         sortFieldId: PropTypes.string,
         dataProvider: PropTypes.object,
-        models: PropTypes.object,
         datasource: PropTypes.string,
+        datasourceModel: PropTypes.object,
         setRef: PropTypes.oneOfType([
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
@@ -305,6 +296,10 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         size: 10,
     }
 
+    const mapStateToProps = (state, { datasource }) => ({
+        datasourceModel: getModelByPrefixAndNameSelector(ModelPrefix.source, datasource)(state),
+    })
+
     const mapDispatchToProps = (dispatch, ownProps) => ({
         addAlert: message => dispatch(addAlert(`${ownProps.form}.${ownProps.labelFieldId}`, message)),
         removeAlerts: () => dispatch(removeAllAlerts(`${ownProps.form}.${ownProps.labelFieldId}`)),
@@ -313,7 +308,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
 
     return compose(
         connect(
-            null,
+            mapStateToProps,
             mapDispatchToProps,
             null,
             {

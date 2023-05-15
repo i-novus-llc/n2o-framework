@@ -5,9 +5,6 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.api.component.page.StandardPage;
-import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
-import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.cards.Card;
 import net.n2oapp.framework.autotest.api.component.widget.cards.CardsWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -40,6 +37,7 @@ public class CardsAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/cards/");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/cards/test.query.xml"));
     }
@@ -55,7 +53,7 @@ public class CardsAT extends AutoTestBase {
         CardsWidget cardsWidget = page.widget(CardsWidget.class);
         cardsWidget.shouldExists();
         cardsWidget.shouldHaveItems(2);
-        cardsWidget.paging().totalElementsShouldBe(2);
+        cardsWidget.paging().shouldHaveTotalElements(2);
 
         Card card = cardsWidget.card(0);
         card.shouldExists();
@@ -65,14 +63,14 @@ public class CardsAT extends AutoTestBase {
         card.columns().column(0).blocks().shouldHaveSize(4);
 
         TextCell textCell = card.columns().column(0).blocks().block(0).cell(TextCell.class);
-        textCell.textShouldHave("Hamburg");
+        textCell.shouldHaveText("Hamburg");
 
         ImageCell imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
-        imageCell.imageShouldBe(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
+        imageCell.shouldHaveSrc(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
 
         BadgeCell badgeCell = card.columns().column(0).blocks().block(2).cell(BadgeCell.class);
-        badgeCell.textShouldHave("Germany");
+        badgeCell.badgeShouldHaveText("Germany");
 
         ToolbarCell toolbarCell = card.columns().column(0).blocks().block(3).cell(ToolbarCell.class);
         toolbarCell.toolbar().button("Info").shouldHaveColor(Colors.SUCCESS);
@@ -92,14 +90,14 @@ public class CardsAT extends AutoTestBase {
         card.columns().column(0).blocks().shouldHaveSize(4);
 
         textCell = card.columns().column(0).blocks().block(0).cell(TextCell.class);
-        textCell.textShouldHave("Paris");
+        textCell.shouldHaveText("Paris");
 
         imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
-        imageCell.imageShouldBe(getBaseUrl() +"/images/paris-3193674__340.jpg");
+        imageCell.shouldHaveSrc(getBaseUrl() +"/images/paris-3193674__340.jpg");
 
         badgeCell = card.columns().column(0).blocks().block(2).cell(BadgeCell.class);
-        badgeCell.textShouldHave("France");
+        badgeCell.badgeShouldHaveText("France");
 
         toolbarCell = card.columns().column(0).blocks().block(3).cell(ToolbarCell.class);
         toolbarCell.toolbar().button("Info").shouldHaveColor(Colors.SUCCESS);
@@ -115,7 +113,7 @@ public class CardsAT extends AutoTestBase {
         CardsWidget cardsWidget = page.widget(CardsWidget.class);
         cardsWidget.shouldExists();
         cardsWidget.shouldHaveItems(2);
-        cardsWidget.paging().totalElementsShouldBe(2);
+        cardsWidget.paging().shouldHaveTotalElements(2);
 
         Card card = cardsWidget.card(0);
         card.shouldExists();
@@ -127,23 +125,23 @@ public class CardsAT extends AutoTestBase {
         card.columns().column(1).blocks().shouldHaveSize(5);
 
         TextCell textCell = card.columns().column(0).blocks().block(0).cell(TextCell.class);
-        textCell.textShouldHave("Hamburg");
+        textCell.shouldHaveText("Hamburg");
 
         ImageCell imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
-        imageCell.imageShouldBe(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
+        imageCell.shouldHaveSrc(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
 
         IconCell iconCell = card.columns().column(1).blocks().block(0).cell(IconCell.class);
-        iconCell.textShouldHave("ship");
+        iconCell.shouldHaveText("ship");
 
         BadgeCell badgeCell = card.columns().column(1).blocks().block(1).cell(BadgeCell.class);
-        badgeCell.textShouldHave("Germany");
+        badgeCell.badgeShouldHaveText("Germany");
 
         ProgressBarCell progressBarCell = card.columns().column(1).blocks().block(2).cell(ProgressBarCell.class);
-        progressBarCell.valueShouldBe("50");
+        progressBarCell.shouldHaveValue("50");
 
         RatingCell ratingCell = card.columns().column(1).blocks().block(3).cell(RatingCell.class);
-        ratingCell.valueShouldBe("4");
+        ratingCell.shouldHaveValue("4");
 
         CheckboxCell checkboxCell = card.columns().column(1).blocks().block(4).cell(CheckboxCell.class);
         checkboxCell.shouldBeChecked();
@@ -158,84 +156,25 @@ public class CardsAT extends AutoTestBase {
         card.columns().column(1).blocks().shouldHaveSize(5);
 
         textCell = card.columns().column(0).blocks().block(0).cell(TextCell.class);
-        textCell.textShouldHave("Paris");
+        textCell.shouldHaveText("Paris");
 
         imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
-        imageCell.imageShouldBe(getBaseUrl() +"/images/paris-3193674__340.jpg");
+        imageCell.shouldHaveSrc(getBaseUrl() +"/images/paris-3193674__340.jpg");
 
         iconCell = card.columns().column(1).blocks().block(0).cell(IconCell.class);
-        iconCell.textShouldHave("bicycle");
+        iconCell.shouldHaveText("bicycle");
 
         badgeCell = card.columns().column(1).blocks().block(1).cell(BadgeCell.class);
-        badgeCell.textShouldHave("France");
+        badgeCell.badgeShouldHaveText("France");
 
         progressBarCell = card.columns().column(1).blocks().block(2).cell(ProgressBarCell.class);
-        progressBarCell.valueShouldBe("70");
+        progressBarCell.shouldHaveValue("70");
 
         ratingCell = card.columns().column(1).blocks().block(3).cell(RatingCell.class);
-        ratingCell.valueShouldBe("4.5");
+        ratingCell.shouldHaveValue("4.5");
 
         checkboxCell = card.columns().column(1).blocks().block(4).cell(CheckboxCell.class);
         checkboxCell.shouldBeUnchecked();
-    }
-
-    @Test
-    public void testPaging() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/paging/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/cards/paging/test.query.xml"));
-        StandardPage page = open(StandardPage.class);
-        page.shouldExists();
-        CardsWidget cards = page.regions().region(0, SimpleRegion.class).content().widget(CardsWidget.class);
-        cards.shouldExists();
-
-        Paging paging = cards.paging();
-        paging.totalElementsShouldBe(8);
-        paging.shouldHaveLayout(Paging.Layout.SEPARATED);
-        paging.prevShouldNotExist();
-        paging.nextShouldNotExist();
-        paging.firstShouldExist();
-        paging.firstShouldHaveIcon("fa-angle-double-left");
-        paging.lastShouldNotExist();
-
-        paging.activePageShouldBe("1");
-        cards.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test1");
-        cards.shouldHaveItems(3);
-        paging.selectPage("3");
-        paging.activePageShouldBe("3");
-        cards.shouldHaveItems(2);
-        cards.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test7");
-        paging.selectFirst();
-        paging.activePageShouldBe("1");
-        cards.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test1");
-
-
-        CardsWidget cards2 = page.regions().region(0, SimpleRegion.class).content().widget(1, CardsWidget.class);
-        paging = cards2.paging();
-        paging.totalElementsShouldNotExist();
-        paging.shouldHaveLayout(Paging.Layout.BORDERED);
-        paging.prevShouldExist();
-        paging.prevShouldHaveLabel("Prev");
-        paging.prevShouldHaveIcon("fa-angle-down");
-        paging.nextShouldExist();
-        paging.nextShouldHaveLabel("Next");
-        paging.nextShouldHaveIcon("fa-angle-up");
-        paging.firstShouldExist();
-        paging.firstShouldHaveLabel("First");
-        paging.firstShouldHaveIcon("fa-angle-double-down");
-        paging.lastShouldExist();
-        paging.lastShouldHaveLabel("Last");
-        paging.lastShouldHaveIcon("fa-angle-double-up");
-
-        paging.activePageShouldBe("1");
-        cards2.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test1");
-        paging.selectNext();
-        paging.activePageShouldBe("2");
-        cards2.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test4");
-        paging.selectPrev();
-        paging.activePageShouldBe("1");
-        paging.selectLast();
-        cards2.shouldHaveItems(2);
-        cards2.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test7");
     }
 }

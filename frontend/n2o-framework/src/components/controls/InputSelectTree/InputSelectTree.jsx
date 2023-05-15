@@ -101,6 +101,8 @@ function InputSelectTree({
     const [dropdownExpanded, setDropdownExpanded] = useState(false)
     const [_control, setControlRef] = useState(null)
     const [searchValue, setSearchValue] = useState('')
+    // после изменения высоты инпута нужно пересчитывать Y позицию дропдауна по отношению к инпут контейнеру
+    const [dropdownYPositionKey, setDropdownYPositionKey] = useState(0)
 
     const popupProps = {
         prefixCls: 'n2o-select-tree',
@@ -237,6 +239,8 @@ function InputSelectTree({
     const handleChange = (value) => {
         onChange(getItemByValue(value))
         onBlur(getItemByValue(value))
+
+        setDropdownYPositionKey(prevKey => prevKey + 1)
     }
 
     /**
@@ -264,7 +268,9 @@ function InputSelectTree({
         return true
     }
 
-    const clearSearch = () => setSearchValue('')
+    const clearSearch = () => {
+        setSearchValue('')
+    }
 
     /**
      * Функция для контроля открытия/закрытия popup
@@ -319,6 +325,7 @@ function InputSelectTree({
         <div className="w-100 d-flex position-relative">
             <TreeSelect
                 ref={setControlRef}
+                key={dropdownYPositionKey}
                 /* eslint-disable-next-line jsx-a11y/tabindex-no-positive */
                 tabIndex={1}
                 {...value && { value: setValue(value) }}
@@ -337,10 +344,12 @@ function InputSelectTree({
                 treeNodeFilterProp={labelFieldId}
                 treeNodeLabelProp={labelFieldId}
                 maxTagTextLength={maxTagTextLength}
-                clearIcon={clearIcon}
+                clearIcon={clearIcon} // иконка очищения всего инпута
+                removeIcon={clearIcon} // иконка очищения итема
                 onChange={handleChange}
                 onSelect={handleSelect}
                 onSearch={handleSearch}
+                treeDefaultExpandedKeys={treeExpandedKeys.current}
                 onTreeExpand={onTreeExpand}
                 dropdownPopupAlign={dropdownPopupAlign}
                 prefixCls="n2o-select-tree"

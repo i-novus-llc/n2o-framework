@@ -8,6 +8,11 @@ import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import org.openqa.selenium.WebElement;
 
+import javax.annotation.Nonnull;
+
+import static com.codeborne.selenide.CheckResult.Verdict.ACCEPT;
+import static com.codeborne.selenide.CheckResult.Verdict.REJECT;
+
 /**
  * Окно drawer для автотестирования
  */
@@ -29,17 +34,17 @@ public class N2oDrawer extends N2oComponent implements Drawer {
     }
 
     @Override
-    public void placementShouldBe(Placement placement) {
+    public void shouldHavePlacement(Placement placement) {
         element().shouldHave(Condition.cssClass("drawer-" + placement.name()));
     }
 
     @Override
-    public void widthShouldBe(String width) {
+    public void shouldHaveWidth(String width) {
         element().$(".drawer-content-wrapper").shouldHave(new StyleAttribute("width", width));
     }
 
     @Override
-    public void heightShouldBe(String height) {
+    public void shouldHaveHeight(String height) {
         element().$(".drawer-content-wrapper").shouldHave(new StyleAttribute("height", height));
     }
 
@@ -68,16 +73,14 @@ public class N2oDrawer extends N2oComponent implements Drawer {
             this.expectedAttributeValue = expectedAttributeValue;
         }
 
+        @Nonnull
         @Override
-        public boolean apply(Driver driver, WebElement element) {
-            return getAttributeValue(element).contains(attributeName + ": " + expectedAttributeValue);
+        public CheckResult check(@Nonnull Driver driver, @Nonnull WebElement element) {
+            boolean result = getAttributeValue(element).contains(attributeName + ": " + expectedAttributeValue);
+            return new CheckResult(result ? ACCEPT : REJECT, null);
         }
 
-        @Override
-        public String actualValue(Driver driver, WebElement element) {
-            return String.format("style=\"%s\"", getAttributeValue(element));
-        }
-
+        @Nonnull
         @Override
         public String toString() {
             return String.format("attribute style contains %s: %s", attributeName, expectedAttributeValue);
@@ -90,12 +93,12 @@ public class N2oDrawer extends N2oComponent implements Drawer {
     }
 
     @Override
-    public void footerShouldBeFixed() {
+    public void shouldHaveFixedFooter() {
         getFooter().shouldBe(Condition.cssClass("drawer-footer--fixed"));
     }
 
     @Override
-    public void footerShouldNotBeFixed() {
+    public void shouldNotHaveFixedFooter() {
         getFooter().shouldNotBe(Condition.cssClass("drawer-footer--fixed"));
     }
 
@@ -114,16 +117,16 @@ public class N2oDrawer extends N2oComponent implements Drawer {
 
         @Override
         public Toolbar bottomLeft() {
-            return N2oSelenide.collection(element().$$(".drawer-footer .n2o-modal-actions").first().$$(".btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".drawer-footer .n2o-modal-actions .toolbar_placement_bottomLeft .btn"), Toolbar.class);
         }
 
         @Override
         public Toolbar bottomRight() {
-            return N2oSelenide.collection(element().$$(".drawer-footer .n2o-modal-actions").last().$$(".btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".drawer-footer .n2o-modal-actions .toolbar_placement_bottomRight .btn"), Toolbar.class);
         }
     }
 
-    private SelenideElement getFooter() {
+    protected SelenideElement getFooter() {
         return element().$(".drawer-footer");
     }
 }

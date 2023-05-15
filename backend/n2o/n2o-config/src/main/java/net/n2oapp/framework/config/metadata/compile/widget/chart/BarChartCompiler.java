@@ -21,17 +21,18 @@ public class BarChartCompiler extends StandardChartCompiler<BarChart, N2oBarChar
     @Override
     public BarChart compile(N2oBarChart source, CompileContext<?, ?> context, CompileProcessor p) {
         BarChart chart = new BarChart();
-        build(chart, source, context, p, property("n2o.api.widget.chart.bar.src"));
+        build(chart, source, p, property("n2o.api.widget.chart.bar.src"));
         chart.setType(ChartType.bar);
         for (N2oBarChartItem item : source.getItems()) {
             BarChartItem component = new BarChartItem();
             component.setFieldId(item.getFieldId());
             component.setLabel(item.getLabel());
             component.setColor(item.getColor());
-            component.setHasLabel(p.cast(item.getHasLabel(), p.resolve(property("n2o.api.widget.chart.has_label"), Boolean.class)));
+            component.setHasLabel(p.cast(item.getHasLabel(),
+                    p.resolve(property("n2o.api.widget.chart.bar.has_label"), Boolean.class)));
             chart.addItem(component);
         }
-        return compileStandardChart(chart, source, context, p);
+        return compileStandardChart(chart, source, p);
     }
 
     @Override

@@ -37,6 +37,8 @@ public class InvokeActionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+
+        setJsonPath("net/n2oapp/framework/autotest/action/invoke/form_param");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/invoke/form_param/test.object.xml"));
     }
@@ -49,12 +51,15 @@ public class InvokeActionAT extends AutoTestBase {
 
         FormWidget firstForm = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
         InputText firstValue = firstForm.fields().field("value").control(InputText.class);
-        firstValue.val("1");
+        firstValue.click();
+        firstValue.setValue("1");
         FormWidget secondForm = page.regions().region(1, SimpleRegion.class).content().widget(0, FormWidget.class);
         InputText secondValue = secondForm.fields().field("value").control(InputText.class);
         InputText secondValue2 = secondForm.fields().field("value2").control(InputText.class);
-        secondValue.val("2");
-        secondValue2.val("3");
+        secondValue.click();
+        secondValue.setValue("2");
+        secondValue2.click();
+        secondValue2.setValue("3");
 
         StandardButton btn = page.toolbar().bottomRight().button("Сохранить");
         btn.click();

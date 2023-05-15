@@ -11,11 +11,16 @@ public abstract class N2oButton extends N2oComponent implements Button {
 
     @Override
     public void shouldBeDisabled() {
-        element().shouldBe(Condition.attribute("disabled"));
+            element().shouldBe(Condition.attribute("disabled"));
+    }
+
+    @Override
+    public void shouldBeEnabled() {
+        element().shouldBe(Condition.enabled);
     }
 
     @Override
     public void click() {
-        element().shouldBe(Condition.exist).click();
+        element().shouldBe(Condition.exist, Condition.interactable).click();
     }
 }

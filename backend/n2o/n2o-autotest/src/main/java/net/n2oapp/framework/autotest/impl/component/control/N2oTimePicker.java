@@ -17,33 +17,33 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
 
     @Override
     public void selectHoursMinutesSeconds(String hours, String minutes, String seconds) {
-        expand();
+        openPopup();
         hoursItems().get(Integer.parseInt(hours)).click();
         minutesItems().get(Integer.parseInt(minutes)).click();
         secondsItems().get(Integer.parseInt(seconds)).click();
-        collapse();
+        closePopup();
     }
 
     @Override
     public void selectMinutesSeconds(String minutes, String seconds) {
-        expand();
+        openPopup();
         minutesItems().get(Integer.parseInt(minutes)).click();
         secondsItems().get(Integer.parseInt(seconds)).click();
-        collapse();
+        closePopup();
     }
 
     @Override
     public void selectHours(String hours) {
-        expand();
+        openPopup();
         hoursItems().get(Integer.parseInt(hours)).click();
-        collapse();
+        closePopup();
     }
 
     @Override
     public void selectMinutes(String minutes) {
-        expand();
+        openPopup();
         minutesItems().get(Integer.parseInt(minutes)).click();
-        collapse();
+        closePopup();
     }
 
     @Override
@@ -53,33 +53,33 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
 
     @Override
     public void shouldSelectedHoursMinutesSeconds(String hours, String minutes, String seconds) {
-        expand();
+        openPopup();
         hoursActiveItem().shouldHave(Condition.text(hours));
         minutesActiveItem().shouldHave(Condition.text(minutes));
         secondsActiveItem().shouldHave(Condition.text(seconds));
-        collapse();
+        closePopup();
     }
 
     @Override
     public void shouldSelectedHoursMinutes(String hours, String minutes) {
-        expand();
+        openPopup();
         hoursActiveItem().shouldHave(Condition.text(hours));
         minutesActiveItem().shouldHave(Condition.text(minutes));
-        collapse();
+        closePopup();
     }
 
     @Override
     public void shouldSelectedHours(String hours) {
-        expand();
+        openPopup();
         hoursActiveItem().shouldHave(Condition.text(hours));
-        collapse();
+        closePopup();
     }
 
     @Override
     public void shouldSelectedMinutes(String minutes) {
-        expand();
+        openPopup();
         minutesActiveItem().shouldHave(Condition.text(minutes));
-        collapse();
+        closePopup();
     }
 
     @Override
@@ -92,11 +92,6 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
         prefix().shouldNot(Condition.exist);
     }
 
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
-    }
-
     @Override
     public void shouldBeOpened() {
         popUp().shouldBe(Condition.exist);
@@ -105,6 +100,23 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
     @Override
     public void shouldBeClosed() {
         popUp().shouldNotBe(Condition.exist);
+    }
+
+    @Override
+    public void openPopup() {
+        if (!popUp().is(Condition.exist))
+            element().$(".n2o-input-icon").click();
+    }
+
+    @Override
+    public void closePopup() {
+        if (popUp().is(Condition.exist))
+            element().$(".n2o-input-icon").click();
+    }
+
+    @Deprecated
+    public void shouldBeExpanded() {
+        shouldBeOpened();
     }
 
     @Deprecated
@@ -117,57 +129,45 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
         openPopup();
     }
 
-    @Override
-    public void openPopup() {
-        if (!popUp().is(Condition.exist))
-            element().$(".n2o-input-icon").click();
-    }
-
     @Deprecated
     public void collapse() {
         closePopup();
     }
 
-    @Override
-    public void closePopup() {
-        if (popUp().is(Condition.exist))
-            element().$(".n2o-input-icon").click();
-    }
-
-    private SelenideElement popUp() {
+    protected SelenideElement popUp() {
         return element().parent().parent().$(".n2o-pop-up");
     }
 
-    private SelenideElement prefix() {
+    protected SelenideElement prefix() {
         return element().$(".time-prefix");
     }
 
-    private ElementsCollection items(String title) {
+    protected ElementsCollection items(String title) {
         return popUp().$$(".n2o-time-picker__header").findBy(Condition.text(title))
                 .parent().$$(".dropdown-item");
     }
 
-    private ElementsCollection hoursItems() {
+    protected ElementsCollection hoursItems() {
         return items("часы");
     }
 
-    private ElementsCollection minutesItems() {
+    protected ElementsCollection minutesItems() {
         return items("минуты");
     }
 
-    private ElementsCollection secondsItems() {
+    protected ElementsCollection secondsItems() {
         return items("секунды");
     }
 
-    private SelenideElement hoursActiveItem() {
+    protected SelenideElement hoursActiveItem() {
         return hoursItems().findBy(Condition.cssClass("active"));
     }
 
-    private SelenideElement minutesActiveItem() {
+    protected SelenideElement minutesActiveItem() {
         return minutesItems().findBy(Condition.cssClass("active"));
     }
 
-    private SelenideElement secondsActiveItem() {
+    protected SelenideElement secondsActiveItem() {
         return secondsItems().findBy(Condition.cssClass("active"));
     }
 }

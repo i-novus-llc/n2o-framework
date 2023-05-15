@@ -5,6 +5,7 @@ import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -42,6 +43,7 @@ public class MultiActionAT extends AutoTestBase {
 
     @Test
     public void testMulti() {
+        setJsonPath("net/n2oapp/framework/autotest/action/multi");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/multi/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/multi/page.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/multi/test.query.xml"));
@@ -62,5 +64,25 @@ public class MultiActionAT extends AutoTestBase {
         button.click();
         name.shouldHaveValue("test4");
         Selenide.back();
+    }
+
+    @Test
+    public void testActionAfterFail() {
+        setJsonPath("net/n2oapp/framework/autotest/action/multi/action_after_fail");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/multi/action_after_fail/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/multi/action_after_fail/test.object.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        InputText inputText = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields().field("input").control(InputText.class);
+        Button button = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).toolbar().topLeft().button("Кнопка");
+
+        inputText.setValue("test");
+        button.click();
+        page.alerts(Alert.Placement.top).alert(0).shouldExists();
+        inputText.shouldHaveValue("test");
+
+        inputText.setValue("123");
+        button.click();
+        inputText.shouldBeEmpty();
     }
 }

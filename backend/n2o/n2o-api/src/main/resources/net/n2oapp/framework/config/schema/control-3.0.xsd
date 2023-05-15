@@ -1281,10 +1281,18 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="value-field-id" type="xs:string">
+                <xs:attribute name="value-field-id" type="xs:string" default="name">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор поля выборки, отображаемого в автоподборе.
+                            Идентификатор поля выборки, отвечающего за идентификатор варианта выбора
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля выборки, отвечающего за отображение варианта выбора.
+                            По умолчанию: значение `value-field-id`, иначе name
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -1893,7 +1901,6 @@
             <xs:enumeration value="inOrIsNull"/>
             <xs:enumeration value="like"/>
             <xs:enumeration value="likeStart"/>
-            <xs:enumeration value="overlap"/>
             <xs:enumeration value="contains"/>
         </xs:restriction>
     </xs:simpleType>
@@ -2024,7 +2031,6 @@
             <xs:element name="likeStart" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="isNull" type="preFilterDefBase" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="contains" type="preFilterDefValuesWithBody" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="overlaps" type="preFilterDefValuesWithBody" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="more" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="less" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="notEq" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>

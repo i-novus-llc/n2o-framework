@@ -16,11 +16,18 @@ public class N2oParentDatasource extends N2oAbstractDatasource {
      */
     private boolean fromParentPage;
 
+    /**
+     * Идентификатор источника данных родительской страницы. Используется, если id текущего датасорса и id датасорса,
+     * на который он ссылается, должны отличаться.
+     */
+    private String sourceDatasource;
+
     public N2oParentDatasource() {
     }
 
-    public N2oParentDatasource(String id, boolean fromParentPage) {
+    public N2oParentDatasource(String id, String sourceDatasource, boolean fromParentPage) {
         setId(id);
+        this.sourceDatasource = sourceDatasource;
         this.fromParentPage = fromParentPage;
     }
 }

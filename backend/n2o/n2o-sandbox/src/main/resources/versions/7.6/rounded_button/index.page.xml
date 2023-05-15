@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Круглые кнопки">
+    <form>
+        <toolbar>
+            <button label="Текст" rounded="true" model="filter"
+                    type="text"/>
+            <button label="Иконка" rounded="true" model="filter"
+                    type="icon" icon="fa fa-plus"/>
+            <button label="Иконка и текст" rounded="true" model="filter"
+                    icon="fa fa-plus"/>
+            <button label="Цвет" rounded="true" model="filter"
+                    type="icon" color="danger" icon="fa fa-user"/>
+        </toolbar>
+    </form>
+</simple-page>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators, Dispatch } from 'redux'
 import { i18n } from 'i18next'
@@ -27,6 +27,8 @@ import {
 } from '../../ducks/global/store'
 // @ts-ignore ignore import error from js file
 import { errorController } from '../errors/errorController'
+import { FactoryLevels } from '../../core/factory/factoryLevels'
+import { FactoryContext } from '../../core/factory/context'
 
 // @ts-ignore ignore import error from js file
 import { GlobalAlertsConnected } from './GlobalAlerts'
@@ -56,6 +58,9 @@ function Application(props: IApplicationProps) {
         render,
     } = props
 
+    const { getComponent } = useContext(FactoryContext)
+    const FactorySpinner = getComponent('Spinner', FactoryLevels.SNIPPETS)
+
     numeral.locale(locale)
 
     if (error) {
@@ -71,9 +76,17 @@ function Application(props: IApplicationProps) {
     }
 
     return (
-        <Block disabled={loading}>
-            {ready && render()}
-        </Block>
+        <>
+            {!ready && FactorySpinner
+                ? <FactorySpinner type="cover" loading={loading} />
+                : null }
+
+            {ready ? (
+                <Block disabled={loading}>
+                    {render()}
+                </Block>
+            ) : null}
+        </>
     )
 }
 

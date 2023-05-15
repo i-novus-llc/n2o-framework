@@ -19,11 +19,14 @@ public class ProtoContacts extends BaseSimplePage {
     }
 
     public void selectContactType(String text) {
-        getFields().field("Тип контакта").control(InputSelect.class).select(Condition.text(text));
+        InputSelect inputSelect = getFields().field("Тип контакта").control(InputSelect.class);
+
+        inputSelect.openPopup();
+        inputSelect.dropdown().selectItemBy(Condition.text(text));
     }
 
     public void shouldHaveContactType(String text) {
-        getFields().field("Тип контакта").control(InputSelect.class).shouldSelected(text);
+        getFields().field("Тип контакта").control(InputSelect.class).shouldHaveValue(text);
     }
 
     public MaskedInput getPhoneNumber() {

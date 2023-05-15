@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1,
+    "firstName": "John",
+    "lastName": "Smith",
+    "docs": [
+      {
+        "id": 1,
+        "type": "passport",
+        "series": "1234",
+        "number": "567890"
+      },
+      {
+        "id": 2,
+        "type": "birthcert",
+        "series": "QWE",
+        "number": "123456789"
+      }
+    ],
+    "contacts": [
+      {
+        "id": 1,
+        "type": "phone",
+        "value": "+7 (123) 456-78-90"
+      },
+      {
+        "id": 2,
+        "type": "email",
+        "value": "test@example.com"
+      }
+    ]
+  }
+]

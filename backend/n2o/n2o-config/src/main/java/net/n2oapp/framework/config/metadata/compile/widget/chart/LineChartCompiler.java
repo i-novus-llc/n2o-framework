@@ -22,7 +22,7 @@ public class LineChartCompiler extends StandardChartCompiler<LineChart, N2oLineC
     @Override
     public LineChart compile(N2oLineChart source, CompileContext<?, ?> context, CompileProcessor p) {
         LineChart chart = new LineChart();
-        build(chart, source, context, p, property("n2o.api.widget.chart.line.src"));
+        build(chart, source, p, property("n2o.api.widget.chart.line.src"));
         chart.setType(ChartType.line);
         for (N2oLineChartItem item : source.getItems()) {
             LineChartItem component = new LineChartItem();
@@ -32,10 +32,10 @@ public class LineChartCompiler extends StandardChartCompiler<LineChart, N2oLineC
                     p.resolve(property("n2o.api.widget.chart.line.type"), ChartLineType.class)));
             component.setColor(item.getColor());
             component.setHasLabel(p.cast(item.getHasLabel(),
-                    p.resolve(property("n2o.api.widget.chart.has_label"), Boolean.class)));
+                    p.resolve(property("n2o.api.widget.chart.line.has_label"), Boolean.class)));
             chart.addItem(component);
         }
-        return compileStandardChart(chart, source, context, p);
+        return compileStandardChart(chart, source, p);
     }
 
     @Override

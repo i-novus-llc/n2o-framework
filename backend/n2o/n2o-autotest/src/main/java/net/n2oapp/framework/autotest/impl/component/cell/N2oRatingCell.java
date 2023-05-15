@@ -11,26 +11,28 @@ import net.n2oapp.framework.autotest.api.component.cell.RatingCell;
 public class N2oRatingCell extends N2oCell implements RatingCell {
 
     @Override
-    public void maxShouldBe(int max) {
-        ratingInput().last().shouldHave(Condition.attribute("value", "" + max));
+    public void shouldHaveMax(int max) {
+        ratingInput().last()
+                .shouldHave(Condition.attribute("value", String.valueOf(max)));
     }
 
     @Override
-    public void valueShouldBe(String value) {
+    public void shouldHaveValue(String value) {
         ratingInput().find(Condition.selected).shouldHave(Condition.value(value));
     }
 
     @Override
     public void value(String value) {
         element().$$(".rating__label")
-                .find(Condition.attributeMatching("for", "rating-" + value + ".*"))
+                .find(Condition.attributeMatching("for", String.format("rating-%s.*", value)))
                 .click();
     }
 
-    private ElementsCollection ratingInput() {
-        if (element().$$(".rating__input--readonly").isEmpty())
+    protected ElementsCollection ratingInput() {
+        ElementsCollection ratings = element().$$(".rating__input--readonly");
+        if (ratings.isEmpty())
             return element().$$(".rating__input");
         else
-            return element().$$(".rating__input--readonly");
+            return ratings;
     }
 }

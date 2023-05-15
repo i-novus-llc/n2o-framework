@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "project": "Проект 1",
+    "inProgress": true
+  },
+  {
+    "id": 2,
+    "project": "Проект 2",
+    "inProgress": false
+  },
+  {
+    "id": 3,
+    "project": "Проект 3",
+    "inProgress": false
+  }
+]

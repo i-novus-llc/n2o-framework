@@ -6,9 +6,11 @@ import io.qameta.allure.selenide.AllureSelenide;
 import net.n2oapp.demo.model.ProtoClient;
 import net.n2oapp.demo.model.ProtoContacts;
 import net.n2oapp.demo.model.ProtoPage;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirection;
 import net.n2oapp.framework.autotest.Colors;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.HttpStatus;
@@ -19,13 +21,13 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static com.codeborne.selenide.Configuration.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DemoApplication.class, properties = {"n2o.i18n.enabled=false", "n2o.i18n.default-locale=ru"},
@@ -62,8 +64,10 @@ public class DemoIntegrationAT {
     @Order(1)
     public void checkStaticContent() throws IOException {
         HttpUriRequest request = new HttpGet("http://localhost:" + port + "/index.html");
-        HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
-        assertThat(httpResponse.getCode(), equalTo(HttpStatus.SC_OK));
+        try (CloseableHttpClient closeableHttpClient = HttpClientBuilder.create().build()) {
+            HttpResponse httpResponse = closeableHttpClient.execute(request);
+            assertThat(httpResponse.getCode(), equalTo(HttpStatus.SC_OK));
+        }
     }
 
     /**
@@ -103,8 +107,10 @@ public class DemoIntegrationAT {
     public void testFilterByNameAndSurname() {
         protoPage.getSurnameFilter().shouldBeEnabled();
         protoPage.getFirstNameFilter().shouldBeEnabled();
-        protoPage.getSurnameFilter().val("Лапа");
-        protoPage.getFirstNameFilter().val("ера");
+        protoPage.getSurnameFilter().click();
+        protoPage.getSurnameFilter().setValue("Лапа");
+        protoPage.getFirstNameFilter().click();
+        protoPage.getFirstNameFilter().setValue("ера");
         protoPage.searchClients();
 
         protoPage.tableShouldHaveSize(1);
@@ -133,7 +139,8 @@ public class DemoIntegrationAT {
      */
     @Test
     public void testClearFilter() {
-        protoPage.getFirstNameFilter().val("Римма");
+        protoPage.getFirstNameFilter().click();
+        protoPage.getFirstNameFilter().setValue("Римма");
         protoPage.genderFilterCheck("Женский");
         protoPage.getVIPFilter().setChecked(true);
 
@@ -158,25 +165,39 @@ public class DemoIntegrationAT {
      */
     @Test
     public void testTableSorting() {
+        List<String> unsortedSurnameColumn = new ArrayList<>(
+                List.of(new String[]{
+                        "Михалёва",
+                        "Яблочкин",
+                        "Яшнова",
+                        "Глоба",
+                        "Суходолина",
+                        "Барсова",
+                        "Оленева",
+                        "Меркушев",
+                        "Летова",
+                        "Чечин",
+                })
+        );
+
         protoPage.getSurnameHeader().shouldNotBeSorted();
         protoPage.getSurnameHeader().click();
         protoPage.getSurnameHeader().shouldBeSortedByAsc();
-        assertThat(isSorted(protoPage.getSurnameColumn(), true), is(true));
+        protoPage.surnameColumnShouldBeSortedBy(SortingDirection.ASC);
 
         protoPage.getSurnameHeader().click();
         protoPage.getSurnameHeader().shouldBeSortedByDesc();
-        assertThat(isSorted(protoPage.getSurnameColumn(), false), is(true));
+        protoPage.surnameColumnShouldBeSortedBy(SortingDirection.DESC);
 
         protoPage.getSurnameHeader().click();
         protoPage.getSurnameHeader().shouldNotBeSorted();
-        List<String> list = protoPage.getSurnameColumn();
-        assertThat(isSorted(list, true), is(false));
-        assertThat(isSorted(list, false), is(false));
+        protoPage.surnameColumnShouldNotBeSorted(unsortedSurnameColumn);
     }
 
     /**
      * Проверка корректности работы пагинации
      */
+
     @Test
     public void testPagination() {
         protoPage.tableShouldHaveSize(10);
@@ -215,17 +236,17 @@ public class DemoIntegrationAT {
     public void testCellBirthdayUpdate() {
         int row = 0;
         String testDate = "15.12.1900";
-        String exDate = protoPage.getBirthdayCell(row).val();
+        String exDate = protoPage.getBirthdayCell(row).getValue();
 
         protoPage.getBirthdayCell(row).shouldHaveValue(exDate);
         protoPage.clickBirthdayCell(row);
         protoPage.getBirthdayCell(row).shouldHaveValue(exDate);
-        protoPage.getBirthdayCell(row).val(testDate);
+        protoPage.getBirthdayCell(row).setValue(testDate);
         protoPage.alertColorShouldBe(Colors.SUCCESS);
         protoPage.getBirthdayCell(row).shouldHaveValue(testDate);
 
         protoPage.clickBirthdayCell(row);
-        protoPage.getBirthdayCell(row).val(exDate);
+        protoPage.getBirthdayCell(row).setValue(exDate);
         protoPage.alertColorShouldBe(Colors.SUCCESS);
         protoPage.getBirthdayCell(row).shouldHaveValue(exDate);
     }
@@ -239,7 +260,7 @@ public class DemoIntegrationAT {
         String surname = protoPage.getSurname(row);
         String name = protoPage.getName(row);
         String patronomic = protoPage.getPatronomic(row);
-        String birthday = protoPage.getBirthdayCell(row).val();
+        String birthday = protoPage.getBirthdayCell(row).getValue();
         String gender = protoPage.getGender(row);
 
         ProtoClient clientCard = protoPage.clickSurnameCell(row);
@@ -251,9 +272,12 @@ public class DemoIntegrationAT {
         clientCard.genderRadioGroup().shouldBeChecked(gender);
         clientCard.birthdayShouldHaveValue(birthday);
 
-        clientCard.surname().val("Сергеев");
-        clientCard.firstName().val("Николай");
-        clientCard.patronymic().val("Петрович");
+        clientCard.surname().click();
+        clientCard.surname().setValue("Сергеев");
+        clientCard.firstName().click();
+        clientCard.firstName().setValue("Николай");
+        clientCard.patronymic().click();
+        clientCard.patronymic().setValue("Петрович");
         clientCard.save();
 
         protoPage.shouldBeClientsPage();
@@ -275,7 +299,7 @@ public class DemoIntegrationAT {
         String name = protoPage.getName(row);
         String patronomic = protoPage.getPatronomic(row);
         String gender = protoPage.getGender(row);
-        String birthday = protoPage.getBirthdayCell(row).val();
+        String birthday = protoPage.getBirthdayCell(row).getValue();
 
         ProtoClient modalClientCard = protoPage.clickNameCell(row);
         modalClientCard.shouldHaveTitle("Карточка клиента:");
@@ -286,9 +310,12 @@ public class DemoIntegrationAT {
         modalClientCard.genderRadioGroup().shouldBeChecked(gender);
         modalClientCard.birthdayShouldHaveValue(birthday);
 
-        modalClientCard.surname().val("Александринкин");
-        modalClientCard.firstName().val("Иннокентута");
-        modalClientCard.patronymic().val("Игнатиевич");
+        modalClientCard.surname().click();
+        modalClientCard.surname().setValue("Александринкин");
+        modalClientCard.firstName().click();
+        modalClientCard.firstName().setValue("Иннокентута");
+        modalClientCard.patronymic().click();
+        modalClientCard.patronymic().setValue("Игнатиевич");
         modalClientCard.gender().check("Мужской");
         modalClientCard.save();
 
@@ -312,7 +339,7 @@ public class DemoIntegrationAT {
         String name = protoPage.getName(row);
         String patronomic = protoPage.getPatronomic(row);
         String gender = protoPage.getGender(row);
-        String birthday = protoPage.getBirthdayCell(row).val();
+        String birthday = protoPage.getBirthdayCell(row).getValue();
 
         ProtoClient clientCard = protoPage.clickPatronymicCell(row);
         clientCard.shouldHaveTitle("Карточка клиента");
@@ -323,9 +350,12 @@ public class DemoIntegrationAT {
         clientCard.genderRadioGroup().shouldBeChecked(gender);
         clientCard.birthdayShouldHaveValue(birthday);
 
-        clientCard.surname().val("Сергеева");
-        clientCard.firstName().val("Анастасия");
-        clientCard.patronymic().val("Михайловна");
+        clientCard.surname().click();
+        clientCard.surname().setValue("Сергеева");
+        clientCard.firstName().click();
+        clientCard.firstName().setValue("Анастасия");
+        clientCard.patronymic().click();
+        clientCard.patronymic().setValue("Михайловна");
         clientCard.save();
 
         protoPage.shouldBeClientsPage();
@@ -347,7 +377,7 @@ public class DemoIntegrationAT {
         String name = protoPage.getName(row);
         String patronomic = protoPage.getPatronomic(row);
         String gender = protoPage.getGender(row);
-        String birthday = protoPage.getBirthdayCell(row).val();
+        String birthday = protoPage.getBirthdayCell(row).getValue();
 
         protoPage.selectClient(row);
 
@@ -360,9 +390,12 @@ public class DemoIntegrationAT {
         modalClientCard.birthdayShouldHaveValue(birthday);
         modalClientCard.genderRadioGroup().shouldBeChecked(gender);
 
-        modalClientCard.surname().val("Жуков");
-        modalClientCard.firstName().val("Геннадий");
-        modalClientCard.patronymic().val("Юрьевич");
+        modalClientCard.surname().click();
+        modalClientCard.surname().setValue("Жуков");
+        modalClientCard.firstName().click();
+        modalClientCard.firstName().setValue("Геннадий");
+        modalClientCard.patronymic().click();
+        modalClientCard.patronymic().setValue("Юрьевич");
         modalClientCard.gender().check("Мужской");
         modalClientCard.birthdayValue("17.11.1932");
         modalClientCard.save();
@@ -389,7 +422,7 @@ public class DemoIntegrationAT {
         String name = protoPage.getName(row);
         String patronomic = protoPage.getPatronomic(row);
         String gender = protoPage.getGender(row);
-        String birthday = protoPage.getBirthdayCell(row).val();
+        String birthday = protoPage.getBirthdayCell(row).getValue();
 
         ProtoClient modalClientCard = protoPage.editClientFromTableCell(row);
         modalClientCard.shouldHaveTitle("Клиент - Изменение");
@@ -400,9 +433,12 @@ public class DemoIntegrationAT {
         modalClientCard.genderRadioGroup().shouldBeChecked(gender);
         modalClientCard.birthdayShouldHaveValue(birthday);
 
-        modalClientCard.surname().val("Ивановна");
-        modalClientCard.firstName().val("Александра");
-        modalClientCard.patronymic().val("Петровна");
+        modalClientCard.surname().click();
+        modalClientCard.surname().setValue("Ивановна");
+        modalClientCard.firstName().click();
+        modalClientCard.firstName().setValue("Александра");
+        modalClientCard.patronymic().click();
+        modalClientCard.patronymic().setValue("Петровна");
         modalClientCard.gender().check("Женский");
         modalClientCard.save();
 
@@ -428,7 +464,7 @@ public class DemoIntegrationAT {
         String name = protoPage.getName(row);
         String patronomic = protoPage.getPatronomic(row);
         String gender = protoPage.getGender(row);
-        String birthday = protoPage.getBirthdayCell(row).val();
+        String birthday = protoPage.getBirthdayCell(row).getValue();
 
         protoPage.selectClient(row);
         ProtoClient modalClientCard = protoPage.clickView();
@@ -461,9 +497,12 @@ public class DemoIntegrationAT {
         ProtoClient clientCard = protoPage.addClient();
         clientCard.shouldHaveTitle("Карточка клиента");
         clientCard.patronymic().shouldHaveValue("Тест");
-        clientCard.surname().val("Гадойбоев");
-        clientCard.firstName().val("Муминджон");
-        clientCard.patronymic().val("Джамшутович");
+        clientCard.surname().click();
+        clientCard.surname().setValue("Гадойбоев");
+        clientCard.firstName().click();
+        clientCard.firstName().setValue("Муминджон");
+        clientCard.patronymic().click();
+        clientCard.patronymic().setValue("Джамшутович");
         clientCard.genderRadioGroup().check("Мужской");
         clientCard.birthdayValue("17.01.2020");
         clientCard.getVIP().setChecked(true);
@@ -473,7 +512,8 @@ public class DemoIntegrationAT {
         protoPage.alertColorShouldBe(Colors.SUCCESS);
         protoPage.alertTextShouldBe("Клиент 'Гадойбоев' создан");
 
-        protoPage.getSurnameFilter().val("Гадойбоев");
+        protoPage.getSurnameFilter().click();
+        protoPage.getSurnameFilter().setValue("Гадойбоев");
         protoPage.searchClients();
 
         protoPage.tableCellShouldHaveText(0, 1, "Гадойбоев");
@@ -492,9 +532,12 @@ public class DemoIntegrationAT {
         ProtoClient modalClientCard = protoPage.createClient();
         modalClientCard.shouldHaveTitle("Карточка клиента");
         modalClientCard.patronymic().shouldHaveValue("Тест");
-        modalClientCard.surname().val("Иконов");
-        modalClientCard.firstName().val("Алексей");
-        modalClientCard.patronymic().val("Петрович");
+        modalClientCard.surname().click();
+        modalClientCard.surname().setValue("Иконов");
+        modalClientCard.firstName().click();
+        modalClientCard.firstName().setValue("Алексей");
+        modalClientCard.patronymic().click();
+        modalClientCard.patronymic().setValue("Петрович");
         modalClientCard.genderRadioGroup().check("Мужской");
         modalClientCard.birthdayValue("17.01.2020");
         modalClientCard.getVIP().setChecked(true);
@@ -513,7 +556,8 @@ public class DemoIntegrationAT {
         clientCard.close();
         protoPage.shouldBeClientsPage();
 
-        protoPage.getSurnameFilter().val("Иконов");
+        protoPage.getSurnameFilter().click();
+        protoPage.getSurnameFilter().setValue("Иконов");
         protoPage.searchClients();
 
         protoPage.tableCellShouldHaveText(0, 1, "Иконов");
@@ -548,6 +592,7 @@ public class DemoIntegrationAT {
     /**
      * Тест удаления клиента (предпоследняя строка) из тулбара таблицы
      */
+
     @Test
     public void testTableRowDelete() {
         int row = 8;
@@ -594,7 +639,8 @@ public class DemoIntegrationAT {
      */
     @Test
     public void testContactCrud() {
-        protoPage.getSurnameFilter().val("Маркин");
+        protoPage.getSurnameFilter().click();
+        protoPage.getSurnameFilter().setValue("Маркин");
         protoPage.searchClients();
         protoPage.tableCellShouldHaveText(0, 1, "Маркин");
         protoPage.contactsListShouldHaveSize(0);
@@ -602,8 +648,9 @@ public class DemoIntegrationAT {
         ProtoContacts modalProtoContacts = protoPage.createContact();
         modalProtoContacts.shouldHaveTitle("Контакты");
         modalProtoContacts.selectContactType("Мобильный телефон");
-        modalProtoContacts.getPhoneNumber().val("9999999999");
-        modalProtoContacts.getDescription().val("рабочий телефон");
+        modalProtoContacts.getPhoneNumber().setValue("9999999999");
+        modalProtoContacts.getDescription().click();
+        modalProtoContacts.getDescription().setValue("рабочий телефон");
         modalProtoContacts.save();
 
         protoPage.shouldDialogClosed("Контакты", 20000);
@@ -618,7 +665,7 @@ public class DemoIntegrationAT {
         modalProtoContacts.shouldHaveTitle("Контакты");
         modalProtoContacts.shouldHaveContactType("Мобильный телефон");
         modalProtoContacts.getPhoneNumber().shouldHaveValue("+7 (999) 999-99-99");
-        modalProtoContacts.getPhoneNumber().val("8888888888");
+        modalProtoContacts.getPhoneNumber().setValue("8888888888");
         modalProtoContacts.getPhoneNumber().shouldHaveValue("+7 (888) 888-88-88");
         modalProtoContacts.save();
 
@@ -631,13 +678,5 @@ public class DemoIntegrationAT {
 
         protoPage.deleteContact(0);
         protoPage.contactsListShouldHaveSize(0);
-    }
-
-    private boolean isSorted(List<String> list, Boolean dir) {
-        for (int i = 0; i < list.size() - 1; i++) {
-            if ((dir && list.get(i).compareTo(list.get(i + 1)) >= 0)
-                    || (!dir && list.get(i).compareTo(list.get(i + 1)) <= 0)) return false;
-        }
-        return true;
     }
 }

@@ -29,6 +29,7 @@ public class ProgressBarCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
+        setJsonPath("net/n2oapp/framework/autotest/cells");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/progress/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
@@ -51,16 +52,16 @@ public class ProgressBarCellAT extends AutoTestBase {
     public void progressBarCellTest() {
         int col = 0;
 
-        rows.row(0).cell(col, ProgressBarCell.class).colorShouldBe(Colors.SUCCESS);
-        rows.row(3).cell(col, ProgressBarCell.class).colorShouldBe(Colors.SUCCESS);
+        rows.row(0).cell(col, ProgressBarCell.class).shouldHaveColor(Colors.SUCCESS);
+        rows.row(3).cell(col, ProgressBarCell.class).shouldHaveColor(Colors.SUCCESS);
 
-        rows.row(0).cell(col, ProgressBarCell.class).valueShouldBe("-50");
-        rows.row(1).cell(col, ProgressBarCell.class).valueShouldBe("0");
-        rows.row(2).cell(col, ProgressBarCell.class).valueShouldBe("100");
-        rows.row(3).cell(col, ProgressBarCell.class).valueShouldBe("150");
+        rows.row(0).cell(col, ProgressBarCell.class).shouldHaveValue("-50");
+        rows.row(1).cell(col, ProgressBarCell.class).shouldHaveValue("0");
+        rows.row(2).cell(col, ProgressBarCell.class).shouldHaveValue("100");
+        rows.row(3).cell(col, ProgressBarCell.class).shouldHaveValue("150");
 
-        rows.row(0).cell(col, ProgressBarCell.class).sizeShouldBe(ProgressBarCell.Size.normal);
-        rows.row(1).cell(col, ProgressBarCell.class).sizeShouldBe(ProgressBarCell.Size.normal);
+        rows.row(0).cell(col, ProgressBarCell.class).shouldHaveSize(ProgressBarCell.Size.normal);
+        rows.row(1).cell(col, ProgressBarCell.class).shouldHaveSize(ProgressBarCell.Size.normal);
 
         rows.row(1).cell(col, ProgressBarCell.class).shouldBeAnimated();
         rows.row(2).cell(col, ProgressBarCell.class).shouldBeAnimated();

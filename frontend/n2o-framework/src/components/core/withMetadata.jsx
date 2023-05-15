@@ -12,7 +12,6 @@ import isEqual from 'lodash/isEqual'
 import {
     metadataRequest,
     resetPage,
-    mapUrl,
 } from '../../ducks/pages/store'
 import {
     makePageMetadataByIdSelector,
@@ -34,8 +33,7 @@ const withMetadata = (Component) => {
         }
 
         componentDidUpdate(prevProps) {
-            // eslint-disable-next-line no-unused-vars
-            const { pageId, metadata, error, routeMap, reset, pageUrl } = this.props
+            const { metadata, error, reset, pageUrl } = this.props
 
             if (
                 isEqual(metadata, prevProps.metadata) &&
@@ -47,12 +45,10 @@ const withMetadata = (Component) => {
                 this.fetchMetadata()
             } else if (
                 this.isEqualPageId(prevProps) &&
-                !this.isEqualPageUrl(prevProps)
+                !this.isEqualPageUrl(prevProps) &&
+                error
             ) {
-                routeMap(pageId)
-                if (error) {
-                    this.fetchMetadata()
-                }
+                this.fetchMetadata()
             }
         }
 
@@ -126,7 +122,6 @@ const withMetadata = (Component) => {
         location: PropTypes.object,
         getMetadata: PropTypes.func,
         reset: PropTypes.func,
-        routeMap: PropTypes.func,
     }
 
     ComponentWithMetadata.defaultProps = {
@@ -134,8 +129,8 @@ const withMetadata = (Component) => {
     }
 
     const mapStateToProps = createStructuredSelector({
-        metadata: (state, props) => makePageMetadataByIdSelector(props.pageId)(state, props),
-        loading: (state, props) => makePageLoadingByIdSelector(props.pageId)(state, props),
+        metadata: (state, { pageId }) => makePageMetadataByIdSelector(pageId)(state),
+        loading: (state, { pageId }) => makePageLoadingByIdSelector(pageId)(state),
         error: (state, { pageId }) => makePageErrorByIdSelector(pageId)(state),
         location: getLocation,
     })
@@ -146,7 +141,6 @@ const withMetadata = (Component) => {
                 pageId, rootPage, pageUrl, pageMapping,
             )),
             reset: pageId => dispatch(resetPage(pageId)),
-            routeMap: pageId => dispatch(mapUrl(pageId)),
         }
     }
 

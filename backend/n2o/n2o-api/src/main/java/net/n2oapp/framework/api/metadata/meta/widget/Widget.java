@@ -30,6 +30,8 @@ public abstract class Widget<T extends WidgetComponent> extends Component implem
     private String datasource;
     @JsonProperty("fetchOnInit")
     private Boolean fetchOnInit;
+    @JsonProperty
+    private Boolean fetchOnVisibility;
     private String filtersDatasourceId;
     @JsonProperty
     private Toolbar toolbar;

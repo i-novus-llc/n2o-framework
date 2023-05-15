@@ -34,6 +34,8 @@ export function checkTabErrors(content = [], fieldsWithErrors = []) {
 }
 
 function checkTabsErrors(tabs, fieldsWithErrors) {
+    if (!tabs?.length) { return false }
+
     return tabs.some(({ content }) => checkTabErrors(content, fieldsWithErrors))
 }
 
@@ -45,4 +47,19 @@ export function activeTabHasErrors(activeEntity, tabs) {
     const activeTabMeta = find(tabs, ({ id }) => activeEntity === id)
 
     return get(activeTabMeta, 'invalid', false)
+}
+
+export function tabsIncludesId(id, tabsRegions = []) {
+    return tabsRegions
+        .some(({ tabs = [] }) => tabs.some(({ content = [] }) => tabIncludeId(id, content)))
+}
+
+export function tabIncludeId(id, content = []) {
+    return content.some(({ content: nestedContent, datasource }) => {
+        if (nestedContent) {
+            return tabIncludeId(id, nestedContent)
+        }
+
+        return datasource === id
+    })
 }
