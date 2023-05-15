@@ -87,7 +87,7 @@ public class SelectCompileTest extends SourceCompileTestBase {
     void testSelectCheckPrefilter() {
         assertThrows(
                 N2oException.class,
-                compile("net/n2oapp/framework/config/metadata/compile/control/testSelectPrefilter.page.xml",
+                () -> compile("net/n2oapp/framework/config/metadata/compile/control/testSelectPrefilter.page.xml",
                         "net/n2oapp/framework/config/metadata/compile/control/test.query.xml")
                         .get(new PageContext("testSelectPrefilter"))
                 );

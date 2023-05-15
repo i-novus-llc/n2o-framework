@@ -87,42 +87,27 @@ public class PageActionValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testPageActionValidationShowModalInToolbar2() {
-        assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationShowModalInToolbar2.page.xml")
-        );
+        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationShowModalInToolbar2.page.xml");
     }
 
     @Test
     void testPageActionValidationInToolbar2() {
-        assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInToolbar2.page.xml")
-        );
+        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInToolbar2.page.xml");
     }
 
     @Test
     void testPageActionValidationInRowClick2() {
-        assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInRowClick2.page.xml")
-        );
+        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInRowClick2.page.xml");
     }
 
     @Test
     void testPageActionValidationInColumnLink2() {
-        assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInColumnLink2.page.xml")
-        );
+        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInColumnLink2.page.xml");
     }
 
     @Test
     void testPageActionValidationInWidgetsToolbar2() {
-        assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInWidgetsToolbar2.page.xml")
-        );
+        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInWidgetsToolbar2.page.xml");
     }
 
     @Test

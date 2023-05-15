@@ -2,9 +2,9 @@ package net.n2oapp.framework.api.script;
 
 import javax.script.*;
 
-import org.junit.Ignore;
-import org.junit.Test;
 import net.n2oapp.framework.api.util.async.MultiThreadRunner;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.Executors;
@@ -30,8 +30,8 @@ public class SSCCETest {
      * При вызове используется глобальный скоуп переменных, и он шаринтся между потоками.
      */
     @Test
-    @Ignore
-    public void testThreadNotSafety() throws Exception {
+    @Disabled
+    void testThreadNotSafety() throws Exception {
         final Compilable engine = (Compilable) engineMgr.getEngineByName("JavaScript");
         final CompiledScript onePlusOne = engine.compile(script);
         MultiThreadRunner runner = new MultiThreadRunner();
@@ -49,8 +49,8 @@ public class SSCCETest {
      * Отличие от небезопасного в том, что при вызове добавляется локальный скоуп переменных.
      */
     @Test
-    @Ignore
-    public void testThreadSafety() throws Exception {
+    @Disabled
+    void testThreadSafety() throws Exception {
         final Compilable engine = (Compilable) engineMgr.getEngineByName("JavaScript");
         final CompiledScript onePlusOne = engine.compile(script);
         MultiThreadRunner runner = new MultiThreadRunner();

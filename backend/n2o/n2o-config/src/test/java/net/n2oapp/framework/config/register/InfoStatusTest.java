@@ -20,7 +20,6 @@ import org.springframework.context.ApplicationContext;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
@@ -77,7 +76,7 @@ public class InfoStatusTest {
 
     @Test
     void testEqAncestor(@TempDir Path tempFolder) throws Exception {
-        File modified = Files.createFile(tempFolder.resolve("testObj.object.xml")).toFile();
+        File modified = new File(tempFolder.toAbsolutePath() + "testObj.object.xml");
         createFile("classpath:/net/n2oapp/framework/config/ancestor/testObj2.object.xml",modified);
 
         //server -> system
@@ -92,7 +91,7 @@ public class InfoStatusTest {
 
         assertTrue(InfoStatus.calculateStatusByFile(info2) == InfoStatus.Status.MODIFY);
 
-        File unmodified = Files.createFile(tempFolder.resolve("testObj.object.xml")).toFile();
+        File unmodified = new File(tempFolder.toAbsolutePath() + "testObj.object.xml");
         createFile("classpath:/net/n2oapp/framework/config/ancestor/testObj.object.xml",unmodified);
         //system -> server
         info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
