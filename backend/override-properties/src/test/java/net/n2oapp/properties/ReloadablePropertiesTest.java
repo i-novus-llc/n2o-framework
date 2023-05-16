@@ -1,7 +1,7 @@
 package net.n2oapp.properties;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 
@@ -14,8 +14,8 @@ import java.io.File;
 public class ReloadablePropertiesTest {
 
     @Test
-    @Ignore
-    public void test() throws Exception {
+    @Disabled
+    void test() throws Exception {
         ReloadableProperties properties = new ReloadableProperties(new ClassPathResource("prop1.properties"));
         properties.setCacheTime(1);
         assert properties.getResource().getFilename().equals("prop1.properties");
@@ -43,8 +43,8 @@ public class ReloadablePropertiesTest {
     }
 
     @Test
-    @Ignore
-    public void testFileNotExist() throws InterruptedException {
+    @Disabled
+    void testFileNotExist() throws InterruptedException {
         FileSystemResource fileSystemResource = new FileSystemResource(System.getProperty("user.home") + File.separator + "test.properties");
         fileSystemResource.getFile().deleteOnExit();
 

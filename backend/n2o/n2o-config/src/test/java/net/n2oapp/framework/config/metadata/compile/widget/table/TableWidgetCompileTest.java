@@ -37,8 +37,8 @@ import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -70,7 +70,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testTable() {
+    void testTable() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5Compile.page.xml")
                 .get(new PageContext("testTable5Compile"));
         Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
@@ -140,14 +140,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testRowColor() {
+    void testRowColor() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowColorCompile.widget.xml").get(new WidgetContext("testTable4RowColorCompile"));
         assertThat(table.getComponent().getRowClass(), is("`gender.id == 1 ? 'red' : gender.id == 2 ? 'blue' : gender.id == 3 ? 'white' : 'green'`"));
         assertThat(table.getComponent().getHasSelect(), is(true));
     }
 
     @Test
-    public void testRowClick() {
+    void testRowClick() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.page.xml").get(new PageContext("testTable4RowClickCompile"));
         List<TableWidgetComponent> rowClicks = new ArrayList<>();
         page.getRegions().get("single").get(0).getContent().forEach(c -> rowClicks.add(((Table) c).getComponent()));
@@ -165,7 +165,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testSortableColumns() {
+    void testSortableColumns() {
         Table table = (Table) ((SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.page.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml").get(new PageContext("testTable4SortableCompile"))).getWidget();
         assertThat(table.getId(), is("testTable4SortableCompile_main"));
         assertThat(table.getComponent().getHeaders().size(), is(6));
@@ -198,7 +198,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFilters() {
+    void testFilters() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4FiltersCompile.page.xml").get(new PageContext("testTable4FiltersCompile", "/page"));
         QueryContext queryCtx = (QueryContext) route("/page/main", CompiledQuery.class);
 
@@ -227,7 +227,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testDefaultValues() {
+    void testDefaultValues() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableCompileFilters.page.xml").get(new PageContext("testTableCompileFilters"));
         assertThat(page.getModels().size(), is(8));
         assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].birthday").getValue()).getValues().get("begin"), is("21.10.2018"));
@@ -243,7 +243,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testColumnsWidth() {
+    void testColumnsWidth() {
         Table table = (Table) ((SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.page.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml").get(new PageContext("testTable4SortableCompile"))).getWidget();
         assertThat(table.getId(), is("testTable4SortableCompile_main"));
         assertThat(table.getComponent().getHeaders().size(), is(6));
@@ -254,7 +254,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testRequiredPrefilters() {
+    void testRequiredPrefilters() {
         compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableRequiredPrefilters.page.xml").get(new PageContext("testTableRequiredPrefilters"));
         QueryContext queryContext = ((QueryContext) route("/testTableRequiredPrefilters/main", CompiledQuery.class));
 
@@ -265,7 +265,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testColumnVisibility() {
+    void testColumnVisibility() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml").get(new PageContext("testTableColumnVisibility"));
         List<ColumnHeader> columnHeaders = ((Table) page.getRegions().get("single").get(0).getContent().get(0)).getComponent().getHeaders();
         assertThat(columnHeaders.get(0).getVisible(), nullValue());
@@ -278,7 +278,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFilterColumns() {
+    void testFilterColumns() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFilterColumns.page.xml").get(new PageContext("testFilterColumns"));
 
 
@@ -306,7 +306,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testMultiColumn() {
+    void testMultiColumn() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testMultiColumn.page.xml").get(new PageContext("testMultiColumn"));
 
         List<ColumnHeader> headers = ((Table) page.getWidget()).getComponent().getHeaders();
@@ -352,21 +352,21 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testPaginationDefaultParams() {
+    void testPaginationDefaultParams() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4PaginationDefault.widget.xml").get(new WidgetContext("testTable4PaginationDefault"));
         Pagination pagination = table.getPaging();
         checkDefaultPagingParams(pagination);
     }
 
     @Test
-    public void testPaginationMissing() {
+    void testPaginationMissing() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4PaginationMissing.widget.xml").get(new WidgetContext("testTable4PaginationMissing"));
         Pagination pagination = table.getPaging();
         checkDefaultPagingParams(pagination);
     }
 
     @Test
-    public void testPaginationNonDefaultParams() {
+    void testPaginationNonDefaultParams() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4PaginationNonDefault.widget.xml").get(new WidgetContext("testTable4PaginationNonDefault"));
         Pagination pagination = table.getPaging();
 
@@ -384,7 +384,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testHeaderLabelInitialization() {
+    void testHeaderLabelInitialization() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4HeaderLabels.page.xml").get(new PageContext("testTable4HeaderLabels"));
 
         List<ColumnHeader> columnHeaders = ((Table) page.getRegions().get("single").get(0).getContent().get(0)).getComponent().getHeaders();
@@ -407,7 +407,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testColumnAttributes() {
+    void testColumnAttributes() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5ColumnsAttributesCompile.widget.xml").get(new WidgetContext("testTable5ColumnsAttributesCompile"));
 
         assertThat(table.getComponent().getHeaders().size(), is(3));
@@ -433,7 +433,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testPassSortingToDatasource() {
+    void testPassSortingToDatasource() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5PassSortingToDatasource.page.xml")
                 .get(new PageContext("testTable5PassSortingToDatasource"));
 
@@ -447,7 +447,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testAlignment() {
+    void testAlignment() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5Alignment.widget.xml").get(new WidgetContext("testTable5Alignment"));
 
         ColumnHeader header = table.getComponent().getHeaders().get(0);

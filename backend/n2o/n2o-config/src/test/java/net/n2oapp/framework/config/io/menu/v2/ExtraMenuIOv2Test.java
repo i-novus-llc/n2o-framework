@@ -3,8 +3,9 @@ package net.n2oapp.framework.config.io.menu.v2;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.config.io.menu.ExtraMenuIOv2;
 import net.n2oapp.framework.config.test.XmlIOTestBase;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Тестирование чтения/записи дополнительного меню 2.0
@@ -12,7 +13,7 @@ import org.junit.Test;
 public class ExtraMenuIOv2Test extends XmlIOTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -23,7 +24,7 @@ public class ExtraMenuIOv2Test extends XmlIOTestBase {
     }
 
     @Test
-    public void test() {
+    void test() {
         check("net/n2oapp/framework/config/io/menu/v2/extraMenuIOv2.menu.xml");
     }
 }

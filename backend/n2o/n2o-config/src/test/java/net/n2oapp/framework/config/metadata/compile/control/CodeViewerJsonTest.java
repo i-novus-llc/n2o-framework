@@ -4,15 +4,15 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Тестирование маппинга java модели в json code
  */
 public class CodeViewerJsonTest extends JsonMetadataTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -27,7 +27,7 @@ public class CodeViewerJsonTest extends JsonMetadataTestBase {
     }
 
     @Test
-    public void testCodeViewer() {
+    void testCodeViewer() {
         check("net/n2oapp/framework/config/mapping/testCodeViewer.page.xml",
                 "components/controls/CodeViewer/CodeViewer.meta.json")
                 .cutXml("widget.form.fieldsets[0].rows[0].cols[0].fields[0].control")

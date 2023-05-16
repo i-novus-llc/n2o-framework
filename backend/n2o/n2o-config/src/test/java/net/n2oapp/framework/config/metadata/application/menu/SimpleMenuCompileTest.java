@@ -14,15 +14,17 @@ import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuCompiler;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class SimpleMenuCompileTest extends SourceCompileTestBase {
+    
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -38,7 +40,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testMenuItem() {
+    void testMenuItem() {
         Application application = read().compile().get(new ApplicationContext("testApplication"));
         SimpleMenu menu = application.getHeader().getMenu();
         MenuItem menuItem = menu.getItems().get(0);
@@ -62,7 +64,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testDropdownMenu() {
+    void testDropdownMenu() {
         Application application = read().compile().get(new ApplicationContext("testApplication"));
         SimpleMenu menu = application.getHeader().getMenu();
         MenuItem dropdownMenu = menu.getItems().get(2);

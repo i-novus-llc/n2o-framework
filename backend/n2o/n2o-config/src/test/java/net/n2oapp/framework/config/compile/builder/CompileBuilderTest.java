@@ -8,20 +8,21 @@ import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.CompileException;
 import net.n2oapp.framework.config.metadata.compile.builder.N2oBuildProcessor;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class CompileBuilderTest {
 
     @Test
-    public void compile() {
+    void compile() {
         MySource source = new MySource();
         source.id = "id";
         source.name = "name";
@@ -35,7 +36,7 @@ public class CompileBuilderTest {
     }
 
     @Test
-    public void set() {
+    void set() {
         MySource source = new MySource();
         source.id = "id";
         source.name = "name";
@@ -51,7 +52,7 @@ public class CompileBuilderTest {
     }
 
     @Test
-    public void put() {
+    void put() {
         MySource source = new MySource();
         source.name = "test";
 
@@ -64,7 +65,7 @@ public class CompileBuilderTest {
     }
 
     @Test
-    public void cast() {
+    void cast() {
         MySource source = new MySource();
         source.id = "id";
         source.name = "name";
@@ -102,7 +103,7 @@ public class CompileBuilderTest {
     }
 
     @Test
-    public void defaults() {
+    void defaults() {
         MySource source = new MySource();
         source.id = "id";
         source.name = null;
@@ -138,7 +139,7 @@ public class CompileBuilderTest {
     }
 
     @Test
-    public void resolve() {
+    void resolve() {
         CompileProcessor mockProcessor = mock(CompileProcessor.class);
         when(mockProcessor.resolve("one")).thenReturn("two");
         when(mockProcessor.resolve("1", Integer.class)).thenReturn(2);
@@ -157,7 +158,7 @@ public class CompileBuilderTest {
     }
 
     @Test
-    public void map() {
+    void map() {
         MySource source = new MySource();
         source.type = MySource.Type.ONE;
 
@@ -178,7 +179,7 @@ public class CompileBuilderTest {
     }
 
     @Test
-    public void combination() {
+    void combination() {
         MySource source = new MySource();
         source.inner = new MySource.InnerSource();
         CompileProcessor mockProcessor = mock(CompileProcessor.class);
@@ -193,7 +194,7 @@ public class CompileBuilderTest {
     }
 
     @Test
-    public void collect() {
+    void collect() {
         MySource source = new MySource();
         source.inners = new MySource.InnerSource[] {new MySource.InnerSource("1"), new MySource.InnerSource("2")};
 

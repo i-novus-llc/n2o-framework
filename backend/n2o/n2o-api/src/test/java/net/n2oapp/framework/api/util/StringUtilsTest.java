@@ -1,7 +1,7 @@
 package net.n2oapp.framework.api.util;
 
 import net.n2oapp.framework.api.StringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class StringUtilsTest {
 
     @Test
-    public void resolvePlaceHoldersTest() {
+    void resolvePlaceHoldersTest() {
         //map for PlaceHolders
         Map<String, Object> map = new HashMap<>();
         map.put("id", 2);
@@ -45,7 +45,7 @@ public class StringUtilsTest {
     }
 
     @Test
-    public void testIsDynamicValue() throws Exception {
+    void testIsDynamicValue() throws Exception {
         assert !StringUtils.isDynamicValue(1);
         assert !StringUtils.isDynamicValue(new Date());
         assert !StringUtils.isDynamicValue("Олег");
@@ -56,19 +56,19 @@ public class StringUtilsTest {
     }
 
     @Test
-    public void isLink() {
+    void isLink() {
         assertThat(StringUtils.isLink("abc"), is(false));
     }
 
     @Test
-    public void unwrapLink() {
+    void unwrapLink() {
         assertThat(StringUtils.unwrapLink("{text}"), is("text"));
         assertThat(StringUtils.unwrapLink("text"), nullValue());
         assertThat(StringUtils.unwrapLink("`text`"), nullValue());
     }
 
     @Test
-    public void isEscapedString() {
+    void isEscapedString() {
         assertThat(StringUtils.isEscapedString("'123'"), is(true));
         assertThat(StringUtils.isEscapedString("''123''"), is(true));
         assertThat(StringUtils.isEscapedString("'false'"), is(true));
@@ -76,7 +76,7 @@ public class StringUtilsTest {
     }
 
     @Test
-    public void unwrapEscapedString() {
+    void unwrapEscapedString() {
         assertThat(StringUtils.unwrapEscapedString("'true'"), is("true"));
         assertThat(StringUtils.unwrapEscapedString("'''text'''"), is("''text''"));
         assertThat(StringUtils.unwrapEscapedString("'123'"), is("123"));
@@ -84,7 +84,7 @@ public class StringUtilsTest {
     }
 
     @Test
-    public void hasLink() {
+    void hasLink() {
         assertThat(StringUtils.hasLink("{test}"), is(true));
         assertThat(StringUtils.hasLink("{}"), is(false));
         assertThat(StringUtils.hasLink("#{test}"), is(false));
@@ -102,7 +102,7 @@ public class StringUtilsTest {
     }
 
     @Test
-    public void testMaskEquals() {
+    void testMaskEquals() {
         assert StringUtils.maskMatch("*", "test");
         assert StringUtils.maskMatch("1Aba?", "1Aba?");
         assert !StringUtils.maskMatch("1Aba", "0Aba");
@@ -129,7 +129,7 @@ public class StringUtilsTest {
     }
 
     @Test
-    public void simplify() {
+    void simplify() {
         assert StringUtils.simplify("").equals("");
         assert StringUtils.simplify("  abc  ").equals("abc");
         assert StringUtils.simplify("\nabc\n").equals("abc");
