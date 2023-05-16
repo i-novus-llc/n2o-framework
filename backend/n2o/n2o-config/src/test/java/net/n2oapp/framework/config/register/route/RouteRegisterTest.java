@@ -5,29 +5,25 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.config.register.ConfigRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Проверка добавления и удаления элементов из RouteRegister
  */
 public class RouteRegisterTest {
 
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
     @Test
-    public void testAddRoute() throws Exception {
+    void testAddRoute() {
         RouteRegister register = getRegister();
         register.addRoute("/p/w", new MockCompileContext<>("/p/w", "pW", null, Page.class));
         register.addRoute("/p/w/c/b", new MockCompileContext<>("/p/w/c/b", "pWcB", null, Page.class));
@@ -41,7 +37,7 @@ public class RouteRegisterTest {
     }
 
     @Test
-    public void testRootRoute() {
+    void testRootRoute() {
         RouteRegister register = getRegister();
         register.addRoute("/", new MockCompileContext<>("/", "p1", null, Page.class));
         Map.Entry<RouteInfoKey, CompileContext> info = register.iterator().next();
@@ -53,19 +49,19 @@ public class RouteRegisterTest {
     }
 
     @Test
-    public void testAddRouteConflict() throws Exception {
+    void testAddRouteConflict() {
         RouteRegister register = getRegister();
         register.addRoute("/a/:1", new MockCompileContext<>("/a/:1", "1", null, Page.class));
         try {
             register.addRoute("/a/:1", new MockCompileContext<>("/a/:1", "2", null, Page.class));
-            Assert.fail();
+            fail();
         } catch (RouteAlreadyExistsException e) {
             assertThat(e.getMessage(), is("Page by url '/a/:1' is already exists!"));
         }
     }
 
     @Test
-    public void testClear() throws Exception {
+    void testClear() {
         RouteRegister register = getRegister();
         register.addRoute("/p/w", new MockCompileContext<>("/p/w", "pW", null, Page.class));
         register.addRoute("/p/w/c/b", new MockCompileContext<>("/p/w/c/b", "pWcB", null, Page.class));
@@ -75,7 +71,7 @@ public class RouteRegisterTest {
     }
 
     @Test
-    public void testRouteRepository() {
+    void testRouteRepository() {
         TestRouteRepository repository = new TestRouteRepository();
         RouteRegister register = new N2oRouteRegister(repository);
 

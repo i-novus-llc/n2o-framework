@@ -12,6 +12,7 @@ import java.util.Set;
  */
 @Data
 public class TestEntity {
+
     private String valueStr;
     private Integer valueInt;
     private InnerEntity innerObj;

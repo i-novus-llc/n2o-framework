@@ -2,25 +2,26 @@ package net.n2oapp.cache.template;
 
 import net.n2oapp.context.StaticSpringContext;
 import net.sf.ehcache.Element;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * User: iryabov
  * Date: 30.03.13
  * Time: 10:52
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration("test-two-level-cache-context.xml")
 public class TwoLevelCacheTemplateTest {
 
     @Test
-    public void testFirstCacheMissAndSecondCacheMiss() {
+    void testFirstCacheMissAndSecondCacheMiss() {
         CacheManager cacheManager = StaticSpringContext.getBean(CacheManager.class);
         TwoLevelCacheTemplate<Integer, String, String> twoLevelCacheTemplate = new TwoLevelCacheTemplate<>();
         twoLevelCacheTemplate.setCacheManager(cacheManager);
@@ -40,7 +41,7 @@ public class TwoLevelCacheTemplateTest {
     }
 
     @Test
-    public void testFirstCacheMissAndSecondCacheHit() {
+    void testFirstCacheMissAndSecondCacheHit() {
         CacheManager cacheManager = StaticSpringContext.getBean(CacheManager.class);
         TwoLevelCacheTemplate<Integer, String, String> twoLevelCacheTemplate = new TwoLevelCacheTemplate<>();
         twoLevelCacheTemplate.setCacheManager(cacheManager);
@@ -61,7 +62,7 @@ public class TwoLevelCacheTemplateTest {
     }
 
     @Test
-    public void testFirstCacheHit() {
+    void testFirstCacheHit() {
         CacheManager cacheManager = StaticSpringContext.getBean(CacheManager.class);
         TwoLevelCacheTemplate<Integer, String, String> twoLevelCacheTemplate = new TwoLevelCacheTemplate<>();
         twoLevelCacheTemplate.setCacheManager(cacheManager);
@@ -82,8 +83,8 @@ public class TwoLevelCacheTemplateTest {
     }
 
     @Test
-    @Ignore
-    public void testWriteBehindPutSyncEvictSync() throws InterruptedException {
+    @Disabled
+    void testWriteBehindPutSyncEvictSync() throws InterruptedException {
         CacheManager cacheManager = StaticSpringContext.getBean(CacheManager.class);
         Cache cache = cacheManager.getCache("writeBehindCache");
         net.sf.ehcache.Cache nativeCache = (net.sf.ehcache.Cache) cache.getNativeCache();
@@ -101,8 +102,8 @@ public class TwoLevelCacheTemplateTest {
     }
 
     @Test
-    @Ignore
-    public void testWriteBehindPutEvictSync() throws InterruptedException {
+    @Disabled
+    void testWriteBehindPutEvictSync() throws InterruptedException {
         CacheManager cacheManager = StaticSpringContext.getBean(CacheManager.class);
         Cache cache = cacheManager.getCache("writeBehindCache");
         net.sf.ehcache.Cache nativeCache = (net.sf.ehcache.Cache) cache.getNativeCache();

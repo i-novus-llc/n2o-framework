@@ -4,10 +4,11 @@ import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
-import org.junit.Assert;
 
 import java.io.InputStream;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author iryabov
@@ -41,12 +42,12 @@ public class PersisterTestUtil {
             Attribute actualAttribute = actual.getAttribute(expectedAttribute.getName(), expectedAttribute.getNamespace());
             assert null != actualAttribute
                     : expected + " expected attribute [" + expectedAttribute.getName() + "]";
-            Assert.assertEquals(expectedAttribute.getValue().trim(), actualAttribute.getValue().trim());
+            assertEquals(expectedAttribute.getValue().trim(), actualAttribute.getValue().trim());
         }
         assert expected.getChildren().size() == actual.getChildren().size(): "children elements expected [" + expected.getChildren().size() + "], but actual [" + actual.getChildren().size() + "]";
         if (expected.getChildren().isEmpty())
         {
-            Assert.assertEquals(expected.getValue().trim(), actual.getValue().trim());
+            assertEquals(expected.getValue().trim(), actual.getValue().trim());
         }
         for (int k = 0; k < expected.getChildren().size(); k++)
         {

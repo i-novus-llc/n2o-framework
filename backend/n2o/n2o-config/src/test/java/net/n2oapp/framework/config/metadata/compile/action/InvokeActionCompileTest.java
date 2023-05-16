@@ -25,8 +25,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +42,7 @@ import static org.hamcrest.Matchers.*;
 public class InvokeActionCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -58,7 +58,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void simple() {
+    void simple() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeAction.page.xml")
                 .get(new PageContext("testInvokeAction", "/w"));
         Table table = (Table) page.getWidget();
@@ -90,7 +90,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void method() {
+    void method() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionMethod.page.xml")
                 .get(new PageContext("testInvokeActionMethod", "/w"));
         Table table = (Table) page.getWidget();
@@ -127,7 +127,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void refreshOnSucces() {
+    void refreshOnSucces() {
         ModalPageContext context = new ModalPageContext("testRegisterActionContext", "/");
         List<String> dataSources = Arrays.asList("ds1");
         context.setRefreshClientDataSourceIds(dataSources);
@@ -139,7 +139,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void validations() {
+    void validations() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContext.page.xml")
                 .get(new PageContext("testRegisterActionContext", "/"));
         ActionContext context = (ActionContext) route("/:test", CompiledObject.class);
@@ -168,7 +168,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void bindDataProvider() {
+    void bindDataProvider() {
         DataSet data = new DataSet().add("parent_id", 123);
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionBind.page.xml")
                 .get(new PageContext("testInvokeActionBind", "/p/:parent_id/create"), data);
@@ -180,7 +180,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void bindRedirect() {
+    void bindRedirect() {
         DataSet data = new DataSet().add("parent_id", 123);
         PageContext context = new PageContext("testInvokeActionBind", "/p/:parent_id/create");
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionBind.page.xml")
@@ -191,7 +191,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void pageAction() {
+    void pageAction() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testPageInvokeAction.page.xml")
                 .get(new PageContext("testPageInvokeAction", "/p"));
         InvokeAction testAction = (InvokeAction) page.getToolbar().getButton("test").getAction();
@@ -201,7 +201,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void dataProviderParams() {
+    void dataProviderParams() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionParam.page.xml")
                 .get(new PageContext("testInvokeActionParam", "/w"));
         Table table = (Table) page.getWidget();
@@ -246,7 +246,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void routeAndPathValidationTest() {
+    void routeAndPathValidationTest() {
         DataSet data = new DataSet().add("parent_id", 123);
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/routeAndPath.page.xml")
                 .get(new PageContext("routeAndPath"), data);
@@ -264,7 +264,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void emptyRouteValidationTest() {
+    void emptyRouteValidationTest() {
         assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyRoute.page.xml")
                         .get(new PageContext("emptyRoute"), null),
                 N2oException.class,
@@ -272,15 +272,15 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void emptyPathValidationTest() {
+    void emptyPathValidationTest() {
         assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyPath.page.xml")
                         .get(new PageContext("emptyPath"), null),
                 N2oException.class,
                 e -> assertThat(e.getMessage(), is("path-param \"/:main_id\" for route \"main_id\" not set")));
     }
 
-    @Test()
-    public void multiplyPathValidationTest() {
+    @Test
+    void multiplyPathValidationTest() {
         assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/multiplyPath.page.xml")
                         .get(new PageContext("multiplyPath"), null),
                 N2oException.class,
@@ -288,7 +288,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void invokeObjectTest() {
+    void invokeObjectTest() {
         DataSet data = new DataSet().add("parent_id", 123);
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionObject.page.xml")
                 .get(new PageContext("testInvokeActionObject", "/p/:parent_id/create"), data);
@@ -300,7 +300,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void datasource() {
+    void datasource() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionDatasource.page.xml")
                 .get(new PageContext("testInvokeActionDatasource"));
         Form widget = (Form) page.getRegions().values().iterator().next().get(0).getContent().get(0);
@@ -323,7 +323,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void clearOnSuccess() {
+    void clearOnSuccess() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionClearOnSuccess.page.xml")
                 .get(new PageContext("testInvokeActionClearOnSuccess"));
 

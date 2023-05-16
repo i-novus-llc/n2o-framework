@@ -19,8 +19,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.reader.ReferentialIntegrityViolationException;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование компиляции стандартной страницы
@@ -37,7 +37,7 @@ import static org.junit.Assert.assertThrows;
 public class StandardPageCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -51,7 +51,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void routes() {
+    void routes() {
         PageContext context = new PageContext("testRoutes", "/page");
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testRoutes.page.xml")
@@ -63,7 +63,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void masterDetails() {
+    void masterDetails() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.object.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.page.xml")
@@ -101,7 +101,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void preFilters() {
+    void preFilters() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testWidgetPrefilters.page.xml")
                 .get(new PageContext("testWidgetPrefilters"));
@@ -134,7 +134,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
      * то этот виджет должен иметь ссылки на эти параметры
      */
     @Test
-    public void testChainFetching() {
+    void testChainFetching() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testChainWidgetFetching.page.xml")
                 .get(new PageContext("testChainWidgetFetching"));
@@ -153,17 +153,21 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
 //        assertThat(page.getDatasources().get("form3").getProvider().getPathMapping().get("param3").normalizeLink(), is("models.resolve['form2'].id"));
     }
 
-    @Test(expected = ReferentialIntegrityViolationException.class)
-    public void validateObjectIdForMainWidget() {
-        PageContext validateObjectIdForMainWidget = new PageContext("testStandardPageObject");
-        validateObjectIdForMainWidget.setSubmitOperationId("test");
-        compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
-                .get(validateObjectIdForMainWidget);
-
+    @Test
+    void validateObjectIdForMainWidget() {
+        assertThrows(
+                ReferentialIntegrityViolationException.class,
+                () -> {
+                    PageContext validateObjectIdForMainWidget = new PageContext("testStandardPageObject");
+                    validateObjectIdForMainWidget.setSubmitOperationId("test");
+                    compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
+                            .get(validateObjectIdForMainWidget);
+                }
+        );
     }
 
     @Test
-    public void testPageTitle() {
+    void testPageTitle() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageTitle.page.xml")
                 .get(new PageContext("testStandardPageTitle"));
         assertThat(page.getPageProperty().getTitle(), is("Page {name}"));
@@ -173,7 +177,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testPageTitleInModal() {
+    void testPageTitleInModal() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageModalTitle.page.xml")
                 .get(new ModalPageContext("testStandardPageModalTitle", "/modal"));
         assertThat(page.getPageProperty().getTitle(), nullValue());
@@ -181,7 +185,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testBreadcrumb() {
+    void testBreadcrumb() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testBreadcrumb.page.xml")
                 .get(new PageContext("testBreadcrumb"));
 
@@ -203,7 +207,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testRelativeBreadcrumb() {
+    void testRelativeBreadcrumb() {
         compile("net/n2oapp/framework/config/metadata/compile/page/relative_breadcrumb/first.page.xml")
                 .get(new PageContext("first", "/"));
         compile("net/n2oapp/framework/config/metadata/compile/page/relative_breadcrumb/second.page.xml")
@@ -235,10 +239,11 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testWrongRelativeBreadcrumb() {
-        N2oException exception = assertThrows(N2oException.class,
+    void testWrongRelativeBreadcrumb() {
+        assertThrows(
+                N2oException.class, 
                 () -> compile("net/n2oapp/framework/config/metadata/compile/page/relative_breadcrumb/wrong.page.xml")
-                .get(new PageContext("wrong")));
-        assertThat(exception.getMessage(), is("No parent route found for path \"../\""));
+                        .get(new PageContext("wrong")), 
+                "No parent route found for path \"../\"");
     }
 }

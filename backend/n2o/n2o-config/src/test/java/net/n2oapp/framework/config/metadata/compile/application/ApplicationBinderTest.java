@@ -7,8 +7,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.mock;
 
 public class ApplicationBinderTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -29,7 +29,7 @@ public class ApplicationBinderTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void bindItems() {
+    void bindItems() {
         Application app = bind("net/n2oapp/framework/config/metadata/compile/application/testAppBinder.application.xml")
                 .get(new ApplicationContext("testAppBinder"), new DataSet(), mock(SubModelsProcessor.class));
 

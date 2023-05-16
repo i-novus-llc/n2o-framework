@@ -1,7 +1,7 @@
 package net.n2oapp.properties;
 
 import net.n2oapp.properties.io.PropertiesInfoCollector;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
 public class PropertiesInfoCollectorTest {
 
     @Test
-    public void test() {
+    void test() {
         PropertiesInfoCollector infoCollector = new PropertiesInfoCollector("info.properties");
         Map<String, List<PropertiesInfoCollector.PropertyInfo>> propertyInfoMap = infoCollector.getPropertyInfoMap();
         assert propertyInfoMap.containsKey("");

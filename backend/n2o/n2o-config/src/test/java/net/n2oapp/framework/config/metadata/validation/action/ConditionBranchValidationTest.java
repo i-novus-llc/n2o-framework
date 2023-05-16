@@ -4,21 +4,18 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование валидации оператора if-else
  */
 public class ConditionBranchValidationTest extends SourceValidationTestBase {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -34,57 +31,67 @@ public class ConditionBranchValidationTest extends SourceValidationTestBase {
      * Проверка, что оператор начинается с if
      */
     @Test
-    public void testStartsWithIf() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Условный оператор if-else начинается не с тега <if>");
-        validate("net/n2oapp/framework/config/metadata/validation/action/condition/testStartsWithIf.page.xml");
+    void testStartsWithIf() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testStartsWithIf.page.xml"),
+                "Условный оператор if-else начинается не с тега <if>"
+        );
     }
 
     /**
      * Проверка существования источника данных в скоупе по указанному идентификатору в атрибуте datasource
      */
     @Test
-    public void testDatasourceExistence() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Тег <if> в атрибуте 'datasource' ссылается на несуществующий источник данных ds1");
-        validate("net/n2oapp/framework/config/metadata/validation/action/condition/testDatasourceExistence.page.xml");
+    void testDatasourceExistence() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testDatasourceExistence.page.xml"),
+                "Тег <if> в атрибуте 'datasource' ссылается на несуществующий источник данных ds1"
+        );
     }
 
     /**
      * Проверка того, что else-if не следует после else в одном операторе if-else
      */
     @Test
-    public void testWrongIfElseAndElseSequence() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Неверный порядок тегов <else-if> и <else> в условном операторе if-else");
-        validate("net/n2oapp/framework/config/metadata/validation/action/condition/testWrongIfElseAndElseSequence.page.xml");
+    void testWrongIfElseAndElseSequence() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testWrongIfElseAndElseSequence.page.xml"),
+                "Неверный порядок тегов <else-if> и <else> в условном операторе if-else"
+        );
     }
 
     /**
      * Проверка наличия атрибута test у элемента if
      */
     @Test
-    public void testIfTestRequirement() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В теге <if> условного операторе if-else не задано условие 'test'");
-        validate("net/n2oapp/framework/config/metadata/validation/action/condition/testIfTestRequirement.page.xml");
+    void testIfTestRequirement() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testIfTestRequirement.page.xml"),
+                "В теге <if> условного операторе if-else не задано условие 'test'"
+        );
     }
 
     /**
      * Проверка наличия атрибута test у элемента else-if
      */
     @Test
-    public void testElseIfTestRequirement() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В теге <else-if> условного операторе if-else не задано условие 'test'");
-        validate("net/n2oapp/framework/config/metadata/validation/action/condition/testElseIfTestRequirement.page.xml");
+    void testElseIfTestRequirement() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testElseIfTestRequirement.page.xml"),
+                "В теге <else-if> условного операторе if-else не задано условие 'test'"
+        );
     }
 
     /**
      * Проверка нескольких операторов if-else
      */
     @Test
-    public void testAllRight() {
+    void testAllRight() {
         validate("net/n2oapp/framework/config/metadata/validation/action/condition/testAllRight.page.xml");
     }
 }

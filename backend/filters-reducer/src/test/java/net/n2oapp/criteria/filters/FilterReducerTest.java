@@ -1,11 +1,12 @@
 package net.n2oapp.criteria.filters;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
 import static net.n2oapp.criteria.filters.FilterReducer.reduce;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Тесты простых случаев в {@link FilterReducer}
@@ -14,7 +15,7 @@ public class FilterReducerTest {
 
 
     @Test
-    public void testEq() throws Exception {
+    void testEq() {
 
         //успех
         Result result = reduce(
@@ -124,7 +125,7 @@ public class FilterReducerTest {
     }
 
     @Test
-    public void testSimple() throws Exception {
+    void testSimple() {
         //simple не сокращается
         Result result = reduce(
                 new Filter(1, FilterType.eq),
@@ -134,7 +135,7 @@ public class FilterReducerTest {
     }
 
     @Test
-    public void testIn() throws Exception {
+    void testIn() {
 
         //успех - in to equal
         Result result = reduce(
@@ -241,7 +242,7 @@ public class FilterReducerTest {
     }
 
     @Test
-    public void testContains() throws Exception {
+    void testContains() {
         //успех - contains with equal
         Result result = reduce(
                 new Filter(Arrays.asList(1, 2, 4), FilterType.contains),
@@ -304,7 +305,7 @@ public class FilterReducerTest {
 
 
     @Test
-    public void testIsNull() throws Exception {
+    void testIsNull() {
         //ошибка
         Result result = reduce(
                 new Filter(FilterType.isNull),
@@ -329,7 +330,7 @@ public class FilterReducerTest {
 
 
     @Test
-    public void testNotEq() throws Exception {
+    void testNotEq() {
         //успех
         Result result = reduce(
                 new Filter(1, FilterType.notEq),
@@ -365,7 +366,7 @@ public class FilterReducerTest {
     }
 
     @Test
-    public void testNotInNotIn() throws Exception {
+    void testNotInNotIn() {
         //успех
         Result result = reduce(
                 new Filter(Arrays.asList(1, 2, 3), FilterType.notIn),
@@ -379,7 +380,7 @@ public class FilterReducerTest {
 
 
     @Test
-    public void testLessMore() throws Exception {
+    void testLessMore() {
 
         //успех
         Result result = reduce(
@@ -437,118 +438,118 @@ public class FilterReducerTest {
     }
 
     @Test
-    public void testLike() throws Exception {
+    void testLike() {
         Result result = reduce(
                 new Filter("test", FilterType.eq),
                 new Filter("es", FilterType.like));
-        Assert.assertTrue(result.getType().equals(Result.Type.success));
-        Assert.assertTrue(result.getResultFilter().getType().equals(FilterType.eq));
-        Assert.assertTrue(result.getResultFilter().getValue().equals("test"));
+        assertEquals(result.getType(), Result.Type.success);
+        assertEquals(result.getResultFilter().getType(), FilterType.eq);
+        assertEquals("test", result.getResultFilter().getValue());
 
         result = reduce(
                 new Filter("te", FilterType.eq),
                 new Filter("test", FilterType.like));
-        Assert.assertTrue(result.getType().equals(Result.Type.conflict));
-        Assert.assertTrue(result.getResultFilter() == null);
+        assertEquals(result.getType(), Result.Type.conflict);
+        assertNull(result.getResultFilter());
 
         result = reduce(
                 new Filter("test", FilterType.like),
                 new Filter(FilterType.isNotNull));
-        Assert.assertTrue(result.getType().equals(Result.Type.success));
-        Assert.assertTrue(result.getResultFilter().getType().equals(FilterType.like));
-        Assert.assertTrue(result.getResultFilter().getValue().equals("test"));
+        assertEquals(result.getType(), Result.Type.success);
+        assertEquals(result.getResultFilter().getType(), FilterType.like);
+        assertEquals("test", result.getResultFilter().getValue());
 
         result = reduce(
                 new Filter("test", FilterType.like),
                 new Filter(FilterType.isNull));
-        Assert.assertTrue(result.getType().equals(Result.Type.conflict));
-        Assert.assertTrue(result.getResultFilter() == null);
+        assertEquals(result.getType(), Result.Type.conflict);
+        assertNull(result.getResultFilter());
 
         result = reduce(
                 new Filter("test", FilterType.like),
                 new Filter("te", FilterType.like));
-        Assert.assertTrue(result.getType().equals(Result.Type.success));
-        Assert.assertTrue(result.getResultFilter().getType().equals(FilterType.like));
-        Assert.assertTrue(result.getResultFilter().getValue().equals("test"));
+        assertEquals(result.getType(), Result.Type.success);
+        assertEquals(result.getResultFilter().getType(), FilterType.like);
+        assertEquals("test", result.getResultFilter().getValue());
 
         result = reduce(
                 new Filter("rem", FilterType.like),
                 new Filter("te", FilterType.like));
-        Assert.assertTrue(result.getType().equals(Result.Type.conflict));
-        Assert.assertTrue(result.getResultFilter() == null);
+        assertEquals(result.getType(), Result.Type.conflict);
+        assertNull(result.getResultFilter());
 
         result = reduce(
                 new Filter("test", FilterType.like),
                 new Filter("te", FilterType.likeStart));
-        Assert.assertTrue(result.getType().equals(Result.Type.success));
-        Assert.assertTrue(result.getResultFilter().getType().equals(FilterType.likeStart));
-        Assert.assertTrue(result.getResultFilter().getValue().equals("test"));
+        assertEquals(result.getType(), Result.Type.success);
+        assertEquals(result.getResultFilter().getType(), FilterType.likeStart);
+        assertEquals("test", result.getResultFilter().getValue());
 
         result = reduce(
                 new Filter("te", FilterType.like),
                 new Filter("test", FilterType.likeStart));
-        Assert.assertTrue(result.getType().equals(Result.Type.success));
-        Assert.assertTrue(result.getResultFilter().getType().equals(FilterType.likeStart));
-        Assert.assertTrue(result.getResultFilter().getValue().equals("test"));
+        assertEquals(result.getType(), Result.Type.success);
+        assertEquals(result.getResultFilter().getType(), FilterType.likeStart);
+        assertEquals("test", result.getResultFilter().getValue());
 
         result = reduce(
                 new Filter("rtest", FilterType.like),
                 new Filter("te", FilterType.likeStart));
-        Assert.assertTrue(result.getType().equals(Result.Type.conflict));
-        Assert.assertTrue(result.getResultFilter() == null);
+        assertEquals(result.getType(), Result.Type.conflict);
+        assertNull(result.getResultFilter());
     }
 
     @Test
-    public void testLikeStart() throws Exception {
+    void testLikeStart() {
         Result result = reduce(
                 new Filter("test", FilterType.eq),
                 new Filter("te", FilterType.likeStart));
-        Assert.assertTrue(result.getType().equals(Result.Type.success));
-        Assert.assertTrue(result.getResultFilter().getType().equals(FilterType.eq));
-        Assert.assertTrue(result.getResultFilter().getValue().equals("test"));
+        assertEquals(result.getType(), Result.Type.success);
+        assertEquals(result.getResultFilter().getType(), FilterType.eq);
+        assertEquals("test", result.getResultFilter().getValue());
 
         result = reduce(
                 new Filter("te", FilterType.eq),
                 new Filter("test", FilterType.likeStart));
-        Assert.assertTrue(result.getType().equals(Result.Type.conflict));
-        Assert.assertTrue(result.getResultFilter() == null);
+        assertEquals(result.getType(), Result.Type.conflict);
+        assertNull(result.getResultFilter());
 
         result = reduce(
                 new Filter("test", FilterType.eq),
                 new Filter("est", FilterType.likeStart));
-        Assert.assertTrue(result.getType().equals(Result.Type.conflict));
-        Assert.assertTrue(result.getResultFilter() == null);
+        assertEquals(result.getType(), Result.Type.conflict);
+        assertNull(result.getResultFilter());
 
         result = reduce(
                 new Filter("test", FilterType.likeStart),
                 new Filter(FilterType.isNotNull));
-        Assert.assertTrue(result.getType().equals(Result.Type.success));
-        Assert.assertTrue(result.getResultFilter().getType().equals(FilterType.likeStart));
-        Assert.assertTrue(result.getResultFilter().getValue().equals("test"));
+        assertEquals(result.getType(), Result.Type.success);
+        assertEquals(result.getResultFilter().getType(), FilterType.likeStart);
+        assertEquals("test", result.getResultFilter().getValue());
 
         result = reduce(
                 new Filter("test", FilterType.likeStart),
                 new Filter(FilterType.isNull));
-        Assert.assertTrue(result.getType().equals(Result.Type.conflict));
-        Assert.assertTrue(result.getResultFilter() == null);
+        assertEquals(result.getType(), Result.Type.conflict);
+        assertNull(result.getResultFilter());
 
         result = reduce(
                 new Filter("test", FilterType.likeStart),
                 new Filter("te", FilterType.likeStart));
-        Assert.assertTrue(result.getType().equals(Result.Type.success));
-        Assert.assertTrue(result.getResultFilter().getType().equals(FilterType.likeStart));
-        Assert.assertTrue(result.getResultFilter().getValue().equals("test"));
+        assertEquals(result.getType(), Result.Type.success);
+        assertEquals(result.getResultFilter().getType(), FilterType.likeStart);
+        assertEquals("test", result.getResultFilter().getValue());
 
         result = reduce(
                 new Filter("rem", FilterType.likeStart),
                 new Filter("te", FilterType.likeStart));
-        Assert.assertTrue(result.getType().equals(Result.Type.conflict));
-        Assert.assertTrue(result.getResultFilter() == null);
+        assertEquals(result.getType(), Result.Type.conflict);
+        assertNull(result.getResultFilter());
 
         result = reduce(
                 new Filter("test", FilterType.likeStart),
                 new Filter("es", FilterType.likeStart));
-        Assert.assertTrue(result.getType().equals(Result.Type.conflict));
-        Assert.assertTrue(result.getResultFilter() == null);
+        assertEquals(result.getType(), Result.Type.conflict);
+        assertNull(result.getResultFilter());
     }
 }

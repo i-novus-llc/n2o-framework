@@ -11,8 +11,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -23,7 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class TimePickerCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -36,7 +36,7 @@ public class TimePickerCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testTimePicker() {
+    void testTimePicker() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testTimePicker.page.xml")
                 .get(new PageContext("testTimePicker"));
         Form form = (Form) page.getWidget();
