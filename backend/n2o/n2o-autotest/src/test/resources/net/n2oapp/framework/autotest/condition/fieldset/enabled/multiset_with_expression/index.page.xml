@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form query-id="test">
+        <fields>
+            <multi-set id="res1" label="Мультисет 1 (enabled=check)" can-add="false"
+                       enabled="{check}">
+                <input-text id="value" placeholder="должно быть enabled"/>
+            </multi-set>
+            
+            <multi-set id="res2" label="Мультисет2 (enabled=!check)" can-add="false"
+                       enabled="{!check}">
+                <input-text id="value"  placeholder="должно быть disabled"/>
+            </multi-set>
+            
+            <set enabled="{check}" label="set (enabled=check')">
+                <multi-set id="res3" label="Мультисет3 (внутри set-a)" can-add="false">
+                    <input-text label="3" id="value" placeholder="должно быть enabled"/>
+                </multi-set>
+            </set>
+            
+            <set enabled="{!check}" label="set (enabled=!check')">
+                <multi-set id="res4" label="Мультисет4 (внутри set-a)" can-add="false">
+                    <input-text label="4" id="value"  placeholder="должно быть disabled"/>
+                </multi-set>
+            </set>
+        
+        </fields>
+        <pre-filters>
+            <eq field-id="id" value="1"/>
+        </pre-filters>
+    </form>
+</simple-page>
