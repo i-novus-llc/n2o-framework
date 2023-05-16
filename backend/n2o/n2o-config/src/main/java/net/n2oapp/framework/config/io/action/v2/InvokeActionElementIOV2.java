@@ -55,8 +55,6 @@ public class InvokeActionElementIOV2 extends AbstractMetaActionElementIOV2<N2oIn
 
     private void formParam(Element e, N2oFormParam fp, IOProcessor p) {
         p.attribute(e, "id", fp::getId, fp::setId);
-        if (fp.getId() == null)
-            p.attribute(e, "name", fp::getName, fp::setName);
         p.attribute(e, "value", fp::getValue, fp::setValue);
         p.attribute(e, "datasource", fp::getDatasourceId, fp::setDatasourceId);
         p.attributeEnum(e, "model", fp::getModel, fp::setModel, ReduxModel.class);

@@ -69,8 +69,6 @@ public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource
 
     private void submitFormParam(Element e, N2oFormParam t, IOProcessor p) {
         p.attribute(e, "id", t::getId, t::setId);
-        if (t.getId() == null)
-            p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
         p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);

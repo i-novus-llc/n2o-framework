@@ -55,8 +55,6 @@ public class FormElementIOV4 extends WidgetElementIOv4<N2oForm> {
 
     private void submitFormParam(Element e, N2oFormParam t, IOProcessor p) {
         p.attribute(e, "id", t::getId, t::setId);
-        if (t.getId() == null)
-            p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
         p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
         p.attributeEnum(e, "ref-model", t::getModel, t::setModel, ReduxModel.class);
