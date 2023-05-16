@@ -1,8 +1,10 @@
 package net.n2oapp.framework.autotest.condition.field.required;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -38,14 +40,15 @@ public class FieldRequiredAT extends AutoTestBase {
                 new N2oApplicationPack(),
                 new N2oAllPack()
         );
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/myObject.object.xml")
-        );
     }
 
     @Test
-    public void test() {
+    public void defaultValue() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/simple_value/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/simple_value/myObject.object.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -75,5 +78,29 @@ public class FieldRequiredAT extends AutoTestBase {
         nameField.shouldHaveValidationMessage(Condition.empty);
 
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
+    }
+    
+    @Test
+    void expressionValue() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/expression/index.page.xml")
+        );
+
+        final SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        final Fields fields = page.widget(FormWidget.class).fields();
+        final RadioGroup fieldEnabled = fields.field("type").control(RadioGroup.class);
+        final InputText field = fields.field("message").control(InputText.class);
+
+        fieldEnabled.check("required");
+        
+        field.click();
+        fields.field("message").shouldBeRequired();
+
+        fieldEnabled.check("not required");
+
+        field.click();
+        fields.field("message").shouldNotBeRequired();
     }
 }
