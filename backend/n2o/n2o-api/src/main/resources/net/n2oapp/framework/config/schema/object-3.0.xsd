@@ -154,7 +154,6 @@
             <xs:enumeration value="dataset"/>
             <xs:enumeration value="spel"/>
             <xs:enumeration value="javascript"/>
-            <xs:enumeration value="groovy"/>
         </xs:restriction>
     </xs:simpleType>
 

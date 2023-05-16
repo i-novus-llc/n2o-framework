@@ -65,30 +65,6 @@ __*Типы конфигураций*__
 Это позволяет схемам эволюционировать с полным сохранением обратной совместимости.
 :::
 
-### Структура Groovy файла
-
-Файлы конфигураций можно создавать с помощью [groovy](http://groovy-lang.org/) скриптов.
-
-Для подключения groovy необходимо добавить зависимость:
-
-```xml
-<dependency>
-    <groupId>org.codehaus.groovy</groupId>
-    <artifactId>groovy-all</artifactId>
-    <version>2.5.7</version>
-</dependency>
-```
-
-```source title="Пример файла index.page.groovy"
-import net.n2oapp.framework.api.metadata.*
-
-page = new N2oSimplePage()
-page.widget = new N2oForm()
-page.widget.name = 'Моя страница на groovy'
-```
-В groovy скрипте необходимо создать объект конфигурации, соответствующей её типу.
-
-
 ### Ссылки на другие файлы
 
 Конфигурации могут иметь ссылки друг на друга.
