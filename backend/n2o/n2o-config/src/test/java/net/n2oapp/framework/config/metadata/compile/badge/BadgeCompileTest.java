@@ -18,8 +18,8 @@ import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ import static org.hamcrest.Matchers.nullValue;
 public class BadgeCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -47,7 +47,7 @@ public class BadgeCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testControls() {
+    void testControls() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/badge/testControls.page.xml")
                 .get(new PageContext("testControls"));
 
@@ -82,7 +82,7 @@ public class BadgeCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testWidgets() {
+    void testWidgets() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/badge/testWidgets.page.xml")
                 .get(new PageContext("testWidgets"));
 
@@ -112,7 +112,7 @@ public class BadgeCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testButtons() {
+    void testButtons() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/badge/testButtons.page.xml")
                 .get(new PageContext("testButtons"));
 
@@ -146,7 +146,7 @@ public class BadgeCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testMenuItem() {
+    void testMenuItem() {
         Application application = compile("net/n2oapp/framework/config/metadata/compile/badge/testMenuItem.application.xml")
                 .get(new ApplicationContext("testMenuItem"));
 

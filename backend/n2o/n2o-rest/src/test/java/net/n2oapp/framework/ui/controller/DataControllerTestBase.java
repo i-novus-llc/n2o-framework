@@ -13,7 +13,8 @@ import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.properties.OverrideProperties;
 import net.n2oapp.properties.StaticProperties;
 import net.n2oapp.properties.reader.PropertiesReader;
-import org.junit.Before;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.PropertyResolver;
@@ -26,7 +27,7 @@ public abstract class DataControllerTestBase {
 
     protected N2oApplicationBuilder builder;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         N2oEnvironment environment = new N2oEnvironment();
         environment.setNamespacePersisterFactory(new PersisterFactoryByMap());

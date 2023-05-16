@@ -10,21 +10,18 @@ import net.n2oapp.framework.config.metadata.validation.standard.control.FieldVal
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.*;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование валидации филдсетов
  */
 public class FieldSetValidatorTest extends SourceValidationTestBase {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -39,31 +36,35 @@ public class FieldSetValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    public void testUniqueFieldId() {
+    void testUniqueFieldId() {
         validate("net/n2oapp/framework/config/metadata/validation/fieldset/testUniqueFieldId.widget.xml");
     }
 
     @Test
-    public void testNonUniqueFieldId() {
+    void testNonUniqueFieldId() {
         validate("net/n2oapp/framework/config/metadata/validation/fieldset/testNonUniqueFieldId.widget.xml");
     }
 
     @Test
-    public void testNonUniqueFieldIdWithDependencies() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Поле test1 встречается более одного раза");
-        validate("net/n2oapp/framework/config/metadata/validation/fieldset/testNonUniqueFieldIdWithDependencies.widget.xml");
+    void testNonUniqueFieldIdWithDependencies() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testNonUniqueFieldIdWithDependencies.widget.xml"),
+                "Поле test1 встречается более одного раза"
+        );
     }
 
     @Test
-    public void testNonUniqueFieldIdWithDependenciesWithMultiSet() {
+    void testNonUniqueFieldIdWithDependenciesWithMultiSet() {
         validate("net/n2oapp/framework/config/metadata/validation/fieldset/testNonUniqueFieldIdWithDependencies2.widget.xml");
     }
 
     @Test
-    public void testNonUniqueFieldIdWithDependenciesInMultiSet() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Поле test1 встречается более одного раза");
-        validate("net/n2oapp/framework/config/metadata/validation/fieldset/testNonUniqueFieldIdInMultiSet.widget.xml");
+    void testNonUniqueFieldIdWithDependenciesInMultiSet() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testNonUniqueFieldIdInMultiSet.widget.xml"),
+                "Поле test1 встречается более одного раза"
+        );
     }
 }

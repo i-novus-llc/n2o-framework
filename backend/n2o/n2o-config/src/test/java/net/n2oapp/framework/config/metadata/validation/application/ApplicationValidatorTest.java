@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.validation.application;
 
-
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -10,21 +9,18 @@ import net.n2oapp.framework.config.metadata.compile.application.ApplicationValid
 import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv3;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тест валидатора приложения
  */
 public class ApplicationValidatorTest extends SourceValidationTestBase {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -38,12 +34,15 @@ public class ApplicationValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    public void testHeaderValidation() {
+    void testHeaderValidation() {
         validate("net/n2oapp/framework/config/metadata/application/applicationHeaderValidate.application.xml");
     }
 
-    @Test(expected = N2oMetadataValidationException.class)
-    public void testHeaderValidationFail() {
-        validate("net/n2oapp/framework/config/metadata/application/applicationHeaderValidateFail.application.xml");
+    @Test
+    void testHeaderValidationFail() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/application/applicationHeaderValidateFail.application.xml")
+        );
     }
 }

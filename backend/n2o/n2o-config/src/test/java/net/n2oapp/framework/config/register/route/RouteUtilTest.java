@@ -5,8 +5,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,7 +14,8 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Тестирование методов класса {@link RouteUtil}
@@ -23,7 +23,7 @@ import static org.junit.Assert.assertThrows;
 public class RouteUtilTest {
 
     @Test
-    public void normalize() {
+    void normalize() {
         assertThat(RouteUtil.normalize("test"), is("/test"));
         assertThat(RouteUtil.normalize("/test/"), is("/test"));
         assertThat(RouteUtil.normalize("//test"), is("/test"));
@@ -33,7 +33,7 @@ public class RouteUtilTest {
     }
 
     @Test
-    public void normalizeParam() {
+    void normalizeParam() {
         assertThat(RouteUtil.normalizeParam("test"), is("test"));
         assertThat(RouteUtil.normalizeParam("test.id"), is("test_id"));
         assertThat(RouteUtil.normalizeParam("test*.id"), is("test_id"));
@@ -41,7 +41,7 @@ public class RouteUtilTest {
     }
 
     @Test
-    public void getParams() {
+    void getParams() {
         assertThat(RouteUtil.getParams("/a/b/c/d"), is(Collections.emptyList()));
         assertThat(RouteUtil.getParams("/a/b/c/d?id=123"), is(Collections.emptyList()));
         assertThat(RouteUtil.getParams("/a/b/c/d?id=:a"), is(Collections.singletonList("a")));
@@ -53,7 +53,7 @@ public class RouteUtilTest {
     }
 
     @Test
-    public void getPathParams() {
+    void getPathParams() {
         assertThat(RouteUtil.getPathParams("/a/b/c/d"), is(Collections.emptyList()));
         assertThat(RouteUtil.getPathParams("/a/b/c/d?id=:a"), is(Collections.emptyList()));
         assertThat(RouteUtil.getPathParams("/:a"), is(Collections.singletonList("a")));
@@ -65,7 +65,7 @@ public class RouteUtilTest {
     }
 
     @Test
-    public void parseQueryParams() {
+    void parseQueryParams() {
         assertThat(RouteUtil.parseQueryParams("text"), nullValue());
         Map<String, String[]> params = RouteUtil.parseQueryParams("id=123");
         assertThat(params.get("id"), is(new String[]{"123"}));
@@ -80,7 +80,7 @@ public class RouteUtilTest {
     }
 
     @Test
-    public void convertPathToId() {
+    void convertPathToId() {
         assertThat(RouteUtil.convertPathToId(null), nullValue());
         assertThat(RouteUtil.convertPathToId(""), is("_"));
         assertThat(RouteUtil.convertPathToId("/"), is("_"));
@@ -96,7 +96,7 @@ public class RouteUtilTest {
     }
 
     @Test
-    public void resolveParams() {
+    void resolveParams() {
         DataSet data = new DataSet();
         data.put("a", 1);
         data.put("b", "test");
@@ -106,7 +106,7 @@ public class RouteUtilTest {
     }
 
     @Test
-    public void isApplicationUrl() {
+    void isApplicationUrl() {
         assertThat(RouteUtil.isApplicationUrl("https://google.com"), is(false));
         assertThat(RouteUtil.isApplicationUrl("google.com"), is(true));
         assertThat(RouteUtil.isApplicationUrl("//test"), is(false));
@@ -118,7 +118,7 @@ public class RouteUtilTest {
     }
 
     @Test
-    public void join() {
+    void join() {
         assertThat(RouteUtil.join("/", "/test"), is("/test"));
         assertThat(RouteUtil.join("/parent", "/child"), is("/parent/child"));
         assertThat(RouteUtil.join("/parent", "../child"), is("/child"));
@@ -126,12 +126,12 @@ public class RouteUtilTest {
         assertThat(RouteUtil.join("/parent1/parent2", "../../child"), is("/child"));
         try {
             RouteUtil.join("/", "../child");
-            Assert.fail();
+            fail();
         } catch (IncorrectRouteException e) {
         }
         try {
             RouteUtil.join("/parent", "../../child");
-            Assert.fail();
+            fail();
         } catch (IncorrectRouteException e) {
         }
         assertThat(RouteUtil.join(null, "/test"), is("/test"));
@@ -140,7 +140,7 @@ public class RouteUtilTest {
     }
 
     @Test
-    public void absolute() {
+    void absolute() {
         //domain relative
         assertThat(RouteUtil.absolute("/test", null), is("/test"));
         assertThat(RouteUtil.absolute("/test", ""), is("/test"));
@@ -159,12 +159,12 @@ public class RouteUtilTest {
         assertThat(RouteUtil.absolute("../../child", "/parent1/parent2"), is("/child"));
         try {
             RouteUtil.absolute("../child", "/");
-            Assert.fail();
+            fail();
         } catch (IncorrectRouteException e) {
         }
         try {
             RouteUtil.absolute("../../child", "/parent");
-            Assert.fail();
+            fail();
         } catch (IncorrectRouteException e) {
         }
         assertThat(RouteUtil.absolute("../", "/parent/child"), is("/parent"));
@@ -174,7 +174,7 @@ public class RouteUtilTest {
     }
 
     @Test
-    public void parent() {
+    void parent() {
         assertThat(RouteUtil.parent("/"), is("../"));
         assertThat(RouteUtil.parent("/test"), is("../test"));
         assertThat(RouteUtil.parent("/1/2"), is("../1/2"));
@@ -185,7 +185,7 @@ public class RouteUtilTest {
     }
 
     @Test
-    public void addQueryParams() {
+    void addQueryParams() {
         Map<String, ModelLink> queryMapping = new StrictMap<>();
         ModelLink nameLink = new ModelLink(ReduxModel.resolve, "main", "name");
         nameLink.setParam("nameParam");
@@ -202,14 +202,14 @@ public class RouteUtilTest {
     }
 
     @Test
-    public void parsePath() {
+    void parsePath() {
         assertThat(RouteUtil.parsePath("/example?test=1&par=val"), is("/example"));
         assertThat(RouteUtil.parsePath("/example?"), is("/example"));
         assertThat(RouteUtil.parsePath("/example"), is("/example"));
     }
 
     @Test
-    public void parseQuery() {
+    void parseQuery() {
         assertThat(RouteUtil.parseQuery("/example?test=1&par=val"), is("test=1&par=val"));
         assertThat(RouteUtil.parseQuery("?test=1&par=val"), is("test=1&par=val"));
         assertThat(RouteUtil.parseQuery("/example?"), is(""));
@@ -217,7 +217,7 @@ public class RouteUtilTest {
     }
 
     @Test
-    public void getNestingLevel() {
+    void getNestingLevel() {
         assertThat(RouteUtil.getRelativeLevel(""), is(0));
         assertThat(RouteUtil.getRelativeLevel("/"), is(0));
         assertThat(RouteUtil.getRelativeLevel("./"), is(0));
@@ -229,7 +229,7 @@ public class RouteUtilTest {
     }
 
     @Test
-    public void hasRelativity() {
+    void hasRelativity() {
         assertThat(RouteUtil.hasRelativity("../"), is(true));
         assertThat(RouteUtil.hasRelativity("../../../"), is(true));
         assertThat(RouteUtil.hasRelativity("/test/:id"), is(false));

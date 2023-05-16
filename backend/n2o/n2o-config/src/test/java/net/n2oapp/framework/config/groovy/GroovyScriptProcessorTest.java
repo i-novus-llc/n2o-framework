@@ -6,8 +6,9 @@ import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.util.async.MultiThreadRunner;
 import net.n2oapp.framework.config.util.FileSystemUtil;
-import org.junit.Ignore;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
@@ -26,7 +27,7 @@ public class GroovyScriptProcessorTest {
 
 
     @Test
-    public void scriptEngine() throws ScriptException {
+    void scriptEngine() throws ScriptException {
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("Groovy");
         Bindings bindings = engine.createBindings();
@@ -42,7 +43,7 @@ public class GroovyScriptProcessorTest {
     }
 
     @Test
-    public void testCollectFromScript() throws Exception {
+    void testCollectFromScript() throws Exception {
         String content = FileSystemUtil.getContentByUri("net/n2oapp/framework/config/groovy/testCollectFromScript.groovy");
 
         //объекты
@@ -69,7 +70,7 @@ public class GroovyScriptProcessorTest {
     }
 
     @Test
-    public void testGetFromScript() throws Exception {
+    void testGetFromScript() throws Exception {
         //читаем из файла
         String content = FileSystemUtil.getContentByUri("net/n2oapp/framework/config/groovy/testGetFromScript.groovy");
         N2oObject result = GroovyScriptProcessor.getFromScript(content, N2oObject.class);
@@ -85,8 +86,8 @@ public class GroovyScriptProcessorTest {
     }
 
     @Test
-    @Ignore
-    public void testThreadSafety() throws ExecutionException, InterruptedException {
+    @Disabled
+    void testThreadSafety() throws ExecutionException, InterruptedException {
         String content = FileSystemUtil.getContentByUri("net/n2oapp/framework/config/groovy/testThreadSafety.groovy");
         MultiThreadRunner runner = new MultiThreadRunner();
         runner.run(() -> {

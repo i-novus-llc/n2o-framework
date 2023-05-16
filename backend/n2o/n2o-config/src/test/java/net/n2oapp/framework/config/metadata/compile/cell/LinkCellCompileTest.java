@@ -15,8 +15,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.*;
 public class LinkCellCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -41,7 +41,7 @@ public class LinkCellCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testLinkCell() {
+    void testLinkCell() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testLinkCell.page.xml")
                 .get(new PageContext("testLinkCell"));
         Table table = (Table) page.getWidget();

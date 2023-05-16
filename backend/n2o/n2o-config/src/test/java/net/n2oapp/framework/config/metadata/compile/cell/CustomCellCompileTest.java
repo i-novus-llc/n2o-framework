@@ -13,8 +13,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
@@ -24,8 +24,9 @@ import static org.hamcrest.Matchers.is;
  * Тест на компиляцию настраиваемой ячейки
  */
 public class CustomCellCompileTest extends SourceCompileTestBase {
+    
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -39,7 +40,7 @@ public class CustomCellCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCustomCell() {
+    void testCustomCell() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testCustomCell.page.xml")
                 .get(new PageContext("testCustomCell"));
         Table table = (Table) page.getWidget();

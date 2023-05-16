@@ -20,8 +20,8 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ import static org.hamcrest.Matchers.*;
  */
 public class ValidationDialogCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -46,7 +46,7 @@ public class ValidationDialogCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testValidationDialog() {
+    void testValidationDialog() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/validation/testValidationDialog.object.xml")
                 .get(new ObjectContext("testValidationDialog"));
 

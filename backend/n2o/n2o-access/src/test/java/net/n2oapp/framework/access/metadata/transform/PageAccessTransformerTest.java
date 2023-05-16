@@ -18,8 +18,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +33,7 @@ import static org.hamcrest.Matchers.*;
  */
 public class PageAccessTransformerTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -48,7 +48,7 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testPageV2() {
+    void testPageV2() {
         ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testPageV2");
 
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testPageV2.access.xml",
@@ -77,7 +77,7 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testPageV3() {
+    void testPageV3() {
         ReadCompileTerminalPipeline pipeline = compile(
                 "net/n2oapp/framework/access/metadata/default.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testPageV3AccessTransformer.page.xml");
