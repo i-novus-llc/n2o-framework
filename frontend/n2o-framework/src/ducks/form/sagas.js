@@ -1,5 +1,5 @@
-import { takeEvery, put, select, debounce, call } from 'redux-saga/effects'
-import { touch, change, actionTypes, focus } from 'redux-form'
+import { takeEvery, put, select, call } from 'redux-saga/effects'
+import { touch, change, actionTypes } from 'redux-form'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import isEmpty from 'lodash/isEmpty'
@@ -8,9 +8,7 @@ import includes from 'lodash/includes'
 import merge from 'lodash/merge'
 import isArray from 'lodash/isArray'
 import isFunction from 'lodash/isFunction'
-import keys from 'lodash/keys'
 
-import { tabTraversal } from '../regions/sagas'
 import { setModel, copyModel } from '../models/store'
 import {
     makeGetModelByPrefixSelector,
@@ -19,10 +17,8 @@ import {
 import { getWidgetFieldValidation } from '../widgets/selectors'
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import * as validationPresets from '../../core/validation/presets'
-import { regionsSelector } from '../regions/store'
 
-import { formsSelector, makeFormByName, messageSelector } from './selectors'
-import { addMessage } from './constants'
+import { makeFormByName, messageSelector } from './selectors'
 import {
     failValidate,
     removeFieldMessage,
@@ -160,60 +156,6 @@ export function* copyAction({ payload }) {
     yield call(checkFieldValidation, { meta: { form: target.key, field: target.field } })
 }
 
-function* setFocus({ payload }) {
-    const { form, name: fieldName, asyncValidating } = payload
-
-    if (asyncValidating === fieldName) {
-        return
-    }
-
-    const regions = yield select(regionsSelector)
-    const forms = yield select(formsSelector)
-
-    if (Object.values(forms).some(form => form.active)) {
-        return
-    }
-
-    const allTabs = Object.values(regions)
-        .filter(region => region.tabs)
-        .map(({ tabs }) => tabs)
-
-    for (const tabs of allTabs) {
-        const isTargetFormInTabs = yield tabTraversal(null, tabs, null, form)
-
-        if (isTargetFormInTabs) {
-            let fieldName = ''
-
-            const firstInvalidForm = tabs
-                .find(({ invalid }) => invalid)
-                ?.content
-                .find(({ id }) => {
-                    const { registeredFields = {} } = forms?.[id] || {}
-
-                    return keys(registeredFields).some((currentFieldName) => {
-                        const { message } = registeredFields[currentFieldName]
-
-                        if (message) {
-                            fieldName = currentFieldName
-
-                            return true
-                        }
-
-                        return false
-                    })
-                })
-
-            if (firstInvalidForm?.id) {
-                yield put(focus(firstInvalidForm.id, fieldName))
-
-                return
-            }
-        }
-    }
-
-    yield put(focus(form, fieldName))
-}
-
 export const formPluginSagas = [
     takeEvery(
         [actionTypes.START_ASYNC_VALIDATION, actionTypes.CHANGE],
@@ -228,5 +170,4 @@ export const formPluginSagas = [
         yield put(touch(id, ...keys))
     }),
     takeEvery(copyModel.type, copyAction),
-    debounce(100, addMessage, setFocus),
 ]

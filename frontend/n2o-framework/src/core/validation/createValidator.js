@@ -205,7 +205,7 @@ export function validate(
 
                     if (isVisibleField) {
                         const isValid = isFunction(validationFunction) &&
-                        validationFunction(fieldId, values, options, dispatch)
+                            validationFunction(fieldId, values, options, dispatch)
 
                         resolveValidationResult(isValid, fieldId)
                     } else {
@@ -229,8 +229,9 @@ export function validate(
         const messagesAction = map(errors, (messages, fieldId) => {
             if (!isEmpty(messages)) {
                 const fieldValidationMessage = findPriorityMessage(messages)
-                const fieldHasBeenVisited = formFields?.[fieldId]?.visited
-                const fieldHasBeenTouched = formFields?.[fieldId]?.touched
+
+                const fieldHasBeenVisited = get(formFields, `${fieldId}.visited`)
+                const fieldHasBeenTouched = get(formFields, `${fieldId}.touched`)
 
                 if (isTouched || fieldHasBeenVisited || fieldHasBeenTouched) {
                     const validationMessageContainsJS = parseExpression(fieldValidationMessage.text)
@@ -255,7 +256,8 @@ export function validate(
             const asyncValidating = get(state, `form.${formName}.asyncValidating`) === key
             const active = get(state, `form.${formName}.active`) === key
 
-            if (!currentError && (errorInStore || (asyncValidating || active || field.disabled))) {
+            if (!currentError && errorInStore &&
+                (asyncValidating || active || field.disabled)) {
                 dispatch(removeFieldMessage(formName, key))
             }
         })
