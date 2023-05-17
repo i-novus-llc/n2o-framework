@@ -214,6 +214,41 @@ description: ""
 
 
 
+### Переход на application-3.0 {#to_application_3_0}
+ - Необходимо перенести элемент `<sidebar>` во внутрь элемента `<sidebars>`.
+ Таким образом добавлена поддержка нескольких `<sidebar>`, отображающихся в зависимости от url страницы,
+ который должен соответствовать атрибуту `path`.
+
+*Пример, как работало в схемах application-1.0 и application-2.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+    <sidebar src="test" class="test"
+            title="Test Sidebar" home-page-url="http://google.com/">
+        <nav ref-id="testMenu"/>
+    </sidebar>
+</application>
+```
+
+*Пример, как работает в схеме application-3.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        <sidebar path="/home"
+                 src="home" class="home"
+                 title="Home Sidebar" home-page-url="http://google.com/">
+            <nav ref-id="homeMenu"/>
+        </sidebar>
+        <sidebar path="/profile"
+                 src="profile" class="profile"
+                 title="Profile Sidebar">
+             <nav ref-id="profileMenu"/>
+        </sidebar>
+    </sidebars>
+</application>
+```
+
 
 
 ### Переход на query-5.0 {#to_query_5_0}
@@ -225,7 +260,6 @@ description: ""
 ```xml {8,14,15}
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
-
     <fields>
         <field id="id">
             <select/>
