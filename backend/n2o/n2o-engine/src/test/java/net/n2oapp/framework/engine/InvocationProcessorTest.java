@@ -380,9 +380,15 @@ public class InvocationProcessorTest {
         parameters[1].setMapping("valueStr");
         parameters[2] = new ObjectReferenceField();
         parameters[2].setId("innerObj");
-        ((ObjectReferenceField) parameters[2]).setFields(new AbstractParameter[]{inParam1, inParam2});
+        ObjectSimpleField outParam1 = new ObjectSimpleField();
+        outParam1.setId("name");
+        outParam1.setMapping("valueStr");
+        outParam1.setNormalize("#this.toUpperCase()");
+        ((ObjectReferenceField) parameters[2]).setFields(new AbstractParameter[]{outParam1, inParam2});
+        parameters[2].setNormalize("#mapToJson(#this)");
         parameters[3] = new ObjectListField();
         parameters[3].setId("innerObjList");
+        parameters[3].setNormalize("#this.?[['id'] != 1234]");
         ((ObjectListField) parameters[3]).setFields(new AbstractParameter[]{inParam3, inParam4});
         outParam.setFields(parameters);
         outMapping.add(outParam);
@@ -393,12 +399,10 @@ public class InvocationProcessorTest {
         DataSet resultValue = (DataSet) resultDataSet.get("testValue");
         assertThat(resultValue.get("id"), nullValue());
         assertThat(resultValue.get("name"), nullValue());
-        assertThat(((DataSet) resultValue.get("innerObj")).get("id"), is(123));
-        assertThat(((DataSet) resultValue.get("innerObj")).get("name"), is("testName"));
-        assertThat(((DataSet) resultValue.get("innerObj")).get("surname"), nullValue());
-        assertThat(((DataSet) ((DataList) resultValue.get("innerObjList")).get(0)).get("name"), is("testname1"));
-        assertThat(((DataSet) ((DataList) resultValue.get("innerObjList")).get(1)).get("id"), is(12345));
-        assertThat(((DataSet) ((DataList) resultValue.get("innerObjList")).get(1)).get("name"), is("testname2"));
+        assertThat(resultValue.get("innerObj"), is("{\"name\":\"TESTNAME\",\"id\":123}"));
+        assertThat(((DataList) resultValue.get("innerObjList")).size(), is(1));
+        assertThat(((DataSet) ((DataList) resultValue.get("innerObjList")).get(0)).get("id"), is(12345));
+        assertThat(((DataSet) ((DataList) resultValue.get("innerObjList")).get(0)).get("name"), is("testname2"));
     }
 
     @Test

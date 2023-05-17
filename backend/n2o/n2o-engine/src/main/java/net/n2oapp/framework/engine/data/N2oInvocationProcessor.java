@@ -98,8 +98,13 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                     if (value instanceof Collection) {
                         for (Object obj : (Collection<?>) value)
                             resolveOutValues(List.of(referenceField.getFields()), (DataSet) obj);
-                    } else if (value instanceof DataSet)
+                    } else if (value instanceof DataSet) {
                         resolveOutValues(List.of(referenceField.getFields()), (DataSet) value);
+                    }
+                    if (parameter.getNormalize() != null) {
+                        value = tryToNormalize(value, parameter, resultDataSet, applicationContext);
+                        resultDataSet.put(parameter.getId(), value);
+                    }
                 }
             } else {
                 ObjectSimpleField simpleField = (ObjectSimpleField) parameter;

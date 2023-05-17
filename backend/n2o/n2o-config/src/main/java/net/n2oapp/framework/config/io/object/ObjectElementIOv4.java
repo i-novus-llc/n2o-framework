@@ -68,8 +68,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.anyChildren(e, "out", t::getOutFields, t::setOutFields, p.oneOf(AbstractParameter.class)
                 .add("field", ObjectSimpleField.class, this::outField)
                 .add("reference", ObjectReferenceField.class, this::outReference)
-                .add("list", ObjectListField.class, this::outReference)
-                .add("set", ObjectSetField.class, this::outReference));
+                .add("list", ObjectListField.class, this::outReference));
         p.children(e, "fail-out", "field", t::getFailOutFields, t::setFailOutFields, ObjectSimpleField.class, this::outField);
         p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::operationInlineValidations);
     }
@@ -137,8 +136,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.anyChildren(e, null, t::getFields, t::setFields, p.oneOf(AbstractParameter.class)
                 .add("field", ObjectSimpleField.class, this::outField)
                 .add("reference", ObjectReferenceField.class, this::outReference)
-                .add("list", ObjectListField.class, this::outReference)
-                .add("set", ObjectSetField.class, this::outReference));
+                .add("list", ObjectListField.class, this::outReference));
     }
 
     private void validation(Element e, N2oValidation t, IOProcessor p) {

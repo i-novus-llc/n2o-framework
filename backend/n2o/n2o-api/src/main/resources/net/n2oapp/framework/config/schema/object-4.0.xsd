@@ -319,7 +319,6 @@
                         maxOccurs="unbounded"/>
             <xs:element name="list" type="operationOutParameterReferenceDefinition" minOccurs="0"
                         maxOccurs="unbounded"/>
-            <xs:element name="set" type="operationOutParameterReferenceDefinition" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -364,7 +363,6 @@
                         minOccurs="0"/>
             <xs:element name="list" type="operationOutParameterReferenceDefinition" maxOccurs="unbounded"
                         minOccurs="0"/>
-            <xs:element name="set" type="operationOutParameterReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" use="required">
             <xs:annotation>
