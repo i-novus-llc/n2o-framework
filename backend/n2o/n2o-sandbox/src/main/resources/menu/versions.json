@@ -2,6 +2,15 @@
   "name": "Версии",
   "sections": [
     {
+      "name": "7.25",
+      "templates": [
+        {
+          "templateId": "versions/7.25/list_out_params",
+          "name": "List в out параметрах"
+        }
+      ]
+    },
+    {
       "name": "7.24",
       "templates": [
         {
