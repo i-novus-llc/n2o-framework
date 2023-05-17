@@ -2,20 +2,36 @@
 <left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
                  name="${contact.list}" route="/">
     <datasources>
-        <datasource id="clientsDs" query-id="ProtoClient" size="10"/>
+        <datasource id="clientsDs" query-id="ProtoClient" object-id="ProtoClient" size="10"/>
+        <datasource id="contacts" query-id="ProtoContacts" object-id="ProtoContacts">
+            <dependencies>
+                <fetch on="clientsDs"/>
+            </dependencies>
+            <filters>
+                <eq field-id="individualId" value="{id}" datasource="clientsDs" required="true"/>
+            </filters>
+        </datasource>
+        <datasource id="clientCard" query-id="ProtoClient" >
+            <dependencies>
+                <fetch on="clientsDs"/>
+            </dependencies>
+            <filters>
+                <eq field-id="id" value="{id}" datasource="clientsDs" required="true"/>
+            </filters>
+        </datasource>
     </datasources>
     <toolbar place="topRight">
         <button id="create2" datasource="clientsDs" description="${client.add}"
                 color="primary" label="${client.add}" icon="fa fa-plus"
                 model="filter">
-            <open-page page-id="ProtoClient" route="/clients/create2">
+            <open-page page-id="ProtoClient" route="/clients/create2" page-name="Карточка клиента">
                 <datasources>
                     <parent-datasource id="clients"/>
                     <datasource id="protoClient" default-values-mode="defaults"/>
                 </datasources>
                 <toolbars>
                     <toolbar>
-                        <button label="Save">
+                        <button label="Сохранить">
                             <invoke operation-id="create"/>
                             <refresh datasource="clientsDs"/>
                             <close/>
@@ -48,7 +64,7 @@
                                 </datasources>
                                 <toolbars>
                                     <toolbar>
-                                        <button label="Save">
+                                        <button label="Сохранить">
                                             <invoke operation-id="update"/>
                                             <refresh datasource="clientsDs"/>
                                             <close/>
@@ -70,7 +86,7 @@
                                 </datasources>
                                 <toolbars>
                                     <toolbar>
-                                        <button label="Save">
+                                        <button label="Сохранить">
                                             <invoke operation-id="update"/>
                                             <refresh datasource="clientsDs"/>
                                             <close/>
@@ -99,13 +115,8 @@
                     </column>
                     <column text-field-id="">
                         <toolbar>
-                            <sub-menu icon="fa fa-ellipsis-v" generate="delete,update"/>
+                            <sub-menu icon="fa fa-ellipsis-v" generate="delete"/>
                         </toolbar>
-                        <!--<toolbar>-->
-                        <!--<button label="${delete}" icon="fa fa-trash">-->
-                        <!--<invoke operation-id="delete"/>-->
-                        <!--</button>-->
-                        <!--</toolbar>-->
                     </column>
 
                 </columns>
@@ -125,16 +136,16 @@
                 </filters>
                 <toolbar place="topLeft">
                     <button id="create" label="${create}" description="${create}" icon="fa fa-plus" model="filter">
-                        <show-modal page-id="ProtoClient">
+                        <show-modal page-id="ProtoClient" page-name="Карточка клиента">
                             <datasources>
                                 <parent-datasource id="clients"/>
                                 <datasource id="protoClient" default-values-mode="defaults"/>
                             </datasources>
                             <toolbars>
                                 <toolbar>
-                                    <button label="Save">
+                                    <button label="Сохранить">
                                         <invoke operation-id="create"/>
-                                        <a href="../clients/:id/update2">
+                                        <a href="/clients/:id/update2" target="application">
                                             <path-param name="id" value="{id}" datasource="protoClient"/>
                                         </a>
                                     </button>
@@ -153,7 +164,7 @@
                             </datasources>
                             <toolbars>
                                 <toolbar>
-                                    <button label="Save">
+                                    <button label="Сохранить">
                                         <invoke operation-id="update"/>
                                         <refresh datasource="clientsDs"/>
                                         <close/>
@@ -181,9 +192,12 @@
                             </datasources>
                             <toolbars>
                                 <toolbar>
-                                    <button label="Save">
+                                    <button label="Сохранить">
                                         <invoke operation-id="update"/>
                                         <refresh datasource="clientsDs"/>
+                                        <close/>
+                                    </button>
+                                    <button label="Закрыть">
                                         <close/>
                                     </button>
                                 </toolbar>
@@ -206,8 +220,10 @@
     </left>
     <right>
         <panel place="right" title="${contacts}">
-            <list id="contacts" detail-field-id="individualId" depends-on="clients" route="/contacts/:client_id/list"
-                  name="contacts" query-id="ProtoContacts" visible="{name != 'Мария'}">
+            <list datasource="contacts" name="contacts">
+                <dependencies>
+                    <visibility datasource="clientsDs" model="resolve">name != 'Мария'</visibility>
+                </dependencies>
                 <content>
                     <left-top>
                         <icon>
@@ -230,19 +246,19 @@
                 </content>
                 <toolbar>
                     <button id="createContact" label="${create}" model="filter">
-                        <show-modal page-id="ProtoContacts" route="/contacts/:client_id/createContact">
+                        <show-modal page-id="ProtoContactsCreate" route="/contacts/:client_id/createContact"
+                                    unsaved-data-prompt-on-close="false">
                             <params>
                                 <path-param name="client_id" value="{id}" model="resolve" datasource="clientsDs"/>
                             </params>
                             <datasources>
                                 <parent-datasource id="clients"/>
-                                <datasource id="protoClient" default-values-mode="defaults"/>
                             </datasources>
                             <toolbars>
                                 <toolbar>
-                                    <button label="Save">
+                                    <button label="Сохранить">
                                         <invoke operation-id="create"/>
-                                        <refresh datasource="clientsDs"/>
+                                        <refresh datasource="contacts"/>
                                         <close/>
                                     </button>
                                 </toolbar>
@@ -253,8 +269,7 @@
             </list>
         </panel>
         <panel place="right" title="${card}">
-            <form id="form" ref-id="ProtoClient" route="/form/:client_id/card" query-id="ProtoClient"
-                  depends-on="clients" master-field-id="id" detail-field-id="id"/>
+            <form id="form" ref-id="ProtoClient" route="/form/:client_id/card" datasource="clientCard"/>
         </panel>
     </right>
 </left-right-page>

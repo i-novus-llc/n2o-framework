@@ -44,7 +44,7 @@ public class DemoIntegrationAT {
     public static void configure() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
-        System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
+        System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips='',--remote-allow-origins=*");
 
         headless = true;
         browserSize = "1920x1200";
@@ -410,48 +410,6 @@ public class DemoIntegrationAT {
         protoPage.tableCellShouldHaveText(row, 3, "Юрьевич");
         protoPage.tableCellShouldHaveText(row, 4, "17.11.1932");
         protoPage.tableCellShouldHaveText(row, 5, "Мужской");
-    }
-
-    /**
-     * Проверка изменения клиента через меню в ячейке
-     */
-    @Test
-    public void testUpdateClientFromToolbarCell() {
-        int row = 7;
-        String surname = protoPage.getSurname(row);
-        String name = protoPage.getName(row);
-        String patronomic = protoPage.getPatronomic(row);
-        String gender = protoPage.getGender(row);
-        String birthday = protoPage.getBirthdayCell(row).getValue();
-
-        ProtoClient modalClientCard = protoPage.editClientFromTableCell(row);
-        modalClientCard.shouldHaveTitle("Клиент - Изменение");
-
-        modalClientCard.surname().shouldHaveValue(surname);
-        modalClientCard.firstName().shouldHaveValue(name);
-        modalClientCard.patronymic().shouldHaveValue(patronomic);
-        modalClientCard.genderRadioGroup().shouldBeChecked(gender);
-        modalClientCard.birthdayShouldHaveValue(birthday);
-
-        modalClientCard.surname().click();
-        modalClientCard.surname().setValue("Ивановна");
-        modalClientCard.firstName().click();
-        modalClientCard.firstName().setValue("Александра");
-        modalClientCard.patronymic().click();
-        modalClientCard.patronymic().setValue("Петровна");
-        modalClientCard.gender().check("Женский");
-        modalClientCard.save();
-
-        protoPage.shouldDialogClosed("Клиент - Изменение");
-        protoPage.shouldBeClientsPage();
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
-        protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Иванова");
-        protoPage.tableShouldSelectedRow(row);
-        protoPage.tableCellShouldHaveText(row, 1, "Ивановна");
-        protoPage.tableCellShouldHaveText(row, 2, "Александра");
-        protoPage.tableCellShouldHaveText(row, 3, "Петровна");
-        protoPage.tableCellShouldHaveText(row, 4, birthday);
-        protoPage.tableCellShouldHaveText(row, 5, "Женский");
     }
 
     /**

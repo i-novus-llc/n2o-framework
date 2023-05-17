@@ -1,0 +1,26 @@
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="${contacts}">
+    <regions>
+        <region>
+            <form object-id="ProtoContacts">
+                <fields>
+                    <hidden id="individualId" param="client_id"/>
+                    <row>
+                        <input-select id="type" label="${contact.type}" label-field-id="name">
+                            <options>
+                                <option id="2" name="${full.phone}"/>
+                                <option id="4" name="${email}"/>
+                                <option id="7" name="${fax}"/>
+                            </options>
+                        </input-select>
+                        <col>
+                            <masked-input mask="+7 (999) 999-99-99" id="phone" label="${phone}"
+                                          placeholder="+7 (___) ___-__-__" visible="{type.id == 2}"/>
+                            <input-text id="email" label="${email}" visible="{type.id == 4}"/>
+                        </col>
+                    </row>
+                    <input-text id="note" label="${note}" enabled="{type.id == 2}"/>
+                </fields>
+            </form>
+        </region>
+    </regions>
+</page>
