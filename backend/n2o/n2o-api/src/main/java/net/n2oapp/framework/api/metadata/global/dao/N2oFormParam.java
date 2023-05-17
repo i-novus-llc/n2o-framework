@@ -11,8 +11,4 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class N2oFormParam extends N2oParam {
-    /**
-     * Идентификатор параметра
-     */
-    private String id;
 }
