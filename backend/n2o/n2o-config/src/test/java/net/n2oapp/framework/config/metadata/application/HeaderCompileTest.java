@@ -82,7 +82,7 @@ public class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(subItems.get(0).getSubItems(), nullValue());
         assertThat(subItems.get(0).getType(), is("link"));
         assertThat(subItems.get(0).getProperties().size(), is(1));
-        assertThat(subItems.get(0).getProperties().get("testAttr"), is("testAttribute"));
+        assertThat(subItems.get(0).getProperties().get("attr1"), is("testAttribute"));
         // sub-menu a
         assertThat(subItems.get(1).getTitle(), is("hrefLabel"));
         assertThat(subItems.get(1).getHref(), is("http://test.com"));
