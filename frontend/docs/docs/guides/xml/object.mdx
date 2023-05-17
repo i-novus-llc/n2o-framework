@@ -280,33 +280,6 @@ http://n2oapp.net/framework/config/schema/object-4.0
 </out>
 ```
 
-**Дополнение**
-
-Если в объекте определено поле в разделе &lt;fields&gt;, в параметре указано `id` поля, то не заполненные атрибуты в параметр будут скопированы из поля.
-
-**Пример**
-
-```xml
-<object>
-    <fields>
-        <reference id="address">
-            <field id="city" mapping="city"/>
-            <field id="street" mapping="street"/>
-            <field id="home" mapping="home"/>
-        </reference>
-        <list id="ratings" mapping="ratings">
-          <field id="code" mapping="code"/>
-          <field id="name" mapping="name"/>
-        </list>
-    </fields>
-<out>
-    <field id="gender*.id" domain="integer[]" mapping="genders" param="param"/>
-    <field id="address"/>
-    <field id="ratings"/>
-</out>
-</object>
-```
-
 Исходящие параметры в случае ошибки операции. Может быть только простое поле &lt;field&gt;
 
 ```xml
