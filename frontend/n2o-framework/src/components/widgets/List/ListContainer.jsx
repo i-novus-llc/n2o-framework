@@ -7,12 +7,14 @@ import forOwn from 'lodash/forOwn'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
+import { connect } from 'react-redux'
 
-import { modelsType } from '../../../core/datasource/propTypes'
 import withSecurity from '../../../core/auth/withSecurity'
 import withColumn from '../Table/withColumn'
 import TableCell from '../Table/TableCell'
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
+import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { ModelPrefix } from '../../../core/datasource/const'
 
 // eslint-disable-next-line import/no-named-as-default
 import List from './List'
@@ -32,12 +34,11 @@ class ListContainer extends React.Component {
     constructor(props) {
         super(props)
 
-        const { models } = props
-        const { datasource } = models
+        const { datasourceModel } = props
 
         this.state = {
             needToCombine: false,
-            datasource,
+            datasource: datasourceModel,
         }
 
         this.getWidgetProps = this.getWidgetProps.bind(this)
@@ -47,11 +48,8 @@ class ListContainer extends React.Component {
         this.handleFetchMore = this.handleFetchMore.bind(this)
     }
 
-    componentDidUpdate({ models: prevModels }) {
-        const { datasource: prevDatasource } = prevModels
-        const { models, setResolve } = this.props
-        const { datasource: currentDatasource, resolve } = models
-        const selectedId = resolve?.id
+    componentDidUpdate({ datasourceModel: prevDatasource }) {
+        const { setResolve, datasourceModel: currentDatasource, selectedId } = this.props
         const { needToCombine } = this.state
 
         if (currentDatasource && !isEqual(prevDatasource, currentDatasource)) {
@@ -99,9 +97,8 @@ class ListContainer extends React.Component {
     }
 
     handleItemClick(index) {
-        const { setResolve, models, rowClick, onRowClickAction } = this.props
-        const { datasource } = models
-        const model = datasource[index]
+        const { setResolve, datasourceModel, rowClick, onRowClickAction } = this.props
+        const model = datasourceModel[index]
 
         setResolve(model)
         if (rowClick) {
@@ -110,10 +107,9 @@ class ListContainer extends React.Component {
     }
 
     handleFetchMore() {
-        const { page, models, setPage } = this.props
-        const { datasource } = models
+        const { page, datasourceModel, setPage } = this.props
 
-        if (!isEmpty(datasource)) {
+        if (!isEmpty(datasourceModel)) {
             this.setState({ needToCombine: true }, () => setPage(page + 1))
         }
     }
@@ -146,7 +142,7 @@ class ListContainer extends React.Component {
             fetchOnScroll,
             divider,
             hasSelect,
-            models,
+            selectedId,
             rows,
             t,
             checkSecurity,
@@ -163,7 +159,7 @@ class ListContainer extends React.Component {
             fetchOnScroll,
             divider,
             hasSelect,
-            selectedId: models.resolve?.id,
+            selectedId,
             rows,
             t,
             checkSecurity,
@@ -190,7 +186,6 @@ ListContainer.propTypes = {
     rowClick: PropTypes.func,
     hasMoreButton: PropTypes.bool,
     maxHeight: PropTypes.number,
-    models: PropTypes.shape(modelsType),
     hasSelect: PropTypes.bool,
     setResolve: PropTypes.func,
     onRowClickAction: PropTypes.func,
@@ -201,6 +196,8 @@ ListContainer.propTypes = {
     rows: PropTypes.object,
     t: PropTypes.func,
     checkSecurity: PropTypes.func,
+    selectedId: PropTypes.string,
+    datasourceModel: PropTypes.array,
 }
 
 ListContainer.defaultProps = {
@@ -216,8 +213,14 @@ ListContainer.defaultProps = {
     hasSelect: false,
 }
 
+const mapStateToProps = (state, { datasource }) => ({
+    selectedId: dataSourceModelByPrefixSelector(datasource, ModelPrefix.active)(state)?.id,
+    datasourceModel: dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state),
+})
+
 export default compose(
     withSecurity,
     withTranslation(),
     withWidgetHandlers,
+    connect(mapStateToProps),
 )(ListContainer)

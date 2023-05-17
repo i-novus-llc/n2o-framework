@@ -47,7 +47,7 @@ public class RatingAT extends AutoTestBase {
         rating.shouldExists();
 
         rating.shouldHaveValue("0");
-        rating.val("3");
+        rating.setValue("3");
         rating.shouldHaveValue("3");
     }
 
@@ -58,7 +58,7 @@ public class RatingAT extends AutoTestBase {
         rating.shouldExists();
 
         rating.shouldHaveValue("3.5");
-        rating.val("1.5");
+        rating.setValue("1.5");
         rating.shouldHaveValue("1.5");
     }
 }

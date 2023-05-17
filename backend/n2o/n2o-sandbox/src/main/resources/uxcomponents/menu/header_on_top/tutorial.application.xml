@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <header class="inverse" logo-src="static/logoWhite.png">
+        <nav>
+            <dropdown-menu name="Пункт меню 1" icon="fa fa-envelope-o">
+                <menu-item name="Подпункт 1">
+                    <open-page page-id="submenu1"/>
+                </menu-item>
+                <menu-item name="Подпункт 2">
+                    <open-page page-id="submenu2"/>
+                </menu-item>
+                <menu-item name="Подпункт 3">
+                    <open-page page-id="submenu3"/>
+                </menu-item>
+                <menu-item name="Подпункт 4">
+                    <open-page page-id="submenu4"/>
+                </menu-item>
+            </dropdown-menu>
+            <menu-item name="Пункт меню 2">
+                <open-page page-id="menu2"/>
+            </menu-item>
+            <menu-item name="Пункт меню 3">
+                <open-page page-id="menu3"/>
+            </menu-item>
+        </nav>
+        <extra-menu>
+            <menu-item name="Внешняя ссылка">
+                <a href="http://example.com"/>
+            </menu-item>
+        </extra-menu>
+        <search query-id="test" filter-field-id="id" label-field-id="name"/>
+    </header>
+</application>

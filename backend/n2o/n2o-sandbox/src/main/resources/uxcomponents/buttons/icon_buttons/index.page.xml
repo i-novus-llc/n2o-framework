@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Кнопки с иконкой">
+    <form>
+        <toolbar>
+            <button label="Найти" icon="fa fa-search" color="primary"/>
+            <button label="Скачать файл" icon="fa fa-download" type="icon"/>
+            <button label="Открыть ссылку" icon="fa fa-link" type="icon"/>
+        </toolbar>
+    </form>
+</simple-page>

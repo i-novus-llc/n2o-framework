@@ -22,7 +22,7 @@ public class N2oSearchBar extends N2oComponent implements SearchBar {
 
     @Override
     public void search(String val) {
-        input().should(Condition.exist).sendKeys(Keys.chord(Keys.CONTROL, "a"), val);
+        input().should(Condition.exist).setValue(val);
     }
 
     @Override
@@ -38,10 +38,10 @@ public class N2oSearchBar extends N2oComponent implements SearchBar {
 
     @Override
     public void clear() {
-        element().$(".n2o-search-bar__control .n2o-search-bar__clear-icon").should(Condition.exist).click();
+        element().$(".n2o-search-bar__clear-icon").should(Condition.exist).click();
     }
 
-    private SelenideElement input() {
-        return element().$(".n2o-search-bar__control .n2o-input-text");
+    protected SelenideElement input() {
+        return element().$(".n2o-input-text");
     }
 }

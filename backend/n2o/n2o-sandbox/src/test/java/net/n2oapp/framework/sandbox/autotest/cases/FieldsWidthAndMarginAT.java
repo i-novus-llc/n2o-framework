@@ -1,14 +1,10 @@
 package net.n2oapp.framework.sandbox.autotest.cases;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Driver;
-import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.run.AutoTestApplication;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -19,14 +15,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.util.stream.IntStream;
 
-@SpringBootTest(
-        classes = AutoTestApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+import static com.codeborne.selenide.CheckResult.Verdict.ACCEPT;
+import static com.codeborne.selenide.CheckResult.Verdict.REJECT;
+
 public class FieldsWidthAndMarginAT extends AutoTestBase {
     private static final int WIDTH = 162; // эталонная ширина полей под заданный размер окна
     private static final int PRECISION_SHIFT = 10; // допустимая погрешность ширины полей
@@ -47,7 +42,7 @@ public class FieldsWidthAndMarginAT extends AutoTestBase {
 
         page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Поля");
     }
 
@@ -55,15 +50,14 @@ public class FieldsWidthAndMarginAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(
-                new CompileInfo("autotest/cases/fields_autosize/index.page.xml"));
+        builder.sources(new CompileInfo("autotest/cases/fields_autosize/index.page.xml"));
     }
 
     @Test
     public void testFieldAutoResize() {
         Fields fields = page.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields();
         fields.shouldHaveSize(14);
-        fields.elements().forEach(element -> element.shouldBe(new FieldWidthCondition()));
+        fields.elements().asDynamicIterable().stream().forEach(element -> element.shouldBe(new FieldWidthCondition()));
     }
 
     @Test
@@ -81,17 +75,14 @@ public class FieldsWidthAndMarginAT extends AutoTestBase {
             super("isFieldWidthSame");
         }
 
+        @Nonnull
         @Override
-        public boolean apply(Driver driver, WebElement webElement) {
-            return Math.abs(webElement.getRect().getWidth() - WIDTH) < PRECISION_SHIFT;
+        public CheckResult check(@Nonnull Driver driver, WebElement webElement) {
+            boolean result = Math.abs(webElement.getRect().getWidth() - WIDTH) < PRECISION_SHIFT;
+            return new CheckResult(result ? ACCEPT : REJECT, null);
         }
 
-        @Nullable
-        @Override
-        public String actualValue(Driver driver, WebElement element) {
-            return element.getRect().getWidth() + "px";
-        }
-
+        @Nonnull
         @Override
         public String toString() {
             return String.format("with width in (%s - %s)px",
@@ -107,17 +98,14 @@ public class FieldsWidthAndMarginAT extends AutoTestBase {
             this.nextField = nextField;
         }
 
+        @Nonnull
         @Override
-        public boolean apply(Driver driver, WebElement element) {
-            return nextField.getRect().getY() - element.getRect().getY() == MARGIN_BETWEEN_FIELDS;
+        public CheckResult check(@Nonnull Driver driver, WebElement element) {
+            boolean result = nextField.getRect().getY() - element.getRect().getY() == MARGIN_BETWEEN_FIELDS;
+            return new CheckResult(result ? ACCEPT : REJECT, null);
         }
 
-        @Nullable
-        @Override
-        public String actualValue(Driver driver, WebElement element) {
-            return nextField.getRect().getY() - element.getRect().getY() + "px";
-        }
-
+        @Nonnull
         @Override
         public String toString() {
             return String.format("with margin: %spx", MARGIN_BETWEEN_FIELDS);

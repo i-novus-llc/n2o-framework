@@ -5,7 +5,7 @@
         <datasource query-id="test"/>
         <columns>
             <column text-field-id="id"/>
-            <column text-field-id="name" sorting-direction="desc"/>
+            <column text-field-id="full.name" sorting-direction="desc"/>
         </columns>
     </table>
 </simple-page>

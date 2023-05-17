@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Шаг1",
+    "stage": "Разрешение на строительство",
+    "status": "complete"
+  },
+  {
+    "title": "Шаг2",
+    "stage": "Общие показатели",
+    "status": "complete"
+  },
+  {
+    "title": "Шаг3",
+    "stage": "Соответствие требованиям",
+    "status": "in progress"
+  },
+  {
+    "title": "Шаг4",
+    "stage": "Документы",
+    "status": "not started"
+  }
+]

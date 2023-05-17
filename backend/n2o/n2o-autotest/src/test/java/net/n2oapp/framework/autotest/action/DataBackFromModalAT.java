@@ -37,6 +37,7 @@ public class DataBackFromModalAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/action/data_back_from_modal");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/data_back_from_modal/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/data_back_from_modal/modal.page.xml"),
@@ -81,9 +82,10 @@ public class DataBackFromModalAT extends AutoTestBase {
         StandardField inputField = modal.content(SimplePage.class).widget(FormWidget.class)
                 .fields().field("Поле ввода, данные из которого должны отобразиться на странице");
         inputField.shouldExists();
-        inputField.control(InputText.class).val("test message");
+        inputField.control(InputText.class).click();
+        inputField.control(InputText.class).setValue("test message");
         inputField.control(InputText.class).shouldHaveValue("test message");
-        modal.toolbar().bottomLeft().button("Сохранить").click();
+        modal.toolbar().bottomRight().button("Сохранить").click();
         testField.control(InputText.class).shouldHaveValue("test message");
     }
 }

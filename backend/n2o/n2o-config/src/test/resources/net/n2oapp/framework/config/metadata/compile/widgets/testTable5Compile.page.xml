@@ -1,0 +1,73 @@
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="filtersDs" query-id="utBlank"/>
+    </datasources>
+
+    <regions>
+        <table fetch-on-init="false" checkboxes="true" check-on-select="true"
+               height="200px" width="400px" text-wrap="false">
+            <datasource query-id="testTable5Compile" object-id="utBlank"/>
+            <actions>
+                <action id="testAction">
+                    <invoke operation-id="update"/>
+                </action>
+                <action id="testAction3">
+                    <invoke operation-id="update"/>
+                </action>
+                <action id="testAction2">
+                    <invoke operation-id="update"/>
+                </action>
+            </actions>
+            <toolbar>
+                <button icon="icon" label="label" action-id="testAction" class="className"
+                        style="padding-top: 0; page-break-before: avoid;"/>
+                <sub-menu style="padding-top: 0; page-break-before: avoid;">
+                    <menu-item action-id="testAction2" style="padding-top: 0; page-break-before: avoid;"/>
+                </sub-menu>
+                <button id="but">
+                    <invoke operation-id="update"/>
+                </button>
+            </toolbar>
+            <toolbar place="bottomRight">
+                <group>
+                    <button action-id="testAction3"/>
+                </group>
+            </toolbar>
+            <columns>
+                <column text-field-id="id" hide-on-blur="true" src="MyTableHeader" class="my-table-header"
+                        style="color: red">
+                    <text format="password" style="margin-left:10px">
+                        <switch value-field-id="test">
+                            <case value="1">css1</case>
+                            <case value="2">css2</case>
+                            <default>css3</default>
+                        </switch>
+                    </text>
+                </column>
+                <column text-field-id="name"/>
+                <column label="home">
+                    <toolbar>
+                        <button/>
+                    </toolbar>
+                </column>
+                <column label="bell"/>
+                <column label="label" text-field-id="textFieldId"/>
+                <column id="id" text-field-id="textFieldId"/>
+                <column label="label" id="id" text-field-id="textFieldId"/>
+            </columns>
+            <rows class="red"/>
+            <filters place="left" datasource="filtersDs">
+                <input-text id="name" required="true"/>
+            </filters>
+
+            <dependencies>
+                <visibility datasource="filtersDs" model="filter">
+                    name == 'test1'
+                </visibility>
+                <enabling datasource="filtersDs" model="filter">
+                    name == 'test2'
+                </enabling>
+            </dependencies>
+        </table>
+    </regions>
+</page>

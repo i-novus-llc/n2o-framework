@@ -45,7 +45,7 @@ public class ProtoPage {
     }
 
     public void tableCellShouldHaveText(int row, int col, String text) {
-        getTable().columns().rows().row(row).cell(col).textShouldHave(text);
+        getTable().columns().rows().row(row).cell(col).shouldHaveText(text);
     }
 
     public void tableCellShouldHaveText(int col, String text) {
@@ -57,11 +57,11 @@ public class ProtoPage {
     }
 
     public void searchClients() {
-        getTable().filters().search();
+        getTable().filters().toolbar().button("Найти").click();
     }
 
     public void resetFilter() {
-        getTable().filters().clear();
+        getTable().filters().toolbar().button("Сбросить").click();
     }
 
     public TableSimpleHeader getSurnameHeader() {
@@ -97,15 +97,18 @@ public class ProtoPage {
     }
 
     public void setBirthdayStartFilter(String value) {
-        getFilterFields().field("Дата рождения").control(DateInterval.class).beginVal(value);
+        getFilterFields().field("Дата рождения").control(DateInterval.class).setValueInBegin(value);
     }
 
     public void setBirthdayEndFilter(String value) {
-        getFilterFields().field("Дата рождения").control(DateInterval.class).endVal(value);
+        getFilterFields().field("Дата рождения").control(DateInterval.class).setValueInEnd(value);
     }
 
     public void getGenderColumnShouldHaveTexts(List<String> values) {
-        getTable().columns().rows().columnShouldHaveTexts(5, values);
+        if (values.size() == 0)
+            getTable().columns().rows().columnShouldBeEmpty(5);
+        else
+            getTable().columns().rows().columnShouldHaveTexts(5, values);
     }
 
     public List<String> getSurnameColumn() {
@@ -121,11 +124,11 @@ public class ProtoPage {
     }
 
     public void currentPageShouldBe(String label) {
-        getTable().paging().activePageShouldBe(label);
+        getTable().paging().shouldHaveActivePage(label);
     }
 
     public void tableShouldHavePage(String number) {
-        getTable().paging().pagingShouldHave(number);
+        getTable().paging().shouldHavePageNumber(number);
     }
 
     public void selectPage(String number) {
@@ -137,7 +140,7 @@ public class ProtoPage {
     }
 
     public void clientsCountShouldBe(int count) {
-        getTable().paging().totalElementsShouldBe(count);
+        getTable().paging().shouldHaveTotalElements(count);
     }
 
     public ProtoClient clickSurnameCell(int row) {
@@ -253,7 +256,7 @@ public class ProtoPage {
     }
 
     public void contactsListShouldHaveText(int index, String text) {
-        getContacts().content(index).body(TextCell.class).textShouldHave(text);
+        getContacts().content(index).body(TextCell.class).shouldHaveText(text);
     }
 
     public void contactsListShouldHaveSize(int size) {

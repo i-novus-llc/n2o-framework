@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
+import static net.n2oapp.framework.api.StringUtils.hasLink;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileAction;
 
 /**
@@ -33,7 +34,10 @@ public class MarkdownCompiler extends FieldCompiler<Markdown, N2oMarkdown> {
     @Override
     public Markdown compile(N2oMarkdown source, CompileContext<?, ?> context, CompileProcessor p) {
         Markdown field = new Markdown();
-        field.setContent(p.resolveJS(source.getContent()));
+        String content = source.getContent();
+        if (hasLink(content))
+            content = content.replace("'", "\\\'");
+        field.setContent(p.resolveJS(content.trim()));
         if (!ArrayUtils.isEmpty(source.getActionIds())) {
             MetaActions metaActions = p.getScope(MetaActions.class);
             field.setActions(new HashMap<>());

@@ -16,11 +16,11 @@ public class N2oButtonField extends N2oField implements ButtonField {
     }
 
     @Override
-    public void shouldNotBeEnabled() {
+    public void shouldBeDisabled() {
         btn().shouldBe(Condition.disabled);
     }
 
-    private SelenideElement btn() {
+    protected SelenideElement btn() {
         return element().$(".btn");
     }
 

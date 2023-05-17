@@ -33,9 +33,8 @@ export default function withAutoSave(WrappedComponent) {
         }),
     }
 
-    return connect((state, { meta }) => {
-        const { form } = meta
-        const datasource = makeDatasourceIdSelector(form)(state)
+    return connect((state, { form }) => {
+        const datasource = makeDatasourceIdSelector(form)(state) || form
 
         return { datasource }
     })(SaveFieldSubmitToDatasource)

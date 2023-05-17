@@ -19,9 +19,8 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
     }
 
     @Override
-    public void val(String value) {
-        element().click();
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+    public void setValue(String value) {
+        inputElement().setValue(value);
     }
 
     @Override
@@ -31,18 +30,17 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     @Override
     public void clear() {
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+        inputElement().clear();
     }
 
     @Override
-    public void addTag(String value) {
-        val(value);
-        inputElement().sendKeys(Keys.chord(Keys.ENTER));
+    public void enter() {
+        inputElement().sendKeys(Keys.ENTER);
     }
 
     @Override
     public void removeTag(String value) {
-        element().$$(".selected-item").findBy(Condition.text(value)).$("button").click();
+        selectedItems().findBy(Condition.text(value)).$("button").click();
     }
 
     @Override
@@ -52,27 +50,33 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     @Override
     public void shouldHaveTags(String... tags) {
-        ElementsCollection items = element().$$(".selected-item");
-        items.shouldHave(CollectionCondition.size(tags.length));
-        items.shouldHave(CollectionCondition.texts(tags));
+        selectedItems().shouldHave(CollectionCondition.size(tags.length), CollectionCondition.texts(tags));
     }
 
     @Override
     public void shouldHaveDropdownOptions(String... values) {
-        element().parent().$$(".n2o-dropdown-control .text-cropped").shouldHave(CollectionCondition.texts(values));
+        dropdownOptions().shouldHave(CollectionCondition.texts(values));
     }
 
     @Override
     public void shouldNotHaveDropdownOptions() {
-        element().parent().$$(".n2o-dropdown-control .text-cropped").shouldHave(CollectionCondition.size(0));
+        dropdownOptions().shouldHave(CollectionCondition.size(0));
     }
 
     @Override
     public void chooseDropdownOption(String value) {
-        element().parent().$$(".n2o-dropdown-control button").find(Condition.text(value)).shouldBe(Condition.exist).click();
+        dropdownOptions().find(Condition.text(value)).click();
     }
 
-    private SelenideElement inputElement() {
+    protected SelenideElement inputElement() {
         return element().$(".n2o-inp");
+    }
+
+    protected ElementsCollection selectedItems() {
+        return element().$$(".selected-item");
+    }
+
+    protected ElementsCollection dropdownOptions() {
+        return element().parent().$$(".n2o-dropdown-control button");
     }
 }

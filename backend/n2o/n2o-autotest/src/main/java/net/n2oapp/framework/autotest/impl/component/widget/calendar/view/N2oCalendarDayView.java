@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.widget.calendar.view;
 
+import com.codeborne.selenide.ClickOptions;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarDayView;
 
 /**
@@ -15,7 +16,7 @@ public class N2oCalendarDayView extends N2oCalendarTimeView implements CalendarD
             cellIdx++;
 
         element().$$(".rbc-time-content .rbc-day-slot").get(resourceIndex)
-                .$$(".calendar__cell").get(cellIdx).click(0,0);
+                .$$(".calendar__cell").get(cellIdx).click(ClickOptions.usingDefaultMethod());
     }
 
     @Override

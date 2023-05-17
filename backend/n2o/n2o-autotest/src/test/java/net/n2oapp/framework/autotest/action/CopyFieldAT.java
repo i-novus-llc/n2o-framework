@@ -54,11 +54,13 @@ public class CopyFieldAT extends AutoTestBase {
         field2.shouldExists();
         field2.shouldBeEmpty();
 
-        field1.val("test1");
+        field1.click();
+        field1.setValue("test1");
         button.click();
         field2.shouldHaveValue("test1");
 
-        field1.val("0");
+        field1.click();
+        field1.setValue("0");
         button.click();
         field2.shouldHaveValue("0");
     }

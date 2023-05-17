@@ -28,8 +28,9 @@ http://n2oapp.net/framework/config/schema/widget-5.0
 |style                  |CSS свойство                             |Стиль виджета                                                             |                                                                                       |
 |name                   |Строка                                   |Наименование виджета                                                      |                                                                                       |
 |icon                   |[CSS класс](http://fontawesome.io/icons/)|Иконка виджета                                                            |                                                                                       |
-|datasource             |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных для виджета                   |                                                                                       |
+|datasource             |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных для виджета              |                                                                                       |
 |fetch-on-init          |true false                               |Получение данных при инициализации                                        |                                                                                       |
+|fetch-on-visibility    |true false                               |Получение данных при появлении по условию видимости                       |                                                                                       |
 |visible                |true false                               |Видимость виджета                                                         |                                                                                       |
 |auto-focus             |true false                               |Автоматическая установка фокуса на виджете                                |false                                                                                  |
 
@@ -584,36 +585,25 @@ Java Script выражение
 
 **Атрибуты**
 
-|Наименование    |Тип                                                                    |Описание                                                       |Значение по умолчанию   |
-|----------------|-----------------------------------------------------------------------|---------------------------------------------------------------|------------------------|
-|src             |React компонент                                                        |Реализация паджинации                                          |Pagination              |
-|layout          |bordered flat separated bordered-rounded flat-rounded separated-rounded|Устанавливает представление компонента                         |separated               |
-|prev            |true false                                                             |Показать/скрыть кнопку быстрого перехода на предыдущую страницу|false                   |
-|prev-label      |Строка                                                                 |Текст кнопки "Предыдущая страница"                             |                        |
-|prev-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)             |Иконка кнопки "Предыдущая страница"                            |fa fa-angle-left        |
-|next            |true false                                                             |Показать/скрыть кнопку быстрого перехода на следующую страницу |false                   |
-|next-label      |Строка                                                                 |Текст кнопки "Следующая страница"                              |                        |
-|next-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)             |Иконка кнопки "Следующая страница"                             |fa fa-angle-right       |
-|last            |true false                                                             |Показать/скрыть кнопку быстрого перехода на последнюю страницу |false                   |
-|last-label      |Строка                                                                 |Текст кнопки "Последняя страница"                              |                        |
-|last-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)             |Иконка кнопки "Последняя страница"                             |fa fa-angle-double-right|
-|first           |true false                                                             |Показать/скрыть кнопку быстрого перехода на первую страницу    |true                    |
-|first-label     |Строка                                                                 |Текст кнопки "Первая страница"                                 |                        |
-|first-icon      |[CSS класс](https://fontawesome.ru/all-icons/#directional)             |Иконка кнопки "Первая страница"                                |fa fa-angle-double-left |
-|show-count      |true false                                                             |Показать общее количество записей                              |true                    |
-|show-single-page|true false                                                             |Показать пагинацию на единственной странице                    |false                   |
-|max-pages       |Число                                                                  |Максимальное кол-во кнопок перехода между страницами           |5                       |
-|place           |topLeft topRight bottomLeft bottomRight topCenter bottomCenter         |Место расположения пагинации                                   |bottomLeft              |
-|class           |Строка                                                                 |CSS класс, который будет добавлен к пагинации                  |                        |
-|style           |CSS свойство                                                           |Стиль пагинации                                                |                        |
+|Наименование    |Тип                                                                    |Описание                                                       |Значение по умолчанию                         |
+|----------------|-----------------------------------------------------------------------|---------------------------------------------------------------|----------------------------------------------|
+|src             |React компонент                                                        |Реализация паджинации                                          |Pagination                                    |
+|prev            |true false                                                             |Показать/скрыть кнопку быстрого перехода на предыдущую страницу|false                                         |
+|prev-label      |Строка                                                                 |Текст кнопки "Предыдущая страница"                             |                                              |
+|prev-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)             |Иконка кнопки "Предыдущая страница"                            |fa fa-angle-left                              |
+|next            |true false                                                             |Показать/скрыть кнопку быстрого перехода на следующую страницу |false                                         |
+|next-label      |Строка                                                                 |Текст кнопки "Следующая страница"                              |                                              |
+|next-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)             |Иконка кнопки "Следующая страница"                             |fa fa-angle-right                             |
+|show-last       |true false                                                             |Показать/скрыть кнопку с номером последней страницы.           |true                                          |
+|show-count      |always never by-request                                                |Показать общее количество записей                              |always если show-last="true", never если false|
+|place           |topLeft topRight bottomLeft bottomRight topCenter bottomCenter         |Место расположения пагинации                                   |bottomLeft                                    |
+|class           |Строка                                                                 |CSS класс, который будет добавлен к пагинации                  |                                              |
+|style           |CSS свойство                                                           |Стиль пагинации                                                |                                              |
 
 **Пример**
 
 ```xml
 <pagination
-  layout="separated-rounded"
-  first="true"
-  last="true"
   prev="true"
   next="true"
 />

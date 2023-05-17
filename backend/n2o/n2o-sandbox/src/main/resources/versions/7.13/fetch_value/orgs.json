@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "orgs1",
+    "type": "1"
+  },
+  {
+    "id": 2,
+    "name": "orgs2",
+    "type": "1"
+  },
+  {
+    "id": 3,
+    "name": "orgs3",
+    "type": "2"
+  },
+  {
+    "id": 4,
+    "name": "orgs4",
+    "type": "2"
+  }
+]

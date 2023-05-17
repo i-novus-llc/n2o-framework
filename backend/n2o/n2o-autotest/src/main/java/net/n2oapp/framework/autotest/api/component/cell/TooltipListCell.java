@@ -6,15 +6,35 @@ import net.n2oapp.framework.autotest.api.component.Tooltip;
  * Ячейка с тултипом и раскрывающимся текстовым списком для автотестирования
  */
 public interface TooltipListCell extends Cell {
+
+    /**
+     * Проверка точного соответствия (без учета регистра) текста
+     * @param text ожидаемый текст
+     */
     void shouldHaveText(String text);
 
-    void labelShouldBeDashed();
+    /**
+     * Проверка подчеркнутости заголовока пунктиром
+     */
+    void shouldHaveDashedLabel();
 
-    void labelShouldNotBeDashed();
+    /**
+     * Проверка не подчеркнутости заголовока пунктиром
+     */
+    void shouldNotHaveDashedLabel();
 
+    /**
+     * Наведение мыши на ячейку
+     */
     void hover();
 
+    /**
+     * @return Компонент тултип для автотестирования
+     */
     Tooltip tooltip();
 
+    /**
+     * Клик по ячейке
+     */
     void click();
 }

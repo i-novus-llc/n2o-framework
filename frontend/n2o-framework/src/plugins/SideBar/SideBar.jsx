@@ -12,12 +12,15 @@ import {
 } from 'recompose'
 import { withTranslation } from 'react-i18next'
 import mapProps from 'recompose/mapProps'
+import { connect } from 'react-redux'
 
 import { Logo } from '../Header/SimpleHeader/Logo'
 import { withItemsResolver } from '../withItemsResolver/withItemResolver'
 import { withTitlesResolver } from '../withTitlesResolver/withTitlesResolver'
 import { WithDataSource } from '../../core/datasource/WithDataSource'
 import { WithContextDataSource } from '../WithContextDataSource/WithContextDataSource'
+import { dataSourceModelByPrefixSelector } from '../../ducks/datasource/selectors'
+import { ModelPrefix } from '../../core/datasource/const'
 
 // eslint-disable-next-line import/no-named-as-default
 import SidebarItemContainer from './SidebarItemContainer'
@@ -241,6 +244,11 @@ LogoSection.propTypes = {
     showContent: PropTypes.bool,
 }
 
+const mapStateToProps = (state, { datasource }) => ({
+    datasourceModel:
+        dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state)?.[0] || {},
+})
+
 export default compose(
     withTranslation(),
     setDisplayName('Sidebar'),
@@ -263,5 +271,6 @@ export default compose(
     WithDataSource,
     WithContextDataSource,
     withItemsResolver,
+    connect(mapStateToProps),
     withTitlesResolver,
 )(SideBar)

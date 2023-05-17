@@ -25,7 +25,7 @@ public class N2oRadioCell extends N2oCell implements RadioCell {
         radioElement().shouldNotHave(Condition.cssClass("checked"));
     }
 
-    private SelenideElement radioElement() {
+    protected SelenideElement radioElement() {
         return element().$(".n2o-radio-input");
     }
 }

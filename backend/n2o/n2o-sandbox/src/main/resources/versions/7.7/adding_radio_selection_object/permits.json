@@ -1,0 +1,26 @@
+[
+  {
+    "code": "111-111",
+    "startDate": "2019.08.12",
+    "endDate": "2022.08.12",
+    "projectName": "Проект №1"
+  },
+  {
+    "code": "222-222",
+    "startDate": "2019.08.12",
+    "endDate": "2022.08.12",
+    "projectName": "Проект №2"
+  },
+  {
+    "code": "333-333",
+    "startDate": "2019.08.12",
+    "endDate": "2022.08.12",
+    "projectName": "Проект №3"
+  },
+  {
+    "code": "444-444",
+    "startDate": "2019.08.12",
+    "endDate": "2022.08.12",
+    "projectName": "Проект №4"
+  }
+]

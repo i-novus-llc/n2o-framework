@@ -48,14 +48,16 @@ public class InputTextAT extends AutoTestBase {
 
         input.shouldHavePlaceholder("Введите текст");
         input.shouldBeEmpty();
-        input.val("test-value");
+        input.click();
+        input.setValue("test-value");
         input.shouldHaveValue("test-value");
         // превышение указанной длины
-        input.val("test1test2test3");
+        input.click();
+        input.setValue("test1test2test3");
         input.shouldHaveValue("test1test2");
         // проверка меры измерения
         input.shouldHaveMeasure();
-        input.measureShouldHaveText("шт.");
+        input.shouldHaveMeasureText("шт.");
     }
 
     @Test
@@ -70,7 +72,8 @@ public class InputTextAT extends AutoTestBase {
         input.shouldExists();
 
         input.shouldHaveValue("5");
-        input.val("10");
+        input.click();
+        input.setValue("10");
         input.shouldHaveValue("10");
         // проверка работы кнопок (+step, -step)
         input.clickPlusStepButton();
@@ -78,15 +81,17 @@ public class InputTextAT extends AutoTestBase {
         input.clickMinusStepButton();
         input.shouldHaveValue("10");
         // проверка, что значение, измененное кнопками не выходит за границу
-        input.val("99");
+        input.click();
+        input.setValue("99");
         input.clickPlusStepButton();
         input.shouldHaveValue("99");
-        input.val("-99");
+        input.click();
+        input.setValue("-99");
         input.clickMinusStepButton();
         input.shouldHaveValue("-99");
         // проверка меры измерения
         input.shouldHaveMeasure();
-        input.measureShouldHaveText("cm");
+        input.shouldHaveMeasureText("cm");
     }
 
     @Test
@@ -100,7 +105,8 @@ public class InputTextAT extends AutoTestBase {
                 .control(InputText.class);
         input.shouldExists();
 
-        input.val("7.7");
+        input.click();
+        input.setValue("7.7");
         input.shouldHaveValue("7.7");
         // проверка работы кнопок (+step, -step)
         input.clickPlusStepButton();
@@ -108,10 +114,12 @@ public class InputTextAT extends AutoTestBase {
         input.clickMinusStepButton();
         input.shouldHaveValue("7.7");
         // проверка, что значение, измененное кнопками не выходит за границу
-        input.val("9.9");
+        input.click();
+        input.setValue("9.9");
         input.clickPlusStepButton();
         input.shouldHaveValue("9.9");
-        input.val("-9.9");
+        input.click();
+        input.setValue("-9.9");
         input.clickMinusStepButton();
         input.shouldHaveValue("-9.9");
     }
@@ -127,14 +135,16 @@ public class InputTextAT extends AutoTestBase {
                 .control(InputText.class);
         input.shouldExists();
         input.shouldHaveValue("1.3333");
-        input.val("9.99999999");
+        input.click();
+        input.setValue("9.99999999");
         input.shouldHaveValue("9.9999");
 
         input = page.widget(FormWidget.class).fields().field("integer")
                 .control(InputText.class);
         input.shouldExists();
         input.shouldHaveValue("5");
-        input.val("9.99");
+        input.click();
+        input.setValue("9.99");
         input.shouldHaveValue("999");
     }
 

@@ -29,6 +29,7 @@ public class BadgeCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
+        setJsonPath("net/n2oapp/framework/autotest/cells");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/badge/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
@@ -51,10 +52,10 @@ public class BadgeCellAT extends AutoTestBase {
     public void badgeCellTest() {
         int col = 0;
 
-        rows.row(0).cell(col, BadgeCell.class).textShouldHave("Male");
-        rows.row(0).cell(col, BadgeCell.class).colorShouldBe(Colors.DANGER);
-        rows.row(3).cell(col, BadgeCell.class).textShouldHave("Female");
-        rows.row(3).cell(col, BadgeCell.class).colorShouldBe(Colors.SUCCESS);
+        rows.row(0).cell(col, BadgeCell.class).badgeShouldHaveText("Male");
+        rows.row(0).cell(col, BadgeCell.class).shouldHaveColor(Colors.DANGER);
+        rows.row(3).cell(col, BadgeCell.class).badgeShouldHaveText("Female");
+        rows.row(3).cell(col, BadgeCell.class).shouldHaveColor(Colors.SUCCESS);
     }
 
 }

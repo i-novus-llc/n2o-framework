@@ -42,6 +42,7 @@ public class TableWithChildrenAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/with_children");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/modal.page.xml"),
@@ -52,7 +53,7 @@ public class TableWithChildrenAT extends AutoTestBase {
     public void testTable() {
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
-        table.paging().totalElementsShouldBe(4);
+        table.paging().shouldHaveTotalElements(4);
         table.columns().rows().shouldHaveSize(10);
 
         table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "11", "12", "13", "2", "21", "22", "23", "3", "4"));
@@ -69,19 +70,19 @@ public class TableWithChildrenAT extends AutoTestBase {
         table.columns().rows().row(0).cell(0).shouldBeExpanded();
         table.columns().rows().row(4).cell(0).shouldBeExpanded();
 
-        table.columns().rows().row(0).cell(0).clickExpand();
-        table.columns().rows().row(0).cell(0).shouldNotBeExpanded();
+        table.columns().rows().row(0).cell(0).expand();
+        table.columns().rows().row(0).cell(0).shouldBeCollapsed();
         table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "", "", "", "2", "21", "22", "23", "3", "4"));
 
         table.columns().rows().row(4).cell(0).shouldBeExpanded();
-        table.columns().rows().row(4).cell(0).clickExpand();
-        table.columns().rows().row(4).cell(0).shouldNotBeExpanded();
+        table.columns().rows().row(4).cell(0).expand();
+        table.columns().rows().row(4).cell(0).shouldBeCollapsed();
         table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "", "", "", "2", "", "", "", "3", "4"));
 
-        table.columns().rows().row(0).cell(0).clickExpand();
+        table.columns().rows().row(0).cell(0).expand();
         table.columns().rows().row(0).cell(0).shouldBeExpanded();
 
-        table.columns().rows().row(4).cell(0).clickExpand();
+        table.columns().rows().row(4).cell(0).expand();
         table.columns().rows().row(4).cell(0).shouldBeExpanded();
 
         table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "11", "12", "13", "2", "21", "22", "23", "3", "4"));
@@ -91,18 +92,18 @@ public class TableWithChildrenAT extends AutoTestBase {
     public void testRowClickEnabled() {
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
-        table.paging().totalElementsShouldBe(4);
+        table.paging().shouldHaveTotalElements(4);
         table.columns().rows().shouldHaveSize(10);
 
         Cells parentRow = table.columns().rows().row(0);
-        parentRow.cell(1).textShouldHave("test1");
+        parentRow.cell(1).shouldHaveText("test1");
         parentRow.shouldNotBeClickable();
         Modal modal = N2oSelenide.modal();
         parentRow.click();
         modal.shouldNotExists();
 
         Cells childrenRow = table.columns().rows().row(1);
-        childrenRow.cell(1).textShouldHave("name11");
+        childrenRow.cell(1).shouldHaveText("name11");
         childrenRow.shouldBeClickable();
         childrenRow.click();
         modal.shouldExists();

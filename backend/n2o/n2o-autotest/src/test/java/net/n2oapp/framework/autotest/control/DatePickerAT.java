@@ -50,10 +50,10 @@ public class DatePickerAT extends AutoTestBase {
         date.shouldExists();
         date.shouldBeEmpty();
         date.shouldHavePlaceholder("Введите дату");
-        date.shouldBeCollapsed();
-        date.expand();
-        date.shouldBeExpanded();
-        date.val("15.02.2020");
+        date.shouldBeClosed();
+        date.openPopup();
+        date.shouldBeOpened();
+        date.setValue("15.02.2020");
         date.shouldHaveValue("15.02.2020");
         date.clickCalendarButton();
         date.shouldBeActiveDay("15");
@@ -64,11 +64,11 @@ public class DatePickerAT extends AutoTestBase {
         date.shouldNotBeDisableDay("20");
         // проверка клика по дню
         date.clickDay("12");
-        date.shouldBeCollapsed();
+        date.shouldBeClosed();
         date.shouldHaveValue("12.02.2020");
         // проверка месяцев и переход к предыдущему/следующему месяцу
         date.clickCalendarButton();
-        date.shouldBeExpanded();
+        date.shouldBeOpened();
         date.shouldHaveCurrentMonth("Февраль");
         date.shouldHaveCurrentYear("2020");
         date.clickPreviousMonthButton();
@@ -78,9 +78,9 @@ public class DatePickerAT extends AutoTestBase {
         date.clickNextMonthButton();
         date.shouldHaveCurrentMonth("Январь");
         // проверка, что значения, выходящие за границы min/max, не вводятся
-        date.val("05.02.2020");
+        date.setValue("05.02.2021");
         date.shouldHaveValue("12.02.2020");
-        date.val("25.02.2020");
+        date.setValue("25.02.2020");
         date.shouldHaveValue("12.02.2020");
     }
 
@@ -89,11 +89,11 @@ public class DatePickerAT extends AutoTestBase {
         DateInput date = page.widget(FormWidget.class).fields().field("Date2")
                 .control(DateInput.class);
         date.shouldExists();
-        date.shouldBeCollapsed();
+        date.shouldBeClosed();
         date.shouldHaveValue("01/01/2020 00:00:00");
-        date.expand();
-        date.shouldBeExpanded();
-        date.val("15/02/2020 10:20:15");
+        date.openPopup();
+        date.shouldBeOpened();
+        date.setValue("15/02/2020 10:20:15");
         date.shouldHaveValue("15/02/2020 10:20:15");
         date.clickCalendarButton();
         date.timeVal("23", "59", "58");

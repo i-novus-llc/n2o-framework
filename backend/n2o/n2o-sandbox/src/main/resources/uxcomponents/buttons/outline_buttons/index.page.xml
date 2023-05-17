@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Контурные кнопки">
+    <form>
+        <toolbar>
+            <button label="Primary" color="outline-primary"/>
+            <button label="Secondary" color="outline-secondary"/>
+            <button label="Success" color="outline-success"/>
+            <button label="Danger" color="outline-danger"/>
+            <button label="Warning" color="outline-warning"/>
+            <button label="Info" color="outline-info"/>
+            <button label="Light" color="outline-light"/>
+            <button label="Dark" color="outline-dark"/>
+            <button label="Link" color="outline-link"/>
+        </toolbar>
+    </form>
+</simple-page>

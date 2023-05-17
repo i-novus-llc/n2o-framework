@@ -14,6 +14,10 @@
         <relativePath>..</relativePath>
     </parent>
 
+    <properties>
+        <selenide.version>6.6.0</selenide.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -53,10 +57,17 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>5.25.1</version>
+            <version>${selenide.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide-clear-with-shortcut</artifactId>
+            <version>${selenide.version}</version>
         </dependency>
 
         <dependency>

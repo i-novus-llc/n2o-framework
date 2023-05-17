@@ -38,7 +38,9 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testAutoComplete() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
+                        new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -47,22 +49,28 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.shouldExists();
 
         autoComplete.shouldBeEmpty();
-        autoComplete.val("c");
+        autoComplete.setValue("c");
         autoComplete.shouldHaveValue("c");
         autoComplete.shouldHaveDropdownOptions("abc", "ccc");
         autoComplete.chooseDropdownOption("ccc");
         autoComplete.shouldHaveValue("ccc");
-        autoComplete.val("ab");
+        autoComplete.click();
+        autoComplete.clear();
+        autoComplete.setValue("ab");
         autoComplete.shouldHaveDropdownOptions("abc");
         autoComplete.chooseDropdownOption("abc");
         autoComplete.shouldHaveValue("abc");
-        autoComplete.val("d");
+        autoComplete.click();
+        autoComplete.clear();
+        autoComplete.setValue("d");
         autoComplete.shouldNotHaveDropdownOptions();
     }
 
     @Test
     public void testTags() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -70,15 +78,20 @@ public class AutoCompleteAT extends AutoTestBase {
                 .control(AutoComplete.class);
         autoComplete.shouldExists();
 
-        autoComplete.addTag("item1");
+        autoComplete.click();
+        autoComplete.setValue("item1");
+        autoComplete.enter();
         autoComplete.shouldHaveTags("item1");
 
-        autoComplete.val("ab");
+        autoComplete.click();
+        autoComplete.setValue("ab");
         autoComplete.shouldHaveDropdownOptions("abc");
         autoComplete.chooseDropdownOption("abc");
         autoComplete.shouldHaveTags("item1", "abc");
 
-        autoComplete.addTag("item2");
+        autoComplete.click();
+        autoComplete.setValue("item2");
+        autoComplete.enter();
         autoComplete.shouldHaveTags("item1", "abc", "item2");
 
         autoComplete.removeTag("item1");
@@ -86,10 +99,25 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.shouldHaveTags("abc");
         autoComplete.removeTag("abc");
         autoComplete.shouldBeEmpty();
+
+        autoComplete = page.widget(FormWidget.class).fields().field("AutoComplete3")
+                .control(AutoComplete.class);
+        autoComplete.click();
+        autoComplete.setValue("Ив");
+        autoComplete.chooseDropdownOption("Иванов П.И.");
+        autoComplete.click();
+        autoComplete.setValue("К.Л.");
+        autoComplete.chooseDropdownOption("Иванченко К.Л.");
+        autoComplete.click();
+        autoComplete.setValue("Иванов К.Л.");
+        autoComplete.chooseDropdownOption("Иванов К.Л.");
+        autoComplete.shouldHaveTags("Иванов П.И...", "Иванченко ...", "Иванов К.Л...");
+
     }
 
     @Test
     public void testPrefilters() {
+        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete/pre_filters");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/pre_filters/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/pre_filters/test.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -104,18 +132,21 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.shouldBeEmpty();
         autoComplete.click();
         autoComplete.shouldHaveDropdownOptions("test1", "test2", "test3");
-        autoComplete.val("2");
+        autoComplete.click();
+        autoComplete.setValue("2");
         autoComplete.shouldHaveDropdownOptions("test2");
 
-        select.select(1);
+        select.openPopup();
+        select.dropdown().selectItem(1);
         select.shouldHaveValue("type2");
-        autoComplete.val("test");
+        autoComplete.click();
+        autoComplete.setValue("test");
         autoComplete.shouldHaveDropdownOptions("test4", "test5");
 
         select.clear();
         autoComplete.click();
         autoComplete.shouldHaveDropdownOptions("test1", "test2", "test3", "test4", "test5", "test6");
-        autoComplete.val("3");
+        autoComplete.setValue("3");
         autoComplete.shouldHaveDropdownOptions("test3");
     }
 }

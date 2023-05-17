@@ -45,6 +45,7 @@ public class FormSubmitAT extends AutoTestBase {
 
     @Test
     public void testSubmit() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/form/submit");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit/test.object.xml"));
@@ -63,12 +64,13 @@ public class FormSubmitAT extends AutoTestBase {
         select.shouldHaveValue("Мужской");
 
         DateInterval dateInterval = fields.field("Даты отпуска").control(DateInterval.class);
-        dateInterval.shouldBeCollapsed();
+        dateInterval.shouldBeClosed();
         dateInterval.beginShouldHaveValue("15.01.2020");
         dateInterval.endShouldHaveValue("30.01.2020");
 
         // изменяем обычное текстовое поле
-        inputText.val("Ann");
+        inputText.click();
+        inputText.setValue("Ann");
         // обновляем страницу и проверяем значения всех полей
         // ожидание отправки поля
         Selenide.sleep(DELAY);
@@ -76,47 +78,49 @@ public class FormSubmitAT extends AutoTestBase {
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Мужской");
-        dateInterval.shouldBeCollapsed();
+        dateInterval.shouldBeClosed();
         dateInterval.beginShouldHaveValue("15.01.2020");
         dateInterval.endShouldHaveValue("30.01.2020");
 
         // изменяем списковое поле
-        select.select(1);
+        select.openPopup();
+        select.dropdown().selectItem(1);
         Selenide.sleep(DELAY);
         select.shouldHaveValue("Женский");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");
-        dateInterval.shouldBeCollapsed();
+        dateInterval.shouldBeClosed();
         dateInterval.beginShouldHaveValue("15.01.2020");
         dateInterval.endShouldHaveValue("30.01.2020");
 
         // изменяем интервальное поле
-        dateInterval.beginVal("18.01.2020");
-        dateInterval.shouldBeExpanded();
+        dateInterval.setValueInBegin("18.01.2020");
+        dateInterval.shouldBeOpened();
         Selenide.sleep(DELAY);
         dateInterval.beginShouldHaveValue("18.01.2020");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");
-        dateInterval.shouldBeCollapsed();
+        dateInterval.shouldBeClosed();
         dateInterval.beginShouldHaveValue("18.01.2020");
         dateInterval.endShouldHaveValue("30.01.2020");
 
-        dateInterval.endVal("24.01.2020");
-        dateInterval.shouldBeExpanded();
+        dateInterval.setValueInEnd("24.01.2020");
+        dateInterval.shouldBeOpened();
         Selenide.sleep(DELAY);
         dateInterval.endShouldHaveValue("24.01.2020");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");
-        dateInterval.shouldBeCollapsed();
+        dateInterval.shouldBeClosed();
         dateInterval.beginShouldHaveValue("18.01.2020");
         dateInterval.endShouldHaveValue("24.01.2020");
     }
 
     @Test
     public void testModalSubmit() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/form/submit_modal");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit_modal/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit_modal/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit_modal/test.query.xml"),
@@ -129,8 +133,8 @@ public class FormSubmitAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(3);
 
         Cells row = table.columns().rows().row(1);
-        row.cell(1).textShouldHave("test2");
-        row.cell(2).textShouldHave("20");
+        row.cell(1).shouldHaveText("test2");
+        row.cell(2).shouldHaveText("20");
 
         // открываем модальную страницу для второй записи
         row.click();
@@ -145,23 +149,25 @@ public class FormSubmitAT extends AutoTestBase {
         age.shouldHaveValue("20");
 
         // меняем имя и ждем отправки значения
-        name.val("test123");
+        name.click();
+        name.setValue("test123");
         Selenide.sleep(500);
         modalForm.toolbar().bottomRight().button("Закрыть").click();
 
-        row.cell(1).textShouldHave("test123");
-        row.cell(2).textShouldHave("20");
+        row.cell(1).shouldHaveText("test123");
+        row.cell(2).shouldHaveText("20");
 
         // открываем модальную страницу для второй записи
         row.click();
         btn.click();
 
         // меняем возраст и ждем отправки значения
-        age.val("99");
+        age.click();
+        age.setValue("99");
         Selenide.sleep(500);
         modalForm.toolbar().bottomRight().button("Закрыть").click();
 
-        row.cell(1).textShouldHave("test123");
-        row.cell(2).textShouldHave("99");
+        row.cell(1).shouldHaveText("test123");
+        row.cell(2).shouldHaveText("99");
     }
 }

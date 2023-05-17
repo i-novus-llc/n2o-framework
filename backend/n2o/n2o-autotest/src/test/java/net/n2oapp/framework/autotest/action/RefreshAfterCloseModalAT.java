@@ -20,8 +20,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Configuration.timeout;
-
 /**
  * Автотест для обновления виджета после закрытия модального окна
  */
@@ -49,6 +47,7 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
 
     @Test
     public void testModal() {
+        setJsonPath("net/n2oapp/framework/autotest/action/close/refresh/modal");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal/test.object.xml"));
 
@@ -72,46 +71,51 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         InputText inputText = modalForm.fields().field("name").control(InputText.class);
 
         // close by button
-        inputText.val("new1");
+        inputText.click();
+        inputText.setValue("new1");
         saveBtn.click();
         closeBtn.click();
 
         rows.shouldHaveSize(5);
-        rows.row(0).cell(1).textShouldHave("new1");
+        rows.row(0).cell(1).shouldHaveText("new1");
 
         // close by cross icon
         modalBtn.click();
         modalPage.shouldExists();
-        inputText.val("new2");
+        inputText.click();
+        inputText.setValue("new2");
         saveBtn.click();
         modalPage.close();
 
         rows.shouldHaveSize(6);
-        rows.row(0).cell(1).textShouldHave("new2");
+        rows.row(0).cell(1).shouldHaveText("new2");
 
         // close by ESC button
         modalBtn.click();
         modalPage.shouldExists();
-        inputText.val("new3");
+        inputText.click();
+        inputText.setValue("new3");
         saveBtn.click();
         modalPage.closeByEsc();
 
         rows.shouldHaveSize(7);
-        rows.row(0).cell(1).textShouldHave("new3");
+        rows.row(0).cell(1).shouldHaveText("new3");
 
         // close by click backdrop
         modalBtn.click();
         modalPage.shouldExists();
-        inputText.val("new4");
+        inputText.click();
+        inputText.setValue("new4");
         saveBtn.click();
         modalPage.clickBackdrop();
 
         rows.shouldHaveSize(8);
-        rows.row(0).cell(1).textShouldHave("new4");
+        rows.row(0).cell(1).shouldHaveText("new4");
     }
 
     @Test
     public void testDrawer() {
+        setJsonPath("net/n2oapp/framework/autotest/action/close/refresh/drawer");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/drawer/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/drawer/test.object.xml"));
 
@@ -135,41 +139,45 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         InputText inputText = modalForm.fields().field("name").control(InputText.class);
 
         // close by button
-        inputText.val("new1");
+        inputText.click();
+        inputText.setValue("new1");
         saveBtn.click();
         closeBtn.click();
 
         rows.shouldHaveSize(5);
-        rows.row(0).cell(1).textShouldHave("new1");
+        rows.row(0).cell(1).shouldHaveText("new1");
 
         // close by cross icon
         drawerBtn.click();
         drawerPage.shouldExists();
-        inputText.val("new2");
+        inputText.click();
+        inputText.setValue("new2");
         saveBtn.click();
         drawerPage.close();
 
         rows.shouldHaveSize(6);
-        rows.row(0).cell(1).textShouldHave("new2");
+        rows.row(0).cell(1).shouldHaveText("new2");
 
         // close by ESC button
         drawerBtn.click();
         drawerPage.shouldExists();
-        inputText.val("new3");
+        inputText.click();
+        inputText.setValue("new3");
         saveBtn.click();
         drawerPage.closeByEsc();
 
         rows.shouldHaveSize(7);
-        rows.row(0).cell(1).textShouldHave("new3");
+        rows.row(0).cell(1).shouldHaveText("new3");
 
         // close by click backdrop
         drawerBtn.click();
         drawerPage.shouldExists();
-        inputText.val("new4");
+        inputText.click();
+        inputText.setValue("new4");
         saveBtn.click();
         drawerPage.clickBackdrop();
 
         rows.shouldHaveSize(8);
-        rows.row(0).cell(1).textShouldHave("new4");
+        rows.row(0).cell(1).shouldHaveText("new4");
     }
 }

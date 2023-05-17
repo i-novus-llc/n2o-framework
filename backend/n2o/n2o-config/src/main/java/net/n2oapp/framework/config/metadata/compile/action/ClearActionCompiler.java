@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -29,7 +28,6 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         compileAction(clearAction, source, p);
         clearAction.setType(p.resolve(property("n2o.api.action.clear.type"), String.class));
         clearAction.getPayload().setPrefixes(initPayloadPrefixes(source, p));
-        PageScope pageScope = p.getScope(PageScope.class);
         String datasource = p.cast(source.getDatasourceId(), getLocalDatasourceId(p));
         clearAction.getPayload().setKey(getClientDatasourceId(datasource, p));
         if (Boolean.TRUE.equals(source.getCloseOnSuccess())) {
@@ -41,12 +39,8 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
     }
 
     private String[] initPayloadPrefixes(N2oClearAction source, CompileProcessor p) {
-        String[] prefixes;
-        if (source.getModel() != null)
-            prefixes = source.getModel();
-        else {
-            prefixes = new String[]{getLocalModel(p).getId()};
-        }
-        return prefixes;
+        return source.getModel() != null ?
+                source.getModel() :
+                new String[]{getLocalModel(p).getId()};
     }
 }

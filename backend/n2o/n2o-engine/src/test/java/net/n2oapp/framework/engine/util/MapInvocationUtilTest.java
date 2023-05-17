@@ -11,8 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class MapInvocationUtilTest {
 
@@ -42,6 +41,10 @@ public class MapInvocationUtilTest {
         childMapping.put("codes", childMappingSet);
         childMappingSet.setChildMapping(Map.of("codeValue", new FieldMapping("['value']")));
 
+        FieldMapping nullList = new FieldMapping("['null_list']");
+        nullList.setChildMapping(Map.of("nullChild", new FieldMapping("['null_child']")));
+        mapping.put("null_list", nullList);
+
         DataSet dataSet = new DataSet();
         dataSet.put("id", 1);
         dataSet.put("name", "test");
@@ -54,7 +57,7 @@ public class MapInvocationUtilTest {
         List listItemList = Arrays.asList(new DataSet("ratingValue", 2.34), new DataSet("ratingValue", 5.55));
         DataSet listItem = new DataSet("id", 1);
         listItem.add("ratings", listItemList);
-        List listDataSet = Arrays.asList(listItem);
+        List listDataSet = List.of(listItem);
         dataSet.put("personList", listDataSet);
         // set in list
         DataList listItemSet = new DataList();
@@ -63,26 +66,28 @@ public class MapInvocationUtilTest {
         listItem.add("codes", listItemSet);
 
         Map<String, Object> value = MapInvocationUtil.mapToMap(dataSet, mapping);
-        assertThat(value.size(), is(5));
-        assertThat(value.get("id"), is(1));
-        assertThat(value.get("name"), is("test"));
-        assertThat(value.get("desc"), is("test"));
+        assertEquals(6, value.size());
+        assertEquals(1, value.get("id"));
+        assertEquals("test", value.get("name"));
+        assertEquals("test", value.get("desc"));
         DataSet reference = (DataSet) value.get("reference");
-        assertThat(reference.size(), is(2));
-        assertThat(reference.get("refId"), is(123));
-        assertThat(reference.get("refName"), is("Joe"));
+        assertEquals(2, reference.size());
+        assertEquals(123, reference.get("refId"));
+        assertEquals("Joe", reference.get("refName"));
         List list = (List) value.get("persons");
-        assertThat(list.size(), is(1));
-        assertThat(((DataSet) list.get(0)).size(), is(3));
-        assertThat(((DataSet) list.get(0)).get("personId"), is(1));
+        assertEquals(1, list.size());
+        assertEquals(3, ((DataSet) list.get(0)).size());
+        assertEquals(1, ((DataSet) list.get(0)).get("personId"));
         List personRatings = (List) ((DataSet) list.get(0)).get("personRatings");
-        assertThat(personRatings.size(), is(2));
-        assertThat(((DataSet) personRatings.get(0)).get("value"), is(2.34));
-        assertThat(((DataSet) personRatings.get(1)).get("value"), is(5.55));
+        assertEquals(2, personRatings.size());
+        assertEquals(2.34, ((DataSet) personRatings.get(0)).get("value"));
+        assertEquals(5.55, ((DataSet) personRatings.get(1)).get("value"));
         DataList personCodes = (DataList) ((DataSet) list.get(0)).get("personCodes");
-        assertThat(personCodes.size(), is(2));
-        assertThat(personCodes.contains(new DataSet("value", "code1")), is(true));
-        assertThat(personCodes.contains(new DataSet("value", "code2")), is(true));
+        assertEquals(2, personCodes.size());
+        assertTrue(personCodes.contains(new DataSet("value", "code1")));
+        assertTrue(personCodes.contains(new DataSet("value", "code2")));
+        assertTrue(value.containsKey("null_list"));
+        assertNull(value.get("null_list"));
     }
 
     @Test(expected = N2oSpelException.class)

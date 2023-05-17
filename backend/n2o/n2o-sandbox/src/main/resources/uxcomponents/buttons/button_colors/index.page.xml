@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Цвета кнопок">
+    <form>
+        <toolbar>
+            <button label="Primary" color="primary"/>
+            <button label="Secondary" color="secondary"/>
+            <button label="Success" color="success"/>
+            <button label="Danger" color="danger"/>
+            <button label="Warning" color="warning"/>
+            <button label="Info" color="info"/>
+            <button label="Light" color="light"/>
+            <button label="Dark" color="dark"/>
+            <button label="Link" color="link"/>
+        </toolbar>
+    </form>
+</simple-page>

@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 public class IconCellAT extends AutoTestBase {
 
     private TableWidget.Rows rows;
-    private SimplePage page;
 
     @BeforeAll
     public static void beforeClass() {
@@ -29,11 +28,12 @@ public class IconCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
+        setJsonPath("net/n2oapp/framework/autotest/cells");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/icon/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
 
-        page = open(SimplePage.class);
+        SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
         rows = page.widget(TableWidget.class).columns().rows();
@@ -52,10 +52,10 @@ public class IconCellAT extends AutoTestBase {
     public void iconCellTest() {
         int col = 0;
 
-        rows.row(0).cell(col, IconCell.class).iconShouldBe("fa-phone");
-        rows.row(0).cell(col, IconCell.class).textShouldHave("fa fa-phone");
-        rows.row(3).cell(col, IconCell.class).iconShouldBe("fa-minus");
-        rows.row(3).cell(col, IconCell.class).textShouldHave("fa fa-minus");
+        rows.row(0).cell(col, IconCell.class).shouldHaveIcon("fa-phone");
+        rows.row(0).cell(col, IconCell.class).shouldHaveText("fa fa-phone");
+        rows.row(3).cell(col, IconCell.class).shouldHaveIcon("fa-minus");
+        rows.row(3).cell(col, IconCell.class).shouldHaveText("fa fa-minus");
     }
 
     @Test

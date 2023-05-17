@@ -45,6 +45,7 @@ public class MultiColumnAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/multi_column");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/test.query.xml"));
     }
@@ -76,10 +77,10 @@ public class MultiColumnAT extends AutoTestBase {
         header5.shouldHaveTitle("LastName");
 
         // проверка, что все ячейки корректно заполнены
-        rows.row(0).cell(0).textShouldHave("1");
-        rows.row(0).cell(1).textShouldHave("John");
-        rows.row(0).cell(2).textShouldHave("Smith");
-        rows.row(0).cell(3).textShouldHave("2018.12.31");
+        rows.row(0).cell(0).shouldHaveText("1");
+        rows.row(0).cell(1).shouldHaveText("John");
+        rows.row(0).cell(2).shouldHaveText("Smith");
+        rows.row(0).cell(3).shouldHaveText("2018.12.31");
     }
 
     @Test
@@ -115,18 +116,19 @@ public class MultiColumnAT extends AutoTestBase {
         header7.shouldHaveTitle("LastName");
 
         // проверка, что все ячейки корректно заполнены
-        rows.row(0).cell(0).textShouldHave("1");
-        rows.row(0).cell(1).textShouldHave("John");
-        rows.row(0).cell(2).textShouldHave("Smith");
-        rows.row(0).cell(3).textShouldHave("11-11-11");
-        rows.row(0).cell(4).textShouldHave("2018.12.31");
+        rows.row(0).cell(0).shouldHaveText("1");
+        rows.row(0).cell(1).shouldHaveText("John");
+        rows.row(0).cell(2).shouldHaveText("Smith");
+        rows.row(0).cell(3).shouldHaveText("11-11-11");
+        rows.row(0).cell(4).shouldHaveText("2018.12.31");
 
         // проверка работы фильтруемого столбца внутри мульти-столбца
         header5.openFilterDropdown();
-        header5.filterControl(InputText.class).val("2");
+        header5.filterControl(InputText.class).click();
+        header5.filterControl(InputText.class).setValue("2");
         header5.clickSearchButton();
         rows.shouldHaveSize(1);
-        rows.row(0).cell(0).textShouldHave("2");
+        rows.row(0).cell(0).shouldHaveText("2");
         header5.openFilterDropdown();
         header5.clickResetButton();
         rows.shouldHaveSize(4);

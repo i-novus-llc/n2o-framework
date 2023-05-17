@@ -43,6 +43,8 @@ public class CopyActionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+
+        setJsonPath("net/n2oapp/framework/autotest/action/copy");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/test.query.xml"));
     }
@@ -202,8 +204,10 @@ public class CopyActionAT extends AutoTestBase {
         FormWidget modalForm = modal.content(SimplePage.class).widget(FormWidget.class);
         InputText city = modalForm.fields().field("Город").control(InputText.class);
         InputText street = modalForm.fields().field("Улица").control(InputText.class);
-        city.val("NY");
-        street.val("Wall Street");
+        city.click();
+        city.setValue("NY");
+        street.click();
+        street.setValue("Wall Street");
         StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
         saveBtn.click();
 
@@ -214,7 +218,8 @@ public class CopyActionAT extends AutoTestBase {
         btn.click();
 
         city.shouldBeEmpty();
-        street.val("Broadway");
+        street.click();
+        street.setValue("Broadway");
         saveBtn.click();
 
         address.shouldHaveValue("Broadway");
@@ -249,20 +254,22 @@ public class CopyActionAT extends AutoTestBase {
         form.shouldExists();
 
         InputText inputText = form.fields().field("rpu.name").control(InputText.class);
-        inputText.val("val1");
+        inputText.click();
+        inputText.setValue("val1");
 
         StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
         saveBtn.shouldExists();
         saveBtn.click();
 
         rows.shouldHaveSize(1);
-        rows.row(0).cell(1).textShouldHave("val1");
+        rows.row(0).cell(1).shouldHaveText("val1");
 
         addBtn.click();
         modal.shouldExists();
-        inputText.val("val2");
+        inputText.click();
+        inputText.setValue("val2");
         saveBtn.click();
         rows.shouldHaveSize(2);
-        rows.row(1).cell(1).textShouldHave("val2");
+        rows.row(1).cell(1).shouldHaveText("val2");
     }
 }

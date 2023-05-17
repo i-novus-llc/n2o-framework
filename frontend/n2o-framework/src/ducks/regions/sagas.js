@@ -16,16 +16,23 @@ import { rootPageSelector } from '../global/store'
 import { modelsSelector } from '../models/selectors'
 import { authSelector } from '../user/selectors'
 import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
-import { makeDatasourceIdSelector } from '../widgets/selectors'
+import {
+    makeDatasourceIdSelector,
+    makeWidgetIsInitSelector,
+    makeWidgetFetchOnInit,
+    makeWidgetFetchOnVisibility,
+} from '../widgets/selectors'
 import { registerWidget } from '../widgets/store'
 import { failValidate, dataRequest, resetValidation } from '../datasource/store'
 import { dataSourceErrors } from '../datasource/selectors'
+import { handleTouch } from '../form/store'
 import { evalExpression } from '../../utils/evalExpression'
-import { setModel } from '../models/store'
+import { updateModel } from '../models/store'
+import { ModelPrefix } from '../../core/datasource/const'
 
 import { setActiveRegion, regionsSelector, setTabInvalid, registerRegion } from './store'
 import { MAP_URL } from './constants'
-import { getTabsRegions, checkTabErrors, activeTabHasErrors } from './utils'
+import { getTabsRegions, checkTabErrors, activeTabHasErrors, tabsIncludesId, tabIncludeId } from './utils'
 
 function* mapUrl(value) {
     const rootPageId = yield select(rootPageSelector)
@@ -149,7 +156,7 @@ function* switchTab(action) {
                 yield mapUrl(active)
 
                 if (datasource && activeTabFieldId) {
-                    yield put(setModel('resolve', datasource, { [activeTabFieldId]: active }))
+                    yield put(updateModel(ModelPrefix.active, datasource, activeTabFieldId, active))
                 }
 
                 yield cancel()
@@ -165,7 +172,7 @@ function* switchTab(action) {
                 const { datasource, activeTabFieldId } = currentRegion
 
                 if (datasource && activeTabFieldId) {
-                    yield put(setModel('resolve', datasource, { [activeTabFieldId]: activeEntity }))
+                    yield put(updateModel(ModelPrefix.active, datasource, activeTabFieldId, active))
                 }
             }
         }
@@ -196,11 +203,18 @@ function* lazyFetch(id) {
                 })
             }
         })
-
         for (const widgetId of idsToFetch) {
             const datasource = yield select(makeDatasourceIdSelector(widgetId))
 
-            yield put(dataRequest(datasource))
+            const isInit = yield select(makeWidgetIsInitSelector(widgetId))
+            const fetchOnInit = yield select(makeWidgetFetchOnInit(widgetId))
+            const fetchOnVisibility = yield select(makeWidgetFetchOnVisibility(widgetId))
+
+            const needToFetch = isInit && (fetchOnInit || fetchOnVisibility)
+
+            if (needToFetch) {
+                yield put(dataRequest(datasource))
+            }
         }
 
         idsToFetch.length = 0
@@ -281,14 +295,21 @@ function* validateTabs({ payload, meta, type }) {
     const state = yield select()
     const tabsRegions = getTabsRegions(state)
 
+    if (!tabsIncludesId(id, tabsRegions)) {
+        yield cancel()
+    }
+
     const errors = yield select(dataSourceErrors(id)) || {}
+
     const fieldsWithErrors = Object.keys(errors)
 
     for (const { regionId, tabs } of tabsRegions) {
         for (const { id: tabId, content } of tabs) {
-            const invalid = checkTabErrors(content, fieldsWithErrors)
+            if (tabIncludeId(id, content)) {
+                const invalid = checkTabErrors(content, fieldsWithErrors, id)
 
-            yield put(setTabInvalid(regionId, tabId, invalid))
+                yield put(setTabInvalid(regionId, tabId, invalid))
+            }
         }
     }
 
@@ -309,6 +330,7 @@ export default [
     takeEvery(MAP_URL, mapUrl),
     takeEvery([
         METADATA_SUCCESS,
+        handleTouch,
         registerRegion,
         registerWidget,
         setActiveRegion,

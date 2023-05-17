@@ -8,11 +8,12 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
+import net.n2oapp.framework.api.metadata.meta.Dependency;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.cell.AbstractCell;
 import net.n2oapp.framework.api.metadata.meta.cell.BadgeCell;
 import net.n2oapp.framework.api.metadata.meta.cell.Cell;
@@ -60,19 +61,25 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oRegionsPack(), new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack(), new N2oActionsPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4Compile.query.xml"), new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.query.xml"), new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"), new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"), new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable5Compile.query.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.query.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"));
     }
 
     @Test
     public void testTable() {
-        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4Compile.page.xml").get(new PageContext("testTable4Compile"));
-        Table table = (Table) page.getWidget();
-        assertThat(table.getId(), is("testTable4Compile_main"));
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5Compile.page.xml")
+                .get(new PageContext("testTable5Compile"));
+        Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
+        assertThat(table.getId(), is("testTable5Compile_w1"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().size(), is(3));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getId(), is("testAction"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("paddingTop"), is("0"));
-        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getId(), is("testTable4Compile_mi1"));
+        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getId(), is("testTable5Compile_mi1"));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getShowToggleIcon(), is(true));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getId(), is("testAction2"));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
@@ -108,13 +115,13 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(table.getToolbar().getButton("but"), notNullValue());
         assertThat(table.getComponent().getRowClass(), is("red"));
-        QueryContext queryContext = (QueryContext) route("/testTable4Compile/main", CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/testTable5Compile/w1", CompiledQuery.class);
 
         assertThat(queryContext.getValidations(), notNullValue());
         assertThat(queryContext.getValidations().size(), is(1));
         assertThat(queryContext.getValidations().get(0), instanceOf(MandatoryValidation.class));
         assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
-        assertThat(queryContext.getMessagesForm(), is("testTable4Compile_main"));
+        assertThat(queryContext.getMessagesForm(), is("testTable5Compile_w1"));
 
         assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.CHECKBOX));
         assertThat(table.getComponent().getAutoCheckboxOnSelect(), is(true));
@@ -122,7 +129,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getHeight(), is("200px"));
         assertThat(table.getComponent().getWidth(), is("400px"));
         assertThat(table.getComponent().getTextWrap(), is(false));
-        assertThat(table.getFiltersDatasourceId(), is("testTable4Compile_main_filter"));
+        assertThat(table.getFiltersDatasourceId(), is("testTable5Compile_filtersDs"));
+
+        Dependency enabled = table.getDependency().getEnabled().get(0);
+        assertThat(enabled.getOn(), is("models.filter['testTable5Compile_filtersDs']"));
+        assertThat(enabled.getCondition(), is("name == 'test2'"));
+        Dependency visible = table.getDependency().getVisible().get(0);
+        assertThat(visible.getOn(), is("models.filter['testTable5Compile_filtersDs']"));
+        assertThat(visible.getCondition(), is("name == 'test1'"));
     }
 
     @Test
@@ -277,11 +291,6 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(columnHeaders.get(0).getFilterControl().getId(), is("name"));
 
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("main_name");
-        assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getPrefix(), is("filter"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getKey(), is("testFilterColumns_main"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getField(), is("name"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getValue(), is(":main_name"));
         assertThat(query.getOnSet().getBindLink(), is("models.filter['testFilterColumns_main']"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
 
@@ -325,11 +334,6 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
         // проверка компиляции фильтруемого столбца внутри мульти-столбца
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("table_name");
-        assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getPrefix(), is("filter"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getKey(), is("testMultiColumn_table"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getField(), is("name"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getValue(), is(":table_name"));
         assertThat(query.getOnSet().getBindLink(), is("models.filter['testMultiColumn_table']"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
 
@@ -366,22 +370,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4PaginationNonDefault.widget.xml").get(new WidgetContext("testTable4PaginationNonDefault"));
         Pagination pagination = table.getPaging();
 
-        assertThat(pagination.getFirst(), is(true));
-        assertThat(pagination.getLast(), is(true));
         assertThat(pagination.getPrev(), is(true));
         assertThat(pagination.getNext(), is(true));
-        assertThat(pagination.getShowSinglePage(), is(false));
-        assertThat(pagination.getShowCount(), is(true));
-        assertThat(pagination.getLayout(), is(Layout.separatedRounded));
+        assertThat(pagination.getShowCount(), is(ShowCountType.BY_REQUEST));
+        assertThat(pagination.getShowLast(), is(false));
         assertThat(pagination.getPrevLabel(), is("prev"));
         assertThat(pagination.getPrevIcon(), is("fa fa-angle-left"));
         assertThat(pagination.getNextLabel(), is("next"));
         assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
-        assertThat(pagination.getFirstLabel(), is("first"));
-        assertThat(pagination.getFirstIcon(), is("fa fa-angle-double-left"));
-        assertThat(pagination.getLastLabel(), is("last"));
-        assertThat(pagination.getLastIcon(), is("fa fa-angle-double-right"));
-        assertThat(pagination.getMaxPages(), is(10));
         assertThat(pagination.getClassName(), is("class"));
         assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
         assertThat(pagination.getPlace(), is(Place.topLeft));
@@ -397,22 +393,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     private void checkDefaultPagingParams(Pagination pagination) {
-        assertThat(pagination.getFirst(), is(true));
-        assertThat(pagination.getLast(), is(false));
         assertThat(pagination.getPrev(), is(false));
         assertThat(pagination.getNext(), is(false));
-        assertThat(pagination.getShowSinglePage(), is(false));
-        assertThat(pagination.getShowCount(), is(true));
-        assertThat(pagination.getLayout(), is(Layout.separated));
+        assertThat(pagination.getShowCount(), is(ShowCountType.ALWAYS));
+        assertThat(pagination.getShowLast(), is(true));
         assertThat(pagination.getPrevLabel(), is(nullValue()));
         assertThat(pagination.getPrevIcon(), is("fa fa-angle-left"));
         assertThat(pagination.getNextLabel(), is(nullValue()));
         assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
-        assertThat(pagination.getFirstLabel(), is(nullValue()));
-        assertThat(pagination.getFirstIcon(), is("fa fa-angle-double-left"));
-        assertThat(pagination.getLastLabel(), is(nullValue()));
-        assertThat(pagination.getLastIcon(), is("fa fa-angle-double-right"));
-        assertThat(pagination.getMaxPages(), is(5));
         assertThat(pagination.getClassName(), is(nullValue()));
         assertThat(pagination.getStyle(), is(nullValue()));
         assertThat(pagination.getPlace(), is(Place.bottomLeft));

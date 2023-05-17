@@ -5,7 +5,7 @@ import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import has from 'lodash/has'
 
-export const UNKNOWN_GROUP_FIELD_ID = ''
+import { TOLERANCE, UNKNOWN_GROUP_FIELD_ID } from './constants'
 
 export const inArray = (array = [], item = {}) => array.some(arrayItem => (isString(item)
     ? arrayItem === item
@@ -113,7 +113,18 @@ export const isBottom = ({
     scrollHeight,
     scrollTop,
     clientHeight,
-}) => Math.floor(scrollHeight - scrollTop) === clientHeight
+}) => {
+    const difference = Math.floor(scrollHeight - scrollTop)
+
+    if (difference === clientHeight) {
+        return true
+    }
+
+    const inaccuracyLess = clientHeight - TOLERANCE
+    const inaccuracyLarge = clientHeight + TOLERANCE
+
+    return difference === inaccuracyLess || difference === inaccuracyLarge
+}
 
 export const getValueArray = (value) => {
     if (Array.isArray(value)) { return value }

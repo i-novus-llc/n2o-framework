@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import net.n2oapp.framework.autotest.api.component.control.CodeEditor;
@@ -14,14 +15,14 @@ public class N2oCodeEditor extends N2oControl implements CodeEditor {
 
     @Override
     public void shouldBeEmpty() {
-        ElementsCollection lines = element().$$(".ace_line");
-        lines.shouldHaveSize(1);
+        ElementsCollection lines = lines();
+        lines.shouldHave(CollectionCondition.size(1));
         lines.get(0).shouldBe(Condition.empty);
     }
 
     @Override
-    public void val(String value) {
-        element().$("textarea").sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+    public void setValue(String value) {
+        element().$("textarea").setValue(value);
     }
 
     @Override
@@ -32,6 +33,10 @@ public class N2oCodeEditor extends N2oControl implements CodeEditor {
 
     @Override
     public void shouldHaveValue(String value, int line) {
-        element().$$(".ace_line").get(line).shouldHave(Condition.text(value));
+        lines().get(line).shouldHave(Condition.text(value));
+    }
+
+    protected ElementsCollection lines() {
+        return element().$$(".ace_line");
     }
 }

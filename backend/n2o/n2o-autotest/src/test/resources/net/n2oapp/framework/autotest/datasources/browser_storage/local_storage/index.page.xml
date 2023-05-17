@@ -15,12 +15,11 @@
             <fields>
                 <alert text="Введите данные и обновите страницу"/>
                 <input-text id="input" label="Инпут"/>
-                <input-text id="inputDef" label="Инпут с default value" default-value="test"/>
+                <input-text id="inputDef" label="Инпут с default value" default-value="text"/>
                 <select
                         id="select"
                         placeholder="Введите значение"
                         label="Ввод с выпадающим списком"
-                        type="multi"
                         max-tag-text-length="20"
                 >
                     <options>
@@ -34,7 +33,6 @@
                         id="checkboxGroup"
                         placeholder="Введите значение"
                         label="Чекбоксы"
-                        type="multi"
                         max-tag-text-length="20"
                 >
                     <options>

@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.widget.table;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirection;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.*;
@@ -52,28 +53,22 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         }
 
         @Override
-        public void search() {
-            element().$$(".n2o-filter .btn-group .btn").findBy(Condition.text("Найти")).click();
-        }
-
-        @Override
-        public void clear() {
-            element().$$(".n2o-filter .btn-group .btn").findBy(Condition.text("Сбросить")).click();
-        }
-
-        @Override
         public void shouldBeVisible() {
-            element().$(".n2o-filter").shouldBe(Condition.visible);
+            filter().shouldBe(Condition.visible);
         }
 
         @Override
         public void shouldBeHidden() {
-            element().$(".n2o-filter").shouldBe(Condition.hidden);
+            filter().shouldBe(Condition.hidden);
         }
 
         @Deprecated
         public void shouldBeInvisible() {
             shouldBeHidden();
+        }
+
+        protected SelenideElement filter() {
+            return element().$(".n2o-filter");
         }
     }
 
@@ -95,40 +90,43 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
 
         @Override
         public Cells row(int index) {
-            return N2oSelenide.collection(element().$$(".n2o-advanced-table-tbody tr:nth-child(" + (++index) + ") td"), Cells.class);
+            return N2oSelenide.collection(rows().get(index).$$("td"), Cells.class);
         }
 
         @Override
         public void shouldHaveSize(int size) {
-            element().$$(".n2o-advanced-table-tbody .n2o-table-row").shouldHave(CollectionCondition.size(size));
+            rows().shouldHave(CollectionCondition.size(size));
         }
 
         @Override
         public void shouldNotHaveRows() {
-            element().$$(".n2o-advanced-table-tbody .n2o-table-row").shouldBe(CollectionCondition.empty);
+            rows().shouldBe(CollectionCondition.empty);
         }
 
         @Override
         public void shouldBeSelected(int row) {
-            element().$$(".n2o-advanced-table-tbody .n2o-table-row").get(row).shouldHave(Condition.cssClass("table-active"));
+            rows().get(row).shouldHave(Condition.cssClass("table-active"));
         }
 
         @Override
         public void shouldNotHaveSelectedRows() {
-            element().$$(".n2o-table-row.table-active").shouldHave(CollectionCondition.size(0));
+            rows().filterBy(Condition.cssClass("table-active"))
+                    .shouldHave(CollectionCondition.size(0));
         }
 
         @Override
         public void columnShouldHaveTexts(int index, List<String> texts) {
-            if (texts == null || texts.isEmpty())
-                element().$$(".n2o-table-row td:nth-child(" + (++index) + ")").shouldHave(CollectionCondition.empty);
-            else
-                element().$$(".n2o-table-row td:nth-child(" + (++index) + ")").shouldHave(CollectionCondition.texts(texts));
+            column(index).shouldHave(CollectionCondition.texts(texts));
+        }
+
+        @Override
+        public void columnShouldBeEmpty(int index) {
+            column(index).shouldHave(CollectionCondition.empty);
         }
 
         @Override
         public List<String> columnTexts(int index) {
-            return element().should(Condition.exist).$$(".n2o-table-row td:nth-child(" + (++index) + ")").texts();
+            return column(index).texts();
         }
 
         @Override
@@ -147,6 +145,14 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
                     ));
                     break;
             }
+        }
+
+        protected ElementsCollection column(int index) {
+            return element().$$(String.format(".n2o-table-row td:nth-child(%d)", ++index));
+        }
+
+        protected ElementsCollection rows() {
+            return element().$$(".n2o-advanced-table-tbody .n2o-table-row");
         }
     }
 }

@@ -53,11 +53,11 @@ public class N2oLineRegion extends N2oRegion implements LineRegion {
     }
 
 
-    private SelenideElement header() {
+    protected SelenideElement header() {
         return element().$(".n2o-panel-header");
     }
 
-    private SelenideElement item() {
+    protected SelenideElement item() {
         return element().$(".rc-collapse-item");
     }
 

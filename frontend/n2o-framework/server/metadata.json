@@ -50,14 +50,7 @@
                 "dropdownSrc": "ChangeSize",
                 "actionId": "changeDataSize",
                 "hint": "Измепить размер"
-              },
-              {
-                "id": "exportModal",
-                "icon": "fa fa-download",
-                "actionId": "exportModal",
-                "hint": "Экспортировать"
               }
-
             ]
           }
         ]
@@ -92,49 +85,6 @@
           "src": "changeSize",
           "widgetId": "ProtoPage.patients",
           "size": 5
-        },
-        "exportModal": {
-          "src": "showModal",
-          "content": {
-            "name": "test2",
-            "src": "ExportModal",
-            "title": "Экспортровать",
-            "size": "sm",
-            "visible": true,
-            "closeButton": false,
-            "actions": {
-              "export": {
-                "src": "exportTable",
-                "options": {
-                  "widgetId": "ProtoPage.patients"
-                }
-              },
-              "destroyModal": {
-                "src": "destroyModal",
-                "options": {
-                  "widgetId": "ProtoPage.patients"
-                }
-              }
-            },
-            "toolbar": [
-              {
-                "buttons": [
-                  {
-                    "id": "export",
-                    "title": "Загрузить",
-                    "actionId": "export",
-                    "className": "btn-primary",
-                    "icon": "fa fa-download"
-                  },
-                  {
-                    "id": "cancelExport",
-                    "title": "Отменить",
-                    "actionId": "destroyModal"
-                  }
-                ]
-              }
-            ]
-          }
         }
       },
       "paging": {

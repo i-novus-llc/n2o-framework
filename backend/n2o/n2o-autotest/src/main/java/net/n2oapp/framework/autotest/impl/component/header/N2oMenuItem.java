@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.header;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.autotest.api.component.header.MenuItem;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
@@ -12,12 +13,12 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
 
     @Override
     public void shouldHaveImage() {
-        element().$("img").shouldHave(Condition.exist);
+        image().shouldHave(Condition.exist);
     }
 
     @Override
-    public void imageSrcShouldBe(String src) {
-        element().$("img").shouldHave(Condition.attribute("src", src));
+    public void imageShouldHaveSrc(String src) {
+        image().shouldHave(Condition.attribute("src", src));
     }
 
     @Override
@@ -27,16 +28,16 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
                 checkShape("mr-2 n2o-nav-image ");
                 break;
             case ROUNDED:
-                checkShape("mr-2 n2o-nav-image " + shape.getId());
+                checkShape(String.format("mr-2 n2o-nav-image %s", shape.getId()));
                 break;
             case CIRCLE:
-                checkShape("mr-2 n2o-nav-image rounded-" + shape.getId());
+                checkShape(String.format("mr-2 n2o-nav-image rounded-%s", shape.getId()));
                 break;
         }
     }
 
     @Override
-    public void labelShouldHave(String text) {
+    public void shouldHaveLabel(String text) {
         element().shouldHave(Condition.text(text));
     }
 
@@ -46,6 +47,10 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
     }
 
     private void checkShape(String shape) {
-        element().$("img").shouldHave(Condition.attribute("class", shape));
+        image().shouldHave(Condition.attribute("class", shape));
+    }
+
+    protected SelenideElement image() {
+        return element().$("img");
     }
 }

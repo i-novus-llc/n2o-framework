@@ -26,19 +26,15 @@ public class FilterReducer {
             new Less_Less(), new More_More(), new Less_IsNull(), new More_IsNull(), new More_IsNotNull(), new Less_IsNotNull(),
             new NotIn_NotIn(),
             //eqOrIsNull
-            new EqOrIsNull_Eq(), new EqOrIsNull_EqOrIsNull(), new EqOrIsNull_In(), new EqOrIsNull_InOrIsNull(), new EqOrIsNull_IsNotNull(),
+            new EqOrIsNull_Eq(), new EqOrIsNull_EqOrIsNull(), new EqOrIsNull_In(), new EqOrIsNull_IsNotNull(),
             new EqOrIsNull_IsNull(), new EqOrIsNull_Less(), new EqOrIsNull_More(), new EqOrIsNull_NotEq(), new EqOrIsNull_NotIn(),
-            new EqOrIsNull_Like(), new EqOrIsNull_LikeStart(), new EqOrIsNull_Overlap(), new EqOrIsNull_Contains(),
-            //inOrIsNull
-            new InOrIsNull_Eq(), new InOrIsNull_In(), new InOrIsNull_InOrIsNull(), new InOrIsNull_IsNotNull(), new InOrIsNull_IsNull(),
-            new InOrIsNull_Less(), new InOrIsNull_More(), new InOrIsNull_NotEq(), new InOrIsNull_NotIn(),
+            new EqOrIsNull_Like(), new EqOrIsNull_LikeStart(), new EqOrIsNull_Contains(),
             //like, likeStart
             new Eq_Like(), new Eq_LikeStart(), new Like_IsNotNull(), new Like_IsNull(), new Like_Like(), new Like_LikeStart(),
             new LikeStart_IsNotNull(), new LikeStart_IsNull(), new LikeStart_LikeStart(),
-            //overlap, contains
-            new Eq_Contains(), new Eq_Overlap(),
-            new Overlap_NotEq(), new Overlap_Overlap(), new Contains_NotEq(), new Contains_Contains(),
-            new Contains_IsNull(), new Contains_IsNotNull(), new Overlap_IsNull(), new Overlap_IsNotNull()
+            //contains
+            new Eq_Contains(), new Contains_NotEq(), new Contains_Contains(),
+            new Contains_IsNull(), new Contains_IsNotNull()
     );
 
 

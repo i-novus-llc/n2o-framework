@@ -1,5 +1,4 @@
 import { takeEvery, put, select, debounce, delay } from 'redux-saga/effects'
-import { touch, actionTypes, reset, change } from 'redux-form'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import values from 'lodash/values'
@@ -11,16 +10,25 @@ import isObject from 'lodash/isObject'
 import find from 'lodash/find'
 
 import { widgetsSelector } from '../widgets/selectors'
-import { setModel, copyModel, clearModel } from '../models/store'
 import {
-    makeGetModelByPrefixSelector,
+    setModel,
+    copyModel,
+    clearModel,
+    updateModel,
+    appendFieldToArray,
+    removeFieldFromArray,
+    copyFieldArray,
+} from '../models/store'
+import {
+    getModelByPrefixAndNameSelector,
     modelsSelector,
 } from '../models/selectors'
 import { dataSourceByIdSelector } from '../datasource/selectors'
 import evalExpression from '../../utils/evalExpression'
+// import { setTabInvalid } from '../regions/store'
 import { failValidate, startValidate, submit } from '../datasource/store'
 import { ModelPrefix } from '../../core/datasource/const'
-import { generateFormFilterId } from '../../utils/generateFormFilterId'
+// import { generateFormFilterId } from '../../utils/generateFormFilterId'
 import { ValidationsKey } from '../../core/validation/IValidation'
 import { EffectWrapper } from '../api/utils/effectWrapper'
 
@@ -28,21 +36,17 @@ import { makeFormsFiltersByDatasourceSelector, makeFormsByDatasourceSelector } f
 import {
     setRequired,
     unsetRequired,
+    handleBlur,
+    handleTouch,
 } from './store'
-
-export function* addTouched({ payload: { form, name } }) {
-    yield put(touch(form, name))
-}
 
 export function* copyAction({ payload }) {
     const { target, source, mode = 'replace', sourceMapper: expression } = payload
     const state = yield select(modelsSelector)
     let sourceModel = get(state, values(source).join('.'))
-    const selectedTargetModel = yield select(
-        makeGetModelByPrefixSelector(target.prefix, target.key),
-    )
+    const selectedTargetModel = yield select(getModelByPrefixAndNameSelector(target.prefix, target.key))
     const targetModel = selectedTargetModel || []
-    let newModel = {}
+    let newModel
 
     const { field = null } = target
     const targetModelField = get(targetModel, field, [])
@@ -112,15 +116,22 @@ export function* copyAction({ payload }) {
     // после копирования
     for (const [field, value] of entries(newModel)) {
         if (get(targetModel, field) !== value) {
-            const form = target.prefix === ModelPrefix.filter ? generateFormFilterId(target.key) : target.key
-
-            yield put(change(form, field, {
-                keepDirty: true,
-                value,
-            }))
+            yield put(updateModel(target.prefix, target.key, field, value))
         }
     }
 }
+
+// TODO: Починить сагу
+/* it uses in tabs region */
+// function* setFocus({ payload }) {
+//     const { validation } = payload
+//     const { form, fields, blurValidation } = validation
+//
+//     if (!blurValidation) {
+//         /* set focus to first invalid field */
+//         yield put(focus(form, Object.keys(fields)[0]))
+//     }
+// }
 
 export function* clearForm({ payload }) {
     /*
@@ -138,7 +149,7 @@ export function* clearForm({ payload }) {
         const modelPrefix = get(formWidget, ['form', 'modelPrefix'], ModelPrefix.active)
 
         if (includes(prefixes, modelPrefix)) {
-            yield put(reset(key))
+            yield put(setModel(modelPrefix, key, {}))
         }
     }
 
@@ -147,7 +158,7 @@ export function* clearForm({ payload }) {
         const { datasource = null } = widgetFilter
 
         if (datasource) {
-            yield put(reset(datasource))
+            yield put(setModel(ModelPrefix.filter, datasource, {}))
         }
     }
 }
@@ -157,8 +168,8 @@ export function* clearForm({ payload }) {
  * autoSubmit: { action: ReduxAction, condition: expressionString(datasource, action) }
  */
 export function* autoSubmit({ meta }) {
-    const { form, field } = meta
-    const datasource = yield select(dataSourceByIdSelector(form))
+    const { key, field } = meta
+    const datasource = yield select(dataSourceByIdSelector(key))
 
     if (isEmpty(datasource)) { return }
 
@@ -167,7 +178,7 @@ export function* autoSubmit({ meta }) {
         : datasource.fieldsSubmit[field]
 
     if (!isEmpty(provider)) {
-        yield put(submit(form, provider))
+        yield put(submit(key, provider))
     }
 }
 
@@ -175,23 +186,25 @@ const validateFields = {}
 
 export const formPluginSagas = [
     takeEvery(clearModel, clearForm),
-    takeEvery(action => action.meta && action.meta.isTouched, addTouched),
-    takeEvery(copyModel.type, EffectWrapper(copyAction)),
+    takeEvery(copyModel, EffectWrapper(copyAction)),
     takeEvery(failValidate, function* touchOnFailValidate({ payload, meta }) {
         if (!meta?.touched) { return }
 
-        const { id: datasource, fields } = payload
+        const { prefix, id, fields } = payload
         const keys = Object.keys(fields)
 
-        yield put(touch(datasource, ...keys))
+        yield put(handleTouch(prefix, id, keys))
     }),
     takeEvery([
-        actionTypes.CHANGE,
-        actionTypes.BLUR,
-        setRequired.type,
-        unsetRequired.type,
+        updateModel,
+        handleBlur,
+        setRequired,
+        unsetRequired,
+        appendFieldToArray,
+        removeFieldFromArray,
+        copyFieldArray,
     ], ({ meta }) => {
-        const { form: datasource, field } = meta
+        const { key: datasource, field } = meta
 
         if (!validateFields[datasource]) {
             validateFields[datasource] = []
@@ -200,12 +213,15 @@ export const formPluginSagas = [
         validateFields[datasource].push(field)
     }),
     debounce(200, [
-        actionTypes.CHANGE,
-        actionTypes.BLUR,
-        setRequired.type,
-        unsetRequired.type,
+        updateModel,
+        handleBlur,
+        setRequired,
+        unsetRequired,
+        appendFieldToArray,
+        removeFieldFromArray,
+        copyFieldArray,
     ], function* validateSaga({ meta }) {
-        const { form: datasource } = meta
+        const { key: datasource } = meta
         const allWidgets = yield select(widgetsSelector)
 
         const widget = find(allWidgets, { datasource })
@@ -236,7 +252,9 @@ export const formPluginSagas = [
         }
     }),
     debounce(400, [
-        actionTypes.CHANGE,
-        // actionTypes.BLUR,
+        updateModel,
+        appendFieldToArray,
+        removeFieldFromArray,
+        copyFieldArray,
     ], autoSubmit),
 ]

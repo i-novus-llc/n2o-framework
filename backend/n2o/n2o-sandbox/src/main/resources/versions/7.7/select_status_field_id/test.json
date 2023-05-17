@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "test1",
+    "type": "success"
+  },
+  {
+    "id": 2,
+    "name": "test2",
+    "type": "danger"
+  },
+  {
+    "id": 3,
+    "name": "test3",
+    "type": "warning"
+  },
+  {
+    "id": 4,
+    "name": "test4",
+    "type": "info"
+  }
+]

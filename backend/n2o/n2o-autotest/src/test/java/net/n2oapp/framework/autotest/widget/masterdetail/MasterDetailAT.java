@@ -5,6 +5,7 @@ import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -37,16 +38,23 @@ public class MasterDetailAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/detail.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/open.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/test.query.xml"));
+        builder.packs(
+                new N2oApplicationPack(),
+                new N2oAllPagesPack(),
+                new N2oAllDataPack()
+        );
     }
 
     @Test
     public void testMasterDetail() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/master_detail");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/detail.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/open.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/test.query.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Master-detail фильтрация");
@@ -56,8 +64,8 @@ public class MasterDetailAT extends AutoTestBase {
         table.columns().headers().shouldHaveSize(2);
 
         Cells row = table.columns().rows().row(1);
-        row.cell(0).textShouldHave("2");
-        row.cell(1).textShouldHave("test2");
+        row.cell(0).shouldHaveText("2");
+        row.cell(1).shouldHaveText("test2");
         row.click();
 
         StandardPage open = N2oSelenide.page(StandardPage.class);
@@ -77,9 +85,39 @@ public class MasterDetailAT extends AutoTestBase {
 
         table.columns().rows().shouldHaveSize(2);
         TableWidget.Rows rows = table.columns().rows();
-        rows.row(0).cell(0).textShouldHave("test33");
-        rows.row(0).cell(1).textShouldHave("2");
-        rows.row(1).cell(0).textShouldHave("test44");
-        rows.row(1).cell(1).textShouldHave("2");
+        rows.row(0).cell(0).shouldHaveText("test33");
+        rows.row(0).cell(1).shouldHaveText("2");
+        rows.row(1).cell(0).shouldHaveText("test44");
+        rows.row(1).cell(1).shouldHaveText("2");
+    }
+
+    @Test
+    public void paginationTest() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/master_detail/pagination");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/pagination/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/pagination/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/pagination/test2.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        RegionItems regionItems = page.regions().region(0, SimpleRegion.class).content();
+        TableWidget tableOne = regionItems.widget(0, TableWidget.class);
+        TableWidget tableTwo = regionItems.widget(1, TableWidget.class);
+
+        tableOne.shouldExists();
+        tableTwo.shouldExists();
+
+        tableOne.columns().rows().row(2).click();
+        tableTwo.columns().rows().row(0).cell(0).shouldHaveText("5");
+
+        tableTwo.paging().selectPage("3");
+        tableTwo.columns().rows().row(0).cell(0).shouldHaveText("9");
+
+        tableOne.columns().rows().row(1).click();
+        tableTwo.paging().shouldHaveActivePage("1");
+        tableTwo.columns().rows().row(0).cell(0).shouldHaveText("2");
     }
 }

@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Отдел тестирования",
+    "status": "success",
+    "badge":"Алексей Иванов",
+    "badgeImage": "static/men.jfif"
+  },
+  {
+    "id": 2,
+    "name": "Отдел разработки",
+    "status": "warning",
+    "badge":"Иван Алексеев",
+    "badgeImage": "static/men2.jfif"
+  },
+  {
+    "id": 3,
+    "name": "Отдел аналитики",
+    "status": "info",
+    "badge":"Павел Афанасьев",
+    "badgeImage": "static/men3.jfif"
+  }
+]

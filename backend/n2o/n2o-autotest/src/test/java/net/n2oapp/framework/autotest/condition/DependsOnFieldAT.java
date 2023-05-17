@@ -44,6 +44,7 @@ public class DependsOnFieldAT extends AutoTestBase {
 
     @Test
     public void dependsOnField() {
+        setJsonPath("net/n2oapp/framework/autotest/condition/depends_on");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/condition/depends_on/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/depends_on/orgs.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -57,7 +58,8 @@ public class DependsOnFieldAT extends AutoTestBase {
         StandardField dependent = fields.field("Зависимое поле");
         dependent.shouldNotExists();
 
-        master.val("test");
+        master.click();
+        master.setValue("test");
         master.shouldHaveValue("test");
 
         dependent.shouldExists();
@@ -65,7 +67,8 @@ public class DependsOnFieldAT extends AutoTestBase {
         dependent.control(InputText.class).shouldBeEnabled();
         dependent.control(InputText.class).shouldHaveValue("test");
 
-        master.val("1");
+        master.click();
+        master.setValue("1");
         master.shouldHaveValue("1");
         StandardField dependentList = fields.field("Зависимый список");
         dependentList.shouldExists();
@@ -74,6 +77,7 @@ public class DependsOnFieldAT extends AutoTestBase {
 
     @Test
     public void dependsOnFieldWithDifferentNameInDrawer() {
+        setJsonPath("net/n2oapp/framework/autotest/condition/depends_on/field_with_different_name/drawer");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/depends_on/field_with_different_name/drawer/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/depends_on/field_with_different_name/drawer/data.query.xml"),
@@ -103,7 +107,8 @@ public class DependsOnFieldAT extends AutoTestBase {
         InputSelect drawerField = drawerPage.widget(FormWidget.class).fields().field("Регион").control(InputSelect.class);
         drawerField.shouldExists();
         drawerField.shouldBeEmpty();
-        drawerField.select(0);
+        drawerField.openPopup();
+        drawerField.dropdown().selectItem(0);
 
         drawer.toolbar().bottomRight().button("Применить").click();
         table.columns().rows().shouldHaveSize(1);

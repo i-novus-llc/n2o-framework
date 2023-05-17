@@ -51,9 +51,11 @@ public class DynamicValidationMessageAT extends AutoTestBase {
         form.shouldExists();
         StandardField field = form.fields().field("Имя");
         field.shouldExists();
-        field.control(InputText.class).val("test");
+        field.control(InputText.class).click();
+        field.control(InputText.class).setValue("test");
 
-        form.fields().field("Следующее поле").control(InputText.class).val("next");
+        form.fields().field("Следующее поле").control(InputText.class).click();
+        form.fields().field("Следующее поле").control(InputText.class).setValue("next");
 
         field.shouldHaveValidationMessage(Condition.text("Имя test уже существует"));
     }
@@ -71,10 +73,12 @@ public class DynamicValidationMessageAT extends AutoTestBase {
         form.shouldExists();
         StandardField field1 = form.fields().field("Имя");
         field1.shouldExists();
-        field1.control(InputText.class).val("test");
+        field1.control(InputText.class).click();
+        field1.control(InputText.class).setValue("test");
 
         StandardField field2 = form.fields().field("Следующее поле");
-        field2.control(InputText.class).val("next");
+        field2.control(InputText.class).click();
+        field2.control(InputText.class).setValue("next");
 
         StandardButton button = form.toolbar().bottomLeft().button("Создать");
         button.shouldExists();

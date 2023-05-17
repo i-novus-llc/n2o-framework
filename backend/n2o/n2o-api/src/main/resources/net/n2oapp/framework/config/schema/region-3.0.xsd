@@ -135,7 +135,7 @@
             <xs:extension base="regionDefinition">
                 <xs:annotation>
                     <xs:documentation>
-                        Регион в виде панелей
+                        Регион в виде панели
                     </xs:documentation>
                 </xs:annotation>
                 <xs:attribute name="title" type="xs:string">
@@ -358,6 +358,7 @@
         <xs:sequence>
             <xs:element name="menu-item" type="menuItemDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="sub-menu" type="subMenuDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="group" type="groupDefinition" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string">
             <xs:annotation>
@@ -430,6 +431,13 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="max-height" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>
+                    Максимальная высота содержимого региона в пикселях
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>
@@ -479,7 +487,9 @@
 
     <xs:complexType name="subMenuDefinition">
         <xs:annotation>
-            <xs:documentation>Вложенное меню</xs:documentation>
+            <xs:documentation>
+                Вложенное меню
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="menu-item" type="menuItemDefinition" maxOccurs="unbounded"/>
@@ -496,6 +506,39 @@
             <xs:annotation>
                 <xs:documentation>
                     Заголовок вложенного меню
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="groupDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Группировка элементов в меню
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="menu-item" type="menuItemDefinition" maxOccurs="unbounded"/>
+            <xs:element name="sub-menu" type="subMenuDefinition" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор вложенного меню
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Заголовок вложенного меню
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="headline" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Наличие разделительной строки
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

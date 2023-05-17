@@ -325,6 +325,13 @@ $alert-dark-text-color: #1b1e21;
 
 $alert-hover-darken: 5%;
 
+//new-n2o-ui temp vars
+$n2o-ui-primary: #374596;
+$n2o-ui-primary-hover: #334087;
+
+// Scroll-spy
+$menu-item-color: #707070;
+
 // Custom
 // TODO разобраться, можно ли безболезненно удалить эти, переменные и удалить их
 // Эти переменные появились тут в 7.16. В 7.15 были объявлены в sass/n2o/controls/InputTreeSelect.old.scss

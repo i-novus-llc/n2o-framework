@@ -9,11 +9,7 @@ import {
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
-import some from 'lodash/some'
-import includes from 'lodash/includes'
 import get from 'lodash/get'
-import keys from 'lodash/keys'
-import { actionTypes, change } from 'redux-form'
 
 import evalExpression from '../utils/evalExpression'
 import { makeFormByName } from '../ducks/form/selectors'
@@ -31,21 +27,32 @@ import {
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { evalResultCheck } from '../utils/evalResultCheck'
-import { resolveRequest, startValidate } from '../ducks/datasource/store'
-import { combineModels } from '../ducks/models/store'
-import { makeWidgetByIdSelector } from '../ducks/widgets/selectors'
+import { startValidate } from '../ducks/datasource/store'
+import {
+    appendFieldToArray,
+    combineModels,
+    copyFieldArray,
+    removeFieldFromArray,
+    setModel,
+    updateModel,
+} from '../ducks/models/store'
+import { makeDatasourceIdSelector, makeWidgetByIdSelector } from '../ducks/widgets/selectors'
+import { ModelPrefix } from '../core/datasource/const'
+import { getModelByPrefixAndNameSelector } from '../ducks/models/selectors'
 import { ValidationsKey } from '../core/validation/IValidation'
+import { addAlert } from '../ducks/alerts/store'
+import { GLOBAL_KEY } from '../ducks/alerts/constants'
 
 import fetchSaga from './fetch'
 
 const FetchValueCache = new Map()
 
-export function* fetchValue(values, form, field, { dataProvider, valueFieldId }) {
+export function* fetchValue(prefix, values, form, field, { dataProvider, valueFieldId }) {
     const fetchValueKey = `${form}.${field}`
 
     try {
         yield delay(300)
-        yield put(setLoading(form, field, true))
+        yield put(setLoading(prefix, form, field, true))
         const state = yield select()
         const { url, headersParams, baseQuery } = dataProviderResolver(
             state,
@@ -74,31 +81,33 @@ export function* fetchValue(values, form, field, { dataProvider, valueFieldId })
         const nextFieldValue = valueFieldId ? currentModel : model
 
         if (model && !isEqual(prevFieldValue, nextFieldValue)) {
-            yield put(
-                change(form, field, {
-                    keepDirty: true,
-                    value: nextFieldValue,
-                }),
-            )
+            yield put(updateModel(ModelPrefix.active, form, field, nextFieldValue))
         }
     } catch (e) {
-        yield put(
-            change(form, field, {
-                keepDirty: true,
-                value: null,
-                error: true,
-            }),
-        )
+        if (values[field] !== null) {
+            yield put(updateModel(ModelPrefix.active, form, field, null))
+        }
+
+        const error = e.json || {}
+        const { messages } = error?.meta?.alert
+
+        if (messages) {
+            const [alert] = messages
+            const { placement } = alert || GLOBAL_KEY
+
+            yield put(addAlert(placement, alert))
+        }
+
         // eslint-disable-next-line no-console
         console.error(e)
     } finally {
-        yield put(setLoading(form, field, false))
+        yield put(setLoading(prefix, form, field, false))
         FetchValueCache.delete(fetchValueKey)
     }
 }
 
 // eslint-disable-next-line complexity
-export function* modify(values, formName, fieldName, dependency = {}, field) {
+export function* modify(prefix, values, datasourceKey, fieldName, dependency = {}, field) {
     const { type, expression } = dependency
     const { parentIndex } = field
     const context = {
@@ -115,9 +124,9 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             const nextEnabled = Boolean(evalResult)
 
             if (nextEnabled) {
-                yield put(enableField(formName, fieldName))
+                yield put(enableField(prefix, datasourceKey, fieldName))
             } else {
-                yield put(disableField(formName, fieldName))
+                yield put(disableField(prefix, datasourceKey, fieldName))
             }
 
             break
@@ -126,9 +135,9 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             const nextVisible = Boolean(evalResult)
 
             if (nextVisible) {
-                yield put(showField(formName, fieldName))
+                yield put(showField(prefix, datasourceKey, fieldName))
             } else {
-                yield put(hideField(formName, fieldName))
+                yield put(hideField(prefix, datasourceKey, fieldName))
             }
 
             break
@@ -138,23 +147,13 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
                 break
             }
 
-            yield put(
-                change(formName, fieldName, {
-                    keepDirty: true,
-                    value: evalResult,
-                }),
-            )
+            yield put(updateModel(prefix, datasourceKey, fieldName, evalResult))
 
             break
         }
         case 'reset': {
             if (values[fieldName] !== null && evalResultCheck(evalResult)) {
-                yield put(
-                    change(formName, fieldName, {
-                        keepDirty: true,
-                        value: null,
-                    }),
-                )
+                yield put(updateModel(prefix, datasourceKey, fieldName, null))
             }
 
             break
@@ -168,30 +167,33 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             }
 
             if (nextRequired) {
-                yield put(setRequired(formName, fieldName))
+                yield put(setRequired(prefix, datasourceKey, fieldName))
             } else {
-                yield put(unsetRequired(formName, fieldName))
+                yield put(unsetRequired(prefix, datasourceKey, fieldName))
             }
 
             break
         }
         case 'reRender': {
-            const form = yield select(makeWidgetByIdSelector(formName))
+            const state = yield select()
+            const datasource = makeDatasourceIdSelector(datasourceKey)(state)
+            const form = makeWidgetByIdSelector(datasourceKey)(state)
             const prefix = get(form, [
                 'form',
                 'modelPrefix',
             ])
 
             yield delay(50)
-            yield put(startValidate(formName, ValidationsKey.Validations, prefix, [fieldName], { touched: true }))
+            yield put(startValidate(datasource, ValidationsKey.Validations, prefix, [fieldName], { touched: true }))
 
             break
         }
         case 'fetchValue': {
             yield fork(
                 fetchValue,
+                prefix,
                 values,
-                formName,
+                datasourceKey,
                 fieldName,
                 dependency,
             )
@@ -203,7 +205,47 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
     }
 }
 
+const shouldBeResolved = ({
+    dependency,
+    actionType,
+    actionField,
+    currentField,
+}) => {
+    const { applyOnInit, on } = dependency
+    const isChangeAction = [
+        updateModel.type,
+        appendFieldToArray.type,
+        removeFieldFromArray.type,
+        copyFieldArray.type,
+    ].some(type => type === actionType)
+
+    // apply on init
+    if (applyOnInit && (
+        actionType === initializeDependencies.type ||
+        (
+            actionField === currentField &&
+            actionType === registerFieldExtra.type
+        )
+    )) { return true }
+
+    // apply on change
+    /*
+     * условие 2 нужно чтобы стрелть событиями когда обновлённое поле это объект,
+     * а подписка на внутренее значение
+     * update({ field: { id: 1 } }) on=['field.id'] => fieldName="field"
+     * из-за этого условия стреляют лишние зависимости: on=['field.count']
+     * FIXME: Переделать на реальное сравнение изменения вложенных полей
+     */
+    return isChangeAction && on?.some(dependencyField => (
+        dependencyField === actionField || // full equality
+        dependencyField.startsWith(`${actionField}.`) || // fieldName: "field", on: "field.id"
+        actionField.startsWith(`${dependencyField}.`) || // fieldName: "field.inner", on: "field"
+        actionField.startsWith(`${dependencyField}[`) // fieldName: "field[index]", on: "field"
+    ))
+}
+
 export function* checkAndModify(
+    prefix,
     values,
     fields,
     formName,
@@ -215,24 +257,13 @@ export function* checkAndModify(
 
         if (field.dependency) {
             for (const dep of field.dependency) {
-                const needRunOnInit = dep.applyOnInit && (
-                    actionType === initializeDependencies.type ||
-                    (fieldName === fieldId &&
-                        actionType === registerFieldExtra.type)
-                )
-                const someDepNeedRun = some(
-                    dep.on,
-                    field => (
-                        field === fieldName ||
-                        (includes(field, '.') && includes(field, fieldName))
-                    ),
-                )
-
-                if (
-                    needRunOnInit ||
-                    (someDepNeedRun && (actionType === actionTypes.CHANGE || actionType === actionTypes.INITIALIZE))
-                ) {
-                    yield fork(modify, values, formName, fieldId, dep, field)
+                if (shouldBeResolved({
+                    actionField: fieldName,
+                    actionType,
+                    currentField: fieldId,
+                    dependency: dep,
+                })) {
+                    yield fork(modify, prefix, values, formName, fieldId, dep, field)
                 }
             }
         }
@@ -240,52 +271,38 @@ export function* checkAndModify(
 }
 
 export function* resolveDependency({ type, meta, payload }) {
-    try {
-        const { form: formName, field: fieldName } = meta
-        const form = yield select(makeFormByName(formName))
-        const fieldKeys = type === actionTypes.INITIALIZE ? keys(form.registeredFields) : null
+    yield delay(16)
 
-        if (isEmpty(form) || isEmpty(form.registeredFields)) {
+    try {
+        const { key, field, prefix } = meta
+
+        if (!prefix) {
             return
         }
 
-        if (fieldKeys && meta.lastInitialValues) {
-            for (const field of fieldKeys) {
-                yield call(
-                    checkAndModify,
-                    form.values || {},
-                    form.registeredFields,
-                    formName,
-                    field,
-                    type,
-                )
-            }
-        } else {
-            yield call(
-                checkAndModify,
-                form.values || {},
-                form.registeredFields,
-                formName,
-                type === registerFieldExtra.type ? payload.name : fieldName,
-                type,
-            )
+        const formValue = yield select(getModelByPrefixAndNameSelector(prefix, key))
+        const form = yield select(makeFormByName(key))
+        const registeredFields = get(form, [prefix, 'registeredFields'], {})
+        const fieldName = type === registerFieldExtra.type ? payload.name : field
+
+        if (isEmpty(registeredFields)) {
+            return
         }
+
+        yield call(
+            checkAndModify,
+            prefix,
+            formValue || {},
+            registeredFields,
+            key,
+            fieldName,
+            type,
+        )
     } catch (e) {
         // todo: падает тут из-за отсутствия формы
         // eslint-disable-next-line no-console
         console.error(e)
     }
-}
-
-export function* resolveDependencyOnInit({ payload }) {
-    const { id } = payload
-
-    yield call(resolveDependency, {
-        type: initializeDependencies.type,
-        meta: {
-            form: id,
-        },
-    })
 }
 
 export function* resolveDependencyDefaultModels({ payload }) {
@@ -298,20 +315,72 @@ export function* resolveDependencyDefaultModels({ payload }) {
             yield call(resolveDependency, {
                 type: initializeDependencies.type,
                 meta: {
-                    form: datasource,
+                    key: datasource,
                 },
             })
         }
     }
 }
 
+function* resolveDependencyAfterSetModel({ payload, meta }) {
+    const { prefix, key, model } = payload
+
+    if (prefix === ModelPrefix.source || prefix === ModelPrefix.selected || !model) {
+        return
+    }
+    const { prevState } = meta
+    const form = yield select(makeFormByName(key))
+    const registeredFields = get(form, [prefix, 'registeredFields'], {})
+    const prevModel = getModelByPrefixAndNameSelector(prefix, key)(prevState || {})
+
+    // стандартный обхода ключей объекта циклом for ... in
+    // eslint-disable-next-line guard-for-in,no-restricted-syntax
+    for (const fieldId in registeredFields) {
+        const field = registeredFields[fieldId]
+        const { dependency = [] } = field
+
+        if (!dependency.length) {
+            // eslint-disable-next-line no-continue
+            continue
+        }
+
+        // Обход каждой зависимости
+        for (const dep of dependency) {
+            const { on = [], applyOnInit } = dep
+            const isSomeDepsNeedRun = on.length || applyOnInit
+
+            if (!isSomeDepsNeedRun) {
+                // eslint-disable-next-line no-continue
+                continue
+            }
+
+            const isSomeFieldChanged = on.some((fieldPath) => {
+                if (!prevModel) {
+                    return true
+                }
+
+                const currentValue = get(model, fieldPath)
+                const prevValue = get(prevModel, fieldPath)
+
+                return !isEqual(currentValue, prevValue)
+            })
+
+            if (isSomeFieldChanged) {
+                yield fork(modify, prefix, model || {}, key, fieldId, dep, field)
+            }
+        }
+    }
+}
+
 export const fieldDependencySagas = [
     takeEvery([
-        actionTypes.INITIALIZE,
-        registerFieldExtra.type,
-        actionTypes.CHANGE,
-        initializeDependencies.type,
+        registerFieldExtra,
+        updateModel,
+        initializeDependencies,
+        appendFieldToArray,
+        removeFieldFromArray,
+        copyFieldArray,
     ], resolveDependency),
-    takeEvery(resolveRequest, resolveDependencyOnInit),
+    takeEvery(setModel, resolveDependencyAfterSetModel),
     takeLatest(combineModels, resolveDependencyDefaultModels),
 ]

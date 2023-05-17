@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.action.N2oCloseAction;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
@@ -65,7 +65,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
 
     private MetaSaga initMeta(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
         MetaSaga meta = new MetaSaga();
-        boolean refresh = p.cast(Boolean.TRUE.equals(source.getRefresh()),
+        boolean refresh = p.cast(source.getRefresh(),
                 p.resolve(property("n2o.api.action.close.refresh_on_close"), Boolean.class));
         boolean redirect = source.getRedirectUrl() != null;
         if (!redirect && (context instanceof ModalPageContext))

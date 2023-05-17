@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.dataset.NestedList;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
@@ -19,12 +20,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAccessor;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -128,8 +133,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     protected String richKey(String key) {
-        if (pathOnDisk != null) return pathOnDisk + "/" + key;
         if (classpathResourcePath != null) return classpathResourcePath + "/" + key;
+        if (pathOnDisk != null) return pathOnDisk + "/" + key;
         return key;
     }
 
@@ -391,6 +396,9 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                 case "in":
                     data = inFilterData(field, pattern, data);
                     break;
+                case "notIn":
+                    data = notInFilterData(field, pattern, data);
+                    break;
                 case "more":
                     data = moreFilterData(field, pattern, data);
                     break;
@@ -466,11 +474,23 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private List<DataSet> inFilterData(String field, Object pattern, List<DataSet> data) {
         List patterns = pattern instanceof List ? (List) pattern : Arrays.asList(pattern);
         if (patterns != null) {
+            String[] splittedField = field.split("\\.");
+            String parent = splittedField[0];
+            String child = splittedField.length > 1 ? splittedField[1] : null;
             data = data
                     .stream()
                     .filter(m -> {
-                        if (!m.containsKey(field) || m.get(field) == null)
-                            return false;
+                        if (child != null) {
+                            if (!m.containsKey(parent))
+                                return false;
+                            if (m.get(parent) instanceof NestedList) {
+                                return ((NestedList)m.get(parent)).stream().anyMatch(c ->
+                                    ((DataSet) c).containsKey(child) && patterns.contains(((DataSet) c).get(child))
+                                );
+                            } else {
+                                return m.containsKey(field) && patterns.contains(m.get(field));
+                            }
+                        }
                         if (m.get(field) instanceof Number) {
                             List<Long> longPatterns = new ArrayList<>();
                             patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
@@ -487,16 +507,56 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         return data;
     }
 
+    private List<DataSet> notInFilterData(String field, Object pattern, List<DataSet> data) {
+        List patterns = pattern instanceof List ? (List) pattern : Arrays.asList(pattern);
+        if (patterns != null) {
+            String[] splittedField = field.split("\\.");
+            String parent = splittedField[0];
+            String child = splittedField.length > 1 ? splittedField[1] : null;
+            data = data
+                    .stream()
+                    .filter(m -> {
+                        if (child != null) {
+                            if (!m.containsKey(parent))
+                                return false;
+                            if (m.get(parent) instanceof NestedList) {
+                                return ((NestedList)m.get(parent)).stream().anyMatch(c ->
+                                        ((DataSet) c).containsKey(child) && !patterns.contains(((DataSet) c).get(child))
+                                );
+                            } else {
+                                return m.containsKey(field) && !patterns.contains(m.get(field));
+                            }
+                        }
+                        if (m.get(field) instanceof Number) {
+                            List<Long> longPatterns = new ArrayList<>();
+                            patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
+                            return !longPatterns.contains(((Number) m.get(field)).longValue());
+                        }
+                        return !patterns.contains(m.get(field).toString());
+                    })
+                    .collect(Collectors.toList());
+        }
+        return data;
+    }
+
     private List<DataSet> containsFilterData(String field, Object pattern, List<DataSet> data) {
         List<?> patterns = pattern instanceof List ? (List<?>) pattern : Collections.singletonList(pattern);
         if (patterns.isEmpty())
             return data;
         List<String> splittedField = new ArrayList<>(Arrays.asList(field.split("\\.")));
-        if (splittedField.size() == 1)
-            return Collections.emptyList();
+        if (splittedField.size() == 1) {
+            return data
+                    .stream()
+                    .filter(m -> {
+                        if (!m.containsKey(splittedField.get(0)) || !(m.get(splittedField.get(0)) instanceof List))
+                            return false;
+                        return m.getList(splittedField.get(0)).containsAll(patterns);
+                    })
+                    .collect(Collectors.toList());
+        }
         String indexedField = splittedField.remove(splittedField.size() - 1);
         String parentField = String.join(".", splittedField);
-        data = data
+        return data
                 .stream()
                 .filter(m -> {
                     if (!m.containsKey(parentField) || !(m.get(parentField) instanceof List))
@@ -509,7 +569,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                     return mappedData.containsAll(patterns);
                 })
                 .collect(Collectors.toList());
-        return data;
     }
 
     private List<DataSet> lessFilterData(String field, Object pattern, List<DataSet> data) {
@@ -735,7 +794,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     /**
-     * Переводит строковое представление даты и времени в LocalDateTime
+     * Переводит строковое представление даты и времени в LocalDateTime.
+     * Если строка содержит информацию о часовом поясе, то она будет убрана.
      *
      * @param strDateTime Строковое представление даты и времени в формате ISO_LOCAL_DATE_TIME
      * @return Переменную типа LocalDateTime, соответствующую строковому представлению даты и времени, при неверном формате
@@ -743,7 +803,11 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private LocalDateTime parseToLocalDateTime(String strDateTime) {
         try {
-            return LocalDateTime.parse(strDateTime);
+            ParsePosition pos = new ParsePosition(0);
+            TemporalAccessor temporalAccessor = DateTimeFormatter.ISO_ZONED_DATE_TIME.parseUnresolved(strDateTime, pos);
+            if (temporalAccessor == null || pos.getErrorIndex() >= 0 || pos.getIndex() < strDateTime.length())
+                return LocalDateTime.parse(strDateTime);
+            return ZonedDateTime.parse(strDateTime).toLocalDateTime();
         } catch (DateTimeParseException e) {
             throw new N2oException("Формат даты и времени, используемый в json, не соответствует ISO_LOCAL_DATE_TIME", e);
         }

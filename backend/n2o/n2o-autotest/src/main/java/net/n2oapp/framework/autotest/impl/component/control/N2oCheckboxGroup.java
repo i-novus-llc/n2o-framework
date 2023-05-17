@@ -17,19 +17,21 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
 
     @Override
     public void shouldBeEmpty() {
-        element().$$(".custom-control .n2o-input").find(Condition.checked).shouldNotBe(Condition.exist);
+        element().$$(".custom-control .n2o-input")
+                .find(Condition.checked)
+                .shouldNotBe(Condition.exist);
     }
 
     @Override
     public void check(String label) {
         if (!inputElement(label).isSelected())
-            inputElement(label).shouldBe(Condition.exist).parent().click();
+            inputElement(label).parent().click();
     }
 
     @Override
     public void uncheck(String label) {
         if (inputElement(label).isSelected())
-            inputElement(label).shouldBe(Condition.exist).parent().click();
+            inputElement(label).parent().click();
     }
 
     @Override
@@ -43,11 +45,20 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
     }
 
     @Override
-    public void shouldHaveOptions(String... options) {
-        element().$$(".custom-control-label").shouldHave(CollectionCondition.exactTexts(options));
+    public void shouldHaveOptions(String... labels) {
+        element().$$(".custom-control-label")
+                .shouldHave(CollectionCondition.exactTexts(labels));
     }
 
-    private SelenideElement inputElement(String label) {
-        return element().$$(".custom-control").findBy(Condition.text(label)).$(".n2o-input");
+    @Override
+    public void shouldHaveTooltip(String label) {
+        inputElement(label).shouldHave(Condition.attribute("title", label));
+    }
+
+    protected SelenideElement inputElement(String label) {
+        return element().$$(".custom-control")
+                .findBy(Condition.text(label))
+                .$(".n2o-input")
+                .shouldBe(Condition.exist);
     }
 }

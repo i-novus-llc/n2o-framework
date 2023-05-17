@@ -1,0 +1,37 @@
+[ {
+  "id" : 13,
+  "id_" : "eadad",
+  "id_ips" : "asdaa",
+  "name" : "asdads",
+  "region" : "adad"
+}, {
+  "id" : 12,
+  "id_" : "asd",
+  "id_ips" : "asd",
+  "name" : "adad",
+  "region" : "asdada"
+}, {
+  "id" : 1,
+  "id_" : "emdr_mris-1",
+  "id_ips" : "ey88ee-rugh34-asd4",
+  "name" : "РМИС Республика Адыгея(СТП)",
+  "region" : "Республика Адыгея"
+}, {
+  "id" : 2,
+  "id_" : "emdr_mris-2",
+  "id_ips" : "ey88ee-ruqah34-54eqw",
+  "name" : "РМИС Республика Татарстан(тестовая для ПСИ)",
+  "region" : "Республика Татарстан"
+}, {
+  "id" : 3,
+  "id_" : "emdr_mris-3",
+  "id_ips" : "ey88ea-ruaah34-54eqw",
+  "name" : "ТМК",
+  "region" : ""
+}, {
+  "id" : 4,
+  "id_" : "emdr_mris-4",
+  "id_ips" : "ey88ee-asd52a-54eqw",
+  "name" : "МИС +МЕД",
+  "region" : "Республика Адыгея"
+} ]

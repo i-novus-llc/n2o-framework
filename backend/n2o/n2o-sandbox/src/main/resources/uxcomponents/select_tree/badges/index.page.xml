@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Выпадающий список-дерево с баджами">
+    <form>
+        <fields>
+            <input-select-tree 
+                id="inputSelectTreeWithBadges" 
+                query-id="test" 
+                no-label="true"
+                parent-field-id="parentId"
+                placeholder="Введите значение"
+                badge-field-id="badge"
+                badge-color-field-id="status"
+            />
+        </fields>
+    </form>
+</simple-page>

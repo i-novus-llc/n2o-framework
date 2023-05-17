@@ -45,15 +45,18 @@ public class InputSelectTreeAT extends AutoTestBase {
                 .control(InputSelectTree.class);
         inputSelectTree.shouldHavePlaceholder("SelectOption");
         inputSelectTree.shouldBeUnselected();
-        inputSelectTree.expandOptions();
+        inputSelectTree.click();
         inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(4));
+        inputSelectTree.clearSearchField();
         inputSelectTree.setFilter("three");
 
+        inputSelectTree.click();
+        inputSelectTree.click();
         inputSelectTree.selectOption(0);
         inputSelectTree.selectOption(3);
         inputSelectTree.selectOption(1);
 
-        inputSelectTree.expandOptions();
+        inputSelectTree.click();
 
         inputSelectTree.shouldBeSelected(0, "one");
         inputSelectTree.shouldBeSelected(1, "two");
@@ -71,6 +74,7 @@ public class InputSelectTreeAT extends AutoTestBase {
 
     @Test
     public void readFromQueryTest() {
+        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/nodes");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/nodes/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/nodes/test.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -80,7 +84,7 @@ public class InputSelectTreeAT extends AutoTestBase {
                 .control(InputSelectTree.class);
 
         inputSelectTree.shouldBeUnselected();
-        inputSelectTree.expandOptions();
+        inputSelectTree.click();
         inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(2));
         inputSelectTree.expandParentOptions(0);
         inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(5));
@@ -101,6 +105,7 @@ public class InputSelectTreeAT extends AutoTestBase {
 
     @Test
     public void testSearchMinLength() {
+        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/throttle_delay");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/throttle_delay/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/throttle_delay/test.query.xml"));
 
@@ -109,17 +114,22 @@ public class InputSelectTreeAT extends AutoTestBase {
 
         InputSelectTree inputSelectTree = simplePage.widget(FormWidget.class)
                 .fields().field("Input-select-tree min-length=4").control(InputSelectTree.class);
-        inputSelectTree.expand();
+        inputSelectTree.openPopup();
         DropDownTree dropdown = inputSelectTree.dropdown();
         dropdown.shouldHaveItems(3);
 
-        dropdown.val("a");
+        dropdown.clickOnSearchField();
+        dropdown.setValue("a");
         dropdown.shouldHaveItems(3);
 
-        dropdown.val("aud");
+        dropdown.clickOnSearchField();
+        dropdown.clear();
+        dropdown.setValue("aud");
         dropdown.shouldHaveItems(3);
 
-        dropdown.val("audi");
+        dropdown.clickOnSearchField();
+        dropdown.clear();
+        dropdown.setValue("audi");
         dropdown.shouldHaveItems(1);
     }
 }

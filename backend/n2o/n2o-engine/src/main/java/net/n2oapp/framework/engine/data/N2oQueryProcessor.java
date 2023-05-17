@@ -2,6 +2,7 @@ package net.n2oapp.framework.engine.data;
 
 import lombok.Setter;
 import net.n2oapp.criteria.api.CollectionPage;
+import net.n2oapp.criteria.api.Criteria;
 import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.api.SortingDirection;
 import net.n2oapp.criteria.dataset.DataList;
@@ -365,15 +366,27 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         List<DataSet> content = result.stream()
                 .map(obj -> mapFields(obj, query.getDisplayFields()))
                 .collect(Collectors.toList());
-        return getPage(content, criteria, additionalInfo, () -> {
-            if (criteria.getSize() == 1) {
-                return 1;
-            } else if (selection.getCountMapping() == null) {
-                return executeCount(query, criteria);
-            } else {
-                return calculateCount(res, selection.getCountMapping());
-            }
-        });
+
+        CollectionPage<DataSet> collectionPage;
+
+
+        if (Boolean.FALSE.equals(criteria.getWithCount())) {
+            Boolean hasNext = getNext(content, criteria, selection, query);
+            collectionPage = new CollectionPage<>(hasNext, content, criteria);
+        } else {
+            int size = getSize(content, criteria, ()-> {
+                if (criteria.getSize() == 1) {
+                    return 1;
+                } else if (selection.getCountMapping() == null) {
+                    return executeCount(query, criteria);
+                } else {
+                    return calculateCount(res, selection.getCountMapping());
+                }
+            });
+            collectionPage = new CollectionPage<>(size, content, criteria);
+        }
+        collectionPage.setAdditionalInfo(additionalInfo);
+        return collectionPage;
     }
 
     private N2oQuery.Selection chooseSelection(N2oQuery.Selection[] selections, Set<String> filterFields, String queryId) {
@@ -489,24 +502,35 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         }
     }
 
-    private CollectionPage<DataSet> getPage(Collection<DataSet> content, N2oPreparedCriteria criteria,
-                                            Object additionalInfo, Supplier<Integer> totalSupplier) {
-        CollectionPage<DataSet> collectionPage;
+    private Integer getSize(Collection<DataSet> content, N2oPreparedCriteria criteria,
+                            Supplier<Integer> totalSupplier) {
+        int size;
         if (criteria.getFirst() == 0) {
             if (criteria.getSize() > content.size()) {
-                collectionPage = new CollectionPage<>(content.size(), content, criteria);
+                size = content.size();
             } else {
-                collectionPage = new CollectionPage<>(totalSupplier.get(), content, criteria);
+                size = totalSupplier.get();
             }
         } else if (!content.isEmpty() && criteria.getSize() > content.size()) {
-            collectionPage = new CollectionPage<>(criteria.getFirst() + content.size(), content, criteria);
+            size = criteria.getFirst() + content.size();
         } else {
-            collectionPage = new CollectionPage<>(totalSupplier.get(), content, criteria);
+            size = totalSupplier.get();
         }
+        return size;
+    }
 
-        if (additionalInfo != null)
-            collectionPage.setAdditionalInfo(additionalInfo);
-        return collectionPage;
+    private Boolean getNext(Collection<DataSet> content, N2oPreparedCriteria criteria,
+                            N2oQuery.Selection selection, CompiledQuery query) {
+        if (criteria.getSize() <= content.size()) {
+            N2oPreparedCriteria nextCriteria = new N2oPreparedCriteria(criteria);
+            nextCriteria.setPage(nextCriteria.getPage() + 1);
+            Object nextPageObj = executeQuery(selection, query, nextCriteria);
+            if (nextPageObj instanceof List) {
+                List<?> nextPage = (List<?>) nextPageObj;
+                return !nextPage.isEmpty();
+            }
+        }
+        return false;
     }
 
     @Override

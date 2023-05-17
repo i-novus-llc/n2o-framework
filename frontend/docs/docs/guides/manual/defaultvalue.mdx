@@ -42,7 +42,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 <input-text id="name"
             default-value="Ваше имя"/>
 ```
-<Sandbox height={300} projectId="documentation_defaultvalue_field" showHeader />
+<Sandbox height={300} projectId="interactions_defaultvalue_field" showHeader />
 
 Для списковых полей через элемент `default-value`:
 
@@ -52,7 +52,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
                  name="Мужской"/>
 </select>
 ```
-<Sandbox height={300} projectId="documentation_defaultvalue_list" showHeader />
+<Sandbox height={300} projectId="interactions_defaultvalue_list" showHeader />
 
 ### Значения по умолчанию из выборки
 
@@ -69,7 +69,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 </datasource>
 ```
 Поля выборки, которые вернут null, будут заменены значениями по умолчанию, заданными в полях.
-<Sandbox height={500} projectId="documentation_defaultvalue_query" showHeader />
+<Sandbox height={600} projectId="interactions_defaultvalue_query" showHeader />
 
 ### Вычисляемые значения
 
@@ -78,7 +78,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 ```xml title="Значение по умолчанию в виде JavaScript выражения"
 <output-text id="randomNum" default-value="`Math.random()`"/>
 ```
-<Sandbox height={300} projectId="documentation_defaultvalue_js" showHeader />
+<Sandbox height={300} projectId="interactions_defaultvalue_js" showHeader />
 
 #### Функции работы с данными
 В контексте JavaScript выражения доступны функции и переменные для удобной работы с датами, числами, списками.
@@ -111,7 +111,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 ```xml title="Значение по умолчанию в виде функции даты и времени"
 <date-time id="dt" default-value="`$.now()`"/>
 ```
-<Sandbox height={300} projectId="documentation_defaultvalue_datetime" showHeader />
+<Sandbox height={500} projectId="interactions_defaultvalue_datetime" showHeader />
 
 ### Ссылки на данные
 
@@ -125,6 +125,6 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
              ref-model="resolve"
              ref-page="parent"/>
 ```
-<Sandbox height={400} projectId="documentation_defaultvalue_ref" showHeader />
+<Sandbox height={400} projectId="interactions_defaultvalue_ref" showHeader />
 
 Данные на которые ведет ссылка задается атрибутами `ref-datasource`, `ref-model` и `ref-page`.

@@ -21,9 +21,9 @@ public class N2oCheckboxCell extends N2oCell implements CheckboxCell {
 
     @Override
     public void setChecked(boolean val) {
-        //FIXME element().shouldBe(Condition.exist).setSelected(value);
+        //FIXME element().shouldBe(Condition.exist).setSelected(value); UPD: не может быть пофикшено, тк invisible
         if (val != isChecked())
-            super.element().shouldBe(Condition.exist).$(".n2o-checkbox .n2o-input").click();
+            element().shouldBe(Condition.exist).click();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class N2oCheckboxCell extends N2oCell implements CheckboxCell {
 
     @Override
     public void shouldNotExists() {
-        super.element().$(".n2o-checkbox").shouldNotBe(Condition.exist);
+        element().shouldNotBe(Condition.exist);
     }
 
 }

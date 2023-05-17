@@ -11,18 +11,18 @@ public class N2oOutputText extends N2oControl implements OutputText {
 
     @Override
     public void shouldBeEmpty() {
-        element().shouldBe(Condition.exist);
-        SelenideElement elm = element().$(".text");
-        if (elm.exists())
-            elm.shouldBe(Condition.empty);
+        SelenideElement text = text();
+
+        if (text.exists())
+            text.shouldBe(Condition.empty);
     }
 
     @Override
     public void shouldNotBeEmpty() {
-        element().shouldBe(Condition.exist);
-        SelenideElement elm = element().$(".text");
-        if (elm.exists())
-            elm.shouldNotBe(Condition.empty);
+        SelenideElement text = text();
+
+        if (text.exists())
+            text.shouldNotBe(Condition.empty);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class N2oOutputText extends N2oControl implements OutputText {
 
     @Override
     public void shouldHaveIcon(String icon) {
-        element().$(".n2o-icon." + icon.replace(" ", ".")).shouldBe(Condition.exist);
+        element().$(String.format(".n2o-icon.%s", icon.replace(" ", "."))).shouldBe(Condition.exist);
     }
 
     @Override
@@ -42,6 +42,10 @@ public class N2oOutputText extends N2oControl implements OutputText {
 
     @Override
     public String getValue() {
-        return element().$(".text").text();
+        return text().text();
+    }
+
+    protected SelenideElement text() {
+        return element().shouldBe(Condition.exist).$(".text");
     }
 }

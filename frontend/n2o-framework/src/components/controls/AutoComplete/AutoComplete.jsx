@@ -3,13 +3,11 @@ import PropTypes from 'prop-types'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import isFunction from 'lodash/isFunction'
-import get from 'lodash/get'
 import filter from 'lodash/filter'
 import includes from 'lodash/includes'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
 import isArray from 'lodash/isArray'
-import isString from 'lodash/isString'
 import isNil from 'lodash/isNil'
 import pick from 'lodash/pick'
 import { compose, mapProps } from 'recompose'
@@ -85,9 +83,9 @@ class AutoComplete extends React.Component {
     };
 
     /**
-    * Обрабатывает клик за пределы компонента
-    * вызывается библиотекой react-onclickoutside
-    */
+     * Обрабатывает клик за пределы компонента
+     * вызывается библиотекой react-onclickoutside
+     */
     handleClickOutside = () => {
         const { isExpanded } = this.state
 
@@ -149,7 +147,7 @@ class AutoComplete extends React.Component {
 
             this.setState({ options: filteredData })
         } else {
-        // серверная фильтрация
+            // серверная фильтрация
             const { value } = this.state
             const labels = map(value, item => item[labelFieldId])
 
@@ -206,13 +204,11 @@ class AutoComplete extends React.Component {
     }
 
     onSelect = (item) => {
-        const { valueFieldId, onChange, closePopupOnSelect, tags, labelFieldId } = this.props
-
-        const currentValue = isString(item) ? item : get(item, valueFieldId)
+        const { onChange, closePopupOnSelect, tags, labelFieldId } = this.props
 
         this.setState(
             prevState => ({
-                value: tags ? [...prevState.value, currentValue] : [currentValue],
+                value: tags ? [...prevState.value, item] : [item],
                 input: !tags ? item[labelFieldId] : '',
             }),
             () => {
@@ -222,14 +218,17 @@ class AutoComplete extends React.Component {
                     this.setIsExpanded(false)
                 }
 
-                if (isString(currentValue)) {
+                if (typeof item === 'string') {
                     this.forceUpdate()
                 }
+
                 if (tags) {
                     onChange(value)
-                } else {
-                    onChange(input)
+
+                    return
                 }
+
+                onChange(input)
             },
         )
     }
@@ -410,13 +409,13 @@ class AutoComplete extends React.Component {
                                     >
                                         <div className="n2o-alerts">
                                             {alerts &&
-                        alerts.map(alert => (
-                            <Alert
-                                key={alert.id}
-                                onDismiss={() => onDismiss(alert.id)}
-                                {...alert}
-                            />
-                        ))}
+                                            alerts.map(alert => (
+                                                <Alert
+                                                    key={alert.id}
+                                                    onDismiss={() => onDismiss(alert.id)}
+                                                    {...alert}
+                                                />
+                                            ))}
                                         </div>
                                     </PopupList>
                                 </div>

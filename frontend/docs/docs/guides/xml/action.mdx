@@ -49,34 +49,6 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 <Sandbox height={200} projectId="uxcomponents_actions_link"/>
 
-### &lt;alert&gt; {#alert}
-
-Действие уведомления
-
-**Атрибуты**
-
-|Наименование |Тип                                                        |Описание                                                                                     |Значение по умолчанию                                   |
-|-------------|-----------------------------------------------------------|---------------------------------------------------------------------------------------------|--------------------------------------------------------|
-|title        |Строка                                                     |Текст заголовка уведомления                                                                  |                                                        |
-|text         |Строка                                                     |Текст сообщения уведомления                                                                  |                                                        |
-|style        |Строка                                                     |Стиль уведомления                                                                            |                                                        |
-|class        |Строка                                                     |CSS класс уведомления                                                                        |                                                        |
-|color        |Строка                                                     |Цвет уведомления                                                                             |secondary                                               |
-|href         |Строка                                                     |Ссылка для перехода при клике по уведомлению                                                 |                                                        |
-|close-button |true false                                                 |Наличие кнопки закрытия уведомления                                                          |true                                                    |
-|placement    |top bottom topLeft topRight bottomLeft bottomRight         |Расположение уведомления                                                                     |top                                                     |
-|timeout      |Строка                                                     |Длительность показа уведомления (в мс)                                                       |3000                                                    |
-|time         |Строка                                                     |Время отправки уведомления                                                                   |                                                        |
-|datasource   |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, из которого будет взято значение для плейсхолдеров атрибутов |Идентификатор источника данных родительского компонента |
-|model        |resolve edit filter multi datasource                       |Модель, из которой будет взято значение для плейсхолдеров атрибутов                          |Модель родительского компонента                         |
-
-**Пример**
-
-```xml
-<alert title="title" text="{text}" placement="top" color="info"
-       timeout="5000" time="2022-02-02T12:15:23" datasource="ds1"/>
-```
-
 ### &lt;action&gt; {#action}
 
 Настраиваемое действие
@@ -92,7 +64,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 |redirect-url            |Строка                     |URL адрес, на который произойдет переход после успешного выполнения действия.<br/>Можно задавать относительный путь и плейсхолдеры, например, `redirect-url="../:id"`                             |                                                        |
 |redirect-target         |self newWindow application |Сценарий открытия ссылки после успешного выполнения операции:<br/>`self` - в текущей вкладке<br/>`newWindow` - в новой вкладке<br/>`application` - в текущем приложении (без обращения к серверу) |self                                                    |
 |refresh-on-success      |true false                 |Обновить данные после успешного выполнения действия                                                                                                                                               |true                                                    |
-|refresh-datasources     |Список ссылок на [источники данных](../xml/datasource#datasources) |Идентификаторы источников данных (через запятую), которые необходимо обновить после успешного выполнения действия                                         |Идентификатор источника данных родительского компонента |
+|refresh-datasources     |Список ссылок на [источники данных](../xml/datasource#datasources) |Список идентификаторов источников данных (через запятую), которые необходимо обновить после успешного выполнения действия                                 |Идентификатор источника данных родительского компонента |
 
 **Тело**
 
@@ -119,6 +91,215 @@ http://n2oapp.net/framework/config/schema/action-1.0
 <payload docId="{s3guid}" formId="{formId}"/>
 ```
 
+### &lt;alert&gt; {#alert}
+
+Действие уведомления
+
+**Атрибуты**
+
+|Наименование |Тип                                                        |Описание                                                                                     |Значение по умолчанию                                   |
+|-------------|-----------------------------------------------------------|---------------------------------------------------------------------------------------------|--------------------------------------------------------|
+|title        |Строка                                                     |Текст заголовка уведомления                                                                  |                                                        |
+|text         |Строка                                                     |Текст сообщения уведомления                                                                  |                                                        |
+|style        |Строка                                                     |Стиль уведомления                                                                            |                                                        |
+|class        |Строка                                                     |CSS класс уведомления                                                                        |                                                        |
+|color        |Строка                                                     |Цвет уведомления                                                                             |secondary                                               |
+|href         |Строка                                                     |Ссылка для перехода при клике по уведомлению                                                 |                                                        |
+|close-button |true false                                                 |Наличие кнопки закрытия уведомления                                                          |true                                                    |
+|placement    |top bottom topLeft topRight bottomLeft bottomRight         |Расположение уведомления                                                                     |top                                                     |
+|timeout      |Строка                                                     |Длительность показа уведомления (в мс)                                                       |3000                                                    |
+|time         |Строка                                                     |Время отправки уведомления                                                                   |                                                        |
+|datasource   |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, из которого будет взято значение для плейсхолдеров атрибутов |Идентификатор источника данных родительского компонента |
+|model        |resolve edit filter multi datasource                       |Модель, из которой будет взято значение для плейсхолдеров атрибутов                          |Модель родительского компонента                         |
+
+**Настройки**
+```yaml
+#Цвет уведомления
+n2o.api.action.alert.color = secondary
+#Наличие кнопки закрытия уведомления
+n2o.api.action.alert.close_button = true
+#Расположение уведомления
+n2o.api.action.alert.placement = top
+#Таймаут различных видов сообщений (в мс), после которого они пропадают
+n2o.api.message.success.timeout = 3000
+n2o.api.message.primary.timeout = 3000
+n2o.api.message.secondary.timeout = 3000
+n2o.api.message.dark.timeout = 3000
+n2o.api.message.light.timeout = 3000
+n2o.api.message.danger.timeout = 8000
+n2o.api.message.warning.timeout = 8000
+n2o.api.message.info.timeout = 8000
+```
+
+**Пример**
+
+```xml
+<alert title="title" text="{text}" placement="top" color="info"
+       timeout="5000" time="2022-02-02T12:15:23" datasource="ds1"/>
+```
+
+### &lt;clear&gt; {#clear}
+
+Действие очистки модели
+
+**Атрибуты**
+
+|Наименование     |Тип                                  |Описание                                         |Значение по умолчанию |
+|-----------------|-------------------------------------|-------------------------------------------------|----------------------|
+|datasource       |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, чья модель будет очищена |Идентификатор источника данных родительского компонента |
+|model            |resolve edit filter multi datasource |Список моделей (через запятую), которые будут очищены |Модель родительского компонента |
+|close-on-success |true false                           |Закрыть окно после успешного выполнения действия      |false            |
+
+**Пример**
+
+```xml
+<clear model="edit"/>
+```
+
+<Sandbox height={250} projectId="uxcomponents_actions_clear"/>
+
+### &lt;close&gt; {#close}
+
+Действие закрытия страницы
+
+**Атрибуты**
+
+|Наименование        |Тип        |Описание                                                             |Значение по умолчанию |
+|--------------------|-----------|---------------------------------------------------------------------|----------------------|
+|unsaved-data-prompt |true false |Показать предупреждение о наличии несохраненных данных               |true                  |
+|refresh             |true false |Обновить источник данных родительского виджета при закрытии страницы |false                 |
+
+**Настройки**
+```yaml
+#Обновить источник данных родительского виджета при закрытии страницы
+n2o.api.action.close.refresh_on_close = false
+```
+
+**Пример**
+
+```xml
+<close unsaved-data-prompt="false"/>
+```
+
+<Sandbox height={200} projectId="uxcomponents_actions_close" showHeader/>
+
+### &lt;copy&gt; {#copy}
+
+Действие копирования данных
+
+**Атрибуты**
+
+|Наименование      |Тип                                  |Описание                                                             |Значение по умолчанию |
+|------------------|-------------------------------------|---------------------------------------------------------------------|----------------------|
+|source-model      |resolve edit filter multi datasource |Модель, которая будет скопирована                                    |resolve               |
+|source-datasource |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных для копирования |Идентификатор источника данных родительского компонента |
+|source-field-id   |Строка                               |Идентификатор копируемого поля источника                             |Вся модель            |
+|target-model      |resolve edit filter multi datasource |Модель, в которую производится копирование                           |resolve               |
+|target-datasource |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, в который производится копирование.<br/>Задайте [parent-datasource](../xml/datasource#parent-datasource) для ссылки на источник родительской страницы |Значение `source-datasource` |
+|target-field-id   |Строка                               |Идентификатор поля, в которое производится копирование               |Вся модель            |
+|close-on-success  |true false                           |Закрыть окно после успешного копирования данных                      |true                  |
+|mode              |merge replace add                    |Тип слияния данных:<br/>`merge` - за основу берется модель target, значения из source копируются с заменой<br/>`replace` - за основу берется модель source<br/>`add` - используется для массивов. За основу берется массив target, к нему добавляются все записи из source массива |merge |
+
+**Настройки**
+```yaml
+#Закрыть окно после успешного копирования данных
+n2o.api.action.copy.close_on_success = true
+```
+
+**Пример**
+
+```xml
+<copy source-field-id="id"
+      target-datasource="table"
+      target-field-id="dictionary.id"
+      close-on-success="false"/>
+```
+
+<Sandbox height={300} projectId="uxcomponents_actions_copy"/>
+
+### &lt;edit-list&gt; {#edit-list}
+
+Действие редактирования записи списка без обращения к серверу
+
+**Атрибуты**
+
+|Наименование    |Тип                                                        |Описание                                                       |Значение по умолчанию                                   |
+|----------------|-----------------------------------------------------------|---------------------------------------------------------------|--------------------------------------------------------|
+|operation       |create createMany update delete deleteMany                 |Тип операции                                                   |                                                        |
+|primary-key     |Строка                                                     |Поле, по которому будет искаться запись при изменении/удалении |id                                                      |
+|item-datasource |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, из которого будет взята запись |Идентификатор источника данных родительского компонента |
+|item-model      |resolve edit filter multi datasource                       |Модель, из которой будет взята запись                          |Модель родительского компонента                         |
+|item-field-id   |Строка                                                     |Поле, из которого будет взята запись                           |Вся модель                                              |
+|datasource      |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных списка, который будет обновлен  |Значение `item-datasource`                              |
+|model           |resolve edit filter multi datasource                       |Модель данных списка, которая будет обновлена                  |Значение `item-model`                                   |
+|list-field-id   |Строка                                                     |Поле списка, которое будет обновлено                           |Вся модель                                              |
+
+**Настройки**
+```yaml
+#Поле, по которому будет искаться запись при изменении/удалении
+n2o.api.action.edit_list.primary_key = id
+```
+
+**Пример**
+
+```xml
+<edit-list operation="update" item-datasource="docs" item-model="resolve"/>
+```
+
+### &lt;invoke&gt; {#invoke}
+
+Действие выполнения операции объекта
+
+**Атрибуты**
+
+|Наименование            |Тип                         |Описание                                                                                                                                                              |Значение по умолчанию                                       |
+|------------------------|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
+|operation-id            |Ссылка на [операцию](../xml/object#operation) объекта |Идентификатор операции, которая будет выполнена                                                                                             |                                                            |
+|object-id               |Ссылка на [объект](../xml/object) |Идентификатор объекта, содержащий выполняемую операцию                                                                                                          |                                                            |
+|route                   |Строка                      |URL адрес действия                                                                                                                                                    |Формируется из идентификаторов страницы, виджета и действия |
+|close-on-success        |true false                  |Закрыть окно после успешного выполнения операции. Закроется модальное окно, либо откроется предыдущая страница в хлебных крошках                                      |false                                                       |
+|double-close-on-success |true false                  |Закрыть два окна после успешного выполнения операции. Закроется модальное окно, либо откроется предыдущая страница в хлебных крошках                                  |false                                                       |
+|close-on-fail           |true false                  |Закрыть окно после неудачного выполнения операции. Закроется модальное окно, либо откроется предыдущая страница в хлебных крошках                                     |false                                                       |
+|message-on-success      |true false                  |Показать сообщение об успешном выполнении операции                                                                                                                    |true                                                        |
+|clear-on-success        |true false                  |Очистить источник данных после успешно выполненной операции                                                                                                           |false                                                       |
+|message-on-fail         |true false                  |Показать сообщение о неудачном выполнении операции                                                                                                                    |true                                                        |
+|message-position        |fixed relative              |Положение сообщения:<br/>`fixed` - фиксированное<br/>`relative` - относительное                                                                                       |fixed                                                       |
+|message-placement       |top bottom topLeft topRight bottomLeft bottomRight |Положение сообщения при фиксации                                                                                                               |                                                            |
+|redirect-url            |Строка                      |URL адрес, на который произойдет переход после успешного выполнения операции.<br/>Можно задавать относительный путь и плейсхолдеры, например, `redirect-url="../:id"` |                                                            |
+|redirect-target         |self newWindow application  |Сценарий открытия ссылки после успешного выполнения операции:<br/>`self` - в текущей вкладке<br/>`newWindow` - в новой вкладке<br/>`application` - в текущем приложении (без обращения к серверу) |self                         |
+|refresh-on-success      |true false                  |Обновить данные после успешного выполнения действия                                                                                                                   |true                                                        |
+|refresh-datasources     |Список ссылок на [источники данных](../xml/datasource#datasources) |Идентификаторы источников данных (через запятую), которые необходимо обновить после успешного выполнения операции              |Идентификатор источника данных родительского компонента     |
+|optimistic              |true false                  |Включение режима optimistic запросов на сервер                                                                                                                        |false                                                       |
+|submit-all              |true false                  |Отправить всю форму или только те поля, которые прописаны в form-param                                                                                                |true                                                        |
+|method                  |POST PUT DELETE             |Вызываемый метод                                                                                                                                                      |POST                                                        |
+
+**Настройки**
+```yaml
+#Включение режима optimistic запросов на сервер
+n2o.api.action.invoke.optimistic = false
+#Вызываемый метод
+n2o.api.action.invoke.method = POST
+```
+
+**Тело**
+
+&lt;path-param&gt; - [Параметр пути](#path-param) <br/>
+&lt;form-param&gt; - [Параметр запроса](#form-param) <br/>
+&lt;header-param&gt; - [Параметр заголовка запроса](#header-param)
+
+**Пример**
+
+```xml
+<invoke operation-id="update" model="edit"
+        confirm="false" close-on-success="true" method="POST">
+    <form-param id="..." value="..."/>
+    <path-param name="..." value="..."/>
+    <header-param name="..." value="..."/>
+</invoke>
+```
+
+<Sandbox height={250} projectId="uxcomponents_actions_submit"/>
+
 ### &lt;print&gt; {#print}
 
 Действие печати
@@ -134,6 +315,18 @@ http://n2oapp.net/framework/config/schema/action-1.0
 |loader         |true false     |Показывать модальное окно с лоадером при загрузке         |false                 |
 |loader-text    |Строка         |Текст внутри модального окна с лоадером                   |                      |
 |base64         |true false     |Печатать из base64                                        |false                 |
+
+**Настройки**
+```yaml
+#Тип документа для печати
+n2o.api.action.print.document_type = pdf
+#Сохранение отступов в документах
+n2o.api.action.print.keep_indent = false
+#Показывать модальное окно с лоадером при загрузке
+n2o.api.action.print.loader = false
+#Печатать из base64
+n2o.api.action.print.base64 = false
+```
 
 **Тело**
 
@@ -166,134 +359,6 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 <Sandbox height={250} projectId="uxcomponents_actions_refresh"/>
 
-### &lt;submit&gt; {#submit}
-
-Действие сохранения источника данных
-
-**Атрибуты**
-
-|Наименование|Тип                                                        |Описание                       |Значение по умолчанию                                   |
-|------------|-----------------------------------------------------------|-------------------------------|--------------------------------------------------------|
-|datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных |Идентификатор источника данных родительского компонента |
-
-**Пример**
-
-```xml
-<submit datasource="ds1"/>
-```
-
-### &lt;invoke&gt; {#invoke}
-
-Действие выполнения операции объекта
-
-**Атрибуты**
-
-|Наименование            |Тип                         |Описание                                                                                                                                                              |Значение по умолчанию                                       |
-|------------------------|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
-|operation-id            |Ссылка на [операцию](../xml/object#operation) объекта |Идентификатор операции, которая будет выполнена                                                                                             |                                                            |
-|object-id               |Ссылка на [объект](../xml/object) |Идентификатор объекта, содержащий выполняемую операцию                                                                                                          |                                                            |
-|route                   |Строка                      |URL адрес действия                                                                                                                                                    |Формируется из идентификаторов страницы, виджета и действия |
-|close-on-success        |true false                  |Закрыть окно после успешного выполнения операции. Закроется модальное окно, либо откроется предыдущая страница в хлебных крошках                                      |false                                                       |
-|double-close-on-success |true false                  |Закрыть два окна после успешного выполнения операции. Закроется модальное окно, либо откроется предыдущая страница в хлебных крошках                                  |false                                                       |
-|close-on-fail           |true false                  |Закрыть окно после неудачного выполнения операции. Закроется модальное окно, либо откроется предыдущая страница в хлебных крошках                                     |false                                                       |
-|message-on-success      |true false                  |Показать сообщение об успешном выполнении операции                                                                                                                    |true                                                        |
-|clear-on-success        |true false                  |Очистить источник данных после успешно выполненной операции                                                                                                           |false                                                       |
-|message-on-fail         |true false                  |Показать сообщение о неудачном выполнении операции                                                                                                                    |true                                                        |
-|message-position        |fixed relative              |Положение сообщения:<br/>`fixed` - фиксированное<br/>`relative` - относительное                                                                                       |fixed                                                       |
-|message-placement       |top bottom topLeft topRight bottomLeft bottomRight |Положение сообщения при фиксации                                                                                                               |                                                            |
-|redirect-url            |Строка                      |URL адрес, на который произойдет переход после успешного выполнения операции.<br/>Можно задавать относительный путь и плейсхолдеры, например, `redirect-url="../:id"` |                                                            |
-|redirect-target         |self newWindow application  |Сценарий открытия ссылки после успешного выполнения операции:<br/>`self` - в текущей вкладке<br/>`newWindow` - в новой вкладке<br/>`application` - в текущем приложении (без обращения к серверу) |self                         |
-|refresh-on-success      |true false                  |Обновить данные после успешного выполнения действия                                                                                                                   |true                                                        |
-|refresh-datasources     |Список ссылок на [источники данных](../xml/datasource#datasources) |Идентификаторы источников данных (через запятую), которые необходимо обновить после успешного выполнения операции              |Идентификатор источника данных родительского компонента     |
-|optimistic              |true false                  |Включение режима optimistic запросов на сервер                                                                                                                        |false                                                       |
-|submit-all              |true false                  |Отправить всю форму или только те поля, которые прописаны в form-param                                                                                                |true                                                        |
-|method                  |POST PUT DELETE             |Вызываемый метод                                                                                                                                                      |POST                                                        |
-
-**Тело**
-
-&lt;path-param&gt; - [Параметр пути](#path-param) <br/>
-&lt;form-param&gt; - [Параметр запроса](#form-param) <br/>
-&lt;header-param&gt; - [Параметр заголовка запроса](#header-param)
-
-**Пример**
-
-```xml
-<invoke operation-id="update" model="edit"
-        confirm="false" close-on-success="true" method="POST">
-    <form-param id="..." value="..."/>
-    <path-param name="..." value="..."/>
-    <header-param name="..." value="..."/>
-</invoke>
-```
-
-<Sandbox height={250} projectId="uxcomponents_actions_submit"/>
-
-### &lt;close&gt; {#close}
-
-Действие закрытия страницы
-
-**Атрибуты**
-
-|Наименование        |Тип        |Описание                                                             |Значение по умолчанию |
-|--------------------|-----------|---------------------------------------------------------------------|----------------------|
-|unsaved-data-prompt |true false |Показать предупреждение о наличии несохраненных данных               |true                  |
-|refresh             |true false |Обновить источник данных родительского виджета при закрытии страницы |false                 |
-
-**Пример**
-
-```xml
-<close unsaved-data-prompt="false"/>
-```
-
-<Sandbox height={200} projectId="uxcomponents_actions_close" showHeader/>
-
-### &lt;copy&gt; {#copy}
-
-Действие копирования данных
-
-**Атрибуты**
-
-|Наименование      |Тип                                  |Описание                                                             |Значение по умолчанию |
-|------------------|-------------------------------------|---------------------------------------------------------------------|----------------------|
-|source-model      |resolve edit filter multi datasource |Модель, которая будет скопирована                                    |resolve               |
-|source-datasource |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных для копирования |Идентификатор источника данных родительского компонента |
-|source-field-id   |Строка                               |Идентификатор копируемого поля источника                             |Вся модель            |
-|target-model      |resolve edit filter multi datasource |Модель, в которую производится копирование                           |resolve               |
-|target-datasource |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, в который производится копирование.<br/>Задайте [parent-datasource](../xml/datasource#parent-datasource) для ссылки на источник родительской страницы |Значение `source-datasource` |
-|target-field-id   |Строка                               |Идентификатор поля, в которое производится копирование               |Вся модель            |
-|close-on-success  |true false                           |Закрыть окно после успешного копирования данных                      |true                  |
-|mode              |merge replace add                    |Тип слияния данных:<br/>`merge` - за основу берется модель target, значения из source копируются с заменой<br/>`replace` - за основу берется модель source<br/>`add` - используется для массивов. За основу берется массив target, к нему добавляются все записи из source массива |merge |
-
-**Пример**
-
-```xml
-<copy source-field-id="id"
-      target-datasource="table"
-      target-field-id="dictionary.id"
-      close-on-success="false"/>
-```
-
-<Sandbox height={300} projectId="uxcomponents_actions_copy"/>
-
-### &lt;clear&gt; {#clear}
-
-Действие очистки модели
-
-**Атрибуты**
-
-|Наименование     |Тип                                  |Описание                                         |Значение по умолчанию |
-|-----------------|-------------------------------------|-------------------------------------------------|----------------------|
-|datasource       |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, чья модель будет очищена |Идентификатор источника данных родительского компонента |
-|model            |resolve edit filter multi datasource |Список моделей (через запятую), которые будут очищены |Модель родительского компонента |
-|close-on-success |true false                           |Закрыть окно после успешного выполнения действия      |false            |
-
-**Пример**
-
-```xml
-<clear model="edit"/>
-```
-
-<Sandbox height={250} projectId="uxcomponents_actions_clear"/>
 
 ### &lt;set-value&gt; {#set-value}
 
@@ -314,7 +379,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 ```xml
 <set-value target-datasource="users" target-model="resolve" to="fullname">
-  return firstName + ' ' + lastName;
+    return firstName + ' ' + lastName;
 </set-value>
 ```
 
@@ -322,27 +387,20 @@ http://n2oapp.net/framework/config/schema/action-1.0
 <set-value to="clock">moment().format('hh:mm:ss')</set-value>
 ```
 
-### &lt;edit-list&gt; {#edit-list}
+### &lt;submit&gt; {#submit}
 
-Действие редактирования записи списка без обращения к серверу
+Действие сохранения источника данных
 
 **Атрибуты**
 
-|Наименование    |Тип                                                        |Описание                                                       |Значение по умолчанию                                   |
-|----------------|-----------------------------------------------------------|---------------------------------------------------------------|--------------------------------------------------------|
-|operation       |create createMany update delete deleteMany                 |Тип операции                                                   |                                                        |
-|primary-key     |Строка                                                     |Поле, по которому будет искаться запись при изменении/удалении |id                                                      |
-|item-datasource |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, из которого будет взята запись |Идентификатор источника данных родительского компонента |
-|item-model      |resolve edit filter multi datasource                       |Модель, из которой будет взята запись                          |Модель родительского компонента                         |
-|item-field-id   |Строка                                                     |Поле, из которого будет взята запись                           |Вся модель                                              |
-|datasource      |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных списка, который будет обновлен  |Значение `item-datasource`                              |
-|model           |resolve edit filter multi datasource                       |Модель данных списка, которая будет обновлена                  |Значение `item-model`                                   |
-|list-field-id   |Строка                                                     |Поле списка, которое будет обновлено                           |Вся модель                                              |
+|Наименование|Тип                                                        |Описание                       |Значение по умолчанию                                   |
+|------------|-----------------------------------------------------------|-------------------------------|--------------------------------------------------------|
+|datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных |Идентификатор источника данных родительского компонента |
 
 **Пример**
 
 ```xml
-<edit-list operation="update" item-datasource="docs" item-model="resolve"/>
+<submit datasource="ds1"/>
 ```
 
 ## Действия по условию {#condition_actions}
@@ -369,7 +427,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 ```xml
 <switch value-field-id="code">
     <case value="A">
-       <open-page page-id="test"/>
+        <open-page page-id="test"/>
     </case>
     <case value="B">
         <invoke operation-id="create"/>
@@ -506,6 +564,18 @@ http://n2oapp.net/framework/config/schema/action-1.0
 |target-page                   |parent this                                                              |Страница, в источник данных которой будут скопированы данные                                |parent                                                  |
 |copy-mode                     |merge replace add                                                        |Тип слияния данных:<br/>`merge` - за основу берется модель target, значения из source копируются с заменой<br/>`replace` - за основу берется модель source<br/>`add` - используется для массивов. За основу берется массив target, к нему добавляются все записи из source массива |merge |
 
+**Настройки**
+```yaml
+#Размер модального окна
+n2o.api.action.show_modal.size = lg
+#Будет ли модальное окно фиксированного размера, а полоса прокрутки внутри
+n2o.api.action.show_modal.scrollable = false
+#Наличие шапки
+n2o.api.action.show_modal.has_header = true
+#Наличие фона модального окна и закрытие по клику на фон
+n2o.api.action.show_modal.backdrop = static
+```
+
 **Тело**
 
 &lt;params&gt; - Список [параметров пути](#path-param) и [параметров запроса](#query-param) <br/>
@@ -545,7 +615,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 |backdrop                     |true false                                                 |Наличие фона                                                                                |true                                                    |
 |close-on-escape              |true false                                                 |Закрыть окно при нажатии на Esc                                                             |true                                                    |
 |close-on-backdrop            |true false                                                 |Закрыть окно по клику на фон                                                                |true                                                    |
-|width                        |Строка                                                     |Ширина окна                                                                                 |                                                        |
+|width                        |Строка                                                     |Ширина окна                                                                                 |400                                                     |
 |height                       |Строка                                                     |Высота окна                                                                                 |                                                        |
 |placement                    |left top right bottom                                      |Позиция окна                                                                                |right                                                   |
 |fixed-footer                 |true false                                                 |Фиксирование подвала (footer)                                                               |false                                                   |
@@ -559,6 +629,24 @@ http://n2oapp.net/framework/config/schema/action-1.0
 |target-field-id              |Строка                                                     |Идентификатор поля виджета текущей страницы, в которое будут скопированы данные             |Вся модель                                              |
 |target-page                  |parent this                                                |Страница, в источник данных которой будут скопированы данные                                |parent                                                  |
 |copy-mode                    |merge replace add                                          |Тип слияния данных:<br/>`merge` - за основу берется модель target, значения из source копируются с заменой<br/>`replace` - за основу берется модель source<br/>`add` - используется для массивов. За основу берется массив target, к нему добавляются все записи из source массива |merge |
+
+**Настройки**
+```yaml
+#Наличие крестика для закрытия drawer окна
+n2o.api.action.open_drawer.closable = true
+#Наличие фона
+n2o.api.action.open_drawer.backdrop = true
+#Закрыть окно при нажатии на Esc
+n2o.api.action.open_drawer.close_on_escape = true
+#Закрыть окно по клику на фон
+n2o.api.action.open_drawer.close_on_backdrop = true
+#Ширина окна
+n2o.api.action.open_drawer.width = 400
+#Позиция окна
+n2o.api.action.open_drawer.placement = right
+#Фиксирование подвала (footer)
+n2o.api.action.open_drawer.fixed_footer = false
+```
 
 **Тело**
 
@@ -682,8 +770,8 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 ```xml
 <breadcrumbs>
-  <crumb label="Первая страница" path="/"/>
-  <crumb label="Вторая страница"/>
+    <crumb label="Первая страница" path="/"/>
+    <crumb label="Вторая страница"/>
 </breadcrumbs>
 ```
 

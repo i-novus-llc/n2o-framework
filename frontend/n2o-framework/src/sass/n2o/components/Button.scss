@@ -1,0 +1,30 @@
+/*
+    Данное решение следует рассматривать как временное
+    для иконок внутри кнопок заданы размеры контейнера чтобы кнопки не зависили от размера
+    иконок.
+    Кнопка является flex контейнером
+*/
+.btn {
+    display: inline-flex;
+    column-gap: 0.35em;
+    align-items: center;
+}
+
+.btn > i {
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25em;
+    height: 1.25em;
+}
+
+.btn-sm > i {
+    width: 1.143em;
+    height: 1.143em;
+}
+
+.btn-lg > i {
+    width: 1.2em;
+    height: 1.2em;
+}

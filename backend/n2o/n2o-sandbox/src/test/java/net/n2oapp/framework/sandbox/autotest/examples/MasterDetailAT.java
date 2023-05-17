@@ -5,10 +5,13 @@ import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
+import net.n2oapp.framework.autotest.run.AutoTestApplication;
+import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,12 +19,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 
-@SpringBootTest(properties = {
-        "n2o.engine.test.classpath=/examples/crud/",
-        "n2o.sandbox.project-id=examples_master_detail"},
-        classes = SandboxAutotestApplication.class,
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/examples/crud/"},
+        classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class MasterDetailAT extends SandboxAutotestBase {
+public class MasterDetailAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -37,20 +38,23 @@ public class MasterDetailAT extends SandboxAutotestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        builder.sources(new CompileInfo("/examples/master_detail/index.page.xml"),
+                new CompileInfo("/examples/master_detail/test.query.xml"));
     }
 
     @Test
     public void crudTest() {
         LeftRightPage page = open(LeftRightPage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Связь Master Detail");
 
         TableWidget table = page.left().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(2);
         TableWidget.Rows rows = table.columns().rows();
-        table.paging().totalElementsShouldBe(4);
+        table.paging().shouldHaveTotalElements(4);
         rows.columnShouldHaveTexts(0, Arrays.asList("1", "2", "3", "4"));
         rows.columnShouldHaveTexts(1, Arrays.asList("test1", "test2", "test3", "test4"));
 

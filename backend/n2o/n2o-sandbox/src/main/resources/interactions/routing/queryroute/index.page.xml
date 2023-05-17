@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Маршрут выборки">
+    <datasources>
+        <datasource id="persons" query-id="persons" route="/list"/>
+    </datasources>
+    <regions>
+        <table datasource="persons">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+    </regions>
+</page>

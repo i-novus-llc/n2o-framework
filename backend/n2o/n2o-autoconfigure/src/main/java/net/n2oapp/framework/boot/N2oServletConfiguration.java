@@ -12,12 +12,14 @@ import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.mvc.cache.ClientCacheTemplate;
 import net.n2oapp.framework.mvc.cache.LifetimeClientCacheTemplate;
 import net.n2oapp.framework.ui.controller.DataController;
+import net.n2oapp.framework.ui.controller.ExportController;
 import net.n2oapp.framework.ui.servlet.AppConfigJsonWriter;
 import net.n2oapp.framework.ui.servlet.AppConfigServlet;
 import net.n2oapp.framework.ui.servlet.ExposedResourceBundleMessageSource;
 import net.n2oapp.framework.ui.servlet.ModifiedClientCacheTemplate;
 import net.n2oapp.framework.ui.servlet.data.DataServlet;
 import net.n2oapp.framework.ui.servlet.page.PageServlet;
+import net.n2oapp.framework.ui.servlet.table.ExportServlet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -84,6 +86,14 @@ public class N2oServletConfiguration {
         dataServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
         dataServlet.setMessageBuilder(messageBuilder);
         return new ServletRegistrationBean(dataServlet, n2oApiUrl + "/data/*");
+    }
+
+    @Bean
+    public ServletRegistrationBean exportServlet(ExportController controller,
+                                                 AlertMessageBuilder messageBuilder) {
+        ExportServlet exportServlet = new ExportServlet(controller);
+        exportServlet.setMessageBuilder(messageBuilder);
+        return new ServletRegistrationBean(exportServlet, n2oApiUrl + "/export/*");
     }
 
     @Bean

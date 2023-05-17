@@ -8,7 +8,8 @@
            placement="right"
            headlines="true"
            active-param="item"
-           routable="false">
+           routable="false"
+           max-height="700">
     <menu-item id="mi1" title="First item title in the list">
         <tabs>
             <tab>
@@ -33,4 +34,15 @@
             <form/>
         </menu-item>
     </sub-menu>
+    <group id="group1" title="group" headline="true">
+        <menu-item id="mi6" title="Item in group">
+            <table/>
+            <form/>
+        </menu-item>
+        <sub-menu id="mi7" title="Sub-menu Item in group">
+            <menu-item id="mi8" title="Title">
+                <form/>
+            </menu-item>
+        </sub-menu>
+    </group>
 </scrollspy>

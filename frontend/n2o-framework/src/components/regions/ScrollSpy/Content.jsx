@@ -1,8 +1,7 @@
-import React, { useRef, useImperativeHandle, forwardRef, useCallback, useContext, useEffect } from 'react'
+import React, { useRef, useImperativeHandle, forwardRef, useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { debounce } from 'lodash'
 
-import { ScrollContext } from '../../snippets/ScrollContainer/ScrollContainer'
 import { usePrevious } from '../../../utils/usePrevious'
 
 import { SectionGroup } from './Section'
@@ -19,9 +18,10 @@ export const Content = forwardRef(({
     pageId,
     active,
     setActive,
+    headlines,
+    scrollState,
 }, forwardedRef) => {
-    const scrollSate = useContext(ScrollContext)
-    const prevScroll = usePrevious(scrollSate)
+    const prevScroll = usePrevious(scrollState)
     const sections = useRef({})
     const contentRef = useRef(null)
     const setSectionRef = useCallback((id, ref) => {
@@ -39,15 +39,15 @@ export const Content = forwardRef(({
     }), [sections, setIgnoreScroll])
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const onScroll = useCallback(debounce((scrollSate) => {
+    const onScroll = useCallback(debounce((scrollState) => {
         const content = contentRef.current
 
         if (ignoreScroll || !content) { return }
 
         const { top } = content.getBoundingClientRect()
-        const offset = Math.round(top - scrollSate.top + scrollSate.scrollTop)
+        const offset = Math.round(top - scrollState.top + scrollState.scrollTop)
 
-        const newActive = getActive(scrollSate, sections.current, offset)
+        const newActive = getActive(scrollState, sections.current, offset)
 
         if (newActive && newActive !== active) {
             setActive(newActive)
@@ -57,20 +57,20 @@ export const Content = forwardRef(({
     useEffect(() => {
         if (!prevScroll) { return }
 
-        // Корректировочный скрол при изменении размеров контенера
+        // Корректировочный скрол при изменении размеров контейнера
         if (
-            (scrollSate.scrollHeight !== prevScroll.scrollHeight) ||
-            (scrollSate.clientHeight !== prevScroll.clientHeight)
+            (scrollState.scrollHeight !== prevScroll.scrollHeight) ||
+            (scrollState.clientHeight !== prevScroll.clientHeight)
         ) {
             forwardedRef.current.scrollTo(active)
 
             return
         }
 
-        if (scrollSate.scrollTop !== prevScroll.scrollTop) {
-            onScroll(scrollSate)
+        if (scrollState.scrollTop !== prevScroll.scrollTop) {
+            onScroll(scrollState)
         }
-    }, [scrollSate, prevScroll, onScroll, forwardedRef, active])
+    }, [scrollState, prevScroll, onScroll, forwardedRef, active])
 
     return (
         <section className={CONTENT_GROUP_CLASS_NAME} ref={contentRef}>
@@ -80,6 +80,7 @@ export const Content = forwardRef(({
                     setSectionRef={setSectionRef}
                     pageId={pageId}
                     active={active}
+                    headlines={headlines}
                 />
             ))}
         </section>

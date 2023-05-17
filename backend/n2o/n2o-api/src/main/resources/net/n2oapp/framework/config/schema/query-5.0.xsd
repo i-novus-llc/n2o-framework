@@ -54,8 +54,7 @@
                 <xs:attribute name="result-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Маппинг списка результатов.
-                            Для каждого провайдера данных свои значения по умолчанию
+                            Маппинг списка результатов
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -69,8 +68,7 @@
                 <xs:attribute name="count-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Маппинг общего количества записей.
-                            Для каждого провайдера данных свои значения по умолчанию
+                            Маппинг общего количества записей
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -93,6 +91,11 @@
                         <xs:documentation>
                             Маппинг дополнительной информации
                         </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="additional-mapping" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Маппинг дополнительной информации.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -199,7 +202,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="domain" type="dmn:domainType" default="string">
+                <xs:attribute name="domain" type="dmn:domainType">
                     <xs:annotation>
                         <xs:documentation>
                             Тип данных
@@ -215,7 +218,11 @@
                 </xs:attribute>
                 <xs:attribute name="sorting" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Является ли поле сортируемым</xs:documentation>
+                        <xs:documentation>
+                            Является ли поле сортируемым.
+                            По умолчанию: false.
+                            Если задан `sorting-expression`, то - true
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="sorting-mapping" type="xs:string">
@@ -245,19 +252,19 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="eq" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="eqOrIsNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="in" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="inOrIsNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="like" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="likeStart" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="contains" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="overlaps" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="notEq" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="more" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="less" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="notEq" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="like" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="in" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="notIn" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
+            <!-- only for Test provider -->
+            <xs:element name="contains" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="isNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="isNotNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="eqOrIsNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
+            <!-- only for MongoDB provider -->
+            <xs:element name="likeStart" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -285,7 +292,7 @@
             <xs:annotation>
                 <xs:documentation>
                     Маппинг значения фильтра в поле провайдера.
-                    По умолчанию: идентификатор фильтра
+                    По умолчанию: значение `filter-id`
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -293,14 +300,14 @@
             <xs:annotation>
                 <xs:documentation>
                     Тип, в который будет сконвертировано значение фильтра.
-                    По умолчанию: domain от field с преобразованием в список для множественных типов
+                    По умолчанию: Значение `domain` от `<field>`
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="default-value" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Значение, по которому будет идти постоянная фильтрация, если для фильтра не передано значение
+                    Значение, которое будет использоваться, если значение фильтра не передано
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -337,7 +344,7 @@
             <xs:annotation>
                 <xs:documentation>
                     Маппинг данных поля из провайдера.
-                    По умолчанию: идентификатор поля
+                    По умолчанию: значение `id`
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

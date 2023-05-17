@@ -40,6 +40,7 @@ public class OutputListAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
                 new N2oFieldSetsPack(), new N2oControlsPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/control/output_list");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/output_list/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/output_list/test.query.xml"));
@@ -53,8 +54,8 @@ public class OutputListAT extends AutoTestBase {
         String separator = ",";
         outputList.shouldHaveValues(separator, "test2", "test4");
         outputList.shouldHaveLinkValues(separator, "test1", "test3");
-        outputList.linkShouldHaveValue("test1", "http://example.com/1");
-        outputList.linkShouldHaveValue("test3", "http://example.com/2");
+        outputList.shouldHaveLink("test1", "http://example.com/1");
+        outputList.shouldHaveLink("test3", "http://example.com/2");
         outputList.shouldHaveDirection(Direction.column);
 
         OutputList outputList2 = fields.field("output2").control(OutputList.class);

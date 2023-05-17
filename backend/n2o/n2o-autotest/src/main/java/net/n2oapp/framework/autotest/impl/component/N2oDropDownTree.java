@@ -20,23 +20,29 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
     }
 
     @Override
-    public void val(String value) {
+    public void clickOnSearchField() {
         searchField().click();
-        clear();
-        searchField().sendKeys(value);
+    }
+
+    @Override
+    public void setValue(String value) {
+        searchField().setValue(value);
     }
 
     @Override
     public void clear() {
-        searchField().sendKeys(Keys.CONTROL + "a");
-        searchField().sendKeys(Keys.BACK_SPACE);
+        searchField().clear();
     }
 
-    private SelenideElement searchField() {
+    protected SelenideElement searchField() {
         return element().$(".n2o-select-tree-search__field");
     }
 
     public class N2oDropDownTreeItem extends N2oComponent implements DropDownTreeItem {
+
+        private static final String SELECTED_NODE = "n2o-select-tree-tree-node-selected";
+
+        private static final String SWITCHER = "n2o-select-tree-tree-switcher";
 
         public N2oDropDownTreeItem(SelenideElement element) {
             setElement(element);
@@ -61,24 +67,32 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
 
         @Override
         public void shouldBeExpanded() {
-            switcher().shouldHave(Condition.cssClass("n2o-select-tree-tree-switcher_open"));
+            switcher().shouldHave(Condition.cssClass(String.format("%s_open", SWITCHER)));
         }
 
         @Override
         public void shouldBeCollapsed() {
-            switcher().shouldHave(Condition.cssClass("n2o-select-tree-tree-switcher_close"));
+            switcher().shouldHave(Condition.cssClass(String.format("%s_close", SWITCHER)));
         }
 
         public void shouldHaveValue(String value) {
             element().shouldHave(Condition.text(value));
         }
 
-        private Condition isExpanded() {
-            return Condition.cssClass("n2o-select-tree-tree-switcher_open");
+        public void shouldBeSelected() {
+            element().shouldHave(Condition.cssClass(SELECTED_NODE));
         }
 
-        private SelenideElement switcher() {
-            return element().parent().$(".n2o-select-tree-tree-switcher");
+        public void shouldNotBeSelected() {
+            element().shouldNotHave(Condition.cssClass(SELECTED_NODE));
+        }
+
+        private Condition isExpanded() {
+            return Condition.cssClass(String.format("%s_open", SWITCHER));
+        }
+
+        protected SelenideElement switcher() {
+            return element().parent().$(String.format(".%s", SWITCHER));
         }
     }
 }

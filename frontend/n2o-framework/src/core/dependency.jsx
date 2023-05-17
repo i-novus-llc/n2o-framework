@@ -88,9 +88,9 @@ export const dependency = (WrappedComponent) => {
     }
 
     const mapStateToProps = (state, props) => ({
-        isInit: makeWidgetIsInitSelector(props.id)(state, props),
-        visible: makeWidgetVisibleSelector(props.id)(state, props),
-        disabled: makeWidgetDisabledSelector(props.id)(state, props),
+        isInit: makeWidgetIsInitSelector(props.id)(state),
+        visible: makeWidgetVisibleSelector(props.id)(state),
+        disabled: makeWidgetDisabledSelector(props.id)(state),
     })
 
     const mapDispatchToProps = (dispatch, ownProps) => {

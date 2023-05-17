@@ -1,5 +1,4 @@
 import { takeEvery, select, put, call, fork } from 'redux-saga/effects'
-import { isDirty } from 'redux-form'
 import keys from 'lodash/keys'
 import has from 'lodash/has'
 import get from 'lodash/get'
@@ -8,6 +7,7 @@ import { LOCATION_CHANGE } from 'connected-react-router'
 import { makePageRoutesByIdSelector, makePageWidgetsByIdSelector } from '../pages/selectors'
 import { dataRequest } from '../datasource/store'
 import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
+import { isDirtyForm } from '../form/selectors'
 
 import { CLOSE } from './constants'
 import {
@@ -36,7 +36,7 @@ export function* checkOnDirtyForm(name) {
 
     for (let i = 0; i < widgetsKeys.length; i++) {
         if (widget[widgetsKeys[i]].src === 'FormWidget') {
-            someOneDirtyForm = isDirty(widgetsKeys[i])(state)
+            someOneDirtyForm = isDirtyForm(widgetsKeys[i])(state)
         }
     }
 
@@ -108,8 +108,8 @@ export function* resetQuerySaga(pageId) {
     if (routes) {
         const resetQuery = {}
 
-        for (const [k] of Object.entries(routes.queryMapping)) {
-            resetQuery[k] = undefined
+        for (const key of Object.keys(routes.queryMapping)) {
+            resetQuery[key] = undefined
         }
 
         yield mapQueryToUrl(pageId, resetQuery, true)

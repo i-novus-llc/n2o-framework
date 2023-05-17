@@ -42,7 +42,7 @@ public class LineFieldSetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testLineFieldsetCompile"));
         Form form = (Form) page.getWidget();
         List<FieldSet> fields = form.getComponent().getFieldsets();
-        assertThat(fields.size(), is(2));
+        assertThat(fields.size(), is(4));
 
         LineFieldSet lineFieldSet = (LineFieldSet) fields.get(0);
         assertThat(lineFieldSet.getSrc(), is("LineFieldset"));
@@ -59,5 +59,21 @@ public class LineFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(lineFieldSet2.getHasSeparator(), is(false));
         assertThat(lineFieldSet2.getExpand(), is(false));
         assertThat(lineFieldSet2.getDescription(), is("description"));
+
+        LineFieldSet lineFieldSetBadge = (LineFieldSet) fields.get(2);
+        assertThat(lineFieldSetBadge.getBadge().getText(), is("`test`"));
+        assertThat(lineFieldSetBadge.getBadge().getPosition().getId(), is("right"));
+        assertThat(lineFieldSetBadge.getBadge().getShape().getId(), is("square"));
+        assertThat(lineFieldSetBadge.getBadge().getImagePosition().getId(), is("left"));
+        assertThat(lineFieldSetBadge.getBadge().getImageShape().getId(), is("circle"));
+
+        lineFieldSetBadge = (LineFieldSet) fields.get(3);
+        assertThat(lineFieldSetBadge.getBadge().getText(), is("text"));
+        assertThat(lineFieldSetBadge.getBadge().getPosition().getId(), is("left"));
+        assertThat(lineFieldSetBadge.getBadge().getShape().getId(), is("circle"));
+        assertThat(lineFieldSetBadge.getBadge().getImage(), is("test"));
+        assertThat(lineFieldSetBadge.getBadge().getImagePosition().getId(), is("right"));
+        assertThat(lineFieldSetBadge.getBadge().getImageShape().getId(), is("square"));
+
     }
 }

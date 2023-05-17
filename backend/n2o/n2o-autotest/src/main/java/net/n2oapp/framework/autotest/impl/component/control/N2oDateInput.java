@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import org.openqa.selenium.Keys;
@@ -12,27 +13,31 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void shouldBeEmpty() {
-        SelenideElement elm = inputElement();
-        if (elm.exists()) elm.shouldBe(Condition.empty);
-        else cellInputElement().shouldBe(Condition.empty);
+        SelenideElement input = inputElement();
+        if (input.exists())
+            input.shouldBe(Condition.empty);
+        else
+            cellInputElement().shouldBe(Condition.empty);
     }
 
     @Override
     public void shouldHaveValue(String value) {
-        SelenideElement elm = inputElement();
-        if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ? Condition.empty : Condition.value(value));
-        else cellInputElement().shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.text(value));
+        SelenideElement input = inputElement();
+
+        if (input.exists())
+            input.shouldHave(Condition.value(value));
+        else
+            cellInputElement().shouldHave(Condition.text(value));
     }
 
     @Override
-    public String val() {
-        SelenideElement elm = inputElement();
-        return elm.exists() ? elm.val() : cellInputElement().text();
+    public String getValue() {
+        SelenideElement input = inputElement();
+        return input.exists() ? input.getValue() : cellInputElement().text();
     }
 
     @Override
-    public void val(String value) {
+    public void setValue(String value) {
         boolean isEditableCell = element().is(Condition.cssClass("n2o-editable-cell"));
 
         if (!inputElement().exists() && isEditableCell)
@@ -46,11 +51,16 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void timeVal(String hours, String minutes, String seconds) {
+        //ToDo: Можно ли разделить это по отдельным функциям? Целесообразно ли?
         element().$(".n2o-calendar-time-container").click();
-        element().$$(".n2o-pop-up .hour-picker .n2o-calendar-time-unit").find(Condition.text(hours)).click();
-        element().$$(".n2o-pop-up .minute-picker .n2o-calendar-time-unit").find(Condition.text(minutes)).click();
-        element().$$(".n2o-pop-up .second-picker .n2o-calendar-time-unit").find(Condition.text(seconds)).click();
-        element().$$(".n2o-calendar-time-buttons button").find(Condition.text("Выбрать")).click();
+        element().$$(".n2o-pop-up .hour-picker .n2o-calendar-time-unit")
+                .find(Condition.text(hours)).click();
+        element().$$(".n2o-pop-up .minute-picker .n2o-calendar-time-unit")
+                .find(Condition.text(minutes)).click();
+        element().$$(".n2o-pop-up .second-picker .n2o-calendar-time-unit")
+                .find(Condition.text(seconds)).click();
+        element().$$(".n2o-calendar-time-buttons button")
+                .find(Condition.text("Выбрать")).click();
     }
 
     @Override
@@ -65,12 +75,14 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void shouldBeActiveDay(String day) {
-        element().$(".n2o-calendar-day.selected").shouldBe(Condition.exist).shouldHave(Condition.text(day));
+        calendarDays().findBy(Condition.cssClass("selected"))
+                .shouldBe(Condition.exist)
+                .shouldHave(Condition.text(day));
     }
 
     @Override
     public void clickDay(String day) {
-        element().$$(".n2o-calendar-day").filter(Condition.text(day))
+        calendarDays().filter(Condition.text(day))
                 .exclude(Condition.cssClass("disabled"))
                 .exclude(Condition.cssClass("other-month"))
                 .get(0).shouldBe(Condition.exist).click();
@@ -78,17 +90,22 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void shouldBeDisableDay(String day) {
-        element().$$(".n2o-calendar-day.disabled").find(Condition.text(day)).shouldBe(Condition.exist);
+        calendarDays().filterBy(Condition.cssClass("disabled"))
+                .find(Condition.text(day))
+                .shouldBe(Condition.exist);
     }
 
     @Override
     public void shouldNotBeDisableDay(String day) {
-        element().$$(".n2o-calendar-day.disabled").find(Condition.text(day)).shouldNotBe(Condition.exist);
+        calendarDays().filterBy(Condition.cssClass("disabled"))
+                .find(Condition.text(day))
+                .shouldNotBe(Condition.exist);
     }
 
     @Override
     public void shouldHaveCurrentMonth(String month) {
-        element().$(".n2o-calendar-header-month-title").shouldHave(Condition.text(month));
+        element().$(".n2o-calendar-header-month-title")
+                .shouldHave(Condition.text(month));
     }
 
     @Override
@@ -115,19 +132,9 @@ public class N2oDateInput extends N2oControl implements DateInput {
         else cellInputElement().shouldHave(condition);
     }
 
-    @Deprecated
-    public void expand() {
-        openPopup();
-    }
-
     @Override
     public void openPopup() {
         element().$(".n2o-date-input").should(Condition.exist).click();
-    }
-
-    @Deprecated
-    public void collapse() {
-        closePopup();
     }
 
     @Override
@@ -135,19 +142,9 @@ public class N2oDateInput extends N2oControl implements DateInput {
         throw new UnsupportedOperationException("Date pop-up cannot be closed without choosing the date");
     }
 
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
-    }
-
     @Override
     public void shouldBeOpened() {
         popUp().shouldBe(Condition.exist);
-    }
-
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
     }
 
     @Override
@@ -155,16 +152,40 @@ public class N2oDateInput extends N2oControl implements DateInput {
         popUp().shouldNotBe(Condition.exist);
     }
 
-    private SelenideElement inputElement() {
+    @Deprecated
+    public void expand() {
+        openPopup();
+    }
+
+    @Deprecated
+    public void collapse() {
+        closePopup();
+    }
+
+    @Deprecated
+    public void shouldBeExpanded() {
+        shouldBeOpened();
+    }
+
+    @Deprecated
+    public void shouldBeCollapsed() {
+        shouldBeClosed();
+    }
+
+    protected SelenideElement inputElement() {
         element().shouldBe(Condition.exist);
         return element().$(".n2o-date-input input");
     }
 
-    private SelenideElement cellInputElement() {
+    protected SelenideElement cellInputElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
     }
 
-    private SelenideElement popUp() {
+    protected SelenideElement popUp() {
         return element().parent().parent().$(".n2o-pop-up");
+    }
+
+    protected ElementsCollection calendarDays() {
+        return element().$$(".n2o-calendar-day");
     }
 }

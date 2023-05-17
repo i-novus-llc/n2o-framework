@@ -6,10 +6,14 @@ import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.run.AutoTestApplication;
+import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,12 +23,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootTest(properties = {
-        "n2o.engine.test.classpath=/access/schema/buttons/",
-        "n2o.sandbox.project-id=access_schema_buttons"},
-        classes = SandboxAutotestApplication.class,
+@SpringBootTest(properties = {"n2o.engine.test.classpath=interactions/access/schema/buttons/"},
+        classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ButtonsAT extends SandboxAutotestBase {
+public class ButtonsAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -39,19 +41,25 @@ public class ButtonsAT extends SandboxAutotestBase {
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
-        builder.packs(new AccessSchemaPack());
-        CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
-        addRuntimeProperty("n2o.access.schema.id", "schema");
         super.configure(builder);
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
+        CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
+        builder.sources(new CompileInfo("interactions/access/schema/buttons/index.page.xml"),
+                new CompileInfo("interactions/access/schema/buttons/page1.page.xml"),
+                new CompileInfo("interactions/access/schema/buttons/page2.page.xml"),
+                new CompileInfo("interactions/access/schema/buttons/page3.page.xml"),
+                new CompileInfo("interactions/access/schema/buttons/page4.page.xml"),
+                new CompileInfo("interactions/access/schema/buttons/schema.access.xml"));
     }
 
     @Test
     public void testAdminAccess() {
         setUserInfo(loadUser());
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "schema");
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         FormWidget form = page.widget(FormWidget.class);
         form.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
@@ -99,10 +107,11 @@ public class ButtonsAT extends SandboxAutotestBase {
     @Test
     public void testAnonymousAccess() {
         setUserInfo(null);
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "schema");
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         FormWidget form = page.widget(FormWidget.class);
         form.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");

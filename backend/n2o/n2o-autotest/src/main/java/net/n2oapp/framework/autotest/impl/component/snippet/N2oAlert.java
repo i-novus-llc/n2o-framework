@@ -20,7 +20,7 @@ public class N2oAlert extends N2oSnippet implements Alert {
 
     @Override
     public void shouldHaveColor(Colors color) {
-        element().shouldHave(Condition.cssClass(color.name("alert-")));
+        element().shouldHave(Condition.cssClass(String.format("alert-%s", color.name().toLowerCase())));
     }
 
     @Override
@@ -31,11 +31,6 @@ public class N2oAlert extends N2oSnippet implements Alert {
     @Override
     public void shouldHaveUrl(String url) {
         element().$("a").shouldHave(Condition.attribute("href", url));
-    }
-
-    @Override
-    public void shouldHavePlacement(Placement placement) {
-        element().parent().should(Condition.cssClass(placement.name()));
     }
 
     @Override

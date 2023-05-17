@@ -3,48 +3,45 @@ import {
     put,
     select,
     takeEvery,
-    throttle,
+    take,
+    debounce,
+    race,
     fork,
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
-import { getAction, getLocation } from 'connected-react-router'
+import { getLocation } from 'connected-react-router'
 import queryString from 'query-string'
 import { get, isEqual, cloneDeep } from 'lodash'
 
 import { destroyOverlay } from '../overlays/store'
 import { FETCH_PAGE_METADATA } from '../../core/api'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
-import { setGlobalLoading, changeRootPage, rootPageSelector } from '../global/store'
+import { setGlobalLoading, changeRootPage } from '../global/store'
 import fetchSaga from '../../sagas/fetch'
-import { clearModel, removeAllModel, removeModel, setModel, updateMapModel, updateModel } from '../models/store'
+import {
+    clearModel,
+    removeAllModel,
+    removeModel,
+    setModel,
+    updateModel,
+} from '../models/store'
 import { modelsSelector } from '../models/selectors'
 
-import { mapPageQueryToUrl } from './sagas/restoreFilters'
-import { mappingUrlToRedux } from './sagas/mapUrlToRedux'
-import { makePageRoutesByIdSelector, pagesSelector } from './selectors'
-import { MAP_URL } from './constants'
+import { pagesSelector } from './selectors'
 import {
     metadataFail,
     metadataSuccess,
     setStatus,
     metadataRequest,
+    resetPage,
 } from './store'
+import { flowDefaultModels } from './sagas/defaultModels'
 
-// TODO выпилить?
-export function* processUrl() {
-    try {
-        const location = yield select(getLocation)
-        const pageId = yield select(rootPageSelector)
-        const routes = yield select(makePageRoutesByIdSelector(pageId))
-        const routerAction = yield select(getAction)
-
-        if (routerAction !== 'POP' && !(location.state && location.state.silent)) {
-            yield call(mappingUrlToRedux, routes)
-        }
-    } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err)
-    }
+function* setDefaultModels(models, pageId) {
+    yield race([
+        call(flowDefaultModels, models),
+        take(({ type, payload }) => (type === resetPage.type && payload === pageId)),
+    ])
 }
 
 /**
@@ -92,7 +89,7 @@ export function* getMetadata(apiProvider, action) {
         yield put(setStatus(metadata.id, 200))
         yield put(metadataSuccess(metadata.id, metadata))
 
-        yield fork(mapPageQueryToUrl, metadata.id, metadata.models)
+        yield fork(setDefaultModels, metadata.models, metadata.id)
     } catch (err) {
         if (err && err.status) {
             yield put(setStatus(pageId, err.status))
@@ -143,15 +140,18 @@ export function* watchEvents() {
 
         for (const { datasource, model: prefix, field, action } of events) {
             const modelLink = [prefix, datasource]
-
-            if (field) {
-                modelLink.push(field)
-            }
-
             const model = get(models, modelLink)
             const prevModel = get(prevModels, modelLink)
 
-            if (!isEqual(model, prevModel)) {
+            let value = model
+            let prevValue = prevModel
+
+            if (field) {
+                value = get(value, field)
+                prevValue = get(prevValue, field)
+            }
+
+            if (!isEqual(value, prevValue)) {
                 yield put(cloneDeep(action))
             }
         }
@@ -166,6 +166,11 @@ export function* watchEvents() {
  */
 export default apiProvider => [
     takeEvery(metadataRequest, getMetadata, apiProvider),
-    takeEvery([setModel, removeModel, removeAllModel, clearModel, updateModel, updateMapModel], watchEvents),
-    throttle(500, MAP_URL, processUrl),
+    debounce(100, [
+        setModel,
+        removeModel,
+        removeAllModel,
+        clearModel,
+        updateModel,
+    ], watchEvents),
 ]

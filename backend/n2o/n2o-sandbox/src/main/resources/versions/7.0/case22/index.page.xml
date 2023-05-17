@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Ссылки в ячейках">
+    <table query-id="test">
+        <columns>
+            <column id="c0" label="" text-field-id="name">
+                <text/>
+            </column>
+            <column id="c1" label="Текст" text-field-id="name">
+                <link url="/{url}"/>
+            </column>
+            <column id="c2" label="Текст и иконка" text-field-id="name">
+                <link icon="{icon}" type="iconAndText" url="/{url}"/>
+            </column>
+            <column id="c3" label="Иконка" text-field-id="name">
+                <link icon="{icon}" type="icon" url="/{url}"/>
+            </column>
+            <column id="c4" label="Статическая иконка" text-field-id="name">
+                <link icon="fa fa-plus" type="icon" url="/{url}"/>
+            </column>
+            <column id="c5" label="Внешняя ссылка" text-field-id="name">
+                <link url="https://google.com?q={url}"/>
+            </column>
+        </columns>
+    </table>
+</simple-page>

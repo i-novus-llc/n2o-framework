@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash'
 
 import {
     failOperation,
-    OparationAction,
+    OperationAction,
     startOperation,
     successOperation,
 } from '../Operation'
@@ -20,7 +20,7 @@ const getPredicate = (type: string, uid: string) => (action: Action) => {
         return false
     }
 
-    const { payload } = action as OparationAction
+    const { payload } = action as OperationAction
 
     return payload?.uid === uid
 }

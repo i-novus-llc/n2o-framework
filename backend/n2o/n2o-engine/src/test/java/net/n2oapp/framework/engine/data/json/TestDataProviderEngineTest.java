@@ -53,7 +53,7 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
-    public void testInitFromDisk() throws IOException {
+    public void testInitFromDisk() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         engine.setPathOnDisk(testFolder.getRoot() + "/");
@@ -606,6 +606,7 @@ public class TestDataProviderEngineTest {
         result = (List<Map>) engine.invoke(provider, inParams);
         assertThat(result.size(), is(1));
         assertThat(result.get(0).get("id"), is(5607640L));
+        assertThat(result.get(0).get("birthday"), is("2018-01-18T00:00:00Z"));
 
         inParams.put("filters", Arrays.asList("birthday :less :birthday.end"));
         inParams.remove("birthday.begin");
@@ -614,6 +615,7 @@ public class TestDataProviderEngineTest {
         result = (List<Map>) engine.invoke(provider, inParams);
         assertThat(result.size(), is(1));
         assertThat(result.get(0).get("id"), is(5607677L));
+        assertThat(result.get(0).get("birthday"), is("1927-01-01T00:00:00+07:00"));
 
 
         inParams.put("filters", Arrays.asList("id :less :id"));
@@ -639,6 +641,29 @@ public class TestDataProviderEngineTest {
         result = (List<Map>) engine.invoke(provider, inParams);
         assertThat(result.size(), is(1));
         assertThat(result.get(0).get("name"), is("Денис"));
+
+        inParams.put("filters", Arrays.asList("id :notIn :id"));
+        inParams.put("id", Arrays.asList(999, 5607628, 5607628));
+        //Фильтр по id "notIn"
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(10));
+        assertThat(result.get(0).get("id"), is(1L));
+        assertThat(result.get(1).get("id"), is(5607627L));
+        assertThat(result.get(2).get("id"), is(5607629L));
+        inParams.put("filters", Arrays.asList("name :notIn :name"));
+        inParams.put("name", "Мария");
+        //Фильтр по name "notIn" (проверка одиночного значения)
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(10));
+        assertThat(result.get(0).get("name"), is("Test20121026"));
+
+        inParams.put("filters", Arrays.asList("groups.id :in :groups.id"));
+        inParams.put("groups.id", Arrays.asList(12));
+        //Фильтр по паттерну *.* "in"
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(2));
+        assertThat(result.get(0).get("id"), is(1L));
+        assertThat(result.get(1).get("id"), is(5607628L));
 
         //Фильтр по "isNull"
         inParams.put("filters", Arrays.asList("age :isNull :age"));
@@ -682,6 +707,14 @@ public class TestDataProviderEngineTest {
         assertThat(result.size(), is(2));
         assertThat(result.get(0).get("id"), is(1L));
         assertThat(result.get(1).get("id"), is(5607628L));
+
+        //Фильтр "contains" по "types"
+        inParams.put("filters", Arrays.asList("types :contains :types"));
+        inParams.put("types", new ArrayList<>(Arrays.asList(1,2)));
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(2));
+        assertThat(result.get(0).get("id"), is(999L));
+        assertThat(result.get(1).get("id"), is(5607627L));
     }
 
     @Test

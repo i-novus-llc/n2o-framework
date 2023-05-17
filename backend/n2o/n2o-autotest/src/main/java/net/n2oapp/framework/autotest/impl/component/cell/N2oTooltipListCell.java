@@ -12,25 +12,26 @@ import net.n2oapp.framework.autotest.api.component.cell.TooltipListCell;
 public class N2oTooltipListCell extends N2oCell implements TooltipListCell {
     @Override
     public void shouldHaveText(String text) {
-        element().shouldHave(Condition.text(text));
+        element().shouldHave(Condition.exactText(text));
     }
 
     @Override
-    public void labelShouldBeDashed() {
-        element().$(".list-text-cell__trigger_dashed").shouldBe(Condition.exist);
+    public void shouldHaveDashedLabel() {
+        dashedLabel().shouldBe(Condition.exist);
     }
 
     @Override
-    public void labelShouldNotBeDashed() {
-        element().$(".list-text-cell__trigger_dashed").shouldNotBe(Condition.exist);
+    public void shouldNotHaveDashedLabel() {
+        dashedLabel().shouldNotBe(Condition.exist);
     }
 
     @Override
     public void hover() {
-        SelenideElement elm = cellTrigger();
-        if (elm.is(Condition.exist))
-            cellTrigger().hover();
-        else element().hover();
+        SelenideElement cellTrigger = cellTrigger();
+        if (cellTrigger.is(Condition.exist))
+            cellTrigger.hover();
+        else
+            element().hover();
     }
 
     @Override
@@ -42,13 +43,18 @@ public class N2oTooltipListCell extends N2oCell implements TooltipListCell {
     @Override
     public void click() {
         element().scrollTo();
-        SelenideElement elm = cellTrigger();
-        if (elm.is(Condition.exist))
-            cellTrigger().click();
-        else element().click();
+        SelenideElement cellTrigger = cellTrigger();
+        if (cellTrigger.is(Condition.exist))
+            cellTrigger.click();
+        else
+            element().click();
     }
 
-    private SelenideElement cellTrigger() {
+    protected SelenideElement dashedLabel() {
+        return element().$(".list-text-cell__trigger_dashed");
+    }
+
+    protected SelenideElement cellTrigger() {
         return element().$(".list-text-cell__trigger, .list-text-cell__trigger_dashed");
     }
 }

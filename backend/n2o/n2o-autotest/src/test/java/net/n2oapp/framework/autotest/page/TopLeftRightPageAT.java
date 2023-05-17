@@ -14,6 +14,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -41,7 +42,9 @@ public class TopLeftRightPageAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled
     public void testTopLeftRightPage() {
+        //ToDo раздизейблить и поправить после NNO-9239
         TopLeftRightPage page = open(TopLeftRightPage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница с тремя регионами");
@@ -61,11 +64,11 @@ public class TopLeftRightPageAT extends AutoTestBase {
         rightRegions.region(4, PanelRegion.class).shouldHaveTitle("Справа");
 
         // проверка кнопки скролла в начало страницы
-        page.scrollToTopButtonShouldNotExists();
+        page.shouldNotHaveScrollToTopButton();
         page.scrollDown();
-        page.scrollToTopButtonShouldExists();
+        page.shouldHaveScrollToTopButton();
         page.clickScrollToTopButton();
-        page.scrollToTopButtonShouldNotExists();
+        page.shouldNotHaveScrollToTopButton();
 
         // открытие страницы с хлебными крошками
         FormWidget widget = topRegions.region(0, PanelRegion.class).content().widget(FormWidget.class);

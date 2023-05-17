@@ -32,7 +32,7 @@ public class MongodbEngineQueryTransformerTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testMomgodbTransformer() {
+    public void testMongodbTransformer() {
         ReadTerminalPipeline pipeline =
                 read("net/n2oapp/framework/config/metadata/transformer/testMongodbQueryTransformer.query.xml").transform();
 

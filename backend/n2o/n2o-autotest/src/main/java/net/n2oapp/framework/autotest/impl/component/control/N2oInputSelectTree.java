@@ -2,11 +2,14 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
 import net.n2oapp.framework.autotest.api.component.control.InputSelectTree;
 import org.openqa.selenium.Keys;
+
+import java.util.Objects;
 
 /**
  * Компонент ввода с выбором в выпадающем списке в виде дерева для автотестирования
@@ -29,39 +32,44 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
     }
 
     @Override
-    public void expandOptions() {
+    public void click() {
         element().hover().shouldBe(Condition.visible).click();
     }
 
     @Override
     public void expandParentOptions(int parentIndex) {
-        element().$$(".n2o-select-tree-dropdown [role=\"treeitem\"] i").get(parentIndex).click();
+        dropdownElement().$$("[role=\"treeitem\"] i").get(parentIndex).click();
     }
 
     @Override
     public void setFilter(String value) {
-        element().$(".n2o-select-tree-search__field").sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        input().setValue(value);
+    }
+
+    @Override
+    public void clearSearchField() {
+        input().clear();
     }
 
     @Override
     public void shouldDisplayedOptions(CollectionCondition condition) {
-        element().$$(".n2o-select-tree-dropdown [role=\"treeitem\"]").shouldHave(condition);
+        dropdownElement().$$("[role=\"treeitem\"]").shouldHave(condition);
     }
 
     @Override
     public void selectOption(int index) {
-        element().$$(".n2o-select-tree-dropdown [role=\"treeitem\"]").get(index)
+        dropdownElement().$$("[role=\"treeitem\"]").get(index)
                 .hover().shouldBe(Condition.visible).click();
     }
 
     @Override
     public void shouldBeSelected(int index, String value) {
-        element().$$(".n2o-select-tree-selection__choice").get(index).shouldHave(Condition.text(value));
+        selectedElements().get(index).shouldHave(Condition.text(value));
     }
 
     @Override
     public void removeOption(int index) {
-        element().$$(".n2o-select-tree-selection__choice .n2o-select-tree-selection__choice__remove").get(index)
+        selectedElements().get(index).$(".n2o-select-tree-selection__choice__remove")
                 .hover().shouldBe(Condition.visible).click();
     }
 
@@ -73,32 +81,16 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void shouldBeUnselected() {
-        element().$$(".n2o-select-tree-selection__choice").shouldHaveSize(0);
+        selectedElements().shouldHave(CollectionCondition.size(0));
     }
 
     @Override
     public DropDownTree dropdown() {
-        return N2oSelenide.component(element().$(".n2o-select-tree-dropdown"), DropDownTree.class);
+        return N2oSelenide.component(dropdownElement(), DropDownTree.class);
     }
 
-    @Deprecated
-    public void expand() {
-        openPopup();
-    }
-
-    @Deprecated
-    public void collapse() {
-        closePopup();
-    }
-
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
-    }
-
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
+    protected SelenideElement dropdownElement() {
+        return element().$(".n2o-select-tree-dropdown");
     }
 
     @Override
@@ -123,11 +115,39 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
         element().shouldHave(Condition.attribute("aria-expanded", "false"));
     }
 
-    private boolean isOpened() {
-        return element().getAttribute("aria-expanded").equals("true");
+    @Deprecated
+    public void expand() {
+        openPopup();
     }
 
-    private SelenideElement switcher() {
+    @Deprecated
+    public void collapse() {
+        closePopup();
+    }
+
+    @Deprecated
+    public void shouldBeExpanded() {
+        shouldBeOpened();
+    }
+
+    @Deprecated
+    public void shouldBeCollapsed() {
+        shouldBeClosed();
+    }
+
+    protected SelenideElement switcher() {
         return element().$(".n2o-select-tree-arrow");
+    }
+
+    protected SelenideElement input() {
+        return element().$(".n2o-select-tree-search__field");
+    }
+
+    protected ElementsCollection selectedElements() {
+        return element().$$(".n2o-select-tree-selection__choice");
+    }
+
+    private boolean isOpened() {
+        return Objects.equals(element().getAttribute("aria-expanded"), "true");
     }
 }

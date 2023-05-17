@@ -3,7 +3,6 @@ package net.n2oapp.framework.autotest.validation.tab;
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
@@ -43,11 +42,16 @@ public class ValidationTabMessageAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        builder.packs(
+                new N2oApplicationPack(),
+                new N2oAllPagesPack(),
+                new N2oAllDataPack()
+        );
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/validation/tab/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/tab/form.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/validation/tab/test.object.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/validation/tab/test.object.xml")
+        );
     }
 
     @Test
@@ -56,51 +60,19 @@ public class ValidationTabMessageAT extends AutoTestBase {
         page.breadcrumb().crumb(0).shouldHaveLabel("Подсветка невалидных полей в неактивных вкладках");
 
         FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
-        StandardButton button = form.toolbar().bottomLeft().button("Модальное окно");
-        button.shouldBeEnabled();
-        button.click();
+        StandardButton openModalBtn = form.toolbar().bottomLeft().button("Модальное окно");
+        openModalBtn.shouldBeEnabled();
+        openModalBtn.click();
 
         Modal modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Создание записи");
-        button = modal.toolbar().bottomRight().button("Сохранить");
-        Fields fields = modal.content(StandardPage.class).regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
-        StandardField field = fields.field("Имя");
-        InputText inputText = field.control(InputText.class);
-        inputText.val("unique");
-        inputText.clear();
-        field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        inputText.val("unique");
-        field.shouldHaveValidationMessage(Condition.empty);
+        StandardPage newPage = modal.content(StandardPage.class);
+        StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
+        StandardButton validationBtn = modal.toolbar().bottomRight().button("Валидировать страницу");
 
-        TabsRegion tabs = modal.content(StandardPage.class).regions().region(1, TabsRegion.class);
-        tabs.tab(1).click();
-        tabs.tab(1).shouldBeActive();
+        validationBtn.click();
 
-        // check tabs switch
-        tabs.tab(0).click();
-        tabs.tab(0).shouldBeActive();
-        tabs.tab(1).click();
-
-        fields = tabs.tab(1).content().widget(FormWidget.class).fields();
-        field = fields.field("Название организации");
-        inputText = field.control(InputText.class);
-        inputText.val("test");
-        inputText.clear();
-        field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        inputText.val("test");
-        field.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));
-        tabs.tab(0).click();
-        button.click();
-
-        tabs.tab(0).shouldBeValid();
-        tabs.tab(1).shouldBeActive();
-        tabs.tab(1).shouldBeInvalid();
-        tabs.tab(1).click();
-        field.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));
-        inputText.val("unique");
-        field.shouldHaveValidationMessage(Condition.empty);
-        button.click();
-        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
+        extracted(page, newPage, saveBtn);
     }
 
     @Test
@@ -109,24 +81,49 @@ public class ValidationTabMessageAT extends AutoTestBase {
         page.breadcrumb().crumb(0).shouldHaveLabel("Подсветка невалидных полей в неактивных вкладках");
 
         FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
-        StandardButton button = form.toolbar().bottomLeft().button("Новая страница");
-        button.shouldBeEnabled();
-        button.click();
+        StandardButton openPageBtn = form.toolbar().bottomLeft().button("Новая страница");
+        openPageBtn.shouldBeEnabled();
+        openPageBtn.click();
 
         StandardPage newPage = N2oSelenide.page(StandardPage.class);
         page.breadcrumb().shouldHaveSize(2);
         page.breadcrumb().crumb(1).shouldHaveLabel("Создание записи");
-        button = newPage.toolbar().bottomRight().button("Сохранить");
-        Fields fields = newPage.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
-        StandardField field = fields.field("Имя");
-        InputText inputText = field.control(InputText.class);
-        inputText.val("test");
-        inputText.clear();
-        field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        inputText.val("unique");
-        field.shouldHaveValidationMessage(Condition.empty);
 
+        StandardButton saveBtn = newPage.toolbar().bottomRight().button("Сохранить");
+        StandardButton validationBtn = newPage.toolbar().bottomRight().button("Валидировать страницу");
+
+        validationBtn.click();
+
+        extracted(page, newPage, saveBtn);
+    }
+
+    private void extracted(StandardPage page, StandardPage newPage, StandardButton saveBtn) {
         TabsRegion tabs = newPage.regions().region(1, TabsRegion.class);
+
+        tabs.tab(1).shouldBeInvalid();
+        tabs.tab(2).shouldBeInvalid();
+
+        StandardField nameField = newPage.regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(FormWidget.class)
+                .fields()
+                .field("Имя");
+        InputText nameInputText = nameField.control(InputText.class);
+
+        nameInputText.click();
+        nameInputText.setValue("test");
+
+        tabs.tab(1).shouldBeInvalid();
+        tabs.tab(2).shouldBeInvalid();
+
+        nameInputText.clear();
+        nameField.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+
+        nameInputText.click();
+        nameInputText.setValue("unique");
+        nameField.shouldHaveValidationMessage(Condition.empty);
+
         tabs.tab(1).click();
         tabs.tab(1).shouldBeActive();
 
@@ -135,25 +132,53 @@ public class ValidationTabMessageAT extends AutoTestBase {
         tabs.tab(0).shouldBeActive();
         tabs.tab(1).click();
 
-        fields = tabs.tab(1).content().widget(FormWidget.class).fields();
-        field = fields.field("Название организации");
-        inputText = field.control(InputText.class);
-        inputText.val("test");
-        inputText.clear();
-        field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        inputText.val("test");
-        field.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));
-        tabs.tab(0).click();
-        button.click();
+        StandardField orgField = tabs.tab(1)
+                .content()
+                .widget(FormWidget.class)
+                .fields()
+                .field("Название организации");
+        InputText orgInputText = orgField.control(InputText.class);
 
+        orgInputText.click();
+        orgInputText.setValue("test");
+        orgInputText.clear();
+        orgField.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+
+        orgInputText.click();
+        orgInputText.setValue("test");
+        orgField.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));
+
+        tabs.tab(0).click();
+        saveBtn.click();
         tabs.tab(0).shouldBeValid();
         tabs.tab(1).shouldBeInvalid();
-        tabs.tab(1).click();
 
-        field.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));
-        inputText.val("unique");
-        field.shouldHaveValidationMessage(Condition.empty);
-        button.click();
+        tabs.tab(1).click();
+        orgField.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));
+        orgInputText.click();
+        orgInputText.setValue("unique");
+        orgField.shouldHaveValidationMessage(Condition.empty);
+
+        tabs.tab(2).click();
+        StandardField comField = tabs.tab(1)
+                .content()
+                .widget(FormWidget.class)
+                .fields()
+                .field("Отдел");
+        InputText comInputText = comField.control(InputText.class);
+
+        comField.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+
+        comInputText.click();
+        comInputText.setValue("test");
+
+        comField.shouldHaveValidationMessage(Condition.empty);
+
+        tabs.tab(0).shouldBeValid();
+        tabs.tab(1).shouldBeValid();
+        tabs.tab(2).shouldBeValid();
+
+        saveBtn.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
     }
 }

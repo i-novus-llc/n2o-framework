@@ -1,0 +1,34 @@
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="События изменения данных">
+    <datasources>
+        <datasource id="main"/>
+    </datasources>
+    <events>
+        <on-change datasource="main" model="resolve" field-id="target">
+            <switch value-field-id="target.id">
+                <case value="1">
+                    <alert text="Вы выбрали пункт 1" color="info"/>
+                </case>
+                <case value="2">
+                    <alert text="Вы выбрали пункт 2" color="success"/>
+                </case>
+                <case value="3">
+                    <alert text="Вы выбрали пункт 3" color="danger"/>
+                </case>
+            </switch>>
+        </on-change>
+    </events>
+    <regions>
+        <form datasource="main">
+            <fields>
+                <alert text="Выберите пункт"/>
+                <radio-group id="target" label="target field">
+                    <options>
+                        <option id="1" name="Пункт 1"/>
+                        <option id="2" name="Пункт 2"/>
+                        <option id="3" name="Пункт 3"/>
+                    </options>
+                </radio-group>
+            </fields>
+        </form>
+    </regions>
+</page>

@@ -1,4 +1,3 @@
-/* eslint-disable no-continue */
 import { createSlice } from '@reduxjs/toolkit'
 import { isEmpty, omit } from 'lodash'
 import merge from 'deepmerge'
@@ -7,6 +6,8 @@ import { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import { IMeta } from '../../sagas/types'
 import { ValidationsKey } from '../../core/validation/IValidation'
 import { Meta } from '../Action'
+import { removeFieldFromArray } from '../models/store'
+import { RemoveFieldFromArrayAction } from '../models/Actions'
 
 import type {
     AddComponentAction,
@@ -15,10 +16,10 @@ import type {
     DataRequestAction,
     FailRequestAction,
     FailValidateAction,
+    ResetDatasourceAction,
     RegisterAction,
     RemoveAction,
     RemoveComponentAction,
-    ResetValidateActionMulti,
     ResolveRequestAction,
     SetAdditionalInfoAction,
     SetFieldSubmitAction,
@@ -210,9 +211,9 @@ const datasource = createSlice({
         },
 
         changePage: {
-            prepare(id: string, page: number) {
+            prepare(id: string, page: number, withCount: boolean) {
                 return ({
-                    payload: { id, page },
+                    payload: { id, page, withCount },
                 })
             },
             reducer(state, action: ChangePageAction) {
@@ -271,7 +272,35 @@ const datasource = createSlice({
             },
         },
 
+        reset: {
+            // eslint-disable-next-line sonarjs/no-identical-functions
+            prepare(id: string) {
+                return ({
+                    payload: { id },
+                })
+            },
+
+            reducer(state, action: ResetDatasourceAction) {
+                const { id } = action.payload
+                const datasource = state[id]
+
+                // reset pagination to default
+                datasource.paging.page = 1
+                datasource.paging.count = 0
+
+                // reset all errors
+                Object.values(ModelPrefix).forEach((prefix) => {
+                    const model = datasource.errors[prefix]
+
+                    if (model) {
+                        datasource.errors[prefix] = {}
+                    }
+                })
+            },
+        },
+
         resetValidation: {
+            // @ts-ignore поправить типы
             prepare(id, fields, prefix = ModelPrefix.active) {
                 return ({
                     payload: { id, fields, prefix },
@@ -286,56 +315,6 @@ const datasource = createSlice({
                         ? {}
                         : omit(datasource.errors[prefix], fields)
                 }
-            },
-        },
-
-        /**
-         * Удаление ошибок мультисета при удалении строк(и)
-         * FIXME подумать над более правильным решением с валидациями мультисетов
-         */
-        resetValidationMulti: {
-            prepare(id, field, index, count = 1, prefix = ModelPrefix.active) {
-                return ({
-                    payload: { id, field, count, index, prefix },
-                })
-            },
-            reducer(state, action: ResetValidateActionMulti) {
-                const { id, field, index, count, prefix } = action.payload
-                const datasource = state[id]
-                const errors: Partial<typeof datasource.errors[typeof prefix]> = {}
-
-                const mask = new RegExp(`${field}\\[(\\d+)]\\.(.+)`)
-
-                for (const [key, messages] of Object.entries(datasource.errors[prefix] || {})) {
-                    const match = key.match(mask)
-
-                    if (match) {
-                        const [, i, name] = match
-                        const matchedIndex = Number(i)
-
-                        // index before removed elements
-                        if (matchedIndex < index) {
-                            errors[key] = messages
-
-                            continue
-                        }
-
-                        // removed elements: ignore it
-                        if ((matchedIndex >= index) && (matchedIndex < index + count)) {
-                            continue
-                        }
-
-                        // after removed: shift index
-                        const newIndex = matchedIndex - count
-
-                        errors[`${field}[${newIndex}].${name}`] = messages
-                    } else {
-                        // not multi-set fields
-                        errors[key] = messages
-                    }
-                }
-
-                datasource.errors[prefix] = errors
             },
         },
 
@@ -404,6 +383,48 @@ const datasource = createSlice({
             },
         },
     },
+    extraReducers: {
+        [removeFieldFromArray.type](state, action: RemoveFieldFromArrayAction) {
+            const { key, field, start, end = 1, prefix } = action.payload
+            const datasource = state[key]
+            const errors: Partial<typeof datasource.errors[typeof prefix]> = {}
+
+            const mask = new RegExp(`${field}\\[(\\d+)]\\.(.+)`)
+
+            for (const [key, messages] of Object.entries(datasource.errors[prefix] || {})) {
+                const match = key.match(mask)
+
+                if (match) {
+                    const [, i, name] = match
+                    const matchedIndex = Number(i)
+
+                    // index before removed elements
+                    if (matchedIndex < start) {
+                        errors[key] = messages
+
+                        // eslint-disable-next-line no-continue
+                        continue
+                    }
+
+                    // removed elements: ignore it
+                    if ((matchedIndex >= start) && (matchedIndex < start + end)) {
+                        // eslint-disable-next-line no-continue
+                        continue
+                    }
+
+                    // after removed: shift index
+                    const newIndex = matchedIndex - end
+
+                    errors[`${field}[${newIndex}].${name}`] = messages
+                } else {
+                    // not multi-set fields
+                    errors[key] = messages
+                }
+            }
+
+            datasource.errors[prefix] = errors
+        },
+    },
 })
 
 export default datasource.reducer
@@ -419,8 +440,8 @@ export const {
     setAdditionalInfo,
     startValidate,
     resetValidation,
+    reset,
     failValidate,
-    resetValidationMulti,
     changePage,
     changeSize,
     addComponent,

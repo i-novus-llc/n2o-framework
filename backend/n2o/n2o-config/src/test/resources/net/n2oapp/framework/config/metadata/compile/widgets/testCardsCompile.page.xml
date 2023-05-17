@@ -21,8 +21,7 @@
                         </block>
                     </col>
                 </content>
-                <pagination src="pagingSrc" show-count="false" prev="true" next="true"
-                            hide-single-page="false" last="true" first="false"/>
+                <pagination src="pagingSrc" show-count="false" prev="true" next="true"/>
             </cards>
             <cards>
                 <content>

@@ -3,12 +3,12 @@
 
     <regions>
         <region place="single">
-            <table id="main" query-id="testTable4Compile"
+            <table id="main" query-id="testTable5Compile"
                    object-id="utBlank">
                 <filters place="left">
                     <input-text id="name" required="true" default-value="test"/>
                     <date-interval id="birthday" />
-                    <input-select id="genders" query-id="testTable4Compile" type="checkboxes"/>
+                    <input-select id="genders" query-id="testTable5Compile" type="checkboxes"/>
                     <search-buttons id="sb" search-label="searchLabel" reset-label="resetLabel" />
                 </filters>
                 <columns>

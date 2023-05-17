@@ -13,81 +13,71 @@ import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 public class N2oImageCell extends N2oCell implements ImageCell {
 
     @Override
-    public void srcShouldBe(String src) {
-        img().shouldBe(Condition.attribute("src", src));
+    public void shouldHaveSrc(String src) {
+        img().shouldHave(Condition.attribute("src", src));
     }
 
     @Override
-    public void imageShouldBe(String url) {
-        img().shouldHave(Condition.attribute("src", url));
-    }
-
-    @Override
-    public void widthShouldBe(int width) {
+    public void shouldHaveWidth(int width) {
         img().parent().shouldHave(Condition.attributeMatching(
-                "style", ".*max-width: " + width + "px;.*"));
+                "style", String.format(".*max-width: %dpx;.*", width)));
     }
 
     @Override
-    public void shapeShouldBe(ShapeType shape) {
+    public void shouldHaveShape(ShapeType shape) {
+        SelenideElement imageContainer = img().parent();
         switch (shape) {
             case CIRCLE:
-                imgShouldHaveCircleShape();
+                imageContainer.shouldHave(Condition.cssClass("circle"));
                 break;
             case ROUNDED:
-                imgShouldHaveRoundedShape();
+                imageContainer.shouldHave(Condition.cssClass("rounded"));
                 break;
             case SQUARE:
-                imgShouldHaveSquareShape();
+                imageContainer.shouldNotHave(Condition.cssClass("circle"), Condition.cssClass("rounded"));
                 break;
         }
     }
 
     @Override
     public void shouldHaveTitle(String title) {
-        element().$(".n2o-image__info .n2o-image__info_label").shouldBe(Condition.text(title));
+        element().$(".n2o-image__info .n2o-image__info_label")
+                .shouldBe(Condition.exactText(title));
     }
 
     @Override
     public void shouldHaveDescription(String description) {
-        element().$(".n2o-image__info .n2o-image__info_description").shouldBe(Condition.text(description));
+        element().$(".n2o-image__info .n2o-image__info_description")
+                .shouldBe(Condition.exactText(description));
     }
 
     @Override
     public void shouldHaveTextPosition(TextPosition textPosition) {
-        element().$(".n2o-image__content").shouldBe(Condition.cssClass(textPosition.name()));
+        element().$(".n2o-image__content")
+                .shouldHave(Condition.cssClass(textPosition.name()));
     }
 
     @Override
     public void shouldHaveStatus(ImageStatusElementPlace position, int index, String title) {
-        getStatus(position, index).$(".n2o-status__text").shouldBe(Condition.text(title));
-    }
-
-    private SelenideElement getStatus(ImageStatusElementPlace position, int index) {
-        return element().$$(".n2o-image-statuses ." + position).get(index);
+        getStatus(position, index)
+                .$(".n2o-status__text")
+                .shouldBe(Condition.text(title));
     }
 
     @Override
     public void statusShouldHaveIcon(ImageStatusElementPlace position, int index, String icon) {
         if (icon != null && !icon.isEmpty()) {
-            element().$(".n2o-image-statuses ." + position).$(".n2o-status__icon"+icon).should(Condition.exist);
+            getStatus(position, index)
+                    .$(String.format(".n2o-status__icon%s", icon))
+                    .should(Condition.exist);
         }
     }
 
-    private void imgShouldHaveCircleShape() {
-        img().parent().shouldHave(Condition.cssClass("circle"));
+    protected SelenideElement getStatus(ImageStatusElementPlace position, int index) {
+        return element().$$(String.format(".n2o-image-statuses .%s", position)).get(index);
     }
 
-    private void imgShouldHaveRoundedShape() {
-        img().parent().shouldHave(Condition.cssClass("rounded"));
-    }
-
-    private void imgShouldHaveSquareShape() {
-        img().parent().shouldNotHave(Condition.cssClass("circle"));
-        img().parent().shouldNotHave(Condition.cssClass("rounded"));
-    }
-
-    private SelenideElement img() {
+    protected SelenideElement img() {
         return element().$("img");
     }
 }

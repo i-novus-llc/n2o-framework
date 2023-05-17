@@ -7,8 +7,18 @@ import {
 } from 'redux-saga/effects'
 import type { Task } from 'redux-saga'
 
-import { clearModel, removeAllModel, removeModel, setModel, updateMapModel, updateModel } from '../models/store'
+import {
+    clearModel,
+    removeAllModel,
+    removeModel,
+    setModel,
+    updateModel,
+    appendFieldToArray,
+    copyFieldArray,
+    removeFieldFromArray,
+} from '../models/store'
 import { EffectWrapper } from '../api/utils/effectWrapper'
+import { ModelPrefix } from '../../core/datasource/const'
 
 import { dataRequest as query } from './sagas/query'
 import { validate as validateSaga } from './sagas/validate'
@@ -18,6 +28,7 @@ import {
     dataRequest,
     DATA_REQUEST,
     register,
+    reset,
     remove,
     setSorting,
     startValidate,
@@ -27,12 +38,14 @@ import { applyOnInitDependencies, watchDependencies } from './sagas/dependencies
 import type { ChangePageAction, DataRequestAction, RemoveAction } from './Actions'
 import { submitSaga } from './sagas/submit'
 import { clear } from './Providers/Storage'
+import { ResetDatasourceAction } from './Actions'
 
 // Запуск запроса за данными при изменении мета-данных (фильтр, сортировка, страница)
 export function* runDataRequest({ payload }: ChangePageAction) {
-    const { id, page } = payload
+    const { id, page, withCount } = payload
 
-    yield put(dataRequest(id, { page: page || 1 }))
+    // @ts-ignore поправить типы
+    yield put(dataRequest(id, { page: page || 1, withCount }))
 }
 
 /** Список активных задач dataRequest, которые надо отменить при дестрое */
@@ -79,16 +92,27 @@ export default (apiProvider: unknown) => [
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
     // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
     takeEvery(dataRequest, dataRequestWrapper, apiProvider),
+    // @ts-ignore поправить типы
     takeEvery(DATA_REQUEST, function* remapRequest({ payload, meta }) {
         const { datasource, options } = payload
 
+        // @ts-ignore поправить типы
         yield put(dataRequest(datasource, options, meta))
     }),
     takeEvery(startValidate, validateSaga),
     // @ts-ignore хер знает как затипизировать
     takeEvery(submit, EffectWrapper(submitSaga), apiProvider),
     takeEvery(remove, removeSaga),
-    takeEvery([setModel, removeModel, removeAllModel, clearModel, updateModel, updateMapModel], watchDependencies),
+    takeEvery([
+        setModel,
+        removeModel,
+        removeAllModel,
+        clearModel,
+        updateModel,
+        appendFieldToArray,
+        removeFieldFromArray,
+        copyFieldArray,
+    ], watchDependencies),
     takeEvery(register, applyOnInitDependencies),
     // @ts-ignore FIXME: проставить тип action
     takeEvery(action => action.meta?.refresh?.datasources, function* refreshSaga({ meta }) {
@@ -101,4 +125,7 @@ export default (apiProvider: unknown) => [
     }),
     // @ts-ignore FIXME: проставить тип action
     takeEvery(action => action.meta?.clear, clear),
+    takeEvery(reset, function* resetModels({ payload: { id } }: ResetDatasourceAction) {
+        yield put(clearModel({ prefixes: Object.values(ModelPrefix), key: id }))
+    }),
 ]

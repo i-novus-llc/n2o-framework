@@ -83,6 +83,7 @@ Collapse.defaultProps = {
     collapsible: true,
     // eslint-disable-next-line react/default-props-match-prop-types
     isVisible: true,
+    onChange: () => {},
 }
 
 export { Panel }

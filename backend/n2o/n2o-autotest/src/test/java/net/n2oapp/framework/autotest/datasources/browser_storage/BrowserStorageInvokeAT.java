@@ -44,6 +44,7 @@ public class BrowserStorageInvokeAT extends AutoTestBase {
      */
     @Test
     public void testInvokeLocal() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/invoke");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/invoke/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/invoke/test.object.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/invoke/test.query.xml"));
@@ -58,6 +59,7 @@ public class BrowserStorageInvokeAT extends AutoTestBase {
      */
     @Test
     public void testInvokeSession() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/invoke");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/invoke/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/invoke/test.object.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/invoke/test.query.xml"));
@@ -75,10 +77,11 @@ public class BrowserStorageInvokeAT extends AutoTestBase {
         Button button = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class)
                 .toolbar().bottomLeft().button("Отправить");
 
-        input.val("test");
+        input.click();
+        input.setValue("test");
         button.click();
         input.shouldBeEmpty();
-        table.columns().rows().row(0).cell(0).textShouldHave("1");
-        table.columns().rows().row(0).cell(1).textShouldHave("test");
+        table.columns().rows().row(0).cell(0).shouldHaveText("1");
+        table.columns().rows().row(0).cell(1).shouldHaveText("test");
     }
 }

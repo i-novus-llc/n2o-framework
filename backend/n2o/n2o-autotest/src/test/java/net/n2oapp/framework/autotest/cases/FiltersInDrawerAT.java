@@ -42,6 +42,7 @@ public class FiltersInDrawerAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/action/drawer/filters");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/drawer/filters/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/drawer/filters/modal.page.xml"),
@@ -73,34 +74,38 @@ public class FiltersInDrawerAT extends AutoTestBase {
 
         DateInterval dateField = drawerForm.fields().field("Дата подачи заявки").control(DateInterval.class);
         dateField.shouldExists();
-        dateField.beginVal("28.02.2021");
-        dateField.endVal("07.03.2021");
+        dateField.setValueInBegin("28.02.2021");
+        dateField.setValueInEnd("07.03.2021");
         dateField.beginShouldHaveValue("28.02.2021");
         dateField.endShouldHaveValue("07.03.2021");
 
         InputText fioField = drawerForm.fields().field("Фамилия Имя Отчество").control(InputText.class);
         fioField.shouldExists();
-        fioField.val("Вас");
+        fioField.click();
+        fioField.setValue("Вас");
         fioField.shouldHaveValue("Вас");
 
         Select regionField = drawerForm.fields().field("Регион").control(Select.class);
         regionField.shouldExists();
-        regionField.select(0);
+        regionField.openPopup();
+        regionField.dropdown().selectItem(0);
         regionField.shouldSelected("Республика Татарстан");
 
         Select departmentField = drawerForm.fields().field("Отделение").control(Select.class);
         departmentField.shouldExists();
-        departmentField.select(0);
+        departmentField.openPopup();
+        departmentField.dropdown().selectItem(0);
         departmentField.shouldSelected("МФЦ Авиастроительный отдел");
 
         Select statusField = drawerForm.fields().field("Статус").control(Select.class);
         statusField.shouldExists();
-        statusField.select(0);
+        statusField.openPopup();
+        statusField.dropdown().selectItem(0);
         statusField.shouldSelected("Новая");
 
         MaskedInput snilsField = drawerForm.fields().field("СНИЛС").control(MaskedInput.class);
         snilsField.shouldExists();
-        snilsField.val("132-451-114 12");
+        snilsField.setValue("132-451-114 12");
         snilsField.shouldHaveValue("132-451-114 12");
 
         drawer.toolbar().bottomRight().button("Применить").shouldExists();
@@ -115,7 +120,7 @@ public class FiltersInDrawerAT extends AutoTestBase {
         filterFields.field("Статус").control(Select.class).shouldSelected("Новая");
 
         tableRows.shouldHaveSize(1);
-        tableRows.row(0).cell(0).textShouldHave("1");
+        tableRows.row(0).cell(0).shouldHaveText("1");
 
         //проверка сохранения параметров фильтрации в drawer
         table.filters().toolbar().button("Все фильтры").click();

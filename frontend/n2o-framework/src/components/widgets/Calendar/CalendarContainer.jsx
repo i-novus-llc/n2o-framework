@@ -2,9 +2,12 @@ import React from 'react'
 import { compose, withHandlers, mapProps, defaultProps } from 'recompose'
 import map from 'lodash/map'
 import get from 'lodash/get'
-import moment from 'moment'
+import moment from 'moment/moment'
+import { connect } from 'react-redux'
 
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
+import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { ModelPrefix } from '../../../core/datasource/const'
 
 import Calendar from './Calendar'
 import { CalendarEvent } from './CalendarEvent'
@@ -21,12 +24,17 @@ CalendarContainer.defaultProps = {
 
 export { CalendarContainer }
 
+const mapStateToProps = (state, { datasource }) => ({
+    dataSourceModel: dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state),
+})
+
 export default compose(
     defaultProps({
         startFieldId: 'start',
         endFieldId: 'end',
         height: '1200px',
     }),
+    connect(mapStateToProps),
     withWidgetHandlers,
     withHandlers({
         mapEvents: ({ startFieldId, endFieldId, step }) => events => map(events, event => ({
@@ -63,7 +71,7 @@ export default compose(
     }),
     mapProps(
         ({
-            models,
+            dataSourceModel,
             date = new Date(),
             startFieldId,
             endFieldId,
@@ -90,7 +98,7 @@ export default compose(
             dispatch,
             setResolve,
         }) => ({
-            events: mapEvents(models.datasource),
+            events: mapEvents(dataSourceModel),
             startAccessor: startFieldId,
             endAccessor: endFieldId,
             titleAccessor: titleFieldId,

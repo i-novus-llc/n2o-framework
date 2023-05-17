@@ -3,7 +3,6 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.DateInterval;
-import org.openqa.selenium.Keys;
 
 /**
  * Компонент ввода интервала дат для автотестирования
@@ -32,61 +31,64 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void beginVal(String value) {
-        firstInputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+    public void setValueInBegin(String value) {
+        firstInputElement().setValue(value);
         element().click();
     }
 
     @Override
-    public void endVal(String value) {
-        lastInputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+    public void setValueInEnd(String value) {
+        lastInputElement().setValue(value);
         element().click();
     }
 
     @Override
     public void beginShouldHaveValue(String value) {
-        element().$(".n2o-date-input-first input").shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.value(value));
+        element().$(".n2o-date-input-first input").shouldHave(value == null
+                || value.isEmpty() ? Condition.empty : Condition.value(value));
     }
 
     @Override
     public void endShouldHaveValue(String value) {
-        element().$(".n2o-date-input-last input").shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.value(value));
+        element().$(".n2o-date-input-last input").shouldHave(value == null
+                || value.isEmpty() ? Condition.empty : Condition.value(value));
     }
 
     @Override
     public void clickCalendarButton() {
-        lastInputElement().parent().$(".btn.n2o-calendar-button").shouldBe(Condition.exist).click();
+        lastInputElement().parent()
+                .$(".btn.n2o-calendar-button")
+                .shouldBe(Condition.exist)
+                .click();
     }
 
     @Override
-    public void shouldBeBeginActiveDay(String day) {
+    public void beginDayShouldBeActive(String day) {
         shouldBeActiveDay(firstCalendar(), day);
     }
 
     @Override
-    public void shouldBeEndActiveDay(String day) {
+    public void endDayShouldBeActive(String day) {
         shouldBeActiveDay(lastCalendar(), day);
     }
 
     @Override
-    public void shouldBeDisableBeginDay(String day) {
+    public void beginDayShouldBeDisabled(String day) {
         shouldBeDisableDay(firstCalendar(), day);
     }
 
     @Override
-    public void shouldBeDisableEndDay(String day) {
+    public void endDayShouldBeDisabled(String day) {
         shouldBeDisableDay(lastCalendar(), day);
     }
 
     @Override
-    public void shouldBeEnableBeginDay(String day) {
+    public void beginDayShouldBeEnabled(String day) {
         shouldBeEnableDay(firstCalendar(), day);
     }
 
     @Override
-    public void shouldBeEnableEndDay(String day) {
+    public void endDayShouldBeEnabled(String day) {
         shouldBeEnableDay(lastCalendar(), day);
     }
 
@@ -101,58 +103,53 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void beginShouldHaveCurrentMonth(String month) {
+    public void beginCurrentMonthShouldHaveValue(String month) {
         shouldHaveCurrentMonth(firstCalendar(), month);
     }
 
     @Override
-    public void endShouldHaveCurrentMonth(String month) {
+    public void endCurrentMonthShouldHaveValue(String month) {
         shouldHaveCurrentMonth(lastCalendar(), month);
     }
 
     @Override
-    public void beginShouldHaveCurrentYear(String year) {
+    public void beginCurrentYearShouldHaveValue(String year) {
         shouldHaveCurrentYear(firstCalendar(), year);
     }
 
     @Override
-    public void endShouldHaveCurrentYear(String year) {
+    public void endCurrentYearShouldHaveValue(String year) {
         shouldHaveCurrentYear(lastCalendar(), year);
     }
 
     @Override
-    public void clickBeginPreviousMonthButton() {
+    public void clickBeginMonthPreviousButton() {
         clickPreviousMonthButton(firstCalendar());
     }
 
     @Override
-    public void clickEndPreviousMonthButton() {
+    public void clickEndMonthPreviousButton() {
         clickPreviousMonthButton(lastCalendar());
     }
 
     @Override
-    public void clickBeginNextMonthButton() {
+    public void clickBeginMonthNextButton() {
         clickNextMonthButton(firstCalendar());
     }
 
     @Override
-    public void clickEndNextMonthButton() {
+    public void clickEndMonthNextButton() {
         clickNextMonthButton(lastCalendar());
     }
 
     @Override
-    public void beginTimeVal(String hours, String minutes, String seconds) {
-        timeVal(firstCalendar(), hours, minutes, seconds);
+    public void beginTimeSetValue(String hours, String minutes, String seconds) {
+        setTimeValue(firstCalendar(), hours, minutes, seconds);
     }
 
     @Override
-    public void endTimeVal(String hours, String minutes, String seconds) {
-        timeVal(lastCalendar(), hours, minutes, seconds);
-    }
-
-    @Deprecated
-    public void expand() {
-        openPopup();
+    public void endTimeSetValue(String hours, String minutes, String seconds) {
+        setTimeValue(lastCalendar(), hours, minutes, seconds);
     }
 
     @Override
@@ -160,29 +157,14 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         element().$(".n2o-date-input").should(Condition.exist).click();
     }
 
-    @Deprecated
-    public void collapse() {
-        closePopup();
-    }
-
     @Override
     public void closePopup() {
         throw new UnsupportedOperationException("Date pop-up cannot be closed without choosing the date");
     }
 
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
-    }
-
     @Override
     public void shouldBeClosed() {
         popUp().shouldNotBe(Condition.exist);
-    }
-
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
     }
 
     @Override
@@ -202,7 +184,48 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         lastInputElement().shouldBe(Condition.disabled);
     }
 
-    private void timeVal(SelenideElement element, String hours, String minutes, String seconds) {
+    @Deprecated
+    public void expand() {
+        openPopup();
+    }
+
+    @Deprecated
+    public void collapse() {
+        closePopup();
+    }
+
+    @Deprecated
+    public void shouldBeExpanded() {
+        shouldBeOpened();
+    }
+
+    @Deprecated
+    public void shouldBeCollapsed() {
+        shouldBeClosed();
+    }
+
+    protected SelenideElement firstInputElement() {
+        return element().$(".n2o-date-input-first input");
+    }
+
+    protected SelenideElement lastInputElement() {
+        return element().$(".n2o-date-input-last input");
+    }
+
+    protected SelenideElement firstCalendar() {
+        return element().$$(".n2o-calendar").get(0);
+    }
+
+    protected SelenideElement lastCalendar() {
+        return element().$$(".n2o-calendar").get(1);
+    }
+
+    protected SelenideElement popUp() {
+        return element().parent().parent().$(".n2o-pop-up");
+    }
+
+    private void setTimeValue(SelenideElement element, String hours, String minutes, String seconds) {
+        //ToDo: можно ли разделить на отдельный функции?
         element.$(".n2o-calendar-time-container").click();
         element.$$(".n2o-pop-up .hour-picker .n2o-calendar-time-unit").find(Condition.text(hours)).click();
         element.$$(".n2o-pop-up .minute-picker .n2o-calendar-time-unit").find(Condition.text(minutes)).click();
@@ -210,32 +233,21 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         element.$$(".n2o-calendar-time-buttons button").find(Condition.text("Выбрать")).click();
     }
 
-    private SelenideElement firstInputElement() {
-        return element().$(".n2o-date-input-first input");
-    }
-
-    private SelenideElement lastInputElement() {
-        return element().$(".n2o-date-input-last input");
-    }
-
-    private SelenideElement firstCalendar() {
-        return element().$$(".n2o-calendar").get(0);
-    }
-
-    private SelenideElement lastCalendar() {
-        return element().$$(".n2o-calendar").get(1);
-    }
-
     private void shouldBeActiveDay(SelenideElement element, String day) {
-        element.$(".n2o-calendar-day.selected").shouldBe(Condition.exist).shouldHave(Condition.text(day));
+        element.$(".n2o-calendar-day.selected")
+                .shouldBe(Condition.exist).shouldHave(Condition.text(day));
     }
 
     private void shouldBeDisableDay(SelenideElement element, String day) {
-        element.$$(".n2o-calendar-day.disabled").find(Condition.text(day)).shouldBe(Condition.exist);
+        element.$$(".n2o-calendar-day.disabled")
+                .find(Condition.text(day))
+                .shouldBe(Condition.exist);
     }
 
     private void shouldBeEnableDay(SelenideElement element, String day) {
-        element.$$(".n2o-calendar-day.disabled").find(Condition.text(day)).shouldNotBe(Condition.exist);
+        element.$$(".n2o-calendar-day.disabled")
+                .find(Condition.text(day))
+                .shouldNotBe(Condition.exist);
     }
 
     private void clickDay(SelenideElement element, String day) {
@@ -259,9 +271,5 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
 
     private void clickNextMonthButton(SelenideElement element) {
         element.$(".n2o-calendar-header .fa-angle-right").click();
-    }
-
-    private SelenideElement popUp() {
-        return element().parent().parent().$(".n2o-pop-up");
     }
 }

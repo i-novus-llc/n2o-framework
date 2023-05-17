@@ -14,11 +14,11 @@ public class N2oTile extends N2oComponent implements Tile {
 
     @Override
     public void shouldHaveWidth(int width) {
-        element().shouldHave(Condition.attributeMatching("style", ".*width: " + width + "px.*"));
+        element().shouldHave(Condition.attributeMatching("style", String.format(".*width: %spx.*", width)));
     }
 
     @Override
     public void shouldHaveHeight(int height) {
-        element().shouldHave(Condition.attributeMatching("style", ".*min-height: " + height + "px.*"));
+        element().shouldHave(Condition.attributeMatching("style", String.format(".*min-height: %spx.*", height)));
     }
 }
