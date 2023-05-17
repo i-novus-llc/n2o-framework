@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0"
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
         table-name="pim_individual"
         name="${client}">
     <fields>
@@ -18,41 +18,41 @@
                     insert into pim_individual (surname, name, patr_name, birth_dt, gender_id, vip, nationality_id) values (:surname,:name, :patrName, :birthday, :genderId, :vip, :nationalityId);
                 </sql>
             </invocation>
-            <in-parameters>
-                <param id="surname" mapping="['surname']"/>
-                <param id="name" mapping="['name']"/>
-                <param id="patrName" mapping="['patrName']"/>
-                <param id="birthday" mapping="['birthday']"/>
-                <param id="gender.id" mapping="['genderId']"/>
-                <param id="vip" mapping="['vip']"/>
-                <param id="nationality.id" mapping="['nationalityId']"/>
-            </in-parameters>
-            <out-parameters>
-                <param id="id" mapping="[0]"/>
-            </out-parameters>
+            <in>
+                <field id="surname" mapping="['surname']"/>
+                <field id="name" mapping="['name']"/>
+                <field id="patrName" mapping="['patrName']"/>
+                <field id="birthday" mapping="['birthday']"/>
+                <field id="gender.id" mapping="['genderId']"/>
+                <field id="vip" mapping="['vip']"/>
+                <field id="nationality.id" mapping="['nationalityId']"/>
+            </in>
+            <out>
+                <field id="id" mapping="[0]"/>
+            </out>
         </operation>
 
         <operation id="update" name="${update}" submit-label="${save}" success-text="${client.save.success} {surname}">
             <invocation>
-                <sql data-source="jdbc/test">
+                <sql>
                     update pim_individual set surname = :surname, name = :name, patr_name = :patrName, birth_dt = :birthday, gender_id = :genderId, nationality_id = :nationalityId, vip = :vip where id = :id;
                 </sql>
             </invocation>
-            <in-parameters>
-                <param id="surname" mapping="['surname']"/>
-                <param id="name" mapping="['name']"/>
-                <param id="patrName" mapping="['patrName']"/>
-                <param id="birthday" mapping="['birthday']"/>
-                <param id="vip" mapping="['vip']"/>
-                <param id="gender.id" mapping="['genderId']"/>
-                <param id="nationality.id" mapping="['nationalityId']"/>
-                <param id="id" mapping="['id']"/>
-            </in-parameters>
+            <in>
+                <field id="surname" mapping="['surname']"/>
+                <field id="name" mapping="['name']"/>
+                <field id="patrName" mapping="['patrName']"/>
+                <field id="birthday" mapping="['birthday']"/>
+                <field id="vip" mapping="['vip']"/>
+                <field id="gender.id" mapping="['genderId']"/>
+                <field id="nationality.id" mapping="['nationalityId']"/>
+                <field id="id" mapping="['id']"/>
+            </in>
         </operation>
         <operation id="delete" name="${delete}" confirm-text="${client.delete.confirm} {surname} {name}?" confirm="true"
                    success-text="${client} {surname} ${deleted}" fail-text="${client.delete.failed} '{surname}'">
             <invocation>
-                <sql data-source="jdbc/test">
+                <sql>
                     <!--delete from pim_indiv_code where indiv_id = :id;-->
                     <!--delete from pim_indiv_contact where indiv_id = :id;-->
                     <!--delete from pim_workplace where indiv_id = :id;-->
@@ -61,32 +61,32 @@
                     <!--delete from pim_party where id = :id;-->
                 </sql>
             </invocation>
-            <in-parameters>
-                <param id="id" mapping="['id']"/>
-            </in-parameters>
+            <in>
+                <field id="id" mapping="['id']"/>
+            </in>
         </operation>
         <operation id="changeStatusVip">
             <invocation>
-                <sql data-source="jdbc/test">
+                <sql>
                     update pim_individual set vip = :vip where id = :id
                 </sql>
             </invocation>
-            <in-parameters>
-                <param id="vip" mapping="['vip']"/>
-                <param id="id" mapping="['id']"/>
-            </in-parameters>
+            <in>
+                <field id="vip" mapping="['vip']"/>
+                <field id="id" mapping="['id']"/>
+            </in>
         </operation>
 
         <operation id="toggleStatusVip" name="${change.vip.status}">
             <invocation>
-                <sql data-source="jdbc/test">
+                <sql>
                     update pim_individual set vip = NOT :vip where id = :id
                 </sql>
             </invocation>
-            <in-parameters>
-                <param id="vip" mapping="['vip']"/>
-                <param id="id" mapping="['id']"/>
-            </in-parameters>
+            <in>
+                <field id="vip" mapping="['vip']"/>
+                <field id="id" mapping="['id']"/>
+            </in>
         </operation>
     </operations>
 
@@ -109,18 +109,18 @@
         <constraint id="checkUniqueName" severity="warning" result="[0][0][0] == 0"
                     message="${unique.name.validation}">
             <invocation>
-                <sql data-source="jdbc/test">
+                <sql>
                     select count(1) from pim_individual
                     where upper(surname) = upper(:surname)
                     and upper(name) = upper(:name)
                     and (:id is null or id != :id)
                 </sql>
             </invocation>
-            <in-parameters>
-                <param id="surname" mapping="['surname']"/>
-                <param id="name" mapping="['name']"/>
-                <param id="id" mapping="['id']"/>
-            </in-parameters>
+            <in>
+                <field id="surname" mapping="['surname']"/>
+                <field id="name" mapping="['name']"/>
+                <field id="id" mapping="['id']"/>
+            </in>
         </constraint>
         <condition id="errorValid" severity="danger" message="${validation.error}">errorValid == null</condition>
         <condition id="warningValid" severity="danger" message="${validation.warning}">warningValid == null</condition>
