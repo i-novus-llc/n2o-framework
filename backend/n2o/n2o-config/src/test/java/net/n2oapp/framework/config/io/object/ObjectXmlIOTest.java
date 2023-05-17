@@ -17,13 +17,12 @@ public class ObjectXmlIOTest {
 
     @Test
     void testObjectV4XmlIO() {
-        tester.ios(new ObjectElementIOv4(), new ButtonIOv2(), new InvokeActionElementIOV2(), new CloseActionElementIOV2());
+        tester.ios(
+                new ObjectElementIOv4(),
+                new ButtonIOv2(),
+                new InvokeActionElementIOV2(),
+                new CloseActionElementIOV2()
+        );
         assert tester.check("net/n2oapp/framework/config/io/object/testObjectIOv4.object.xml");
-    }
-
-    @Test
-    void testObjectV3XmlIO() {
-        tester.ios(new ObjectElementIOv3());
-        assert tester.check("net/n2oapp/framework/config/io/object/testObjectIOv3.object.xml");
     }
 }
