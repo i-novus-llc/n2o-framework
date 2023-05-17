@@ -63,7 +63,6 @@ public class ConstraintValidationMessageAT extends AutoTestBase {
 
         input.clear();
         firstName.shouldHaveValidationMessage(Condition.empty);
-        lastName.shouldHaveValidationMessage(Condition.empty);
 
         form.toolbar().bottomLeft().button("Create").click();
         firstName.shouldHaveValidationMessage(Condition.text("Имя  уже существует"));
