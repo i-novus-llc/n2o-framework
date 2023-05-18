@@ -249,28 +249,59 @@ description: ""
 </application>
 ```
 
-
-#### Переход на application-3.0 с application-1.0
+#### Переход на application-3.0 с application-1.0 {#to_application_3_0_from_1_0}
 - Заменить `<a>` на `<menu-item><a></menu-item>`. Атрибут `label` перенести в `<menu-item>`, заменив на `name`.
 - Заменить `<page>` на `<menu-item><open-page></menu-item>`. Атрибут `label` перенести в `<menu-item>`, заменив на `name`.
+
+*Пример, как работало в схеме application-1.0*
+```xml {5,6}
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+    <sidebar>
+        <nav>
+             <a label="Пункт 1" href="http://example.com"/>
+             <page label="Пункт 2" page-id="index"/>
+        </nav>
+    </sidebar>
+</application>
+```
+*Пример, как работает в схеме application-3.0*
+```xml {6-11}
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        <sidebar>
+            <nav>
+                <menu-item name="Пункт 1">
+                    <a href="http://example.com"/>
+                </menu-item>
+                <menu-item name="Пункт 2">
+                    <open-page page-id="index"/>
+                </menu-item>
+            </nav>
+        </sidebar>
+    </sidebars>
+</application>
+```
+
 - Заменить `<sub-menu>` на `<dropdown-menu>`. Атрибут `label` заменить на `name`.
 
 *Пример, как работало в схеме application-1.0*
-```xml
+```xml {5-8}
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
     <sidebar>
         <nav>
             <sub-menu label="Меню">
                 <a label="Пункт 1" href="http://example.com"/>
-                <page label="Пункт 2" page-id="index"/>
+                ...
             </sub-menu>
         </nav>
     </sidebar>
 </application>
 ```
 *Пример, как работает в схеме application-3.0*
-```xml
+```xml {6-11}
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <sidebars>
@@ -280,9 +311,7 @@ description: ""
                     <menu-item name="Пункт 1">
                         <a href="http://example.com"/>
                     </menu-item>
-                    <menu-item name="Пункт 2">
-                        <open-page page-id="index"/>
-                    </menu-item>
+                    ...
                 </dropdown-menu>
             </nav>
         </sidebar>
@@ -297,7 +326,7 @@ description: ""
 указав при этом в атрибуте `field-id` фильтра значение идентификатора поля, соответствующего данному фильтру.
 
 *Пример, как работало в схеме query-4.0*
-```xml {8,14,15}
+```xml {7,13,14}
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
     <fields>
