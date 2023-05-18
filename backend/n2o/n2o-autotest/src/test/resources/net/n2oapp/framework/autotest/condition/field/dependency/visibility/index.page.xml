@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Проверка видимость-зависимости полей">
+    <form>
+        <fields>
+            <radio-group id="type">
+                <options>
+                    <option id="1" name="visible"/>
+                    <option id="2" name="not visible"/>
+                </options>
+            </radio-group>
+            <row>
+                <col size="3" >
+                    <input-text id="1" label="visible by condition">
+                        <dependencies>
+                            <visibility on="type">type.id == 1</visibility>
+                        </dependencies>
+                    </input-text>
+                </col>
+            </row>
+            <row>
+                <input-text id="field_visible_3" label="dependencies[apply-on-init].visibility=true"
+                            default-value="Поле всегда видимое">
+                    <dependencies>
+                        <visibility>true</visibility>
+                    </dependencies>
+                </input-text>
+            </row>
+            <row>
+                <input-text id="field_visible_4" label="dependencies[apply-on-init].visibility=false"
+                            default-value="Ошибка, если поле видно" label-class="text-danger">
+                    <dependencies>
+                        <visibility>false</visibility>
+                    </dependencies>
+                </input-text>
+            </row>
+            <row>
+                <input-text id="field_visible_5" label="dependencies[apply-on-init].visibility=undefined"
+                            default-value="Ошибка, если поле видно" label-class="text-danger">
+                    <dependencies>
+                        <visibility>return undefined</visibility>
+                    </dependencies>
+                </input-text>
+            </row>
+            <row>
+                <input-text id="field_visible_6" label="dependencies[apply-on-init].visibility=null"
+                            default-value="Ошибка, если поле видно" label-class="text-danger">
+                    <dependencies>
+                        <visibility>return null</visibility>
+                    </dependencies>
+                </input-text>
+            </row>
+        </fields>
+    </form>
+</simple-page>

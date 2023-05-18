@@ -1,0 +1,479 @@
+---
+title: Миграция схем
+description: ""
+---
+
+### Переход на page-4.0 {#to_page_4_0}
+
+- Атрибуты `query-id` и `object-id` виджетов необходимо перенести в элемент `<datasource>` страницы или виджета
+
+*Пример, как работало в схеме page-3.0*
+```xml {4}
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <form query-id="data" object-id="data">
+            ...
+        </form>
+    </regions>
+</page>
+```
+
+*Пример, как работает в схеме page-4.0*
+```xml {5}
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <!-- использование источника на странице -->
+    <datasources>
+        <datasource id="ds" query-id="data" object-id="data"/>
+    </datasources>
+
+    <regions>
+        <form datasource="ds">
+            ...
+        </form>
+    </regions>
+</page>
+```
+
+```xml {6}
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <form>
+            <!-- использование внутреннего источника данных виджета -->
+            <datasource query-id="data" object-id="data"/>
+            ...
+        </form>
+    </regions>
+</page>
+```
+
+- Элемент `<pre-filters>` был переименован в `<filters>`.
+Также префильтр виджета был перенесен внутрь элемента `<datasource>`.
+
+*Пример, как работало в схеме page-3.0*
+```xml {6-8}
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <form>
+            ...
+            <pre-filters>
+                <eq field-id="id" param="person_id"/>
+            </pre-filters>
+        </form>
+    </regions>
+</page>
+```
+
+*Пример, как работает в схеме page-4.0*
+```xml {5-7}
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds">
+            <filters>
+                <eq field-id="id" param="person_id"/>
+            </filters>
+        </datasource>
+    </datasources>
+
+    <regions>
+        <form datasource="ds">
+            ...
+        </form>
+    </regions>
+</page>
+```
+
+:::note
+Здесь и далее будут приведены примеры только для источника данных страницы.
+Но то же самое верно и для внутреннего источника виджета.
+:::
+
+- Параметры действий перенесены в элемент `<params>`
+
+*Пример, как работало в схеме page-3.0*
+```xml
+<show-modal page-id="person" route="/:id/update">
+    <path-param name="id" value="{id}"/>
+    <query-param name="name" value="{name}"/>
+</show-modal>
+```
+
+*Пример, как работает в схеме page-4.0*
+```xml
+<show-modal page-id="person" route="/:id/update">
+    <params>
+        <path-param name="id" value="{id}"/>
+        <query-param name="name" value="{name}"/>
+    </params>
+</show-modal>
+```
+
+- Атрибут `upload` действия открытия страницы (например `<show-modal>`)
+можно прокинуть на следующую страницу в виде `<datasource>` с соответствующей выборкой.
+
+*Пример, как работало в схеме page-3.0*
+```xml
+<!-- для действия create данные берутся из default выборки -->
+<show-modal page-id="person" submit-operation-id="create" upload="defaults"/>
+...
+<!-- для действия update данные берутся из обычной выборки -->
+<show-modal page-id="person" submit-operation-id="update"/>
+```
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form query-id="data" default-values-query-id="default">
+        ...
+    </form>
+</simple-page>
+```
+
+*Пример, как работает в схеме page-4.0*
+```xml
+<show-modal page-id="person" submit-operation-id="create">
+    <!-- прокидывание источника с default выборкой на следующую страницу -->
+    <datasources>
+        <datasource query-id="default"/>
+    </datasources>
+</show-modal>
+...
+<show-modal page-id="person" submit-operation-id="update">
+    <!-- прокидывание источника с обычной выборкой на следующую страницу -->
+    <datasources>
+        <datasource query-id="data"/>
+    </datasources>
+</show-modal>
+```
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <!-- источник первого виджета страницы будет неявно заменен на тот,
+             который прокинули из родительской страницы -->
+        <datasource query-id="data"/>
+        ...
+    </form>
+</simple-page>
+```
+
+- Master-detail зависимость виджетов задается через `<fetch>` зависимость `<datasource>`.
+
+*Пример, как работало в схеме page-3.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <table id="master" query-id="test">
+            ...
+        </table>
+
+        <table depends-on="master" query-id="docs"
+               master-field-id="id" detail-field-id="personId">
+            ...
+        </table>
+    </regions>
+</page>
+```
+
+*Пример, как работает в схеме page-4.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+        <datasource id="ds2">
+            <dependencies>
+                <fetch on="ds1" model="resolve"/>
+            </dependencies>
+            <filters>
+                <eq field-id="personId" value="{id}" datasource="ds1"/>
+            </filters>
+        </datasource>
+    </datasources>
+
+    <regions>
+        <table datasource="ds1">
+            ...
+        </table>
+
+        <table datasource="ds2">
+            ...
+        </table>
+    </regions>
+</page>
+```
+
+- Атрибуты `widget-id` и `*-widget-id` переименованы на `datasource` и `*-datasource`.
+- Атрибуты `ref-model` и `ref-widget-id` параметров и зависимостей переименованы на `model` и `datasource` соответственно.
+
+
+
+### Переход на application-3.0 {#to_application_3_0}
+ - Необходимо перенести элемент `<sidebar>` во внутрь элемента `<sidebars>`.
+ Таким образом добавлена поддержка нескольких `<sidebar>`, отображающихся в зависимости от url страницы,
+ который должен соответствовать атрибуту `path`.
+
+*Пример, как работало в схемах application-1.0 и application-2.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+    <sidebar src="test" class="test"
+            title="Test Sidebar" home-page-url="http://google.com/">
+        <nav ref-id="testMenu"/>
+    </sidebar>
+</application>
+```
+
+*Пример, как работает в схеме application-3.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        <sidebar path="/home"
+                 src="home" class="home"
+                 title="Home Sidebar" home-page-url="http://google.com/">
+            <nav ref-id="homeMenu"/>
+        </sidebar>
+        <sidebar path="/profile"
+                 src="profile" class="profile"
+                 title="Profile Sidebar">
+             <nav ref-id="profileMenu"/>
+        </sidebar>
+    </sidebars>
+</application>
+```
+
+
+
+### Переход на query-5.0 {#to_query_5_0}
+
+- Все фильтры полей необходимо вынести в новый тэг `<filters>`,
+указав при этом в атрибуте `field-id` фильтра значение идентификатора поля, соответствующего данному фильтру.
+
+*Пример, как работало в схеме query-4.0*
+```xml {8,14,15}
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <fields>
+        <field id="id">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        <field id="name">
+            <select/>
+            <filters>
+                <eq filter-id="nameEq"/>
+                <like filter-id="nameLike"/>
+            </filters>
+        </field>
+    </fields>
+</query>
+```
+
+*Пример, как работает в схеме query-5.0*
+```xml {6-8}
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <!-- фильтры вынесены отдельно от полей -->
+    <!-- для привязки к полю укажите field-id -->
+    <filters>
+        <eq field-id="id" filter-id="id"/>
+        <eq field-id="name" filter-id="nameEq"/>
+        <like field-id="name" filter-id="nameLike"/>
+    </filters>
+
+    <fields>
+        <field id="id"/>
+        <field id="name"/>
+    </fields>
+</query>
+```
+
+- Атрибуты `mapping`, `default-value` и `normalize` элемента `<select>` необходимо перенести в `<field>`.
+Тело элемента `<select>` переносится в атрибут `select-expression`.
+
+:::note
+В новой схеме все поля по умолчанию участвуют в выборке.
+Поэтому во всех элементах `<field>` с отсутствующим тегом `<select>` необходимо прописать `select="false"`.
+:::
+
+После указанных преобразований элемент `<select>` должен быть удален из поля.
+
+*Пример, как работало в схеме query-4.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+
+    <fields>
+        <field id="personName">
+            <select mapping="['name']" default-value="unknown" normalize="#this.toUpperCase()">name: $$name</select>
+        </field>
+        <!-- поле не участвует в выборке -->
+        <field id="personAge"/>
+    </fields>
+</query>
+```
+
+*Пример, как работает в схеме query-5.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+
+    <fields>
+        <field id="personName" mapping="['name']" select-expression="name: $$name"
+                    default-value="unknown" normalize="#this.toUpperCase()"/>
+        <!-- поле не участвует в выборке (задан select="false") -->
+        <field id="personAge" select="false"/>
+    </fields>
+</query>
+```
+
+- Значение атрибута `mapping` элемента `<sorting>` переносится в атрибут `sorting-mapping` тега `<field>`.
+Тело элемента `<sorting>` переносится в атрибут `sorting-expression`.
+
+:::note
+В новой схеме все поля по умолчанию не являются сортируемыми (как и раньше).
+Поэтому во всех элементах `<field>` с указанным тегом `<sorting>` необходимо прописать `sorting="true"`.
+:::
+
+После указанных преобразований элемент `<sorting>` должен быть удален из поля.
+
+*Пример, как работало в схеме query-4.0*
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+
+    <fields>
+        <field id="name">
+            <sorting/>
+        </field>
+        <field id="price" domain="integer">
+            <sorting mapping="['price']">$$price: price</sorting>
+        </field>
+    </fields>
+</query>
+```
+
+*Пример, как работает в схеме query-5.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+
+    <fields>
+        <field id="name" sorting="true"/>
+        <field id="price" domain="integer" sorting="true" sorting-mapping="['price']" sorting-expression="$$price: price"/>
+    </fields>
+</query>
+```
+
+- Также в новой схеме введена возможность задавать иерархию полей с помощью элементов `<field>`, `<reference>`, `<list>`.
+Группы полей, использующих точку в `mapping` элемента `<select>` (или по умолчанию в идентификаторе), например
+`mapping="['employee.name']"` и `mapping="['employee.age']"` или `id="cars.id"` и `id="cars.price"` можно задавать как
+`<reference>` и `<list>` поля.
+
+*Пример, как работало в схеме query-4.0*
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+
+    <fields>
+        <field id="readerId">
+            <select mapping="['reader.id']"/>
+        </field>
+        <field id="readerEmail">
+            <select mapping="['reader.email']"/>
+        </field>
+        <field id="booksTitle">
+            <select mapping="['reader.books.title']"/>
+        </field>
+        <field id="booksAuthor">
+            <select mapping="['reader.books.author']"/>
+        </field>
+    </fields>
+</query>
+```
+
+*Пример, как работает в схеме query-5.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+
+    <fields>
+        <reference id="reader" mapping="['reader']">
+            <field id="readerId" mapping="['id']"/>
+            <field id="readerEmail" mapping="['email']"/>
+            <list id="books" mapping="['books']">
+                <field id="booksTitle" mapping="['title']"/>
+                <field id="booksAuthor" mapping="['author']"/>
+            </list>
+        </reference>
+    </fields>
+</query>
+```
+
+- В `query-5.0` упразднены дочерние элементы `<expression>` и `<join>` тега `<fields>`.
+
+
+### Переход на object-4.0 {#to_object_4_0}
+
+Элементы `<in-parameters>`, `<out-parameters>`, отвечающие за входящие, исходящие поля, были переименованы в `<in>`, `<out>`.
+В свою очередь, `<param>` был переименован в `<field>`.
+
+*Пример, как работало в схеме object-3.0*
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0"
+        name="Мой объект">
+    <operations>
+        <operation id="create" name="Создание">
+            <invocation>
+                <test file="data.json" operation="create"/>
+            </invocation>
+            <!--Входные данные-->
+            <in-parameters>
+                <param id="name"/>
+            </in-parameters>
+            <!--Выходные данные-->
+            <out-parameters>
+                <param id="id"/>
+            </out-parameters>
+        </operation>
+    </operations>
+</object>
+```
+
+*Пример, как работает в схеме object-4.0*
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
+        name="Мой объект">
+    <operations>
+        <operation id="create" name="Создание">
+            <invocation>
+                <!--Провайдер данных-->
+                <test file="data.json" operation="create"/>
+            </invocation>
+            <in>
+                <!--Входные данные-->
+                <field id="name"/>
+            </in>
+            <out>
+                <!--Выходные данные-->
+                <field id="id"/>
+            </out>
+        </operation>
+    </operations>
+</object>
+```

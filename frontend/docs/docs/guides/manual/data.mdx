@@ -76,7 +76,7 @@ N2O поддерживает провайдеры SQL, REST, GraphQl, Spring Bea
 </operation>
 ```
 
-<Sandbox height={200} projectId="data_object_operations" />
+<Sandbox height={200} projectId="interactions_data_object_operations" />
 
 ### Валидации объекта {#object_validations}
 
@@ -96,7 +96,7 @@ N2O поддерживает провайдеры SQL, REST, GraphQl, Spring Bea
 </validations>
 ```
 
-<Sandbox height={400} projectId="data_object_validation_condition" />
+<Sandbox height={400} projectId="interactions_data_object_validation_condition" />
 
 Условия пишутся на языке JavaScript.
 
@@ -125,7 +125,7 @@ N2O поддерживает провайдеры SQL, REST, GraphQl, Spring Bea
 </validations>
 ```
 
-<Sandbox height={300} projectId="data_object_validation_constraint" />
+<Sandbox height={300} projectId="interactions_data_object_validation_constraint" />
 
 Вызов проверки происходит аналогично вызову операции объекта,
 т.е. определяет входные данные для [провайдера](#Data_providers)
@@ -157,11 +157,11 @@ N2O поддерживает провайдеры SQL, REST, GraphQl, Spring Bea
 За получение списка записей отвечает элемент `<list>`.
 За получение общего количества записей — элемент `<count>`.
 
-<Sandbox height={500} projectId="data_query_list" />
+<Sandbox height={500} projectId="interactions_data_query_list" />
 
 А за получение одной уникальной записи — `<unique>`.
 
-<Sandbox height={300} projectId="data_query_unique" />
+<Sandbox height={300} projectId="interactions_data_query_unique" />
 
 Элементов `<list>`, `<count>`, `<unique>` может быть несколько с разными наборами фильтров (атрибут `filters`).
 
@@ -339,7 +339,7 @@ __*Типы фильтраций*__
 </filters>
 ```
 
-<Sandbox height={700} projectId="data_query_list_filters" />
+<Sandbox height={700} projectId="interactions_data_query_list_filters" />
 
 Для фильтра обязательным является атрибут `field-id`, в котором указывается идентификатор поля выборки,
 по которому будет осуществлена фильтрация. Атрибут `filter-id`используется для указания поля фильтра на странице.
@@ -1056,7 +1056,7 @@ GET /mystore/goods?sort=name,asc
 ```
 #### Пример
 
-<Sandbox height={550} projectId="data_providers_rest" />
+<Sandbox height={600} projectId="interactions_data_providers_rest" />
 
 
 ### GraphQL {#graphql}
@@ -1440,7 +1440,7 @@ public class MyGraphQlOperationExceptionHandler implements OperationExceptionHan
 ```
 #### Пример
 
-<Sandbox height={700} projectId="data_providers_graphql" />
+<Sandbox height={700} projectId="interactions_data_providers_graphql" />
 
 ### Java {#java}
 
@@ -1616,7 +1616,7 @@ MongoDB провайдер выполняет запросы к MongoDB базе
 
 Доступны операции insertOne, updateOne, deleteOne, deleteMany, countDocuments.
 
-<Sandbox height={500} projectId="data_providers_mongodb" />
+<Sandbox height={500} projectId="interactions_data_providers_mongodb" />
 
 
 ## Типы данных {#data_types}
@@ -1687,7 +1687,7 @@ integer[]
 
 Подобная связь называется биндингом.
 
-<Sandbox height={200} projectId="data_binding_simple" />
+<Sandbox height={200} projectId="interactions_data_binding_simple" />
 
 ### Биндинг составных полей {#binding_select}
 
@@ -1724,7 +1724,7 @@ integer[]
 </reference>
 ```
 
-<Sandbox height={200} projectId="data_binding_select" />
+<Sandbox height={200} projectId="interactions_data_binding_select" />
 
 ### Биндинг интервальных полей {#binding_interval}
 
@@ -1763,7 +1763,7 @@ integer[]
 </reference>
 ```
 
-<Sandbox height={350} projectId="data_binding_interval" />
+<Sandbox height={350} projectId="interactions_data_binding_interval" />
 
 ### Биндинг полей множественного выбора {#binding_multi}
 
@@ -1854,7 +1854,7 @@ Java провайдеры в качестве альтернативы могу�
 </query>
 ```
 
-<Sandbox height={650} projectId="data_providers_sql_mapping" />
+<Sandbox height={650} projectId="interactions_data_providers_sql_mapping" />
 
 ```xml title="Маппинг фильтров в rest провайдере"
 <query>
@@ -1884,7 +1884,7 @@ Java провайдеры в качестве альтернативы могу�
 </query>
 ```
 
-<Sandbox height={650} projectId="data_providers_rest_mapping" />
+<Sandbox height={650} projectId="interactions_data_providers_rest_mapping" />
 
 ```xml title="Маппинг фильтров в graphql провайдере"
 <query>
@@ -2558,8 +2558,7 @@ class MyService {
 </object>
 ```
 
-[Пример](https://sandbox.n2oapp.net/new/data/object/nesting_object_fields_for_args_provider)
-
+<Sandbox height={600} projectId="interactions_data_object_nesting_object_fields_for_args_provider" />
 
 ## Нормализация данных {#normalize}
 
