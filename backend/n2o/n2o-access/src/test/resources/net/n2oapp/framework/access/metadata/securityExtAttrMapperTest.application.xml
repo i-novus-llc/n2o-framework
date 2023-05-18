@@ -5,9 +5,9 @@
     <header src="test" class="test" title="asd">
 
         <nav>
-            <menu-item name="headerLabel">
-                <open-page sec:roles="admin" sec:permissions="admin,user" sec:authenticated="false" sec:usernames="user"
-                      sec:anonymous="false" page-id="securityExtAttrMapperTest"/>
+            <menu-item name="headerLabel" sec:roles="admin" sec:permissions="admin,user" sec:authenticated="false" sec:usernames="user"
+                       sec:anonymous="false">
+                <open-page page-id="securityExtAttrMapperTest"/>
             </menu-item>
             <menu-item name="hrefLabel">
                 <a href="http://test.com"/>
