@@ -1,7 +1,11 @@
 package net.n2oapp.framework.config.util;
 
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
 import net.n2oapp.framework.config.metadata.compile.datasource.ApplicationDatasourceIdsScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.ParentDatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
@@ -63,6 +67,29 @@ public class DatasourceUtil {
             return datasourceId;
         return getClientDatasourceId(datasourceId, pageScope.getPageId(), p);
     }
+
+    /**
+     * Получение идентификатора клиентского источника данных
+     *
+     * @param datasourceId Идентификатор источника данных
+     * @param pageId       Идентификатор страницы
+     * @param datasourcesScope Список источников данных на странице
+     * @param parentDatasourceIdsScope Список источников данных родительской страницы
+     * @param p            Процессор сборки метаданных
+     * @return Идентификатор клиентского источника данных
+     */
+    public static String getClientDatasourceId(String datasourceId, String pageId, DataSourcesScope datasourcesScope,
+                                               ParentDatasourceIdsScope parentDatasourceIdsScope, CompileProcessor p) {
+        N2oAbstractDatasource pageDs = datasourcesScope.get(datasourceId);
+        if (pageDs instanceof N2oApplicationDatasource) {
+            return datasourceId;
+        } else if (pageDs instanceof N2oParentDatasource) {
+            return parentDatasourceIdsScope.get(datasourceId);
+        } else {
+            return getClientDatasourceId(datasourceId, pageId, p);
+        }
+    }
+
 
     /**
      * Получение идентификатора клиентского источника данных.

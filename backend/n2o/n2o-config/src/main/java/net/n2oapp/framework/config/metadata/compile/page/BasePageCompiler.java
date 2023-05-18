@@ -124,14 +124,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 datasourcesScope, appDatasourceIdsScope, parentDatasourceIdsScope));
 
         if (source.getDatasourceId() != null) {
-            N2oAbstractDatasource pageDs = datasourcesScope.get(source.getDatasourceId());
-            if (pageDs instanceof N2oApplicationDatasource) {
-                page.getPageProperty().setDatasource(source.getDatasourceId());
-            } else if (pageDs instanceof N2oParentDatasource) {
-                page.getPageProperty().setDatasource(parentDatasourceIdsScope.get(source.getDatasourceId()));
-            } else {
-                page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), page.getId(), p));
-            }
+            page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), page.getId(), datasourcesScope, parentDatasourceIdsScope, p));
         }
 
         return page;
