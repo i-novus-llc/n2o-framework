@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
-import net.n2oapp.framework.config.io.application.ApplicationIO;
 import net.n2oapp.framework.config.io.application.ApplicationIOv2;
 import net.n2oapp.framework.config.io.application.ApplicationIOv3;
 import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv3;
@@ -21,7 +20,6 @@ public class N2oAllIOPack implements MetadataPack<XmlIOBuilder<? extends XmlIOBu
     @Override
     public void build(XmlIOBuilder<? extends XmlIOBuilder<?>> b) {
         b.ios(
-                new ApplicationIO(),
                 new ApplicationIOv2(),
                 new NavMenuIOv2(),
                 new ExtraMenuIOv2(),

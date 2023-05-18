@@ -24,7 +24,7 @@ public class FooterIO extends ComponentIO<N2oFooter> {
 
     @Override
     public String getNamespaceUri() {
-        return "http://n2oapp.net/framework/config/schema/application-1.0";
+        return "http://n2oapp.net/framework/config/schema/application-3.0";
     }
 
     @Override

@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.validation.application;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.application.ApplicationIO;
 import net.n2oapp.framework.config.io.application.ApplicationIOv3;
 import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv3;
 import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
@@ -28,7 +27,7 @@ public class SidebarValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.ios(new ApplicationIO(), new ApplicationIOv3(), new SidebarIOv3(), new StandardDatasourceIO());
+        builder.ios(new ApplicationIOv3(), new SidebarIOv3(), new StandardDatasourceIO());
         builder.validators(new ApplicationValidator(), new SidebarValidator());
     }
 

@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.validation.application;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.application.ApplicationIO;
 import net.n2oapp.framework.config.io.application.ApplicationIOv3;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationValidator;
 import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv3;
@@ -28,7 +27,7 @@ public class ApplicationValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.ios(new ApplicationIO(), new ApplicationIOv3(), new SidebarIOv3());
+        builder.ios(new ApplicationIOv3(), new SidebarIOv3());
         builder.validators(new ApplicationValidator());
         builder.sources(new CompileInfo("menuForHeaderValidation", N2oSimpleMenu.class));
     }
