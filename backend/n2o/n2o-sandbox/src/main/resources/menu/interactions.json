@@ -2,65 +2,121 @@
   "name": "Взаимодействия",
   "sections": [
     {
-      "name": "Маршрутизация",
+      "name": "Провайдеры данных",
       "templates": [
         {
-          "templateId": "interactions/routing/routingnav",
-          "name": "Маршрут страниц в меню навигации"
+          "templateId": "interactions/data/object/operations",
+          "name": "Операции объекта"
         },
         {
-          "templateId": "interactions/routing/homepage",
-          "name": "Начальная страница приложения"
+          "templateId": "interactions/data/object/validation_condition",
+          "name": "Объект. Валидация на месте"
         },
         {
-          "templateId": "interactions/routing/childpage",
-          "name": "Маршрутизация вложенных страниц"
+          "templateId": "interactions/data/object/validation_constraint",
+          "name": "Объект. Валидация в сервисе"
         },
         {
-          "templateId": "interactions/routing/pathparam",
-          "name": "Маршрут дочерней страницы с параметром пути"
+          "templateId": "interactions/data/object/nesting_object_fields_for_map_provider",
+          "name": "Вложенные поля в объекте на примере TestProvider"
         },
         {
-          "templateId": "interactions/routing/queryparam",
-          "name": "Маршрут дочерней страницы с параметром запроса"
+          "templateId": "interactions/data/object/nesting_object_fields_for_args_provider",
+          "name": "Вложенные поля в объекте на примере JavaProvider"
         },
         {
-          "templateId": "interactions/routing/pageparam",
-          "name": "Передача и использование параметра страницы"
+          "templateId": "interactions/data/query/list",
+          "name": "Выборка данных. Пагинация"
         },
         {
-          "templateId": "interactions/routing/queryroute",
-          "name": "Маршрутизация выборки"
+          "templateId": "interactions/data/query/list_filters",
+          "name": "Выборка данных. Фильтрация"
         },
         {
-          "templateId": "interactions/routing/queryfilter",
-          "name": "Параметры запроса фильтра выборки"
+          "templateId": "interactions/data/query/unique",
+          "name": "Выборка данных. Уникальность"
         },
         {
-          "templateId": "interactions/routing/operation",
-          "name": "Маршрутизация операций"
+          "templateId": "interactions/data/binding/simple",
+          "name": "Связывание данных. Простое поле"
         },
         {
-          "templateId": "interactions/routing/operationpath",
-          "name": "Маршрут операции с параметром пути"
+          "templateId": "interactions/data/binding/select",
+          "name": "Связывание данных. Списковое поле"
         },
         {
-          "templateId": "interactions/routing/operationbody",
-          "name": "Маршрут операции с параметром тела запроса"
+          "templateId": "interactions/data/binding/interval",
+          "name": "Связывание данных. Интервальное поле"
         },
         {
-          "templateId": "interactions/routing/field",
-          "name": "Значение простого поля заданное через параметр"
+          "templateId": "interactions/data/providers/sql",
+          "name": "Провайдеры данных. SQL"
         },
         {
-          "templateId": "interactions/routing/fieldlist",
-          "name": "Задание значений списковых полей через параметры"
+          "templateId": "interactions/data/providers/sql_mapping",
+          "name": "Провайдеры данных. Маппинг в SQL"
         },
         {
-          "templateId": "interactions/routing/fieldinterval",
-          "name": "Задание значений интервальных полей через параметры"
+          "templateId": "interactions/data/providers/rest",
+          "name": "Провайдеры данных. REST"
+        },
+        {
+          "templateId": "interactions/data/providers/rest_mapping",
+          "name": "Провайдеры данных. Маппинг в REST"
+        },
+        {
+          "templateId": "interactions/data/providers/java",
+          "name": "Провайдеры данных. Java"
+        },
+        {
+          "templateId": "interactions/data/providers/mapping_java_primitive",
+          "name": "Провайдеры данных. Маппинг примитивов в Java"
+        },
+        {
+          "templateId": "interactions/data/providers/mapping_java_entity",
+          "name": "Провайдеры данных. Маппинг сущности в Java"
+        },
+        {
+          "templateId": "interactions/data/providers/mapping_java_criteria",
+          "name": "Провайдеры данных. Маппинг критериев в Java"
+        },
+        {
+          "templateId": "interactions/data/providers/mongodb",
+          "name": "Провайдеры данных. MongoDb"
+        },
+        {
+          "templateId": "interactions/data/providers/graphql",
+          "name": "Провайдеры данных. GraphQL"
         }
-
+      ]
+    },
+    {
+      "name": "Значения по умолчанию",
+      "templates": [
+        {
+          "templateId": "interactions/defaultvalue/field",
+          "name": "Значение по умолчанию для простых полей"
+        },
+        {
+          "templateId": "interactions/defaultvalue/list",
+          "name": "Значение по умолчанию для списковых полей"
+        },
+        {
+          "templateId": "interactions/defaultvalue/query",
+          "name": "Выборка значений по умолчанию"
+        },
+        {
+          "templateId": "interactions/defaultvalue/js",
+          "name": "Значение по умолчанию в виде JavaScript выражения"
+        },
+        {
+          "templateId": "interactions/defaultvalue/datetime",
+          "name": "Значение по умолчанию в виде функции даты и времени"
+        },
+        {
+          "templateId": "interactions/defaultvalue/ref",
+          "name": "Значение по умолчанию через ссылку на данные"
+        }
       ]
     },
     {
@@ -203,32 +259,65 @@
       ]
     },
     {
-      "name": "Значения по умолчанию",
+      "name": "Маршрутизация",
       "templates": [
         {
-          "templateId": "interactions/defaultvalue/field",
-          "name": "Значение по умолчанию для простых полей"
+          "templateId": "interactions/routing/routingnav",
+          "name": "Маршрут страниц в меню навигации"
         },
         {
-          "templateId": "interactions/defaultvalue/list",
-          "name": "Значение по умолчанию для списковых полей"
+          "templateId": "interactions/routing/homepage",
+          "name": "Начальная страница приложения"
         },
         {
-          "templateId": "interactions/defaultvalue/query",
-          "name": "Выборка значений по умолчанию"
+          "templateId": "interactions/routing/childpage",
+          "name": "Маршрутизация вложенных страниц"
         },
         {
-          "templateId": "interactions/defaultvalue/js",
-          "name": "Значение по умолчанию в виде JavaScript выражения"
+          "templateId": "interactions/routing/pathparam",
+          "name": "Маршрут дочерней страницы с параметром пути"
         },
         {
-          "templateId": "interactions/defaultvalue/datetime",
-          "name": "Значение по умолчанию в виде функции даты и времени"
+          "templateId": "interactions/routing/queryparam",
+          "name": "Маршрут дочерней страницы с параметром запроса"
         },
         {
-          "templateId": "interactions/defaultvalue/ref",
-          "name": "Значение по умолчанию через ссылку на данные"
+          "templateId": "interactions/routing/pageparam",
+          "name": "Передача и использование параметра страницы"
+        },
+        {
+          "templateId": "interactions/routing/queryroute",
+          "name": "Маршрутизация выборки"
+        },
+        {
+          "templateId": "interactions/routing/queryfilter",
+          "name": "Параметры запроса фильтра выборки"
+        },
+        {
+          "templateId": "interactions/routing/operation",
+          "name": "Маршрутизация операций"
+        },
+        {
+          "templateId": "interactions/routing/operationpath",
+          "name": "Маршрут операции с параметром пути"
+        },
+        {
+          "templateId": "interactions/routing/operationbody",
+          "name": "Маршрут операции с параметром тела запроса"
+        },
+        {
+          "templateId": "interactions/routing/field",
+          "name": "Значение простого поля заданное через параметр"
+        },
+        {
+          "templateId": "interactions/routing/fieldlist",
+          "name": "Задание значений списковых полей через параметры"
+        },
+        {
+          "templateId": "interactions/routing/fieldinterval",
+          "name": "Задание значений интервальных полей через параметры"
         }
+
       ]
     },
      {
@@ -260,111 +349,6 @@
         }
       ]
     },
-    {
-      "name": "Объект",
-      "templates": [
-        {
-          "templateId": "interactions/data/object/operations",
-          "name": "Операции объекта"
-        },
-        {
-          "templateId": "interactions/data/object/validation_condition",
-          "name": "Валидация на месте"
-        },
-        {
-          "templateId": "interactions/data/object/validation_constraint",
-          "name": "Валидация в сервисе"
-        },
-        {
-          "templateId": "interactions/data/object/nesting_object_fields_for_map_provider",
-          "name": "Вложенные поля в объекте на примере TestProvider"
-        },
-        {
-          "templateId": "interactions/data/object/nesting_object_fields_for_args_provider",
-          "name": "Вложенные поля в объекте на примере JavaProvider"
-        }
-      ]
-    },
-    {
-      "name": "Выборка данных",
-      "templates": [
-        {
-          "templateId": "interactions/data/query/list",
-          "name": "Пагинация"
-        },
-        {
-          "templateId": "interactions/data/query/list_filters",
-          "name": "Фильтрация"
-        },
-        {
-          "templateId": "interactions/data/query/unique",
-          "name": "Уникальность"
-        }
-      ]
-    },
-    {
-      "name": "Связывание данных",
-      "templates": [
-        {
-          "templateId": "interactions/data/binding/simple",
-          "name": "Простое поле"
-        },
-        {
-          "templateId": "interactions/data/binding/select",
-          "name": "Списковое поле"
-        },
-        {
-          "templateId": "interactions/data/binding/interval",
-          "name": "Интервальное поле"
-        }
-      ]
-    },
-    {
-      "name": "Провайдеры данных",
-      "templates": [
-        {
-          "templateId": "interactions/data/providers/sql",
-          "name": "SQL"
-        },
-        {
-          "templateId": "interactions/data/providers/sql_mapping",
-          "name": "Маппинг в SQL"
-        },
-        {
-          "templateId": "interactions/data/providers/rest",
-          "name": "REST"
-        },
-        {
-          "templateId": "interactions/data/providers/rest_mapping",
-          "name": "Маппинг в REST"
-        },
-        {
-          "templateId": "interactions/data/providers/java",
-          "name": "Java"
-        },
-        {
-          "templateId": "interactions/data/providers/mapping_java_primitive",
-          "name": "Маппинг примитивов в Java"
-        },
-        {
-          "templateId": "interactions/data/providers/mapping_java_entity",
-          "name": "Маппинг сущности в Java"
-        },
-        {
-          "templateId": "interactions/data/providers/mapping_java_criteria",
-          "name": "Маппинг критериев в Java"
-        },
-        {
-          "templateId": "interactions/data/providers/mongodb",
-          "name": "MongoDb"
-        },
-        {
-          "templateId": "interactions/data/providers/graphql",
-          "name": "GraphQL"
-        }
-      ]
-    },
-
     {
       "name": "Доступ по атрибутам",
       "templates": [

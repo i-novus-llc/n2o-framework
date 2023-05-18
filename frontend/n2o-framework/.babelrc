@@ -15,7 +15,7 @@
     },
     "development": {
       "sourceMaps": false,
-      "plugins": [],
+      "plugins": ["babel-plugin-typescript-to-proptypes"],
       "presets": [
         ["@babel/preset-typescript", {}],
         ["@babel/preset-react", { "development": true }],

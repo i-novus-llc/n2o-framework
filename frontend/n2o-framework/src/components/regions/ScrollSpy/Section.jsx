@@ -63,6 +63,7 @@ export function SectionGroup({ id, title, headlines, content, menu: items, activ
                 pageId={pageId}
                 id={id}
                 className="n2o-scroll-spy-region__content"
+                headlines={headlines}
             />
         )
     } else {
@@ -71,6 +72,7 @@ export function SectionGroup({ id, title, headlines, content, menu: items, activ
                 {...item}
                 setSectionRef={setSectionRef}
                 pageId={pageId}
+                headlines={headlines}
             />
         ))
     }
