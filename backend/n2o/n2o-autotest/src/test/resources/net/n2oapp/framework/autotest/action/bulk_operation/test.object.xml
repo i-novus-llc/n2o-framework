@@ -1,22 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0">
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
     <operations>
         <operation id="updateMany">
             <invocation>
                 <test file="test.json" operation="updateMany"/>
             </invocation>
-            <in-parameters>
-                <param id="ids"  mapping="['ids']"/>
-                <param id="new_name"  mapping="['name']"/>
-            </in-parameters>
+            <in>
+                <field id="ids"  mapping="['ids']"/>
+                <field id="new_name"  mapping="['name']"/>
+            </in>
         </operation>
         <operation id="deleteMany" confirm="false">
             <invocation>
                 <test file="test.json" operation="deleteMany"/>
             </invocation>
-            <in-parameters>
-                <param id="$list*.id"  mapping="['ids']"/>
-            </in-parameters>
+            <in>
+                <field id="$list*.id"  mapping="['ids']"/>
+            </in>
         </operation>
     </operations>
 </object>
