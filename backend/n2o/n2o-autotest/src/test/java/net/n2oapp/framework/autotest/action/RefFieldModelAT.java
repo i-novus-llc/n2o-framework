@@ -69,15 +69,15 @@ public class RefFieldModelAT extends AutoTestBase {
         InputText fromParentPageWidget = fields.field("Чтение из виджета родительской страницы").control(InputText.class);
         fromParentPageWidget.shouldHaveValue("2");
 
-        //check def-value
+        //check def-value after open/close modal
         widgets.widget(1, FormWidget.class).toolbar().bottomRight().button("page2").click();
-//        modal.shouldHaveTitle("page2");
         Modal modal2 = N2oSelenide.modal(1);
         modal2.shouldHaveTitle("page2");
         modal2.close();
         id.setValue("1");
         fromCurrentPageWidget.shouldHaveValue("1");
         modal.close();
+
         // open-page
         table.columns().rows().row(2).click();
         table.toolbar().topLeft().button("Открыть").click();
@@ -91,8 +91,5 @@ public class RefFieldModelAT extends AutoTestBase {
         fromCurrentPageWidget.shouldHaveValue("3");
         fromParentPageWidget = fields.field("Чтение из виджета родительской страницы").control(InputText.class);
         fromParentPageWidget.shouldHaveValue("3");
-
-
-
     }
 }
