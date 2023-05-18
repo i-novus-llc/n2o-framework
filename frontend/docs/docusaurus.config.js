@@ -78,9 +78,8 @@ module.exports = {
                     position: 'left',
                 },
                 {
-                    type: 'docsVersionDropdown',
+                    type: 'custom-versions',
                     position: 'right',
-                    dropdownActiveClassDisabled: true,
                 },
                 {
                     href: 'https://github.com/i-novus-llc/n2o-framework',
@@ -93,7 +92,7 @@ module.exports = {
             style: 'dark',
             copyright: `Copyright © ${new Date().getFullYear()} N2O, Inc. Built with I-Novus.`,
     },
-    metadatas: [{
+    metadata: [{
         name: 'description',
         content: description
     }, {

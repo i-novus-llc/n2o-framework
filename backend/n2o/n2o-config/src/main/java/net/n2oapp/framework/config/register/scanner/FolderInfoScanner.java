@@ -40,9 +40,7 @@ public class FolderInfoScanner implements OverrideInfoScanner<InfoConstructor>, 
             String uri = convertRootPathToUrl(s);
             xmlPattern.add(PathUtil.convertUrlToPattern(uri, "xml", "*.*"));
         }
-       // String groovyPattern = PathUtil.convertUrlToPattern(path, "groovy", "*.*");
-        /*nodes.addAll(collectInfo(getNodesByLocationPattern(groovyPattern), FolderInfoScanner.class,
-                (node, scannerClass) -> RegisterUtil.createScriptInfo(node, scannerClass)));*/
+
         return collectInfo(getNodesByLocationPattern(xmlPattern),
                 n -> RegisterUtil.createFolderInfo(n, sourceTypeRegister));
     }

@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <unique  filters="id">
+        <test file="test.json" operation="findOne"/>
+    </unique>
+    
+    <fields>
+        <field id="id" domain="integer">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        
+        <field id="res1">
+            <select/>
+        </field>
+        
+        <field id="res2">
+            <select/>
+        </field>
+        
+        <field id="res3">
+            <select/>
+        </field>
+        
+        <field id="res4">
+            <select/>
+        </field>
+        
+        <field id="res5">
+            <select/>
+        </field>
+        <field id="check">
+            <select/>
+        </field>
+    </fields>
+</query>

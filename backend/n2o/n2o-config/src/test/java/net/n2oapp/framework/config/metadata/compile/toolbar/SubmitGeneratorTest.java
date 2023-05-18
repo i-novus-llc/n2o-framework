@@ -27,7 +27,8 @@ public class SubmitGeneratorTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllDataPack(), new N2oAllPagesPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/toolbar/testSubmitGeneratorObject.object.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/toolbar/testSubmitGeneratorObject.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/toolbar/testSubmitGeneratorButton.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/toolbar/testSubmitGeneratorPage.page.xml"));
     }

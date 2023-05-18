@@ -8,7 +8,7 @@
         </columns>
         <toolbar>
             <button label="Модальное окно">
-                <show-modal page-id="page" route="/:id/modal">
+                <show-modal page-id="page" route="/:id/modal" unsaved-data-prompt-on-close="false">
                     <path-param name="id" value="{id}"/>
                 </show-modal>
             </button>
