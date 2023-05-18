@@ -250,6 +250,46 @@ description: ""
 ```
 
 
+#### Переход на application-3.0 с application-1.0
+- Заменить `<a>` на `<menu-item><a></menu-item>`. Атрибут `label` перенести в `<menu-item>`, заменив на `name`.
+- Заменить `<page>` на `<menu-item><open-page></menu-item>`. Атрибут `label` перенести в `<menu-item>`, заменив на `name`.
+- Заменить `<sub-menu>` на `<dropdown-menu>`. Атрибут `label` заменить на `name`.
+
+*Пример, как работало в схеме application-1.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+    <sidebar>
+        <nav>
+            <sub-menu label="Меню">
+                <a label="Пункт 1" href="http://example.com"/>
+                <page label="Пункт 2" page-id="index"/>
+            </sub-menu>
+        </nav>
+    </sidebar>
+</application>
+```
+*Пример, как работает в схеме application-3.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        <sidebar>
+            <nav>
+                <dropdown-menu name="Меню">
+                    <menu-item name="Пункт 1">
+                        <a href="http://example.com"/>
+                    </menu-item>
+                    <menu-item name="Пункт 2">
+                        <open-page page-id="index"/>
+                    </menu-item>
+                </dropdown-menu>
+            </nav>
+        </sidebar>
+    </sidebars>
+</application>
+```
+
 
 ### Переход на query-5.0 {#to_query_5_0}
 
