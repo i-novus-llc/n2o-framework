@@ -143,6 +143,10 @@
         {
           "templateId": "uxcomponents/tables/edit_inline",
           "name": "Редактируемые ячейки"
+        },
+        {
+          "templateId": "uxcomponents/tables/settings",
+          "name": "Настройки таблицы"
         }
       ]
     },
