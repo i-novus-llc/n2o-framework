@@ -1,0 +1,9 @@
+{
+  "name": "Примеры приложений",
+  "sections": [
+    {
+      "templateId": "applications/universal_register",
+      "name": "Универсальный регистр"
+    }
+  ]
+}

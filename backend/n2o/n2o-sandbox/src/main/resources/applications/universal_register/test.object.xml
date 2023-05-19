@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+<operations>
+    <operation id="create">
+       <invocation>
+           <test file="test.json" operation="create"/>
+       </invocation>
+        <in>
+            <field id="createDate" normalize="T(java.time.LocalDate).now()"/>
+            <field id="snils"/>
+            <field id="gender"/>
+            <field id="citizen"/>
+            <field id="birthday"/>
+            <field id="gender"/>
+            <field id="fio"  normalize="#data['surname'] + ' ' + #data['name'] + ' ' + #data['middlename']"/>
+            <field id="counrty"/>
+            <field id="legal"/>
+            <list id="docs">
+                <field id="type"/>
+                <field id="serie"/>
+                <field id="number"/>
+                <field id="issuer"/>
+                <field id="date"/>
+                <field id="code"/>
+            </list>
+            <field id="compulsory"/>
+            <list id="voluntary">
+                <field id="org"/>
+                <field id="number"/>
+                <field id="date"/>
+                <field id="files"/>
+            </list>
+            <list id="phone">
+                <field id="mobile"/>
+                <field id="home"/>
+            </list>
+            <field id="address"/>
+            <field id="bronchologicalSystem"/>
+            <field id="cardiovascularSystem"/>
+            <field id="endocrineSystem"/>
+            <field id="oncologicalDiseases"/>
+            <field id="immunodeficiency"/>
+            <field id="diagnosis"/>
+            <field id="organization"/>
+        </in>
+        <out>
+            <field id="id"/>
+        </out>
+        <validations>
+            <condition id="diag" on="diagnosis" title="Укажите диагноз">
+                diagnosis != null
+            </condition>
+        </validations>
+    </operation>
+    <operation id="update">
+       <invocation>
+           <test file="test.json" operation="update"/>
+       </invocation>
+        <in>
+            <field id="id"/>
+            <field id="snils"/>
+            <field id="gender"/>
+            <field id="citizen"/>
+            <field id="birthday"/>
+            <field id="gender"/>
+            <field id="fio"  normalize="#data['surname'] + ' ' + #data['name'] + ' ' + #data['middlename']"/>
+            <field id="counrty"/>
+            <field id="status"/>
+            <list id="docs">
+                <field id="type"/>
+                <field id="serie"/>
+                <field id="number"/>
+                <field id="issuer"/>
+                <field id="date"/>
+                <field id="code"/>
+            </list>
+            <field id="compulsory"/>
+            <list id="voluntary">
+                <field id="org"/>
+                <field id="number"/>
+                <field id="date"/>
+                <field id="files"/>
+            </list>
+            <list id="phone">
+                <field id="mobile"/>
+                <field id="home"/>
+            </list>
+            <field id="address"/>
+            <field id="bronchologicalSystem"/>
+            <field id="cardiovascularSystem"/>
+            <field id="endocrineSystem"/>
+            <field id="oncologicalDiseases"/>
+            <field id="immunodeficiency"/>
+            <field id="diagnosis"/>
+            <field id="organization"/>
+        </in>
+        <out>
+            <field id="id"/>
+        </out>
+    </operation>
+</operations>
+</object>
