@@ -78,7 +78,7 @@ class StandardWidget extends React.Component {
                 const { [place]: propsPlace } = this.props
                 const hasPropsPlace = propsPlace && React.isValidElement(propsPlace)
                 const toolbarClassNames = classNames(
-                    'd-flex',
+                    'd-flex flex-column',
                     {
                         'flex-column': place.includes(PLACES.bottom),
                         'flex-column-reverse': place.includes(PLACES.top),
