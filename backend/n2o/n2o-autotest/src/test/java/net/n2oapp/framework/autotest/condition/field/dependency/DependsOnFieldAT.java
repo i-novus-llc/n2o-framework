@@ -132,23 +132,27 @@ public class DependsOnFieldAT extends AutoTestBase {
     
     @Test
     void checkDependencyBetweenFieldsAndMultifieldsets() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/on_fields_and_multifieldsets/index.page.xml")
+        );
         final StandardPage page = open(StandardPage.class);
         page.shouldExists();
         
         final FormWidget formWidget = page.regions()
-                .region(1, SimpleRegion.class)
+                .region(0, SimpleRegion.class)
                 .content()
-                .widget(0, FormWidget.class);
+                .widget(1, FormWidget.class);
 
-        final Fields fields = formWidget.fieldsets().fieldset(0, SimpleFieldSet.class).fields();
-        final ButtonField resetFieldBtn = fields.field("reset field", ButtonField.class);
-        final ButtonField resetFieldsetBtn = fields.field("reset field.multiSet", ButtonField.class);
-        final ButtonField setValueToFieldsetBtn = fields.field("set default to field..multiSet", ButtonField.class);
-        final MultiFieldSet fieldset = formWidget.fieldsets().fieldset(0, MultiFieldSet.class);
-        final InputText input = fields.field("field.input").control(InputText.class);
-        final OutputText onAnyField = fields.field("on=field").control(OutputText.class);
-        final OutputText onFieldset = fields.field("on=field.multiSet").control(OutputText.class);
-        final OutputText onInput = fields.field("on field.input").control(OutputText.class);
+        final Fields buttonFields = formWidget.fieldsets().fieldset(0, SimpleFieldSet.class).fields();
+        final ButtonField resetFieldBtn = buttonFields.field("reset field", ButtonField.class);
+        final ButtonField resetFieldsetBtn = buttonFields.field("reset field.multiSet", ButtonField.class);
+        final ButtonField setValueToFieldsetBtn = buttonFields.field("set default to field..multiSet", ButtonField.class);
+        final MultiFieldSet fieldset = formWidget.fieldsets().fieldset(1, MultiFieldSet.class);
+        final InputText input = buttonFields.field("field.input").control(InputText.class);
+        final Fields outputFields = formWidget.fieldsets().fieldset(2, SimpleFieldSet.class).fields();
+        final OutputText onAnyField = outputFields.field("on=field").control(OutputText.class);
+        final OutputText onFieldset = outputFields.field("on=field.multiSet").control(OutputText.class);
+        final OutputText onInput = outputFields.field("on field.input").control(OutputText.class);
 
         resetFieldBtn.shouldExists();
         resetFieldsetBtn.shouldExists();
