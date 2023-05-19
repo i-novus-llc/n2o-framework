@@ -113,6 +113,12 @@
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-selenide</artifactId>
             <version>${allure-junit5.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.codeborne</groupId>
+                    <artifactId>selenide</artifactId>
+                </exclusion>
+            </exclusions>
             <scope>test</scope>
         </dependency>
 
