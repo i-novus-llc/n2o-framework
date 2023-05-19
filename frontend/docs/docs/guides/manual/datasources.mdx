@@ -19,19 +19,19 @@ description: ""
 
 ```xml title="Источники данных на странице"
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
-  <datasources>
-    <!-- Источники данных страницы -->
-    <datasource id="main"/>
-    <datasource id="docs"/>
-    <datasource id="addresses"/>
-  </datasources>
+    <datasources>
+        <!-- Источники данных страницы -->
+        <datasource id="main"/>
+        <datasource id="docs"/>
+        <datasource id="addresses"/>
+    </datasources>
 </page>
 ```
 
 На такой источник данных можно сослаться из виджета с помощью атрибута `datasource`:
 ```xml title="Ссылка на источник данных из виджета"
 <form datasource="main">
-  ...
+    ...
 </form>
 ```
 
@@ -46,9 +46,9 @@ description: ""
 
 ```xml title="Вложенный источник данных виджета"
 <form>
-  <datasource>
-    <!-- Источник данных виджета -->
-  </datasource>
+    <datasource>
+        <!-- Источник данных виджета -->
+    </datasource>
 </form>
 ```
 
@@ -97,16 +97,18 @@ description: ""
 
 ```xml title="Открываемая страница"
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
-  <datasources>
-    <datasource id="docs"/>
-  </datasources>
+    <datasources>
+        <datasource id="docs"/>
+    </datasources>
 
-  <form datasource="docs">
-    <fields>
-      <input-text id="name" label="Наименование"/>
-      <input-text id="description" label="Описание"/>
-    </fields>
-  </form>
+    <regions>
+        <form datasource="docs">
+            <fields>
+                <input-text id="name" label="Наименование"/>
+                <input-text id="description" label="Описание"/>
+            </fields>
+        </form>
+    </regions>
 </page>
 ```
 
@@ -160,10 +162,10 @@ description: ""
 
 ```xml title="Источники данных в приложении"
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
-  <datasources>
-    <datasource id="appDs"/>
-    ...  <!-- Источники данных в приложении -->
-  </datasources>
+    <datasources>
+        <datasource id="appDs"/>
+        ...  <!-- Источники данных в приложении -->
+    </datasources>
 </application>
 ```
 
@@ -187,9 +189,9 @@ description: ""
 
 ```xml title="Вложенный источник данных в боковой панели"
 <sidebar>
-  <datasource>
-    <!-- Источник данных боковой панели -->
-  </datasource>
+    <datasource>
+        <!-- Источник данных боковой панели -->
+    </datasource>
 </sidebar>
 ```
 
@@ -211,7 +213,7 @@ description: ""
 <datasource id="main"
             object-id="person"
             query-id="person">
-  ...
+    ...
 </datasource>
 ```
 #### Фильтрация источника данных {#datasource_filtering}
@@ -244,7 +246,7 @@ description: ""
 Отправка данных формы может быть вызвана по кнопке.
 ```xml title="Кнопка отправки данных формы"
 <button label="Сохранить">
-  <submit datasource="main"/>
+    <submit datasource="main"/>
 </button>
 ```
 
@@ -266,7 +268,7 @@ description: ""
 <button label="Сохранить"
         validate="true"
         validate-datasource="main, docs, addresses">
-  ... <!-- Действие -->
+    ... <!-- Действие -->
 </button>
 ```
 С помощью атрибута `validate-datasources` можно указать источники данных, которые требуется провалидировать перед вызовом действия.
@@ -288,7 +290,7 @@ description: ""
 <datasource id="main"
             query-id="person"
             default-values-mode="merge">
-      ...
+    ...
 </datasource>
 ```
 
@@ -313,11 +315,11 @@ __*Правила слияний*__
 
 ```xml title="Источник данных браузерного хранилища"
 <datasources>
-  <browser-storage id="main"
+    <browser-storage id="main"
                    key="n2o.storage.main"
                    type="sessionStorage">
-    ...
-  </browser-storage>
+        ...
+    </browser-storage>
 </datasources>
 ```
 Атрибут `key` задает пространство в браузерном хранилище, в котором будут сохраняться данные.
@@ -345,12 +347,12 @@ __*Правила слияний*__
 
 ```xml title="Наследуемый источник данных"
 <datasources>
-  <inherited-datasource id="docs"
+    <inherited-datasource id="docs"
                         source-datasource="person"
                         source-model="resolve"
                         source-field-id="docs">
-    ...
-  </inherited-datasource>
+        ...
+    </inherited-datasource>
 </datasources>
 ```
 Атрибуты `source-*` задают ссылку на родительский источник данных.
@@ -360,11 +362,11 @@ __*Правила слияний*__
 
 ```xml title="Наследуемый источник данных"
 <datasources>
-  <datasource id="person"
+    <datasource id="person"
               query-id="person"
               size="1"/>
 
-  <inherited-datasource id="docs"
+    <inherited-datasource id="docs"
                         source-datasource="person"
                         source-model="resolve"
                         source-field-id="docs"/>
@@ -378,7 +380,7 @@ __*Правила слияний*__
 
 ```xml
 <button label="Обновить">
-  <refresh datasource="docs"/>
+    <refresh datasource="docs"/>
 </button>
 ```
 
@@ -386,18 +388,18 @@ __*Правила слияний*__
 
 ```xml {10-12}
 <datasources>
-  <datasource id="person"
+    <datasource id="person"
               query-id="person"
               size="1"/>
 
-  <inherited-datasource id="docs"
+    <inherited-datasource id="docs"
                         source-datasource="person"
                         source-model="resolve"
                         source-field-id="docs">
-    <dependencies>
-       <fetch on="ds1"/>
-    </dependencies>
-  </inherited-datasource>
+        <dependencies>
+            <fetch on="ds1"/>
+        </dependencies>
+    </inherited-datasource>
 </datasources>
 ```
 :::
@@ -410,10 +412,10 @@ Stomp источник данных получает данные с помощ�
 задается элементом `<stomp-datasource>`.
 ```xml title="Задание Stomp источника для получения счетчика и цвета"
 <datasources>
-  <stomp-datasource id="notifCount"
+    <stomp-datasource id="notifCount"
                     destination="/notif">
-    ...
-  </stomp-datasource>
+        ...
+    </stomp-datasource>
 </datasources>
 ```
 Атрибут `destination` определяет очередь сообщений, на которую подписывается источник данных.
@@ -469,13 +471,13 @@ Stomp источник данных получает данные с помощ�
 
 ```xml title="Источник данных на странице, заданный в структуре приложения"
 <page>
-  <datasources>
-    <app-datasource id="appDs"/> <!-- Ссылка на источник данных в приложении -->
-  </datasources>
+    <datasources>
+        <app-datasource id="appDs"/> <!-- Ссылка на источник данных в приложении -->
+    </datasources>
 
-  <regions>
-    <form datasource="appDs"/> <!-- Ссылка на app-datasource -->
-  </regions>
+    <regions>
+        <form datasource="appDs"/> <!-- Ссылка на app-datasource -->
+    </regions>
 </page>
 ```
 Где `id` - это ссылка на идентификатор источника в приложении.
@@ -497,34 +499,34 @@ Stomp источник данных получает данные с помощ�
 
 ```xml title="Родительская страница"
 <page>
-  <toolbar>
-    <button label="Btn1">
-        <show-modal page-id="modal">
-            <datasources>
-                <app-datasource id="parentDS" source-datasource="docs1"/> <!-- ссылается на данные из docs1 -->
-            </datasources>
-        </show-modal>
-    </button>
-    <button label="Btn2">
-        <show-modal page-id="modal">
-            <datasources>
-                <app-datasource id="parentDS" source-datasource="docs2"/> <!-- ссылается на данные из docs2 -->
-            </datasources>
-        </show-modal>
-    </button>
-  </toolbar>
+    <toolbar>
+        <button label="Btn1">
+            <show-modal page-id="modal">
+                <datasources>
+                    <app-datasource id="parentDS" source-datasource="docs1"/> <!-- ссылается на данные из docs1 -->
+                </datasources>
+            </show-modal>
+        </button>
+        <button label="Btn2">
+            <show-modal page-id="modal">
+                <datasources>
+                    <app-datasource id="parentDS" source-datasource="docs2"/> <!-- ссылается на данные из docs2 -->
+                </datasources>
+            </show-modal>
+        </button>
+    </toolbar>
 </page>
 ```
 
 ```xml title="Открываемая страница"
 <page>
-  <datasources>
-    <app-datasource id="parentDS"/>
-  </datasources>
+    <datasources>
+        <app-datasource id="parentDS"/>
+    </datasources>
 
-  <regions>
-      <form datasource="parentDS"/>
-  </regions>
+    <regions>
+        <form datasource="parentDS"/>
+    </regions>
 </page>
 ```
 
@@ -539,13 +541,13 @@ Stomp источник данных получает данные с помощ�
 
 ```xml title="Источник данных, ссылающийся на источник данных родительской страницы"
 <page>
-  <datasources>
-    <parent-datasource id="docs"/> <!-- Ссылка на источник данных родительской страницы -->
-  </datasources>
+    <datasources>
+        <parent-datasource id="docs"/> <!-- Ссылка на источник данных родительской страницы -->
+    </datasources>
 
-  <regions>
-    <form datasource="docs"/> <!-- Ссылка на parent-datasource -->
-  </regions>
+    <regions>
+        <form datasource="docs"/> <!-- Ссылка на parent-datasource -->
+    </regions>
 </page>
 ```
 Где `id` - это ссылка на идентификатор источника родительской страницы.
@@ -568,39 +570,41 @@ Stomp источник данных получает данные с помощ�
 
 ```xml title="Родительская страница"
 <page>
-  <datasources>
-    <datasource id="docs1"/>
-    <datasource id="docs2"/>
-  </datasources>
+    <datasources>
+        <datasource id="docs1"/>
+        <datasource id="docs2"/>
+    </datasources>
 
-  <toolbar>
-    <button label="Btn1">
-        <show-modal page-id="modal">
-            <datasources>
-                <parent-datasource id="parentDS" source-datasource="docs1"/> <!-- ссылается на данные из docs1 -->
-            </datasources>
-        </show-modal>
-    </button>
-    <button label="Btn2">
-        <show-modal page-id="modal">
-            <datasources>
-                <parent-datasource id="parentDS" source-datasource="docs2"/> <!-- ссылается на данные из docs2 -->
-            </datasources>
-        </show-modal>
-    </button>
-  </toolbar>
+    <toolbar>
+        <button label="Btn1">
+            <show-modal page-id="modal">
+                <datasources>
+                    <!-- ссылается на данные из docs1 -->
+                    <parent-datasource id="parentDS" source-datasource="docs1"/>
+                </datasources>
+            </show-modal>
+        </button>
+        <button label="Btn2">
+            <show-modal page-id="modal">
+                <datasources>
+                    <!-- ссылается на данные из docs2 -->
+                    <parent-datasource id="parentDS" source-datasource="docs2"/>
+                </datasources>
+            </show-modal>
+        </button>
+    </toolbar>
 </page>
 ```
 
 ```xml title="Открываемая страница"
 <page>
-  <datasources>
-    <parent-datasource id="parentDS"/>
-  </datasources>
+    <datasources>
+        <parent-datasource id="parentDS"/>
+    </datasources>
 
-  <regions>
-      <form datasource="parentDS"/>
-  </regions>
+    <regions>
+        <form datasource="parentDS"/>
+    </regions>
 </page>
 ```
 
@@ -615,9 +619,9 @@ Stomp источник данных получает данные с помощ�
 
 ```xml title="Зависимости источника данных"
 <datasource>
-  <dependencies>
-    ... <!-- Зависимости источника данных -->
-  </dependencies>
+    <dependencies>
+        ... <!-- Зависимости источника данных -->
+    </dependencies>
 </datasource>
 ```
 
@@ -626,14 +630,14 @@ Stomp источник данных получает данные с помощ�
 Если требуется обновить текущий источник данных при изменении в другом источнике, нужно добавить зависимость `<fetch>`.
 ```xml title="Зависимость обновления данных"
 <datasources>
-  <datasource id="main"/>
+    <datasource id="main"/>
 
-  <datasource id="docs" query-id="docs">
-    <dependencies>
-      <!-- При изменении resolve модели источника main будет выполнен запрос выборки docs -->
-      <fetch on="main" model="resolve"/>
-    </dependencies>
-  </datasource>
+    <datasource id="docs" query-id="docs">
+        <dependencies>
+            <!-- При изменении resolve модели источника main будет выполнен запрос выборки docs -->
+            <fetch on="main" model="resolve"/>
+        </dependencies>
+    </datasource>
 </datasources>
 ```
 
@@ -642,18 +646,18 @@ Stomp источник данных получает данные с помощ�
 Если требуется скопировать данные из другого источника, нужно добавить зависимость `copy`.
 ```xml title="Зависимость копирования данных"
 <datasources>
-  <datasource id="docs" query-id="docs"/>
+    <datasource id="docs" query-id="docs"/>
 
-  <datasource id="card">
-    <dependencies>
-      <!-- При изменении resolve модели источника main будут скопированы данные поля number в поле phone -->
-      <copy on="main"
-            source-model="resolve"
-            source-field-id="number"
-            target-model="resolve"
-            target-field-id="phone"/>
-    </dependencies>
-  </datasource>
+    <datasource id="card">
+        <dependencies>
+            <!-- При изменении resolve модели источника main будут скопированы данные поля number в поле phone -->
+            <copy on="main"
+                  source-model="resolve"
+                  source-field-id="number"
+                  target-model="resolve"
+                  target-field-id="phone"/>
+        </dependencies>
+    </datasource>
 </datasources>
 ```
 

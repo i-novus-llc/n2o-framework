@@ -60,6 +60,10 @@
         {
           "templateId": "uxcomponents/regions/scrollspy",
           "name": "Регион с автоматически прокручиваемым меню"
+        },
+        {
+          "templateId": "uxcomponents/regions/scrollspy_with_group",
+          "name": "Регион с автоматически прокручиваемым сгруппированным меню"
         }
       ]
     },
