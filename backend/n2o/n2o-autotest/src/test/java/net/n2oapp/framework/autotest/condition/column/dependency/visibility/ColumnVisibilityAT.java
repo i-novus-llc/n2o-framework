@@ -15,6 +15,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Автотест для проверки зависимости visibility у колонок таблицы
+ */
 public class ColumnVisibilityAT extends AutoTestBase {
 
     @BeforeAll
@@ -35,15 +38,16 @@ public class ColumnVisibilityAT extends AutoTestBase {
                 new N2oApplicationPack(),
                 new N2oAllPack()
         );
+    }
+    
+    @Test
+    void dynamicVisibility() {
         setJsonPath("net/n2oapp/framework/autotest/condition/column/dependency/visibility");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/column/dependency/visibility/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/column/dependency/visibility/test.query.xml")
         );
-    }
-    
-    @Test
-    void defaultVisibility() {
+
         final StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
