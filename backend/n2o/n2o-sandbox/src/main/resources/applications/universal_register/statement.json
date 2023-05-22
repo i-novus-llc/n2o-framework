@@ -1,0 +1,47 @@
+[ {
+  "id" : 1,
+  "patient_id" : 1,
+  "create_date" : [ 2023, 5, 18 ],
+  "fio" : "Петров Сергей Алексеевич",
+  "snils" : "498-936-932 69",
+  "gender" : {
+    "name" : "Мужской",
+    "id" : 1
+  },
+  "birthday" : "2023-05-10T00:00:00",
+  "compulsory" : {
+    "type" : {
+      "name" : "Полис ОМС старого образца",
+      "id" : 2
+    },
+    "serie" : "9719",
+    "number" : "165496",
+    "org" : "Медоед"
+  },
+  "document" : {
+    "serie" : 9716,
+    "number" : 978265,
+    "type" : {
+      "id" : 1,
+      "name" : "Паспорт"
+    },
+    "issuer" : "отделом МВД по городу Москва",
+    "date" : "2023-05-10T00:00:00",
+    "code" : 232332,
+    "label" : "Паспорт",
+    "id" : 1
+  },
+  "organization" : {
+    "name" : "Медоед"
+  },
+  "newOrganization" : {
+    "name" : "Медоед 2"
+  },
+  "fullAddress" : "г. Москв ул. Есенина д. 54 кв. 27",
+  "regfullAddress" : null,
+  "medOrgCheck" : {
+    "name" : "Прикреплен",
+    "id" : 1
+  },
+  "status" : "Сформирован"
+} ]
