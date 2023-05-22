@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.condition.field.dependency;
 
+import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -166,8 +167,8 @@ public class DependsOnFieldAT extends AutoTestBase {
         input.setValue("1");
 
         //was changed
-        onAnyField.shouldHaveValue("1");
-        onInput.shouldHaveValue("1");
+        onAnyField.shouldHaveValue("3");
+        onInput.shouldHaveValue("3");
         //wasn't changed
         onFieldset.shouldBeEmpty();
         
@@ -181,10 +182,10 @@ public class DependsOnFieldAT extends AutoTestBase {
 
         select.shouldSelected("second");
         //was changed
-        onAnyField.shouldHaveValue("2");
-        onFieldset.shouldHaveValue("2");
-        onAnyFieldInFieldset.shouldHaveValue("2");
-        onSelect.shouldHaveValue("2");
+        onAnyField.shouldHaveValue("4");
+        onFieldset.shouldHaveValue("4");
+        onAnyFieldInFieldset.shouldHaveValue("4");
+        onSelect.shouldHaveValue("4");
         //wasn't changed
         /*ToDo: Раскомментить после закрытия задачи NNO-9508
             onInput.shouldHaveValue("1");
@@ -193,11 +194,11 @@ public class DependsOnFieldAT extends AutoTestBase {
         inputInFieldset.setValue("2");
 
         //was changed
-        onAnyField.shouldHaveValue("3");
-        onFieldset.shouldHaveValue("3");
-        onAnyFieldInFieldset.shouldHaveValue("3");
+        onAnyField.shouldHaveValue("5");
+        onFieldset.shouldHaveValue("5");
+        onAnyFieldInFieldset.shouldHaveValue("5");
         //wasn't changed
-        onSelect.shouldHaveValue("2");
+        onSelect.shouldHaveValue("4");
         /*ToDo: Раскомментить после закрытия задачи NNO-9508
             onInput.shouldHaveValue("1");
          */
@@ -205,8 +206,8 @@ public class DependsOnFieldAT extends AutoTestBase {
         resetFieldsetBtn.click();
 
         //was changed
-        onAnyField.shouldHaveValue("4");
-        onFieldset.shouldHaveValue("4");
+        onAnyField.shouldHaveValue("6");
+        onFieldset.shouldHaveValue("6");
         //wasn't changed
         /*ToDo: Раскомментить после закрытия задачи NNO-9508
             onInput.shouldHaveValue("1");
@@ -215,8 +216,8 @@ public class DependsOnFieldAT extends AutoTestBase {
         resetFieldBtn.click();
 
         //was changed
-        onAnyField.shouldHaveValue("5");
-        onFieldset.shouldHaveValue("5");
-        onInput.shouldHaveValue("5");
+        onAnyField.shouldHaveValue("7");
+        onFieldset.shouldHaveValue("7");
+        onInput.shouldHaveValue("7");
     }
 }

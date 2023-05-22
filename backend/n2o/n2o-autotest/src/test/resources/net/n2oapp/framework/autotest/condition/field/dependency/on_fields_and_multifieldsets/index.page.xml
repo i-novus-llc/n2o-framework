@@ -11,7 +11,6 @@
                     <output-text id="counter" default-value="0">
                         <dependencies>
                             <set-value on="onField" apply-on-init="false">
-                                console.log('=>', 'должно обновляться по селекту');
                                 return counter + 1
                             </set-value>
                         </dependencies>
