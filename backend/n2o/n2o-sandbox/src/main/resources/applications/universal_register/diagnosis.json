@@ -1,0 +1,12 @@
+[ 
+    {
+        "id": 1,
+        "diagnosisKey" : "UO07.2",
+        "description": "Острый назофарингит [насморк]"
+    },
+    {
+        "id": 2,
+        "diagnosisKey" : "UO07.5",
+        "description": "Острый пансинусит"
+    }
+]

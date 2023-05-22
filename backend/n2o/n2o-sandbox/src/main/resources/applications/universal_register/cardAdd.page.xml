@@ -1,0 +1,441 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Карточка нового пациента" title="Новый пациент" show-title="true">
+<datasources>
+    <browser-storage id="create" key="create">
+        
+    </browser-storage>
+    <inherited-datasource source-datasource="create" source-field-id="fl" id="fl" source-model="resolve">
+        <dependencies>
+            <fetch on="create">
+                
+            </fetch>
+        </dependencies>
+    </inherited-datasource>
+    <datasource id="diagnosis">
+        <dependencies>
+            <copy on="fl" source-field-id="diagnosis" source-model="resolve" target-model="datasource">
+                
+            </copy>
+            <fetch on="fl"/>
+        </dependencies>
+    </datasource>
+</datasources>
+<breadcrumbs>
+    <crumb label="ФЕДЕРАЛЬНЫЙ РЕГИСТР ПАЦИЕНТОВ" path="/"/>       
+    <crumb label="КАРТОЧКА НОВОГО ПАЦИЕНТА" path="/patient/create"/>
+</breadcrumbs>
+<toolbar place="topLeft">
+    <button label="Сохранить" datasource="fl" color="info" icon="fa fa-save">
+        <invoke operation-id="create" object-id="test" redirect-url="/patient/:id/card" redirect-target="application">
+            <!-- <form-param id="snils" value="{snils}" datasource="fl"/> -->
+                <form-param name="id" value="{id}"/>
+        </invoke>
+    </button>
+     <button label="Отменить" icon="fa fa-close">
+        <a href="/" target="application"/>
+    </button>
+</toolbar>
+<regions>
+    <form datasource="create"/>
+    <scrollspy headlines="false"
+                placement="left"
+                max-height="650"
+                has-separator="true">
+        <menu-item id="mi1" title="Общие сведения" headline="true">
+                 <form datasource="fl">
+                    <fields>
+                         <line label="Общие сведения" collapsible="false"/>
+                        <hidden id="createDate"/>
+                        <col size="2">
+                            <masked-input id="snils" label="СНИЛС" mask="999-999-999 99"/>
+                        </col>
+                        <row>
+                            <col size="4"> 
+                                <input-text id="surname" label="Фамилия" requaried="true"/>
+                            </col>
+                            <col size="4"> 
+                                <input-text id="name" label="Имя" requaried="true"/>
+                            </col>
+                            <col size="4"> 
+                                <input-text id="middlename" label="Отчество" requaried="true"/>
+                            </col>
+                        </row>
+                        <row>
+                            <col size="2">
+                                <date-time id="birthday" label="Дата рождения" requaried="true"/>
+                            </col>
+                            <col>
+                                <radio-group id="gender" label="Пол" inline="true">
+                                    <options>
+                                        <option id="1" name="Мужской"/>    
+                                        <option id="2" name="Женский"/>
+                                    </options>
+                                </radio-group>
+                            </col>
+                        </row>
+                        <row>
+                            <col size="4"> 
+                                <input-select id="citizen" label="Гражданство" required="true">
+                                <options>
+                                    <option id="1" name="Гражданин Российской Федерации"/>
+                                    <option id="2" name="Гражданин Российской Федерации и иностранного государства (двойное гражданство)"/>
+                                    <option id="3" name="Иностранный гражданин"/>
+                                    <option id="4" name="Лицо без гражданства"/>
+                                </options>
+                            </input-select>
+                            </col>
+                            <col size="4"> 
+                                <input-text id="country" label="Страна" visible="{citizen.id != 1}" required="{citizen.id != 1}"/>
+                                <input-select id="legal" label="Правовой статус" visible="{citizen.id == 1}">
+                                    <options>
+                                        <option id="1" name="Постоянно проживающий в РФ "/>
+                                        <option id="2" name="Временно проживающий в РФ"/>
+                                        <option id="3" name="Временно пребывающий в РФ"/>
+                                        <option id="4" name="Высоко-квалифицированный специалист (ВКС)"/>
+                                    </options>
+                                </input-select> 
+                            </col>
+                        </row>         
+                    </fields>       
+                </form>
+        </menu-item>
+        <menu-item id="mi2" title="Документы">
+            
+            <form datasource="fl">
+                <fields>
+                    <line label="Документы" collapsible="false"/>
+               
+                        <multi-set id="docs" add-label="Добавить ещё одни документ">
+                            <row>
+                                <col size="4">
+                                    <input-select id="type" label="Документ удостоверяющий личность" required="true" query-id="documents">
+                                        <filters>
+                                            <notIn field-id="id" values="{docs_id}"/>
+                                        </filters>
+                                    </input-select>
+                                </col>
+                                <col size="2">
+                                    <input-text id="serie" label="Серия"/>
+                                </col>
+                                <col size="2">
+                                    <input-text id="number" label="Номер" required="true"/>
+                                </col>
+                                <col size="2">
+                                    <date-time id="date" label="Дата выдачи" required="true"/>
+                                </col>
+                            </row>
+                            <row>
+                            <col size="4">
+                                    <text-area id="issuer" label="Кем выдан"/>
+                            </col>
+                            <col size="2">
+                                    <input-text id="code" label="Код подразделения"/>
+                            </col>
+                            </row>
+
+                        </multi-set> 
+                
+                    <hidden id="docs">
+                        <dependencies>
+                            <set-value apply-on-init="true">
+                                if (docs == null)
+                                    return [{}]
+                            </set-value>
+                        </dependencies>
+                    </hidden>
+                    <hidden id="docs_id">
+                        <dependencies>
+                            <set-value on="docs">
+                                let arr = [];
+                                docs.forEach(doc => arr.push(doc.type.id));
+                                arr = arr.filter(a => a !=4)
+                                return arr;
+                            </set-value>
+                        </dependencies>
+                    </hidden>
+                </fields>
+            </form>
+        </menu-item>
+        <sub-menu id="mi3" title="Медицинское страхование">
+            <menu-item id="mi4" title="ОМС">
+              
+                    <form datasource="fl">
+                        <fields>
+                            <line label="Медицинское страхование" collapsible="false"/>
+                                <set label="Обязательное медицинское страхование">
+                                    <row>
+                                        <col size="4">
+                                            <input-select id="compulsory.type" label="Полис" required="true">
+                                                    <options>
+                                                        <option id="1" name="Полис ОМС единого образца"/>
+                                                        <option id="2" name="Полис ОМС старого образца"/>
+                                                        <option id="3" name="Не определен"/>
+                                                    </options>
+                                            </input-select>
+                                        </col>
+                                        <col size="2">
+                                            <input-text id="compulsory.serie" label="Серия"/>
+                                            
+                                        </col>
+                                        <col size="2">
+                                            <input-text id="compulsory.number" label="Номер" required="true"/>
+                                        </col>
+                                        <col size="4">
+                                            <input-text id="compulsory.org" label="Страховая организация"/>
+                                        </col>
+                                    </row>
+                                    <row>
+                                        <col size="4">
+                                                <file-upload id="compulsory.files" label="Загрузить документы"/>
+                                        </col>
+                                    </row>  
+                                </set>
+                        </fields>
+                    </form>
+               
+            </menu-item>
+            <menu-item id="mi5" title="ДМС">
+                   <form datasource="fl">
+                        <fields>  
+                             <hidden id="voluntary">
+                                <dependencies>
+                                    <set-value apply-on-init="true">
+                                        if (voluntary == null)
+                                            return [{}]
+                                    </set-value>
+                                </dependencies>
+                            </hidden>
+                            <multi-set label="Добровольное медецинское страхование" id="voluntary" add-label="Добавить договор страхования жизни">
+                                    <row>
+                                    <col size="4">
+                                    <input-text id="org" label="Страховая организация"/>
+                                    </col>
+                                    <col size="4">
+                                        <input-text id="number" label="Номер договора страхования  жизни"/>
+                                        
+                                    </col>
+                                    <col size="2">
+                                        <date-time id="date.begin" label="Срок действи с"/>
+                                    </col>
+                                    <col size="2">
+                                        <date-time id="date.end" label="по"/>
+                                    </col>
+                                </row>
+                                <row>
+                                    <col size="4">
+                                        <file-upload id="files" label="Загрузить документы"/>
+                                    </col>
+                                </row>  
+                            </multi-set>    
+                        </fields>
+                     </form>
+            </menu-item>
+        </sub-menu>
+        <menu-item id="mi6" title="Контакты">
+               <form datasource="fl">
+                    <fields>
+                        <line label="Контакты" collapsible="false"/>
+                        <col size="4">
+                             <hidden id="phone">
+                                <dependencies>
+                                    <set-value on="telInfo">
+                                        if (!telInfo)
+                                            return [{}]
+                                    </set-value>
+                                </dependencies>
+                            </hidden>
+                            <checkbox id="telInfo" label="Отсутствуют сведения о номере телефона"/>   
+                            <multi-set id="phone" add-label="Добавить контактный номер" enabled="{!telInfo}">
+                                <row>
+                                    <masked-input id="mobile" label="Мобильный" required="{!telInfo}" mask="+7(999)-999-99-99" />
+                                    <input-text id="home" label="Домашний"/>
+                                </row>
+                            </multi-set>   
+                        </col>
+                    </fields>
+                </form>
+        </menu-item>
+        <menu-item id="mi7" title="Адреса">
+            <form datasource="fl">
+                <fields>
+                    <line label="Адреса" collapsible="false"/>
+                     <hidden id="address">
+                                <!-- <dependencies>
+                                    <set-value on="homeless">
+                                        if (!homeless)
+                                            return [{}]
+                                    </set-value>
+                                </dependencies> -->
+                            </hidden>      
+                    <checkbox id="homeless" label="БОМЖ"/>
+                    <!-- <col size="8">
+                         <multi-set enabled="{!homeless}" id="address">
+                            <radio-group id="type" label="Тип адреса" inline="true">
+                                <options>
+                                    <option id="1" name="Регистрации"/>    
+                                    <option id="2" name="Проживания"/>
+                                </options>
+                            </radio-group>
+                            <row>
+                                <col size="6">
+                                    <input-text id="region" label="Регион" required="true"/>
+                                </col>
+                                <col size="6">
+                                        <input-text id="city" label="Населенный пункт" required="true"/>
+                                </col>
+                            </row>
+                            <row>
+                                <col size="6">
+                                        <input-text id="street" label="Улица" required="true"/>
+                                </col>
+                                <col size="3">
+                                    <input-text id="house" label="Дом" required="true"/>
+                                </col>
+                                <col size="3">
+                                    <input-text id="apartment" label="Квартира"/>
+                                </col>
+                            </row>
+                        </multi-set>
+                    </col> -->
+                     <col size="6">
+                          <set id="address" visible="{!homeless}" label="Адрес проживания">
+                                <row>
+                                    <input-text id="address.residential.region" label="Регион" required="true"/>
+                                    <input-text id="address.residential.city" label="Населенный пункт" required="true"/> 
+                                </row>
+                                <row>
+                                    <col size="6">
+                                            <input-text id="address.residential.street" label="Улица" required="true"/>
+                                    </col>
+                                    <col size="3">
+                                        <input-text id="address.residential.house" label="Дом" required="true"/>
+                                    </col>
+                                    <col size="3">
+                                            <input-text id="address.residential.apartment" label="Квартира"/>
+                                    </col>
+                                </row>
+                         </set>
+                         <set id="address" visible="{!homeless}" label="Адрес регистарции">
+                               <row>
+                                    <input-text id="address.registration.region" label="Регион"/>
+                                    <input-text id="address.registration.city" label="Населенный пункт"/>
+                                </row>
+                                <row>
+                                    <col size="6">
+                                             <input-text id="address.registration.street" label="Улица"/>
+                                    </col>
+                                    <col size="3">
+                                         <input-text id="address.registration.house" label="Дом"/>
+                                    </col>
+                                    <col size="3">
+                                               <input-text id="address.registration.apartment" label="Квартира"/>
+                                    </col>
+                                </row>    
+                        </set> 
+                    </col>
+                </fields>
+            </form>
+        </menu-item>
+        <menu-item id="mi8" title="Медицинская информация о пациенте">
+             <form datasource="fl">
+                <fields>
+                    <line label="Медицинская информация о пациенте" collapsible="false"/>
+                    <col size="4">
+                        <line label="Медицинская организация прикрепления" has-separator="false" >
+                            <input-text id="organization.name" label="Медицинская организация"/>
+                            <text-area id="organization.address" label="Адрес медицинской организации"/>
+                        </line> 
+                    </col>  
+                </fields>
+            </form>
+            <line label="Диагнозы" has-separator="false">
+                <table datasource="diagnosis">
+                    <toolbar place="topLeft">
+                        <button label="Добавить диагноз" enabled="true">
+                            <show-modal page-id="addDiagnos" route="/addDiagnos"/>
+                        </button>
+                    </toolbar>
+                    <columns>
+                        <column text-field-id="diagnosisKey" label="Основной диагноз"/>
+                        <column text-field-id="date" label="Дата постановки">
+                            <text format="date DD.MM.YYYY"/>
+                        </column>
+                        <column text-field-id="org" label="Медицинская орагнизация"/>
+                    </columns>  
+                </table>
+            </line>
+            <form datasource="fl">
+                <fields>
+                    <line label="Хронические заболевания" has-separator="false" >
+                        <checkbox id="chronicCheck" label="Не имеются хронические заболевания / Нет информации"/>
+                        <set visible="{!chronicCheck}">
+                            <col size="4">
+                                <row>
+                                    <col size="1">
+                                        <checkbox id="bronchologicalSystemCheck" no-label-block="true" no-label="true"/>
+                                    </col>
+                                    <col>
+                                        <input-select-tree id="bronchologicalSystem"   label="Хронические заболевания бронхологической системы" enabled="{bronchologicalSystemCheck}"
+                                                            parent-field-id="parent" label-field-id="name" query-id="bronch"/>
+                                    </col>
+                                </row>
+                            </col>
+                            <col size="4">
+                                <row>
+                                    <col size="1">
+                                        <checkbox id="cardiovascularSystemCheck" no-label-block="true" no-label="true"/>
+                                    </col>
+                                    <col>
+                                        <input-select id="cardiovascularSystem"   label="Хронические заболевания сердечно-сосудистой системы" enabled="{cardiovascularSystemCheck}"/>
+                                    </col>
+                                </row>
+                            </col>
+                            <col size="4">
+                                <row>
+                                    <col size="1">
+                                        <checkbox id="endocrineSystemCheck" no-label-block="true" no-label="true"/>
+                                    </col>
+                                    <col>
+                                        <input-select id="endocrineSystem"   label="Хронические заболевания эндокринной системы" enabled="{endocrineSystemCheck}"/>
+                                    </col>
+                                </row>
+                            </col>
+                            <col size="4">
+                                <row>
+                                    <col size="1">
+                                        <checkbox id="oncologicalDiseasesCheck" no-label-block="true" no-label="true"/>
+                                    </col>
+                                    <col>
+                                        <input-select id="oncologicalDiseases"   label="Онкологические заболевания" enabled="{oncologicalDiseasesCheck}"/>
+                                    </col>
+                                </row>
+                            </col>
+                            <col size="4">
+                                <row>
+                                    <col size="1">
+                                        <checkbox id="immunodeficiencyCheck" no-label-block="true" no-label="true"/>
+                                    </col>
+                                    <col>
+                                        <input-select id="immunodeficiency"   label="Болезнь, вызванная вирусом иммунодефицита человека" enabled="{immunodeficiencyCheck}"/>
+                                    </col>
+                                </row>
+                            </col>
+                            <!-- <col size="4">
+                                <row>
+                                    <col size="1">
+                                        <checkbox id="bronchologicalSystemCheck" no-label-block="true" no-label="true"/>
+                                    </col>
+                                    <col>
+                                        <input-select id="bronchologicalSystemCheck"   label="Хронические заболевания бронхологической системы" enabled="{!bronchologicalSystemCheck}"/>
+                                    </col>
+                                </row>
+                            </col> -->
+                        </set>
+                    </line> 
+                </fields>
+            </form>
+        </menu-item>
+    </scrollspy>
+    </regions>
+</page>
+
