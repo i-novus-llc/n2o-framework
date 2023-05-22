@@ -9,6 +9,7 @@ import map from 'lodash/map'
 import forEach from 'lodash/forEach'
 import toString from 'lodash/toString'
 import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 import cx from 'classnames'
 import { DropdownItem } from 'reactstrap'
 
@@ -85,21 +86,28 @@ function PopupItems({
         }
     }
 
-    const withStatus = item => !isNil(item[statusFieldId])
+    const withStatus = item => !isNil(get(item, statusFieldId))
 
     const displayTitle = (item) => {
-        if (format) { return propsResolver({ format }, item).format }
+        if (format) {
+            return propsResolver({ format }, item).format
+        }
+
+        const text = get(item, labelFieldId)
+
         if (withStatus(item)) {
+            const color = get(item, statusFieldId)
+
             return (
                 <StatusText
-                    text={item[labelFieldId]}
-                    color={item[statusFieldId]}
+                    text={text}
+                    color={color}
                     textPosition="left"
                 />
             )
         }
 
-        return item[labelFieldId]
+        return text
     }
 
     const isSelectedItem = (selected, item) => {
@@ -123,8 +131,10 @@ function PopupItems({
     }
 
     const getDisabled = (item) => {
-        if (!isNil(item[enabledFieldId])) {
-            return !item[enabledFieldId]
+        const enabledField = get(item, enabledFieldId)
+
+        if (!isNil(enabledField)) {
+            return !enabledField
         }
 
         if (isSelectedItem(selected, item) && !hasCheckboxes) {
@@ -132,7 +142,7 @@ function PopupItems({
         }
 
         return !hasCheckboxes && isDisabled(
-            autocomplete ? item[valueFieldId] : item,
+            autocomplete ? get(item, valueFieldId) : item,
             selected,
             disabledValues,
         )
@@ -140,7 +150,7 @@ function PopupItems({
 
     const onMouseOver = (item) => {
         if (setActiveValueId) {
-            setActiveValueId(item[valueFieldId])
+            setActiveValueId(get(item, valueFieldId))
         }
     }
 
@@ -162,7 +172,7 @@ function PopupItems({
             <div ref={popUpItemRef}>
                 <DropdownItem
                     className={cx('n2o-eclipse-content', {
-                        active: activeValueId === item[valueFieldId] && !disabled,
+                        active: activeValueId === get(item, valueFieldId) && !disabled,
                         'n2o-eclipse-content__with-status': withStatus(item),
                     })}
                     onMouseOver={() => onMouseOver(item)}
@@ -178,19 +188,19 @@ function PopupItems({
                     {badgeFieldId && isBadgeLeftPosition(badgePosition) && <Badge key="badge-left" {...resolveBadgeProps(badge, item)} shape={badge?.shape || Shape.Square} />}
                     {hasCheckboxes ? renderCheckbox(item, selected) : renderLabel(item)}
                     {badgeFieldId && isBadgeRightPosition(badgePosition) && <Badge key="badge-right" {...resolveBadgeProps(badge, item)} shape={badge?.shape || Shape.Square} />}
-                    {descriptionFieldId && !isUndefined(item[descriptionFieldId]) && (
+                    {descriptionFieldId && !isUndefined(get(item, descriptionFieldId)) && (
                         <DropdownItem
                             className={cx('n2o-eclipse-content__description', {
                                 'n2o-eclipse-content__description-with-icon':
-                                !hasCheckboxes && item[iconFieldId],
+                                !hasCheckboxes && get(item, iconFieldId),
                                 'n2o-eclipse-content__description-with-checkbox':
-                                hasCheckboxes && !item[iconFieldId],
+                                hasCheckboxes && !get(item, iconFieldId),
                                 'n2o-eclipse-content__description-with-icon-checkbox':
-                                hasCheckboxes && item[iconFieldId],
+                                hasCheckboxes && get(item, iconFieldId),
                             })}
                             header
                         >
-                            {item[descriptionFieldId]}
+                            {get(item, descriptionFieldId)}
                         </DropdownItem>
                     )}
                 </DropdownItem>
@@ -198,9 +208,18 @@ function PopupItems({
         )
     }
 
-    const renderIcon = (item, iconFieldId) => item[iconFieldId] && <Icon name={item[iconFieldId]} />
-    // eslint-disable-next-line jsx-a11y/alt-text
-    const renderImage = (item, imageFieldId) => item[imageFieldId] && <img src={item[imageFieldId]} />
+    const renderIcon = (item, iconFieldId) => {
+        const iconName = get(item, iconFieldId)
+
+        return iconName && <Icon name={iconName} />
+    }
+
+    const renderImage = (item, imageFieldId) => {
+        const image = get(item, imageFieldId)
+
+        // eslint-disable-next-line jsx-a11y/alt-text
+        return image && <img src={image} />
+    }
     const renderCheckbox = (item, selected) => (
         <CheckboxN2O
             value={inArray(selected, item)}

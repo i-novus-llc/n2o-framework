@@ -10,12 +10,12 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>n2o</artifactId>
-        <version>7.24.0-SNAPSHOT</version>
+        <version>7.25.0-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
     <properties>
-        <selenide.version>6.6.0</selenide.version>
+        <selenide.version>6.14.0</selenide.version>
     </properties>
 
     <dependencies>
@@ -86,6 +86,12 @@
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-selenide</artifactId>
             <version>${allure-junit5.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.codeborne</groupId>
+                    <artifactId>selenide</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

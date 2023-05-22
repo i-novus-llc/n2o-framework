@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" title="Карточка пациента: {fio}" datasource="test" show-title="true">
+<datasources>
+   <datasource id="ds" query-id="test">
+       <filters>
+           <eq field-id="id" param="id"/>
+       </filters>
+   </datasource>
+
+   <datasource id="ds2">
+       <dependencies>
+           <copy on="ds" source-model="resolve" target-model="datasource" source-field-id="diagnosis">
+               
+           </copy>
+       </dependencies>
+   </datasource>
+
+</datasources>
+
+<toolbar place="topLeft">
+     <button label="Редактировать" icon="fa fa-pencil">
+         <set-value to="flag" target-datasource="ds">1</set-value>
+     </button>
+     <button label="Создать заявление" color="info">
+         
+     </button>
+</toolbar>
+<regions>
+    <form datasource="ds">
+        <fields>
+            <col size="4">
+                    <set label="Общие сведения">
+                        <output-text id="snils" label="СНИЛС" default-value="-"/>
+                        <output-text id="gender.name" label="Пол"  default-value="-"/>
+                        <output-text id="surname" label="Фамилия"  default-value="-"/>
+                        <output-text id="name" label="Имя" default-value="-"/>
+                        <output-text id="middlename" label="Отчество" default-value="-"/>
+                        <output-text id="birthday" label="Дата рождения" default-value="-"/>
+                        <output-text id="citizen.name" label="Гражданство" default-value="-"/>
+                        <output-text id="country.name" label="Страна" default-value="-"/>
+                        <output-text id="legalStatus.name" label="Правовой статус" visible="{citizen.id == 1}" default-value="-"/> 
+                    </set>
+                 </col>  
+            </fields>
+        </form>
+        <form datasource="ds">
+            <fields>
+                <col size="4">
+                    <multi-set label="Документы" id="docs" can-add="false">
+                        <output-text id="type.name" label="Документ удостоверяющий личность" default-value="-"/>
+                        <row>
+                            <output-text id="serie" label="Серия" default-value="-"/>
+                            <output-text id="number" label="Номер" default-value="-"/>
+                        </row>
+                        <output-text id="issuer" default-value="-"/>
+                        <row>
+                            <output-text id="date" label="Дата выдачи" default-value="-"/>
+                            <output-text id="code" label="Код подразделения" default-value="-"/>
+                        </row>
+                    </multi-set> 
+                </col>
+            </fields>
+        </form>
+        <form datasource="ds">
+            <fields>  
+                <col size="4">
+                    <set label="Медецинское страхование" id="healthInsurance">
+                        <set label="Обязательное медецинское страхование" id="compulsory">
+                            <output-text id="type.name" label="Полис" default-value="-"/>
+                            <row>
+                                <output-text id="serie" label="Серия" default-value="-"/>
+                                <output-text id="number" label="Номер" default-value="-"/>
+                            </row>
+                            <output-text id="org" label="Страховая организация" default-value="-"/>
+                            <file-upload id="files" label="Загрузить документы" default-value="-"/>
+                        </set>
+                        <multi-set label="Добровольное медецинское страхование" id="voluntary" can-add="false">
+                            <output-text id="org" label="Страховая организация" default-value="-"/>
+                            <output-text id="number" label="Номер договора страхования  жизни" default-value="-"/>
+                            <row>
+                                <output-text id="date.begin" label="Срок действи с" default-value="-"/>
+                                <output-text id="date.end" label="по" default-value="-"/>
+                            </row>
+                            <output-text id="org" label="Страховая организация" default-value="-"/>
+                            <file-upload id="files" label="Загрузить документы" default-value="-"/>
+                        </multi-set>
+                    </set>
+                </col>     
+            </fields>
+        </form>
+        <form datasource="ds">
+            <fields>
+                <col size="4">
+                    <set label="Контакты" id="contacts">
+                        <multi-set id="phone" add-label="Добавить контактный номер" can-add="false">
+                            <output-text id="mobile" label="Мобильный" default-value="-"/>
+                            <output-text id="phome" label="Домашний" default-value="-"/>
+                        </multi-set>    
+                    </set>
+                </col>
+            </fields>
+        </form>
+        <form datasource="ds">
+            <fields>
+                <col size="4">
+                    <set label="Адреса">
+                        <multi-set id="address" can-add="false">
+                            <output-text id="type.name" label="Тип адреса" default-value="-"/> 
+                            <output-text id="region" label="Регион" default-value="-"/>
+                            <output-text id="city" label="Населенный пункт" default-value="-"/>
+                            <output-text id="street" label="Улица" default-value="-"/>
+                            <output-text id="house" label="Дом" default-value="-"/>
+                            <output-text id="apartment" label="Населенный пункт" default-value="-"/>
+                        </multi-set>    
+                    </set>
+                </col>
+            </fields>
+        </form>
+        <form datasource="ds">
+            <fields>
+                <col size="4">
+                    <set label="Медицинская информация о пациенте">
+                            <output-text id="organization.name" label="Медицинская организация" default-value="-"/>
+                            <output-text id="organization.address" label="Адрес медицинской организации" default-value="-"/>
+                    </set>
+                </col>  
+            </fields>
+        </form>
+      <line label="Диагнозы" has-separator="false">
+            <table datasource="ds2">
+                <columns>
+                    <column text-field-id="diagnosisKey" label="Основной диагноз"/>
+                    <column text-field-id="date" label="Дата постановки">
+                        <text format="date DD.MM.YYYY"/>
+                    </column>
+                    <column text-field-id="org" label="Медицинская орагнизация"/>
+                </columns>  
+            </table>
+        </line>
+         <form datasource="ds">
+            <fields>
+                <line label="Хронические заболевания" has-separator="false">
+                    <set>
+                        <col size="4">
+                            <row>
+                                <col>
+                                    <output-text id="bronchologicalSystem.name"   label="Хронические заболевания бронхологической системы" default-value="-"/>
+                                </col>
+                            </row>
+                        </col>
+                        <col size="4">
+                            <row>
+                                <col>
+                                    <output-text id="cardiovascularSystem.name"   label="Хронические заболевания сердечно-сосудистой системы" default-value="-"/>
+                                </col>
+                            </row>
+                        </col>
+                        <col size="4">
+                            <row>
+                                <col>
+                                    <output-text id="endocrineSystem.name"   label="Хронические заболевания эндокринной системы" default-value="-"/>
+                                </col>
+                            </row>
+                        </col>
+                        <col size="4">
+                            <row>
+                                <col>
+                                    <output-text id="oncologicalDiseases.name"   label="Онкологические заболевания" default-value="-"/>
+                                </col>
+                            </row>
+                        </col>
+                        <col size="4">
+                            <row>
+                                <col>
+                                    <output-text id="immunodeficiency.name"   label="Болезнь, вызванная вирусом иммунодефицита человека" default-value="-"/>
+                                </col>
+                            </row>
+                        </col>
+                    </set>
+                </line> 
+            </fields>
+        </form>
+    </regions>
+</page>
+
