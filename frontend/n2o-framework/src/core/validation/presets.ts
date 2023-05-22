@@ -12,6 +12,7 @@ import {
 import evalExpression from '../../utils/evalExpression'
 // @ts-ignore ignore import error from js file
 import { defaultApiProvider, FETCH_VALIDATE } from '../api'
+import { isEmptyModel } from '../../utils/isEmptyModel'
 
 import type { IValidateFunction } from './IValidation'
 import { ValidationTypes } from './IValidation'
@@ -47,7 +48,7 @@ export function required<
     }
 
     if (isObject(value)) {
-        return !isEmpty(value)
+        return !isEmptyModel(value)
     }
     if (isString(value)) {
         return value !== ''
