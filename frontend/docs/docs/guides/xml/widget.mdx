@@ -6,7 +6,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 **Тип метаданных**
 
- `widget`
+`widget`
 
 **Библиотека компонентов**
 
@@ -14,7 +14,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 http://n2oapp.net/framework/config/schema/widget-5.0
 ```
 
-### Базовые свойства {#Basic_properties}
+## Базовые свойства {#Basic_properties}
 
 **Атрибуты**
 
@@ -34,302 +34,246 @@ http://n2oapp.net/framework/config/schema/widget-5.0
 |visible                |true false                               |Видимость виджета                                                         |                                                                                       |
 |auto-focus             |true false                               |Автоматическая установка фокуса на виджете                                |false                                                                                  |
 
-#### &lt;actions&gt;
-
-Действия над виджетом.
-
-:::note
-
-Действия не видимы сами по себе, но на них можно ссылаться, например, из [кнопок](#button_in_widget).
-
-:::
+## Простые виджеты {#simple_widgets}
+### &lt;form&gt;
+Виджет Форма.
 
 **Атрибуты**
 
-|Наименование|Тип                |Описание                      |Значение по умолчанию|
-|------------|-------------------|------------------------------|---------------------|
-|generate    |crud, submit, close|Генерация стандартных действий|                     |
+|Наименование       |Тип                 |Описание                                                                                                                                                                                                                                     |Значение по умолчанию|
+|-------------------|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
+|mode               |one-model two-models|Режим работы формы. Возможные значения: one-model - одна модель редактируется и отправляется. two-models - 2х модельный режим (при первой загрузке данные копируются в модель resolve и edit. При редактировании формы меняется модель edit.)|one-model            |
+|unsaved-data-prompt|true false          |Показать предупреждение о наличии несохраненных данных.                                                                                                                                                                                      |false                |
+
+
+**Тело**<br/>
+`<fields>` - [Поля формы](../xml/field)<br/>
+`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
+`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
+`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+`<actions>` - [Встроенные действия](#widget_actions)
 
 **Пример**
-
 ```xml
-<actions generate="crud">
-  <action>...</action>
-  <action>...</action>
-  <action>...</action>
-</actions>
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+  name="Моя форма"
+  object-id="myObject">
+  <fields>...</fields>
+  <toolbar>...</toolbar>
+</form>
 ```
+<Sandbox height={350} projectId="uxcomponents_form_form"/>
 
-##### &lt;action&gt;
-
-Действие над виджетом.
+### &lt;chart&gt;
+Виджет График.
 
 **Атрибуты**
 
-|Наименование|Тип                                      |Описание                                                 |Значение по умолчанию                                                                                           |
-|------------|-----------------------------------------|---------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
-|id          |Строка                                   |Идентификатор действия                                   |                                                                                                                |
-|name        |Строка                                   |Наименование                                             |Вычисляется по операции объекта                                                                                 |
-|icon        |[CSS класс](http://fontawesome.io/icons/)|Иконка действия                                          |Вычисляется, если `id` действия из списка стандартных действий.                                                 |
-|default     |true false                               |Действие по умолчанию. Вызов по двойному клику или Enter.|Вычисляется, если `id` действия из списка стандартных действий.                                                 |
-|hotkey      |Сочетание клавиш                         |Горячая клавиша вызова                                   |Вычисляется, если `id` действия из списка стандартных действий. Например, для `create` горячая клавиша `Insert`.|
-|visible     |true false                               |Видимость действия                                       |true                                                                                                            |
-|enabled     |true false                               |Доступность действия                                     |true                                                                                                            |
-|model       |resolve edit filter multi datasource     |Модель, над которой выполнится действие                  |resolve                                                                                                         |
+|Наименование|Тип  |Описание|
+|------------|-----|--------|
+|width|Число|Ширина диаграммы
+|height|Число|Высота диаграммы
 
-**Тело**
-
-[Обработчики действий](../xml/action)
+**Тело**<br/>
+`<areas>` - [Диаграмма-область](../xml/chart#areas)<br/>
+`<bars>` - [Гистограмма](../xml/chart#bars)<br/>
+`<lines>` - [Линейный график](../xml/chart#lines)<br/>
+`<pie>` - [Круговая диаграмма](../xml/chart#pie)<br/>
+`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
+`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
+`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+`<actions>` - [Встроенные действия](#widget_actions)
 
 **Пример**
-
 ```xml
-<action id="act1">
-  <close/>
-  <open-page page-id="test"/>
-</action>
+<chart width="600" height="400" datasource="ds1">
+    <areas>
+        <area>...</area>
+    </areas>
+</chart>
 ```
+<Sandbox height={350} projectId="uxcomponents_charts_areas" />
 
-#### &lt;toolbar&gt; {#toolbar_in_widget}
+### &lt;html&gt;
 
-Меню управляющих кнопок виджета.
+HTML виджет. Виджет, отображающий HTML содержимое.
+
+**Тело**<br/>
+`<content>` - [Контент для отображения html](#html_content)
+
+#### &lt;content&gt; {#html_content}
+
+Контент для отображения html.
 
 **Атрибуты**
 
-|Наименование|Тип                                                                                     |Описание                    |Значение по умолчанию|
-|------------|----------------------------------------------------------------------------------------|----------------------------|---------------------|
-|place       |topLeft, topRight, bottomLeft, bottomRight, topCenter, bottomCenter                     |Место расположения меню     |topLeft              |
-|generate    |crud, tableSettings, refresh, resize, word-wrap, export, columns, filters, submit, close|Генерация стандартных кнопок|                     |
+|Наименование|Тип   |Описание               |
+|------------|------|-----------------------|
+|url         |Строка|URL адрес HTML страницы. Если не задан, необходимо задать содержимое в теле.
 
 **Пример**
-
 ```xml
-<toolbar place="topLeft" generate="crud">
-  <group>...</group>
-  <button>...</button>
-  <sub-menu>...</sub-menu>
-</toolbar>
+<html>
+    <content url="index.html"/>
+</html>
+```
+**Пример**
+```xml
+<html>
+    <content>
+        <![CDATA[
+            <div class='test'><p>Hello</p></div>
+        ]]>
+    </content>
+</html>
 ```
 
-##### &lt;button&gt; {#button_in_widget}
+### &lt;calendar&gt;
 
-Кнопка.
+Виджет Календарь.
 
 **Атрибуты**
 
-|Наименование        |Тип                                                                        |Описание                                                                                   |Значение по умолчанию                            |
-|--------------------|---------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|-------------------------------------------------|
-|id                  |Строка                                                                     |Идентификатор кнопки                                                                       |Вычисляется из `action-id`                       |
-|label               |Строка                                                                     |Заголовок кнопки                                                                           |Вычисляется из `action-id`                       |
-|datasource          |Ссылка на [источник данных](../xml/datasource#datasources)                 |Идентификатор источника данных, над которым будет выполнена операция                      |Источник данных текущего виджета                 |
-|model               |resolve edit filter multi datasource                                       |Модель, над которой выполнится действие. Если модель пустая, то кнопка будет заблокирована.|resolve                                          |
-|icon                |[CSS класс](http://fontawesome.io/icons/)                                  |Иконка кнопки                                                                              |Вычисляется из `action-id`                       |
-|color               |Строка                                                                     |Цвет кнопки                                                                                |                                                 |
-|visible             |true false                                                                 |Видимость кнопки                                                                           |Вычисляется из `action-id`                       |
-|enabled             |true false                                                                 |Доступность кнопки                                                                         |Вычисляется из `action-id`                       |
-|disable-on-empty-model|true false auto|Недоступность кнопки при пустой модели.<br/>true - кнопка недоступна при пустом контексте<br/>false - кнопка доступна при пустом контексте<br/>auto - Кнопка недоступна только при пустой модели resolve, для всех остальных моделей доступна всегда|                       |
-|validate            |true false                                                                 |Валидировать ли форму при нажатии на кнопку                                                |Для каждого действия свои умолчания.             |
-|validate-datasources|Список ссылок на [источники данных](../xml/datasource#datasources)         |Источники данных, которые будут валидироваться                                             |Идентификатор источника данных текущего виджета  |
-|action-id           |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions)|Ссылка на действие, которое будет вызвано при нажатии на кнопку                |                                                 |
-|class               |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples)|CSS класс кнопки                                                                           |                                                 |
-|style               |CSS свойство                                                               |Стиль кнопки                                                                               |                                                 |
-|description         |Строка                                                                     |Описание при наведении на кнопку                                                           |                                                 |
-|tooltip-position    |left, right, top, bottom                                                   |Позиция подсказки                                                                          |bottom                                           |
-|confirm             |Строка                                                                     |Показать предупреждение перед выполнением действия                                         |false                                            |
-|confirm-text        |Строка                                                                     |Текст предупреждения                                                                       |                                                 |
-|confirm-type        |modal popover                                                              |Тип предупреждения перед выполнением действия: popover - поповер, modal - модальное окно   |modal                                            |
-|confirm-title       |Строка                                                                     |Заголовок окна предупреждения                                                              |                                                 |
-|confirm-ok-label    |Строка                                                                     |Текст кнопки подтверждения                                                                 |                                                 |
-|confirm-cancel-label|Строка                                                                     |Текст кнопки отмены                                                                        |                                                 |
-|type                |text icon textAndIcon                                                      |Кнопка с иконкой или без                                                                   |Если задан `icon`, то `iconAndText`, иначе `text`|
-|rounded             |true false                                                                 |Круглая форма кнопки                                                                       |false                                            |
-|badge               |Строка                                                                     |Значок кнопки                                                                              |                                                 |
-|badge-color         |Строка                                                                     |Цвет значка                                                                                |                                                 |
-|badge-shape         |rounded, circle, square                                                    |Форма значка                                                                               |circle                                           |
-|badge-position      |left, right                                                                |Позиция значка                                                                             |right                                            |
-|badge-image         |Строка                                                                     |Картинка в значке                                                                          |                                                 |
-|badge-image-shape   |rounded, circle, square                                                    |Форма картинки в значке                                                                    |circle                                           |
-|badge-image-position|left, right                                                                |Позиция картинки в значке                                                                  |left                                             |
-|src                 |Строка                                                                     |Реализация действия                                                                        |                                                 |
+|Наименование       |Тип                           |Описание                                                         |Значение по умолчанию|
+|-------------------|------------------------------|-----------------------------------------------------------------|---------------------|
+|height             |Строка                        |Высота календаря                                                 |                     |
+|default-date       |Строка                        |Стартовая дата календаря (по умолчанию текущая)                  |                     |
+|default-view       |day week workWeek month agenda|Вид отображения календаря по умолчанию                           |month                |
+|views              |Строка                        |Список используемых видов отображения в календаре (через запятую)|                     |
+|min-time           |Строка                        |Минимальное отображаемое время                                   |                     |
+|max-time           |Строка                        |Максимальное отображаемое время                                  |                     |
+|mark-days-off      |true false                    |Подсветка выходных дней                                          |true                 |
+|selectable         |true false                    |Включает возможность добавлять события в календарь               |true                 |
+|step               |Число                         |Шаг при создании события (в минутах)                             |30                   |
+|timeslot-count     |Число                         |Количество слотов на раздел                                      |2                    |
+|title-field-id     |Строка                        |Поле выборки, отвечающее за заголовок события                    |                     |
+|tooltip-field-id   |Строка                        |Поле выборки, отвечающее за данные тултипа события               |                     |
+|start-field-id     |Строка                        |Поле выборки, отвечающее за дату начала события                  |                     |
+|end-field-id       |Строка                        |Поле выборки, отвечающее за дату завершения события              |                     |
+|cell-color-field-id|Строка                        |Поле выборки, отвечающее за цвет ячейки события                  |                     |
+|disabled-field-id  |Строка                        |Поле выборки, отвечающее за блокирование события для выбора      |                     |
 
-**Тело**
-
-[Обработчик действия](../xml/action)<br/>
-[Условия доступности и видимости кнопки](#btn_dependencies)
+**Тело**<br/>
+`<resources>` - [Ресурсы календаря](#calendar_resources)<br/>
+`<action-on-select-slot>` - [Действие на добавление события в календаре html](#action-on-select-slot)<br/>
+`<action-on-select-event>` - [Действие на клик по событию](#action-on-select-event)<br/>
+`<formats>` - [Форматы дат и времени](#calendar_formats)
+`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
+`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
+`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+`<actions>` - [Встроенные действия](#widget_actions)
 
 **Пример**
-
 ```xml
-<button action-id="create"/>
+<calendar
+  height="500px" default-view="month" views="month,day,agenda"
+  min-time="08:00:00" max-time="20:00:00"
+  title-field-id = "title" tooltip-field-id = "tooltip"
+  start-field-id = "start" end-field-id = "end" cell-color-field-id = "color"
+  disabled-field-id = "disabled">
+  <resources>...</resources>
+  <action-on-select-slot>...</action-on-select-slot>
+  <action-on-select-event>...</action-on-select-event>
+  <formats>...</formats>
+</calendar>
 ```
 
+#### &lt;resources&gt; {#calendar_resources}
+Ресурсы календаря. <br/>Ресурсы используются для возможности разбиения календаря
+на определенные сущности (бронирование переговорных комнат и т.д.).
+
+**Артибуты**
+
+|Наименование  |Тип    |Описание
+|--------------|-------|---------------------------------------------
+|value-field-id|Строка |Поле выборки, отвечающее за маппинг ресурсов
+
+**Тело**<br/>
+`<resource>` - [Ресурс календаря](#calendar_resource)
+
+**Пример**
 ```xml
-<button
-  label="Добавить в реестр"
-  icon="fa-plus"
-  type="textAndIcon">
-  <open-page page-id="register" action-id="create"/>
-  <dependencies>
-    <visibility datasource="ds1">type==1</visibility>
-    <enabling datasource="ds2">type==1</enabling>
-  </dependencies>
-</button>
+<resources value-field-id="resourceId">
+ ...
+</resources>
 ```
 
-<Sandbox height={100} projectId="uxcomponents_buttons_button"/>
-
-###### Условия на кнопках {#btn_dependencies}
-
-Условие доступности
+#### &lt;resource&gt; {#calendar_resource}
+Ресурс календаря.
 
 **Атрибуты**
 
-|Наименование|Тип                                                                        |Описание             |Значение по умолчанию              |
-|------------|-----------------------------------------------------------|-------------------------------------|-----------------------------------|
-|datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Источник данных вычисления условия   |Источник данных текущего виджета   |
-|model       |resolve edit filter multi datasource                       |Модель для вычисления условия        |resolve                            |
-|message     |Строка                                                     |Сообщение о причине недоступности    |                                   |
-
-**Тело**
-
-Java Script выражение
+|Наименование|Тип   |Описание             |
+|------------|------|---------------------|
+|id          |Строка|Идентификатор ресурса|
+|title       |Строка|Имя ресурса          |
 
 **Пример**
 ```xml
-<enabling datasource="ds2" model="filter">type==1</enabling>
+<resource id="1" title="Meeting room"/>
 ```
 
-Условие видимости
+#### &lt;action-on-select-slot> {#action-on-select-slot}
+Действие на добавление события в календаре.
+
+**Тело**<br/>
+Ссылка на [Обработчик действия](../xml/action)
+
+#### &lt;action-on-select-event> {#action-on-select-event}
+Действие на клик по событию.
+
+**Тело**<br/>
+Ссылка на [Обработчик действия](../xml/action)
+
+#### &lt;formats&gt; {#calendar_formats}
+Форматы дат и времени.<br/>
+
+**Тело**<br/>
+`<format>` - [Формат дат и времени](#calendar_format)
+
+##### &lt;format&gt; {#calendar_format}
+
+Формат даты и времени.
 
 **Атрибуты**
 
-|Наименование|Тип                                                                        |Описание             |Значение по умолчанию              |
-|------------|-----------------------------------------------------------|-------------------------------------|-----------------------------------|
-|datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Источник данных вычисления условия   |Источник данных текущего виджета   |
-|model       |resolve edit filter multi datasource                       |Модель для вычисления условия        |resolve                            |
-
-**Тело**
-
-Java Script выражение
+|Наименование|Тип                                                                                                                                                                                                                                                                           |Описание                                                                                                                  |
+|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+|id          |dateFormat, dayFormat, weekdayFormat, timeGutterFormat, monthHeaderFormat, dayRangeHeaderFormat, dayHeaderFormat, agendaHeaderFormat, selectRangeFormat, agendaDateFormat, agendaTimeFormat, agendaTimeRangeFormat, eventTimeRangeFormat, eventTimeRangeStartFormat, eventTimeRangeEndFormat|Тип формата. [Список всех возможных форматов](http://jquense.github.io/react-big-calendar/examples/index.html#prop-formats)|
+|value       |Строка                                                                                                                                                                                                                                                                        |Значение формата                                                                                                          |
 
 **Пример**
 ```xml
-<visibility datasource="ds2" model="filter">type==1</visibility>
+<format id="dayFormat" value="dd"/>
 ```
 
 
-##### &lt;sub-menu&gt; {#sub-menu_in_widget}
-
-Кнопка с выпадающим меню.
+### &lt;widget&gt;
+Настраиваемый виджет.
 
 **Атрибуты**
 
-|Наименование        |Тип                                                                        |Описание                 |Значение по умолчанию                           |
-|--------------------|---------------------------------------------------------------------------|-------------------------|------------------------------------------------|
-|label               |Строка                                                                     |Заголовок кнопки         |Вычисляется из действия кнопки                  |
-|icon                |[CSS класс](http://fontawesome.io/icons/)                                  |Иконка                   |                                                |
-|type                |text icon textAndIcon                                                      |Кнопка с иконкой или без |Если задан `icon`, то `iconAndText`, иначе `text`|
-|class               |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples)|Стиль кнопки             |                                                |
-|badge               |Строка                                                                     |Значок кнопки            |                                                |
-|badge-color         |Строка                                                                     |Цвет значка              |                                                |
-|badge-shape         |rounded, circle, square                                                    |Форма значка             |circle                                          |
-|badge-position      |left, right                                                                |Позиция значка           |right                                           |
-|badge-image         |Строка                                                                     |Картинка в значке        |                                                |
-|badge-image-shape   |rounded, circle, square                                                    |Форма картинки в значке  |circle                                          |
-|badge-image-position|left, right                                                                |Позиция картинки в значке|left                                            |
+|Наименование|Тип            |Описание          |
+|------------|---------------|------------------|
+|src         |React компонент|Реализация виджета|
+
+**Тело**<br/>
+Произвольные элементы и атрибуты.
 
 **Пример**
 ```xml
-<sub-menu>
-  <menu-item>...</menu-item>
-  <menu-item>...</menu-item>
-  <menu-item>...</menu-item>
-</sub-menu>
+<?xml version='1.0' encoding='UTF-8'?>
+<widget src="MyWidget"
+        ext:prop1="value1"
+        ext:prop2="value2">
+</widget>
 ```
 
-<Sandbox height={200} projectId="uxcomponents_buttons_dropdown_button" />
-
-###### &lt;menu-item&gt;
-
-Пункт выпадающего меню.
-
-**Атрибуты**
-
-|Наименование        |Тип                                                                        |Описание                                                                                      |Значение по умолчанию               |
-|--------------------|---------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|------------------------------------|
-|id                  |Строка                                                                     |Идентификатор пункта меню                                                                     |Вычисляется из `action-id`          |
-|label               |Строка                                                                     |Заголовок пункта меню                                                                         |Вычисляется из `action-id`          |
-|datasource          |Ссылка на [источник данных](../xml/datasource#datasources)                 |Идентификатор источника данных, над которым будет выполнена операция                          |Источник данных текущего виджета    |
-|model               |resolve edit filter multi datasource                                       |Модель, над которой выполнится действие. Если модель пустая, то пункт меню будет заблокирован.|resolve                             |
-|icon                |[CSS класс](http://fontawesome.io/icons/)                                  |Иконка пункта меню                                                                            |Вычисляется из `action-id`          |
-|color               |Строка                                                                     |Цвет пункта меню                                                                              |                                    |
-|visible             |true false                                                                 |Видимость пункта меню                                                                         |Вычисляется из `action-id`          |
-|enabled             |true false                                                                 |Доступность пункта меню                                                                       |Вычисляется из `action-id`          |
-|disable-on-empty-model|true false auto|Недоступность кнопки при пустой модели.<br/>true - кнопка недоступна при пустом контексте<br/>false - кнопка доступна при пустом контексте<br/>auto - Кнопка недоступна только при пустой модели resolve, для всех остальных моделей доступна всегда|                       |
-|validate            |true false                                                                 |Валидировать ли форму при нажатии на кнопку                                                   |Для каждого действия свои умолчания |
-|validate-datasources|Список ссылок на [источники данных](../xml/datasource#datasources)         |Источники данных, которые будут валидироваться                                                |Идентификатор источника данных текущего виджета|
-|action-id           |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions)|Ссылка на действие, которое будет вызвано при нажатии на пункт меню               |                                    |
-|class               |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples)|CSS класс пункта меню                                                                         |                                    |
-|style               |CSS свойство                                                               |Стиль пункта меню                                                                             |                                    |
-|description         |Строка                                                                     |Описание при наведении на пункт меню                                                          |                                    |
-|tooltip-position    |left, right, top, bottom                                                   |Позиция подсказки                                                                             |left                                |
-|confirm             |Строка                                                                     |Показать предупреждение перед выполнением действия                                            |false                               |
-|confirm-text        |Строка                                                                     |Текст предупреждения                                                                          |                                    |
-|confirm-type        |modal popover                                                              |Тип предупреждения перед выполнением действия: popover - поповер, modal - модальное окно      |modal                               |
-|confirm-title       |Строка                                                                     |Заголовок окна предупреждения                                                                 |                                    |
-|confirm-ok-label    |Строка                                                                     |Текст кнопки подтверждения                                                                    |                                    |
-|confirm-cancel-label|Строка                                                                     |Текст кнопки отмены                                                                           |                                    |
-|badge               |Строка                                                                     |Значок кнопки                                                                                 |                                    |
-|badge-color         |Строка                                                                     |Цвет значка                                                                                   |                                    |
-|badge-shape         |rounded, circle, square                                                    |Форма значка                                                                                  |circle                              |
-|badge-position      |left, right                                                                |Позиция значка                                                                                |right                               |
-|badge-image         |Строка                                                                     |Картинка в значке                                                                             |                                    |
-|badge-image-shape   |rounded, circle, square                                                    |Форма картинки в значке                                                                       |circle                              |
-|badge-image-position|left, right                                                                |Позиция картинки в значке                                                                     |left                                |
-
-**Пример**
-
-```xml
-<sub-menu>
-  <menu-item action-id="create"/>
-</sub-menu>
-```
-```xml
-<sub-menu>
-  <menu-item label="Удалить запись" icon="fa-trash">
-    <invoke operation-id="delete"/>
-  </menu-item>
-</sub-menu>
-```
-
-##### &lt;group&gt;
-
-Группа кнопок.
-
-**Тело**
-
-Список [кнопок](#button_in_widget) или [кнопок с выпадающим меню](#sub-menu_in_widget)
-
-**Пример**
-
-```xml
-<group>
-    <button>...</button>
-    <sub-menu>...</sub-menu>
-</group>
-```
-
-#### &lt;pre-filters&gt; {#pre-filters_in_widget}
-
-Предустановленные фильтры виджета.
-
-**Тело**
-
-[Предустановленные фильтры](../xml/base#pre-filters)
+## Списковые виджеты {#list_widgets}
 
 ### &lt;table&gt;
-
-Виджет таблица.
+Виджет Таблица.
 
 **Атрибуты**
 
@@ -345,8 +289,17 @@ Java Script выражение
 |auto-select    |true false                |Автоматическое выделение первой строки таблицы                  |true                 |
 |children       |collapse, expand          |Отображение дочерних записей в свернутом или раскрытом виде     |collapse             |
 
-**Пример**
+**Тело**<br/>
+`<columns>` - [Столбцы таблицы](#table_columns)<br/>
+`<rows>` - [Настройки строк таблицы](#table_rows)<br/>
+`<filters>` - [Фильтры таблицы](#filters)<br/>
+`<pagination>` - [Пагинация таблицы](#pagination)<br/>
+`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
+`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
+`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+`<actions>` - [Встроенные действия](#widget_actions)
 
+**Пример**
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
@@ -360,15 +313,17 @@ Java Script выражение
   <pagination>...</pagination>
 </table>
 ```
-
 <Sandbox height={300} projectId="uxcomponents_tables_simple" />
 
-#### &lt;columns&gt;
-
+#### &lt;columns&gt; {#table_columns}
 Столбцы таблицы.
 
-**Пример**
+**Тело**<br/>
+`<column>` - [Столбец таблицы](#table_column)<br/>
+`<filter-column>` - [Фильтруемый столбец таблицы](#filter-column)<br/>
+`<multi-column>` - [Многоуровневый столбец таблицы](#multi-column)
 
+**Пример**
 ```xml
 <columns>
   <column>...</column>
@@ -379,8 +334,7 @@ Java Script выражение
 </columns>
 ```
 
-##### &lt;column&gt;
-
+#### &lt;column&gt; {#table_column}
 Столбец таблицы.
 
 **Атрибуты**
@@ -405,43 +359,42 @@ Java Script выражение
 |alignment        |left right center                        |Выравнивание заголовка столбца таблицы            |left                                                        |
 |content-alignment|left right center                        |Выравнивание контента в ячейках столбца таблицы   |совпадает с alignment, если столбец не входит в multi-column|
 
-**Пример**
+**Тело**<br/>
+Ссылка на [Ячейку](../xml/cell)<br/>
+`<dependencies>` - [Зависимости столбца](#column_dependencies)
 
+**Пример**
 ```xml
 <column
   label="Имя"
   text-field-id="firstName"
   sorting-field-id="firstName"
   sorting-direction="asc">
-  ...
-</column>
+    <dependencies>
+     ...
+    </dependencies>
+ </column>
 ```
 
-**Тело**
+#### &lt;dependencies&gt;  {#column_dependencies}
+Зависимости столбца.
 
-[Ячейка](../xml/cell) и [зависимости столбца](../xml/widget#dependencies)
-
-#### &lt;dependencies&gt;
-
-Зависимости столбца
+**Тело**<br/>
+`<visibility>` - [Условие видимости столбца](#column_visibility)
 
 **Пример**
-
 ```xml
 <column text-field-id="name">
   <dependencies>
-    ...
+      <visibility>
+        ...
+      </visibility>
   </dependencies>
 </column>
 ```
 
-**Тело**
-
-[Условие видимости](../xml/widget#visibility)
-
-##### &lt;visibility&gt;
-
-Условие видимости
+#### &lt;visibility&gt; {#column_visibility}
+Видимость столбца.
 
 **Атрибуты**
 
@@ -450,12 +403,10 @@ Java Script выражение
 |on          |Строка    |Поля, от которых зависит условие видимости|Вычисляется по условию|
 |reset       |true false|Сбросить значение при скрытии             |false                 |
 
-**Тело**
-
-Java Script выражение
+**Тело**<br/>
+Java Script выражение.
 
 **Пример**
-
 ```xml
 <column text-field-id="name">
     <dependencies>
@@ -465,8 +416,7 @@ Java Script выражение
 </column>
 ```
 
-##### &lt;filter-column&gt;
-
+#### &lt;filter-column&gt; {#filter-column}
 Фильтруемый столбец таблицы.
 
 **Атрибуты**
@@ -491,8 +441,11 @@ Java Script выражение
 |alignment        |left right center                        |Выравнивание заголовка столбца таблицы            |left                                                      |
 |content-alignment|left right center                        |Выравнивание контента в ячейках столбца таблицы   |совпадает с alignment                                     |
 
-**Пример**
+**Тело**<br/>
+`<cell>` - [Ячейка столбца](../xml/cell)<br/>
+`<filter>` - [Фильтр столбца](#filter)
 
+**Пример**
 ```xml
 <filter-column
   label="Имя"
@@ -504,28 +457,20 @@ Java Script выражение
 </filter-column>
 ```
 
-**Тело**
-
-[Ячейка](../xml/cell), [Поле фильтра](#filter)
-
 #### &lt;filter&gt;
-
 Фильтр столбца.
 
-**Тело**
-
+**Тело**<br/>
 [Поле ввода](../xml/field)
 
 **Пример**
-
 ```xml
 <filter>
   <input-text>...</input-text> <!--Поле-->
 </filter>
 ```
 
-##### &lt;multi-column&gt;
-
+#### &lt;multi-column&gt;
 Многоуровневый столбец таблицы.
 
 **Атрибуты**
@@ -539,8 +484,12 @@ Java Script выражение
 |alignment        |left right center   |Выравнивание заголовка столбца таблицы                                                                                      |center                                                    |
 |content-alignment|left right center   |Выравнивание контента в ячейках вложенных столбцов (значение content-alignment, указанное во вложенном столбце в приоритете)|                                                          |
 
-**Пример**
+**Тело**<br/>
+`<column>` - [Столбец таблицы](#table_column)<br/>
+`<filter-column>` - [Фильтруемый столбец таблицы](#filter-column)<br/>
+`<multi-column>` - [Многоуровневый столбец таблицы](#multi-column)
 
+**Пример**
 ```xml
 <multi-column label="Имя">
   <column>...</column>
@@ -548,26 +497,21 @@ Java Script выражение
 </multi-column>
 ```
 
-**Тело** Разные виды столбцов
-
-#### &lt;rows&gt;
-
-Настройки цвета строк таблицы.
+#### &lt;rows&gt; {#table_rows}
+Настройки строк таблицы.
 
 **Атрибуты**
 
-|Наименование|Тип         |Описание        |Значение по умолчанию|
-|------------|------------|----------------|---------------------|
-|class       |Строка      |CSS класс строки|                     |
-|style       |CSS свойство|Стиль строки    |                     |
+|Наименование|Тип         |Описание        |
+|------------|------------|----------------|
+|class       |Строка      |CSS класс строки. Поле выборки, отвечающее за класс строки(таким образом можно задать цвет, стиль, фон строки)
+|style       |CSS свойство|Стиль строки
 
-**Тело**
-
-[Переключатель](../xml/base#switch_in_base),
-[Клик по строке](../xml/base#click)
+**Тело**<br/>
+`<switch>` - [Переключатель](../xml/base#switch_in_base)<br/>
+`<click>` - [Клик по строке](../xml/base#click)
 
 **Примеры**
-
 ```xml
 <rows class="{type==1?'text-muted':''}"/>
 ```
@@ -579,38 +523,7 @@ Java Script выражение
 </rows>
 ```
 
-#### &lt;pagination&gt;
-
-Паджинация таблицы.
-
-**Атрибуты**
-
-|Наименование    |Тип                                                                    |Описание                                                       |Значение по умолчанию                         |
-|----------------|-----------------------------------------------------------------------|---------------------------------------------------------------|----------------------------------------------|
-|src             |React компонент                                                        |Реализация паджинации                                          |Pagination                                    |
-|prev            |true false                                                             |Показать/скрыть кнопку быстрого перехода на предыдущую страницу|false                                         |
-|prev-label      |Строка                                                                 |Текст кнопки "Предыдущая страница"                             |                                              |
-|prev-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)             |Иконка кнопки "Предыдущая страница"                            |fa fa-angle-left                              |
-|next            |true false                                                             |Показать/скрыть кнопку быстрого перехода на следующую страницу |false                                         |
-|next-label      |Строка                                                                 |Текст кнопки "Следующая страница"                              |                                              |
-|next-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)             |Иконка кнопки "Следующая страница"                             |fa fa-angle-right                             |
-|show-last       |true false                                                             |Показать/скрыть кнопку с номером последней страницы.           |true                                          |
-|show-count      |always never by-request                                                |Показать общее количество записей                              |always если show-last="true", never если false|
-|place           |topLeft topRight bottomLeft bottomRight topCenter bottomCenter         |Место расположения пагинации                                   |bottomLeft                                    |
-|class           |Строка                                                                 |CSS класс, который будет добавлен к пагинации                  |                                              |
-|style           |CSS свойство                                                           |Стиль пагинации                                                |                                              |
-
-**Пример**
-
-```xml
-<pagination
-  prev="true"
-  next="true"
-/>
-```
-
 #### &lt;filters&gt;
-
 Фильтры таблицы.
 
 **Атрибуты**
@@ -621,12 +534,10 @@ Java Script выражение
 |search-on-change       |true false                                           |Запускать фильтрацию по мере ввода                      |false                |
 |datasource             |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных для виджета              |                     |
 
-**Тело**
-
+**Тело**<br/>
 Список [филдсетов](../xml/fieldset) или [полей](../xml/field)
 
 **Пример**
-
 ```xml
 <filters>
   <input-text>...</input-text> <!--Поле-->
@@ -637,60 +548,8 @@ Java Script выражение
 </filters>
 ```
 
-### &lt;form&gt;
-
-Виджет форма.
-
-**Атрибуты**
-
-|Наименование           |Тип                                 |Описание                                                                                                                                                                                                                                     |Значение по умолчанию|
-|-----------------------|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
-|mode                   |one-model two-models                |Режим работы формы. Возможные значения: one-model - одна модель редактируется и отправляется. two-models - 2х модельный режим (при первой загрузке данные копируются в модель resolve и edit. При редактировании формы меняется модель edit.)|one-model            |
-|unsaved-data-prompt    |true false                          |Показать предупреждение о наличии несохраненных данных.                                                                                                                                                                                      |false                |
-
-**Пример**
-
-```xml
-<?xml version='1.0' encoding='UTF-8'?>
-<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
-  name="Моя форма"
-  object-id="myObject">
-  <fields>...</fields>
-  <toolbar>...</toolbar>
-</form>
-```
-
-<Sandbox height={350} projectId="uxcomponents_form_form" />
-
-**Тело**
-
-Поля формы, меню управляющих кнопок виджета и/или
-[действие обновления компонента](../xml/field#fetch),
-[встроенный источник данных](../xml/datasource#datasource)
-
-#### &lt;fields&gt;
-
-Поля формы.
-
-**Тело**
-
-Список [филдсетов](../xml/fieldset) или [полей](../xml/field)
-
-**Пример**
-
-```xml
-<fields>
-  <input-text>...</input-text> <!--Поле-->
-  <select>...</select> <!--Поле-->
-  <set>...</set> <!--Филдсет-->
-  <line>...</line> <!--Филдсет-->
-  ...
-</fields>
-```
-
 ### &lt;tree&gt;
-
-Виджет дерево.
+Виджет Дерево.
 
 **Атрибуты**
 
@@ -713,8 +572,18 @@ Java Script выражение
 |checkboxes           |true false             |Выбор в режиме чекбокс              |false                |
 |ajax                 |true false             |Поддержка загрузки через ajax запрос|false                |
 
-**Пример**
+:::note
+Записи должны ссылаться "сами на себя" (parent-field-id), образуя древовидную структуру.
+:::
 
+**Тело**<br/>
+`<pagination>` - [Пагинация таблицы](#pagination)<br/>
+`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
+`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
+`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+`<actions>` - [Встроенные действия](#widget_actions)
+
+**Пример**
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
 <tree xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
@@ -727,46 +596,19 @@ Java Script выражение
 
 <Sandbox height={300} projectId="uxcomponents_tree_tree" />
 
-:::note
-
-Записи должны ссылаться "сами на себя" (parent-field-id), образуя древовидную структуру.
-
-:::
-
-##### &lt;node&gt;
-
-Узел сгруппированного дерева.
-
-**Атрибуты**
-
-|Наименование  |Тип                                      |Описание                   |Значение по умолчанию|
-|--------------|-----------------------------------------|---------------------------|---------------------|
-|value-field-id|Ссылка на поле выборки                   |Идентификатор узла         |                     |
-|label-field-id|Ссылка на поле выборки                   |Наименование узла          |                     |
-|icon          |[CSS класс](http://fontawesome.io/icons/)|Иконка узла                |                     |
-|enabled       |true / false                             |Доступность узла для выбора|true                 |
-
-**Тело**
-
-[Дочерний узел](#node)
-
-**Пример**
-
-```xml
-<node
-  value-field-id="org.id"
-  label-field-id="org.name"
-  icon="fa-building">
-  <node>...</node><!--Дочерний узел-->
-</node>
-```
-
 ### &lt;list&gt;
+Виджет Список.
 
-Виджет список.
+**Тело**<br/>
+`<content>` - [Столбцы списка](#list_content)<br/>
+`<rows>` - [Настройки строк списка](#list_rows)<br/>
+`<pagination>` - [Пагинация](#pagination)<br/>
+`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
+`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
+`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+`<actions>` - [Встроенные действия](#widget_actions)
 
 **Пример**
-
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
 <list name="Мой список"
@@ -775,28 +617,24 @@ Java Script выражение
   <pagination>...</pagination>
 </list>
 ```
-
 <Sandbox height={300} projectId="uxcomponents_list_list" />
 
-#### &lt;content&gt;
 
-Содержимое строк списка.
+#### &lt;content&gt; {#list_content}
+Содержимое элемента списка.
 
-**Элементы**
-
-|Наименование|Тело              |
-|------------|------------------|
-|left-top    |[Ячейка](../xml/cell)|
-|left-bottom |[Ячейка](../xml/cell)|
-|header      |[Ячейка](../xml/cell)|
-|body        |[Ячейка](../xml/cell)|
-|sub-header  |[Ячейка](../xml/cell)|
-|right-top   |[Ячейка](../xml/cell)|
-|right-bottom|[Ячейка](../xml/cell)|
-|extra       |[Ячейка](../xml/cell)|
+**Тело**<br/>
+Поле выборки, отображаемое в строке списка в виде текста. [Ячейка](../xml/cell)<br/>
+`<left-top>` <br/>
+`<left-bottom>`<br/>
+`<header>`<br/>
+`<body>`<br/>
+`<sub-header>`<br/>
+`<right-top>` <br/>
+`<right-bottom>`<br/>
+`<extra>`
 
 **Пример**
-
 ```xml
  <content>
     <left-top id="leftTop">
@@ -805,196 +643,29 @@ Java Script выражение
  </content>
 ```
 
-### &lt;chart&gt;
+#### &lt;rows&gt; {#list_rows}
 
-Виджет график.
-
-**Атрибуты**
-
-|Наименование|Тип  |Описание|Значение по умолчанию|
-|------------|-----|--------|---------------------|
-|width       |Число|Ширина  |                     |
-|height      |Число|Высота  |                     |
-
-**Тело**
-
-Список графиков
+**Тело**<br/>
+&lt;click&gt; - [Клик по строке](../xml/base#click)
 
 **Пример**
-
 ```xml
-<chart width="600" height="400" datasource="ds1">
-    <areas>...</areas>
-</chart>
+ <list>
+     <content>
+        <left-top id="leftTop">
+            <image class="list-image"/>
+        </left-top>
+     </content>
+     <rows>
+        <click>...</click>
+     </rows>
+     <pagination>...</pagination>
+ </list>
 ```
 
-<Sandbox height={350} projectId="uxcomponents_charts_areas" />
-
-### &lt;html&gt;
-
-Виджет отображающий HTML содержимое.
-
-#### &lt;content&gt;
-
-Статическое содержимое HTML виджета
-
-**Атрибуты**
-
-|Наименование|Тип   |Описание               |Значение по умолчанию|
-|------------|------|-----------------------|---------------------|
-|url         |Строка|URL адрес HTML страницы|                     |
-
-**Пример**
-
-```xml
-<html>
-    <content url="index.html"/>
-</html>
-```
-
-
-```xml
-<html>
-    <content>
-        <![CDATA[
-            <div class='test'><p>Hello</p></div>
-        ]]>
-    </content>
-</html>
-```
-
-### &lt;calendar&gt;
-
-Виджет календарь.
-
-**Атрибуты**
-
-|Наименование       |Тип                           |Описание                                                         |Значение по умолчанию|
-|-------------------|------------------------------|-----------------------------------------------------------------|---------------------|
-|height             |Строка                        |Высота календаря                                                 |                     |
-|default-date       |Строка                        |Стартовая дата календаря (по умолчанию текущая)                  |                     |
-|default-view       |day week workWeek month agenda|Вид отображения календаря по умолчанию                           |month                |
-|views              |Строка                        |Список используемых видов отображения в календаре (через запятую)|                     |
-|min-time           |Строка                        |Минимальное отображаемое время                                   |                     |
-|max-time           |Строка                        |Максимальное отображаемое время                                  |                     |
-|mark-days-off      |true false                    |Подсветка выходных дней                                          |true                 |
-|selectable         |true false                    |Включает возможность добавлять события в календарь               |true                 |
-|step               |Число                         |Шаг при создании события (в минутах)                             |30                   |
-|timeslot-count     |Число                         |Количество слотов на раздел                                      |2                    |
-|title-field-id     |Строка                        |Поле выборки, отвечающее за заголовок события                    |                     |
-|tooltip-field-id   |Строка                        |Поле выборки, отвечающее за данные тултипа события               |                     |
-|start-field-id     |Строка                        |Поле выборки, отвечающее за дату начала события                  |                     |
-|end-field-id       |Строка                        |Поле выборки, отвечающее за дату завершения события              |                     |
-|cell-color-field-id|Строка                        |Поле выборки, отвечающее за цвет ячейки события                  |                     |
-|disabled-field-id  |Строка                        |Поле выборки, отвечающее за блокирование события для выбора      |                     |
-
-**Пример**
-
-```xml
-<calendar
-  height="500px" default-view="month" views="month,day,agenda"
-  min-time="08:00:00" max-time="20:00:00"
-  title-field-id = "title" tooltip-field-id = "tooltip"
-  start-field-id = "start" end-field-id = "end" cell-color-field-id = "color"
-  disabled-field-id = "disabled">
-  <resources>...</resources>
-  <action-on-select-slot>...</action-on-select-slot>
-  <action-on-select-event>...</action-on-select-event>
-  <formats>...</formats>
-</calendar>
-```
-
-#### &lt;resources&gt;
-
-Ресурсы календаря.
-Ресурсы календаря. Ресурсы используются для возможности разбиения календаря
-на определенные сущности (бронирование переговорных комнат и т.д.).
-
-|Наименование       |Тип              |Описание                                                         |Значение по умолчанию|
-|-------------------|-----------------|-----------------------------------------------------------------|---------------------|
-|value-field-id     |Строка           |Поле выборки, отвечающее за маппинг ресурсов                     |                     |
-
-**Пример**
-
-```xml
-<resources value-field-id="resourceId">
- ...
-</resources>
-```
-
-**Тело**
-
-Список ресурсов календаря
-
-#### &lt;resource&gt;
-
-Ресурс календаря.
-
-**Атрибуты**
-
-|Наименование|Тип   |Описание             |Значение по умолчанию|
-|------------|------|---------------------|---------------------|
-|id          |Строка|Идентификатор ресурса|                     |
-|title       |Строка|Имя ресурса          |                     |
-
-**Пример**
-
-```xml
-<resource id="1" title="Meeting room"/>
-```
-
-#### &lt;action-on-select-slot>
-
-Действие на добавление события в календаре.
-
-**Тело**
-
-[Обработчик действия](../xml/action)
-
-#### &lt;action-on-select-event>
-
-Действие на клик по событию.
-
-**Тело**
-
-[Обработчик действия](../xml/action)
-
-#### &lt;formats&gt;
-
-Форматы дат и времени.
-
-**Пример**
-
-```xml
-<formats>
- ...
-</formats>
-```
-
-**Тело**
-
-Список форматов дат и времени.
-
-#### &lt;format&gt;
-
-Формат даты и времени.
-
-**Атрибуты**
-
-|Наименование|Тип                                                                                                                                                                                                                                                                           |Описание                                                                                                                  |Значение по умолчанию|
-|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|---------------------|
-|id          |dateFormat dayFormat weekdayFormat timeGutterFormat monthHeaderFormat dayRangeHeaderFormat dayHeaderFormat agendaHeaderFormat selectRangeFormat agendaDateFormat agendaTimeFormat agendaTimeRangeFormat eventTimeRangeFormat eventTimeRangeStartFormat eventTimeRangeEndFormat|Тип формата. Список всех возможных форматов (http://jquense.github.io/react-big-calendar/examples/index.html#prop-formats)|                     |
-|value       |Строка                                                                                                                                                                                                                                                                        |Значение формата                                                                                                          |                     |
-
-**Пример**
-
-```xml
-<format id="dayFormat" value="dd"/>
-```
 
 ### &lt;tiles&gt;
-
-Виджет плитки.
+Виджет Плитки.
 
 **Атрибуты**
 
@@ -1007,8 +678,15 @@ Java Script выражение
 |height      |Число            |Минимальная высота плитки.            |                     |
 |width       |Число            |Ширина плитки                         |                     |
 
-**Пример**
+**Тело**<br/>
+`<content>` - [Содержимое виджета](#tiles_content)<br/>
+`<pagination>` - [Пагинация плиток](#pagination)<br/>
+`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
+`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
+`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+`<actions>` - [Встроенные действия](#widget_actions)
 
+**Пример**
 ```xml
 <tiles id="tiles_id" cols-lg="6">
   <content>...</content>
@@ -1018,9 +696,11 @@ Java Script выражение
 
 <Sandbox projectId="uxcomponents_tiles_tiles" />
 
-#### &lt;content&gt;
+#### &lt;content&gt; {#tiles_content}
+Содержимое виджета: список блоков (карточек).
 
-Содержимое виджета плитки.
+**Тело**<br/>
+`<block>` - [Список блоков](#block).
 
 **Пример**
 ```xml
@@ -1030,12 +710,7 @@ Java Script выражение
 </content>
 ```
 
-**Тело**
-
-Список блоков.
-
 #### &lt;block&gt;
-
 Блок.
 
 **Атрибуты**
@@ -1048,20 +723,18 @@ Java Script выражение
 |class           |Строка      |CSS класс, который будет добавлен к блоку         |                     |
 |style           |CSS свойство|Стиль блока                                       |                     |
 
-**Пример**
+**Тело**<br/>
+Ссылка на [Ячейку](../xml/cell).
 
+**Пример**
 ```xml
 <block text-field-id="id" tooltip-field-id="tooltip">
     <text/>
 </block>
 ```
 
-**Тело**
-
-[Ячейка](../xml/cell)
 
 ### &lt;cards&gt;
-
 Виджет Карточки.
 
 **Атрибуты**
@@ -1072,8 +745,15 @@ Java Script выражение
 |vertical-align|center top bottom|Выравнивание по вертикали содержимого колонок|top                  |
 |height        |Строка           |Высота карточек                              |                     |
 
-**Пример**
+**Тело**<br/>
+`<content>` - [Список колонок (карточек)](#cards_content)<br/>
+`<pagination>` - [Пагинация карточек](#pagination)<br/>
+`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
+`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
+`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+`<actions>` - [Встроенные действия](#widget_actions)
 
+**Пример**
 ```xml
 <cards id="cards_id" vertical-align="center" height="400px">
   <content>...</content>
@@ -1081,38 +761,39 @@ Java Script выражение
 </tiles>
 ```
 
-<Sandbox height={420} projectId="uxcomponents_cards_card_single_line" />
+#### &lt;content&gt; {#cards_content}
+Содержимое виджета: список колонок (карточек).
 
-#### &lt;col&gt;
+**Тело**<br/>
+`<col>` - [Колонка](#col)
 
-Содержимое виджета карточки.
+#### &lt;col&gt; {#col}
+Колонка.
 
 **Атрибуты**
 
-|Наименование|Тип  |Описание                   |Значение по умолчанию|
-|------------|-----|---------------------------|---------------------|
-|size        |число|Ширина колонки по бутстрапу|                     |
+|Наименование|Тип  |Описание                   |
+|------------|-----|---------------------------|
+|size        |число|Ширина колонки по бутстрапу|
+
+**Тело**<br/>
+`<block>` - [Блок](#cards_block).
 
 **Пример**
-
 ```xml
 <content>
   <col>
     <block>...</block>
     <block>...</block>
   </col>
-    <col>
+  <col>
     <block>...</block>
   </col>
 </content>
 ```
 
-**Тело**
 
-Список блоков.
-
-#### &lt;block&gt;
-
+#### &lt;block&gt; {#cards_block}
 Блок.
 
 **Атрибуты**
@@ -1120,43 +801,177 @@ Java Script выражение
 |Наименование    |Тип         |Описание                                          |Значение по умолчанию|
 |----------------|------------|--------------------------------------------------|---------------------|
 |id              |Строка      |Идентификатор ресурса                             |                     |
-|text-field-id   |Строка      |Поле выборки, отображаемое в блоке в виде текста  |                     |
+|text-field-id   |Строка      |Поле выборки, отображаемое в блоке                |                     |
 |tooltip-field-id|Строка      |Поле выборки, отображаемое при наведении на ячейку|                     |
-|class           |Строка      |Css класс блока                                   |                     |
-|style           |CSS свойство|Стиль блока                                       |                     |
 
-**Пример**
+**Тело**<br/>
+Ссылка на [Ячейку](../xml/cell).
 
-```xml
-<block text-field-id="id" tooltip-field-id="tooltip">
-    <text/>
-</block>
-```
+<Sandbox height={420} projectId="uxcomponents_cards_card_single_line" />
 
-**Тело**
 
-[Ячейка](../xml/cell)
+## Зависимости виджета {#widget_dependencies}
 
-### &lt;widget&gt;
+### &lt;dependencies&gt;
 
-Настраиваемый виджет.
+Зависимости виджета.
+
+**Тело**<br/>
+`<visibility>` - Условие видимости<br/>
+`<enabling>` - Условие доступности
+
+### &lt;visibility&gt;
+Ссылка на [Условие видимости](../xml/button#visibility)
+
+### &lt;enabling&gt;
+Ссылка на [Условие доступности](../xml/button#enabling)
+
+## Встроенный источник данных {#widget_datasource}
+
+### &lt;datasource&gt;
+
+Встроенный источник данных виджета.
+
+Ссылка на [Источник данных](../xml/datasource#datasources)
+
+
+
+
+## Меню управляющих кнопок {#widget_toolbar}
+### &lt;toolbar&gt;
+
+Меню управляющих кнопок виджета.
 
 **Атрибуты**
 
-|Наименование|Тип            |Описание          |Значение по умолчанию|
-|------------|---------------|------------------|---------------------|
-|src         |React компонент|Реализация виджета|                     |
+| Наименование | Тип | Описание | Значение по умолчанию |
+|------------|------|------------------|----------------|
+|class       | Строка | CSS класс меню
+|style       | Строка | Стиль меню
+|place       | topLeft, topRight, bottomLeft, bottomRight, topCenter, bottomCenter                     |Место расположения меню     |topLeft              |
+|generate    | crud, tableSettings, refresh, resize, word-wrap, export, columns, filters, submit, close|Генерация стандартных действий. Можно писать несколько идентификаторов через запятую.
 
-**Тело**
-
-Произвольные элементы и атрибуты
+**Тело**<br/>
+`<button>` - [Кнопка](../xml/button#button_in_button)<br/>
+`<sub-menu>` - [Кнопка с выпадающим меню](../xml/button#sub_menu_widget)<br/>
+`<group>` - [Группа кнопок](#group)<br/>
 
 **Пример**
-
 ```xml
-<?xml version='1.0' encoding='UTF-8'?>
-<widget src="MyWidget"
-        ext:prop1="value1"
-        ext:prop2="value2">
-</widget>
+<toolbar place="topLeft" generate="crud">
+  <button>...</button>
+  <sub-menu>...</sub-menu>
+  <group>...</group>
+</toolbar>
+```
+
+#### &lt;group&gt; {#group}
+
+Группа кнопок.
+
+**Атрибуты**
+
+|Наименование|Тип|Описание
+|------------|---|--------
+| generate | Строка | Генерация стандартных кнопок
+
+**Тело**<br/>
+`<button>` - [Кнопка](../xml/button#button_in_button)<br/>
+`<sub-menu>` - [Кнопка с выпадающим меню](../xml/button#sub_menu_widget)
+
+**Пример**
+```xml
+<group>
+    <button>...</button>
+    <sub-menu>
+        <menu-item>...</menu-item>
+    </sub-menu>
+</group>
+```
+
+
+## Встроенные действия {#widget_actions}
+### &lt;actions&gt;
+
+Действия над виджетом.
+
+:::note
+Действия не видимы сами по себе, но на них можно ссылаться, например, из [кнопок](../xml/button).
+:::
+
+**Атрибуты**
+
+|Наименование|Тип                |Описание                      |
+|------------|-------------------|------------------------------|
+|generate    |crud, saveAndClose, close|Генерация стандартных действий
+
+**Тело**<br/>
+`<action>` - Список [действий над виджетом](#action)
+
+**Пример**
+```xml
+<actions generate="crud">
+  <action>...</action>
+  <action>...</action>
+  <action>...</action>
+</actions>
+```
+
+### &lt;action&gt;
+
+Действие над виджетом.<br/>
+(допускает использование нескольких обработчиков действий в теле)
+
+**Атрибуты**
+
+|Наименование|Тип                                      |Описание                                                 |Значение по умолчанию                                                                                           |
+|------------|-----------------------------------------|---------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+|id          |Строка                                   |Идентификатор действия                                   |                                                                                                                |
+|name        |Строка                                   |Наименование                                             |Вычисляется по операции объекта                                                                                 |
+|icon        |[CSS класс](http://fontawesome.io/icons/)|Иконка действия                                          |Вычисляется, если `id` действия из списка стандартных действий.                                                 |
+|visible     |true false                               |Видимость действия                                       |true                                                                                                            |
+|enabled     |true false                               |Доступность действия                                     |true                                                                                                            |
+|model       |resolve edit filter multi datasource     |Модель, над которой выполнится действие                  |resolve                                                                                                         |
+
+**Тело**<br/>
+[Обработчики действий](../xml/action)
+
+**Пример**
+```xml
+<action id="act1">
+  <close/>
+  <open-page page-id="test"/>
+</action>
+```
+
+
+
+## Пагинация {#widget_pagination}
+### &lt;pagination&gt;
+
+Пагинация виджета.
+
+**Атрибуты**
+
+|Наименование    |Тип                                                                    |Описание                                                       |Значение по умолчанию                         |
+|----------------|-----------------------------------------------------------------------|---------------------------------------------------------------|----------------------------------------------|
+|src             |React компонент                                                        |Реализация пагинации                                          |Pagination                                    |
+|prev            |true false                                                             |Показать/скрыть кнопку быстрого перехода на предыдущую страницу|false                                         |
+|prev-label      |Строка                                                                 |Текст кнопки "Предыдущая страница"                             |                                              |
+|prev-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)             |Иконка кнопки "Предыдущая страница"                            |fa fa-angle-left                              |
+|next            |true false                                                             |Показать/скрыть кнопку быстрого перехода на следующую страницу |false                                         |
+|next-label      |Строка                                                                 |Текст кнопки "Следующая страница"                              |                                              |
+|next-icon       |[CSS класс](https://fontawesome.ru/all-icons/#directional)             |Иконка кнопки "Следующая страница"                             |fa fa-angle-right                             |
+|show-last       |true false                                                             |Показать/скрыть кнопку с номером последней страницы.           |true                                          |
+|show-count      |always never by-request                                                |Показать общее количество записей                              |always если show-last="true", never если false|
+|place           |topLeft topRight bottomLeft bottomRight topCenter bottomCenter         |Место расположения пагинации                                   |bottomLeft                                    |
+|class           |Строка                                                                 |CSS класс, который будет добавлен к пагинации                  |                                              |
+|style           |CSS свойство                                                           |Стиль пагинации                                                |                                              |
+
+**Пример**
+```xml
+<pagination
+  prev="true"
+  next="true"
+/>
 ```
