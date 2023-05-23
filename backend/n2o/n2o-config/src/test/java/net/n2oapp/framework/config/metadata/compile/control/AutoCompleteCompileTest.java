@@ -67,9 +67,11 @@ public class AutoCompleteCompileTest extends SourceCompileTestBase {
         assertThat(queryMapping.get("name").getParam(), is("org_name"));
 
         List<ControlDependency> dependencies = field.getDependencies();
-        assertThat(dependencies.size(), is(1));
-        assertThat(dependencies.get(0).getType(), is(ValidationType.reset));
-        assertThat(dependencies.get(0).getOn(), is(Arrays.asList("org_id")));
+        assertThat(dependencies.size(), is(2));
+        assertThat(dependencies.get(0).getType(), is(ValidationType.fetch));
+        assertThat(dependencies.get(0).getOn(), is(Arrays.asList("auto2")));
+        assertThat(dependencies.get(1).getType(), is(ValidationType.reset));
+        assertThat(dependencies.get(1).getOn(), is(Arrays.asList("org_id")));
 
 
         autoComplete = (AutoComplete) ((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(1)
