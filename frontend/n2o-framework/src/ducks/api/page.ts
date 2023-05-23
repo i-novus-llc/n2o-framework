@@ -19,6 +19,7 @@ export type OpenPagePayload = {
     pathMapping: object
     queryMapping: object
     target?: '_blank' | 'application'
+    restore?: boolean
 }
 
 export const openPagecreator = createAction(
@@ -32,7 +33,7 @@ export const openPagecreator = createAction(
 export function* openPageEffect({ payload }: Action<string, OpenPagePayload>) {
     const state: GlobalState = yield select()
 
-    const { url, pathMapping, queryMapping, target, modelLink } = payload
+    const { url, pathMapping, queryMapping, target, modelLink, restore = false } = payload
 
     let compiledUrl = null
 
@@ -53,6 +54,13 @@ export function* openPageEffect({ payload }: Action<string, OpenPagePayload>) {
         })
 
         compiledUrl = dataProviderUrl
+    }
+
+    if (restore) {
+        const { global = {} } = state
+        const query: string = get(global, `breadcrumbs.${compiledUrl}`, '')
+
+        compiledUrl = `${compiledUrl}${query}`
     }
 
     if (target === 'application') {
