@@ -8,6 +8,7 @@
     display: inline-flex;
     column-gap: 0.35em;
     align-items: center;
+    min-height: 38px;
 }
 
 .btn > i {
@@ -17,6 +18,10 @@
     justify-content: center;
     width: 1.25em;
     height: 1.25em;
+}
+
+.btn-sm {
+    min-height: 21px;
 }
 
 .btn-sm > i {
