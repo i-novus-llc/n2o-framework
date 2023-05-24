@@ -14,6 +14,9 @@
                             datasource="test"/>
                         <contains field-id="name" param="org_name"/>
                     </filters>
+                    <dependencies>
+                        <fetch on="auto2"/>
+                    </dependencies>
                 </auto-complete>
                 <auto-complete id="auto2" label="Auto complete" max-tag-text-length="15">
                     <options>
