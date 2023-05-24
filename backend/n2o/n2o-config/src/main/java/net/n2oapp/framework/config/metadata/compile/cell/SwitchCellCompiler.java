@@ -18,27 +18,48 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  */
 @Component
 public class SwitchCellCompiler implements BaseSourceCompiler<SwitchCell, N2oSwitchCell, CompileContext<?, ?>> {
+
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oSwitchCell.class;
     }
 
     @Override
-    public SwitchCell compile(N2oSwitchCell source, CompileContext<?, ?> context, CompileProcessor p) {
+    public SwitchCell compile(N2oSwitchCell source,
+                              CompileContext<?, ?> context,
+                              CompileProcessor p) {
         SwitchCell cell = new SwitchCell();
         cell.setSrc(p.resolve(property("n2o.api.cell.switch.src"), String.class));
+        cell.setSwitchFieldId(source.getValueFieldId());
+
         ComponentScope scope = p.getScope(ComponentScope.class);
         if (scope != null) {
             AbstractColumn column = scope.unwrap(AbstractColumn.class);
-            if (column != null)
+            if (column != null) {
                 cell.setId(column.getId());
+            }
         }
-        cell.setSwitchFieldId(source.getValueFieldId());
-        for (N2oSwitchCell.Case c : source.getCases()) {
+        initCases(cell, source, context, p);
+        initDefaultCase(cell, source, context, p);
+
+        return cell;
+    }
+    
+    private void initDefaultCase(SwitchCell cell,
+                                 N2oSwitchCell source,
+                                 CompileContext<?, ?> context,
+                                 CompileProcessor p) {
+        if (source.getDefaultCase() != null)
+            cell.setSwitchDefault(p.compile(source.getDefaultCase(), context, p));
+    }
+    
+    private void initCases(SwitchCell cell,
+                           N2oSwitchCell source,
+                           CompileContext<?, ?> context,
+                           CompileProcessor p) {
+        for (var c : source.getCases()) {
             AbstractCell compile = p.compile(c.getItem(), context, p);
             cell.getSwitchList().put(c.getValue(), compile);
         }
-        cell.setSwitchDefault(p.compile(source.getDefaultCase(), context, p));
-        return cell;
     }
 }
