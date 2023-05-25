@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница для проверки множественных зависимостей между полями и филдсетами">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+    <regions>
+        <region>
+            <form datasource="ds1">
+                <fields>
+                    <output-text id="counter" default-value="0">
+                        <dependencies>
+                            <set-value on="onField" apply-on-init="false">
+                                return counter + 1
+                            </set-value>
+                        </dependencies>
+                    </output-text>
+                </fields>
+            </form>
+            <form datasource="ds1">
+                <fields>
+                    <row>
+                        <button id="resetField" label="reset field">
+                            <set-value to="field">
+                                return {}
+                            </set-value>
+                        </button>
+                        <button id="resetMultiset" label="reset field.multiSet">
+                            <set-value to="field.multiSet">
+                                return []
+                            </set-value>
+                        </button>
+                        <button id="defaultMultiset" label="set default to field..multiSet">
+                            <set-value to="field.multiSet">
+                                return [{ select: { id: 2, name: 'second' } }]
+                            </set-value>
+                        </button>
+                    </row>
+                    <input-text id="field.input"/>
+                    <multi-set
+                            id="field.multiSet"
+                            can-remove-first="true"
+                            max="3">
+                        <row>
+                            <select id="select" label="field.multiSet[{index}].select">
+                                <options>
+                                    <option id="1" name="first"/>
+                                    <option id="2" name="second"/>
+                                    <option id="3" name="third"/>
+                                    <option id="4" name="fourth"/>
+                                </options>
+                            </select>
+                            <input-text id="input" label="field.multiSet[{index}].input"/>
+                        </row>
+                        <row>
+                            <output-text id="onSelect"
+                                         label="on=field.multiSet[index].select"
+                                         description="Должно обновляться при изменении select конкретной строки"
+                            >
+                                <dependencies>
+                                    <set-value on="field.multiSet[index].select" apply-on-init="false">
+                                        return counter + 1
+                                    </set-value>
+                                </dependencies>
+                            </output-text>
+                        </row>
+                    </multi-set>
+
+                    <output-text id="onField"
+                                 label="on=field"
+                                 description="Должно обновляться при каждом изменении любого поля"
+                    >
+                        <dependencies>
+                            <set-value on="field" apply-on-init="false">
+                                return counter + 1
+                            </set-value>
+                        </dependencies>
+                    </output-text>
+                    <output-text id="onMultiset"
+                                 label="on=field.multiSet"
+                                 description="Должно обновляться при изменении мультисета и любого его поля"
+                    >
+                        <dependencies>
+                            <set-value on="field.multiSet" apply-on-init="false">
+                                return counter + 1
+                            </set-value>
+                        </dependencies>
+                    </output-text>
+                    <output-text id="onInput"
+                                 label="on field.input"
+                                 description="Должно обновляться при изменении инпута"
+                    >
+                        <dependencies>
+                            <set-value on="field.input" apply-on-init="false">
+                                return counter + 1
+                            </set-value>
+                        </dependencies>
+                    </output-text>
+                </fields>
+            </form>
+        </region>
+    </regions>
+</page>
