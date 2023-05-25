@@ -143,7 +143,7 @@ public class MappingProcessor {
             try {
                 writeParser.parseExpression(target).setValue(instance, dataSet.get(childParam.getId()));
             } catch (Exception e) {
-                throw new N2oSpelException(parameter.getId(), target, e);
+                throw new N2oSpelException(childParam.getId(), target, e);
             }
         }
         return instance;

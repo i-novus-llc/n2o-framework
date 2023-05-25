@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.data.OperationExceptionHandler;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -63,7 +64,7 @@ public class N2oOperationProcessor {
      * @return Данные исключения по fail-out параметрам
      */
     private DataSet getFailOutParameters(Map<String, ObjectSimpleField> failOutParameters, Exception e) {
-        if (failOutParameters.isEmpty())
+        if (CollectionUtils.isEmpty(failOutParameters))
             return new DataSet();
 
         Map<String, String> failOutParamsMapping = failOutParameters.entrySet().stream()
