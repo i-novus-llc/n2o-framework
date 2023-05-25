@@ -129,12 +129,8 @@ describe('FileUploader Тесты', () => {
                     disabled: true,
                 })
                 expect(button.find('.n2o-file-uploader-files-item').length).toEqual(1)
-                expect(button.find('.n2o-file-uploader-remove').exists()).toEqual(
-                    false,
-                )
-                expect(button.find('.n2o-file-uploader-control').exists()).toEqual(
-                    false,
-                )
+                expect(button.find('.n2o-file-uploader-remove').exists()).toEqual(false)
+                expect(button.find('.n2o-file-uploader-control.disabled').exists()).toEqual(true)
             })
 
             it('Single', () => {
@@ -239,15 +235,9 @@ describe('FileUploader Тесты', () => {
                     ],
                     disabled: true,
                 })
-                expect(dropZone.find('.n2o-file-uploader-files-item').length).toEqual(
-                    1,
-                )
-                expect(dropZone.find('.n2o-file-uploader-remove').exists()).toEqual(
-                    false,
-                )
-                expect(dropZone.find('.n2o-file-uploader-control').exists()).toEqual(
-                    false,
-                )
+                expect(dropZone.find('.n2o-file-uploader-files-item').length).toEqual(1)
+                expect(dropZone.find('.n2o-file-uploader-remove').exists()).toEqual(false)
+                expect(dropZone.find('.n2o-file-uploader-control.disabled').exists()).toEqual(true)
             })
 
             it('Single', () => {
