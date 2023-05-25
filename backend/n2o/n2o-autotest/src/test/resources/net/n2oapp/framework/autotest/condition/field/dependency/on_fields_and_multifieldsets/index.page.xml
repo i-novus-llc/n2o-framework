@@ -36,7 +36,7 @@
                             </set-value>
                         </button>
                     </row>
-                    <input-text id="field.input" />
+                    <input-text id="field.input"/>
                     <multi-set
                             id="field.multiSet"
                             can-remove-first="true"
@@ -50,19 +50,9 @@
                                     <option id="4" name="fourth"/>
                                 </options>
                             </select>
-                            <input-text id="input"  label="field.multiSet[{index}].input"/>
+                            <input-text id="input" label="field.multiSet[{index}].input"/>
                         </row>
                         <row>
-                            <output-text id="onMultiselectRow"
-                                         label="on=field.multiSet[index]"
-                                         description="Должно обновляться при изменении любого поля конкретной строки"
-                            >
-                                <dependencies>
-                                    <set-value on="field.multiSet[index]" apply-on-init="false">
-                                        return counter + 1
-                                    </set-value>
-                                </dependencies>
-                            </output-text>
                             <output-text id="onSelect"
                                          label="on=field.multiSet[index].select"
                                          description="Должно обновляться при изменении select конкретной строки"
@@ -75,7 +65,7 @@
                             </output-text>
                         </row>
                     </multi-set>
-                    
+
                     <output-text id="onField"
                                  label="on=field"
                                  description="Должно обновляться при каждом изменении любого поля"

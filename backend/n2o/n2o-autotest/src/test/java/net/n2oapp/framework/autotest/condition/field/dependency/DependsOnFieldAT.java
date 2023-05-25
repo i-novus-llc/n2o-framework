@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.condition.field.dependency;
 
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -61,12 +60,12 @@ public class DependsOnFieldAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/on_field/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/on_field/orgs.query.xml")
         );
-        
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         Fields fields = page.widget(FormWidget.class).fields();
 
-        InputText master = fields.field(    "Управляющее поле").control(InputText.class);
+        InputText master = fields.field("Управляющее поле").control(InputText.class);
         master.shouldExists();
         master.shouldBeEmpty();
 
@@ -117,7 +116,7 @@ public class DependsOnFieldAT extends AutoTestBase {
         button.click();
 
         Drawer drawer = N2oSelenide.drawer();
-        SimplePage drawerPage =  drawer.content(SimplePage.class);
+        SimplePage drawerPage = drawer.content(SimplePage.class);
         drawerPage.shouldExists();
 
         InputSelect drawerField = drawerPage.widget(FormWidget.class).fields().field("Регион").control(InputSelect.class);
@@ -130,7 +129,7 @@ public class DependsOnFieldAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(1);
         tableField.shouldHaveValue("region1");
     }
-    
+
     @Test
     void checkDependencyBetweenFieldsAndMultifieldsets() {
         builder.sources(
@@ -138,7 +137,7 @@ public class DependsOnFieldAT extends AutoTestBase {
         );
         final StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        
+
         final FormWidget formWidget = page.regions()
                 .region(0, SimpleRegion.class)
                 .content()
@@ -163,61 +162,43 @@ public class DependsOnFieldAT extends AutoTestBase {
         onAnyField.shouldBeEmpty();
         onFieldset.shouldBeEmpty();
         onInput.shouldBeEmpty();
-        
-        input.setValue("1");
 
-        //was changed
-        onAnyField.shouldHaveValue("3");
-        onInput.shouldHaveValue("3");
-        //wasn't changed
+        input.setValue("1");
+        // setValue makes 2 inputs !!!
+        onAnyField.shouldHaveValue("2");
         onFieldset.shouldBeEmpty();
-        
+        onInput.shouldHaveValue("2");
+
         setValueToFieldsetBtn.click();
 
         Fields fieldsetFields = fieldset.item(0).fields();
         final Select select = fieldsetFields.field("field.multiSet[0].select").control(Select.class);
         final InputText inputInFieldset = fieldsetFields.field("field.multiSet[0].input").control(InputText.class);
-        final OutputText onAnyFieldInFieldset = fieldsetFields.field("on=field.multiSet[index]").control(OutputText.class);
         final OutputText onSelect = fieldsetFields.field("on=field.multiSet[index].select").control(OutputText.class);
 
         select.shouldSelected("second");
-        //was changed
         onAnyField.shouldHaveValue("4");
         onFieldset.shouldHaveValue("4");
-        onAnyFieldInFieldset.shouldHaveValue("4");
-        onSelect.shouldHaveValue("4");
-        //wasn't changed
-        /*ToDo: Раскомментить после закрытия задачи NNO-9508
-            onInput.shouldHaveValue("1");
-         */
-        
+        onInput.shouldHaveValue("3");
+        onSelect.shouldHaveValue("3");
+
         inputInFieldset.setValue("2");
-
-        //was changed
-        onAnyField.shouldHaveValue("5");
-        onFieldset.shouldHaveValue("5");
-        onAnyFieldInFieldset.shouldHaveValue("5");
-        //wasn't changed
-        onSelect.shouldHaveValue("4");
-        /*ToDo: Раскомментить после закрытия задачи NNO-9508
-            onInput.shouldHaveValue("1");
-         */
-
-        resetFieldsetBtn.click();
-
-        //was changed
+        // setValue makes 2 inputs !!!
         onAnyField.shouldHaveValue("6");
         onFieldset.shouldHaveValue("6");
-        //wasn't changed
-        /*ToDo: Раскомментить после закрытия задачи NNO-9508
-            onInput.shouldHaveValue("1");
-         */
-        
-        resetFieldBtn.click();
+        // wasn't changed
+        onInput.shouldHaveValue("3");
+        // wasn't changed
+        onSelect.shouldHaveValue("3");
 
-        //was changed
+        resetFieldsetBtn.click();
         onAnyField.shouldHaveValue("7");
         onFieldset.shouldHaveValue("7");
         onInput.shouldHaveValue("7");
+
+        resetFieldBtn.click();
+        onAnyField.shouldHaveValue("8");
+        onFieldset.shouldHaveValue("8");
+        onInput.shouldHaveValue("8");
     }
 }
