@@ -164,10 +164,10 @@ public class DependsOnFieldAT extends AutoTestBase {
         onInput.shouldBeEmpty();
 
         input.setValue("1");
-        // setValue makes 2 inputs !!!
-        onAnyField.shouldHaveValue("2");
+        // setValue makes 3 inputs !!!
+        onAnyField.shouldHaveValue("3");
         onFieldset.shouldBeEmpty();
-        onInput.shouldHaveValue("2");
+        onInput.shouldHaveValue("3");
 
         setValueToFieldsetBtn.click();
 
@@ -177,28 +177,28 @@ public class DependsOnFieldAT extends AutoTestBase {
         final OutputText onSelect = fieldsetFields.field("on=field.multiSet[index].select").control(OutputText.class);
 
         select.shouldSelected("second");
-        onAnyField.shouldHaveValue("4");
-        onFieldset.shouldHaveValue("4");
-        onInput.shouldHaveValue("3");
-        onSelect.shouldHaveValue("3");
+        onAnyField.shouldHaveValue("5");
+        onFieldset.shouldHaveValue("5");
+        onInput.shouldHaveValue("4");
+        onSelect.shouldHaveValue("4");
 
         inputInFieldset.setValue("2");
-        // setValue makes 2 inputs !!!
-        onAnyField.shouldHaveValue("6");
-        onFieldset.shouldHaveValue("6");
-        // wasn't changed
-        onInput.shouldHaveValue("3");
-        // wasn't changed
-        onSelect.shouldHaveValue("3");
-
-        resetFieldsetBtn.click();
-        onAnyField.shouldHaveValue("7");
-        onFieldset.shouldHaveValue("7");
-        onInput.shouldHaveValue("7");
-
-        resetFieldBtn.click();
+        // setValue makes 3 inputs !!!
         onAnyField.shouldHaveValue("8");
         onFieldset.shouldHaveValue("8");
-        onInput.shouldHaveValue("8");
+        // wasn't changed
+        onInput.shouldHaveValue("4");
+        // wasn't changed
+        onSelect.shouldHaveValue("4");
+
+        resetFieldsetBtn.click();
+        onAnyField.shouldHaveValue("9");
+        onFieldset.shouldHaveValue("9");
+        onInput.shouldHaveValue("9");
+
+        resetFieldBtn.click();
+        onAnyField.shouldHaveValue("10");
+        onFieldset.shouldHaveValue("10");
+        onInput.shouldHaveValue("10");
     }
 }
