@@ -107,7 +107,9 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         );
         component.setAutoCheckboxOnSelect(p.cast(source.getCheckOnSelect(), p.resolve(property("n2o.api.widget.table.check_on_select"), Boolean.class)));
         component.setAutoSelect(p.cast(source.getAutoSelect(), p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
-        if (Boolean.TRUE.equals(source.getCheckboxes()))
+
+        if (Boolean.TRUE.equals(p.cast(source.getCheckboxes(),
+                p.resolve(property("n2o.api.widget.table.checkboxes"), Boolean.class))))
             component.setRowSelection(RowSelectionEnum.CHECKBOX);
 
         return table;
