@@ -71,6 +71,8 @@
 }
 
 .n2o-advanced-table {
+    overflow-x: auto;
+
     .row-click {
         cursor: pointer;
     }
