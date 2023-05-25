@@ -14,8 +14,9 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.env.PropertyResolver;
 
 import java.util.Map;
@@ -27,8 +28,9 @@ import static org.hamcrest.Matchers.*;
  * Тестирование компиляции приложения
  */
 public class ApplicationCompileTest extends SourceCompileTestBase {
+    
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -44,7 +46,7 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void application() {
+    void application() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/application/simpleApplication.application.xml")
                 .get(new ApplicationContext("simpleApplication"));
@@ -56,7 +58,7 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void properties() {
+    void properties() {
         PropertyResolver systemProperties = builder.getEnvironment().getSystemProperties();
         assertThat(systemProperties.getProperty("n2o.homepage.id"), is("index"));
         assertThat(systemProperties.getProperty("url"), is("http://example.org/?userId=123"));
@@ -64,7 +66,7 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void footer() {
+    void footer() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/footer.application.xml")
                 .get(new ApplicationContext("footer"));
         assertThat(application.getFooter().getSrc(), is("Footer"));
@@ -95,7 +97,7 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void events() {
+    void events() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/events.application.xml")
                 .get(new ApplicationContext("events"));
 
@@ -111,7 +113,7 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void sidebarWithDatasource() {
+    void sidebarWithDatasource() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/sidebarDatasource.application.xml")
                 .get(new ApplicationContext("sidebarDatasource"));
         assertThat(application.getWsPrefix(), nullValue());
@@ -138,7 +140,7 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void inlineSidebarDatasource() {
+    void inlineSidebarDatasource() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/inlineSidebarDatasource.application.xml")
                 .get(new ApplicationContext("inlineSidebarDatasource"));
         assertThat(application.getWsPrefix(), nullValue());
@@ -153,7 +155,7 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void datasourceWithDependencies() {
+    void datasourceWithDependencies() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/datasourceWithDependencies.application.xml")
                 .get(new ApplicationContext("datasourceWithDependencies"));
 

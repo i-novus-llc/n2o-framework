@@ -6,10 +6,18 @@
     <sidebars>
         <sidebar overlay="true" home-page-url="#">
             <nav>
-                <menu-item name="Пункт 1"><a href="#"/></menu-item>
-                <menu-item name="Пункт 2"><a href="#"/></menu-item>
-                <menu-item name="Пункт 3"><a href="#"/></menu-item>
-                <menu-item name="Пункт 4"><a href="#"/></menu-item>
+                <menu-item name="Пункт 1">
+                    <a href="#"/>
+                </menu-item>
+                <menu-item name="Пункт 2">
+                    <a href="#"/>
+                </menu-item>
+                <menu-item name="Пункт 3">
+                    <a href="#"/>
+                </menu-item>
+                <menu-item name="Пункт 4">
+                    <a href="#"/>
+                </menu-item>
             </nav>
         </sidebar>
     </sidebars>

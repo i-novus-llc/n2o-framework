@@ -8,16 +8,16 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.config.reader.ReferentialIntegrityViolationException;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class N2oMetadataRegisterTest {
 
     @Test
-    public void contains() {
+    void contains() {
         MetadataRegister register = new N2oMetadataRegister();
         SourceInfo info = new XmlInfo("test", N2oWidget.class, "test.widget.xml");
         register.add(info);
@@ -48,7 +48,7 @@ public class N2oMetadataRegisterTest {
     }
 
     @Test
-    public void get() {
+    void get() {
         MetadataRegister register = new N2oMetadataRegister();
         SourceInfo info = new XmlInfo("test", N2oWidget.class, "test.widget.xml");
         register.add(info);
@@ -65,12 +65,12 @@ public class N2oMetadataRegisterTest {
         //получение несуществующего
         try {
             register.get("test2", N2oWidget.class);
-            Assert.fail();
+            fail();
         } catch (ReferentialIntegrityViolationException ignore) { }
     }
 
     @Test
-    public void remove() {
+    void remove() {
         MetadataRegister register = new N2oMetadataRegister();
         SourceInfo info = new XmlInfo("test", N2oWidget.class, "test.widget.xml");
 
@@ -90,12 +90,12 @@ public class N2oMetadataRegisterTest {
         try {
             register.remove("test2", N2oWidget.class);
         } catch (Exception e) {
-            Assert.fail();
+            fail();
         }
     }
 
     @Test
-    public void cleanAll() {
+    void cleanAll() {
         MetadataRegister register = new N2oMetadataRegister();
         register.add(new XmlInfo("test1", N2oWidget.class, "test1.widget.xml"));
         register.add(new XmlInfo("test2", N2oWidget.class, "test2.widget.xml"));

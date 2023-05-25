@@ -16,8 +16,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
@@ -28,8 +28,9 @@ import static org.hamcrest.Matchers.is;
  * Тест на компиляцию переключателя ячеек
  */
 public class SwitchCellCompileTest extends SourceCompileTestBase {
+
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -38,16 +39,16 @@ public class SwitchCellCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(
-                    new N2oPagesPack(), 
-                    new N2oRegionsPack(),
-                    new N2oWidgetsPack(),
-                    new N2oCellsPack()
+                        new N2oPagesPack(),
+                        new N2oRegionsPack(),
+                        new N2oWidgetsPack(),
+                        new N2oCellsPack()
                 )
                 .ios(new SwitchCellElementIOv2());
     }
 
     @Test
-    public void testSwitchCell() {
+    void testSwitchCell() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testSwitchCell.page.xml")
                 .get(new PageContext("testSwitchCell"));
         Table table = (Table) page.getWidget();

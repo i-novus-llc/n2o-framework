@@ -11,8 +11,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.nullValue;
 public class BaseButtonCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -37,7 +37,7 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testButton() {
+    void testButton() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/toolbar/testButton.page.xml")
                 .get(new PageContext("testButton"));
 
@@ -65,7 +65,7 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testConfirm() {
+    void testConfirm() {
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/toolbar/testButtonConfirm.object.xml"));
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testButtonConfirm.page.xml")
                 .get(new PageContext("testButtonConfirm"));

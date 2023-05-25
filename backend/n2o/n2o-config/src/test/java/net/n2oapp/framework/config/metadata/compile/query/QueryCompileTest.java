@@ -18,8 +18,8 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -28,7 +28,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class QueryCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -44,7 +44,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testEmptyBody() {
+    void testEmptyBody() {
         CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml")
                 .get(new QueryContext("testEmptyBody"));
         assertThat(query.getSimpleFieldsMap().get("field").getSelectExpression(), is(nullValue()));
@@ -52,7 +52,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFieldNames() {
+    void testFieldNames() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
                 "net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/query/testQuery.page.xml");
@@ -80,7 +80,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
      * проверяется, что по этому контексту получим Query с саб-моделями
      */
     @Test
-    public void testSubModels() {
+    void testSubModels() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
                 "net/n2oapp/framework/config/metadata/compile/query/testSubModel.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/query/testSubModel.page.xml",
@@ -95,7 +95,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
 
 
     @Test
-    public void testRequiredPrefilters() {
+    void testRequiredPrefilters() {
         CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testRequiredFilters.query.xml")
                 .get(new QueryContext("testRequiredFilters"));
         assertThat(query.getFiltersMap().get("test").get(FilterType.eq).getRequired(), is(true));
@@ -109,7 +109,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
      * Для тестового провайдера тело для <select/>, <sorting/>, <filter/> генерируется автоматически
      */
     @Test
-    public void testTestDataProvider() {
+    void testTestDataProvider() {
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/query/testTestInvocationTransformer.query.xml"))
                 .transformers(new TestEngineQueryTransformer());
         CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testTestInvocationTransformer"));
@@ -118,7 +118,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testSeparatorsDefaultValue() {
+    void testSeparatorsDefaultValue() {
         CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testSeparatorsDefaultValue.query.xml")
                 .get(new QueryContext("testSeparatorsDefaultValue"));
         N2oRestDataProvider list = (N2oRestDataProvider) query.getLists()[0].getInvocation();

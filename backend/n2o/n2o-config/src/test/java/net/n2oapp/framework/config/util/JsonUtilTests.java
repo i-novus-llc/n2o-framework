@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.Test;
 import net.n2oapp.framework.api.JsonUtil;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
@@ -22,7 +22,7 @@ public class JsonUtilTests {
     public static final String pathRes = "net/n2oapp/framework/config/util/test-res.json";
 
     @Test
-    public void mergeTest() throws IOException {
+    void mergeTest() throws IOException {
         ClassLoader cl = this.getClass().getClassLoader();
         ObjectNode doc1 = (ObjectNode) objectMapper.readTree(cl.getResourceAsStream(path1));
         ObjectNode doc2 = (ObjectNode) objectMapper.readTree(cl.getResourceAsStream(path2));

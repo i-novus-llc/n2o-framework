@@ -9,8 +9,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class FormBinderTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -43,7 +43,7 @@ public class FormBinderTest extends SourceCompileTestBase {
      * Проверка резолва ссылок в submit в полях формы
      */
     @Test
-    public void fieldSubmit() {
+    void fieldSubmit() {
         ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/page/testFormBinderAutoSubmit.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml");
         PageContext context = new PageContext("testFormBinderAutoSubmit", "/p/w/:param0/form");

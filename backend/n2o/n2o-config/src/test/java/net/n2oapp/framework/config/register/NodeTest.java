@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.register;
 
 import net.n2oapp.framework.config.register.storage.Node;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -13,8 +13,9 @@ import java.io.File;
  * Time: 10:47
  */
 public class NodeTest {
+    
     @Test
-    public void testCalculateLocalPathByLocationPattern() throws Exception {
+    void testCalculateLocalPathByLocationPattern() throws Exception {
 
         String folderPath =
                 "classpath*:META-INF//conf/**/*.xml";
@@ -30,7 +31,7 @@ public class NodeTest {
 
 
     @Test
-    public void testCalculateLocalPathByDirectoryPath() throws Exception {
+    void testCalculateLocalPathByDirectoryPath() throws Exception {
 
         String folderPath = "C:/Temp";
         String absolutePath = "file:/C:/Temp/header/default.application.xml";
@@ -44,7 +45,7 @@ public class NodeTest {
 
 
     @Test
-    public void testCreateByLocationPattern() throws Exception {
+    void testCreateByLocationPattern() throws Exception {
         Resource resource = new ClassPathResource("net/n2oapp/framework/config/register/test-resource.xml");
         Node node = Node.byLocationPattern(resource, "classpath*:net/n2oapp/framework/**/*.xml");
         assert node.getLocalPath().equals("config/register/test-resource.xml");
@@ -62,7 +63,7 @@ public class NodeTest {
     }
 
     @Test
-    public void testCreateByDirectory() throws Exception {
+    void testCreateByDirectory() throws Exception {
         File file = new File("net/n2oapp/framework/config/test-resource.xml");
         Node node = Node.byDirectory(file, "net/n2oapp/framework");
         assert node.getLocalPath().equals("config/test-resource.xml");

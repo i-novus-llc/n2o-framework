@@ -1,6 +1,6 @@
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.api.Criteria;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class CollectionPageTest {
 
     @Test
-    public void testCalcPages() {
+    void testCalcPages() {
         Criteria criteria = new Criteria();
         CollectionPage page = new CollectionPage();
         page.setCriteria(criteria);
@@ -34,7 +34,7 @@ public class CollectionPageTest {
     }
 
     @Test
-    public void testSizeZero() {
+    void testSizeZero() {
         Criteria criteria = new Criteria();
         CollectionPage page = new CollectionPage();
         page.setCriteria(criteria);

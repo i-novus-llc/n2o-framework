@@ -9,15 +9,15 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class RadioGroupCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -32,7 +32,7 @@ public class RadioGroupCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testRadioGroupTypes() {
+    void testRadioGroupTypes() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/field/testRadioGroup.page.xml")
                 .get(new PageContext("testRadioGroup", "/test"));
         Form form = (Form) page.getWidget();
