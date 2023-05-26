@@ -64,4 +64,13 @@ public class LinkActionImpl extends AbstractAction<LinkActionPayload, MetaSaga> 
     public void setQueryMapping(Map<String, ModelLink> queryMapping) {
         getPayload().setQueryMapping(queryMapping);
     }
+
+    public Boolean getRestore() {
+        return getPayload().getRestore();
+    }
+
+    public void setRestore(Boolean restore) {
+       getPayload().setRestore(restore);
+    }
+
 }
