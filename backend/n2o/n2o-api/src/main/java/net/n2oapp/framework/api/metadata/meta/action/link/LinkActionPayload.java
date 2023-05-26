@@ -29,7 +29,7 @@ public class LinkActionPayload implements ActionPayload, UrlAware {
     private Map<String, ModelLink> queryMapping = new StrictMap<>();
 
     /**
-     * флаг для восстановления фильтров, используется в CloseAction и всегда true, если не в модалке
+     * Восстановление фильтров при возврате на предыдущую страницу
      */
     @JsonProperty
     private Boolean restore;
