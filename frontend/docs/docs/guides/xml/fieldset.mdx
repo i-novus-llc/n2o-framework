@@ -163,6 +163,24 @@ http://n2oapp.net/framework/config/schema/fieldset-5.0
 |badge-image-shape    |rounded, circle, square |Форма картинки в значке                      |circle               |
 |badge-image-position |left, right             |Позиция картинки в значке                    |left                 |
 
+**Настройки**
+```yaml
+#Значение по умолчанию для возможности раскрытия и сворачивания филдсета <line>
+n2o.api.fieldset.line.collapsible=true
+#Значение по умолчанию для наличия горизонтального делителя в филдсете <line>
+n2o.api.fieldset.line.has_separator=true
+#Значение по умолчанию для исходного состояния раскрытия филдсета <line>
+n2o.api.fieldset.line.expand=true
+#src филдсета с динамическим числом полей
+n2o.api.fieldset.line.badge.position=right
+#Значение по умолчанию для позиции бейджа филдсета <line>
+n2o.api.fieldset.line.badge.shape=square
+#Значение по умолчанию формы бейджа филдсета <line>
+n2o.api.fieldset.line.badge.image_position=left
+#Значение по умолчанию картинки в значке бейджа филдсета <line>
+n2o.api.fieldset.line.badge.image_shape=circle
+```
+
 **Пример**
 
 ```xml
@@ -191,7 +209,24 @@ http://n2oapp.net/framework/config/schema/fieldset-5.0
 |can-remove-all        |true false|Возможность удаления всех добавленных филдсетов                               |false                |
 |can-copy              |true false|Возможность копирования филдсета в новый (вместе с данными)                   |false                |
 |primary-key           |Строка    |Уникальный ключ каждого филдсета.                                             |id                   |
-|generate-primary-key  |true false|Генеровать ли уникальный ключ для каждого филдсета. Значение guid будет генерироваться в primary-key. |false|
+|generate-primary-key  |true false|Генерировать ли уникальный ключ для каждого филдсета. Значение guid будет генерироваться в primary-key. |false|
+
+**Настройки**
+```yaml
+#Значения по умолчанию для MultiFieldset
+#Удаление первого элемента
+n2o.api.fieldset.multi-set.can_remove_first_item=false
+#Добавление новых филдсетов
+n2o.api.fieldset.multi-set.can_add=true
+#Удаление новых филдсетов
+n2o.api.fieldset.multi-set.can_remove=true
+#Копирование филдсета в новый (вместе с данными)
+n2o.api.fieldset.multi-set.can_copy=false
+#Удаление всех добавленных филдсетов
+n2o.api.fieldset.multi-set.can_remove_all=false
+#Генерация уникального ключа для каждого филдсета.
+n2o.api.fieldset.multi-set.generate_primary_key=false
+```
 
 **Пример**
 
