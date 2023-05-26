@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import Layout from '@theme/Layout'
 import Link from '@docusaurus/Link'
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext'
-import { useColorMode } from '@docusaurus/theme-common';
+import useThemeContext from '@theme/hooks/useThemeContext'
 import useBaseUrl from '@docusaurus/useBaseUrl'
 
 import { Tabs } from '../components/Tabs/Tabs'
@@ -52,8 +52,7 @@ function TabComponent({ value }) {
 function Page() {
     const context = useDocusaurusContext()
     const { siteConfig = {} } = context
-    const { colorMode } = useColorMode();
-    const isDarkTheme = colorMode === 'dark'
+    const { isDarkTheme } = useThemeContext();
 
     return (
         <>
