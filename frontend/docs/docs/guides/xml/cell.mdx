@@ -36,6 +36,13 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 |subtext-format  |Строка    |Формат второго уровня текста            |                     |
 |icon            |Строка    |Иконка                                  |                     |
 |icon-position   |left right|Позиция иконки                          |left                 |
+
+**Настройки**
+```yaml
+#значение по умолчанию для позиции иконки у TextCell
+n2o.api.cell.text.icon_position=left
+```
+
 **Тело**
 
 [Переключатель](#switch_in_base)
@@ -68,6 +75,14 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 |icon        |Строка                                                                                  |Иконка ссылки                                              |                     |
 |type        |text icon iconAndText                                                                   |Текст с иконкой или без                                    |text                 |
 
+
+**Настройки**
+```yaml
+#Текст с иконкой или без
+n2o.api.cell.link.type=text
+```
+
+
 **Тело**
 
 [Обработчики действий](../xml/action)
@@ -99,6 +114,12 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 |icon        |[CSS класс](http://fontawesome.io/icons/)|Класс иконки       |                                     |
 |type        |icon iconAndText                         |С текстом или без  |icon                                 |
 |position    |right left                               |Расположение текста|                                     |
+
+**Настройки**
+```yaml
+#С текстом или без
+n2o.api.cell.icon.type=icon
+```
 
 **Тело**
 
@@ -171,6 +192,17 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 |striped     |true false                                                                     |С полосками?               |false                |
 |color       |Строка                                                                         |Цвет индикатора            |                     |
 
+
+**Настройки**
+```yaml
+# С анимацией загрузки
+n2o.api.cell.progress.active=false
+# С анимацией загрузки
+n2o.api.cell.progress.size=normal
+# С полосками
+n2o.api.cell.progress.striped=false
+```
+
 **Пример**
 
 ```xml
@@ -198,10 +230,20 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 |description  |Строка                                                                                 |Подзаголовок                                                   |                     |
 |text-position|top, left, right, bottom|Расположение текста относительно картинки                     |right                                                          |                     |
 
+**Настройки**
+```yaml
+#Ширина изображения (px)
+n2o.api.cell.image.width=
+#Форма изображения
+n2o.api.cell.image.shape=square
+#Расположение текста относительно картинки
+n2o.api.cell.image.text_position=right
+```
 
 **Тело**
 
-[Обработчики действий](../xml/action)
+[Обработчики действий](../xml/action)<br/>
+[Список статусов](#statuses)
 
 **Пример**
 
@@ -222,6 +264,42 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 ```
 
 <Sandbox height={250} projectId="uxcomponents_cells_image" />
+
+
+### &lt;statuses&gt; {#statuses}
+
+Список статусов.
+
+#### &lt;status&gt; {#status}
+
+Элемент статуса.
+
+**Атрибуты**
+
+|Наименование|Тип                                       |Описание                  |Значение по умолчанию|
+|------------|------------------------------------------|--------------------------|---------------------|
+|Src         |React компонент                           |Реализация статуса        |Status               |
+|field-id    |Строка                                    |Поле с данными для статуса|                     |
+|icon        |Строка                                    |Иконка статуса            |                     |
+|place       |topLeft, topRight, bottomLeft, bottomRight|Расположение статуса      |topLeft              |
+
+
+**Настройки**
+```yaml
+#Расположение статуса относительно картинки
+n2o.api.cell.image.status_place=topLeft
+```
+
+**Пример**
+
+```xml
+<status
+    field-id="status"
+    icon="{icon}"
+    place="topLeft"
+/>
+```
+
 
 ### &lt;file-upload&gt; {#file-upload-cell}
 
@@ -246,6 +324,25 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 |delete-icon     |Строка                                                            |Иконка удаления файлов                                  |                     |
 |upload-icon     |Строка                                                            |Иконка загрузки файлов                                  |                     |
 
+**Настройки**
+```yaml
+#Поддержка загрузки нескольких файлов
+n2o.api.cell.file_upload.multi=false
+#Поддержка загрузки через ajax запрос
+n2o.api.cell.file_upload.ajax=true
+#Поле выборки, содержащее идентификатор файла по умолчанию для file-upload
+n2o.api.cell.file_upload.value_field_id=id
+#Поле выборки, содержащее наименование файла по умолчанию для file-upload
+n2o.api.cell.file_upload.label_field_id=name
+#Поле выборки, содержащее URL скачивания файла по умолчанию для file-upload
+n2o.api.cell.file_upload.url_field_id=url
+#Поле выборки, содержащее сообщение файла по умолчанию для file-upload
+n2o.api.cell.file_upload.message_field_id=message
+#Наименование поля в запросе miltipart form data
+n2o.api.cell.file_upload.request_param=file
+#Отображение размера файла по умолчанию для file-upload
+n2o.api.cell.file_upload.show_size=true
+```
 
 **Пример**
 
@@ -257,33 +354,6 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 ```
 
 
-
-### &lt;statuses&gt; {#statuses}
-
-Список статусов.
-
-### &lt;status&gt; {#status}
-
-Элемент статуса.
-
-**Атрибуты**
-
-|Наименование|Тип                                       |Описание                  |Значение по умолчанию|
-|------------|------------------------------------------|--------------------------|---------------------|
-|Src         |React компонент                           |Реализация статуса        |Status               |
-|field-id    |Строка                                    |Поле с данными для статуса|                     |
-|icon        |Строка                                    |Иконка статуса            |                     |
-|place       |topLeft, topRight, bottomLeft, bottomRight|Расположение статуса      |topLeft              |
-
-**Пример**
-
-```xml
-<status
-    field-id="status"
-    icon="{icon}"
-    place="topLeft"
-/>
-```
 
 ### &lt;edit&gt; {#edit}
 
@@ -297,6 +367,14 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 |type        |inline, popup                                                                          |Расположение                                                                |inline               |
 |format      |Строка                                                                                 |Формат текста                                                               |                     |
 |enabled     |true false                                                                             |Условие доступности                                                         |true                 |
+
+**Настройки**
+```yaml
+#Расположение
+n2o.api.cell.edit.type=inline
+#Доступность для редактирования
+n2o.api.cell.edit.enabled=true
+```
 
 **Тело**
 
@@ -386,6 +464,17 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 |image-position |right, left             |Позиция картинки в значке                     |left                 |
 |image-shape    |square, circle, rounded |Форма картинки в значке                       |circle               |
 
+
+**Настройки**
+```yaml
+#Форма значка BadgeCell
+n2o.api.cell.badge.shape=square
+#Позиция картинки в значке BadgeCell
+n2o.api.cell.badge.image_position=left
+#Форма картинки в значке BadgeCell
+n2o.api.cell.badge.image_shape=circle
+```
+
 **Тело**
 
 [Переключатель цвета](#switch_in_base)
@@ -442,6 +531,19 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 |readonly    |true false                                                                             |Предназначен только для чтения                                                                          |true                 |
 |action-id   |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions)|Ссылка на обработчик изменения рейтинга                                                                 |                     |
 
+**Настройки**
+```yaml
+#вывод подсказки по умолчанию для RatingCell
+n2o.api.cell.rating.showTooltip=false
+#Использование по умолчанию помимо целых чисел также и
+# половинок целых чисел в качестве значений RatingCell
+n2o.api.cell.rating.half=false
+#максимальное значение по умолчанию для RatingCell
+n2o.api.cell.rating.max=5
+#Значение по умолчанию для аттрибута readonly RatingCell
+n2o.api.cell.rating.readonly=true
+```
+
 **Тело**
 
 [Обработчики действий](../xml/action)
@@ -477,6 +579,13 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 |dashed-label|true false |Подчеркивание заголовка пунктиром                                                                                                                                                                        |true                 |
 |trigger     |click hover|Действие, при котором раскрывается список                                                                                                                                                                |hover                |
 
+**Настройка**
+```yaml
+#триггер по умолчанию для ListTextCell
+n2o.api.cell.tooltip_list.trigger=hover
+#подчеркивание заголовка пунктиром по умолчанию для ListTextCell
+n2o.api.cell.tooltip_list.dashed_label=true
+```
 **Пример**
 
 ```xml
