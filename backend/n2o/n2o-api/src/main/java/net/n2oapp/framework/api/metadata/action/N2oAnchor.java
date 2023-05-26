@@ -19,6 +19,11 @@ public class N2oAnchor extends N2oAbstractAction implements N2oAction {
     private N2oParam[] pathParams;
     private N2oParam[] queryParams;
 
+    /**
+     * флаг для восстановления фильтров, используется в CloseAction и всегда true, если не в модалке
+     */
+    private Boolean restore;
+
     public N2oAnchor() {
     }
 

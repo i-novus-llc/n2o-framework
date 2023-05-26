@@ -27,4 +27,10 @@ public class LinkActionPayload implements ActionPayload, UrlAware {
     private Map<String, ModelLink> pathMapping = new StrictMap<>();
     @JsonProperty
     private Map<String, ModelLink> queryMapping = new StrictMap<>();
+
+    /**
+     * флаг для восстановления фильтров, используется в CloseAction и всегда true, если не в модалке
+     */
+    @JsonProperty
+    private Boolean restore;
 }

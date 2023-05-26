@@ -59,6 +59,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
                 anchor.setHref("/");
                 anchor.setTarget(Target.application);
             }
+            anchor.setRestore(Boolean.TRUE);
             return p.compile(anchor, context);
         }
     }

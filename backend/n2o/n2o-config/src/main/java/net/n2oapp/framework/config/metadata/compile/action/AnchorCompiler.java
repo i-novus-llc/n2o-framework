@@ -41,6 +41,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         source.setSrc(p.cast(source.getSrc(),
                 p.resolve(Placeholders.property("n2o.api.action.link.src"), String.class)));
         linkAction.setType(p.resolve(property("n2o.api.action.link.type"), String.class));
+
         compileAction(linkAction, source, p);
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         Target sourceTarget = source.getTarget();
@@ -58,6 +59,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
 
         Target target = p.cast(source.getTarget(), Target.self);
         linkAction.setTarget(target);
+        linkAction.setRestore(source.getRestore());
         PageRoutes pageRoutes = p.getScope(PageRoutes.class);
         if (pageRoutes != null && Target.application.equals(source.getTarget())) {
             PageRoutes.Route pageRoute = new PageRoutes.Route(path);
