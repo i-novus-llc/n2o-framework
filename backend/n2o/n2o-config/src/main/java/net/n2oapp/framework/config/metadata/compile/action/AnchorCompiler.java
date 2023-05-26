@@ -56,7 +56,6 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
             }
         }
         initUrl(linkAction, path, source, routeScope, p);
-
         Target target = p.cast(source.getTarget(), Target.self);
         linkAction.setTarget(target);
         linkAction.setRestore(Boolean.TRUE);
