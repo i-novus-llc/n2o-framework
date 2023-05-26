@@ -6,8 +6,6 @@ import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.compile.ButtonGeneratorFactory;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Button;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
@@ -15,7 +13,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -51,8 +48,10 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
         compileBase(submenu, source, context, p);
         submenu.setId(source.getId() == null ? "subMenu" + idx.get() : source.getId());
         source.setId(submenu.getId());
-        submenu.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.submenu.src"), String.class)));
-        submenu.setShowToggleIcon(p.cast(source.getShowToggleIcon(), true));
+        submenu.setSrc(p.cast(source.getSrc(),
+                p.resolve(property("n2o.api.action.submenu.src"), String.class)));
+        submenu.setShowToggleIcon(p.cast(source.getShowToggleIcon(),
+                p.resolve(property("n2o.api.submenu.show_toggle_icon"), Boolean.class)));
 
         compileCondition(source, submenu, p, p.getScope(ComponentScope.class));
 
