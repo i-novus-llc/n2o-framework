@@ -22,6 +22,13 @@ function ButtonUploaderChildren(props) {
     )
 }
 
+ButtonUploaderChildren.propTypes = {
+    children: PropTypes.node,
+    icon: PropTypes.string,
+    label: PropTypes.string,
+    disabled: PropTypes.bool,
+}
+
 function ButtonUploader(props) {
     const { t, children, icon, disabled = false, label = t('uploadFile') } = props
 
