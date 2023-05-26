@@ -26,8 +26,9 @@ import net.n2oapp.framework.engine.data.N2oInvocationFactory;
 import net.n2oapp.framework.engine.data.N2oQueryExceptionHandler;
 import net.n2oapp.framework.engine.data.N2oQueryProcessor;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Properties;
@@ -47,8 +48,8 @@ public class NormalizeFunctionsTest {
     private N2oApplicationBuilder builder;
     private N2oInvocationFactory factory;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         ContextProcessor contextProcessor = new ContextProcessor(new TestContextEngine());
         factory = mock(N2oInvocationFactory.class);
         queryProcessor = new N2oQueryProcessor(factory, new N2oQueryExceptionHandler());
@@ -70,7 +71,7 @@ public class NormalizeFunctionsTest {
     }
 
     @Test
-    public void testJsonToMap() {
+    void testJsonToMap() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testJsonToMap.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testJsonToMap"));
@@ -97,7 +98,7 @@ public class NormalizeFunctionsTest {
     }
 
     @Test
-    public void testMapToJson() {
+    void testMapToJson() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testMapToJson.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testMapToJson"));
@@ -113,7 +114,7 @@ public class NormalizeFunctionsTest {
     }
 
     @Test
-    public void testBase64EncodeDecode() {
+    void testBase64EncodeDecode() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testBase64EncodeDecode.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testBase64EncodeDecode"));
@@ -130,7 +131,7 @@ public class NormalizeFunctionsTest {
     }
 
     @Test
-    public void testFormatByMask() {
+    void testFormatByMask() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testFormatByMask.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testFormatByMask"));
@@ -145,7 +146,7 @@ public class NormalizeFunctionsTest {
     }
 
     @Test
-    public void testNamesFormat() {
+    void testNamesFormat() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testNamesFormat.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testNamesFormat"));
@@ -162,7 +163,7 @@ public class NormalizeFunctionsTest {
     }
 
     @Test
-    public void testAnnotatedFunction() {
+    void testAnnotatedFunction() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testAnnotatedFunction.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testAnnotatedFunction"));

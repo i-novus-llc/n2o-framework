@@ -1,8 +1,7 @@
 package net.n2oapp.properties;
 
 import net.n2oapp.properties.reader.PropertiesReader;
-import net.n2oapp.properties.web.WebApplicationProperties;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author iryabov
@@ -11,7 +10,7 @@ import org.junit.Test;
 public class ExpressionBasePropertiesTest {
 
     @Test
-    public void testOverride() {
+    void testOverride() {
         ExpressionBasedProperties properties = new ExpressionBasedProperties(PropertiesReader
                 .getPropertiesFromClasspath("web/env.properties", "web/build.properties", "web/default.properties"));
         assert properties.get("test.level").equals("env");
@@ -19,7 +18,7 @@ public class ExpressionBasePropertiesTest {
     }
 
     @Test
-    public void testWithoutExpr() {
+    void testWithoutExpr() {
         ExpressionBasedProperties properties = new ExpressionBasedProperties();
         properties.setProperty("test", "123");
         assert properties.get("test").equals("123");
@@ -27,7 +26,7 @@ public class ExpressionBasePropertiesTest {
     }
 
     @Test
-    public void testWithExpr() {
+    void testWithExpr() {
         ExpressionBasedProperties properties = new ExpressionBasedProperties();
         properties.setProperty("test", "#{123}");
         assert properties.get("test").equals("123");
@@ -47,7 +46,7 @@ public class ExpressionBasePropertiesTest {
     }
 
     @Test
-    public void testExprError() {
+    void testExprError() {
         ExpressionBasedProperties properties = new ExpressionBasedProperties();
         properties.setProperty("test", "#{123");
         try {
@@ -74,14 +73,14 @@ public class ExpressionBasePropertiesTest {
     }
 
     @Test
-    public void testExprNull() {
+    void testExprNull() {
         ExpressionBasedProperties properties = new ExpressionBasedProperties();
         properties.setProperty("test", "#{null}");
         assert "".equals(properties.get("test"));
     }
 
     @Test
-    public void testSystemVariables() {
+    void testSystemVariables() {
         ExpressionBasedProperties properties = new ExpressionBasedProperties();
         properties.setProperty("system", "#{systemProperties['user.name']}");
         assert properties.get("system").equals(System.getProperty("user.name"));

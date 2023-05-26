@@ -22,7 +22,8 @@ import net.n2oapp.framework.engine.modules.stack.SpringDataProcessingStack;
 import net.n2oapp.framework.engine.validation.N2oValidationModule;
 import net.n2oapp.framework.engine.validation.engine.ValidationProcessor;
 import net.n2oapp.framework.ui.controller.action.OperationController;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -41,7 +42,7 @@ public class DataControllerTest extends DataControllerTestBase {
      * Тест whitelist + inline condition, mandatory, constraint + control inline валидации
      */
     @Test
-    public void test() {
+    void test() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipeline();
 
         Map<String, String[]> params = new HashMap<>();
@@ -77,7 +78,7 @@ public class DataControllerTest extends DataControllerTestBase {
      * Проверяется, что <validations/> в операции включает все валидации объекта, где enabled == true
      */
     @Test
-    public void testAllEnabledValidations() {
+    void testAllEnabledValidations() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipeline();
 
         Map<String, String[]> params = new HashMap<>();
@@ -110,7 +111,7 @@ public class DataControllerTest extends DataControllerTestBase {
      * Проверяется, что после danger валидации не валидируются warning, success, info
      */
     @Test
-    public void testDangerSeverity() {
+    void testDangerSeverity() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipeline();
 
         Map<String, String[]> params = new HashMap<>();
@@ -140,7 +141,7 @@ public class DataControllerTest extends DataControllerTestBase {
      * Проверяется black-list в валидациях операции
      */
     @Test
-    public void testBlackList() {
+    void testBlackList() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipeline();
 
         Map<String, String[]> params = new HashMap<>();
@@ -171,7 +172,7 @@ public class DataControllerTest extends DataControllerTestBase {
      * то сработает Mandatory валидация для этого поля
      */
     @Test
-    public void testRequiredControl() {
+    void testRequiredControl() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipeline();
 
         Map<String, String[]> params = new HashMap<>();
@@ -190,7 +191,7 @@ public class DataControllerTest extends DataControllerTestBase {
      * соответствующее ему поле валидируется Mandatory валидацией
      */
     @Test
-    public void testRequiredInParam() {
+    void testRequiredInParam() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipeline();
 
         Map<String, String[]> params = new HashMap<>();
@@ -208,7 +209,7 @@ public class DataControllerTest extends DataControllerTestBase {
      * Inline валидации полей с visible = false или не выполняющимся visibility не срабатывают
      */
     @Test
-    public void testFieldVisibility() {
+    void testFieldVisibility() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipeline();
 
         Map<String, String[]> params = new HashMap<>();
@@ -229,7 +230,7 @@ public class DataControllerTest extends DataControllerTestBase {
      * Валидация должна фейлиться на пустых списках и мапах.
      */
     @Test
-    public void testRequiredListControl() {
+    void testRequiredListControl() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipeline();
 
         Map<String, String[]> params = new HashMap<>();
@@ -248,7 +249,7 @@ public class DataControllerTest extends DataControllerTestBase {
      * Проверка operation in param.
      */
     @Test
-    public void testOperationMapping() {
+    void testOperationMapping() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipeline();
 
         //Параметры не превращаются в body, но учитываются в in field

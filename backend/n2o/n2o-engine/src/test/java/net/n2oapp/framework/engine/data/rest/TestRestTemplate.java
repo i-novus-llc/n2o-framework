@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
 public class TestRestTemplate extends RestTemplate {
+
     private String query;
     private Object requestBody;
     private ClientHttpResponse mockResponse;

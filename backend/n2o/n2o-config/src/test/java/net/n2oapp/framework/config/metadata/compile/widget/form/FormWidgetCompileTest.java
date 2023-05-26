@@ -34,8 +34,8 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ import static org.hamcrest.Matchers.is;
  */
 public class FormWidgetCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -65,7 +65,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void uploadDefaults() {
+    void uploadDefaults() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormCompile.page.xml")
                 .get(new PageContext("testFormCompile"));
         assertThat(page.getWidget().getId(), is("testFormCompile_main"));
@@ -77,7 +77,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void uploadQuery() {
+    void uploadQuery() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormCompile2.page.xml")
                 .get(new PageContext("testFormCompile2"));
         assertThat(page.getWidget().getId(), is("testFormCompile2_main"));
@@ -90,7 +90,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFormClientValidations() {
+    void testFormClientValidations() {
         PageContext pageContext = new PageContext("testFormValidations");
         pageContext.setSubmitOperationId("test");
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.page.xml",
@@ -153,7 +153,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFormPreFilterValidations() {
+    void testFormPreFilterValidations() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormPreFilterValidation.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormPreFilterValidation.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.object.xml")
@@ -167,7 +167,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFormStyles() {
+    void testFormStyles() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormRowColCompile.page.xml")
                 .get(new PageContext("testFormRowColCompile"));
         Form form = (Form) page.getWidget();
@@ -184,7 +184,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testSubmit() {
+    void testSubmit() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormSubmit.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.object.xml")
                 .get(new PageContext("testFormSubmit"));
@@ -231,7 +231,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testSubmitInModal() {
+    void testSubmitInModal() {
         compile("net/n2oapp/framework/config/metadata/compile/widgets/testSubmitInModalIndex.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testSubmitInModal.page.xml"
         ).get(new PageContext("testSubmitInModalIndex"));
@@ -251,7 +251,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFormAsFilter() {
+    void testFormAsFilter() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormAsFilter.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormAsFilter.query.xml")
                 .get(new PageContext("testFormAsFilter"));
@@ -260,7 +260,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testInlineDatasource() {
+    void testInlineDatasource() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormInlineDatasource.page.xml")
                 .get(new PageContext("testFormInlineDatasource"));
 
@@ -269,7 +269,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFetchOnInitAndOnVisibility() {
+    void testFetchOnInitAndOnVisibility() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFetchOnInitOnVisibility.page.xml")
                 .get(new PageContext("testFetchOnInitOnVisibility"));
 

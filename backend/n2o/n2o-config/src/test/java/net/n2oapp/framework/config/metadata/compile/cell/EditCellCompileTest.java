@@ -15,8 +15,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.control.InputTextCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ import static org.hamcrest.Matchers.*;
 public class EditCellCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -45,7 +45,7 @@ public class EditCellCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCompileEditCell() {
+    void testCompileEditCell() {
         PageContext context = new PageContext("testEditCell", "main/:id/open");
         context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModel.resolve, "main")));
         Map<String, ModelLink> mapping = new HashMap<>();

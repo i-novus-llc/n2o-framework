@@ -1,18 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
+import classNames from 'classnames'
 import { withTranslation } from 'react-i18next'
 import { compose } from 'recompose'
 
 import withFileUploader from './withFileUploader'
 import FileUploader from './FileUploader'
 
-function createButtonUploaderChildren(icon, label, children) {
+function ButtonUploaderChildren(props) {
+    const { children, icon, label, disabled } = props
+
     return (
-        <div className="n2o-button-uploader-btn btn btn-secondary">
+        <div className={classNames('n2o-button-uploader-btn btn btn-secondary', { disabled })}>
             {children || (
                 <>
-                    <div className={cn('n2o-file-uploader-icon', { [icon]: icon })} />
+                    <div className={classNames('n2o-file-uploader-icon', { [icon]: icon })} />
                     <span>{label}</span>
                 </>
             )}
@@ -21,19 +23,13 @@ function createButtonUploaderChildren(icon, label, children) {
 }
 
 function ButtonUploader(props) {
-    const { t, children, icon, label = t('uploadFile') } = props
-    const childrenComponent = createButtonUploaderChildren(
-        icon,
-        label,
-        children,
-    )
+    const { t, children, icon, disabled = false, label = t('uploadFile') } = props
 
     return (
-        <FileUploader
-            {...props}
-            componentClass="n2o-button-uploader"
-        >
-            {childrenComponent}
+        <FileUploader {...props} componentClass="n2o-button-uploader">
+            <ButtonUploaderChildren icon={icon} label={label} disabled={disabled}>
+                {children}
+            </ButtonUploaderChildren>
         </FileUploader>
     )
 }
