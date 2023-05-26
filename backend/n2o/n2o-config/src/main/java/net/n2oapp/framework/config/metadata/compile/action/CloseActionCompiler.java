@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
+import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
@@ -59,8 +60,9 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
                 anchor.setHref("/");
                 anchor.setTarget(Target.application);
             }
-            anchor.setRestore(Boolean.TRUE);
-            return p.compile(anchor, context);
+            LinkActionImpl compiled = p.compile(anchor, context);
+            compiled.setRestore(Boolean.TRUE);
+            return compiled;
         }
     }
 
