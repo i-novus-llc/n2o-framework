@@ -59,7 +59,8 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
 
         Target target = p.cast(source.getTarget(), Target.self);
         linkAction.setTarget(target);
-        linkAction.setRestore(source.getRestore());
+        if (source.getRestore())
+            linkAction.setRestore(source.getRestore());
         PageRoutes pageRoutes = p.getScope(PageRoutes.class);
         if (pageRoutes != null && Target.application.equals(source.getTarget())) {
             PageRoutes.Route pageRoute = new PageRoutes.Route(path);
