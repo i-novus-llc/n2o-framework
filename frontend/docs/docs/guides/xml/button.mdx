@@ -36,6 +36,21 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |visible              |Строка                                                                     |Видимость по умолчанию.         |                          |
 |enabled              |Строка                                                                     |Доступность по умолчанию.       |                          |
 
+
+**Настройки**
+```yaml
+#Позиция по умолчанию подсказки для кнопки
+n2o.api.button.tooltip_position=bottom
+#Позиция значка для кнопки
+n2o.api.button.badge.position=right
+#Форма значка для кнопки
+n2o.api.button.badge.shape=circle
+#Позиция картинки в значке для кнопки
+n2o.api.button.badge.image_position=left
+#Форма картинки в значке для кнопки
+n2o.api.button.badge.image_shape=circle
+```
+
 ### &lt;button&gt; {#button_in_button}
 
 Кнопка.
@@ -57,6 +72,23 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |confirm-cancel-label     |Строка                                                                |Текст кнопки отмены.                                                                                                                                                                            |                                |
 |confirm-cancel-color     |primary, secondary, success, danger, warning, info, light, dark, link |Цвет кнопки отмены.                                                                                                                                                                             |secondary                       |
 |disable-on-empty-model   |true false auto                                                       |Недоступность кнопки при пустой модели. `true` - всегда недоступна,`false` - всегда доступна, `auto` - недоступна только при пустой модели resolve, для всех остальных моделей доступна всегда. |auto                            |
+
+
+**Настройки**
+```yaml
+# Круглая форма кнопки
+n2o.api.button.rounded=false
+# недоступность кнопки при пустой модели
+n2o.api.button.disable_on_empty_model=auto
+#Наличие закрывающего крестика в диалоговом окне подтверждения действия
+n2o.api.button.confirm.close_button=false
+#Значение по умолчанию для цвета кнопки подтверждения в диалоговом окне подтверждения действия
+n2o.api.button.confirm.ok_color=primary
+#Значение по умолчанию для цвета кнопки отмены в диалоговом окне подтверждения действия
+n2o.api.button.confirm.cancel_color=secondary
+#Перестановка кнопок в диалоговом окне подтверждения
+n2o.api.button.confirm.reverse_buttons=false
+```
 
 **Тело**<br/>
 Ссылка на [Обработчик действия](../xml/action)<br/>
