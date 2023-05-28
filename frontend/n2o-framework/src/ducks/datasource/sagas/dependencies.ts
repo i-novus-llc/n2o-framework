@@ -23,6 +23,7 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
 
     switch (type) {
         case DependencyTypes.fetch: {
+            // @ts-ignore непонял как поправить FIXME
             yield put(dataRequest(id, { page: 1 }))
 
             break
