@@ -14,13 +14,17 @@
 }
 
 .n2o-multi-fieldset__container {
-    padding: 1rem 0;
+    padding: 0.5rem 0;
     border-bottom: 1px solid $gray-200;
 }
 
 .n2o-multi-fieldset__label {
     margin: 0.5rem 0;
     font-size: 1.2rem;
+}
+
+.n2o-multi-fieldset__label.empty {
+    margin: 0;
 }
 
 .n2o-multi-fieldset__item {

@@ -5,7 +5,6 @@ import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import first from 'lodash/first'
 import some from 'lodash/some'
-import every from 'lodash/every'
 import each from 'lodash/each'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
@@ -111,7 +110,7 @@ function* switchTab(action) {
 
                     const isPassed = (tabSecurityRule, userProperties) => {
                         if (tabSecurityRule) {
-                            return every(tabSecurityRule, rule => userProperties.includes(rule))
+                            return some(tabSecurityRule, rule => userProperties.includes(rule))
                         }
 
                         return true

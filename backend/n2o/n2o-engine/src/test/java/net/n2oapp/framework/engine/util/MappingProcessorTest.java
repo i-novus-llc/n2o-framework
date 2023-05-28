@@ -9,7 +9,8 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReference
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.expression.ExpressionParser;
@@ -18,8 +19,8 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertThrows;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -29,7 +30,7 @@ import static org.mockito.Mockito.when;
 public class MappingProcessorTest {
 
     @Test
-    public void testInMap() {
+    void testInMap() {
         TestEntity result = new TestEntity();
         TestEntity.InnerEntity innerEntity = new TestEntity.InnerEntity();
         result.setInnerObj(innerEntity);
@@ -44,7 +45,7 @@ public class MappingProcessorTest {
     }
 
     @Test
-    public void testOutMap() {
+    void testOutMap() {
         TestEntity test = new TestEntity();
         test.setValueStr("string");
         String result = MappingProcessor.outMap(test, "valueStr", String.class);
@@ -60,7 +61,7 @@ public class MappingProcessorTest {
     }
 
     @Test
-    public void testMapParameters() {
+    void testMapParameters() {
         testEntityMapping();
         testEntityCollectionMapping();
     }
@@ -162,7 +163,7 @@ public class MappingProcessorTest {
     }
 
     @Test
-    public void testExtractMapping() {
+    void testExtractMapping() {
         Map<String, AbstractParameter> parameters = new LinkedHashMap<>();
         ObjectSimpleField param = new ObjectSimpleField();
         param.setId("a");
@@ -181,7 +182,7 @@ public class MappingProcessorTest {
     }
 
     @Test
-    public void testResolveCondition() {
+    void testResolveCondition() {
         Map<String, Object> data = Map.of("request", Map.of("status", "CREATED"));
         String falseCondition = "request.status == 'PROCESSING'";
         String trueCondition = "request.status == 'CREATED'";
@@ -193,7 +194,7 @@ public class MappingProcessorTest {
     }
 
     @Test
-    public void normalizeValue() {
+    void normalizeValue() {
         ExpressionParser parser = new SpelExpressionParser();
         BeanFactory beanFactory = mock(BeanFactory.class);
         when(beanFactory.getBean("myBean")).thenReturn(new MappingProcessorTest.MyBean());
@@ -204,22 +205,26 @@ public class MappingProcessorTest {
         assertThat(MappingProcessor.normalizeValue(obj, "#data['name']", data, parser, beanFactory), is("John"));
         assertThat(MappingProcessor.normalizeValue(obj, "@myBean.call()", data, parser, beanFactory), is("Doe"));
 
-        assertThrows(N2oSpelException.class,
-                () -> MappingProcessor.normalizeValue(obj, "#this + '100", data, parser, beanFactory));
+        assertThrows(
+                N2oSpelException.class,
+                () -> MappingProcessor.normalizeValue(obj, "#this + '100", data, parser, beanFactory)
+        );
     }
 
     @Test
-    public void testException() {
+    void testException() {
         ContextProcessor contextProcessor = Mockito.mock(ContextProcessor.class);
 
-        N2oSpelException n2oSpelException = assertThrows(N2oSpelException.class, () -> MappingProcessor
-                .outMap(new DataSet(), new DataSet(), "fieldId", "['id'] ? 0 :", null, contextProcessor));
+        N2oSpelException n2oSpelException = assertThrows(
+                N2oSpelException.class,
+                () -> MappingProcessor.outMap(new DataSet(), new DataSet(), "fieldId", "['id'] ? 0 :", null, contextProcessor)
+        );
         assertThat(n2oSpelException.getCause(), instanceOf(IllegalArgumentException.class));
         assertThat(n2oSpelException.getFieldId(), is("fieldId"));
         assertThat(n2oSpelException.getMapping(), is("['id'] ? 0 :"));
     }
 
-    public static class MyBean {
+    static class MyBean {
         public String call() {
             return "Doe";
         }

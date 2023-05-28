@@ -4,10 +4,8 @@ import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
 import net.n2oapp.framework.api.register.scan.MetadataScanner;
-import net.n2oapp.framework.config.reader.GroovySourceReader;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
-import net.n2oapp.framework.config.register.scanner.FolderInfoScanner;
 import net.n2oapp.framework.config.register.storage.Node;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import org.slf4j.Logger;
@@ -45,11 +43,6 @@ public class RegisterUtil {
                     "Metadata filename '" + absolutePath + "' should canResolved identifier, type of n2oMetadata, xml extension. For example: ResourceGroup.object.xml");
         }
         return parts;
-    }
-
-    public static GroovyInfo createScriptInfo(Node node, SourceTypeRegister sourceTypeRegister) {
-        ConfigId configId = getConfigIdByLocalPath(node.getLocalPath(), sourceTypeRegister);
-        return new GroovyInfo(configId.getId(), configId.getBaseSourceClass(), node.getURI(), node.getLocalPath());
     }
 
     /*
@@ -99,13 +92,6 @@ public class RegisterUtil {
         info.setOrigin(Origin.xml);
         info.setReaderClass(XmlMetadataLoader.class);
     }
-
-    @Deprecated
-    private static void baseForGroovyInfo(InfoConstructor info) {
-        info.setOrigin(Origin.groovy);
-        info.setReaderClass(GroovySourceReader.class);
-    }
-
 
     public static <T extends SourceInfo> List<T> collectInfo(List<Node> nodes,
                                                          Function<Node, T> mapper) {

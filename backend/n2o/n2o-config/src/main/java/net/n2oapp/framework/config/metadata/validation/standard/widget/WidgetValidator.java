@@ -53,7 +53,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
                     for (ToolbarItem item : toolbar.getItems()) {
                         if (item instanceof N2oButton) {
                             menuItems.add((N2oButton) item);
-                        } else if (item instanceof N2oSubmenu) {
+                        } else if (item instanceof N2oSubmenu && (((N2oSubmenu) item).getMenuItems() != null)) {
                             menuItems.addAll(Arrays.asList(((N2oSubmenu) item).getMenuItems()));
                         }
                     }

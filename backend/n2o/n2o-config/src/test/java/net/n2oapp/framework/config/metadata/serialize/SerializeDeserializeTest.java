@@ -13,8 +13,8 @@ import net.n2oapp.framework.config.selective.XmlIOReader;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import net.n2oapp.framework.config.util.FileSystemUtil;
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class SerializeDeserializeTest extends SourceCompileTestBase {
     boolean print = true;
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -46,22 +46,22 @@ public class SerializeDeserializeTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void serializeSimplePage3Table() throws IOException {
+    void serializeSimplePage3Table() throws IOException {
         check("net/n2oapp/framework/config/metadata/serialize/serializeSimplePage3Table.page.xml", "serializeSimplePage3Table", N2oSimplePage.class);
     }
 
     @Test
-    public void serializeSimplePage4Table() throws IOException {
+    void serializeSimplePage4Table() throws IOException {
         check("net/n2oapp/framework/config/metadata/serialize/serializeSimplePage4Table.page.xml", "serializeSimplePage4Table", N2oSimplePage.class);
     }
 
     @Test
-    public void serializePage4() throws IOException {
+    void serializePage4() throws IOException {
         check("net/n2oapp/framework/config/metadata/serialize/serializePage4.page.xml", "serializePage4", N2oStandardPage.class);
     }
 
     @Test
-    public void serializeSimplePage4Form() throws IOException {
+    void serializeSimplePage4Form() throws IOException {
         check("net/n2oapp/framework/config/metadata/serialize/simplePage4Form.page.xml", "simplePage4Form", N2oSimplePage.class);
     }
 

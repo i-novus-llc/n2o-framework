@@ -6,7 +6,7 @@
       "templates": [
         {
           "templateId": "versions/7.25/list_out_params",
-          "name": "List в out параметрах"
+          "name": "Вложенные поля в <out> параметрах операции"
         }
       ]
     },

@@ -241,7 +241,6 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         DataSet result = new DataSet();
         for (Map.Entry<String, FieldMapping> map : fieldsMapping.entrySet()) {
             String fieldMapping = map.getValue().getMapping() != null ? map.getValue().getMapping() : Placeholders.spel(map.getKey());
-            //Object value = outMap(source, fieldMapping, Object.class);
             outMap(result, source, map.getKey(), fieldMapping, null, contextProcessor);
             if (map.getValue().getChildMapping() != null) {
                 Object value = result.get(map.getKey());

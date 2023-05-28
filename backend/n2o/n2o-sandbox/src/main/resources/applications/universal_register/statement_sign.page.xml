@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Заявление на прикрепление">
+<datasources>
+    <parent-datasource id="statement"/>
+    <inherited-datasource source-datasource="statement" id="drawer" source-model="resolve">
+        
+    </inherited-datasource>
+        
+
+</datasources>
+    <regions>
+            <form datasource="drawer">
+                <fields>
+                    <row>
+                        <text id="fio_text">
+                            ФИО
+                        </text>
+                            <text id="fio">{fio}</text>
+                    </row>
+                    <row>
+                        <text id="snils_text">
+                            СНИЛС
+                        </text>
+                            <text id="snils">{snils}</text>
+                    </row>
+                     <row>
+                        <text id="phone_text">
+                            Телефон
+                        </text>
+                            <text id="phone">{drawerPhone}</text>
+                    </row>
+                    <row>
+                        <text id="birthday_text">
+                            Дата рождения
+                        </text>
+                        <text id="birthday" format="date DD.MM.YYYY">{birthday}</text>
+                    </row>
+                    <row>
+                        <text id="gender_text">
+                            Пол
+                        </text>
+                        <text id="gender.name">{gender.name}</text>
+                    </row>
+                    <row>
+                        <text id="compulsory_serie_text">
+                            Полис ОМС(серия)
+                        </text>
+                        <text id="compulsory_serie">{compulsory.serie}</text>
+                    </row>
+                    <row>
+                        <text id="compulsory_number_text">
+                            Полис ОМС(номер)
+                        </text>
+                        <text id="compulsory_number">{compulsory.number}</text>
+                    </row>
+                    <row>
+                        <text id="compulsory_org_text">
+                            Организация, выдавшая страховой полис
+                        </text>
+                        <text id="compulsory_number">{compulsory.org}</text>
+                    </row>
+                    <row>
+                        <text id="addres_text">
+                                    Домашний адрес
+                                </text>
+                        <text id="address">{fullAddress}</text>
+                    </row>
+                    <row>
+                        <text id="reg_addres_text">
+                                    Адрес регистрации
+                                </text>
+                        <text id="reg_addres">{regAddress}</text>
+                    </row>
+                    <row>
+                        <text id="medOrg_check_text">
+                                    Прикреплен к МО?
+                                </text>
+                        <text id="medOrg_check">{medOrg_check}</text>
+                    </row>
+                    <row>
+                        <text id="medOrg__name_text">
+                                    Наименование МО
+                                </text>
+                        <text id="medOrg__name">{organization.name}</text>
+                    </row>
+                    <row>
+                        <text id="newOrg__name_text">
+                                    МО для прикрепления
+                                </text>
+                        <text id="newOrg__name">{newOrganization.name}</text>
+                    </row>
+                    <row>
+                        <text id="doc_text">
+                                    ДУЛ
+                                </text>
+                        <text id="doc">{document.name}</text>
+                    </row>
+                    <row>
+                        <text id="doc_serie_number_text">
+                                    Серия и номер
+                                </text>
+                        <text id="doc_serie_number">{document.serie} {document.number}</text>
+                    </row>
+                    <row>
+                        <text id="doc_issuer_text">
+                                    Кем выдан
+                                </text>
+                        <text id="doc_issuer">{document.issuer}</text>
+                    </row>
+                    <row>
+                        <text id="doc_code_text">
+                                   Код подразделения
+                                </text>
+                        <text id="doc_code">{document.code}</text>
+                    </row>
+                </fields>
+            </form>
+    </regions>
+    <toolbar place="bottomRight">
+        <button label="Подписать" color="info">
+            <show-modal page-id="sign"/>
+        </button>
+        <button label="редактировать" icon="fa fa-pencil">
+
+        </button>
+    </toolbar>
+</page>

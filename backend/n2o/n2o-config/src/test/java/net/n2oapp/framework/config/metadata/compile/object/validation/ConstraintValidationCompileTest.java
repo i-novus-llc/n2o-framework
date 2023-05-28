@@ -12,8 +12,8 @@ import net.n2oapp.framework.config.io.dataprovider.TestDataProviderIOv1;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.nullValue;
  */
 public class ConstraintValidationCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -41,7 +41,7 @@ public class ConstraintValidationCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testConstraintValidation() {
+    void testConstraintValidation() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/validation/testConstraintValidation.object.xml")
                 .get(new ObjectContext("testConstraintValidation"));
 

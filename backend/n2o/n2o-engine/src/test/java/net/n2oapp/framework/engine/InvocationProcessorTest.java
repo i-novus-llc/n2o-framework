@@ -19,15 +19,16 @@ import net.n2oapp.framework.engine.data.N2oInvocationProcessor;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.util.TestEntity;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.stubbing.Answer;
 
 import java.util.*;
 
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -40,8 +41,8 @@ public class InvocationProcessorTest {
     private N2oInvocationProcessor invocationProcessor;
     private JavaDataProviderEngine javaDataProviderEngine;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         N2oInvocationFactory actionInvocationFactory = mock(N2oInvocationFactory.class);
         javaDataProviderEngine = new JavaDataProviderEngine();
         when(actionInvocationFactory.produce(N2oJavaDataProvider.class)).thenReturn(javaDataProviderEngine);
@@ -62,7 +63,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testDefaultValue() {
+    void testDefaultValue() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         method.setMethod("methodWithOneArgument");
         method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
@@ -94,7 +95,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testArgumentsInvocation() {
+    void testArgumentsInvocation() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         method.setMethod("sum");
         method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
@@ -168,7 +169,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testEntityMapping() {
+    void testEntityMapping() {
         testDefaultValue();
         testNormalizing();
         testMappingCondition();
@@ -176,7 +177,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testMappingCondition() {
+    void testMappingCondition() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         method.setMethod("methodReturnedEntity");
         method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
@@ -227,7 +228,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testFullMapping() {
+    void testFullMapping() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         method.setMethod("methodReturnedEntity");
         method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
@@ -305,7 +306,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testOutParametersFullMapping() {
+    void testOutParametersFullMapping() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         method.setMethod("methodReturnedEntity");
         method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
@@ -406,7 +407,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testMapsInvocation() {
+    void testMapsInvocation() {
         DataSet dataSet = new DataSet();
         dataSet.put("id", 1);
         List<AbstractParameter> inMapping = new ArrayList<>();
@@ -427,7 +428,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testNormalizing() {
+    void testNormalizing() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         method.setMethod("methodReturnedEntity");
         method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
@@ -457,7 +458,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testListNormalizing() {
+    void testListNormalizing() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
         invocation.setOperation(N2oTestDataProvider.Operation.echo);
 
@@ -520,7 +521,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testAdvancedNestingWithMapInvocationProvider() {
+    void testAdvancedNestingWithMapInvocationProvider() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
         invocation.setOperation(N2oTestDataProvider.Operation.echo);
 
@@ -613,7 +614,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testMappingWithArgumentsInvocationProvider() {
+    void testMappingWithArgumentsInvocationProvider() {
         N2oJavaDataProvider invocation = new N2oJavaDataProvider();
         invocation.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
         invocation.setMethod("methodWithTwoArguments");
@@ -661,7 +662,7 @@ public class InvocationProcessorTest {
      * Тестирование маппинга аргументов java провайдера с использованием name аргументов, а не через заданный порядок
      */
     @Test
-    public void testNameMappingWithArgumentsInvocationProvider() {
+    void testNameMappingWithArgumentsInvocationProvider() {
         N2oJavaDataProvider invocation = new N2oJavaDataProvider();
         invocation.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
         invocation.setMethod("methodWithThreeArguments");
@@ -705,7 +706,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testAdvancedNestingWithArgumentsInvocationProvider() {
+    void testAdvancedNestingWithArgumentsInvocationProvider() {
         N2oJavaDataProvider invocation = new N2oJavaDataProvider();
         invocation.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
         invocation.setMethod("methodReturnedEntity");
@@ -794,7 +795,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testResultMapping() {
+    void testResultMapping() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
         invocation.setResultMapping("['organization']");
         invocation.setOperation(N2oTestDataProvider.Operation.echo);
@@ -835,8 +836,7 @@ public class InvocationProcessorTest {
         assertThat(result.getString("myName"), is("test1"));
     }
 
-
-    public static class SqlInvocationEngine implements MapInvocationEngine<N2oSqlDataProvider> {
+    static class SqlInvocationEngine implements MapInvocationEngine<N2oSqlDataProvider> {
 
         @Override
         public Object invoke(N2oSqlDataProvider invocation, Map<String, Object> data) {

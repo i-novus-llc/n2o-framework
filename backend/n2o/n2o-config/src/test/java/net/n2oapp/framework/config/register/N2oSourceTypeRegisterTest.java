@@ -7,19 +7,19 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.register.MetaType;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
 import net.n2oapp.framework.config.reader.MetaTypeNotFoundException;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class N2oSourceTypeRegisterTest {
 
     @Test
-    public void get() {
+    void get() {
         SourceTypeRegister register = new N2oSourceTypeRegister();
         MetaType metaType = new MetaType("widget", N2oWidget.class);
         register.add(metaType);
@@ -36,27 +36,27 @@ public class N2oSourceTypeRegisterTest {
         //получение по несуществующему типу
         try {
             register.get("test");
-            Assert.fail();
+            fail();
         } catch (MetaTypeNotFoundException ignored) {
         }
 
         //получение по родительскому классу
         try {
             register.get(N2oMetadata.class);
-            Assert.fail();
+            fail();
         } catch (MetaTypeNotFoundException ignored) {
         }
 
         //получение по недочернему классу
         try {
             register.get(N2oPage.class);
-            Assert.fail();
+            fail();
         } catch (MetaTypeNotFoundException ignored) {
         }
     }
 
     @Test
-    public void cleanAll() {
+    void cleanAll() {
         SourceTypeRegister register = new N2oSourceTypeRegister();
         register.addAll(Arrays.asList(new MetaType("widget", N2oWidget.class), new MetaType("page", N2oPage.class)));
         assertThat(register.get("widget"), notNullValue());
@@ -65,12 +65,12 @@ public class N2oSourceTypeRegisterTest {
         register.clearAll();
         try {
             register.get("widget");
-            Assert.fail();
+            fail();
         } catch (MetaTypeNotFoundException ignored) {
         }
         try {
             register.get(N2oPage.class);
-            Assert.fail();
+            fail();
         } catch (MetaTypeNotFoundException ignored) {
         }
 

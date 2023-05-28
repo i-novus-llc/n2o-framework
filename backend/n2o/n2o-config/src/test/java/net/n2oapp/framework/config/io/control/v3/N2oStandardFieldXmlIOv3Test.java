@@ -6,14 +6,15 @@ import net.n2oapp.framework.config.io.dataprovider.SqlDataProviderIOv1;
 import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
 import net.n2oapp.framework.config.io.widget.v5.FormElementIOV5;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Тестирование чтения/записи стандартного поля
  */
 public class N2oStandardFieldXmlIOv3Test {
+    
     @Test
-    public void test() {
+    void test() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new InputTextIOv3(), new FormElementIOV5(), new ButtonIOv2(),
                 new ShowModalElementIOV2(), new SqlDataProviderIOv1());

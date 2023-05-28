@@ -35,12 +35,16 @@ public class WidgetVisibilityAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oApplicationPack(), new N2oAllPack());
-        setJsonPath("net/n2oapp/framework/autotest/condition/widget/visibility");
+        builder.packs(
+                new N2oApplicationPack(),
+                new N2oAllPack()
+        );
+        setJsonPath("net/n2oapp/framework/autotest/condition/widget/dependency/visibility");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/condition/widget/visibility/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/condition/widget/visibility/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/condition/widget/visibility/test2.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/condition/widget/dependency/visibility/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/widget/dependency/visibility/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/widget/dependency/visibility/test2.query.xml")
+        );
     }
 
     @Test

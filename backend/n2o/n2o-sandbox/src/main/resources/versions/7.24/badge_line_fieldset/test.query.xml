@@ -17,7 +17,7 @@
 
     <fields>
         <field id="id" name="Номер заявки"/>
-        <field id="fio" name="Фамилия Имя Отчество"/>
+        <field id="fio" name="ФИО"/>
         <field id="birthday"/>
         <field id="snils" name="СНИЛС"/>
         <field id="region" name="Регион" mapping="['region.name']"/>

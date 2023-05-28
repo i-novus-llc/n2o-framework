@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.util;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.is;
 public class ControlFilterUtilTest {
 
     @Test
-    public void testGetFilters() {
+    void testGetFilters() {
         CompiledQuery query = new CompiledQuery();
         Map<String, N2oQuery.Filter> filterMap = new HashMap<>();
         filterMap.put("name", new N2oQuery.Filter("name", FilterType.eq));

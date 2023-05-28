@@ -11,21 +11,4 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class N2oFormParam extends N2oParam {
-    /**
-     * Идентификатор параметра
-     */
-    private String id;
-
-    // необходим для обратной совместимости после замены name на id
-    @Deprecated
-    public String getName() {
-        return getId();
-    }
-
-    // необходим для обратной совместимости после замены name на id
-    @Deprecated
-    public void setName(String name) {
-        this.id = name;
-        super.setName(name);
-    }
 }

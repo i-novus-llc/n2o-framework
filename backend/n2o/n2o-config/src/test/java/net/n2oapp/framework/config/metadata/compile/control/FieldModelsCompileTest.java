@@ -10,8 +10,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class FieldModelsCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -36,7 +36,7 @@ public class FieldModelsCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFieldModelsCompile() {
+    void testFieldModelsCompile() {
         PageContext pageContext = new PageContext("index", "/");
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/control/fieldModelsCompileTest/index.page.xml")
                 .get(pageContext);

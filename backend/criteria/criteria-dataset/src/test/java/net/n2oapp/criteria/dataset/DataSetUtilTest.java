@@ -2,7 +2,7 @@ package net.n2oapp.criteria.dataset;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
 public class DataSetUtilTest {
 
     @Test
-    public void testExtractFromArray() {
+    void testExtractFromArray() {
         Map<String, String> mapping = new HashMap<>();
         mapping.put("id", "[0]");
         mapping.put("name", "[1]");
@@ -22,7 +22,7 @@ public class DataSetUtilTest {
     }
 
     @Test
-    public void testExtractFromEntity() {
+    void testExtractFromEntity() {
         Map<String, String> mapping = new HashMap<>();
         mapping.put("id", "id");
         mapping.put("name", "name");
@@ -38,7 +38,7 @@ public class DataSetUtilTest {
     }
 
     @Test
-    public void testExtractFromVolumeEntity() {
+    void testExtractFromVolumeEntity() {
         Map<String, String> mapping = new HashMap<>();
         mapping.put("id", "foo.id");
         mapping.put("name", "foo.name");

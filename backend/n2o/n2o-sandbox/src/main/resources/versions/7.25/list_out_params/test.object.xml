@@ -7,9 +7,11 @@
             <invocation>
                 <test file="test.json" operation="findOne"/>
             </invocation>
+
             <in>
                 <field id="id"/>
             </in>
+
             <out>
                 <field id="id" mapping="['id']"/>
                 <field id="simple" mapping="['name']" normalize="#this.toLowerCase()"/>

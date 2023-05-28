@@ -11,21 +11,21 @@ import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Тестирование компиляции кастомного региона
  */
 public class CustomRegionCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -38,7 +38,7 @@ public class CustomRegionCompileTest extends SourceCompileTestBase {
 
 
     @Test
-    public void testNesting() {
+    void testNesting() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testCustomRegionNesting.page.xml")
                 .get(new PageContext("testCustomRegionNesting"));
 

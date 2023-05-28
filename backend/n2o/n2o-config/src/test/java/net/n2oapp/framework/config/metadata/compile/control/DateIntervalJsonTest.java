@@ -3,12 +3,12 @@ package net.n2oapp.framework.config.metadata.compile.control;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DateIntervalJsonTest extends JsonMetadataTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -22,7 +22,7 @@ public class DateIntervalJsonTest extends JsonMetadataTestBase {
     }
 
     @Test
-    public void tabsDateInterval() {
+    void tabsDateInterval() {
         check("net/n2oapp/framework/config/mapping/testDateInterval.page.xml",
                 "components/controls/DatePicker/DateInterval.meta.json")
                 .cutXml("widget.form.fieldsets[0].rows[0].cols[0].fields[0].control")

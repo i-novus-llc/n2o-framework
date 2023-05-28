@@ -2,5 +2,6 @@
   "docusaurusUrl": "/",
   "sandboxUrl": "https://sandbox.n2oapp.net",
   "n2oSandboxUrl": "https://next.n2oapp.net/sandbox",
-  "n2oVersion": "7.24.0-SNAPSHOT"
+  "n2oVersionUrl": "https://next.n2oapp.net/sandbox/n2o/version",
+  "n2oVersion": "7.25.0-SNAPSHOT"
 }
