@@ -61,7 +61,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
 
         private N2oInvocation invocation;
         private AbstractParameter[] inFields;
-        private ObjectSimpleField[] outFields;
+        private AbstractParameter[] outFields;
         private ObjectSimpleField[] failOutFields;
 
         private Validations validations;

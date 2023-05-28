@@ -169,14 +169,14 @@ public class MappingProcessorTest {
         param.setId("a");
         param.setMapping("x");
         parameters.put("a", param);
-        Map<String, FieldMapping> mapping = MappingProcessor.extractInFieldMapping(parameters.values());
+        Map<String, FieldMapping> mapping = MappingProcessor.extractFieldMapping(parameters.values());
         assertThat(mapping.get("a").getMapping(), is("x"));
 
         parameters = new LinkedHashMap<>();
         param = new ObjectSimpleField();
         param.setId("a");
         parameters.put("a", param);
-        mapping = MappingProcessor.extractInFieldMapping(parameters.values());
+        mapping = MappingProcessor.extractFieldMapping(parameters.values());
         assertThat(mapping.containsKey("a"), is(true));
         assertThat(mapping.get("a").getMapping(), is(nullValue()));
     }
