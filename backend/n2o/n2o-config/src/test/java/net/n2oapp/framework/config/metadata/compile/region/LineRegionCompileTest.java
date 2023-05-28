@@ -18,7 +18,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Тестирование компиляции региона с горизонтальным делителем
@@ -45,7 +45,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         List<Region> regions = page.getRegions().get("single");
         assertThat(regions.size(), is(2));
 
-        assertThat(((LineRegion) regions.get(0)).getSrc(), is("ListRegion"));
+        assertThat(regions.get(0).getSrc(), is("ListRegion"));
         assertThat(((LineRegion) regions.get(0)).getLabel(), is("Line1"));
         assertThat(((LineRegion) regions.get(0)).getCollapsible(), is(false));
         assertThat(((LineRegion) regions.get(0)).getExpand(), is(false));

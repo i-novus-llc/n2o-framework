@@ -7,7 +7,7 @@ import net.n2oapp.criteria.dataset.DataSetUtil;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
@@ -32,7 +32,7 @@ public class ValidationDialog extends InvocationValidation {
         else {
             Map<String, String> outMapping = new LinkedHashMap<>();
             if (getOutParametersList() != null)
-                for (ObjectSimpleField parameter : getOutParametersList())
+                for (AbstractParameter parameter : getOutParametersList())
                     outMapping.put(parameter.getId(), parameter.getMapping());
             result = DataSetUtil.extract(dataSet, outMapping);
         }

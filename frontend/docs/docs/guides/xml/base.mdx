@@ -124,3 +124,76 @@ description: ""
   <open-page .../>
 </click>
 ```
+
+### Параметр провайдера данных {#Data_provider_parameter}
+
+Базовые свойства параметров провайдера данных
+
+**Атрибуты**
+
+|Наименование |Тип       |Описание                                     |Значение по умолчанию|
+|-------------|----------|---------------------------------------------|---------------------|
+|id           |Строка    |Идентификатор параметра                      |                     |
+|default-value|Строка    |Значение по умолчанию                        |                     |
+|domain       |Домены    |Тип данных                                   |                     |
+|normalize    |Строка    |SpEL выражение, изменяющее значение параметра|                     |
+|mapping      |Строка    |Выражение маппинга                           |                     |
+
+#### Свойства входящих параметров провайдера данных.
+
+В качестве входящих параметров могут быть, как простые поля &lt;field&gt;, так и составные: &lt;reference&gt;, &lt;list&gt;, &lt;set&gt;.
+
+**Атрибуты**
+
+|Наименование       |Тип   |Описание                                         |Значение по умолчанию|
+|-------------------|------|-------------------------------------------------|---------------------|
+|param              |Строка|Параметр содержащий url                          |                     |
+|validation-fail-key|Строка|Код ошибки валидации с сервера                   |                     |
+|entity-class       |Строка|Класс, которому соответствует параметр           |                     |
+|required           |true false|Обязательность параметра                     |false                |
+|enabled            |Строка|Условие, при котором должен быть выполнен маппинг|                     |
+
+**Тело**
+
+Если составное поле, то может содержать список любых видов полей
+
+**Пример**
+```xml
+<in>
+  <field id="gender*.id" domain="integer[]" mapping="genders" param="param"/>
+  <list id="ratings" mapping="ratings">
+    <field id="code" mapping="code"/>
+    <field id="name" mapping="name"/>
+  </list>
+</in>
+```
+
+#### Свойства исходящих параметров провайдера данных.
+
+В качестве исходящих параметров могут быть как простые поля &lt;field&gt;, так и составные: &lt;reference&gt;, &lt;list&gt;, &lt;set&gt;.
+В отличие от входящих не имеют дополнительных атрибутов.
+
+**Пример**
+
+```xml
+<out>
+    <field id="gender*.id" domain="integer[]" mapping="genders" param="param"/>
+    <reference id="address">
+        <field id="city" mapping="city"/>
+        <field id="street" mapping="street"/>
+        <field id="home" mapping="home"/>
+    </reference>
+    <list id="ratings" mapping="ratings">
+      <field id="code" mapping="code"/>
+      <field id="name" mapping="name"/>
+    </list>
+</out>
+```
+
+Параметр, позволяющий обрабатывать информацию об ошибках. Может быть только простое поле &lt;field&gt;
+
+```xml
+<fail-out>
+  <field id="message" mapping="#this.getMessage()"/>
+</fail-out>
+```
