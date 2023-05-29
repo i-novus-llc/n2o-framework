@@ -2,6 +2,8 @@ package net.n2oapp.framework.ui.controller;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.api.context.ContextEngine;
+import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
@@ -12,8 +14,10 @@ import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.processing.DataProcessing;
 import net.n2oapp.framework.api.ui.*;
+import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -57,6 +61,7 @@ public class SpellExceptionTest extends DataControllerTestBase{
         N2oEnvironment environment = new N2oEnvironment();
         environment.setNamespacePersisterFactory(new PersisterFactoryByMap());
         environment.setNamespaceReaderFactory(new ReaderFactoryByMap());
+        environment.setContextProcessor(new ContextProcessor(new UserContext(Mockito.mock(ContextEngine.class))));
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasenames("n2o_messages", "messages");
         messageSource.setDefaultEncoding("UTF-8");
@@ -81,7 +86,8 @@ public class SpellExceptionTest extends DataControllerTestBase{
         DataProcessingStack dataProcessingStack = new SpringDataProcessingStack();
         ((SpringDataProcessingStack) dataProcessingStack).setApplicationContext(context);
 
-        QueryProcessor queryProcessor = new N2oQueryProcessor(invocationFactory, new N2oQueryExceptionHandler());
+        N2oQueryProcessor queryProcessor = new N2oQueryProcessor(invocationFactory, new N2oQueryExceptionHandler());
+        queryProcessor.setEnvironment(builder.getEnvironment());
         AlertMessageBuilder messageBuilder = new AlertMessageBuilder(builder.getEnvironment().getMessageSource(), null);
         N2oAlertMessagesConstructor messagesConstructor = new N2oAlertMessagesConstructor(messageBuilder);
 
@@ -264,11 +270,15 @@ public class SpellExceptionTest extends DataControllerTestBase{
         displayFields.add(field);
         query.setDisplayFields(displayFields);
 
+        Map<String, QuerySimpleField> simpleFieldsMap = new HashMap<>();
+        simpleFieldsMap.put("name", field);
+        query.setSimpleFieldsMap(simpleFieldsMap);
+
         N2oTestDataProvider testDataProvider = new N2oTestDataProvider();
         testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");
-        testDataProvider.setResultMapping("['test'].toUpperCase(");
 
         N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.Type.list, testDataProvider);
+        list.setResultMapping("['test'].toUpperCase(");
         N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
         lists[0] = list;
         query.setLists(lists);
@@ -325,10 +335,17 @@ public class SpellExceptionTest extends DataControllerTestBase{
         displayFields.add(field);
         query.setDisplayFields(displayFields);
 
+        Map<String, QuerySimpleField> simpleFieldsMap = new HashMap<>();
+        simpleFieldsMap.put("name", field);
+        query.setSimpleFieldsMap(simpleFieldsMap);
+
         N2oQuery.Filter filter = new N2oQuery.Filter("name", FilterType.eq);
         filter.setFieldId("name");
         filter.setNormalize("#this.toUpperCase(");
         filter.setDefaultValue("test");
+        Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap = new StrictMap<>();
+        filtersMap.put("name", Map.of(FilterType.eq, filter));
+        query.setFiltersMap(filtersMap);
 
         N2oTestDataProvider testDataProvider = new N2oTestDataProvider();
         testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");
@@ -337,7 +354,8 @@ public class SpellExceptionTest extends DataControllerTestBase{
         N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
         lists[0] = list;
         query.setLists(lists);
-        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria("name", "test", 1);
+
         queryRequestInfo.setCriteria(criteria);
         queryRequestInfo.setQuery(query);
         queryRequestInfo.setSize(1);

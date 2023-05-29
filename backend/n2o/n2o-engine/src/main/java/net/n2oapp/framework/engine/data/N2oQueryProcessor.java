@@ -2,7 +2,6 @@ package net.n2oapp.framework.engine.data;
 
 import lombok.Setter;
 import net.n2oapp.criteria.api.CollectionPage;
-import net.n2oapp.criteria.api.Criteria;
 import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.api.SortingDirection;
 import net.n2oapp.criteria.dataset.DataList;
@@ -256,7 +255,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         for (Map.Entry<String, Map<FilterType, N2oQuery.Filter>> entry : query.getFiltersMap().entrySet()) {
             for (N2oQuery.Filter filter : entry.getValue().values()) {
                 if (filter.getCompiledDefaultValue() != null && !criteria.containsRestriction(entry.getKey())) {
-                    Object value = prepareValue(filter.getCompiledDefaultValue(), filter, null);
+                    Object value = prepareFilterValue(filter.getCompiledDefaultValue(), filter, null);
                     if (value != null) {
                         Restriction defaultRestriction = new Restriction(entry.getKey(), value, filter.getType());
                         criteria.addRestriction(defaultRestriction);
@@ -327,7 +326,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         map.put("page", pageStartsWith0 ? criteria.getPage() - 1 : criteria.getPage());
     }
 
-    private Object prepareValue(Object value, N2oQuery.Filter filter, DataSet data) {
+    private Object prepareFilterValue(Object value, N2oQuery.Filter filter, DataSet data) {
         Object result = value;
         result = contextProcessor.resolve(result);
         result = domainProcessor.deserialize(result, filter == null ? null : filter.getDomain());
@@ -434,7 +433,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
         for (Restriction restriction : criteria.getRestrictions()) {
             N2oQuery.Filter filter = query.getFiltersMap().get(restriction.getFieldId()).get(restriction.getType());
-            Object value = prepareValue(restriction.getValue(), filter, data);
+            Object value = prepareFilterValue(restriction.getValue(), filter, data);
             if (value != null) {
                 restriction.setValue(value);
             } else if (FilterType.Arity.nullary == restriction.getType().arity) {
