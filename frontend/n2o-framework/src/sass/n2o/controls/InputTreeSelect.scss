@@ -5,7 +5,7 @@
     line-height: 1.5;
     height: auto;
     min-height: $input-min-height;
-    padding: unset;
+    padding: 0 !important;
     background-clip: padding-box;
     cursor: pointer;
     outline: none;
@@ -18,10 +18,6 @@
         position: absolute;
         left: 12px;
         user-select: none;
-    }
-
-    &:hover {
-        border-color: $input-select-tree-color-hover;
     }
 
     .n2o-select-tree-tree-switcher {
