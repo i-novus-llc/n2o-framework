@@ -34,6 +34,12 @@ http://n2oapp.net/framework/config/schema/widget-5.0
 |visible                |true false                               |Видимость виджета                                                         |                                                                                       |
 |auto-focus             |true false                               |Автоматическая установка фокуса на виджете                                |false                                                                                  |
 
+**Настройки**
+```yaml
+# Автоматическая установка фокуса на виджете
+n2o.api.widget.auto_focus=false
+```
+
 ## Простые виджеты {#simple_widgets}
 ### &lt;form&gt;
 Виджет Форма.
@@ -971,6 +977,12 @@ n2o.api.widget.cards.height=
 |style       | Строка | Стиль меню
 |place       | topLeft, topRight, bottomLeft, bottomRight, topCenter, bottomCenter                     |Место расположения меню     |topLeft              |
 |generate    | crud, tableSettings, refresh, resize, word-wrap, export, columns, filters, submit, close|Генерация стандартных действий. Можно писать несколько идентификаторов через запятую.
+
+**Настройки**
+```yaml
+# Место расположения меню
+n2o.api.widget.toolbar.place=topLeft
+```
 
 **Тело**<br/>
 `<button>` - [Кнопка](../xml/button#button_in_button)<br/>

@@ -8,45 +8,48 @@
            xmlns:dmn="http://n2oapp.net/framework/config/schema/base/domain-base-1.0">
 
 
-    <xs:element name="hidden" type="controlHiddenDefinition"/>
+    <xs:element name="input-text" type="controlInputTextDefinition"/>
+    <xs:element name="input-money" type="controlInputMoneyDefinition"/>
+    <xs:element name="password" type="controlPasswordDefinition"/>
+    <xs:element name="output-text" type="controlOutputTextDefinition"/>
+    <xs:element name="output-list" type="controlOutputListDefinition"/>
+    <xs:element name="image" type="imageDefinition"/>
+    <xs:element name="masked-input" type="controlMaskedInputDefinition"/>
+    <xs:element name="number-picker" type="numberPickerFieldDefinition"/>
+    <xs:element name="checkbox" type="controlCheckboxDefinition"/>
+    <xs:element name="date-time" type="controlDatePickerDefinition"/>
+    <xs:element name="time-picker" type="controlTimePickerDefinition"/>
+    <xs:element name="file-upload" type="controlFileUploadDefinition"/>
+    <xs:element name="image-upload" type="controlImageUploadDefinition"/>
     <xs:element name="text-area" type="controlTextAreaDefinition"/>
     <xs:element name="text-editor" type="controlTextEditorDefinition"/>
     <xs:element name="code-editor" type="controlCodeEditor"/>
+    <xs:element name="text" type="controlText"/>
+    <xs:element name="html" type="controlHtml"/>
     <xs:element name="code" type="controlCodeViewer"/>
-    <xs:element name="input-text" type="controlInputTextDefinition"/>
-    <xs:element name="input-money" type="controlInputMoneyDefinition"/>
-    <xs:element name="output-text" type="controlOutputTextDefinition"/>
-    <xs:element name="output-list" type="controlOutputListDefinition"/>
-    <xs:element name="masked-input" type="controlMaskedInputDefinition"/>
-    <xs:element name="checkbox" type="controlCheckboxDefinition"/>
-    <xs:element name="password" type="controlPasswordDefinition"/>
-    <xs:element name="date-interval" type="controlDateIntervalDefinition"/>
-    <xs:element name="date-time" type="controlDatePickerDefinition"/>
-    <xs:element name="file-upload" type="controlFileUploadDefinition"/>
-    <xs:element name="image-upload" type="controlImageUploadDefinition"/>
-    <xs:element name="checkbox-group" type="controlOptionsListInlineDefinitionCheckboxGroup"/>
-    <xs:element name="radio-group" type="controlOptionsListInlineDefinitionRadioGroup"/>
-    <xs:element name="select" type="controlSelectDefinition"/>
-    <xs:element name="pills" type="controlPillsDefinition"/>
-    <!--<xs:element name="select-tree" type="controlSelectTreeDefinition"/>-->
-    <xs:element name="input-select" type="controlInputSelectDefinition"/>
-    <xs:element name="input-select-tree" type="inputSelectTreeDefinition"/>
+    <xs:element name="rating" type="controlRating"/>
+    <xs:element name="field" type="fieldCustom"/>
     <xs:element name="search-buttons" type="controlSearchButtonsDefinition"/>
     <xs:element name="slider" type="controlSliderDefinition"/>
-    <xs:element name="html" type="controlHtml"/>
-    <xs:element name="field" type="fieldCustom"/>
-    <xs:element name="image" type="imageDefinition"/>
-    <xs:element name="text" type="controlText"/>
-    <xs:element name="rating" type="controlRating"/>
     <xs:element name="alert" type="controlAlertDefinition"/>
-    <xs:element name="auto-complete" type="controlAutoCompleteDefinition"/>
     <xs:element name="progress" type="controlProgressDefinition"/>
     <xs:element name="status" type="controlStatusDefinition"/>
-    <xs:element name="button" type="btn:buttonDefinition"/>
-    <xs:element name="interval-field" type="controlRangeFieldDefinition"/>
-    <xs:element name="number-picker" type="numberPickerFieldDefinition"/>
-    <xs:element name="time-picker" type="controlTimePickerDefinition"/>
+    <xs:element name="hidden" type="controlHiddenDefinition"/>
     <xs:element name="markdown" type="controlMarkdownDefinition"/>
+    <xs:element name="button" type="btn:buttonDefinition"/>
+
+    <xs:element name="select" type="controlSelectDefinition"/>
+    <xs:element name="input-select" type="controlInputSelectDefinition"/>
+    <xs:element name="input-select-tree" type="inputSelectTreeDefinition"/>
+    <xs:element name="auto-complete" type="controlAutoCompleteDefinition"/>
+    <xs:element name="radio-group" type="controlOptionsListInlineDefinitionRadioGroup"/>
+    <xs:element name="checkbox-group" type="controlOptionsListInlineDefinitionCheckboxGroup"/>
+    <xs:element name="pills" type="controlPillsDefinition"/>
+    <!--<xs:element name="select-tree" type="controlSelectTreeDefinition"/>-->
+
+    <xs:element name="date-interval" type="controlDateIntervalDefinition"/>
+    <xs:element name="interval-field" type="controlRangeFieldDefinition"/>
+
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -451,30 +454,6 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="controlOptionsListInlineDefinition">
-        <xs:complexContent>
-            <xs:extension base="controlListFieldDefinition">
-                <xs:attribute name="inline" type="xs:boolean" default="false" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Отображение элементов на одной строке.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="type" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Тип кнопок</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-field-id" use="prohibited"/>
-                <xs:attribute name="badge-color-field-id" use="prohibited"/>
-                <xs:attribute name="badge-shape" use="prohibited"/>
-                <xs:attribute name="badge-position" use="prohibited"/>
-                <xs:attribute name="badge-image-field-id" use="prohibited"/>
-                <xs:attribute name="badge-image-position" use="prohibited"/>
-                <xs:attribute name="badge-image-shape" use="prohibited"/>
-            </xs:extension>
-        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="controlOptionsListInlineDefinitionRadioGroup">

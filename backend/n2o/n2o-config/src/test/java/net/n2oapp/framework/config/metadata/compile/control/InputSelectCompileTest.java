@@ -71,6 +71,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(inputSelect.getSize(), is(20));
         assertThat(inputSelect.getSearchMinLength(), is(2));
         assertThat(inputSelect.getThrottleDelay(), is(200));
+        assertThat(inputSelect.getResetOnBlur(), is(true));
         ClientDataProvider cdp = inputSelect.getDataProvider();
 
         inputSelect = (InputSelect) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()

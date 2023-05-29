@@ -11,7 +11,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 ```
 http://n2oapp.net/framework/config/schema/control-3.0
 ```
-### Базовые свойства {#Input_fields}
+## Базовые свойства {#Input_fields}
 
 **Атрибуты**
 
@@ -38,7 +38,7 @@ http://n2oapp.net/framework/config/schema/control-3.0
 |ref-datasource|Ссылка на [источник данных](../xml/datasource#datasources)|Ссылка на источник данных, в котором будет инициализация значения. Задайте [parent-datasourse](../xml/datasource#parent-datasource) для ссылки на источник родительской страницы |Источник данных текущего виджета|
 |ref-field-id  |Строка            |Ссылка на поле, для инициализация значения                |                                                                                                     |
 
-#### &lt;dependencies&gt;
+### &lt;dependencies&gt;
 
 Зависимости компонента
 
@@ -228,7 +228,7 @@ Java Script выражение
 </dependencies>
 ```
 
-#### &lt;validations&gt;
+### &lt;validations&gt;
 
 Валидации компонента
 
@@ -250,11 +250,11 @@ Java Script выражение
 
 [Список валидаций](../xml/object#validations3)
 
-#### &lt;submit&gt;
+### &lt;submit&gt;
 
 [Действие обновления компонента](#fetch)
 
-#### &lt;toolbar&gt;
+### &lt;toolbar&gt;
 
 Панель действий компонента
 
@@ -1007,6 +1007,8 @@ HTML разметка с плейсхолдерами
 </markdown>
 ```
 
+### &lt;button&gt;
+[Кнопка](../xml/button)
 
 ## Списковые компоненты {#List_components}
 
@@ -1110,9 +1112,9 @@ HTML разметка с плейсхолдерами
 
 **Атрибуты**
 
-|Наименование        |Тип              |Описание                                                                                                                                                                                                                                                                           |Значение по умолчанию|
-|--------------------|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
-|type                |single checkboxes|Тип выбора в выпадающем списке                                                                                                                                                                                                                                                     |                     |
+|Наименование        |Тип              | Описание | Значение по умолчанию|
+|--------------------|-----------------|-----------------|---------------------|
+|type                |single checkboxes|Тип выбора в выпадающем списке | single
 |cleanable           |true false       |Опция очистки компонента                                                                                                                                                                                                                                                           |true                 |
 |select-format       |Строка           |Универсальный заголовок поля. Все варианты select-format будут работать только когда тип checkboxes. Нужно использовать либо универсальный заголовок, либо 3 вида заголовков при разном числе элементов. Если не задать ни один, то число выбранных элементов не будет отображаться|                     |
 |select-format-one   |Строка           |Заголовок поля при одном элементе                                                                                                                                                                                                                                                  |                     |
@@ -1120,6 +1122,14 @@ HTML разметка с плейсхолдерами
 |select-format-many  |Строка           |Заголовок поля при большом числе элементов                                                                                                                                                                                                                                         |                     |
 |description-field-id|Строка           |Идентификатор поля для отображения дополнительной информации в опциях выпадающего списка                                                                                                                                                                                           |                     |
 
+
+**Настройки**
+```yaml
+# Компонент выбора из выпадающего списка
+n2o.api.control.select.type=single
+# Опция очистки компонента
+n2o.api.control.select.cleanable=true
+```
 
 **Пример**
 
@@ -1144,6 +1154,19 @@ HTML разметка с плейсхолдерами
 |throttle-delay      |Число                    |Задержка перед поиском. Указывается в миллисекундах                                     |300                  |
 |search-min-length   |Число                    |Минимальное число символов для начала поиска                                            |0                    |
 |value-field-id      |Строка                   |Поле, отвечающее за идентификатор варианта выбора                                       |id                   |
+
+
+**Настройки**
+```yaml
+# Стирание значения при потере фокуса
+n2o.api.control.input_select.reset_on_blur=true
+# Максимальная длина текста элемента
+n2o.api.control.input_select.max_tag_text_length=10
+# Задержка перед поиском в мс
+n2o.api.control.input_select.throttle_delay=300
+# Минимальное число символов для начала поиска
+n2o.api.control.input_select.search_min_length=0
+```
 
 **Пример**
 
@@ -1174,6 +1197,24 @@ HTML разметка с плейсхолдерами
 |size                 |Число             |Количество узлов(включая дочерние) выводимых деревом                              |200                  |
 |throttle-delay       |Число             |Задержка перед поиском. Указывается в миллисекундах                               |300                  |
 |search-min-length    |Число             |Минимальное число символов для начала поиска                                      |0                    |
+
+**Настройки**
+```yaml
+# Поддержка загрузки через ajax запрос
+n2o.api.control.input_select_tree.ajax=false
+# Отображение чекбоксов в элементах дерева. Переводит InputSelectTree в мульти режим.
+n2o.api.control.input_select_tree.checkboxes=false
+# Стратегия выбора данных из дерева
+n2o.api.control.input_select_tree.checking_strategy=all
+# Максимальная длина текста элемента (в режиме чекбоксов)
+n2o.api.control.input_select_tree.max_tag_text_length=10
+# Количество узлов(включая дочерние) выводимых деревом
+n2o.api.control.input_select_tree.size=200
+# Задержка перед поиском в мс
+n2o.api.control.input_select_tree.throttle_delay=300
+# Минимальное число символов для начала поиска
+n2o.api.control.input_select_tree.search_min_length=0
+```
 
 **Пример**
 
@@ -1225,6 +1266,16 @@ HTML разметка с плейсхолдерами
 |inline      |true, false       |Отображение элементов на одной строке|false, при type='tabs' inline='true' |
 |type        |default, btn, tabs|Тип кнопок:<br/>default - радио кнопки<br/>btn - в виде обычных кнопок<br/>tabs - в виде вкладок |default |
 
+**Настройки**
+```yaml
+# Отображение элементов на одной строке, если type!=tabs
+n2o.api.control.radio_group.inline=false
+# Отображение элементов на одной строке, если type=tabs
+n2o.api.control.radio_group.tabs_inline=true
+# Тип кнопок
+n2o.api.control.radio_group.type=default
+```
+
 **Пример**
 
 ```xml
@@ -1244,6 +1295,14 @@ HTML разметка с плейсхолдерами
 |inline      |true, false |Отображение элементов на одной строке|false                |
 |type        |default, btn|Тип:<br/>default - в виде чекбоксов<br/>btn - в виде обычных кнопок |default              |
 
+**Настройки**
+```yaml
+# Отображение элементов на одной строке
+n2o.api.control.checkbox_group.inline=false
+# Тип
+n2o.api.control.checkbox_group.type=default
+
+```
 
 **Пример**
 

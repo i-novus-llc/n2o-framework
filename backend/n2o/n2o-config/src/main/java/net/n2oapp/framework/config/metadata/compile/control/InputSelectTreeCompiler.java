@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
+import net.n2oapp.framework.api.metadata.control.list.CheckingStrategy;
 import net.n2oapp.framework.api.metadata.control.list.N2oInputSelectTree;
 import net.n2oapp.framework.api.metadata.meta.control.InputSelectTree;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -32,16 +33,19 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
         InputSelectTree control = new InputSelectTree();
         control.setParentFieldId(p.resolveJS(source.getParentFieldId()));
         control.setHasChildrenFieldId(p.resolveJS(source.getHasChildrenFieldId()));
-        control.setHasCheckboxes(p.cast(source.getCheckboxes(), false));
+        control.setHasCheckboxes(p.cast(source.getCheckboxes(),
+                p.resolve(property("n2o.api.control.input_select_tree.checkboxes"), Boolean.class)));
         control.setMultiSelect(control.isHasCheckboxes());
         control.setThrottleDelay(p.cast(source.getThrottleDelay(),
                 p.resolve(property("n2o.api.control.input_select_tree.throttle_delay"), Integer.class)));
         control.setSearchMinLength(p.cast(source.getSearchMinLength(),
                 p.resolve(property("n2o.api.control.input_select_tree.search_min_length"), Integer.class)));
         control.setClosePopupOnSelect(!control.isHasCheckboxes());
-        control.setAjax(p.cast(source.getAjax(), false));
+        control.setAjax(p.cast(source.getAjax(),
+                p.resolve(property("n2o.api.control.input_select_tree.ajax"), Boolean.class)));
         control.setSize(p.cast(source.getSize(), p.resolve(Placeholders.property("n2o.api.control.input_select_tree.size"), Integer.class)));
-        control.setCheckingStrategy(source.getCheckingStrategy());
+        control.setCheckingStrategy(p.cast(source.getCheckingStrategy(),
+                p.resolve(property("n2o.api.control.input_select_tree.checking_strategy"), CheckingStrategy.class)));
         control.setMaxTagCount(source.getMaxTagCount());
         if (control.isHasCheckboxes())
             control.setMaxTagTextLength(p.cast(source.getMaxTagTextLength(), p.resolve(property("n2o.api.control.input_select_tree.max_tag_text_length"), Integer.class)));

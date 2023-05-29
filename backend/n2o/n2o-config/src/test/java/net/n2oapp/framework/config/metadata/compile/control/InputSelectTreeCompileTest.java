@@ -60,5 +60,8 @@ public class InputSelectTreeCompileTest extends SourceCompileTestBase {
         assertThat(ist.getParentFieldId(), is("testId"));
         assertThat(ist.getSearchMinLength(), is(0));
         assertThat(ist.getThrottleDelay(), is(300));
+        assertThat(ist.isAjax(), is(false));
+        assertThat(ist.isHasCheckboxes(), is(false));
+        assertThat(ist.getCheckingStrategy(), is(CheckingStrategy.all));
     }
 }
