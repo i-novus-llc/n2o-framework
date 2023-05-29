@@ -18,8 +18,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +29,7 @@ import static org.hamcrest.Matchers.*;
 
 public class ToolbarCrudCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -45,7 +45,7 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testGeneratedCrudButtons() {
+    void testGeneratedCrudButtons() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
                 "net/n2oapp/framework/config/metadata/compile/widgets/testToolbarCrudCompile.page.xml");
         SimplePage page = (SimplePage) pipeline.get(new PageContext("testToolbarCrudCompile"));
@@ -97,7 +97,7 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testGenerationCloseModal() {
+    void testGenerationCloseModal() {
         PageContext context = new ModalPageContext("testCloseActionModal", "/test");
         context.setSubmitOperationId("update");
         context.setRedirectUrlOnSuccessSubmit("/test/:id");

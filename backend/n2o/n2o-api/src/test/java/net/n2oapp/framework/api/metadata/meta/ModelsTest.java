@@ -1,14 +1,16 @@
 package net.n2oapp.framework.api.metadata.meta;
 
-import junit.framework.TestCase;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ModelsTest extends TestCase {
-    public void test() {
+public class ModelsTest {
+    
+    @Test
+    void test() {
         Models models = new Models();
         models.add(new ModelLink(ReduxModel.resolve, "w1", "f1.id"), 1);
         models.add(new ModelLink(ReduxModel.resolve, "w1", "f2"), new DefaultValues().add("id", 2));

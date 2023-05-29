@@ -4,11 +4,12 @@ import net.n2oapp.framework.config.io.action.AnchorElementIOV1;
 import net.n2oapp.framework.config.metadata.pack.N2oCellsIOPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsIOPack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ListWidgetXmlIOv4Test {
+    
     @Test
-    public void testListWidgetXmlIOv4Test() {
+    void testListWidgetXmlIOv4Test() {
         ION2oMetadataTester tester = new ION2oMetadataTester()
                 .addPack(new N2oWidgetsIOPack())
                 .addPack(new N2oCellsIOPack())

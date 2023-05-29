@@ -47,8 +47,6 @@ http://n2oapp.net/framework/config/schema/widget-5.0
 
 **Настройки**
 ```yaml
-#Src для widget <form>
-n2o.api.widget.form.src=FormWidget
 #Показать предупреждение о наличии несохраненных данных в форме
 n2o.api.widget.form.unsaved_data_prompt=false
 #Количество записей в форме (число)
@@ -83,28 +81,6 @@ n2o.api.widget.form.size=1
 |------------|-----|--------|
 |width|Число|Ширина диаграммы
 |height|Число|Высота диаграммы
-
-**Настройки**
-```yaml
-#src для виджета с графиками
-n2o.api.widget.chart.src=ChartWidget
-#Количество записей в запросе за данными
-n2o.api.widget.chart.size=20
-#Наличие подписи оси x и y
-n2o.api.widget.chart.axis.has_label=false
-#Положение оси x
-n2o.api.widget.chart.axis.x_position=bottom
-#Положение оси y
-n2o.api.widget.chart.axis.y_position=left
-#Наличие горизонтальных линий сетки
-n2o.api.widget.chart.grid.horizontal=true
-#Наличие вертикальных линий сетки
-n2o.api.widget.chart.grid.vertical=true
-#Разделитель между названием и значением
-n2o.api.widget.chart.tooltip.separator=
-#Тип иконок элементов легенды
-n2o.api.widget.chart.legend.icon_type=line
-```
 
 **Тело**<br/>
 `<areas>` - [Диаграмма-область](../xml/chart#areas)<br/>
@@ -142,14 +118,6 @@ HTML виджет. Виджет, отображающий HTML содержим�
 |Наименование|Тип   |Описание               |
 |------------|------|-----------------------|
 |url         |Строка|URL адрес HTML страницы. Если не задан, необходимо задать содержимое в теле.
-
-
-**Настройки**
-```yaml
-#Src для widget <html>
-n2o.api.widget.html.src=HtmlWidget
-```
-
 
 **Пример**
 ```xml
@@ -195,8 +163,6 @@ n2o.api.widget.html.src=HtmlWidget
 
 **Настройки**
 ```yaml
-#Src для widget <calendar>
-n2o.api.widget.calendar.src=CalendarWidget
 #Количество событий в календаре (число)
 n2o.api.widget.calendar.size=50
 #Вид календаря по умолчанию
@@ -348,8 +314,6 @@ n2o.api.widget.calendar.time_slot_count=2
 
 **Настройки**
 ```yaml
-#Src для widget <table>
-n2o.api.widget.table.src=AdvancedTableWidget
 #Количество записей в таблице (число)
 n2o.api.widget.table.size=10
 #Перенос текста в ячейке
@@ -438,8 +402,6 @@ n2o.api.widget.table.checkboxes=false
 
 **Настройки**
 ```yaml
-#Src для колонок в таблице
-n2o.api.widget.column.src=TextTableHeader
 #Выравнивание заголовка простого и фильтрующего столбца
 n2o.api.widget.column.alignment=left
 #Скрытие ячейки при наведении на строку
@@ -532,8 +494,6 @@ Java Script выражение.
 
 **Настройки**
 ```yaml
-#Src для колонок в таблице
-n2o.api.widget.column.src=TextTableHeader
 #Выравнивание заголовка простого и фильтрующего столбца
 n2o.api.widget.column.alignment=left
 #Скрытие ячейки при наведении на строку
@@ -587,8 +547,6 @@ n2o.api.widget.table.column.resizable=false
 
 **Настройки**
 ```yaml
-#Src для колонок в таблице
-n2o.api.widget.column.src=TextTableHeader
 #Выравнивание заголовка мульти столбца
 n2o.api.widget.column.multi.alignment=center
 ```
@@ -687,8 +645,6 @@ n2o.api.widget.column.multi.alignment=center
 
 **Настройки**
 ```yaml
-#Src для widget <tree>
-n2o.api.widget.tree.src=TreeWidget
 #Позиция значка в widget <tree>
 n2o.api.widget.tree.badge.position=right
 #Форма значка в widget <tree>
@@ -733,8 +689,6 @@ n2o.api.widget.tree.checkboxes=false
 
 **Настройки**
 ```yaml
-#Src для widget <list>
-n2o.api.widget.list.src=ListWidget
 #Количество записей в списке (число)
 n2o.api.widget.list.size=5
 ```
@@ -821,8 +775,6 @@ n2o.api.widget.list.size=5
 
 **Настройки**
 ```yaml
-#Src для widget <tiles>
-n2o.api.widget.tiles.src=TilesWidget
 #Количество колонок в мобильной версии
 n2o.api.widget.tiles.colsSm=1
 #Количество колонок в планшетах
@@ -906,8 +858,6 @@ n2o.api.widget.tiles.size=10
 
 **Настройки**
 ```yaml
-#src по умолчанию для карточек
-n2o.api.widget.cards.src=CardsWidget
 #значение по умолчанию для пагинации карточек
 n2o.api.widget.cards.size=10
 #значение по умолчанию для выравнивания карточек (top/center/bottom)
@@ -1138,6 +1088,28 @@ n2o.api.widget.cards.height=
 |place           |topLeft topRight bottomLeft bottomRight topCenter bottomCenter         |Место расположения пагинации                                   |bottomLeft                                    |
 |class           |Строка                                                                 |CSS класс, который будет добавлен к пагинации                  |                                              |
 |style           |CSS свойство                                                           |Стиль пагинации                                                |                                              |
+
+**Настройки**
+```yaml
+#Показать/скрыть кнопку быстрого перехода на предыдущую страницу
+n2o.api.widget.list.paging.prev=false
+#Показать/скрыть кнопку быстрого перехода на следующую страницу
+n2o.api.widget.list.paging.next=false
+#Показать/скрыть кнопку с номером последней страницы
+n2o.api.widget.list.paging.show_last=true
+#Наименование кнопки "Предыдущая страница"
+n2o.api.widget.list.paging.prevLabel=
+#Иконка кнопки "Предыдущая страница"
+n2o.api.widget.list.paging.prevIcon=fa fa-angle-left
+#Наименование кнопки "Следующая страница"
+n2o.api.widget.list.paging.nextLabel=
+#Иконка кнопки "Следующая страница"
+n2o.api.widget.list.paging.nextIcon=fa fa-angle-right
+#CSS класс, который будет добавлен к виджету
+n2o.api.widget.list.paging.className=
+#Место расположения пагинации
+n2o.api.widget.list.paging.place=bottomLeft
+```
 
 **Пример**
 ```xml

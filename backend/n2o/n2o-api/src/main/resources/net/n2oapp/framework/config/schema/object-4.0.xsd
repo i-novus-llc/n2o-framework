@@ -314,8 +314,81 @@
             <xs:documentation>Исходящие параметры операции.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="field" type="operationOutParameterField"/>
+            <xs:element name="field" type="operationOutParameterDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="reference" type="operationOutParameterReferenceDefinition" minOccurs="0"
+                        maxOccurs="unbounded"/>
+            <xs:element name="list" type="operationOutParameterReferenceDefinition" minOccurs="0"
+                        maxOccurs="unbounded"/>
         </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="operationOutParameterDefinition">
+        <xs:annotation>
+            <xs:documentation>Исходящий простой параметр операции.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор поля.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="default-value" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Значение по умолчанию.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="domain" type="dmn:domainType">
+            <xs:annotation>
+                <xs:documentation>Тип данных поля.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="normalize" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>SpEL выражение, применяемое к значению перед маппингом.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="mapping" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Маппинг значения в сущность или провайдер данных.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="operationOutParameterReferenceDefinition">
+        <xs:annotation>
+            <xs:documentation>Исходящий составной параметр операции.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="field" type="operationOutParameterDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="reference" type="operationOutParameterReferenceDefinition" maxOccurs="unbounded"
+                        minOccurs="0"/>
+            <xs:element name="list" type="operationOutParameterReferenceDefinition" maxOccurs="unbounded"
+                        minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="id" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор поля.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="normalize" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>SpEL выражение, применяемое к значению перед маппингом.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="mapping" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Маппинг значения в сущность или провайдер данных.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="object-id">
+            <xs:annotation>
+                <xs:documentation>Объект, в котором представлено описание поля.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="entity-class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Класс сущности, на который ссылается поле.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="operationFailOutParameterListDefinition">
@@ -446,9 +519,8 @@
             <xs:extension base="validationDefinition">
                 <xs:sequence>
                     <xs:element name="invocation" type="operationInvocationDefinition"/>
-                    <xs:element name="in" type="operationInParameterListDefinition" maxOccurs="unbounded"/>
-                    <xs:element name="out" type="operationOutParameterListDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
+                    <xs:element name="in" type="operationInParameterListDefinition" minOccurs="0"/>
+                    <xs:element name="out" type="operationOutParameterListDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="result" type="xs:string">
                     <xs:annotation>
@@ -480,7 +552,7 @@
                 <xs:documentation>Идентификатор валидации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="severity" type="severityDefinition" use="optional" default="danger">
+        <xs:attribute name="severity" type="severityDefinition" default="danger">
             <xs:annotation>
                 <xs:documentation>Уровень важности валидации.</xs:documentation>
             </xs:annotation>
@@ -502,7 +574,8 @@
         </xs:attribute>
         <xs:attribute name="title" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Заголовок сообщения, в случае нарушения валидации. Может содержать параметры.</xs:documentation>
+                <xs:documentation>Заголовок сообщения, в случае нарушения валидации. Может содержать параметры.
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="enabled" type="xs:string" default="true">
@@ -523,8 +596,8 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="invocation" type="operationInvocationDefinition" minOccurs="0"/>
-            <xs:element name="in" type="operationInParameterListDefinition" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="out" type="operationOutParameterListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="in" type="operationInParameterListDefinition" minOccurs="0"/>
+            <xs:element name="out" type="operationOutParameterListDefinition" minOccurs="0"/>
             <xs:element name="toolbar" type="tool:toolbarDefinition"/>
         </xs:sequence>
         <xs:attribute name="id" use="required">

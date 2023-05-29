@@ -12,20 +12,20 @@ import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 
 /**
  * Тестирование компиляции региона в виде панелей
  */
 public class PanelRegionCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -37,7 +37,7 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testPanelRegion() {
+    void testPanelRegion() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testPanelRegion.page.xml")
                 .get(new PageContext("testPanelRegion"));
 
@@ -59,7 +59,7 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testNesting() {
+    void testNesting() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testPanelRegionNesting.page.xml")
                 .get(new PageContext("testPanelRegionNesting"));
 

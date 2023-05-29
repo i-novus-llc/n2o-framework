@@ -10,9 +10,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.apache.commons.collections.ListUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -24,7 +23,7 @@ import static org.hamcrest.Matchers.is;
  */
 public class ButtonFieldCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -37,7 +36,7 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testField() {
+    void testField() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testButtonFieldCompile.page.xml")
                 .get(new PageContext("testButtonFieldCompile"));
         Form form = (Form) page.getWidget();

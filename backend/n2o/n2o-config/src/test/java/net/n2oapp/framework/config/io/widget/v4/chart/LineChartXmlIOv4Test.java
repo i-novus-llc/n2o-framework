@@ -3,14 +3,15 @@ package net.n2oapp.framework.config.io.widget.v4.chart;
 import net.n2oapp.framework.config.io.widget.v4.charts.LineChartIOv4;
 import net.n2oapp.framework.config.io.widget.v4.ChartWidgetIOv4;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Тестирования чтения и записи линейного графика
  */
 public class LineChartXmlIOv4Test {
+    
     @Test
-    public void testLineChartXmlIOv4Test() {
+    void testLineChartXmlIOv4Test() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new ChartWidgetIOv4(), new LineChartIOv4());
 

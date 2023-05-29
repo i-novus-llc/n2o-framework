@@ -5,9 +5,16 @@ import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.OutputText;
+import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
+import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
+import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -53,7 +60,7 @@ public class DependsOnFieldAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/on_field/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/on_field/orgs.query.xml")
         );
-        
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         Fields fields = page.widget(FormWidget.class).fields();
@@ -109,7 +116,7 @@ public class DependsOnFieldAT extends AutoTestBase {
         button.click();
 
         Drawer drawer = N2oSelenide.drawer();
-        SimplePage drawerPage =  drawer.content(SimplePage.class);
+        SimplePage drawerPage = drawer.content(SimplePage.class);
         drawerPage.shouldExists();
 
         InputSelect drawerField = drawerPage.widget(FormWidget.class).fields().field("Регион").control(InputSelect.class);
@@ -121,5 +128,77 @@ public class DependsOnFieldAT extends AutoTestBase {
         drawer.toolbar().bottomRight().button("Применить").click();
         table.columns().rows().shouldHaveSize(1);
         tableField.shouldHaveValue("region1");
+    }
+
+    @Test
+    void checkDependencyBetweenFieldsAndMultifieldsets() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/on_fields_and_multifieldsets/index.page.xml")
+        );
+        final StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        final FormWidget formWidget = page.regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(1, FormWidget.class);
+
+        final Fields buttonFields = formWidget.fieldsets().fieldset(0, SimpleFieldSet.class).fields();
+        final ButtonField resetFieldBtn = buttonFields.field("reset field", ButtonField.class);
+        final ButtonField resetFieldsetBtn = buttonFields.field("reset field.multiSet", ButtonField.class);
+        final ButtonField setValueToFieldsetBtn = buttonFields.field("set default to field..multiSet", ButtonField.class);
+        final MultiFieldSet fieldset = formWidget.fieldsets().fieldset(1, MultiFieldSet.class);
+        final InputText input = buttonFields.field("field.input").control(InputText.class);
+        final Fields outputFields = formWidget.fieldsets().fieldset(2, SimpleFieldSet.class).fields();
+        final OutputText onAnyField = outputFields.field("on=field").control(OutputText.class);
+        final OutputText onFieldset = outputFields.field("on=field.multiSet").control(OutputText.class);
+        final OutputText onInput = outputFields.field("on field.input").control(OutputText.class);
+
+        resetFieldBtn.shouldExists();
+        resetFieldsetBtn.shouldExists();
+        setValueToFieldsetBtn.shouldExists();
+        fieldset.shouldExists();
+        input.shouldBeEmpty();
+        onAnyField.shouldBeEmpty();
+        onFieldset.shouldBeEmpty();
+        onInput.shouldBeEmpty();
+
+        input.setValue("1");
+        // setValue makes 3 inputs !!!
+        onAnyField.shouldHaveValue("3");
+        onFieldset.shouldBeEmpty();
+        onInput.shouldHaveValue("3");
+
+        setValueToFieldsetBtn.click();
+
+        Fields fieldsetFields = fieldset.item(0).fields();
+        final Select select = fieldsetFields.field("field.multiSet[0].select").control(Select.class);
+        final InputText inputInFieldset = fieldsetFields.field("field.multiSet[0].input").control(InputText.class);
+        final OutputText onSelect = fieldsetFields.field("on=field.multiSet[index].select").control(OutputText.class);
+
+        select.shouldSelected("second");
+        onAnyField.shouldHaveValue("5");
+        onFieldset.shouldHaveValue("5");
+        onInput.shouldHaveValue("4");
+        onSelect.shouldHaveValue("4");
+
+        inputInFieldset.setValue("2");
+        // setValue makes 3 inputs !!!
+        onAnyField.shouldHaveValue("8");
+        onFieldset.shouldHaveValue("8");
+        // wasn't changed
+        onInput.shouldHaveValue("4");
+        // wasn't changed
+        onSelect.shouldHaveValue("4");
+
+        resetFieldsetBtn.click();
+        onAnyField.shouldHaveValue("9");
+        onFieldset.shouldHaveValue("9");
+        onInput.shouldHaveValue("9");
+
+        resetFieldBtn.click();
+        onAnyField.shouldHaveValue("10");
+        onFieldset.shouldHaveValue("10");
+        onInput.shouldHaveValue("10");
     }
 }

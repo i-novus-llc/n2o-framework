@@ -16,8 +16,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -26,7 +26,7 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Тестирование источника данных родительской страницы
@@ -34,7 +34,7 @@ import static org.junit.Assert.fail;
 public class ParentDatasourceTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -47,7 +47,7 @@ public class ParentDatasourceTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCopyActionBackwardCompatibility() {
+    void testCopyActionBackwardCompatibility() {
         PageContext pageContext = new PageContext("testCopyActionFromParent", "/p");
         pageContext.setParentDatasourceIdsMap(Map.of("ds", "p_ds", "ds2", "p_ds2", "ds3", "p_ds3"));
         compile("net/n2oapp/framework/config/metadata/compile/datasource/parent/testCopyActionFromParent.page.xml",
@@ -72,7 +72,7 @@ public class ParentDatasourceTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testParentDatasource() {
+    void testParentDatasource() {
         PageContext pageContext = new PageContext("testParentDatasource", "/p");
         compile("net/n2oapp/framework/config/metadata/compile/datasource/parent/testParentDatasource.page.xml")
                 .get(pageContext);
@@ -138,7 +138,7 @@ public class ParentDatasourceTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testParentDatasourceWithSourceDatasource() {
+    void testParentDatasourceWithSourceDatasource() {
         PageContext pageContext = new PageContext("testParentDsWithSourceDs", "/p");
         compile("net/n2oapp/framework/config/metadata/compile/datasource/parent/testParentDsWithSourceDs.page.xml")
                 .get(pageContext);
@@ -184,7 +184,7 @@ public class ParentDatasourceTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testExceptions() {
+    void testExceptions() {
         PageContext context = new PageContext("testNonExistParentPage", "/p");
         try {
             compile("net/n2oapp/framework/config/metadata/compile/datasource/parent/testNonExistParentPage.page.xml")

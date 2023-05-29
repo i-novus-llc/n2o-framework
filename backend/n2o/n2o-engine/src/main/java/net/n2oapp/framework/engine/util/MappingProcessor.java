@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.engine.data.normalize.NormalizerCollector;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import org.springframework.beans.factory.BeanFactory;
@@ -150,33 +149,19 @@ public class MappingProcessor {
     }
 
     /**
-     * Получение маппингов исходящих полей
+     * Получение структуры маппингов полей
      *
-     * @param parameters Список исходящих полей
-     * @return Маппинги исходящих полей
+     * @param parameters Список полей
+     * @return Структура маппингов полей
      */
-    public static Map<String, String> extractOutFieldMapping(Collection<ObjectSimpleField> parameters) {
-        Map<String, String> mappingMap = new LinkedHashMap<>();
-        if (parameters != null)
-            for (ObjectSimpleField parameter : parameters)
-                mappingMap.put(parameter.getId(), parameter.getMapping());
-        return mappingMap;
-    }
-
-    /**
-     * Получение структуры маппингов входящих полей
-     *
-     * @param parameters Список входящих полей
-     * @return Структура маппингов исходящих полей
-     */
-    public static Map<String, FieldMapping> extractInFieldMapping(Collection<AbstractParameter> parameters) {
+    public static Map<String, FieldMapping> extractFieldMapping(Collection<AbstractParameter> parameters) {
         Map<String, FieldMapping> mappingMap = new LinkedHashMap<>();
         if (parameters != null)
             for (AbstractParameter parameter : parameters) {
                 FieldMapping mapping = new FieldMapping(parameter.getMapping());
                 mapping.setEnabled(parameter.getEnabled());
                 if (parameter instanceof ObjectReferenceField && ((ObjectReferenceField) parameter).getFields() != null)
-                    mapping.setChildMapping(extractInFieldMapping(Arrays.asList(((ObjectReferenceField) parameter).getFields())));
+                    mapping.setChildMapping(extractFieldMapping(Arrays.asList(((ObjectReferenceField) parameter).getFields())));
                 mappingMap.put(parameter.getId(), mapping);
             }
         return mappingMap;

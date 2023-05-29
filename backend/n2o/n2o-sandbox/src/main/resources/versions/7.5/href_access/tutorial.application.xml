@@ -1,14 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <header title="Хедер">
         <nav>
-            <a href="/menu1" label="Доступно всем"/>
-            <a href="/menu2" label="Требуется роль admin"/>
-            <a href="/menu3" label="Требуется право edit"/>
-            <a href="/menu4" label="Только анонимам"/>
+            <menu-item name="Доступно всем">
+                <a href="/menu1"/>
+            </menu-item>
+            <menu-item name="Требуется роль admin">
+                <a href="/menu2"/>
+            </menu-item>
+            <menu-item name="Требуется право edit">
+                <a href="/menu3"/>
+            </menu-item>
+            <menu-item name="Только анонимам">
+                <a href="/menu4"/>
+            </menu-item>
         </nav>
         <extra-menu>
-            <a href="#" label="#{username}"/>
+            <menu-item name="#{username}">
+                <a href="#"/>
+            </menu-item>
         </extra-menu>
     </header>
 </application>

@@ -1,19 +1,23 @@
 package net.n2oapp.watchdir;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.timeout;
+import static org.mockito.Mockito.verify;
 
 /**
  * User: Belyaev Gleb
@@ -67,8 +71,8 @@ public class WatchDirTest
      * проверка срабатывания в подпапках
      */
     @Test
-    @Ignore
-    public void testWithRecursive() throws Exception
+    @Disabled
+    void testWithRecursive() throws Exception
     {
         watchDir.start();
 
@@ -127,8 +131,8 @@ public class WatchDirTest
      *
      */
     @Test
-    @Ignore
-    public void testRestartMonitoring() throws Exception
+    @Disabled
+    void testRestartMonitoring() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
         verify(listener, timeout(100).never()).fileCreated(eq(path));
@@ -152,8 +156,8 @@ public class WatchDirTest
      *
      */
     @Test
-    @Ignore
-    public void testChangeIsFile() throws Exception
+    @Disabled
+    void testChangeIsFile() throws Exception
     {
         watchDir.start();
 
@@ -169,8 +173,8 @@ public class WatchDirTest
      *
      */
     @Test
-    @Ignore
-    public void testChangeIsDirectory() throws Exception
+    @Disabled
+    void testChangeIsDirectory() throws Exception
     {
         watchDir.start();
 
@@ -189,8 +193,8 @@ public class WatchDirTest
      *
      */
     @Test
-    @Ignore
-    public void testEventOnCreate() throws Exception
+    @Disabled
+    void testEventOnCreate() throws Exception
     {
         watchDir.start();
 
@@ -207,8 +211,8 @@ public class WatchDirTest
      *
      */
     @Test
-    @Ignore //todo почему то не срабатывает тест на https://ci.i-novus.ru/view/util/job/watchdir.master.build/lastBuild/net.n2oapp.watchdir$watchdir/testReport/net.n2oapp.watchdir/WatchDirTest/testEventOnChange/
-    public void testEventOnChange() throws Exception
+    @Disabled //todo почему то не срабатывает тест на https://ci.i-novus.ru/view/util/job/watchdir.master.build/lastBuild/net.n2oapp.watchdir$watchdir/testReport/net.n2oapp.watchdir/WatchDirTest/testEventOnChange/
+    void testEventOnChange() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
 
@@ -231,8 +235,8 @@ public class WatchDirTest
      *
      */
     @Test
-    @Ignore
-    public void testEventOnDelete() throws Exception
+    @Disabled
+    void testEventOnDelete() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
         watchDir.start();
@@ -248,8 +252,8 @@ public class WatchDirTest
      *
      */
     @Test
-    @Ignore
-    public void testStartMonitoring() throws Exception
+    @Disabled
+    void testStartMonitoring() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
         verify(listener, timeout(100).never()).fileCreated(any(Path.class));
@@ -266,8 +270,8 @@ public class WatchDirTest
      * после остановки события не срабатывают
      */
     @Test
-    @Ignore
-    public void testStopMonitoring() throws Exception
+    @Disabled
+    void testStopMonitoring() throws Exception
     {
         watchDir.start();
 
@@ -282,8 +286,8 @@ public class WatchDirTest
     }
 
     @Test
-    @Ignore
-    public void testEqPath() {
+    @Disabled
+    void testEqPath() {
         Path path1 = Paths.get(TEST_DIR + "test.txt");
         Path path2 = Paths.get(TEST_DIR + "test.txt");
         Path path3 = Paths.get(TEST_DIR);
@@ -296,8 +300,8 @@ public class WatchDirTest
     }
 
     @Test
-    @Ignore
-    public void testIncorrectCreate() {
+    @Disabled
+    void testIncorrectCreate() {
         watchDir = new WatchDir();
         //старт без listener
         try {
@@ -333,8 +337,8 @@ public class WatchDirTest
     }
 
     @Test
-    @Ignore
-    public void testImmutableAfterStart() {
+    @Disabled
+    void testImmutableAfterStart() {
         watchDir = new WatchDir();
         watchDir.setListener(listener);
         watchDir.addPath(TEST_DIR);
