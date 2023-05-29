@@ -277,7 +277,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 throw new N2oUniqueRequestNotFoundException(query.getId());
             if (filter.getText() != null)
                 where.add(filter.getText());
-            inMap(map, filter.getMapping(), r.getValue());
+            inMap(map, r.getFieldId(), filter.getMapping(), r.getValue());
         }
         map.put("filters", where);
 
@@ -288,7 +288,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 if (!field.getIsSorted())
                     continue;
                 sortingExp.add(field.getSortingExpression());
-                inMap(map, field.getSortingMapping(), getSortingDirectionExpression(sorting.getDirection(), selection));
+                inMap(map, field.getId(), field.getSortingMapping(), getSortingDirectionExpression(sorting.getDirection(), selection));
             }
         map.put("sorting", sortingExp);
 

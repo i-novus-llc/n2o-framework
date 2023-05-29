@@ -36,8 +36,9 @@ public class MappingProcessor {
      * @param mapping выражение преобразования
      * @param value   значение
      */
-    public static void inMap(Object target, String mapping, Object value) {
-        inMap(target, mapping, value, mapping);
+
+    public static void inMap(Object target, String fieldId, String mapping, Object value) {
+        inMap(target, fieldId, mapping, value, mapping);
     }
 
     /**
@@ -48,13 +49,14 @@ public class MappingProcessor {
      * @param value       значение
      * @param userMapping выражение преобразования, используемое для формирования сообщения об ошибке
      */
-    public static void inMap(Object target, String mapping, Object value, String userMapping) {
+
+    public static void inMap(Object target, String fieldId, String mapping, Object value, String userMapping) {
         try {
             Expression expression = writeParser.parseExpression(mapping);
             if (target != null)
                 expression.setValue(target, value);
         } catch (Exception e) {
-            throw new N2oSpelException(userMapping, e);
+            throw new N2oSpelException(fieldId, userMapping, e);
         }
     }
 

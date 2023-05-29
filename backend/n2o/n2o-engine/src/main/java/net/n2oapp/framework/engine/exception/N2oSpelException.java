@@ -12,6 +12,8 @@ public class N2oSpelException extends N2oException {
     private static final String DEFAULT_FIELD_MESSAGE = "Spel expression conversion error with %s of field '%s' from metadata %s";
     private static final String DEFAULT_OPERATION_MESSAGE = "Spel expression conversion error with %s of field '%s' in operation '%s' from metadata %s";
 
+    private static final String DEFAULT_OPERATION_MESSAGE_RESULT_MAPPING = "Spel expression conversion error with %s of result-mapping in operation '%s' from metadata %s";
+
     private String file;
     private String mapping;
     private String fieldId;
@@ -40,7 +42,11 @@ public class N2oSpelException extends N2oException {
                 return defaultOperationMessage(e, file);
             }
         else {
-            return defaultMessage(e, file);
+            if (e.getOperationId() == null) {
+                return defaultMessage(e, file);
+            } else {
+                return defaultOperationMessage_2(e, file);
+            }
         }
     }
 
@@ -54,5 +60,9 @@ public class N2oSpelException extends N2oException {
 
     private static String defaultOperationMessage(N2oSpelException e, String file) {
         return String.format(DEFAULT_OPERATION_MESSAGE, e.getMapping(), e.getFieldId(), e.getOperationId(), file) + ". Cause: " + e.getMessage();
+    }
+
+    private static String defaultOperationMessage_2(N2oSpelException e, String file) {
+        return String.format(DEFAULT_OPERATION_MESSAGE_RESULT_MAPPING, e.getMapping(), e.getOperationId(), file) + ". Cause: " + e.getMessage();
     }
 }

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.ui.controller;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
@@ -49,7 +50,7 @@ public class SpellExceptionTest extends DataControllerTestBase{
     protected N2oApplicationBuilder builder;
     private TestSetController testSetController;
 
-    private GetController getController;
+    private QueryController getController;
 
     @BeforeEach
     public void setUp() {
@@ -149,8 +150,7 @@ public class SpellExceptionTest extends DataControllerTestBase{
         actionRequestInfo.setData(new DataSet());
         N2oSpelException exception = Assertions.assertThrows(N2oSpelException.class, () -> testSetController.handleActionRequest(actionRequestInfo, new ActionResponseInfo()));
         String exceptionMessage = "Spel expression conversion error with ['name'].toUpperCase( of field 'name' in operation 'test1' from metadata testObject.object.xml.";
-        Assertions.assertEquals(exception.getMessage(), exceptionMessage);
-//        Assertions.assertTrue(exception.getMessage().startsWith(exceptionMessage));
+        Assertions.assertTrue(exception.getMessage().startsWith(exceptionMessage));
     }
 
     @Test
@@ -185,6 +185,40 @@ public class SpellExceptionTest extends DataControllerTestBase{
         String exceptionMessage = "Spel expression conversion error with #this.toUpperCase( of field 'name' in operation 'test1' from metadata testObject.object.xml.";
         Assertions.assertTrue(exception.getMessage().startsWith(exceptionMessage));
     }
+
+    @Test
+    public void  testResultMappingObject() {
+        ActionRequestInfo actionRequestInfo = new ActionRequestInfo();
+        CompiledObject object = new CompiledObject();
+        object.setId("testObject");
+        CompiledObject.Operation operation = new CompiledObject.Operation();
+        operation.setId("test1");
+        actionRequestInfo.setObject(object);
+        Map<String, AbstractParameter> inParametersMap = new HashMap<>();
+        ObjectSimpleField field = new ObjectSimpleField();
+        field.setId("name");
+        field.setDefaultValue("test");
+        inParametersMap.put("testId", field);
+
+        Map<String, ObjectSimpleField> outParametersMap = new HashMap<>();
+        field = new ObjectSimpleField();
+        field.setId("name");
+        outParametersMap.put("testId", field);
+
+        operation.setInParametersMap(inParametersMap);
+        operation.setOutParametersMap(outParametersMap);
+        N2oTestDataProvider testDataProvider = new N2oTestDataProvider();
+        testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");
+        testDataProvider.setOperation(N2oTestDataProvider.Operation.create);
+        testDataProvider.setResultMapping("['test'].toUpperCase(");
+        operation.setInvocation(testDataProvider);
+        actionRequestInfo.setOperation(operation);
+        actionRequestInfo.setData(new DataSet());
+        N2oSpelException exception = Assertions.assertThrows(N2oSpelException.class, () -> testSetController.handleActionRequest(actionRequestInfo, new ActionResponseInfo()));
+        String exceptionMessage = "Spel expression conversion error with ['test'].toUpperCase( of result-mapping in operation 'test1' from metadata testObject.object.xml.";
+        Assertions.assertTrue(exception.getMessage().startsWith(exceptionMessage));
+    }
+
     @Test
     public void testNormalizeQuery() {
         QueryRequestInfo queryRequestInfo = new QueryRequestInfo();
@@ -214,10 +248,101 @@ public class SpellExceptionTest extends DataControllerTestBase{
         queryRequestInfo.setSize(1);
         queryRequestInfo.setData(new DataSet());
         N2oSpelException exception = Assertions.assertThrows(N2oSpelException.class, () -> getController.executeQuery(queryRequestInfo, new QueryResponseInfo()));
+        Assertions.assertEquals(exception.getMessage(), "ghf");
     }
 
+    @Test
+    public void testResultMappingQuery() {
+        QueryRequestInfo queryRequestInfo = new QueryRequestInfo();
+        CompiledQuery query = new CompiledQuery();
+        query.setId("testQuery");
 
+        List<AbstractField> displayFields = new ArrayList<>();
+        QuerySimpleField field = new QuerySimpleField();
+        field.setId("name");
+        field.setDefaultValue("test");
+        displayFields.add(field);
+        query.setDisplayFields(displayFields);
 
+        N2oTestDataProvider testDataProvider = new N2oTestDataProvider();
+        testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");
+        testDataProvider.setResultMapping("['test'].toUpperCase(");
 
+        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.Type.list, testDataProvider);
+        N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
+        lists[0] = list;
+        query.setLists(lists);
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        queryRequestInfo.setCriteria(criteria);
+        queryRequestInfo.setQuery(query);
+        queryRequestInfo.setSize(1);
+        queryRequestInfo.setData(new DataSet());
+        N2oSpelException exception = Assertions.assertThrows(N2oSpelException.class, () -> getController.executeQuery(queryRequestInfo, new QueryResponseInfo()));
+        Assertions.assertEquals(exception.getMessage(), "ghf");
+    }
 
+    @Test
+    public void testResultNormalizeQuery() {
+        QueryRequestInfo queryRequestInfo = new QueryRequestInfo();
+        CompiledQuery query = new CompiledQuery();
+        query.setId("testQuery");
+
+        List<AbstractField> displayFields = new ArrayList<>();
+        QuerySimpleField field = new QuerySimpleField();
+        field.setId("name");
+        field.setDefaultValue("test");
+        displayFields.add(field);
+        query.setDisplayFields(displayFields);
+
+        N2oTestDataProvider testDataProvider = new N2oTestDataProvider();
+        testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");
+
+        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.Type.list, testDataProvider);
+        N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
+        list.setResultNormalize("['test'].toUpperCase(");
+        lists[0] = list;
+        query.setLists(lists);
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        queryRequestInfo.setCriteria(criteria);
+        queryRequestInfo.setQuery(query);
+        queryRequestInfo.setSize(1);
+        queryRequestInfo.setData(new DataSet());
+        N2oSpelException exception = Assertions.assertThrows(N2oSpelException.class, () -> getController.executeQuery(queryRequestInfo, new QueryResponseInfo()));
+        String exceptionMessage = "Spel expression conversion error with ['test'].toUpperCase( from metadata testQuery.query.xml.";
+        Assertions.assertTrue(exception.getMessage().startsWith(exceptionMessage));
+    }
+
+    @Test
+    public void testFiltersNormalize() {
+        QueryRequestInfo queryRequestInfo = new QueryRequestInfo();
+        CompiledQuery query = new CompiledQuery();
+        query.setId("testQuery");
+
+        List<AbstractField> displayFields = new ArrayList<>();
+        QuerySimpleField field = new QuerySimpleField();
+        field.setId("name");
+        field.setDefaultValue("test");
+        displayFields.add(field);
+        query.setDisplayFields(displayFields);
+
+        N2oQuery.Filter filter = new N2oQuery.Filter("name", FilterType.eq);
+        filter.setFieldId("name");
+        filter.setNormalize("#this.toUpperCase(");
+        filter.setDefaultValue("test");
+
+        N2oTestDataProvider testDataProvider = new N2oTestDataProvider();
+        testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");
+
+        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.Type.list, testDataProvider);
+        N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
+        lists[0] = list;
+        query.setLists(lists);
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        queryRequestInfo.setCriteria(criteria);
+        queryRequestInfo.setQuery(query);
+        queryRequestInfo.setSize(1);
+        queryRequestInfo.setData(new DataSet());
+        N2oSpelException exception = Assertions.assertThrows(N2oSpelException.class, () -> getController.executeQuery(queryRequestInfo, new QueryResponseInfo()));
+        Assertions.assertEquals(exception.getMessage(), "ghf");
+    }
 }
