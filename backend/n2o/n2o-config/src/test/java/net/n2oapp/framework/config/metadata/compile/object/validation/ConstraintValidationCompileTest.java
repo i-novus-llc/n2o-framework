@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -13,8 +12,8 @@ import net.n2oapp.framework.config.io.dataprovider.TestDataProviderIOv1;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +28,7 @@ import static org.hamcrest.Matchers.nullValue;
  */
 public class ConstraintValidationCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -42,7 +41,7 @@ public class ConstraintValidationCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testConstraintValidation() {
+    void testConstraintValidation() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/validation/testConstraintValidation.object.xml")
                 .get(new ObjectContext("testConstraintValidation"));
 
@@ -66,7 +65,7 @@ public class ConstraintValidationCompileTest extends SourceCompileTestBase {
         Set<String> requiredFields = validations.get(0).getRequiredFields();
         assertThat(requiredFields.size(), is(2));
         assertThat(requiredFields.containsAll(Arrays.asList("id", "name")), is(true));
-        List<ObjectSimpleField> outParametersList = ((ConstraintValidation) validations.get(0)).getOutParametersList();
+        List<AbstractParameter> outParametersList = ((ConstraintValidation) validations.get(0)).getOutParametersList();
         assertThat(outParametersList.size(), is(2));
         assertThat(outParametersList.get(0).getId(), is("id"));
         assertThat(outParametersList.get(1).getId(), is("validation"));

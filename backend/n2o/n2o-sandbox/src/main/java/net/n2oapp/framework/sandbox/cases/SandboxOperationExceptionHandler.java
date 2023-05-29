@@ -58,7 +58,7 @@ public class SandboxOperationExceptionHandler implements OperationExceptionHandl
         dialog.setSize("lg");
 
         N2oFormParam nameParam = new N2oFormParam();
-        nameParam.setId("name");
+        nameParam.setName("name");
         nameParam.setValue(data.getString("name"));
 
         N2oButton registerNew = new N2oButton();

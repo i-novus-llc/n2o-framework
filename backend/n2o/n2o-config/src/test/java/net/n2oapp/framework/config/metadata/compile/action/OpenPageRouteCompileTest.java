@@ -20,8 +20,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
@@ -35,7 +35,7 @@ import static org.hamcrest.Matchers.*;
 public class OpenPageRouteCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -55,7 +55,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Фильтр должен попасть в pathMapping
      */
     @Test
-    public void masterDetailWithPathParam() {
+    void masterDetailWithPathParam() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
@@ -71,7 +71,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Фильтр должен попасть в queryMapping
      */
     @Test
-    public void masterDetailWithoutPathParam() {
+    void masterDetailWithoutPathParam() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
@@ -86,7 +86,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Параметр должен быть, фильтра не должно быть.
      */
     @Test
-    public void masterDetailWithPathParamWithoutMasterDetail() {
+    void masterDetailWithPathParamWithoutMasterDetail() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
@@ -105,7 +105,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Тест открытия страницы с query и path параметрами из мастер виджета.
      */
     @Test
-    public void masterWidgetWithPathAndQueryParam() {
+    void masterWidgetWithPathAndQueryParam() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testMasterWidgetWithParams.page.xml")
                 .get(new PageContext("testMasterWidgetWithParams", "/test"));
         OpenDrawer action = (OpenDrawer) ((ButtonField) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
@@ -127,7 +127,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Тест открытия страницы с query и path параметрами из поля с кнопкой зависимого виджета.
      */
     @Test
-    public void dependentWidgetWithPathAndQueryParam() {
+    void dependentWidgetWithPathAndQueryParam() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testDependentWidgetWithParams.page.xml")
                 .get(new PageContext("testDependentWidgetWithParams", "/test"));
 
@@ -152,7 +152,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Тест открытия страницы с query и path параметрами из тулбара зависимого виджета.
      */
     @Test
-    public void dependentWidgetsToolbarWithPathAndQueryParam() {
+    void dependentWidgetsToolbarWithPathAndQueryParam() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testDependentWidgetsToolbarWithParams.page.xml")
                 .get(new PageContext("testDependentWidgetsToolbarWithParams", "/test"));
 
@@ -176,7 +176,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Тест открытия страницы с query и path параметрами из тулбара страницы.
      */
     @Test
-    public void pageToolbarWithPathAndQueryParam() {
+    void pageToolbarWithPathAndQueryParam() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testPageToolbarWithParams.page.xml")
                 .get(new PageContext("testPageToolbarWithParams", "/test"));
 
@@ -197,7 +197,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Если не заданы, то виджет и модель берутся из кнопки
      */
     @Test
-    public void testPathParamWithDefaultAndDefinedAttributes() {
+    void testPathParamWithDefaultAndDefinedAttributes() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testPathParamAttributes.page.xml")
                 .get(new PageContext("testPathParamAttributes", "/test"));
 
@@ -222,7 +222,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Тест формирования url с route
      */
     @Test
-    public void testRouteWithoutParams() {
+    void testRouteWithoutParams() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoute.page.xml")
                 .get(new PageContext("testOpenPageRoute", "/test"));
         Toolbar toolbar = page.getWidget().getToolbar();
@@ -253,7 +253,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * master-param без detail-field-id никак не должен влиять на queryMapping
      */
     @Test
-    public void testWithoutRouteWithMasterParam() {
+    void testWithoutRouteWithMasterParam() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoute.page.xml")
                 .get(new PageContext("testOpenPageRoute", "/test"));
         Toolbar toolbar = page.getWidget().getToolbar();
@@ -273,7 +273,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Тест формирования url без route и master-param, но с detail-field-id
      */
     @Test
-    public void testWithoutRouteWithDetailFieldId() {
+    void testWithoutRouteWithDetailFieldId() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoute.page.xml")
                 .get(new PageContext("testOpenPageRoute", "/test"));
         Toolbar toolbar = page.getWidget().getToolbar();
@@ -295,7 +295,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Тест формирования url без route, но с master-param и detail-field-id
      */
     @Test
-    public void testWithoutRouteWithMasterParamAndDetailFieldId() {
+    void testWithoutRouteWithMasterParamAndDetailFieldId() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoute.page.xml")
                 .get(new PageContext("testOpenPageRoute", "/test"));
         Toolbar toolbar = page.getWidget().getToolbar();
@@ -318,7 +318,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Тест формирования url без route, master-param, и detail-field-id
      */
     @Test
-    public void testWithoutRouteAndAllParams() {
+    void testWithoutRouteAndAllParams() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoute.page.xml")
                 .get(new PageContext("testOpenPageRoute", "/test"));
         Toolbar toolbar = page.getWidget().getToolbar();
@@ -338,7 +338,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Проверка формирования сабмоделей в path и query параметрах
      */
     @Test
-    public void testParamsSubModelFormation() {
+    void testParamsSubModelFormation() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testParamsSubModel.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/action/testRefbook.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank2.query.xml")
@@ -371,7 +371,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Проверка формирования сабмоделей в path и query параметрах из simple-page
      */
     @Test
-    public void testSimplePageParamsSubModelFormation() {
+    void testSimplePageParamsSubModelFormation() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testSimplePageParamsSubModel.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank2.query.xml")
                 .get(new PageContext("testSimplePageParamsSubModel", "/test"));
@@ -388,7 +388,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      * Тест открытия страницы с двумя path параметрами.
      */
     @Test
-    public void twoPathParam() {
+    void twoPathParam() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageTwoPathParam.page.xml")
                 .get(new PageContext("testOpenPageTwoPathParam", "/test"));
 

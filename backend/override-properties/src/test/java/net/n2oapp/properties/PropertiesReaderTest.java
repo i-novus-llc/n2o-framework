@@ -1,8 +1,7 @@
 package net.n2oapp.properties;
 
 import net.n2oapp.properties.reader.PropertiesReader;
-import net.n2oapp.properties.web.ServletPathProperties;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -17,19 +16,19 @@ public class PropertiesReaderTest {
 
 
     @Test
-    public void readFromTwoProperties() {
+    void readFromTwoProperties() {
         checkProp1AndProp2Merge(PropertiesReader.getPropertiesFromClasspath("prop2.properties", "prop1.properties"));
     }
 
 
     @Test
-    public void readFromThreeProperties() {
+    void readFromThreeProperties() {
         checkContextPathAndProp1AndProp2Merge(PropertiesReader
                 .getPropertiesFromClasspath("context-path.properties", "prop2.properties", "prop1.properties"));
     }
 
     @Test
-    public void readFromPropertiesWithNullProperties() {
+    void readFromPropertiesWithNullProperties() {
 
         checkProp1AndProp2Merge(PropertiesReader
                 .getPropertiesFromClasspath("not_exists.properties", "prop2.properties", "prop1.properties"));
@@ -40,7 +39,7 @@ public class PropertiesReaderTest {
     }
 
     @Test
-    public void testFileSystemProperties() throws Exception {
+    void testFileSystemProperties() throws Exception {
         File file = File.createTempFile("proptest", "properties");
         try(PrintWriter out = new PrintWriter(file)){
             out.println("test=123");

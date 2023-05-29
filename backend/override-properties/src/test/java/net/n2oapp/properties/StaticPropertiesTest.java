@@ -1,9 +1,7 @@
 package net.n2oapp.properties;
 
-import net.n2oapp.properties.StaticProperties;
-import net.n2oapp.properties.test.TestStaticProperties;
 import net.n2oapp.properties.test.TestUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Properties;
@@ -21,7 +19,7 @@ public class StaticPropertiesTest {
     private final Properties properties = new Properties();
 
     @Test
-    public void runTest() {
+    void runTest() {
         //тесты не атомарные. В первом тесте происходит инициализация
         testInitialization();
         testGet();

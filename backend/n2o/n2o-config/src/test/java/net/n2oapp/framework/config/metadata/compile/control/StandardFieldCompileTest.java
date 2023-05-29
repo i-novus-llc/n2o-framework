@@ -29,8 +29,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +46,7 @@ import static org.hamcrest.Matchers.notNullValue;
 public class StandardFieldCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -59,7 +59,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testDependencies() {
+    void testDependencies() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardField.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testStandardField"));
@@ -108,7 +108,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testToolbar() {
+    void testToolbar() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardField.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testStandardField"));
@@ -131,7 +131,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testValidations() {
+    void testValidations() {
         PageContext pageContext = new PageContext("testStandardField");
         pageContext.setSubmitOperationId("update");
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardField.page.xml",
@@ -178,7 +178,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testInlineValidations() {
+    void testInlineValidations() {
         PageContext pageContext = new PageContext("testStandardFieldInlineValidations");
         pageContext.setSubmitOperationId("update");
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldInlineValidations.page.xml",
@@ -203,7 +203,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testSubmit() {
+    void testSubmit() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmit.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testStandardFieldSubmit"));
@@ -251,7 +251,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testSubmitInDependentWidget() {
+    void testSubmitInDependentWidget() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/mapping/testSubmitInDependentWidget.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testSubmitInDependentWidget"));
@@ -272,7 +272,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testSubmitWithoutRoute() {
+    void testSubmitWithoutRoute() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmitWithoutRoute.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testStandardFieldSubmitWithoutRoute"));
@@ -320,7 +320,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testExtraProperties() {
+    void testExtraProperties() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldExtProps.page.xml")
                 .get(new PageContext("testStandardFieldExtProps"));
         Field field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
@@ -351,7 +351,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testConditions() {
+    void testConditions() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldConditions.page.xml")
                 .get(new PageContext("testStandardFieldConditions"));
 
@@ -401,7 +401,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testEnablingConditionValidations() {
+    void testEnablingConditionValidations() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldEnablingConditionValidations.page.xml")
                 .get(new PageContext("testStandardFieldEnablingConditionValidations", "/p"));
         List<Validation> validations = ((StandardDatasource) page.getDatasources().get("p_form")).getValidations().get("joe");

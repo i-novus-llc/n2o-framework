@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.register.MetaType;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
 import net.n2oapp.framework.config.register.storage.Node;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,8 +15,9 @@ import java.util.Collection;
  * Тестирование утилитного класса для работы с регистром
  */
 public class RegisterUtilTest {
+    
     @Test
-    public void testGetIdAndPostfix() throws Exception {
+    void testGetIdAndPostfix() throws Exception {
         String[] idAndPostfix = RegisterUtil.getIdAndPostfix("/opt/n2o/conf/objects/some/some.object.xml");
         assert idAndPostfix[0].equals("some");
         assert idAndPostfix[1].equals("object");
@@ -30,13 +31,13 @@ public class RegisterUtilTest {
     }
 
     @Test
-    public void testCyrillic() throws Exception {
+    void testCyrillic() throws Exception {
         String[] res = RegisterUtil.getIdAndPostfix("file:/opt/rmis/rmis-conf/report/form/report_002_О_у_10_journal_of_arms_221.widget.xml");
         assert res.length == 3;
     }
 
     @Test
-    public void testCreateXmlInfo() throws Exception {
+    void testCreateXmlInfo() throws Exception {
         SourceTypeRegister metaModelRegister = new N2oSourceTypeRegister();
         metaModelRegister.addAll(Arrays.asList(new MetaType("object", N2oObject.class)));
         Node node = Node.byDirectory(new File("/opt/n2o/conf/some/objects/some.object.xml"), "/opt/n2o/conf");
@@ -46,7 +47,7 @@ public class RegisterUtilTest {
     }
 
     @Test
-    public void testInfoGetDirectory() throws Exception {
+    void testInfoGetDirectory() throws Exception {
         SourceTypeRegister metaModelRegister = new N2oSourceTypeRegister();
         metaModelRegister.addAll(Arrays.asList(new MetaType("object", N2oObject.class)));
         InfoConstructor info = new InfoConstructor();

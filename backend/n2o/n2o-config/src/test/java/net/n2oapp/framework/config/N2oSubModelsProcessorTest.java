@@ -15,8 +15,8 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipelin
 import net.n2oapp.framework.api.util.N2oTestUtil;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -29,7 +29,7 @@ public class N2oSubModelsProcessorTest {
 
     private N2oSubModelsProcessor processor;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         QueryProcessor queryProcessor = mock(QueryProcessor.class);
         when(queryProcessor.executeOneSizeQuery(any(), any()))
@@ -45,7 +45,7 @@ public class N2oSubModelsProcessorTest {
     }
 
     @Test
-    public void testSingleListSubModel() {
+    void testSingleListSubModel() {
         //успех
         SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", false, null);
         DataSet dataSet = new DataSet("gender.id", 1);
@@ -73,7 +73,7 @@ public class N2oSubModelsProcessorTest {
     }
 
     @Test
-    public void testSingleListSubModelError() {
+    void testSingleListSubModelError() {
         //в query нету поля для value
         SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "wrong", "label", false, null);
         DataSet dataSet = new DataSet("gender.wrong", 1);
@@ -82,7 +82,7 @@ public class N2oSubModelsProcessorTest {
 
 
     @Test
-    public void tesMultiListSubModel() {
+    void tesMultiListSubModel() {
         //успех
         SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", true, null);
         DataSet dataSet = new DataSet("gender[0].id", 1).add("gender[1].id", 2);
@@ -134,7 +134,7 @@ public class N2oSubModelsProcessorTest {
 
 
     @Test
-    public void testMultiListSubModelError() {
+    void testMultiListSubModelError() {
         //в query нету поля для value
         SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "wrong", "label", true, null);
         DataSet dataSet = new DataSet("gender[0].wrong", 1);

@@ -9,8 +9,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AbstractPageBinderTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -37,7 +37,7 @@ public class AbstractPageBinderTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void fieldsResolve() {
+    void fieldsResolve() {
         Page page1 = builder.read().compile().bind().get(new PageContext("testFilteredPageBinder1"), new DataSet());
         assertThat(page1.getProperties(), nullValue());
         Page page2 = builder.read().compile().bind().get(new PageContext("testFilteredPageBinder2"), new DataSet());

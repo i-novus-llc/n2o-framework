@@ -14,8 +14,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.nullValue;
  */
 public class ButtonDependencyCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -41,7 +41,7 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testButtonDependency() {
+    void testButtonDependency() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/dependency/testButtonDependency.page.xml")
                 .get(new PageContext("testButtonDependency"));
         List<AbstractButton> buttons = ((Widget) ((TabsRegion) page.getRegions().get("single").get(0)).getItems().get(0).getContent().get(0))
@@ -111,7 +111,7 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testButtonDependencyWithDatasource() {
+    void testButtonDependencyWithDatasource() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/dependency/testButtonDependencyWithDatasource.page.xml")
                 .get(new PageContext("testButtonDependencyWithDatasource"));
         List<AbstractButton> buttons = ((Widget) ((TabsRegion) page.getRegions().get("single").get(0)).getItems().get(0).getContent().get(0))
