@@ -11,7 +11,7 @@ describe('Проверка Label', () => {
     })
     it('required = true', () => {
         const wrapper = setup({ required: true, value: 'test' })
-        expect(wrapper.find('.n2o-field-label-required').exists()).toEqual(true)
+        expect(wrapper.find('Required').exists()).toEqual(true)
     })
     it('help = true', () => {
         const wrapper = setup({ help: 'help', id: 'test', value: 'test' })
