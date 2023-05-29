@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Label as BootstrapLabel } from 'reactstrap'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 import HelpPopover from './HelpPopover'
+import { Required } from './Required'
 
 /**
  * Лейбел поля
@@ -19,28 +20,32 @@ import HelpPopover from './HelpPopover'
  */
 
 const Label = ({ id, value, required, className, style, help }) => {
+    if (!value) {
+        return null
+    }
+
     const newProps = {
-        className: cx('col-form-label', className),
+        className: classNames('col-form-label', className),
         style: { display: 'inline-block', ...style },
     }
 
-    return React.isValidElement(value) ? (
-        <div className="n2o-field-label">
-            {React.cloneElement(value, newProps)}
-            {required && value ? (
-                <span className="n2o-field-label-required">*</span>
-            ) : (
-                ''
-            )}
-            {help && value ? <HelpPopover id={id} help={help} /> : null}
-        </div>
-    ) : (
-        <BootstrapLabel className={cx('n2o-field-label', className)} style={style}>
-            {value}
-            {required && value ? (
-                <span className="n2o-field-label-required">*</span>
-            ) : null}
-            {help && value ? <HelpPopover id={id} help={help} /> : null}
+    if (React.isValidElement(value)) {
+        return (
+            <div className="n2o-field-label">
+                {React.cloneElement(value, newProps)}
+                <Required required={required} />
+                <HelpPopover id={id} help={help} />
+            </div>
+        )
+    }
+
+    return (
+        <BootstrapLabel className={classNames('n2o-field-label', className)}>
+            <section style={style}>
+                <span>{value}</span>
+                <Required required={required} />
+            </section>
+            <HelpPopover id={id} help={help} />
         </BootstrapLabel>
     )
 }
