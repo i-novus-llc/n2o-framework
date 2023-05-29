@@ -5,5 +5,7 @@
             <a label="Test" href="i-novus.ru"/>
         </nav>
     </header>
-    <footer right-text="RightText" left-text="LeftText" src="Footer" class="footer-class" style="background-color:primary"/>
+    <footer right-text="RightText\n{name}"
+            left-text="LeftText\n{name}"
+            src="Footer" class="footer-class" style="background-color:primary"/>
 </application>
