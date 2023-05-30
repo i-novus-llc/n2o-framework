@@ -28,8 +28,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ import static org.hamcrest.Matchers.*;
 public class OpenDrawerCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -49,20 +49,20 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oControlsPack(), new N2oAllDataPack(),
                 new N2oActionsPack(), new N2oCellsPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerPageSecondFlow.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage3.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction1.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction2.page.xml"));
     }
 
     @Test
-    public void create() {
+    void create() {
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
                 .get(new PageContext("testOpenDrawerRootPage", "/p"));
 
@@ -116,7 +116,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void update() {
+    void update() {
         PageContext pageContext = new PageContext("testOpenDrawerRootPage", "/p");
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
                 .get(pageContext);
@@ -157,7 +157,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void createFocus() {
+    void createFocus() {
         PageContext pageContext = new PageContext("testOpenDrawerRootPage", "/p");
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
                 .get(pageContext);
@@ -172,7 +172,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void updateFocus() {
+    void updateFocus() {
         PageContext pageContext = new PageContext("testOpenDrawerRootPage", "/p");
         compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
                 .get(pageContext);
@@ -190,7 +190,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void createUpdate() {
+    void createUpdate() {
         PageContext pageContext = new PageContext("testOpenDrawerRootPage", "/p");
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
                 .get(pageContext);
@@ -208,7 +208,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void dynamicPage() {
+    void dynamicPage() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerDynamicPage.page.xml")
                 .get(new PageContext("testOpenDrawerDynamicPage", "/page"));
         PageContext context = (PageContext) route("/page/testOpenPageSimplePageAction1/id1", Page.class);
@@ -227,7 +227,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void updateWithPreFilters() {
+    void updateWithPreFilters() {
         PageContext pageContext = new PageContext("testOpenDrawerRootPage", "/p");
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
                 .get(pageContext);
@@ -280,7 +280,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void updateModelEditWithPreFilters() {
+    void updateModelEditWithPreFilters() {
         PageContext pageContext = new PageContext("testOpenDrawerRootPage", "/p");
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
                 .get(pageContext);

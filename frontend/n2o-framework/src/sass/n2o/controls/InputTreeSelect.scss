@@ -5,10 +5,27 @@
     line-height: 1.5;
     height: auto;
     min-height: $input-min-height;
-    padding: unset;
+    padding: 0 !important;
     background-clip: padding-box;
     cursor: pointer;
     outline: none;
+
+    .n2o-select-tree-tree-treenode-switcher-close {
+        display: flex;
+        width: 100%;
+
+        .n2o-select-tree-tree-node-content-wrapper,
+        .n2o-select-tree-tree-title {
+            width: 100%;
+        }
+    }
+
+    .n2o-select-tree-tree-treenode-switcher-open {
+        .n2o-select-tree-tree-node-content-wrapper,
+        .n2o-select-tree-tree-title {
+            width: calc(100% - 50px);
+        }
+    }
 
     .n2o-select-tree-selection__placeholder {
         color: $gray-600;
@@ -19,10 +36,6 @@
         left: 12px;
         user-select: none;
         color: $gray-600;
-    }
-
-    &:hover {
-        border-color: $input-select-tree-color-hover;
     }
 
     .n2o-select-tree-tree-switcher {
@@ -331,17 +344,12 @@
 
         .n2o-select-tree-tree-title {
             padding: 0 5px;
-            width: calc(100% - 20px);
             display: inline-block;
         }
 
         .n2o-select-tree-tree-checkbox {
             display: inline-block;
             vertical-align: middle;
-
-            + .n2o-select-tree-tree-node-content-wrapper > .n2o-select-tree-tree-title {
-                width: calc(100% - 44px);
-            }
         }
 
         .n2o-select-tree-tree-child-tree {

@@ -8,8 +8,9 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -19,8 +20,9 @@ import static org.hamcrest.Matchers.nullValue;
  * Тестирование компиляции бокового меню
  */
 public class SidebarCompileTest extends SourceCompileTestBase {
+    
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -60,7 +62,7 @@ public class SidebarCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void sidebarMenu() {
+    void sidebarMenu() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/application/sidebar/sidebarWithMenu.application.xml")
@@ -105,7 +107,7 @@ public class SidebarCompileTest extends SourceCompileTestBase {
 
 
     @Test
-    public void testInvisibleSidebar() {
+    void testInvisibleSidebar() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/sidebar/invisibleSidebar.application.xml")
                 .bind().get(new ApplicationContext("invisibleSidebar"), null);
 
@@ -113,7 +115,7 @@ public class SidebarCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void sidebars() {
+    void sidebars() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/sidebar/sidebars.application.xml")
                 .get(new ApplicationContext("sidebars"));
 

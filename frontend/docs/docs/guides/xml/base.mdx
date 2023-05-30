@@ -138,7 +138,6 @@ description: ""
 |domain       |Домены    |Тип данных                                   |                     |
 |normalize    |Строка    |SpEL выражение, изменяющее значение параметра|                     |
 |mapping      |Строка    |Выражение маппинга                           |                     |
-|required     |true false|Обязательность параметра                     |false                |
 
 #### Свойства входящих параметров провайдера данных.
 
@@ -151,6 +150,7 @@ description: ""
 |param              |Строка|Параметр содержащий url                          |                     |
 |validation-fail-key|Строка|Код ошибки валидации с сервера                   |                     |
 |entity-class       |Строка|Класс, которому соответствует параметр           |                     |
+|required           |true false|Обязательность параметра                     |false                |
 |enabled            |Строка|Условие, при котором должен быть выполнен маппинг|                     |
 
 **Тело**
@@ -170,17 +170,27 @@ description: ""
 
 #### Свойства исходящих параметров провайдера данных.
 
-В качестве исходящих параметров может быть только &lt;field&gt;
+В качестве исходящих параметров могут быть как простые поля &lt;field&gt;, так и составные: &lt;reference&gt;, &lt;list&gt;, &lt;set&gt;.
+В отличие от входящих не имеют дополнительных атрибутов.
 
 **Пример**
 
 ```xml
 <out>
-  <field id="gender*.id" domain="integer[]" mapping="genders"/>
+    <field id="gender*.id" domain="integer[]" mapping="genders" param="param"/>
+    <reference id="address">
+        <field id="city" mapping="city"/>
+        <field id="street" mapping="street"/>
+        <field id="home" mapping="home"/>
+    </reference>
+    <list id="ratings" mapping="ratings">
+      <field id="code" mapping="code"/>
+      <field id="name" mapping="name"/>
+    </list>
 </out>
 ```
 
-Параметр, позволяющий обрабатывать информацию об ошибках
+Параметр, позволяющий обрабатывать информацию об ошибках. Может быть только простое поле &lt;field&gt;
 
 ```xml
 <fail-out>

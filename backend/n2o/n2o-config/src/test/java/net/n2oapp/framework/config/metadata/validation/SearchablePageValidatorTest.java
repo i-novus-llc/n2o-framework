@@ -9,21 +9,18 @@ import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageVal
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.SearchablePageValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование валидации страницы с поисковой строкой
  */
 public class SearchablePageValidatorTest extends SourceValidationTestBase {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -39,19 +36,23 @@ public class SearchablePageValidatorTest extends SourceValidationTestBase {
      * Проверяется наличие источника данных в <search-bar>
      */
     @Test
-    public void testNonExistentDatasourceInSearchBar() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Для компиляции страницы с поисковой строкой необходимо указать источник данных в <search-bar>");
-        validate("net/n2oapp/framework/config/metadata/validation/page/searchable/testNonExistentDatasourceInSearchBar.page.xml");
+    void testNonExistentDatasourceInSearchBar() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/searchable/testNonExistentDatasourceInSearchBar.page.xml"),
+                "Для компиляции страницы с поисковой строкой необходимо указать источник данных в <search-bar>"
+        );
     }
 
     /**
      * Проверяется наличие источника данных, указанного в <search-bar>, на странице
      */
     @Test
-    public void testNonExistentDatasourceLinkInSearchBar() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("<search-bar> страницы с поисковой строкой ссылается на несуществующий источник данных ds1");
-        validate("net/n2oapp/framework/config/metadata/validation/page/searchable/testNonExistentDatasourceLinkInSearchBar.page.xml");
+    void testNonExistentDatasourceLinkInSearchBar() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/searchable/testNonExistentDatasourceLinkInSearchBar.page.xml"),
+                "<search-bar> страницы с поисковой строкой ссылается на несуществующий источник данных ds1"
+        );
     }
 }

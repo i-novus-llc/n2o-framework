@@ -3,11 +3,10 @@ package net.n2oapp.framework.config.metadata.compile.object.validation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.data.validation.ValidationDialog;
 import net.n2oapp.framework.api.exception.SeverityType;
-import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.metadata.action.N2oCloseAction;
 import net.n2oapp.framework.api.metadata.action.N2oInvokeAction;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
@@ -20,8 +19,8 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -33,7 +32,7 @@ import static org.hamcrest.Matchers.*;
  */
 public class ValidationDialogCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -46,7 +45,7 @@ public class ValidationDialogCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testValidationDialog() {
+    void testValidationDialog() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/validation/testValidationDialog.object.xml")
                 .get(new ObjectContext("testValidationDialog"));
 
@@ -63,7 +62,7 @@ public class ValidationDialogCompileTest extends SourceCompileTestBase {
 
         List<AbstractParameter> inParametersList = ((ValidationDialog) validations.get(0)).getInParametersList();
         assertThat(inParametersList.size(), is(3));
-        List<ObjectSimpleField> outParametersList = ((ValidationDialog) validations.get(0)).getOutParametersList();
+        List<AbstractParameter> outParametersList = ((ValidationDialog) validations.get(0)).getOutParametersList();
         assertThat(outParametersList.size(), is(2));
         assertThat(outParametersList.get(0).getId(), is("name"));
         assertThat(outParametersList.get(1).getId(), is("validation"));

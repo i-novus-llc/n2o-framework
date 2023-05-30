@@ -1,4 +1,4 @@
-<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0">
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
     <operations>
         <operation id="create">
             <invocation/>
@@ -12,6 +12,6 @@
         </operation>
     </operations>
     <validations>
-        <condition severity="danger" id="valid" server-moment="after-success-query" message="Fail name">name=='test'</condition>
+        <condition id="valid" server-moment="after-success-query" message="Fail name">name=='test'</condition>
     </validations>
 </object>

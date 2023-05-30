@@ -460,7 +460,7 @@ class N2OSelect extends React.Component {
 
         const [selectedElement] = selected
 
-        return selectedElement[labelFieldId]
+        return get(selectedElement, labelFieldId)
     }
 
     render() {

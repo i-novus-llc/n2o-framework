@@ -6,7 +6,7 @@ import net.n2oapp.framework.config.io.fieldset.v4.ColElementIO4;
 import net.n2oapp.framework.config.io.fieldset.v4.RowElementIO4;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Тестирование чтения/записи виджета Форма
@@ -14,7 +14,7 @@ import org.junit.Test;
 public class FormXmlIOv4Test {
 
     @Test
-    public void testFormXmlIOV4() {
+    void testFormXmlIOV4() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new RowElementIO4(), new ColElementIO4(), new FormElementIOV4(),
                 new ButtonIO(), new InputTextIOv2());

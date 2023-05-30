@@ -26,5 +26,5 @@ public interface InvocationProcessor {
             N2oInvocation invocation,
             DataSet inDataSet,
             Collection<AbstractParameter> inParameters,
-            Collection<ObjectSimpleField> outParameters);
+            Collection<AbstractParameter> outParameters);
 }

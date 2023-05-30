@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.mock;
 public class DataModelTest {
 
     @Test
-    public void add() {
+    void add() {
         DataModel model = new DataModel();
         assertThat(model.add("key", new ModelLink(ReduxModel.resolve, "w1", "f1"), 1), nullValue());
         assertThat(model.getValue(new ModelLink(ReduxModel.resolve, "w1", "f1")), is(1));
@@ -41,7 +41,7 @@ public class DataModelTest {
     }
 
     @Test
-    public void addAll() {
+    void addAll() {
         DataModel model = new DataModel();
         Map<String, ModelLink> pathMappings = new HashMap<>();
         pathMappings.put("master_id", new ModelLink(ReduxModel.resolve, "master", "id"));
@@ -56,7 +56,7 @@ public class DataModelTest {
     }
 
     @Test
-    public void getDataIfAbsent() {
+    void getDataIfAbsent() {
         N2oSubModelsProcessor p = mock(N2oSubModelsProcessor.class);
         doAnswer(invocation -> {
             DataSet data = invocation.getArgument(1);

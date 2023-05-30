@@ -11,17 +11,44 @@
 }
 
 .n2o-header {
-    .dropdown-level-3 {
-        .nav-link {
+    .dropdown {
+        .dropdown-toggle {
             padding: 10px 15px;
+            border: none;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            color: rgba(0, 0, 0, 0.5);
         }
 
-        .item-level-3.dropdown-menu.show {
-            border: 1px solid $primary !important;
+        .dropdown-toggle:hover {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .dropdown-toggle:active,
+        .dropdown-toggle:focus {
+            background-color: white;
         }
 
         .dropdown-menu.show {
-            border: none !important;
+            border: 1px solid $primary;
+
+            .dropdown-item.active::before {
+                display: none;
+            }
+        }
+    }
+
+    .n2o-navbar-collapse-open {
+        .dropdown {
+            .dropdown-toggle {
+                padding-left: 0;
+            }
+        }
+    }
+
+    .dropdown.isOpen {
+        .dropdown-toggle {
+            color: rgba(0, 0, 0, 0.7);
         }
     }
 
@@ -76,137 +103,26 @@
             }
         }
     }
-
-    .n2o-navbar-collapse-open {
-        .dropdown-menu {
-            background-color: transparent;
-            border: none;
-        }
-
-        .navbar-nav {
-            .dropdown.show.nav-item {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .dropdown-item {
-                color: $primary;
-            }
-
-            .dropdown-item.active {
-                color: white;
-            }
-
-            .dropdown-menu.show {
-                padding: 0;
-                border: none;
-            }
-        }
-    }
 }
 
-.n2o-header.open {
-    .dropdown-level-3 {
-        .item-level-3.dropdown-menu.show {
-            border: none !important;
-
-            .nav-link.dropdown-item {
-                padding-left: 30px;
-            }
-
-            .nav-link.dropdown-item::before {
-                left: 1rem;
-            }
-        }
-    }
-}
-
-.n2o-header-inverse {
+.n2o-header.n2o-header-inverse {
     .n2o-sidebar-switcher {
         color: white;
     }
 
-    .navbar-collapse.n2o-navbar-collapse-open {
-        .navbar-nav {
-            .dropdown-item {
-                color: #bbb;
-
-                .nav-item {
-                    .nav-link {
-                        padding: 10px 15px;
-                        color: $gray-light;
-                    }
-
-                    .nav-link.dropdown-item.active {
-                        background-color: transparent;
-                        color: white;
-                    }
-
-                    .nav-link.dropdown-item:hover {
-                        background-color: transparent;
-                        color: rgba(255, 255, 255, 0.75);
-                    }
-
-                    .nav-link.dropdown-item.active:hover {
-                        color: white;
-                    }
-
-                    .nav-link.dropdown-item:active,
-                    .nav-link.dropdown-item:focus {
-                        background-color: transparent;
-                    }
-                }
-            }
-
-            .dropdown-item:hover {
-                background-color: transparent;
-                color: rgba(255, 255, 255, 0.75);
-            }
-
-            .dropdown-item.active:hover {
-                color: white;
-            }
+    .dropdown {
+        .dropdown-toggle {
+            color: $gray-light;
         }
-    }
-}
 
-.n2o-header.n2o-header-inverse {
-    .dropdown-level-3 {
-        .toggle-level-3 {
-            color: rgba(0, 0, 0, 0.5);
-        }
-    }
-
-    .dropdown-level-3:hover {
-        .toggle-level-3 {
-            color: rgba(0, 0, 0, 0.7);
-        }
-    }
-
-    .dropdown-level-3.show {
-        .toggle-level-3 {
-            color: #163851;
-        }
-    }
-}
-
-.n2o-header.n2o-header-inverse.open {
-    .dropdown-level-3 {
-        .toggle-level-3 {
-            color: #90a4ae;
-        }
-    }
-
-    .dropdown-level-3:hover {
-        .toggle-level-3 {
+        .dropdown-toggle:hover {
             color: rgba(255, 255, 255, 0.75);
         }
-    }
 
-    .dropdown-level-3.show {
-        .toggle-level-3 {
-            color: white;
+        .dropdown-toggle:active,
+        .dropdown-toggle:focus {
+            background-color: white;
+            color: rgba(255, 255, 255, 0.75) !important;
         }
     }
 }

@@ -11,19 +11,21 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование компиляции компонента выбора из выпадающего списка
  */
 public class SelectCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -37,7 +39,7 @@ public class SelectCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testSelect() {
+    void testSelect() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testSelect.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/control/test.query.xml")
                 .get(new PageContext("testSelect"));
@@ -81,10 +83,13 @@ public class SelectCompileTest extends SourceCompileTestBase {
         assertThat(select.getData(), nullValue());
     }
 
-    @Test(expected = N2oException.class)
-    public void testSelectCheckPrefilter() {
-        compile("net/n2oapp/framework/config/metadata/compile/control/testSelectPrefilter.page.xml",
-                "net/n2oapp/framework/config/metadata/compile/control/test.query.xml")
-                .get(new PageContext("testSelectPrefilter"));
+    @Test
+    void testSelectCheckPrefilter() {
+        assertThrows(
+                N2oException.class,
+                () -> compile("net/n2oapp/framework/config/metadata/compile/control/testSelectPrefilter.page.xml",
+                        "net/n2oapp/framework/config/metadata/compile/control/test.query.xml")
+                        .get(new PageContext("testSelectPrefilter"))
+                );
     }
 }

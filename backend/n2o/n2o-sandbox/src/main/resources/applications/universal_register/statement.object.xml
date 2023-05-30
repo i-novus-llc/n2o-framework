@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+<operations>
+    <operation id="create">
+        <invocation>
+            <test file="statement.json" operation="create"/>
+        </invocation>
+        <in>
+            <field id="id" mapping="['patient_id']"/>
+            <field id="create_date" normalize="T(java.time.LocalDate).now()"/>
+            <field id="fio"/>
+            <field id="snils"/>
+            <field id="gender"/>
+            <field id="birthday"/>
+            <field id="compulsory"/>
+            <field id="document"/>
+            <field id="organization.name"/>
+            <field id="newOrganization.name"/>
+            <field id="fullAddress"/>
+            <field id="regfullAddress"/>
+            <field id="medOrgCheck"/>
+            <field id="status" default-value="Сформирован"/>
+        </in>
+    </operation>
+</operations>
+</object>

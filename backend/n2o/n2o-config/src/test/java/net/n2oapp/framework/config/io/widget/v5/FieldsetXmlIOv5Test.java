@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
 import net.n2oapp.framework.config.io.control.v3.plain.InputTextIOv3;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsV5IOPack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Тесты чтения/записи филдсетов версии 5.0
@@ -18,26 +18,25 @@ public class FieldsetXmlIOv5Test {
             .addIO(new InputTextIOv3());
 
     @Test
-    public void testIOSetFieldset() {
+    void testIOSetFieldset() {
         assert tester.check("net/n2oapp/framework/config/io/widget/fieldset/testSetFieldsetIOv5.fieldset.xml",
                 (N2oSetFieldSet fs) -> {
                 });
     }
 
     @Test
-    public void testIOLineFieldset() {
+    void testIOLineFieldset() {
         assert tester.check("net/n2oapp/framework/config/io/widget/fieldset/testLineFieldsetIOv5.fieldset.xml",
                 (N2oLineFieldSet fs) -> {
                 });
     }
 
     @Test
-    public void testIOMultiFieldset() {
+    void testIOMultiFieldset() {
         assert tester.check("net/n2oapp/framework/config/io/widget/fieldset/testMultiFieldsetIOv5.fieldset.xml",
                 (N2oMultiFieldSet fs) -> {
                 });
     }
-
 }
 
 

@@ -7,12 +7,14 @@ import net.n2oapp.framework.config.io.control.v2.plain.PlainFieldIOv2;
 import net.n2oapp.framework.config.io.dataprovider.SqlDataProviderIOv1;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.test.XmlIOTestBase;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class N2oPlainFieldXmlIOTest extends XmlIOTestBase {
+    
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -34,7 +36,7 @@ public class N2oPlainFieldXmlIOTest extends XmlIOTestBase {
     }
 
     @Test
-    public void test() {
+    void test() {
         check("net/n2oapp/framework/config/io/control/v2/testBaseSimpleControl.xml");
     }
 }

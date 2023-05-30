@@ -26,7 +26,8 @@
                     <column text-field-id="department"/>
                 </columns>
                 <filters>
-                    <line label="Расширенные фильтры" badge="{count}">
+                    <line label="Расширенные фильтры" badge="{count}"
+                          badge-color="secondary" badge-shape="circle">
                         <hidden id="count"/>
                         <row>
                             <select id="region">

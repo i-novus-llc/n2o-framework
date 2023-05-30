@@ -19,17 +19,17 @@ import net.n2oapp.framework.engine.data.N2oInvocationProcessor;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.util.TestEntity;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.stubbing.Answer;
 
 import java.util.*;
 
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -41,8 +41,8 @@ public class InvocationProcessorTest {
     private N2oInvocationProcessor invocationProcessor;
     private JavaDataProviderEngine javaDataProviderEngine;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         N2oInvocationFactory actionInvocationFactory = mock(N2oInvocationFactory.class);
         javaDataProviderEngine = new JavaDataProviderEngine();
         when(actionInvocationFactory.produce(N2oJavaDataProvider.class)).thenReturn(javaDataProviderEngine);
@@ -63,7 +63,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testDefaultValue() {
+    void testDefaultValue() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         method.setMethod("methodWithOneArgument");
         method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
@@ -89,13 +89,13 @@ public class InvocationProcessorTest {
         DataSet outerDataSet = new DataSet();
         outerDataSet.put("entity", new DataSet());
 
-        DataSet resultDataSet = invocationProcessor.invoke(method, outerDataSet, Arrays.asList(param), null);
+        DataSet resultDataSet = invocationProcessor.invoke(method, outerDataSet, List.of(param), null);
 
         assertThat(((DataSet) resultDataSet.get("entity")).get("name"), is("defaultValue"));
     }
 
     @Test
-    public void testArgumentsInvocation() {
+    void testArgumentsInvocation() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         method.setMethod("sum");
         method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
@@ -157,7 +157,7 @@ public class InvocationProcessorTest {
         param5.setEnabled("paramWithMappingCondition != null");
         inMapping.add(param5);
 
-        List<ObjectSimpleField> outMapping = new ArrayList<>();
+        List<AbstractParameter> outMapping = new ArrayList<>();
         ObjectSimpleField outParam = new ObjectSimpleField();
         outParam.setId("sum");
         outParam.setMapping("#this");
@@ -169,15 +169,15 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testEntityMapping() {
+    void testEntityMapping() {
         testDefaultValue();
         testNormalizing();
         testMappingCondition();
-        fullMappingTest();
+        testFullMapping();
     }
 
     @Test
-    public void testMappingCondition() {
+    void testMappingCondition() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         method.setMethod("methodReturnedEntity");
         method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
@@ -209,7 +209,7 @@ public class InvocationProcessorTest {
         param.setFields(new AbstractParameter[]{inParam1, inParam2});
         inMapping.add(param);
 
-        List<ObjectSimpleField> outMapping = new ArrayList<>();
+        List<AbstractParameter> outMapping = new ArrayList<>();
         ObjectSimpleField outParam = new ObjectSimpleField();
         outParam.setId("result");
         outParam.setMapping("#this");
@@ -228,7 +228,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void fullMappingTest() {
+    void testFullMapping() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         method.setMethod("methodReturnedEntity");
         method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
@@ -288,7 +288,7 @@ public class InvocationProcessorTest {
         listParam.setFields(new AbstractParameter[]{inParam1, inParam2});
         inMapping.add(listParam);
 
-        List<ObjectSimpleField> outMapping = new ArrayList<>();
+        List<AbstractParameter> outMapping = new ArrayList<>();
         ObjectSimpleField outParam = new ObjectSimpleField();
         outParam.setId("testValue");
         outParam.setMapping("#this");
@@ -306,7 +306,108 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testMapsInvocation() {
+    void testOutParametersFullMapping() {
+        N2oJavaDataProvider method = new N2oJavaDataProvider();
+        method.setMethod("methodReturnedEntity");
+        method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
+
+        Argument entityTypeArgument = new Argument();
+        entityTypeArgument.setName("argument");
+        entityTypeArgument.setClassName("net.n2oapp.framework.engine.util.TestEntity");
+        entityTypeArgument.setType(Argument.Type.ENTITY);
+        method.setArguments(new Argument[]{entityTypeArgument});
+
+        DataSet dataSet = new DataSet();
+        DataSet inDataSet = new DataSet();
+        inDataSet.put("birthDate", "testbirthDate");
+        inDataSet.put("surname", "testSurname");
+        inDataSet.put("name", "testName");
+        inDataSet.put("id", 123);
+        dataSet.put("entity", inDataSet);
+
+        List<DataSet> list = new ArrayList<>();
+
+        inDataSet = new DataSet();
+        inDataSet.put("id", 1234);
+        inDataSet.put("name", "testName1");
+        list.add(inDataSet);
+
+        inDataSet = new DataSet();
+        inDataSet.put("name", "testName2");
+        inDataSet.put("id", 12345);
+        list.add(inDataSet);
+
+        dataSet.put("entities", list);
+
+        List<AbstractParameter> inMapping = new ArrayList<>();
+        ObjectReferenceField param = new ObjectReferenceField();
+        param.setId("entity");
+        param.setMapping("[0].innerObj");
+        param.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
+        ObjectSimpleField inParam1 = new ObjectSimpleField();
+        inParam1.setId("name");
+        inParam1.setMapping("valueStr");
+        ObjectSimpleField inParam2 = new ObjectSimpleField();
+        inParam2.setId("id");
+        inParam2.setMapping("valueInt");
+        param.setFields(new AbstractParameter[]{inParam1, inParam2});
+        inMapping.add(param);
+
+        ObjectListField listParam = new ObjectListField();
+        listParam.setId("entities");
+        listParam.setMapping("[0].innerObjList");
+        listParam.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
+        ObjectSimpleField inParam3 = new ObjectSimpleField();
+        inParam3.setId("name");
+        inParam3.setMapping("valueStr");
+        inParam3.setDefaultValue("testName1");
+        inParam3.setNormalize("#this.toLowerCase()");
+        ObjectSimpleField inParam4 = new ObjectSimpleField();
+        inParam4.setId("id");
+        inParam4.setMapping("valueInt");
+        listParam.setFields(new AbstractParameter[]{inParam3, inParam4});
+        inMapping.add(listParam);
+
+        List<AbstractParameter> outMapping = new ArrayList<>();
+        ObjectReferenceField outParam = new ObjectReferenceField();
+        outParam.setId("testValue");
+        outParam.setMapping("#this");
+        AbstractParameter[] parameters = new AbstractParameter[4];
+        parameters[0] = new ObjectSimpleField();
+        parameters[0].setId("id");
+        parameters[0].setMapping("valueInt");
+        parameters[1] = new ObjectSimpleField();
+        parameters[1].setId("name");
+        parameters[1].setMapping("valueStr");
+        parameters[2] = new ObjectReferenceField();
+        parameters[2].setId("innerObj");
+        ObjectSimpleField outParam1 = new ObjectSimpleField();
+        outParam1.setId("name");
+        outParam1.setMapping("valueStr");
+        outParam1.setNormalize("#this.toUpperCase()");
+        ((ObjectReferenceField) parameters[2]).setFields(new AbstractParameter[]{outParam1, inParam2});
+        parameters[2].setNormalize("#mapToJson(#this)");
+        parameters[3] = new ObjectListField();
+        parameters[3].setId("innerObjList");
+        parameters[3].setNormalize("#this.?[['id'] != 1234]");
+        ((ObjectListField) parameters[3]).setFields(new AbstractParameter[]{inParam3, inParam4});
+        outParam.setFields(parameters);
+        outMapping.add(outParam);
+
+        DataSet resultDataSet = invocationProcessor.invoke(method, dataSet, inMapping, outMapping);
+
+        assertThat(resultDataSet.size(), is(3));
+        DataSet resultValue = (DataSet) resultDataSet.get("testValue");
+        assertThat(resultValue.get("id"), nullValue());
+        assertThat(resultValue.get("name"), nullValue());
+        assertThat(resultValue.get("innerObj"), is("{\"name\":\"TESTNAME\",\"id\":123}"));
+        assertThat(((DataList) resultValue.get("innerObjList")).size(), is(1));
+        assertThat(((DataSet) ((DataList) resultValue.get("innerObjList")).get(0)).get("id"), is(12345));
+        assertThat(((DataSet) ((DataList) resultValue.get("innerObjList")).get(0)).get("name"), is("testname2"));
+    }
+
+    @Test
+    void testMapsInvocation() {
         DataSet dataSet = new DataSet();
         dataSet.put("id", 1);
         List<AbstractParameter> inMapping = new ArrayList<>();
@@ -314,7 +415,7 @@ public class InvocationProcessorTest {
         param1.setId("id");
         param1.setMapping("['id']");
         inMapping.add(param1);
-        List<ObjectSimpleField> outMapping = new ArrayList<>();
+        List<AbstractParameter> outMapping = new ArrayList<>();
         ObjectSimpleField outParam = new ObjectSimpleField();
         outParam.setId("id");
         outParam.setMapping("[0][0][0]");
@@ -327,7 +428,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testNormalizing() {
+    void testNormalizing() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         method.setMethod("methodReturnedEntity");
         method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
@@ -349,15 +450,15 @@ public class InvocationProcessorTest {
         ObjectSimpleField outField = new ObjectSimpleField();
         outField.setId("entity");
         outField.setMapping("#this");
-        Collection<ObjectSimpleField> outMapping = Arrays.asList(outField);
+        Collection<AbstractParameter> outMapping = List.of(outField);
 
-        DataSet resultDataSet = invocationProcessor.invoke(method, innerDataSet, Arrays.asList(childParam), outMapping);
+        DataSet resultDataSet = invocationProcessor.invoke(method, innerDataSet, List.of(childParam), outMapping);
 
         assertThat(((TestEntity) resultDataSet.get("entity")).getValueStr(), is("teststring"));
     }
 
     @Test
-    public void testListNormalizing() {
+    void testListNormalizing() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
         invocation.setOperation(N2oTestDataProvider.Operation.echo);
 
@@ -420,7 +521,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testAdvancedNestingWithMapInvocationProvider() {
+    void testAdvancedNestingWithMapInvocationProvider() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
         invocation.setOperation(N2oTestDataProvider.Operation.echo);
 
@@ -482,9 +583,9 @@ public class InvocationProcessorTest {
         dataSet.put("entity", refParamFields);
 
 
-        List<AbstractParameter> inParameters = Arrays.asList(refParam);
+        List<AbstractParameter> inParameters = List.of(refParam);
 
-        List<ObjectSimpleField> outParameters = new ArrayList<>();
+        List<AbstractParameter> outParameters = new ArrayList<>();
         ObjectSimpleField entitiesField = new ObjectSimpleField();
         entitiesField.setId("outEntity");
         entitiesField.setMapping("['refEntity']");
@@ -498,22 +599,22 @@ public class InvocationProcessorTest {
         assertThat(entity.get("valueStr"), is("test"));
         DataList innerObjList = (DataList) entity.get("innerObjList");
         assertThat(innerObjList.size(), is(2));
-        assertThat(((DataSet)innerObjList.get(0)).get("valueInt"), is(666));
-        assertThat(((DataSet)innerObjList.get(0)).get("valueStr"), is("testStr1"));
-        DataList innerInnerObjSet = (DataList) ((DataSet)innerObjList.get(0)).get("innerInnerObjSet");
+        assertThat(((DataSet) innerObjList.get(0)).get("valueInt"), is(666));
+        assertThat(((DataSet) innerObjList.get(0)).get("valueStr"), is("testStr1"));
+        DataList innerInnerObjSet = (DataList) ((DataSet) innerObjList.get(0)).get("innerInnerObjSet");
         assertThat(innerInnerObjSet.size(), is(2));
         assertThat(innerInnerObjSet.contains(new DataSet("innerName", "code2")), is(true));
         assertThat(innerInnerObjSet.contains(new DataSet("innerName", "code1")), is(true));
 
-        assertThat(((DataSet)innerObjList.get(1)).get("valueInt"), is(777));
-        assertThat(((DataSet)innerObjList.get(1)).get("valueStr"), is("testStr2"));
+        assertThat(((DataSet) innerObjList.get(1)).get("valueInt"), is(777));
+        assertThat(((DataSet) innerObjList.get(1)).get("valueStr"), is("testStr2"));
         innerInnerObjSet = (DataList) ((DataSet) innerObjList.get(1)).get("innerInnerObjSet");
         assertThat(innerInnerObjSet.size(), is(1));
         assertThat(innerInnerObjSet.contains(new DataSet("innerName", "code3")), is(true));
     }
 
     @Test
-    public void testMappingWithArgumentsInvocationProvider() {
+    void testMappingWithArgumentsInvocationProvider() {
         N2oJavaDataProvider invocation = new N2oJavaDataProvider();
         invocation.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
         invocation.setMethod("methodWithTwoArguments");
@@ -539,7 +640,7 @@ public class InvocationProcessorTest {
         ObjectSimpleField response = new ObjectSimpleField();
         response.setId("result");
         response.setMapping("#this");
-        List<ObjectSimpleField> outParameters = Arrays.asList(response);
+        List<AbstractParameter> outParameters = List.of(response);
 
         // Result
         DataSet result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
@@ -561,7 +662,7 @@ public class InvocationProcessorTest {
      * Тестирование маппинга аргументов java провайдера с использованием name аргументов, а не через заданный порядок
      */
     @Test
-    public void testNameMappingWithArgumentsInvocationProvider() {
+    void testNameMappingWithArgumentsInvocationProvider() {
         N2oJavaDataProvider invocation = new N2oJavaDataProvider();
         invocation.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
         invocation.setMethod("methodWithThreeArguments");
@@ -597,7 +698,7 @@ public class InvocationProcessorTest {
         ObjectSimpleField response = new ObjectSimpleField();
         response.setId("result");
         response.setMapping("#this");
-        List<ObjectSimpleField> outParameters = Arrays.asList(response);
+        List<AbstractParameter> outParameters = List.of(response);
 
         // Result
         DataSet result = invocationProcessor.invoke(invocation, dataSet, inParameters, outParameters);
@@ -605,7 +706,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testAdvancedNestingWithArgumentsInvocationProvider() {
+    void testAdvancedNestingWithArgumentsInvocationProvider() {
         N2oJavaDataProvider invocation = new N2oJavaDataProvider();
         invocation.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
         invocation.setMethod("methodReturnedEntity");
@@ -659,7 +760,7 @@ public class InvocationProcessorTest {
         innerDataSet2.put("set", innerInnerDataSet);
         innerInnerDataSet.add(new DataSet("name", "code3"));
 
-        List list = Arrays.asList(innerDataSet1, innerDataSet2);
+        List<DataSet> list = Arrays.asList(innerDataSet1, innerDataSet2);
 
         DataSet dataSet = new DataSet();
         dataSet.put("entities", list);
@@ -667,7 +768,7 @@ public class InvocationProcessorTest {
 
         List<AbstractParameter> inParameters = Arrays.asList(listParam, simpleParam);
 
-        List<ObjectSimpleField> outParameters = new ArrayList<>();
+        List<AbstractParameter> outParameters = new ArrayList<>();
         ObjectSimpleField entitiesField = new ObjectSimpleField();
         entitiesField.setId("outEntities");
         entitiesField.setMapping("innerObjList");
@@ -694,7 +795,7 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testResultMapping() {
+    void testResultMapping() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
         invocation.setResultMapping("['organization']");
         invocation.setOperation(N2oTestDataProvider.Operation.echo);
@@ -735,12 +836,11 @@ public class InvocationProcessorTest {
         assertThat(result.getString("myName"), is("test1"));
     }
 
-
-    public static class SqlInvocationEngine implements MapInvocationEngine<N2oSqlDataProvider> {
+    static class SqlInvocationEngine implements MapInvocationEngine<N2oSqlDataProvider> {
 
         @Override
         public Object invoke(N2oSqlDataProvider invocation, Map<String, Object> data) {
-            return new Object[]{new Object[]{new Object[]{new Integer(1), "test"}}};
+            return new Object[]{new Object[]{new Object[]{1, "test"}}};
         }
 
         @Override

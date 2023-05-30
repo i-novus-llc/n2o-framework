@@ -7,8 +7,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import org.jdom2.Namespace;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class CompileUtilTest extends N2oTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -31,7 +31,7 @@ public class CompileUtilTest extends N2oTestBase {
     }
 
     @Test
-    public void testNestedAttributes() {
+    void testNestedAttributes() {
         final Map<String, String> map = new LinkedHashMap<>();
         CompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment());
         ExtensionAttributesAware extAttributes = new ExtensionAttributesAware() {

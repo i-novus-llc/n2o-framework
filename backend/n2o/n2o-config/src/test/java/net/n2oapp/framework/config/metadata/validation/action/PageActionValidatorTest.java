@@ -12,13 +12,15 @@ import net.n2oapp.framework.config.metadata.validation.standard.widget.TableVali
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PageActionValidatorTest extends SourceValidationTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -35,83 +37,110 @@ public class PageActionValidatorTest extends SourceValidationTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/action/page/blankWidget.widget.xml"));
     }
 
-    @Test(expected = N2oMetadataValidationException.class)
-    public void testPageActionValidationShowModalInToolbar() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationShowModalInToolbar.page.xml");
-    }
-
-    @Test(expected = N2oMetadataValidationException.class)
-    public void testPageActionValidationInToolbar() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInToolbar.page.xml");
-    }
-
-    @Test(expected = N2oMetadataValidationException.class)
-    public void testPageActionValidationInRowClick() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInRowClick.page.xml");
-    }
-
-    @Test(expected = N2oMetadataValidationException.class)
-    public void testPageActionValidationInColumnLink() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInColumnLink.page.xml");
-    }
-
-    @Test(expected = N2oMetadataValidationException.class)
-    public void testPageActionValidationInWidgetsToolbar() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInWidgetsToolbar.page.xml");
-    }
-
-    @Test(expected = N2oMetadataValidationException.class)
-    public void testRefreshDatasourceNonExistent() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationRefreshDatasourcesNonExistent.page.xml");
+    @Test
+    void testPageActionValidationShowModalInToolbar() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationShowModalInToolbar.page.xml")
+        );
     }
 
     @Test
-    public void testPageActionValidationShowModalInToolbar2() {
+    void testPageActionValidationInToolbar() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInToolbar.page.xml")
+        );
+    }
+
+    @Test
+    void testPageActionValidationInRowClick() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInRowClick.page.xml")
+        );
+    }
+
+    @Test
+    void testPageActionValidationInColumnLink() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInColumnLink.page.xml")
+        );
+    }
+
+    @Test
+    void testPageActionValidationInWidgetsToolbar() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInWidgetsToolbar.page.xml")
+        );
+    }
+
+    @Test
+    void testRefreshDatasourceNonExistent() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationRefreshDatasourcesNonExistent.page.xml")
+        );
+    }
+
+    @Test
+    void testPageActionValidationShowModalInToolbar2() {
         validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationShowModalInToolbar2.page.xml");
     }
 
     @Test
-    public void testPageActionValidationInToolbar2() {
+    void testPageActionValidationInToolbar2() {
         validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInToolbar2.page.xml");
     }
 
     @Test
-    public void testPageActionValidationInRowClick2() {
+    void testPageActionValidationInRowClick2() {
         validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInRowClick2.page.xml");
     }
 
     @Test
-    public void testPageActionValidationInColumnLink2() {
+    void testPageActionValidationInColumnLink2() {
         validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInColumnLink2.page.xml");
     }
 
     @Test
-    public void testPageActionValidationInWidgetsToolbar2() {
+    void testPageActionValidationInWidgetsToolbar2() {
         validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationInWidgetsToolbar2.page.xml");
     }
 
-    @Test(expected = N2oMetadataValidationException.class)
-    public void testPageActionValidationPageExists() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationPageExists.page.xml");
-    }
-
-    @Test(expected = N2oMetadataValidationException.class)
-    public void testPageActionValidationOperationExists() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationOperationExists.page.xml");
+    @Test
+    void testPageActionValidationPageExists() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationPageExists.page.xml")
+        );
     }
 
     @Test
-    public void testPageActionValidationOperationExists2() {
+    void testPageActionValidationOperationExists() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationOperationExists.page.xml")
+        );
+    }
+
+    @Test
+    void testPageActionValidationOperationExists2() {
         validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationOperationExists2.page.xml");
     }
 
-    @Test (expected = N2oMetadataValidationException.class)
-    public void testPageActionValidationRefreshNonexistentWidget() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationRefreshNonexistentWidget.page.xml");
+    @Test 
+    void testPageActionValidationRefreshNonexistentWidget() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationRefreshNonexistentWidget.page.xml")
+        );
     }
 
     @Test
-    public void testPageActionValidationRefreshExistentWidget() {
+    void testPageActionValidationRefreshExistentWidget() {
         validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationRefreshExistentWidget.page.xml");
     }
 }

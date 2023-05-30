@@ -396,6 +396,12 @@ class InputSelect extends React.Component {
                 }
             },
         )
+
+        const { input } = this.state
+
+        if (input && multiSelect) {
+            this.handleDataSearch('')
+        }
     }
 
     /**
