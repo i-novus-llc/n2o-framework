@@ -124,6 +124,8 @@ function withListContainer(WrappedComponent) {
                 onSearch={handleSearch}
                 handleItemOpen={handleItemOpen}
                 _fetchData={_fetchData}
+                size={size}
+                count={count}
             />
         )
     }
