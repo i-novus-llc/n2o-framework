@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react'
 
 export const CONFIG = require('../../ci-config.json')
 
-import { REPLACE_SYMBOL, MAX_VERSIONS, MINOR, TARGET } from './constants'
+import { REPLACE_SYMBOL, MAX_VERSIONS, MINOR, TARGET, NEXT_VERSION_LABEL } from './constants'
 
 export function useVersions() {
     const [versions, setVersions] = useState([])
     const [latestVersion, setLatestVersion] = useState(null)
+    const NEXT = CONFIG.next
 
     function parseVersion(version) {
         const converted = String(version)
@@ -19,6 +20,12 @@ export function useVersions() {
             minor: Number(minor),
             version: Number(`${major}.${minor}`),
         }
+    }
+
+    function open(href) {
+        const { pathname, hash } = window.location
+
+        window.open(`${href}${pathname}${hash}`, TARGET)
     }
 
     useEffect(() => {
@@ -45,22 +52,34 @@ export function useVersions() {
             return
         }
 
-        const { major, minor } = parseVersion(latestVersion)
-
         const versions = []
+
+        const { major, minor } = parseVersion(latestVersion)
+        const { origin } = window.location
+
+        if (origin !== NEXT) {
+            versions.push({
+                label: NEXT_VERSION_LABEL,
+                onClick() {
+                    open(NEXT)
+                }
+            })
+
+        }
 
         for (let i = MINOR; i <= MAX_VERSIONS; i += MINOR) {
             const previousMinor = minor - i
+            const href = `https://${major}-${previousMinor}.n2oapp.net`
 
-            versions.push({
-                label: `${major}.${previousMinor}`,
-                onClick() {
-                    const href = `https://${major}-${previousMinor}.n2oapp.net`
-                    const { pathname, hash } = window.location
+            if (origin !== href) {
+                versions.push({
+                    label: `${major}.${previousMinor}`,
+                    onClick() {
+                        open(href)
+                    }
+                })
 
-                    window.open(`${href}${pathname}${hash}`, TARGET)
-                }
-            })
+            }
         }
         setVersions(versions)
     }, [latestVersion])
