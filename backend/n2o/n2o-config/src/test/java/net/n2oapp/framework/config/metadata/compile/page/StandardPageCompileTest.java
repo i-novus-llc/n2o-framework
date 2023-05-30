@@ -23,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -195,6 +196,14 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getBreadcrumb().get(0).getPath(), is("/"));
         assertThat(page.getBreadcrumb().get(1).getLabel(), is("`'Second '+name1+' page'`"));
         assertThat(page.getBreadcrumb().get(1).getPath(), nullValue());
+
+        PageContext context = new PageContext("testBreadcrumb2");
+        HashMap<String, String> parentDatasourceIdsMap = new HashMap<>();
+        parentDatasourceIdsMap.put("parentDs", "_parentDs");
+        context.setParentDatasourceIdsMap(parentDatasourceIdsMap);
+        page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testBreadcrumb2.page.xml")
+                .get(context);
+        assertThat(page.getPageProperty().getDatasource(), is("_parentDs"));
 
         builder.properties("n2o.api.page.breadcrumbs=false");
         page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testDefaultBreadcrumb.page.xml")
