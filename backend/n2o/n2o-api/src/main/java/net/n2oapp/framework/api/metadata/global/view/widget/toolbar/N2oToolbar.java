@@ -29,6 +29,11 @@ public class N2oToolbar implements Source, GroupItems<ToolbarItem>, DatasourceId
     private String targetWidgetId;
     private String datasourceId;
 
+    /**
+     * Признак того, что тулбар сгенерирован для выпадающего меню
+     */
+    private Boolean isGeneratedForSubMenu;
+
     public N2oToolbar(String[] generate, ToolbarItem[] items) {
         this.generate = generate;
         this.items = items;
@@ -43,11 +48,11 @@ public class N2oToolbar implements Source, GroupItems<ToolbarItem>, DatasourceId
 
     public List<N2oAction> getAllActions() {
         List<N2oAction> actions = new ArrayList<>();
-        if (items != null) {
-            for (ToolbarItem item : items) {
+
+        if (items != null)
+            for (ToolbarItem item : items)
                 actions.addAll(item.getListActions());
-            }
-        }
+
         return actions;
     }
 }
