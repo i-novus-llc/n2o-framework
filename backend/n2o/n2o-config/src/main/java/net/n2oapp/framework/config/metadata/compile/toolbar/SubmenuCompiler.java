@@ -6,8 +6,6 @@ import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.compile.ButtonGeneratorFactory;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Button;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
@@ -15,7 +13,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -78,11 +75,13 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
     private void initGenerate(N2oSubmenu sub, Submenu button, IndexScope idx,
                               CompileContext<?, ?> context, CompileProcessor p) {
         if (sub.getGenerate() != null) {
-            if (button.getSubMenu() == null) {
+            if (button.getSubMenu() == null)
                 button.setSubMenu(new ArrayList<>());
-            }
+
+            N2oToolbar source = p.getScope(N2oToolbar.class);
+            source.setIsGeneratedForSubMenu(true);
+
             for (String generate : sub.getGenerate()) {
-                N2oToolbar source = p.getScope(N2oToolbar.class);
                 for (ToolbarItem toolbarItem : buttonGeneratorFactory.generate(generate, source, context, p)) {
                     PerformButton menuItem = p.compile(toolbarItem, context, p, idx);
                     menuItem.setColor(null);
