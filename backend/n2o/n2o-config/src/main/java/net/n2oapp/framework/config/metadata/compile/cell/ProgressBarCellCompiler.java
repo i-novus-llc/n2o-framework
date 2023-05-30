@@ -24,9 +24,12 @@ public class ProgressBarCellCompiler extends AbstractCellCompiler<ProgressBarCel
     public ProgressBarCell compile(N2oProgressBarCell source, CompileContext<?, ?> context, CompileProcessor p) {
         ProgressBarCell cell = new ProgressBarCell();
         build(cell, source, context, p, property("n2o.api.cell.progress.bar.src"));
-        cell.setStriped(source.getStriped());
-        cell.setActive(source.getActive());
-        cell.setSize(p.cast(source.getSize(), N2oProgressBarCell.Size.normal));
+        cell.setStriped(p.cast(source.getStriped(),
+                p.resolve(property("n2o.api.cell.progress.striped"), Boolean.class)));
+        cell.setActive(p.cast(source.getActive(),
+                p.resolve(property("n2o.api.cell.progress.active"), Boolean.class)));
+        cell.setSize(p.cast(source.getSize(),
+                p.resolve(property("n2o.api.cell.progress.size"), N2oProgressBarCell.Size.class)));
         cell.setColor(source.getColor());
         return cell;
     }
