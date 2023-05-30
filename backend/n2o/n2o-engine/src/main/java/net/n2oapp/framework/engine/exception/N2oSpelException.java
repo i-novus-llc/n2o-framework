@@ -9,10 +9,9 @@ import net.n2oapp.framework.api.exception.N2oException;
 public class N2oSpelException extends N2oException {
 
     private static final String DEFAULT_MESSAGE = "Spel expression conversion error with %s from metadata %s";
-    private static final String DEFAULT_FIELD_MESSAGE = "Spel expression conversion error with %s of field '%s' from metadata %s";
-    private static final String DEFAULT_OPERATION_MESSAGE = "Spel expression conversion error with %s of field '%s' in operation '%s' from metadata %s";
-
-    private static final String DEFAULT_OPERATION_MESSAGE_RESULT_MAPPING = "Spel expression conversion error with %s of result-mapping in operation '%s' from metadata %s";
+    private static final String DEFAULT_QUERY_FIELD_MESSAGE = "Spel expression conversion error with %s of field '%s' from metadata %s";
+    private static final String DEFAULT_OBJECT_FIELD_MESSAGE = "Spel expression conversion error with %s of field '%s' in operation '%s' from metadata %s";
+    private static final String DEFAULT_OBJECT_RESULT_MAPPING_MESSAGE = "Spel expression conversion error with %s of result-mapping in operation '%s' from metadata %s";
 
     private String file;
     private String mapping;
@@ -45,7 +44,7 @@ public class N2oSpelException extends N2oException {
             if (e.getOperationId() == null) {
                 return defaultMessage(e, file);
             } else {
-                return defaultOperationMessage_2(e, file);
+                return defaultObjectResultMappingMessage(e, file);
             }
         }
     }
@@ -55,14 +54,14 @@ public class N2oSpelException extends N2oException {
     }
 
     private static String defaultFieldMessage(N2oSpelException e, String file) {
-        return String.format(DEFAULT_FIELD_MESSAGE, e.getMapping(), e.getFieldId(), file) + ". Cause: " + e.getMessage();
+        return String.format(DEFAULT_QUERY_FIELD_MESSAGE, e.getMapping(), e.getFieldId(), file) + ". Cause: " + e.getMessage();
     }
 
     private static String defaultOperationMessage(N2oSpelException e, String file) {
-        return String.format(DEFAULT_OPERATION_MESSAGE, e.getMapping(), e.getFieldId(), e.getOperationId(), file) + ". Cause: " + e.getMessage();
+        return String.format(DEFAULT_OBJECT_FIELD_MESSAGE, e.getMapping(), e.getFieldId(), e.getOperationId(), file) + ". Cause: " + e.getMessage();
     }
 
-    private static String defaultOperationMessage_2(N2oSpelException e, String file) {
-        return String.format(DEFAULT_OPERATION_MESSAGE_RESULT_MAPPING, e.getMapping(), e.getOperationId(), file) + ". Cause: " + e.getMessage();
+    private static String defaultObjectResultMappingMessage(N2oSpelException e, String file) {
+        return String.format(DEFAULT_OBJECT_RESULT_MAPPING_MESSAGE, e.getMapping(), e.getOperationId(), file) + ". Cause: " + e.getMessage();
     }
 }
