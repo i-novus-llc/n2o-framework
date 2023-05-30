@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, lifecycle, withHandlers, withState } from 'recompose'
 import classNames from 'classnames'
-import { isEqual, invoke } from 'lodash'
+import isEqual from 'lodash/isEqual'
+import invoke from 'lodash/invoke'
 
 import PopupItems from './PopupItems'
 import { isBottom } from './utils'
@@ -42,11 +43,13 @@ function PopupList({
     setMenuElement,
     handleMouseEnter,
     handleMouseLeave,
+    style,
     ...rest
 }) {
     return (
         <div className="n2o-pop-up__wrapper">
             <div
+                style={style}
                 className={classNames('n2o-dropdown-control n2o-pop-up')}
                 ref={setMenuElement}
                 onMouseEnter={handleMouseEnter}
@@ -83,6 +86,7 @@ PopupList.propTypes = {
     setMenuElement: PropTypes.func,
     handleMouseEnter: PropTypes.func,
     handleMouseLeave: PropTypes.func,
+    style: PropTypes.object,
 }
 
 const enhance = compose(
