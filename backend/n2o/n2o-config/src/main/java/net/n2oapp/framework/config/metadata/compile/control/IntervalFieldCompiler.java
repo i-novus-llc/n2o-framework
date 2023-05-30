@@ -10,9 +10,6 @@ import net.n2oapp.framework.api.metadata.meta.control.IntervalField;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
 public class IntervalFieldCompiler<C extends Control, S extends N2oIntervalField> extends FieldCompiler<IntervalField<C>, S> {
     @Override
@@ -22,7 +19,7 @@ public class IntervalFieldCompiler<C extends Control, S extends N2oIntervalField
 
     @Override
     protected String getSrcProperty() {
-        return "n2o.api.control.input.interval.field.src";
+        return "n2o.api.control.interval_field.src";
     }
 
     @Override

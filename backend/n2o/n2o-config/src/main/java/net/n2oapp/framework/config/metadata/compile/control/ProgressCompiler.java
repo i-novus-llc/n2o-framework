@@ -30,8 +30,10 @@ public class ProgressCompiler extends StandardFieldCompiler<Progress, N2oProgres
         Progress progress = new Progress();
         progress.setMax(source.getMax());
         progress.setBarText(p.resolveJS(source.getBarText()));
-        progress.setAnimated(p.cast(source.getAnimated(), p.resolve(property("n2o.api.control.progress.animated"), Boolean.class)));
-        progress.setStriped(p.cast(source.getStriped(), p.resolve(property("n2o.api.control.progress.striped"), Boolean.class)));
+        progress.setAnimated(p.cast(source.getAnimated(),
+                p.resolve(property("n2o.api.control.progress.animated"), Boolean.class)));
+        progress.setStriped(p.cast(source.getStriped(),
+                p.resolve(property("n2o.api.control.progress.striped"), Boolean.class)));
         progress.setColor(p.resolveJS(source.getColor()));
         progress.setBarClass(source.getBarClass());
         return compileStandardField(progress, source, context, p);

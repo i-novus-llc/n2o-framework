@@ -71,11 +71,11 @@ public class InputTextCompiler extends StandardFieldCompiler<InputText, N2oInput
                 inputText.setMin(p.cast(p.resolveJS(source.getMin(), BigDecimal.class), "-999999999"));
                 inputText.setMax(p.cast(p.resolveJS(source.getMax(), BigDecimal.class), "999999999"));
                 inputText.setStep(castDefault(source.getStep(), "0.01"));
-                inputText.setPrecision(p.cast(source.getPrecision(), p.resolve(property("n2o.api.control.input.text.precision"), Integer.class)));
+                inputText.setPrecision(p.cast(source.getPrecision(), p.resolve(property("n2o.api.control.input_text.precision"), Integer.class)));
                 return;
             case STRING:
                 inputText.setLength(source.getLength());
-                inputText.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.input.text.src"), String.class)));
+                inputText.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.input_text.src"), String.class)));
                 return;
             default:
         }

@@ -29,7 +29,7 @@ public class DatePickerCompiler extends StandardFieldCompiler<DatePicker, N2oDat
         if (domain == null || domain.getJsFormat() == null)
             throw new IllegalStateException("Wrong domain for control " + source.getId());
         datePicker.setOutputFormat(domain.getJsFormat());
-        datePicker.setDateFormat(p.cast(source.getDateFormat(), p.resolve(property("n2o.api.control.datetime.format"), String.class)));
+        datePicker.setDateFormat(p.cast(source.getDateFormat(), p.resolve(property("n2o.api.control.datetime.date_format"), String.class)));
         datePicker.setTimeFormat(source.getTimeFormat());
         datePicker.setMin(p.resolveJS(source.getMin()));
         datePicker.setMax(p.resolveJS(source.getMax()));

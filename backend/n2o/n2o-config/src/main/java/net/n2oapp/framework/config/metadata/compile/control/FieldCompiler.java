@@ -178,7 +178,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         else if (source instanceof N2oField.VisibilityDependency) {
             dependency.setType(ValidationType.visible);
             Boolean isResettable = p.cast(((N2oField.VisibilityDependency) source).getReset(),
-                    p.resolve(property("n2o.api.control.visibility.auto_reset"), Boolean.class));
+                    p.resolve(property("n2o.api.control.visibility.reset"), Boolean.class));
             if (Boolean.TRUE.equals(isResettable)) {
                 ControlDependency reset = new ControlDependency();
                 reset.setType(ValidationType.reset);

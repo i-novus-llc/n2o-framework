@@ -19,7 +19,7 @@ public class PasswordCompiler extends StandardFieldCompiler<Password, N2oPasswor
 
     @Override
     protected String getControlSrcProperty() {
-        return "n2o.api.control.input.password.src";
+        return "n2o.api.control.password.src";
     }
 
     @Override
@@ -32,7 +32,7 @@ public class PasswordCompiler extends StandardFieldCompiler<Password, N2oPasswor
         Password password = new Password();
         password.setPlaceholder(p.resolveJS(source.getPlaceholder()));
         password.setLength(source.getLength());
-        password.setEye(p.cast(source.getEye(), p.resolve(property("n2o.api.control.input.password.eye"), Boolean.class)));
+        password.setEye(p.cast(source.getEye(), p.resolve(property("n2o.api.control.password.eye"), Boolean.class)));
         return compileStandardField(password, source, context, p);
     }
 

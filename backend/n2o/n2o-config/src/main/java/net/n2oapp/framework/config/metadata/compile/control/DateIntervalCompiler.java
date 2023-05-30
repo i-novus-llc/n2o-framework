@@ -30,16 +30,19 @@ public class DateIntervalCompiler extends StandardFieldCompiler<DateInterval, N2
     @Override
     public StandardField<DateInterval> compile(N2oDateInterval source, CompileContext<?, ?> context, CompileProcessor p) {
         DateInterval dateInterval = new DateInterval();
-        source.setDomain(p.cast(source.getDomain(), p.resolve(property("n2o.api.control.date_interval.domain"), String.class)));
+        source.setDomain(p.cast(source.getDomain(),
+                p.resolve(property("n2o.api.control.date_interval.domain"), String.class)));
         Domain domain = Domain.getByName(source.getDomain());
         if (domain == null || domain.getJsFormat() == null)
             throw new IllegalStateException("Wrong domain for control " + source.getId());
         dateInterval.setOutputFormat(domain.getJsFormat());
-        dateInterval.setDateFormat(p.cast(source.getDateFormat(), p.resolve(property("n2o.api.control.date_interval.format"), String.class)));
+        dateInterval.setDateFormat(p.cast(source.getDateFormat(),
+                p.resolve(property("n2o.api.control.date_interval.date_format"), String.class)));
         dateInterval.setTimeFormat(source.getTimeFormat());
         dateInterval.setMin(p.resolveJS(source.getMin()));
         dateInterval.setMax(p.resolveJS(source.getMax()));
-        dateInterval.setUtc(p.cast(source.getUtc(), p.resolve(property("n2o.api.control.date_interval.utc"), Boolean.class)));
+        dateInterval.setUtc(p.cast(source.getUtc(),
+                p.resolve(property("n2o.api.control.date_interval.utc"), Boolean.class)));
         return compileStandardField(dateInterval, source, context, p);
     }
 

@@ -29,7 +29,7 @@ public class SearchButtonsCompiler extends StandardFieldCompiler<SearchButtons, 
         field.setResetLabel(source.getResetLabel());
         field.setSearchLabel(source.getSearchLabel());
         field.setFetchOnClear(p.cast(source.getFetchOnClear(), p.resolve(
-                property("n2o.api.control.searchButtons.fetch_on_clear"), Boolean.class)));
+                property("n2o.api.control.search_buttons.fetch_on_clear"), Boolean.class)));
         if (source.getNoLabel() == null) {
             source.setNoLabel(true);
         }
@@ -39,6 +39,6 @@ public class SearchButtonsCompiler extends StandardFieldCompiler<SearchButtons, 
 
     @Override
     protected String getControlSrcProperty() {
-        return "n2o.api.control.searchButtons.src";
+        return "n2o.api.control.search_buttons.src";
     }
 }

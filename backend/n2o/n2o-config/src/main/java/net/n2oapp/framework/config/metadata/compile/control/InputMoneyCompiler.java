@@ -18,7 +18,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 public class InputMoneyCompiler extends StandardFieldCompiler<InputMoney, N2oInputMoney> {
     @Override
     protected String getControlSrcProperty() {
-        return "n2o.api.control.input.money.src";
+        return "n2o.api.control.input_money.src";
     }
 
     @Override
@@ -30,9 +30,9 @@ public class InputMoneyCompiler extends StandardFieldCompiler<InputMoney, N2oInp
     public StandardField<InputMoney> compile(N2oInputMoney source, CompileContext<?, ?> context, CompileProcessor p) {
         InputMoney inputMoney = new InputMoney();
         inputMoney.setPrefix(p.cast(p.resolveJS(source.getPrefix()),
-                p.resolve(property("n2o.api.control.input.money.prefix"), String.class), ""));
+                p.resolve(property("n2o.api.control.input_money.prefix"), String.class), ""));
         inputMoney.setSuffix(p.cast(p.resolveJS(source.getSuffix()),
-                p.resolve(property("n2o.api.control.input.money.suffix"), String.class), ""));
+                p.resolve(property("n2o.api.control.input_money.suffix"), String.class), ""));
         inputMoney.setThousandsSeparatorSymbol(source.getThousandsSeparator());
         inputMoney.setDecimalSymbol(source.getDecimalSeparator());
         inputMoney.setIntegerLimit(source.getIntegerLimit());

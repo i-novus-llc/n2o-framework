@@ -650,6 +650,9 @@
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="shape" type="shapeType" default="rounded">
+                    <xs:annotation>
+                        <xs:documentation>Тип формы изображения</xs:documentation>
+                    </xs:annotation>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
@@ -678,7 +681,11 @@
                         <xs:documentation>Запуск обновления модели после сброса</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="no-label" type="xs:boolean" default="true"/>
+                <xs:attribute name="no-label" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Не отображать заголовок</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1366,7 +1373,7 @@
                         <xs:documentation>Иконка с текстом или без.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="position" type="positionType">
+                <xs:attribute name="position" type="positionType" default="left">
                     <xs:annotation>
                         <xs:documentation>Расположение иконки относительно текста.</xs:documentation>
                     </xs:annotation>
@@ -1561,7 +1568,7 @@
     <xs:complexType name="controlDatePickerDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="date-format" use="optional" type="dataFormatEnum">
+                <xs:attribute name="date-format" use="optional" type="dataFormatEnum" default="DD.MM.YYYY">
                     <xs:annotation>
                         <xs:documentation>Формат отображения даты.</xs:documentation>
                     </xs:annotation>
@@ -1689,7 +1696,7 @@
     <xs:complexType name="controlPillsDefinition">
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
-                <xs:attribute name="type" type="multiType">
+                <xs:attribute name="type" type="multiType" default="checkboxes">
                     <xs:annotation>
                         <xs:documentation>Тип выбора значения</xs:documentation>
                     </xs:annotation>

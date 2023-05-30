@@ -33,6 +33,6 @@ public class TextCompiler extends FieldCompiler<Text, N2oText> {
 
     @Override
     protected String getSrcProperty() {
-        return "n2o.api.control.text_field.src";
+        return "n2o.api.control.text.src";
     }
 }

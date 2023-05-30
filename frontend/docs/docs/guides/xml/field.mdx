@@ -90,6 +90,12 @@ Java Script выражение
 |on          |Строка    |Поля, от которых зависит условие видимости|Вычисляется по условию|
 |reset       |true false|Сбросить значение при скрытии             |false                 |
 
+**Настройки**
+```yaml
+# Сбросить значение при скрытии
+n2o.api.control.visibility.reset=false
+```
+
 **Тело**
 
 Java Script выражение
@@ -298,6 +304,12 @@ Java Script выражение
 |step        |Строка                               |Шаг инкремента / декремента чисел (используется только для числовых domain). Если step="0", то кнопки "вверх вниз" будут отсутствовать|Для domain целых чисел step="1", для domain numeric step="0.01"|
 |measure     |Строка                               |Единица измерения                                                                                                                     |                                                               |
 
+**Настройки**
+```yaml
+# Максимальная длина дробной части
+n2o.api.control.input.text.precision=8
+```
+
 **Пример**
 
 ```xml
@@ -387,6 +399,20 @@ Java Script выражение
 |separator     |Строка                    |Разделитель между элементами                               |пробел               |
 |direction     |row column                |Направление отображения элементов (в строку или в столбец).|column               |
 
+**Настройки**
+```yaml
+# Поле выборки, содержащее значение элемента
+n2o.api.control.output_list.label_field_id=name
+# Поле выборки, содержащее ссылку элемента
+n2o.api.control.output_list.href_field_id=href
+# Способ открытия ссылок
+n2o.api.control.output_list.target=newWindow
+# Разделитель между элементами
+n2o.api.control.output_list.direction=column
+# Направление отображения элементов (в строку или в столбец)
+n2o.api.control.output_list.separator=' '
+```
+
 **Пример**
 
 ```xml
@@ -412,6 +438,16 @@ Java Script выражение
 |text-position|top, left, right, bottom                                                               |Расположение текста относительно картинки                             |right                |
 |width        |Строка                                                                                 |Ширина картинки                                                       |                     |
 |action-id    |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions)|Ссылка на действие, которое необходимо выполнить при клике на картинку|                     |
+
+**Настройки**
+```yaml
+# Тип формы изображения
+n2o.api.field.image.shape=rounded
+# Расположение текста относительно картинки
+n2o.api.field.image.text_position=right
+# Ширина картинки
+n2o.api.field.image.width=
+```
 
 **Пример**
 
@@ -471,6 +507,12 @@ place="topLeft"
 |measure      |Строка    |Единица измерения                   |                     |
 |clear-on-blur|true false|Стирать ли значение при уходе с поля|true                 |
 
+**Настройки**
+```yaml
+# Стирать ли значение при уходе с поля
+n2o.api.control.masked_input.clear_on_blur=true
+```
+
 **Пример**
 
 ```xml
@@ -491,6 +533,16 @@ place="topLeft"
 |max         |Число|Максимальное значение |100                  |
 |step        |Число|Шаг изменения значения|1                    |
 
+**Настройки**
+```yaml
+# Минимальное значение
+n2o.api.control.number_picker.min=0
+# Максимальное значение
+n2o.api.control.number_picker.max=100
+# Шаг изменения значения
+n2o.api.control.number_picker.step=1
+```
+
 **Пример**
 
 ```xml
@@ -508,6 +560,12 @@ place="topLeft"
 |Наименование |Тип        |Описание                            |Значение по умолчанию |
 |-------------|-----------|------------------------------------|----------------------|
 |unchecked    |null false |Значение при не выбранном состоянии |null                  |
+
+**Настройки**
+```yaml
+# Значение при не выбранном состоянии
+n2o.api.control.checkbox.unchecked=null
+```
 
 **Пример**
 
@@ -531,6 +589,16 @@ place="topLeft"
 |max         |Строка               |Максимальная дата возможная для выбора|                     |
 |utc         |true false           |Время в UTC                           |false                |
 
+**Настройки**
+```yaml
+# Формат отображения даты
+n2o.api.control.datetime.date_format=DD.MM.YYYY
+# Всемирное координированное время
+n2o.api.control.datetime.utc=false
+# ???
+n2o.api.control.datetime.domain=date
+```
+
 **Пример**
 
 ```xml
@@ -553,6 +621,15 @@ place="topLeft"
 |format       |digit symbols                                               |Формат отображения времени, digit ("00:00:00") или symbols ("15 мин")|symbols              |
 |default-value|Время                                                       |Значение по умолчанию                                                |                     |
 
+**Настройки**
+```yaml
+# Режим отображения списка выбора
+n2o.api.control.time_picker.mode=hours,minutes,seconds
+# Формат времени
+n2o.api.control.time_picker.time_format=HH:mm:ss
+# Формат отображения времени
+n2o.api.control.time_picker.format=symbols
+```
 **Пример**
 
 ```xml
@@ -626,6 +703,26 @@ place="topLeft"
 |show-tooltip    |true false                               |Наличие тултипа                                                                                                                                                                                                                       |true                   |
 |shape           |rounded, circle, square                  |Тип формы изображения                                                                                                                                                                                                                 |rounded                |                                                                                                                                                                                                              |                       |
 
+**Настройки**
+```yaml
+# Отображение имени файла
+n2o.api.control.image_upload.show_name=false
+# Тип отображения при мультивыборе
+n2o.api.control.image_upload.list_type=image
+# Возможность просмотра изображения в большом окне
+n2o.api.control.image_upload.can_lightbox=false
+# Возможность удаления изображения
+n2o.api.control.image_upload.can_delete=true
+# Наличие тултипа
+n2o.api.control.image_upload.show_tooltip=true
+# Тип формы изображения
+n2o.api.control.image_upload.shape=rounded
+# Ширина области загрузки
+n2o.api.control.image_upload.width=
+# Высота области загрузки
+n2o.api.control.image_upload.height=
+```
+
 **Пример**
 
 ```xml
@@ -692,6 +789,12 @@ place="topLeft"
 |min-lines   |Число                              |Минимальное число видимых строк |5                    |
 |max-lines   |Число                              |Максимальное число видимых строк|                     |
 
+**Настройки**
+```yaml
+# Минимальное число видимых строк
+n2o.api.control.code_editor.min_lines=5
+```
+
 **Пример**
 
 ```xml
@@ -755,6 +858,18 @@ HTML разметка с плейсхолдерами
 |hide-buttons        |true false                        |Скрытие кнопок                                    |false                |
 |hide-overflow       |true false                        |Скрытие вертикальной полосы прокрутки             |false                |
 
+**Настройки**
+```yaml
+# Отображение нумерации строк
+n2o.api.control.code.show_line_numbers=true
+# Значение, с которого будет производиться нумерация
+n2o.api.control.code.starting_line_number=1
+# Скрытие кнопок
+n2o.api.control.code.hide_buttons=false
+# Скрытие вертикальной полосы прокрутки
+n2o.api.control.code.hide_overflow=false
+```
+
 **Пример**
 
 ```xml
@@ -781,6 +896,14 @@ HTML разметка с плейсхолдерами
 |max         |integer   |Рейтинг по шкале от 1 до max                   |5                    |
 |half        |true,false|Можно ставить оценку с половиной (например 3.5)|false                |
 |show-tooltip|true,false|                                               |                     |
+
+**Настройки**
+```yaml
+# Рейтинг по шкале от 1 до max
+n2o.api.control.rating.max=5
+# Можно ставить оценку с половиной
+n2o.api.control.rating.half=false
+```
 
 **Пример**
 
@@ -869,6 +992,14 @@ HTML разметка с плейсхолдерами
 |href        |Строка     |Ссылка для перехода при клике по уведомлению                                                                    |                     |
 |close-button|true false |Наличие кнопки закрытия уведомления                                                                             |false                |
 
+**Настройки**
+```yaml
+# Цвет уведомления
+n2o.api.control.alert.color=secondary
+# Наличие кнопки закрытия уведомления
+n2o.api.control.alert.close_button=false
+```
+
 **Пример**
 
 ```xml
@@ -894,6 +1025,14 @@ HTML разметка с плейсхолдерами
 |color       |Строка    |Цвет шкалы прогресса, соответствует цвету Bootstrap https://getbootstrap.com/docs/4.0/utilities/colors/    |                     |
 |bar-class   |Строка    |Класс шкалы прогресса                              |                     |
 
+**Настройки**
+```yaml
+# Включает анимацию. При включении отображает полоски
+n2o.api.control.progress.animated=false
+# Отображение полосок на шкале прогресса
+n2o.api.control.progress.striped=false
+```
+
 **Пример**
 
 ```xml
@@ -912,7 +1051,13 @@ HTML разметка с плейсхолдерами
 |------------|----------|-------------------|---------------------|
 |color       |Строка    |Цвет индикатора, соответсвует цвету в Bootstrap https://getbootstrap.com/docs/4.0/utilities/colors/   |                     |
 |text        |Строка    |Текст статуса      |                     |
-|position    |left right|Расположение текста|right                |
+|text-position|left right|Расположение текста|right                |
+
+**Настройки**
+```yaml
+# Расположение текста
+n2o.api.control.status.text_position=right
+```
 
 **Пример**
 
@@ -1242,6 +1387,16 @@ n2o.api.control.input_select_tree.search_min_length=0
 |tags               |true false|Отображение выбранных элементов тегами                                 |false                |
 |max-tag-text-length|Число     |Максимальная длина текста элемента                                     |10                   |
 
+**Настройки**
+```yaml
+# Отображение выбранных элементов тегами
+n2o.api.control.auto_complete.tags=false
+# Максимальная длина текста элемента
+n2o.api.control.auto_complete.max_tag_text_length=10
+# Идентификатор поля выборки, отвечающего за идентификатор варианта выбора.
+n2o.api.control.auto_complete.value_field_id=name
+```
+
 **Тело**
 
 [Предустановленные фильтры](../xml/base#pre-filters)
@@ -1322,6 +1477,12 @@ n2o.api.control.checkbox_group.type=default
 |------------|-----------------|------------------------------------------------------------------|---------------------|
 |type        |radio, checkboxes|Тип выбора значений (radio - по одному, checkboxes - по несколько)|checkboxes           |
 
+**Настройки**
+```yaml
+# Тип выбора значений (radio - по одному, checkboxes - по несколько)
+n2o.api.control.pills.type=checkboxes
+```
+
 **Пример**
 
 ```xml
@@ -1365,6 +1526,14 @@ n2o.api.control.checkbox_group.type=default
 |min         |Строка               |Минимальная дата возможная для выбора |                     |
 |max         |Строка               |Максимальная дата возможная для выбора|                     |
 |utc         |true false           |Всемирное координированное время      |false                |
+
+**Настройки**
+```yaml
+# Формат отображения даты
+n2o.api.control.date_interval.date_format=DD.MM.YYYY
+# Всемирное координированное время
+n2o.api.control.date_interval.utc=false
+```
 
 **Пример**
 

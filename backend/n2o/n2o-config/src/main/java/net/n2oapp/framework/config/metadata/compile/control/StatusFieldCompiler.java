@@ -27,7 +27,7 @@ public class StatusFieldCompiler extends FieldCompiler<Status, N2oStatus> {
         status.setColor(source.getColor());
         status.setText(p.resolveJS(source.getText()));
         status.setTextPosition(p.cast(source.getTextPosition(),
-                p.resolve(property("n2o.api.control.status_field.text_position"), Position.class)));
+                p.resolve(property("n2o.api.control.status.text_position"), Position.class)));
 
         compileField(status, source, context, p);
         return status;
@@ -35,6 +35,6 @@ public class StatusFieldCompiler extends FieldCompiler<Status, N2oStatus> {
 
     @Override
     protected String getSrcProperty() {
-        return "n2o.api.control.status_field.src";
+        return "n2o.api.control.status.src";
     }
 }
