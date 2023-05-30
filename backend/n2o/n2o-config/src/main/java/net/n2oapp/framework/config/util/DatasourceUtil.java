@@ -73,21 +73,25 @@ public class DatasourceUtil {
      *
      * @param datasourceId Идентификатор источника данных
      * @param pageId       Идентификатор страницы
-     * @param datasourcesScope Список источников данных на странице
+     * @param appDatasourceIdsScope Список источников данных приложения
      * @param parentDatasourceIdsScope Список источников данных родительской страницы
-     * @param p            Процессор сборки метаданных
      * @return Идентификатор клиентского источника данных
      */
-    public static String getClientDatasourceId(String datasourceId, String pageId, DataSourcesScope datasourcesScope,
-                                               ParentDatasourceIdsScope parentDatasourceIdsScope, CompileProcessor p) {
-        N2oAbstractDatasource pageDs = datasourcesScope.get(datasourceId);
-        if (pageDs instanceof N2oApplicationDatasource) {
+    public static String getClientDatasourceId(String datasourceId, String pageId,
+                                               ApplicationDatasourceIdsScope appDatasourceIdsScope,
+                                               ParentDatasourceIdsScope parentDatasourceIdsScope) {
+        if (datasourceId == null || pageId == null)
             return datasourceId;
-        } else if (pageDs instanceof N2oParentDatasource) {
+        // app-datasource
+        if (appDatasourceIdsScope != null && appDatasourceIdsScope.containsKey(datasourceId))
+            return appDatasourceIdsScope.get(datasourceId);
+
+        // parent-datasource
+        if (parentDatasourceIdsScope != null && parentDatasourceIdsScope.containsKey(datasourceId))
             return parentDatasourceIdsScope.get(datasourceId);
-        } else {
-            return getClientDatasourceId(datasourceId, pageId, p);
-        }
+
+        String separator = "_".equals(pageId) ? "" : "_";
+        return pageId.concat(separator).concat(datasourceId);
     }
 
 
@@ -100,20 +104,8 @@ public class DatasourceUtil {
      * @return Идентификатор клиентского источника данных
      */
     public static String getClientDatasourceId(String datasourceId, String pageId, CompileProcessor p) {
-        if (datasourceId == null || pageId == null)
-            return datasourceId;
-
-        // app-datasource
-        ApplicationDatasourceIdsScope appDatasourceIds = p.getScope(ApplicationDatasourceIdsScope.class);
-        if (appDatasourceIds != null && appDatasourceIds.containsKey(datasourceId))
-            return appDatasourceIds.get(datasourceId);
-
-        // parent-datasource
-        ParentDatasourceIdsScope parentDatasourceIdsScope = p.getScope(ParentDatasourceIdsScope.class);
-        if (parentDatasourceIdsScope != null && parentDatasourceIdsScope.containsKey(datasourceId))
-            return parentDatasourceIdsScope.get(datasourceId);
-
-        String separator = "_".equals(pageId) ? "" : "_";
-        return pageId.concat(separator).concat(datasourceId);
+        return getClientDatasourceId(datasourceId, pageId,
+                p.getScope(ApplicationDatasourceIdsScope.class),
+                p.getScope(ParentDatasourceIdsScope.class));
     }
 }

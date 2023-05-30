@@ -124,7 +124,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 datasourcesScope, appDatasourceIdsScope, parentDatasourceIdsScope));
 
         if (source.getDatasourceId() != null) {
-            page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), page.getId(), datasourcesScope, parentDatasourceIdsScope, p));
+            page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), page.getId(),
+                    appDatasourceIdsScope, parentDatasourceIdsScope));
         }
 
         return page;
