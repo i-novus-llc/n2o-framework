@@ -36,14 +36,14 @@ public class InputMoneyCompiler extends StandardFieldCompiler<InputMoney, N2oInp
         inputMoney.setThousandsSeparatorSymbol(source.getThousandsSeparator());
         inputMoney.setDecimalSymbol(source.getDecimalSeparator());
         inputMoney.setIntegerLimit(source.getIntegerLimit());
-        compileDecimalMode(inputMoney, source);
+        compileDecimalMode(inputMoney, source, p);
         return compileStandardField(inputMoney, source, context, p);
     }
 
-    private void compileDecimalMode(InputMoney inputMoney, N2oInputMoney source) {
-        if (source.getFractionFormatting() == null || FractionFormatting.off.equals(source.getFractionFormatting()))
-            return;
-        switch (source.getFractionFormatting()) {
+    private void compileDecimalMode(InputMoney inputMoney, N2oInputMoney source, CompileProcessor p) {
+        FractionFormatting fractionFormatting =  p.cast(source.getFractionFormatting(),
+                p.resolve(property("n2o.api.control.input.money.fraction_formatting"), FractionFormatting.class));
+        switch (fractionFormatting) {
             case manual: {
                 inputMoney.setAllowDecimal(true);
                 inputMoney.setRequireDecimal(false);

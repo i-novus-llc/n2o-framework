@@ -24,22 +24,22 @@ public class DatePickerCompiler extends StandardFieldCompiler<DatePicker, N2oDat
     @Override
     public StandardField<DatePicker> compile(N2oDatePicker source, CompileContext<?,?> context, CompileProcessor p) {
         DatePicker datePicker = new DatePicker();
-        source.setDomain(p.cast(source.getDomain(), p.resolve(property("n2o.api.control.datetime.domain"), String.class)));
+        source.setDomain(p.resolve(property("n2o.api.control.date_time.domain"), String.class));
         Domain domain = Domain.getByName(source.getDomain());
         if (domain == null || domain.getJsFormat() == null)
             throw new IllegalStateException("Wrong domain for control " + source.getId());
         datePicker.setOutputFormat(domain.getJsFormat());
-        datePicker.setDateFormat(p.cast(source.getDateFormat(), p.resolve(property("n2o.api.control.datetime.date_format"), String.class)));
+        datePicker.setDateFormat(p.cast(source.getDateFormat(), p.resolve(property("n2o.api.control.date_time.date_format"), String.class)));
         datePicker.setTimeFormat(source.getTimeFormat());
         datePicker.setMin(p.resolveJS(source.getMin()));
         datePicker.setMax(p.resolveJS(source.getMax()));
         datePicker.setPlaceholder(source.getPlaceholder());
-        datePicker.setUtc(p.cast(source.getUtc(), p.resolve(property("n2o.api.control.datetime.utc"), Boolean.class)));
+        datePicker.setUtc(p.cast(source.getUtc(), p.resolve(property("n2o.api.control.date_time.utc"), Boolean.class)));
         return compileStandardField(datePicker, source, context, p);
     }
 
     @Override
     protected String getControlSrcProperty() {
-        return "n2o.api.control.datetime.src";
+        return "n2o.api.control.date_time.src";
     }
 }

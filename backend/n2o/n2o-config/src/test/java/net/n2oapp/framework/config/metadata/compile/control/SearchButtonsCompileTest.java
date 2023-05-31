@@ -46,6 +46,12 @@ public class SearchButtonsCompileTest extends SourceCompileTestBase {
         assertThat(searchButtons.getSrc(), is("FilterButtonsField"));
         assertThat(searchButtons.getSearchLabel(), is("search"));
         assertThat(searchButtons.getResetLabel(), is("reset"));
+        assertThat(searchButtons.getFetchOnClear(), is(false));
+
+        searchButtons = (SearchButtons) ((StandardField) ((Table<?>) page.getWidget()).getFilter()
+                .getFilterFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0)).getControl();
+
         assertThat(searchButtons.getFetchOnClear(), is(true));
+
     }
 }

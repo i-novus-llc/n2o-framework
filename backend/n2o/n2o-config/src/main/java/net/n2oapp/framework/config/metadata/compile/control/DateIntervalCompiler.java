@@ -30,8 +30,7 @@ public class DateIntervalCompiler extends StandardFieldCompiler<DateInterval, N2
     @Override
     public StandardField<DateInterval> compile(N2oDateInterval source, CompileContext<?, ?> context, CompileProcessor p) {
         DateInterval dateInterval = new DateInterval();
-        source.setDomain(p.cast(source.getDomain(),
-                p.resolve(property("n2o.api.control.date_interval.domain"), String.class)));
+        source.setDomain(p.resolve(property("n2o.api.control.date_interval.domain"), String.class));
         Domain domain = Domain.getByName(source.getDomain());
         if (domain == null || domain.getJsFormat() == null)
             throw new IllegalStateException("Wrong domain for control " + source.getId());

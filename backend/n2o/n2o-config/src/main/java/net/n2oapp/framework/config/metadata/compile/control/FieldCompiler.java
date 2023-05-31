@@ -61,6 +61,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
+        source.setNoLabel(p.cast(source.getNoLabel(),
+                p.resolve(property("n2o.api.control.no_label"), Boolean.class)));
+        source.setNoLabelBlock(p.cast(source.getNoLabelBlock(),
+                p.resolve(property("n2o.api.control.no_label_block"), Boolean.class)));
         source.setRefPage(p.cast(source.getRefPage(), PageRef.THIS));
         source.setRefDatasourceId(p.cast(source.getRefDatasourceId(), () -> {
             if (source.getRefPage().equals(PageRef.THIS)) {
@@ -88,15 +92,14 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         IndexScope idx = p.getScope(IndexScope.class);
         field.setId(p.cast(source.getId(), "f" + idx.get()));
         field.setLabel(initLabel(source, p));
-        field.setNoLabelBlock(p.cast(source.getNoLabelBlock(),
-                p.resolve(property("n2o.api.field.no_label_block"), Boolean.class)));
+
         field.setLabelClass(p.resolveJS(source.getLabelClass()));
         field.setHelp(p.resolveJS(source.getHelp()));
         field.setDescription(p.resolveJS(source.getDescription()));
         field.setClassName(p.resolveJS(source.getCssClass()));
+        field.setRequired(p.resolve(source.getRequired(), Boolean.class));
         field.setVisible(p.resolve(source.getVisible(), Boolean.class));
         field.setEnabled(p.resolve(source.getEnabled(), Boolean.class));
-        field.setRequired(p.resolve(source.getRequired(), Boolean.class));
         compileFieldToolbar(field, source, context, p);
         compileDependencies(field, source, context, p);
     }
@@ -123,7 +126,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected String initLabel(S source, CompileProcessor p) {
-        if (!Boolean.TRUE.equals(source.getNoLabelBlock()) || !Boolean.TRUE.equals(source.getNoLabel()))
+        if (!source.getNoLabelBlock() || !source.getNoLabel())
             return p.resolveJS(source.getLabel());
         return null;
     }
@@ -154,7 +157,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     private void addToField(ControlDependency compiled, Field field, N2oField.Dependency source, CompileProcessor p) {
-        compiled.setApplyOnInit(p.cast(source.getApplyOnInit(), true));
+        compiled.setApplyOnInit(p.cast(source.getApplyOnInit(),
+                p.resolve(property("n2o.api.control.dependency.apply_on_init"), Boolean.class)));
         if (source.getOn() != null) {
             List<String> ons = Arrays.asList(source.getOn());
             compiled.getOn().addAll(ons);
@@ -178,7 +182,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         else if (source instanceof N2oField.VisibilityDependency) {
             dependency.setType(ValidationType.visible);
             Boolean isResettable = p.cast(((N2oField.VisibilityDependency) source).getReset(),
-                    p.resolve(property("n2o.api.control.visibility.reset"), Boolean.class));
+                    p.resolve(property("n2o.api.control.dependency.visibility.reset"), Boolean.class));
             if (Boolean.TRUE.equals(isResettable)) {
                 ControlDependency reset = new ControlDependency();
                 reset.setType(ValidationType.reset);

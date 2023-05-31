@@ -30,9 +30,8 @@ public class SearchButtonsCompiler extends StandardFieldCompiler<SearchButtons, 
         field.setSearchLabel(source.getSearchLabel());
         field.setFetchOnClear(p.cast(source.getFetchOnClear(), p.resolve(
                 property("n2o.api.control.search_buttons.fetch_on_clear"), Boolean.class)));
-        if (source.getNoLabel() == null) {
-            source.setNoLabel(true);
-        }
+        source.setNoLabel(p.cast(source.getNoLabel(), p.resolve(
+                property("n2o.api.control.search_buttons.no_label"), Boolean.class)));
 
         return compileStandardField(field, source, context, p);
     }

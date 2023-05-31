@@ -24,7 +24,7 @@ import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompile
  */
 @Component
 public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oButtonField> {
-    private static final String PROPERTY_PREFIX = "n2o.api.control.button_field";
+    private static final String PROPERTY_PREFIX = "n2o.api.control.button";
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -46,7 +46,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
 
     @Override
     protected String getSrcProperty() {
-        return "n2o.api.control.button_field.src";
+        return "n2o.api.control.button.src";
     }
 
     protected void initItem(ButtonField button, N2oButtonField source,

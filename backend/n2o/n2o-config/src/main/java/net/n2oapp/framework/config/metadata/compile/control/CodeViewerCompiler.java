@@ -26,7 +26,9 @@ public class CodeViewerCompiler extends StandardFieldCompiler<CodeViewer, N2oCod
         CodeViewer codeViewer = new CodeViewer();
         codeViewer.setText(source.getText().trim().replaceAll("\n( )+", "\n"));
         codeViewer.setLanguage(source.getLanguage());
-        codeViewer.setDarkTheme(source.getTheme() != null && source.getTheme().equals(N2oCodeViewer.ColorTheme.dark));
+        N2oCodeViewer.ColorTheme theme = p.cast(source.getTheme(),
+                p.resolve(property("n2o.api.control.code.theme"), N2oCodeViewer.ColorTheme.class));
+        codeViewer.setDarkTheme(theme.equals(N2oCodeViewer.ColorTheme.dark));
         codeViewer.setShowLineNumbers(p.cast(source.getShowLineNumbers(),
                 p.resolve(property("n2o.api.control.code.show_line_numbers"), Boolean.class)));
         codeViewer.setStartingLineNumber(p.cast(source.getStartingLineNumber(),

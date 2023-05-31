@@ -1908,8 +1908,16 @@
     <xs:complexType name="controlPasswordDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="length" type="xs:integer" use="optional"/>
-                <xs:attribute name="eye" type="xs:boolean" use="optional" default="true"/>
+                <xs:attribute name="length" type="xs:integer" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Максимальная длина текста элемента</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="eye" type="xs:boolean" use="optional" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Отображать кнопку "Показать пароль" или нет</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1964,8 +1972,16 @@
     </xs:simpleType>
 
     <xs:complexType name="baseDependencyDefinition" abstract="true">
-        <xs:attribute name="on" type="xs:string"/>
-        <xs:attribute name="apply-on-init" type="xs:boolean" default="true"/>
+        <xs:attribute name="on" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поля, от которых зависит установка значений</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="apply-on-init" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Срабатывает ли при инициализации виджета</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="controlVisibilityDependencyDefinition" abstract="true">
@@ -2006,6 +2022,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
     <xs:complexType name="preFiltersDefinition">
         <xs:annotation>
             <xs:documentation>Предустановленная фильтрация.</xs:documentation>
