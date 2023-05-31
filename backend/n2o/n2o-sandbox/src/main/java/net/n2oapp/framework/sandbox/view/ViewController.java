@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
+import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.DynamicMetadataProvider;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.route.RouteInfo;
@@ -168,7 +169,10 @@ public class ViewController {
             ThreadLocalProjectId.setProjectId(projectId);
             projectRouteRegister.clearAll();
             builder = getBuilder(projectId);
-            addedValues.put("menu", getMenu(builder));
+
+            Application application = builder.read().transform().validate().compile().transform().bind().get(new ApplicationContext(getApplicationId(builder)), new DataSet());
+            Map<String, Object> menu = objectMapper.convertValue(application, Map.class);
+            addedValues.put("menu", menu);
 
             AppConfigJsonWriter appConfigJsonWriter = new SandboxAppConfigJsonWriter(projectId, restClient);
             appConfigJsonWriter.setPropertyResolver(builder.getEnvironment().getSystemProperties());
@@ -190,14 +194,18 @@ public class ViewController {
             ThreadLocalProjectId.setProjectId(projectId);
             projectRouteRegister.clearAll();
             getIndex(builder);
-            getMenu(builder);
+
             String path = getPath(request, "/n2o/page");
             CompileContext<Page, ?> context = builder.route(path, Page.class, request.getParameterMap());
 
             N2oSubModelsProcessor n2oSubModelsProcessor = new N2oSubModelsProcessor(queryProcessor, domainProcessor);
             n2oSubModelsProcessor.setEnvironment(builder.getEnvironment());
 
-            return builder.read().transform().validate().compile().transform().bind().get(context, context.getParams(path, request.getParameterMap()), n2oSubModelsProcessor);
+            ReadCompileBindTerminalPipeline bind = builder.read().transform().validate().compile().transform().bind();
+            Application application = bind.get(new ApplicationContext(getApplicationId(builder)), new DataSet());
+            objectMapper.convertValue(application, Map.class);
+            
+            return bind.get(context, context.getParams(path, request.getParameterMap()), n2oSubModelsProcessor);
         } finally {
             sandboxContext.refresh();
             ThreadLocalProjectId.clear();
@@ -342,11 +350,7 @@ public class ViewController {
         return null;
     }
 
-    private Map<String, Object> getMenu(N2oApplicationBuilder builder) {
-        return objectMapper.convertValue(getApplication(builder), Map.class);
-    }
-
-    private Application getApplication(N2oApplicationBuilder builder) {
+    private String getApplicationId(N2oApplicationBuilder builder) {
         String applicationId = builder.getEnvironment().getSystemProperties().getProperty("n2o.application.id", String.class, null);
         if ("default".equals(applicationId)) {
             List<SourceInfo> applications = builder.getEnvironment().getMetadataRegister().find(N2oApplication.class);
@@ -355,7 +359,7 @@ public class ViewController {
                 if (si.getScannerClass().isAssignableFrom(XmlInfoScanner.class)) break;
             }
         }
-        return builder.read().transform().validate().compile().transform().bind().get(new ApplicationContext(applicationId), new DataSet());
+        return applicationId;
     }
 
     private DataSet getBody(Object body) {
