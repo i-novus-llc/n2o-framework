@@ -116,6 +116,7 @@ public class SandboxExportTest {
                 "  }\n" +
                 "]")));
 
+        viewController.getConfig("myProjectId");
         ResponseEntity<byte[]> response = viewController.export("myProjectId", request);
         assertThat(response.getStatusCodeValue(), is(200));
         assertThat(response.getBody(), is(expectedBody.getBytes(StandardCharsets.UTF_8)));

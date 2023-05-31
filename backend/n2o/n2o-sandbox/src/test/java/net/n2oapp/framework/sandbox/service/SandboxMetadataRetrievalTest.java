@@ -78,7 +78,7 @@ public class SandboxMetadataRetrievalTest {
         wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
         wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
         wireMockServer.stubFor(get("/project/myProjectId/config.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        JSONObject config = new JSONObject(viewController.getConfig("myProjectId", null));
+        JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
 
         assertThat(config.getString("project"), is("myProjectId"));
 
@@ -103,6 +103,7 @@ public class SandboxMetadataRetrievalTest {
         wireMockServer.stubFor(get("/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json")
                 .withBody(StreamUtils.copyToString(new ClassPathResource("data/testMetadataRetrieval.json").getInputStream(), Charset.defaultCharset()))));
         wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        viewController.getConfig("myProjectId");
         Page page = viewController.getPage("myProjectId", request);
 
         assertThat(page.getId(), is("_"));

@@ -71,7 +71,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -125,6 +124,8 @@ public class ViewController {
     private N2oDynamicMetadataProviderFactory dynamicMetadataProviderFactory;
     private ObjectMapper objectMapper;
     private DomainProcessor domainProcessor;
+    
+    private N2oApplicationBuilder builder;
 
     public ViewController(Optional<Map<String, DynamicMetadataProvider>> providers, ObjectMapper objectMapper,
                           @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor, List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers) {
@@ -159,11 +160,10 @@ public class ViewController {
 
     @CrossOrigin(origins = "*")
     @GetMapping({"/view/{projectId}/n2o/config"})
-    public Map<String, Object> getConfig(@PathVariable(value = "projectId") String projectId, HttpSession session) {
+    public Map<String, Object> getConfig(@PathVariable(value = "projectId") String projectId) {
         Map<String, Object> addedValues = new HashMap<>();
         addedValues.put("project", projectId);
 
-        N2oApplicationBuilder builder;
         try {
             ThreadLocalProjectId.setProjectId(projectId);
             projectRouteRegister.clearAll();
@@ -189,7 +189,6 @@ public class ViewController {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
             projectRouteRegister.clearAll();
-            N2oApplicationBuilder builder = getBuilder(projectId);
             getIndex(builder);
             getMenu(builder);
             String path = getPath(request, "/n2o/page");
@@ -211,9 +210,6 @@ public class ViewController {
     public ResponseEntity<byte[]> export(@PathVariable(value = "projectId") String projectId, HttpServletRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
-            N2oApplicationBuilder builder = getBuilder(projectId);
-            getIndex(builder);
-            getMenu(builder);
 
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
             ExportController exportController = new ExportController(builder.getEnvironment(), dataController);
@@ -249,9 +245,7 @@ public class ViewController {
                                                    HttpServletRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
-            N2oApplicationBuilder builder = getBuilder(projectId);
-            getIndex(builder);
-            getMenu(builder);
+
             String path = getPath(request, "/n2o/data");
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
 
@@ -288,9 +282,6 @@ public class ViewController {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
 
-            N2oApplicationBuilder builder = getBuilder(projectId);
-            getIndex(builder);
-            getMenu(builder);
             String path = getPath(request, "/n2o/data");
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
             dataController.setMessageBuilder(messageBuilder);
@@ -388,7 +379,6 @@ public class ViewController {
     private void getIndex(N2oApplicationBuilder builder) {
         PageContext index = new PageContext(propertyResolver.getProperty("n2o.homepage.id"), "/");
         builder.routes(new RouteInfo("/", index));
-        builder.scan().read().transform().validate().compile().transform().get(index);
     }
 
     private String getPath(HttpServletRequest request, String prefix) {
