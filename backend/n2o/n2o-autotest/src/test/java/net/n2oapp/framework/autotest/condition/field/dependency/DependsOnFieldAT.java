@@ -164,6 +164,7 @@ public class DependsOnFieldAT extends AutoTestBase {
         onInput.shouldBeEmpty();
 
         input.setValue("1");
+//        input.shouldHaveValue("1");
         // setValue makes 3 inputs !!!
         onAnyField.shouldHaveValue("3");
         onFieldset.shouldBeEmpty();
