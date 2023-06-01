@@ -261,11 +261,11 @@ n2o.api.field.image.width=
 
 <Sandbox height={200} projectId="uxcomponents_image_image" />
 
-### &lt;statuses&gt;
+#### &lt;statuses&gt;
 
 Список статусов.
 
-### &lt;status&gt;
+##### &lt;status&gt;
 
 Элемент статуса.
 
@@ -987,6 +987,7 @@ n2o.api.control.status.text_position=right
 |begin-param         |Строка                 |Параметр в URL для значения по умолчанию начала интервала                                          |                        |
 |end-param           |Строка                 |Параметр в URL для значения по умолчанию конца интервала                                           |                        |
 |datasource          |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, из которого будут браться варианты для выбора|          |
+|value-field-id      |Строка                   |Поле, отвечающее за идентификатор варианта выбора
 
 **Настройки**
 ```yaml
@@ -999,19 +1000,31 @@ n2o.api.control.button.badge.image_position=left
 #Форма картинки в значке в ButtonField
 n2o.api.control.button.badge.image_shape=circle
 ```
+
+**Тело**<br/>
+`<default-value>`<br/>
+`<options>`<br/>
+`<filters>`
+
 #### &lt;default-value&gt;
 
 Значение по умолчанию спискового компонента
 
 **Атрибуты**
 
-Свойства модели спискового компонента
+|Наименование  |Тип     |Описание
+|--------------|--------|-------------------
+|id            |Строка  |Идентификатор
+|name          |Строка  |Наименование
+
 
 **Пример**
 
 ```xml
 <select id="gender">
   <default-value id="1" name="Мужской"/>
+  <options>...</options>
+  <filters>...</filters>
 </select>
 ```
 
@@ -1035,7 +1048,10 @@ n2o.api.control.button.badge.image_shape=circle
 
 **Атрибуты**
 
-Свойства модели спискового компонента
+|Наименование  |Тип     |Описание
+|--------------|--------|-------------------
+|id            |Строка  |Идентификатор
+|name          |Строка  |Наименование
 
 **Пример**
 
@@ -1046,21 +1062,21 @@ n2o.api.control.button.badge.image_shape=circle
 </options>
 ```
 
-#### &lt;pre-filters&gt; {#pre-filters_in_field}
+#### &lt;filters&gt; {#filters_in_field}
 
 Предустановленные фильтры выборки спискового компонента
 
 **Тело**
 
-[Предустановленные фильтры](../xml/base#pre-filters)
+[Предустановленные фильтры](../xml/base#filters)
 
 **Пример**
 
 ```xml
 <select query-id="contacts">
-  <pre-filters>
+  <filters>
     <eq field-id="type" value="{type.id}"/>
-  </pre-filters>
+  </filters>
 </select>
 ```
 
@@ -1212,7 +1228,7 @@ n2o.api.control.auto_complete.value_field_id=name
 
 **Тело**
 
-[Предустановленные фильтры](../xml/base#pre-filters)
+[Предустановленные фильтры](../xml/base#filters)
 
 **Пример**
 
@@ -1499,7 +1515,7 @@ Java Script выражение
 
 **Тело**
 
-Список префильтров
+[Список префильтров](../xml/base#filters)
 
 **Пример**
 
@@ -1549,7 +1565,7 @@ Java Script тело функции
 </dependencies>
 ```
 
-##### &lt;requiring&gt;
+### &lt;requiring&gt;
 
 Условие обязательности заполнения
 

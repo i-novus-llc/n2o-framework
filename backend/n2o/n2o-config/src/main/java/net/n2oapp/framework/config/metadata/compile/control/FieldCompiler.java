@@ -92,7 +92,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         IndexScope idx = p.getScope(IndexScope.class);
         field.setId(p.cast(source.getId(), "f" + idx.get()));
         field.setLabel(initLabel(source, p));
-
+        field.setNoLabelBlock(source.getNoLabelBlock());
         field.setLabelClass(p.resolveJS(source.getLabelClass()));
         field.setHelp(p.resolveJS(source.getHelp()));
         field.setDescription(p.resolveJS(source.getDescription()));

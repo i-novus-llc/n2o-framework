@@ -207,7 +207,7 @@
         </xs:attribute>
         <xs:attribute name="ref-field-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Ссылка на поле, для инициализация значения.</xs:documentation>
+                <xs:documentation>Ссылка на поле для инициализации значения.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>
@@ -1772,7 +1772,6 @@
                         <xs:documentation>Идентификатор узла дерева.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-
                 <xs:attribute name="ajax" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Поддержка загрузки через ajax запрос.</xs:documentation>

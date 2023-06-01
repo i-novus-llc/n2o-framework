@@ -28,7 +28,7 @@ public class StatusFieldCompiler extends FieldCompiler<Status, N2oStatus> {
         status.setText(p.resolveJS(source.getText()));
         status.setTextPosition(p.cast(source.getTextPosition(),
                 p.resolve(property("n2o.api.control.status.text_position"), Position.class)));
-
+        initDefaults(source, context, p);
         compileField(status, source, context, p);
         return status;
     }
