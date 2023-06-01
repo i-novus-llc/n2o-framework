@@ -126,6 +126,7 @@ function withListContainer(WrappedComponent) {
                 _fetchData={_fetchData}
                 size={size}
                 count={count}
+                page={page}
             />
         )
     }
