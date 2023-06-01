@@ -298,7 +298,13 @@ class InputSelect extends React.Component {
             isExpanded,
             inputFocus: isExpanded,
         },
-        onOpen)
+        () => {
+            const { page, data = [] } = this.props
+
+            if (!data.length || page === 1) {
+                onOpen()
+            }
+        })
 
         onToggle(isExpanded)
 
@@ -820,6 +826,7 @@ InputSelect.propTypes = {
     onFocus: PropTypes.func,
     count: PropTypes.number,
     size: PropTypes.number,
+    page: PropTypes.number,
     data: PropTypes.object,
 }
 
