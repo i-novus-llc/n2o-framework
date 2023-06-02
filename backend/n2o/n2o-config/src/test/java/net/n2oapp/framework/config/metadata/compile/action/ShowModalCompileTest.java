@@ -422,7 +422,6 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         MetaSaga meta = ((ShowModal) ((Form) rootPage.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().getButton("modal1").getAction()).getMeta();
-        //CloseAction close = (CloseAction) ((MultiAction) showModal.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
         assertThat(meta.getOnClose(), notNullValue());
         assertThat(meta.getOnClose().getRefresh().getDatasources(), hasItem("p_form"));
 

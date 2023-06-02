@@ -113,7 +113,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(meta.getSuccess().getRefresh(), nullValue());
         assertThat(meta.getSuccess().getModalsToClose(), nullValue());
         assertThat(meta.getFail().getMessageWidgetId(), is("p_create_modal"));
-        //todo assertThat(meta.getSuccess().getMessageWidgetId(), is("p_main"));
+        assertThat(meta.getSuccess().getMessageWidgetId(), is("p_create_modal"));
         assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/create/multi1"));
         RefreshAction refresh = (RefreshAction) multiAction.getPayload().getActions().get(1);
         assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("p_second"));

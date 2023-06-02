@@ -109,24 +109,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         /* клонируем тулбары из контекста в тулбары страницы, это необходимо, чтобы просатвить значения по умолчанию
          для datasource и при это не испортить контекст изменениями */
         context.getToolbars().forEach(t -> {
-            N2oToolbar toolbar = new N2oToolbar();
-            toolbar.setPlace(p.cast(t.getPlace(), p.resolve(property("n2o.api.page.toolbar.place"), String.class)));
-            toolbar.setGenerate(t.getGenerate());
-            toolbar.setStyle(t.getStyle());
-            toolbar.setDatasourceId(t.getDatasourceId());
-            toolbar.setCssClass(t.getCssClass());
-            if (t.getItems() != null) {
-                ToolbarItem[] items = new ToolbarItem[t.getItems().length];
-                for (int i = 0; i < t.getItems().length; i++) {
-                    items[i] = t.getItems()[i].clone();
-                    if (N2oAbstractButton.class.isAssignableFrom(items[i].getClass())) {
-                        ((N2oAbstractButton) items[i])
-                                .setDatasourceId(((N2oAbstractButton) items[i]).getDatasourceId() == null ?
-                                        resultWidget.getDatasourceId() : ((N2oAbstractButton) items[i]).getDatasourceId());
-                    }
-                }
-                toolbar.setItems(items);
-            }
+            N2oToolbar toolbar = cloneToolbar(t, resultWidget, p);
             CompiledObject object = null;
             if (pageScope.getObjectId() != null)
                 object = p.getCompiled(new ObjectContext(pageScope.getObjectId()));
@@ -144,10 +127,10 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             pageScope.setObjectId(widget.getDatasource().getObjectId());
         pageScope.setWidgetIdClientDatasourceMap(new HashMap<>());
         pageScope.setWidgetIdSourceDatasourceMap(new HashMap<>());
-        pageScope.getWidgetIdSourceDatasourceMap().putAll(Map.of(widget.getId(),
-                widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId()));
-        pageScope.getWidgetIdClientDatasourceMap().putAll(Map.of(getClientWidgetId(widget.getId(), pageId),
-                getClientDatasourceId(widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId(), pageId, p)));
+        pageScope.getWidgetIdSourceDatasourceMap().put(widget.getId(),
+                widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId());
+        pageScope.getWidgetIdClientDatasourceMap().put(getClientWidgetId(widget.getId(), pageId),
+                getClientDatasourceId(widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId(), pageId, p));
         if (context.getParentWidgetIdDatasourceMap() != null)
             pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         return pageScope;

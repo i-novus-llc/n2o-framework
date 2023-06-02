@@ -156,7 +156,6 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     @Test(expected = ReferentialIntegrityViolationException.class)
     public void validateObjectIdForMainWidget() {
         PageContext validateObjectIdForMainWidget = new PageContext("testStandardPageObject");
-   //     validateObjectIdForMainWidget.setSubmitOperationId("test");
         compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
                 .get(validateObjectIdForMainWidget);
 

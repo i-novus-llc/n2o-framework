@@ -162,16 +162,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         pageContext.setPageName(source.getPageName());
         pageContext.setBreadcrumbs(initBreadcrumb(source, pageContext, p));
-        // copy
-        pageContext.setCopyModel(source.getCopyModel());
-        pageContext.setCopyDatasourceId(source.getCopyDatasourceId());
-        pageContext.setCopyFieldId(source.getCopyFieldId());
-        pageContext.setTargetModel(source.getTargetModel());
-        pageContext.setTargetDatasourceId(computeTargetDatasource(source, pageScope, componentScope, widgetScope));
-        pageContext.setTargetFieldId(source.getTargetFieldId());
-        pageContext.setTargetPage(source.getTargetPage());
-        pageContext.setCopyMode(source.getCopyMode());
-
         if (source.getDatasources() != null) {
             if (pageContext.getDatasources() == null)
                 pageContext.setDatasources(new ArrayList<>());
@@ -195,7 +185,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             pageContext.setParentDatasourceIdsMap(initParentDatasourceIdsMap(p, (PageContext) context));
         }
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
-        if ((source.getRefreshAfterSubmit() == null || source.getRefreshAfterSubmit() || pageContext.getRefreshOnClose()) &&
+        if ((!Boolean.FALSE.equals(source.getRefreshAfterSubmit()) || pageContext.getRefreshOnClose()) &&
                 (source.getRefreshDatasourceIds() != null || localDatasourceId != null)) {
             String[] refreshDatasourceIds = source.getRefreshDatasourceIds() == null ?
                     new String[]{localDatasourceId} : source.getRefreshDatasourceIds();
@@ -472,7 +462,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             saveButton.setColor("primary");
             N2oAction[] actions = null;
             ReduxModel saveButtonModel = null;
-            SubmitActionType submitActionType = source.getSubmitActionType() == null ? SubmitActionType.invoke : source.getSubmitActionType();
+            SubmitActionType submitActionType = p.cast(source.getSubmitActionType(), SubmitActionType.invoke);
             Boolean closeOnSuccess = p.cast(source.getCloseAfterSubmit(), true);
             Boolean refreshOnSuccessSubmit = p.cast(source.getRefreshAfterSubmit(), true);
 

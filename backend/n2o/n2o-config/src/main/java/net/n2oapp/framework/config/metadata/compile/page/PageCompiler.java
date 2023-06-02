@@ -9,6 +9,10 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.Models;
@@ -204,5 +208,31 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
                 }
             }
         }
+    }
+
+    /**
+     * Клонирование тулбара для проставления значений по умолчанию
+     * @return
+     */
+    protected N2oToolbar cloneToolbar(N2oToolbar t, N2oWidget resultWidget, CompileProcessor p) {
+        N2oToolbar toolbar = new N2oToolbar();
+        toolbar.setPlace(p.cast(t.getPlace(), p.resolve(property("n2o.api.page.toolbar.place"), String.class)));
+        toolbar.setGenerate(t.getGenerate());
+        toolbar.setStyle(t.getStyle());
+        toolbar.setDatasourceId(t.getDatasourceId());
+        toolbar.setCssClass(t.getCssClass());
+        if (t.getItems() != null) {
+            ToolbarItem[] items = new ToolbarItem[t.getItems().length];
+            for (int i = 0; i < t.getItems().length; i++) {
+                items[i] = t.getItems()[i].clone();
+                if (N2oAbstractButton.class.isAssignableFrom(items[i].getClass())) {
+                    ((N2oAbstractButton) items[i])
+                            .setDatasourceId(((N2oAbstractButton) items[i]).getDatasourceId() == null ?
+                                    resultWidget.getDatasourceId() : ((N2oAbstractButton) items[i]).getDatasourceId());
+                }
+            }
+            toolbar.setItems(items);
+        }
+        return toolbar;
     }
 }
