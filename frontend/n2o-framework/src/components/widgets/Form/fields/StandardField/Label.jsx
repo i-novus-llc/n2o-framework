@@ -19,8 +19,8 @@ import { Required } from './Required'
  * <Label value='Телефон'/ required={true} />
  */
 
-const Label = ({ id, value, required, className, style, help }) => {
-    if (!value) {
+const Label = ({ id, value, required, className, style, help, needStub = false }) => {
+    if (!value && !needStub) {
         return null
     }
 
@@ -57,6 +57,7 @@ Label.propTypes = {
     id: PropTypes.string,
     help: PropTypes.string,
     style: PropTypes.object,
+    needStub: PropTypes.bool,
 }
 
 Label.defaultProps = {
