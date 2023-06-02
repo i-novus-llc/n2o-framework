@@ -319,7 +319,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 if (parameter instanceof ObjectSimpleField) {
                     if (field instanceof ObjectSimpleField)
                         resolveSimpleFieldDefault((ObjectSimpleField) parameter, (ObjectSimpleField) field);
-                    parameter.setRequired(p.cast(parameter.getRequired(), ((ObjectSimpleField) parameter).getDefaultValue() == null));
+                    parameter.setRequired(parameter.getRequired());
                 } else if (parameter instanceof ObjectReferenceField && field instanceof ObjectReferenceField)
                     resolveReferenceFieldDefault((ObjectReferenceField) parameter, (ObjectReferenceField) field);
             }
