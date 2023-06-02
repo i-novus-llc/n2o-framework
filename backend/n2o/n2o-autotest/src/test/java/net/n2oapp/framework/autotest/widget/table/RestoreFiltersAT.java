@@ -19,6 +19,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Автотест для проверки востановления значений фильтров таблицы после закрытия страницы
+ */
 public class RestoreFiltersAT extends AutoTestBase {
 
     @BeforeAll
