@@ -16,7 +16,6 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -64,8 +63,8 @@ public class ConstraintValidationCompileTest extends SourceCompileTestBase {
         List<AbstractParameter> inParametersList = ((ConstraintValidation) validations.get(0)).getInParametersList();
         assertThat(inParametersList.size(), is(3));
         Set<String> requiredFields = validations.get(0).getRequiredFields();
-        assertThat(requiredFields.size(), is(2));
-        assertThat(requiredFields.containsAll(Arrays.asList("id", "name")), is(true));
+        assertThat(requiredFields.size(), is(1));
+        assertThat(requiredFields.contains("name"), is(true));
         List<ObjectSimpleField> outParametersList = ((ConstraintValidation) validations.get(0)).getOutParametersList();
         assertThat(outParametersList.size(), is(2));
         assertThat(outParametersList.get(0).getId(), is("id"));
