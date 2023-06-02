@@ -87,7 +87,7 @@
             <out>
                 <field id="out" mapping="out"/>
             </out>
-            <invocation>
+            <invocation result-mapping="#this?:T(java.util.Map).of('year', T(java.time.Year).now().getValue())">
                 <sql>select 1</sql>
             </invocation>
         </constraint>

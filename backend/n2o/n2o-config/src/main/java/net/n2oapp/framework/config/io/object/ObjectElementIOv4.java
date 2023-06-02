@@ -17,6 +17,8 @@ import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
+import static java.util.Objects.nonNull;
+
 /**
  * Чтение\запись объекта версии 4.0
  */
@@ -72,7 +74,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
 
     private void invocation(Element e, N2oObject.Operation t, IOProcessor p) {
         p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
-        if (t.getInvocation() != null)
+        if (nonNull(t.getInvocation()))
             p.childAttribute(e, "invocation", "result-mapping", t.getInvocation()::getResultMapping, t.getInvocation()::setResultMapping);
     }
 
@@ -142,6 +144,8 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
                 .add("set", ObjectSetField.class, this::inReference));
         p.children(e, "out", "field", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::outField);
         p.anyChild(e, "invocation", t::getN2oInvocation, t::setN2oInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
+        if (nonNull(t.getN2oInvocation()))
+            p.childAttribute(e, "invocation", "result-mapping", t.getN2oInvocation()::getResultMapping, t.getN2oInvocation()::setResultMapping);
     }
 
     private void constraint(Element e, N2oConstraint t, IOProcessor p) {
