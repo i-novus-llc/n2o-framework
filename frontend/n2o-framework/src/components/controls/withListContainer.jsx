@@ -141,6 +141,7 @@ function withListContainer(WrappedComponent) {
                 sortFieldId={sortFieldId}
                 size={size}
                 count={count}
+                page={page}
             />
         )
     }
