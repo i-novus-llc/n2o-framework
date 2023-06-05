@@ -18,7 +18,7 @@
         <sandboxUrl>https://sandbox.n2oapp.net</sandboxUrl>
         <n2oSandboxUrl>https://7-23.n2oapp.net/sandbox</n2oSandboxUrl>
         <n2oVersionUrl>https://next.n2oapp.net/sandbox/n2o/version</n2oVersionUrl>
-        <next>https://n2o.i-novus.ru/</next>
+        <next>https://n2o.i-novus.ru</next>
         <docusaurusUrl>/</docusaurusUrl>
     </properties>
 
