@@ -116,7 +116,9 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     }
 
     public CollectionPage<DataSet> executeOneSizeQuery(CompiledQuery query, N2oPreparedCriteria criteria) {
-        criteria.setSize(2);
+        if (Objects.nonNull(query.getUniques())) {
+            criteria.setSize(2);
+        }
         criteria.setCount(2);
         N2oQuery.Selection selection = findUniqueSelection(query, criteria);
         Object result = executeQuery(selection, query, criteria);
