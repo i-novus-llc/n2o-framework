@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil;
+import net.n2oapp.framework.config.util.DatasourceUtil;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.compileValidate;
@@ -38,9 +39,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         compileField(field, source, context, p);
         field.setColor(source.getColor());
         field.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
-
         initItem(field, source, context, p);
-
         return field;
     }
 
@@ -92,5 +91,6 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         boolean validate = initValidate(source, p, datasource);
         source.setValidate(validate);
         button.setValidate(compileValidate(source, p, datasource));
+        button.setDatasource(DatasourceUtil.getClientDatasourceId(datasource, p));
     }
 }
