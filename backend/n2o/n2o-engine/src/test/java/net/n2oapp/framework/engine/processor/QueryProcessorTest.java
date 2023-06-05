@@ -35,6 +35,8 @@ import net.n2oapp.framework.engine.data.N2oQueryExceptionHandler;
 import net.n2oapp.framework.engine.data.N2oQueryProcessor;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
+import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
+import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +44,8 @@ import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.any;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -56,7 +59,7 @@ public class QueryProcessorTest {
     private N2oInvocationFactory factory;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         ContextProcessor contextProcessor = new ContextProcessor(new TestContextEngine());
         factory = mock(N2oInvocationFactory.class);
         queryProcessor = new N2oQueryProcessor(factory, new N2oQueryExceptionHandler());
@@ -204,6 +207,36 @@ public class QueryProcessorTest {
         assertThat(result.getCount(), is(1));
         first = result.getCollection().iterator().next();
         assertThat(first.get("type"), is(10));
+    }
+
+    @Test
+    void n2oFoundMoreThanOneRecordException() {
+        TestDataProviderEngine testDataprovider = new TestDataProviderEngine();
+        when(factory.produce(any())).thenReturn(testDataprovider);
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorUnique"));
+        
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        criteria.setSize(1);
+        criteria.addRestriction(new Restriction("exception", "1"));
+        assertThrows(
+                N2oFoundMoreThanOneRecordException.class,
+                () -> queryProcessor.execute(query, criteria)
+        );
+    }
+
+    @Test
+    void n2oRecordNotFoundException() {
+        TestDataProviderEngine testDataprovider = new TestDataProviderEngine();
+        when(factory.produce(any())).thenReturn(testDataprovider);
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorUnique"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        criteria.setSize(1);
+        criteria.addRestriction(new Restriction("exception", "2"));
+        assertThrows(
+                N2oRecordNotFoundException.class,
+                () -> queryProcessor.execute(query, criteria)
+        );
     }
 
     @Test
