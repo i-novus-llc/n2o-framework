@@ -4,6 +4,9 @@
         <region>
             <table id="table">
                 <datasource object-id="utBlank"/>
+                <toolbar>
+                    <button id="btn5"/>
+                </toolbar>
             </table>
         </region>
     </regions>

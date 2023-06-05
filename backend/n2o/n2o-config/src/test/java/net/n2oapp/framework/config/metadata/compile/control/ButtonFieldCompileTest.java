@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
-import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -37,9 +37,9 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
 
     @Test
     void testField() {
-        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testButtonFieldCompile.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/control/testButtonFieldCompile.page.xml")
                 .get(new PageContext("testButtonFieldCompile"));
-        Form form = (Form) page.getWidget();
+        Form form = (Form) page.getRegions().get("single").get(0).getContent().get(0);
         ButtonField field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("btn1"));
         assertThat(field.getAction(), instanceOf(LinkAction.class));
@@ -47,7 +47,8 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getLabel(), is("delete"));
         assertThat(field.getIcon(), nullValue());
         assertThat(field.getColor(), is("danger"));
-        assertThat(field.getValidate().get(0), is("testButtonFieldCompile_main"));
+        assertThat(field.getValidate().get(0), is("testButtonFieldCompile_ds"));
+        assertThat(field.getDatasource(), is("testButtonFieldCompile_ds"));
 
         assertThat(((LinkAction) field.getAction()).getUrl(), is("/testButtonFieldCompile/test2/:param1/:param2?param3=:param3"));
         assertThat(((LinkAction) field.getAction()).getTarget(), is(Target.application));
