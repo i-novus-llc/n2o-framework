@@ -47,6 +47,8 @@ public abstract class AbstractButton extends Component implements IdAware {
     private Confirm confirm;
     @JsonProperty
     private Badge badge;
+    @JsonProperty
+    private String datasource;
     /**
      * Список источников данных, которые нужно валидировать
      */

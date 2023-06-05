@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.api.metadata.meta.control.CustomField;
-import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -43,8 +42,8 @@ public class ButtonFieldBinderTest extends SourceCompileTestBase {
     @Test
     public void testField() {
         ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/control/testButtonFieldCompile.page.xml");
-        SimplePage page = (SimplePage) pipeline.get(new PageContext("testButtonFieldCompile"), new DataSet().add("param2", "2"));
-        Form form = (Form) page.getWidget();
+        StandardPage page = (StandardPage) pipeline.get(new PageContext("testButtonFieldCompile"), new DataSet().add("param2", "2"));
+        Form form = (Form) page.getRegions().get("single").get(0).getContent().get(0);
         ButtonField field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(((LinkAction) field.getAction()).getUrl(), Matchers.is("/testButtonFieldCompile/test2/:param1/:param2?param3=:param3"));
         assertThat(((LinkAction) field.getAction()).getPathMapping().size(), Matchers.is(2));
