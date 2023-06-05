@@ -24,6 +24,14 @@ http://n2oapp.net/framework/config/schema/application-3.0
 |navigation-layout-fixed |Boolean        |Зафиксированы ли header и sidebar                        |false                |
 |welcome-page-id         |Строка         |Ссылка на страницу, которая открывается по root(/)       |                     |
 
+**Настройки**
+```yaml
+# Макет отображения элементов управления.
+n2o.application.navigation_layout=fullSizeHeader
+# Зафиксированы ли header и sidebar
+n2o.application.navigation_layout_fixed=false
+```
+
 **Пример**
 
 ```xml
@@ -141,7 +149,7 @@ http://n2oapp.net/framework/config/schema/application-3.0
 
 [Стандартная боковая панель](../xml/application#sidebar)
 
-### Боковая панель (&lt;sidebar&gt;) {#sidebar}
+#### Боковая панель (&lt;sidebar&gt;) {#sidebar}
 
 **Атрибуты**
 
@@ -156,15 +164,31 @@ http://n2oapp.net/framework/config/schema/application-3.0
 |style           |CSS свойства   |Список CSS свойств                              |                     |
 |class           |CSS класс      |CSS класс боковой панели                        |                     |
 |visible         |Boolean        |Видимость боковой панели                        |true                 |
-|side            |Строка         |Сторона появления боковой панели,<br/>возможные значения left, right|left                 |
+|side            |left, right    |Сторона появления боковой панели                |left                 |
 |welcome-page-id |Ссылка         |Ссылка на страницу                              |                     |
 |logo-src        |Строка         |Путь к файлу с логотипом, который будет<br/>отображаться в заголовке боковой панели |                     |
 |home-page-url   |Строка         |URL страницы, переход на которую происходит<br/>по клику на логотип или название<br/>в заголовке боковой панели|                     |
 |logo-class      |CSS класс      |CSS класс для области с логотипом и названием   |                     |
-|default-state   |Строка         |Состояние сайдбара по умолчанию.<br/>Возможные значения:<br/>none - скрыт полностью<br/>micro - отображается тонкая полоска<br/>mini - отображаются только иконки<br/>maxi - широкая боковая панель|none                |
-|toggled-state   |Строка         |Состояние боковой панели принимаемое<br/>при нажатии на кнопку toggle-sidebar, которую можно<br/>добавить в меню заголовка приложения. Возможные значения:<br/>none - скрыт полностью<br/>micro - отображается тонкая полоска<br/>mini - отображаются только иконки<br/>maxi - широкая боковая панель|maxi                |
+|default-state   |none, micro, mini, maxi |Состояние сайдбара по умолчанию.<br/>Возможные значения:<br/>none - скрыт полностью<br/>micro - отображается тонкая полоска<br/>mini - отображаются только иконки<br/>maxi - широкая боковая панель|none, если у `<header>` задан атрибут sidebar-icon или sidebar-toggled-icon, иначе maxi             |
+|toggled-state   |none, micro, mini, maxi |Состояние боковой панели принимаемое<br/>при нажатии на кнопку toggle-sidebar, которую можно<br/>добавить в меню заголовка приложения с помощью атрибута sidebar-toggled-icon. Возможные значения:<br/>none - скрыт полностью<br/>micro - отображается тонкая полоска<br/>mini - отображаются только иконки<br/>maxi - широкая боковая панель|                |
 |toggle-on-hover |Boolean        |Открывается ли панель по hover                   |false               |
 |overlay         |Boolean        |Перекрывает ли боковая панель контент страницы   |true                |
+
+
+
+
+**Настройки**
+```yaml
+#Сторона появления
+n2o.api.sidebar.side=left
+#Открывается ли панель по hover
+n2o.api.sidebar.toggle_on_hover=false
+#Перекрывает ли боковая панель контент страницы
+n2o.api.sidebar.overlay=false
+#Количество записей в боковой панели (число)
+n2o.api.sidebar.size=1
+```
+
 
 **Тело**
 
