@@ -15,12 +15,9 @@ public class N2oTableMerger extends N2oWidgetMerger<N2oTable> {
         setIfNotNull(source::setRows, override::getRows);
         setIfNotNull(source::setAutoSelect, override::getAutoSelect);
         setIfNotNull(source::setSelection, override::getSelection);
-        setIfNotNull(source::setTableSize, override::getTableSize);
         setIfNotNull(source::setWidth, override::getWidth);
         setIfNotNull(source::setHeight, override::getHeight);
         setIfNotNull(source::setTextWrap, override::getTextWrap);
-        setIfNotNull(source::setCheckboxes, override::getCheckboxes);
-        setIfNotNull(source::setCheckOnSelect, override::getCheckOnSelect);
         setIfNotNull(source::setFilterPosition, override::getFilterPosition);
         setIfNotNull(source::setFiltersDatasourceId, override::getFiltersDatasourceId);
         setIfNotNull(source::setFiltersDatasource, override::getFiltersDatasource);

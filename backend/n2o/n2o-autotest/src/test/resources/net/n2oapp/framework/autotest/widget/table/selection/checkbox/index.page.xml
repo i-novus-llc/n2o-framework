@@ -1,5 +1,5 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <table id="checkbox" query-id="test" selection="checkbox" check-on-select="true">
+    <table id="checkbox" query-id="test" selection="checkbox">
         <columns>
             <column text-field-id="id"/>
             <column text-field-id="name">

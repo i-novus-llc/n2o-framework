@@ -6,7 +6,7 @@
     </datasources>
 
     <regions>
-        <table datasource="ds1" checkboxes="true" selection="none">
+        <table datasource="ds1" selection="checkbox">
             <columns>
                 <column text-field-id="id_"/>
                 <column text-field-id="id_ips"/>

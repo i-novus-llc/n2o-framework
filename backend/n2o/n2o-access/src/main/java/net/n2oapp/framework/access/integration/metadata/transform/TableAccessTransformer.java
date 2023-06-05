@@ -18,8 +18,8 @@ public class TableAccessTransformer extends BaseAccessTransformer<Table, Compile
 
     @Override
     public Table transform(Table compiled, CompileContext context, CompileProcessor p) {
-        if (compiled.getComponent() != null && compiled.getComponent().getRowClick() != null) {
-            transfer(compiled.getComponent().getRowClick().getAction(), compiled.getComponent().getRows());
+        if (compiled.getComponent() != null && compiled.getComponent().getBody().getRow().getClick() != null) {
+            transfer(compiled.getComponent().getBody().getRow().getClick().getAction(), compiled.getComponent().getBody().getSecurity());
         }
         return compiled;
     }

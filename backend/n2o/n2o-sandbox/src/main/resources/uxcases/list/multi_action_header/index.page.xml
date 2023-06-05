@@ -6,7 +6,7 @@
         <datasource id="ds1" query-id="data" object-id="data"/>
     </datasources>
     <regions>
-        <table id="table" checkboxes="true" datasource="ds1">
+        <table id="table" selection="checkbox" datasource="ds1">
             <columns>
                 <column text-field-id="id" label="Номер заявки"/>
                 <column text-field-id="requestDate" label="Дата подачи заявки">
