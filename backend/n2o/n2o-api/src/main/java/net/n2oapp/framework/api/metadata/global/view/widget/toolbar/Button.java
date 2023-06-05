@@ -2,10 +2,11 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
 import net.n2oapp.framework.api.metadata.aware.ActionsAware;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 
-public interface Button extends DatasourceIdAware, ModelAware, ActionsAware {
+public interface Button extends DatasourceIdAware, ModelAware, ActionsAware, IdAware {
 
     Boolean getValidate();
 
