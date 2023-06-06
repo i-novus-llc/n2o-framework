@@ -84,8 +84,8 @@ PopupList.propTypes = {
 const enhance = compose(
     withState('menuElement', 'setMenuElement', null),
     withHandlers({
-        onScroll: ({ needAddFilter, filterValue, onScrollEnd }) => (e) => {
-            if (isBottom(e.target)) {
+        onScroll: ({ needAddFilter, filterValue, onScrollEnd, loading }) => (e) => {
+            if (!loading && isBottom(e.target)) {
                 onScrollEnd(needAddFilter ? filterValue : {})
             }
         },
