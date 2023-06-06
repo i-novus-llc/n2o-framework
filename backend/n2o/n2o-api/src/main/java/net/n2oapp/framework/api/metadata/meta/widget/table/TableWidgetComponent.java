@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.metadata.meta.widget.table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
@@ -29,7 +28,7 @@ public class TableWidgetComponent extends WidgetComponent {
     @JsonProperty
     private List<Cell> cells;
     @JsonProperty
-    private List<ColumnHeader> headers;
+    private TableHeader header = new TableHeader();
     @JsonProperty
     private TableBody body = new TableBody();
     @JsonProperty
@@ -37,8 +36,11 @@ public class TableWidgetComponent extends WidgetComponent {
     @JsonProperty
     private Boolean autoSelect;
 
+    @Getter
+    @Setter
     public static class TableHeader {
-
+        @JsonProperty
+        private List<ColumnHeader> cells;
     }
 
     @Getter

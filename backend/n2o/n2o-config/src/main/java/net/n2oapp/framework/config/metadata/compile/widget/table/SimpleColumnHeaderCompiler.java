@@ -62,10 +62,11 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         compileBaseProperties(source, header, p);
         header.setId(source.getId());
         header.setIcon(source.getLabelIcon());
-        header.setWidth(source.getWidth());
+        header.getElementAttributes().put("width", source.getWidth());
         header.setResizable(source.getResizable());
         header.setFixed(source.getFixed());
-        header.setAlignment(source.getAlignment());
+        if (source.getAlignment() != null)
+            header.getElementAttributes().put("alignment", source.getAlignment().getId());
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (source.getColumnVisibilities() != null) {
@@ -75,10 +76,10 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
                 Condition condition = new Condition();
                 condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
                 condition.setModelLink(new ModelLink(refModel, datasourceId).getBindLink());
-                if (!header.getConditions().containsKey(ValidationType.visible)) {
-                    header.getConditions().put(ValidationType.visible, new ArrayList<>());
+                if (!header.getConditionsCells().containsKey(ValidationType.visible)) {
+                    header.getConditionsCells().put(ValidationType.visible, new ArrayList<>());
                 }
-                header.getConditions().get(ValidationType.visible).add(condition);
+                header.getConditionsCells().get(ValidationType.visible).add(condition);
             }
         }
 
