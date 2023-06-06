@@ -117,7 +117,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
         field.setNormalize("#this.toUpperCase(");
         inParametersMap.put("testId", field);
 
-        Map<String, ObjectSimpleField> outParametersMap =  Collections.emptyMap();
+        Map<String, AbstractParameter> outParametersMap =  Collections.emptyMap();
 
         operation.setInParametersMap(inParametersMap);
         operation.setOutParametersMap(outParametersMap);
@@ -142,7 +142,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
         field.setMapping("['name'].toUpperCase(");
         inParametersMap.put("testId", field);
 
-        Map<String, ObjectSimpleField> outParametersMap =  Collections.emptyMap();
+        Map<String, AbstractParameter> outParametersMap =  Collections.emptyMap();
 
         operation.setInParametersMap(inParametersMap);
         operation.setOutParametersMap(outParametersMap);
@@ -168,7 +168,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
         field.setDefaultValue("test");
         inParametersMap.put("testId", field);
 
-        Map<String, ObjectSimpleField> outParametersMap = new HashMap<>();
+        Map<String, AbstractParameter> outParametersMap = new HashMap<>();
         field = new ObjectSimpleField();
         field.setId("name");
         field.setNormalize("#this.toUpperCase(");
@@ -200,7 +200,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
         field.setDefaultValue("test");
         inParametersMap.put("testId", field);
 
-        Map<String, ObjectSimpleField> outParametersMap = new HashMap<>();
+        Map<String, AbstractParameter> outParametersMap = new HashMap<>();
         field = new ObjectSimpleField();
         field.setId("name");
         field.setMapping("['name'.toUpperCase(");
@@ -211,9 +211,9 @@ public class SpelExceptionTest extends DataControllerTestBase{
         testDataProvider.setOperation(N2oTestDataProvider.Operation.create);
         operation.setInvocation(testDataProvider);
         actionRequestInfo.setOperation(operation);
+        actionRequestInfo.setData(new DataSet());
         N2oSpelException exception = Assertions.assertThrows(N2oSpelException.class, () -> testSetController.handleActionRequest(actionRequestInfo, new ActionResponseInfo()));
-        String exceptionMessage = "Spel expression conversion error with ['test'].toUpperCase( of field 'name' in operation 'test1' from metadata testObject.object.xml.";
-        Assertions.assertEquals(exception.getMessage(), exceptionMessage);
+        String exceptionMessage = "Spel expression conversion error with ['name'.toUpperCase( of field 'name' in operation 'test1' from metadata testObject.object.xml.";
         Assertions.assertTrue(exception.getMessage().startsWith(exceptionMessage));
     }
 
@@ -231,7 +231,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
         field.setDefaultValue("test");
         inParametersMap.put("testId", field);
 
-        Map<String, ObjectSimpleField> outParametersMap = new HashMap<>();
+        Map<String, AbstractParameter> outParametersMap = new HashMap<>();
         field = new ObjectSimpleField();
         field.setId("name");
         outParametersMap.put("testId", field);
@@ -258,6 +258,33 @@ public class SpelExceptionTest extends DataControllerTestBase{
         QuerySimpleField field = new QuerySimpleField();
         field.setId("name");
         field.setNormalize("#this.toUpperCase(");
+        displayFields.add(field);
+        query.setDisplayFields(displayFields);
+
+        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.Type.list, testDataProvider);
+        N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
+        lists[0] = list;
+        query.setLists(lists);
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        queryRequestInfo.setCriteria(criteria);
+        queryRequestInfo.setQuery(query);
+        queryRequestInfo.setSize(1);
+        queryRequestInfo.setData(new DataSet());
+        N2oSpelException exception = Assertions.assertThrows(N2oSpelException.class, () -> getController.executeQuery(queryRequestInfo, new QueryResponseInfo()));
+        String exceptionMessage = "Spel expression conversion error with #this.toUpperCase( of field 'name' from metadata testQuery.query.xml.";
+        Assertions.assertTrue(exception.getMessage().startsWith(exceptionMessage));
+    }
+
+    @Test
+    void testMappingQueryField() {
+        QueryRequestInfo queryRequestInfo = new QueryRequestInfo();
+        CompiledQuery query = new CompiledQuery();
+        query.setId("testQuery");
+
+        List<AbstractField> displayFields = new ArrayList<>();
+        QuerySimpleField field = new QuerySimpleField();
+        field.setId("name");
+        field.setMapping("#this.toUpperCase(");
         displayFields.add(field);
         query.setDisplayFields(displayFields);
 
