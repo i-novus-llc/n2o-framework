@@ -12,6 +12,8 @@ import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import cx from 'classnames'
 import { DropdownItem } from 'reactstrap'
+import { findDOMNode } from 'react-dom'
+import scrollIntoView from 'scroll-into-view-if-needed'
 
 import propsResolver from '../../../utils/propsResolver'
 import { Icon } from '../../snippets/Icon/Icon'
@@ -76,6 +78,23 @@ function PopupItems({
     renderIfEmpty,
     popUpItemRef,
 }) {
+    /* FIXME, костыль для выбора элементов с помощью keyup / keydown, сложности с focus в InputSelect.
+         Отвечает за scroll к последнему active элементу, нужно для lazy load см. в PopUpList */
+    const handleRef = (item) => {
+        if (loading) {
+            return
+        }
+
+        if (item) {
+            // eslint-disable-next-line react/no-find-dom-node
+            const el = findDOMNode(item)
+
+            if (el.classList.contains('active')) {
+                scrollIntoView(el, { scrollMode: 'if-needed', block: 'nearest' })
+            }
+        }
+    }
+
     // eslint-disable-next-line consistent-return
     const handleItemClick = ({ target }, item) => {
         if (target.nodeName === 'LABEL') { return false }
@@ -171,6 +190,7 @@ function PopupItems({
         return (
             <div ref={popUpItemRef}>
                 <DropdownItem
+                    ref={handleRef}
                     className={cx('n2o-eclipse-content', {
                         active: activeValueId === get(item, valueFieldId) && !disabled,
                         'n2o-eclipse-content__with-status': withStatus(item),
