@@ -15,11 +15,30 @@ import {Sandbox} from '../../../src/components/Sandbox/Sandbox'
 http://n2oapp.net/framework/config/schema/page-4.0
 ```
 
+**Настройки**
+```yaml
+# Показывать заголовок
+n2o.api.page.show_title=false
+```
+
 ## Виды страниц {#pages}
 
 ### &lt;simple-page&gt; {#simple-page}
 
 Страница с единственным виджетом.
+
+**Атрибуты**
+
+|Наименование|Тип                                 |Описание                                                      |Значение по умолчанию                 |
+|------------|------------------------------------|--------------------------------------------------------------|--------------------------------------|
+|name        |Строка                              |Наименование страницы                                         |Берётся из виджета                    |
+|title       |Строка                              |Заголовок страницы                                            |                                      |
+|html-title  |Строка                              |Заголовок вкладки браузера                                    |Наименование страницы                 |
+|route       |Строка                              |URL страницы                                                  |Формируется из идентификатора страницы|
+|modal-size  |sm lg                               |Размер модального окна, если страница открыта в модальном окне|                                      |
+|show-title  |true false                          |Показывать заголовок страницы?                                |false                                 |
+|model       |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
+
 
 **Пример**
 
@@ -33,18 +52,6 @@ http://n2oapp.net/framework/config/schema/page-4.0
 ```
 
 <Sandbox height={300} projectId="uxcomponents_pages_simple_page" />
-
-**Атрибуты**
-
-|Наименование|Тип                                 |Описание                                                      |Значение по умолчанию                 |
-|------------|------------------------------------|--------------------------------------------------------------|--------------------------------------|
-|name        |Строка                              |Наименование страницы                                         |Берётся из виджета                    |
-|title       |Строка                              |Заголовок страницы                                            |                                      |
-|html-title  |Строка                              |Заголовок вкладки браузера                                    |Наименование страницы                 |
-|route       |Строка                              |URL страницы                                                  |Формируется из идентификатора страницы|
-|modal-size  |sm lg                               |Размер модального окна, если страница открыта в модальном окне|                                      |
-|show-title  |true false                          |Показывать заголовок страницы?                                |false                                 |
-|model       |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
 **Тело**
 
@@ -110,7 +117,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 
 **Тело**
 
-Регионы [left и right](#left-right-region), Список [действий](#actions), Список [хлебных крошек](#breadcrumbs),
+Регионы [left и right](#left-right-region), Список [источников данных](../xml/datasource#datasources), Список [действий](#actions), Список [хлебных крошек](#breadcrumbs),
 [Меню](#toolbar) управляющих кнопок страницы, Список [событий](#events)
 
 **Пример**
@@ -168,9 +175,15 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |datasource       |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
 |model            |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
+**Настройки**
+```yaml
+# Показывается ли кнопка скролла в начало страницы
+n2o.api.top_left_right_page.scroll_top_button=false
+```
+
 **Тело**
 
-Регионы [top, left и right](#top-left-right-region), Список [действий](#actions), Список [хлебных крошек](#breadcrumbs),
+Регионы [top, left и right](#top-left-right-region), Список [источников данных](../xml/datasource#datasources), Список [действий](#actions), Список [хлебных крошек](#breadcrumbs),
 [Меню](#toolbar) управляющих кнопок страницы, Список [событий](#events)
 
 **Пример**
@@ -200,6 +213,11 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |fixed       |true false|Зафиксирован ли регион. Фиксироваться может максимум 2 региона из 3|false                |
 |offset      |Число     |Отступ от верхней границы при фиксировании                         |                     |
 
+**Настройки**
+```yaml
+# Зафиксирован ли регион
+n2o.api.top_left_right_page.region.fixed=false
+```
 
 **Пример**
 
@@ -233,9 +251,19 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
 |model       |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
+**Настройки**
+```yaml
+#Триггер вызова поиска (CHANGE, ENTER, BUTTON)
+n2o.api.searchable_page.trigger=CHANGE
+#Задержка поиска при CHANGE тригере
+n2o.api.searchable_page.throttle-delay=1000
+```
+
 **Тело**
 
-[Поисковая строка](#search-bar), Список [регионов](../xml/region), Список [действий](#actions),
+[Поисковая строка](#search-bar), Список [регионов](../xml/region),
+Список [источников данных](../xml/datasource#datasources), Список [действий](#actions),
+Список [хлебных крошек](#breadcrumbs),
 [Меню](#toolbar) управляющих кнопок страницы, Список [событий](#events)
 
 **Пример**
@@ -273,7 +301,36 @@ http://n2oapp.net/framework/config/schema/page-4.0
 <search-bar button-label="Искать" datasource="main" search-filter-id="name"/>
 ```
 
-## Действия на странице {#actions}
+## Встроенный источник данных
+
+### &lt;datasource&gt;
+
+Ссылка на [Источник данных](../xml/datasource#datasources)
+
+
+## Меню управляющих кнопок {#toolbar}
+
+### &lt;toolbar&gt;
+
+[Меню управляющих кнопок](../xml/widget#widget_toolbar)
+
+**Пример**
+
+```xml
+<page>
+    <toolbar place="topLeft" generate="submit, close">
+        <group>...</group>
+        <button>...</button>
+        <sub-menu>...</sub-menu>
+    </toolbar>
+</page>
+```
+
+## Встроенные действия {#actions}
+
+### &lt;actions&gt;
+
+Действия на странице.
 
 **Атрибуты**
 
@@ -291,7 +348,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 </actions>
 ```
 
-### &lt;action&gt; {#action}
+#### &lt;action&gt; {#action}
 
 Действие на странице.
 
@@ -329,6 +386,14 @@ http://n2oapp.net/framework/config/schema/page-4.0
 
 ## Хлебные крошки {#breadcrumbs}
 
+### &lt;breadcrumbs&gt;
+
+**Настройки**
+```yaml
+# Добавление навигационной цепочки на страницу
+n2o.api.page.breadcrumbs=true
+```
+
 **Тело**
 
 [Крошка](#crumb) (При отсутствии дочерних элементов хлебные крошки страницы будут построены в режиме по умолчанию)
@@ -343,7 +408,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 </breadcrumbs>
 ```
 
-### &lt;crumb&gt; {#crumb}
+#### &lt;crumb&gt; {#crumb}
 
 Хлебная крошка
 
@@ -360,40 +425,11 @@ http://n2oapp.net/framework/config/schema/page-4.0
 <crumb label="Домашняя страница" path="/"/>
 ```
 
-## Меню управляющих кнопок страницы {#toolbar}
-
-**Атрибуты**
-
-|Наименование|Тип                                                       |Описание                    |Значение по умолчанию|
-|------------|----------------------------------------------------------|----------------------------|---------------------|
-|class       |Строка                                                    |CSS класс меню              |                     |
-|style       |Строка                                                    |Стиль меню                  |                     |
-|place       |topLeft, topRight, bottomLeft, bottomRight, breadcrumbLeft|Место расположения меню     |topLeft              |
-|generate    |crud, submit, close                                       |Генерация стандартных кнопок|                     |
-
-**Пример**
-
-```xml
-<toolbar place="topLeft" generate="submit, close">
-  <group>...</group>
-  <button>...</button>
-  <sub-menu>...</sub-menu>
-</toolbar>
-```
-
-### &lt;button&gt;
-
-[Кнопка](../xml/widget#button_in_widget)
-
-### &lt;sub-menu&gt;
-
-[Кнопка с выпадающим меню](../xml/widget#sub-menu_in_widget)
-
-### &lt;group&gt;
-
-[Группа кнопок](../xml/widget#group)
-
 ## События страницы {#events}
+
+### &lt;events&gt;
+
+События, отслеживаемые на странице.
 
 **Пример**
 
@@ -404,7 +440,10 @@ http://n2oapp.net/framework/config/schema/page-4.0
 </events>
 ```
 
-### &lt;on-change&gt; {#on_change_event}
+**Тело**<br/>
+[Событие изменения модели данных](../xml/page#on_change_event)
+
+#### &lt;on-change&gt; {#on_change_event}
 
 Событие изменения модели данных.
 
@@ -417,6 +456,12 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |model       |resolve edit filter multi datasource                       |Модель источника данных, в которой будут отслеживаться изменения  |resolve                                                         |
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Источник данных, в котором будут отслеживаться изменения          |                                                                |
 |action-id   |Ссылка на [действие страницы](#actions)                    |Действие страницы, которое будет вызвано при изменении данных     |                                                                |
+
+**Настройки**
+```yaml
+# Тип события <on-change> на клиенте
+n2o.api.page.event.on_change.type=OnChange
+```
 
 **Тело**
 

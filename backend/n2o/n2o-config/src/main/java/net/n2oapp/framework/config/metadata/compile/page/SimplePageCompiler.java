@@ -155,6 +155,6 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
 
     @Override
     protected String getSrcProperty() {
-        return "n2o.api.page.simple.src";
+        return "n2o.api.simple_page.src";
     }
 }

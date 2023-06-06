@@ -40,6 +40,6 @@ public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage, St
 
     @Override
     protected String getSrcProperty() {
-        return "n2o.api.page.left_right.src";
+        return "n2o.api.left_right_page.src";
     }
 }
