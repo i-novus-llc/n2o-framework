@@ -85,7 +85,7 @@ public class ButtonCompileUtil {
         if (nonNull(datasourceId))
             return getClientDatasourceId(datasourceId, p);
         else
-            throw new N2oException(String.format("Unknown datasource for submit in field %s!", source.getId()));
+            throw new N2oException(String.format("Need to specify 'datasource' for button with 'label=\"%s\"'", source.getLabel()));
     }
 
     public static String initDatasource(DatasourceIdAware source, CompileProcessor p) {

@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 
 public interface Button extends DatasourceIdAware, ModelAware, ActionsAware, IdAware {
+    
+    String getLabel();
 
     Boolean getValidate();
 
