@@ -1,5 +1,6 @@
 package net.n2oapp.framework.ui.controller;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.context.ContextEngine;
@@ -45,9 +46,12 @@ import java.util.*;
 
 public class SpelExceptionTest extends DataControllerTestBase{
 
-    protected N2oApplicationBuilder builder;
     private TestSetController testSetController;
+
     private QueryController getController;
+
+    private N2oTestDataProvider testDataProvider;
+
     @BeforeEach
     public void setUp() {
         N2oEnvironment environment = new N2oEnvironment();
@@ -58,7 +62,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
         messageSource.setBasenames("n2o_messages", "messages");
         messageSource.setDefaultEncoding("UTF-8");
         environment.setMessageSource(new MessageSourceAccessor(messageSource));
-        builder = new N2oApplicationBuilder(environment);
+        N2oApplicationBuilder builder = new N2oApplicationBuilder(environment);
         configure(builder);
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
         N2oInvocationFactory invocationFactory = Mockito.mock(N2oInvocationFactory.class);
@@ -87,21 +91,20 @@ public class SpelExceptionTest extends DataControllerTestBase{
         getController = new QueryController(dataProcessingStack, queryProcessor, null,
                 messageBuilder, builder.getEnvironment(), messagesConstructor);
 
+        testDataProvider = new N2oTestDataProvider();
+        testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");
+
     }
 
     private void configure(N2oApplicationBuilder builder) {
-        builder.packs(new N2oSourceTypesPack(),
-                new N2oDataProvidersPack(),
-                new N2oObjectsPack(), new N2oRegionsPack(),
-                new N2oActionsPack(),
-                new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack(),
-                new N2oOperationsPack(), new N2oQueriesPack());
+        builder.packs(new N2oDataProvidersPack(),
+                new N2oObjectsPack(), new N2oOperationsPack(), new N2oQueriesPack());
         builder.loaders(new SelectiveMetadataLoader(builder.getEnvironment().getNamespaceReaderFactory()));
     }
 
 
     @Test
-    public void testNormalizeInParameter() {
+    void testNormalizeInParameter() {
         ActionRequestInfo actionRequestInfo = new ActionRequestInfo();
         CompiledObject object = new CompiledObject();
         object.setId("testObject");
@@ -126,7 +129,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
     }
 
     @Test
-    public void testMappingInParameter() {
+    void testMappingInParameter() {
         ActionRequestInfo actionRequestInfo = new ActionRequestInfo();
         CompiledObject object = new CompiledObject();
         object.setId("testObject");
@@ -152,7 +155,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
     }
 
     @Test
-    public void testNormalizeOutParameter() {
+    void testNormalizeOutParameter() {
         ActionRequestInfo actionRequestInfo = new ActionRequestInfo();
         CompiledObject object = new CompiledObject();
         object.setId("testObject");
@@ -183,9 +186,39 @@ public class SpelExceptionTest extends DataControllerTestBase{
         String exceptionMessage = "Spel expression conversion error with #this.toUpperCase( of field 'name' in operation 'test1' from metadata testObject.object.xml.";
         Assertions.assertTrue(exception.getMessage().startsWith(exceptionMessage));
     }
+    @Test
+    void testMappingOutParameter() {
+        ActionRequestInfo actionRequestInfo = new ActionRequestInfo();
+        CompiledObject object = new CompiledObject();
+        object.setId("testObject");
+        CompiledObject.Operation operation = new CompiledObject.Operation();
+        operation.setId("test1");
+        actionRequestInfo.setObject(object);
+        Map<String, AbstractParameter> inParametersMap = new HashMap<>();
+        ObjectSimpleField field = new ObjectSimpleField();
+        field.setId("name");
+        field.setDefaultValue("test");
+        inParametersMap.put("testId", field);
+
+        Map<String, ObjectSimpleField> outParametersMap = new HashMap<>();
+        field = new ObjectSimpleField();
+        field.setId("name");
+        field.setMapping("['name'.toUpperCase(");
+        outParametersMap.put("testId", field);
+
+        operation.setInParametersMap(inParametersMap);
+        operation.setOutParametersMap(outParametersMap);
+        testDataProvider.setOperation(N2oTestDataProvider.Operation.create);
+        operation.setInvocation(testDataProvider);
+        actionRequestInfo.setOperation(operation);
+        N2oSpelException exception = Assertions.assertThrows(N2oSpelException.class, () -> testSetController.handleActionRequest(actionRequestInfo, new ActionResponseInfo()));
+        String exceptionMessage = "Spel expression conversion error with ['test'].toUpperCase( of field 'name' in operation 'test1' from metadata testObject.object.xml.";
+        Assertions.assertEquals(exception.getMessage(), exceptionMessage);
+        Assertions.assertTrue(exception.getMessage().startsWith(exceptionMessage));
+    }
 
     @Test
-    public void  testResultMappingObject() {
+    void  testResultMappingObject() {
         ActionRequestInfo actionRequestInfo = new ActionRequestInfo();
         CompiledObject object = new CompiledObject();
         object.setId("testObject");
@@ -205,34 +238,28 @@ public class SpelExceptionTest extends DataControllerTestBase{
 
         operation.setInParametersMap(inParametersMap);
         operation.setOutParametersMap(outParametersMap);
-        N2oTestDataProvider testDataProvider = new N2oTestDataProvider();
-        testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");
         testDataProvider.setOperation(N2oTestDataProvider.Operation.create);
         testDataProvider.setResultMapping("['test'].toUpperCase(");
         operation.setInvocation(testDataProvider);
         actionRequestInfo.setOperation(operation);
         actionRequestInfo.setData(new DataSet());
         N2oSpelException exception = Assertions.assertThrows(N2oSpelException.class, () -> testSetController.handleActionRequest(actionRequestInfo, new ActionResponseInfo()));
-        String exceptionMessage = "Spel expression conversion error with ['test'].toUpperCase( of result-mapping in operation 'test1' from metadata testObject.object.xml.";
+        String exceptionMessage = "Spel expression conversion error with ['test'].toUpperCase( of 'result-mapping' in operation 'test1' from metadata testObject.object.xml.";
         Assertions.assertTrue(exception.getMessage().startsWith(exceptionMessage));
     }
 
     @Test
-    public void testNormalizeQuery() {
+    void testNormalizeQueryField() {
         QueryRequestInfo queryRequestInfo = new QueryRequestInfo();
         CompiledQuery query = new CompiledQuery();
         query.setId("testQuery");
 
         List<AbstractField> displayFields = new ArrayList<>();
-//        Map<String, AbstractField> fieldsMap = new HashMap<>();
         QuerySimpleField field = new QuerySimpleField();
         field.setId("name");
         field.setNormalize("#this.toUpperCase(");
         displayFields.add(field);
         query.setDisplayFields(displayFields);
-
-        N2oTestDataProvider testDataProvider = new N2oTestDataProvider();
-        testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");
 
         N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.Type.list, testDataProvider);
         N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
@@ -249,7 +276,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
     }
 
     @Test
-    public void testResultMappingQuery() {
+    void testResultMappingQuery() {
         QueryRequestInfo queryRequestInfo = new QueryRequestInfo();
         CompiledQuery query = new CompiledQuery();
         query.setId("testQuery");
@@ -264,9 +291,6 @@ public class SpelExceptionTest extends DataControllerTestBase{
         Map<String, QuerySimpleField> simpleFieldsMap = new HashMap<>();
         simpleFieldsMap.put("name", field);
         query.setSimpleFieldsMap(simpleFieldsMap);
-
-        N2oTestDataProvider testDataProvider = new N2oTestDataProvider();
-        testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");
 
         N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.Type.list, testDataProvider);
         list.setResultMapping("['test'].toUpperCase(");
@@ -284,7 +308,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
     }
 
     @Test
-    public void testResultNormalizeQuery() {
+    void testResultNormalizeQuery() {
         QueryRequestInfo queryRequestInfo = new QueryRequestInfo();
         CompiledQuery query = new CompiledQuery();
         query.setId("testQuery");
@@ -295,9 +319,6 @@ public class SpelExceptionTest extends DataControllerTestBase{
         field.setDefaultValue("test");
         displayFields.add(field);
         query.setDisplayFields(displayFields);
-
-        N2oTestDataProvider testDataProvider = new N2oTestDataProvider();
-        testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");
 
         N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.Type.list, testDataProvider);
         N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
@@ -315,7 +336,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
     }
 
     @Test
-    public void testFiltersNormalize() {
+    void testFiltersNormalize() {
         QueryRequestInfo queryRequestInfo = new QueryRequestInfo();
         CompiledQuery query = new CompiledQuery();
         query.setId("testQuery");
@@ -339,9 +360,6 @@ public class SpelExceptionTest extends DataControllerTestBase{
         filtersMap.put("name", Map.of(FilterType.eq, filter));
         query.setFiltersMap(filtersMap);
 
-        N2oTestDataProvider testDataProvider = new N2oTestDataProvider();
-        testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");
-
         N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.Type.list, testDataProvider);
         N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
         lists[0] = list;
@@ -358,7 +376,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
     }
 
     @Test
-    public void testFiltersMapping() {
+    void testFiltersMapping() {
         QueryRequestInfo queryRequestInfo = new QueryRequestInfo();
         CompiledQuery query = new CompiledQuery();
         query.setId("testQuery");
@@ -381,9 +399,6 @@ public class SpelExceptionTest extends DataControllerTestBase{
         Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap = new StrictMap<>();
         filtersMap.put("name", Map.of(FilterType.eq, filter));
         query.setFiltersMap(filtersMap);
-
-        N2oTestDataProvider testDataProvider = new N2oTestDataProvider();
-        testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");
 
         N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.Type.list, testDataProvider);
         N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
