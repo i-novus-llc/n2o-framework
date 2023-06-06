@@ -7,7 +7,6 @@
                    text="Text {message}"
                    style="background:blue"
                    class="css-on-field"
-                   color="info"
                    href="http://example.org/{id}"/>
         </fields>
     </form>

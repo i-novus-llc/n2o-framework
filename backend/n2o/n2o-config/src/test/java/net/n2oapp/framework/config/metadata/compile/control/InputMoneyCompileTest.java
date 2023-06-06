@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 /**
  * Тестирование компиляции компонента ввода денежных единиц
@@ -56,6 +57,8 @@ public class InputMoneyCompileTest extends SourceCompileTestBase {
 
         assertThat(inputMoney.getPrefix(), is(""));
         assertThat(inputMoney.getSuffix(), is(""));
+        assertThat(inputMoney.getAllowDecimal(), nullValue());
+        assertThat(inputMoney.getRequireDecimal(), nullValue());
     }
 }
 

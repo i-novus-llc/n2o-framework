@@ -9,6 +9,8 @@ import net.n2oapp.framework.api.metadata.meta.control.Slider;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Компиляция ползунка
  */
@@ -22,7 +24,10 @@ public class SliderCompiler extends ListControlCompiler<Slider, N2oSlider>{
     @Override
     public StandardField<Slider> compile(N2oSlider source, CompileContext<?, ?> context, CompileProcessor p) {
         Slider slider = new Slider();
-        slider.setMultiple(N2oSlider.Mode.range.equals(source.getMode()));
+
+        N2oSlider.Mode mode = p.cast(source.getMode(),
+                p.resolve(property("n2o.api.control.slider.mode"), N2oSlider.Mode.class));
+        slider.setMultiple(N2oSlider.Mode.range.equals(mode));
         boolean isVertical = Boolean.TRUE.equals(source.getVertical());
         slider.setVertical(isVertical);
 

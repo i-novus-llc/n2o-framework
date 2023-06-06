@@ -25,6 +25,7 @@ public class CustomFieldCompiler extends FieldCompiler<CustomField, N2oCustomFie
     @Override
     public CustomField compile(N2oCustomField source, CompileContext<?, ?> context, CompileProcessor p) {
         CustomField customField = new CustomField();
+        initDefaults(source, context, p);
         compileField(customField, source, context, p);
         if (source.getControls() != null) {
             if (source.getControls().length > 1) {
