@@ -42,7 +42,7 @@ public class InputMoneyCompiler extends StandardFieldCompiler<InputMoney, N2oInp
 
     private void compileDecimalMode(InputMoney inputMoney, N2oInputMoney source, CompileProcessor p) {
         FractionFormatting fractionFormatting =  p.cast(source.getFractionFormatting(),
-                p.resolve(property("n2o.api.control.input.money.fraction_formatting"), FractionFormatting.class));
+                p.resolve(property("n2o.api.control.input_money.fraction_formatting"), FractionFormatting.class));
         switch (fractionFormatting) {
             case manual: {
                 inputMoney.setAllowDecimal(true);
