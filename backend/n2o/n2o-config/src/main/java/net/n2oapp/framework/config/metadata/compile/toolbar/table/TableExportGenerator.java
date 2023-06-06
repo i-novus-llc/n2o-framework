@@ -23,6 +23,6 @@ public class TableExportGenerator implements ButtonGenerator {
 
     @Override
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
-        return Collections.singletonList(TableSettingsGeneratorUtil.generateExport(p));
+        return Collections.singletonList(TableSettingsGeneratorUtil.generateExport(toolbar, p));
     }
 }

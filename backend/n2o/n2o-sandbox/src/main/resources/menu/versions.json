@@ -2,6 +2,15 @@
   "name": "Версии",
   "sections": [
     {
+      "name": "7.25",
+      "templates": [
+        {
+          "templateId": "versions/7.25/list_out_params",
+          "name": "Вложенные поля в <out> параметрах операции"
+        }
+      ]
+    },
+    {
       "name": "7.24",
       "templates": [
         {

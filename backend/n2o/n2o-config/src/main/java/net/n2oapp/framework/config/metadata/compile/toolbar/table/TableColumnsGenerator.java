@@ -22,6 +22,6 @@ public class TableColumnsGenerator implements ButtonGenerator {
 
     @Override
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
-        return Collections.singletonList(TableSettingsGeneratorUtil.generateColumns(p));
+        return Collections.singletonList(TableSettingsGeneratorUtil.generateColumns(toolbar, p));
     }
 }

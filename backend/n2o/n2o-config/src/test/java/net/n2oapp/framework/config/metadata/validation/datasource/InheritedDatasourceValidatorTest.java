@@ -11,21 +11,18 @@ import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageVal
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование валидации источника данных, получающего данные из другого источника данных
  */
 public class InheritedDatasourceValidatorTest extends SourceValidationTestBase {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -41,19 +38,23 @@ public class InheritedDatasourceValidatorTest extends SourceValidationTestBase {
      * Проверяется наличие атрибута source-datasource
      */
     @Test
-    public void testSourceDatasourceLink() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В источнике данных 'inh1' не задан атрибут 'source-datasource'");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testNonExistSourceDatasource.page.xml");
+    void testSourceDatasourceLink() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testNonExistSourceDatasource.page.xml"),
+                "В источнике данных 'inh1' не задан атрибут 'source-datasource'"
+        );
     }
 
     /**
      * Проверяется, что source-datasource не совпадает с id
      */
     @Test
-    public void testComparingSourceDatasourceAndId() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Атрибут 'source-datasource' источника данных 'ds1' совпадает с 'id'");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testComparingSourceDatasourceAndId.page.xml");
+    void testComparingSourceDatasourceAndId() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testComparingSourceDatasourceAndId.page.xml"),
+                "Атрибут 'source-datasource' источника данных 'ds1' совпадает с 'id'"
+        );
     }
 }

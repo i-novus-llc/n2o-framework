@@ -1,10 +1,12 @@
 package net.n2oapp.criteria.dataset;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 import java.util.function.Supplier;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests of {@link NestedMap}
@@ -12,7 +14,7 @@ import java.util.function.Supplier;
 public class NestedMapTest {
 
     @Test
-    public void get() {
+    void get() {
         NestedMap map = new NestedMap();
         map.put("foo", 1);
         assert map.get("foo").equals(1);
@@ -72,7 +74,7 @@ public class NestedMapTest {
     }
 
     @Test
-    public void put() {
+    void put() {
         NestedMap map = new NestedMap();
         map.put("foo", 1);
         assert map.get("foo").equals(1);
@@ -150,7 +152,7 @@ public class NestedMapTest {
     }
 
     @Test
-    public void putAll() {
+    void putAll() {
         NestedMap map = new NestedMap();
         Map<String, Object> map2 = new HashMap<>();
         map2.put("foo", 1);
@@ -198,7 +200,7 @@ public class NestedMapTest {
     }
 
     @Test
-    public void removeAndContains() {
+    void removeAndContains() {
         NestedMap map = new NestedMap();
         map.put("foo", 1);
         assert map.containsKey("foo");
@@ -286,7 +288,7 @@ public class NestedMapTest {
     }
 
     @Test
-    public void remove() {
+    void remove() {
         NestedMap map = new NestedMap();
         map.put("id", 1);
         assert map.remove("id").equals(1);
@@ -299,7 +301,7 @@ public class NestedMapTest {
     //Synthetic tests
 
     @Test
-    public void size() {
+    void size() {
         NestedMap map = new NestedMap();
         map.put("id", 1);
         assert map.size() == 1;
@@ -308,7 +310,7 @@ public class NestedMapTest {
     }
 
     @Test
-    public void invalidPut() {
+    void invalidPut() {
         NestedMap map = new NestedMap();
         try {
             map.put(null, 1);
@@ -409,7 +411,7 @@ public class NestedMapTest {
     }
 
     @Test
-    public void invalidGet() {
+    void invalidGet() {
         NestedMap map = new NestedMap();
         try {
             map.get(null);
@@ -478,7 +480,7 @@ public class NestedMapTest {
      * Example props
      */
     @Test
-    public void props() {
+    void props() {
         NestedMap map;
         //simple props
         map = new NestedMap();
@@ -512,7 +514,7 @@ public class NestedMapTest {
      * Example map array
      */
     @Test
-    public void mapArray() {
+    void mapArray() {
         NestedMap map;
         //simple map
         map = new NestedMap();
@@ -575,7 +577,7 @@ public class NestedMapTest {
      * Example index array
      */
     @Test
-    public void indexArray() {
+    void indexArray() {
         NestedMap map;
         //simple index
         map = new NestedMap();
@@ -633,7 +635,7 @@ public class NestedMapTest {
     }
 
     @Test
-    public void testGetPutNested() {
+    void testGetPutNested() {
         NestedMap map = new NestedMap();
         assert null == map.put("foo.id", 1);
         assert map.put("foo.id", 1).equals(1);
@@ -673,7 +675,7 @@ public class NestedMapTest {
     }
 
     @Test
-    public void testRemoveNested() {
+    void testRemoveNested() {
         NestedMap map = new NestedMap();
         map.put("foo.id", 1);
         assert map.remove("foo.id").equals(1);
@@ -690,7 +692,7 @@ public class NestedMapTest {
     }
 
     @Test
-    public void testSizeNested() {
+    void testSizeNested() {
         NestedMap map = new NestedMap();
         map.put("foo.id", 1);
         assert map.size() == 1;
@@ -705,7 +707,7 @@ public class NestedMapTest {
     }
 
     @Test
-    public void testGetPutArray() {
+    void testGetPutArray() {
         NestedMap map = new NestedMap();
         assert null == map.put("foo[1].id", 1);
         assert map.put("foo[1].id", 1).equals(1);
@@ -744,7 +746,7 @@ public class NestedMapTest {
     }
 
     @Test
-    public void testSizeArray() {
+    void testSizeArray() {
         NestedMap map = new NestedMap();
         map.put("foo[1]", 1);
         map.put("foo[0]", 2);
@@ -754,7 +756,7 @@ public class NestedMapTest {
     }
 
     @Test
-    public void testDeepNested() {
+    void testDeepNested() {
         NestedMap map = new NestedMap();
         map.put("a.b.c[0].d[1].e", 1);
         assert map.size() == 1;
@@ -767,7 +769,7 @@ public class NestedMapTest {
     }
 
     @Test
-    public void testContains() {
+    void testContains() {
         NestedMap map = new NestedMap();
         map.put("a", 1);
         assert map.containsKey("a");
@@ -786,7 +788,7 @@ public class NestedMapTest {
 
 
     @Test
-    public void spreadNullTest() {
+    void spreadNullTest() {
         NestedMap map = new NestedMap();
         map.put("foo[0].id", "0");
         map.put("foo[1].id", "1");
@@ -823,45 +825,47 @@ public class NestedMapTest {
         }
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void testSpreadGetTest() {
-        //preparing
-        NestedMap map = new NestedMap();
-        map.put("foo[0].id", "0");
-        map.put("foo[1].id", "1");
-        map.put("foo[0].bar[0].id", "00");
-        map.put("foo[0].bar[1].id", "01");
-        map.put("foo[1].bar[0].id", "10");
-        map.put("foo[1].bar[1].id", "11");
+    @Test
+    void testSpreadGetTest() {
+        assertThrows(UnsupportedOperationException.class, () -> {
+            //preparing
+            NestedMap map = new NestedMap();
+            map.put("foo[0].id", "0");
+            map.put("foo[1].id", "1");
+            map.put("foo[0].bar[0].id", "00");
+            map.put("foo[0].bar[1].id", "01");
+            map.put("foo[1].bar[0].id", "10");
+            map.put("foo[1].bar[1].id", "11");
 
-        //уровень вложенности spread = 1
-        List<String> fooIds = (List) map.get("foo*.id");
-        assert fooIds.size() == 2;
-        assert fooIds.get(0).equals("0");
-        assert fooIds.get(1).equals("1");
+            //уровень вложенности spread = 1
+            List<String> fooIds = (List) map.get("foo*.id");
+            assert fooIds.size() == 2;
+            assert fooIds.get(0).equals("0");
+            assert fooIds.get(1).equals("1");
 
-        //уровень вложенности spread = 2
-        List<List<String>> allBarIds = (List) map.get("foo*.bar*.id");
-        assert allBarIds.size() == 2;
-        assert allBarIds.get(0).size() == 2;
-        assert allBarIds.get(1).size() == 2;
-        assert allBarIds.get(0).get(0).equals("00");
-        assert allBarIds.get(0).get(1).equals("01");
-        assert allBarIds.get(1).get(0).equals("10");
-        assert allBarIds.get(1).get(1).equals("11");
+            //уровень вложенности spread = 2
+            List<List<String>> allBarIds = (List) map.get("foo*.bar*.id");
+            assert allBarIds.size() == 2;
+            assert allBarIds.get(0).size() == 2;
+            assert allBarIds.get(1).size() == 2;
+            assert allBarIds.get(0).get(0).equals("00");
+            assert allBarIds.get(0).get(1).equals("01");
+            assert allBarIds.get(1).get(0).equals("10");
+            assert allBarIds.get(1).get(1).equals("11");
 
-        List<String> barIds = (List) map.get("foo[1].bar*.id");
-        assert barIds.size() == 2;
-        assert barIds.get(0).equals("10");
-        assert barIds.get(1).equals("11");
+            List<String> barIds = (List) map.get("foo[1].bar*.id");
+            assert barIds.size() == 2;
+            assert barIds.get(0).equals("10");
+            assert barIds.get(1).equals("11");
 
-        //результат операции spread не модифицируем
-        barIds.add("newId");
+            //результат операции spread не модифицируем
+            barIds.add("newId");
+        });
     }
 
 
     @Test
-    public void testSpreadPutTest() {
+    void testSpreadPutTest() {
         NestedMap map = new NestedMap();
 
         //вложенность spread = 1
@@ -932,16 +936,17 @@ public class NestedMapTest {
         assert ((List) map.get("test")).size() == 3;
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testSpreadContainsTest() {
-        NestedMap map = new NestedMap();
-        map.put("foo*.id", Arrays.asList(0, 1, 2));
-        map.containsKey("foo*.id");
-
+    @Test
+    void testSpreadContainsTest() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            NestedMap map = new NestedMap();
+            map.put("foo*.id", Arrays.asList(0, 1, 2));
+            map.containsKey("foo*.id");
+        });
     }
 
     @Test
-    public void testSpreadPutUnmodifiable() {
+    void testSpreadPutUnmodifiable() {
         NestedMap map = new NestedMap();
         map.put("foo*.id", Collections.unmodifiableList(Arrays.asList(0, 1, 2)));
         assert map.get("foo[0].id").equals(0);
@@ -951,7 +956,7 @@ public class NestedMapTest {
 
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         //обычная map
         Map<String, Object> baseMap = new NestedMap();
         baseMap.put("id", 124);
@@ -984,8 +989,8 @@ public class NestedMapTest {
     }
 
     @Test
-    @Ignore
-    public void testMapAsList() {
+    @Disabled
+    void testMapAsList() {
         List<Object> foo = new ArrayList<>();
         Map<String, Integer> bar = new HashMap<>();
         bar.put("id", 1);
@@ -1013,7 +1018,7 @@ public class NestedMapTest {
     }
 
     @Test
-    public void testBootstrapArrays() {
+    void testBootstrapArrays() {
         NestedMap map = new NestedMap();
         //put
         map.put("list[0].id", 1);

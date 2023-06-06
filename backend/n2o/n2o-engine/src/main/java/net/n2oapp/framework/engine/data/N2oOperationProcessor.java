@@ -42,7 +42,7 @@ public class N2oOperationProcessor {
     public DataSet invoke(CompiledObject.Operation operation,
                           DataSet inDataSet,
                           Collection<AbstractParameter> inParameters,
-                          Collection<ObjectSimpleField> outParameters) {
+                          Collection<AbstractParameter> outParameters) {
         try {
             return invocationProcessor.invoke(
                     operation.getInvocation(),

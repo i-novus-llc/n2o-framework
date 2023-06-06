@@ -12,6 +12,10 @@
     cursor: pointer;
 }
 
+.n2o-button-uploader-btn.disabled {
+    cursor: auto;
+}
+
 .n2o-file-uploader {
     outline: none;
 }

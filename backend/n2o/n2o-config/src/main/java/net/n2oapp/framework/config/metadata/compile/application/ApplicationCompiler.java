@@ -116,8 +116,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         footer.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.footer.src"), String.class)));
         footer.setClassName(source.getCssClass());
         footer.setStyle(StylesResolver.resolveStyles(source.getStyle()));
-        footer.setTextRight(source.getRightText());
-        footer.setTextLeft(source.getLeftText());
+        footer.setTextRight(p.resolveJS(source.getRightText()));
+        footer.setTextLeft(p.resolveJS(source.getLeftText()));
         return footer;
     }
 

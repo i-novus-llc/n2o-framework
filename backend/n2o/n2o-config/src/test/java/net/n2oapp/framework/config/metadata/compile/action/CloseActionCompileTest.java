@@ -13,8 +13,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.*;
 public class CloseActionCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -36,7 +36,7 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void closeModal() {
+    void closeModal() {
         ModalPageContext context = new ModalPageContext("testCloseAction", "/p/w/a");
         context.setClientPageId("p_w_a");
         context.setRefreshClientDataSourceIds(Arrays.asList("p_w"));
@@ -53,7 +53,7 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void back() {
+    void back() {
         PageContext context = new PageContext("testCloseAction", "/p/w/a");
         context.setParentRoute("/p/w");
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
@@ -66,5 +66,6 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
         SimplePage openPage = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageCloseAction.page.xml")
                 .get(openPageContext);
         assertThat(((LinkActionImpl) openPage.getWidget().getToolbar().getButton("close").getAction()).getUrl(), is("/p/w/a"));
+        assertThat(((LinkActionImpl) openPage.getWidget().getToolbar().getButton("close").getAction()).getRestore(), is(true));
     }
 }

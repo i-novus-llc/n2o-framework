@@ -7,21 +7,18 @@ import net.n2oapp.framework.config.metadata.validation.standard.event.OnChangeEv
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование валидации события изменения модели данных
  */
 public class OnChangeEventValidatorTest extends SourceValidationTestBase {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -37,9 +34,11 @@ public class OnChangeEventValidatorTest extends SourceValidationTestBase {
      * Проверка того, что атрибут datasource указан
      */
     @Test
-    public void testDatasourceIdExistence() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В событии <on-change> не задан атрибут 'datasource'");
-        validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceIdExistence.page.xml");
+    void testDatasourceIdExistence() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceIdExistence.page.xml"),
+                "В событии <on-change> не задан атрибут 'datasource'"
+        );
     }
 }

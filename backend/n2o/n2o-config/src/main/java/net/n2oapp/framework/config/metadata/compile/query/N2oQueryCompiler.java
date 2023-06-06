@@ -224,6 +224,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             for (N2oQuery.Filter filter : filters) {
                 filter.setFilterId(p.cast(filter.getFilterId(), RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType()));
                 filter.setParam(p.cast(filter.getParam(), RouteUtil.normalizeParam(filter.getFilterId())));
+                if (filter.getText() != null)
+                    filter.setText(filter.getText().trim());
                 if (filter.getMapping() == null)
                     filter.setMapping(spel(filter.getFilterId()));
             }

@@ -1,6 +1,6 @@
 package net.n2oapp.criteria.filters;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -14,7 +14,7 @@ public class FilterReducerWithOrTest {
 
 
     @Test
-    public void testEqOrIsNull() {
+    void testEqOrIsNull() {
         //eq
         Result result = reduce(
                 new Filter(1, FilterType.eqOrIsNull),

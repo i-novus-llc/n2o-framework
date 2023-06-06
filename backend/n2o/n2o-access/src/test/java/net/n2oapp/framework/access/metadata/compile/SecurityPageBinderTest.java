@@ -10,12 +10,12 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.anyObject;
@@ -26,7 +26,7 @@ public class SecurityPageBinderTest extends SourceCompileTestBase {
     private PermissionApiMock permissionApi;
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -44,7 +44,7 @@ public class SecurityPageBinderTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void hasAuthenticationTest() {
+    void hasAuthenticationTest() {
         when(permissionApi.hasAuthentication(anyObject())).thenReturn(true);
         when(permissionApi.hasRole(anyObject(), eq("admin"))).thenReturn(true);
 
@@ -55,21 +55,21 @@ public class SecurityPageBinderTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void unauthorizedExceptionTest() {
+    void unauthorizedExceptionTest() {
         try {
             compile("net/n2oapp/framework/access/metadata/schema/testSecurityPageBinder.access.xml",
                     "net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.page.xml")
                     .bind()
                     .get(new PageContext("securityExtAttrMapperTest"), null);
 
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(UnauthorizedException.class));
         }
     }
 
     @Test
-    public void accessDeniedExceptionTest() {
+    void accessDeniedExceptionTest() {
         when(permissionApi.hasAuthentication(anyObject())).thenReturn(true);
 
         try {
@@ -78,7 +78,7 @@ public class SecurityPageBinderTest extends SourceCompileTestBase {
                     .bind()
                     .get(new PageContext("securityExtAttrMapperTest"), null);
 
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }

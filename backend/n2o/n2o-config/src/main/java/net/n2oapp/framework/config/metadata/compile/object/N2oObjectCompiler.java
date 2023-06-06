@@ -319,7 +319,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 if (parameter instanceof ObjectSimpleField) {
                     if (field instanceof ObjectSimpleField)
                         resolveSimpleFieldDefault((ObjectSimpleField) parameter, (ObjectSimpleField) field);
-                    parameter.setRequired(p.cast(parameter.getRequired(), ((ObjectSimpleField) parameter).getDefaultValue() == null));
+                    parameter.setRequired(parameter.getRequired());
                 } else if (parameter instanceof ObjectReferenceField && field instanceof ObjectReferenceField)
                     resolveReferenceFieldDefault((ObjectReferenceField) parameter, (ObjectReferenceField) field);
             }
@@ -384,7 +384,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiledOperation.setInParametersMap(prepareOperationInParameters(operation.getInFields(), compiled, p));
 
         compiledOperation.setOutParametersMap(operation.getOutFields() != null ?
-                Arrays.stream(operation.getOutFields()).collect(Collectors.toMap(ObjectSimpleField::getId, Function.identity())) :
+                Arrays.stream(operation.getOutFields()).collect(Collectors.toMap(AbstractParameter::getId, Function.identity())) :
                 Collections.emptyMap());
         compiledOperation.setFailOutParametersMap(operation.getFailOutFields() != null ?
                 Arrays.stream(operation.getFailOutFields()).collect(Collectors.toMap(ObjectSimpleField::getId, Function.identity())) :

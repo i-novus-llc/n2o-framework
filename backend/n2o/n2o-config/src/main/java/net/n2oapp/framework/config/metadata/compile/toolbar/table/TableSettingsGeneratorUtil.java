@@ -1,11 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar.table;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.action.N2oAction;
-import net.n2oapp.framework.api.metadata.action.N2oCloseAction;
-import net.n2oapp.framework.api.metadata.action.N2oCustomAction;
-import net.n2oapp.framework.api.metadata.action.N2oRefreshAction;
-import net.n2oapp.framework.api.metadata.action.N2oShowModal;
+import net.n2oapp.framework.api.metadata.action.*;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
@@ -25,10 +21,9 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  */
 public class TableSettingsGeneratorUtil {
 
-    public static N2oButton generateColumns(CompileProcessor p) {
+    public static N2oButton generateColumns(N2oToolbar toolbar, CompileProcessor p) {
         N2oButton columnsButton = new N2oButton();
-        columnsButton.setDescription(p.getMessage("n2o.api.generate.button.columns.description"));
-        columnsButton.setIcon(p.resolve(property("n2o.api.generate.button.columns.icon"), String.class));
+        fillButton(columnsButton, toolbar.getIsGeneratedForSubMenu(), "columns", p);
         columnsButton.setSrc(p.resolve(property("n2o.api.generate.button.columns.action.src"), String.class));
         columnsButton.setModel(ReduxModel.filter);
         return columnsButton;
@@ -41,8 +36,7 @@ public class TableSettingsGeneratorUtil {
             widgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
         }
         N2oButton filterButton = new N2oButton();
-        filterButton.setDescription(p.getMessage("n2o.api.generate.button.filters.description"));
-        filterButton.setIcon(p.resolve(property("n2o.api.generate.button.filters.icon"), String.class));
+        fillButton(filterButton, toolbar.getIsGeneratedForSubMenu(), "filters", p);
         N2oCustomAction filterAction = new N2oCustomAction();
         filterAction.setType(p.resolve(property("n2o.api.generate.button.filters.action.type"), String.class));
         Map<String, String> payload = Collections.singletonMap("widgetId", widgetId);
@@ -52,34 +46,31 @@ public class TableSettingsGeneratorUtil {
         return filterButton;
     }
 
-    public static N2oButton generateRefresh(CompileProcessor p) {
+    public static N2oButton generateRefresh(N2oToolbar toolbar, CompileProcessor p) {
         N2oButton refreshButton = new N2oButton();
-        refreshButton.setDescription(p.getMessage("n2o.api.generate.button.refresh.description"));
-        refreshButton.setIcon(p.resolve(property("n2o.api.generate.button.refresh.icon"), String.class));
+        fillButton(refreshButton, toolbar.getIsGeneratedForSubMenu(), "refresh", p);
         N2oRefreshAction refreshAction = new N2oRefreshAction();
         refreshButton.setActions(new N2oRefreshAction[]{refreshAction});
         refreshButton.setModel(ReduxModel.filter);
         return refreshButton;
     }
 
-    public static N2oButton generateResize(CompileProcessor p) {
+    public static N2oButton generateResize(N2oToolbar toolbar, CompileProcessor p) {
         N2oButton resizeButton = new N2oButton();
-        resizeButton.setDescription(p.getMessage("n2o.api.generate.button.resize.description"));
-        resizeButton.setIcon(p.resolve(property("n2o.api.generate.button.resize.icon"), String.class));
+        fillButton(resizeButton, toolbar.getIsGeneratedForSubMenu(), "resize", p);
         resizeButton.setSrc(p.resolve(property("n2o.api.generate.button.resize.action.src"), String.class));
         resizeButton.setModel(ReduxModel.filter);
         return resizeButton;
     }
 
-    public static N2oButton generateWordWrap(CompileProcessor p) {
+    public static N2oButton generateWordWrap(N2oToolbar toolbar, CompileProcessor p) {
         N2oButton wordWrapButton = new N2oButton();
+        fillButton(wordWrapButton, toolbar.getIsGeneratedForSubMenu(), "wordwrap", p);
         N2oCustomAction wordWrapAction = new N2oCustomAction();
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         Map<String, String> payload = Collections.singletonMap("widgetId", widgetScope.getClientWidgetId());
 
-        wordWrapButton.setDescription(p.getMessage("n2o.api.generate.button.wordwrap.description"));
-        wordWrapButton.setIcon(p.resolve(property("n2o.api.generate.button.wordwrap.icon"), String.class));
         wordWrapButton.setSrc(p.resolve(property("n2o.api.generate.button.wordwrap.action.src"), String.class));
         wordWrapAction.setType(p.resolve(property("n2o.api.generate.button.wordwrap.action.type"), String.class));
         wordWrapAction.setPayload(payload);
@@ -89,7 +80,7 @@ public class TableSettingsGeneratorUtil {
         return wordWrapButton;
     }
 
-    public static N2oButton generateExport(CompileProcessor p) {
+    public static N2oButton generateExport(N2oToolbar toolbar, CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String datasourceId = widgetScope == null ? null : widgetScope.getDatasourceId();
 
@@ -120,21 +111,32 @@ public class TableSettingsGeneratorUtil {
         N2oCloseAction closeAction = new N2oCloseAction();
         closeBtn.setActions(new N2oAction[]{closeAction});
 
-        N2oToolbar toolbar = new N2oToolbar();
-        toolbar.setPlace("bottomRight");
-        toolbar.setItems(new ToolbarItem[]{downloadBtn, closeBtn});
+        N2oToolbar modalToolbar = new N2oToolbar();
+        modalToolbar.setPlace("bottomRight");
+        modalToolbar.setItems(new ToolbarItem[]{downloadBtn, closeBtn});
 
         N2oShowModal showModalAction = new N2oShowModal();
-        showModalAction.setToolbars(new N2oToolbar[]{toolbar});
+        showModalAction.setToolbars(new N2oToolbar[]{modalToolbar});
         showModalAction.setPageId(p.resolve(property("n2o.api.generate.button.export.page"), String.class));
         showModalAction.setRoute("/exportModal");
 
         N2oButton exportButton = new N2oButton();
-        exportButton.setDescription(p.getMessage("n2o.api.generate.button.export.description"));
-        exportButton.setIcon(p.resolve(property("n2o.api.generate.button.export.icon"), String.class));
+        fillButton(exportButton, toolbar.getIsGeneratedForSubMenu(), "export", p);
         exportButton.setActions(new N2oShowModal[]{showModalAction});
         exportButton.setModel(ReduxModel.filter);
 
         return exportButton;
+    }
+
+    private static void fillButton(N2oButton button, Boolean isForSubMenu,
+                                   String key, CompileProcessor p) {
+        String label = p.getMessage(String.format("n2o.api.generate.button.%s.description", key));
+
+        if (Boolean.TRUE.equals(isForSubMenu))
+            button.setLabel(label);
+        else {
+            button.setDescription(label);
+            button.setIcon(p.resolve(property(String.format("n2o.api.generate.button.%s.icon", key)), String.class));
+        }
     }
 }

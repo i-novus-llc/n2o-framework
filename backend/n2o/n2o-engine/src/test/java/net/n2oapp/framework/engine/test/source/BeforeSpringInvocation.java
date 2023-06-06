@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
  * @since 16.05.2017
  */
 public class BeforeSpringInvocation implements MethodBeforeAdvice {
+
     @Override
     public void before(Method method, Object[] args, Object target)
             throws Throwable {

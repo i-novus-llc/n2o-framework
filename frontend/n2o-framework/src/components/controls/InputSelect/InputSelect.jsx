@@ -299,7 +299,13 @@ class InputSelect extends React.Component {
         this.setState({
             isExpanded,
             inputFocus: isExpanded,
-        }, onOpen)
+        }, () => {
+            const { page, data = [] } = this.props
+
+            if (!data.length || page === 1) {
+                onOpen()
+            }
+        })
 
         onToggle(isExpanded)
 
@@ -396,6 +402,12 @@ class InputSelect extends React.Component {
                 }
             },
         )
+
+        const { input } = this.state
+
+        if (input && multiSelect) {
+            this.handleDataSearch('')
+        }
     }
 
     /**
@@ -831,6 +843,9 @@ InputSelect.propTypes = {
     setFilter: PropTypes.func,
     models: PropTypes.object,
     count: PropTypes.number,
+    size: PropTypes.number,
+    page: PropTypes.number,
+    data: PropTypes.object,
 }
 
 InputSelect.defaultProps = {
