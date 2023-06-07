@@ -12,6 +12,9 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 public class SliderCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
@@ -32,11 +35,14 @@ public class SliderCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testSlider"));
         Form form = (Form) page.getWidget();
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
-        Slider password = (Slider) ((StandardField) field).getControl();
-        /*assertThat(password.getEye(), is(Boolean.FALSE));
-*/
+        Slider slider = (Slider) ((StandardField) field).getControl();
+        assertThat(slider.getVertical(), is(Boolean.TRUE));
+        assertThat(slider.getMultiple(), is(Boolean.TRUE));
+
         field = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
-        password = (Slider) ((StandardField) field).getControl();
-       /* assertThat(password.getEye(), is(Boolean.TRUE));*/
+        slider = (Slider) ((StandardField) field).getControl();
+        assertThat(slider.getVertical(), is(Boolean.FALSE));
+        assertThat(slider.getMultiple(), is(Boolean.FALSE));
+
     }
 }
