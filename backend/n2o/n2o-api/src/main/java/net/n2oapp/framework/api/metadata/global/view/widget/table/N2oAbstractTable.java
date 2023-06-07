@@ -16,16 +16,10 @@ public abstract class N2oAbstractTable extends N2oAbstractListWidget {
     private Boolean autoSelect;
     @N2oAttribute("Вариант выбора строки")
     private RowSelectionEnum selection;
-    @N2oAttribute("Размер")
-    private Size tableSize;
     @N2oAttribute("Максимальная ширина")
     private String width;
     @N2oAttribute("Максимальная высота")
     private String height;
     @N2oAttribute("Перенос текста в ячейке")
     private Boolean textWrap;
-    @N2oAttribute("Наличие чекбоксов в первом столбце")
-    private Boolean checkboxes;
-    @N2oAttribute("Срабатывание чекбокса при клике по строке")
-    private Boolean checkOnSelect;
 }

@@ -114,7 +114,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getCells().get(3).getId(), is("cell3"));
 
         assertThat(table.getToolbar().getButton("but"), notNullValue());
-        assertThat(table.getComponent().getRowClass(), is("red"));
+        assertThat(table.getComponent().getBody().getRow().getElementAttributes().get("className"), is("red"));
+        assertThat(table.getComponent().getBody().getRow().getElementAttributes().get("style"), is("color:blue"));
         QueryContext queryContext = (QueryContext) route("/testTable5Compile/w1", CompiledQuery.class);
 
         assertThat(queryContext.getValidations(), notNullValue());
@@ -124,7 +125,6 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getMessagesForm(), is("testTable5Compile_w1"));
 
         assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.CHECKBOX));
-        assertThat(table.getComponent().getAutoCheckboxOnSelect(), is(true));
         assertThat(table.getComponent().getAutoSelect(), is(true));
         assertThat(table.getComponent().getHeight(), is("200px"));
         assertThat(table.getComponent().getWidth(), is("400px"));
@@ -142,8 +142,9 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Test
     void testRowColor() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowColorCompile.widget.xml").get(new WidgetContext("testTable4RowColorCompile"));
-        assertThat(table.getComponent().getRowClass(), is("`gender.id == 1 ? 'red' : gender.id == 2 ? 'blue' : gender.id == 3 ? 'white' : 'green'`"));
-        assertThat(table.getComponent().getHasSelect(), is(true));
+        assertThat(table.getComponent().getBody().getRow().getElementAttributes().get("className"),
+                is("`gender.id == 1 ? 'red' : gender.id == 2 ? 'blue' : gender.id == 3 ? 'white' : 'green'`"));
+        assertThat(table.getComponent().getBody().getRow().getHasSelect(), is(true));
     }
 
     @Test
@@ -153,15 +154,15 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         page.getRegions().get("single").get(0).getContent().forEach(c -> rowClicks.add(((Table) c).getComponent()));
 
         assertThat(rowClicks.size(), is(10));
-        assertThat(rowClicks.get(0).getRowClick(), nullValue());
-        assertThat(rowClicks.get(1).getRowClick().getEnablingCondition(), nullValue(String.class));
-        assertThat(rowClicks.get(2).getRowClick().getEnablingCondition(), is("false"));
-        assertThat(rowClicks.get(3).getRowClick().getEnablingCondition(), is("true"));
-        assertThat(rowClicks.get(4).getRowClick().getEnablingCondition(), is("1==1"));
-        assertThat(rowClicks.get(5).getRowClick().getEnablingCondition(), is("false"));
-        assertThat(rowClicks.get(6).getRowClick().getEnablingCondition(), is("true"));
-        assertThat(rowClicks.get(7).getRowClick().getEnablingCondition(), is("1==1"));
-        assertThat(rowClicks.get(8).getRowClick().getAction(), notNullValue());
+        assertThat(rowClicks.get(0).getBody().getRow().getClick(), nullValue());
+        assertThat(rowClicks.get(1).getBody().getRow().getClick().getEnablingCondition(), nullValue(String.class));
+        assertThat(rowClicks.get(2).getBody().getRow().getClick().getEnablingCondition(), is("false"));
+        assertThat(rowClicks.get(3).getBody().getRow().getClick().getEnablingCondition(), is("true"));
+        assertThat(rowClicks.get(4).getBody().getRow().getClick().getEnablingCondition(), is("1==1"));
+        assertThat(rowClicks.get(5).getBody().getRow().getClick().getEnablingCondition(), is("false"));
+        assertThat(rowClicks.get(6).getBody().getRow().getClick().getEnablingCondition(), is("true"));
+        assertThat(rowClicks.get(7).getBody().getRow().getClick().getEnablingCondition(), is("1==1"));
+        assertThat(rowClicks.get(8).getBody().getRow().getClick().getAction(), notNullValue());
     }
 
     @Test

@@ -298,11 +298,6 @@
                         <xs:documentation>Автоматическое выделение первой строки таблицы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="table-size" type="sizeEnum">
-                    <xs:annotation>
-                        <xs:documentation>Размер строк таблицы.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Максимальная ширина таблицы.
@@ -317,17 +312,6 @@
                 <xs:attribute name="text-wrap" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Перенос текста в ячейке.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="checkboxes" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Наличие чекбоксов в первом столбце таблицы.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="check-on-select" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Срабатывание (включение/выключение) чекбокса при клике по строке.
-                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="children" default="collapse">
@@ -1293,15 +1277,6 @@
             <xs:enumeration value="radio"/>
             <!--выбор с помощью чекбоксов в первом столбце-->
             <xs:enumeration value="checkbox"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="sizeEnum">
-        <xs:restriction base="xs:string">
-            <!--не задано-->
-            <xs:enumeration value="sm"/>
-            <!--по возрастанию-->
-            <xs:enumeration value="lg"/>
         </xs:restriction>
     </xs:simpleType>
 
