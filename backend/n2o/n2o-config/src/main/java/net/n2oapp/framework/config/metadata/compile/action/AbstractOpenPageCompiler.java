@@ -499,12 +499,13 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                                 // добавляем refresh action для каждого датасурса
                                 N2oRefreshAction refreshAction = new N2oRefreshAction();
                                 refreshAction.setDatasourceId(refreshDatasourceId);
-                                refreshAction.setPage(PageRef.PARENT);
                                 actionList.add(refreshAction);
                                 // добавляем parent-datasource чтобы в модалке был этот датасурс
                                 if (context.getDatasources() == null)
                                     context.setDatasources(new ArrayList<>());
-                                context.getDatasources().add(new N2oParentDatasource("parent_" + refreshDatasourceId, refreshDatasourceId, false));
+                                N2oParentDatasource parentDatasource = new N2oParentDatasource("parent_" + refreshDatasourceId, refreshDatasourceId, false);
+                                context.getDatasources().add(parentDatasource);
+                                context.getParentDatasourceIdsMap().put(parentDatasource.getId(), getClientDatasourceId(parentDatasource.getId(), p));
                             }
                             N2oCloseAction closeAction = new N2oCloseAction();
                             closeAction.setPrompt(false);

@@ -34,12 +34,9 @@ public class TableSettingsGeneratorUtil {
         return columnsButton;
     }
 
-    public static N2oButton generateFilters(N2oToolbar toolbar, CompileProcessor p) {
-        String widgetId = toolbar.getTargetWidgetId();
-        if (widgetId == null) {
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            widgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
-        }
+    public static N2oButton generateFilters(CompileProcessor p) {
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        String widgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
         N2oButton filterButton = new N2oButton();
         filterButton.setDescription(p.getMessage("n2o.api.generate.button.filters.description"));
         filterButton.setIcon(p.resolve(property("n2o.api.generate.button.filters.icon"), String.class));

@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.control.PageRef;
 @Setter
 public class N2oRefreshAction extends N2oAbstractAction implements N2oAction, DatasourceIdAware {
     private String datasourceId;
-    private PageRef page;
 
     @Deprecated
     public String getWidgetId() {
