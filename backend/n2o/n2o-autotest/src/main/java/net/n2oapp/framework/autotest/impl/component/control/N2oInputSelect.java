@@ -56,7 +56,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     public void shouldBeEmpty() {
         input().shouldBe(Condition.empty);
         if (isMulti())
-            shouldSelectedMulti();
+            input().parent().$(".selected-item").shouldNot(Condition.exist);
     }
 
     @Override
