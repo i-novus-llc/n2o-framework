@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
@@ -85,23 +84,23 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("paddingTop"), is("0"));
         //columns
-        assertThat(table.getComponent().getHeaders().size(), is(7));
+        assertThat(table.getComponent().getHeader().getCells().size(), is(7));
 
-        assertThat(table.getComponent().getHeaders().get(0).getLabel(), is("id"));
-        assertThat(table.getComponent().getHeaders().get(0).getSrc(), is("MyTableHeader"));
-        assertThat(table.getComponent().getHeaders().get(0).getCssClass(), is("my-table-header"));
-        assertThat(table.getComponent().getHeaders().get(0).getStyle().size(), is(1));
-        assertThat(table.getComponent().getHeaders().get(0).getStyle().get("color"), is("red"));
+        assertThat(table.getComponent().getHeader().getCells().get(0).getLabel(), is("id"));
+        assertThat(table.getComponent().getHeader().getCells().get(0).getSrc(), is("MyTableHeader"));
+        assertThat(table.getComponent().getHeader().getCells().get(0).getElementAttributes().get("className"), is("my-table-header"));
+        assertThat(table.getComponent().getHeader().getCells().get(0).getElementAttributes().get("style"), notNullValue());
+        assertThat(table.getComponent().getHeader().getCells().get(0).getElementAttributes().get("style"), is("color: red"));
 
-        assertThat(table.getComponent().getHeaders().get(1).getSrc(), is("TextTableHeader"));
-        assertThat(table.getComponent().getHeaders().get(1).getCssClass(), is(nullValue()));
-        assertThat(table.getComponent().getHeaders().get(1).getStyle(), is(nullValue()));
+        assertThat(table.getComponent().getHeader().getCells().get(1).getSrc(), is("TextTableHeader"));
+        assertThat(table.getComponent().getHeader().getCells().get(1).getElementAttributes().get("className"), is(nullValue()));
+        assertThat(table.getComponent().getHeader().getCells().get(1).getElementAttributes().get("style"), nullValue());
 
-        assertThat(table.getComponent().getHeaders().get(4).getLabel(), is("label"));
+        assertThat(table.getComponent().getHeader().getCells().get(4).getLabel(), is("label"));
 
-        assertThat(table.getComponent().getHeaders().get(5).getLabel(), is("id"));
+        assertThat(table.getComponent().getHeader().getCells().get(5).getLabel(), is("id"));
 
-        assertThat(table.getComponent().getHeaders().get(6).getLabel(), is("label"));
+        assertThat(table.getComponent().getHeader().getCells().get(6).getLabel(), is("label"));
 
         //sells
         assertThat(table.getComponent().getCells().size(), is(7));
@@ -169,8 +168,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     void testSortableColumns() {
         Table table = (Table) ((SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.page.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml").get(new PageContext("testTable4SortableCompile"))).getWidget();
         assertThat(table.getId(), is("testTable4SortableCompile_main"));
-        assertThat(table.getComponent().getHeaders().size(), is(6));
-        List<ColumnHeader> headers = table.getComponent().getHeaders();
+        assertThat(table.getComponent().getHeader().getCells().size(), is(6));
+        List<ColumnHeader> headers = table.getComponent().getHeader().getCells();
 
         assertThat(headers.get(0).getId(), is("id"));
 
@@ -247,11 +246,11 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     void testColumnsWidth() {
         Table table = (Table) ((SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.page.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml").get(new PageContext("testTable4SortableCompile"))).getWidget();
         assertThat(table.getId(), is("testTable4SortableCompile_main"));
-        assertThat(table.getComponent().getHeaders().size(), is(6));
-        List<ColumnHeader> headers = table.getComponent().getHeaders();
+        assertThat(table.getComponent().getHeader().getCells().size(), is(6));
+        List<ColumnHeader> headers = table.getComponent().getHeader().getCells();
 
-        assertThat(headers.get(0).getWidth(), is("100"));
-        assertThat(headers.get(1).getWidth(), nullValue());
+        assertThat(headers.get(0).getElementAttributes().get("width"), is("100"));
+        assertThat(headers.get(1).getElementAttributes().get("width"), nullValue());
     }
 
     @Test
@@ -268,14 +267,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Test
     void testColumnVisibility() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml").get(new PageContext("testTableColumnVisibility"));
-        List<ColumnHeader> columnHeaders = ((Table) page.getRegions().get("single").get(0).getContent().get(0)).getComponent().getHeaders();
+        List<ColumnHeader> columnHeaders = ((Table) page.getRegions().get("single").get(0).getContent().get(0)).getComponent().getHeader().getCells();
         assertThat(columnHeaders.get(0).getVisible(), nullValue());
-        assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getExpression(), is("abc == 1"));
-        assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.filter['testTableColumnVisibility_table']"));
+        assertThat(columnHeaders.get(0).getConditionsCells().get(ValidationType.visible).get(0).getExpression(), is("abc == 1"));
+        assertThat(columnHeaders.get(0).getConditionsCells().get(ValidationType.visible).get(0).getModelLink(), is("models.filter['testTableColumnVisibility_table']"));
         assertThat(columnHeaders.get(1).getVisible(), is(Boolean.TRUE));
         assertThat(columnHeaders.get(2).getVisible(), nullValue());
-        assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getExpression(), is("type == 1"));
-        assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['testTableColumnVisibility_form']"));
+        assertThat(columnHeaders.get(3).getConditionsCells().get(ValidationType.visible).get(0).getExpression(), is("type == 1"));
+        assertThat(columnHeaders.get(3).getConditionsCells().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['testTableColumnVisibility_form']"));
     }
 
     @Test
@@ -283,7 +282,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFilterColumns.page.xml").get(new PageContext("testFilterColumns"));
 
 
-        List<ColumnHeader> columnHeaders = ((Table) page.getWidget()).getComponent().getHeaders();
+        List<ColumnHeader> columnHeaders = ((Table) page.getWidget()).getComponent().getHeader().getCells();
         assertThat(columnHeaders.get(0), instanceOf(ColumnHeader.class));
         assertThat(columnHeaders.get(0).getId(), is("name"));
         assertThat(columnHeaders.get(0).getLabel(), is("label"));
@@ -310,7 +309,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     void testMultiColumn() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testMultiColumn.page.xml").get(new PageContext("testMultiColumn"));
 
-        List<ColumnHeader> headers = ((Table) page.getWidget()).getComponent().getHeaders();
+        List<ColumnHeader> headers = ((Table) page.getWidget()).getComponent().getHeader().getCells();
         assertThat(headers.size(), is(2));
         assertThat(headers.get(0).getId(), is("test1"));
         assertThat(headers.get(0).getMultiHeader(), nullValue());
@@ -322,9 +321,9 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.size(), is(3));
         assertThat(headers.get(0).getMultiHeader(), is(true));
         assertThat(headers.get(0).getSrc(), is("MyTableHeader"));
-        assertThat(headers.get(0).getCssClass(), is("my-table-header"));
-        assertThat(headers.get(0).getStyle().size(), is(1));
-        assertThat(headers.get(0).getStyle().get("color"), is("red"));
+        assertThat(headers.get(0).getElementAttributes().get("className"), is("my-table-header"));
+        assertThat(headers.get(0).getElementAttributes().get("style"), notNullValue());
+        assertThat(headers.get(0).getElementAttributes().get("style"), is("color: red"));
         assertThat(headers.get(1).getId(), is("test4"));
         assertThat(headers.get(1).getMultiHeader(), is(nullValue()));
         assertThat(headers.get(1).getChildren(), nullValue());
@@ -388,7 +387,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     void testHeaderLabelInitialization() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4HeaderLabels.page.xml").get(new PageContext("testTable4HeaderLabels"));
 
-        List<ColumnHeader> columnHeaders = ((Table) page.getRegions().get("single").get(0).getContent().get(0)).getComponent().getHeaders();
+        List<ColumnHeader> columnHeaders = ((Table) page.getRegions().get("single").get(0).getContent().get(0)).getComponent().getHeader().getCells();
         assertThat(columnHeaders.get(0).getLabel(), is("id"));
         assertThat(columnHeaders.get(1).getLabel(), is("name"));
     }
@@ -411,25 +410,25 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     void testColumnAttributes() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5ColumnsAttributesCompile.widget.xml").get(new WidgetContext("testTable5ColumnsAttributesCompile"));
 
-        assertThat(table.getComponent().getHeaders().size(), is(3));
+        assertThat(table.getComponent().getHeader().getCells().size(), is(3));
 
-        ColumnHeader header = table.getComponent().getHeaders().get(0);
+        ColumnHeader header = table.getComponent().getHeader().getCells().get(0);
         assertThat(header.getSrc(), is("MyTableHeader"));
-        assertThat(header.getAlignment(), is(Alignment.RIGHT));
-        assertThat(header.getCssClass(), is("my-table-header"));
-        assertThat(header.getStyle().get("color"), is("red"));
+        assertThat(header.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
+        assertThat(header.getElementAttributes().get("className"), is("my-table-header"));
+        assertThat(header.getElementAttributes().get("style"), is("color:red"));
 
-        header = table.getComponent().getHeaders().get(1);
+        header = table.getComponent().getHeader().getCells().get(1);
         assertThat(header.getSrc(), is("MyFilterHeader"));
-        assertThat(header.getAlignment(), is(Alignment.LEFT));
-        assertThat(header.getCssClass(), is("my-filter-header"));
-        assertThat(header.getStyle().get("color"), is("green"));
+        assertThat(header.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
+        assertThat(header.getElementAttributes().get("className"), is("my-filter-header"));
+        assertThat(header.getElementAttributes().get("style"), is("color:green"));
 
-        header = table.getComponent().getHeaders().get(2);
+        header = table.getComponent().getHeader().getCells().get(2);
         assertThat(header.getSrc(), is("MyMultiHeader"));
-        assertThat(header.getAlignment(), is(Alignment.CENTER));
-        assertThat(header.getCssClass(), is("my-multi-header"));
-        assertThat(header.getStyle().get("color"), is("blue"));
+        assertThat(header.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
+        assertThat(header.getElementAttributes().get("className"), is("my-multi-header"));
+        assertThat(header.getElementAttributes().get("style"), is("color:blue"));
         assertThat(header.getLabel(), is("Multi"));
     }
 
@@ -451,67 +450,67 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     void testAlignment() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5Alignment.widget.xml").get(new WidgetContext("testTable5Alignment"));
 
-        ColumnHeader header = table.getComponent().getHeaders().get(0);
+        ColumnHeader header = table.getComponent().getHeader().getCells().get(0);
         AbstractCell cell = (AbstractCell) table.getComponent().getCells().get(0);
         assertThat(header.getLabel(), is("simple1"));
-        assertThat(header.getAlignment(), is(Alignment.LEFT));
+        assertThat(header.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
         assertThat(cell.getId(), is("simple1"));
         assertThat(cell.getContentAlignment(), is(Alignment.LEFT));
 
-        header = table.getComponent().getHeaders().get(1);
+        header = table.getComponent().getHeader().getCells().get(1);
         cell = (AbstractCell) table.getComponent().getCells().get(1);
         assertThat(header.getLabel(), is("simple2"));
-        assertThat(header.getAlignment(), is(Alignment.CENTER));
+        assertThat(header.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
         assertThat(cell.getId(), is("simple2"));
         assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
 
-        header = table.getComponent().getHeaders().get(2);
+        header = table.getComponent().getHeader().getCells().get(2);
         cell = (AbstractCell) table.getComponent().getCells().get(2);
         assertThat(header.getLabel(), is("filter1"));
-        assertThat(header.getAlignment(), is(Alignment.RIGHT));
+        assertThat(header.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
         assertThat(cell.getId(), is("filter1"));
         assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
 
 
-        ColumnHeader multiHeader = table.getComponent().getHeaders().get(3);
+        ColumnHeader multiHeader = table.getComponent().getHeader().getCells().get(3);
         assertThat(multiHeader.getLabel(), is("multi1"));
-        assertThat(multiHeader.getAlignment(), is(Alignment.CENTER));
+        assertThat(multiHeader.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
 
 
-        multiHeader = table.getComponent().getHeaders().get(4);
+        multiHeader = table.getComponent().getHeader().getCells().get(4);
         assertThat(multiHeader.getLabel(), is("multi2"));
-        assertThat(multiHeader.getAlignment(), is(Alignment.RIGHT));
+        assertThat(multiHeader.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
 
         header = multiHeader.getChildren().get(0);
         cell = (AbstractCell) table.getComponent().getCells().get(3);
         assertThat(header.getLabel(), is("sub21"));
-        assertThat(header.getAlignment(), is(Alignment.CENTER));
+        assertThat(header.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
         assertThat(cell.getId(), is("sub21"));
         assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
 
 
-        multiHeader = table.getComponent().getHeaders().get(5);
+        multiHeader = table.getComponent().getHeader().getCells().get(5);
         assertThat(multiHeader.getLabel(), is("multi3"));
-        assertThat(multiHeader.getAlignment(), is(Alignment.RIGHT));
+        assertThat(multiHeader.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
 
         header = multiHeader.getChildren().get(0);
         cell = (AbstractCell) table.getComponent().getCells().get(4);
         assertThat(header.getLabel(), is("sub31"));
-        assertThat(header.getAlignment(), is(Alignment.LEFT));
+        assertThat(header.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
         assertThat(cell.getId(), is("sub31"));
         assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
 
         header = multiHeader.getChildren().get(1);
         cell = (AbstractCell) table.getComponent().getCells().get(5);
         assertThat(header.getLabel(), is("sub32"));
-        assertThat(header.getAlignment(), is(Alignment.RIGHT));
+        assertThat(header.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
         assertThat(cell.getId(), is("sub32"));
         assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
 
         header = multiHeader.getChildren().get(2);
         cell = (AbstractCell) table.getComponent().getCells().get(6);
         assertThat(header.getLabel(), is("sub33"));
-        assertThat(header.getAlignment(), is(Alignment.LEFT));
+        assertThat(header.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
         assertThat(cell.getId(), is("sub33"));
         assertThat(cell.getContentAlignment(), is(Alignment.RIGHT));
     }

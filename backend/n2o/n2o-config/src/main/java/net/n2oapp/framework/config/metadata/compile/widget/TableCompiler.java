@@ -134,7 +134,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                     sortings.put(RouteUtil.normalizeParam(p.cast(column.getSortingFieldId(), column.getTextFieldId())), column.getSortingDirection().toString().toUpperCase());
                 }
             }
-            component.setHeaders(headers);
+            component.getHeader().setCells(headers);
             component.setCells(cellsScope.getCells());
             if (isNotEmpty(sortings))
                 passSortingToDatasource(sortings, source, p);
