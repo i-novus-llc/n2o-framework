@@ -43,7 +43,7 @@ public class TableBinderTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml");
         PageContext context = new PageContext("testTableRowClick", "/p/w/:param/row");
         TableWidgetComponent component = (TableWidgetComponent) ((SimplePage) pipeline.get(context, new DataSet().add("param", "1"))).getWidget().getComponent();
-        assertThat(component.getRowClick().getUrl(), is("/p/w/1/row/p_w_row_main_row"));
-        assertThat(component.getRowClick().getPathMapping().isEmpty(), is(true));
+        assertThat(component.getBody().getRow().getClick().getUrl(), is("/p/w/1/row/p_w_row_main_row"));
+        assertThat(component.getBody().getRow().getClick().getPathMapping().isEmpty(), is(true));
     }
 }
