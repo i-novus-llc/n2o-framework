@@ -358,9 +358,9 @@
                         <xs:documentation>Количество вариантов выбора на одной странице</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="search" type="xs:boolean" default="true">
+                <xs:attribute name="search" type="xs:boolean">
                     <xs:annotation>
-                        <xs:documentation>Возможность поиска по значению</xs:documentation>
+                        <xs:documentation>Возможность поиска по значению. По умолчанию: true, если есть query-id</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="param" type="xs:string">

@@ -33,6 +33,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
     private static final String PROPERTY_PREFIX = "n2o.api.control.list";
 
     protected StandardField<T> compileListControl(T listControl, S source, CompileContext<?, ?> context, CompileProcessor p) {
+
         listControl.setFormat(p.resolveJS(source.getFormat()));
         listControl.setLabelFieldId(p.cast(p.resolveJS(source.getLabelFieldId()), "name"));
         listControl.setSortFieldId(p.cast(source.getSortFieldId(), listControl.getLabelFieldId()));
@@ -40,7 +41,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setIconFieldId(p.resolveJS(source.getIconFieldId()));
         listControl.setImageFieldId(p.resolveJS(source.getImageFieldId()));
         listControl.setGroupFieldId(p.resolveJS(source.getGroupFieldId()));
-        listControl.setHasSearch(source.getSearch());
+        listControl.setHasSearch(p.cast(source.getSearch(), source.getQueryId() != null));
         listControl.setStatusFieldId(source.getStatusFieldId());
         compileData(source, listControl, context, p);
         listControl.setCaching(p.cast(source.getCache(), p.resolve(property("n2o.api.control.list.cache"), Boolean.class)));
