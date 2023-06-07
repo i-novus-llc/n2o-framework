@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
-import net.n2oapp.framework.api.metadata.local.util.CompileUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,11 +72,6 @@ public class N2oButton extends N2oAbstractButton implements Button, WidgetIdAwar
     }
 
     public static class VisibilityDependency extends Dependency {
-    }
-
-    @Override
-    public ToolbarItem clone() {
-        return CompileUtil.copy(this);
     }
 }
 

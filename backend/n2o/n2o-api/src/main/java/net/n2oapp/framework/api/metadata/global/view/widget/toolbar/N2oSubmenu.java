@@ -3,7 +3,6 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
-import net.n2oapp.framework.api.metadata.local.util.CompileUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +26,5 @@ public class N2oSubmenu extends N2oAbstractButton {
             }
         }
         return actions;
-    }
-
-    @Override
-    public ToolbarItem clone() {
-        return CompileUtil.copy(this);
     }
 }

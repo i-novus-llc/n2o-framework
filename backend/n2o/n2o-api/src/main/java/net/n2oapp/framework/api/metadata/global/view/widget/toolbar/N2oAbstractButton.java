@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
-import net.n2oapp.framework.api.metadata.local.util.CompileUtil;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
 import net.n2oapp.framework.api.metadata.meta.badge.Position;
 
@@ -62,10 +61,5 @@ public abstract class N2oAbstractButton extends N2oComponent implements GroupIte
     @Deprecated
     public void setWidgetId(String widgetId) {
         this.datasourceId = widgetId;
-    }
-
-    @Override
-    public ToolbarItem clone() {
-        return CompileUtil.copy(this);
     }
 }

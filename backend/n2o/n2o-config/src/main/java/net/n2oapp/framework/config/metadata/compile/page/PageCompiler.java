@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
+import net.n2oapp.framework.api.metadata.local.util.CompileUtil;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.Models;
@@ -224,7 +225,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         if (t.getItems() != null) {
             ToolbarItem[] items = new ToolbarItem[t.getItems().length];
             for (int i = 0; i < t.getItems().length; i++) {
-                items[i] = t.getItems()[i].clone();
+                items[i] = CompileUtil.copy(t.getItems()[i]);
                 if (N2oAbstractButton.class.isAssignableFrom(items[i].getClass())) {
                     ((N2oAbstractButton) items[i])
                             .setDatasourceId(((N2oAbstractButton) items[i]).getDatasourceId() == null ?
