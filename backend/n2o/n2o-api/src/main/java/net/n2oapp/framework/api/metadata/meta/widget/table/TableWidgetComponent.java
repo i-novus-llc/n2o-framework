@@ -30,7 +30,7 @@ public class TableWidgetComponent extends WidgetComponent {
     @JsonProperty
     private List<Cell> cells;
     @JsonProperty
-    private List<ColumnHeader> headers;
+    private TableHeader header = new TableHeader();
     @JsonProperty
     private TableBody body = new TableBody();
     @JsonProperty
@@ -38,8 +38,11 @@ public class TableWidgetComponent extends WidgetComponent {
     @JsonProperty
     private Boolean autoSelect;
 
+    @Getter
+    @Setter
     public static class TableHeader implements Compiled {
-
+        @JsonProperty
+        private List<ColumnHeader> cells;
     }
 
     @Getter
