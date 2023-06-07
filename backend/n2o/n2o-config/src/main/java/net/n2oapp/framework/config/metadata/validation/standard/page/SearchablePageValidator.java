@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -35,6 +36,7 @@ public class SearchablePageValidator implements SourceValidator<N2oSearchablePag
      */
     private void checkSearchBar(N2oSearchablePage page, DatasourceIdsScope datasourceIdsScope) {
         checkDatasource(page, datasourceIdsScope);
+        checkFilters(page);
     }
 
     /**
@@ -50,6 +52,12 @@ public class SearchablePageValidator implements SourceValidator<N2oSearchablePag
             checkDatasourceLink(page.getSearchBar().getDatasourceId(), datasourceIdsScope,
                     String.format("<search-bar> страницы с поисковой строкой ссылается на несуществующий источник данных %s", page.getSearchBar().getDatasourceId()));
         }
+    }
+
+    private void checkFilters(N2oSearchablePage page) {
+        if (StringUtils.isBlank(page.getSearchBar().getSearchFilterId()))
+            throw new N2oMetadataValidationException(
+                    "Для компиляции страницы с поисковой строкой необходимо указать идентификатор фильтра 'search-filter-id' в <search-bar>");
     }
 
     /**

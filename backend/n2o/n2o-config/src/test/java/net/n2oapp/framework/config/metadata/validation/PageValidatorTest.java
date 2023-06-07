@@ -43,29 +43,26 @@ public class PageValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testObjectNotExistsOnSimplePage() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testObjectNotExistsOnSimplePage.page.xml"),
-                "Страница testObjectNotExistsOnSimplePage ссылается на несуществующий объект nonExistantObjectId"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testObjectNotExistsOnSimplePage.page.xml"));
+        assertEquals(exception.getMessage(), "Страница testObjectNotExistsOnSimplePage ссылается на несуществующий объект nonExistantObjectId");
     }
 
     @Test
     void testDependsWidgetFind() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testDependsWidgetFind.page.xml"),
-                "Атрибут depends-on ссылается на несуществующий виджет main"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testDependsWidgetFind.page.xml"));
+        assertEquals(exception.getMessage(), "Атрибут depends-on ссылается на несуществующий виджет main");
     }
 
     @Test
     void testDatasourcesIdUnique() {
-        assertThrows(
-                NullPointerException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testDatasourcesIdUnique.page.xml"),
-                "Источник данных ds1 встречается более чем один раз в метаданной страницы testDatasourcesIdUnique"
-        );
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testDatasourcesIdUnique.page.xml"));
+        assertEquals(exception.getMessage(), "Источник данных ds1 встречается более чем один раз в метаданной страницы testDatasourcesIdUnique");
     }
 
     @Test
