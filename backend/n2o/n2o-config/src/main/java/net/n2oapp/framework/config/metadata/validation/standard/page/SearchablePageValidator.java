@@ -48,16 +48,17 @@ public class SearchablePageValidator implements SourceValidator<N2oSearchablePag
         if (page.getSearchBar() != null) {
             if (page.getSearchBar().getDatasourceId() == null)
                 throw new N2oMetadataValidationException(
-                    "Для компиляции страницы с поисковой строкой необходимо указать источник данных в <search-bar>");
+                        String.format("Для компиляции страницы '%s' с поисковой строкой необходимо указать источник данных в <search-bar>", page.getId()));
             checkDatasourceLink(page.getSearchBar().getDatasourceId(), datasourceIdsScope,
-                    String.format("<search-bar> страницы с поисковой строкой ссылается на несуществующий источник данных %s", page.getSearchBar().getDatasourceId()));
+                    String.format("<search-bar> страницы '%s' с поисковой строкой ссылается на несуществующий источник данных %s", page.getId(), page.getSearchBar().getDatasourceId()));
         }
     }
 
     private void checkFilters(N2oSearchablePage page) {
         if (StringUtils.isBlank(page.getSearchBar().getSearchFilterId()))
             throw new N2oMetadataValidationException(
-                    "Для компиляции страницы с поисковой строкой необходимо указать идентификатор фильтра 'search-filter-id' в <search-bar>");
+                    String.format("Для компиляции страницы '%s' с поисковой строкой необходимо указать идентификатор фильтра 'search-filter-id' в <search-bar>",
+                            page.getId()));
     }
 
     /**
