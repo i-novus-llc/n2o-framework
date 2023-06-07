@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.meta.cell.Cell;
 import net.n2oapp.framework.api.metadata.meta.widget.Rows;
@@ -37,13 +38,13 @@ public class TableWidgetComponent extends WidgetComponent {
     @JsonProperty
     private Boolean autoSelect;
 
-    public static class TableHeader {
+    public static class TableHeader implements Compiled {
 
     }
 
     @Getter
     @Setter
-    public static class TableBody {
+    public static class TableBody implements Compiled {
         @JsonProperty
         private Rows security;
         @JsonProperty
@@ -52,7 +53,7 @@ public class TableWidgetComponent extends WidgetComponent {
 
     @Getter
     @Setter
-    public static class BodyRow {
+    public static class BodyRow implements Compiled {
         @JsonProperty
         private Boolean hasFocus = true;
         @JsonProperty
