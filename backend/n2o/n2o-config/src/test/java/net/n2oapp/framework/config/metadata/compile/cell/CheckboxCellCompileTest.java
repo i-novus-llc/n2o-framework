@@ -42,14 +42,14 @@ public class CheckboxCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testCheckboxCell.page.xml")
                 .get(new PageContext("testCheckboxCell"));
         Table table = (Table) page.getWidget();
-        CheckboxCell cell = (CheckboxCell) table.getComponent().getCells().get(0);
+        CheckboxCell cell = (CheckboxCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("CheckboxCell"));
         assertThat(cell.getDisabled(), nullValue());
 
-        cell = (CheckboxCell) table.getComponent().getCells().get(1);
+        cell = (CheckboxCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getDisabled(), is("true"));
 
-        cell = (CheckboxCell) table.getComponent().getCells().get(2);
+        cell = (CheckboxCell) table.getComponent().getBody().getCells().get(2);
         assertThat(cell.getDisabled(), nullValue());
         assertThat(cell.getAction(), instanceOf(LinkActionImpl.class));
     }

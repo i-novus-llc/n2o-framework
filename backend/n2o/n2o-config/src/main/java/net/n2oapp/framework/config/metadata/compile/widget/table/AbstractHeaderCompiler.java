@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.StylesResolver.resolveStylesToString;
 
 /**
  * Компиляция абстрактного заголовка таблицы
@@ -25,7 +26,7 @@ public abstract class AbstractHeaderCompiler<S extends AbstractColumn> implement
     protected void compileBaseProperties(S source, ColumnHeader compiled, CompileProcessor p) {
         compiled.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.widget.column.src"), String.class)));
         compiled.getElementAttributes().put("className", source.getCssClass());
-        compiled.getElementAttributes().put("style", source.getStyle());
+        compiled.getElementAttributes().put("style", resolveStylesToString(source.getStyle()));
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (isLink(source.getVisible())) {

@@ -12,8 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тестирование компиляции ячейки загрузки файлов
@@ -40,12 +39,12 @@ public class FileUploadCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testFileUploadCell.page.xml")
                 .get(new PageContext("testFileUploadCell"));
         Table table = (Table) page.getWidget();
-        FileUploadCell cell = (FileUploadCell) table.getComponent().getCells().get(0);
+        FileUploadCell cell = (FileUploadCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("FileUploadCell"));
-        assertThat(cell.getCssClass(), nullValue());
+        assertThat(cell.getElementAttributes().get("className"), nullValue());
         assertThat(cell.getVisible(), nullValue());
         assertThat(cell.getVisible(), nullValue());
-        assertThat(cell.getStyle(), nullValue());
+        assertThat(cell.getElementAttributes().get("style"), nullValue());
         assertThat(cell.getMulti(), is(false));
         assertThat(cell.getAjax(), is(true));
         assertThat(cell.getUploadUrl(), nullValue());
@@ -62,11 +61,11 @@ public class FileUploadCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getUploadIcon(), nullValue());
         assertThat(cell.getUploadIcon(), nullValue());
 
-        cell = (FileUploadCell) table.getComponent().getCells().get(1);
+        cell = (FileUploadCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getSrc(), is("src"));
-        assertThat(cell.getCssClass(), is("testClass"));
+        assertThat(cell.getElementAttributes().get("className"), is("testClass"));
         assertThat(cell.getVisible(), is(true));
-        assertThat(cell.getStyle().size(), is(2));
+        assertThat(cell.getElementAttributes().get("style"), notNullValue());
         assertThat(cell.getMulti(), is(true));
         assertThat(cell.getAjax(), is(false));
         assertThat(cell.getUploadUrl(), is("/uploadDoc"));

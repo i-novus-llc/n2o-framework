@@ -13,12 +13,12 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor;
-import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initActions;
+import static net.n2oapp.framework.config.util.StylesResolver.resolveStylesToString;
 
 
 /**
@@ -37,12 +37,15 @@ public abstract class AbstractCellCompiler<D extends AbstractCell, S extends N2o
                 compiled.setFieldKey(column.getTextFieldId());
                 compiled.setTooltipFieldId(column.getTooltipFieldId());
                 compiled.setHideOnBlur(column.getHideOnBlur());
-                compiled.setContentAlignment(column.getContentAlignment());
+                if (column.getContentAlignment() != null)
+                    compiled.getElementAttributes().put("alignment", column.getContentAlignment().getId());
             }
         }
         compiled.setSrc(p.cast(source.getSrc(), p.resolve(defaultSrc, String.class)));
-        compiled.setCssClass(p.resolveJS(source.getCssClass()));
-        compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
+        if (source.getCssClass() != null)
+            compiled.getElementAttributes().put("className", p.resolveJS(source.getCssClass()));
+        if (source.getStyle() != null)
+            compiled.getElementAttributes().put("style", resolveStylesToString(source.getStyle()));
         compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
         compiled.setProperties(p.mapAndResolveAttributes(source));
         return compiled;

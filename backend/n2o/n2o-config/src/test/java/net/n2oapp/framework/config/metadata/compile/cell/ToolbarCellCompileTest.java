@@ -44,7 +44,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testToolbarCell.page.xml")
                 .get(new PageContext("testToolbarCell"));
 
-        ToolbarCell toolbar = (ToolbarCell) ((TableWidgetComponent) page.getWidget().getComponent()).getCells().get(0);
+        ToolbarCell toolbar = (ToolbarCell) ((TableWidgetComponent) page.getWidget().getComponent()).getBody().getCells().get(0);
         assertThat(toolbar.getId(), is("test"));
         assertThat(toolbar.getFieldKey(), is("test"));
         assertThat(toolbar.getSrc(), is("ButtonsCell"));
@@ -68,7 +68,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getToolbar().get(0).getButtons().get(2).getVisible(), is(false));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(2).getEnabled(), is(false));
 
-        toolbar = (ToolbarCell) ((TableWidgetComponent) page.getWidget().getComponent()).getCells().get(1);
+        toolbar = (ToolbarCell) ((TableWidgetComponent) page.getWidget().getComponent()).getBody().getCells().get(1);
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getId(), is("update"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getLabel(), is("Изменить"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getIcon(), is("fa fa-pencil"));
@@ -85,7 +85,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testToolbarCellExternalDatasources"));
 
         List<Cell> cells = ((Table) page.getRegions().get("single").get(0)
-                .getContent().get(0)).getComponent().getCells();
+                .getContent().get(0)).getComponent().getBody().getCells();
 
         Submenu submenu = (Submenu) ((ToolbarCell) cells.get(0)).getToolbar().get(0).getButtons().get(0);
         assertThat(submenu.getConditions().size(), is(0));

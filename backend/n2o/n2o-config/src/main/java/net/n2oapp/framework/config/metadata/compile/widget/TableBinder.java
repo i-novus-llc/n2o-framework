@@ -20,8 +20,8 @@ public class TableBinder extends BaseListWidgetBinder<Table> {
         if (compiled.getComponent().getBody().getRow() != null && compiled.getComponent().getBody().getRow().getClick() != null) {
             bindRowClick(compiled.getComponent().getBody().getRow().getClick(), p);
         }
-        if (compiled.getComponent().getCells() != null)
-            compiled.getComponent().getCells().forEach(p::bind);
+        if (compiled.getComponent().getBody().getCells() != null)
+            compiled.getComponent().getBody().getCells().forEach(p::bind);
         return compiled;
     }
 }
