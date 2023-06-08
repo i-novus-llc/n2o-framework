@@ -65,6 +65,17 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     }
 
     /**
+     * Проверяется наличия идентификатора действия у виджета
+     */
+    @Test
+    void testActionIdExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testActionIdExistence.page.xml"));
+        assertEquals(exception.getMessage(), "Не задан 'id' у <action> виджета 'testActionIdExistence'");
+    }
+
+    /**
      * Проверяется уникальность идентификаторов действий виджета
      */
     @Test
