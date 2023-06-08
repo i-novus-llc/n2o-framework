@@ -68,7 +68,7 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSSimplePage.page.xml")
                         .get(new PageContext("testDSSimplePage"));
 
-        ds = (StandardDatasource) simplePage.getDatasources().get("testDSSimplePage_main");
+        ds = (StandardDatasource) simplePage.getDatasources().get("testDSSimplePage_w1");
         assertThat(ds, notNullValue());
         assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         assertThat(ds.getProvider(), nullValue());

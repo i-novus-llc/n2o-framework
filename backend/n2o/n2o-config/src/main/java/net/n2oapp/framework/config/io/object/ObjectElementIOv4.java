@@ -50,14 +50,11 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
     private void operation(Element e, N2oObject.Operation t, IOProcessor p) {
         p.attribute(e, "id", t::getId, t::setId);
         p.attribute(e, "name", t::getName, t::setName);
-        p.attribute(e, "submit-label", t::getFormSubmitLabel, t::setFormSubmitLabel);
         p.attribute(e, "description", t::getDescription, t::setDescription);
         p.attribute(e, "success-text", t::getSuccessText, t::setSuccessText);
         p.attribute(e, "success-title", t::getSuccessTitle, t::setSuccessTitle);
         p.attribute(e, "fail-text", t::getFailText, t::setFailText);
         p.attribute(e, "fail-title", t::getFailTitle, t::setFailTitle);
-        p.attribute(e, "confirm-text", t::getConfirmationText, t::setConfirmationText);
-        p.attributeBoolean(e, "confirm", t::getConfirm, t::setConfirm);
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
         invocation(e, t, p);
         p.anyChildren(e, "in", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)

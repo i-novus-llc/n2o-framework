@@ -248,7 +248,7 @@ public class PageBinderTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/default.query.xml")
                 .get(context, new DataSet(), subModelsProcessor);
         //Разрешится значение из выборки
-        ModelLink name = page.getModels().get("filter['table_main'].name");
+        ModelLink name = page.getModels().get("filter['table_w1'].name");
         assertThat(name.getValue(), is("test1"));
 
         doAnswer(invocation -> new CollectionPage<>(1, singletonList(new DataSet()), new Criteria())).when(subModelsProcessor).getQueryResult(anyString(), any());
@@ -258,7 +258,7 @@ public class PageBinderTest extends SourceCompileTestBase {
                 .get(context, new DataSet(), subModelsProcessor);
 
         //Разрешится значение по умолчанию на поле, т.к. в выборке не пришло значение
-        name = page.getModels().get("filter['table_main'].name");
+        name = page.getModels().get("filter['table_w1'].name");
         assertThat(name.getValue(), is("test2"));
 
        /* todo NNO-7523
@@ -283,7 +283,7 @@ public class PageBinderTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank2.query.xml");
         PageContext context = new PageContext("testDatasourceRouteBinder", "/p/w/:param0/form");
         SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("param0", "1"));
-        assertThat(((StandardDatasource) page.getDatasources().get("p_w_form_main")).getSubmit().getUrl(), containsString("/p/w/1/form"));
-        assertThat(((StandardDatasource) page.getDatasources().get("p_w_form_main")).getProvider().getUrl(), containsString("/p/w/1/form"));
+        assertThat(((StandardDatasource) page.getDatasources().get("p_w_form_w1")).getSubmit().getUrl(), containsString("/p/w/1/form"));
+        assertThat(((StandardDatasource) page.getDatasources().get("p_w_form_w1")).getProvider().getUrl(), containsString("/p/w/1/form"));
     }
 }

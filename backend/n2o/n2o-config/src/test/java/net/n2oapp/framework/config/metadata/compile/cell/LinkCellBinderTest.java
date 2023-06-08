@@ -42,9 +42,9 @@ public class LinkCellBinderTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("id", "2").add("name", "test").add("age", 21));
         LinkCell linkCell = (LinkCell) ((Table) page.getWidget()).getComponent().getCells().get(0);
         assertThat(((LinkAction) linkCell.getAction()).getUrl(), is("/p/w/2/modal/:name/open"));
-        assertThat(((LinkAction) linkCell.getAction()).getPathMapping().get("name").getBindLink(), is("models.resolve['p_w_modal_main']"));
+        assertThat(((LinkAction) linkCell.getAction()).getPathMapping().get("name").getBindLink(), is("models.resolve['p_w_modal_w1']"));
         assertThat(((LinkAction) linkCell.getAction()).getPathMapping().get("name").getValue(), is("`name`"));
-        assertThat(((LinkAction) linkCell.getAction()).getQueryMapping().get("age").getBindLink(), is("models.resolve['p_w_modal_main']"));
+        assertThat(((LinkAction) linkCell.getAction()).getQueryMapping().get("age").getBindLink(), is("models.resolve['p_w_modal_w1']"));
         assertThat(((LinkAction) linkCell.getAction()).getQueryMapping().get("age").getValue(), is("`age`"));
         assertThat(((LinkAction) linkCell.getAction()).getQueryMapping().get("orgId").getBindLink(), nullValue());
         assertThat(((LinkAction) linkCell.getAction()).getQueryMapping().get("orgId").getValue(), is(22));

@@ -406,11 +406,6 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiledOperation.setId(operation.getId());
         compiledOperation.setDescription(operation.getDescription());
         compiledOperation.setName(operation.getName());
-        compiledOperation.setConfirm(operation.getConfirm());
-        compiledOperation.setConfirmationText(castDefault(operation.getConfirmationText(),
-                p.getMessage("n2o.confirm.text")));
-        compiledOperation.setBulkConfirmationText(castDefault(operation.getBulkConfirmationText(),
-                p.getMessage("n2o.confirm.group")));
         compiledOperation.setSuccessText(castDefault(operation.getSuccessText(),
                 p.getMessage("n2o.success")));
         compiledOperation.setSuccessTitle(operation.getSuccessTitle());
@@ -420,10 +415,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiledOperation.setValidations(operation.getValidations());
         DefaultActions defaultOperations = DefaultActions.get(operation.getId());
         if (defaultOperations != null) {
-            compiledOperation.setFormSubmitLabel(castDefault(operation.getFormSubmitLabel(), defaultOperations.getFormSubmitLabel()));
             compiledOperation.setName(castDefault(operation.getName(), defaultOperations.getLabel()));
         }
-        compiledOperation.setFormSubmitLabel(operation.getFormSubmitLabel());
     }
 
     /**

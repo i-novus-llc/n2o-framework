@@ -84,7 +84,7 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(confirm.getReverseButtons(), is(false));
         assertThat(confirm.getCloseButton(), is(false));
         assertThat(confirm.getMode(), is(ConfirmType.POPOVER));
-        assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_main']"));
+        assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_w1']"));
 
         confirm = page.getWidget().getToolbar().getButton("btn3").getConfirm();
         assertThat(confirm.getCondition(), is("`id === '1'|| id === '2'`"));
@@ -97,19 +97,9 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(confirm.getReverseButtons(), is(false));
         assertThat(confirm.getCloseButton(), is(false));
         assertThat(confirm.getMode(), is(ConfirmType.MODAL));
-        assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_main']"));
+        assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_w1']"));
 
         confirm = page.getWidget().getToolbar().getButton("btn4").getConfirm();
-        assertThat(confirm.getCondition(), is("`true`"));
-        assertThat(confirm.getText(), is("Текст подтверждения из операции объекта"));
-        assertThat(confirm.getTitle(), is("Предупреждение"));
-        assertThat(confirm.getOk().getLabel(), is("Да"));
-        assertThat(confirm.getOk().getColor(), is("primary"));
-        assertThat(confirm.getCancel().getLabel(), is("Нет"));
-        assertThat(confirm.getCancel().getColor(), is("secondary"));
-        assertThat(confirm.getReverseButtons(), is(false));
-        assertThat(confirm.getCloseButton(), is(false));
-        assertThat(confirm.getMode(), is(ConfirmType.MODAL));
-        assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_main']"));
+        assertThat(confirm, nullValue());
     }
 }

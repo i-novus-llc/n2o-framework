@@ -15,7 +15,7 @@
         </set>
     </fields>
     <operations>
-        <operation id="op" name="name" submit-label="f" description="description" success-text="test" fail-text="test" confirm-text="test">
+        <operation id="op" name="name" description="description" success-text="test" fail-text="test">
             <invocation>
                 <sql>select 1</sql>
             </invocation>

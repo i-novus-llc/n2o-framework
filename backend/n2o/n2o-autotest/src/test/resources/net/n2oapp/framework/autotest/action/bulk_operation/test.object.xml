@@ -10,7 +10,7 @@
                 <param id="new_name"  mapping="['name']"/>
             </in-parameters>
         </operation>
-        <operation id="deleteMany" confirm="false">
+        <operation id="deleteMany">
             <invocation>
                 <test file="test.json" operation="deleteMany"/>
             </invocation>
