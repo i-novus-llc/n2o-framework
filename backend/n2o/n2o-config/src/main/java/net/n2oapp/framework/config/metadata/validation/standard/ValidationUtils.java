@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
@@ -168,6 +169,17 @@ public final class ValidationUtils {
      */
     public static String getSpaceWithIdOrEmptyString(String metadataId) {
         return metadataId != null ? " " + metadataId : "";
+    }
+
+    /**
+     * Валидация зависимостей на пустое тело
+     *
+     * @param dependency зависимость
+     * @param message сообщение при ошибке
+     */
+    public static void checkEmptyDependency(N2oDependency dependency, String message) {
+        if (!StringUtils.hasText(dependency.getValue()))
+            throw new N2oMetadataValidationException(message);
     }
 
     private static void checkTest(N2oConditionBranch branch, SourceProcessor p, @Nonnull String tag) {

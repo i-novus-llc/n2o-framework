@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
@@ -66,6 +67,17 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
 
         if (source.getDatasourceId() != null) {
             checkDatasource(source, datasourceIdsScope);
+        }
+
+        if (source.getDependencies() != null) {
+            Arrays.stream(source.getDependencies()).forEach(dependency -> {
+                if (source.getId() == null) {
+                    ValidationUtils.checkEmptyDependency(dependency, "Зависимость виджета имеет пустое тело");
+                } else {
+                    ValidationUtils.checkEmptyDependency(dependency,
+                            String.format("Зависимость виджета '%s' имеет пустое тело", source.getId()));
+                }
+            });
         }
         p.safeStreamOf(source.getActions()).flatMap(actionBar -> p.safeStreamOf(actionBar.getN2oActions()))
                 .forEach(action -> p.validate(action, componentScope));
