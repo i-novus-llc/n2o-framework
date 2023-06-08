@@ -20,7 +20,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
-import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
@@ -38,7 +37,6 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -498,14 +496,13 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                             for (String refreshDatasourceId : refreshDatasourceIds) {
                                 // добавляем refresh action для каждого датасурса
                                 N2oRefreshAction refreshAction = new N2oRefreshAction();
-                                refreshAction.setDatasourceId(refreshDatasourceId);
+                                refreshAction.setDatasourceId("parent_" + refreshDatasourceId);
                                 actionList.add(refreshAction);
                                 // добавляем parent-datasource чтобы в модалке был этот датасурс
                                 if (context.getDatasources() == null)
                                     context.setDatasources(new ArrayList<>());
                                 N2oParentDatasource parentDatasource = new N2oParentDatasource("parent_" + refreshDatasourceId, refreshDatasourceId, false);
                                 context.getDatasources().add(parentDatasource);
-                                context.getParentDatasourceIdsMap().put(parentDatasource.getId(), getClientDatasourceId(parentDatasource.getId(), p));
                             }
                             N2oCloseAction closeAction = new N2oCloseAction();
                             closeAction.setPrompt(false);
