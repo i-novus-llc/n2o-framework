@@ -345,7 +345,7 @@ class InputSelect extends React.Component {
      * @private
      */
     setNewInputValue = (input) => {
-        const { onInput, throttleDelay } = this.props
+        const { onInput, throttleDelay, multiSelect } = this.props
         const { input: stateInput } = this.state
         const onSetNewInputValue = (input) => {
             onInput(input)
@@ -356,7 +356,7 @@ class InputSelect extends React.Component {
             this.setSelected(false)
             this.setState({ input }, () => onSetNewInputValue(input))
 
-            if (!input) {
+            if (!input && !multiSelect) {
                 this.clearSelected()
             }
         }
