@@ -22,6 +22,7 @@ public class QuerySimpleField extends AbstractField implements NameAware {
     private Boolean isSorted;
     @Deprecated
     private N2oQuery.Filter[] filterList;
+    private N2oNormalizeSwitch normalizeSwitch;
 
     public QuerySimpleField(QuerySimpleField field) {
         super(field);
