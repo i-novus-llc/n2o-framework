@@ -103,6 +103,13 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         if (isEmpty(source.getActions()))
             return;
         ActionBar[] widgetActions = source.getActions();
+
+        Arrays.stream(widgetActions).forEach(action -> {
+            if (action.getId() == null) {
+                throw new N2oMetadataValidationException(String.format("Не задан 'id' у <action> виджета '%s'", source.getId()));
+            }
+        });
+
         p.checkIdsUnique(widgetActions,
                 "Действие {0} встречается более чем один раз в метаданной виджета " + source.getId());
 
