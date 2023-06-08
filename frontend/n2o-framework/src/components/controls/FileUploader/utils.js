@@ -26,9 +26,20 @@ export function post(url, file, onProgress, onUpload, onError, cancelSource) {
 
 const SPECIAL_SYMBOLS = ['?', '=']
 
+function getUrlToParse(url) {
+    if (url.startsWith('http')) {
+        return url
+    }
+
+    const { origin } = window.location
+
+    return `${origin}${url}`
+}
+
 function getDeleteConfig(url, id) {
     if (url.includes('?')) {
-        const { origin, pathname, search } = new URL(url)
+        const urlToParse = getUrlToParse(url)
+        const { origin, pathname, search } = new URL(urlToParse)
 
         const query = search
             .split('')
