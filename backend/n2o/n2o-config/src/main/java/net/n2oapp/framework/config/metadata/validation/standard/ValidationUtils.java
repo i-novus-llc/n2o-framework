@@ -172,7 +172,7 @@ public final class ValidationUtils {
     }
 
     /**
-     * Валидация зависимостей на пустое тело
+     * Проверка зависимостей на пустое тело
      *
      * @param dependency зависимость
      * @param message сообщение при ошибке
