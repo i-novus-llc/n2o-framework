@@ -80,7 +80,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     public void shouldBeEmpty() {
         element().$(".n2o-input-items .n2o-inp").shouldBe(Condition.empty);
         if (isMulti())
-            shouldSelectedMulti();
+            input().parent().$(".selected-item").shouldNot(Condition.exist);
     }
 
     @Override
