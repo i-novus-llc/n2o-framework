@@ -16,7 +16,6 @@ public class N2oCodeViewer extends N2oStandardField {
     private Boolean showLineNumbers;
     private Integer startingLineNumber;
     private Boolean hideButtons;
-    private Boolean hideOverflow;
 
     public enum ColorTheme {
         light, dark
