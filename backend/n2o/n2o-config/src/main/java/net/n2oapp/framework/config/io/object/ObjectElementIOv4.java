@@ -77,8 +77,10 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
 
     private void invocation(Element e, N2oObject.Operation t, IOProcessor p) {
         p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
-        if (nonNull(t.getInvocation()))
+        if (nonNull(t.getInvocation())) {
             p.childAttribute(e, "invocation", "result-mapping", t.getInvocation()::getResultMapping, t.getInvocation()::setResultMapping);
+            p.childAttribute(e, "invocation", "result-normalize", t.getInvocation()::getResultNormalize, t.getInvocation()::setResultNormalize);
+        }
     }
 
     private void operationInlineValidations(Element e, N2oObject.Operation.Validations t, IOProcessor p) {
