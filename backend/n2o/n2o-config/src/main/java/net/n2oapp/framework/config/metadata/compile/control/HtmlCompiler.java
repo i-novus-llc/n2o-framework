@@ -29,12 +29,10 @@ public class HtmlCompiler extends FieldCompiler<Html, N2oHtml> {
     @Override
     public Html compile(N2oHtml source, CompileContext<?, ?> context, CompileProcessor p) {
         Html html = new Html();
-        if (source.getHtml() != null) {
-            String content = source.getHtml();
-            if (hasLink(content))
-                content = content.replace("'", "\\\'");
-            html.setHtml(p.resolveJS(content.trim()));
-        }
+        String content = source.getHtml();
+        if (hasLink(content))
+            content = content.replace("'", "\\\'");
+        html.setHtml(p.resolveJS(content.trim()));
         initDefaults(source, context, p);
         compileField(html, source, context, p);
         return html;
