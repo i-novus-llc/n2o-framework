@@ -5,7 +5,7 @@ import withHandlers from 'recompose/withHandlers'
 import PropTypes from 'prop-types'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { tomorrow, coy } from 'react-syntax-highlighter/dist/cjs/styles/prism'
-import cx from 'classnames'
+import classNames from 'classnames'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 /**
@@ -17,7 +17,6 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
  * @reactProps {boolean} showLineNumbers - отображать нумерацию строк
  * @reactProps {number} startingLineNumber - если включен showLineNumbers, нумерация строк начнется c указанного числа
  * @reactProps {boolean} hideButtons - скрыть кнопки
- * @reactProps {boolean} hideOverflow - скрыть вертикальную прокрутку
  */
 
 function CodeViewer({
@@ -28,42 +27,43 @@ function CodeViewer({
     handleCopy,
     handleShow,
     show,
-    hideOverflow,
     hideButtons,
+    className,
+    style = {},
     ...rest
 }) {
+    if (!visible) {
+        return null
+    }
+
     return (
-        visible && (
-            <div className="n2o-code-viewer">
-                {!hideButtons ? (
-                    <div className="code-viewer-actions">
-                        <CopyToClipboard text={value} onCopy={handleCopy}>
-                            <i
-                                className={cx(
-                                    'code-viewer-actions-copy',
-                                    copied
-                                        ? 'n2o-icon fa fa-check text-success'
-                                        : 'n2o-icon fa fa-clipboard',
-                                )}
-                            />
-                        </CopyToClipboard>
+        <div className="n2o-code-viewer">
+            {!hideButtons ? (
+                <div className="code-viewer-actions">
+                    <CopyToClipboard text={value} onCopy={handleCopy}>
                         <i
-                            className="n2o-icon code-viewer-actions-code fa fa-code"
-                            onClick={handleShow}
+                            className={classNames(
+                                'code-viewer-actions-copy',
+                                copied
+                                    ? 'n2o-icon fa fa-check text-success'
+                                    : 'n2o-icon fa fa-clipboard',
+                            )}
                         />
-                    </div>
-                ) : null}
-                {show ? (
-                    <SyntaxHighlighter
-                        className={!hideOverflow ? 'code-viewer-body' : null}
-                        style={darkTheme ? tomorrow : coy}
-                        {...rest}
-                    >
+                    </CopyToClipboard>
+                    <i
+                        className="n2o-icon code-viewer-actions-code fa fa-code"
+                        onClick={handleShow}
+                    />
+                </div>
+            ) : null}
+            {show ? (
+                <section className="code-viewer-body-container" style={style}>
+                    <SyntaxHighlighter className={classNames('code-viewer-body', className)} {...rest} style={darkTheme ? tomorrow : coy}>
                         {value}
                     </SyntaxHighlighter>
-                ) : null}
-            </div>
-        )
+                </section>
+            ) : null}
+        </div>
     )
 }
 
@@ -96,17 +96,13 @@ CodeViewer.propTypes = {
    * Cкрыть кнопки
    */
     hideButtons: PropTypes.bool,
-    /**
-   * Скрыть вертикальную прокрутку
-   */
-    hideOverflow: PropTypes.bool,
+    style: PropTypes.object,
 }
 
 CodeViewer.defaultProps = {
     visible: true,
     hideButtons: false,
     darkTheme: false,
-    hideOverflow: false,
 }
 
 export { CodeViewer }
