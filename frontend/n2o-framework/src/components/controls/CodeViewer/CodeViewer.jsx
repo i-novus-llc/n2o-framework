@@ -33,7 +33,7 @@ function CodeViewer({
     ...rest
 }) {
     if (!value) {
-        return value
+        return null
     }
 
     return (
