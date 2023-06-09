@@ -70,7 +70,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
                 is(true));
 
         assertThat(listWidget.getList().get("rightBottom").getSrc(), is("IconCell"));
-        assertThat(listWidget.getList().get("rightBottom").getCssClass(), is("test"));
+        assertThat(listWidget.getList().get("rightBottom").getElementAttributes().get("className"), is("test"));
 
         assertThat(listWidget.getList().get("extra").getSrc(), is("ButtonsCell"));
         AbstractButton extra = ((ToolbarCell) listWidget.getList().get("extra")).getToolbar().get(0).getButtons().get(0);

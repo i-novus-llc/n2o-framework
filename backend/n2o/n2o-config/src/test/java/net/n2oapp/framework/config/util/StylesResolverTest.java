@@ -17,6 +17,8 @@ public class StylesResolverTest {
         assertThat(oneStyle.size(), is(1));
         assertThat(oneStyle.get("marginTop"), is("16px"));
 
+        assertThat(StylesResolver.resolveStylesToString("margin-top: 16px;"), is("marginTop:16px"));
+
         Map<String, String> twoStyles = StylesResolver.resolveStyles("box-shadow: 0 0 1px #fff,0 0 5px rgba(0,0,0,0.3);    padding: 3px 5px");
         assertThat(twoStyles.size(), is(2));
         assertThat(twoStyles.get("boxShadow"), is("0 0 1px #fff,0 0 5px rgba(0,0,0,0.3)"));

@@ -44,24 +44,24 @@ public class BadgeCellCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testBadgeCell"));
 
         Table table = (Table) page.getWidget();
-        BadgeCell cell = (BadgeCell) table.getComponent().getCells().get(0);
+        BadgeCell cell = (BadgeCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("BadgeCell"));
         assertThat(cell.getText(), is("text"));
         assertThat(cell.getFormat(), is("test"));
         assertThat(cell.getTextFormat(), is("test"));
         assertThat(cell.getColor(), is("`type.id == 1 ? 'success' : type.id == 2 ? 'danger' : 'info'`"));
 
-        cell = (BadgeCell) table.getComponent().getCells().get(1);
+        cell = (BadgeCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getColor(), is("info"));
         assertThat(cell.getShape(), is(ShapeType.SQUARE));
 
-        cell = (BadgeCell) table.getComponent().getCells().get(2);
+        cell = (BadgeCell) table.getComponent().getBody().getCells().get(2);
         assertThat(cell.getShape(), is(ShapeType.ROUNDED));
         assertThat(cell.getImageFieldId(), is("image"));
         assertThat(cell.getImagePosition(), is(Position.RIGHT));
         assertThat(cell.getImageShape(), is(ShapeType.SQUARE));
 
-        cell = (BadgeCell) table.getComponent().getCells().get(3);
+        cell = (BadgeCell) table.getComponent().getBody().getCells().get(3);
         assertThat(cell.getShape(), is(ShapeType.SQUARE));
         assertThat(cell.getImageFieldId(), is("img"));
         assertThat(cell.getImagePosition(), is(Position.LEFT));

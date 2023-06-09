@@ -90,7 +90,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getHeader().getCells().get(0).getSrc(), is("MyTableHeader"));
         assertThat(table.getComponent().getHeader().getCells().get(0).getElementAttributes().get("className"), is("my-table-header"));
         assertThat(table.getComponent().getHeader().getCells().get(0).getElementAttributes().get("style"), notNullValue());
-        assertThat(table.getComponent().getHeader().getCells().get(0).getElementAttributes().get("style"), is("color: red"));
+        assertThat(table.getComponent().getHeader().getCells().get(0).getElementAttributes().get("style"), is("color:red"));
 
         assertThat(table.getComponent().getHeader().getCells().get(1).getSrc(), is("TextTableHeader"));
         assertThat(table.getComponent().getHeader().getCells().get(1).getElementAttributes().get("className"), is(nullValue()));
@@ -103,14 +103,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getHeader().getCells().get(6).getLabel(), is("label"));
 
         //sells
-        assertThat(table.getComponent().getCells().size(), is(7));
+        assertThat(table.getComponent().getBody().getCells().size(), is(7));
 
-        assertThat(((AbstractCell) table.getComponent().getCells().get(0)).getStyle().get("marginLeft"), is("10px"));
-        assertThat(((TextCell) table.getComponent().getCells().get(0)).getCssClass(), is("`test == 1 ? 'css1' : test == 2 ? 'css2' : 'css3'`"));
-        assertThat(((TextCell) table.getComponent().getCells().get(0)).getFormat(), is("password"));
-        assertThat(((TextCell) table.getComponent().getCells().get(0)).getHideOnBlur(), is(true));
-        assertThat(table.getComponent().getCells().get(2).getId(), is("cell2"));
-        assertThat(table.getComponent().getCells().get(3).getId(), is("cell3"));
+        assertThat(((AbstractCell) table.getComponent().getBody().getCells().get(0)).getElementAttributes().get("style"), is("marginLeft:10px"));
+        assertThat(((TextCell) table.getComponent().getBody().getCells().get(0)).getElementAttributes().get("className"), is("`test == 1 ? 'css1' : test == 2 ? 'css2' : 'css3'`"));
+        assertThat(((TextCell) table.getComponent().getBody().getCells().get(0)).getFormat(), is("password"));
+        assertThat(((TextCell) table.getComponent().getBody().getCells().get(0)).getHideOnBlur(), is(true));
+        assertThat(table.getComponent().getBody().getCells().get(2).getId(), is("cell2"));
+        assertThat(table.getComponent().getBody().getCells().get(3).getId(), is("cell3"));
 
         assertThat(table.getToolbar().getButton("but"), notNullValue());
         assertThat(table.getComponent().getBody().getRow().getElementAttributes().get("className"), is("red"));
@@ -298,7 +298,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(link.getValue(), is("`name`"));
         assertThat(link.getBindLink(), is("models.filter['testFilterColumns_main']"));
 
-        List<Cell> cells = ((Table) page.getWidget()).getComponent().getCells();
+        List<Cell> cells = ((Table) page.getWidget()).getComponent().getBody().getCells();
         assertThat(cells.get(0), instanceOf(BadgeCell.class));
         assertThat(cells.get(0).getId(), is("name"));
         assertThat(cells.get(1), instanceOf(TextCell.class));
@@ -323,7 +323,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(0).getSrc(), is("MyTableHeader"));
         assertThat(headers.get(0).getElementAttributes().get("className"), is("my-table-header"));
         assertThat(headers.get(0).getElementAttributes().get("style"), notNullValue());
-        assertThat(headers.get(0).getElementAttributes().get("style"), is("color: red"));
+        assertThat(headers.get(0).getElementAttributes().get("style"), is("color:red"));
         assertThat(headers.get(1).getId(), is("test4"));
         assertThat(headers.get(1).getMultiHeader(), is(nullValue()));
         assertThat(headers.get(1).getChildren(), nullValue());
@@ -451,25 +451,25 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5Alignment.widget.xml").get(new WidgetContext("testTable5Alignment"));
 
         ColumnHeader header = table.getComponent().getHeader().getCells().get(0);
-        AbstractCell cell = (AbstractCell) table.getComponent().getCells().get(0);
+        AbstractCell cell = (AbstractCell) table.getComponent().getBody().getCells().get(0);
         assertThat(header.getLabel(), is("simple1"));
         assertThat(header.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
         assertThat(cell.getId(), is("simple1"));
-        assertThat(cell.getContentAlignment(), is(Alignment.LEFT));
+        assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
 
         header = table.getComponent().getHeader().getCells().get(1);
-        cell = (AbstractCell) table.getComponent().getCells().get(1);
+        cell = (AbstractCell) table.getComponent().getBody().getCells().get(1);
         assertThat(header.getLabel(), is("simple2"));
         assertThat(header.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
         assertThat(cell.getId(), is("simple2"));
-        assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
+        assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
 
         header = table.getComponent().getHeader().getCells().get(2);
-        cell = (AbstractCell) table.getComponent().getCells().get(2);
+        cell = (AbstractCell) table.getComponent().getBody().getCells().get(2);
         assertThat(header.getLabel(), is("filter1"));
         assertThat(header.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
         assertThat(cell.getId(), is("filter1"));
-        assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
+        assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
 
 
         ColumnHeader multiHeader = table.getComponent().getHeader().getCells().get(3);
@@ -482,11 +482,11 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(multiHeader.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
 
         header = multiHeader.getChildren().get(0);
-        cell = (AbstractCell) table.getComponent().getCells().get(3);
+        cell = (AbstractCell) table.getComponent().getBody().getCells().get(3);
         assertThat(header.getLabel(), is("sub21"));
         assertThat(header.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
         assertThat(cell.getId(), is("sub21"));
-        assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
+        assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
 
 
         multiHeader = table.getComponent().getHeader().getCells().get(5);
@@ -494,25 +494,25 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(multiHeader.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
 
         header = multiHeader.getChildren().get(0);
-        cell = (AbstractCell) table.getComponent().getCells().get(4);
+        cell = (AbstractCell) table.getComponent().getBody().getCells().get(4);
         assertThat(header.getLabel(), is("sub31"));
         assertThat(header.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
         assertThat(cell.getId(), is("sub31"));
-        assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
+        assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
 
         header = multiHeader.getChildren().get(1);
-        cell = (AbstractCell) table.getComponent().getCells().get(5);
+        cell = (AbstractCell) table.getComponent().getBody().getCells().get(5);
         assertThat(header.getLabel(), is("sub32"));
         assertThat(header.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
         assertThat(cell.getId(), is("sub32"));
-        assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
+        assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
 
         header = multiHeader.getChildren().get(2);
-        cell = (AbstractCell) table.getComponent().getCells().get(6);
+        cell = (AbstractCell) table.getComponent().getBody().getCells().get(6);
         assertThat(header.getLabel(), is("sub33"));
         assertThat(header.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
         assertThat(cell.getId(), is("sub33"));
-        assertThat(cell.getContentAlignment(), is(Alignment.RIGHT));
+        assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
     }
 
 }

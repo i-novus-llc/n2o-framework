@@ -135,7 +135,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                 }
             }
             component.getHeader().setCells(headers);
-            component.setCells(cellsScope.getCells());
+            component.getBody().setCells(cellsScope.getCells());
             if (isNotEmpty(sortings))
                 passSortingToDatasource(sortings, source, p);
 

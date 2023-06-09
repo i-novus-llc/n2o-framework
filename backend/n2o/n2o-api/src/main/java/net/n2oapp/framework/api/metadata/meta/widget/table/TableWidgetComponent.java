@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.WidgetComponent;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Клиенсткая модель компонента таблицы
@@ -27,8 +28,6 @@ public class TableWidgetComponent extends WidgetComponent {
     private Boolean textWrap;
     @JsonProperty
     private String tableSize;
-    @JsonProperty
-    private List<Cell> cells;
     @JsonProperty
     private TableHeader header = new TableHeader();
     @JsonProperty
@@ -49,6 +48,8 @@ public class TableWidgetComponent extends WidgetComponent {
     @Setter
     public static class TableBody implements Compiled {
         @JsonProperty
+        private List<Cell> cells;
+        @JsonProperty
         private Rows security;
         @JsonProperty
         private BodyRow row;
@@ -64,6 +65,6 @@ public class TableWidgetComponent extends WidgetComponent {
         @JsonProperty
         private RowClick click;
         @JsonProperty
-        private HashMap<String, String> elementAttributes = new HashMap<>();
+        private Map<String, String> elementAttributes = new HashMap<>();
     }
 }

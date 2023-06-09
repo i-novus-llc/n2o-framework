@@ -72,7 +72,7 @@ public class ButtonFieldBinderTest extends SourceCompileTestBase {
                 .getFields().get(0).getToolbar()[0].getButtons().get(0).getAction();
         assertThat(invokeAction.getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
         Table table = (Table) page.getRegions().get("single").get(0).getContent().get(1);
-        assertThat(((InvokeAction)((ToolbarCell)table.getComponent().getCells().get(0)).getToolbar().get(0).getButtons().get(0).getAction())
+        assertThat(((InvokeAction)((ToolbarCell)table.getComponent().getBody().getCells().get(0)).getToolbar().get(0).getButtons().get(0).getAction())
                         .getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
     }
 }
