@@ -32,8 +32,6 @@ public class CodeViewerCompiler extends StandardFieldCompiler<CodeViewer, N2oCod
         codeViewer.setStartingLineNumber(p.cast(source.getStartingLineNumber(), 1));
         codeViewer.setHideButtons(p.cast(source.getHideButtons(),
                 p.resolve(property("n2o.api.control.code.hide-buttons"), Boolean.class)));
-        codeViewer.setHideOverflow(p.cast(source.getHideOverflow(),
-                p.resolve(property("n2o.api.control.code.hide-overflow"), Boolean.class)));
         return compileStandardField(codeViewer, source, context, p);
     }
 

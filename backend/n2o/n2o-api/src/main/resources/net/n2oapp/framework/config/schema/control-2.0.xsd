@@ -721,11 +721,6 @@
                         <xs:documentation>Скрытие кнопок.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="hide-overflow" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Скрытие вертикальной полосы прокрутки.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
