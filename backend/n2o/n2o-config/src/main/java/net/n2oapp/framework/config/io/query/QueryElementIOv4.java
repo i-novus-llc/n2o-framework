@@ -54,7 +54,6 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
         p.childAttribute(e, "select", "normalize", t::getNormalize, t::setNormalize);
         p.childrenByEnum(e, "filters", t::getFilterList, t::setFilterList, N2oQuery.Filter::getType,
                 N2oQuery.Filter::setType, N2oQuery.Filter::new, FilterType.class, this::filter);
-        p.child(e, null, "switch", t::getNormalizeSwitch, t::setNormalizeSwitch, new NormalizeSwitchIO());
     }
 
     private void filter(Element e, N2oQuery.Filter t, IOProcessor p) {

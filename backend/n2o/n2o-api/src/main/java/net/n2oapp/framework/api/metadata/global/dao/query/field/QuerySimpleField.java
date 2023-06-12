@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 
 /**
  * Модель простого поля запроса
@@ -22,7 +23,7 @@ public class QuerySimpleField extends AbstractField implements NameAware {
     private Boolean isSorted;
     @Deprecated
     private N2oQuery.Filter[] filterList;
-    private N2oNormalizeSwitch normalizeSwitch;
+    private N2oSwitch n2oSwitch;
 
     public QuerySimpleField(QuerySimpleField field) {
         super(field);

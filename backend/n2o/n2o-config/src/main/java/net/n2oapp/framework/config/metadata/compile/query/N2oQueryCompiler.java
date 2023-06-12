@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.Filter;
@@ -65,7 +66,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         initDefaultFilters(source.getFilters(), p);
         initDefaultFields(fields,
                 p.resolve(property(("n2o.api.query.field.is_selected")), Boolean.class),
-                p.resolve(property(("n2o.api.query.field.is_sorted")), Boolean.class));
+                p.resolve(property(("n2o.api.query.field.is_sorted")), Boolean.class), p);
 
         compilePreFilters(source, p, context.getFilters());
         query.setDisplayFields(Collections.unmodifiableList(initDisplayFields(fields)));
@@ -233,7 +234,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     }
 
     private void initDefaultFields(List<AbstractField> fields, Boolean defaultSelected,
-                                   Boolean defaultSorted) {
+                                   Boolean defaultSorted, CompileProcessor p) {
         for (AbstractField field : fields) {
             field.setIsSelected(castDefault(field.getIsSelected(), defaultSelected));
 
@@ -242,19 +243,33 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             }
             if (field instanceof QueryReferenceField) {
                 field.setMapping(castDefault(field.getMapping(), spel(field.getId())));
-                initDefaultFields(Arrays.asList(((QueryReferenceField) field).getFields()), defaultSelected, defaultSorted);
+                initDefaultFields(Arrays.asList(((QueryReferenceField) field).getFields()), defaultSelected, defaultSorted, p);
             } else
-                initDefaultSimpleField(((QuerySimpleField) field), defaultSorted);
+                initDefaultSimpleField(((QuerySimpleField) field), defaultSorted, p);
         }
     }
 
-    private void initDefaultSimpleField(QuerySimpleField field, Boolean defaultSorted) {
+    private void initDefaultSimpleField(QuerySimpleField field, Boolean defaultSorted, CompileProcessor p) {
         field.setName(castDefault(field.getName(), field.getId()));
         field.setIsSorted(castDefault(field.getIsSorted(), !isBlank(field.getSortingExpression()), defaultSorted));
 
         if (field.getIsSorted()) {
             field.setSortingMapping(castDefault(field.getSortingMapping(), spel(field.getId() + "Direction")));
         }
+        if (Objects.nonNull(field.getN2oSwitch())) {
+            field.getN2oSwitch().setValueFieldId(field.getId());
+            compileSwitch(field.getN2oSwitch(), p);
+        }
+    }
+
+    private void compileSwitch(N2oSwitch n2oSwitch, CompileProcessor p) {
+        Map<Object, String> resolvedCases = new HashMap<>();
+        if (n2oSwitch.getCases() != null) {
+            for (String key : n2oSwitch.getCases().keySet()) {
+                resolvedCases.put(p.resolve(key), n2oSwitch.getCases().get(key));
+            }
+        }
+        n2oSwitch.setResolvedCases(resolvedCases);
     }
 
     private static List<QuerySimpleField> initSortingFields(List<QuerySimpleField> fields) {

@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReference
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oInvocationValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
@@ -84,6 +85,19 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 compiled.getObjectFieldsMap().put(field.getId(), field);
             }
         }
+    }
+
+    private void compileSwitch(ObjectSimpleField field, CompileProcessor p) {
+        N2oSwitch n2oSwitch = field.getN2oSwitch();
+        if (Objects.isNull(n2oSwitch)) return;
+        n2oSwitch.setValueFieldId(field.getId());
+        Map<Object, String> resolvedCases = new HashMap<>();
+        if (n2oSwitch.getCases() != null) {
+            for (String key : n2oSwitch.getCases().keySet()) {
+                resolvedCases.put(p.resolve(key), n2oSwitch.getCases().get(key));
+            }
+        }
+        n2oSwitch.setResolvedCases(resolvedCases);
     }
 
     /**
@@ -383,9 +397,18 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         CompiledObject.Operation compiledOperation = new CompiledObject.Operation();
         compiledOperation.setInParametersMap(prepareOperationInParameters(operation.getInFields(), compiled, p));
 
-        compiledOperation.setOutParametersMap(operation.getOutFields() != null ?
-                Arrays.stream(operation.getOutFields()).collect(Collectors.toMap(AbstractParameter::getId, Function.identity())) :
-                Collections.emptyMap());
+        AbstractParameter[] outFields = operation.getOutFields();
+        if (outFields != null) {
+            Arrays.stream(outFields).forEach(f -> {
+                if (f instanceof ObjectSimpleField) {
+                    compileSwitch((ObjectSimpleField) f, p);
+                }
+            });
+            compiledOperation.setOutParametersMap(Arrays.stream(outFields).collect(Collectors.toMap(AbstractParameter::getId, Function.identity())));
+        }
+        else {
+            compiledOperation.setOutParametersMap(Collections.emptyMap());
+        }
         compiledOperation.setFailOutParametersMap(operation.getFailOutFields() != null ?
                 Arrays.stream(operation.getFailOutFields()).collect(Collectors.toMap(ObjectSimpleField::getId, Function.identity())) :
                 Collections.emptyMap());
@@ -441,6 +464,9 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             for (AbstractParameter parameter : parameters) {
                 prepareOperationInParameter(parameter, compiled.getObjectFieldsMap().get(parameter.getId()), p);
                 parameter.setRequired(castDefault(parameter.getRequired(), false));
+                if (parameter instanceof ObjectSimpleField) {
+                    compileSwitch((ObjectSimpleField) parameter, p);
+                }
                 inFieldsMap.put(parameter.getId(), parameter);
             }
         return inFieldsMap;

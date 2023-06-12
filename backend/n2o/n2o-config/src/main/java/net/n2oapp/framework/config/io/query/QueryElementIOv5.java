@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceFi
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
+import net.n2oapp.framework.config.io.cell.v2.SwitchIO;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -95,7 +96,7 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "sorting-expression", f::getSortingExpression, f::setSortingExpression);
         p.attribute(e, "sorting-mapping", f::getSortingMapping, f::setSortingMapping);
         p.attributeBoolean(e, "sorting", f::getIsSorted, f::setIsSorted);
-        p.child(e, null, "switch", f::getNormalizeSwitch, f::setNormalizeSwitch, new NormalizeSwitchIO());
+        p.child(e, null, "switch", f::getN2oSwitch, f::setN2oSwitch, new SwitchIO());
     }
 
     private void filter(Element e, N2oQuery.Filter t, IOProcessor p) {
