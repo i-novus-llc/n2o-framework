@@ -78,6 +78,10 @@ public class Security implements Serializable {
                     && getPermitAll() == null
                     && getAnonymous() == null;
         }
+
+        public boolean isNotEmpty() {
+            return !isEmpty();
+        }
     }
 
     @Override
