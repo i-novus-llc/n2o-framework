@@ -21,7 +21,6 @@ public class CodeViewerIOv3 extends StandardFieldIOv3<N2oCodeViewer>{
         p.attributeBoolean(e, "show-line-numbers", m::getShowLineNumbers, m::setShowLineNumbers);
         p.attributeInteger(e, "starting-line-number", m::getStartingLineNumber, m::setStartingLineNumber);
         p.attributeBoolean(e, "hide-buttons", m::getHideButtons, m::setHideButtons);
-        p.attributeBoolean(e, "hide-overflow", m::getHideOverflow, m::setHideOverflow);
     }
 
     @Override

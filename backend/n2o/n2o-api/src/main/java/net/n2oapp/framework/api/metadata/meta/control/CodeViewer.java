@@ -23,6 +23,4 @@ public class CodeViewer extends Control {
     private Integer startingLineNumber;
     @JsonProperty
     private Boolean hideButtons;
-    @JsonProperty
-    private Boolean hideOverflow;
 }
