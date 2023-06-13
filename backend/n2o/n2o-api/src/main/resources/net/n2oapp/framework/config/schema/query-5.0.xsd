@@ -241,6 +241,7 @@
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
+            <xs:element name="switch" type="switchDefenition"/>
         </xs:complexContent>
     </xs:complexType>
 
@@ -404,5 +405,26 @@
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="switchDefenition">
+        <xs:annotation>
+            <xs:documentation>Переключатель.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="case" type="caseDefinition"/>
+            <xs:element name="default" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="caseDefinition">
+        <xs:annotation>
+            <xs:documentation>Значение, возвращаемое в случае совпадения value со значением поля.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="value" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Значение, с которым сравнивается значение поля.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 </xs:schema>

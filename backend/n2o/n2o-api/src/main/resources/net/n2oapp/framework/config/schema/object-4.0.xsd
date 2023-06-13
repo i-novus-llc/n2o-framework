@@ -306,6 +306,7 @@
             <xs:element name="reference" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="list" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="set" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="switch" type="switchDefenition"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -319,6 +320,7 @@
                         maxOccurs="unbounded"/>
             <xs:element name="list" type="operationOutParameterReferenceDefinition" minOccurs="0"
                         maxOccurs="unbounded"/>
+            <xs:element name="switch" type="switchDefenition"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -664,4 +666,25 @@
             <xs:enumeration value="after-success-operation"/>
         </xs:restriction>
     </xs:simpleType>
+
+    <xs:complexType name="switchDefenition">
+        <xs:annotation>
+            <xs:documentation>Оператор для удобной работы с разными ожидаемыми значениями нормализации.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="case" type="caseDefinition"/>
+            <xs:element name="default" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="caseDefinition">
+        <xs:annotation>
+            <xs:documentation>Значение возвращаемое в случае совпадения полученного значения в результате нормализации со значением в value.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="value" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Ожидаемое значение.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
 </xs:schema>
