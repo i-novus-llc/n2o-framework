@@ -59,6 +59,7 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         );
 
         checkDuplicateWidgetIdsInDatasources(widgets, datasourceIdsScope);
+        checkWidgetDatasources(widgets);
         p.safeStreamOf(widgets).filter(widget -> widget.getDatasourceId() == null).forEach(widget -> datasourceIdsScope.add(widget.getId()));
 
         p.safeStreamOf(toolbars)
@@ -81,6 +82,14 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         widgets.forEach(n2oWidget -> {
            if (datasourceIdsScope.contains(n2oWidget.getId()))
                throw new N2oMetadataValidationException(String.format("Идентификатор виджета '%s' уже используется источником данных", n2oWidget.getId()));
+        });
+    }
+
+    private void checkWidgetDatasources(List<N2oWidget> widgets) {
+        widgets.forEach(n2oWidget -> {
+           if (n2oWidget.getDatasourceId() != null && n2oWidget.getDatasource() != null)
+               throw new N2oMetadataValidationException(String.format("Виджет '%s' одновременно ссылается на источник данных '%s' и имеет свой источник данных",
+                       n2oWidget.getId(), n2oWidget.getDatasourceId()));
         });
     }
 }

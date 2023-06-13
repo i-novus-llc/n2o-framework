@@ -23,7 +23,7 @@ public class SimplePageValidator implements SourceValidator<N2oSimplePage>, Sour
     @Override
     public void validate(N2oSimplePage source, SourceProcessor p) {
         if (source.getWidget() == null)
-            throw new N2oMetadataValidationException("Не задан виджет простой страницы");
+            throw new N2oMetadataValidationException(String.format("Не задан виджет простой страницы '%s'", source.getId()));
         checkDatasource(source, p);
     }
 

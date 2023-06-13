@@ -9,6 +9,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SimplePageValidatorTest extends SourceValidationTestBase {
@@ -28,10 +29,9 @@ public class SimplePageValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testMissingWidget() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () ->validate("net/n2oapp/framework/config/metadata/validation/page/simple/testMissingWidget.page.xml"),
-                "Не задан виджет простой страницы"
-        );
+                () ->validate("net/n2oapp/framework/config/metadata/validation/page/simple/testMissingWidget.page.xml"));
+        assertEquals(exception.getMessage(), "Не задан виджет простой страницы 'testMissingWidget'");
     }
 }

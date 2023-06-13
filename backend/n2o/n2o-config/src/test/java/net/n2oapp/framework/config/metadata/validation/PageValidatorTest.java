@@ -11,6 +11,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -42,38 +43,41 @@ public class PageValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testObjectNotExistsOnSimplePage() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testObjectNotExistsOnSimplePage.page.xml"),
-                "Страница testObjectNotExistsOnSimplePage ссылается на несуществующий объект nonExistantObjectId"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testObjectNotExistsOnSimplePage.page.xml"));
+        assertEquals(exception.getMessage(), "Страница testObjectNotExistsOnSimplePage ссылается на несуществующий объект nonExistantObjectId");
     }
 
     @Test
     void testDependsWidgetFind() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testDependsWidgetFind.page.xml"),
-                "Атрибут depends-on ссылается на несуществующий виджет main"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testDependsWidgetFind.page.xml"));
+        assertEquals(exception.getMessage(), "Атрибут depends-on ссылается на несуществующий виджет main");
     }
 
     @Test
     void testDatasourcesIdUnique() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testDatasourcesIdUnique.page.xml"),
-                "Источник данных ds1 встречается более чем один раз в метаданной страницы testDatasourcesIdUnique"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testDatasourcesIdUnique.page.xml"));
+        assertEquals(exception.getMessage(), "Источник данных ds1 встречается более чем один раз в метаданной страницы testDatasourcesIdUnique");
     }
 
     @Test
     void testWidgetIds() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testWidgetIds.page.xml"),
-                "Идентификатор виджета 'ds1' уже используется источником данных"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testWidgetIds.page.xml"));
+        assertEquals(exception.getMessage(), "Идентификатор виджета 'ds1' уже используется источником данных");
     }
 
+    @Test
+    void testWidgetDatasource() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testWidgetDatasource.page.xml"));
+        assertEquals(exception.getMessage(), "Виджет 'w1' одновременно ссылается на источник данных 'ds1' и имеет свой источник данных");
+    }
 }
