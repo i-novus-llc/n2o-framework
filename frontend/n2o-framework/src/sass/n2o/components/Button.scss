@@ -33,3 +33,9 @@
     width: 1.2em;
     height: 1.2em;
 }
+
+.dropleft.btn-group {
+    .dropdown-toggle.btn::before {
+        color: $primary;
+    }
+}
