@@ -7,5 +7,6 @@ import lombok.Setter;
 @Setter
 public abstract class AbstractDataProvider implements DataProvider {
     private String resultMapping;
+    private String resultNormalize;
     private String namespaceUri;
 }

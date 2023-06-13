@@ -32,13 +32,14 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         source.setCopied(p.cast(source.getCopied(), true));
         compileField(field, source, context, p);
         field.setControl(control);
-        field.setClassName(null);//для StandardField className должен попасть в control, а не field
+        field.setClassName(null); //для StandardField className должен попасть в control, а не field
+        field.setStyle(null); //для StandardField style должен попасть в control, а не field
         initValidations(source, field, context, p);
         compileFilters(source, p);
         compileCopied(source, p);
         compileControl(control, source, p, field, context);
         control.setProperties(field.getProperties());
-        field.setProperties(null);//для StandardField properties должны попасть в control, а не field
+        field.setProperties(null); //для StandardField properties должны попасть в control, а не field
         field.setDataProvider(initDataProvider(source, context, p));
         return field;
     }

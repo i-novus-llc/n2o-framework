@@ -42,7 +42,7 @@ class DropdownButton extends React.Component {
     render() {
         const {
             subMenu,
-            id: entityKey,
+            entityKey,
             className,
             showToggleIcon,
             toolbar,
@@ -107,7 +107,7 @@ class DropdownButton extends React.Component {
                                         level={BUTTONS}
                                         src={src}
                                         onClick={this.onClick}
-                                        className={classNames('dropdown-item', rest.className)}
+                                        className={classNames('dropdown-item dropdown-item-btn', rest.className)}
                                         tag="div"
                                     />
                                 )))}
