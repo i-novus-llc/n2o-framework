@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
 import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.config.io.cell.v2.SwitchIO;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +25,7 @@ public class BadgeCellElementIOv3 extends AbstractCellElementIOv3<N2oBadgeCell> 
         p.attributeEnum(e, "image-position", c::getImagePosition, c::setImagePosition, Position.class);
         p.attributeEnum(e, "image-shape", c::getImageShape, c::setImageShape, ShapeType.class);
         p.attributeEnum(e, "shape", c::getShape, c::setShape, ShapeType.class);
-        p.child(e, null, "switch", c::getN2oSwitch, c::setN2oSwitch, new SwitchIOv3());
+        p.child(e, null, "switch", c::getN2oSwitch, c::setN2oSwitch, new SwitchIO());
     }
 
 
