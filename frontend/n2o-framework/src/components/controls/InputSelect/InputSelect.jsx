@@ -475,7 +475,7 @@ class InputSelect extends React.Component {
             }
         } else {
             this.setState({
-                value: [{ [labelFieldId]: userInput }],
+                value: [...currentValue, { [labelFieldId]: userInput }],
             })
         }
     }
