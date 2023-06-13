@@ -117,11 +117,11 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     }
 
     public CollectionPage<DataSet> executeOneSizeQuery(CompiledQuery query, N2oPreparedCriteria criteria) {
-        if (nonNull(query.getUniques())) {
-            criteria.setSize(2);
-        }
-        criteria.setCount(2);
         N2oQuery.Selection selection = findUniqueSelection(query, criteria);
+        if (selection.getType().equals(N2oQuery.Selection.Type.unique)) {
+            criteria.setSize(2);
+            criteria.setCount(2);
+        }
         Object result = executeQuery(selection, query, criteria);
         criteria.setSize(1);
         if (selection.getType().equals(N2oQuery.Selection.Type.list)) {
@@ -134,10 +134,14 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             }
             return page;
         } else if (selection.getType().equals(N2oQuery.Selection.Type.unique)) {
+            if (result instanceof List) {
+                throw new N2oFoundMoreThanOneRecordException();
+            }
             DataSet single = prepareSingleResult(result, query, selection);
             if (single.isEmpty()) {
                 throw new N2oRecordNotFoundException();
             }
+
             return new CollectionPage<>(1, Collections.singletonList(single), criteria);
         } else
             throw new UnsupportedOperationException();
