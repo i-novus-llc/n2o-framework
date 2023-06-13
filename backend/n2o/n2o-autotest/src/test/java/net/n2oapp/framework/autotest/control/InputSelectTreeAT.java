@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.CollectionCondition;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
-import net.n2oapp.framework.autotest.api.component.control.*;
+import net.n2oapp.framework.autotest.api.component.control.InputSelectTree;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
