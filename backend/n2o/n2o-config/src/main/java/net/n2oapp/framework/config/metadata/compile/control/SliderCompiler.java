@@ -15,7 +15,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Компиляция ползунка
  */
 @Component
-public class SliderCompiler extends ListControlCompiler<Slider, N2oSlider>{
+public class SliderCompiler extends ListControlCompiler<Slider, N2oSlider> {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oSlider.class;
@@ -38,9 +38,11 @@ public class SliderCompiler extends ListControlCompiler<Slider, N2oSlider>{
 
         slider.setMin(source.getMin());
         slider.setMax(source.getMax());
-        slider.setStep(p.cast(source.getStep(), 1));
+        slider.setStep(p.cast(source.getStep(),
+                p.resolve(Placeholders.property("n2o.api.control.slider.step"), Integer.class)));
         return compileListControl(slider, source, context, p);
     }
+
     @Override
     protected String getControlSrcProperty() {
         return "n2o.api.control.slider.src";
