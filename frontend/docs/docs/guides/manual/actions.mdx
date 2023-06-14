@@ -129,7 +129,7 @@ description: ""
 ## Проброс кнопок и действий в открываемые страницы {#open_window_toolbar}
 
 Кнопки и действия на странице можно переопределять в открывающих страницах. Это удобно когда необходимо использовать
-одну и ту же страницу, отличающуюся только кнопками и дейстивиями.
+одну и ту же страницу, отличающуюся только кнопками и действиями.
 
 ```xml title="Проброс кнопок и действий в открываемые страницы"
 <show-modal page-id="personCard">
@@ -140,9 +140,7 @@ description: ""
     </actions>
     <toolbars>
         <toolbar>
-            <button label="Сохранить">
-                <invoke operation-id="update"/>
-            </button>
+            <button label="Сохранить" action-id="saveAction"/>
         </toolbar>
     </toolbars>
 </show-modal>
