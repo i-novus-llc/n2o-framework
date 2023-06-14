@@ -15,7 +15,7 @@ import { SIZES } from '../constants'
  * <ChangeSize entityKey='TestEntityKey'/>
  */
 function ChangeSizeComponent(props) {
-    const { size: currentSize, icon, label } = props
+    const { size: currentSize, icon, label, nested = false } = props
 
     const { setSize } = useContext(DataSourceContext)
 
@@ -33,7 +33,7 @@ function ChangeSizeComponent(props) {
     })
 
     return (
-        <UncontrolledButtonDropdown>
+        <UncontrolledButtonDropdown direction={nested ? 'left' : 'down'}>
             <DropdownToggle caret>
                 {icon && <i className={icon} />}
                 {label}
