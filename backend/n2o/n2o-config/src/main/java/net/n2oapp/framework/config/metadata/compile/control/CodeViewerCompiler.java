@@ -24,7 +24,9 @@ public class CodeViewerCompiler extends StandardFieldCompiler<CodeViewer, N2oCod
     @Override
     public StandardField<CodeViewer> compile(N2oCodeViewer source, CompileContext<?, ?> context, CompileProcessor p) {
         CodeViewer codeViewer = new CodeViewer();
-        codeViewer.setText(source.getText().trim().replaceAll("\n( )+", "\n"));
+        if (source.getText() != null) {
+            codeViewer.setText(source.getText().trim().replaceAll("\n( )+", "\n"));
+        }
         codeViewer.setLanguage(source.getLanguage());
         codeViewer.setDarkTheme(source.getTheme() != null && source.getTheme().equals(N2oCodeViewer.ColorTheme.dark));
         codeViewer.setShowLineNumbers(p.cast(source.getShowLineNumbers(),
@@ -32,8 +34,6 @@ public class CodeViewerCompiler extends StandardFieldCompiler<CodeViewer, N2oCod
         codeViewer.setStartingLineNumber(p.cast(source.getStartingLineNumber(), 1));
         codeViewer.setHideButtons(p.cast(source.getHideButtons(),
                 p.resolve(property("n2o.api.control.code.hide-buttons"), Boolean.class)));
-        codeViewer.setHideOverflow(p.cast(source.getHideOverflow(),
-                p.resolve(property("n2o.api.control.code.hide-overflow"), Boolean.class)));
         return compileStandardField(codeViewer, source, context, p);
     }
 

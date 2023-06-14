@@ -48,6 +48,10 @@ export function Dropdown(props: IDropdown) {
         level = 0,
     } = props
 
+    if (!items.length) {
+        return null
+    }
+
     return (
         <DropdownParent
             className={classNames('dropdown', className, `dropdown-level-${level}`, { isOpen })}

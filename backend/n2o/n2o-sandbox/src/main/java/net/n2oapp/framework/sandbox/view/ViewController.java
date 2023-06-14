@@ -33,7 +33,6 @@ import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.register.scanner.XmlInfoScanner;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
@@ -85,6 +84,7 @@ import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @RestController
 public class ViewController {
+
     private Logger logger = LoggerFactory.getLogger(ViewController.class);
 
     @Value("${n2o.version:unknown}")
@@ -125,6 +125,7 @@ public class ViewController {
     private N2oDynamicMetadataProviderFactory dynamicMetadataProviderFactory;
     private ObjectMapper objectMapper;
     private DomainProcessor domainProcessor;
+    private static final String DEFAULT_APP_ID = "default";
 
     public ViewController(Optional<Map<String, DynamicMetadataProvider>> providers, ObjectMapper objectMapper,
                           @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor, List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers) {
@@ -356,14 +357,12 @@ public class ViewController {
     }
 
     private Application getApplication(N2oApplicationBuilder builder) {
-        String applicationId = builder.getEnvironment().getSystemProperties().getProperty("n2o.application.id", String.class, null);
-        if ("default".equals(applicationId)) {
-            List<SourceInfo> applications = builder.getEnvironment().getMetadataRegister().find(N2oApplication.class);
-            for (SourceInfo si : applications) {
-                applicationId = si.getId();
-                if (si.getScannerClass().isAssignableFrom(XmlInfoScanner.class)) break;
-            }
+        String applicationId = builder.getEnvironment().getSystemProperties().getProperty("n2o.application.id");
+        if (applicationId.equals(DEFAULT_APP_ID)) {
+            Optional<SourceInfo> applicationInfo = builder.getEnvironment().getMetadataRegister().find(N2oApplication.class).stream().filter(a -> !a.getId().equals(DEFAULT_APP_ID)).findFirst();
+            applicationId = applicationInfo.isPresent() ? applicationInfo.get().getId() : DEFAULT_APP_ID;
         }
+
         return builder.read().transform().validate().compile().transform().bind().get(new ApplicationContext(applicationId), new DataSet());
     }
 

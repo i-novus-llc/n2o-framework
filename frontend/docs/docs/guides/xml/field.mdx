@@ -730,10 +730,9 @@ place="topLeft"
 
 **Пример**
 
-```xml
-<html>
-     <![CDATA[<h3 class='class1' style='color:red;'>Hello, World!</h3>]]>
-</html>
+Текст внутри html поддерживает плейсхолдеры данных, где `name` - поле формы
+```
+<html><![CDATA[<h3 class='class1' style='color:red;'>Hello, {name}!</h3>]]></html>
 ```
 
 **Тело**
@@ -753,7 +752,6 @@ HTML разметка с плейсхолдерами
 |show-line-numbers   |true false                        |Отображение нумерации строк                       |true                 |
 |starting-line-number|Число                             |Значение, с которого будет производиться нумерация|1                    |
 |hide-buttons        |true false                        |Скрытие кнопок                                    |false                |
-|hide-overflow       |true false                        |Скрытие вертикальной полосы прокрутки             |false                |
 
 **Пример**
 
@@ -1252,22 +1250,6 @@ HTML разметка с плейсхолдерами
 ```
 
 <Sandbox height={200} projectId="uxcomponents_checkbox_group" />
-
-### &lt;pills&gt;
-
-Компонент ввода Таблетки
-
-**Атрибуты**
-
-|Наименование|Тип              |Описание                                                          |Значение по умолчанию|
-|------------|-----------------|------------------------------------------------------------------|---------------------|
-|type        |radio, checkboxes|Тип выбора значений (radio - по одному, checkboxes - по несколько)|checkboxes           |
-
-**Пример**
-
-```xml
-<pills id="choice" type="radio"/>
-```
 
 ## Интервальные компоненты {#Interval_components}
 
