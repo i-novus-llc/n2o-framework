@@ -33,7 +33,6 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
     private static final String PROPERTY_PREFIX = "n2o.api.control.list";
 
     protected StandardField<T> compileListControl(T listControl, S source, CompileContext<?, ?> context, CompileProcessor p) {
-
         listControl.setFormat(p.resolveJS(source.getFormat()));
         listControl.setLabelFieldId(p.cast(p.resolveJS(source.getLabelFieldId()), "name"));
         listControl.setSortFieldId(p.cast(source.getSortFieldId(), listControl.getLabelFieldId()));
@@ -41,7 +40,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setIconFieldId(p.resolveJS(source.getIconFieldId()));
         listControl.setImageFieldId(p.resolveJS(source.getImageFieldId()));
         listControl.setGroupFieldId(p.resolveJS(source.getGroupFieldId()));
-        listControl.setHasSearch(p.cast(source.getSearch(), source.getQueryId() != null));
+        listControl.setHasSearch(source.getSearch());
         listControl.setStatusFieldId(source.getStatusFieldId());
         compileData(source, listControl, context, p);
         listControl.setCaching(p.cast(source.getCache(), p.resolve(property("n2o.api.control.list.cache"), Boolean.class)));
@@ -153,13 +152,13 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         QueryContext queryContext = new QueryContext(source.getQueryId());
         CompiledQuery query = p.getCompiled(queryContext);
 
-        if (listControl.getHasSearch() != null && listControl.getHasSearch()) {
+        if (Boolean.TRUE.equals(listControl.getHasSearch())) {
             String searchFilterId = p.cast(source.getSearchFilterId(), listControl.getLabelFieldId());
             if (query.getFilterIdToParamMap().containsKey(searchFilterId))
                 return query.getFilterIdToParamMap().get(searchFilterId);
             else if (searchFilterId != null && listControl.getHasSearch())
                 throw new N2oException(
-                        String.format("For search field id [%s] is necessary this filter-id in query [%s]", searchFilterId, query.getId()));
+                        String.format("Для поля '%s' необходимо задать фильтр в '%s.query.xml'", searchFilterId, query.getId()));
         }
         return null;
     }

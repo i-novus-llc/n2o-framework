@@ -50,7 +50,7 @@ public class SliderCompileTest extends SourceCompileTestBase {
         assertThat(slider.getVertical(), is(Boolean.FALSE));
         assertThat(slider.getMultiple(), is(Boolean.FALSE));
         assertThat(slider.getStep(), is(1));
-
+        assertThat(slider.getTooltipPlacement(), is("top"));
 
     }
 }
