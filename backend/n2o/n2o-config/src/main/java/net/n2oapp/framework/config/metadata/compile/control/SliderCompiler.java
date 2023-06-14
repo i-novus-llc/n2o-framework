@@ -38,7 +38,7 @@ public class SliderCompiler extends ListControlCompiler<Slider, N2oSlider>{
 
         slider.setMin(source.getMin());
         slider.setMax(source.getMax());
-        slider.setStep(p.cast(source.getStep(), 1));
+        slider.setStep(p.cast(source.getStep(), p.resolve(property("n2o.api.control.slider.step"), Integer.class)));
         return compileListControl(slider, source, context, p);
     }
     @Override

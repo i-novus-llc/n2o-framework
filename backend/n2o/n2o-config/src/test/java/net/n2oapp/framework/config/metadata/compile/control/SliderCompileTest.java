@@ -38,11 +38,19 @@ public class SliderCompileTest extends SourceCompileTestBase {
         Slider slider = (Slider) ((StandardField) field).getControl();
         assertThat(slider.getVertical(), is(Boolean.TRUE));
         assertThat(slider.getMultiple(), is(Boolean.TRUE));
+        assertThat(slider.getShowTooltip(), is(Boolean.TRUE));
+        assertThat(slider.getTooltipPlacement(), is("left"));
+        assertThat(slider.getTooltipFormatter(), is("${this}%"));
+        assertThat(slider.getMin(), is(0));
+        assertThat(slider.getMax(), is(100));
+        assertThat(slider.getStep(), is(2));
 
         field = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         slider = (Slider) ((StandardField) field).getControl();
         assertThat(slider.getVertical(), is(Boolean.FALSE));
         assertThat(slider.getMultiple(), is(Boolean.FALSE));
+        assertThat(slider.getStep(), is(1));
+
 
     }
 }
