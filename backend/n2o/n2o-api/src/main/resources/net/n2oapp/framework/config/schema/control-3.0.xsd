@@ -358,7 +358,7 @@
                         <xs:documentation>Количество вариантов выбора на одной странице</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="search" type="xs:boolean" default="true">
+                <xs:attribute name="search" type="xs:boolean">
                     <xs:annotation>
                         <xs:documentation>Возможность поиска по значению</xs:documentation>
                     </xs:annotation>
@@ -1677,7 +1677,7 @@
                         <xs:documentation>Минимальное значение.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="step" type="xs:integer">
+                <xs:attribute name="step" type="xs:integer" default="1">
                     <xs:annotation>
                         <xs:documentation>Шаг приращения.</xs:documentation>
                     </xs:annotation>

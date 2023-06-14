@@ -28,7 +28,8 @@ public class SliderCompiler extends ListControlCompiler<Slider, N2oSlider>{
         N2oSlider.Mode mode = p.cast(source.getMode(),
                 p.resolve(property("n2o.api.control.slider.mode"), N2oSlider.Mode.class));
         slider.setMultiple(N2oSlider.Mode.range.equals(mode));
-        boolean isVertical = Boolean.TRUE.equals(source.getVertical());
+        boolean isVertical = Boolean.TRUE.equals((p.cast(source.getVertical(),
+                p.resolve(property("n2o.api.control.slider.vertical"), Boolean.class))));
         slider.setVertical(isVertical);
 
         slider.setShowTooltip(p.resolve(Placeholders.property("n2o.api.control.slider.tooltip"), Boolean.class));
@@ -37,9 +38,11 @@ public class SliderCompiler extends ListControlCompiler<Slider, N2oSlider>{
 
         slider.setMin(source.getMin());
         slider.setMax(source.getMax());
-        slider.setStep(p.cast(source.getStep(), 1));
+        slider.setStep(p.cast(source.getStep(),
+                p.resolve(Placeholders.property("n2o.api.control.slider.step"), Integer.class)));
         return compileListControl(slider, source, context, p);
     }
+
     @Override
     protected String getControlSrcProperty() {
         return "n2o.api.control.slider.src";

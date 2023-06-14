@@ -279,7 +279,7 @@ n2o.api.field.image.width=
 |place       |topLeft, topRight, bottomLeft, bottomRight|Расположение статуса      |topLeft              |
 
 
-**Пример**0
+**Пример**
 
 ```xml
 <status
@@ -768,7 +768,19 @@ n2o.api.control.search_buttons.fetch_on_clear=true
 |measure     |Строка      |Единица измерения                 |                     |
 |min         |Число       |Минимальное значение              |                     |
 |max         |Число       |Максимальное значение             |                     |
-|step        |Число       |Шаг приращения                    |                     |
+|step        |Число       |Шаг приращения                    |1                    |
+
+**Настройки**
+```yaml
+# Включает подсказку
+n2o.api.control.slider.tooltip=true
+# Одиночный ползунок / мульти-режим
+n2o.api.control.slider.mode=single
+# Вертикальное расположение элемента
+n2o.api.control.slider.vertical=false
+# Шаг приращения
+n2o.api.control.slider.step=1
+```
 
 **Пример**
 
@@ -1616,15 +1628,11 @@ Java Script выражение
 
 [Действие обновления компонента](#fetch)
 
-## Панель действий компонента
+## Меню управляющих кнопок
 
 ### &lt;toolbar&gt;
 
-Панель действий компонента
-
-**Тело**
-
-[Кнопки](../xml/widget#button_in_widget)
+[Меню управляющих кнопок](../xml/widget#widget_toolbar)
 
 **Пример**
 ```xml
