@@ -17,14 +17,14 @@ import { toggleColumnVisibility } from '../../../ducks/columns/store'
  * <ToggleColumn entityKey='TestEntityKey'/>
  */
 function ToggleColumnComponent(props) {
-    const { columns, renderColumnDropdown, icon, label } = props
+    const { columns, renderColumnDropdown, icon, label, nested = false } = props
     const arrayOfColumns = map(columns, (value, key) => ({ key, value }))
     const filteredColumns = arrayOfColumns.filter(
         ({ key, value = {} }) => key && value.label && value.frozen !== true,
     )
 
     return (
-        <UncontrolledButtonDropdown>
+        <UncontrolledButtonDropdown direction={nested ? 'left' : 'down'}>
             <DropdownToggle caret>
                 {icon && <i className={icon} />}
                 {label}
