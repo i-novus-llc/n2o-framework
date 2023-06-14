@@ -36,13 +36,13 @@ public class RatingCompileTest extends SourceCompileTestBase {
         Form form = (Form) page.getWidget();
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         Rating rating = (Rating) ((StandardField) field).getControl();
-        assertThat(rating.getHalf(), is(Boolean.TRUE));
+        assertThat(rating.getHalf(), is(true));
         assertThat(rating.getMax(), is(10));
-        assertThat(rating.getShowTooltip(), is(Boolean.TRUE));
+        assertThat(rating.getShowTooltip(), is(true));
 
         field = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         rating = (Rating) ((StandardField) field).getControl();
-        assertThat(rating.getHalf(), is(Boolean.FALSE));
+        assertThat(rating.getHalf(), is(false));
         assertThat(rating.getMax(), is(5));
     }
 }

@@ -299,7 +299,13 @@ class InputSelect extends React.Component {
         this.setState({
             isExpanded,
             inputFocus: isExpanded,
-        }, onOpen)
+        }, () => {
+            const { page, data = [] } = this.props
+
+            if (!data.length || page === 1) {
+                onOpen()
+            }
+        })
 
         onToggle(isExpanded)
 
@@ -339,7 +345,7 @@ class InputSelect extends React.Component {
      * @private
      */
     setNewInputValue = (input) => {
-        const { onInput, throttleDelay } = this.props
+        const { onInput, throttleDelay, multiSelect } = this.props
         const { input: stateInput } = this.state
         const onSetNewInputValue = (input) => {
             onInput(input)
@@ -350,7 +356,7 @@ class InputSelect extends React.Component {
             this.setSelected(false)
             this.setState({ input }, () => onSetNewInputValue(input))
 
-            if (!input) {
+            if (!input && !multiSelect) {
                 this.clearSelected()
             }
         }
@@ -469,7 +475,7 @@ class InputSelect extends React.Component {
             }
         } else {
             this.setState({
-                value: [{ [labelFieldId]: userInput }],
+                value: [...currentValue, { [labelFieldId]: userInput }],
             })
         }
     }
@@ -557,6 +563,7 @@ class InputSelect extends React.Component {
             popupAutoSize,
             maxTagTextLength,
             onDismiss,
+            filter,
         } = this.props
         const {
             value: stateValue,
@@ -570,7 +577,8 @@ class InputSelect extends React.Component {
         } = this.state
 
         const inputSelectStyle = { width: '100%', cursor: 'text', ...style }
-        const needAddFilter = !find(stateValue, item => item[labelFieldId] === input)
+        const needAddFilter = filter && !find(stateValue, item => item[labelFieldId] === input)
+
         const popUpStyle = { maxHeight: `${popUpMaxHeight}${MEASURE}` }
 
         return (
@@ -837,6 +845,9 @@ InputSelect.propTypes = {
     setFilter: PropTypes.func,
     models: PropTypes.object,
     count: PropTypes.number,
+    size: PropTypes.number,
+    page: PropTypes.number,
+    data: PropTypes.object,
 }
 
 InputSelect.defaultProps = {

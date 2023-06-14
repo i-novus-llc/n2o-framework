@@ -21,6 +21,11 @@ public interface StandardButton extends Button {
     void shouldHaveIcon(String iconName);
 
     /**
+     * Проверка отсутствия иконки у кнопки
+     */
+    void shouldNotHaveIcon();
+
+    /**
      * Проверка цвета кнопки на соответствие ожидаемому значению
      * @param color ожидаемый цвет кнопки
      */

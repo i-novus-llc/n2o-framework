@@ -3,5 +3,6 @@
   "sandboxUrl": "https://sandbox.n2oapp.net",
   "n2oSandboxUrl": "https://next.n2oapp.net/sandbox",
   "n2oVersionUrl": "https://next.n2oapp.net/sandbox/n2o/version",
+  "next": "https://n2o.i-novus.ru",
   "n2oVersion": "7.25.0-SNAPSHOT"
 }

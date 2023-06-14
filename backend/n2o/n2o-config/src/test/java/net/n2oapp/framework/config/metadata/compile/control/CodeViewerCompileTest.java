@@ -36,21 +36,18 @@ public class CodeViewerCompileTest extends SourceCompileTestBase {
         Form form = (Form) page.getWidget();
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         CodeViewer codeViewer = (CodeViewer) ((StandardField) field).getControl();
-        assertThat(codeViewer.getShowLineNumbers(), is(Boolean.FALSE));
-        assertThat(codeViewer.getHideButtons(), is(Boolean.TRUE));
-        assertThat(codeViewer.getHideOverflow(), is(Boolean.TRUE));
-        assertThat(codeViewer.getStartingLineNumber(), is( 2));
-        assertThat(codeViewer.getDarkTheme(), is(Boolean.TRUE));
-
+        assertThat(codeViewer.getShowLineNumbers(), is(false));
+        assertThat(codeViewer.getHideButtons(), is(true));
+        assertThat(codeViewer.getStartingLineNumber(), is(2));
+        assertThat(codeViewer.getDarkTheme(), is(true));
 
 
         field = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         codeViewer = (CodeViewer) ((StandardField) field).getControl();
-        assertThat(codeViewer.getShowLineNumbers(), is(Boolean.TRUE));
-        assertThat(codeViewer.getHideButtons(), is(Boolean.FALSE));
-        assertThat(codeViewer.getHideOverflow(), is(Boolean.FALSE));
-        assertThat(codeViewer.getStartingLineNumber(), is( 1));
-        assertThat(codeViewer.getDarkTheme(), is(Boolean.FALSE));
+        assertThat(codeViewer.getShowLineNumbers(), is(true));
+        assertThat(codeViewer.getHideButtons(), is(false));
+        assertThat(codeViewer.getStartingLineNumber(), is(1));
+        assertThat(codeViewer.getDarkTheme(), is(false));
 
     }
 }

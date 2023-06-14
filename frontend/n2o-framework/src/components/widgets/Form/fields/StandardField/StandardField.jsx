@@ -137,6 +137,7 @@ class StandardField extends React.Component {
                             )}
                             required={required}
                             help={help}
+                            needStub
                         />
                     ) : null}
                     <div style={styleHelper}>

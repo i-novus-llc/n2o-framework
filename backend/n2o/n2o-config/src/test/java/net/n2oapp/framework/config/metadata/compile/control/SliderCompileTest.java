@@ -36,9 +36,9 @@ public class SliderCompileTest extends SourceCompileTestBase {
         Form form = (Form) page.getWidget();
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         Slider slider = (Slider) ((StandardField) field).getControl();
-        assertThat(slider.getVertical(), is(Boolean.TRUE));
-        assertThat(slider.getMultiple(), is(Boolean.TRUE));
-        assertThat(slider.getShowTooltip(), is(Boolean.TRUE));
+        assertThat(slider.getVertical(), is(true));
+        assertThat(slider.getMultiple(), is(true));
+        assertThat(slider.getShowTooltip(), is(true));
         assertThat(slider.getTooltipPlacement(), is("left"));
         assertThat(slider.getTooltipFormatter(), is("${this}%"));
         assertThat(slider.getMin(), is(0));
@@ -47,10 +47,9 @@ public class SliderCompileTest extends SourceCompileTestBase {
 
         field = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         slider = (Slider) ((StandardField) field).getControl();
-        assertThat(slider.getVertical(), is(Boolean.FALSE));
-        assertThat(slider.getMultiple(), is(Boolean.FALSE));
+        assertThat(slider.getVertical(), is(false));
+        assertThat(slider.getMultiple(), is(false));
         assertThat(slider.getStep(), is(1));
         assertThat(slider.getTooltipPlacement(), is("top"));
-
     }
 }

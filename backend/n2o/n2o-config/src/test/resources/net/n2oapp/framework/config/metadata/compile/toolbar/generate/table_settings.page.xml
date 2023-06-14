@@ -5,6 +5,10 @@
     <regions>
         <table id="tb1" object-id="utBlank" datasource="ds1">
             <toolbar place="topLeft" generate="tableSettings"/>
+
+            <toolbar place="topRight">
+                <sub-menu generate="tableSettings"/>
+            </toolbar>
         </table>
     </regions>
 </page>

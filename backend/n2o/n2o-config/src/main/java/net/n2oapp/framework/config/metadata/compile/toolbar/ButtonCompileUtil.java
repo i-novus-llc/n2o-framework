@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -20,17 +19,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.js;
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.ref;
+import static java.util.Objects.nonNull;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 public class ButtonCompileUtil {
 
     public static Confirm compileConfirm(Button source, CompileProcessor p, CompiledObject.Operation operation) {
-        boolean operationConfirm = operation != null && operation.getConfirm() != null && operation.getConfirm();
-        if (source.getConfirm() != null) {
+        boolean operationConfirm = nonNull(operation) && nonNull(operation.getConfirm()) && operation.getConfirm();
+        if (nonNull(source.getConfirm())) {
             Object condition = p.resolveJS(source.getConfirm(), Boolean.class);
             if (condition instanceof Boolean) {
                 if (!((Boolean) condition || operationConfirm))
@@ -72,26 +70,18 @@ public class ButtonCompileUtil {
         }
 
         if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getCondition())) {
-            String clientDatasource = initClientDatasourceId(source, p);
+            String clientDatasource = getClientDatasourceId(initDatasource(source, p), p);
             confirm.setModelLink(new ModelLink(source.getModel(), clientDatasource).getBindLink());
         }
 
         return confirm;
     }
 
-    protected static String initClientDatasourceId(Button source, CompileProcessor p) {
-        String datasourceId = initDatasource(source, p);
-        if (datasourceId != null)
-            return getClientDatasourceId(datasourceId, p);
-        else
-            throw new N2oException(String.format("Unknown datasource for submit in field %s!", ((N2oButtonField)source).getId()));
-    }
-
     public static String initDatasource(DatasourceIdAware source, CompileProcessor p) {
-        if (source.getDatasourceId() != null)
+        if (nonNull(source.getDatasourceId()))
             return source.getDatasourceId();
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null)
+        if (nonNull(widgetScope))
             return widgetScope.getDatasourceId();
         return null;
     }
@@ -121,7 +111,7 @@ public class ButtonCompileUtil {
             return Stream.of(source.getValidateDatasourceIds())
                     .map(ds -> getClientDatasourceId(ds, p))
                     .collect(Collectors.toList());
-        if (datasource != null)
+        if (nonNull(datasource))
             return Collections.singletonList(getClientDatasourceId(datasource, p));
         return null;
     }
@@ -129,6 +119,6 @@ public class ButtonCompileUtil {
     public static Boolean initValidate(Button source, CompileProcessor p, String datasource) {
         if (isEmpty(source.getActions()))
             return p.cast(source.getValidate(), false);
-        return p.cast(source.getValidate(), datasource != null || source.getValidateDatasourceIds() != null);
+        return p.cast(source.getValidate(), nonNull(datasource) || nonNull(source.getValidateDatasourceIds()));
     }
 }

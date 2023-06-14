@@ -77,11 +77,13 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
     private void initGenerate(N2oSubmenu sub, Submenu button, IndexScope idx,
                               CompileContext<?, ?> context, CompileProcessor p) {
         if (sub.getGenerate() != null) {
-            if (button.getSubMenu() == null) {
+            if (button.getSubMenu() == null)
                 button.setSubMenu(new ArrayList<>());
-            }
+
+            N2oToolbar source = p.getScope(N2oToolbar.class);
+            source.setIsGeneratedForSubMenu(true);
+
             for (String generate : sub.getGenerate()) {
-                N2oToolbar source = p.getScope(N2oToolbar.class);
                 for (ToolbarItem toolbarItem : buttonGeneratorFactory.generate(generate, source, context, p)) {
                     PerformButton menuItem = p.compile(toolbarItem, context, p, idx);
                     menuItem.setColor(null);

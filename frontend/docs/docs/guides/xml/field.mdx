@@ -627,10 +627,9 @@ n2o.api.control.code_editor.min_lines=5
 
 **Пример**
 
-```xml
-<html>
-     <![CDATA[<h3 class='class1' style='color:red;'>Hello, World!</h3>]]>
-</html>
+Текст внутри html поддерживает плейсхолдеры данных, где `name` - поле формы
+```
+<html><![CDATA[<h3 class='class1' style='color:red;'>Hello, {name}!</h3>]]></html>
 ```
 
 **Тело**
@@ -650,7 +649,6 @@ HTML разметка с плейсхолдерами
 |show-line-numbers   |true false                        |Отображение нумерации строк                       |true                 |
 |starting-line-number|Число                             |Значение, с которого будет производиться нумерация|1                    |
 |hide-buttons        |true false                        |Скрытие кнопок                                    |false                |
-|hide-overflow       |true false                        |Скрытие вертикальной полосы прокрутки             |false                |
 
 **Настройки**
 ```yaml
@@ -662,8 +660,6 @@ n2o.api.control.code.show_line_numbers=true
 n2o.api.control.code.starting_line_number=1
 # Скрытие кнопок
 n2o.api.control.code.hide_buttons=false
-# Скрытие вертикальной полосы прокрутки
-n2o.api.control.code.hide_overflow=false
 ```
 
 **Пример**
@@ -1307,28 +1303,6 @@ n2o.api.control.checkbox_group.type=default
 ```
 
 <Sandbox height={200} projectId="uxcomponents_checkbox_group" />
-
-### &lt;pills&gt;
-
-Компонент ввода Таблетки
-
-**Атрибуты**
-
-|Наименование|Тип              |Описание                                                          |Значение по умолчанию|
-|------------|-----------------|------------------------------------------------------------------|---------------------|
-|type        |radio, checkboxes|Тип выбора значений (radio - по одному, checkboxes - по несколько)|checkboxes           |
-
-**Настройки**
-```yaml
-# Тип выбора значений (radio - по одному, checkboxes - по несколько)
-n2o.api.control.pills.type=checkboxes
-```
-
-**Пример**
-
-```xml
-<pills id="choice" type="radio"/>
-```
 
 ## Интервальные компоненты {#Interval_components}
 

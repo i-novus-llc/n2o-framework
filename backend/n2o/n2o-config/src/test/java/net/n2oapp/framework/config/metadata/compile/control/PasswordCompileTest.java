@@ -40,6 +40,6 @@ public class PasswordCompileTest extends SourceCompileTestBase {
 
         field = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         password = (Password) ((StandardField) field).getControl();
-        assertThat(password.getEye(), is(Boolean.TRUE));
+        assertThat(password.getEye(), is(true));
     }
 }

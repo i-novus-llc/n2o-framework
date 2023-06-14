@@ -70,8 +70,8 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
         Application application = compile("net/n2oapp/framework/config/metadata/application/footer.application.xml")
                 .get(new ApplicationContext("footer"));
         assertThat(application.getFooter().getSrc(), is("Footer"));
-        assertThat(application.getFooter().getTextRight(), is("RightText"));
-        assertThat(application.getFooter().getTextLeft(), is("LeftText"));
+        assertThat(application.getFooter().getTextRight(), is("`'RightText\\n'+name`"));
+        assertThat(application.getFooter().getTextLeft(), is("`'LeftText\\n'+name`"));
         assertThat(application.getFooter().getClassName(), is("footer-class"));
         assertThat(application.getFooter().getStyle().get("backgroundColor"), is("primary"));
     }
