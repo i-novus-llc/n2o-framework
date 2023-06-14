@@ -232,7 +232,7 @@ public class QueryProcessorTest {
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         criteria.setSize(1);
-        criteria.addRestriction(new Restriction("exception", "2"));
+        criteria.addRestriction(new Restriction("exception_two", "2"));
         assertThrows(
                 N2oRecordNotFoundException.class,
                 () -> queryProcessor.execute(query, criteria)

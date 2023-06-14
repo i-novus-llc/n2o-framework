@@ -134,7 +134,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             }
             return page;
         } else if (selection.getType().equals(N2oQuery.Selection.Type.unique)) {
-            if (result instanceof List) {
+            if (result instanceof List && ((List<?>) result).size() > 1) {
                 throw new N2oFoundMoreThanOneRecordException();
             }
             DataSet single = prepareSingleResult(result, query, selection);
