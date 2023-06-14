@@ -571,4 +571,20 @@ public class QueryProcessorTest {
         assertThat(collection.size(), is(1));
         assertThat(collection.iterator().next().getString("name"), is("ABC"));
     }
+
+    @Test
+    void switchInField() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/testQueryProcessorSwitch.query.xml"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorSwitch"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
+        assertThat(result.getCollection().size(), is(2));
+        Iterator<DataSet> iterator = result.getCollection().iterator();
+        DataSet first = iterator.next();
+        assertThat(first.get("type"), is("first_case"));
+        DataSet second = iterator.next();
+        assertThat(second.get("type"), is("default"));
+    }
 }
