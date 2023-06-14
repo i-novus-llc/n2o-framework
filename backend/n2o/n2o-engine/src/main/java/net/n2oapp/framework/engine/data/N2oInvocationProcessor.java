@@ -31,6 +31,7 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import java.util.*;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.engine.util.ArgumentsInvocationUtil.mapToArgs;
 import static net.n2oapp.framework.engine.util.MapInvocationUtil.mapToMap;
 import static net.n2oapp.framework.engine.util.MappingProcessor.normalizeValue;
@@ -110,6 +111,8 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
             } else {
                 ObjectSimpleField simpleField = (ObjectSimpleField) parameter;
                 resolveOutField(simpleField, resultDataSet, value);
+                if (nonNull(simpleField.getN2oSwitch()))
+                    applySwitch(resultDataSet, simpleField);
             }
         }
     }
@@ -155,11 +158,28 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                 .filter(parameter -> parameter instanceof ObjectReferenceField &&
                         ((ObjectReferenceField) parameter).getFields() != null && resultDataSet.get(parameter.getId()) != null)
                 .forEach(parameter -> normalizeInnerFields((ObjectReferenceField) parameter, resultDataSet));
+        //switch
+        invocationParameters.stream()
+                .filter(
+                        parameter -> parameter instanceof ObjectSimpleField && nonNull(((ObjectSimpleField)parameter).getN2oSwitch())
+                )
+                .forEach(
+                        parameter -> applySwitch(resultDataSet, (ObjectSimpleField) parameter)
+                );
         // mapping
         invocationParameters.stream().filter(parameter -> parameter instanceof ObjectReferenceField
                         && ((ObjectReferenceField) parameter).getFields() != null && ((ObjectReferenceField) parameter).getEntityClass() != null)
                 .forEach(parameter -> MappingProcessor.mapParameter((ObjectReferenceField) parameter, resultDataSet));
         return resultDataSet;
+    }
+
+    private void applySwitch(DataSet resultDataSet, ObjectSimpleField parameter) {
+        String valueFieldId = parameter.getN2oSwitch().getValueFieldId();
+        String expression = ScriptProcessor.buildSwitchExpression(parameter.getN2oSwitch())
+                .replaceAll("`", "")
+                .replaceAll(valueFieldId, String.format("#this.get('%s')", valueFieldId));
+        Object resultSwitch = normalizeValue(resultDataSet, expression, null, parser, applicationContext);
+        resultDataSet.replace(valueFieldId, resultSwitch);
     }
 
     private void normalizeInnerFields(ObjectReferenceField field, DataSet dataSet) {

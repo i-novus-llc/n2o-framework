@@ -256,15 +256,17 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         if (field.getIsSorted()) {
             field.setSortingMapping(castDefault(field.getSortingMapping(), spel(field.getId() + "Direction")));
         }
-        if (Objects.nonNull(field.getN2oSwitch())) {
-            field.getN2oSwitch().setValueFieldId(field.getId());
-            compileSwitch(field.getN2oSwitch(), p);
-        }
+        compileSwitch(field, p);
     }
 
-    private void compileSwitch(N2oSwitch n2oSwitch, CompileProcessor p) {
+    private void compileSwitch(QuerySimpleField field, CompileProcessor p) {
+        N2oSwitch n2oSwitch = field.getN2oSwitch();
+        if (Objects.isNull(n2oSwitch)) {
+            return;
+        }
+        field.getN2oSwitch().setValueFieldId(field.getId());
         Map<Object, String> resolvedCases = new HashMap<>();
-        if (n2oSwitch.getCases() != null) {
+        if (Objects.nonNull(n2oSwitch.getCases())) {
             for (String key : n2oSwitch.getCases().keySet()) {
                 resolvedCases.put(p.resolve(key), n2oSwitch.getCases().get(key));
             }
