@@ -178,7 +178,7 @@ n2o.api.page.show_title=false
 **Настройки**
 ```yaml
 # Показывается ли кнопка скролла в начало страницы
-n2o.api.top_left_right_page.scroll_top_button=false
+n2o.api.page.top_left_right.scroll_top_button=false
 ```
 
 **Тело**
@@ -216,7 +216,7 @@ n2o.api.top_left_right_page.scroll_top_button=false
 **Настройки**
 ```yaml
 # Зафиксирован ли регион
-n2o.api.top_left_right_page.region.fixed=false
+n2o.api.page.top_left_right.region.fixed=false
 ```
 
 **Пример**
@@ -254,9 +254,9 @@ n2o.api.top_left_right_page.region.fixed=false
 **Настройки**
 ```yaml
 #Триггер вызова поиска (CHANGE, ENTER, BUTTON)
-n2o.api.searchable_page.trigger=CHANGE
+n2o.api.page.searchable.trigger=CHANGE
 #Задержка поиска при CHANGE тригере
-n2o.api.searchable_page.throttle-delay=1000
+n2o.api.page.searchable.throttle-delay=1000
 ```
 
 **Тело**
@@ -313,6 +313,12 @@ n2o.api.searchable_page.throttle-delay=1000
 ### &lt;toolbar&gt;
 
 [Меню управляющих кнопок](../xml/widget#widget_toolbar)
+
+**Настройки**
+```yaml
+# Значение по умолчанию аттрибута place группы кнопок в тулбаре страницы
+n2o.api.page.toolbar.place=bottomRight
+```
 
 **Пример**
 
