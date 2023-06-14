@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -21,9 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Objects.nonNull;
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.js;
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.ref;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
@@ -73,19 +70,11 @@ public class ButtonCompileUtil {
         }
 
         if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getCondition())) {
-            String clientDatasource = initClientDatasourceId(source, p);
+            String clientDatasource = getClientDatasourceId(initDatasource(source, p), p);
             confirm.setModelLink(new ModelLink(source.getModel(), clientDatasource).getBindLink());
         }
 
         return confirm;
-    }
-
-    protected static String initClientDatasourceId(Button source, CompileProcessor p) {
-        String datasourceId = initDatasource(source, p);
-        if (nonNull(datasourceId))
-            return getClientDatasourceId(datasourceId, p);
-        else
-            throw new N2oException(String.format("Need to specify 'datasource' for button with 'label=\"%s\"'", source.getLabel()));
     }
 
     public static String initDatasource(DatasourceIdAware source, CompileProcessor p) {
