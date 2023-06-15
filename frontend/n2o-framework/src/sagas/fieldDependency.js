@@ -223,7 +223,7 @@ const shouldBeResolved = ({
     currentField,
 }) => {
     const { applyOnInit, on } = dependency
-    const isChangeAction = actionType === actionTypes.CHANGE
+    const isChangeAction = (actionType === actionTypes.CHANGE) || (actionType === actionTypes.INITIALIZE)
 
     // apply on init
     if (applyOnInit && (
