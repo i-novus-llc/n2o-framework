@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 /**
@@ -41,15 +44,15 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
 
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
         ComponentScope componentScope = new ComponentScope(source);
-        if (source.getDatasource() != null) {
+        if (nonNull(source.getDatasource())) {
             WidgetScope widgetScope = new WidgetScope(source.getId(), null, null, (N2oCompileProcessor) p);
             p.validate(source.getDatasource(), widgetScope, datasourceIdsScope);
         }
 
-        if (source.getToolbars() != null) {
+        if (nonNull(source.getToolbars())) {
             List<N2oButton> menuItems = new ArrayList<>();
             for (N2oToolbar toolbar : source.getToolbars()) {
-                if (toolbar.getItems() != null) {
+                if (nonNull(toolbar.getItems())) {
                     for (ToolbarItem item : toolbar.getItems()) {
                         if (item instanceof N2oButton) {
                             menuItems.add((N2oButton) item);
@@ -64,7 +67,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
             p.checkIdsUnique(menuItems, "Кнопка '{0}' встречается более чем один раз в виджете '" + source.getId() + "'!");
         }
 
-        if (source.getDatasourceId() != null) {
+        if (nonNull(source.getDatasourceId())) {
             checkDatasource(source, datasourceIdsScope);
         }
         p.safeStreamOf(source.getActions()).flatMap(actionBar -> p.safeStreamOf(actionBar.getN2oActions()))
@@ -73,7 +76,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
 
     private MetaActions joinMetaActions(MetaActions pageActions, ActionBar[] widgetActions, SourceProcessor p) {
         MetaActions result = new MetaActions();
-        if (pageActions != null)
+        if (nonNull(pageActions))
             result.putAll(pageActions);
         result.putAll(p.safeStreamOf(widgetActions)
                 .collect(Collectors.toMap(ActionBar::getId, Function.identity())));
@@ -94,12 +97,12 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         p.checkIdsUnique(widgetActions,
                 "Действие {0} встречается более чем один раз в метаданной виджета " + source.getId());
 
-        if (pageActions == null)
+        if (isNull(pageActions))
             return;
         for (ActionBar widgetAction : widgetActions) {
             if (pageActions.containsKey(widgetAction.getId()))
                 throw new N2oMetadataValidationException(
-                        String.format("Идентификатор действия '%s' дублируется на странице и в виджете '%s'",
+                        format("Идентификатор действия '%s' дублируется на странице и в виджете '%s'",
                                 widgetAction.getId(), source.getId())
                 );
         }
@@ -113,8 +116,15 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
      */
     private void checkDatasource(N2oWidget n2oWidget, DatasourceIdsScope scope) {
         ValidationUtils.checkDatasourceExistence(n2oWidget.getDatasourceId(), scope,
-                String.format("Виджет %s cсылается на несуществующий источник данных '%s'",
+                format("Виджет %s cсылается на несуществующий источник данных '%s'",
                         ValidationUtils.getIdOrEmptyString(n2oWidget.getId()), n2oWidget.getDatasourceId()));
+        if (nonNull(n2oWidget.getDatasource()) && nonNull(n2oWidget.getDatasourceId()))
+            throw new N2oMetadataValidationException(
+                    format(
+                            "Виджет '%s' использует внутренний источник и ссылку на источник данных одновременно",
+                            n2oWidget.getId()
+                    )
+            );
     }
 
     @Override

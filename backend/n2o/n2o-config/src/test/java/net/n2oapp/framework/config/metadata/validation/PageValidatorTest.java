@@ -11,6 +11,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -60,20 +61,19 @@ public class PageValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testDatasourcesIdUnique() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testDatasourcesIdUnique.page.xml"),
-                "Источник данных ds1 встречается более чем один раз в метаданной страницы testDatasourcesIdUnique"
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testDatasourcesIdUnique.page.xml")
         );
+        assertEquals("Источник данных ds1 встречается более чем один раз в метаданной страницы testDatasourcesIdUnique", exception.getMessage());
     }
 
     @Test
-    void testWidgetIds() {
-        assertThrows(
+    void testWidgetIdMatchDatasourceId() {
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testWidgetIds.page.xml"),
-                "Идентификатор виджета 'ds1' уже используется источником данных"
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testWidgetIdMatchDatasourceId.page.xml")
         );
+        assertEquals("Идентификатор виджета 'ds1' не должен использоваться в качестве идентификатора источника данных", exception.getMessage());
     }
-
 }
