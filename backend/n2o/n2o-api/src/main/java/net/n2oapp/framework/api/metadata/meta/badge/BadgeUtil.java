@@ -81,7 +81,8 @@ public class BadgeUtil {
      * @param p              Процессор сборки метаданных
      */
     private static void setDefaults(Badge compiled, BadgeAware source, String propertyPrefix, CompileProcessor p) {
-        compiled.setShape(p.cast(source.getBadgeShape(), p.resolve(property(propertyPrefix + SHAPE), ShapeType.class)));
+        compiled.setShape(p.cast(source.getBadgeShape(),
+                p.resolve(property(propertyPrefix + SHAPE), ShapeType.class)));
         compiled.setPosition(p.cast(source.getBadgePosition(),
                 p.resolve(property(propertyPrefix + POSITION), Position.class)));
         compiled.setImagePosition(p.cast(source.getBadgeImagePosition(),
