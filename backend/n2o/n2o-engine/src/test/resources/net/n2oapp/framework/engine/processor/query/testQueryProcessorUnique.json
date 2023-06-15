@@ -2,19 +2,16 @@
   {
     "id" : 1,
     "code" : "test1",
-    "type" : 8,
-    "exception" : "1"
+    "type" : 8
   },
   {
     "id" : 2,
     "code" : "test2",
-    "type" : 10,
-    "exception" : "1"
+    "type" : 10
   },
   {
     "id" : 3,
     "code" : "test3",
-    "type" : 11,
-    "exception" : "1"
+    "type" : 11
   }
 ]

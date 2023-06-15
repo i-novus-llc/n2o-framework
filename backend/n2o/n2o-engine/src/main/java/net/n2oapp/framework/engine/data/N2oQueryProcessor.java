@@ -50,11 +50,11 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     private static final ExpressionParser parser = new SpelExpressionParser();
 
     private ContextProcessor contextProcessor;
-    private N2oInvocationFactory invocationFactory;
+    private final N2oInvocationFactory invocationFactory;
     @Setter
     private CriteriaConstructor criteriaConstructor = new N2oCriteriaConstructor(false);
     private DomainProcessor domainProcessor;
-    private QueryExceptionHandler exceptionHandler;
+    private final QueryExceptionHandler exceptionHandler;
     @Setter
     private ApplicationContext applicationContext;
 
@@ -134,9 +134,6 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             }
             return page;
         } else if (selection.getType().equals(N2oQuery.Selection.Type.unique)) {
-            if (result instanceof List && ((List<?>) result).size() > 1) {
-                throw new N2oFoundMoreThanOneRecordException();
-            }
             DataSet single = prepareSingleResult(result, query, selection);
             if (single.isEmpty()) {
                 throw new N2oRecordNotFoundException();

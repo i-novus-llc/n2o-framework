@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineSupport;
 import net.n2oapp.framework.api.register.MetaType;
 import net.n2oapp.framework.api.test.TestContextEngine;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -35,7 +36,6 @@ import net.n2oapp.framework.engine.data.N2oQueryExceptionHandler;
 import net.n2oapp.framework.engine.data.N2oQueryProcessor;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
-import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,9 +67,9 @@ public class QueryProcessorTest {
         N2oEnvironment environment = new N2oEnvironment();
         environment.setContextProcessor(contextProcessor);
         environment.setSystemProperties(new SimplePropertyResolver(new Properties()));
-        environment.setReadPipelineFunction(p -> p.read());
+        environment.setReadPipelineFunction(PipelineSupport::read);
         environment.setReadCompilePipelineFunction(p -> p.read().compile());
-        environment.setCompilePipelineFunction(p -> p.compile());
+        environment.setCompilePipelineFunction(PipelineSupport::compile);
         queryProcessor.setEnvironment(environment);
         builder = new N2oApplicationBuilder(environment)
                 .types(new MetaType("query", N2oQuery.class))
@@ -78,7 +78,7 @@ public class QueryProcessorTest {
                         .add(new QueryElementIOv5())
                         .add(new TestDataProviderIOv1())
                         .add(new JavaDataProviderIOv1()))
-                .operations(new ReadOperation(), new CompileOperation(), new BindOperation(), new SourceTransformOperation())
+                .operations(new ReadOperation<>(), new CompileOperation<>(), new BindOperation<>(), new SourceTransformOperation<>())
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
                 .properties("n2o.api.query.field.is_selected=true", "n2o.api.query.field.is_sorted=false")
                 .sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/testQueryProcessorV4Java.query.xml"),
@@ -97,7 +97,7 @@ public class QueryProcessorTest {
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         CollectionPage<DataSet> collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(10));
-        DataSet dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
+        DataSet dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
 
         //case with primitive
@@ -106,7 +106,7 @@ public class QueryProcessorTest {
         criteria.addRestriction(new Restriction("value", "test"));
         collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(10));
-        dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
+        dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("value"), is("test"));
 
@@ -115,7 +115,7 @@ public class QueryProcessorTest {
         criteria.addRestriction(new Restriction("name", "test"));
         collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(1));
-        dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
+        dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("name"), is("test"));
     }
@@ -170,7 +170,7 @@ public class QueryProcessorTest {
         criteria.addRestriction(new Restriction("name", "test", FilterType.eq));
         collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(1));
-        DataSet dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
+        DataSet dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("name"), is("test"));
     }
@@ -210,21 +210,6 @@ public class QueryProcessorTest {
     }
 
     @Test
-    void n2oFoundMoreThanOneRecordException() {
-        TestDataProviderEngine testDataprovider = new TestDataProviderEngine();
-        when(factory.produce(any())).thenReturn(testDataprovider);
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorUnique"));
-        
-        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
-        criteria.setSize(1);
-        criteria.addRestriction(new Restriction("exception", "1"));
-        assertThrows(
-                N2oFoundMoreThanOneRecordException.class,
-                () -> queryProcessor.execute(query, criteria)
-        );
-    }
-
-    @Test
     void n2oRecordNotFoundException() {
         TestDataProviderEngine testDataprovider = new TestDataProviderEngine();
         when(factory.produce(any())).thenReturn(testDataprovider);
@@ -232,7 +217,7 @@ public class QueryProcessorTest {
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         criteria.setSize(1);
-        criteria.addRestriction(new Restriction("exception_two", "2"));
+        criteria.addRestriction(new Restriction("exception", "2"));
         assertThrows(
                 N2oRecordNotFoundException.class,
                 () -> queryProcessor.execute(query, criteria)
