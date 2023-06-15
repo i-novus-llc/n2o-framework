@@ -9,7 +9,7 @@ const setup = (propOverrides) => {
         ...propOverrides,
     }
 
-    const wrapper = mount(<CodeViewer {...props} />)
+    const wrapper = mount(<CodeViewer {...props} value="1"/>)
 
     return {
         props,
