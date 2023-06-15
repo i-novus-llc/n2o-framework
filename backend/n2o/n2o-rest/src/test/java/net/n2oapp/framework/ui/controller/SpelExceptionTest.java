@@ -244,7 +244,38 @@ public class SpelExceptionTest extends DataControllerTestBase{
         actionRequestInfo.setOperation(operation);
         actionRequestInfo.setData(new DataSet());
         N2oSpelException exception = Assertions.assertThrows(N2oSpelException.class, () -> testSetController.handleActionRequest(actionRequestInfo, new ActionResponseInfo()));
-        String exceptionMessage = "Spel expression conversion error with ['test'].toUpperCase( of 'result-mapping' in operation 'test1' from metadata testObject.object.xml.";
+        String exceptionMessage = "Spel expression conversion error with ['test'].toUpperCase( in operation 'test1' from metadata testObject.object.xml.";
+        Assertions.assertTrue(exception.getMessage().startsWith(exceptionMessage));
+    }
+
+    @Test
+    void  testResultNormalizeObject() {
+        ActionRequestInfo actionRequestInfo = new ActionRequestInfo();
+        CompiledObject object = new CompiledObject();
+        object.setId("testObject");
+        CompiledObject.Operation operation = new CompiledObject.Operation();
+        operation.setId("test1");
+        actionRequestInfo.setObject(object);
+        Map<String, AbstractParameter> inParametersMap = new HashMap<>();
+        ObjectSimpleField field = new ObjectSimpleField();
+        field.setId("name");
+        field.setDefaultValue("test");
+        inParametersMap.put("testId", field);
+
+        Map<String, AbstractParameter> outParametersMap = new HashMap<>();
+        field = new ObjectSimpleField();
+        field.setId("name");
+        outParametersMap.put("testId", field);
+
+        operation.setInParametersMap(inParametersMap);
+        operation.setOutParametersMap(outParametersMap);
+        testDataProvider.setOperation(N2oTestDataProvider.Operation.create);
+        testDataProvider.setResultNormalize("['test'].toUpperCase(");
+        operation.setInvocation(testDataProvider);
+        actionRequestInfo.setOperation(operation);
+        actionRequestInfo.setData(new DataSet());
+        N2oSpelException exception = Assertions.assertThrows(N2oSpelException.class, () -> testSetController.handleActionRequest(actionRequestInfo, new ActionResponseInfo()));
+        String exceptionMessage = "Spel expression conversion error with ['test'].toUpperCase( in operation 'test1' from metadata testObject.object.xml.";
         Assertions.assertTrue(exception.getMessage().startsWith(exceptionMessage));
     }
 

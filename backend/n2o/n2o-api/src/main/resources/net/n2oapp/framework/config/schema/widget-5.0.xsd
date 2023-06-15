@@ -406,7 +406,7 @@
                 <xs:documentation>Прилипание столбца к краю.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="label" type="xs:string" default="id">
+        <xs:attribute name="label" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
                     Наименование заголовка столбца.
@@ -567,7 +567,7 @@
     </xs:complexType>
 
 
-    <xs:complexType name="formReferenceDefinition">
+     <xs:complexType name="formReferenceDefinition">
         <xs:complexContent>
             <xs:extension base="widgetDefinition">
                 <xs:annotation>

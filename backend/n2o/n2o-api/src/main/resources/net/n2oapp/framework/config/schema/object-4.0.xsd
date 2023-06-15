@@ -295,6 +295,13 @@
                 <xs:documentation>Маппинг результата выполнения операции</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="result-normalize" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Нормализация результата выполнения операции
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="operationInParameterListDefinition">
