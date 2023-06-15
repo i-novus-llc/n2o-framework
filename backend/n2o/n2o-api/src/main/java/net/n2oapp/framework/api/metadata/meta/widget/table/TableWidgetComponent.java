@@ -59,10 +59,6 @@ public class TableWidgetComponent extends WidgetComponent {
     @Setter
     public static class BodyRow implements Compiled {
         @JsonProperty
-        private Boolean hasFocus = true;
-        @JsonProperty
-        private Boolean hasSelect = true;
-        @JsonProperty
         private RowClick click;
         @JsonProperty
         private Map<String, String> elementAttributes = new HashMap<>();

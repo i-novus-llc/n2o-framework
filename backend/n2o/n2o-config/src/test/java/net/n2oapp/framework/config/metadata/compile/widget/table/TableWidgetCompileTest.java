@@ -143,7 +143,6 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowColorCompile.widget.xml").get(new WidgetContext("testTable4RowColorCompile"));
         assertThat(table.getComponent().getBody().getRow().getElementAttributes().get("className"),
                 is("`gender.id == 1 ? 'red' : gender.id == 2 ? 'blue' : gender.id == 3 ? 'white' : 'green'`"));
-        assertThat(table.getComponent().getBody().getRow().getHasSelect(), is(true));
     }
 
     @Test

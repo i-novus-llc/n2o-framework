@@ -139,27 +139,8 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
             if (isNotEmpty(sortings))
                 passSortingToDatasource(sortings, source, p);
 
-            RowSelectionEnum rowSelection = p.cast(source.getSelection(), p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class));
-            switch (rowSelection) {
-                case NONE:
-                    initRowAttribute(component, false);
-                    break;
-                case ACTIVE:
-                    initRowAttribute(component, true);
-                    break;
-                case RADIO:
-                case CHECKBOX:
-                    component.setRowSelection(rowSelection);
-                    break;
-            }
+            component.setRowSelection(p.cast(source.getSelection(), p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class)));
         }
-    }
-
-    private void initRowAttribute(TableWidgetComponent component, boolean hasSelect) {
-        if (component.getBody().getRow() == null)
-            component.getBody().setRow(new TableWidgetComponent.BodyRow());
-        component.getBody().getRow().setHasSelect(hasSelect);
-        component.getBody().getRow().setHasFocus(hasSelect);
     }
 
     private void passSortingToDatasource(Map<String, String> sortings, N2oTable source, CompileProcessor p) {
