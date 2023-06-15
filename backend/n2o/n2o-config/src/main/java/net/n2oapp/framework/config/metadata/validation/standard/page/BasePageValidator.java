@@ -24,6 +24,9 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 /**
  * Валидатор "Исходной" модели страницы
  */
@@ -58,8 +61,17 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
                 p.safeStreamOf(actions).collect(Collectors.toMap(ActionBar::getId, Function.identity()))
         );
 
-        checkDuplicateWidgetIdsInDatasources(widgets, datasourceIdsScope);
-        p.safeStreamOf(widgets).filter(widget -> widget.getDatasourceId() == null).forEach(widget -> datasourceIdsScope.add(widget.getId()));
+        p.safeStreamOf(widgets)
+                .peek(n2oWidget -> {
+                    if (nonNull(n2oWidget.getDatasource()) && nonNull(n2oWidget.getDatasource().getId()))
+                        datasourceIdsScope.add(n2oWidget.getDatasource().getId());
+                })
+                .peek(n2oWidget -> {
+                    if (datasourceIdsScope.contains(n2oWidget.getId()))
+                        throw new N2oMetadataValidationException(String.format("Идентификатор виджета '%s' не должен использоваться в качестве идентификатора источника данных", n2oWidget.getId()));
+                })
+                .filter(widget -> isNull(widget.getDatasourceId()) && (isNull(widget.getDatasource()) || isNull(widget.getDatasource().getId())))
+                .forEach(widget -> datasourceIdsScope.add(widget.getId()));
 
         p.safeStreamOf(toolbars)
                 .forEach(n2oToolbar -> p.safeStreamOf(n2oToolbar.getAllActions())
@@ -75,12 +87,5 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
 
         p.safeStreamOf(datasources).forEach(datasource -> p.validate(datasource, datasourceIdsScope));
         p.safeStreamOf(page.getEvents()).forEach(event -> p.validate(event, pageScope, datasourceIdsScope, dataSourcesScope));
-    }
-
-    private void checkDuplicateWidgetIdsInDatasources(List<N2oWidget> widgets, DatasourceIdsScope datasourceIdsScope) {
-        widgets.forEach(n2oWidget -> {
-           if (datasourceIdsScope.contains(n2oWidget.getId()))
-               throw new N2oMetadataValidationException(String.format("Идентификатор виджета '%s' уже используется источником данных", n2oWidget.getId()));
-        });
     }
 }

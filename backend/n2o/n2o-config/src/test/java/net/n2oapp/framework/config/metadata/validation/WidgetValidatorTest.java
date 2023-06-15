@@ -15,6 +15,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -31,12 +32,24 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oAllDataPack());
-        builder.validators(new PageValidator(), new BasePageValidator(), new WidgetValidator(), new ListWidgetValidator());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
+        builder.packs(
+                new N2oPagesPack(),
+                new N2oRegionsPack(),
+                new N2oWidgetsPack(),
+                new N2oAllDataPack()
+        );
+        builder.validators(
+                new PageValidator(),
+                new BasePageValidator(),
+                new WidgetValidator(),
+                new ListWidgetValidator()
+        );
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank2.object.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/validation/widget/testWidgetValidator.query.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/validation/widget/testWidgetValidator.query.xml")
+        );
     }
 
     /**
@@ -98,5 +111,23 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testPaginationShowLastAndCount.widget.xml"),
                 "Используется некорректная комбинация атрибутов 'show-last=\"false\"' и 'show-count=\"always\"' пагинации виджета 'testPaginationShowLastAndCount'"
         );
+    }
+
+    @Test
+    void widgetHasNotExistingDatasource() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/widgetHasNotExistingDatasource.page.xml")
+        );
+        assertEquals("Виджет w1 cсылается на несуществующий источник данных 'ds2'", exception.getMessage());
+    }
+
+    @Test
+    void widgetHasTwoDifferentDatasources() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/widgetHasTwoDifferentDatasources.page.xml")
+        );
+        assertEquals("Виджет 'w1' использует внутренний источник и ссылку на источник данных одновременно", exception.getMessage());
     }
 }

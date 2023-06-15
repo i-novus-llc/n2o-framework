@@ -148,7 +148,7 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="ds:standardDatasourceDefinition">
-                <xs:attribute name="id" use="prohibited"/>
+                <xs:attribute name="id"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

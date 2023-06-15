@@ -24,6 +24,7 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.page.v3.SimplePageElementIOv3;
 import net.n2oapp.framework.config.io.page.v3.StandardPageElementIOv3;
 import net.n2oapp.framework.config.io.page.v4.SimplePageElementIOv4;
+import net.n2oapp.framework.config.io.page.v4.StandardPageElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -56,9 +57,15 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack(), new N2oActionsPack(),
-                        new N2oWidgetsPack(), new N2oRegionsPack())
-                .ios(new SimplePageElementIOv4(), new SimplePageElementIOv3(), new StandardPageElementIOv3(), new SimplePageElementIOv3(), new StandardPageElementIOv3())
+        builder.packs(
+          new N2oAllDataPack(),
+          new N2oFieldSetsPack(),
+          new N2oControlsPack(),
+          new N2oCellsPack(),
+          new N2oActionsPack(),
+          new N2oWidgetsPack(),
+          new N2oRegionsPack())
+                .ios(new SimplePageElementIOv4(), new SimplePageElementIOv3(), new StandardPageElementIOv3(), new SimplePageElementIOv3(), new StandardPageElementIOv3(), new StandardPageElementIOv4())
                 .compilers(new SimplePageCompiler(), new StandardPageCompiler(), new StandardDatasourceCompiler())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable5Compile.query.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));
@@ -98,7 +105,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
 
 
-        List<Validation> validations = ((StandardDatasource) page.getDatasources().get("testFormValidations_main")).getValidations().get("testField");
+        List<Validation> validations = page.getDatasources().get("testFormValidations_main").getValidations().get("testField");
 
 //        assertThat(validations.size(), is(11));
         assertThat(validations.get(0).getId(), is("Mandatory1"));
@@ -135,26 +142,26 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(10).getId(), is("Condition3"));
         assertThat(validations.get(10).getSide(), is(nullValue()));
 
-        validations = ((StandardDatasource) page.getDatasources().get(page.getWidget().getId())).getValidations().get("testField3");
+        validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testField3");
         assertThat(validations.get(0).getEnablingConditions(), hasItem("testField2 == 'test'"));
         assertThat(validations.get(0).getEnablingConditions(), hasItem("testField3 == 'test'"));
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
 
-        validations = ((StandardDatasource) page.getDatasources().get(page.getWidget().getId())).getValidations().get("testField4");
+        validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testField4");
         assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("(function(){return typeof testField != 'undefined' && testField != null && testField == 2})()"));
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
 
-        validations = ((StandardDatasource) page.getDatasources().get(page.getWidget().getId())).getValidations().get("testInterval.begin");
+        validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testInterval.begin");
         assertThat(validations.size(), is(1));
         assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("typeof testIntervalBegin == 'undefined'"));
-        validations = ((StandardDatasource) page.getDatasources().get(page.getWidget().getId())).getValidations().get("testInterval.end");
+        validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testInterval.end");
         assertThat(validations.size(), is(1));
         assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("typeof testIntervalEnd == 'undefined'"));
     }
 
     @Test
     void testFormPreFilterValidations() {
-        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormPreFilterValidation.page.xml",
+        compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormPreFilterValidation.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormPreFilterValidation.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.object.xml")
                 .get(new PageContext("testFormPreFilterValidation"));
@@ -260,12 +267,24 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    void testInlineDatasource() {
-        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormInlineDatasource.page.xml")
-                .get(new PageContext("testFormInlineDatasource"));
+    void testInlineDatasourceInSimplePage() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormInlineDatasourceInSimplePage.page.xml")
+                .get(new PageContext("testFormInlineDatasourceInSimplePage"));
 
         assertThat(page.getDatasources().size(), is(1));
-        assertThat(((StandardDatasource) page.getDatasources().get("testFormInlineDatasource_main")).getPaging().getSize(), is(1));
+        assertThat(page.getWidget().getDatasource(), is("testFormInlineDatasourceInSimplePage_ds"));
+    }
+
+    @Test
+    void testInlineDatasourceInPage() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormInlineDatasourceInPage.page.xml")
+         .get(new PageContext("testFormInlineDatasourceInPage"));
+
+        assertThat(page.getDatasources().size(), is(2));
+        Form formWithoutId = (Form) page.getRegions().get("single").get(0).getContent().get(0);
+        assertThat(formWithoutId.getDatasource(), is("testFormInlineDatasourceInPage_ds"));
+        Form formWithId = (Form) page.getRegions().get("single").get(0).getContent().get(1);
+        assertThat(formWithId.getDatasource(), is("testFormInlineDatasourceInPage_ds_w"));
     }
 
     @Test
