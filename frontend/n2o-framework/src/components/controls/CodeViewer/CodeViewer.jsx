@@ -32,6 +32,10 @@ function CodeViewer({
     hideButtons,
     ...rest
 }) {
+    if (!value) {
+        return null
+    }
+
     return (
         visible && (
             <div className="n2o-code-viewer">
