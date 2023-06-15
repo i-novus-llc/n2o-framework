@@ -31,7 +31,6 @@ public class N2oControlsV3IOPack implements MetadataPack<XmlIOBuilder<?>> {
                 new RadioGroupIOv3(),
                 new SelectTreeIOv3(),
                 new SelectIOv3(),
-                new PillsIOv3(),
                 new TextAreaIOv3(),
                 new TextEditorIOv3(),
                 new CodeEditorIOv3(),

@@ -34,10 +34,12 @@ public class MarkdownCompiler extends FieldCompiler<Markdown, N2oMarkdown> {
     @Override
     public Markdown compile(N2oMarkdown source, CompileContext<?, ?> context, CompileProcessor p) {
         Markdown field = new Markdown();
-        String content = source.getContent();
-        if (hasLink(content))
-            content = content.replace("'", "\\\'");
-        field.setContent(p.resolveJS(content.trim()));
+        if (source.getContent() != null) {
+            String content = source.getContent();
+            if (hasLink(content))
+                content = content.replace("'", "\\\'");
+            field.setContent(p.resolveJS(content.trim()));
+        }
         if (!ArrayUtils.isEmpty(source.getActionIds())) {
             MetaActions metaActions = p.getScope(MetaActions.class);
             field.setActions(new HashMap<>());

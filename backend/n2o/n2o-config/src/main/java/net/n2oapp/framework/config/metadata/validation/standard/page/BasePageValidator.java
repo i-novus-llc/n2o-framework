@@ -24,6 +24,8 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
+
 /**
  * Валидатор "Исходной" модели страницы
  */
@@ -45,7 +47,8 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
                 String.format("Источник данных '%s' встречается более чем один раз в метаданной страницы '%s'", "%s", page.getId()));
         p.checkIdsUnique(actions,
                 String.format("Действие '%s' встречается более чем один раз в метаданной страницы '%s'", "%s", page.getId()));
-        p.checkIdsUnique(widgets, String.format("Виджет '%s' встречается более чем один раз на странице '%s'", "%s", page.getId()));
+        p.checkIdsUnique(widgets,
+                String.format("Виджет '%s' встречается более чем один раз на странице '%s'", "%s", page.getId()));
 
         PageScope pageScope = new PageScope();
         pageScope.setWidgetIds(p.safeStreamOf(widgets).map(N2oMetadata::getId).collect(Collectors.toSet()));
@@ -59,20 +62,19 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         );
 
         checkDuplicateWidgetIdsInDatasources(widgets, datasourceIdsScope);
-        checkWidgetDatasources(widgets);
-        p.safeStreamOf(widgets).filter(widget -> widget.getDatasourceId() == null).forEach(widget -> datasourceIdsScope.add(widget.getId()));
+        p.safeStreamOf(widgets).filter(widget -> widget.getDatasourceId() == null)
+                .forEach(widget -> datasourceIdsScope.add(
+                        nonNull(widget.getDatasource()) && nonNull(widget.getDatasource().getId()) ?
+                                widget.getDatasource().getId() : widget.getId()));
 
         p.safeStreamOf(toolbars)
                 .forEach(n2oToolbar -> p.safeStreamOf(n2oToolbar.getAllActions())
                         .forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope)));
         p.safeStreamOf(toolbars).map(N2oToolbar::getItems).filter(Objects::nonNull)
                 .flatMap(Arrays::stream).forEach(button -> p.validate(button, datasourceIdsScope, dataSourcesScope,
-                actionBarScope, new ComponentScope(page)));
+                        actionBarScope, new ComponentScope(page)));
         p.safeStreamOf(actions).flatMap(actionBar -> p.safeStreamOf(actionBar.getN2oActions()))
                 .forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope));
-
-        p.safeStreamOf(widgets).forEach(widget -> p.validate(widget, pageScope, datasourceIdsScope, dataSourcesScope,
-                actionBarScope));
 
         p.safeStreamOf(datasources).forEach(datasource -> p.validate(datasource, datasourceIdsScope));
         p.safeStreamOf(page.getEvents()).forEach(event -> p.validate(event, pageScope, datasourceIdsScope, dataSourcesScope));
@@ -80,16 +82,10 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
 
     private void checkDuplicateWidgetIdsInDatasources(List<N2oWidget> widgets, DatasourceIdsScope datasourceIdsScope) {
         widgets.forEach(n2oWidget -> {
-           if (datasourceIdsScope.contains(n2oWidget.getId()))
-               throw new N2oMetadataValidationException(String.format("Идентификатор виджета '%s' уже используется источником данных", n2oWidget.getId()));
-        });
-    }
-
-    private void checkWidgetDatasources(List<N2oWidget> widgets) {
-        widgets.forEach(n2oWidget -> {
-           if (n2oWidget.getDatasourceId() != null && n2oWidget.getDatasource() != null)
-               throw new N2oMetadataValidationException(String.format("Виджет '%s' одновременно ссылается на источник данных '%s' и имеет свой источник данных",
-                       n2oWidget.getId(), n2oWidget.getDatasourceId()));
+            if (datasourceIdsScope.contains(n2oWidget.getId()))
+                throw new N2oMetadataValidationException(
+                        String.format("Идентификатор виджета '%s' не должен использоваться в качестве идентификатора источника данных",
+                                n2oWidget.getId()));
         });
     }
 }

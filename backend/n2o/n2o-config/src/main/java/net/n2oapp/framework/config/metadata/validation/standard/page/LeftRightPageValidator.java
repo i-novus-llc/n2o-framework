@@ -53,8 +53,6 @@ public class LeftRightPageValidator implements SourceValidator<N2oLeftRightPage>
 
     private void validateSide(SourceComponent[] side, SourceProcessor p, PageScope pageScope, DatasourceIdsScope datasourceIdsScope,
                               DataSourcesScope dataSourcesScope, MetaActions actionBarScope) {
-        p.safeStreamOf(side).forEach(item -> {
-            p.validate(item, pageScope, datasourceIdsScope, dataSourcesScope, actionBarScope);
-        });
+        p.safeStreamOf(side).forEach(item -> p.validate(item, pageScope, datasourceIdsScope, dataSourcesScope, actionBarScope));
     }
 }

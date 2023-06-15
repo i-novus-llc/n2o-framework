@@ -59,7 +59,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         final Map<String, FieldMapping> outMapping = MappingProcessor.extractFieldMapping(outParameters);
         prepareInValues(inParameters, inDataSet);
         DataSet resolvedInDataSet = resolveInValuesMapping(inParameters, inDataSet);
-        DataSet resultDataSet = invoke(invocation, resolvedInDataSet, inMapping, outMapping, invocation.getResultMapping());
+        DataSet resultDataSet = invoke(invocation, resolvedInDataSet, inMapping, outMapping);
         resolveOutValues(outParameters, resultDataSet);
         inDataSet.merge(resultDataSet, ArrayMergeStrategy.replace, true);
         return inDataSet;
@@ -67,7 +67,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
 
     private DataSet invoke(final N2oInvocation invocation, final DataSet inDataSet,
                            final Map<String, FieldMapping> inMapping,
-                           final Map<String, FieldMapping> outMapping, String resultMapping) {
+                           final Map<String, FieldMapping> outMapping) {
         final ActionInvocationEngine engine = invocationFactory.produce(invocation.getClass());
         Object result;
         if (engine instanceof ArgumentsInvocationEngine)
@@ -75,9 +75,10 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                     mapToArgs((N2oArgumentsInvocation) invocation, inDataSet, inMapping, domainProcessor));
         else
             result = engine.invoke(invocation, mapToMap(inDataSet, inMapping));
-
-        if (resultMapping != null)
-            result = outMap(result, resultMapping, Object.class);
+        if (invocation.getResultMapping() != null)
+            result = outMap(result, invocation.getResultMapping(), Object.class);
+        if (invocation.getResultNormalize() != null)
+            result = normalizeValue(result, invocation.getResultNormalize(), null, parser, applicationContext);
 
         return extractFields(result, outMapping);
     }

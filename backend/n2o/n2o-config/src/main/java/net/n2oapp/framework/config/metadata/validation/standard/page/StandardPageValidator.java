@@ -48,8 +48,6 @@ public class StandardPageValidator implements SourceValidator<N2oStandardPage>, 
         );
 
         SourceComponent[] items = page.getItems();
-        p.safeStreamOf(items).forEach(item -> {
-               p.validate(item, pageScope, datasourceIdsScope, dataSourcesScope, actionBarScope);
-        });
+        p.safeStreamOf(items).forEach(item -> p.validate(item, pageScope, datasourceIdsScope, dataSourcesScope, actionBarScope));
     }
 }

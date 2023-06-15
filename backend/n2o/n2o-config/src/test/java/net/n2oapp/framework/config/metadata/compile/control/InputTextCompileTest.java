@@ -47,11 +47,12 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         List<FieldSet.Row> rows = form.getComponent().getFieldsets().get(0).getRows();
 
-        assertThat(field.getStyle().size(), is(2));
-        assertThat(field.getStyle().get("pageBreakBefore"), is("avoid"));
-        assertThat(field.getStyle().get("paddingTop"), is("0"));
         assertThat(field.getNoLabelBlock(), is(false));
+        assertThat(field.getStyle(), nullValue());
         InputText inputText = (InputText) ((StandardField) field).getControl();
+        assertThat(inputText.getStyle().size(), is(2));
+        assertThat(inputText.getStyle().get("pageBreakBefore"), is("avoid"));
+        assertThat(inputText.getStyle().get("paddingTop"), is("0"));
         assertThat(inputText.getSrc(), is("InputText"));
         assertThat(inputText.getMeasure(), is("cm"));
         assertThat(inputText.getPlaceholder(), is("Введите текст"));

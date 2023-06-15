@@ -14,12 +14,18 @@ import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Валидатор модели страницы с тремя регионами.
+ */
+@Component
 public class TopLeftRightPageValidator implements SourceValidator<N2oTopLeftRightPage>, SourceClassAware {
+
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oTopLeftRightPage.class;
@@ -48,8 +54,6 @@ public class TopLeftRightPageValidator implements SourceValidator<N2oTopLeftRigh
 
     private void validateSide(SourceComponent[] side, SourceProcessor p, PageScope pageScope, DatasourceIdsScope datasourceIdsScope,
                               DataSourcesScope dataSourcesScope, MetaActions actionBarScope) {
-        p.safeStreamOf(side).forEach(item -> {
-            p.validate(item, pageScope, datasourceIdsScope, dataSourcesScope, actionBarScope);
-        });
+        p.safeStreamOf(side).forEach(item -> p.validate(item, pageScope, datasourceIdsScope, dataSourcesScope, actionBarScope));
     }
 }
