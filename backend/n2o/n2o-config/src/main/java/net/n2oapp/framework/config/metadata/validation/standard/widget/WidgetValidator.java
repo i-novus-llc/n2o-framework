@@ -62,7 +62,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
             }
             p.safeStreamOf(menuItems).forEach(menuItem -> p.validate(menuItem, datasourceIdsScope, componentScope,
                     allMetaActions));
-            p.checkIdsUnique(menuItems, "Кнопка '{0}' встречается более чем один раз в виджете '" + source.getId() + "'!");
+            p.checkIdsUnique(menuItems, String.format("Кнопка '%s' встречается более чем один раз в виджете '%s'", "%s", source.getId()));
         }
 
         if (source.getDatasourceId() != null) {
@@ -111,7 +111,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         });
 
         p.checkIdsUnique(widgetActions,
-                "Действие {0} встречается более чем один раз в метаданной виджета " + source.getId());
+                String.format("Действие '%s' встречается более чем один раз в метаданной виджета '%s'", "%s", source.getId()));
 
         if (pageActions == null)
             return;

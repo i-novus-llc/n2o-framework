@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.validation;
+package net.n2oapp.framework.config.metadata.validation.page;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -34,11 +34,10 @@ public class PageValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testObjectNotExists() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testObjectNotExists.page.xml"),
-                "Страница testObjectNotExists ссылается на несуществующий объект nonExistantObjectId"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testObjectNotExists.page.xml"));
+        assertEquals("Страница testObjectNotExists ссылается на несуществующий объект nonExistantObjectId", exception.getMessage());
     }
 
     @Test
@@ -46,7 +45,7 @@ public class PageValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/page/testObjectNotExistsOnSimplePage.page.xml"));
-        assertEquals(exception.getMessage(), "Страница testObjectNotExistsOnSimplePage ссылается на несуществующий объект nonExistantObjectId");
+        assertEquals("Страница testObjectNotExistsOnSimplePage ссылается на несуществующий объект nonExistantObjectId", exception.getMessage());
     }
 
     @Test
@@ -54,7 +53,7 @@ public class PageValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/page/testDependsWidgetFind.page.xml"));
-        assertEquals(exception.getMessage(), "Атрибут depends-on ссылается на несуществующий виджет main");
+        assertEquals("Атрибут depends-on ссылается на несуществующий виджет main", exception.getMessage());
     }
 
     @Test
@@ -62,7 +61,7 @@ public class PageValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/page/testDatasourcesIdUnique.page.xml"));
-        assertEquals(exception.getMessage(), "Источник данных ds1 встречается более чем один раз в метаданной страницы testDatasourcesIdUnique");
+        assertEquals("Источник данных 'ds1' встречается более чем один раз в метаданной страницы 'testDatasourcesIdUnique'", exception.getMessage());
     }
 
     @Test
@@ -70,7 +69,7 @@ public class PageValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/page/testWidgetIds.page.xml"));
-        assertEquals(exception.getMessage(), "Идентификатор виджета 'ds1' уже используется источником данных");
+        assertEquals("Идентификатор виджета 'ds1' уже используется источником данных", exception.getMessage());
     }
 
     @Test
@@ -78,6 +77,6 @@ public class PageValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/page/testWidgetDatasource.page.xml"));
-        assertEquals(exception.getMessage(), "Виджет 'w1' одновременно ссылается на источник данных 'ds1' и имеет свой источник данных");
+        assertEquals("Виджет 'w1' одновременно ссылается на источник данных 'ds1' и имеет свой источник данных", exception.getMessage());
     }
 }
