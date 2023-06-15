@@ -32,7 +32,7 @@ function CodeViewer({
     style = {},
     ...rest
 }) {
-    if (!visible) {
+    if (!visible || !value) {
         return null
     }
 

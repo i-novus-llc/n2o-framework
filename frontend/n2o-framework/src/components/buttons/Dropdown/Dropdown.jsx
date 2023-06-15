@@ -109,6 +109,7 @@ class DropdownButton extends React.Component {
                                         onClick={this.onClick}
                                         className={classNames('dropdown-item dropdown-item-btn', rest.className)}
                                         tag="div"
+                                        nested
                                     />
                                 )))}
                             </div>

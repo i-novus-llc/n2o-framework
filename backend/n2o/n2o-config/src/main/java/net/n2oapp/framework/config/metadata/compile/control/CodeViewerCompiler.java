@@ -24,14 +24,19 @@ public class CodeViewerCompiler extends StandardFieldCompiler<CodeViewer, N2oCod
     @Override
     public StandardField<CodeViewer> compile(N2oCodeViewer source, CompileContext<?, ?> context, CompileProcessor p) {
         CodeViewer codeViewer = new CodeViewer();
-        codeViewer.setText(source.getText().trim().replaceAll("\n( )+", "\n"));
+        if (source.getText() != null) {
+            codeViewer.setText(source.getText().trim().replaceAll("\n( )+", "\n"));
+        }
         codeViewer.setLanguage(source.getLanguage());
-        codeViewer.setDarkTheme(source.getTheme() != null && source.getTheme().equals(N2oCodeViewer.ColorTheme.dark));
+        N2oCodeViewer.ColorTheme theme = p.cast(source.getTheme(),
+                p.resolve(property("n2o.api.control.code.theme"), N2oCodeViewer.ColorTheme.class));
+        codeViewer.setDarkTheme(theme.equals(N2oCodeViewer.ColorTheme.dark));
         codeViewer.setShowLineNumbers(p.cast(source.getShowLineNumbers(),
-                p.resolve(property("n2o.api.control.code.show-line-numbers"), Boolean.class)));
-        codeViewer.setStartingLineNumber(p.cast(source.getStartingLineNumber(), 1));
+                p.resolve(property("n2o.api.control.code.show_line_numbers"), Boolean.class)));
+        codeViewer.setStartingLineNumber(p.cast(source.getStartingLineNumber(),
+                p.resolve(property("n2o.api.control.code.starting_line_number"), Integer.class)));
         codeViewer.setHideButtons(p.cast(source.getHideButtons(),
-                p.resolve(property("n2o.api.control.code.hide-buttons"), Boolean.class)));
+                p.resolve(property("n2o.api.control.code.hide_buttons"), Boolean.class)));
         return compileStandardField(codeViewer, source, context, p);
     }
 

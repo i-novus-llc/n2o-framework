@@ -50,5 +50,7 @@ public class ProgressBarCellCompileTest extends SourceCompileTestBase {
         cell = (ProgressBarCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("ProgressBarCell"));
         assertThat(cell.getSize(), is(N2oProgressBarCell.Size.normal));
+        assertThat(cell.getActive(), is(false));
+        assertThat(cell.getStriped(), is(false));
     }
 }
