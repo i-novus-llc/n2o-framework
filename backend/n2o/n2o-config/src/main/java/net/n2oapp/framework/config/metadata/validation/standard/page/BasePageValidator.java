@@ -42,10 +42,10 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         List<N2oWidget> widgets = page.getWidgets();
 
         p.checkIdsUnique(datasources,
-                "Источник данных {0} встречается более чем один раз в метаданной страницы " + page.getId());
+                String.format("Источник данных '%s' встречается более чем один раз в метаданной страницы '%s'", "%s", page.getId()));
         p.checkIdsUnique(actions,
-                "Действие {0} встречается более чем один раз в метаданной страницы " + page.getId());
-        p.checkIdsUnique(widgets, "Виджет {0} встречается более чем один раз на странице " + page.getId());
+                String.format("Действие '%s' встречается более чем один раз в метаданной страницы '%s'", "%s", page.getId()));
+        p.checkIdsUnique(widgets, String.format("Виджет '%s' встречается более чем один раз на странице '%s'", "%s", page.getId()));
 
         PageScope pageScope = new PageScope();
         pageScope.setWidgetIds(p.safeStreamOf(widgets).map(N2oMetadata::getId).collect(Collectors.toSet()));

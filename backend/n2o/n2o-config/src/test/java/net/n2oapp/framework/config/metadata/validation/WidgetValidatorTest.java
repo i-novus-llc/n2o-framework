@@ -45,7 +45,7 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testUniqueMenuItemsId.widget.xml"));
-        assertEquals(exception.getMessage(), "Кнопка id2 встречается более чем один раз в виджете testUniqueMenuItemsId!");
+        assertEquals("Кнопка 'id2' встречается более чем один раз в виджете 'testUniqueMenuItemsId'", exception.getMessage());
     }
 
     /**
@@ -72,7 +72,7 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testActionIdExistence.page.xml"));
-        assertEquals(exception.getMessage(), "Не задан 'id' у <action> виджета 'testActionIdExistence'");
+        assertEquals("Не задан 'id' у <action> виджета 'testActionIdExistence'", exception.getMessage());
     }
 
     /**
@@ -83,7 +83,7 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testActionIdsUnique.widget.xml"));
-        assertEquals(exception.getMessage(), "Действие test встречается более чем один раз в метаданной виджета testActionIdsUnique");
+        assertEquals("Действие 'test' встречается более чем один раз в метаданной виджета 'testActionIdsUnique'", exception.getMessage());
     }
 
     /**
@@ -94,7 +94,7 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testPageAndWidgetActionIdsUnique.page.xml"));
-        assertEquals(exception.getMessage(), "Идентификатор действия 'test' дублируется на странице и в виджете 'main'");
+        assertEquals("Идентификатор действия 'test' дублируется на странице и в виджете 'main'", exception.getMessage());
     }
 
     @Test
@@ -102,7 +102,7 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testPaginationShowLastAndCount.widget.xml"));
-        assertEquals(exception.getMessage(), "Используется некорректная комбинация атрибутов 'show-last=\"false\"' и 'show-count=\"always\"' пагинации виджета 'testPaginationShowLastAndCount'");
+        assertEquals("Используется некорректная комбинация атрибутов 'show-last=\"false\"' и 'show-count=\"always\"' пагинации виджета 'testPaginationShowLastAndCount'", exception.getMessage());
     }
 
     @Test
@@ -110,6 +110,6 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testEmptyDependency.page.xml"));
-        assertEquals(exception.getMessage(), "Зависимость виджета 'testEmptyDependency' имеет пустое тело");
+        assertEquals("Зависимость виджета 'testEmptyDependency' имеет пустое тело", exception.getMessage());
     }
 }

@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.validation;
+package net.n2oapp.framework.config.metadata.validation.page;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -41,7 +41,7 @@ public class SearchablePageValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/page/searchable/testNonExistentDatasourceInSearchBar.page.xml"));
-        assertEquals(exception.getMessage(), "Для компиляции страницы 'testNonExistentDatasourceInSearchBar' с поисковой строкой необходимо указать источник данных в <search-bar>");
+        assertEquals("Для компиляции страницы 'testNonExistentDatasourceInSearchBar' с поисковой строкой необходимо указать источник данных в <search-bar>", exception.getMessage());
     }
 
     /**
@@ -52,7 +52,7 @@ public class SearchablePageValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/page/searchable/testNonExistentDatasourceLinkInSearchBar.page.xml"));
-        assertEquals(exception.getMessage(), "<search-bar> страницы 'testNonExistentDatasourceLinkInSearchBar' с поисковой строкой ссылается на несуществующий источник данных ds1");
+        assertEquals("<search-bar> страницы 'testNonExistentDatasourceLinkInSearchBar' с поисковой строкой ссылается на несуществующий источник данных ds1", exception.getMessage());
     }
 
     @Test
@@ -60,6 +60,6 @@ public class SearchablePageValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/page/searchable/testNonExistentSearchFilterIdSearchBar.page.xml"));
-        assertEquals(exception.getMessage(), "Для компиляции страницы 'testNonExistentSearchFilterIdSearchBar' с поисковой строкой необходимо указать идентификатор фильтра 'search-filter-id' в <search-bar>");
+        assertEquals("Для компиляции страницы 'testNonExistentSearchFilterIdSearchBar' с поисковой строкой необходимо указать идентификатор фильтра 'search-filter-id' в <search-bar>", exception.getMessage());
     }
 }

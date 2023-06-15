@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.validation;
+package net.n2oapp.framework.config.metadata.validation.page;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -32,6 +32,6 @@ public class SimplePageValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () ->validate("net/n2oapp/framework/config/metadata/validation/page/simple/testMissingWidget.page.xml"));
-        assertEquals(exception.getMessage(), "Не задан виджет простой страницы 'testMissingWidget'");
+        assertEquals("Не задан виджет простой страницы 'testMissingWidget'", exception.getMessage());
     }
 }
