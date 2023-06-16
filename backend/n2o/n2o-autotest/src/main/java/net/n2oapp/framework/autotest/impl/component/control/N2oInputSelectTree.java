@@ -7,14 +7,13 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
 import net.n2oapp.framework.autotest.api.component.control.InputSelectTree;
-import org.openqa.selenium.Keys;
-
-import java.util.Objects;
 
 /**
  * Компонент ввода с выбором в выпадающем списке в виде дерева для автотестирования
  */
 public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
+
+    private final String OPTION_LOCATOR = ".n2o-select-tree-tree-list .n2o-select-tree-tree-treenode";
 
     @Override
     public void shouldBeEmpty() {
@@ -28,7 +27,7 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void shouldHavePlaceholder(String value) {
-        element().$(".n2o-select-tree-search__field__placeholder").shouldHave(Condition.text(value));
+        element().$(".n2o-select-tree-selection-placeholder").shouldHave(Condition.text(value));
     }
 
     @Override
@@ -38,7 +37,7 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void expandParentOptions(int parentIndex) {
-        dropdownElement().$$("[role=\"treeitem\"] i").get(parentIndex).click();
+        dropdownElement().$$(String.format("%s i", OPTION_LOCATOR)).get(parentIndex).click();
     }
 
     @Override
@@ -53,12 +52,12 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void shouldDisplayedOptions(CollectionCondition condition) {
-        dropdownElement().$$("[role=\"treeitem\"]").shouldHave(condition);
+        dropdownElement().$$(OPTION_LOCATOR).shouldHave(condition);
     }
 
     @Override
     public void selectOption(int index) {
-        dropdownElement().$$("[role=\"treeitem\"]").get(index)
+        dropdownElement().$$(OPTION_LOCATOR).get(index)
                 .hover().shouldBe(Condition.visible).click();
     }
 
@@ -69,13 +68,13 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void removeOption(int index) {
-        selectedElements().get(index).$(".n2o-select-tree-selection__choice__remove")
+        element().$$(".n2o-select-tree-selection-overflow-item").get(index).$(".n2o-select-tree-selection-item-remove")
                 .hover().shouldBe(Condition.visible).click();
     }
 
     @Override
     public void removeAllOptions() {
-        element().$(".n2o-select-tree-selection__clear")
+        element().$(".n2o-select-tree-clear")
                 .hover().shouldBe(Condition.visible).click();
     }
 
@@ -96,23 +95,23 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
     @Override
     public void openPopup() {
         if (!isOpened())
-            switcher().click();
+            element().click();
     }
 
     @Override
     public void closePopup() {
         if (isOpened())
-            switcher().click();
+            element().click();
     }
 
     @Override
     public void shouldBeOpened() {
-        element().shouldHave(Condition.attribute("aria-expanded", "true"));
+        dropdownElement().shouldBe(Condition.visible);
     }
 
     @Override
     public void shouldBeClosed() {
-        element().shouldHave(Condition.attribute("aria-expanded", "false"));
+        dropdownElement().shouldNotBe(Condition.visible);;
     }
 
     @Deprecated
@@ -140,14 +139,14 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
     }
 
     protected SelenideElement input() {
-        return element().$(".n2o-select-tree-search__field");
+        return element().$(".n2o-select-tree-selection-search-input");
     }
 
     protected ElementsCollection selectedElements() {
-        return element().$$(".n2o-select-tree-selection__choice");
+        return element().$$(".n2o-select-tree-tree-treenode-checkbox-checked");
     }
 
     private boolean isOpened() {
-        return Objects.equals(element().getAttribute("aria-expanded"), "true");
+        return element().has(Condition.cssClass(".n2o-select-tree-open"));
     }
 }
