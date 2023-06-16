@@ -8,6 +8,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -30,55 +31,82 @@ public class ObjectValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testCheckForUniqueFields() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkForUniqueFields.object.xml"),
-                "Поле id встречается более чем один раз в объекте checkForUniqueFields"
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkForUniqueFields.object.xml")
         );
+        assertEquals("Поле id встречается более чем один раз в объекте checkForUniqueFields", exception.getMessage());
     }
 
     @Test
     void testCheckForUniqueOperations() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkForUniqueOperations.object.xml"),
-                "Действие create встречается более чем один раз в объекте checkForUniqueOperations"
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkForUniqueOperations.object.xml")
         );
+        assertEquals("Действие create встречается более чем один раз в объекте checkForUniqueOperations", exception.getMessage());
     }
 
     @Test
     void testCheckForUniqueValidations() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkForUniqueValidations.object.xml"),
-                "Валидация nonEmpty встречается более чем один раз в объекте checkForUniqueValidations"
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkForUniqueValidations.object.xml")
         );
+        assertEquals("Валидация nonEmpty встречается более чем один раз в объекте checkForUniqueValidations", exception.getMessage());
     }
 
     @Test
     void testCheckForReferenceObjectExistsInFields() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkForExistsReferenceObject.object.xml"),
-                "Поле ref2 в объекте checkForExistsReferenceObject ссылается на несуществующий объект nonExistantObject"
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkForExistsReferenceObject.object.xml")
         );
+        assertEquals("Поле ref2 в объекте checkForExistsReferenceObject ссылается на несуществующий объект nonExistantObject", exception.getMessage());
     }
 
     @Test
     void testCheckForReferenceObjectExists2InOperationsFields() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkForExistsReferenceObject2.object.xml"),
-                "Поле inRef2 в объекте checkForExistsReferenceObject2 ссылается на несуществующий объект nonExistantObject"
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkForExistsReferenceObject2.object.xml")
         );
+        assertEquals("Поле inRef2 в объекте checkForExistsReferenceObject2 ссылается на несуществующий объект nonExistantObject", exception.getMessage());
     }
 
     @Test
     void testCheckValidationSide() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkValidationSide.object.xml"),
-                "Атрибут 'side' валидации 'test' операции 'op' объекта 'checkValidationSide' не может иметь значение client"
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkValidationSide.object.xml")
         );
+        assertEquals("Атрибут 'side' валидации 'test' операции 'op' объекта 'checkValidationSide' не может иметь значение client", exception.getMessage());
+    }
+
+    @Test
+    void checkSwitchWithoutCases() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkSwitchWithoutCases.object.xml")
+        );
+        assertEquals("В элементе '<switch>' поля 'name' отсутствует '<case>'", exception.getMessage());
+    }
+
+    @Test
+    void checkSwitchWithEmptyValueInCases() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkSwitchWithEmptyValueInCases.object.xml")
+        );
+        assertEquals("В '<case>' элемента '<switch>' поля 'name' атрибут 'value' пустой", exception.getMessage());
+    }
+
+    @Test
+    void checkSwitchWithEmptyCase() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkSwitchWithEmptyCase.object.xml")
+        );
+        assertEquals("В '<case>' элемента '<switch>' поля 'name' отсутствует тело", exception.getMessage());
     }
 }

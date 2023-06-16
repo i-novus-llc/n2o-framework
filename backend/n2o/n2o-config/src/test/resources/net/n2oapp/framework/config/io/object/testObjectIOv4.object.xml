@@ -92,11 +92,21 @@
         <constraint id="id3" severity="success" field-id="fieldId" message="message" enabled="{type=='type1'}"
                     result="#{ T(java.lang.Math).random() * 100.0 }">
             <in>
-                <field id="name" mapping="name" required="true" param="param"/>
+                <field id="name" mapping="name" required="true" param="param">
+                    <switch>
+                        <case value="case">case</case>
+                        <default>default</default>
+                    </switch>
+                </field>
                 <field id="id" mapping="id"/>
             </in>
             <out>
-                <field id="out" mapping="out"/>
+                <field id="out" mapping="out">
+                    <switch>
+                        <case value="case">case</case>
+                        <default>default</default>
+                    </switch>
+                </field>
             </out>
             <invocation result-mapping="#this?:T(java.util.Map).of('year', T(java.time.Year).now().getValue())">
                 <sql>select 1</sql>

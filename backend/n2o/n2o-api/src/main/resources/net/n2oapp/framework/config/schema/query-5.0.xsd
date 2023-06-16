@@ -195,6 +195,7 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseFieldDefinition">
+                <xs:element name="switch" type="switchDefinition"/>
                 <xs:attribute name="name" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
@@ -241,7 +242,6 @@
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
-            <xs:element name="switch" type="switchDefenition"/>
         </xs:complexContent>
     </xs:complexType>
 
@@ -407,23 +407,23 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="switchDefenition">
+    <xs:complexType name="switchDefinition">
         <xs:annotation>
-            <xs:documentation>Переключатель.</xs:documentation>
+            <xs:documentation>Оператор для удобной работы с разными ожидаемыми значениями нормализации.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="case" type="caseDefinition"/>
-            <xs:element name="default" type="xs:string"/>
+            <xs:element name="default" type="xs:string" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="caseDefinition">
         <xs:annotation>
-            <xs:documentation>Значение, возвращаемое в случае совпадения value со значением поля.</xs:documentation>
+            <xs:documentation>Значение возвращаемое в случае совпадения полученного значения в результате нормализации со значением в value.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="value" type="xs:string">
+        <xs:attribute name="value" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Значение, с которым сравнивается значение поля.</xs:documentation>
+                <xs:documentation>Ожидаемое значение.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

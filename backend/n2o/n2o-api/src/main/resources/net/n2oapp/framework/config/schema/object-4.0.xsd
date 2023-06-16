@@ -313,7 +313,7 @@
             <xs:element name="reference" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="list" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="set" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="switch" type="switchDefenition"/>
+            <xs:element name="switch" type="switchDefinition"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -327,7 +327,7 @@
                         maxOccurs="unbounded"/>
             <xs:element name="list" type="operationOutParameterReferenceDefinition" minOccurs="0"
                         maxOccurs="unbounded"/>
-            <xs:element name="switch" type="switchDefenition"/>
+            <xs:element name="switch" type="switchDefinition"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -335,6 +335,9 @@
         <xs:annotation>
             <xs:documentation>Исходящий простой параметр операции.</xs:documentation>
         </xs:annotation>
+        <xs:sequence>
+            <xs:element name="switch" type="switchDefinition"/>
+        </xs:sequence>
         <xs:attribute name="id" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор поля.</xs:documentation>
@@ -415,6 +418,9 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="fieldDefinition">
+                <xs:sequence>
+                    <xs:element name="switch" type="switchDefinition"/>
+                </xs:sequence>
                 <xs:attribute name="param" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Параметр содержащий url.</xs:documentation>
@@ -674,13 +680,13 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:complexType name="switchDefenition">
+    <xs:complexType name="switchDefinition">
         <xs:annotation>
             <xs:documentation>Оператор для удобной работы с разными ожидаемыми значениями нормализации.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="case" type="caseDefinition"/>
-            <xs:element name="default" type="xs:string"/>
+            <xs:element name="default" type="xs:string" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -688,7 +694,7 @@
         <xs:annotation>
             <xs:documentation>Значение возвращаемое в случае совпадения полученного значения в результате нормализации со значением в value.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="value" type="xs:string">
+        <xs:attribute name="value" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Ожидаемое значение.</xs:documentation>
             </xs:annotation>

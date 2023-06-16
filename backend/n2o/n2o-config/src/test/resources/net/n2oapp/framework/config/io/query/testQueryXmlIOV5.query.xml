@@ -36,7 +36,12 @@
 
     <fields>
         <field id="id" domain="integer" name="nameId" default-value="0" mapping="['id']" sorting-mapping="mapping"
-            normalize="T(java.time.LocalDate).parse(this)" select-expression="id" sorting-expression="sorting"/>
+            normalize="T(java.time.LocalDate).parse(this)" select-expression="id" sorting-expression="sorting">
+            <switch>
+                <case value="case">case</case>
+                <default>default</default>
+            </switch>
+        </field>
         <field id="individualId" domain="integer" select="false" sorting="true"/>
         <reference id="ref" mapping="ref2" normalize="normalize" select="true" select-expression="refExp" select-key="key">
             <field id="id"/>
