@@ -399,7 +399,7 @@ const formSlice = createSlice({
                 const { names } = action.payload
 
                 names.forEach((key) => {
-                    const field = state.registeredFields[key]
+                    const field = get(state.registeredFields, key)
 
                     if (!field) { return warnNonExistent(key, 'visible') }
 
@@ -434,7 +434,7 @@ const formSlice = createSlice({
                 const { names } = action.payload
 
                 names.forEach((key) => {
-                    const field = state.registeredFields[key]
+                    const field = get(state.registeredFields, key)
 
                     if (!field) { return warnNonExistent(key, 'visible') }
 
@@ -504,7 +504,7 @@ const formSlice = createSlice({
                 const { names } = action.payload
 
                 names.forEach((key) => {
-                    const field = state.registeredFields[key]
+                    const field = get(state.registeredFields, key)
 
                     if (!field) { return warnNonExistent(key, 'disabled') }
 
