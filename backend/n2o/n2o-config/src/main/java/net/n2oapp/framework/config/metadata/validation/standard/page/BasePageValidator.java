@@ -24,7 +24,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.nonNull;
+import static net.n2oapp.framework.config.metadata.validation.standard.PageValidationUtil.fillDatasourceIdsScopeByInlineDatasource;
 
 /**
  * Валидатор "Исходной" модели страницы
@@ -62,10 +62,7 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         );
 
         checkDuplicateWidgetIdsInDatasources(widgets, datasourceIdsScope);
-        p.safeStreamOf(widgets).filter(widget -> widget.getDatasourceId() == null)
-                .forEach(widget -> datasourceIdsScope.add(
-                        nonNull(widget.getDatasource()) && nonNull(widget.getDatasource().getId()) ?
-                                widget.getDatasource().getId() : widget.getId()));
+        fillDatasourceIdsScopeByInlineDatasource(widgets, datasourceIdsScope, p);
 
         p.safeStreamOf(toolbars)
                 .forEach(n2oToolbar -> p.safeStreamOf(n2oToolbar.getAllActions())

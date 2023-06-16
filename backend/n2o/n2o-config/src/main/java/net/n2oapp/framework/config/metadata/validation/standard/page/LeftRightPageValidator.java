@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.PageValidationUtil.fillDatasourceIdsScopeByInlineDatasource;
+
 /**
  * Валидатор модели страницы с двумя регионами.
  */
@@ -38,11 +40,14 @@ public class LeftRightPageValidator implements SourceValidator<N2oLeftRightPage>
         List<N2oWidget> widgets = page.getWidgets();
         PageScope pageScope = new PageScope();
         pageScope.setWidgetIds(p.safeStreamOf(widgets).map(N2oMetadata::getId).collect(Collectors.toSet()));
+
         DataSourcesScope dataSourcesScope = new DataSourcesScope(
                 p.safeStreamOf(datasources).collect(Collectors.toMap(N2oAbstractDatasource::getId, Function.identity())));
         DatasourceIdsScope datasourceIdsScope = new DatasourceIdsScope(
                 p.safeStreamOf(datasources).map(N2oAbstractDatasource::getId).collect(Collectors.toSet())
         );
+        fillDatasourceIdsScopeByInlineDatasource(widgets, datasourceIdsScope, p);
+
         MetaActions actionBarScope = new MetaActions(
                 p.safeStreamOf(actions).collect(Collectors.toMap(ActionBar::getId, Function.identity()))
         );
