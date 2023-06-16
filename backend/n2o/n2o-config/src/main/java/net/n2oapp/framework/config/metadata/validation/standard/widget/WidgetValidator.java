@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static java.lang.String.format;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdInQuotesOrEmptyString;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 /**
@@ -64,14 +64,25 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
             }
             p.safeStreamOf(menuItems).forEach(menuItem -> p.validate(menuItem, datasourceIdsScope, componentScope,
                     allMetaActions));
-            p.checkIdsUnique(menuItems, "Кнопка '{0}' встречается более чем один раз в виджете '" + source.getId() + "'!");
+            p.checkIdsUnique(menuItems, String.format("Кнопка '%s' встречается более чем один раз в виджете '%s'", "%s", source.getId()));
         }
 
         if (nonNull(source.getDatasourceId())) {
             checkDatasource(source, datasourceIdsScope);
         }
+
+        checkDependencies(source);
         p.safeStreamOf(source.getActions()).flatMap(actionBar -> p.safeStreamOf(actionBar.getN2oActions()))
                 .forEach(action -> p.validate(action, componentScope));
+    }
+
+    private void checkDependencies(N2oWidget source) {
+        if (source.getDependencies() != null) {
+            Arrays.stream(source.getDependencies()).forEach(dependency ->
+                    ValidationUtils.checkEmptyDependency(dependency,
+                            String.format("Зависимость виджета %s имеет пустое тело",
+                                    getIdInQuotesOrEmptyString(source.getId()))));
+        }
     }
 
     private MetaActions joinMetaActions(MetaActions pageActions, ActionBar[] widgetActions, SourceProcessor p) {
@@ -94,15 +105,22 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         if (isEmpty(source.getActions()))
             return;
         ActionBar[] widgetActions = source.getActions();
+
+        Arrays.stream(widgetActions).forEach(action -> {
+            if (action.getId() == null) {
+                throw new N2oMetadataValidationException(String.format("Не задан 'id' у <action> виджета '%s'", source.getId()));
+            }
+        });
+
         p.checkIdsUnique(widgetActions,
-                "Действие {0} встречается более чем один раз в метаданной виджета " + source.getId());
+                String.format("Действие '%s' встречается более чем один раз в метаданной виджета '%s'", "%s", source.getId()));
 
         if (isNull(pageActions))
             return;
         for (ActionBar widgetAction : widgetActions) {
             if (pageActions.containsKey(widgetAction.getId()))
                 throw new N2oMetadataValidationException(
-                        format("Идентификатор действия '%s' дублируется на странице и в виджете '%s'",
+                        String.format("Идентификатор действия '%s' дублируется на странице и в виджете '%s'",
                                 widgetAction.getId(), source.getId())
                 );
         }
@@ -116,14 +134,12 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
      */
     private void checkDatasource(N2oWidget n2oWidget, DatasourceIdsScope scope) {
         ValidationUtils.checkDatasourceExistence(n2oWidget.getDatasourceId(), scope,
-                format("Виджет %s cсылается на несуществующий источник данных '%s'",
+                String.format("Виджет %s cсылается на несуществующий источник данных '%s'",
                         ValidationUtils.getIdOrEmptyString(n2oWidget.getId()), n2oWidget.getDatasourceId()));
         if (nonNull(n2oWidget.getDatasource()) && nonNull(n2oWidget.getDatasourceId()))
             throw new N2oMetadataValidationException(
-                    format(
-                            "Виджет '%s' использует внутренний источник и ссылку на источник данных одновременно",
-                            n2oWidget.getId()
-                    )
+                    String.format("Виджет '%s' использует внутренний источник и ссылку на источник данных одновременно",
+                            n2oWidget.getId())
             );
     }
 

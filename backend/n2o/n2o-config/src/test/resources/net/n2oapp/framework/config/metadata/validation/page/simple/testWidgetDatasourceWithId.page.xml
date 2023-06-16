@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Форма">
+    <form>
+        <datasource id="ds" query-id="test"/>
+
+        <toolbar>
+            <button label="Send" datasource="ds"/>
+        </toolbar>
+    </form>
+</simple-page>

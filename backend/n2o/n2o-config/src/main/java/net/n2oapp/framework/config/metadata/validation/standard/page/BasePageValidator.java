@@ -24,8 +24,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
+import static net.n2oapp.framework.config.metadata.validation.standard.PageValidationUtil.fillDatasourceIdsScopeByInlineDatasource;
 
 /**
  * Валидатор "Исходной" модели страницы
@@ -45,10 +44,11 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         List<N2oWidget> widgets = page.getWidgets();
 
         p.checkIdsUnique(datasources,
-                "Источник данных {0} встречается более чем один раз в метаданной страницы " + page.getId());
+                String.format("Источник данных '%s' встречается более чем один раз в метаданной страницы '%s'", "%s", page.getId()));
         p.checkIdsUnique(actions,
-                "Действие {0} встречается более чем один раз в метаданной страницы " + page.getId());
-        p.checkIdsUnique(widgets, "Виджет {0} встречается более чем один раз на странице " + page.getId());
+                String.format("Действие '%s' встречается более чем один раз в метаданной страницы '%s'", "%s", page.getId()));
+        p.checkIdsUnique(widgets,
+                String.format("Виджет '%s' встречается более чем один раз на странице '%s'", "%s", page.getId()));
 
         PageScope pageScope = new PageScope();
         pageScope.setWidgetIds(p.safeStreamOf(widgets).map(N2oMetadata::getId).collect(Collectors.toSet()));
@@ -61,31 +61,28 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
                 p.safeStreamOf(actions).collect(Collectors.toMap(ActionBar::getId, Function.identity()))
         );
 
-        p.safeStreamOf(widgets)
-                .peek(n2oWidget -> {
-                    if (nonNull(n2oWidget.getDatasource()) && nonNull(n2oWidget.getDatasource().getId()))
-                        datasourceIdsScope.add(n2oWidget.getDatasource().getId());
-                })
-                .peek(n2oWidget -> {
-                    if (datasourceIdsScope.contains(n2oWidget.getId()))
-                        throw new N2oMetadataValidationException(String.format("Идентификатор виджета '%s' не должен использоваться в качестве идентификатора источника данных", n2oWidget.getId()));
-                })
-                .filter(widget -> isNull(widget.getDatasourceId()) && (isNull(widget.getDatasource()) || isNull(widget.getDatasource().getId())))
-                .forEach(widget -> datasourceIdsScope.add(widget.getId()));
+        checkDuplicateWidgetIdsInDatasources(widgets, datasourceIdsScope);
+        fillDatasourceIdsScopeByInlineDatasource(widgets, datasourceIdsScope, p);
 
         p.safeStreamOf(toolbars)
                 .forEach(n2oToolbar -> p.safeStreamOf(n2oToolbar.getAllActions())
                         .forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope)));
         p.safeStreamOf(toolbars).map(N2oToolbar::getItems).filter(Objects::nonNull)
                 .flatMap(Arrays::stream).forEach(button -> p.validate(button, datasourceIdsScope, dataSourcesScope,
-                actionBarScope, new ComponentScope(page)));
+                        actionBarScope, new ComponentScope(page)));
         p.safeStreamOf(actions).flatMap(actionBar -> p.safeStreamOf(actionBar.getN2oActions()))
                 .forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope));
 
-        p.safeStreamOf(widgets).forEach(widget -> p.validate(widget, pageScope, datasourceIdsScope, dataSourcesScope,
-                actionBarScope));
-
         p.safeStreamOf(datasources).forEach(datasource -> p.validate(datasource, datasourceIdsScope));
         p.safeStreamOf(page.getEvents()).forEach(event -> p.validate(event, pageScope, datasourceIdsScope, dataSourcesScope));
+    }
+
+    private void checkDuplicateWidgetIdsInDatasources(List<N2oWidget> widgets, DatasourceIdsScope datasourceIdsScope) {
+        widgets.forEach(n2oWidget -> {
+            if (datasourceIdsScope.contains(n2oWidget.getId()))
+                throw new N2oMetadataValidationException(
+                        String.format("Идентификатор виджета '%s' не должен использоваться в качестве идентификатора источника данных",
+                                n2oWidget.getId()));
+        });
     }
 }

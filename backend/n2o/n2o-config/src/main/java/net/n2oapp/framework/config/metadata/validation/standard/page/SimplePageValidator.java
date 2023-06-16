@@ -26,22 +26,23 @@ public class SimplePageValidator implements SourceValidator<N2oSimplePage>, Sour
     @Override
     public void validate(N2oSimplePage source, SourceProcessor p) {
         if (isNull(source.getWidget()))
-            throw new N2oMetadataValidationException("Не задан виджет простой страницы");
+            throw new N2oMetadataValidationException(
+                    String.format("Не задан виджет простой страницы '%s'", source.getId()));
         checkDatasource(source, p);
     }
 
     private void checkDatasource(N2oSimplePage source, SourceProcessor p) {
         DatasourceIdsScope datasourceIdsScope = new DatasourceIdsScope();
-        if (nonNull(source.getWidget())) {
-            if (nonNull(source.getWidget().getDatasource()) && nonNull(source.getWidget().getDatasource().getId())) {
-                if (source.getWidget().getId().equals(source.getWidget().getDatasource().getId())) {
-                    throw new N2oMetadataValidationException(String.format("Идентификатор виджета '%s' не должен использоваться в качестве идентификатора источника данных", source.getWidget().getId()));
-                }
-                datasourceIdsScope.add(source.getWidget().getDatasource().getId());
-            } else {
-                datasourceIdsScope.add(source.getWidget().getId());
-            }
-            p.validate(source.getWidget(), datasourceIdsScope);
-        }
+
+        if (nonNull(source.getWidget().getDatasource()) && nonNull(source.getWidget().getDatasource().getId())) {
+            if (source.getWidget().getDatasource().getId().equals(source.getWidget().getId()))
+                throw new N2oMetadataValidationException(
+                        String.format("Идентификатор виджета '%s' не должен использоваться в качестве идентификатора источника данных",
+                                source.getWidget().getId()));
+            datasourceIdsScope.add(source.getWidget().getDatasource().getId());
+        } else
+            datasourceIdsScope.add(source.getWidget().getId());
+
+        p.validate(source.getWidget(), datasourceIdsScope);
     }
 }

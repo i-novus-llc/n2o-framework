@@ -10,6 +10,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -35,10 +36,20 @@ public class OnChangeEventValidatorTest extends SourceValidationTestBase {
      */
     @Test
     void testDatasourceIdExistence() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceIdExistence.page.xml"),
-                "В событии <on-change> не задан атрибут 'datasource'"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceIdExistence.page.xml"));
+        assertEquals("В событии <on-change> не задан атрибут 'datasource'", exception.getMessage());
+    }
+
+    /**
+     * Проверка того, что указанный datasource существует
+     */
+    @Test
+    void testDatasourceExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceExistence.page.xml"));
+        assertEquals("Событие <on-change> ссылается на несуществующий источник данных 'test'", exception.getMessage());
     }
 }

@@ -534,7 +534,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         if (StringUtils.hasWildcard(id) || StringUtils.hasLink(id))
             return;
         if (!env.getMetadataRegister().contains(id, metadataClass))
-            throw new N2oMetadataValidationException(getMessage(errorMessage, id));
+            throw new N2oMetadataValidationException(errorMessage);
     }
 
     @Override
