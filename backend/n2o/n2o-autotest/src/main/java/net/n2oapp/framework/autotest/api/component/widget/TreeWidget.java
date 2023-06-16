@@ -25,12 +25,16 @@ public interface TreeWidget extends StandardWidget {
     /**
      * Элемент дерева для автотестирования
      */
+
+    /**
+     * Проверяет наличие элемента по метки
+     * @param label метка для поиска
+     */
+    void shouldHaveItem(String label);
+
+
     interface TreeItem extends Expandable, Component, Badge {
 
-        /**
-         * Проверяет наличие элемента по метки
-         * @param label метка для поиска
-         */
-        void shouldHaveItem(String label);
+
     }
 }
