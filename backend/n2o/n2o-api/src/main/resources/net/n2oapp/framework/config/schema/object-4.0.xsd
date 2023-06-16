@@ -313,7 +313,6 @@
             <xs:element name="reference" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="list" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="set" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="switch" type="switchDefinition"/>
         </xs:sequence>
     </xs:complexType>
 
