@@ -1,6 +1,5 @@
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import TreeSelect from 'rc-tree-select'
-import { findDOMNode } from 'react-dom'
 import difference from 'lodash/difference'
 import filterF from 'lodash/filter'
 import find from 'lodash/find'
@@ -8,9 +7,8 @@ import isArray from 'lodash/isArray'
 import isEmpty from 'lodash/isEmpty'
 import keys from 'lodash/keys'
 import map from 'lodash/map'
-import memoize from 'lodash/memoize'
 import some from 'lodash/some'
-import cx from 'classnames'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { compose, setDisplayName } from 'recompose'
 import { withTranslation } from 'react-i18next'
@@ -25,92 +23,93 @@ import propsResolver from '../../../utils/propsResolver'
 import TreeNode from './TreeSelectNode'
 import { visiblePartPopup, getCheckedStrategy } from './until'
 
+const renderSwitcherIcon = ({ isLeaf }) => (isLeaf ? null : <Icon name="fa fa-chevron-right" />)
+const inputIcon = <Icon name="fa fa-chevron-down" />
+const getPopupContainer = container => container
 /**
- * @param onOpen - callback функция вызываемая при открытии popup
- * @param {function} onFocus
- * @param value - выбранное значение
+ * Взять данные по ids.
+ * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
+ * @param data
+ * @param ids
+ * @param valueFieldId
+ */
+const getDataByIds = (data, ids, valueFieldId) => filterF(data, node => some(ids, v => v === node[valueFieldId]))
+
+const getSingleValue = (data, value, valueFieldId) => find(data, [valueFieldId, value])
+const getMultiValue = (data, value, valueFieldId) => getDataByIds(data, value, valueFieldId)
+
+/**
+ * Функция преобразования value rcTreeSelect в формат n2o
+ * Производит поиск по родителям и потомкам.
+ * rcTreeSelect не дает информации о выделенных потомках при моде 'SHOW_PARENT'
+ * и о выделенных родителях при 'SHOW_CHILD'
+ * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
+ * @param data
+ * @param value
+ * @param multiSelect
+ * @param valueFieldId
+ * @returns {*}
+ */
+const getItemByValue = (data, value, multiSelect, valueFieldId) => {
+    if (!value) { return null }
+    if (!multiSelect) {
+        return getSingleValue(data, value, valueFieldId)
+    }
+
+    return getMultiValue(data, value, valueFieldId)
+}
+
+/**
  * @reactProps {function} onBlur
  * @reactProps {any} searchPlaceholder
  * @reactProps {string} placeholder
  * @reactProps {function} setTreeExpandedKeys
  * @reactProps {array} treeExpandedKeys
  * @reactProps {node} children
- * @param loading -  флаг анимации загрузки
- * @param parentFieldId - значение ключа parent в данных
- * @param valueFieldId - значение ключа value в данных
- * @param labelFieldId - значение ключа label в данных
- * @param iconFieldId - значение ключа icon в данных
- * @param badge - данные для баджа
- * @param hasChildrenFieldId - значение ключа hasChildren в данных
- * @param format - формат
- * @param data - данные для построения дерева
- * @param onSearch - callback функция вызываемая поиске
- * @param onSelect - callback функция вызываемая выборе элемента дерева
- * @param onChange - callback функция вызываемая изменении элемента дерева
- * @param hasCheckboxes - флаг для показа чекбоксов в элементах дерева. Переводит InputSelectTree в мульти режим
- * @param filter - варианты фильтрации
- * @param multiSelect - флаг для перевода InputSelectTree в мульти режим
- * @param onClose - callback функция вызываемая при закрытии popup
- * @param onToggle - callback функция вызываемая при открытии/закрытии popup
- * @param disabled - флаг неактивности
- * @param _handleItemOpen - callback функция вызываемая ajax true. Передает value открывающего элемента дерева
- * @param ajax - флаг динамичексой подгрузки данных. В данных обязательно указывать параметр hasChildrens
- * @param notFoundContent - текст если поиск не выдал результатов
  * @returns {*}
  * @constructor
+ * @param props
  */
 // TODO переделать в класс
-function InputSelectTree({
-    t,
-    onOpen,
-    onFocus,
-    value,
-    onBlur,
-    searchPlaceholder,
-    placeholder,
-    notFoundContent = t('noData'),
-    loading,
-    parentFieldId,
-    valueFieldId,
-    labelFieldId,
-    iconFieldId,
-    imageFieldId,
-    badge,
-    hasChildrenFieldId,
-    format,
-    data,
-    onSearch,
-    onSelect,
-    onChange,
-    hasCheckboxes,
-    filter,
-    multiSelect,
-    children,
-    onClose,
-    onToggle,
-    handleItemOpen,
-    ajax,
-    className,
-    dropdownPopupAlign,
-    showCheckedStrategy,
-    maxTagTextLength,
-    disabled,
-    ...rest
-}) {
-    const treeExpandedKeys = useRef([])
-    const [dropdownExpanded, setDropdownExpanded] = useState(false)
-    const [_control, setControlRef] = useState(null)
-    const [searchValue, setSearchValue] = useState('')
-    // после изменения высоты инпута нужно пересчитывать Y позицию дропдауна по отношению к инпут контейнеру
-    const [dropdownYPositionKey, setDropdownYPositionKey] = useState(0)
-
-    const popupProps = {
-        prefixCls: 'n2o-select-tree',
+function InputSelectTree(props) {
+    const {
+        t,
+        onOpen,
+        onFocus,
+        value,
+        onBlur,
+        searchPlaceholder,
+        placeholder,
+        notFoundContent = t('noData'),
+        loading,
+        parentFieldId,
+        valueFieldId,
+        labelFieldId,
         iconFieldId,
         imageFieldId,
-        labelFieldId,
         badge,
-    }
+        hasChildrenFieldId,
+        format,
+        data,
+        onSearch,
+        onSelect,
+        onChange,
+        hasCheckboxes,
+        filter,
+        multiSelect,
+        children,
+        onClose,
+        onToggle,
+        handleItemOpen,
+        ajax,
+        className,
+        showCheckedStrategy,
+        maxTagTextLength,
+        disabled,
+    } = props
+
+    const treeExpandedKeys = useRef([])
+    const [searchValue, setSearchValue] = useState('')
 
     InputSelectTree.handleClickOutside = () => setSearchValue('')
 
@@ -121,7 +120,15 @@ function InputSelectTree({
      * @param items
      * @returns {*}
      */
-    const createTree = memoize((items) => {
+    const treeData = useMemo(() => {
+        const popupProps = {
+            prefixCls: 'n2o-select-tree',
+            iconFieldId,
+            imageFieldId,
+            labelFieldId,
+            badge,
+        }
+        const items = data || []
         const itemsByID = [...items].reduce(
             (acc, item) => ({
                 ...acc,
@@ -156,18 +163,18 @@ function InputSelectTree({
                 if (!itemsByID[key][parentFieldId]) {
                     return true
                 }
-                if (
-                    itemsByID[key][parentFieldId] &&
-                    // eslint-disable-next-line no-prototype-builtins
-                    !itemsByID.hasOwnProperty(itemsByID[key][parentFieldId])
-                ) {
-                    return true
-                }
 
-                return false
+                return !!(itemsByID[key][parentFieldId] &&
+                    // eslint-disable-next-line no-prototype-builtins
+                    !itemsByID.hasOwnProperty(itemsByID[key][parentFieldId]))
             })
             .reduce((acc, key) => [...acc, { ...itemsByID[key] }], [])
-    })
+    }, [
+        ajax, badge, data,
+        format, hasChildrenFieldId,
+        iconFieldId, imageFieldId, labelFieldId,
+        parentFieldId, valueFieldId,
+    ])
 
     /**
      * Функция для поиска.
@@ -176,7 +183,7 @@ function InputSelectTree({
      * @param node
      * @returns {*}
      */
-    const handlerFilter = (input, node) => {
+    const handlerFilter = useCallback((input, node) => {
         const mode = ['includes', 'startsWith', 'endsWith']
 
         if (mode.includes(filter)) {
@@ -187,35 +194,7 @@ function InputSelectTree({
         }
 
         return true
-    }
-
-    /**
-     * Взять данные по ids.
-     * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
-     * @param ids
-     */
-    const getDataByIds = ids => filterF(data, node => some(ids, v => v === node[valueFieldId]))
-
-    const getSingleValue = value => find(data, [valueFieldId, value])
-    const getMultiValue = value => getDataByIds(value)
-
-    /**
-     * Функция преобразования value rcTreeSelect в формат n2o
-     * Производит поиск по родителям и потомкам.
-     * rcTreeSelect не дает информации о выделенных потомках при моде 'SHOW_PARENT'
-     * и о выделенных родителях при 'SHOW_CHILD'
-     * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
-     * @param value
-     * @returns {*}
-     */
-    const getItemByValue = (value) => {
-        if (!value) { return null }
-        if (!multiSelect) {
-            return getSingleValue(value)
-        }
-
-        return getMultiValue(value)
-    }
+    }, [filter, labelFieldId])
 
     /**
      * Функция для обратного преобразования value n2o в формат rcTreeSelect
@@ -224,7 +203,7 @@ function InputSelectTree({
      * @returns {*}
      */
     const setValue = (value) => {
-        if (!value) { return null }
+        if (!value) { return [] }
         if (isArray(value)) {
             return map(value, v => v[valueFieldId])
         }
@@ -236,55 +215,48 @@ function InputSelectTree({
      * Функция для переопределения onChange
      * @param value
      */
-    const handleChange = (value) => {
-        onChange(getItemByValue(value))
-        onBlur(getItemByValue(value))
-
-        setDropdownYPositionKey(prevKey => prevKey + 1)
-    }
+    const handleChange = useCallback((value) => {
+        onChange(getItemByValue(data, value, multiSelect, valueFieldId))
+        onBlur(getItemByValue(data, value, multiSelect, valueFieldId))
+    }, [data, multiSelect, onChange, valueFieldId])
 
     /**
      * Функция для переопределения onSelect
      * @param value
      */
-    const handleSelect = (value) => {
-        onSelect(getItemByValue(value))
-
-        if (_control) {
-            // eslint-disable-next-line react/no-find-dom-node
-            findDOMNode(_control).focus()
-        }
+    const handleSelect = useCallback((value) => {
+        onSelect(getItemByValue(data, value, multiSelect, valueFieldId))
         onBlur()
-    }
+    }, [data, multiSelect, onSelect, valueFieldId])
 
     /**
      * Функция для переопределения onSearch
      * @param value
      */
-    const handleSearch = (value) => {
+    const handleSearch = useCallback((value) => {
         setSearchValue(value)
         onSearch(value)
 
         return true
-    }
+    }, [onSearch])
 
-    const clearSearch = () => {
+    const clearSearch = useCallback(() => {
         setSearchValue('')
-    }
+    }, [])
 
     /**
      * Функция для контроля открытия/закрытия popup
      * @param visible
      * @returns {boolean}
      */
-    const handleDropdownVisibleChange = (visible) => {
+    const handleDropdownVisibleChange = useCallback((visible) => {
         if (visible) {
             onFocus()
         }
-        onToggle(visible)
-        setDropdownExpanded(visible)
+        // onToggle(visible)
+        // setDropdownExpanded(visible)
 
-        if (visible) {
+        if (visible && !data.length) {
             onOpen()
         } else {
             onClose()
@@ -292,23 +264,20 @@ function InputSelectTree({
         if (ajax) { treeExpandedKeys.current = [] }
 
         return false
-    }
+    }, [ajax, onClose, onFocus, onOpen, onToggle])
 
     /**
      * Функция для контроля открытия/закрытия элемента дерева
      * @param keys
      */
-    const onTreeExpand = async (keys) => {
+    const onTreeExpand = useCallback(async (keys) => {
         const currentKey = difference(keys, treeExpandedKeys.current)
 
         if (ajax) {
             await handleItemOpen(currentKey[0])
         }
         treeExpandedKeys.current = keys
-    }
-
-    // eslint-disable-next-line react/prop-types
-    const renderSwitcherIcon = ({ isLeaf }) => (isLeaf ? null : <Icon name="fa fa-chevron-right" />)
+    }, [ajax, handleItemOpen])
 
     const clearIcon = (
         <Icon
@@ -317,56 +286,47 @@ function InputSelectTree({
         />
     )
 
-    const inputIcon = <Icon name="fa fa-chevron-down" />
-
-    const getPopupContainer = container => container
-
     return (
-        <div className="w-100 d-flex position-relative">
+        <div className={classNames(
+            'n2o-select-tree-container',
+            className,
+            {
+                empty: isEmpty(value), multi: multiSelect, single: !multiSelect,
+            },
+        )}
+        >
             <TreeSelect
-                ref={setControlRef}
-                key={dropdownYPositionKey}
-                /* eslint-disable-next-line jsx-a11y/tabindex-no-positive */
-                tabIndex={1}
-                {...value && { value: setValue(value) }}
-                open={dropdownExpanded}
+                allowClear={!isEmpty(value)}
+                value={setValue(value)}
                 onDropdownVisibleChange={handleDropdownVisibleChange}
-                className={cx('n2o form-control', 'n2o-input-select-tree', className, {
-                    loading,
-                    'n2o-disabled': disabled,
-                })}
                 switcherIcon={renderSwitcherIcon}
                 inputIcon={inputIcon}
                 multiple={multiSelect}
                 treeCheckable={hasCheckboxes && <CheckboxN2O inline />}
-                treeData={createTree(data)}
+                treeData={treeData}
                 filterTreeNode={handlerFilter}
                 treeNodeFilterProp={labelFieldId}
                 treeNodeLabelProp={labelFieldId}
                 maxTagTextLength={maxTagTextLength}
                 clearIcon={clearIcon} // иконка очищения всего инпута
-                removeIcon={clearIcon} // иконка очищения итема
+                removeIcon={isEmpty(value) ? null : clearIcon} // иконка очищения итема
                 onChange={handleChange}
                 onSelect={handleSelect}
                 onSearch={handleSearch}
-                treeDefaultExpandedKeys={treeExpandedKeys.current}
                 onTreeExpand={onTreeExpand}
-                dropdownPopupAlign={dropdownPopupAlign}
-                prefixCls="n2o-select-tree"
                 showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
                 getPopupContainer={getPopupContainer}
                 notFoundContent={loading ? <InlineSpinner /> : notFoundContent}
-                placeholder={placeholder}
+                placeholder={searchValue ? null : placeholder}
                 searchPlaceholder={searchPlaceholder}
                 disabled={disabled}
                 searchValue={searchValue}
-                {...rest}
+                showSearch={!multiSelect}
+                listHeight={400}
+                prefixCls="n2o-select-tree"
             >
                 {children}
             </TreeSelect>
-            {searchValue && isEmpty(value) &&
-            <Icon name="fa fa-times n2o-input-select-tree__search-clear-icon custom-clear" onClick={clearSearch} />
-            }
         </div>
     )
 }
@@ -384,7 +344,6 @@ InputSelectTree.defaultProps = {
         fieldId: 'badge',
         colorFieldId: 'color',
     },
-    sortFieldId: 'name',
     filter: 'startsWith',
     hasCheckboxes: false,
     multiSelect: false,
@@ -401,12 +360,6 @@ InputSelectTree.defaultProps = {
     // eslint-disable-next-line react/default-props-match-prop-types
     showSearch: true,
     maxTagTextLength: 10,
-    dropdownPopupAlign: {
-        points: ['tl', 'bl'],
-        overflow: {
-            adjustY: true,
-        },
-    },
     onSearch: () => {},
     onSelect: () => {},
     onChange: () => {},
@@ -426,10 +379,6 @@ InputSelectTree.propTypes = {
     onBlur: PropTypes.func,
     className: PropTypes.string,
     searchPlaceholder: PropTypes.string,
-    setControlRef: PropTypes.func,
-    _control: PropTypes.any,
-    dropdownExpanded: PropTypes.bool,
-    setDropdownExpanded: PropTypes.func,
     notFoundContent: PropTypes.any,
 
     children: PropTypes.node,
@@ -470,18 +419,9 @@ InputSelectTree.propTypes = {
      */
     badge: PropTypes.object,
     /**
-     * Значение ключа сортировки в данных
-     */
-    sortFieldId: PropTypes.string,
-    groupFieldId: PropTypes.string,
-    /**
      * Флаг неактивности
      */
     disabled: PropTypes.bool,
-    /**
-     * Неактивные данные
-     */
-    disabledValues: PropTypes.array,
     /**
      * Варианты фильтрации
      */
@@ -490,7 +430,6 @@ InputSelectTree.propTypes = {
      * Значение
      */
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    onInput: PropTypes.func,
     /**
      * Calback изменения
      */
@@ -520,18 +459,9 @@ InputSelectTree.propTypes = {
      */
     format: PropTypes.string,
     /**
-     * Флаг сжатия выбранных элементов
-     */
-    collapseSelected: PropTypes.bool,
-    /**
-     * От скольки элементов сжимать выбранные элементы
-     */
-    lengthToGroup: PropTypes.number,
-    /**
      * Callback на поиск
      */
     onSearch: PropTypes.func,
-    expandPopUp: PropTypes.bool,
     /**
      * Флаг динамичексой подгрузки данных. В данных обязательно указывать параметр hasChildrens
      */
@@ -540,10 +470,6 @@ InputSelectTree.propTypes = {
      * Сallback функция вызываемая ajax true. Передает value открывающего элемента дерева
      */
     handleItemOpen: PropTypes.func,
-    /**
-     * Выравнивание попапа
-     */
-    dropdownPopupAlign: PropTypes.object,
     showCheckedStrategy: PropTypes.string,
     /**
      * Количество символов выбранных элементов в chechbox режиме
