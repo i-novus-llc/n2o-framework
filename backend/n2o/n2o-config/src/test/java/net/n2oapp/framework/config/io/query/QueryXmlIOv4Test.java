@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.query;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.config.metadata.pack.N2oDataProvidersIOPack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Тестирование чтения и записи выборки версии 4
@@ -11,7 +11,7 @@ import org.junit.Test;
 public class QueryXmlIOv4Test {
 
     @Test
-    public void testQueryXmlIOV4() {
+    void testQueryXmlIOV4() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.addIO(new QueryElementIOv4())
                 .addPack(new N2oDataProvidersIOPack());

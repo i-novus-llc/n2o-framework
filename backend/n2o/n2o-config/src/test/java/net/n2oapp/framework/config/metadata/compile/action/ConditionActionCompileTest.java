@@ -19,20 +19,21 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование компиляции условного оператора
  */
 public class ConditionActionCompileTest extends SourceCompileTestBase {
+    
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -46,7 +47,7 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testConditionAction() {
+    void testConditionAction() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/condition/testConditionAction.page.xml")
                 .get(new PageContext("testConditionAction"));
         //if верхнего уровня
@@ -118,7 +119,7 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testBindConditionAction() {
+    void testBindConditionAction() {
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/condition/testBindConditionAction.page.xml")
                 .get(new PageContext("testBindConditionAction", "/p/w/:parent_id/modal"),
                         new DataSet("parent_id", 123));
@@ -155,10 +156,12 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testNestedWithoutDatasource() {
-        N2oException e = assertThrows(N2oException.class,
+    void testNestedWithoutDatasource() {
+        N2oException e = assertThrows(
+                N2oException.class,
                 () -> compile("net/n2oapp/framework/config/metadata/compile/action/condition/testNestedWithoutDatasource.page.xml")
-                        .get(new PageContext("testNestedWithoutDatasource")));
+                        .get(new PageContext("testNestedWithoutDatasource"))
+        );
         assertThat(e.getMessage(), is("Datasource is undefined for if-branch with test=\"name == 'test1'\""));
     }
 }

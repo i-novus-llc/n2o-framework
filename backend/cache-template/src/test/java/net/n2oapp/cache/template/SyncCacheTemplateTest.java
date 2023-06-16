@@ -1,30 +1,28 @@
 package net.n2oapp.cache.template;
 
-import junit.framework.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.springframework.cache.Cache;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.cache.CacheManager;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.IntStream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class SyncCacheTemplateTest {
 
     private CacheManager cacheManager;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         cacheManager = mock(CacheManager.class);
     }
 
     @Test
-    public void testBase() throws Exception {
+    public void testBase() {
         MockCache cache = new MockCache();
         when(cacheManager.getCache("test")).thenReturn(cache);
         CacheTemplate<String, String> cacheTemplate = new SyncCacheTemplate<>(cacheManager);
@@ -45,8 +43,8 @@ public class SyncCacheTemplateTest {
     }
 
     @Test
-    @Ignore
-    public void testAsync() throws InterruptedException {
+    @Disabled
+    public void testAsync() {
         MockCache cache = new MockCache();
         when(cacheManager.getCache("test")).thenReturn(cache);
         CacheTemplate<String, String> cacheTemplate = new SyncCacheTemplate<>(cacheManager);

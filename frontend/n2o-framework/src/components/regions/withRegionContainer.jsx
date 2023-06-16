@@ -12,6 +12,8 @@ import {
     makeRegionActiveEntitySelector,
 } from '../../ducks/regions/store'
 
+import { getFirstContentId } from './helpers'
+
 const createRegionContainer = config => (WrappedComponent) => {
     const { listKey } = config
 
@@ -21,6 +23,7 @@ const createRegionContainer = config => (WrappedComponent) => {
         isInit: (state, props) => makeRegionIsInitSelector(props.id)(state),
         activeEntity: (state, props) => makeRegionActiveEntitySelector(props.id)(state),
         resolveModel: state => get(state, 'models.resolve', {}),
+        query: state => get(state, 'router.location.query', {}),
     })
 
     const mapDispatchToProps = dispatch => ({
@@ -41,19 +44,32 @@ const createRegionContainer = config => (WrappedComponent) => {
                     lazy,
                     alwaysRefresh,
                     active,
-                    datasource = null,
                     resolveModel,
                     activeTabFieldId,
+                    query,
+                    content,
+                    datasource = null,
+                    open = true,
                 } = props
-                let currentActiveEntity = activeEntity || active
 
-                if (datasource && activeTabFieldId) {
-                    const activeFromResolve = get(resolveModel, `${datasource}.${activeTabFieldId}`, null)
-
-                    if (activeFromResolve) {
-                        currentActiveEntity = activeFromResolve
+                const getCurrentActiveEntity = () => {
+                    if (!open) {
+                        return undefined
                     }
+
+                    if (datasource && activeTabFieldId) {
+                        const activeFromResolve = get(resolveModel, `${datasource}.${activeTabFieldId}`, null)
+
+                        if (activeFromResolve) {
+                            return activeFromResolve
+                        }
+                    }
+
+                    return activeEntity || active || query[id] || getFirstContentId(content)
                 }
+
+                const currentActiveEntity = getCurrentActiveEntity()
+
                 dispatch(registerRegion(id, {
                     regionId: id,
                     activeEntity: currentActiveEntity,

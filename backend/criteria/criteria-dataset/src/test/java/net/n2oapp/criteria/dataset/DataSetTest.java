@@ -1,6 +1,6 @@
 package net.n2oapp.criteria.dataset;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,14 +11,14 @@ public class DataSetTest {
 
 
     @Test
-    public void testSelfMerge() {
+    void testSelfMerge() {
         DataSet dataSet = new DataSet("test", new ArrayList<>(Arrays.asList(1, 2)));
         dataSet.merge(dataSet);
         assert dataSet.get("test").equals(Arrays.asList(1, 2));
     }
 
     @Test
-    public void testMerge() {
+    void testMerge() {
         DataSet mainDataSet = new DataSet();
         mainDataSet.put("id", 1);
         mainDataSet.put("gender.id", 1);
@@ -43,7 +43,7 @@ public class DataSetTest {
     }
 
     @Test
-    public void testWithStrategy() {
+    void testWithStrategy() {
 
         DataSet mainDataSet = new DataSet();
         mainDataSet.put("id", 1);
@@ -87,7 +87,7 @@ public class DataSetTest {
     }
 
     @Test
-    public void testArrayMergeStrategy() {
+    void testArrayMergeStrategy() {
         DataSet mainDataSet = new DataSet();
         mainDataSet.put("id", 1);
         DataSet extendDataSet = new DataSet();
@@ -109,7 +109,7 @@ public class DataSetTest {
     }
 
     @Test
-    public void testArrayReplaceStrategy() {
+    void testArrayReplaceStrategy() {
         DataSet mainDataSet = new DataSet();
         mainDataSet.put("id", 1);
         List<String> list = new ArrayList<>();
@@ -133,7 +133,7 @@ public class DataSetTest {
     }
 
     @Test
-    public void cast1() {
+    void cast1() {
         DataSet dataSet = new DataSet();
         dataSet.put("int", 1);
         dataSet.put("long", 100L);
@@ -155,7 +155,7 @@ public class DataSetTest {
     }
 
     @Test
-    public void cast2() {
+    void cast2() {
         DataSet dataSet = new DataSet();
         dataSet.put("int", "1");
         dataSet.put("long", "100");

@@ -15,8 +15,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -25,8 +25,9 @@ import static org.hamcrest.Matchers.*;
  * Тестирование компиляции ячейки с изображением
  */
 public class ImageCellCompileTest extends SourceCompileTestBase {
+    
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -40,7 +41,7 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testImageCell() {
+    void testImageCell() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testImageCell.page.xml")
                 .get(new PageContext("testImageCell"));
         Table table = (Table) page.getWidget();

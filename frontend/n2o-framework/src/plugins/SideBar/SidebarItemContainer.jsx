@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
 
-import { getFromSource } from '../Header/SimpleHeader/NavItemContainer'
+import { getFromSource } from '../utils'
 import { id as generateId } from '../../utils/id'
 
 import SidebarDropdown from './SidebarDropdown'

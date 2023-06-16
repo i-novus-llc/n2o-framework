@@ -9,8 +9,8 @@ import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.StandardDatasourceCompiler;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.is;
 public class MergeOperationTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -33,7 +33,7 @@ public class MergeOperationTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testMerge() {
+    void testMerge() {
         Application application = compile("net/n2oapp/framework/config/metadata/merge/operation/app.application.xml",
                 "net/n2oapp/framework/config/metadata/merge/operation/childSidebar.sidebar.xml")
                 .get(new ApplicationContext("app"));

@@ -10,8 +10,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.notNullValue;
 public class AlertActionCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -38,7 +38,7 @@ public class AlertActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testAlertAction() {
+    void testAlertAction() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testAlert.page.xml")
                 .get(new PageContext("testAlert"));
 

@@ -11,7 +11,6 @@ import net.n2oapp.framework.engine.data.normalize.Normalizer;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-
 public class StaticInvocationTestClass {
 
     public static DataSet normalizeOrganization() {

@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.engine.data.normalize.NormalizerCollector;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import org.springframework.beans.factory.BeanFactory;
@@ -36,8 +35,9 @@ public class MappingProcessor {
      * @param mapping выражение преобразования
      * @param value   значение
      */
-    public static void inMap(Object target, String mapping, Object value) {
-        inMap(target, mapping, value, mapping);
+
+    public static void inMap(Object target, String fieldId, String mapping, Object value) {
+        inMap(target, fieldId, mapping, value, mapping);
     }
 
     /**
@@ -48,13 +48,14 @@ public class MappingProcessor {
      * @param value       значение
      * @param userMapping выражение преобразования, используемое для формирования сообщения об ошибке
      */
-    public static void inMap(Object target, String mapping, Object value, String userMapping) {
+
+    public static void inMap(Object target, String fieldId, String mapping, Object value, String userMapping) {
         try {
             Expression expression = writeParser.parseExpression(mapping);
             if (target != null)
                 expression.setValue(target, value);
         } catch (Exception e) {
-            throw new N2oSpelException(userMapping, e);
+            throw new N2oSpelException(fieldId, userMapping, e);
         }
     }
 
@@ -143,40 +144,26 @@ public class MappingProcessor {
             try {
                 writeParser.parseExpression(target).setValue(instance, dataSet.get(childParam.getId()));
             } catch (Exception e) {
-                throw new N2oSpelException(parameter.getId(), target, e);
+                throw new N2oSpelException(childParam.getId(), target, e);
             }
         }
         return instance;
     }
 
     /**
-     * Получение маппингов исходящих полей
+     * Получение структуры маппингов полей
      *
-     * @param parameters Список исходящих полей
-     * @return Маппинги исходящих полей
+     * @param parameters Список полей
+     * @return Структура маппингов полей
      */
-    public static Map<String, String> extractOutFieldMapping(Collection<ObjectSimpleField> parameters) {
-        Map<String, String> mappingMap = new LinkedHashMap<>();
-        if (parameters != null)
-            for (ObjectSimpleField parameter : parameters)
-                mappingMap.put(parameter.getId(), parameter.getMapping());
-        return mappingMap;
-    }
-
-    /**
-     * Получение структуры маппингов входящих полей
-     *
-     * @param parameters Список входящих полей
-     * @return Структура маппингов исходящих полей
-     */
-    public static Map<String, FieldMapping> extractInFieldMapping(Collection<AbstractParameter> parameters) {
+    public static Map<String, FieldMapping> extractFieldMapping(Collection<AbstractParameter> parameters) {
         Map<String, FieldMapping> mappingMap = new LinkedHashMap<>();
         if (parameters != null)
             for (AbstractParameter parameter : parameters) {
                 FieldMapping mapping = new FieldMapping(parameter.getMapping());
                 mapping.setEnabled(parameter.getEnabled());
                 if (parameter instanceof ObjectReferenceField && ((ObjectReferenceField) parameter).getFields() != null)
-                    mapping.setChildMapping(extractInFieldMapping(Arrays.asList(((ObjectReferenceField) parameter).getFields())));
+                    mapping.setChildMapping(extractFieldMapping(Arrays.asList(((ObjectReferenceField) parameter).getFields())));
                 mappingMap.put(parameter.getId(), mapping);
             }
         return mappingMap;
@@ -187,7 +174,7 @@ public class MappingProcessor {
      *
      * @param value       Значение для нормализации
      * @param normalizer  Нормализируещее выражение
-     * @param allData     Данные, используемые для нормализации
+     * @param allData     Данные, используемые для нормализации (нужно для #data)
      * @param parser      Парсер SpEL выражений
      * @param beanFactory Фабрика бинов спринга
      * @return Нормализированное значение

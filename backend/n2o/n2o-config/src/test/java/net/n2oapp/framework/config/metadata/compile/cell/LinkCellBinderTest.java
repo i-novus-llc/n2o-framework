@@ -10,8 +10,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.nullValue;
  */
 public class LinkCellBinderTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -35,7 +35,7 @@ public class LinkCellBinderTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testUrlResolve() {
+    void testUrlResolve() {
         ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/cell/testLinkCellBinder.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/cell/test.object.xml");
         PageContext context = new PageContext("testLinkCellBinder", "/p/w/:id/modal");

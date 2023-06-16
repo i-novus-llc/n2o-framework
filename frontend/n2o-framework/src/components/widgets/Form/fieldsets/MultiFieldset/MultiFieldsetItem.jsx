@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
@@ -30,31 +31,35 @@ function MultiFieldsetItem({
 
     return (
         <>
-            {map(fields, (field, index) => (
-                <div className="n2o-multi-fieldset__container">
-                    <div className="n2o-multi-fieldset__item">
-                        <section className="n2o-multi-fieldset__item-top-section">
-                            <div className="n2o-multi-fieldset__label">
-                                {resolvePlaceholder(index)}
-                            </div>
-                            <MultiFieldsetItemToolbar
-                                needCopyButton={needCopyButton}
-                                needRemoveButton={needRemoveButton}
-                                disabled={!enabled}
-                                index={index}
-                                canRemoveFirstItem={canRemoveFirstItem}
-                                onRemoveField={onRemoveField}
-                                onCopyField={onCopyField}
-                            />
-                        </section>
-                        {render(rows, {
-                            parentName: `${parentName}[${index}]`,
-                            parentIndex: index,
-                            multiSetDisabled: disabled,
-                        })}
+            {map(fields, (field, index) => {
+                const label = resolvePlaceholder(index)
+
+                return (
+                    <div className="n2o-multi-fieldset__container">
+                        <div className="n2o-multi-fieldset__item">
+                            <section className="n2o-multi-fieldset__item-top-section">
+                                <div className={classNames('n2o-multi-fieldset__label', { empty: !label })}>
+                                    {label}
+                                </div>
+                                <MultiFieldsetItemToolbar
+                                    needCopyButton={needCopyButton}
+                                    needRemoveButton={needRemoveButton}
+                                    disabled={!enabled}
+                                    index={index}
+                                    canRemoveFirstItem={canRemoveFirstItem}
+                                    onRemoveField={onRemoveField}
+                                    onCopyField={onCopyField}
+                                />
+                            </section>
+                            {render(rows, {
+                                parentName: `${parentName}[${index}]`,
+                                parentIndex: index,
+                                multiSetDisabled: disabled,
+                            })}
+                        </div>
                     </div>
-                </div>
-            ))}
+                )
+            })}
             <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--common">
                 {needAddButton && (
                     <Button

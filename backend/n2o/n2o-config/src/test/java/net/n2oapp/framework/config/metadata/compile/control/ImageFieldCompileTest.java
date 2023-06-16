@@ -14,8 +14,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,7 +25,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class ImageFieldCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -36,8 +36,8 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oActionsPack());
     }
 
-    @Test
-    public void testImageField() {
+    @Test 
+    void testImageField() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testImageFieldCompile.page.xml")
                 .get(new PageContext("testImageFieldCompile"));
         Form form = (Form) page.getWidget();

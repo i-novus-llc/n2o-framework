@@ -2,6 +2,13 @@
     width: max-content;
 }
 
+.n2o-file-uploader-control.n2o-button-uploader {
+    .n2o-button-uploader-btn {
+        display: flex;
+        justify-content: center;
+    }
+}
+
 .file-upload-cell-wrapper {
     .n2o-file-uploader-container.file-upload-cell-container {
         min-width: 220px;

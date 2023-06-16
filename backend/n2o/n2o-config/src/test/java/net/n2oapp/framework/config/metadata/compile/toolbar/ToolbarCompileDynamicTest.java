@@ -18,8 +18,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.register.JavaInfo;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -30,7 +30,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 public class ToolbarCompileDynamicTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -45,7 +45,7 @@ public class ToolbarCompileDynamicTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testDynamicToolbarCompiler() {
+    void testDynamicToolbarCompiler() {
         builder.scan();
         N2oToolbar toolbar = new N2oToolbar();
         N2oButton deleteButton = new N2oButton();
@@ -73,7 +73,7 @@ public class ToolbarCompileDynamicTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testDynamicToolbarCompilerNoScope() {
+    void testDynamicToolbarCompilerNoScope() {
         builder.scan();
         N2oToolbar toolbar = new N2oToolbar();
         N2oButton deleteButton = new N2oButton();

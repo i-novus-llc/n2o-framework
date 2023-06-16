@@ -3,79 +3,101 @@ title: Миграция с 7.24 на 7.25
 description: ""
 ---
 
+## Изменения в сборке {#changes-build}
+
+- Обновление версии Selenide c 6.6.0 на 6.14.0
+- Произведен полный переход с JUnit 4 на JUnit 5.
+- Механизм чтения из Groovy файлов был полностью удален.
+
 ## Изменения в XML API {#changes-xml-api}
 
-- Атрибуты `confirm`, `confirm-text`, `submit-label` у операций объектов упразднены.
-- Изменения у дейстивий открытия страниц и окон. Упразднены некоторые атрибуты, вместо них необходимо использовать
-новый функционал - прокидывание тулбара на страницу.
+- Прекращена поддержка схемы `object-3.0`.
+- Прекращена поддержка схемы `application-1.0`.
+- Прекращена поддержка deprecated атрибута `name` в `<form-param>`.
+Вместо него необходимо использовать атрибут `id`.
+- Удален атрибут `hide-overflow` поля `<code>`.
+- Прекращена поддержка компонента `<pills>`.
+- Был добавлен функционал [прокидывания тулбаров](../manual/actions#open_page_toolbar_passing) на открываемую страницу.
+В связи с чем были внесены следующие изменения.
 
- 1) Атрибуты `submit-operation-id`, `submit-message-on-success`, `submit-message-on-fail`, `submit-model`, `submit-label` упразднены.
+1. Упразднены атрибуты `confirm`, `confirm-text`, `submit-label` операций объектов.
+2. Упразднены атрибуты `submit-operation-id`, `submit-message-on-success`, `submit-message-on-fail`, `submit-model`, `submit-label`
+с сохранением обратной совместимости.
 
-```xml title="Пример как работало в версии 7.24 и более ранних"
- <show-modal page-id="personCard" submit-operation-id="update" submit-label="Сохранить"
+Вместо `submit-operation-id` рекомендуется использовать кнопку с `invoke` действием.
+Атрибуты `submit-message-*` заменяются их аналогами из `invoke`.
+
+```xml title="Пример, как работало в версии 7.24 и ниже"
+ <show-modal page-id="personCard"
+             submit-operation-id="update" submit-label="Сохранить"
              submit-message-on-success="Данные сохранены" submit-message-on-fail="Данные не удалось сохранить"/>
 ```
 
-```xml title="Пример как работает в версии 7.25"
-<show-modal page-id="personCard">
-    <actions>
-        <action id="saveAction">
-            <invoke operation-id="update" message-on-success="Данные сохранены" message-on-fail="Данные не удалось сохранить"/>
-        </action>
-    </actions>
-    <toolbars>
-        <toolbar>
-            <button label="Сохранить" action-id="saveAction"/>
-        </toolbar>
-    </toolbars>
-</show-modal>
-```
-
-2) Атрибуты `close-after-submit`, `redirect-target-after-submit`, `refresh-after-submit` упразднены.
-
-```xml title="Пример как работало в версии 7.24 и более ранних"
- <show-modal page-id="personCard" submit-operation-id="update" close-after-submit="true" refresh-after-submit="true"/>
- или
- <show-modal page-id="personCard" submit-operation-id="update" redirect-target-after-submit="/main"/>
-```
-
-```xml title="Пример как работает в версии 7.25"
-<show-modal page-id="personCard">
-    <actions>
-        <action id="saveAction">
-            <invoke operation-id="update"/>
-            <refresh datasource="parentDs"/>
-            <close/>
-        </action>
-    </actions>
-    <toolbars>
-        <toolbar>
-            <button label="Сохранить" action-id="saveAction"/>
-        </toolbar>
-    </toolbars>
-    <datasources>
-        <parent-datasource id="parentDs"/>
-    </datasources>
-</show-modal>
-
-или
-
+```xml title="Пример, как работает в версии 7.25"
 <show-modal page-id="personCard">
     <toolbars>
         <toolbar>
             <button label="Сохранить">
-                <invoke operation-id="update"/>
-                <a href="/main" target"application"/>
+                <invoke operation-id="update" message-on-success="Данные сохранены" message-on-fail="Данные не удалось сохранить"/>
             </button>
         </toolbar>
     </toolbars>
 </show-modal>
 ```
 
-3) Атрибуты `submit-action-type`, `copy-datasource`, `copy-model`, `copy-field-id`, `target-datasource`, `target-model`,
-`target-field-id`, `copy-mode`, `target-page` упразднены.
+3. Упразднены атрибуты `close-after-submit`, `redirect-target-after-submit`, `refresh-after-submit`
+с сохранением обратной совместимости.
 
-```xml title="Пример как работало в версии 7.24 и более ранних"
+Вместо этих атрибутов используйте более гибкий механизм мультидействий.
+
+Вариант 1: submit + refresh + close
+
+```xml title="Пример как работало в версии 7.24 и ниже"
+ <show-modal page-id="personCard" submit-operation-id="update" close-after-submit="true" refresh-after-submit="true"/>
+```
+
+```xml title="Пример как работает в версии 7.25"
+<show-modal page-id="personCard">
+    <toolbars>
+        <toolbar>
+            <button label="Сохранить">
+                <invoke operation-id="update"/>
+                <refresh datasource="parentDs"/>
+                <close/>
+            </button>
+        </toolbar>
+    </toolbars>
+    <datasources>
+        <parent-datasource id="parentDs"/>
+    </datasources>
+</show-modal>
+```
+
+Вариант 2: submit + redirect
+
+```xml title="Пример как работало в версии 7.24 и ниже"
+ <show-modal page-id="personCard" submit-operation-id="update" redirect-target-after-submit="/main"/>
+```
+
+```xml title="Пример как работает в версии 7.25"
+<show-modal page-id="personCard">
+    <toolbars>
+        <toolbar>
+            <button label="Сохранить">
+                <invoke operation-id="update"/>
+                <a href="/main" target="application"/>
+            </button>
+        </toolbar>
+    </toolbars>
+</show-modal>
+```
+
+4. Упразднены атрибуты копирования `submit-action-type`, `copy-datasource`, `copy-model`, `copy-field-id`, `target-datasource`, `target-model`,
+`target-field-id`, `copy-mode`, `target-page` с сохранением обратной совместимости.
+
+Используйте действие `<copy>`.
+
+```xml title="Пример как работало в версии 7.24 и ниже"
 <show-modal page-id="personCard" submit-action-type="copy" copy-datasource="modal_ds" target-datasource="ds1"/>
 ```
 
@@ -96,8 +118,9 @@ description: ""
 
 ## Изменения функциональности
 
-Изменилась логика формирования идентификатора виджета в `simple-page`. Раньше, если не указывали в xml он был равен `main`.
-Теперь идентификатор формируется также как и у `page` 'w' + индекс.
+Изменилась логика формирования идентификатора виджета в `<simple-page>`.
+Раньше, если он не был указан в xml, то генерировалось значение равное `main`.
+Теперь идентификатор формируется также как и у `<page>`: 'w' + индекс.
 
 :::note
 Если где-то в route вы использовали `main`, то необходимо проверить не является ли это сгенированный идентификатор виджета.

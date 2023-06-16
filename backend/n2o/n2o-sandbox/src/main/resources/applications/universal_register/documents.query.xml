@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+<list>
+      <test file="documents.json"/>
+  </list>
+  <filters>
+      <notIn field-id="id" filter-id="id"/>
+      <like field-id="name" filter-id="name"/>
+  </filters>
+
+  <fields>
+      <field id="id"/>
+      <field id="name"/>
+  </fields>
+</query>

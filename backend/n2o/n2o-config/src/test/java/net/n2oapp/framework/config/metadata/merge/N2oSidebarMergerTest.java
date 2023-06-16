@@ -4,8 +4,8 @@ import net.n2oapp.framework.api.metadata.application.N2oSidebar;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.test.SourceMergerTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class N2oSidebarMergerTest extends SourceMergerTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -25,7 +25,7 @@ public class N2oSidebarMergerTest extends SourceMergerTestBase {
     }
 
     @Test
-    public void mergeSidebar() {
+    void mergeSidebar() {
         N2oSidebar sidebar = merge("net/n2oapp/framework/config/metadata/merge/sidebar/parentSidebar.sidebar.xml",
                 "net/n2oapp/framework/config/metadata/merge/sidebar/childSidebar.sidebar.xml")
                 .get("parentSidebar", N2oSidebar.class);

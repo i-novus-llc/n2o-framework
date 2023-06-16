@@ -6,7 +6,8 @@
                    title="Меню"
                    headlines="true"
                    placement="right"
-                   active="mi1">
+                   active="mi1"
+                   max-height="500">
             <menu-item id="mi1" title="Личные данные">
                 <form>
                     <fields>

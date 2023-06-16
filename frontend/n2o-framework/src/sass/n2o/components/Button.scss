@@ -8,6 +8,7 @@
     display: inline-flex;
     column-gap: 0.35em;
     align-items: center;
+    min-height: 38px;
 }
 
 .btn > i {
@@ -19,6 +20,10 @@
     height: 1.25em;
 }
 
+.btn-sm {
+    min-height: 21px;
+}
+
 .btn-sm > i {
     width: 1.143em;
     height: 1.143em;
@@ -27,4 +32,10 @@
 .btn-lg > i {
     width: 1.2em;
     height: 1.2em;
+}
+
+.dropleft.btn-group {
+    .dropdown-toggle.btn::before {
+        color: $primary;
+    }
 }

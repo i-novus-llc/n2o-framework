@@ -35,8 +35,8 @@ public class Case43AT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("cases/7.1/case43/index.page.xml"),
-                new CompileInfo("cases/7.1/case43/test.page.xml"),
+        builder.sources(new CompileInfo("versions/7.1/case43/index.page.xml"),
+                new CompileInfo("versions/7.1/case43/test.page.xml"),
                 new CompileInfo("META-INF/conf/test.object.xml"),
                 new CompileInfo("META-INF/conf/test.query.xml"));
     }

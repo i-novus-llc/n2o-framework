@@ -126,7 +126,7 @@ description: ""
 
 ### Открытие страниц {#open_page_actions}
 
-## Проброс кнопок и действий в открываемые страницы {#open_window_toolbar}
+### Проброс кнопок и действий в открываемые страницы {#open_page_toolbar_passing}
 
 Кнопки и действия на странице можно переопределять в открывающих страницах. Это удобно когда необходимо использовать
 одну и ту же страницу, отличающуюся только кнопками и действиями.
@@ -140,6 +140,7 @@ description: ""
     </actions>
     <toolbars>
         <toolbar>
+            <!-- кнопка ссылается на прокидываемое действие saveAction -->
             <button label="Сохранить" action-id="saveAction"/>
         </toolbar>
     </toolbars>
@@ -149,6 +150,7 @@ description: ""
     <toolbars>
         <toolbar>
             <button label="Копировать">
+                <!-- действие использует прокидываемый источник ds1 -->
                 <copy copy-datasource="modal_ds" target-datasource="ds1"/>
             </button>
         </toolbar>

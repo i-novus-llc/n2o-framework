@@ -26,8 +26,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static java.util.Collections.emptyMap;
 import static org.hamcrest.CoreMatchers.*;
@@ -40,7 +40,7 @@ import static org.hamcrest.Matchers.hasEntry;
 public class StandardDataSourceCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -54,7 +54,7 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void simple() {
+    void simple() {
         StandardPage page = (StandardPage)
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSStandardPage.page.xml")
                         .get(new PageContext("testDSStandardPage"));
@@ -75,7 +75,7 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void query() {
+    void query() {
         StandardPage page = (StandardPage)
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSQuery.page.xml")
                         .get(new PageContext("testDSQuery", "/"));
@@ -90,7 +90,7 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void queryFilters() {
+    void queryFilters() {
         PageContext context = new PageContext("testDSQueryFilters", "/p/w/a");
         context.setParentRoute("p/w");
         StandardPage page = (StandardPage)
@@ -114,7 +114,7 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void dependencies() {
+    void dependencies() {
         StandardPage page = (StandardPage)
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDatasourceDependencies.page.xml")
                         .get(new PageContext("testDatasourceDependencies", "/p/w/a"));
@@ -135,7 +135,7 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void submit() {
+    void submit() {
         StandardPage page = (StandardPage)
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSSubmit.page.xml")
                         .get(new PageContext("testDSSubmit", "/p/w/a"));
@@ -183,7 +183,7 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void validation() {
+    void validation() {
         StandardPage page = (StandardPage)
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSValidation.page.xml")
                         .get(new PageContext("testDSValidation", "/p/w/a"));
@@ -212,7 +212,7 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void validationInMultiset() {
+    void validationInMultiset() {
         StandardPage page = (StandardPage)
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSValidationInMultiset.page.xml")
                         .get(new PageContext("testDSValidationInMultiset", "/p/w/a"));

@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment from 'moment/moment'
 
 let formats = {
     dateFormat: 'yyyy-MM-dd',

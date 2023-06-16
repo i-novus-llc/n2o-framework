@@ -1,6 +1,6 @@
 package net.n2oapp.criteria.dataset;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 public class NestedListTest {
 
     @Test
-    public void get() {
+    void get() {
         NestedList list = new NestedList();
         list.add(1);
         assert list.get("[0]").equals(1);
@@ -57,7 +57,7 @@ public class NestedListTest {
     }
 
     @Test
-    public void put() {
+    void put() {
         NestedList list = new NestedList();
         list.put("[1]", 1);
         assert list.get(1).equals(1);
@@ -89,7 +89,7 @@ public class NestedListTest {
     }
 
     @Test
-    public void create() {
+    void create() {
         NestedList list = new NestedList(Arrays.asList(
                 1,
                 Arrays.asList(1, 2),
@@ -101,7 +101,7 @@ public class NestedListTest {
     }
 
     @Test
-    public void negative() {
+    void negative() {
         NestedList list = new NestedList();
         assert fail(() -> list.put(null, 1), IllegalArgumentException.class);//null key
         assert fail(() -> list.put("", 1), IllegalArgumentException.class);//empty key

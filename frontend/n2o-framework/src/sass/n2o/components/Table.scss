@@ -49,6 +49,24 @@
     }
 }
 
+.text-align-top {
+    .n2o-table {
+        th,
+        td {
+            vertical-align: top;
+        }
+    }
+}
+
+.text-align-bottom {
+    .n2o-table {
+        th,
+        td {
+            vertical-align: bottom;
+        }
+    }
+}
+
 @include table-row-variant(blue, $blue);
 @include table-row-variant(purple, $purple);
 @include table-row-variant(indigo, $indigo);

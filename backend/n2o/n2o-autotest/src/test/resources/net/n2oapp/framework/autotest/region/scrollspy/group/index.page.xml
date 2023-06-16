@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Регион с автоматически прокручиваемым меню">
+    <regions>
+        <scrollspy
+                id="r1"
+                title="Меню"
+                headlines="true"
+                placement="left"
+                max-height="500">
+            <group title="Первая группа" headline="false">
+                <menu-item id="mi1" title="Личные данные">
+                    <form>
+                        <fields>
+                            <row>
+                                <input-text id="firstname" label="Имя"/>
+                                <input-text id="lastname" label="Фамилия"/>
+                            </row>
+                            <row>
+                                <select id="gender" label="Пол">
+                                    <options>
+                                        <option id="1" name="Мужской"/>
+                                        <option id="2" name="Женский"/>
+                                    </options>
+                                </select>
+                                <date-time id="birthday" label="Дата рождения"/>
+                            </row>
+                            <text-area id="address" label="Адрес"/>
+                        </fields>
+                    </form>
+                </menu-item>
+                <menu-item id="mi5" title="Дополнительная информация">
+                    <form>
+                        <fields>
+                            <row>
+                                <date-interval id="date" label="Дата подачи заявки"/>
+                            </row>
+                            <input-text id="region" label="Регион"/>
+                            <input-text id="department" label="Отделение"/>
+                            <input-text id="status" label="Статус"/>
+                            <set label="Заявитель">
+                                <input-text id="fio" label="Фамилия Имя Отчество"/>
+                                <masked-input id="snils" label="СНИЛС" mask="999-999-999 99"/>
+                            </set>
+                        </fields>
+                    </form>
+                </menu-item>
+            </group>
+            <group title="Группа 2" headline="true">
+                <sub-menu id="mi2" title="Вложенное меню">
+                    <menu-item id="mi3" title="Список участников">
+                        <form>
+                            <fields>
+                                <row>
+                                    <input-text id="firstname" label="Имя2"/>
+                                    <input-text id="lastname" label="Фамилия2"/>
+                                </row>
+                            </fields>
+                        </form>
+                    </menu-item>
+                    <menu-item id="mi4" title="Список победителей">
+                        <form>
+                            <fields>
+                                <row>
+                                    <input-text id="firstname" label="Имя3"/>
+                                    <input-text id="lastname" label="Фамилия3"/>
+                                </row>
+                            </fields>
+                        </form>
+                    </menu-item>
+                </sub-menu>
+            </group>
+        </scrollspy>
+    </regions>
+</page>

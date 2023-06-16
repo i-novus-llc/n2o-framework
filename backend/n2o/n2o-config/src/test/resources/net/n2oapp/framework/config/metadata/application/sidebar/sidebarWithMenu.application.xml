@@ -1,24 +1,36 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0"
              xmlns:test="http://n2oapp.net/framework/config/schema/test"
              welcome-page-id="testPage">
-    <sidebar src="test" class="class"
-            title="N2O" home-page-url="/pageRoute" style="margin-left:10px"
-             toggled-state="micro" toggle-on-hover="true" side="right" overlay="false"
-             default-state="none" logo-src="/logo.png" logo-class="logo-class">
-        <nav>
-            <sub-menu label="test">
-                <page test:testAttr="testAttribute" page-id="pageWithoutLabel" route="/page1"/>
-                <a label="hrefLabel" href="http://test.com"/>
-            </sub-menu>
-            <page page-id="pageWithoutLabel" label="headerLabel"/>
-            <a label="hrefLabel" href="http://test.com"/>
-        </nav>
-
-        <extra-menu>
-            <sub-menu label="#{username}" image="#{image}">
-                <a label="Test" href="https://ya.ru/" icon="test-icon" target="newWindow"/>
-            </sub-menu>
-        </extra-menu>
-    </sidebar>
+    <sidebars>
+        <sidebar src="test" class="class"
+                 title="N2O" home-page-url="/pageRoute" style="margin-left:10px"
+                 toggled-state="micro" toggle-on-hover="true" side="right" overlay="false"
+                 default-state="none" logo-src="/logo.png" logo-class="logo-class">
+            <nav>
+                <dropdown-menu label="test">
+                    <menu-item>
+                        <open-page test:testAttr="testAttribute" page-id="pageWithoutLabel" route="/page1"/>
+                    </menu-item>
+                    <menu-item>
+                        <a label="hrefLabel" href="http://test.com"/>
+                    </menu-item>
+                </dropdown-menu>
+                <menu-item>
+                    <open-page page-id="pageWithoutLabel" label="headerLabel"/>
+                </menu-item>
+                <menu-item>
+                    <a label="hrefLabel" href="http://test.com"/>
+                </menu-item>
+            </nav>
+        
+            <extra-menu>
+                <dropdown-menu label="#{username}" image="#{image}">
+                <menu-item>
+                    <a label="Test" href="https://ya.ru/" icon="test-icon" target="newWindow"/>
+                </menu-item>
+                </dropdown-menu>
+            </extra-menu>
+        </sidebar>
+    </sidebars>
 </application>

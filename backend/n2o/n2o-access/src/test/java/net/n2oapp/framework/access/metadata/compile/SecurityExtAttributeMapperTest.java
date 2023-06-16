@@ -17,8 +17,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oQueriesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ import static org.hamcrest.Matchers.is;
 public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -50,7 +50,7 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void inlineMenu() {
+    void inlineMenu() {
         Application application = compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.application.xml")
                 .get(new ApplicationContext("securityExtAttrMapperTest"));
         Security.SecurityObject securityObject = new Security.SecurityObject();
@@ -68,7 +68,7 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void inlineToolbarAndRegion() {
+    void inlineToolbarAndRegion() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.page.xml")
                 .get(new PageContext("securityExtAttrMapperTest"));
         Security.SecurityObject securityObject = new Security.SecurityObject();
@@ -95,7 +95,7 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void inlineObjectActions() {
+    void inlineObjectActions() {
         CompiledObject object = compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.object.xml")
                 .get(new ObjectContext("securityExtAttrMapperTest"));
         CompiledObject.Operation operation = object.getOperations().get("create");
@@ -117,7 +117,7 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void inlineQuery() {
+    void inlineQuery() {
         CompiledQuery query = compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.query.xml")
                 .get(new QueryContext("securityExtAttrMapperTest"));
         Security.SecurityObject securityObject = new Security.SecurityObject();

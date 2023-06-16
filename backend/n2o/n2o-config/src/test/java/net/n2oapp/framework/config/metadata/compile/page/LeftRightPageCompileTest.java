@@ -9,8 +9,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import static org.hamcrest.core.IsNull.nullValue;
 public class LeftRightPageCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -37,7 +37,7 @@ public class LeftRightPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void leftRightPage() {
+    void leftRightPage() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testLeftRightPage.page.xml")
                 .get(new PageContext("testLeftRightPage"));
 

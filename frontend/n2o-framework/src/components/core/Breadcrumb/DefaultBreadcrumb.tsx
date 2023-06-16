@@ -5,19 +5,10 @@ import { useSelector } from 'react-redux'
 
 // @ts-ignore ignore import error from js file
 import { breadcrumbsSelector } from '../../../ducks/global/store'
+import { ElementVisibility, WindowType } from '../WindowType'
 
 import { breadcrumb } from './const'
 import { Crumb } from './Crumb'
-
-type ElementVisibility = {
-    header: boolean,
-    footer: boolean,
-    breadcrumb: boolean,
-}
-
-type WindowType = Window & typeof globalThis & {
-    N2O_ELEMENT_VISIBILITY: ElementVisibility
-}
 
 export function SimpleBreadcrumb({ items = [] }: { items: breadcrumb }): ReactElement<BreadcrumbProps> {
     const routes: Record<string, string> = useSelector(breadcrumbsSelector)

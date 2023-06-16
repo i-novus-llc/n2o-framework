@@ -9,7 +9,8 @@
                 active="mi2"
                 placement="right"
                 title="regionTitle"
-                headlines="true"/>
+                headlines="true"
+                max-height="700"/>
         <scrollspy/>
     </regions>
 </page>

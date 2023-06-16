@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.test.TestContextEngine;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.env.PropertyResolver;
 import org.springframework.mock.env.MockEnvironment;
 
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 public class AppConfigJsonWriterTest {
 
     @Test
-    public void testResolveValues() throws IOException {
+    void testResolveValues() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         PropertyResolver props = new MockEnvironment();
         ((MockEnvironment) props).setProperty("testProp", "Test_Props");
@@ -68,7 +68,7 @@ public class AppConfigJsonWriterTest {
     }
 
     @Test
-    public void overrideValues() throws IOException {
+    void overrideValues() throws IOException {
         AppConfigJsonWriter writer = new AppConfigJsonWriter();
         TestContextEngine testContextEngine = new TestContextEngine();
         testContextEngine.put("name", "some text \"text in quotes\"");

@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oIconCell;
 import net.n2oapp.framework.api.metadata.meta.cell.IconCell;
@@ -26,7 +27,8 @@ public class IconCellCompiler extends AbstractCellCompiler<IconCell, N2oIconCell
         IconCell cell = new IconCell();
         build(cell, source, context, p, property("n2o.api.cell.icon.src"));
         cell.setText(source.getText());
-        cell.setIconType(p.cast(source.getIconType(), IconType.icon));
+        cell.setIconType(p.cast(source.getIconType(),
+                p.resolve(Placeholders.property("n2o.api.cell.icon.type"), IconType.class)));
         cell.setIcon(p.cast(source.getIcon(), compileSwitch(source.getIconSwitch(), p)));
         if (source.getPosition() != null) {
             cell.setPosition(source.getPosition());

@@ -198,7 +198,7 @@ public class ClientDataProviderUtil {
 
             Set<String> formParams = new HashSet<>();
             if (source.getFormParams() != null)
-                Arrays.stream(source.getFormParams()).forEach(fp -> formParams.add(fp.getId()));
+                Arrays.stream(source.getFormParams()).forEach(fp -> formParams.add(fp.getName()));
 
             Map<String, String> operationMapping = new StrictMap<>();
             for (AbstractParameter inParameter : actionContextData.getOperation().getInParametersMap().values()) {

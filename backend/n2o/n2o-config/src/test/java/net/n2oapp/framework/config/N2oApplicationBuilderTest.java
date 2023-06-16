@@ -11,15 +11,16 @@ import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.XmlInfo;
 import net.n2oapp.framework.config.register.scanner.MockInfoScanner;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 
 public class N2oApplicationBuilderTest {
+    
     @Test
-    @Ignore
-    public void test() {
+    @Disabled
+    void test() {
 
         ReadCompileBindTerminalPipeline pipeline = new N2oApplicationBuilder()
                 .scanners(new MockInfoScanner())

@@ -10,22 +10,20 @@ import net.n2oapp.framework.config.metadata.validation.standard.control.FieldVal
 import net.n2oapp.framework.config.metadata.validation.standard.datasource.StandardDatasourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DatasourceLinkValidationTest extends SourceValidationTestBase {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -36,7 +34,7 @@ public class DatasourceLinkValidationTest extends SourceValidationTestBase {
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(),
                 new N2oAllDataPack(), new N2oActionsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack());
-        builder.validators(new PageValidator(), new WidgetValidator(), new BasePageValidator(),
+        builder.validators(new PageValidator(), new StandardPageValidator(), new WidgetValidator(), new BasePageValidator(),
                 new StandardDatasourceValidator(), new PageActionValidator(), new InvokeActionValidator(),
                 new FormValidator(), new FieldValidator(), new ButtonValidator());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/link/utDsLinkBlank.page.xml"));
@@ -46,39 +44,47 @@ public class DatasourceLinkValidationTest extends SourceValidationTestBase {
      * Проверяется, что в атрибуте refresh-datasources действия invoke указан существующий источник данных
      */
     @Test
-    public void testNonExistentRefreshDatasourceInInvoke() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Атрибут \"refresh-datasources\" действия create ссылается на несуществующий источник данных 'ds1'");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/link/testNonExistentRefreshDatasourceInInvoke.page.xml");
+    void testNonExistentRefreshDatasourceInInvoke() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/link/testNonExistentRefreshDatasourceInInvoke.page.xml"),
+                "Атрибут \"refresh-datasources\" действия create ссылается на несуществующий источник данных 'ds1'"
+        );
     }
 
     /**
      * Проверяется, что поле ссылается на существующий источник данных
      */
     @Test
-    public void testNonExistentRefDatasourceInField() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В ссылке на источник данных поля id содержится несуществующий источник данных 'ds1'");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/link/testNonExistentRefDatasourceInField.page.xml");
+    void testNonExistentRefDatasourceInField() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/link/testNonExistentRefDatasourceInField.page.xml"),
+                "В ссылке на источник данных поля id содержится несуществующий источник данных 'ds1'"
+        );
     }
 
     /**
      * Проверяется, что в кнопке указан существующий источник данных
      */
     @Test
-    public void testNonExistentDatasourceInButton() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Кнопка save ссылается на несуществующий источник данных 'ds1'");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/link/testNonExistentDatasourceInButton.page.xml");
+    void testNonExistentDatasourceInButton() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/link/testNonExistentDatasourceInButton.page.xml"),
+                "Кнопка save ссылается на несуществующий источник данных 'ds1'"
+        );
     }
 
     /**
      * Проверяется, что в атрибуте validate-datasources кнопки указан существующий источник данных
      */
     @Test
-    public void testNonExistentValidateDatasourceInButton() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Атрибут \"validate-datasources\" кнопки save содержит несуществующий источник данных 'ds1'");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/link/testNonExistentValidateDatasourceInButton.page.xml");
+    void testNonExistentValidateDatasourceInButton() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/link/testNonExistentValidateDatasourceInButton.page.xml"),
+                "Атрибут \"validate-datasources\" кнопки save содержит несуществующий источник данных 'ds1'"
+        );
     }
 }

@@ -40,8 +40,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ import static org.hamcrest.Matchers.*;
 public class ShowModalCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -64,7 +64,8 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oControlsPack(), new N2oAllDataPack(),
                 new N2oActionsPack(), new N2oCellsPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPageSecondFlow.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage3.page.xml"),
@@ -72,7 +73,6 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction1.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPageByParams.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction2.page.xml"),
@@ -81,7 +81,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void create() {
+    void create() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
@@ -140,7 +140,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void update() {
+    void update() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
@@ -184,7 +184,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void createFocus() {
+    void createFocus() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
@@ -200,7 +200,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void updateFocus() {
+    void updateFocus() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
@@ -219,7 +219,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void updateWithoutMasterDetail() {
+    void updateWithoutMasterDetail() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
@@ -236,7 +236,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void createUpdate() {
+    void createUpdate() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
@@ -255,7 +255,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void dynamicPage() {
+    void dynamicPage() {
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalDynamicPage.page.xml")
                 .get(new PageContext("testShowModalDynamicPage", "/page"));
         PageContext context = (PageContext) route("/page/testOpenPageSimplePageAction1/id1", Page.class);
@@ -274,7 +274,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void updateWithPreFilters() {
+    void updateWithPreFilters() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
@@ -329,7 +329,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void updateModelEditWithPreFilters() {
+    void updateModelEditWithPreFilters() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
@@ -342,7 +342,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void copyAction() {
+    void copyAction() {
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyAction.page.xml")
                 .get(new PageContext("testShowModalCopyAction"));
 
@@ -366,7 +366,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void copyActionWithTwoWidget() {
+    void copyActionWithTwoWidget() {
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyActionWithTwoWidget.page.xml")
                 .get(new PageContext("testShowModalCopyActionWithTwoWidget"));
 
@@ -390,7 +390,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void copyActionWithTwoWidgetWithoutCopyAttributes() {
+    void copyActionWithTwoWidgetWithoutCopyAttributes() {
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyActionWithTwoWidgetDefault.page.xml")
                 .get(new PageContext("testShowModalCopyActionWithTwoWidgetDefault"));
 
@@ -415,7 +415,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testShowModalOnClose() {
+    void testShowModalOnClose() {
         PageContext pageContext = new PageContext("testShowModalOnClose", "/p");
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalOnClose.page.xml")
                 .get(pageContext);
@@ -435,7 +435,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
      * Проверяет, что show-modal upload=defaults пробрасывается на модальную страницу и убирает создание dataProvider у datasource
      */
     @Test
-    public void createUploadDefaults() {
+    void createUploadDefaults() {
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalDefaults.page.xml")
                 .get(new PageContext("testShowModalDefaults", "/p"));
         PageContext modalCtx = (PageContext) route("/p/update", Page.class);
@@ -457,7 +457,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
      * Проверяет, что show-modal pre-filters пробрасываются на модальную страницу
      */
     @Test
-    public void testShowModalPreFilters() {
+    void testShowModalPreFilters() {
         PageContext pageContext = new PageContext("testShowModalPreFilters", "/p");
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalPreFilters.page.xml")
                 .get(pageContext);

@@ -1,13 +1,13 @@
 package net.n2oapp.framework.engine.data.java;
 
-
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
 import net.n2oapp.framework.api.metadata.dataprovider.SpringProvider;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.engine.test.source.SpringInvocationTestClass;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 
 import java.util.Arrays;
@@ -15,6 +15,7 @@ import java.util.Arrays;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -25,8 +26,8 @@ public class SpringDataProviderEngineTest {
 
     private ApplicationContext applicationContext;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() {
         SpringInvocationTestClass testCase = new SpringInvocationTestClass();
         applicationContext = mock(ApplicationContext.class);
         when(applicationContext.getBean("testBean")).thenReturn(testCase);
@@ -39,7 +40,7 @@ public class SpringDataProviderEngineTest {
      * Вызов spring метода без аргументов
      */
     @Test
-    public void testMethodWithoutArguments() {
+    void testMethodWithoutArguments() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         SpringProvider props = new SpringProvider();
         props.setSpringBean("testBean");
@@ -58,7 +59,7 @@ public class SpringDataProviderEngineTest {
      * Вызов spring метода с одним аргументом
      */
     @Test
-    public void testMethodWithOneArgument() {
+    void testMethodWithOneArgument() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         SpringProvider props = new SpringProvider();
         props.setSpringBean("testBean");
@@ -82,7 +83,7 @@ public class SpringDataProviderEngineTest {
      * Вызов spring метода с двумя аргументами
      */
     @Test
-    public void testMethodWithTwoArguments() {
+    void testMethodWithTwoArguments() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         method.setMethod("methodWithTwoArguments");
         SpringProvider props = new SpringProvider();
@@ -110,7 +111,7 @@ public class SpringDataProviderEngineTest {
      * Вызов spring void метода
      */
     @Test
-    public void testVoidMethod() {
+    void testVoidMethod() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         method.setMethod("methodVoid");
         SpringProvider props = new SpringProvider();
@@ -134,7 +135,7 @@ public class SpringDataProviderEngineTest {
      * Вызов spring метода с моделью в качестве аргумента
      */
     @Test
-    public void testMethodWithModelArgument() {
+    void testMethodWithModelArgument() {
         N2oJavaDataProvider method = new N2oJavaDataProvider();
         method.setMethod("methodWithModel");
         SpringProvider props = new SpringProvider();
@@ -159,20 +160,22 @@ public class SpringDataProviderEngineTest {
     /**
      * Вызов spring метода с ошибкой
      */
-    @Test(expected = N2oException.class)
-    public void testMethodWithException() {
-        N2oJavaDataProvider method = new N2oJavaDataProvider();
-        method.setMethod("methodWithException");
-        SpringProvider props = new SpringProvider();
-        props.setSpringBean("testBean");
-        method.setDiProvider(props);
-        Object[] dataSet = new Object[1];
-        dataSet[0] = "1";
-        JavaDataProviderEngine javaInvocation = new JavaDataProviderEngine();
-        SpringObjectLocator springObjectLocator = new SpringObjectLocator();
-        springObjectLocator.setApplicationContext(applicationContext);
-        javaInvocation.setLocators(Arrays.asList(springObjectLocator));
-        String resultDataSet = (String) javaInvocation.invoke(method, dataSet);
+    @Test
+    void testMethodWithException() {
+        assertThrows(N2oException.class, ()-> {
+            N2oJavaDataProvider method = new N2oJavaDataProvider();
+            method.setMethod("methodWithException");
+            SpringProvider props = new SpringProvider();
+            props.setSpringBean("testBean");
+            method.setDiProvider(props);
+            Object[] dataSet = new Object[1];
+            dataSet[0] = "1";
+            JavaDataProviderEngine javaInvocation = new JavaDataProviderEngine();
+            SpringObjectLocator springObjectLocator = new SpringObjectLocator();
+            springObjectLocator.setApplicationContext(applicationContext);
+            javaInvocation.setLocators(Arrays.asList(springObjectLocator));
+            String resultDataSet = (String) javaInvocation.invoke(method, dataSet);
+        });
     }
 
 

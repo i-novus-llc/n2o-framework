@@ -8,8 +8,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 public class BrowserStorageDatasourceBinderTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -34,7 +34,7 @@ public class BrowserStorageDatasourceBinderTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testBind() {
+    void testBind() {
         Page page = bind("net/n2oapp/framework/config/metadata/compile/datasource/testBindBrowserStorageDatasource.page.xml")
                 .get(new PageContext("testBindBrowserStorageDatasource"), new DataSet());
 

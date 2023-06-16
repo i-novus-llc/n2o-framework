@@ -6,7 +6,7 @@
                 <eq field-id="id" param="id"/>
             </pre-filters>
             <fields>
-                <input-text id="id" enabled="false"/>
+                <input-text id="id"/>
             </fields>
         </form>
 
@@ -25,6 +25,11 @@
                             ref-widget-id="table"
                             ref-page="parent"/>
             </fields>
+            <toolbar place="bottomRight">
+                <button label="page2">
+                    <show-modal page-id="page2"/>
+                </button>
+            </toolbar>
         </form>
     </regions>
 </page>

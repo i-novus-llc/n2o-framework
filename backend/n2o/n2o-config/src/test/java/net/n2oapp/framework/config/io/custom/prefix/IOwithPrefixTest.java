@@ -5,15 +5,17 @@ import net.n2oapp.framework.config.io.page.v4.StandardPageElementIOv4;
 import net.n2oapp.framework.config.io.region.v3.PanelRegionIOv3;
 import net.n2oapp.framework.config.io.widget.v5.FormElementIOV5;
 import net.n2oapp.framework.config.test.XmlIOTestBase;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Тестирование чтения, записи компонента с указанным префиксом
  */
 public class IOwithPrefixTest extends XmlIOTestBase {
+    
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -24,7 +26,7 @@ public class IOwithPrefixTest extends XmlIOTestBase {
     }
 
     @Test
-    public void test() {
+    void test() {
         check("net/n2oapp/framework/config/testPageWithPrefix.page.xml");
     }
 }

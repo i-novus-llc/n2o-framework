@@ -10,14 +10,15 @@ import net.n2oapp.framework.access.simple.PermissionApi;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.test.TestContextEngine;
 import net.n2oapp.framework.api.user.UserContext;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -28,27 +29,31 @@ public class SecurityProviderTest {
 
     private PermissionApi permissionApi;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         permissionApi = mock(PermissionApi.class);
     }
 
-    @Test(expected = UnauthorizedException.class)
-    public void checkAccessDenied() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
-        ;
-        Security.SecurityObject securityObject = new Security.SecurityObject();
-        securityObject.setDenied(true);
-        Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
-        securityObjectMap.put("custom", securityObject);
-        Security security = new Security();
-        security.setSecurityMap(securityObjectMap);
-        securityProvider.checkAccess(security, null);
-        Assert.fail("Expected exception to be thrown");
+    @Test
+    void checkAccessDenied() {
+        assertThrows(
+                UnauthorizedException.class,
+                () -> {
+                    SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
+                    Security.SecurityObject securityObject = new Security.SecurityObject();
+                    securityObject.setDenied(true);
+                    Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
+                    securityObjectMap.put("custom", securityObject);
+                    Security security = new Security();
+                    security.setSecurityMap(securityObjectMap);
+                    securityProvider.checkAccess(security, null);
+                    fail("Expected exception to be thrown");
+                }
+        );
     }
 
     @Test
-    public void checkAccessPermitAll() {
+    void checkAccessPermitAll() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(false);
@@ -61,7 +66,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void checkAccessUserIsNotAuthenticated() {
+    void checkAccessUserIsNotAuthenticated() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(false);
@@ -78,14 +83,14 @@ public class SecurityProviderTest {
         securityObject.setAnonymous(false);
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(UnauthorizedException.class));
         }
     }
 
     @Test
-    public void checkAccessAuthenticated() {
+    void checkAccessAuthenticated() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
@@ -101,26 +106,31 @@ public class SecurityProviderTest {
         securityProvider.checkAccess(security, userContext);
     }
 
-    @Test(expected = AccessDeniedException.class)
-    public void checkAccessRolesUsernamesPermissionsAreNull() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
-        UserContext userContext = new UserContext(new TestContextEngine());
-        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
-        Security.SecurityObject securityObject = new Security.SecurityObject();
-        securityObject.setDenied(false);
-        securityObject.setPermitAll(false);
-        securityObject.setAnonymous(true);
-        securityObject.setAuthenticated(false);
-        Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
-        securityObjectMap.put("custom", securityObject);
-        Security security = new Security();
-        security.setSecurityMap(securityObjectMap);
-        securityProvider.checkAccess(security, userContext);
-        Assert.fail("Expected exception to be thrown");
+    @Test
+    void checkAccessRolesUsernamesPermissionsAreNull() {
+        assertThrows(
+                AccessDeniedException.class,
+                () -> {
+                    SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
+                    UserContext userContext = new UserContext(new TestContextEngine());
+                    when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
+                    Security.SecurityObject securityObject = new Security.SecurityObject();
+                    securityObject.setDenied(false);
+                    securityObject.setPermitAll(false);
+                    securityObject.setAnonymous(true);
+                    securityObject.setAuthenticated(false);
+                    Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
+                    securityObjectMap.put("custom", securityObject);
+                    Security security = new Security();
+                    security.setSecurityMap(securityObjectMap);
+                    securityProvider.checkAccess(security, userContext);
+                    fail("Expected exception to be thrown");
+                }
+        );
     }
 
     @Test
-    public void checkAccessHasRole() {
+    void checkAccessHasRole() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
@@ -139,21 +149,21 @@ public class SecurityProviderTest {
         security.setSecurityMap(securityObjectMap);
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasRole(userContext, "admin")).thenReturn(false);
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
     }
 
     @Test
-    public void checkAccessHasPermission() {
+    void checkAccessHasPermission() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
@@ -172,21 +182,21 @@ public class SecurityProviderTest {
         security.setSecurityMap(securityObjectMap);
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasPermission(userContext, "p1")).thenReturn(false);
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
     }
 
     @Test
-    public void checkAccessHasUsernames() {
+    void checkAccessHasUsernames() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
@@ -205,28 +215,28 @@ public class SecurityProviderTest {
         security.setSecurityMap(securityObjectMap);
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasUsername(userContext, "n1")).thenReturn(false);
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasUsername(userContext, "n2")).thenReturn(false);
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
     }
 
     @Test
-    public void checkAccessCombinations() {
+    void checkAccessCombinations() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
@@ -250,28 +260,28 @@ public class SecurityProviderTest {
         securityObject.setRoles(new HashSet<>(Arrays.asList("r0", "r1")));
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasUsername(userContext, "n0")).thenReturn(true);
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasPermission(userContext, "p1")).thenReturn(true);
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasRole(userContext, "r0")).thenReturn(true);
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
@@ -280,14 +290,14 @@ public class SecurityProviderTest {
         securityObject.setRoles(new HashSet<>(Arrays.asList("r1")));
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         securityObject.setRoles(new HashSet<>(Arrays.asList("r0", "r1")));
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
@@ -296,21 +306,21 @@ public class SecurityProviderTest {
         securityObject.setUsernames(null);
         try {
             securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
+            fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
     }
 
     @Test
-    public void checkAccessEmptySecurity() {
+    void checkAccessEmptySecurity() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         securityProvider.checkAccess(new Security(), userContext);
     }
 
     @Test
-    public void collectRestrictionsPermitAllFilters() {
+    void collectRestrictionsPermitAllFilters() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
@@ -327,7 +337,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void collectRestrictionsAuthenticatedAndAnonymousFilters() {
+    void collectRestrictionsAuthenticatedAndAnonymousFilters() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
@@ -354,7 +364,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void collectRestrictionsRoleFilters() {
+    void collectRestrictionsRoleFilters() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
@@ -377,7 +387,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void collectRestrictionsPermissionFilters() {
+    void collectRestrictionsPermissionFilters() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
@@ -401,7 +411,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void collectRestrictionsUsernameFilters() {
+    void collectRestrictionsUsernameFilters() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
@@ -421,7 +431,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void collectRestrictionsRemoveUserFilters() {
+    void collectRestrictionsRemoveUserFilters() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
@@ -447,7 +457,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void collectRestrictionsRemovePermissionFilters() {
+    void collectRestrictionsRemovePermissionFilters() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
@@ -478,7 +488,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void collectRestrictionsRemoveRoleFilters() {
+    void collectRestrictionsRemoveRoleFilters() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
@@ -508,7 +518,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void collectRestrictionsRemoveAuthenticatedAndAnonymousFilters() {
+    void collectRestrictionsRemoveAuthenticatedAndAnonymousFilters() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
@@ -541,7 +551,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void collectRestrictionsRemovePermitAllFilters() {
+    void collectRestrictionsRemovePermitAllFilters() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
@@ -561,7 +571,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void checkRestrictions() {
+    void checkRestrictions() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         SecurityProvider notStrictSecurityProvider = new SecurityProvider(permissionApi, false);
         UserContext userContext = new UserContext(new TestContextEngine());
@@ -589,7 +599,7 @@ public class SecurityProviderTest {
         notStrictSecurityProvider.checkRestrictions(new DataSet().add("foo", 1).add("name", "Ivan"), securityFilters, userContext);
         try {
             securityProvider.checkRestrictions(new DataSet().add("name", "Ivan").add("foo", 2), securityFilters, userContext);
-            Assert.fail();
+            fail();
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("foo"));
         }
@@ -597,7 +607,7 @@ public class SecurityProviderTest {
         notStrictSecurityProvider.checkRestrictions(new DataSet(), securityFilters, userContext);
         try {
             securityProvider.checkRestrictions(new DataSet().add("name", "Ivan"), securityFilters, userContext);
-            Assert.fail();
+            fail();
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("foo"));
         }
@@ -609,14 +619,14 @@ public class SecurityProviderTest {
         //foo == 1
         try {
             securityProvider.checkRestrictions(new DataSet().add("foo", 1), securityFilters, userContext);
-            Assert.fail();
+            fail();
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("foo"));
         }
         //age != null
         try {
             securityProvider.checkRestrictions(new DataSet().add("foo", 3).add("age", 10), securityFilters, userContext);
-            Assert.fail();
+            fail();
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("age"));
         }
@@ -632,7 +642,7 @@ public class SecurityProviderTest {
                             .add("name", "Ivan"),
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {
-            Assert.fail();
+            fail();
         }
         //bar not in (1, 2, 3)
         try {
@@ -641,7 +651,7 @@ public class SecurityProviderTest {
                             .add("bar", 4)
                             .add("name", "Ivan"),
                     securityFilters, userContext);
-            Assert.fail();
+            fail();
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("bar"));
         }
@@ -660,7 +670,7 @@ public class SecurityProviderTest {
                             .add("list", Arrays.asList(3, 2, 1, 4)),
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {
-            Assert.fail();
+            fail();
         }
 
         //list not contains (1, 2, 3)
@@ -671,7 +681,7 @@ public class SecurityProviderTest {
                             .add("name", "Ivan")
                             .add("list", Arrays.asList(1, 2)),
                     securityFilters, userContext);
-            Assert.fail();
+            fail();
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("list"));
         }
@@ -691,7 +701,7 @@ public class SecurityProviderTest {
                             .add("name", "Joe"),
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {
-            Assert.fail();
+            fail();
         }
         //name != #{username}
         try {

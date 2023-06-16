@@ -23,12 +23,12 @@ public class TableSettingsGenerator implements ButtonGenerator {
     @Override
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
         List<ToolbarItem> result = new ArrayList<>();
-        result.add(TableSettingsGeneratorUtil.generateFilters(p));
-        result.add(TableSettingsGeneratorUtil.generateColumns(p));
-        result.add(TableSettingsGeneratorUtil.generateRefresh(p));
-        result.add(TableSettingsGeneratorUtil.generateResize(p));
-        result.add(TableSettingsGeneratorUtil.generateWordWrap(p));
-        result.add(TableSettingsGeneratorUtil.generateExport(p));
+        result.add(TableSettingsGeneratorUtil.generateFilters(toolbar, p));
+        result.add(TableSettingsGeneratorUtil.generateColumns(toolbar, p));
+        result.add(TableSettingsGeneratorUtil.generateRefresh(toolbar, p));
+        result.add(TableSettingsGeneratorUtil.generateResize(toolbar, p));
+        result.add(TableSettingsGeneratorUtil.generateWordWrap(toolbar, p));
+        result.add(TableSettingsGeneratorUtil.generateExport(toolbar, p));
         return result;
     }
 }

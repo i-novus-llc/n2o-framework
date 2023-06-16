@@ -11,14 +11,15 @@ import net.n2oapp.framework.config.io.toolbar.v2.SubmenuIOv2;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsV3IOPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsV5IOPack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Тестирование чтения\записи стандартной страницы версии 4.0
  */
 public class StandardPageXmlIOv4Test {
+    
     @Test
-    public void test() {
+    void test() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new StandardDatasourceIO(), new BrowserStorageDatasourceIO(), new ApplicationDatasourceIO(),
                 new InheritedDatasourceIO(), new ParentDatasourceIO(),

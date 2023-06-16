@@ -7,8 +7,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class CustomFieldCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -31,7 +31,7 @@ public class CustomFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testField() {
+    void testField() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testCustomFieldCompile.page.xml")
                 .get(new PageContext("testCustomFieldCompile"));
         Form form = (Form) page.getWidget();

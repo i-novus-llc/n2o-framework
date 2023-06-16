@@ -1,0 +1,31 @@
+[
+  {
+    "id" : 1,
+    "check" : true,
+
+    "res1" : [
+      {
+        "value" : null
+      }],
+
+    "res2" : [
+      {
+        "value" : null
+      }],
+
+    "res3" : [
+      {
+        "value" : null
+      }],
+
+    "res4" : [
+      {
+        "value" : null
+      }],
+
+    "res5" : [
+      {
+        "value" : null
+      }]
+  }
+]

@@ -34,9 +34,11 @@ public class ImageFieldCompiler extends ActionFieldCompiler<ImageField, N2oImage
         imageField.setTitle(p.resolveJS(source.getTitle()));
         imageField.setDescription(p.resolveJS(source.getDescription()));
         imageField.setTextPosition(p.cast(source.getTextPosition(),
-                p.resolve(property("n2o.api.field.image_field.text_position"), TextPosition.class)));
-        imageField.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.field.image_field.width"), String.class)));
-        imageField.setShape(p.cast(source.getShape(), p.resolve(property("n2o.api.field.image_field.shape"), ShapeType.class)));
+                p.resolve(property("n2o.api.control.image.text_position"), TextPosition.class)));
+        imageField.setWidth(p.cast(source.getWidth(),
+                p.resolve(property("n2o.api.control.image.width"), String.class)));
+        imageField.setShape(p.cast(source.getShape(),
+                p.resolve(property("n2o.api.control.image.shape"), ShapeType.class)));
         imageField.setStatuses(compileStatuses(source.getStatuses(), p));
         compileAction(source, imageField, context, p);
         return imageField;
@@ -52,7 +54,7 @@ public class ImageFieldCompiler extends ActionFieldCompiler<ImageField, N2oImage
             statusElement.setFieldId(e.getFieldId());
             statusElement.setIcon(p.resolveJS(e.getIcon()));
             statusElement.setPlace(p.cast(e.getPlace(),
-                    p.resolve(property("n2o.api.field.image.status_place"), ImageStatusElementPlace.class)));
+                    p.resolve(property("n2o.api.control.image.status.place"), ImageStatusElementPlace.class)));
             statusElements[i++] = statusElement;
         }
         return statusElements;
@@ -60,6 +62,6 @@ public class ImageFieldCompiler extends ActionFieldCompiler<ImageField, N2oImage
 
     @Override
     protected String getSrcProperty() {
-        return "n2o.api.field.image_field.src";
+        return "n2o.api.control.image.src";
     }
 }

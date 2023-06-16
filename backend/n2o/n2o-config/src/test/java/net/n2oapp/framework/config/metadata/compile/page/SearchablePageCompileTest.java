@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SearchablePage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -12,8 +11,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -21,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 public class SearchablePageCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -33,7 +32,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testSearchablePageDefault() {
+    void testSearchablePageDefault() {
         SearchablePage page = (SearchablePage) compile("net/n2oapp/framework/config/metadata/compile/page/testSearchablePage.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml")
                 .get(new PageContext("testSearchablePage"));
@@ -56,7 +55,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testSearchablePage() {
+    void testSearchablePage() {
         SearchablePage page = (SearchablePage) compile("net/n2oapp/framework/config/metadata/compile/page/testSearchablePage2.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml")
                 .get(new PageContext("testSearchablePage2"));

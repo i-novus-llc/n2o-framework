@@ -21,8 +21,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.test.SourceMergerTestBase;
 import org.jdom2.Namespace;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -34,7 +34,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class N2oWidgetMergerTest extends SourceMergerTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -48,7 +48,7 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
     }
 
     @Test
-    public void testMergeWidget() {
+    void testMergeWidget() {
         N2oForm widget = merge("net/n2oapp/framework/config/metadata/merge/widget/parentWidgetForm.widget.xml",
                 "net/n2oapp/framework/config/metadata/merge/widget/childWidgetForm.widget.xml")
                 .get("parentWidgetForm", N2oForm.class);
@@ -69,7 +69,7 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
     }
 
     @Test
-    public void testMergeForm() {
+    void testMergeForm() {
         N2oForm form = merge("net/n2oapp/framework/config/metadata/merge/widget/parentFormMerger.widget.xml",
                 "net/n2oapp/framework/config/metadata/merge/widget/childFormMerger.widget.xml")
                 .get("parentFormMerger", N2oForm.class);
@@ -84,7 +84,7 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
     }
 
     @Test
-    public void testMergeTable() {
+    void testMergeTable() {
         N2oTable table = merge("net/n2oapp/framework/config/metadata/merge/widget/parentTableMerger.widget.xml",
                 "net/n2oapp/framework/config/metadata/merge/widget/childTableMerger.widget.xml")
                 .get("parentTableMerger", N2oTable.class);
@@ -119,7 +119,7 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
     }
 
     @Test
-    public void testMergeTableV5() {
+    void testMergeTableV5() {
         N2oTable table = merge("net/n2oapp/framework/config/metadata/merge/widget/parentTableV5Merger.widget.xml",
                 "net/n2oapp/framework/config/metadata/merge/widget/childTableV5Merger.widget.xml")
                 .get("parentTableV5Merger", N2oTable.class);

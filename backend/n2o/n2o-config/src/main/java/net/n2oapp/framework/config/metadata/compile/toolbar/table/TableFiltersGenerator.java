@@ -22,6 +22,6 @@ public class TableFiltersGenerator implements ButtonGenerator {
 
     @Override
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
-        return Collections.singletonList(TableSettingsGeneratorUtil.generateFilters(p));
+        return Collections.singletonList(TableSettingsGeneratorUtil.generateFilters(toolbar, p));
     }
 }

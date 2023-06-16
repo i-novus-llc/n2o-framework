@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.properties;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class MultivaluedPropertyResolverTest {
 
     @Test
-    public void test() {
+    void test() {
         Map<String, String> map1 = new HashMap<>();
         map1.put("k1", "v1");
         map1.put("k", "v1");

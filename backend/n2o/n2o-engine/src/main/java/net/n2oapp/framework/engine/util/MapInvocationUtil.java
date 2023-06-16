@@ -41,13 +41,13 @@ public class MapInvocationUtil {
                         DataList list = new DataList();
                         for (Object obj : (Collection<?>) data)
                             list.add(mapToMap((DataSet) obj, map.getValue().getChildMapping()));
-                        MappingProcessor.inMap(result, fieldMapping, list);
+                        MappingProcessor.inMap(result, map.getKey(), fieldMapping, list);
                     } else if (data instanceof DataSet)
-                        MappingProcessor.inMap(result, fieldMapping, mapToMap((DataSet) data, map.getValue().getChildMapping()));
+                        MappingProcessor.inMap(result, map.getKey(), fieldMapping, mapToMap((DataSet) data, map.getValue().getChildMapping()));
                 } else
-                    MappingProcessor.inMap(result, fieldMapping, data);
+                    MappingProcessor.inMap(result, map.getKey(), fieldMapping, data);
             } else {
-                MappingProcessor.inMap(result, Placeholders.spel(map.getKey()), data);
+                MappingProcessor.inMap(result, map.getKey(), Placeholders.spel(map.getKey()), data);
             }
         }
         return result;

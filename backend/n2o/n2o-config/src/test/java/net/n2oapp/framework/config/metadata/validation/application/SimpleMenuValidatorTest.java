@@ -6,21 +6,18 @@ import net.n2oapp.framework.config.io.action.v2.AnchorElementIOV2;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
 import net.n2oapp.framework.config.metadata.validation.standard.menu.SimpleMenuValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование валидатора простого меню
  */
 public class SimpleMenuValidatorTest extends SourceValidationTestBase {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -33,23 +30,29 @@ public class SimpleMenuValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    public void testMenuItemWithoutAction() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Не задано действие для 'menu-item'");
-        validate("net/n2oapp/framework/config/metadata/validation/application/menu/testMenuItemWithoutAction.menu.xml");
+    void testMenuItemWithoutAction() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testMenuItemWithoutAction.menu.xml"),
+                "Не задано действие для 'menu-item'"
+        );
     }
 
     @Test
-    public void testMenuItemWithoutName() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Не задан 'name' для 'menu-item'");
-        validate("net/n2oapp/framework/config/metadata/validation/application/menu/testMenuItemWithoutName.menu.xml");
+    void testMenuItemWithoutName() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testMenuItemWithoutName.menu.xml"),
+                "Не задан 'name' для 'menu-item'"
+        );
     }
 
     @Test
-    public void testDropdownMenuWithoutName() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Не задан 'name' для 'dropdown-menu'");
-        validate("net/n2oapp/framework/config/metadata/validation/application/menu/testDropdownMenuWithoutName.menu.xml");
+    void testDropdownMenuWithoutName() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testDropdownMenuWithoutName.menu.xml"),
+                "Не задан 'name' для 'dropdown-menu'"
+        );
     }
 }

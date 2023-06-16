@@ -17,20 +17,22 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.core.Is.is;
 
 /**
  * Тестирование компиляции объекта
  */
 public class ObjectCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -44,7 +46,7 @@ public class ObjectCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCompileOperations() {
+    void testCompileOperations() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml")
                 .get(new ObjectContext("utAction"));
         assertThat(object.getOperations().size(), is(2));

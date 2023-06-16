@@ -1,10 +1,10 @@
 package net.n2oapp.cache.template;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.cache.CacheManager;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -19,8 +19,8 @@ public class CacheTemplateTest {
     /**
      * Создание заглушки кэш менеджера и кэш провайдера
      */
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() {
         cacheManager = mock(CacheManager.class);
         cache = new MockCache();
         when(cacheManager.getCache("test")).thenReturn(cache);
@@ -31,7 +31,7 @@ public class CacheTemplateTest {
      * только в случае отсутствия записи в кэше.
      */
     @Test
-    public void testBase() throws Exception {
+    void testBase() {
         CacheTemplate<String, String> cacheTemplate = new CacheTemplate<>(cacheManager);
 
         //"test1" нет в кэше, вызывается callback

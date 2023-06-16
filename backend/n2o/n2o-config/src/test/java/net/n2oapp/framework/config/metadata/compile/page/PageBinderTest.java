@@ -17,8 +17,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.*;
 
 public class PageBinderTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -44,7 +44,7 @@ public class PageBinderTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void fieldsResolve() {
+    void fieldsResolve() {
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(new PageContext("testPageBinders"), new DataSet());
 
@@ -63,7 +63,7 @@ public class PageBinderTest extends SourceCompileTestBase {
      * Разрешение имени страницы через параметр в path
      */
     @Test
-    public void pageNameResolve() {
+    void pageNameResolve() {
         PageContext context = new PageContext("testPageBinders", "/page/:name_param/view");
         context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModel.resolve, "page_master")));
         context.setParentClientWidgetId("page_master");
@@ -81,7 +81,7 @@ public class PageBinderTest extends SourceCompileTestBase {
      * Если не удалось разрешить ссылку в биндере, то пробрасываем на клиент в JS виде
      */
     @Test
-    public void pageNameClientResolvingForwarding() {
+    void pageNameClientResolvingForwarding() {
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageNameClientResolvingForwarding.page.xml")
                 .get(new PageContext("testPageNameClientResolvingForwarding"), new DataSet());
         assertThat(page.getPageProperty().getTitle(), is("`'title '+main`"));
@@ -92,7 +92,7 @@ public class PageBinderTest extends SourceCompileTestBase {
      * Разрешение имени страницы через процессор вложенных моделей в параметре в path
      */
     @Test
-    public void pageNameResolveSubModels() {
+    void pageNameResolveSubModels() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
         doAnswer(invocation -> {
             List<SubModelQuery> subModelQueries = invocation.getArgument(0);
@@ -119,7 +119,7 @@ public class PageBinderTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void pageBreadcrumbResolve() {
+    void pageBreadcrumbResolve() {
         PageContext context = new PageContext("testPageBinders", "/page/:name_param/view");
         context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModel.resolve, "page_master")));
         context.setParentClientWidgetId("page_master");
@@ -137,7 +137,7 @@ public class PageBinderTest extends SourceCompileTestBase {
      * Разрешение вложенных моделей в фильтрах по url параметру
      */
     @Test
-    public void resolveTableFilterSubModels() {
+    void resolveTableFilterSubModels() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
 
         //мок subModelProcessor. Докидывает name в данные
@@ -212,7 +212,7 @@ public class PageBinderTest extends SourceCompileTestBase {
      * Разрешение моделей ссылающихся на родительский виджет и родительскую страницу
      */
     @Test
-    public void refModelBinderTest() {
+    void refModelBinderTest() {
         DataSet data = new DataSet("id", 2);
         PageContext context = new PageContext("testRefModel", "/table/:id/modal");
         context.setParentWidgetId("table");
@@ -239,7 +239,7 @@ public class PageBinderTest extends SourceCompileTestBase {
      * Разрешение моделей фильтров через выборку
      */
     @Test
-    public void defaultValuesQueryTest() {
+    void defaultValuesQueryTest() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
         PageContext context = new PageContext("testDefValQuery", "table");
         doAnswer(invocation -> new CollectionPage<>(1, singletonList(new DataSet("name", "test1")), new Criteria())).when(subModelsProcessor).getQueryResult(anyString(), any());
@@ -277,7 +277,7 @@ public class PageBinderTest extends SourceCompileTestBase {
      * Проверка резолва ссылок в datasource
      */
     @Test
-    public void autoSubmit() {
+    void autoSubmit() {
         ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/page/testDatasourceRouteBinder.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank2.query.xml");

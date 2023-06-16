@@ -8,7 +8,6 @@ import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem 
 
 import { getContainerColumns } from '../../../ducks/columns/selectors'
 import { toggleColumnVisibility } from '../../../ducks/columns/store'
-import { TABLE_ICON } from '../constants'
 
 /**
  * Дропдаун для скрытия/показа колонок в таблице
@@ -18,18 +17,25 @@ import { TABLE_ICON } from '../constants'
  * <ToggleColumn entityKey='TestEntityKey'/>
  */
 function ToggleColumnComponent(props) {
-    const { columns, renderColumnDropdown, icon } = props
+    const { columns, renderColumnDropdown, icon, label, nested = false } = props
     const arrayOfColumns = map(columns, (value, key) => ({ key, value }))
     const filteredColumns = arrayOfColumns.filter(
         ({ key, value = {} }) => key && value.label && value.frozen !== true,
     )
 
     return (
-        <UncontrolledButtonDropdown>
-            <DropdownToggle caret>
-                <i className={icon || TABLE_ICON} />
-            </DropdownToggle>
-            <DropdownMenu>{renderColumnDropdown(filteredColumns)}</DropdownMenu>
+        <UncontrolledButtonDropdown direction={nested ? 'left' : 'down'}>
+            <div>
+                <div className="n2o-dropdown visible">
+                    <div>
+                        <DropdownToggle caret>
+                            {icon && <i className={icon} />}
+                            {label}
+                        </DropdownToggle>
+                        <DropdownMenu>{renderColumnDropdown(filteredColumns)}</DropdownMenu>
+                    </div>
+                </div>
+            </div>
         </UncontrolledButtonDropdown>
     )
 }

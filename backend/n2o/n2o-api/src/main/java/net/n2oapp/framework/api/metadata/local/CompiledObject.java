@@ -57,7 +57,7 @@ public class CompiledObject implements Compiled, IdAware {
     public static class Operation extends N2oObject.Operation implements Compiled, PropertiesAware {
         private Map<String, Object> properties;
         private Map<String, AbstractParameter> inParametersMap;
-        private Map<String, ObjectSimpleField> outParametersMap;
+        private Map<String, AbstractParameter> outParametersMap;
         private Map<String, ObjectSimpleField> failOutParametersMap;
         private List<Validation> validationList;
         private Map<String, Validation> validationsMap;

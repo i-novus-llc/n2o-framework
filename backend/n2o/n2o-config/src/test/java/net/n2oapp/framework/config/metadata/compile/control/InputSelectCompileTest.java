@@ -13,8 +13,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class InputSelectCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -42,7 +42,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testInputSelectDataProvider() {
+    void testInputSelectDataProvider() {
         PageContext pageContext = new PageContext("testInputSelect");
         Map<String, ModelLink> queryRouteMapping = new HashMap<>();
         queryRouteMapping.put("test", new ModelLink(1));
@@ -71,6 +71,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(inputSelect.getSize(), is(20));
         assertThat(inputSelect.getSearchMinLength(), is(2));
         assertThat(inputSelect.getThrottleDelay(), is(200));
+        assertThat(inputSelect.getResetOnBlur(), is(true));
         ClientDataProvider cdp = inputSelect.getDataProvider();
 
         inputSelect = (InputSelect) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
