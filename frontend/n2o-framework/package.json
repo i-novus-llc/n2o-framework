@@ -95,7 +95,7 @@
     "rc-slider": "^8.6.11",
     "rc-switch": "~1.8.0",
     "rc-table": "6.4.3",
-    "rc-tree-select": "2.3.1",
+    "rc-tree-select": "^5.9.0",
     "react": "17.0.2",
     "react-ace": "9.3.0",
     "react-big-calendar": "0.24.6",
