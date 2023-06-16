@@ -25,11 +25,17 @@ function ToggleColumnComponent(props) {
 
     return (
         <UncontrolledButtonDropdown direction={nested ? 'left' : 'down'}>
-            <DropdownToggle caret>
-                {icon && <i className={icon} />}
-                {label}
-            </DropdownToggle>
-            <DropdownMenu>{renderColumnDropdown(filteredColumns)}</DropdownMenu>
+            <div>
+                <div className="n2o-dropdown visible">
+                    <div>
+                        <DropdownToggle caret>
+                            {icon && <i className={icon} />}
+                            {label}
+                        </DropdownToggle>
+                        <DropdownMenu>{renderColumnDropdown(filteredColumns)}</DropdownMenu>
+                    </div>
+                </div>
+            </div>
         </UncontrolledButtonDropdown>
     )
 }
