@@ -92,7 +92,7 @@ public class BadgeAT extends AutoTestBase {
         firstItemTree.expand();
         firstItemTree.shouldBeExpanded();
         dropDownTreeSelect.shouldHaveItems(4);
-        firstItemTree.shouldHaveOption("11");
+        dropDownTreeSelect.shouldHaveOption("11");
         DropDownTree.DropDownTreeItem thirdItemTree = dropDownTreeSelect.item(1);
         thirdItemTree.expand();
         thirdItemTree.shouldBeExpanded();
@@ -179,7 +179,7 @@ public class BadgeAT extends AutoTestBase {
         TreeWidget.TreeItem firstItemTree = treeWidget.item(0);
         firstItemTree.expand();
         treeWidget.shouldHaveItems(4);
-        firstItemTree.shouldHaveItem("11");
+        treeWidget.shouldHaveItem("11");
 
         TreeWidget.TreeItem secondItemTree = treeWidget.item(1);
         secondItemTree.badgeShouldBeExists();
