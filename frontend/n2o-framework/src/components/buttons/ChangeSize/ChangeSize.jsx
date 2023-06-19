@@ -33,7 +33,7 @@ function ChangeSizeComponent(props) {
     })
 
     return (
-        <UncontrolledButtonDropdown direction={nested ? 'left' : 'down'}>
+        <UncontrolledButtonDropdown direction={nested ? 'right' : 'down'}>
             <div>
                 <div className="n2o-dropdown visible">
                     <div>
