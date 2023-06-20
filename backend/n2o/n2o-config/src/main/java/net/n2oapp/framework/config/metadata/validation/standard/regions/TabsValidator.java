@@ -23,8 +23,8 @@ public class TabsValidator implements SourceValidator<N2oTabsRegion>, SourceClas
         if (source.getTabs() == null)
             throw new N2oMetadataValidationException("В регионе <tabs> отсутствуют вкладки <tab>");
 
-        ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p.getScope(DatasourceIdsScope.class),
-                String.format("Регион <tabs> ссылается на несуществующий источник данных '%s'", source.getDatasourceId()));
-
+        if (source.getDatasourceId() != null)
+            ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p.getScope(DatasourceIdsScope.class),
+                    String.format("Регион <tabs> ссылается на несуществующий источник данных '%s'", source.getDatasourceId()));
     }
 }
