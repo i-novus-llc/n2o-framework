@@ -41,6 +41,7 @@ function InputSelectGroup({
     disabled,
     setSelectedItemsRef,
     withoutButtons,
+    onClick,
 }) {
     const clearClickHandler = useCallback((evt) => {
         evt.stopPropagation()
@@ -68,6 +69,7 @@ function InputSelectGroup({
                     disabled,
                 },
             )}
+            onClick={onClick}
         >
             <div className="n2o-input-items">
                 {displayAddon && (
@@ -118,6 +120,7 @@ InputSelectGroup.propTypes = {
     withoutButtons: PropTypes.bool,
     setSelectedItemsRef: PropTypes.func,
     className: PropTypes.string,
+    onClick: PropTypes.func,
 }
 
 InputSelectGroup.defaultProps = {
@@ -126,6 +129,7 @@ InputSelectGroup.defaultProps = {
     loading: false,
     withoutButtons: false,
     hidePopUp: () => {},
+    onClick: () => {},
 }
 
 export default InputSelectGroup
