@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
@@ -51,6 +52,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                     .filter(datasource -> datasource.getId() != null)
                     .forEach(datasource -> p.validate(datasource, actionDatasourceScope));
         }
+        checkDatasourceInParam(source, p);
     }
 
     /**
@@ -78,6 +80,18 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                         String.format("Атрибут \"refresh-datasources\" ссылается на несуществующий источник данных '%s'", datasourceId));
             }
         }
+    }
+
+    private void checkDatasourceInParam(N2oAbstractPageAction action, SourceProcessor p) {
+        N2oParam[] params = action.getParams();
+        if(params!=null)
+            Arrays.stream(params).forEach(param -> {
+                if (param.getDatasourceId()!=null)
+                    ValidationUtils.checkDatasourceExistence(param.getDatasourceId(), p,
+                            String.format("Параметр %s открытия страницы ссылается на несуществующий источник данных %s",
+                                    ValidationUtils.getIdOrEmptyString(param.getName()),
+                                    ValidationUtils.getIdOrEmptyString(param.getDatasourceId())));
+            });
     }
 
     @Override
