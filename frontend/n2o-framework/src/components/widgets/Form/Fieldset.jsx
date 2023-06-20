@@ -3,18 +3,17 @@ import isEqual from 'lodash/isEqual'
 import each from 'lodash/each'
 import concat from 'lodash/concat'
 import { bindActionCreators } from 'redux'
-import { connect, ReactReduxContext } from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import {
-    showMultiFields,
-    hideMultiFields,
-    enableMultiFields,
-    disableMultiFields,
+    setMultiFieldVisible,
+    setMultiFieldDisabled,
 } from '../../../ducks/form/store'
 import propsResolver from '../../../utils/propsResolver'
 import { parseExpression } from '../../../utils/evalExpression'
+import { FormContext } from '../../core/FormProvider/provider'
 
 // eslint-disable-next-line import/no-cycle
 import FieldsetRow from './FieldsetRow'
@@ -108,24 +107,7 @@ class Fieldset extends React.Component {
         this.fields = []
     }
 
-    componentDidMount() {
-        this.resolveProperties()
-    }
-
-    componentDidUpdate(prevProps) {
-        const { visible, enabled, activeModel } = this.props
-
-        if (
-            isEqual(activeModel, prevProps.activeModel) &&
-                isEqual(visible, prevProps.visible) &&
-                isEqual(enabled, prevProps.enabled)
-        ) {
-            return
-        }
-        this.resolveProperties()
-    }
-
-    resolveProperties() {
+    componentDidUpdate() {
         const { visible, enabled, activeModel, parentIndex } = this.props
         const {
             enabled: enabledFromState,
@@ -147,14 +129,11 @@ class Fieldset extends React.Component {
     }
 
     setVisible(nextVisibleField) {
-        const { showMultiFields, hideMultiFields, form, modelPrefix } = this.props
+        const { setMultiFieldVisible } = this.props
+        const { formName } = this.context
 
         this.setState(() => {
-            if (nextVisibleField) {
-                showMultiFields(modelPrefix, form, this.fields)
-            } else {
-                hideMultiFields(modelPrefix, form, this.fields)
-            }
+            setMultiFieldVisible(formName, this.fields, nextVisibleField)
 
             return {
                 visible: nextVisibleField,
@@ -163,13 +142,10 @@ class Fieldset extends React.Component {
     }
 
     setEnabled(nextEnabledField) {
-        const { enableMultiFields, disableMultiFields, form, modelPrefix } = this.props
+        const { setMultiFieldDisabled } = this.props
+        const { formName } = this.context
 
-        if (nextEnabledField) {
-            enableMultiFields(modelPrefix, form, this.fields)
-        } else {
-            disableMultiFields(modelPrefix, form, this.fields)
-        }
+        setMultiFieldDisabled(formName, this.fields, !nextEnabledField)
         this.setState({
             enabled: nextEnabledField,
         })
@@ -202,14 +178,13 @@ class Fieldset extends React.Component {
             labelAlignment,
             defaultCol,
             autoFocusId,
-            form,
             modelPrefix,
             autoSubmit,
             activeModel,
             onChange,
             onBlur,
         } = this.props
-
+        const { formName } = this.context
         const { enabled } = this.state
 
         return (
@@ -223,7 +198,7 @@ class Fieldset extends React.Component {
                 labelAlignment={labelAlignment}
                 defaultCol={defaultCol}
                 autoFocusId={autoFocusId}
-                form={form}
+                form={formName}
                 modelPrefix={modelPrefix}
                 disabled={!enabled}
                 autoSubmit={autoSubmit}
@@ -313,11 +288,8 @@ Fieldset.propTypes = {
     visible: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     enabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     dependency: PropTypes.array,
-    form: PropTypes.string,
-    showMultiFields: PropTypes.func,
-    hideMultiFields: PropTypes.func,
-    enableMultiFields: PropTypes.func,
-    disableMultiFields: PropTypes.func,
+    setMultiFieldVisible: PropTypes.func,
+    setMultiFieldDisabled: PropTypes.func,
     modelPrefix: PropTypes.string,
     type: PropTypes.string,
     parentName: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -335,14 +307,12 @@ Fieldset.defaultProps = {
     component: 'div',
 }
 
-Fieldset.contextType = ReactReduxContext
+Fieldset.contextType = FormContext
 
 const mapDispatchToProps = dispatch => bindActionCreators(
     {
-        showMultiFields,
-        hideMultiFields,
-        enableMultiFields,
-        disableMultiFields,
+        setMultiFieldVisible,
+        setMultiFieldDisabled,
     },
     dispatch,
 )

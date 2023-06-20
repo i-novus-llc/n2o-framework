@@ -17,13 +17,13 @@ const isEqualArrayLength = (current: unknown[], prev: unknown[]) => current.leng
 
 // TODO: добавить уникальный id на каждый эллемент
 export const useFieldArray = <T>({ defaultValue = [], name: fieldName, primaryKey }: TUseFieldArray<T>) => {
-    const { name: formName, prefix } = useFormContext()
+    const { datasource, prefix } = useFormContext()
     const dispatch = useDispatch()
     /**
      * Список элементов, обновляется только если изменилась длина списка
      */
     const fields = useSelector<State, T[]>((state: State) => {
-        const value = getFormDataSelector(state, `${prefix}.${formName}.${fieldName}`)
+        const value = getFormDataSelector(state, `${prefix}.${datasource}.${fieldName}`)
 
         return (value === undefined || value === null) ? defaultValue : value
     }, isEqualArrayLength)
@@ -32,22 +32,22 @@ export const useFieldArray = <T>({ defaultValue = [], name: fieldName, primaryKe
      * Добавление пустого элемента в массив
      */
     const append = useCallback(() => {
-        dispatch(appendFieldToArray({ prefix, key: formName, fieldName, primaryKey }))
-    }, [dispatch, fieldName, formName, prefix, primaryKey])
+        dispatch(appendFieldToArray({ prefix, key: datasource, fieldName, primaryKey }))
+    }, [dispatch, fieldName, datasource, prefix, primaryKey])
 
     /**
      * Удаление элемента по индексу или диапазон элементов
      */
     const remove = useCallback((start: number, end?: number) => {
-        dispatch(removeFieldFromArray(prefix, formName, fieldName, start, end))
-    }, [dispatch, fieldName, formName, prefix])
+        dispatch(removeFieldFromArray(prefix, datasource, fieldName, start, end))
+    }, [dispatch, fieldName, datasource, prefix])
 
     /**
      * Копирование элемента по индексу. Вставляется в конец массива
      */
     const copy = useCallback((index: number) => {
-        dispatch(copyFieldArray(prefix, formName, fieldName, index, primaryKey))
-    }, [dispatch, fieldName, formName, prefix, primaryKey])
+        dispatch(copyFieldArray(prefix, datasource, fieldName, index, primaryKey))
+    }, [dispatch, fieldName, datasource, prefix, primaryKey])
 
     return ({
         fields,
