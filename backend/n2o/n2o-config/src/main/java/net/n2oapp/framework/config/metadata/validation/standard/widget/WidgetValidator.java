@@ -133,7 +133,8 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
      * @param scope     Скоуп источников данных
      */
     private void checkDatasource(N2oWidget n2oWidget, DatasourceIdsScope scope) {
-        ValidationUtils.checkDatasourceExistence(n2oWidget.getDatasourceId(), scope,
+        if (n2oWidget.getDatasourceId() != null)
+            ValidationUtils.checkDatasourceExistence(n2oWidget.getDatasourceId(), scope,
                 String.format("Виджет %s cсылается на несуществующий источник данных '%s'",
                         ValidationUtils.getIdOrEmptyString(n2oWidget.getId()), n2oWidget.getDatasourceId()));
         if (nonNull(n2oWidget.getDatasource()) && nonNull(n2oWidget.getDatasourceId()))
