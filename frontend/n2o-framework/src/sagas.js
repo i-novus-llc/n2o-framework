@@ -9,6 +9,7 @@ import actionsImplSagas from './sagas/actionsImpl'
 import alertsSagas from './ducks/alerts/sagas'
 import authSagas from './ducks/user/sagas'
 import { formPluginSagas } from './ducks/form/sagas'
+import { modelSagas } from './ducks/models/sagas'
 import { fieldDependencySagas } from './sagas/fieldDependency'
 import { metaSagas } from './sagas/meta'
 import globalSagas from './ducks/global/sagas'
@@ -38,6 +39,7 @@ export default function generateSagas(dispatch, config) {
             ...actionsImplSagas(config.apiProvider, config.factories),
             ...alertsSagas(config.messages),
             ...formPluginSagas,
+            ...modelSagas,
             ...fieldDependencySagas,
             ...authSagas(config.security),
             ...metaSagas,

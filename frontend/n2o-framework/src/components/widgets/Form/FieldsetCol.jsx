@@ -125,7 +125,7 @@ FieldsetColComponent.propTypes = {
     labelWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     labelAlignment: PropTypes.string,
     modelPrefix: PropTypes.string,
-    form: PropTypes.any,
+    form: PropTypes.string,
     parentName: PropTypes.string,
     parentIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     colVisible: PropTypes.bool,

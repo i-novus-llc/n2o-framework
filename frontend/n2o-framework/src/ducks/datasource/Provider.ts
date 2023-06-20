@@ -1,4 +1,5 @@
 import type { ModelPrefix } from '../../core/datasource/const'
+import { Meta } from '../Action'
 
 export enum ProviderType {
     storage = 'browser',
@@ -67,7 +68,7 @@ export interface QueryResult<TModel extends object = object> {
     list: TModel[]
     additionalInfo?: object
     paging: Paging
-    meta?: object
+    meta?: Meta
 }
 
 export type QueryOptions = { page?: number }
