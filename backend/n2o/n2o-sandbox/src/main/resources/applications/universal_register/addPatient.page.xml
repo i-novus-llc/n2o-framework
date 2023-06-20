@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Новый пациент">
+<datasources>
+    <datasource id="dsMod" query-id="test">
+        <dependencies>
+            <fetch on="snilsFilter" model="filter"/>    
+        </dependencies>
+        <filters>
+                <eq field-id="snils" value="{snils}" datasource="snilsFilter" model="filter"/>
+        </filters>
+    </datasource>
+    <datasource id="snilsFilter"/>
+    <datasource id="fl"/>
+    <browser-storage id="create" key="create">
+        <submit auto="true">
+            
+        </submit>
+    </browser-storage>
+</datasources>
+<regions>
+    <form datasource="snilsFilter">
+        <fields>
+            <row>
+                <col size="4">
+                    <masked-input mask="999-999-999 99" placeholder="___-___-___ __" label="СНИЛС" id="snils" help="Поиск среди пациентов по СНИЛС"/>
+                </col>
+                <col size="4">
+                    <button label="Поиск по СНИЛС" icon="fa fa-search" 
+                            description="Поиск среди пациентов по СНИЛС" tooltip-position="right" enabled="{snils}" no-label-block="false">
+                        
+                        <copy source-field-id="snils" target-field-id="snils" target-model="filter" close-on-success="false"/>    
+                        <!-- <copy source-field-id="id" source-datasource="dsMod" target-field-id="id" target-datasource="fl" close-on-success="false"/> -->
+                    </button>
+                </col>
+                <!-- <col size="1">
+                    <button icon="fa fa-search" style="padding-top:32px" type="icon">
+                        
+                    </button>
+                </col> -->
+            </row>
+            </fields>
+        </form>
+        <form datasource="dsMod" fetch-on-init="false">
+            <fields>
+                <hidden id="id"/>
+                <alert text="Найдена запись о пациенте с указанными данными" visible="{id != null}" color="primary"/>
+                <alert text="Отсутсвует запись с указанными данными" visible="{isEmptyPatient}" color="primary"/>
+            <row>
+                <col size="5">
+                   <input-text id="fl.surname" label="Фамилия" required="{!id}" enabled="{!id}"/>
+                </col>
+                <col size="5">
+                    <input-text id="fl.name" label="Имя" required="{!id}" enabled="{!id}"/> 
+                </col>
+            </row>
+             <row>
+                <col size="5">
+                   <input-text id="fl.middlename" label="Отчество" enabled="{!id}"/>
+                </col>
+                <col size="3">
+                    <date-time id="fl.birthday" label="Дата рождения" required="{!id}" enabled="{!id}"/> 
+                </col>
+            </row>
+        </fields>
+        <toolbar place="bottomRight">
+            <button label="Перейти к карточке пациента" color="primary">
+                <if test="id != null">
+                    <open-page page-id="cardRed" route="/:id/card">
+                        <params>
+                            <path-param name="id" value="{id}"/>
+                         </params>
+                    </open-page>
+                </if>
+                <else-if test="fl != null">
+                    <copy source-datasource="dsMod" target-datasource="create" close-on-success="false"/>
+                    <submit datasource="create"/>
+                    <open-page page-id="cardAdd" route="/create">
+                        
+                    </open-page>
+                </else-if>
+                 <else>
+                    <alert text="Не выполнены условия"/>
+                </else>
+            </button>
+        </toolbar>
+    </form>
+</regions>
+</page>

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.util;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import static org.hamcrest.core.IsNull.nullValue;
 public class StylesResolverTest {
 
     @Test
-    public void test() {
+    void test() {
         Map<String, String> oneStyle = StylesResolver.resolveStyles("margin-top: 16px; ");
         assertThat(oneStyle.size(), is(1));
         assertThat(oneStyle.get("marginTop"), is("16px"));
@@ -25,9 +26,12 @@ public class StylesResolverTest {
         assertThat(StylesResolver.resolveStyles(null), nullValue());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void invalidInputTest() {
-        StylesResolver.resolveStyles("box-shadow: illegal : argument;");
+    @Test
+    void invalidInputTest() {
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> StylesResolver.resolveStyles("box-shadow: illegal : argument;")
+        );
     }
 
 }

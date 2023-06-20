@@ -21,8 +21,9 @@ import org.hamcrest.Description;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.PropertyResolver;
@@ -37,7 +38,8 @@ import java.util.Properties;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 
 /**
@@ -344,72 +346,72 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void testRead() throws Exception {
+    void testRead() throws Exception {
         new IOProcessorImpl(false).read(dom("net/n2oapp/framework/config/io/ioprocessor1.xml"), new EmptyEntity(), (e, t) -> {
             fail();
         });
     }
 
     @Test
-    public void testPersist() {
+    void testPersist() {
         new IOProcessorImpl(true).persist(new EmptyEntity(), new Element("test"), (t, e) -> {
             fail();
         });
     }
 
     @Test
-    public void testExtensionAttributes() throws Exception {
+    void testExtensionAttributes() throws Exception {
         IOProcessor io = new IOProcessorImpl(true);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor1.xml");
         ExtAttributesEntity extAttrEntity = new ExtAttributesEntity();
         io.anyAttributes(in, extAttrEntity::getExtAttributes, extAttrEntity::setExtAttributes);
-        Assert.assertEquals(2, extAttrEntity.getExtAttributes().size());
-        Assert.assertEquals("extAttr1", extAttrEntity.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0"))).get("att1"));
-        Assert.assertEquals("ext2Attr1", extAttrEntity.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0"))).get("att1"));
-        Assert.assertEquals("ext2Attr2", extAttrEntity.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0"))).get("att2"));
+        assertEquals(2, extAttrEntity.getExtAttributes().size());
+        assertEquals("extAttr1", extAttrEntity.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0"))).get("att1"));
+        assertEquals("ext2Attr1", extAttrEntity.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0"))).get("att1"));
+        assertEquals("ext2Attr2", extAttrEntity.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0"))).get("att2"));
 
         io = new IOProcessorImpl(false);
         Element element = new Element("test");
         io.anyAttributes(element, extAttrEntity::getExtAttributes, extAttrEntity::setExtAttributes);
-        Assert.assertEquals(3, element.getAttributes().size());
-        Assert.assertEquals("extAttr1", element.getAttributeValue("att1", Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0")));
-        Assert.assertEquals("ext2Attr1", element.getAttributeValue("att1", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));
-        Assert.assertEquals("ext2Attr2", element.getAttributeValue("att2", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));
+        assertEquals(3, element.getAttributes().size());
+        assertEquals("extAttr1", element.getAttributeValue("att1", Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0")));
+        assertEquals("ext2Attr1", element.getAttributeValue("att1", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));
+        assertEquals("ext2Attr2", element.getAttributeValue("att2", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));
     }
 
     @Test
-    public void testChildAnyAttributes() throws Exception {
+    void testChildAnyAttributes() throws Exception {
         IOProcessor io = new IOProcessorImpl(true);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor21.xml");
         ExtAttributesEntity entity = new ExtAttributesEntity();
         io.childAnyAttributes(in, "sub", entity::getChildExtensions, entity::setChildExtensions);
-        Assert.assertEquals(2, entity.getChildExtensions().size());
-        Assert.assertEquals("extAttr1", entity.getChildExtensions().get(new N2oNamespace(Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0"))).get("att1"));
-        Assert.assertEquals("ext2Attr1", entity.getChildExtensions().get(new N2oNamespace(Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0"))).get("att1"));
-        Assert.assertEquals("ext2Attr2", entity.getChildExtensions().get(new N2oNamespace(Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0"))).get("att2"));
+        assertEquals(2, entity.getChildExtensions().size());
+        assertEquals("extAttr1", entity.getChildExtensions().get(new N2oNamespace(Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0"))).get("att1"));
+        assertEquals("ext2Attr1", entity.getChildExtensions().get(new N2oNamespace(Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0"))).get("att1"));
+        assertEquals("ext2Attr2", entity.getChildExtensions().get(new N2oNamespace(Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0"))).get("att2"));
 
 
         io = new IOProcessorImpl(false);
         Element element = new Element("test");
         io.childAnyAttributes(element, "sub", entity::getChildExtensions, entity::setChildExtensions);
         Element child = element.getChild("sub", element.getNamespace());
-        Assert.assertEquals(3, child.getAttributes().size());
-        Assert.assertEquals("extAttr1", child.getAttributeValue("att1", Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0")));
-        Assert.assertEquals("ext2Attr1", child.getAttributeValue("att1", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));
-        Assert.assertEquals("ext2Attr2", child.getAttributeValue("att2", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));
+        assertEquals(3, child.getAttributes().size());
+        assertEquals("extAttr1", child.getAttributeValue("att1", Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0")));
+        assertEquals("ext2Attr1", child.getAttributeValue("att1", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));
+        assertEquals("ext2Attr2", child.getAttributeValue("att2", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));
     }
 
 
     @Test
-    public void testOtherAttributes() throws Exception {
+    void testOtherAttributes() throws Exception {
         IOProcessor p = new IOProcessorImpl(true);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor2.xml");
         Namespace namespace = Namespace.getNamespace("ext", "http://n2oapp.net/framework/ext-1.0");
         Map<String, String> map = new HashMap<>();
         p.otherAttributes(in, namespace, map);
-        Assert.assertEquals(2, map.size());
-        Assert.assertEquals("v1", map.get("att1"));
-        Assert.assertEquals("v2", map.get("att2"));
+        assertEquals(2, map.size());
+        assertEquals("v1", map.get("att1"));
+        assertEquals("v2", map.get("att2"));
 
         p = new IOProcessorImpl(false);
         Element out = new Element("test");
@@ -421,12 +423,12 @@ public class IOProcessorTest {
 
 
     @Test
-    public void testAttributeBoolean() throws Exception {
+    void testAttributeBoolean() throws Exception {
         IOProcessor p = new IOProcessorImpl(true);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor6.xml");
         BoolEntity boolEntity = new BoolEntity();
         p.attributeBoolean(in, "att1", boolEntity::getBoolAttr, boolEntity::setBoolAttr);
-        Assert.assertEquals(true, boolEntity.getBoolAttr());
+        assertEquals(true, boolEntity.getBoolAttr());
         p = new IOProcessorImpl(false);
         Namespace namespace = Namespace.getNamespace("http://example.com/n2o/ext-1.0");
         Element out = new Element("test", namespace);
@@ -435,12 +437,12 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void testAttributeInteger() throws Exception {
+    void testAttributeInteger() throws Exception {
         IOProcessor p = new IOProcessorImpl(true);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor8.xml");
         IntEntity intEntity = new IntEntity();
         p.attributeInteger(in, "att1", intEntity::getIntAttr, intEntity::setIntAttr);
-        Assert.assertEquals((Integer) 7, intEntity.getIntAttr());
+        assertEquals((Integer) 7, intEntity.getIntAttr());
         p = new IOProcessorImpl(false);
         Element out = new Element("test", Namespace.getNamespace("http://example.com/n2o/ext-1.0"));
         p.attributeInteger(out, "att1", intEntity::getIntAttr, intEntity::setIntAttr);
@@ -448,7 +450,7 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void testChildrenToMap() throws Exception {
+    void testChildrenToMap() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
         IOProcessor pR = new IOProcessorImpl(readerFactory);
         readerFactory.register(new BodyNamespaceEntityIO());
@@ -466,7 +468,7 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void testChildrenAttributesToMap() throws Exception {
+    void testChildrenAttributesToMap() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
         IOProcessor pR = new IOProcessorImpl(readerFactory);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor24.xml");
@@ -484,7 +486,7 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void testChildrenToMapString() throws Exception {
+    void testChildrenToMapString() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
         IOProcessor p = new IOProcessorImpl(readerFactory);
         readerFactory.register(new BodyNamespaceEntityIO());
@@ -502,7 +504,7 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void testChildrenToStringArray() throws JDOMException, IOException {
+    void testChildrenToStringArray() throws JDOMException, IOException {
         IOProcessor p = new IOProcessorImpl(true);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor20.xml");
         ArrayEntity arrayEntity = new ArrayEntity();
@@ -518,15 +520,15 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void testAttributeArray() throws Exception {
+    void testAttributeArray() throws Exception {
         IOProcessor p = new IOProcessorImpl(true);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor9.xml");
         ArrayEntity arrayEntity = new ArrayEntity();
         p.attributeArray(in, "att1", ",", arrayEntity::getArrayAttr, arrayEntity::setArrayAttr);
-        Assert.assertEquals(3, arrayEntity.getArrayAttr().length);
-        Assert.assertEquals("1", arrayEntity.getArrayAttr()[0]);
-        Assert.assertEquals("2", arrayEntity.getArrayAttr()[1]);
-        Assert.assertEquals("3", arrayEntity.getArrayAttr()[2]);
+        assertEquals(3, arrayEntity.getArrayAttr().length);
+        assertEquals("1", arrayEntity.getArrayAttr()[0]);
+        assertEquals("2", arrayEntity.getArrayAttr()[1]);
+        assertEquals("3", arrayEntity.getArrayAttr()[2]);
         p = new IOProcessorImpl(false);
         Element out = new Element("test", Namespace.getNamespace("http://example.com/n2o/ext-1.0"));
         p.attributeArray(out, "att1", ",", arrayEntity::getArrayAttr, arrayEntity::setArrayAttr);
@@ -535,7 +537,7 @@ public class IOProcessorTest {
 
 
     @Test
-    public void testChildrenByEnum() throws Exception {
+    void testChildrenByEnum() throws Exception {
         IOProcessor p = new IOProcessorImpl(true);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor3.xml");
         ListEnumEntity listEnumEntity = new ListEnumEntity();
@@ -555,7 +557,7 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void testChildrenText() throws Exception {
+    void testChildrenText() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
         IOProcessor p = new IOProcessorImpl(readerFactory);
         readerFactory.register(new BodyNamespaceEntityIO());
@@ -572,7 +574,7 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void testChildrenAttributes() throws Exception {
+    void testChildrenAttributes() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
         readerFactory.register(new EnumNamespaceEntityIO());
         readerFactory.register(new BodyNamespaceEntityIO());
@@ -600,7 +602,7 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void testElement() throws Exception {
+    void testElement() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
         readerFactory.register(new BodyNamespaceEntityIO());
         IOProcessor p = new IOProcessorImpl(readerFactory);
@@ -617,7 +619,7 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void testProps() throws Exception {
+    void testProps() throws Exception {
         //test properties
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
         readerFactory.register(new BodyNamespaceEntityIO());
@@ -690,7 +692,7 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void testChildren() throws Exception {
+    void testChildren() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
         readerFactory.register(new BodyNamespaceEntityIO());
         IOProcessor p = new IOProcessorImpl(readerFactory);
@@ -720,7 +722,7 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void testChild() throws Exception {
+    void testChild() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
         readerFactory.register(new BodyNamespaceEntityIO());
         IOProcessor p = new IOProcessorImpl(readerFactory);
@@ -748,7 +750,7 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void anyChildren() throws Exception {
+    void anyChildren() throws Exception {
         IOProcessor p = new IOProcessorImpl(true);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor4.xml");
         ListBaseEntity listBaseEntity = new ListBaseEntity();
@@ -788,7 +790,7 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void testAnyChild() throws Exception {
+    void testAnyChild() throws Exception {
         IOProcessor p = new IOProcessorImpl(true);
         Element in1 = dom("net/n2oapp/framework/config/io/ioprocessor18.xml");
         Element in2 = dom("net/n2oapp/framework/config/io/ioprocessor19.xml");
@@ -940,7 +942,7 @@ public class IOProcessorTest {
     }
 
     @Test
-    public void anyChildrenByNamespace() throws Exception {
+    void anyChildrenByNamespace() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
         readerFactory.register(new EnumNamespaceEntityIO());
         readerFactory.register(new BodyNamespaceEntityIO());

@@ -9,7 +9,8 @@ import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
 import net.n2oapp.framework.config.io.datasource.StompDatasourceIO;
 import net.n2oapp.framework.config.io.event.StompEventIO;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Тестирование чтения и записи приложения версии 3.0
@@ -17,7 +18,7 @@ import org.junit.Test;
 public class ApplicationIOv3Test {
 
     @Test
-    public void test() {
+    void test() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new ApplicationIOv3(), new AlertActionElementIOV2(), new SidebarIOv3(), new StompEventIO(),
                  new StandardDatasourceIO(), new StompDatasourceIO(), new BrowserStorageDatasourceIO(), new InheritedDatasourceIO());

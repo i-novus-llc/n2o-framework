@@ -5,7 +5,8 @@ import net.n2oapp.framework.config.io.action.v2.SetValueElementIOV2;
 import net.n2oapp.framework.config.io.action.v2.SubmitActionElementIOV2;
 import net.n2oapp.framework.config.io.widget.v5.FormElementIOV5;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Тестирование чтения, записи поля с кнопкой версии 3.0
@@ -13,7 +14,7 @@ import org.junit.Test;
 public class N2oButtonFieldXmlIOv3Test {
 
     @Test
-    public void testButtonFieldXmlIO() {
+    void testButtonFieldXmlIO() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new ButtonFieldIOv3(), new FormElementIOV5(), new AnchorElementIOV2(),
                 new SetValueElementIOV2(), new SubmitActionElementIOV2());

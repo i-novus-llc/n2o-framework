@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Component;
 
-import java.util.Map;
-
 /**
  * Клиентская модель подвала (footer)
  */

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Электронная полдпись">
+<regions>
+    <region>
+        <form>
+            <fields>
+                <file-upload id="file" accept=".pdf" required="true" label="Файл документа"/>
+                <select id="certificate" query-id="certificate" required="true" label="Сертификат"/>
+                <line label="Сведения о выбраном сертификате" enabled="{certificate!=null}" expand="false" has-separator="false">
+                    <output-text id="certificate.number" visible="{certificate!=null}" label="Номер"/>
+                    <output-text id="certificate.owner" visible="{certificate!=null}" label="Владелец"/>
+                    <output-text id="certificate.publisher" visible="{certificate!=null}" label="Издатель"/>
+                    <output-text id="certificate.date.begin" visible="{certificate!=null}" label="Дата выдачи"/>
+                    <output-text id="certificate.date.end" visible="{certificate!=null}" label="Дата окончания"/>
+                    <output-text id="certificate.algorithm" visible="{certificate!=null}" label="Алгоритм"/>
+                </line>
+            </fields>
+            <toolbar place="bottomRight">
+                <button label="Создать подпись">
+                    
+                </button>
+            </toolbar>
+        </form>
+    </region>
+</regions>
+</page>

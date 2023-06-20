@@ -8,8 +8,8 @@ import net.n2oapp.framework.config.io.cell.v2.FileUploadCellElementIOv2;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.nullValue;
 public class FileUploadCellCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -36,7 +36,7 @@ public class FileUploadCellCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCompileFileUploadCell() {
+    void testCompileFileUploadCell() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testFileUploadCell.page.xml")
                 .get(new PageContext("testFileUploadCell"));
         Table table = (Table) page.getWidget();

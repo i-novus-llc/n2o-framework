@@ -11,8 +11,8 @@ import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.HtmlWidgetCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,7 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class HtmlWidgetCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -36,7 +36,7 @@ public class HtmlWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCompileActions() {
+    void testCompileActions() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testHtmlWidget4Compile.page.xml")
                 .get(new PageContext("testHtmlWidget4Compile"));
         HtmlWidget htmlWidget = (HtmlWidget) page.getRegions().get("single").get(0).getContent().get(0);
@@ -44,7 +44,7 @@ public class HtmlWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCompileContent() {
+    void testCompileContent() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testHtmlWidgetContentCompile.page.xml")
                 .get(new PageContext("testHtmlWidgetContentCompile"));
         HtmlWidget htmlWidget = (HtmlWidget) page.getRegions().get("single").get(0).getContent().get(0);

@@ -17,8 +17,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.is;
 public class MultiActionCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -44,7 +44,7 @@ public class MultiActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void simple() {
+    void simple() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/multiaction/testMultiAction.page.xml")
                 .get(new PageContext("testMultiAction"));
 
@@ -71,7 +71,7 @@ public class MultiActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testBind() {
+    void testBind() {
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/multiaction/testBindMultiAction.page.xml")
                 .get(new PageContext("testBindMultiAction", "/p/w/:parent_id/modal"),
                         new DataSet("parent_id", 123));
@@ -90,7 +90,7 @@ public class MultiActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testDefaultDataproviderRoutes() {
+    void testDefaultDataproviderRoutes() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/multiaction/testDefaultDataproviderRoutes.page.xml")
                 .get(new PageContext("testDefaultDataproviderRoutes"));
 

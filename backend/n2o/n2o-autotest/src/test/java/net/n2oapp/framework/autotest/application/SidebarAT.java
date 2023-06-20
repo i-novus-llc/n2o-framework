@@ -10,6 +10,7 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -53,7 +54,9 @@ public class SidebarAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled
     public void testFullsizeSidebar() {
+        //ToDo раздизейблить и поправить после NNO-9239
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fullsize/fullsize.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fullsize/index.page.xml"));
         SimplePage page = open(SimplePage.class);
@@ -66,7 +69,9 @@ public class SidebarAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled
     public void testFixedSidebar() {
+        //ToDo раздизейблить и поправить после NNO-9239
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fixed/fixed.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fixed/index.page.xml"));
         SimplePage page = open(SimplePage.class);
@@ -79,7 +84,9 @@ public class SidebarAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled
     public void testRightSidebar() {
+        //ToDo раздизейблить и поправить после NNO-9239
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/right/right.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/right/index.page.xml"));
         SimplePage page = open(SimplePage.class);

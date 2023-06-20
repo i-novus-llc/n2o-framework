@@ -6,7 +6,7 @@ const menuElementsTypes = {
     content: PropTypes.arrayOf(PropTypes.object),
 }
 
-const menuTypes = {
+const itemsTypes = {
     ...menuElementsTypes,
     menu: menuElementsTypes,
 }
@@ -21,5 +21,6 @@ export const ScrollSpyTypes = {
     className: PropTypes.string,
     headlines: PropTypes.bool,
     style: PropTypes.object,
-    menu: menuTypes,
+    items: itemsTypes,
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 }

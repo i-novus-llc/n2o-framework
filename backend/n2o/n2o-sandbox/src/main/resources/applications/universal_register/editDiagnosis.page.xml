@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Диагноз">
+<datasources>
+    <parent-datasource id="fl"/>
+    <parent-datasource id="modal"/>
+</datasources>
+<regions>
+    <form datasource="modal">
+        <fields>
+            <input-select id="diagnosis" label="Диагноз заболевания по МКБ-10" query-id="diagnosis" label-field-id="name" required="true"/>
+            <row>
+                <col size="4"> 
+                    <date-time id="diagnosis.date" label="Дата постановки" required="true000"/>
+                </col>
+                <col size="4"> 
+                    <date-time id="diagnosis.dateSimptom" label="Дата проявления симптомов"/>
+                </col>
+                <col size="4"> 
+                    <checkbox id="diagnosis.complicationsCheck" label="Без осложнений" style="" default-value="false">
+                        
+                    </checkbox>
+                </col>
+            </row>
+             <input-select id="diagnosis.complications" label="Осложнение основного диагноза">
+                <dependencies>
+                    <enabling on="diagnosis.complicationsCheck">
+                        if (!diagnosis.complicationsCheck)
+                            return true
+                    </enabling>
+                    <requiring on="diagnosis.complicationsCheck">
+                        if (!diagnosis.complicationsCheck)
+                            return true
+                    </requiring>
+                </dependencies>
+            </input-select>
+        </fields>
+        <toolbar place="bottomRight">
+            <button label="Сохранить" color="info" icon="fa fa-save">
+                  <edit-list
+                        operation="update"
+                        datasource="fl"
+                        model="resolve"
+                        primary-key="creationId"
+                        list-field-id="diagnosis"
+                        item-datasource="modal"
+                        item-model="resolve"
+                        item-field-id="diagnosis"/>
+                    <close/>
+            </button>
+        </toolbar>
+    </form>
+</regions>
+</page>
+

@@ -9,9 +9,7 @@ import java.util.List;
 /**
  * Маркер для item в toolbar
  */
-public interface ToolbarItem extends NamespaceUriAware, Source, Cloneable {
+public interface ToolbarItem extends NamespaceUriAware, Source {
 
     List<N2oAction> getListActions();
-
-    ToolbarItem clone();
 }

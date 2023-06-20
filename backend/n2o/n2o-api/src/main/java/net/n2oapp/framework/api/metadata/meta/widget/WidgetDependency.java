@@ -25,4 +25,8 @@ public class WidgetDependency implements Compiled {
     public boolean isEmpty() {
         return visible == null && enabled == null;
     }
+
+    public boolean isNotEmpty() {
+        return !this.isEmpty();
+    }
 }

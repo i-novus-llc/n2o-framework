@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0">
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
     <operations>
         <operation id="test">
             <invocation>
@@ -7,21 +7,21 @@
             </invocation>
             <validations white-list="Mandatory3,Mandatory4,test4,test5,test6,test7">
                 <mandatory id="Mandatory1" severity="danger" side="client,server" server-moment="before-operation" field-id="testField"/>
-                <mandatory id="Mandatory2" severity="danger" side="client" server-moment="before-operation"/>
-                <mandatory id="test1" severity="danger" side="client,server" server-moment="before-operation"/>
-                <mandatory id="test2" severity="danger" side="client" server-moment="before-operation"/>
+                <mandatory id="Mandatory2" severity="danger" side="client" server-moment="before-operation" field-id="testField"/>
+                <mandatory id="test1" severity="danger" side="client,server" server-moment="before-operation" field-id="testField"/>
+                <mandatory id="test2" severity="danger" side="client" server-moment="before-operation" field-id="testField"/>
                 <!--не уйдет на клиент-->
-                <mandatory id="test3" severity="danger" side="server" server-moment="before-operation"/>
+                <mandatory id="test3" severity="danger" side="server" server-moment="before-operation" field-id="testField"/>
             </validations>
         </operation>
     </operations>
     <validations>
-        <mandatory id="Mandatory3" severity="danger" side="client,server" server-moment="before-operation"/>
-        <mandatory id="Mandatory4" severity="danger" side="client" server-moment="before-operation"/>
-        <mandatory id="test4" severity="danger" side="client" server-moment="before-operation"/>
-        <mandatory id="test5" severity="danger" side="client,server" server-moment="before-operation"/>
-        <mandatory id="test6" severity="danger" side="client,server" server-moment="before-operation"/>
+        <mandatory id="Mandatory3" severity="danger" side="client,server" server-moment="before-operation" field-id="testField"/>
+        <mandatory id="Mandatory4" severity="danger" side="client" server-moment="before-operation" field-id="testField"/>
+        <mandatory id="test4" severity="danger" side="client" server-moment="before-operation" field-id="testField"/>
+        <mandatory id="test5" severity="danger" side="client,server" server-moment="before-operation" field-id="testField"/>
+        <mandatory id="test6" severity="danger" side="client,server" server-moment="before-operation" field-id="testField"/>
         <!--не уйдет на клиент-->
-        <mandatory id="test7" severity="danger" side="server" server-moment="before-operation"/>
+        <mandatory id="test7" severity="danger" side="server" server-moment="before-operation" field-id="testField"/>
     </validations>
 </object>

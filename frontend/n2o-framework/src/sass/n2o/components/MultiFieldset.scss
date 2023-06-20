@@ -1,11 +1,30 @@
+.n2o-multi-fieldset__actions {
+    display: flex;
+    align-items: center;
+}
+
+.n2o-multi-fieldset {
+    .n2o-multi-fieldset__actions {
+        .n2o-multi-fieldset__add,
+        .n2o-multi-fieldset__remove-all {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}
+
 .n2o-multi-fieldset__container {
-    padding: 1rem 0;
+    padding: 0.5rem 0;
     border-bottom: 1px solid $gray-200;
 }
 
 .n2o-multi-fieldset__label {
     margin: 0.5rem 0;
     font-size: 1.2rem;
+}
+
+.n2o-multi-fieldset__label.empty {
+    margin: 0;
 }
 
 .n2o-multi-fieldset__item {
@@ -16,11 +35,6 @@
         justify-content: space-between;
         align-items: center;
     }
-}
-
-.n2o-multi-fieldset__actions {
-    display: flex;
-    align-items: center;
 }
 
 .n2o-multi-fieldset__actions--common {

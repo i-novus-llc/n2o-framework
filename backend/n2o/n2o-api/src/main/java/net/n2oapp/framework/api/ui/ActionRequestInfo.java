@@ -37,7 +37,7 @@ public class ActionRequestInfo<D> extends RequestInfo {
 
     //mutable
     private Map<String, AbstractParameter> inParametersMap = new LinkedHashMap<>();
-    private Map<String, ObjectSimpleField> outParametersMap = new LinkedHashMap<>();
+    private Map<String, AbstractParameter> outParametersMap = new LinkedHashMap<>();
     /**
      * "Сырые" данные, не приведенные к домену
      */
@@ -45,9 +45,14 @@ public class ActionRequestInfo<D> extends RequestInfo {
 
     public void setOperation(CompiledObject.Operation operation) {
         this.operation = operation;
-        if (operation.getInParametersMap() != null)
-            for (String paramId : operation.getInParametersMap().keySet()) {
-                AbstractParameter sourceParam = operation.getInParametersMap().get(paramId);
+        copyParams(operation.getInParametersMap(), inParametersMap);
+        copyParams(operation.getOutParametersMap(), outParametersMap);
+    }
+
+    private void copyParams(Map<String, AbstractParameter> source, Map<String, AbstractParameter> result) {
+        if (source != null)
+            for (String paramId : source.keySet()) {
+                AbstractParameter sourceParam = source.get(paramId);
                 AbstractParameter param;
                 if (sourceParam instanceof ObjectSimpleField)
                     param = new ObjectSimpleField((ObjectSimpleField) sourceParam);
@@ -57,12 +62,7 @@ public class ActionRequestInfo<D> extends RequestInfo {
                     param = new ObjectSetField((ObjectSetField) sourceParam);
                 else
                     param = new ObjectReferenceField((ObjectReferenceField) sourceParam);
-                inParametersMap.put(paramId, param);
-            }
-        if (operation.getOutParametersMap() != null)
-            for (String paramName : operation.getOutParametersMap().keySet()) {
-                ObjectSimpleField srcParam = operation.getOutParametersMap().get(paramName);
-                outParametersMap.put(paramName, new ObjectSimpleField(srcParam));
+                result.put(paramId, param);
             }
     }
 }

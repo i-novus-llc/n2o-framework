@@ -2,9 +2,9 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Создание события">
     <datasources>
-        <parent-datasource id="calendar"/>
         <datasource object-id="test" id="ds1"/>
     </datasources>
+
     <regions>
         <form datasource="ds1">
             <fields>

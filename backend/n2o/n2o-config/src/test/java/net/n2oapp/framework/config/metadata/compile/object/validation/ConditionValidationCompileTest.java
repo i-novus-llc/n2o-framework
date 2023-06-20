@@ -9,8 +9,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.is;
  */
 public class ConditionValidationCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -34,7 +34,7 @@ public class ConditionValidationCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testConditionValidation() {
+    void testConditionValidation() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/validation/testConditionValidation.object.xml")
                 .get(new ObjectContext("testConditionValidation"));
 

@@ -15,8 +15,8 @@ import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +31,7 @@ import static org.hamcrest.Matchers.is;
 public class SetFieldSetCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -44,7 +44,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFieldSetWithFields() {
+    void testFieldSetWithFields() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithFields.page.xml")
                 .get(new PageContext("testSetFieldsetCompileWithFields"));
         Form form = (Form) page.getWidget();
@@ -67,7 +67,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFieldSetRows() {
+    void testFieldSetRows() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithRow.page.xml")
                 .get(new PageContext("testSetFieldsetCompileWithRow"));
         Form form = (Form) page.getWidget();
@@ -97,7 +97,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFieldSetCols() {
+    void testFieldSetCols() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithCols.page.xml")
                 .get(new PageContext("testSetFieldsetCompileWithCols"));
         Form form = (Form) page.getWidget();
@@ -127,7 +127,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFieldSetDependency() {
+    void testFieldSetDependency() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetEVDCompile.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithFields.fieldset.xml")
                 .get(new PageContext("testFieldsetEVDCompile"));
@@ -166,7 +166,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
      * в enablingConditions соответствующих этим полям валидаций
      */
     @Test
-    public void testValidationEnabling() {
+    void testValidationEnabling() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
                 "net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetVisibility.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetVisibility.object.xml"

@@ -8,15 +8,16 @@ import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.io.toolbar.SubmenuIO;
 import net.n2oapp.framework.config.metadata.pack.N2oCellsIOPack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * Тестирование чтения и записи таблицы версии 4
  */
 public class TableXmlIOv4Test {
+    
     @Test
-    public void testTableXmlIOV4() {
+    void testTableXmlIOV4() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
 
         tester.ios(

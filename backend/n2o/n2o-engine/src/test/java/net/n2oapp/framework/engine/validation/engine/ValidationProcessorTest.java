@@ -17,7 +17,7 @@ import net.n2oapp.framework.api.metadata.meta.control.InputText;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.engine.data.N2oInvocationProcessor;
 import net.n2oapp.framework.engine.validation.engine.info.ObjectValidationInfo;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -43,7 +43,7 @@ public class ValidationProcessorTest {
      * Success - Widget - Constraint
      */
     @Test
-    public void testSorting() {
+    void testSorting() {
         ObjectSimpleField inParam = new ObjectSimpleField();
         inParam.setId("id");
         inParam.setRequired(true);
@@ -198,7 +198,7 @@ public class ValidationProcessorTest {
      * Проверяется, что на одно поле выполняется не больше одной валидации
      */
     @Test
-    public void testFieldValidationLimit() {
+    void testFieldValidationLimit() {
         ValidationProcessor processor = new ValidationProcessor(null);
 
         DataSet dataSet = new DataSet();
@@ -225,7 +225,7 @@ public class ValidationProcessorTest {
      * Проверяется, что для виджета выполняется не больше одной валидации
      */
     @Test
-    public void testWidgetValidationLimit() {
+    void testWidgetValidationLimit() {
         ValidationProcessor processor = new ValidationProcessor(null);
 
         DataSet dataSet = new DataSet();
@@ -249,7 +249,7 @@ public class ValidationProcessorTest {
      * Проверяется, что валидация c одним и тем же id выполняется не больше одного раза
      */
     @Test
-    public void testValidationLimit() {
+    void testValidationLimit() {
         ValidationProcessor processor = new ValidationProcessor(null);
 
         DataSet dataSet = new DataSet();
@@ -283,7 +283,7 @@ public class ValidationProcessorTest {
      * danger валидации должны выбрасывать N2oValidationException
      */
     @Test
-    public void testDangerValidations() {
+    void testDangerValidations() {
         ValidationProcessor processor = new ValidationProcessor(null);
 
         MandatoryValidation mandatory1 = mandatoryValidation("id", SeverityType.danger, N2oValidation.ServerMoment.beforeOperation);
@@ -328,7 +328,7 @@ public class ValidationProcessorTest {
     }
 
     @Test
-    public void testEnabled() {
+    void testEnabled() {
         ValidationProcessor processor = new ValidationProcessor(null);
 
         ConditionValidation condition1 = conditionValidation("checkEmailContainsAt", null,
@@ -368,7 +368,7 @@ public class ValidationProcessorTest {
     }
 
     @Test
-    public void testServerMoment() {
+    void testServerMoment() {
         ValidationProcessor processor = new ValidationProcessor(null);
 
         ConditionValidation condition1 = conditionValidation("checkEmailContainsAt1", "email",
@@ -399,7 +399,7 @@ public class ValidationProcessorTest {
     }
 
     @Test
-    public void testMandatory() {
+    void testMandatory() {
         ValidationProcessor processor = new ValidationProcessor(null);
         DataSet dataSet = new DataSet();
         dataSet.put("id", null);
@@ -443,7 +443,7 @@ public class ValidationProcessorTest {
     }
 
     @Test
-    public void testMandatoryInMultiset() {
+    void testMandatoryInMultiset() {
         ValidationProcessor processor = new ValidationProcessor(null);
         DataSet ds1 = new DataSet();
         ds1.put("id", null);
@@ -480,7 +480,7 @@ public class ValidationProcessorTest {
     }
 
     @Test
-    public void testCondition() {
+    void testCondition() {
         ValidationProcessor processor = new ValidationProcessor(null);
         DataSet dataSet = new DataSet();
         dataSet.put("id", null);
@@ -508,7 +508,7 @@ public class ValidationProcessorTest {
     }
 
     @Test
-    public void testConditionInMultiset() {
+    void testConditionInMultiset() {
         ValidationProcessor processor = new ValidationProcessor(null);
         DataSet ds1 = new DataSet();
         ds1.put("id", null);
@@ -541,7 +541,7 @@ public class ValidationProcessorTest {
     }
 
     @Test
-    public void testConstraint() {
+    void testConstraint() {
         ObjectSimpleField inParam = new ObjectSimpleField();
         inParam.setId("id");
         inParam.setDomain("integer");

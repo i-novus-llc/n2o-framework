@@ -115,7 +115,7 @@
                     </column>
                     <column text-field-id="">
                         <toolbar>
-                            <sub-menu icon="fa fa-ellipsis-v" generate="delete"/>
+                            <sub-menu icon="fa fa-ellipsis-v" generate="delete,update"/>
                         </toolbar>
                     </column>
 

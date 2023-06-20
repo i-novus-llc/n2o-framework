@@ -17,8 +17,8 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.nullValue;
 public class ToolbarCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -47,7 +47,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testToolbarGrouping() {
+    void testToolbarGrouping() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testToolbarGrouping.page.xml")
                 .get(new PageContext("testToolbarGrouping"));
         List<Group> groupList = page.getWidget().getToolbar().get("topLeft");
@@ -73,7 +73,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testToolbar() {
+    void testToolbar() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbar.page.xml")
                 .get(new PageContext("testToolbar"));
         Form f = (Form) page.getWidget();
@@ -120,7 +120,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testToolbarMenuItem() {
+    void testToolbarMenuItem() {
         Form f = (Form) ((SimplePage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbar.page.xml")
                 .get(new PageContext("testToolbar"))).getWidget();
 

@@ -12,8 +12,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -24,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CheckboxGroupCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -39,7 +39,7 @@ public class CheckboxGroupCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCheckboxGroup() {
+    void testCheckboxGroup() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/field/testCheckboxGroup.page.xml")
                .get(new PageContext("testCheckboxGroup", "/test"));
         Form form = (Form) page.getWidget();
@@ -71,7 +71,7 @@ public class CheckboxGroupCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCheckboxGroupTypes() {
+    void testCheckboxGroupTypes() {
         SimplePage page =(SimplePage) compile("net/n2oapp/framework/config/metadata/compile/field/testCheckboxGroupTypes.page.xml")
                 .get(new PageContext("testCheckboxGroupTypes", "/test"));
         Form form = (Form) page.getWidget();

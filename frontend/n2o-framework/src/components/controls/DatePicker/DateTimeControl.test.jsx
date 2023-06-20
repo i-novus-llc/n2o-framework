@@ -1,6 +1,6 @@
 import React from 'react'
 import sinon from 'sinon'
-import moment from 'moment'
+import moment from 'moment/moment'
 
 import DatePicker from './DateTimeControl'
 import PopUp from './PopUp'

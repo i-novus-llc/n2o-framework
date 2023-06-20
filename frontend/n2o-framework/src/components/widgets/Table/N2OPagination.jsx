@@ -46,6 +46,7 @@ export class N2OPagination extends Component {
                 showCount={showCount}
                 hasNext={calculatedHasNext}
                 loading={loading}
+                showSinglePage={false}
             />
         )
     }

@@ -16,6 +16,7 @@ import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.util.DatasourceUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
  * Базовая компиляция кнопки
  */
 public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends AbstractButton> implements BaseSourceCompiler<B, S, CompileContext<?, ?>> {
-    private static final String PROPERTY_PREFIX = "n2o.api.control.button_field";
+    private static final String PROPERTY_PREFIX = "n2o.api.control.button";
 
     protected void compileBase(AbstractButton button, N2oAbstractButton source,
                                CompileContext<?, ?> context, CompileProcessor p) {
@@ -49,6 +50,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
             }
             break;
         }
+        button.setDatasource(DatasourceUtil.getClientDatasourceId(source.getDatasourceId(), p));
         button.setClassName(source.getCssClass());
         button.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         button.setColor(source.getColor());

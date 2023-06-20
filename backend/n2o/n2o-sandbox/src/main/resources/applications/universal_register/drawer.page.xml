@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" title="{id}" show-title="true">
+<datasources>
+    <parent-datasource id="drawer">
+        
+    </parent-datasource>
+</datasources>
+    <regions>
+        
+            <form datasource="drawer">
+                <fields>
+                    <text id="fl">
+                        Основные сведения:
+                    </text>
+                        <row>
+                            <text id="snils_text">
+                                СНИЛС
+                            </text>
+                             <text id="snils">{snils}</text>
+                        </row>
+                        <row>
+                            <text id="birthday_text">
+                                Дата рождения
+                            </text>
+                            <text id="birthday" format="date DD.MM.YYYY">{birthday}</text>
+                        </row>
+                        <row>
+                            <text id="compulsory_text">
+                                Полис ОМС
+                            </text>
+                            <text id="compulsory">{compulsory.number}</text>
+                        </row>
+                </fields>
+             </form>
+            <form datasource="drawer">
+                <fields>  
+                        <row>
+                            <text id="phone_text">
+                                Телефон
+                            </text>
+                            <text id="phone.mobile">{drawerPhone}</text>
+                        </row>
+                        <row>
+                            <text id="addres_text">
+                                Домашний адрес
+                            </text>
+                            <text id="address">{fullAddress}</text>
+                        </row>
+                 </fields>
+             </form>
+             <form datasource="drawer">
+                <fields>  
+                        <row>
+                            <text id="phone_text">
+                                МО Прикрепления
+                            </text>
+                            <text id="organization.name">{organization.name}</text>
+                        </row>
+                        <row>
+                            <text id="addres_organization">
+                                Адрес МО
+                            </text>
+                            <text id="organization.address">{organization.address}</text>
+                        </row>
+                     </fields>
+             </form>
+             <form datasource="drawer">
+                <fields> 
+                    
+                    <text id="date_text">
+                            Заявления
+                    </text>
+                    
+                    <row>
+                        <text id="date_text">
+                            Дата
+                        </text>
+                        <text id="date" format="date DD.MM.YYYY">{dateOfApplication}</text>
+                    </row>
+                    <row>
+                        <text id="status_text">
+                            Статус
+                        </text>
+                        <!-- <text id="status">{status}</text> -->
+                    </row>
+                
+           
+                </fields>
+            </form>
+        
+    </regions>
+</page>

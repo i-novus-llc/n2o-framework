@@ -9,8 +9,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.control.v3.plain.InputTextIOv3;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.test.SourceMergerTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class N2oFieldsetMergerTest extends SourceMergerTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -31,7 +31,7 @@ public class N2oFieldsetMergerTest extends SourceMergerTestBase {
     }
 
     @Test
-    public void testSetFieldsetMerge() {
+    void testSetFieldsetMerge() {
         N2oSetFieldSet fieldSet = merge("net/n2oapp/framework/config/metadata/merge/fieldset/set/parentSetFieldsetMerger.fieldset.xml",
                 "net/n2oapp/framework/config/metadata/merge/fieldset/set/childSetFieldsetMerger.fieldset.xml")
                 .get("parentSetFieldsetMerger", N2oSetFieldSet.class);
@@ -53,7 +53,7 @@ public class N2oFieldsetMergerTest extends SourceMergerTestBase {
     }
 
     @Test
-    public void testLineFieldsetMerge() {
+    void testLineFieldsetMerge() {
         N2oLineFieldSet fieldSet = merge("net/n2oapp/framework/config/metadata/merge/fieldset/line/parentLineFieldsetMerger.fieldset.xml",
                 "net/n2oapp/framework/config/metadata/merge/fieldset/line/childLineFieldsetMerger.fieldset.xml")
                 .get("parentLineFieldsetMerger", N2oLineFieldSet.class);
@@ -88,7 +88,7 @@ public class N2oFieldsetMergerTest extends SourceMergerTestBase {
     }
 
     @Test
-    public void testMultiFieldsetMerge() {
+    void testMultiFieldsetMerge() {
         N2oMultiFieldSet fieldSet = merge("net/n2oapp/framework/config/metadata/merge/fieldset/multi/parentMultiFieldsetMerger.fieldset.xml",
                 "net/n2oapp/framework/config/metadata/merge/fieldset/multi/childMultiFieldsetMerger.fieldset.xml")
                 .get("parentMultiFieldsetMerger", N2oMultiFieldSet.class);

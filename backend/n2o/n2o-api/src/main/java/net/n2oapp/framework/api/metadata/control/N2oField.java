@@ -96,7 +96,7 @@ public abstract class N2oField extends N2oComponent implements IdAware {
             dependencies = Arrays.copyOfRange(d, 0, d.length);
         } else {
             dependencies = Arrays.copyOf(dependencies, dependencies.length + d.length);
-            System.arraycopy(d, 0, dependencies, dependencies.length, d.length);
+            System.arraycopy(d, 0, dependencies, dependencies.length - d.length, d.length);
         }
     }
 

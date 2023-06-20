@@ -22,7 +22,7 @@ $checkbox-focus-shadow:  0 0 0 1px #fff, 0 0 0 0.2rem rgba(22, 56, 81, 0.25) !de
 $checkbox-background-size: 50% !default;
 $checkbox-background-position: center !default;
 $checkbox-background-repeat: no-repeat !default;
-$checkbox-position-top: 0.25rem !default;
+$checkbox-position-top: 0.3rem !default;
 $checkbox-position-left: -1.5rem !default;
 $checkbox-position-right: auto !default;
 $checkbox-position-bottom: auto !default;
@@ -325,9 +325,12 @@ $alert-dark-text-color: #1b1e21;
 
 $alert-hover-darken: 5%;
 
-// Custom
-// TODO разобраться, можно ли безболезненно удалить эти, переменные и удалить их
-// Эти переменные появились тут в 7.16. В 7.15 были объявлены в sass/n2o/controls/InputTreeSelect.old.scss
-// В свою очередь InputTreeSelect.old.scss никуда не импортировался. Вместо него импортировался InputTreeSelect.scss
-//$custom-control-indicator-checked-color: black;
-//$custom-checkbox-indicator-icon-checked: str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='#{$custom-control-indicator-checked-color}' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E"), "#", "%23");
+//new-n2o-ui temp vars
+$n2o-ui-primary: #374596;
+$n2o-ui-primary-hover: #334087;
+
+// Scroll-spy
+$menu-item-color: #707070;
+
+//Dropdown
+$dropdown-item-padding: 0.25rem 1.5rem;

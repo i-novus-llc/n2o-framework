@@ -45,8 +45,10 @@ public class EditCellCompiler extends AbstractCellCompiler<EditCell, N2oEditCell
         }
 
         cell.setFormat(source.getFormat());
-        cell.setEditType(source.getEditType() == null ? EditType.inline : source.getEditType());
-        cell.setEnabled(p.cast(p.resolveJS(source.getEnabled(), Boolean.class), true));
+        cell.setEditType(p.cast(source.getEditType(),
+                p.resolve(property("n2o.api.cell.edit.type"), EditType.class)));
+        cell.setEnabled(p.cast(p.resolveJS(source.getEnabled(), Boolean.class),
+                p.resolve(property("n2o.api.cell.edit.enabled"), Boolean.class)));
         return cell;
     }
 }

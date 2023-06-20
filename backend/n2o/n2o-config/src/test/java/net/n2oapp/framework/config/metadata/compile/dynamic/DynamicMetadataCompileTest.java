@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
-import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -23,8 +22,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.register.JavaInfo;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -37,7 +36,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class DynamicMetadataCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -55,7 +54,7 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testDynamicPage() {
+    void testDynamicPage() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/dynamic/testDynamicObject.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/dynamic/formForTestDynamic.widget.xml",
                 "net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml",
@@ -99,7 +98,7 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testDynamicQuery() {
+    void testDynamicQuery() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/dynamic/testDynamicQuery.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/dynamic/testDynamicQuery.query.xml")
                 .get(new PageContext("testDynamicQuery"));

@@ -5,9 +5,8 @@ import net.n2oapp.criteria.dataset.Interval;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.api.util.async.MultiThreadRunner;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
@@ -20,6 +19,7 @@ import java.util.concurrent.ExecutionException;
 import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 public class ScriptProcessorTest {
 
@@ -31,7 +31,7 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void resolveLinks() {
+    void resolveLinks() {
         assertThat(ScriptProcessor.resolveLinks("test"), is("test"));
         assertThat(ScriptProcessor.resolveLinks("{test}"), is("`test`"));
         assertThat(ScriptProcessor.resolveLinks("Hello, {test}"), is("`'Hello, '+test`"));
@@ -43,7 +43,7 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void testResolveExpression() {
+    void testResolveExpression() {
         assertThat(ScriptProcessor.resolveExpression("{id}"), is("`id`"));
         assertThat(ScriptProcessor.resolveExpression("1"), is(1));
         assertThat(ScriptProcessor.resolveExpression("true"), is(true));
@@ -72,14 +72,14 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void invertExpression() {
+    void invertExpression() {
         assertThat(ScriptProcessor.invertExpression("{check}"), is("`!(check)`"));
         assertThat(ScriptProcessor.invertExpression("true"), is(false));
         assertThat(ScriptProcessor.invertExpression("false"), is(true));
     }
 
     @Test
-    public void testResolveFunction() {
+    void testResolveFunction() {
         assertThat(ScriptProcessor.resolveFunction("if (gender.id = 1) return 'М'; else return 'Ж';"), is("(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"));
         assertThat(ScriptProcessor.resolveFunction("gender.id == 1"), is("gender.id == 1"));
         assertThat(ScriptProcessor.resolveFunction("function(){if (gender.id = 1) return 'М'; else return 'Ж';}"), is("(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"));
@@ -88,7 +88,7 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void testBuildExpressionForSwitch() {
+    void testBuildExpressionForSwitch() {
         N2oSwitch n2oSwitch = new N2oSwitch();
         assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), nullValue());
         n2oSwitch.setValueFieldId("status");
@@ -116,7 +116,7 @@ public class ScriptProcessorTest {
 
 
     @Test
-    public void testCreateFunctionCall() {
+    void testCreateFunctionCall() {
         assert ScriptProcessor.createFunctionCall("func").equals("func()");
         assert ScriptProcessor.createFunctionCall("func", "arg1").equals("func('arg1')");
         assert ScriptProcessor.createFunctionCall("func", "arg1", "arg2").equals("func('arg1','arg2')");
@@ -126,12 +126,12 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void createSelfInvokingFunction() {
+    void createSelfInvokingFunction() {
         assert ScriptProcessor.createSelfInvokingFunction("1==1").equals("function(){1==1}()");
     }
 
     @Test
-    public void testIfNotUndefined() {
+    void testIfNotUndefined() {
         //строки
         String exp1 = ScriptProcessor.ifNotUndefined("id == 1", "id");
         assert exp1.equals("(typeof id === 'undefined') || (id == 1)");
@@ -159,7 +159,7 @@ public class ScriptProcessorTest {
 
 
     @Test
-    public void testEvalForBoolean() {
+    void testEvalForBoolean() {
         assertOnException(() -> {
             try {
                 ScriptProcessor.eval("bas script", new DataSet());
@@ -173,7 +173,7 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void buildIsNullExpressionTest() {
+    void buildIsNullExpressionTest() {
         String exp = scriptProcessor.buildIsNullExpression("indiv.gender.id");
         assert exp.equals("(typeof indiv === 'undefined') || (typeof indiv.gender === 'undefined') || (typeof indiv.gender.id === 'undefined') || (indiv.gender.id === null)");
         exp = scriptProcessor.buildIsNullExpression("name");
@@ -181,13 +181,13 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void buildIsNotNullExpressionTest() {
+    void buildIsNotNullExpressionTest() {
         String exp = scriptProcessor.buildIsNotNullExpression("name");
         assert exp.equals("name != null");
     }
 
     @Test
-    public void buildMoreExpressionTest() {
+    void buildMoreExpressionTest() {
         //числа
         String exp = scriptProcessor.buildMoreExpression("num", 5);
         ScriptEngine engine = getScriptEngine();
@@ -206,7 +206,7 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void buildLessExpressionTest() {
+    void buildLessExpressionTest() {
         //числа
         String exp = scriptProcessor.buildLessExpression("num", 5);
         ScriptEngine engine = getScriptEngine();
@@ -226,7 +226,7 @@ public class ScriptProcessorTest {
 
 
     @Test
-    public void buildInIntervalExpressionTest() {
+    void buildInIntervalExpressionTest() {
         //числа
         String exp = scriptProcessor.buildInIntervalExpression("num", new Interval(1, 10));
         ScriptEngine engine = getScriptEngine();
@@ -246,8 +246,8 @@ public class ScriptProcessorTest {
 
 
     @Test
-    @Ignore
-    public void buildInListExpressionTest() {
+    @Disabled
+    void buildInListExpressionTest() {
         String exp = scriptProcessor
                 .buildInListExpression("name", Arrays.asList("John", "Marry"));
         ScriptEngine engine = getScriptEngine();
@@ -276,7 +276,7 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void buildLikeAndLikeStartExpressionTest() {
+    void buildLikeAndLikeStartExpressionTest() {
         String exp = scriptProcessor
                 .buildLikeExpression("name", "est str");
         ScriptEngine engine = getScriptEngine();
@@ -303,8 +303,8 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    @Ignore
-    public void buildNotInListExpressionTest() {
+    @Disabled
+    void buildNotInListExpressionTest() {
         String exp = scriptProcessor
                 .buildNotInListExpression("name", Arrays.asList("John", "Marry"));
         ScriptEngine engine = getScriptEngine();
@@ -321,10 +321,10 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    @Ignore //todo на CI падает
+    @Disabled //todo на CI падает
     //Expected [01.01.1970 03:00], but actual [Thu Jan 01 00:00:00 UTC 1970]
     //at net.n2oapp.framework.config.script.ScriptProcessorTest.buildEqualExpressionTest(ScriptProcessorTest.java:256)
-    public void buildEqualExpressionTest() {
+    void buildEqualExpressionTest() {
         String exp = scriptProcessor.buildEqualExpression("name", "John");
         assert exp.equals("name == 'John'");
         ScriptEngine engine = getScriptEngine();
@@ -349,7 +349,7 @@ public class ScriptProcessorTest {
         exp = scriptProcessor.buildEqualExpression("date", value);
         try {
             engine.put("date", "01.01.1970 03:00");
-            Assert.assertTrue("Expected [01.01.1970 00:00], but actual [" + value + "]", (Boolean) engine.eval(exp));
+            assertTrue("Expected [01.01.1970 00:00], but actual [" + value + "]", (Boolean) engine.eval(exp));
             engine.put("date", "01.01.1970 03:01");
             assert !(Boolean) engine.eval(exp);
         } catch (ScriptException e) {
@@ -360,7 +360,7 @@ public class ScriptProcessorTest {
 
 
     @Test
-    public void buildNotEqualExpressionTest() {
+    void buildNotEqualExpressionTest() {
         String exp = scriptProcessor.buildNotEqExpression("name", "John");
         assert exp.equals("name != 'John'");
         ScriptEngine engine = getScriptEngine();
@@ -386,7 +386,7 @@ public class ScriptProcessorTest {
 
 
     @Test
-    public void testVarExtractor() {
+    void testVarExtractor() {
         String script = "a == 1 && a.b.c == 1 && b[0].c == 1";
         Set<String> names = ScriptProcessor.extractVars(script);
         assert 3 == names.size();
@@ -396,7 +396,7 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void testExtractPropertiesOf() {
+    void testExtractPropertiesOf() {
         String script = "a == 1 && a.b.c == 1 && b.c == 1 && x.y == 1";
         Map<String, Set<String>> names = ScriptProcessor
                 .extractPropertiesOf(script, Arrays.asList("a", "b"));
@@ -406,7 +406,7 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void testAddContextFor() {
+    void testAddContextFor() {
         String script = "a == 1 && a.b.c == 1 && b.c == 1 && x.y == 1";
         String modScript = ScriptProcessor.addContextFor(script, "z", Arrays.asList("a", "b"));
         System.out.println(modScript);
@@ -414,14 +414,14 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void testAddContextForAll() {
+    void testAddContextForAll() {
         String script = "a == 1 && b == 1 && x.y == 1";
         String modScript = ScriptProcessor.addContextForAll(script, "z");
         assert modScript.contains("z.a == 1 && z.b == 1 && z.x.y == 1");
     }
 
     @Test
-    public void testSimplifyArrayLinks() {
+    void testSimplifyArrayLinks() {
         assert ScriptProcessor
                 .simplifyArrayLinks("id, name, address.id, gender[0].id, gender[0].name")
                 .equals("id, name, address.id, gender");
@@ -431,8 +431,8 @@ public class ScriptProcessorTest {
      * test moment.js functions in scriptProcessor
      * */
     @Test
-    @Ignore
-    public void testAddMomentJs() throws ExecutionException, InterruptedException, ScriptException {
+    @Disabled
+    void testAddMomentJs() throws ExecutionException, InterruptedException, ScriptException {
         String js = "moment(day, 'DD.MM.YYYY').format('DD-MM-YY');";
         MultiThreadRunner runner = new MultiThreadRunner();
         runner.run(() -> {
@@ -452,8 +452,8 @@ public class ScriptProcessorTest {
      * test globalDateFuncs.js functions in scriptProcessor
      * */
     @Test
-    @Ignore
-    public void testGlobalDateFuncsJs() throws ExecutionException, InterruptedException {
+    @Disabled
+    void testGlobalDateFuncsJs() throws ExecutionException, InterruptedException {
         String nowJs = "now()";
         String todayJs = "today()";
         String yesterdayJs = "yesterday()";
@@ -482,17 +482,17 @@ public class ScriptProcessorTest {
      * test that numeral.js functions are thread safe
      * */
     @Test
-    @Ignore
-    public void testAddNumeralJs() throws ExecutionException, InterruptedException {
+    @Disabled
+    void testAddNumeralJs() throws ExecutionException, InterruptedException {
         String js = "var number = numeral(); number.set(num); var val = 100; var difference = number.difference(val); difference;";
         MultiThreadRunner runner = new MultiThreadRunner();
         runner.run(() -> {
             Random random = new Random();
-            Double temp = new Double(random.nextInt(100000));
+            Double temp = Double.valueOf(random.nextInt(100000));
             DataSet dataSet = new DataSet();
             dataSet.put("num", temp);
             Double result = ScriptProcessor.eval(js, dataSet);
-            Double diff = Math.abs(temp - new Double(100));
+            Double diff = Math.abs(temp - Double.valueOf(100));
             if (!result.equals(diff))
                 System.out.println("temp=" + temp + ", result = " + result + ", diff=" + diff);
             return result.equals(diff);
@@ -503,8 +503,8 @@ public class ScriptProcessorTest {
      * test that underscore.js functions are thread safe
      * */
     @Test
-    @Ignore
-    public void testAddUnderscoreJs() throws ExecutionException, InterruptedException {
+    @Disabled
+    void testAddUnderscoreJs() throws ExecutionException, InterruptedException {
         String js = "var sum = _.reduce(arr, function(memo, num){ return memo + num; }, 0); sum;";
         MultiThreadRunner runner = new MultiThreadRunner();
         runner.run(() -> {
@@ -518,7 +518,7 @@ public class ScriptProcessorTest {
             DataSet dataSet = new DataSet();
             dataSet.put("arr", temp);
             Double result = ScriptProcessor.eval(js, dataSet);
-            Double sum = new Double(summ);
+            Double sum = Double.valueOf(summ);
             if (!result.equals(sum))
                 System.out.println("temp=" + Arrays.asList(temp).toString() + ", summ = " + sum + ", result=" + result);
             return result.equals(sum);
@@ -526,7 +526,7 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void testCustomFunctions() throws ScriptException {
+    void testCustomFunctions() throws ScriptException {
         //moment
         assertThat(ScriptProcessor.eval("moment('06.02.2019').format('DD.MM.YYYY')", new DataSet()), is("02.06.2019"));
         //numeral
@@ -536,7 +536,7 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void testReduce() {
+    void testReduce() {
         assertThat(ScriptProcessor.and(Arrays.asList("test1 || test2", "test3 || test4")), is("(test1 || test2) && (test3 || test4)"));
         assertThat(ScriptProcessor.and(Collections.singletonList("test1")), is("test1"));
         assertThat(ScriptProcessor.and(null), nullValue());

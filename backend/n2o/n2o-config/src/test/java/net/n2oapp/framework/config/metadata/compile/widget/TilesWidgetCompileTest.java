@@ -10,8 +10,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
@@ -24,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class TilesWidgetCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -37,7 +37,7 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testTiles() {
+    void testTiles() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTilesCompile.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")

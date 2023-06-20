@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment from 'moment/moment'
 
 import globalFnDate from './globalFnDate'
 import evalExpression from './evalExpression'

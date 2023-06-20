@@ -2,7 +2,7 @@ package net.n2oapp.framework.engine;
 
 import net.n2oapp.framework.engine.data.QueryUtil;
 import org.hamcrest.CoreMatchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,8 +14,9 @@ import static org.hamcrest.Matchers.is;
  * Тесты {@link net.n2oapp.framework.engine.data.QueryUtil}
  */
 public class QueryUtilTest {
+    
     @Test
-    public void replaceListPlaceholder() {
+    void replaceListPlaceholder() {
         AtomicInteger i = new AtomicInteger();
         assertThat(QueryUtil.replaceListPlaceholder("a?{b}", "{b}",
                 Arrays.asList("x=:x", "y=:y", "z=:z"), "",
@@ -24,7 +25,7 @@ public class QueryUtilTest {
     }
 
     @Test
-    public void normalizeParams() {
+    void normalizeParams() {
         //empty amps
         assertThat(QueryUtil.normalizeQueryParams("/test?&"), CoreMatchers.is("/test"));
         assertThat(QueryUtil.normalizeQueryParams("/test?&size=10"), CoreMatchers.is("/test?size=10"));

@@ -46,9 +46,12 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         tree.setLabelFieldId(p.resolveJS(source.getLabelFieldId()));
         tree.setIconFieldId(p.resolveJS(source.getIconFieldId()));
         tree.setImageFieldId(p.resolveJS(source.getImageFieldId()));
-        tree.setMultiselect(source.getMultiselect());
-        tree.setHasCheckboxes(source.getCheckboxes());
-        tree.setAjax(source.getAjax());
+        tree.setMultiselect(p.cast(source.getMultiselect(),
+                p.resolve(property("n2o.api.widget.tree.multi_select"), Boolean.class)));
+        tree.setHasCheckboxes(p.cast(source.getCheckboxes(),
+                p.resolve(property("n2o.api.widget.tree.checkboxes"), Boolean.class)));
+        tree.setAjax(p.cast(source.getAjax(),
+                p.resolve(property("n2o.api.widget.tree.ajax"), Boolean.class)));
         tree.setBadge(BadgeUtil.compileReferringBadge(source, PROPERTY_PREFIX, p));
         return tree;
     }

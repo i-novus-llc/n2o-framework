@@ -42,7 +42,6 @@ import net.n2oapp.framework.config.io.IOProcessorImpl;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.CrudGenerator;
 import net.n2oapp.framework.config.persister.N2oMetadataPersisterFactory;
-import net.n2oapp.framework.config.reader.GroovySourceReader;
 import net.n2oapp.framework.config.reader.N2oNamespaceReaderFactory;
 import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
@@ -224,11 +223,6 @@ public class N2oEnvironmentConfiguration {
         @Bean
         public JavaSourceLoader javaSourceReader(N2oDynamicMetadataProviderFactory dynamicMetadataProviderFactory) {
             return new JavaSourceLoader(dynamicMetadataProviderFactory);//todo сейчас не кешируются объекты, если их вернулось множество
-        }
-
-        @Bean
-        public GroovySourceReader groovySourceReader() {
-            return new GroovySourceReader();
         }
     }
 

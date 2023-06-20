@@ -6,8 +6,8 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.http.client.MockClientHttpResponse;
@@ -25,11 +25,13 @@ import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class SpringRestDataProviderEngineTest {
+    
     @Test
-    public void testSimple() {
+    void testSimple() {
         //самый простой случай
         TestRestTemplate restTemplate = new TestRestTemplate("");
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
@@ -55,7 +57,7 @@ public class SpringRestDataProviderEngineTest {
     }
 
     @Test
-    public void testFails() {
+    void testFails() {
         TestRestTemplate restTemplate = new TestRestTemplate(new MockClientHttpResponse("Error".getBytes(StandardCharsets.UTF_8), HttpStatus.INTERNAL_SERVER_ERROR));
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
         N2oRestDataProvider invocation = new N2oRestDataProvider();
@@ -65,7 +67,7 @@ public class SpringRestDataProviderEngineTest {
 
         try {
             actionEngine.invoke(invocation, request);
-            Assert.fail();
+            fail();
         } catch (N2oQueryExecutionException e) {
             HttpStatusCodeException cause = (HttpStatusCodeException) e.getCause();
             assertThat(cause.getStatusCode(), is(HttpStatus.INTERNAL_SERVER_ERROR));
@@ -77,7 +79,7 @@ public class SpringRestDataProviderEngineTest {
      * Проверка проброса заголовков клиента
      */
     @Test
-    public void testHeadersAndCookiesForwarding() {
+    void testHeadersAndCookiesForwarding() {
         TestRestTemplate restTemplate = new TestRestTemplate("1");
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
         N2oRestDataProvider invocation = new N2oRestDataProvider();
@@ -148,7 +150,7 @@ public class SpringRestDataProviderEngineTest {
     }
 
     @Test
-    public void testResponse() throws UnsupportedEncodingException {
+    void testResponse() throws UnsupportedEncodingException {
         //response integer
         TestRestTemplate restTemplate = new TestRestTemplate("1");
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
@@ -198,7 +200,7 @@ public class SpringRestDataProviderEngineTest {
     }
 
     @Test
-    public void testReplacePlaceholders() {
+    void testReplacePlaceholders() {
         TestRestTemplate restTemplate = new TestRestTemplate("");
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
@@ -263,7 +265,7 @@ public class SpringRestDataProviderEngineTest {
     }
 
     @Test
-    public void testBaseUrl() {
+    void testBaseUrl() {
         DataSet res = new DataSet();
         res.put("id", 1);
         res.put("name", "test");
@@ -290,7 +292,7 @@ public class SpringRestDataProviderEngineTest {
     }
 
     @Test
-    public void testNoMethodSet() {
+    void testNoMethodSet() {
         DataSet req = new DataSet();
         req.put("id", 1);
         req.put("name", "test");
@@ -306,7 +308,7 @@ public class SpringRestDataProviderEngineTest {
     }
 
     @Test
-    public void testDateSerializing() {
+    void testDateSerializing() {
         TestRestTemplate restClient = new TestRestTemplate("");
         ObjectMapper objectMapper = new ObjectMapper();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -328,7 +330,7 @@ public class SpringRestDataProviderEngineTest {
     }
 
     @Test
-    public void testDateDeserializing() {
+    void testDateDeserializing() {
         TestRestTemplate restClient = new TestRestTemplate("{\"date_begin\":\"2018-11-17\"}");
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModules(new RestEngineTimeModule(new String[]{"yyyy-MM-dd'T'HH:mm:s", "yyyy-MM-dd"}));
@@ -343,7 +345,7 @@ public class SpringRestDataProviderEngineTest {
     }
 
     @Test
-    public void testListParameters() {
+    void testListParameters() {
         TestRestTemplate restClient = new TestRestTemplate("");
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, new ObjectMapper());
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
@@ -365,7 +367,7 @@ public class SpringRestDataProviderEngineTest {
     }
 
     @Test
-    public void testEncoding() {
+    void testEncoding() {
         TestRestTemplate restClient = new TestRestTemplate("");
         ObjectMapper objectMapper = new ObjectMapper();
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, objectMapper);
@@ -387,7 +389,7 @@ public class SpringRestDataProviderEngineTest {
     }
 
     @Test
-    public void testUntrimmedUrl() {
+    void testUntrimmedUrl() {
         TestRestTemplate restClient = new TestRestTemplate("");
         ObjectMapper objectMapper = new ObjectMapper();
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, objectMapper);

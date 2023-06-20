@@ -11,8 +11,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.is;
  */
 public class TextAreaCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -35,7 +35,7 @@ public class TextAreaCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testTextArea() {
+    void testTextArea() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testTextArea.page.xml")
                 .get(new PageContext("testTextArea"));
         Form form = (Form) page.getWidget();

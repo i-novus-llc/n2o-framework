@@ -119,7 +119,7 @@ const datasource = createSlice({
         },
 
         dataRequest: {
-            prepare(id: string, options = {}, meta: Meta = {}) {
+            prepare(id: string, options: Partial<{ size: number, page: number }> = {}, meta: Meta = {}) {
                 return ({
                     payload: { id, options },
                     meta,

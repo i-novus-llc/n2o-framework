@@ -4,12 +4,15 @@ import net.n2oapp.framework.api.bean.BeansOrderException;
 import net.n2oapp.framework.api.bean.BeansSorting;
 import net.n2oapp.framework.api.bean.LocatedBean;
 import net.n2oapp.framework.api.bean.LocatedBeanPack;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * User: operhod
@@ -20,7 +23,7 @@ public class BeansSortingTest {
 
 
     @Test
-    public void testWithPacks() throws Exception {
+    void testWithPacks() throws Exception {
         TestLocatedBean one = new TestLocatedBean(1);
         TestLocatedBean two = new TestLocatedBean(2);
         TestLocatedBean six = new TestLocatedBean(6);
@@ -46,119 +49,123 @@ public class BeansSortingTest {
     }
 
 
-    @Test(expected = BeansOrderException.class)
-    public void sortTwoBeans() throws BeansOrderException {
-        TestLocatedBean one;
-        TestLocatedBean two;
-        List<TestLocatedBean> res = null;
+    @Test
+    void sortTwoBeans() throws BeansOrderException {
+        assertThrows(BeansOrderException.class, () -> {
+            TestLocatedBean one;
+            TestLocatedBean two;
+            List<TestLocatedBean> res = null;
 
-        one = new TestLocatedBean(1);
-        two = new TestLocatedBean(2);
-        //one должен идте после two
-        one.setPrevBeans(two);
+            one = new TestLocatedBean(1);
+            two = new TestLocatedBean(2);
+            //one должен идте после two
+            one.setPrevBeans(two);
 
-        try {
-            res = BeansSorting.sort(Arrays.asList(one, two));
-        } catch (BeansOrderException e) {
-            assert false;
-        }
-        assert res.get(0).order == 2;
-        assert res.get(1).order == 1;
-
-
-        one = new TestLocatedBean(1);
-        two = new TestLocatedBean(2);
-        //one должен идте до two
-        one.setNextBeans(two);
-        //two должен идти после one
-        two.setPrevBeans(one);
-
-        try {
-            res = BeansSorting.sort(Arrays.asList(one, two));
-        } catch (BeansOrderException e) {
-            assert false;
-        }
-        assert res.get(0).order == 1;
-        assert res.get(1).order == 2;
-
-        one = new TestLocatedBean(1);
-        two = new TestLocatedBean(2);
-        //исключительная ситуация
-        one.setNextBeans(two);
-        two.setNextBeans(one);
-        BeansSorting.sort(Arrays.asList(one, two));
-    }
-
-    @Test(expected = BeansOrderException.class)
-    public void sortThreeBeans() throws BeansOrderException {
-        TestLocatedBean one;
-        TestLocatedBean two;
-        TestLocatedBean three;
-        List<TestLocatedBean> res = null;
-
-        one = new TestLocatedBean(1);
-        two = new TestLocatedBean(2);
-        three = new TestLocatedBean(3);
-        one.setPrevBeans(two);
-        two.setPrevBeans(three);
-        try {
-            res = BeansSorting.sort(Arrays.asList(one, two, three));
-        } catch (BeansOrderException e) {
-            assert false;
-        }
-        assert res.get(0).order == 3;
-        assert res.get(1).order == 2;
-        assert res.get(2).order == 1;
+            try {
+                res = BeansSorting.sort(Arrays.asList(one, two));
+            } catch (BeansOrderException e) {
+                assert false;
+            }
+            assert res.get(0).order == 2;
+            assert res.get(1).order == 1;
 
 
-        one = new TestLocatedBean(1);
-        two = new TestLocatedBean(2);
-        three = new TestLocatedBean(3);
-        one.setNextBeans(two, three);
-        three.setPrevBeans(one, two);
-        try {
-            res = BeansSorting.sort(Arrays.asList(one, two, three));
-        } catch (BeansOrderException e) {
-            assert false;
-        }
-        assert res.get(0).order == 1;
-        assert res.get(1).order == 2;
-        assert res.get(2).order == 3;
+            one = new TestLocatedBean(1);
+            two = new TestLocatedBean(2);
+            //one должен идте до two
+            one.setNextBeans(two);
+            //two должен идти после one
+            two.setPrevBeans(one);
 
-        one = new TestLocatedBean(1);
-        two = new TestLocatedBean(2);
-        three = new TestLocatedBean(3);
-        two.setNextBeans(one);
-        one.setNextBeans(three);
-        three.setPrevBeans(one, two);
-        try {
-            res = BeansSorting.sort(Arrays.asList(one, two, three));
-        } catch (BeansOrderException e) {
-            assert false;
-        }
-        assert res.get(0).order == 2;
-        assert res.get(1).order == 1;
-        assert res.get(2).order == 3;
+            try {
+                res = BeansSorting.sort(Arrays.asList(one, two));
+            } catch (BeansOrderException e) {
+                assert false;
+            }
+            assert res.get(0).order == 1;
+            assert res.get(1).order == 2;
 
-        one = new TestLocatedBean(1);
-        two = new TestLocatedBean(2);
-        three = new TestLocatedBean(3);
-        //исключительная ситуация
-        one.setPrevBeans(three);
-        three.setPrevBeans(two);
-        two.setPrevBeans(one);
-        BeansSorting.sort(Arrays.asList(one, two, three));
+            one = new TestLocatedBean(1);
+            two = new TestLocatedBean(2);
+            //исключительная ситуация
+            one.setNextBeans(two);
+            two.setNextBeans(one);
+            BeansSorting.sort(Arrays.asList(one, two));
+        });
     }
 
     @Test
-    public void beforeAndAfterAllTest() {
+    void sortThreeBeans() throws BeansOrderException {
+        assertThrows(BeansOrderException.class, () -> {
+            TestLocatedBean one;
+            TestLocatedBean two;
+            TestLocatedBean three;
+            List<TestLocatedBean> res = null;
+
+            one = new TestLocatedBean(1);
+            two = new TestLocatedBean(2);
+            three = new TestLocatedBean(3);
+            one.setPrevBeans(two);
+            two.setPrevBeans(three);
+            try {
+                res = BeansSorting.sort(Arrays.asList(one, two, three));
+            } catch (BeansOrderException e) {
+                assert false;
+            }
+            assert res.get(0).order == 3;
+            assert res.get(1).order == 2;
+            assert res.get(2).order == 1;
+
+
+            one = new TestLocatedBean(1);
+            two = new TestLocatedBean(2);
+            three = new TestLocatedBean(3);
+            one.setNextBeans(two, three);
+            three.setPrevBeans(one, two);
+            try {
+                res = BeansSorting.sort(Arrays.asList(one, two, three));
+            } catch (BeansOrderException e) {
+                assert false;
+            }
+            assert res.get(0).order == 1;
+            assert res.get(1).order == 2;
+            assert res.get(2).order == 3;
+
+            one = new TestLocatedBean(1);
+            two = new TestLocatedBean(2);
+            three = new TestLocatedBean(3);
+            two.setNextBeans(one);
+            one.setNextBeans(three);
+            three.setPrevBeans(one, two);
+            try {
+                res = BeansSorting.sort(Arrays.asList(one, two, three));
+            } catch (BeansOrderException e) {
+                assert false;
+            }
+            assert res.get(0).order == 2;
+            assert res.get(1).order == 1;
+            assert res.get(2).order == 3;
+
+            one = new TestLocatedBean(1);
+            two = new TestLocatedBean(2);
+            three = new TestLocatedBean(3);
+            //исключительная ситуация
+            one.setPrevBeans(three);
+            three.setPrevBeans(two);
+            two.setPrevBeans(one);
+            BeansSorting.sort(Arrays.asList(one, two, three));
+        });
+    }
+
+    @Test
+    void beforeAndAfterAllTest() {
         for (int i = 0; i < 10; i++) {
             afterAllTest();
             beforeAllTest();
         }
     }
 
-    public void afterAllTest() {
+    void afterAllTest() {
         TestLocatedBean one;
         TestLocatedBean two;
         TestLocatedBean three;
@@ -194,7 +201,7 @@ public class BeansSortingTest {
         assert res.get(2).order == 1;
     }
 
-    public void beforeAllTest() {
+    void beforeAllTest() {
         TestLocatedBean one;
         TestLocatedBean two;
         TestLocatedBean three;

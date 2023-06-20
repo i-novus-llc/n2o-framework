@@ -3,8 +3,8 @@
       name="Создание события">
     <datasources>
         <datasource id="ds1" object-id="test"/>
-        <parent-datasource id="calendar"/>
     </datasources>
+
     <regions>
         <form datasource="ds1">
             <fields>

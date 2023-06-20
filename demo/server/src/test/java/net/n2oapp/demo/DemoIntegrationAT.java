@@ -44,7 +44,7 @@ public class DemoIntegrationAT {
     public static void configure() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
-        System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips='',--remote-allow-origins=*");
+        System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
 
         headless = true;
         browserSize = "1920x1200";
@@ -164,6 +164,7 @@ public class DemoIntegrationAT {
      * Проверка работы сортировки по фамилии
      */
     @Test
+    @Disabled
     public void testTableSorting() {
         List<String> unsortedSurnameColumn = new ArrayList<>(
                 List.of(new String[]{

@@ -5,6 +5,8 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class N2oScrollspyRegion extends N2oRegion implements RoutableRegion {
     private Boolean headlines;
     private String activeParam;
     private Boolean routable;
+    private Integer maxHeight;
     private AbstractMenuItem[] menu;
 
     @Override
@@ -66,10 +69,29 @@ public class N2oScrollspyRegion extends N2oRegion implements RoutableRegion {
 
     @Getter
     @Setter
-    public static abstract class AbstractMenuItem implements Source, RegionItem {
+    public static class GroupItem extends AbstractMenuItem {
+
+        private Boolean headline;
+        private AbstractMenuItem[] group;
+        @Override
+        public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
+            if (group != null) {
+                if (!ids.containsKey(prefix))
+                    ids.put(prefix, 1);
+                for (AbstractMenuItem mi : group) {
+                    mi.collectWidgets(result, ids, prefix);
+                }
+            }
+        }
+    }
+
+    @Getter
+    @Setter
+    public static abstract class AbstractMenuItem implements Source, IdAware, RegionItem {
         private String id;
         private String title;
     }
+
 
     @Override
     public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {

@@ -47,8 +47,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -57,13 +57,14 @@ import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Проверка компиляции open-page
  */
 public class OpenPageCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -91,7 +92,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void filterModel() {
+    void filterModel() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml")
                 .get(new PageContext("testOpenPageSimplePage"));
         PageContext context = (PageContext) route("/page/action1", Page.class);
@@ -123,7 +124,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void resolveModel() {
+    void resolveModel() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
                 .get(new PageContext("testOpenPageSimplePage", "/page"));
@@ -179,7 +180,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void breadcrumb() {
+    void breadcrumb() {
         // проверка breadcrumb при открытии open-page из таблицы
         DataSet data = new DataSet().add("parent_id", 123);
         PageContext context = new PageContext("testOpenPageSimplePage", "/page/:parent_id/view");
@@ -250,7 +251,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void breadcrumbWithRefWidget() {
+    void breadcrumbWithRefWidget() {
         // проверка breadcrumb при открытии open-page из таблицы
         DataSet data = new DataSet().add("parent_id", 123);
         PageContext context = new PageContext("testOpenPageWithRefWidget", "/page/:parent_id/view");
@@ -323,7 +324,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void masterDetail() {
+    void masterDetail() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml")
                 .get(new PageContext("testOpenPageSimplePage", "/page"));
 
@@ -377,7 +378,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void dynamicPage() {
+    void dynamicPage() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.page.xml")
                 .get(new PageContext("testOpenPageDynamicPage", "/page"));
         PageContext context = (PageContext) route("/page/testOpenPageSimplePageAction1/id1", Page.class);
@@ -410,7 +411,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testMasterParam() {
+    void testMasterParam() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline =
                 compile("net/n2oapp/framework/config/metadata/compile/action/testMasterParam.page.xml",
                         "net/n2oapp/framework/config/metadata/compile/action/testOpenPageMasterParam.page.xml");
@@ -435,7 +436,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testDefaultParam() {
+    void testDefaultParam() {
         compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml")
                 .get(new PageContext("testOpenPageSimplePage", "/page"));
         PageContext context = (PageContext) route("/page/defaultValue", Page.class);
@@ -495,7 +496,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testPathParam() {
+    void testPathParam() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageWithPathParam.page.xml")
                 .get(new PageContext("testOpenPageWithPathParam", "/page"));
 
@@ -514,16 +515,18 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
     }
 
 
-    @Test(expected = N2oException.class)
-    public void testPathParamValidation() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageWithExpectPathParam.page.xml")
-                .get(new PageContext("testOpenPageWithExpectPathParam", "/page"));
-
+    @Test
+    void testPathParamValidation() {
+        assertThrows(
+                N2oException.class,
+                () -> compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageWithExpectPathParam.page.xml")
+                        .get(new PageContext("testOpenPageWithExpectPathParam", "/page"))
+        );
     }
 
 
     @Test
-    public void testBinding() {
+    void testBinding() {
         compile("net/n2oapp/framework/config/metadata/compile/action/testBindOpenPage.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/action/testBindOpenPage.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/action/testBindOpenPageShow.page.xml")
@@ -549,7 +552,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void link() {
+    void link() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testSimpleOpenPage.page.xml")
                 .get(new PageContext("testSimpleOpenPage"));
         Toolbar toolbar =  page.getWidget().getToolbar();
@@ -563,7 +566,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCustomBreadcrumb() {
+    void testCustomBreadcrumb() {
         DataSet data = new DataSet("id", 123);
         PageContext context = new PageContext("testOpenPageParent", "/page/:id/view");
         ModelLink modelLink = new ModelLink(ReduxModel.resolve, "ds1");

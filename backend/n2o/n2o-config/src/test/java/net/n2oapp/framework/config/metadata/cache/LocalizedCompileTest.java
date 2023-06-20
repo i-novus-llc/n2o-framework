@@ -11,8 +11,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.Locale;
@@ -26,7 +26,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class LocalizedCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -40,7 +40,7 @@ public class LocalizedCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void test() {
+    void test() {
         Locale currentLocale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(new Locale("ru"));
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cache/testLocalizedCompile.page.xml")

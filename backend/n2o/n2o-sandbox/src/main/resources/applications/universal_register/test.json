@@ -1,0 +1,931 @@
+[{
+  "id" : 12,
+  "createDate" : [ 2023, 5, 18 ],
+  "snils" : "634-632-008 72",
+  "gender" : {
+    "name" : "Мужской",
+    "id" : 1
+  },
+  "citizen" : {
+    "name" : "Гражданин Российской Федерации",
+    "id" : 1
+  },
+  "birthday" : "1998-05-16T00:00:00",
+  "fio" : "Федоров Артем Петрович",
+  "counrty" : null,
+  "legal" : {
+    "name" : "Постоянно проживающий в РФ ",
+    "id" : 1
+  },
+  "docs" : [ {
+    "type" : {
+      "id" : 2,
+      "name" : "Свидетельстов о рождении"
+    },
+    "serie" : 2132,
+    "number" : 313113,
+    "issuer" : "Отделом МВД по ОВД",
+    "date" : "2023-05-17T00:00:00",
+    "code" : 234234
+  } ],
+  "compulsory" : {
+    "type" : {
+      "name" : "Полис ОМС единого образца",
+      "id" : 1
+    },
+    "serie" : "3333",
+    "number" : "444444",
+    "org" : "Агродековка"
+  },
+  "voluntary" : [ {
+    "org" : null,
+    "number" : null,
+    "date" : null,
+    "files" : null
+  } ],
+  "phone" : [ {
+    "mobile" : "+7(324)-345-23-42",
+    "home" : null
+  } ],
+  "address" : {
+    "residential" : {
+      "region" : "Московская область",
+      "city" : "Фриково",
+      "street" : "Есенина",
+      "house" : "34",
+      "apartment" : "12"
+    }
+  },
+  "bronchologicalSystem" : null,
+  "cardiovascularSystem" : null,
+  "endocrineSystem" : null,
+  "oncologicalDiseases" : null,
+  "immunodeficiency" : null,
+  "diagnosis" : [ {
+    "id" : 1,
+    "diagnosisKey" : "UO07.2",
+    "description" : "Острый назофарингит [насморк]",
+    "name" : "UO07.2 Острый назофарингит [насморк]",
+    "date" : "2023-05-10T00:00:00",
+    "dateSimptom" : "2023-05-16T00:00:00",
+    "complicationsCheck" : true
+  } ],
+  "organization" : {
+    "name" : "Агродековка",
+    "address" : "965433, Пензенская область, город Орехово-Зуево, бульвар Ленина, 69"
+  },
+  "status" :  "Одобрено"             
+}, {
+  "id" : 11,
+  "createDate" : [ 2023, 5, 18 ],
+  "snils" : "577-936-932 69",
+  "gender" : {
+    "name" : "Мужской",
+    "id" : 1
+  },
+  "citizen" : {
+    "name" : "Гражданин Российской Федерации",
+    "id" : 1
+  },
+  "birthday" : "2023-05-10T00:00:00",
+  "fio" : "Петров Сергей Алексеевич",
+  "counrty" : null,
+  "legal" : {
+    "name" : "Временно проживающий в РФ",
+    "id" : 2
+  },
+  "docs" : [ {
+    "type" : {
+      "id" : 1,
+      "name" : "Паспорт"
+    },
+    "serie" : 9716,
+    "number" : 978265,
+    "issuer" : "отделом МВД по городу Москва",
+    "date" : "2023-05-10T00:00:00",
+    "code" : 232332
+  } ],
+  "compulsory" : {
+    "type" : {
+      "name" : "Полис ОМС старого образца",
+      "id" : 2
+    },
+    "serie" : "9719",
+    "number" : "165496",
+    "org" : "Медоед"
+  },
+  "voluntary" : [ {
+    "org" : null,
+    "number" : null,
+    "date" : null,
+    "files" : null
+  } ],
+  "phone" : [ {
+    "mobile" : "+7(895)-999-94-52",
+    "home" : null
+  } ],
+  "address" : {
+    "residential" : {
+      "region" : "Московская область",
+      "city" : "Москв",
+      "street" : "Есенина",
+      "house" : "54",
+      "apartment" : "27"
+    }
+  },
+  "bronchologicalSystem" : null,
+  "cardiovascularSystem" : null,
+  "endocrineSystem" : null,
+  "oncologicalDiseases" : null,
+  "immunodeficiency" : null,
+  "diagnosis" : [ {
+    "id" : 2,
+    "diagnosisKey" : "UO07.5",
+    "description" : "Острый пансинусит",
+    "name" : "UO07.5 Острый пансинусит",
+    "date" : "2023-05-04T00:00:00",
+    "dateSimptom" : "2023-05-16T00:00:00",
+    "complicationsCheck" : true
+  } ],
+  "organization" : {
+    "name" : "Медоед",
+    "address" : "813626, Рязанская область, город Ногинск, пер. Славы, 56"
+  },
+  "status" : "Одобрено"             
+}, 
+{
+  "id" : 10,
+  "createDate" : [ 2023, 5, 18 ],
+  "snils" : "383-483-547 16",
+  "gender" : {
+    "name" : "Мужской",
+    "id" : 1
+  },
+  "citizen" : {
+    "name" : "Гражданин Российской Федерации",
+    "id" : 1
+  },
+  "birthday" : "1998-05-16T00:00:00",
+  "fio" : "Федоров Артем Петрович",
+  "counrty" : null,
+  "legal" : {
+    "name" : "Постоянно проживающий в РФ ",
+    "id" : 1
+  },
+  "docs" : [ {
+    "type" : {
+      "id" : 2,
+      "name" : "Свидетельстов о рождении"
+    },
+    "serie" : 2132,
+    "number" : 313113,
+    "issuer" : "Отделом МВД по ОВД",
+    "date" : "2023-05-17T00:00:00",
+    "code" : 234234
+  } ],
+  "compulsory" : {
+    "type" : {
+      "name" : "Полис ОМС единого образца",
+      "id" : 1
+    },
+    "serie" : "3333",
+    "number" : "444444",
+    "org" : "Агродековка"
+  },
+  "voluntary" : [ {
+    "org" : null,
+    "number" : null,
+    "date" : null,
+    "files" : null
+  } ],
+  "phone" : [ {
+    "mobile" : "+7(324)-345-23-42",
+    "home" : null
+  } ],
+  "address" : {
+    "residential" : {
+      "region" : "Московская область",
+      "city" : "Фриково",
+      "street" : "Есенина",
+      "house" : "34",
+      "apartment" : "12"
+    }
+  },
+  "bronchologicalSystem" : null,
+  "cardiovascularSystem" : null,
+  "endocrineSystem" : null,
+  "oncologicalDiseases" : null,
+  "immunodeficiency" : null,
+  "diagnosis" : [ {
+    "id" : 1,
+    "diagnosisKey" : "UO07.2",
+    "description" : "Острый назофарингит [насморк]",
+    "name" : "UO07.2 Острый назофарингит [насморк]",
+    "date" : "2023-05-10T00:00:00",
+    "dateSimptom" : "2023-05-16T00:00:00",
+    "complicationsCheck" : true
+  } ],
+  "organization" : {
+    "name" : "Агродековка",
+    "address" : "965433, Пензенская область, город Орехово-Зуево, бульвар Ленина, 69"
+  },
+  "status" : "Отказано"          
+}, {
+  "id" : 9,
+  "createDate" : [ 2023, 5, 18 ],
+  "snils" : "267-936-932 69",
+  "gender" : {
+    "name" : "Мужской",
+    "id" : 1
+  },
+  "citizen" : {
+    "name" : "Гражданин Российской Федерации",
+    "id" : 1
+  },
+  "birthday" : "2023-05-10T00:00:00",
+  "fio" : "Петров Сергей Алексеевич",
+  "counrty" : null,
+  "legal" : {
+    "name" : "Временно проживающий в РФ",
+    "id" : 2
+  },
+  "docs" : [ {
+    "type" : {
+      "id" : 1,
+      "name" : "Паспорт"
+    },
+    "serie" : 9716,
+    "number" : 978265,
+    "issuer" : "отделом МВД по городу Москва",
+    "date" : "2023-05-10T00:00:00",
+    "code" : 232332
+  } ],
+  "compulsory" : {
+    "type" : {
+      "name" : "Полис ОМС старого образца",
+      "id" : 2
+    },
+    "serie" : "9719",
+    "number" : "165496",
+    "org" : "Медоед"
+  },
+  "voluntary" : [ {
+    "org" : null,
+    "number" : null,
+    "date" : null,
+    "files" : null
+  } ],
+  "phone" : [ {
+    "mobile" : "+7(895)-999-94-52",
+    "home" : null
+  } ],
+  "address" : {
+    "residential" : {
+      "region" : "Московская область",
+      "city" : "Москв",
+      "street" : "Есенина",
+      "house" : "54",
+      "apartment" : "27"
+    }
+  },
+  "bronchologicalSystem" : null,
+  "cardiovascularSystem" : null,
+  "endocrineSystem" : null,
+  "oncologicalDiseases" : null,
+  "immunodeficiency" : null,
+  "diagnosis" : [ {
+    "id" : 2,
+    "diagnosisKey" : "UO07.5",
+    "description" : "Острый пансинусит",
+    "name" : "UO07.5 Острый пансинусит",
+    "date" : "2023-05-04T00:00:00",
+    "dateSimptom" : "2023-05-16T00:00:00",
+    "complicationsCheck" : true
+  } ],
+  "organization" : {
+    "name" : "Медоед",
+    "address" : "813626, Рязанская область, город Ногинск, пер. Славы, 56"
+  },
+  "status" : "Одобрено"     
+},
+{
+  "id" : 8,
+  "createDate" : [ 2023, 5, 18 ],
+  "snils" : "838-111-02 70",
+  "gender" : {
+    "name" : "Мужской",
+    "id" : 1
+  },
+  "citizen" : {
+    "name" : "Гражданин Российской Федерации",
+    "id" : 1
+  },
+  "birthday" : "1998-05-16T00:00:00",
+  "fio" : "Федоров Артем Петрович",
+  "counrty" : null,
+  "legal" : {
+    "name" : "Постоянно проживающий в РФ ",
+    "id" : 1
+  },
+  "docs" : [ {
+    "type" : {
+      "id" : 2,
+      "name" : "Свидетельстов о рождении"
+    },
+    "serie" : 2132,
+    "number" : 313113,
+    "issuer" : "Отделом МВД по ОВД",
+    "date" : "2023-05-17T00:00:00",
+    "code" : 234234
+  } ],
+  "compulsory" : {
+    "type" : {
+      "name" : "Полис ОМС единого образца",
+      "id" : 1
+    },
+    "serie" : "3333",
+    "number" : "444444",
+    "org" : "Агродековка"
+  },
+  "voluntary" : [ {
+    "org" : null,
+    "number" : null,
+    "date" : null,
+    "files" : null
+  } ],
+  "phone" : [ {
+    "mobile" : "+7(324)-345-23-42",
+    "home" : null
+  } ],
+  "address" : {
+    "residential" : {
+      "region" : "Московская область",
+      "city" : "Фриково",
+      "street" : "Есенина",
+      "house" : "34",
+      "apartment" : "12"
+    }
+  },
+  "bronchologicalSystem" : null,
+  "cardiovascularSystem" : null,
+  "endocrineSystem" : null,
+  "oncologicalDiseases" : null,
+  "immunodeficiency" : null,
+  "diagnosis" : [ {
+    "id" : 1,
+    "diagnosisKey" : "UO07.2",
+    "description" : "Острый назофарингит [насморк]",
+    "name" : "UO07.2 Острый назофарингит [насморк]",
+    "date" : "2023-05-10T00:00:00",
+    "dateSimptom" : "2023-05-16T00:00:00",
+    "complicationsCheck" : true
+  } ],
+  "organization" : {
+    "name" : "Агродековка",
+    "address" : "965433, Пензенская область, город Орехово-Зуево, бульвар Ленина, 69"
+  }
+  ,
+  "status" : "Отказано"     
+}, {
+  "id" : 7,
+  "createDate" : [ 2023, 5, 18 ],
+  "snils" : "123-936-932 69",
+  "gender" : {
+    "name" : "Мужской",
+    "id" : 1
+  },
+  "citizen" : {
+    "name" : "Гражданин Российской Федерации",
+    "id" : 1
+  },
+  "birthday" : "2023-05-10T00:00:00",
+  "fio" : "Петров Сергей Алексеевич",
+  "counrty" : null,
+  "legal" : {
+    "name" : "Временно проживающий в РФ",
+    "id" : 2
+  },
+  "docs" : [ {
+    "type" : {
+      "id" : 1,
+      "name" : "Паспорт"
+    },
+    "serie" : 9716,
+    "number" : 978265,
+    "issuer" : "отделом МВД по городу Москва",
+    "date" : "2023-05-10T00:00:00",
+    "code" : 232332
+  } ],
+  "compulsory" : {
+    "type" : {
+      "name" : "Полис ОМС старого образца",
+      "id" : 2
+    },
+    "serie" : "9719",
+    "number" : "165496",
+    "org" : "Медоед"
+  },
+  "voluntary" : [ {
+    "org" : null,
+    "number" : null,
+    "date" : null,
+    "files" : null
+  } ],
+  "phone" : [ {
+    "mobile" : "+7(895)-999-94-52",
+    "home" : null
+  } ],
+  "address" : {
+    "residential" : {
+      "region" : "Московская область",
+      "city" : "Москв",
+      "street" : "Есенина",
+      "house" : "54",
+      "apartment" : "27"
+    }
+  },
+  "bronchologicalSystem" : null,
+  "cardiovascularSystem" : null,
+  "endocrineSystem" : null,
+  "oncologicalDiseases" : null,
+  "immunodeficiency" : null,
+  "diagnosis" : [ {
+    "id" : 2,
+    "diagnosisKey" : "UO07.5",
+    "description" : "Острый пансинусит",
+    "name" : "UO07.5 Острый пансинусит",
+    "date" : "2023-05-04T00:00:00",
+    "dateSimptom" : "2023-05-16T00:00:00",
+    "complicationsCheck" : true
+  } ],
+  "organization" : {
+    "name" : "Медоед",
+    "address" : "813626, Рязанская область, город Ногинск, пер. Славы, 56"
+  },
+  "status" : "Одобрено"     
+}, 
+{
+  "id" : 6,
+  "createDate" : [ 2023, 5, 18 ],
+  "snils" : "231-746-080 50",
+  "gender" : {
+    "name" : "Мужской",
+    "id" : 1
+  },
+  "citizen" : {
+    "name" : "Гражданин Российской Федерации",
+    "id" : 1
+  },
+  "birthday" : "1998-05-16T00:00:00",
+  "fio" : "Федоров Артем Петрович",
+  "counrty" : null,
+  "legal" : {
+    "name" : "Постоянно проживающий в РФ ",
+    "id" : 1
+  },
+  "docs" : [ {
+    "type" : {
+      "id" : 2,
+      "name" : "Свидетельстов о рождении"
+    },
+    "serie" : 2132,
+    "number" : 313113,
+    "issuer" : "Отделом МВД по ОВД",
+    "date" : "2023-05-17T00:00:00",
+    "code" : 234234
+  } ],
+  "compulsory" : {
+    "type" : {
+      "name" : "Полис ОМС единого образца",
+      "id" : 1
+    },
+    "serie" : "3333",
+    "number" : "444444",
+    "org" : "Агродековка"
+  },
+  "voluntary" : [ {
+    "org" : null,
+    "number" : null,
+    "date" : null,
+    "files" : null
+  } ],
+  "phone" : [ {
+    "mobile" : "+7(324)-345-23-42",
+    "home" : null
+  } ],
+  "address" : {
+    "residential" : {
+      "region" : "Московская область",
+      "city" : "Фриково",
+      "street" : "Есенина",
+      "house" : "34",
+      "apartment" : "12"
+    }   
+  },
+  "bronchologicalSystem" : null,
+  "cardiovascularSystem" : null,
+  "endocrineSystem" : null,
+  "oncologicalDiseases" : null,
+  "immunodeficiency" : null,
+  "diagnosis" : [ {
+    "id" : 1,
+    "diagnosisKey" : "UO07.2",
+    "description" : "Острый назофарингит [насморк]",
+    "name" : "UO07.2 Острый назофарингит [насморк]",
+    "date" : "2023-05-10T00:00:00",
+    "dateSimptom" : "2023-05-16T00:00:00",
+    "complicationsCheck" : true
+  } ],
+  "organization" : {
+    "name" : "Агродековка",
+    "address" : "965433, Пензенская область, город Орехово-Зуево, бульвар Ленина, 69"
+  },
+  "status" : "Одобрено" 
+}, {
+  "id" : 5,
+  "createDate" : [ 2023, 5, 18 ],
+  "snils" : "876-145-932 69",
+  "gender" : {
+    "name" : "Мужской",
+    "id" : 1
+  },
+  "citizen" : {
+    "name" : "Гражданин Российской Федерации",
+    "id" : 1
+  },
+  "birthday" : "2023-05-10T00:00:00",
+  "fio" : "Петров Сергей Алексеевич",
+  "counrty" : null,
+  "legal" : {
+    "name" : "Временно проживающий в РФ",
+    "id" : 2
+  },
+  "docs" : [ {
+    "type" : {
+      "id" : 1,
+      "name" : "Паспорт"
+    },
+    "serie" : 9716,
+    "number" : 978265,
+    "issuer" : "отделом МВД по городу Москва",
+    "date" : "2023-05-10T00:00:00",
+    "code" : 232332
+  } ],
+  "compulsory" : {
+    "type" : {
+      "name" : "Полис ОМС старого образца",
+      "id" : 2
+    },
+    "serie" : "9719",
+    "number" : "165496",
+    "org" : "Медоед"
+  },
+  "voluntary" : [ {
+    "org" : null,
+    "number" : null,
+    "date" : null,
+    "files" : null
+  } ],
+  "phone" : [ {
+    "mobile" : "+7(895)-999-94-52",
+    "home" : null
+  } ],
+  "address" : {
+    "residential" : {
+      "region" : "Московская область",
+      "city" : "Москв",
+      "street" : "Есенина",
+      "house" : "54",
+      "apartment" : "27"
+    }
+  },
+  "bronchologicalSystem" : null,
+  "cardiovascularSystem" : null,
+  "endocrineSystem" : null,
+  "oncologicalDiseases" : null,
+  "immunodeficiency" : null,
+  "diagnosis" : [ {
+    "id" : 2,
+    "diagnosisKey" : "UO07.5",
+    "description" : "Острый пансинусит",
+    "name" : "UO07.5 Острый пансинусит",
+    "date" : "2023-05-04T00:00:00",
+    "dateSimptom" : "2023-05-16T00:00:00",
+    "complicationsCheck" : true
+  } ],
+  "organization" : {
+    "name" : "Медоед",
+    "address" : "813626, Рязанская область, город Ногинск, пер. Славы, 56"
+  },
+  "status" : "Одобрено"     
+},
+{
+  "id" : 4,
+  "createDate" : [ 2023, 5, 18 ],
+  "snils" : "653-460-354 91",
+  "gender" : {
+    "name" : "Мужской",
+    "id" : 1
+  },
+  "citizen" : {
+    "name" : "Гражданин Российской Федерации",
+    "id" : 1
+  },
+  "birthday" : "1998-05-16T00:00:00",
+  "fio" : "Федоров Артем Петрович",
+  "counrty" : null,
+  "legal" : {
+    "name" : "Постоянно проживающий в РФ ",
+    "id" : 1
+  },
+  "docs" : [ {
+    "type" : {
+      "id" : 2,
+      "name" : "Свидетельстов о рождении"
+    },
+    "serie" : 2132,
+    "number" : 313113,
+    "issuer" : "Отделом МВД по ОВД",
+    "date" : "2023-05-17T00:00:00",
+    "code" : 234234
+  } ],
+  "compulsory" : {
+    "type" : {
+      "name" : "Полис ОМС единого образца",
+      "id" : 1
+    },
+    "serie" : "3333",
+    "number" : "444444",
+    "org" : "Агродековка"
+  },
+  "voluntary" : [ {
+    "org" : null,
+    "number" : null,
+    "date" : null,
+    "files" : null
+  } ],
+  "phone" : [ {
+    "mobile" : "+7(324)-345-23-42",
+    "home" : null
+  } ],
+  "address" : {
+    "residential" : {
+      "region" : "Московская область",
+      "city" : "Фриково",
+      "street" : "Есенина",
+      "house" : "34",
+      "apartment" : "12"
+    }
+  },
+  "bronchologicalSystem" : null,
+  "cardiovascularSystem" : null,
+  "endocrineSystem" : null,
+  "oncologicalDiseases" : null,
+  "immunodeficiency" : null,
+  "diagnosis" : [ {
+    "id" : 1,
+    "diagnosisKey" : "UO07.2",
+    "description" : "Острый назофарингит [насморк]",
+    "name" : "UO07.2 Острый назофарингит [насморк]",
+    "date" : "2023-05-10T00:00:00",
+    "dateSimptom" : "2023-05-16T00:00:00",
+    "complicationsCheck" : true
+  } ],
+  "organization" : {
+    "name" : "Агродековка",
+    "address" : "965433, Пензенская область, город Орехово-Зуево, бульвар Ленина, 69"
+  },
+  "status" : "Отказано"     
+}, {
+  "id" : 3,
+  "createDate" : [ 2023, 5, 18 ],
+  "snils" : "423-238-932 69",
+  "gender" : {
+    "name" : "Мужской",
+    "id" : 1
+  },
+  "citizen" : {
+    "name" : "Гражданин Российской Федерации",
+    "id" : 1
+  },
+  "birthday" : "2023-05-10T00:00:00",
+  "fio" : "Петров Сергей Алексеевич",
+  "counrty" : null,
+  "legal" : {
+    "name" : "Временно проживающий в РФ",
+    "id" : 2
+  },
+  "docs" : [ {
+    "type" : {
+      "id" : 1,
+      "name" : "Паспорт"
+    },
+    "serie" : 9716,
+    "number" : 978265,
+    "issuer" : "отделом МВД по городу Москва",
+    "date" : "2023-05-10T00:00:00",
+    "code" : 232332
+  } ],
+  "compulsory" : {
+    "type" : {
+      "name" : "Полис ОМС старого образца",
+      "id" : 2
+    },
+    "serie" : "9719",
+    "number" : "165496",
+    "org" : "Медоед"
+  },
+  "voluntary" : [ {
+    "org" : null,
+    "number" : null,
+    "date" : null,
+    "files" : null
+  } ],
+  "phone" : [ {
+    "mobile" : "+7(895)-999-94-52",
+    "home" : null
+  } ],
+  "address" : {
+    "residential" : {
+      "region" : "Московская область",
+      "city" : "Москв",
+      "street" : "Есенина",
+      "house" : "54",
+      "apartment" : "27"
+    }
+  },
+  "bronchologicalSystem" : null,
+  "cardiovascularSystem" : null,
+  "endocrineSystem" : null,
+  "oncologicalDiseases" : null,
+  "immunodeficiency" : null,
+  "diagnosis" : [ {
+    "id" : 2,
+    "diagnosisKey" : "UO07.5",
+    "description" : "Острый пансинусит",
+    "name" : "UO07.5 Острый пансинусит",
+    "date" : "2023-05-04T00:00:00",
+    "dateSimptom" : "2023-05-16T00:00:00",
+    "complicationsCheck" : true
+  } ],
+  "organization" : {
+    "name" : "Медоед",
+    "address" : "813626, Рязанская область, город Ногинск, пер. Славы, 56"
+  },
+  "status" : "Одобрено"     
+}, 
+{
+  "id" : 2,
+  "createDate" : [ 2023, 5, 18 ],
+  "snils" : "897-000-800 15",
+  "gender" : {
+    "name" : "Мужской",
+    "id" : 1
+  },
+  "citizen" : {
+    "name" : "Гражданин Российской Федерации",
+    "id" : 1
+  },
+  "birthday" : "1998-05-16T00:00:00",
+  "fio" : "Федоров Артем Петрович",
+  "counrty" : null,
+  "legal" : {
+    "name" : "Постоянно проживающий в РФ ",
+    "id" : 1
+  },
+  "docs" : [ {
+    "type" : {
+      "id" : 2,
+      "name" : "Свидетельстов о рождении"
+    },
+    "serie" : 2132,
+    "number" : 313113,
+    "issuer" : "Отделом МВД по ОВД",
+    "date" : "2023-05-17T00:00:00",
+    "code" : 234234
+  } ],
+  "compulsory" : {
+    "type" : {
+      "name" : "Полис ОМС единого образца",
+      "id" : 1
+    },
+    "serie" : "3333",
+    "number" : "444444",
+    "org" : "Агродековка"
+  },
+  "voluntary" : [ {
+    "org" : null,
+    "number" : null,
+    "date" : null,
+    "files" : null
+  } ],
+  "phone" : [ {
+    "mobile" : "+7(324)-345-23-42",
+    "home" : null
+  } ],
+  "address" : {
+    "residential" : {
+      "region" : "Московская область",
+      "city" : "Фриково",
+      "street" : "Есенина",
+      "house" : "34",
+      "apartment" : "12"
+    }
+  },
+  "bronchologicalSystem" : null,
+  "cardiovascularSystem" : null,
+  "endocrineSystem" : null,
+  "oncologicalDiseases" : null,
+  "immunodeficiency" : null,
+  "diagnosis" : [ {
+    "id" : 1,
+    "diagnosisKey" : "UO07.2",
+    "description" : "Острый назофарингит [насморк]",
+    "name" : "UO07.2 Острый назофарингит [насморк]",
+    "date" : "2023-05-10T00:00:00",
+    "dateSimptom" : "2023-05-16T00:00:00",
+    "complicationsCheck" : true
+  } ],
+  "organization" : {
+    "name" : "Агродековка",
+    "address" : "965433, Пензенская область, город Орехово-Зуево, бульвар Ленина, 69"
+  },
+  "status" : "Одобрено"     
+}, {
+  "id" : 1,
+  "createDate" : [ 2023, 5, 18 ],
+  "snils" : "498-345-932 69",
+  "gender" : {
+    "name" : "Мужской",
+    "id" : 1
+  },
+  "citizen" : {
+    "name" : "Гражданин Российской Федерации",
+    "id" : 1
+  },
+  "birthday" : "2023-05-10T00:00:00",
+  "fio" : "Петров Сергей Алексеевич",
+  "counrty" : null,
+  "legal" : {
+    "name" : "Временно проживающий в РФ",
+    "id" : 2
+  },
+  "docs" : [ {
+    "type" : {
+      "id" : 1,
+      "name" : "Паспорт"
+    },
+    "serie" : 9716,
+    "number" : 978265,
+    "issuer" : "отделом МВД по городу Москва",
+    "date" : "2023-05-10T00:00:00",
+    "code" : 232332
+  } ],
+  "compulsory" : {
+    "type" : {
+      "name" : "Полис ОМС старого образца",
+      "id" : 2
+    },
+    "serie" : "9719",
+    "number" : "165496",
+    "org" : "Медоед"
+  },
+  "voluntary" : [ {
+    "org" : null,
+    "number" : null,
+    "date" : null,
+    "files" : null
+  } ],
+  "phone" : [ {
+    "mobile" : "+7(895)-999-94-52",
+    "home" : null
+  } ],
+  "address" : {
+    "residential" : {
+      "region" : "Московская область",
+      "city" : "Москв",
+      "street" : "Есенина",
+      "house" : "54",
+      "apartment" : "27"
+    }
+  },
+  "bronchologicalSystem" : null,
+  "cardiovascularSystem" : null,
+  "endocrineSystem" : null,
+  "oncologicalDiseases" : null,
+  "immunodeficiency" : null,
+  "diagnosis" : [ {
+    "id" : 2,
+    "diagnosisKey" : "UO07.5",
+    "description" : "Острый пансинусит",
+    "name" : "UO07.5 Острый пансинусит",
+    "date" : "2023-05-04T00:00:00",
+    "dateSimptom" : "2023-05-16T00:00:00",
+    "complicationsCheck" : true
+  } ],
+  "organization" : {
+    "name" : "Медоед",
+    "address" : "813626, Рязанская область, город Ногинск, пер. Славы, 56"
+  },
+  "status" : "Одобрено"     
+} ]

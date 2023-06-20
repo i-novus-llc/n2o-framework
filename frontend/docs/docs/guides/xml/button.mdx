@@ -2,6 +2,7 @@
 title: Кнопки
 description: ""
 ---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 **Библиотека компонентов**
 
@@ -35,7 +36,22 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |visible              |Строка                                                                     |Видимость по умолчанию.         |                          |
 |enabled              |Строка                                                                     |Доступность по умолчанию.       |                          |
 
-#### &lt;button&gt; {#button_in_button}
+
+**Настройки**
+```yaml
+#Позиция по умолчанию подсказки для кнопки
+n2o.api.button.tooltip_position=bottom
+#Позиция значка для кнопки
+n2o.api.button.badge.position=right
+#Форма значка для кнопки
+n2o.api.button.badge.shape=circle
+#Позиция картинки в значке для кнопки
+n2o.api.button.badge.image_position=left
+#Форма картинки в значке для кнопки
+n2o.api.button.badge.image_shape=circle
+```
+
+### &lt;button&gt; {#button_in_button}
 
 Кнопка.
 
@@ -57,10 +73,26 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |confirm-cancel-color     |primary, secondary, success, danger, warning, info, light, dark, link |Цвет кнопки отмены.                                                                                                                                                                             |secondary                       |
 |disable-on-empty-model   |true false auto                                                       |Недоступность кнопки при пустой модели. `true` - всегда недоступна,`false` - всегда доступна, `auto` - недоступна только при пустой модели resolve, для всех остальных моделей доступна всегда. |auto                            |
 
-**Тело**
 
-[Обработчики действий](../xml/action),
-[Зависимости компонента](#_Зависимости_компонента)
+**Настройки**
+```yaml
+# Круглая форма кнопки
+n2o.api.button.rounded=false
+# недоступность кнопки при пустой модели
+n2o.api.button.disable_on_empty_model=auto
+#Наличие закрывающего крестика в диалоговом окне подтверждения действия
+n2o.api.button.confirm.close_button=false
+#Значение по умолчанию для цвета кнопки подтверждения в диалоговом окне подтверждения действия
+n2o.api.button.confirm.ok_color=primary
+#Значение по умолчанию для цвета кнопки отмены в диалоговом окне подтверждения действия
+n2o.api.button.confirm.cancel_color=secondary
+#Перестановка кнопок в диалоговом окне подтверждения
+n2o.api.button.confirm.reverse_buttons=false
+```
+
+**Тело**<br/>
+Ссылка на [Обработчик действия](../xml/action)<br/>
+`<dependencies>` - [Зависимости компонента](#dependencies)
 
 **Пример**
 
@@ -73,13 +105,19 @@ http://n2oapp.net/framework/config/schema/button-2.0
   label="Добавить в реестр"
   icon="fa-plus"
   type="icon">
-   <submit datasource="ds1"/>
-   <invoke operation-id="save"/>
-   <open-page page-id="register"/>
+    <submit datasource="ds1"/>
+    <invoke operation-id="save"/>
+    <open-page page-id="register"/>
+    <dependencies>
+        <visibility datasource="ds1">type==1</visibility>
+        <enabling datasource="ds2">type==1</enabling>
+    </dependencies>
 </button>
 ```
+<Sandbox height={100} projectId="uxcomponents_buttons_button"/>
 
-##### &lt;sub-menu&gt; {#sub_menu_widget}
+
+### &lt;sub-menu&gt; {#sub_menu_widget}
 
 Кнопка с выпадающим меню.
 
@@ -90,8 +128,24 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |generate        |Строка    |Генерация стандартных кнопок.   |                     |
 |show-toggle-icon|true false|Показывать иконку переключателя.|true                 |
 
-**Пример**
+**Настройки**
+```yaml
+#Показывать иконку переключателя
+n2o.api.submenu.show_toggle_icon=true
+```
 
+**Тело**<br/>
+`<menu-item>` - [Пункт выпадающего меню](#menu-item)
+
+
+#### &lt;menu-item&gt; {#menu-item}
+
+Пункт выпадающего меню.
+
+Ссылка на [кнопку](../xml/button).
+
+
+**Пример**
 ```xml
 <sub-menu>
   <menu-item>...</menu-item>
@@ -100,13 +154,30 @@ http://n2oapp.net/framework/config/schema/button-2.0
 </sub-menu>
 ```
 
-**Тело**
+```xml
+<sub-menu>
+  <menu-item action-id="create"/>
+</sub-menu>
+```
 
-[Элементы выпадающего меню](#_Кнопка)
+```xml
+<sub-menu>
+  <menu-item label="Удалить запись" icon="fa-trash">
+    <invoke operation-id="delete"/>
+  </menu-item>
+</sub-menu>
+```
 
-#### &lt;dependencies&gt;
+<Sandbox height={200} projectId="uxcomponents_buttons_dropdown_button" />
 
-Зависимости компонента. Сейчас существует 2 вида: `enabling` и `visibility`.
+
+### &lt;dependencies&gt;
+
+Зависимости компонента.
+
+**Тело**<br/>
+`<enabling>` - [Условие доступности кнопки](#enabling)<br/>
+`<visibility>` - [Условие видимости кнопки](#visibility)
 
 **Пример**
 
@@ -118,7 +189,7 @@ http://n2oapp.net/framework/config/schema/button-2.0
 </button>
 ```
 
-##### &lt;enabling&gt;
+#### &lt;enabling&gt;
 
 Условие доступности
 
@@ -130,9 +201,8 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |model        |resolve edit filter multi datasource                    |Модель виджета, по полю которой будет фильтрация  |                                |
 |message      |Строка                                                  |Сообщение о причине недоступности                 |                                |
 
-**Тело**
-
-Java Script выражение
+**Тело**<br/>
+Java Script выражение.
 
 
 **Пример**
@@ -154,9 +224,8 @@ Java Script выражение
 |datasource   |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных вычисления условия       |Источник данных текущего виджета|
 |model        |resolve edit filter multi datasource                       |Модель виджета, по полю которого будет фильтрация       |                                |
 
-**Тело**
-
-Java Script выражение
+**Тело**<br/>
+Java Script выражение.
 
 **Пример**
 

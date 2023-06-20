@@ -7,8 +7,8 @@
                 <eq field-id="id" param="id"/>
             </filters>
         </datasource>
-        <parent-datasource id="calendar"/>
     </datasources>
+
     <regions>
         <form datasource="ds1">
             <fields>

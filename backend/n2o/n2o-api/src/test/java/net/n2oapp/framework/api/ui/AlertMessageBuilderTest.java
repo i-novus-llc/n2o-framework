@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.N2oUserException;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 
@@ -17,8 +17,9 @@ import static org.mockito.Mockito.when;
  * Тесты {@link AlertMessageBuilder}
  */
 public class AlertMessageBuilderTest {
+    
     @Test
-    public void testAnyException() {
+    void testAnyException() {
         MessageSourceAccessor messageSource = mock(MessageSourceAccessor.class);
         when(messageSource.getMessage("n2o.exceptions.error.message", "n2o.exceptions.error.message")).thenReturn("Internal error");
         AlertMessageBuilder builder = new AlertMessageBuilder(messageSource, null);
@@ -33,7 +34,7 @@ public class AlertMessageBuilderTest {
     }
 
     @Test
-    public void testUserException() {
+    void testUserException() {
         MessageSourceAccessor messageSource = mock(MessageSourceAccessor.class);
         when(messageSource.getMessage("user.code", "user.code")).thenReturn("User message {0}");
         AlertMessageBuilder builder = new AlertMessageBuilder(messageSource, null);
@@ -43,7 +44,7 @@ public class AlertMessageBuilderTest {
     }
 
     @Test
-    public void testDevMode() {
+    void testDevMode() {
         MessageSourceAccessor messageSource = mock(MessageSourceAccessor.class);
         when(messageSource.getMessage("Unspecified label for dropdown-menu", "Unspecified label for dropdown-menu"))
                 .thenReturn("Unspecified label for dropdown-menu");
@@ -59,7 +60,7 @@ public class AlertMessageBuilderTest {
     }
 
     @Test
-    public void testQueryExecutionExceptionInDevMode() {
+    void testQueryExecutionExceptionInDevMode() {
         MessageSourceAccessor messageSource = mock(MessageSourceAccessor.class);
         String message = "couldn't rewrite query getCar";
         String query = "query MyQuery {getCar(id: )}";

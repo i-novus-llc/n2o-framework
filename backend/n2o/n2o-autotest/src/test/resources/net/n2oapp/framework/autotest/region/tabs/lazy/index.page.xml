@@ -1,92 +1,150 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      name="Ленивая загрузка вкладок региона &lt;tabs>">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Ленивая загрузка вкладок региона tabs">
     <regions>
-        <tabs always-refresh="true" lazy="true" place="left" routable="false">
+        <form id="fields">
+            <fields>
+                <row>
+                    <output-text id="one" label="1"/>
+                    <output-text id="two" label="2"/>
+                    <output-text id="three" label="3"/>
+                    <output-text id="four" label="4"/>
+                    <output-text id="five" label="5"/>
+                    <output-text id="six" label="6"/>
+                    <output-text id="seven" label="7"/>
+                    <output-text id="eight" label="8"/>
+                </row>
+            </fields>
+            <toolbar>
+                <button label="Данные" enabled="true">
+                    <set-value to="one" target-datasource="fields" source-datasource="table1">
+                        return test
+                    </set-value>
+                    <set-value to="two" target-datasource="fields" source-datasource="table2">
+                        return test
+                    </set-value>
+                    <set-value to="three" target-datasource="fields" source-datasource="table3">
+                        return test
+                    </set-value>
+                    <set-value to="four" target-datasource="fields" source-datasource="table4">
+                        return test
+                    </set-value>
+                    <set-value to="five" target-datasource="fields" source-datasource="table5">
+                        return test
+                    </set-value>
+                    <set-value to="six" target-datasource="fields" source-datasource="table6">
+                        return return test
+                    </set-value>
+                    <set-value to="seven" target-datasource="fields" source-datasource="table7">
+                        return  test
+                    </set-value>
+                    <set-value to="eight" target-datasource="fields" source-datasource="table8">
+                        return test
+                    </set-value>
+                </button>
+            </toolbar>
+        </form>
+        <tabs always-refresh="true" lazy="true">
+            <tab name="tab1">
+                <form id="table1">
+                    <datasource query-id="test">
+                        <filters>
+                            <eq field-id="id" value="1"/>
+                        </filters>
+                    </datasource>
+                    <fields>
+                        <input-text label="always-refresh=&quot;true&quot;, lazy=&quot;true&quot;" id="test"/>
+                    </fields>
+                </form>
+            </tab>
             <tab name="tab2">
-                <form id="table1" query-id="test">
-                    <fields>
-                        <input-text label="always-refresh=&quot;true&quot;, lazy=&quot;true&quot;" id="test"/>
-                    </fields>
-                    <pre-filters>
-                        <eq field-id="id" value="2"/>
-                    </pre-filters>
-                </form>
-            </tab>
-            <tab name="tab3">
                 <form id="table2" query-id="test">
+                    <datasource query-id="test">
+                        <filters>
+                            <eq field-id="id" value="2"/>
+                        </filters>
+                    </datasource>
                     <fields>
                         <input-text label="always-refresh=&quot;true&quot;, lazy=&quot;true&quot;" id="test"/>
                     </fields>
-                    <pre-filters>
-                        <eq field-id="id" value="3"/>
-                    </pre-filters>
                 </form>
             </tab>
         </tabs>
-        <tabs always-refresh="true" lazy="false" place="right" routable="false">
+        <tabs always-refresh="true" lazy="false">
+            <tab name="tab3">
+                <form id="table3">
+                    <datasource query-id="test">
+                        <filters>
+                            <eq field-id="id" value="3"/>
+                        </filters>
+                    </datasource>
+                    <fields>
+                        <input-text id="test" label="always-refresh=&quot;true&quot;, lazy=&quot;false&quot;"/>
+                    </fields>
+                </form>
+            </tab>
             <tab name="tab4">
-                <form id="table3" query-id="test">
+                <form id="table4">
+                    <datasource query-id="test">
+                        <filters>
+                            <eq field-id="id" value="4"/>
+                        </filters>
+                    </datasource>
                     <fields>
                         <input-text id="test" label="always-refresh=&quot;true&quot;, lazy=&quot;false&quot;"/>
                     </fields>
-                    <pre-filters>
-                        <eq field-id="id" value="4"/>
-                    </pre-filters>
                 </form>
             </tab>
+        </tabs>
+        <tabs always-refresh="false" lazy="true">
             <tab name="tab5">
-                <form id="table4" query-id="test">
+                <form id="table5">
+                    <datasource query-id="test">
+                        <filters>
+                            <eq field-id="id" value="5"/>
+                        </filters>
+                    </datasource>
                     <fields>
-                        <input-text id="test" label="always-refresh=&quot;true&quot;, lazy=&quot;false&quot;"/>
+                        <input-text id="test" label="always-refresh=&quot;false&quot;, lazy=&quot;true&quot;"/>
                     </fields>
-                    <pre-filters>
-                        <eq field-id="id" value="5"/>
-                    </pre-filters>
                 </form>
             </tab>
-        </tabs>
-        <tabs always-refresh="false" lazy="true" place="left" routable="false">
             <tab name="tab6">
-                <form id="table5" query-id="test">
+                <form id="table6">
+                    <datasource query-id="test">
+                        <filters>
+                            <eq field-id="id" value="6"/>
+                        </filters>
+                    </datasource>
                     <fields>
                         <input-text id="test" label="always-refresh=&quot;false&quot;, lazy=&quot;true&quot;"/>
                     </fields>
-                    <pre-filters>
-                        <eq field-id="id" value="6"/>
-                    </pre-filters>
-                </form>
-            </tab>
-            <tab name="tab7">
-                <form id="table6" query-id="test">
-                    <fields>
-                        <input-text id="test" label="always-refresh=&quot;false&quot;, lazy=&quot;true&quot;"/>
-                    </fields>
-                    <pre-filters>
-                        <eq field-id="id" value="7"/>
-                    </pre-filters>
                 </form>
             </tab>
         </tabs>
-        <tabs always-refresh="false" lazy="false" place="right" routable="false">
-            <tab name="tab8">
-                <form id="table7" query-id="test">
+        <tabs always-refresh="false" lazy="false">
+            <tab name="tab7">
+                <form id="table7">
+                    <datasource query-id="test">
+                        <filters>
+                            <eq field-id="id" value="7"/>
+                        </filters>
+                    </datasource>
                     <fields>
                         <input-text id="test" label="always-refresh=&quot;false&quot;, lazy=&quot;false&quot;"/>
                     </fields>
-                    <pre-filters>
-                        <eq field-id="id" value="8"/>
-                    </pre-filters>
                 </form>
             </tab>
-            <tab name="tab9">
-                <form id="table9" query-id="test">
+            <tab name="tab8">
+                <form id="table8">
+                    <datasource query-id="test">
+                        <filters>
+                            <eq field-id="id" value="8"/>
+                        </filters>
+                    </datasource>
                     <fields>
                         <input-text id="test" label="always-refresh=&quot;false&quot;, lazy=&quot;false&quot;"/>
                     </fields>
-                    <pre-filters>
-                        <eq field-id="id" value="9"/>
-                    </pre-filters>
                 </form>
             </tab>
         </tabs>

@@ -11,6 +11,7 @@ import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.N2oComponentLibrary;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 /**
  * Главный класс для старта автотестирования страниц N2O
@@ -31,6 +32,10 @@ public class N2oSelenide {
         return factory.produce($(".modal .modal-content"), modalClass);
     }
 
+    public static <T extends Modal> T modal(Class<T> modalClass, int index) {
+        return factory.produce($$(".modal .modal-content").get(index), modalClass);
+    }
+
     public static <T extends Drawer> T drawer(Class<T> drawerClass) {
         return factory.produce($(".drawer.drawer-open"), drawerClass);
     }
@@ -49,6 +54,10 @@ public class N2oSelenide {
 
     public static Modal modal() {
         return modal(Modal.class);
+    }
+
+    public static Modal modal(int index) {
+        return modal(Modal.class, index);
     }
 
     public static Drawer drawer() {

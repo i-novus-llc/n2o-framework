@@ -21,6 +21,8 @@ public class N2oHtml extends N2oSnippet implements Html {
     @Override
     public void shouldHaveElementWithAttributes(String cssSelector, Map<String, String> attributes) {
         SelenideElement element = element().$(cssSelector).shouldBe(Condition.exist);
-        attributes.entrySet().stream().forEach(e -> element.shouldHave(Condition.attribute(e.getKey(), e.getValue())));
+        attributes.entrySet().stream().forEach(
+                e -> element.shouldHave(Condition.attribute(e.getKey(), e.getValue()))
+        );
     }
 }

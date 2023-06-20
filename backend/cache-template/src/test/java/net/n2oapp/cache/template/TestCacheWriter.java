@@ -16,7 +16,7 @@ import java.util.Collection;
  */
 public class TestCacheWriter implements CacheWriter {
     @Override
-    public CacheWriter clone(Ehcache cache) throws CloneNotSupportedException {
+    public CacheWriter clone(Ehcache cache) {
         System.out.println("writer clone:" + cache);
         return this;
     }

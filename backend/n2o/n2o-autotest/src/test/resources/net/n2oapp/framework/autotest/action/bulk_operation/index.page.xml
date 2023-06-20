@@ -3,10 +3,12 @@
              name="Bulk Операции">
     <table id="table1" checkboxes="true">
         <datasource query-id="test"/>
+
         <columns>
             <column text-field-id="id"/>
             <column text-field-id="name"/>
         </columns>
+
         <toolbar>
             <button model="multi" label="Изменить выбранные">
                 <show-modal page-id="setName"

@@ -103,6 +103,14 @@
     display: flex;
 }
 
+.form-container_with-toolbar {
+    .n2o-dropdown.visible {
+        :nth-child(1) {
+            height: inherit;
+        }
+    }
+}
+
 .n2o-button-field {
     width: max-content;
 

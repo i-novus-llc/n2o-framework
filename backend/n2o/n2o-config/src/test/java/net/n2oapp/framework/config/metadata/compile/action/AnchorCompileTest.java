@@ -18,15 +18,16 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 public class AnchorCompileTest extends SourceCompileTestBase {
+    
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -42,7 +43,7 @@ public class AnchorCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testAnchor() {
+    void testAnchor() {
         //Root page
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testAnchorAction.page.xml")
                 .get(new PageContext("testAnchorAction"));
@@ -115,7 +116,7 @@ public class AnchorCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testAnchorInMenuItem() {
+    void testAnchorInMenuItem() {
         Application application = compile("net/n2oapp/framework/config/metadata/compile/action/testAnchorMenuItem.application.xml")
                 .get(new ApplicationContext("testAnchorMenuItem"));
 
@@ -145,7 +146,7 @@ public class AnchorCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testLinkedHref() {
+    void testLinkedHref() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testLinkedHref.page.xml")
                 .get(new PageContext("testLinkedHref"));
 

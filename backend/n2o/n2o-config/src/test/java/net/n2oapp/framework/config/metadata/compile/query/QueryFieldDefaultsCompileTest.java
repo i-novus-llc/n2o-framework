@@ -11,8 +11,8 @@ import net.n2oapp.framework.config.metadata.compile.object.N2oObjectCompiler;
 import net.n2oapp.framework.config.metadata.pack.N2oDataProvidersPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -36,7 +36,7 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void defaultsBodyAndMapping() {
+    void defaultsBodyAndMapping() {
         CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"));
         QuerySimpleField field = query.getSimpleFieldsMap().get("gender.id");
         assertThat(field.getSelectExpression(), nullValue());
@@ -47,7 +47,7 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void defaultsBodyAndMappingWithExpression() {
+    void defaultsBodyAndMappingWithExpression() {
         CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"));
         QuerySimpleField name = query.getSimpleFieldsMap().get("name");
         assertThat(name.getSelectExpression(), nullValue());

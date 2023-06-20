@@ -5,7 +5,7 @@ import net.n2oapp.framework.access.metadata.accesspoint.io.UrlAccessPointIOv2;
 import net.n2oapp.framework.access.metadata.schema.io.SimpleAccessIOv2;
 import net.n2oapp.framework.access.metadata.schema.simple.N2oSimpleAccessSchema;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SimpleAccessSchemaIOTest {
 
@@ -15,7 +15,7 @@ public class SimpleAccessSchemaIOTest {
             .addIO(new UrlAccessPointIOv2());
 
     @Test
-    public void simpleAccessSchemaXmlIOTest() {
+    void simpleAccessSchemaXmlIOTest() {
         tester.check("net/n2oapp/framework/access/metadata/simple.access.xml",
                 (N2oSimpleAccessSchema access) -> {
                     assert access.getN2oRoles().length == 1;

@@ -28,8 +28,8 @@ import net.n2oapp.framework.engine.modules.stack.SpringDataProcessingStack;
 import net.n2oapp.framework.ui.controller.query.CopyValuesController;
 import net.n2oapp.properties.OverrideProperties;
 import net.n2oapp.properties.reader.PropertiesReader;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -46,7 +46,7 @@ public class CopyValuesControllerTest {
 
     private N2oApplicationBuilder builder;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         N2oEnvironment environment = new N2oEnvironment();
         environment.setNamespacePersisterFactory(new PersisterFactoryByMap());
@@ -94,7 +94,7 @@ public class CopyValuesControllerTest {
     }
 
     @Test
-    public void testCopyValues() {
+    void testCopyValues() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipelineForQuery();
         Map<String, String[]> params = new HashMap<>();
         params.put("id", new String[]{"1"});

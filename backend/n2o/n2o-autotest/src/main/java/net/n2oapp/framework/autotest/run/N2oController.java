@@ -19,7 +19,6 @@ import net.n2oapp.framework.api.rest.N2oResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
-import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.N2oConfigBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
@@ -46,6 +45,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Контроллер n2o запросов для автотестов
@@ -62,6 +62,7 @@ public class N2oController {
     private N2oOperationProcessor operationProcessor;
     private ConfigBuilder<AppConfig> configBuilder;
     private DomainProcessor domainProcessor;
+    private static final String DEFAULT_APP_ID = "default";
 
     @Value("${n2o.config.path}")
     private String basePath;
@@ -86,15 +87,13 @@ public class N2oController {
         List<SourceInfo> apps = builder.getEnvironment().getMetadataRegister().find(N2oApplication.class);
         Assert.isTrue(!apps.isEmpty(), "Not found application.xml file");
 
-        String applicationId = defaultApplicationId;
-        if ("default".equals(defaultApplicationId))
-            for (SourceInfo si : apps)
-                if (!"default".equals(si.getId())) {
-                    applicationId = si.getId();
-                    break;
-                }
-
+        String applicationId = builder.getEnvironment().getSystemProperties().getProperty("n2o.application.id");
+        if (applicationId.equals(DEFAULT_APP_ID)) {
+            Optional<SourceInfo> applicationInfo = builder.getEnvironment().getMetadataRegister().find(N2oApplication.class).stream().filter(a -> !a.getId().equals(DEFAULT_APP_ID)).findFirst();
+            applicationId = applicationInfo.isPresent() ? applicationInfo.get().getId() : DEFAULT_APP_ID;
+        }
         configBuilder.menu(builder.read().transform().validate().compile().transform().bind().get(new ApplicationContext(applicationId), new DataSet()));
+
         return configBuilder.get();
     }
 

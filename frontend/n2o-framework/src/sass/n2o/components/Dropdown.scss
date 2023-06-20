@@ -6,6 +6,14 @@
         display: block;
         opacity: 1;
     }
+
+    .btn-group {
+        width: 100%;
+
+        .dropdown-toggle {
+            padding: $dropdown-item-padding;
+        }
+    }
 }
 
 .n2o-dropdown-menu > .btn {
@@ -29,7 +37,7 @@
 .dropdown-item-btn {
     display: block;
     width: 100%;
-    padding: 0.25rem 1.5rem;
+    padding: $dropdown-item-padding;
     clear: both;
     font-weight: 400;
     text-align: inherit;

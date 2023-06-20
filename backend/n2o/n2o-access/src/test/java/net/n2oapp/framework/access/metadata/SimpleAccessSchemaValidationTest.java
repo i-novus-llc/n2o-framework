@@ -9,15 +9,17 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тест валидации схемы доступа
  */
 public class SimpleAccessSchemaValidationTest extends SourceValidationTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -33,17 +35,23 @@ public class SimpleAccessSchemaValidationTest extends SourceValidationTestBase {
     }
 
     @Test
-    public void testValid() throws Exception {
+    void testValid() {
         validate("net/n2oapp/framework/access/metadata/validation.access.xml");
     }
 
-    @Test(expected = N2oMetadataValidationException.class)
-    public void testInvalid2() throws Exception {
-        validate("net/n2oapp/framework/access/metadata/validation2.access.xml");
+    @Test
+    void testInvalid2() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/access/metadata/validation2.access.xml")       
+        );
     }
 
-    @Test(expected = N2oMetadataValidationException.class)
-    public void testInvalid5() throws Exception {
-        validate("net/n2oapp/framework/access/metadata/validation5.access.xml");
+    @Test
+    void testInvalid5() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/access/metadata/validation5.access.xml")
+        );
     }
 }

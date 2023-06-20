@@ -2,14 +2,15 @@ package net.n2oapp.framework.api.metadata;
 
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ModelLinkEquivalenceTest {
 
     @Test
-    public void testSimple() {
+    void testSimple() {
         ModelLink link1 = new ModelLink(ReduxModel.resolve, "widget", "id");
         ModelLink link2 = new ModelLink(ReduxModel.resolve, "widget");
         link2.setValue("`id`");
@@ -17,7 +18,7 @@ public class ModelLinkEquivalenceTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         ModelLink withSubModelQuery1 = new ModelLink(ReduxModel.resolve, "widget", "field.id");
         SubModelQuery subModelQuery1 = new SubModelQuery("field", "queryId", "id", "name", false, null);
         withSubModelQuery1.setSubModelQuery(subModelQuery1);
@@ -57,7 +58,7 @@ public class ModelLinkEquivalenceTest {
     }
 
     @Test
-    public void testNotEquals() {
+    void testNotEquals() {
         ModelLink withSubModelQuery1 = new ModelLink(ReduxModel.resolve, "widget", "field.id");
         SubModelQuery subModelQuery1 = new SubModelQuery("field", "queryId", "id", "name", false, null);
         withSubModelQuery1.setSubModelQuery(subModelQuery1);
@@ -87,7 +88,7 @@ public class ModelLinkEquivalenceTest {
     }
 
     @Test
-    public void testEqualsNormalizedLink() {
+    void testEqualsNormalizedLink() {
         ModelLink link1 = new ModelLink(ReduxModel.resolve, "widget", "id");
         ModelLink link2 = new ModelLink(ReduxModel.resolve, "widget");
         link2.setValue("`id`");

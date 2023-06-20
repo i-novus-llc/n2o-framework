@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineSupport;
 import net.n2oapp.framework.api.register.MetaType;
 import net.n2oapp.framework.api.test.TestContextEngine;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -35,14 +36,16 @@ import net.n2oapp.framework.engine.data.N2oQueryExceptionHandler;
 import net.n2oapp.framework.engine.data.N2oQueryProcessor;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
-import org.junit.Before;
-import org.junit.Test;
+import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.any;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -50,12 +53,13 @@ import static org.mockito.Mockito.when;
  * Тестирование процессора запросов
  */
 public class QueryProcessorTest {
+
     private N2oQueryProcessor queryProcessor;
     private N2oApplicationBuilder builder;
     private N2oInvocationFactory factory;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() {
         ContextProcessor contextProcessor = new ContextProcessor(new TestContextEngine());
         factory = mock(N2oInvocationFactory.class);
         queryProcessor = new N2oQueryProcessor(factory, new N2oQueryExceptionHandler());
@@ -63,9 +67,9 @@ public class QueryProcessorTest {
         N2oEnvironment environment = new N2oEnvironment();
         environment.setContextProcessor(contextProcessor);
         environment.setSystemProperties(new SimplePropertyResolver(new Properties()));
-        environment.setReadPipelineFunction(p -> p.read());
+        environment.setReadPipelineFunction(PipelineSupport::read);
         environment.setReadCompilePipelineFunction(p -> p.read().compile());
-        environment.setCompilePipelineFunction(p -> p.compile());
+        environment.setCompilePipelineFunction(PipelineSupport::compile);
         queryProcessor.setEnvironment(environment);
         builder = new N2oApplicationBuilder(environment)
                 .types(new MetaType("query", N2oQuery.class))
@@ -74,7 +78,7 @@ public class QueryProcessorTest {
                         .add(new QueryElementIOv5())
                         .add(new TestDataProviderIOv1())
                         .add(new JavaDataProviderIOv1()))
-                .operations(new ReadOperation(), new CompileOperation(), new BindOperation(), new SourceTransformOperation())
+                .operations(new ReadOperation<>(), new CompileOperation<>(), new BindOperation<>(), new SourceTransformOperation<>())
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
                 .properties("n2o.api.query.field.is_selected=true", "n2o.api.query.field.is_sorted=false")
                 .sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/testQueryProcessorV4Java.query.xml"),
@@ -85,7 +89,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void query4Java() {
+    void query4Java() {
         when(factory.produce(any())).thenReturn(new JavaDataProviderEngine());
         CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorV4Java"));
 
@@ -93,7 +97,7 @@ public class QueryProcessorTest {
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         CollectionPage<DataSet> collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(10));
-        DataSet dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
+        DataSet dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
 
         //case with primitive
@@ -102,7 +106,7 @@ public class QueryProcessorTest {
         criteria.addRestriction(new Restriction("value", "test"));
         collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(10));
-        dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
+        dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("value"), is("test"));
 
@@ -111,7 +115,7 @@ public class QueryProcessorTest {
         criteria.addRestriction(new Restriction("name", "test"));
         collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(1));
-        dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
+        dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("name"), is("test"));
     }
@@ -120,7 +124,7 @@ public class QueryProcessorTest {
      * Тестирование маппинга аргументов java провайдера с использованием name аргументов, а не через заданный порядок
      */
     @Test
-    public void testNameMappingWithArgumentsInvocationProvider() {
+    void testNameMappingWithArgumentsInvocationProvider() {
         JavaDataProviderEngine javaDataProviderEngine = new JavaDataProviderEngine();
         when(factory.produce(any())).thenReturn(javaDataProviderEngine);
 
@@ -140,7 +144,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testCriteriaRestrictionMerge() {
+    void testCriteriaRestrictionMerge() {
         when(factory.produce(any())).thenReturn(new JavaDataProviderEngine());
         CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorV4Java"));
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
@@ -166,13 +170,13 @@ public class QueryProcessorTest {
         criteria.addRestriction(new Restriction("name", "test", FilterType.eq));
         collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(1));
-        DataSet dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
+        DataSet dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("name"), is("test"));
     }
 
     @Test
-    public void query4Unique() {
+    void query4Unique() {
         TestDataProviderEngine testDataprovider = new TestDataProviderEngine();
         when(factory.produce(any())).thenReturn(testDataprovider);
         CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorUnique"));
@@ -206,7 +210,22 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void query4Normalize() {
+    void n2oRecordNotFoundException() {
+        TestDataProviderEngine testDataprovider = new TestDataProviderEngine();
+        when(factory.produce(any())).thenReturn(testDataprovider);
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorUnique"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        criteria.setSize(1);
+        criteria.addRestriction(new Restriction("exception", "2"));
+        assertThrows(
+                N2oRecordNotFoundException.class,
+                () -> queryProcessor.execute(query, criteria)
+        );
+    }
+
+    @Test
+    void query4Normalize() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorNorm"));
 
@@ -218,7 +237,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testNestedFields() {
+    void testNestedFields() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedFields.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testNestedFields"));
@@ -262,7 +281,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testNestedFieldsMapping() {
+    void testNestedFieldsMapping() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedFieldsMapping.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testNestedFieldsMapping"));
@@ -309,7 +328,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testNestedFieldsSameMapping() {
+    void testNestedFieldsSameMapping() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedFieldsSameMapping.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testNestedFieldsSameMapping"));
@@ -333,7 +352,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testNestedFieldsDefaultValues() {
+    void testNestedFieldsDefaultValues() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedFieldsDefaultValues.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testNestedFieldsDefaultValues"));
@@ -356,7 +375,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testListFieldNormalize() {
+    void testListFieldNormalize() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testListFieldNormalize.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testListFieldNormalize"));
@@ -387,7 +406,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testNestedNormalize() {
+    void testNestedNormalize() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedNormalize.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testNestedNormalize"));
@@ -412,7 +431,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testNestedFieldsFiltering() {
+    void testNestedFieldsFiltering() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.transformers(new TestEngineQueryTransformer());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedFieldsFiltering.query.xml"));
@@ -434,7 +453,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testNestedFieldsMappingFiltering() {
+    void testNestedFieldsMappingFiltering() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.transformers(new TestEngineQueryTransformer());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedFieldsMappingFiltering.query.xml"));
@@ -461,7 +480,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testHierarchicalSelect() {
+    void testHierarchicalSelect() {
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testHierarchicalSelect.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testHierarchicalSelect"));
 
@@ -489,7 +508,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testResultNormalize() {
+    void testResultNormalize() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testListResultNormalize.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testListResultNormalize"));
@@ -515,7 +534,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testUniqueResultNormalize() {
+    void testUniqueResultNormalize() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testUniqueResultNormalize.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testUniqueResultNormalize"));
@@ -533,7 +552,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testSortingDirectionExpression() {
+    void testSortingDirectionExpression() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/testQuerySortingDirectionExpression.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testQuerySortingDirectionExpression"));
@@ -553,7 +572,7 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testDataInFilterNormalize() {
+    void testDataInFilterNormalize() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/testDataInFilterNormalize.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testDataInFilterNormalize"));

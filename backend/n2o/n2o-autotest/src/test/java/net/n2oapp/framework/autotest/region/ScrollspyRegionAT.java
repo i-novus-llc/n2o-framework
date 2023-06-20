@@ -11,6 +11,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -46,12 +47,14 @@ public class ScrollspyRegionAT extends AutoTestBase {
         region.shouldExists();
         region.menuShouldHavePosition(ScrollspyRegion.MenuPosition.right);
         ScrollspyRegion.Menu menu = region.menu();
-        menu.shouldHaveTitle("Меню");
         menu.menuItem("Личные данные").shouldBeVisible();
         menu.menuItem("Дополнительная информация").shouldBeVisible();
 
         ScrollspyRegion.DropdownMenuItem dropdownMenuItem = menu.dropdownMenuItem(0);
         dropdownMenuItem.shouldHaveText("Вложенное меню");
+        dropdownMenuItem.shouldBeCollapse();
+        dropdownMenuItem.click();
+        dropdownMenuItem.shouldBeExpand();
         dropdownMenuItem.menuItem("Список участников").shouldBeVisible();
         dropdownMenuItem.menuItem("Список победителей").shouldBeVisible();
         dropdownMenuItem.click();
@@ -100,10 +103,10 @@ public class ScrollspyRegionAT extends AutoTestBase {
         formWidget.shouldExists();
         formWidget.fields().field("Поле2").shouldExists();
 
-        page.scrollDown();
+        scrollspy.contentItem("Элемент2").scrollDown();
         scrollspy.activeContentItemShouldHaveTitle("Элемент2");
         scrollspy.activeMenuItemShouldHaveTitle("Элемент2");
-        page.scrollUp();
+        scrollspy.contentItem("Элемент1").scrollUp();
         scrollspy.activeContentItemShouldHaveTitle("Элемент1");
         scrollspy.activeMenuItemShouldHaveTitle("Элемент1");
     }
@@ -180,4 +183,34 @@ public class ScrollspyRegionAT extends AutoTestBase {
         region.activeMenuItemShouldHaveTitle("Дополнительная информация");
         region.activeContentItemShouldHaveTitle("Дополнительная информация");
     }
+
+    @Test
+    public void testGroup() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/group/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        ScrollspyRegion region = page.regions().region(0, ScrollspyRegion.class);
+        region.shouldExists();
+
+        region.menu().group(0).shouldHaveTitle("Первая группа");
+        region.menu().group(0).shouldNotHaveHeadline();
+        region.menu().group(0).menuItem(0).shouldHaveText("Личные данные");
+        region.menu().group(0).menuItem(1).shouldHaveText("Дополнительная информация");
+        region.menu().group(0).menuItem(1).click();
+        region.activeContentItemShouldHaveTitle("Дополнительная информация");
+
+
+        region.menu().group(1).shouldHaveTitle("Группа 2");
+        region.menu().group(1).shouldHaveHeadline();
+        region.menu().group(1).dropdownMenuItem(0).shouldBeCollapse();
+        region.menu().group(1).dropdownMenuItem(0).shouldHaveText("Вложенное меню");
+        region.menu().group(1).dropdownMenuItem(0).click();
+        region.menu().group(1).dropdownMenuItem(0).shouldBeExpand();
+        region.menu().group(1).dropdownMenuItem(0).menuItem(0).shouldHaveText("Список участников");
+        region.menu().group(1).dropdownMenuItem(0).menuItem(1).shouldHaveText("Список победителей");
+        region.menu().group(1).dropdownMenuItem(0).menuItem(1).click();
+        region.activeContentItemShouldHaveTitle("Список победителей");
+    }
+
 }

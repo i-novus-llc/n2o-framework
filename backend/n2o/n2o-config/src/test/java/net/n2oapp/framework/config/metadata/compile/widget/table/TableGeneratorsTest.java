@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
@@ -20,16 +22,18 @@ import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TableGeneratorsTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -46,7 +50,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void generateCrud() {
+    void generateCrud() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/crud.page.xml")
                 .get(new PageContext("crud"));
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
@@ -68,40 +72,45 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(t.getToolbar().get("topLeft").get(0).getButtons().size(), is(6));
 
         AbstractButton filtersBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(0);
-        AbstractButton columnsBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(1);
-        AbstractButton refreshBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(2);
-        AbstractButton resizeBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(3);
-        AbstractButton wordwrapBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(4);
-        AbstractButton exportBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(5);
-
         assertThat(((CustomAction) filtersBtn.getAction()).getType(), Matchers.is("n2o/widgets/TOGGLE_FILTER_VISIBILITY"));
-        assertThat(filtersBtn.getHint(), is("Изменить видимость фильтров"));
+        assertThat(filtersBtn.getHint(), is("Фильтры"));
         assertThat(filtersBtn.getIcon(), is("fa fa-filter"));
+        assertThat(filtersBtn.getLabel(), nullValue());
         assertThat(((CustomAction) filtersBtn.getAction()).getPayload().getAttributes().get("widgetId"), Matchers.is("table_settings_tb1"));
 
+        AbstractButton columnsBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(1);
         assertThat(columnsBtn.getSrc(), is("ToggleColumn"));
-        assertThat(columnsBtn.getHint(), is("Изменить видимость колонок"));
+        assertThat(columnsBtn.getHint(), is("Скрытие столбцов"));
         assertThat(columnsBtn.getIcon(), is("fa fa-table"));
+        assertThat(columnsBtn.getLabel(), nullValue());
 
+        AbstractButton refreshBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(2);
         assertThat(refreshBtn.getAction(), Matchers.instanceOf(RefreshAction.class));
-        assertThat(refreshBtn.getHint(), is("Обновить данные"));
+        assertThat(refreshBtn.getHint(), is("Обновить"));
         assertThat(refreshBtn.getIcon(), is("fa fa-refresh"));
+        assertThat(refreshBtn.getLabel(), nullValue());
 
+        AbstractButton resizeBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(3);
         assertThat(resizeBtn.getSrc(), is("ChangeSize"));
-        assertThat(resizeBtn.getHint(), is("Изменить размер"));
+        assertThat(resizeBtn.getHint(), is("Количество записей"));
         assertThat(resizeBtn.getIcon(), is("fa fa-bars"));
+        assertThat(resizeBtn.getLabel(), nullValue());
 
+        AbstractButton wordwrapBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(4);
         assertThat(((CustomAction) wordwrapBtn.getAction()).getType(), Matchers.is("n2o/widgets/TOGGLE_WORD_WRAP"));
         assertThat(((CustomAction) wordwrapBtn.getAction()).getPayload().getAttributes().get("widgetId"), Matchers.is("table_settings_tb1"));
         assertThat(wordwrapBtn.getSrc(), is("WordWrap"));
         assertThat(wordwrapBtn.getHint(), is("Перенос по словам"));
         assertThat(wordwrapBtn.getIcon(), is("fa fa-exchange"));
+        assertThat(wordwrapBtn.getLabel(), nullValue());
 
+        AbstractButton exportBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(5);
         assertThat(exportBtn.getAction(), Matchers.instanceOf(ShowModal.class));
         assertThat(((ShowModal) exportBtn.getAction()).getPageId(), Matchers.is("exportModal"));
         assertThat(((ShowModal) exportBtn.getAction()).getPayload().getPageUrl(), Matchers.is("/table_settings/exportModal"));
         assertThat(exportBtn.getHint(), is("Экспортировать"));
         assertThat(exportBtn.getIcon(), is("fa fa-share-square-o"));
+        assertThat(exportBtn.getLabel(), nullValue());
 
         PageContext modalPageContext = (PageContext) route("/table_settings/exportModal", Page.class);
         assertThat(modalPageContext.getParentDatasourceIdsMap().size(), is(1));
@@ -126,6 +135,37 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         AbstractButton closeBtn = modalPage.getToolbar().getButton("table_settings_exportModal_mi1");
         assertThat(closeBtn.getLabel(), is("Закрыть"));
         assertThat(closeBtn.getAction().getClass(), is(CloseAction.class));
+
+        // in sub-menu
+        List<AbstractButton> buttons = t.getToolbar().get("topRight").get(0).getButtons();
+        assertThat(buttons.size(), is(1));
+        assertThat(buttons.get(0), instanceOf(Submenu.class));
+
+        List<PerformButton> subMenuButtons = ((Submenu) buttons.get(0)).getSubMenu();
+        assertThat(subMenuButtons.get(0).getLabel(), is("Фильтры"));
+        assertThat(subMenuButtons.get(0).getIcon(), nullValue());
+        assertThat(subMenuButtons.get(0).getHint(), nullValue());
+
+        assertThat(subMenuButtons.get(1).getLabel(), is("Скрытие столбцов"));
+        assertThat(subMenuButtons.get(1).getIcon(), nullValue());
+        assertThat(subMenuButtons.get(1).getHint(), nullValue());
+
+        assertThat(subMenuButtons.get(2).getLabel(), is("Обновить"));
+        assertThat(subMenuButtons.get(2).getIcon(), nullValue());
+        assertThat(subMenuButtons.get(2).getHint(), nullValue());
+
+        assertThat(subMenuButtons.get(3).getLabel(), is("Количество записей"));
+        assertThat(subMenuButtons.get(3).getIcon(), nullValue());
+        assertThat(subMenuButtons.get(3).getHint(), nullValue());
+
+        assertThat(subMenuButtons.get(4).getLabel(), is("Перенос по словам"));
+        assertThat(subMenuButtons.get(4).getIcon(), nullValue());
+        assertThat(subMenuButtons.get(4).getHint(), nullValue());
+
+        assertThat(subMenuButtons.get(5).getLabel(), is("Экспортировать"));
+        assertThat(subMenuButtons.get(5).getIcon(), nullValue());
+        assertThat(subMenuButtons.get(5).getHint(), nullValue());
+
     }
 
     @Test
@@ -139,7 +179,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         AbstractButton button = t.getToolbar().get("bottomRight").get(0).getButtons().get(0);
 
         assertThat(button.getSrc(), is("ToggleColumn"));
-        assertThat(button.getHint(), is("Изменить видимость колонок"));
+        assertThat(button.getHint(), is("Скрытие столбцов"));
         assertThat(button.getIcon(), is("fa fa-table"));
     }
 
@@ -155,7 +195,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
 
         assertThat(((CustomAction) button.getAction()).getType(), Matchers.is("n2o/widgets/TOGGLE_FILTER_VISIBILITY"));
         assertThat(((CustomAction) button.getAction()).getPayload().getAttributes().get("widgetId"), Matchers.is("filters_tb1"));
-        assertThat(button.getHint(), is("Изменить видимость фильтров"));
+        assertThat(button.getHint(), is("Фильтры"));
         assertThat(button.getIcon(), is("fa fa-filter"));
     }
 
@@ -170,7 +210,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         AbstractButton button = t.getToolbar().get("bottomRight").get(0).getButtons().get(0);
 
         assertThat(button.getAction(), Matchers.instanceOf(RefreshAction.class));
-        assertThat(button.getHint(), is("Обновить данные"));
+        assertThat(button.getHint(), is("Обновить"));
         assertThat(button.getIcon(), is("fa fa-refresh"));
     }
 
@@ -185,7 +225,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         AbstractButton button = t.getToolbar().get("bottomRight").get(0).getButtons().get(0);
 
         assertThat(button.getSrc(), is("ChangeSize"));
-        assertThat(button.getHint(), is("Изменить размер"));
+        assertThat(button.getHint(), is("Количество записей"));
         assertThat(button.getIcon(), is("fa fa-bars"));
     }
 

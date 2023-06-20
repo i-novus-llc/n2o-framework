@@ -3,10 +3,12 @@
              name="Bulk Операции с разными типами id">
     <table checkboxes="true" id="table1">
         <datasource query-id="test" object-id="test"/>
+
         <columns>
             <column text-field-id="id"/>
             <column text-field-id="name"/>
         </columns>
+
         <toolbar>
             <button model="multi" label="Изменить выбранные">
                 <show-modal page-id="setName"

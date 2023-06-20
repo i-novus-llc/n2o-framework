@@ -3,10 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.region;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oScrollspyRegion;
-import net.n2oapp.framework.api.metadata.meta.region.scrollspy.GroupScrollspyElement;
-import net.n2oapp.framework.api.metadata.meta.region.scrollspy.ScrollspyElement;
-import net.n2oapp.framework.api.metadata.meta.region.scrollspy.ScrollspyRegion;
-import net.n2oapp.framework.api.metadata.meta.region.scrollspy.SingleScrollspyElement;
+import net.n2oapp.framework.api.metadata.meta.region.scrollspy.*;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +42,7 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
                 p.resolve(property("n2o.api.region.scrollspy.placement"), String.class)));
         region.setHeadlines(p.cast(source.getHeadlines(),
                 p.resolve(property("n2o.api.region.scrollspy.headlines"), Boolean.class)));
+        region.setMaxHeight(source.getMaxHeight());
         region.setMenu(initMenu(source.getMenu(), context, p));
         region.setActive(source.getActive());
         compileRoute(source, region.getId(), "n2o.api.region.scrollspy.routable", p);
@@ -59,6 +57,8 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
             if (item instanceof N2oScrollspyRegion.MenuItem) {
                 elements.add(initSingleElement(item, context, p));
             } else if (item instanceof N2oScrollspyRegion.SubMenuItem) {
+                elements.add(initSubElement(item, context, p));
+            } else if (item instanceof N2oScrollspyRegion.GroupItem) {
                 elements.add(initGroupElement(item, context, p));
             }
         }
@@ -72,10 +72,19 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
         return element;
     }
 
+    private MenuScrollspyElement initSubElement(N2oScrollspyRegion.AbstractMenuItem item, PageContext context, CompileProcessor p) {
+        MenuScrollspyElement element = new MenuScrollspyElement();
+        initElement(element, item, p);
+        element.setMenu(initMenu(((N2oScrollspyRegion.SubMenuItem) item).getSubMenu(), context, p));
+        return element;
+    }
+
     private GroupScrollspyElement initGroupElement(N2oScrollspyRegion.AbstractMenuItem item, PageContext context, CompileProcessor p) {
         GroupScrollspyElement element = new GroupScrollspyElement();
         initElement(element, item, p);
-        element.setMenu(initMenu(((N2oScrollspyRegion.SubMenuItem) item).getSubMenu(), context, p));
+        element.setGroup(initMenu(((N2oScrollspyRegion.GroupItem) item).getGroup(), context, p));
+        element.setHeadline(p.cast(((N2oScrollspyRegion.GroupItem) item).getHeadline(),
+                p.resolve(property("n2o.api.region.scrollspy.group.headline"), Boolean.class)));
         return element;
     }
 

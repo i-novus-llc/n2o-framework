@@ -32,9 +32,9 @@ import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.apache.commons.io.IOUtils;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -45,6 +45,7 @@ import java.util.Properties;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 
@@ -61,8 +62,8 @@ public class N2oPipelineTest {
     private CacheTemplate compileCacheTemplate;
 
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         sourceCacheTemplate = new MockSourceCacheTemplate();
         compileCacheTemplate = new MockCompiledCacheTemplate();
 
@@ -100,7 +101,7 @@ public class N2oPipelineTest {
     }
 
     @Test
-    public void readPipeline() throws IOException {
+    void readPipeline() throws IOException {
         XmlInfo pageInfo = new XmlInfo("pageId", N2oPage.class, "", "");
 
         when(metadataRegister.get("pageId", N2oSimplePage.class)).thenReturn(pageInfo);
@@ -124,7 +125,7 @@ public class N2oPipelineTest {
         // read + validate
         try{
             N2oPipelineSupport.readPipeline(env).read().transform().validate().get("pageId", N2oSimplePage.class);
-            Assert.fail();
+            fail();
         } catch (N2oMetadataValidationException e) {
         }
 
@@ -175,7 +176,7 @@ public class N2oPipelineTest {
     }
 
     @Test
-    public void compilePipeline() {
+    void compilePipeline() {
         XmlInfo pageInfo = new XmlInfo("pageId", N2oPage.class, "", "");
         when(metadataRegister.get("pageId", N2oSimplePage.class)).thenReturn(pageInfo);
         when(metadataRegister.get("pageId", N2oPage.class)).thenReturn(pageInfo);
@@ -228,7 +229,7 @@ public class N2oPipelineTest {
     }
 
     @Test
-    public void bindingPipeline() {
+    void bindingPipeline() {
         PageContext context = mock(PageContext.class);
         when(context.getSourceId(any())).thenReturn("pageId");
         when(context.getCompiledId(any())).thenReturn("pageId");
@@ -250,7 +251,7 @@ public class N2oPipelineTest {
     }
 
     @Test
-    public void persistPipeline() throws IOException {
+    void persistPipeline() throws IOException {
         XmlInfo pageInfo = new XmlInfo("pageId", N2oPage.class, "", "");
 
         when(metadataRegister.get("pageId", N2oSimplePage.class)).thenReturn(pageInfo);
@@ -271,7 +272,7 @@ public class N2oPipelineTest {
     }
 
     @Test
-    public void deserializePipeline() throws IOException {
+    void deserializePipeline() throws IOException {
         doReturn(N2oSimplePage.class).when(componentTypeRegister).getByType("N2oSimplePage");
         doReturn("N2oSimplePage").when(componentTypeRegister).getByClass(N2oSimplePage.class);
 

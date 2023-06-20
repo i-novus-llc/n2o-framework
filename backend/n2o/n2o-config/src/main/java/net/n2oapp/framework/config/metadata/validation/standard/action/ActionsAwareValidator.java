@@ -9,8 +9,10 @@ import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -32,7 +34,7 @@ public class ActionsAwareValidator extends TypedMetadataValidator<ActionsAware> 
 
     @Override
     public void validate(ActionsAware source, SourceProcessor p) {
-        MetaActions metaActions = p.getScope(MetaActions.class);
+        MetaActions metaActions = getMetaActions(p);
         N2oAction[] actions = source.getActions();
         String actionId = source.getActionId();
 
@@ -62,5 +64,15 @@ public class ActionsAwareValidator extends TypedMetadataValidator<ActionsAware> 
             Arrays.stream(actions)
                     .forEach(action -> p.validate(action, metaActions, new ComponentScope(source, p.getScope(ComponentScope.class))));
         }
+    }
+
+    private MetaActions getMetaActions(SourceProcessor p) {
+        MetaActions pageActions = p.getScope(MetaActions.class);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        MetaActions metaActions = widgetScope == null || widgetScope.getActions() == null ? new MetaActions() : widgetScope.getActions();
+
+        if (!CollectionUtils.isEmpty(pageActions))
+            metaActions.putAll(pageActions);
+        return metaActions;
     }
 }
