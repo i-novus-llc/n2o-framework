@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list>
+        <test file="test.json"/>
+    </list>
+    <count>
+        <test file="test.json" operation="count"/>
+    </count>
+    <unique filters="snils" result-mapping="#this ?: T(java.util.Map).of('isEmptyPatient', true)">
+        <test file="test.json" operation="findOne"/>
+    </unique>
+
+    <filters>
+        <eq field-id="id" filter-id="id"/>
+        <like field-id="fio" filter-id="fio"/>
+        <eq field-id="birthday" filter-id="birthday" domain="localdate"/>
+        <eq field-id="snils" filter-id="snils"/>
+        <in field-id="diagnosis" filter-id="diagnosis.id" mapping="['diagnosis.id']"/>
+        <eq field-id="diagnosisDate" filter-id="diagnosisDate" domain="localdate">
+            diagnosis[0].date :eq :diagnosisDate
+        </eq>
+        <eq field-id="createDate" filter-id="createDate" domain="localdate"/>
+        <eq field-id="organization" filter-id="organization"/>
+        <eq field-id="gender" filter-id="gender.id" mapping="['gender.id']"/>
+        <eq field-id="status" filter-id="status.name">
+            status :eq :status.name
+        </eq>
+        <more field-id="dateOfApplication" filter-id="dateOfApplication.begin" domain="localdate"/>
+        <less field-id="dateOfApplication" filter-id="dateOfApplication.end" domain="localdate"/>
+    </filters>
+
+    <fields>
+        <field id="id" sorting="true"/>
+        <field id="createDate" sorting="true"/>
+        <field id="snils"/>
+        <field id="fio" sorting="true"/>
+        <field id="surname" normalize="#data['fio'] != null ? #data['fio'].split(' ')[0] : null"/>
+        <field id="name" normalize="#data['fio'] != null ? #data['fio'].split(' ')[1] : null"/>
+        <field id="middlename" normalize="#data['fio'] != null ? #data['fio'].split(' ')[2] : null"/>
+        <field id="gender"/>
+        <field id="birthday" sorting="true"/>
+        <field id="diagnosisKey" sorting-expression="diagnosis[0].id :diagnosisKeyDirection"
+               normalize="#data['diagnosis'] != null ? #data['diagnosis'].![['diagnosisKey']] : null"/>
+        <field id="diagnosis"/>
+
+
+        <field id="diagnosisDate"/>
+        <field id="subject"/>
+        <field id="organization"/>
+        <field id="status"/>
+        <field id="dateOfApplication"/>
+        <!-- <field id="docs"/> -->
+        <list id="docs">
+            <field id="serie"/>
+            <field id="number"/>
+            <field id="type"/>
+            <field id="issuer"/>
+            <field id="date"/>
+            <field id="code"/>
+            <field id="label" mapping="['type.name']"/>
+            <field id="id" mapping="['type.id']"/>
+        </list>
+
+        <field id="compulsory"/>
+        <field id="voluntary"/>
+        <field id="phone"/>
+        <field id="address"/>
+        <field id="bronchologicalSystem"/>
+        <field id="cardiovascularSystem"/>
+        <field id="endocrineSystem"/>
+        <field id="oncologicalDiseases"/>
+        <field id="immunodeficiency"/>
+
+        <field id="isEmptyPatient"/>
+
+
+        <field id="drawerPhone" normalize="#data['phone'] != null &amp;&amp; #data['phone'].size() > 0 ? #data['phone'][0]['mobile'] : '-'"/>
+        <field id="fullAddress" normalize="#data['address.residential'] != null ? 'г.' + ' ' + #data['address.residential.city'] + ' ' + 'ул.' + ' ' +  #data['address.residential.street'] + ' ' + 'д.' + ' ' + #data['address.residential.house'] + ' ' + 'кв.' + ' ' + #data['address.residential.apartment'] : '-'"/>
+
+    </fields>
+</query>

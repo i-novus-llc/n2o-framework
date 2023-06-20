@@ -4,19 +4,22 @@ import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MapInvocationUtilTest {
 
     @Test
-    public void testMapToMap() {
+    void testMapToMap() {
         Map<String, FieldMapping> mapping = new HashMap<>();
         mapping.put("id", new FieldMapping("['id']"));
         mapping.put("name", new FieldMapping("['name']"));
@@ -90,18 +93,20 @@ public class MapInvocationUtilTest {
         assertNull(value.get("null_list"));
     }
 
-    @Test(expected = N2oSpelException.class)
-    public void testMapToMapThrowIllegalArgs() {
-        DataSet dataSet = new DataSet();
-        dataSet.put("surname", "Alexeev");
-        dataSet.put("name", "Vladimir");
-        dataSet.put("id", 1);
+    @Test
+    void testMapToMapThrowIllegalArgs() {
+        assertThrows(N2oSpelException.class, () -> {
+            DataSet dataSet = new DataSet();
+            dataSet.put("surname", "Alexeev");
+            dataSet.put("name", "Vladimir");
+            dataSet.put("id", 1);
 
-        Map<String, FieldMapping> mapping = new HashMap<>();
-        mapping.put("id", new FieldMapping("[0]"));
-        mapping.put("name", new FieldMapping("[1]"));
-        mapping.put("surname", new FieldMapping("[2]"));
+            Map<String, FieldMapping> mapping = new HashMap<>();
+            mapping.put("id", new FieldMapping("[0]"));
+            mapping.put("name", new FieldMapping("[1]"));
+            mapping.put("surname", new FieldMapping("[2]"));
 
-        MapInvocationUtil.mapToMap(dataSet, mapping);
+            MapInvocationUtil.mapToMap(dataSet, mapping);
+        });
     }
 }

@@ -185,21 +185,25 @@ java -jar target/myproject-1.0.jar
 Для этого, при запуске сервера, в аргументе командной строки укажите путь к проекту:
 
 ```
-java -jar target/myproject-1.0.jar --n2o.project.path=/home/myProject
+java -jar target/myproject-1.0.jar --n2o.project.path=C:/Users/some_user/IdeaProjects/myProject
 ```
 
-(в IDEA можно указать: Run/Debug Configurations -> Program arguments)
+Если же запуск происходит через IntelliJ IDEA, то для запускаемого класса нужно вызвать
+`Modify Run Configuration` или `Run/Debug Configurations` и
+ввести настройку `--n2o.project.path` в качестве `Program arguments`
+
+![](./images/instant_pickup.png)
 
 При старте сервера будет произведено сканирование директорий из которых N2O Framework будет брать XML файлы:
 
 ````
-n.n2oapp.framework.config.ConfigStarter  : Start monitoring path: [/home/myProject/src/main/resources/META-INF/conf]
+n.n2oapp.framework.config.ConfigStarter  : Start monitoring path: [C:/Users/some_user/IdeaProjects/myProject/src/main/resources/META-INF/conf]
 net.n2oapp.watchdir.WatchDir             : WatchDir is started.
 n.n2oapp.framework.config.ConfigStarter  : N2O was started
 ````
 
 
-### Плагин для Intellij IDEA
+### Плагин для IntelliJ IDEA
 
 Для удобной работы с файлами N2O в IntelliJ IDEA создан плагин [N2O Framework](https://plugins.jetbrains.com/plugin/13999-n2o-framework).
 Шаги установки:

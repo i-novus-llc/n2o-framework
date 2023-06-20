@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <header title="Мое приложение">
+        <nav>
+            <menu-item id="mi1" name="Первая страница">
+                <open-page page-id="menu1"/>
+            </menu-item>
+            <menu-item id="mi2" name="Вторая страница">
+                <open-page page-id="menu2"/>
+            </menu-item>
+        </nav>
+    </header>
+    <sidebars>
+        <sidebar title="Мое приложение">
+            <extra-menu>
+                <menu-item id="mi1" name="Первая страница">
+                    <open-page page-id="menu1"/>
+                </menu-item>
+                <menu-item id="mi2" name="Вторая страница">
+                    <open-page page-id="menu2"/>
+                </menu-item>
+            </extra-menu>
+        </sidebar>
+    </sidebars>
+</application>

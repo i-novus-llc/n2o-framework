@@ -286,12 +286,12 @@ n2o.api.query.field.is_sorted = false
 |&lt;less&gt;       |Выражение |Фильтр меньше                            |
 |&lt;like&gt;       |Выражение |Фильтр вхождения подстроки в строку      |
 |&lt;in&gt;         |Выражение |Фильтр вхождения хотя бы одного в список |
+|&lt;notIn&gt;      |Выражение |Фильтр не вхождения в список             |
 |&lt;contains&gt;   |Выражение |Фильтр вхождения списка в список         |
 |&lt;isNull&gt;     |Выражение |Фильтр пустого поля                      |
 |&lt;isNotNull&gt;  |Выражение |Фильтр не пустого поля                   |
 |&lt;eqOrIsNull&gt; |Выражение |Фильтр эквивалентности и не пустого поля |
 |&lt;likeStart&gt;  |Выражение |Фильтр начала подстроки                  |
-|&lt;notIn&gt;      |Выражение |Фильтр не вхождения в список             |
 
 :::note
 Важно отметить, что тип фильтра играет роль только для `<test>` и `<mongo>` провайдеров.
@@ -311,12 +311,12 @@ n2o.api.query.field.is_sorted = false
 |&lt;less&gt;       |fieldId :less :filterId       |{'fieldId': {$lte: '#filterId'}}        |
 |&lt;like&gt;       |fieldId :like :filterId       |{'fieldId': {$regex: '.\*#filterId.*'}} |
 |&lt;in&gt;         |fieldId :in :filterId         |{'fieldId': {$in: '#filterId'}}         |
+|&lt;notIn&gt;      |fieldId :notIn :filterId      |{'fieldId': {$nin: '#filterId'}}        |
 |&lt;contains&gt;   |fieldId :contains :filterId   |-                                       |
 |&lt;isNull&gt;     |fieldId :isNull :filterId     |-                                       |
 |&lt;isNotNull&gt;  |fieldId :isNotNull :filterId  |-                                       |
 |&lt;eqOrIsNull&gt; |fieldId :eqOrIsNull :filterId |-                                       |
 |&lt;likeStart&gt;  |-                             |{'fieldId': {$regex: '#filterId.*'}}    |
-|&lt;notIn&gt;      |-                             |{'fieldId': {$nin: '#filterId'}}        |
 
 **Базовые атрибуты**
 

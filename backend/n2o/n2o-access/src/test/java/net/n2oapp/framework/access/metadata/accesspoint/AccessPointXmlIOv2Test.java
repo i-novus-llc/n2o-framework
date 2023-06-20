@@ -6,7 +6,7 @@ import net.n2oapp.framework.access.metadata.accesspoint.model.N2oPageAccessPoint
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oUrlAccessPoint;
 import net.n2oapp.framework.access.metadata.pack.AccessPointsIOV2Pack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AccessPointXmlIOv2Test {
 
@@ -14,7 +14,7 @@ public class AccessPointXmlIOv2Test {
             .addPack(new AccessPointsIOV2Pack());
 
     @Test
-    public void objectAccessPointXmlIOTest() {
+    void objectAccessPointXmlIOTest() {
         tester.check("net/n2oapp/framework/access/metadata/accesspoint/object2.accesspoint.xml",
                 (N2oObjectAccessPoint access) -> {
                     assert access.getObjectId().equals("test");
@@ -23,7 +23,7 @@ public class AccessPointXmlIOv2Test {
     }
 
     @Test
-    public void objectFiltersAccessPointXmlIOTest() {
+    void objectFiltersAccessPointXmlIOTest() {
         tester.check("net/n2oapp/framework/access/metadata/accesspoint/objectFilters.accesspoint.xml",
                 (N2oObjectFiltersAccessPoint access) -> {
                     assert access.getObjectId().equals("test");
@@ -32,7 +32,7 @@ public class AccessPointXmlIOv2Test {
     }
 
     @Test
-    public void pageAccessPointXmlIOTest() {
+    void pageAccessPointXmlIOTest() {
         tester.check("net/n2oapp/framework/access/metadata/accesspoint/page2.accesspoint.xml",
                 (N2oPageAccessPoint access) -> {
                     assert access.getPage().equals("test");
@@ -40,7 +40,7 @@ public class AccessPointXmlIOv2Test {
     }
 
     @Test
-    public void urlAccessPointXmlIOTest() {
+    void urlAccessPointXmlIOTest() {
         tester.check("net/n2oapp/framework/access/metadata/accesspoint/url2.accesspoint.xml",
                 (N2oUrlAccessPoint access) -> {
                     assert access.getPattern().equals("test");

@@ -4,40 +4,42 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.config.AppConfig;
 import net.n2oapp.framework.api.config.ConfigBuilder;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class N2oConfigBuilderTest {
-    @Rule
-    public TemporaryFolder folder = new TemporaryFolder();
+    @TempDir
+    public Path folder;
+    private File configJsonFile;
+    private File configJsonFile2;
 
-    @Before
-    public void setUp() throws Exception {
-        File configJsonFile = folder.newFile("config.json");
+    @BeforeEach
+    void setUp() throws Exception {
+        configJsonFile = Files.createFile(folder.resolve("config.json")).toFile();
         List<String> configJson = Collections.singletonList("{\"name\" : \"test\", \"version\":\"1.0\", " +
                 "\"menu\": {\"items\": {\"items1\": [\"item1\"]}, \"simple\": 1}, \"array\": [1]}");
         Files.write(configJsonFile.toPath(), configJson);
 
-        File configJsonFile2 = folder.newFile("config2.json");
+        configJsonFile2 = Files.createFile(folder.resolve("config2.json")).toFile();
         List<String> configJson2 = Collections.singletonList("{\"version\":\"2.0\", \"desc\":\"description\", " +
                 "\"menu\": {\"items\": {\"items2\":[\"item2\", \"item3\"]}, \"simple\": 9}, \"array\": [2, 3]}");
         Files.write(configJsonFile2.toPath(), configJson2);
     }
 
     @Test
-    public void test() throws IOException {
+    void test() throws IOException {
         ConfigBuilder<TestAppConfig> builder = new N2oConfigBuilder<>(TestAppConfig.class);
-        builder.read(new File(folder.getRoot(), "config.json"));
+        builder.read(configJsonFile);
 
         Map<String, Object> props = new LinkedHashMap<>();
         props.put("prop1", 1);
@@ -53,10 +55,9 @@ public class N2oConfigBuilderTest {
         assertThat(config.getProperties().get("version"), is("1.0"));
         assertThat(config.getProperties().get("myProp"), is(props));
         assertThat(config.getProperties().get("otherProps"), is("other"));
-
-        File newFile = new File(folder.getRoot(), "config.json");
-        builder.write(newFile);
-        String actual = Files.readAllLines(newFile.toPath()).get(0);
+        
+        builder.write(configJsonFile);
+        String actual = Files.readAllLines(configJsonFile.toPath()).get(0);
         assertThat(actual, containsString("1.0"));
         assertThat(actual, containsString("test"));
         assertThat(actual, containsString("myProp"));
@@ -64,12 +65,12 @@ public class N2oConfigBuilderTest {
     }
 
     @Test
-    public void doubleRead() throws IOException {
+    void doubleRead() {
         TestAppConfig testAppConfig = new TestAppConfig();
         testAppConfig.setName("testOld");
         ConfigBuilder<TestAppConfig> builder = new N2oConfigBuilder<>(testAppConfig);
-        builder.read(new File(folder.getRoot(), "config.json"));
-        builder.read(new File(folder.getRoot(), "config2.json"));
+        builder.read(configJsonFile);
+        builder.read(configJsonFile2);
 
         TestAppConfig config = builder.get();
         assertThat(config.getName(), is("test"));

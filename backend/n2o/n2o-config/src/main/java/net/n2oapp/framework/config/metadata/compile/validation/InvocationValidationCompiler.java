@@ -17,28 +17,25 @@ public abstract class InvocationValidationCompiler<D extends InvocationValidatio
     protected void compileInvocationValidation(D compiled, S source, CompileProcessor p) {
         compileValidation(compiled, source, p);
         compiled.setId(source.getId());
-
+        compiled.setInvocation(source.getN2oInvocation());
         //in
-        List<AbstractParameter> inParams = new ArrayList<>();
-        if (source.getInFields() != null)
-            for (AbstractParameter parameter : source.getInFields())
-                inParams.add(parameter instanceof ObjectSimpleField ?
-                        new ObjectSimpleField((ObjectSimpleField) parameter) :
-                        new ObjectReferenceField((ObjectReferenceField) parameter));
-        compiled.setInParametersList(inParams);
-
+        compiled.setInParametersList(getParams(source.getInFields()));
         //out
-        List<ObjectSimpleField> outParams = new ArrayList<>();
-        if (source.getOutFields() != null)
-            for (ObjectSimpleField parameter : source.getOutFields())
-                outParams.add(new ObjectSimpleField(parameter));
-
+        List<AbstractParameter> outParams = getParams(source.getOutFields());
         ObjectSimpleField resultParam = new ObjectSimpleField();
         resultParam.setId(CompiledObject.VALIDATION_RESULT_PARAM);
         resultParam.setMapping(source.getResult());
         outParams.add(resultParam);
-
         compiled.setOutParametersList(outParams);
-        compiled.setInvocation(source.getN2oInvocation());
+    }
+
+    private List<AbstractParameter> getParams(AbstractParameter[] parameters) {
+        List<AbstractParameter> params = new ArrayList<>();
+        if (parameters != null)
+            for (AbstractParameter parameter : parameters)
+                params.add(parameter instanceof ObjectSimpleField ?
+                        new ObjectSimpleField((ObjectSimpleField) parameter) :
+                        new ObjectReferenceField((ObjectReferenceField) parameter));
+        return params;
     }
 }

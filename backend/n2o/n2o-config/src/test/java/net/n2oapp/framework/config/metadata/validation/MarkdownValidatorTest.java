@@ -5,21 +5,18 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование валидатора {@link N2oMarkdown} компонентов
  */
 public class MarkdownValidatorTest extends SourceValidationTestBase {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -35,20 +32,24 @@ public class MarkdownValidatorTest extends SourceValidationTestBase {
      * Проверка наличия тега <actions> на странице при указанном actions
      */
     @Test
-    public void testMissedMarkdownActions() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Для компонента с actions=\"action1,action2\" не найдены действия <actions>");
-        validate("net/n2oapp/framework/config/metadata/validation/markdown/testMissedMarkdownActions.page.xml");
+    void testMissedMarkdownActions() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/markdown/testMissedMarkdownActions.page.xml"),
+                "Для компонента с actions=\"action1,action2\" не найдены действия <actions>"
+        );
     }
 
     /**
      * Проверка существования действия с идентификатором, указанным в actions
      */
     @Test
-    public void testActionExistenceByActionId() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Компонент с actions \"action2\" ссылается на несуществующее действие");
-        validate("net/n2oapp/framework/config/metadata/validation/markdown/testExistenceMarkdownActions.page.xml");
+    void testActionExistenceByActionId() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/markdown/testExistenceMarkdownActions.page.xml"),
+                "Компонент с actions \"action2\" ссылается на несуществующее действие"
+        );
     }
 
     /**
@@ -56,7 +57,7 @@ public class MarkdownValidatorTest extends SourceValidationTestBase {
      * когда сам action на странице или в виджете
      */
     @Test
-    public void testActionExist() {
+    void testActionExist() {
         validate("net/n2oapp/framework/config/metadata/validation/markdown/testActionInPageMarkdownActions.page.xml");
         validate("net/n2oapp/framework/config/metadata/validation/markdown/testActionInWidgetMarkdownActions.page.xml");
     }

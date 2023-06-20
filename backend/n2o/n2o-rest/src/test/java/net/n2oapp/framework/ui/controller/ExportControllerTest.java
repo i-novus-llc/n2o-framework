@@ -3,7 +3,7 @@ package net.n2oapp.framework.ui.controller;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.rest.ExportResponse;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import static org.hamcrest.core.Is.is;
 public class ExportControllerTest {
 
     @Test
-    public void test() {
+    void test() {
         DataSet body1 = new DataSet();
         DataSet body2 = new DataSet();
         DataSet body3 = new DataSet();

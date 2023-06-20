@@ -1,6 +1,6 @@
 package net.n2oapp.context;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author operehod
@@ -10,7 +10,7 @@ public class CacheTemplateByMapTest {
 
 
     @Test
-    public void test() throws Exception {
+    void test() {
         CacheTemplateByMap cacheTemplate = new CacheTemplateByMap();
         assert cacheTemplate.get(() -> 1, "one") == 1;
         assert cacheTemplate.get(() -> 2, "one") == 1;
@@ -29,7 +29,7 @@ public class CacheTemplateByMapTest {
 
 
     @Test
-    public void testManyKeys() throws Exception {
+    void testManyKeys() {
         CacheTemplateByMap cacheTemplate = new CacheTemplateByMap();
         assert cacheTemplate.get(() -> 1, "one", Integer.class) == 1;
         assert cacheTemplate.get(() -> "1", "one", String.class).equals("1");

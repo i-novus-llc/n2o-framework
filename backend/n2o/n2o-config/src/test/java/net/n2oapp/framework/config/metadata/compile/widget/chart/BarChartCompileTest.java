@@ -9,8 +9,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.is;
  */
 public class BarChartCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -34,7 +34,7 @@ public class BarChartCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testBarChart() {
+    void testBarChart() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/chart/testBarChartCompile.page.xml")
                 .get(new PageContext("testBarChartCompile"));
         Chart chart = (Chart) page.getWidget();

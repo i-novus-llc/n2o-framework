@@ -12,8 +12,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.HashMap;
 
@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.nullValue;
 public class CopyActionCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -42,7 +42,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCopyAction() {
+    void testCopyAction() {
         ModalPageContext modalPageContext = new ModalPageContext("testCopyAction", "/modal");
         HashMap<String, String> parentWidgetIdDatasourceMap = new HashMap<>();
         parentWidgetIdDatasourceMap.put("page_form", "page_form");
@@ -80,7 +80,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void copyV2() {
+    void copyV2() {
         PageContext pageContext = new PageContext("testCopyActionV2", "/p");
         pageContext.setParentClientPageId("page1");
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/copy/testCopyActionV2.page.xml")

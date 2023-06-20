@@ -6,24 +6,18 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
-import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
-import net.n2oapp.framework.config.metadata.pack.N2oQueriesPack;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.HashMap;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TableSecurityTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -35,7 +29,7 @@ public class TableSecurityTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void tableColumnSecurity() {
+    void tableColumnSecurity() {
         Table table = (Table) compile("net/n2oapp/framework/access/metadata/tableColumnSecurity.widget.xml")
                 .get(new WidgetContext("tableColumnSecurity"));
 

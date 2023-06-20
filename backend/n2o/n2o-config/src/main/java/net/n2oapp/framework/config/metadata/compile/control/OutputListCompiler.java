@@ -38,7 +38,8 @@ public class OutputListCompiler extends StandardFieldCompiler<OutputList, N2oOut
                 p.resolve(property("n2o.api.control.output_list.target"), Target.class)));
         outputList.setDirection(p.cast(source.getDirection(),
                 p.resolve(property("n2o.api.control.output_list.direction"), OutputList.Direction.class)));
-        outputList.setSeparator(p.cast(source.getSeparator(), " "));
+        outputList.setSeparator(p.cast(source.getSeparator(),
+                p.resolve(property("n2o.api.control.output_list.separator"), String.class)));
         return compileStandardField(outputList, source, context, p);
     }
 }

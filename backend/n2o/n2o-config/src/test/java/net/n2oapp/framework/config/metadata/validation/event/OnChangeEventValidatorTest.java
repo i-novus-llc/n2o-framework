@@ -7,21 +7,19 @@ import net.n2oapp.framework.config.metadata.validation.standard.event.OnChangeEv
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование валидации события изменения модели данных
  */
 public class OnChangeEventValidatorTest extends SourceValidationTestBase {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -37,9 +35,21 @@ public class OnChangeEventValidatorTest extends SourceValidationTestBase {
      * Проверка того, что атрибут datasource указан
      */
     @Test
-    public void testDatasourceIdExistence() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В событии <on-change> не задан атрибут 'datasource'");
-        validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceIdExistence.page.xml");
+    void testDatasourceIdExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceIdExistence.page.xml"));
+        assertEquals("В событии <on-change> не задан атрибут 'datasource'", exception.getMessage());
+    }
+
+    /**
+     * Проверка того, что указанный datasource существует
+     */
+    @Test
+    void testDatasourceExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceExistence.page.xml"));
+        assertEquals("Событие <on-change> ссылается на несуществующий источник данных 'test'", exception.getMessage());
     }
 }

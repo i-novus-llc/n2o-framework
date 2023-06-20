@@ -18,6 +18,7 @@ import { dataSourceModelsSelector } from '../../../ducks/datasource/selectors'
 
 import Tabs from './Tabs'
 import { Tab } from './Tab'
+import { NESTED_META_KEYS } from './constants'
 
 /**
  * Регион Таб
@@ -125,11 +126,11 @@ class TabRegion extends React.Component {
         return get(widgetProps, 'visible')
     }
 
+    /* FIXME tabs плохо связаны с content который они содержут,
+        из за этого приходится обходить content на возможные вложенности NESTED_META_KEYS  */
     atLeastOneVisibleWidget(content) {
-        const nestedMetaKeys = ['content', 'menu', 'tabs']
-
         return some(content, (meta) => {
-            for (const key of nestedMetaKeys) {
+            for (const key of NESTED_META_KEYS) {
                 if (meta[key]) {
                     return this.atLeastOneVisibleWidget(meta[key])
                 }

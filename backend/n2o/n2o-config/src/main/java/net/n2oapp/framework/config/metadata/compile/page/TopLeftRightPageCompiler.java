@@ -22,7 +22,7 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
     public TopLeftRightPage compile(N2oTopLeftRightPage source, PageContext context, CompileProcessor p) {
         TopLeftRightPage page = new TopLeftRightPage();
         page.setNeedScrollButton(p.cast(source.getScrollTopButton(),
-                p.resolve(property("n2o.api.page.top_left_right.need_scroll_button"), Boolean.class)));
+                p.resolve(property("n2o.api.page.top_left_right.scroll_top_button"), Boolean.class)));
 
         if (source.getTop() != null || source.getLeft() != null || source.getRight() != null) {
             TopLeftRightPage.Places places = new TopLeftRightPage.Places();
@@ -42,7 +42,7 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
     private TopLeftRightPage.Places.RegionOptions compileRegionOptions(N2oTopLeftRightPage.RegionOptions source, CompileProcessor p) {
         TopLeftRightPage.Places.RegionOptions regionOptions = new TopLeftRightPage.Places.RegionOptions();
         regionOptions.setWidth(source.getWidth());
-        regionOptions.setFixed(p.cast(source.getFixed(), p.resolve(property("n2o.api.page.top_left_right.fixed"), Boolean.class)));
+        regionOptions.setFixed(p.cast(source.getFixed(), p.resolve(property("n2o.api.page.top_left_right.region.fixed"), Boolean.class)));
         regionOptions.setOffset(source.getOffset());
         return regionOptions;
     }

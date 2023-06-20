@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница для проверки динамической visibility-зависимости">
+    <datasources>
+        <datasource id="ds2"/>
+    </datasources>
+    <regions>
+        <region>
+            <form datasource="ds2">
+                <fields>
+                    <radio-group id="radio_group" label="radio">
+                        <options>
+                            <option id="1" name="visible"/>
+                            <option id="2" name="not_visible"/>
+                        </options>
+                        <default-value id="1" name="visible"/>
+                    </radio-group>
+                </fields>
+            </form>
+            
+            <table>
+                <datasource query-id="test"/>
+                <columns>
+                    <column text-field-id="name">
+                        <dependencies>
+                            <visibility datasource="ds2" model="resolve">
+                                radio_group.id === 1
+                            </visibility>
+                        </dependencies>
+                    </column>
+                    <column text-field-id="type"/>
+                </columns>
+            </table>
+        </region>
+    </regions>
+</page>

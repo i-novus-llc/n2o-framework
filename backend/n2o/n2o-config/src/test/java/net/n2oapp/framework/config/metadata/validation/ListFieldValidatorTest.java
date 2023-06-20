@@ -11,21 +11,18 @@ import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValid
 import net.n2oapp.framework.config.metadata.validation.standard.widget.ListFieldValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование валидатора списковых полей
  */
 public class ListFieldValidatorTest extends SourceValidationTestBase {
-
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
+    
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -40,30 +37,38 @@ public class ListFieldValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    public void testCheckForExistsQuery() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Поле auto ссылается на несуществующую выборку unknown");
-        validate("net/n2oapp/framework/config/metadata/validation/field/list/checkForExistsQuery.widget.xml");
+    void testCheckForExistsQuery() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/list/checkForExistsQuery.widget.xml"),
+                "Поле auto ссылается на несуществующую выборку unknown"
+        );
     }
 
     @Test
-    public void testUsingQueryAndDatasourceAtTheSameTime() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Поле 'select' использует выборку и ссылку на источник данных одновременно");
-        validate("net/n2oapp/framework/config/metadata/validation/field/list/testUsingQueryAndDatasourceAtTheSameTime.widget.xml");
+    void testUsingQueryAndDatasourceAtTheSameTime() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/list/testUsingQueryAndDatasourceAtTheSameTime.widget.xml"),
+                "Поле 'select' использует выборку и ссылку на источник данных одновременно"
+        );
     }
 
     @Test
-    public void testUsingQueryAndOptionsAtTheSameTime() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Поле 'select' использует выборку и элемент '<options>' одновременно");
-        validate("net/n2oapp/framework/config/metadata/validation/field/list/testUsingQueryAndOptionsAtTheSameTime.widget.xml");
+    void testUsingQueryAndOptionsAtTheSameTime() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/list/testUsingQueryAndOptionsAtTheSameTime.widget.xml"),
+                "Поле 'select' использует выборку и элемент '<options>' одновременно"
+        );
     }
 
     @Test
-    public void testUsingDatasourceAndOptionsAtTheSameTime() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Поле 'select' использует ссылку на источник данных и элемент '<options>' одновременно");
-        validate("net/n2oapp/framework/config/metadata/validation/field/list/testUsingDatasourceAndOptionsAtTheSameTime.widget.xml");
+    void testUsingDatasourceAndOptionsAtTheSameTime() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/list/testUsingDatasourceAndOptionsAtTheSameTime.widget.xml"),
+                "Поле 'select' использует ссылку на источник данных и элемент '<options>' одновременно"
+        );
     }
 }

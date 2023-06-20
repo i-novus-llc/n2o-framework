@@ -1,6 +1,6 @@
 package net.n2oapp.criteria.filters;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +13,7 @@ public class FilterCheckerTest {
 
 
     @Test
-    public void test() throws Exception {
+    void test() throws Exception {
         //eq
         assert new Filter(1, FilterType.eq).check(1);
         assert new Filter("1", FilterType.eq).check("1");

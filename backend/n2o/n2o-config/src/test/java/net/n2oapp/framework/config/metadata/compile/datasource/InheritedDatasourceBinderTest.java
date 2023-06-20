@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.datasource.BrowserStorageDatasource;
 import net.n2oapp.framework.api.metadata.datasource.InheritedDatasource;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -9,8 +8,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -21,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 public class InheritedDatasourceBinderTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -35,7 +34,7 @@ public class InheritedDatasourceBinderTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testBind() {
+    void testBind() {
         PageContext context = new PageContext("testBindInheritedDatasource", "/:id/open");
         Page page = bind("net/n2oapp/framework/config/metadata/compile/datasource/testBindInheritedDatasource.page.xml")
                 .get(context, new DataSet().add("id", 222));

@@ -15,8 +15,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.List;
@@ -24,14 +24,14 @@ import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Тестирование компиляции региона в виде вкладок
  */
 public class TabsRegionCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -43,7 +43,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testTabsRegion() {
+    void testTabsRegion() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testTabsRegion.page.xml")
                 .get(new PageContext("testTabsRegion"));
 
@@ -74,7 +74,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testNesting() {
+    void testNesting() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testTabsRegionNesting.page.xml")
                 .get(new PageContext("testTabsRegionNesting"));
 
@@ -133,7 +133,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testTabsRegionRoute() {
+    void testTabsRegionRoute() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testTabsRegion.page.xml")
                 .get(new PageContext("testTabsRegion"));
 
@@ -153,7 +153,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testTabIdUnique() {
+    void testTabIdUnique() {
         //неуникальные id на одной странице
         try {
             compile("net/n2oapp/framework/config/metadata/compile/region/testTabsRegionUniqueId.page.xml")

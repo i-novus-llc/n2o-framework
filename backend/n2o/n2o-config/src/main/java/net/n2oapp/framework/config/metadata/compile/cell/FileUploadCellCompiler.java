@@ -27,8 +27,12 @@ public class FileUploadCellCompiler  extends AbstractCellCompiler<FileUploadCell
 
         cell.setUploadUrl(p.resolveJS(source.getUploadUrl()));
         cell.setDeleteUrl(p.resolveJS(source.getDeleteUrl()));
-        cell.setAjax(p.cast(source.getAjax(), true));
-        cell.setMulti(p.cast(source.getMulti(), false));
+
+        cell.setMulti(p.cast(source.getMulti(),
+                p.resolve(property("n2o.api.cell.file_upload.multi"), Boolean.class)));
+        cell.setAjax(p.cast(source.getAjax(),
+                p.resolve(property("n2o.api.cell.file_upload.ajax"), Boolean.class)));
+
         cell.setAccept(source.getAccept());
         cell.setShowSize(p.cast(source.getShowSize(),
                 p.resolve(property("n2o.api.cell.file_upload.show_size"), Boolean.class)));
@@ -39,8 +43,9 @@ public class FileUploadCellCompiler  extends AbstractCellCompiler<FileUploadCell
         cell.setUrlFieldId(p.cast(source.getUrlFieldId(),
                 p.resolve(property("n2o.api.cell.file_upload.url_field_id"), String.class)));
         cell.setResponseFieldId(p.cast(source.getMessageFieldId(),
-                p.resolve(property("n2o.api.cell.file_upload.response_field_id"), String.class)));
-        cell.setRequestParam(p.cast(source.getRequestParam(), "file"));
+                p.resolve(property("n2o.api.cell.file_upload.message_field_id"), String.class)));
+        cell.setRequestParam(p.cast(source.getRequestParam(),
+                p.resolve(property("n2o.api.cell.file_upload.request_param"), String.class)));
         cell.setUploadIcon(source.getUploadIcon());
         cell.setDeleteIcon(source.getDeleteIcon());
         cell.setLabel(source.getLabel());

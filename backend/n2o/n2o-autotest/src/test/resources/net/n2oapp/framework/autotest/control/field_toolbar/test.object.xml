@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0">
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
     <operations>
         <operation id="showText" success-text="'{id}'">
             <invocation>
                 <test operation="echo"/>
             </invocation>
-            <in-parameters>
-                <param id="id" mapping="['id']" domain="string"/>
-            </in-parameters>
+            <in>
+                <field id="id" mapping="['id']" domain="string"/>
+            </in>
         </operation>
     </operations>
 </object>

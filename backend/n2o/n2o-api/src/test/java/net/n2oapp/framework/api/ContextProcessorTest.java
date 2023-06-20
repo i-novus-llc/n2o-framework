@@ -3,8 +3,8 @@ package net.n2oapp.framework.api;
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
 import net.n2oapp.framework.api.context.ContextProcessor;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -18,7 +18,7 @@ public class ContextProcessorTest {
     
     private ContextProcessor processor;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         Context service = new ContextMock();
         processor = new ContextProcessor(service);
@@ -41,7 +41,7 @@ public class ContextProcessorTest {
     }
 
     @Test
-    public void testResolve() throws Exception {
+    void testResolve() {
         assert processor.resolve(null) == null;
         assert processor.resolve("").equals("");
         assert processor.resolve("bla bla").equals("bla bla");
@@ -65,7 +65,7 @@ public class ContextProcessorTest {
     }
 
     @Test
-    public void hasContext() throws Exception {
+    void hasContext() {
         assert processor.hasContext("aaa #{name} bbb");
         assert processor.hasContext("aaa #{surname} bbb");
         assert !processor.hasContext(null);
@@ -77,14 +77,14 @@ public class ContextProcessorTest {
     }
 
     @Test
-    public void testNotExpression() throws Exception {
+    void testNotExpression() {
         assert processor.resolve("#name}").equals("#name}");
         assert processor.resolve("}#{name").equals("}#{name");
         assert processor.resolve("name:{name}").equals("name:{name}");
     }
 
     @Test
-    public void testResolveText() throws Exception {
+    void testResolveText() {
         assert processor.resolveText("text").equals("text");
         assert processor.resolveText("#{name}").equals("oleg");
         assert processor.resolveText("#{surname}").equals("");

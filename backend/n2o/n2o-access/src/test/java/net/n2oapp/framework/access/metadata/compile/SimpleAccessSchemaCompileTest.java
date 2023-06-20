@@ -9,8 +9,8 @@ import net.n2oapp.framework.access.metadata.schema.AccessContext;
 import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSchema;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.is;
 public class SimpleAccessSchemaCompileTest  extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -32,7 +32,7 @@ public class SimpleAccessSchemaCompileTest  extends SourceCompileTestBase {
 
 
     @Test
-    public void accessSchema() {
+    void accessSchema() {
         SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema) compile("net/n2oapp/framework/access/metadata/simple.access.xml")
                 .get(new AccessContext("simple"));
         assertThat(accessSchema.getId(), is("simple"));
@@ -46,7 +46,7 @@ public class SimpleAccessSchemaCompileTest  extends SourceCompileTestBase {
     }
 
     @Test
-    public void accessSchemaV2() {
+    void accessSchemaV2() {
         SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema) compile("net/n2oapp/framework/access/metadata/simpleV2.access.xml")
                 .get(new AccessContext("simpleV2"));
 

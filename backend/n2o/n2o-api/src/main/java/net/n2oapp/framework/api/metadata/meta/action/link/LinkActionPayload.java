@@ -27,4 +27,10 @@ public class LinkActionPayload implements ActionPayload, UrlAware {
     private Map<String, ModelLink> pathMapping = new StrictMap<>();
     @JsonProperty
     private Map<String, ModelLink> queryMapping = new StrictMap<>();
+
+    /**
+     * Восстановление фильтров при возврате на предыдущую страницу
+     */
+    @JsonProperty
+    private Boolean restore;
 }

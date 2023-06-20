@@ -1,0 +1,13 @@
+{
+  "name": "Примеры приложений",
+  "sections": [
+    {
+      "templates": [
+        {
+          "templateId": "applications/universal_register",
+          "name": "Универсальный регистр"
+        }
+      ]
+    }
+  ]
+}

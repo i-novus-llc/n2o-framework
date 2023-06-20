@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Заявление о выборе медицинской организации">
+<datasources>
+    <parent-datasource id="fl"/>
+    <inherited-datasource source-datasource="fl" id="modal">
+        
+    </inherited-datasource>
+    <inherited-datasource source-datasource="fl" id="documents" source-field-id="docs">
+        
+    </inherited-datasource>
+
+</datasources>
+<regions>
+    <form datasource="modal">
+        <fields>
+            <row>
+                <col size="6">
+                    <input-text id="fio" label="ФИО" required="true"/>
+                </col>
+                <col size="3">
+                    <masked-input id="snils" mask="999-999-999 99" 
+                                          placeholder="___-___-___ __" label="СНИЛС" required="true"/>
+                </col>
+            </row>
+            <row>
+                <col size="3">
+                    <masked-input id="drawerPhone" mask="+7(999)-999-99-99" 
+                                         label="Телефон" required="true"/>
+                </col>
+                <col size="3">
+                    <date-time id="birthday" label="Дата рождения" required="true"/>
+                </col>
+                <col size="3">
+                    <radio-group id="gender" label="Пол" inline="true" required="true">
+                        <options>
+                            <option id="1" name="Мужской"/>
+                            <option id="2" name="Женский"/>
+                        </options>
+                    </radio-group>
+                </col>  
+            </row>
+            <row>
+                <col size="3">
+                    <input-text id="compulsory.serie" label="Полис ОМС(серия)" required="true"/>
+                </col>
+                <col size="3">
+                    <input-text id="compulsory.number" label="Полис ОМС(номер)" required="true"/>
+                </col>
+                <col size="6">
+                    <input-text id="compulsory.org" label="Организация выдавшая страховой полис" required="true"/>
+                </col>  
+            </row>
+         
+            <text-area id="fullAddress" label="Домашний адрес" required="true">
+                <!-- <dependencies>
+                    <set-value apply-on-init="true">
+                        return (address[0].region + ' ' + address[0].city + ' ' + address[0].street + ' ' + address[0].house);
+                    </set-value>
+                </dependencies> -->
+            </text-area>
+            <text-area id="regAddress" label="Адрес регистрации">
+                
+            </text-area>
+            
+           
+            <radio-group id="medOrgCheck" label="Прикреплен к медицинской организации" inline="true" required="true">
+                <options>
+                    <option id="1" name="Прикреплен"/>
+                    <option id="2" name="Не прикреплен"/>
+                </options>
+            </radio-group>
+        
+            
+            <input-text id="organization.name" label="Прикреплен к медицинской организации (наименование)" required="true" query-id="medOrg"/>
+   
+            <input-text id="newOrganization.name" label="Медицинская организация для нового прикрепления" required="true" query-id="medOrg"/>
+            
+            <row>
+                <col size="6">
+                    <select id="document" label="Документ удостоверяющий личность" required="true" datasource="documents" label-field-id="label" value-field-id="id">
+                        <dependencies>
+                            <set-value on="docs">
+                                docs[0]
+                            </set-value>
+                        </dependencies>
+                    </select>
+                </col>
+                <col size="4">
+                    <row>
+                        <input-text id="document.serie" label="Серия" required="true"/>
+                        <input-text id="document.number" label="Номер" required="true"/>
+                    </row>
+                </col>
+            </row>
+            <row>
+                <col size="6">
+                    <input-text id="document.issuer" label="Кем выдан" required="true"/>
+                </col>
+                <col size="3">
+                    <date-time id="document.date" label="Дата выдачи" required="true"/>
+                </col>  
+                <col size="3">
+                    <masked-input id="document.code" mask="999-999" label="Код подраздаеления" required="true"/>
+                </col>  
+            </row>
+        </fields>
+        <toolbar place="bottomRight">
+            <button label="Сохранить заявление" icon="fa fa-save" color="info">
+                <invoke operation-id="create" object-id="statement"/>
+                <refresh datasource="fl"/>
+                <close/>
+                <!-- <edit-list
+                        operation="create"
+                        datasource="fl"
+                        model="resolve"
+                        list-field-id="statement"
+                        item-datasource="modal"
+                        item-model="resolve"/>
+                    <close/> -->
+            </button>
+        </toolbar>
+    </form>
+</regions>
+</page>

@@ -7,6 +7,7 @@ import { TPageState } from './pages/types'
 import { TToolbarState } from './toolbar/types'
 import { TUserState } from './user/types'
 import { TWidgetState } from './widgets/types'
+import { TGlobalState } from './global/TGlobalState'
 
 export interface State {
     form?: TFormState
@@ -18,4 +19,5 @@ export interface State {
     toolbar: TToolbarState
     user: TUserState
     widgets: TWidgetState
+    global: TGlobalState
 }

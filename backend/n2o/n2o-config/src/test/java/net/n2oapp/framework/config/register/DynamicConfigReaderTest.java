@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.mock.TestDynamicMetadataProvider;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,9 @@ import java.util.stream.Collectors;
 import static java.util.Arrays.asList;
 
 public class DynamicConfigReaderTest {
+    
     @Test
-    public void test() throws Exception {
+    void test() {
         List<SourceMetadata> cache = new ArrayList<>();
         N2oDynamicMetadataProviderFactory providerFactory = new N2oDynamicMetadataProviderFactory();
         providerFactory.add(

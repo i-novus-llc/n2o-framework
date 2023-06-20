@@ -10,8 +10,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.nullValue;
 public class MultiFieldSetCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -37,7 +37,7 @@ public class MultiFieldSetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testMultiFieldSetWithField() {
+    void testMultiFieldSetWithField() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testMultiFieldsetCompile.page.xml")
                 .get(new PageContext("testMultiFieldsetCompile"));
         Form form = (Form) page.getWidget();

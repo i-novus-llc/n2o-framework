@@ -14,4 +14,10 @@ public interface Markdown extends Snippet {
      * @return Стандартная кнопка для автотестирования
      */
     StandardButton button(String label);
+
+    /**
+     * Проверка наличия элемента по css селектору
+     * @param cssSelector css селектр
+     */
+    void shouldHaveElement(String cssSelector);
 }

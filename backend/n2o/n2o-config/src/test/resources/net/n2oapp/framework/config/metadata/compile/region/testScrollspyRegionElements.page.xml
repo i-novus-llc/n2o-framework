@@ -28,6 +28,17 @@
                     </menu-item>
                 </sub-menu>
             </sub-menu>
+            <group title="group" headline="true">
+                <menu-item id="GroupItem" title="Item in group">
+                    <table name="table3"/>
+                    <form name="form6"/>
+                </menu-item>
+                <sub-menu title="Sub-menu in group">
+                    <menu-item id="mi4" title="Title5">
+                        <form name="form7"/>
+                    </menu-item>
+                </sub-menu>
+            </group>
         </scrollspy>
     </regions>
 </page>

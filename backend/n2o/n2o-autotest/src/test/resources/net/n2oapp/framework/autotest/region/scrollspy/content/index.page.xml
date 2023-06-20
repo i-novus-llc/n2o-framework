@@ -2,7 +2,7 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
     name="Тестирование контента">
     <regions>
-        <scrollspy active="mi1">
+        <scrollspy active="mi1" headlines="true" max-height="500">
             <menu-item id="mi1" title="Элемент1">
                 <tabs>
                     <tab name="Один">
@@ -44,6 +44,8 @@
                 <form name="Виджет Форма">
                     <fields>
                         <input-text id="Поле2"/>
+                        <input-text id="Поле3"/>
+                        <input-text id="Поле4"/>
                     </fields>
                 </form>
             </menu-item>

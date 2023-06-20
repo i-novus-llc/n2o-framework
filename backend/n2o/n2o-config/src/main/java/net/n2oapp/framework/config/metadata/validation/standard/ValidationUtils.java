@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
@@ -66,9 +67,9 @@ public final class ValidationUtils {
     /**
      * Проверка наличия источника данных по указанному идентификатору
      *
-     * @param dsId               Идентификатор проверямого источника данных
-     * @param p                  Процессор исходных метаданных
-     * @param msg                Сообщение об ошибке
+     * @param dsId Идентификатор проверямого источника данных
+     * @param p    Процессор исходных метаданных
+     * @param msg  Сообщение об ошибке
      */
     //fixme упразднить этот метод с удалением лишних скоупов datasource
     public static void checkDatasourceExistence(String dsId, SourceProcessor p, String msg) {
@@ -123,10 +124,9 @@ public final class ValidationUtils {
         Optional<N2oElseIfBranchAction> elseIfBranch = findFirstByInstance(operator, N2oElseIfBranchAction.class);
         Optional<N2oElseBranchAction> elseBranch = findFirstByInstance(operator, N2oElseBranchAction.class);
 
-        if (elseIfBranch.isPresent() && elseBranch.isPresent()) {
-            if (operator.indexOf(elseIfBranch.get()) > operator.indexOf(elseBranch.get()))
-                throw new N2oMetadataValidationException("Неверный порядок тегов <else-if> и <else> в условном операторе if-else");
-        }
+        if (elseIfBranch.isPresent() && elseBranch.isPresent() &&
+                (operator.indexOf(elseIfBranch.get()) > operator.indexOf(elseBranch.get())))
+            throw new N2oMetadataValidationException("Неверный порядок тегов <else-if> и <else> в условном операторе if-else");
 
         for (N2oConditionBranch operatorBranch : operator) {
             if (operatorBranch instanceof N2oIfBranchAction)
@@ -164,10 +164,21 @@ public final class ValidationUtils {
      * Получение идентификатора метаданной для сообщения исключений
      *
      * @param metadataId Идентификатор метаданной
-     * @return           Пробел + идентификатор метаданной в случае существования идентификатора, иначе пуста строка
+     * @return Пробел + идентификатор метаданной в случае существования идентификатора, иначе пуста строка
      */
     public static String getSpaceWithIdOrEmptyString(String metadataId) {
-        return metadataId != null ? " " + metadataId : "";
+        return metadataId != null ? " " + StringUtils.quote(metadataId) : "";
+    }
+
+    /**
+     * Проверка зависимостей на пустое тело
+     *
+     * @param dependency зависимость
+     * @param message    сообщение при ошибке
+     */
+    public static void checkEmptyDependency(N2oDependency dependency, String message) {
+        if (!StringUtils.hasText(dependency.getValue()))
+            throw new N2oMetadataValidationException(message);
     }
 
     private static void checkTest(N2oConditionBranch branch, SourceProcessor p, @Nonnull String tag) {

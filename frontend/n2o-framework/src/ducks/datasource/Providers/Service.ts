@@ -51,12 +51,25 @@ export function* query(id: string, provider: ServiceProvider, options: QueryOpti
     }
 
     const state: GlobalState = yield select()
-    const resolvedProvider = dataProviderResolver(
-        state,
-        provider,
-        query,
-        options,
-    )
+
+    let resolvedProvider = null
+
+    try {
+        resolvedProvider = dataProviderResolver(
+            state,
+            provider,
+            query,
+            options,
+        )
+    } catch (error) {
+        /*
+         * Сброс списка при отсутствии обязательных полей датапровайдера
+         * нужно чтобы при чистки master-ds чистился и child-ds.
+         * В этом случае dataProviderResolver кинет error
+         */
+
+        return { list: [], paging: { count: 0, page: 1 } }
+    }
 
     return (yield fetch(id, resolvedProvider, apiProvider)) as QueryResult
 }

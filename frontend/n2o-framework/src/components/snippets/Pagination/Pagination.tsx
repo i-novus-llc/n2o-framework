@@ -7,6 +7,7 @@ import {
     TOTAL,
     TOTAL_TITLE,
     PAGE_LINK_CLASS,
+    COUNT_NEVER,
     IPagination,
 } from './constants'
 import { usePagination, getTotalPages } from './usePagination'
@@ -22,6 +23,7 @@ export function Pagination(props: IPagination) {
         onSelect,
         prevIcon,
         nextIcon,
+        showSinglePage = true,
         showLast = true,
         activePage = 1,
         prevLabel = null,
@@ -63,6 +65,13 @@ export function Pagination(props: IPagination) {
         }
     }
 
+    const multiplePages = pages.length > 1
+    const pagesVisible = showSinglePage ? pages.length > 0 : multiplePages
+
+    if (!pagesVisible && showCount === COUNT_NEVER) {
+        return null
+    }
+
     return (
         <section className={classNames('pagination-container d-inline-flex', className)}>
             <Total
@@ -81,7 +90,7 @@ export function Pagination(props: IPagination) {
                 disabled={loading || prevDisabled}
                 icon={prevIcon}
                 title={prevLabel}
-                visible={prev}
+                visible={prev && multiplePages}
             />
             <Pages
                 pages={pages}
@@ -93,6 +102,7 @@ export function Pagination(props: IPagination) {
                 showLast={showLast}
                 hasNext={hasNext}
                 loading={loading}
+                visible={pagesVisible}
             />
             <Select
                 onClick={nextClick}
@@ -103,7 +113,7 @@ export function Pagination(props: IPagination) {
                 disabled={loading || nextDisabled}
                 icon={nextIcon}
                 title={nextLabel}
-                visible={next}
+                visible={next && multiplePages}
             />
         </section>
     )

@@ -11,7 +11,7 @@
     <groupId>net.n2oapp.framework</groupId>
     <artifactId>framework</artifactId>
     <packaging>pom</packaging>
-    <version>7.24.0-SNAPSHOT</version>
+    <version>7.25.0-SNAPSHOT</version>
 
     <name>N2O Framework</name>
     <description>Framework for creating web applications with rich user interface without deep knowledge of WEB technologies and Frontend frameworks. Based on Java и ReactJS</description>
@@ -50,7 +50,9 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <junit-jupiter.version>5.5.2</junit-jupiter.version>
         <allure-junit5.version>2.13.3</allure-junit5.version>
-        <selenium.version>4.2.1</selenium.version>
+        <selenium.version>4.9.1</selenium.version>
+        <httpclient5.version>5.2.1</httpclient5.version>
+        <webdrivermanager.version>5.3.2</webdrivermanager.version>
     </properties>
 
     <build>

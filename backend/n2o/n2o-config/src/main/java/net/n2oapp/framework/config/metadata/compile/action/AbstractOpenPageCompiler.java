@@ -20,7 +20,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
-import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
@@ -38,7 +37,6 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -162,16 +160,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         pageContext.setPageName(source.getPageName());
         pageContext.setBreadcrumbs(initBreadcrumb(source, pageContext, p));
-        // copy
-        pageContext.setCopyModel(source.getCopyModel());
-        pageContext.setCopyDatasourceId(source.getCopyDatasourceId());
-        pageContext.setCopyFieldId(source.getCopyFieldId());
-        pageContext.setTargetModel(source.getTargetModel());
-        pageContext.setTargetDatasourceId(computeTargetDatasource(source, pageScope, componentScope, widgetScope));
-        pageContext.setTargetFieldId(source.getTargetFieldId());
-        pageContext.setTargetPage(source.getTargetPage());
-        pageContext.setCopyMode(source.getCopyMode());
-
         if (source.getDatasources() != null) {
             if (pageContext.getDatasources() == null)
                 pageContext.setDatasources(new ArrayList<>());
@@ -193,7 +181,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             pageContext.setParentDatasourceIdsMap(initParentDatasourceIdsMap(p, (PageContext) context));
         }
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
-        if ((source.getRefreshAfterSubmit() == null || source.getRefreshAfterSubmit() || pageContext.getRefreshOnClose()) &&
+        if ((!Boolean.FALSE.equals(source.getRefreshAfterSubmit()) || pageContext.getRefreshOnClose()) &&
                 (source.getRefreshDatasourceIds() != null || localDatasourceId != null)) {
             String[] refreshDatasourceIds = source.getRefreshDatasourceIds() == null ?
                     new String[]{localDatasourceId} : source.getRefreshDatasourceIds();
@@ -453,7 +441,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             saveButton.setColor("primary");
             N2oAction[] actions = null;
             ReduxModel saveButtonModel = null;
-            SubmitActionType submitActionType = source.getSubmitActionType() == null ? SubmitActionType.invoke : source.getSubmitActionType();
+            SubmitActionType submitActionType = p.cast(source.getSubmitActionType(), SubmitActionType.invoke);
             Boolean closeOnSuccess = p.cast(source.getCloseAfterSubmit(), true);
             Boolean refreshOnSuccessSubmit = p.cast(source.getRefreshAfterSubmit(), true);
 
@@ -489,13 +477,13 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                             for (String refreshDatasourceId : refreshDatasourceIds) {
                                 // добавляем refresh action для каждого датасурса
                                 N2oRefreshAction refreshAction = new N2oRefreshAction();
-                                refreshAction.setDatasourceId(refreshDatasourceId);
-                                refreshAction.setPage(PageRef.PARENT);
+                                refreshAction.setDatasourceId("parent_" + refreshDatasourceId);
                                 actionList.add(refreshAction);
                                 // добавляем parent-datasource чтобы в модалке был этот датасурс
                                 if (context.getDatasources() == null)
                                     context.setDatasources(new ArrayList<>());
-                                context.getDatasources().add(new N2oParentDatasource("parent_" + refreshDatasourceId, refreshDatasourceId, false));
+                                N2oParentDatasource parentDatasource = new N2oParentDatasource("parent_" + refreshDatasourceId, refreshDatasourceId, false);
+                                context.getDatasources().add(parentDatasource);
                             }
                             N2oCloseAction closeAction = new N2oCloseAction();
                             closeAction.setPrompt(false);

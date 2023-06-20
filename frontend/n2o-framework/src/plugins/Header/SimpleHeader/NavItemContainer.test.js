@@ -12,7 +12,6 @@ const setup = props => mount(
 describe('Тесты NavItemContainer', () => {
     it('Dropdown', () => {
         const wrapper = setup({
-            sidebarOpen: false,
             itemProps: {
                 id: '2131',
                 title: 'test',
@@ -33,15 +32,6 @@ describe('Тесты NavItemContainer', () => {
         })
         expect(wrapper.find('Link').exists()).toEqual(true)
     })
-    it('Text', () => {
-        const wrapper = setup({
-            itemProps: {
-                type: 'text',
-                label: 'test',
-            },
-        })
-        expect(wrapper.find('span.nav-link').exists()).toEqual(true)
-    })
     it('target = _blank', () => {
         const wrapper = setup({
             itemProps: {
@@ -50,8 +40,9 @@ describe('Тесты NavItemContainer', () => {
                 type: 'link',
                 href: 'testHref',
                 target: '_blank',
+                linkType: 'outer',
             },
         })
-        expect(wrapper.find('Link').props().target).toEqual('_blank')
+        expect(wrapper.find('OuterLink').props().target).toEqual('_blank')
     })
 })

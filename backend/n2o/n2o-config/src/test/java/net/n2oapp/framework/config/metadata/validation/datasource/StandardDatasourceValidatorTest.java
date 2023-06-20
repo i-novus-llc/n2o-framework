@@ -12,21 +12,18 @@ import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidat
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирования валидации стандартного источника данных
  */
 public class StandardDatasourceValidatorTest extends SourceValidationTestBase {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -44,117 +41,139 @@ public class StandardDatasourceValidatorTest extends SourceValidationTestBase {
      * Проверяется, что источник данных ссылается на несуществующий объект
      */
     @Test
-    public void testNonExistentObject() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Источник данных ds1 ссылается на несуществующий объект object");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testNonExistentObject.page.xml");
+    void testNonExistentObject() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testNonExistentObject.page.xml"),
+                "Источник данных ds1 ссылается на несуществующий объект object"
+        );
     }
 
     /**
      * Проверяется, что источник данных ссылается на несуществующую выборку
      */
     @Test
-    public void testNonExistentQuery() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Источник данных ds1 ссылается на несуществующую выборку nonExistent");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testNonExistentQuery.page.xml");
+    void testNonExistentQuery() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testNonExistentQuery.page.xml"),
+                "Источник данных ds1 ссылается на несуществующую выборку nonExistent"
+        );
     }
 
     /**
      * Проверяется, что атрибут on в зависимости источника ссылается на несуществующий источник данных
      */
     @Test
-    public void testFetchOnNonExistentDatasource() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Атрибут \"on\" в зависимости источника данных 'ds1' ссылается на несуществующий источник данных 'ds2'");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testDependencyOnNonExistentDatasource.page.xml");
+    void testFetchOnNonExistentDatasource() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testDependencyOnNonExistentDatasource.page.xml"),
+                "Атрибут \"on\" в зависимости источника данных 'ds1' ссылается на несуществующий источник данных 'ds2'"
+        );
     }
 
     /**
      * Проверяется, что тег <submit> on содержит несуществующий источник данных в атрибуте refresh-datasource
      */
     @Test
-    public void testSubmitWithNonExistentRefreshDatasource() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Тег <submit> источника данных 'ds1' содержит несуществующий источник данных 'ds2' в атрибуте \"refresh-datasources\"");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testSubmitWithNonExistentRefreshDatasource.page.xml");
+    void testSubmitWithNonExistentRefreshDatasource() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testSubmitWithNonExistentRefreshDatasource.page.xml"),
+                "Тег <submit> источника данных 'ds1' содержит несуществующий источник данных 'ds2' в атрибуте \"refresh-datasources\""
+        );
     }
 
     /**
      * Проверяется, что для префильтра в источнике данных указана выборка
      */
     @Test
-    public void testRequiredReferenceForPrefiltersQuery() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Источник данных 'ds1' имеет префильтры, но не задана выборка");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testRequiredReferenceForPrefiltersQuery.page.xml");
+    void testRequiredReferenceForPrefiltersQuery() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testRequiredReferenceForPrefiltersQuery.page.xml"),
+                "Источник данных 'ds1' имеет префильтры, но не задана выборка"
+        );
     }
 
     /**
      * Проверяется, в выборке есть поля при указании фильтров в источнике данных
      */
     @Test
-    public void testReferenceQueryFieldExistence() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Источник данных 'ds1' имеет префильтры, но в выборке 'utDsBlank' нет filters!");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testReferenceQueryFieldExistence.page.xml");
+    void testReferenceQueryFieldExistence() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testReferenceQueryFieldExistence.page.xml"),
+                "Источник данных 'ds1' имеет префильтры, но в выборке 'utDsBlank' нет filters!"
+        );
     }
 
     /**
      * Проверяется, что источник данных, на который ссылается префильтр, существует
      */
     @Test
-    public void testNonExistentDatasourceInPrefilter() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В префильтре по полю 'id' указан несуществующий источник данных 'ds2'");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testNonExistentDatasourceInPrefilter.page.xml");
+    void testNonExistentDatasourceInPrefilter() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testNonExistentDatasourceInPrefilter.page.xml"),
+                "В префильтре по полю 'id' указан несуществующий источник данных 'ds2'"
+        );
     }
 
     /**
      * Проверяется, что для префильтра в выборке есть соответствующее поле
      */
     @Test
-    public void testRequiredReferenceForPrefiltersQueryField() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В выборке 'utDs' нет поля 'notExist'");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testRequiredReferenceForPrefiltersQueryField.page.xml");
+    void testRequiredReferenceForPrefiltersQueryField() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testRequiredReferenceForPrefiltersQueryField.page.xml"),
+                "В выборке 'utDs' нет поля 'notExist'"
+        );
     }
 
     /**
      * Проверяется, что для префильтра в выборке есть фильтр
      */
     @Test
-    public void testQueryFieldsFilterExistence() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В выборке 'utDs' поле 'id' не содержит фильтров!");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testQueryFieldsFilterExistence.page.xml");
+    void testQueryFieldsFilterExistence() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testQueryFieldsFilterExistence.page.xml"),
+                "В выборке 'utDs' поле 'id' не содержит фильтров!"
+        );
     }
 
     /**
      * Проверяется, что для префильтра в выборке есть фильтр соответствующего типа
      */
     @Test
-    public void testRequiredReferenceForPrefiltersQueryFieldFilterType() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В выборке 'utDs' поле 'name' не содержит фильтр типа 'notEq'!");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testRequiredReferenceForPrefiltersQueryFieldFilterType.page.xml");
+    void testRequiredReferenceForPrefiltersQueryFieldFilterType() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testRequiredReferenceForPrefiltersQueryFieldFilterType.page.xml"),
+                "В выборке 'utDs' поле 'name' не содержит фильтр типа 'notEq'!"
+        );
     }
 
     /**
      * Проверяется наличие обязательного атрибута field-id для префильтра
      */
     @Test
-    public void testRequiredPrefilterFieldId() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Источник данных 'ds1' содержит префильтр без указанного field-id!");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testRequiredPrefilterFieldId.page.xml");
+    void testRequiredPrefilterFieldId() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testRequiredPrefilterFieldId.page.xml"),
+                "Источник данных 'ds1' содержит префильтр без указанного field-id!"
+        );
     }
 
     /**
      * Проверка случая корректного использования ссылок на фильтры выборки
      */
     @Test
-    public void testRightUseNestedQueryFields() {
+    void testRightUseNestedQueryFields() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/testRightUseNestedQueryFields.query.xml"));
         validate("net/n2oapp/framework/config/metadata/validation/datasource/testRightUseNestedQueryFields.page.xml");

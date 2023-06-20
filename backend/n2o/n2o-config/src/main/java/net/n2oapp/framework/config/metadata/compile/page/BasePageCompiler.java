@@ -17,9 +17,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.event.Event;
@@ -40,7 +38,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientWidgetId;
@@ -91,7 +90,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         //actions
         mergeActions(source, context);
         MetaActions metaActions = initMetaActions(source, p);
-        if (source.getActions() != null)
+        if (nonNull(source.getActions()))
             context.setActions(Arrays.stream(source.getActions())
                     .collect(Collectors.toMap(ActionBar::getId, Function.identity())));
 
@@ -125,8 +124,10 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setEvents(initEvents(source, context, p, metaActions, pageScope, pageIndexScope,
                 datasourcesScope, appDatasourceIdsScope, parentDatasourceIdsScope));
 
-        if (source.getDatasourceId() != null)
-            page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), page.getId(), p));
+        if (nonNull(source.getDatasourceId())) {
+            page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), page.getId(),
+                    appDatasourceIdsScope, parentDatasourceIdsScope));
+        }
 
         return page;
     }
@@ -146,7 +147,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         DataSourcesScope datasourcesScope = new DataSourcesScope();
         Set<String> parentDatasourceIds = new HashSet<>();
 
-        if (source.getDatasources() != null)
+        if (nonNull(source.getDatasources()))
             for (N2oAbstractDatasource ds : source.getDatasources()) {
                 if (ds instanceof N2oApplicationDatasource)
                     appDatasourceIdsScope.put(ds.getId(), p.cast(((N2oApplicationDatasource) ds).getSourceDatasource(), ds.getId()));
@@ -159,13 +160,13 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 datasourcesScope.put(ds.getId(), ds);
             }
 
-        if (!parentDatasourceIds.isEmpty() && context.getParentClientPageId() == null)
+        if (!parentDatasourceIds.isEmpty() && isNull(context.getParentClientPageId()))
             throw new N2oException("На странице задан \"<parent-datasource>\", при этом она не имеет родительской страницы");
 
         addInlineDatasourcesToScope(sourceWidgets, datasourcesScope);
 
         // add datasources from parent page as N2oParentDatasource
-        if (context.getParentDatasourceIdsMap() != null)
+        if (nonNull(context.getParentDatasourceIdsMap()))
             for (String dsId : context.getParentDatasourceIdsMap().keySet()) {
                 if (datasourcesScope.containsKey(dsId) && !parentDatasourceIds.contains(dsId))
                     continue;
@@ -181,14 +182,15 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     @Deprecated
     private void addInlineDatasourcesToScope(List<N2oWidget> sourceWidgets, DataSourcesScope dataSourcesScope) {
         for (N2oWidget widget : sourceWidgets) {
-            if (widget.getDatasourceId() == null && (widget.getRefId() == null || !DynamicUtil.isDynamic(widget.getRefId()))) {
+            if (isNull(widget.getDatasourceId()) && (isNull(widget.getRefId()) || !DynamicUtil.isDynamic(widget.getRefId()))) {
                 N2oStandardDatasource datasource;
                 String datasourceId = widget.getId();
-                if (widget.getDatasource() == null) {
+                if (isNull(widget.getDatasource())) {
                     datasource = new N2oStandardDatasource();
                     datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
                 } else {
                     datasource = widget.getDatasource();
+                    datasourceId = nonNull(datasource.getId()) ? datasource.getId() : datasourceId;
                     widget.setDatasource(null);
                 }
                 datasource.setId(datasourceId);
@@ -203,30 +205,30 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                     PageContext context, CompileProcessor p) {
         PageScope pageScope = new PageScope();
         pageScope.setPageId(pageId);
-        if (context.getParentTabIds() != null)
+        if (nonNull(context.getParentTabIds()))
             pageScope.setTabIds(context.getParentTabIds());
         pageScope.setObjectId(source.getObjectId());
-        pageScope.setResultWidgetId(resultWidget == null ? null : resultWidget.getId());
+        pageScope.setResultWidgetId(isNull(resultWidget) ? null : resultWidget.getId());
         pageScope.getWidgetIdSourceDatasourceMap().putAll(sourceWidgets.stream()
                 .collect(Collectors.toMap(N2oMetadata::getId,
-                        w -> w.getDatasourceId() == null ? w.getId() : w.getDatasourceId())));
+                        w -> isNull(w.getDatasourceId()) ? w.getId() : w.getDatasourceId())));
         pageScope.setWidgetIdClientDatasourceMap(new HashMap<>());
         pageScope.getWidgetIdClientDatasourceMap().putAll(sourceWidgets.stream()
                 .collect(Collectors.toMap(w -> getClientWidgetId(w.getId(), pageId),
                         w -> {
-                            String datasourceId = w.getDatasourceId() == null ? w.getId() : w.getDatasourceId();
+                            String datasourceId = isNull(w.getDatasourceId()) ? w.getId() : w.getDatasourceId();
                             if (applicationDatasourceIds.containsKey(datasourceId))
                                 return applicationDatasourceIds.get(datasourceId);
                             else
                                 return getClientDatasourceId(datasourceId, pageId, p);
                         })));
-        if (context.getParentWidgetIdDatasourceMap() != null)
+        if (nonNull(context.getParentWidgetIdDatasourceMap()))
             pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         return pageScope;
     }
 
     private CompiledObject initObject(S source, CompileProcessor p) {
-        return source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
+        return nonNull(source.getObjectId()) ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
     }
 
     private Map<String, AbstractDatasource> compileDatasources(PageContext context,
@@ -252,7 +254,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         List<N2oWidget> result = new ArrayList<>();
         for (N2oWidget w : widgets) {
             String refId = w.getRefId();
-            if (refId != null && !DynamicUtil.isDynamic(refId))
+            if (nonNull(refId) && !DynamicUtil.isDynamic(refId))
                 w = p.merge(p.getSource(refId, N2oWidget.class), w);
             result.add(w);
         }
@@ -271,7 +273,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
      */
     protected void initRegions(SourceComponent[] pageItems, Map<String, List<Region>> regionMap, String defaultPlace,
                                PageContext context, CompileProcessor p, Object... scopes) {
-        if (pageItems == null) return;
+        if (isNull(pageItems)) return;
 
         List<N2oWidget> widgets = new ArrayList<>();
         BasePageUtil.resolveRegionItems(pageItems,
@@ -320,7 +322,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     private void createRegion(N2oRegion n2oRegion, Map<String, List<Region>> regionMap, String defaultPlace,
                               PageContext context, CompileProcessor p, Object... scopes) {
         Region region = p.compile(n2oRegion, context, scopes);
-        if (regionMap.get(defaultPlace) != null) {
+        if (nonNull(regionMap.get(defaultPlace))) {
             regionMap.get(defaultPlace).add(region);
         } else {
             List<Region> regionList = new ArrayList<>();
@@ -345,7 +347,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     private void mergeActions(S source, PageContext context) {
         if (CollectionUtils.isEmpty(context.getActions())) return;
         Map<String, ActionBar> actionBars = new HashMap<>(context.getActions());
-        if (source.getActions() != null) {
+        if (nonNull(source.getActions())) {
             Arrays.stream(source.getActions()).forEach(a -> actionBars.putIfAbsent(a.getId(), a));
         }
         source.setActions(actionBars.values().toArray(new ActionBar[0]));
@@ -357,27 +359,10 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         /* клонируем тулбары из контекста в тулбары страницы, это необходимо, чтобы просатвить значения по умолчанию
          для datasource и при это не испортить контекст изменениями */
         context.getToolbars().forEach(t -> {
-            N2oToolbar toolbar = new N2oToolbar();
-            toolbar.setPlace(p.cast(t.getPlace(), p.resolve(property("n2o.api.page.toolbar.place"), String.class)));
-            toolbar.setGenerate(t.getGenerate());
-            toolbar.setStyle(t.getStyle());
-            toolbar.setDatasourceId(t.getDatasourceId());
-            toolbar.setCssClass(t.getCssClass());
-            if (t.getItems() != null) {
-                ToolbarItem[] items = new ToolbarItem[t.getItems().length];
-                for (int i = 0; i < t.getItems().length; i++) {
-                    items[i] = t.getItems()[i].clone();
-                    if (N2oAbstractButton.class.isAssignableFrom(items[i].getClass())) {
-                        ((N2oAbstractButton) items[i])
-                                .setDatasourceId(((N2oAbstractButton) items[i]).getDatasourceId() == null ?
-                                        resultWidget.getDatasourceId() : ((N2oAbstractButton) items[i]).getDatasourceId());
-                    }
-                }
-                toolbar.setItems(items);
-            }
+            N2oToolbar toolbar = cloneToolbar(t, resultWidget, p);
             toolbars.put(t.getPlace(), toolbar);
         });
-        if (source.getToolbars() != null) {
+        if (nonNull(source.getToolbars())) {
             Arrays.stream(source.getToolbars()).forEach(t -> toolbars.putIfAbsent(t.getPlace(), t));
         }
         source.setToolbars(toolbars.values().toArray(new N2oToolbar[0]));

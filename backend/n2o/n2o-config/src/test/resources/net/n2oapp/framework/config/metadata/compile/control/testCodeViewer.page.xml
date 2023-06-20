@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <fields>
+            <code id="code1" theme="dark" show-line-numbers="false"
+                  starting-line-number="2" hide-buttons="true"
+                  hide-overflow="true">
+            </code>
+            <code id="code2">
+            </code>
+        </fields>
+    </form>
+</simple-page>

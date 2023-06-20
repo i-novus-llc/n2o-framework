@@ -37,11 +37,14 @@ public class WidgetEnablingAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oApplicationPack(), new N2oAllPack());
-        setJsonPath("net/n2oapp/framework/autotest/condition/widget/enabling");
+        builder.packs(
+                new N2oApplicationPack(),
+                new N2oAllPack()
+        );
+        setJsonPath("net/n2oapp/framework/autotest/condition/widget/dependency/enabling");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/condition/widget/enabling/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/condition/widget/enabling/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/condition/widget/dependency/enabling/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/widget/dependency/enabling/test.query.xml")
         );
     }
 

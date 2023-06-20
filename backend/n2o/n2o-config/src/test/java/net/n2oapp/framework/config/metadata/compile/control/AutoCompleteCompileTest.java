@@ -12,8 +12,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +28,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class AutoCompleteCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -42,7 +42,7 @@ public class AutoCompleteCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testAutoComplete() {
+    void testAutoComplete() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/field/testAutoComplete.page.xml")
                 .get(new PageContext("testAutoComplete"));
         Form form = (Form) page.getRegions().get("single").get(0).getContent().get(1);
@@ -67,9 +67,11 @@ public class AutoCompleteCompileTest extends SourceCompileTestBase {
         assertThat(queryMapping.get("name").getParam(), is("org_name"));
 
         List<ControlDependency> dependencies = field.getDependencies();
-        assertThat(dependencies.size(), is(1));
-        assertThat(dependencies.get(0).getType(), is(ValidationType.reset));
-        assertThat(dependencies.get(0).getOn(), is(Arrays.asList("org_id")));
+        assertThat(dependencies.size(), is(2));
+        assertThat(dependencies.get(0).getType(), is(ValidationType.fetch));
+        assertThat(dependencies.get(0).getOn(), is(Arrays.asList("auto2")));
+        assertThat(dependencies.get(1).getType(), is(ValidationType.reset));
+        assertThat(dependencies.get(1).getOn(), is(Arrays.asList("org_id")));
 
 
         autoComplete = (AutoComplete) ((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(1)

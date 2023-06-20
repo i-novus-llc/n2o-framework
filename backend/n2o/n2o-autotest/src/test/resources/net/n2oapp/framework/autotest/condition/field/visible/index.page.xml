@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Проверка условия видимости полей">
+    <form>
+        <fields>
+            <radio-group id="type">
+                <options>
+                    <option id="1" name="visible"/>
+                    <option id="2" name="not visible"/>
+                </options>
+            </radio-group>
+            <row>
+                <col size="3">
+                    <input-text label="Видимость по условию" id="1" visible="{type.id == 1}"/>
+                </col>
+            </row>
+            <row>
+                <input-text id="field_visible_0" label="without visible"
+                            default-value="Поле всегда видимое"/>
+            </row>
+            <row>
+                <input-text id="field_visible_1" label="visible=true" visible="true"
+                            default-value="Поле всегда видимое"/>
+            </row>
+            <row>
+                <input-text id="field_visible_2" label="visible=false" visible="false"
+                            default-value="Ошибка, если поле видно" label-class="text-danger"/>
+            </row>
+        </fields>
+    </form>
+</simple-page>

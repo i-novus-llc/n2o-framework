@@ -25,7 +25,8 @@ import net.n2oapp.framework.engine.validation.N2oValidationModule;
 import net.n2oapp.framework.engine.validation.engine.ValidationProcessor;
 import net.n2oapp.framework.ui.controller.action.OperationController;
 import net.n2oapp.framework.ui.controller.query.QueryController;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -44,7 +45,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
 
 
     @Test
-    public void testSetData() {
+    void testSetData() {
         DataProcessingStack dataProcessingStack = mock(DataProcessingStack.class);
         Exception e = new N2oException("Message");
 
@@ -77,7 +78,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
     }
 
     @Test
-    public void testGetData() {
+    void testGetData() {
         DataProcessingStack dataProcessingStack = mock(DataProcessingStack.class);
 
         Exception e = new N2oException("Message");

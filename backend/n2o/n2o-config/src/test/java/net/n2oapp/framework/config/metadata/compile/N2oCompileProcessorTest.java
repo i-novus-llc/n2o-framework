@@ -16,8 +16,8 @@ import net.n2oapp.framework.config.metadata.compile.widget.MomentScope;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import org.jdom2.Namespace;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +33,7 @@ import static org.mockito.Mockito.mock;
 public class N2oCompileProcessorTest extends N2oTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -44,7 +44,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     }
 
     @Test
-    public void testResolveLink() {
+    void testResolveLink() {
         PageContext context = new PageContext("test");
         Map<String, ModelLink> routeInfos = new HashMap<>();
         ModelLink value = new ModelLink(ReduxModel.resolve, "widgetId");
@@ -80,7 +80,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     }
 
     @Test
-    public void testResolveMultiLinkWithListValue() {
+    void testResolveMultiLinkWithListValue() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
         doAnswer(invocation -> {
             DataSet data = invocation.getArgument(1);
@@ -121,7 +121,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     }
 
     @Test
-    public void testResolveMultiLinkWithSingleValue() {
+    void testResolveMultiLinkWithSingleValue() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
         doAnswer(invocation -> {
             DataSet data = invocation.getArgument(1);
@@ -153,7 +153,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     }
 
     @Test
-    public void testResolveText() {
+    void testResolveText() {
         PageContext context = new PageContext("test");
         Map<String, ModelLink> queryMapping = new HashMap<>();
         ModelLink nameLink = new ModelLink(ReduxModel.resolve, "widgetId");
@@ -191,7 +191,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     }
 
     @Test
-    public void resolveContext() {
+    void resolveContext() {
         builder.getEnvironment().getContextProcessor().set("name", "Joe");
         builder.getEnvironment().getContextProcessor().set("count", 2);
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(),
@@ -210,7 +210,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     }
 
     @Test
-    public void testResolveTextSubModels() {
+    void testResolveTextSubModels() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
 
         doAnswer(invocation -> {
@@ -236,7 +236,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     }
 
     @Test
-    public void testResolveUrl() {
+    void testResolveUrl() {
         PageContext context = new PageContext("test");
         DataSet data = new DataSet();
         data.put("path_param", "test1");
@@ -247,7 +247,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     }
 
     @Test
-    public void testResolveUrlWithMapping() {
+    void testResolveUrlWithMapping() {
         //Константы в mapping
         PageContext context = new PageContext("test");
         DataSet data = new DataSet();
@@ -299,7 +299,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     }
 
     @Test
-    public void testResolveUrlWithLink() {
+    void testResolveUrlWithLink() {
         PageContext context = new PageContext("test");
 
         Map<String, ModelLink> routeInfos = new HashMap<>();
@@ -334,7 +334,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     }
 
     @Test
-    public void resolveJS() {
+    void resolveJS() {
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment());
         assertThat(processor.resolveJS("Hello {name}", String.class), is("`'Hello '+name`"));
         assertThat(processor.resolveJS("{name}", String.class), is("`name`"));
@@ -343,7 +343,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     }
 
     @Test
-    public void testMapping() {
+    void testMapping() {
         final Map<String, String> map = new HashMap<>();
         CompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment());
         ExtensionAttributesAware extAttributes = new ExtensionAttributesAware() {

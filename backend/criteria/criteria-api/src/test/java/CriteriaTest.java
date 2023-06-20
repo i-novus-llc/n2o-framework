@@ -1,7 +1,8 @@
 import net.n2oapp.criteria.api.Criteria;
 import net.n2oapp.criteria.api.SortingDirection;
 import net.n2oapp.criteria.api.Sorting;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * @author iryabov
@@ -10,7 +11,7 @@ import org.junit.Test;
 public class CriteriaTest {
 
     @Test
-    public void testSorting() {
+    void testSorting() {
         Criteria criteria = new Criteria();
         //check initial setting
         criteria.addSorting(new Sorting("test1", SortingDirection.DESC));
@@ -28,6 +29,4 @@ public class CriteriaTest {
         assert criteria.getSortings().get(1).getField().equals("test1");
         assert criteria.getSortings().get(1).getDirection().equals(SortingDirection.DESC);
     }
-
-
 }

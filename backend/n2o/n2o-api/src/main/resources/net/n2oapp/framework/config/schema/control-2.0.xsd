@@ -27,7 +27,6 @@
     <xs:element name="checkbox-group" type="controlOptionsListInlineDefinitionCheckboxGroup"/>
     <xs:element name="radio-group" type="controlOptionsListInlineDefinitionRadioGroup"/>
     <xs:element name="select" type="controlSelectDefinition"/>
-    <xs:element name="pills" type="controlPillsDefinition"/>
     <!--<xs:element name="select-tree" type="controlSelectTreeDefinition"/>-->
     <xs:element name="input-select" type="controlInputSelectDefinition"/>
     <xs:element name="input-select-tree" type="inputSelectTreeDefinition"/>
@@ -68,7 +67,6 @@
             <xs:element name="checkbox-group" type="controlOptionsListInlineDefinitionCheckboxGroup" minOccurs="0"/>
             <xs:element name="radio-group" type="controlOptionsListInlineDefinitionRadioGroup" minOccurs="0"/>
             <xs:element name="select" type="controlSelectDefinition" minOccurs="0"/>
-            <xs:element name="pills" type="controlPillsDefinition" minOccurs="0"/>
             <!--<xs:element name="select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>-->
             <xs:element name="input-select" type="controlInputSelectDefinition" minOccurs="0"/>
             <xs:element name="input-select-tree" type="inputSelectTreeDefinition" minOccurs="0"/>
@@ -719,11 +717,6 @@
                 <xs:attribute name="hide-buttons" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Скрытие кнопок.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="hide-overflow" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Скрытие вертикальной полосы прокрутки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1600,18 +1593,6 @@
                 <xs:attribute name="step" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>Шаг приращения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="controlPillsDefinition">
-        <xs:complexContent>
-            <xs:extension base="controlListFieldDefinition">
-                <xs:attribute name="type" type="multiType">
-                    <xs:annotation>
-                        <xs:documentation>Тип выбора значения</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

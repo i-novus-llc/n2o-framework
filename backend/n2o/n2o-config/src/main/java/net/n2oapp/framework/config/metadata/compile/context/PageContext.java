@@ -32,38 +32,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private Boolean breadcrumbFromParent;
     /**
-     * Модель, которая будет скопирована
-     */
-    private ReduxModel copyModel;
-    /**
-     * Идентификатор источника данных из которого будут копироваться данные
-     */
-    private String copyDatasourceId;
-    /**
-     * Идентификатор копируемого поля источника
-     */
-    private String copyFieldId;
-    /**
-     * Модель, в которую будут скопированы данные
-     */
-    private ReduxModel targetModel;
-    /**
-     * Идентификатор источника данных, в который будут скопированы данные
-     */
-    private String targetDatasourceId;
-    /**
-     * Идентификатор поля целевого виджета, в которое будут скопированы данные
-     */
-    private String targetFieldId;
-    /**
-     * Страница, в источник данных которой будут скопированы данные
-     */
-    private PageRef targetPage;
-    /**
-     * Тип слияния при копировании данных
-     */
-    private CopyMode copyMode;
-    /**
      * Маршрут родителя
      */
     private String parentRoute;

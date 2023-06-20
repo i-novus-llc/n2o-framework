@@ -9,8 +9,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -22,7 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TextFieldCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -35,7 +35,7 @@ public class TextFieldCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testTextField(){
+    void testTextField(){
         SimplePage page =(SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testTextFieldCompile.page.xml")
                 .get(new PageContext("testTextFieldCompile"));
         Form form = (Form) page.getWidget();

@@ -9,7 +9,7 @@ import net.n2oapp.framework.config.compile.pipeline.operation.LocalizedCompileCa
 import net.n2oapp.framework.config.compile.pipeline.operation.LocalizedSourceCacheOperation;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.register.XmlInfo;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.Locale;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 public class LocalizedSourceCacheOperationTest {
 
     @Test
-    public void test() {
+    void test() {
         LocaleContextHolder.setLocale(new Locale("ru"));
         CacheTemplate cacheTemplate = mock(CacheTemplate.class);
         MetadataRegister metadataRegister = mock(MetadataRegister.class);

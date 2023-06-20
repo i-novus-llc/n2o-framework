@@ -5,7 +5,7 @@ import net.n2oapp.framework.config.io.fieldset.v5.ColElementIO5;
 import net.n2oapp.framework.config.io.fieldset.v5.RowElementIO5;
 import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Тестирование чтения/записи виджета Форма
@@ -13,7 +13,7 @@ import org.junit.Test;
 public class FormXmlIOv5Test {
 
     @Test
-    public void testFormXmlIOV4() {
+    void testFormXmlIOV4() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new RowElementIO5(), new ColElementIO5(), new FormElementIOV5(),
                 new ButtonIOv2(), new InputTextIOv3());

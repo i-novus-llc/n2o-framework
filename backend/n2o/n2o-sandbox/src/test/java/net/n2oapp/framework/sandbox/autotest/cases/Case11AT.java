@@ -39,7 +39,7 @@ public class Case11AT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
         builder.transformers(new TestEngineQueryTransformer());
-        builder.sources(new CompileInfo("cases/7.0/case11/index.page.xml"),
+        builder.sources(new CompileInfo("versions/7.0/case11/index.page.xml"),
                 new CompileInfo("META-INF/conf/test.object.xml"),
                 new CompileInfo("META-INF/conf/test.query.xml"));
     }

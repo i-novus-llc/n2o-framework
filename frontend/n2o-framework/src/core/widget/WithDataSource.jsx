@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import isEmpty from 'lodash/isEmpty'
 
 import { WithDataSourceTypes } from '../datasource/propTypes'
 import { WithDataSource as DataSourceHOC } from '../datasource/WithDataSource'
@@ -14,11 +15,13 @@ export const WithDatasourceLifeCycle = (Component) => {
     class WithDatasourceLifeCycle extends React.Component {
         componentDidUpdate({ visible: prevVisible, isInit: prevInit }) {
             const { visible, isInit, fetchOnInit, fetchOnVisibility, paging = {} } = this.props
-            const options = { withCount: true }
-            const { showLast = true } = paging
 
-            if (!showLast) {
-                options.withCount = false
+            const options = {}
+
+            if (!isEmpty(paging)) {
+                const { showLast = true } = paging
+
+                options.withCount = showLast
             }
 
             if (isInit !== prevInit) {

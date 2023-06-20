@@ -1,8 +1,12 @@
 import React from 'react'
 
-export function FieldAlignmentBlock({
-    visible,
-}: { visible: boolean }): null | JSX.Element {
+type fieldAlignmentBlockType = {
+    visible?: boolean
+}
+
+export function FieldAlignmentBlock(props: fieldAlignmentBlockType) {
+    const { visible = true } = props
+
     if (!visible) {
         return null
     }

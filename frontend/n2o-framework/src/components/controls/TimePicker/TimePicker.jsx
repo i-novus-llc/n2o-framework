@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
-import moment from 'moment'
+import moment from 'moment/moment'
 import includes from 'lodash/includes'
 import pick from 'lodash/pick'
 import keys from 'lodash/keys'

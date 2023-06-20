@@ -16,20 +16,20 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование компиляции действия switch
  */
 public class SwitchActionCompileTest extends SourceCompileTestBase {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -43,7 +43,7 @@ public class SwitchActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testSwitchAction() {
+    void testSwitchAction() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/switch_action/testSwitchAction.page.xml")
                 .get(new PageContext("testSwitchAction"));
 
@@ -74,7 +74,7 @@ public class SwitchActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testBindSwitchAction() {
+    void testBindSwitchAction() {
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/switch_action/testBindSwitchAction.page.xml")
                 .get(new PageContext("testBindSwitchAction", "/p/w/:parent_id/modal"),
                         new DataSet("parent_id", 123));
@@ -96,10 +96,12 @@ public class SwitchActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testNestedWithoutDatasource() {
-        N2oException e = assertThrows(N2oException.class,
+    void testNestedWithoutDatasource() {
+        N2oException e = assertThrows(
+                N2oException.class,
                 () -> compile("net/n2oapp/framework/config/metadata/compile/action/switch_action/testNested.page.xml")
-                        .get(new PageContext("testNested")));
+                        .get(new PageContext("testNested"))
+        );
         assertThat(e.getMessage(), is("Datasource is undefined for switch action with value-field-id=test2"));
     }
 }

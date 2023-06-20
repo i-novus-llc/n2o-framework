@@ -3,16 +3,17 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -24,7 +25,7 @@ import static org.hamcrest.Matchers.nullValue;
 public class BaseButtonCompileTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -37,9 +38,10 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testButton() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/toolbar/testButton.page.xml")
+    void testButton() {
+       StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testButton.page.xml")
                 .get(new PageContext("testButton"));
+        Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
         AbstractButton btn = page.getToolbar().getButton("btn1");
         assertThat(btn.getLabel(), is("delete"));
@@ -50,10 +52,12 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(btn.getStyle().size(), is(1));
         assertThat(btn.getStyle().get("color"), is("red"));
         assertThat(btn.getHint(), is("hint"));
+        assertThat(btn.getDatasource(), is("testButton_table"));
         assertThat(((InvokeAction) btn.getAction()).getPayload().getDatasource(), is("testButton_table"));
 
         btn = page.getToolbar().getButton("btn2");
         assertThat(btn.getLabel(), is("edit"));
+        assertThat(btn.getDatasource(), is(nullValue()));
         assertThat(btn.getIcon(), is("fa fa-pencil"));
 
         btn = page.getToolbar().getButton("btn3");
@@ -62,10 +66,13 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
 
         btn = page.getToolbar().getButton("btn4");
         assertThat(btn.getHint(), is("`description`"));
+
+        btn = t.getToolbar().getButton("btn5");
+        assertThat(btn.getDatasource(), is("testButton_table"));
     }
 
     @Test
-    public void testConfirm() {
+    void testConfirm() {
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/toolbar/testButtonConfirm.object.xml"));
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testButtonConfirm.page.xml")
                 .get(new PageContext("testButtonConfirm"));

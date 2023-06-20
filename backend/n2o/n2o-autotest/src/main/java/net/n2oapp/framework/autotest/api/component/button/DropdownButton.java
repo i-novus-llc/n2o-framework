@@ -41,4 +41,10 @@ public interface DropdownButton extends Button {
      * Проверка того, что список кнопок скрыт
      */
     void shouldBeCollapsed();
+
+    /**
+     * Проверка иконки у кнопки на соответствие ожидаемому значению
+     * @param icon ожидаемое имя иконки
+     */
+    void shouldHaveIcon(String icon);
 }

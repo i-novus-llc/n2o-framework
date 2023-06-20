@@ -8,8 +8,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.nullValue;
 public class MongodbEngineQueryTransformerTest extends SourceCompileTestBase {
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -32,7 +32,7 @@ public class MongodbEngineQueryTransformerTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testMongodbTransformer() {
+    void testMongodbTransformer() {
         ReadTerminalPipeline pipeline =
                 read("net/n2oapp/framework/config/metadata/transformer/testMongodbQueryTransformer.query.xml").transform();
 

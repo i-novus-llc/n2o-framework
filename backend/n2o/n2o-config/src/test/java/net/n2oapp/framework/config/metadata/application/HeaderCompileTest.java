@@ -8,8 +8,9 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +22,9 @@ import static org.hamcrest.Matchers.*;
  * Тестирование компиляции заголовка
  */
 public class HeaderCompileTest extends SourceCompileTestBase {
+    
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -80,7 +82,7 @@ public class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(subItems.get(0).getSubItems(), nullValue());
         assertThat(subItems.get(0).getType(), is("link"));
         assertThat(subItems.get(0).getProperties().size(), is(1));
-        assertThat(subItems.get(0).getProperties().get("testAttr"), is("testAttribute"));
+        assertThat(subItems.get(0).getProperties().get("attr1"), is("testAttribute"));
         // sub-menu a
         assertThat(subItems.get(1).getTitle(), is("hrefLabel"));
         assertThat(subItems.get(1).getHref(), is("http://test.com"));
