@@ -39,9 +39,9 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"),
-                new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.object.xml"),
-                new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.page.xml"),
-                new CompileInfo("net/n2oapp/framework/access/metadata/transform/testOpenPageTransformerModal.page.xml"))
+                        new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.object.xml"),
+                        new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.page.xml"),
+                        new CompileInfo("net/n2oapp/framework/access/metadata/transform/testOpenPageTransformerModal.page.xml"))
                 .packs(new N2oAllPagesPack(), new AccessSchemaPack(), new N2oObjectsPack(), new N2oDataProvidersPack())
                 .transformers(new ToolbarAccessTransformer(), new OpenPageAccessTransformer());
     }
