@@ -50,8 +50,6 @@ public class TableWidgetComponent extends WidgetComponent {
         @JsonProperty
         private List<Cell> cells;
         @JsonProperty
-        private Rows security;
-        @JsonProperty
         private BodyRow row;
     }
 
@@ -62,5 +60,7 @@ public class TableWidgetComponent extends WidgetComponent {
         private RowClick click;
         @JsonProperty
         private Map<String, String> elementAttributes = new HashMap<>();
+        @JsonProperty
+        private Rows security;
     }
 }

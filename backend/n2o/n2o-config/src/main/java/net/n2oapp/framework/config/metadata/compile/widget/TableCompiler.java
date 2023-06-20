@@ -86,7 +86,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         if (source.getRows() != null) {
             if (component.getBody().getRow() == null)
                 component.getBody().setRow(new TableWidgetComponent.BodyRow());
-            component.getBody().setSecurity(new Rows());
+            component.getBody().getRow().setSecurity(new Rows());
             if (source.getRows().getStyle() != null) {
                 component.getBody().getRow().getElementAttributes().put("style", p.resolveJS(source.getRows().getStyle()));
             }
