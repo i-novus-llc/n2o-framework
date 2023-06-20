@@ -33,12 +33,18 @@ function ChangeSizeComponent(props) {
     })
 
     return (
-        <UncontrolledButtonDropdown direction={nested ? 'left' : 'down'}>
-            <DropdownToggle caret>
-                {icon && <i className={icon} />}
-                {label}
-            </DropdownToggle>
-            <DropdownMenu>{items}</DropdownMenu>
+        <UncontrolledButtonDropdown direction={nested ? 'right' : 'down'}>
+            <div>
+                <div className="n2o-dropdown visible">
+                    <div>
+                        <DropdownToggle caret>
+                            {icon && <i className={icon} />}
+                            {label}
+                        </DropdownToggle>
+                        <DropdownMenu>{items}</DropdownMenu>
+                    </div>
+                </div>
+            </div>
         </UncontrolledButtonDropdown>
     )
 }

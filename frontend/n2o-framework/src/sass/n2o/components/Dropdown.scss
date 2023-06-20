@@ -23,9 +23,20 @@
 .n2o-dropdown-menu.dropdown-menu {
     padding: 0;
 
+    .dropright.btn-group {
+        div {
+            width: 100%;
+        }
+    }
+
     .btn {
         border: none;
         text-align: left;
+    }
+
+    .btn:focus,
+    .btn:active {
+        box-shadow: none !important;
     }
 }
 
