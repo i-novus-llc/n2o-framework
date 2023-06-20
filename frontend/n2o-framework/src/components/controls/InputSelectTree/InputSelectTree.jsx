@@ -24,6 +24,10 @@ import TreeNode from './TreeSelectNode'
 import { visiblePartPopup, getCheckedStrategy } from './until'
 
 const renderSwitcherIcon = ({ isLeaf }) => (isLeaf ? null : <Icon name="fa fa-chevron-right" />)
+
+renderSwitcherIcon.propTypes = {
+    isLeaf: PropTypes.bool,
+}
 const inputIcon = <Icon name="fa fa-chevron-down" />
 const getPopupContainer = container => container
 /**
