@@ -4,7 +4,7 @@
 
 /**
  * FormPluginStore store
- * @typedef {{registeredFields: Object.<string, any>}} FormPluginStore.state
+ * @typedef {{fields: Object.<string, any>}} FormPluginStore.state
  */
 
 /**

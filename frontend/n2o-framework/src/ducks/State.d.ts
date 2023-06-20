@@ -1,6 +1,6 @@
 import type { State as DataSourceState } from './datasource/DataSource'
 import type { State as ModelsState } from './models/Models'
-import { TFormState } from './form/types'
+import { FormsState } from './form/types'
 import { TColumnsState } from './columns/types'
 import { TOverlayState } from './overlays/types'
 import { TPageState } from './pages/types'
@@ -10,7 +10,7 @@ import { TWidgetState } from './widgets/types'
 import { TGlobalState } from './global/TGlobalState'
 
 export interface State {
-    form?: TFormState
+    form?: FormsState
     datasource: DataSourceState
     models: ModelsState
     columns: TColumnsState
