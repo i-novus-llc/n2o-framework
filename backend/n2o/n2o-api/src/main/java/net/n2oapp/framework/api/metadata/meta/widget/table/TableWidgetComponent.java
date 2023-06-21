@@ -1,13 +1,13 @@
 package net.n2oapp.framework.api.metadata.meta.widget.table;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.meta.cell.Cell;
-import net.n2oapp.framework.api.metadata.meta.widget.Rows;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetComponent;
 
 import java.util.HashMap;
@@ -55,12 +55,11 @@ public class TableWidgetComponent extends WidgetComponent {
 
     @Getter
     @Setter
-    public static class BodyRow implements Compiled {
+    public static class BodyRow implements Compiled, JsonPropertiesAware {
         @JsonProperty
         private RowClick click;
         @JsonProperty
         private Map<String, String> elementAttributes = new HashMap<>();
-        @JsonProperty
-        private Rows security;
+        private Map<String, Object> properties;
     }
 }

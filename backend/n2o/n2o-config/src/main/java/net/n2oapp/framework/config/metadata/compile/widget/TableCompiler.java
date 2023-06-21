@@ -19,7 +19,6 @@ import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
-import net.n2oapp.framework.api.metadata.meta.widget.Rows;
 import net.n2oapp.framework.api.metadata.meta.widget.table.AbstractTable;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -86,7 +85,6 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         if (source.getRows() != null) {
             if (component.getBody().getRow() == null)
                 component.getBody().setRow(new TableWidgetComponent.BodyRow());
-            component.getBody().getRow().setSecurity(new Rows());
             if (source.getRows().getStyle() != null) {
                 component.getBody().getRow().getElementAttributes().put("style", p.resolveJS(source.getRows().getStyle()));
             }

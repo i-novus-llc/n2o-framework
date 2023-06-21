@@ -45,7 +45,7 @@ public class TableAccessTransformerTest extends SourceCompileTestBase {
                 .get(new PageContext("testTableAccessTransformer"));
 
         Security.SecurityObject securityObject = ((Security) (((Table) page.getRegions().get("single").get(0).getContent().get(0))
-                .getComponent()).getBody().getRow().getSecurity().getProperties()
+                .getComponent()).getBody().getRow().getProperties()
                 .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
 
         assertThat(securityObject.getPermissions().size(), is(1));
