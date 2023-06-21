@@ -34,7 +34,12 @@ export class N2OPagination extends Component {
             loading,
             hasNext,
             count,
+            visible = true,
         } = this.props
+
+        if (!visible) {
+            return null
+        }
 
         const showCount = propShowCount || !isEmpty(datasource)
         const calculatedHasNext = count ? hasNext : (!loading && hasNext)
