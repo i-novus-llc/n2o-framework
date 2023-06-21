@@ -75,9 +75,10 @@ public class AutoTestBase extends N2oTestBase {
     void outputBrowserLog() {
         if (Objects.isNull(logs))
             return;
-        for (LogEntry log : logs.get(LogType.BROWSER)) {
-            System.out.println("BROWSER LOG:" + " " + log.getLevel() + " " + log.getMessage());
-        }
+
+        for (LogEntry log : logs.get(LogType.BROWSER))
+            if (log.getLevel() == Level.SEVERE)
+                System.out.println("BROWSER LOG:" + " " + log.getLevel() + " " + log.getMessage());
     }
 
     @Override
