@@ -20,8 +20,10 @@ description: ""
 - Был добавлен функционал [прокидывания тулбаров](../manual/actions#open_page_toolbar_passing) на открываемую страницу.
 В связи с чем были внесены следующие изменения.
 
-1. Упразднены атрибуты `confirm`, `confirm-text`, `submit-label` операций объектов.
-2. Упразднены атрибуты `submit-operation-id`, `submit-message-on-success`, `submit-message-on-fail`, `submit-model`, `submit-label`
+1. Кнопки с действиями открытия страниц теперь нельзя скрывать по точке доступа `<object-access>`.
+Вместо этого используйте `<page-access>` или `<url-access>`.
+2. Упразднены атрибуты `confirm`, `confirm-text`, `submit-label` операций объектов.
+3. Упразднены атрибуты `submit-operation-id`, `submit-message-on-success`, `submit-message-on-fail`, `submit-model`, `submit-label`
 с сохранением обратной совместимости.
 
 Вместо `submit-operation-id` рекомендуется использовать кнопку с `invoke` действием.
@@ -45,7 +47,7 @@ description: ""
 </show-modal>
 ```
 
-3. Упразднены атрибуты `close-after-submit`, `redirect-target-after-submit`, `refresh-after-submit`
+4. Упразднены атрибуты `close-after-submit`, `redirect-target-after-submit`, `refresh-after-submit`
 с сохранением обратной совместимости.
 
 Вместо этих атрибутов используйте более гибкий механизм мультидействий.
@@ -92,7 +94,7 @@ description: ""
 </show-modal>
 ```
 
-4. Упразднены атрибуты копирования `submit-action-type`, `copy-datasource`, `copy-model`, `copy-field-id`, `target-datasource`, `target-model`,
+5. Упразднены атрибуты копирования `submit-action-type`, `copy-datasource`, `copy-model`, `copy-field-id`, `target-datasource`, `target-model`,
 `target-field-id`, `copy-mode`, `target-page` с сохранением обратной совместимости.
 
 Используйте действие `<copy>`.

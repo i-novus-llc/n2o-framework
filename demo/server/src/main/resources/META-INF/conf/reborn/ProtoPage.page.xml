@@ -115,7 +115,32 @@
                     </column>
                     <column text-field-id="">
                         <toolbar>
-                            <sub-menu icon="fa fa-ellipsis-v" generate="delete,update"/>
+                            <sub-menu icon="fa fa-ellipsis-v">
+                                <menu-item label="Удалить" icon="fa fa-trash" confirm="true">
+                                    <invoke operation-id="delete"/>
+                                </menu-item>
+                                <menu-item label="Изменить" icon="fa fa-pencil">
+                                    <show-modal page-id="ProtoClient" page-name="Клиент - Изменение"
+                                                route="/:id/update">
+                                        <params>
+                                            <path-param name="id" value="{id}"/>
+                                        </params>
+
+                                        <toolbars>
+                                            <toolbar>
+                                                <button label="Сохранить" color="primary">
+                                                    <invoke operation-id="update"/>
+                                                    <refresh datasource="clientsDs"/>
+                                                    <close/>
+                                                </button>
+                                                <button label="Закрыть">
+                                                    <close/>
+                                                </button>
+                                            </toolbar>
+                                        </toolbars>
+                                    </show-modal>
+                                </menu-item>
+                            </sub-menu>
                         </toolbar>
                     </column>
 
