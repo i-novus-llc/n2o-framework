@@ -1,4 +1,4 @@
-import { useContext } from 'use-context-selector'
+import { useContext } from 'react'
 
 import { FormContext } from '../provider'
 

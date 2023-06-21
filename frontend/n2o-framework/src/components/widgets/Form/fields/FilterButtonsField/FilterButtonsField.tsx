@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 
 import { isEmptyModel } from '../../../../../utils/isEmptyModel'
 import { Buttons, ButtonsProps } from '../../../../snippets/Filter/Buttons'
 import { FieldProps } from '../types'
 // @ts-ignore ignore import error from js file
-import { useWidgetFilterContext } from '../../../WidgetFilters'
+import { WidgetFilterContext } from '../../../WidgetFilters'
 
 /**
  * Компонент обертка для встраивания кнопок фильтра в любое место формы, как Field.
@@ -25,7 +25,7 @@ export function FilterButtonsField(props: FilterButtonsFieldProps) {
         fetchOnClear = true,
         model = {},
     } = props
-    const { filter, reset } = useWidgetFilterContext()
+    const { search, reset }: { search(): void, reset(fetchOnClear: boolean): void } = useContext(WidgetFilterContext)
     const clearDisabled = isEmptyModel(model)
     const onReset = useCallback(() => {
         reset(fetchOnClear)
@@ -39,7 +39,7 @@ export function FilterButtonsField(props: FilterButtonsFieldProps) {
             clearDisabled={clearDisabled}
             searchLabel={searchLabel}
             resetLabel={resetLabel}
-            onSearch={filter}
+            onSearch={search}
             onReset={onReset}
         />
     )

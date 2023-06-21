@@ -26,7 +26,7 @@ const setup = (store, props = {}, onChange) => {
 const initialState = {
     form: {
         testForm: {
-            registeredFields: {
+            fields: {
                 testField: {}
             }
         }
