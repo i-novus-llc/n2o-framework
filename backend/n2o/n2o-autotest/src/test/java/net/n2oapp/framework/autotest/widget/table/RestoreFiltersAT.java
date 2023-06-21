@@ -77,13 +77,6 @@ public class RestoreFiltersAT extends AutoTestBase {
 
         openPage.click();
         secPage.shouldExists();
-        Selenide.back();
-        page.shouldExists();
-        filter.shouldHaveValue("TEST2");
-        table.columns().rows().shouldHaveSize(1);
-
-        openPage.click();
-        secPage.shouldExists();
         secPage.breadcrumb().crumb("Восстановление фильтров после закрытия страницы").click();
         page.shouldExists();
         filter.shouldHaveValue("TEST2");

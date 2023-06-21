@@ -174,7 +174,7 @@ public class MappingProcessor {
      *
      * @param value       Значение для нормализации
      * @param normalizer  Нормализируещее выражение
-     * @param allData     Данные, используемые для нормализации
+     * @param allData     Данные, используемые для нормализации (нужно для #data)
      * @param parser      Парсер SpEL выражений
      * @param beanFactory Фабрика бинов спринга
      * @return Нормализированное значение

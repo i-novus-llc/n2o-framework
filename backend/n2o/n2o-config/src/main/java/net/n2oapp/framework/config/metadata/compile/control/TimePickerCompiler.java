@@ -28,7 +28,7 @@ public class TimePickerCompiler extends StandardFieldCompiler<TimePicker, N2oTim
         timePicker.setMode(p.cast(source.getMode(),
                 p.resolve(property("n2o.api.control.time_picker.mode"), String.class).split(",")));
         timePicker.setTimeFormat(p.cast(source.getTimeFormat(),
-                p.resolve(property("n2o.api.control.time_picker.time-format"), String.class)));
+                p.resolve(property("n2o.api.control.time_picker.time_format"), String.class)));
         timePicker.setFormat(p.cast(source.getFormat(),
                 p.resolve(property("n2o.api.control.time_picker.format"), String.class)));
         return compileStandardField(timePicker, source, context, p);

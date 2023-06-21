@@ -99,7 +99,7 @@
                     micro - отображается тонкая полоска
                     mini - отображаются только иконки
                     maxi - широкая боковая панель.
-                    По умолчанию none
+                    По умолчанию none, если у header задан атрибут sidebar-icon или sidebar-toggled-icon, иначе maxi.
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -111,7 +111,6 @@
                     micro - отображается тонкая полоска
                     mini - отображаются только иконки
                     maxi - широкая боковая панель.
-                    По умолчанию maxi
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

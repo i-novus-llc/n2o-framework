@@ -121,7 +121,6 @@ public class RefModalAT extends AutoTestBase {
         typeInputModal.setValue("1");
         typeInputModal.shouldHaveValue("1");
         drawer.toolbar().bottomRight().button("Применить").click();
-        filters.toolbar().button("Найти").click();
         tableWidget.columns().rows().shouldHaveSize(1);
     }
 }

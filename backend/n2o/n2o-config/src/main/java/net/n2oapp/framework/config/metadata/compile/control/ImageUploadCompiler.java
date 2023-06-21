@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oImageUpload;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.control.ImageUpload;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
@@ -37,7 +38,8 @@ public class ImageUploadCompiler extends BaseFileUploadCompiler<ImageUpload, N2o
         imageUpload.setIconSize(source.getIconSize());
         imageUpload.setShowTooltip(p.cast(source.getShowTooltip(),
                 p.resolve(property("n2o.api.control.image_upload.show_tooltip"), Boolean.class)));
-        imageUpload.setShape(source.getShape());
+        imageUpload.setShape(p.cast(source.getShape(),
+                p.resolve(property("n2o.api.control.image_upload.shape"), ShapeType.class)));
         imageUpload.setShowName(p.cast(source.getShowName(),
                 p.resolve(property("n2o.api.control.image_upload.show_name"), Boolean.class)));
         return compileFileUpload(imageUpload, source, context, p);

@@ -39,7 +39,7 @@ public class OnChangeEventValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceIdExistence.page.xml"));
-        assertEquals(exception.getMessage(),"В событии <on-change> не задан атрибут 'datasource'");
+        assertEquals("В событии <on-change> не задан атрибут 'datasource'", exception.getMessage());
     }
 
     /**
@@ -50,6 +50,6 @@ public class OnChangeEventValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceExistence.page.xml"));
-        assertEquals(exception.getMessage(),"Событие <on-change> ссылается на несуществующий источник данных 'test'");
+        assertEquals("Событие <on-change> ссылается на несуществующий источник данных 'test'", exception.getMessage());
     }
 }

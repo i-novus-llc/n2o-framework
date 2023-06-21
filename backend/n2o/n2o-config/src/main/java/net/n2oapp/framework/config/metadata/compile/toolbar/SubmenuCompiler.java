@@ -48,8 +48,10 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
         compileBase(submenu, source, context, p);
         submenu.setId(source.getId() == null ? "subMenu" + idx.get() : source.getId());
         source.setId(submenu.getId());
-        submenu.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.submenu.src"), String.class)));
-        submenu.setShowToggleIcon(p.cast(source.getShowToggleIcon(), true));
+        submenu.setSrc(p.cast(source.getSrc(),
+                p.resolve(property("n2o.api.action.submenu.src"), String.class)));
+        submenu.setShowToggleIcon(p.cast(source.getShowToggleIcon(),
+                p.resolve(property("n2o.api.submenu.show_toggle_icon"), Boolean.class)));
 
         compileCondition(source, submenu, p, p.getScope(ComponentScope.class));
 

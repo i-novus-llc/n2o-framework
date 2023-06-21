@@ -78,6 +78,7 @@ class InputSelect extends React.Component {
 
         this.inputHeightRef = React.createRef()
         this.popUpItemRef = createRef()
+        this.textAreaRef = createRef()
     }
 
     // eslint-disable-next-line react/no-deprecated
@@ -475,7 +476,7 @@ class InputSelect extends React.Component {
             }
         } else {
             this.setState({
-                value: [{ [labelFieldId]: userInput }],
+                value: [...currentValue, { [labelFieldId]: userInput }],
             })
         }
     }
@@ -526,15 +527,23 @@ class InputSelect extends React.Component {
         }
     }
 
-    setInputRef = popperRef => (r) => {
-        this.inputRef = r
-        popperRef(r)
+    setInputRef = (popperRef) => {
+        this.textAreaRef = popperRef
+
+        return (r) => {
+            this.inputRef = r
+            popperRef(r)
+        }
     }
 
     toggle = () => {
         const { isExpanded } = this.state
 
         this.setIsExpanded(!isExpanded)
+    }
+
+    onInputSelectGroupClick = () => {
+        this.textAreaRef.focus()
     }
 
     render() {
@@ -563,6 +572,7 @@ class InputSelect extends React.Component {
             popupAutoSize,
             maxTagTextLength,
             onDismiss,
+            filter,
         } = this.props
         const {
             value: stateValue,
@@ -576,7 +586,8 @@ class InputSelect extends React.Component {
         } = this.state
 
         const inputSelectStyle = { width: '100%', cursor: 'text', ...style }
-        const needAddFilter = !find(stateValue, item => item[labelFieldId] === input)
+        const needAddFilter = filter && !find(stateValue, item => item[labelFieldId] === input)
+
         const popUpStyle = { maxHeight: `${popUpMaxHeight}${MEASURE}` }
 
         return (
@@ -605,6 +616,7 @@ class InputSelect extends React.Component {
                             onClearClick={this.handleElementClear}
                             disabled={disabled}
                             className={`${className} ${isExpanded ? 'focus' : ''}`}
+                            onClick={this.onInputSelectGroupClick}
                         >
                             <InputContent
                                 setRef={this.setInputRef}

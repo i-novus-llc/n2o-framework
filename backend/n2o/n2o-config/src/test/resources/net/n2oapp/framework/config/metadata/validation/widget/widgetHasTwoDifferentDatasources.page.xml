@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница для проверки двух разных источников данных у виджета">
+    <datasources>
+        <datasource id="ds2"/>
+    </datasources>
+
+    <regions>
+        <form id="w1" datasource="ds2">
+            <datasource id="ds1"/>
+        </form>
+    </regions>
+</page>
+

@@ -16,11 +16,10 @@ import net.n2oapp.framework.config.metadata.validation.standard.datasource.Stand
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.*;
 import net.n2oapp.framework.config.metadata.validation.standard.invocation.JavaDataProviderValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.object.ObjectValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.page.SearchablePageValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.page.SimplePageValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.page.*;
 import net.n2oapp.framework.config.metadata.validation.standard.query.QueryValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.regions.ScrollspyValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.regions.TabsValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.*;
 
 /**
@@ -36,11 +35,13 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new TableValidator(), new PageActionValidator(), new InvokeActionValidator(), new SetValueValidator(),
                 new AlertActionValidator(), new ClearActionValidator(), new CopyActionValidator(), new PrintActionValidator(),
                 new SimplePageValidator(), new BasePageValidator(), new SearchablePageValidator(),
+                new TableValidator(), new PageActionValidator(), new InvokeActionValidator(), new StandardPageValidator(),
+                new LeftRightPageValidator(), new SimplePageValidator(), new BasePageValidator(), new SearchablePageValidator(),
                 new StandardDatasourceValidator(), new ApplicationDatasourceValidator(), new InheritedDatasourceValidator(),
-                new FieldValidator(), new LineFieldSetValidator(), new MultiFieldSetValidator(),
+                new TopLeftRightPageValidator(), new FieldValidator(), new LineFieldSetValidator(), new MultiFieldSetValidator(),
                 new JavaDataProviderValidator(), new ButtonValidator(), new SubmitActionValidator(),
                 new CustomActionValidator(), new ActionsAwareValidator(), new SwitchActionValidator(),
                 new EditListActionValidator(), new OnChangeEventValidator(), new MarkdownValidator(),
-                new ListWidgetValidator());
+                new ListWidgetValidator(), new TabsValidator(), new ScrollspyValidator());
     }
 }

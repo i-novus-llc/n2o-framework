@@ -44,7 +44,7 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
         CalendarWidgetComponent component = calendar.getComponent();
         component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.calendar.size"), Integer.class)));
         component.setHeight(source.getHeight());
-        String dateDomain = p.resolve(property("n2o.api.control.datetime.domain"), String.class);
+        String dateDomain = p.resolve(property("n2o.api.control.date_time.domain"), String.class);
         component.setDate((Date) p.resolve(source.getDefaultDate(), dateDomain));
         component.setDefaultView(source.getDefaultView() != null ?
                 source.getDefaultView().getTitle() :

@@ -1,12 +1,10 @@
 package net.n2oapp.framework.config.metadata.validation.standard.object;
 
-import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oInvocationValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
@@ -28,9 +26,9 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
 
     @Override
     public void validate(N2oObject object, SourceProcessor p) {
-        p.checkIdsUnique(object.getObjectFields(), "Поле {0} встречается более чем один раз в объекте " + object.getId());
-        p.checkIdsUnique(object.getOperations(), "Действие {0} встречается более чем один раз в объекте " + object.getId());
-        p.checkIdsUnique(object.getN2oValidations(), "Валидация {0} встречается более чем один раз в объекте " + object.getId());
+        p.checkIdsUnique(object.getObjectFields(), String.format("Поле '%s' встречается более чем один раз в объекте '%s'", "%s",  object.getId()));
+        p.checkIdsUnique(object.getOperations(), String.format("Действие '%s' встречается более чем один раз в объекте '%s'", "%s",  object.getId()));
+        p.checkIdsUnique(object.getN2oValidations(),  String.format("Валидация '%s' встречается более чем один раз в объекте '%s'", "%s",  object.getId()));
 
         if (object.getObjectFields() != null && object.getObjectFields().length != 0)
             checkForExistsReferenceObject(object.getId(), object.getObjectFields(), p);

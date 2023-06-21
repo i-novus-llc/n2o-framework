@@ -51,6 +51,10 @@
         &:hover::before {
             box-shadow: $n2o-radio-focus-box-shadow;
         }
+
+        span {
+            margin-bottom: 1px;
+        }
     }
 
     /// type = tabs

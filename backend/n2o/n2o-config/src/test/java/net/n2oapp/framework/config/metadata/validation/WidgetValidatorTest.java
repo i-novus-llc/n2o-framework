@@ -5,6 +5,7 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.ListWidgetValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -29,12 +30,25 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oAllDataPack(), new N2oPagesIOv4Pack());
-        builder.validators(new PageValidator(), new BasePageValidator(), new WidgetValidator(), new ListWidgetValidator());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
+        builder.packs(
+                new N2oPagesPack(),
+                new N2oRegionsPack(),
+                new N2oWidgetsPack(),
+                new N2oAllDataPack()
+        );
+        builder.validators(
+                new PageValidator(),
+                new StandardPageValidator(),
+                new BasePageValidator(),
+                new WidgetValidator(),
+                new ListWidgetValidator()
+        );
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank2.object.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/validation/widget/testWidgetValidator.query.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/validation/widget/testWidgetValidator.query.xml")
+        );
     }
 
     /**
@@ -45,7 +59,7 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testUniqueMenuItemsId.widget.xml"));
-        assertEquals(exception.getMessage(), "Кнопка id2 встречается более чем один раз в виджете testUniqueMenuItemsId!");
+        assertEquals("Кнопка 'id2' встречается более чем один раз в виджете 'testUniqueMenuItemsId'", exception.getMessage());
     }
 
     /**
@@ -72,7 +86,7 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testActionIdExistence.page.xml"));
-        assertEquals(exception.getMessage(), "Не задан 'id' у <action> виджета 'testActionIdExistence'");
+        assertEquals("Не задан 'id' у <action> виджета 'testActionIdExistence'", exception.getMessage());
     }
 
     /**
@@ -83,7 +97,7 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testActionIdsUnique.widget.xml"));
-        assertEquals(exception.getMessage(), "Действие test встречается более чем один раз в метаданной виджета testActionIdsUnique");
+        assertEquals("Действие 'test' встречается более чем один раз в метаданной виджета 'testActionIdsUnique'", exception.getMessage());
     }
 
     /**
@@ -94,7 +108,7 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testPageAndWidgetActionIdsUnique.page.xml"));
-        assertEquals(exception.getMessage(), "Идентификатор действия 'test' дублируется на странице и в виджете 'main'");
+        assertEquals("Идентификатор действия 'test' дублируется на странице и в виджете 'main'", exception.getMessage());
     }
 
     @Test
@@ -102,7 +116,7 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testPaginationShowLastAndCount.widget.xml"));
-        assertEquals(exception.getMessage(), "Используется некорректная комбинация атрибутов 'show-last=\"false\"' и 'show-count=\"always\"' пагинации виджета 'testPaginationShowLastAndCount'");
+        assertEquals("Используется некорректная комбинация атрибутов 'show-last=\"false\"' и 'show-count=\"always\"' пагинации виджета 'testPaginationShowLastAndCount'", exception.getMessage());
     }
 
     @Test
@@ -110,6 +124,24 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testEmptyDependency.page.xml"));
-        assertEquals(exception.getMessage(), "Зависимость виджета 'testEmptyDependency' имеет пустое тело");
+        assertEquals("Зависимость виджета 'testEmptyDependency' имеет пустое тело", exception.getMessage());
+    }
+
+    @Test
+    void widgetHasNotExistingDatasource() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/widgetHasNotExistingDatasource.page.xml")
+        );
+        assertEquals("Виджет w1 cсылается на несуществующий источник данных 'ds2'", exception.getMessage());
+    }
+
+    @Test
+    void widgetHasTwoDifferentDatasources() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/widgetHasTwoDifferentDatasources.page.xml")
+        );
+        assertEquals("Виджет 'w1' использует внутренний источник и ссылку на источник данных одновременно", exception.getMessage());
     }
 }
