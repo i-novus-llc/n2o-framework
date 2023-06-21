@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.action.*;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
-import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.PageRef;
@@ -37,6 +36,7 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -166,13 +166,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             pageContext.getDatasources().addAll(Arrays.asList(source.getDatasources()));
         }
         if (source.getToolbars() != null)
-            pageContext.setToolbars(Arrays.asList(source.getToolbars()));
+            pageContext.setToolbars(new ArrayList<>(List.of(source.getToolbars())));
         if (source.getActions() != null)
             pageContext.setActions(Arrays.stream(source.getActions())
                     .collect(Collectors.toMap(ActionBar::getId, Function.identity())));
 
-        String parentWidgetId = initWidgetId(p);
-        pageContext.setParentWidgetId(parentWidgetId);
         pageContext.setParentClientWidgetId(currentClientWidgetId);
         String localDatasourceId = getLocalDatasourceId(p);
         pageContext.setParentLocalDatasourceId(localDatasourceId);
@@ -203,7 +201,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         p.addRoute(pageContext);
 
         if (source.getToolbars() != null)
-            pageContext.setToolbars(Arrays.asList(source.getToolbars()));
+            pageContext.setToolbars(new ArrayList<>(List.of(source.getToolbars())));
 
         return pageContext;
     }
@@ -406,23 +404,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         }
     }
 
-    /**
-     * Получение виджета действия (исходный)
-     */
-    private String initWidgetId(CompileProcessor p) {
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (componentScope != null) {
-            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
-            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
-                return widgetIdAware.getWidgetId();
-            }
-        }
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null)
-            return widgetScope.getWidgetId();
-        return null;
-    }
-
     protected void validatePathAndRoute(String route, N2oParam[] pathParams, ParentRouteScope routeScope) {
         List<String> routeParams = route == null ? null : RouteUtil.getParams(route);
         if ((routeParams == null || routeParams.isEmpty()) && (pathParams == null || pathParams.length == 0)) return;
@@ -445,7 +426,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      */
     @Deprecated
     protected void initToolbarBySubmitOperation(S source, PageContext context, CompileProcessor p) {
-        if (source.getSubmitOperationId() != null || SubmitActionType.copy.equals(source.getSubmitActionType())) {
+        if (!StringUtils.isBlank(source.getSubmitOperationId()) || SubmitActionType.copy.equals(source.getSubmitActionType())) {
             N2oToolbar n2oToolbar = new N2oToolbar();
             if (context.getToolbars() == null) {
                 context.setToolbars(new ArrayList<>());
@@ -550,15 +531,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     }
 
     protected String[] getRefreshDatasourceId(S source, CompileProcessor p) {
-        if (source.getRefreshDatasourceIds() != null) return source.getRefreshDatasourceIds();
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope != null) {
-            String parentWidgetId = initWidgetId(p);
-            String datasourceId = pageScope.getWidgetIdSourceDatasourceMap().get(parentWidgetId);
-            if (datasourceId != null)
-                return new String[]{datasourceId};
-        }
-        return null;
+        if (source.getRefreshDatasourceIds() != null)
+            return source.getRefreshDatasourceIds();
+
+        String datasource = getLocalDatasourceId(p);
+        return datasource != null ? new String[]{datasource} : null;
     }
 
 }

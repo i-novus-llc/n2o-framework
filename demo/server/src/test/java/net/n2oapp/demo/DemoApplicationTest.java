@@ -30,13 +30,13 @@ public class DemoApplicationTest {
     @Test
     public void pageWelcome() {
         RestTemplate restTemplate = new RestTemplate();
-        Map<?, ?> result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/?size=10&page=1&sorting.birthday=ASC", Map.class);
+        Map<?, ?> result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/ProtoClient?size=10&page=1&sorting.birthday=ASC", Map.class);
         assertThat(result.get("list"), notNullValue());
         assertThat((Integer) ((Map<?, ?>) result.get("paging")).get("count"), greaterThan(1));
         List<Map<?, ?>> list = (List<Map<?, ?>>) result.get("list");
         assertThat(list.size(), greaterThan(0));
 
-        result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/contacts/1/list?size=10&page=1", Map.class);
+        result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/_contacts?contacts_individualId=1&page=1&size=10", Map.class);
         assertThat(result.get("list"), notNullValue());
         assertThat((Integer) ((Map<?, ?>) result.get("paging")).get("count"), greaterThan(1));
         list = (List<Map<?, ?>>) result.get("list");
@@ -46,7 +46,7 @@ public class DemoApplicationTest {
     @Test
     public void pageProto() {
         RestTemplate restTemplate = new RestTemplate();
-        Map<?, ?> result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/proto", Map.class);
+        Map<?, ?> result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/_clientsDs", Map.class);
         assertThat(result.get("list"), notNullValue());
         List<Map<?, ?>> list = (List<Map<?, ?>>) result.get("list");
         assertThat(list.size(), greaterThan(0));
@@ -56,16 +56,16 @@ public class DemoApplicationTest {
     public void create() {
         RestTemplate restTemplate = new RestTemplate();
         Map<?, ?> page = restTemplate.getForObject("http://localhost:" + port + "/n2o/page/create", Map.class);
-        assertThat(((Map) page.get("widget")).get("src"), is("FormWidget"));
+        assertThat(((Map)((List)((Map)((List)((Map) page.get("regions")).get("single")).get(0)).get("content")).get(0)).get("src"), is("FormWidget"));
     }
 
     @Test
     public void update() {
         RestTemplate restTemplate = new RestTemplate();
-        Map<?, ?> page = restTemplate.getForObject("http://localhost:" + port + "/n2o/page/clients/1/update", Map.class);
-        assertThat(((Map) page.get("widget")).get("src"), is("FormWidget"));
+        Map<?, ?> page = restTemplate.getForObject("http://localhost:" + port + "/n2o/page/clients/1/update_client", Map.class);
+        assertThat(((Map)((List)((Map)((List)((Map) page.get("regions")).get("single")).get(0)).get("content")).get(0)).get("src"), is("FormWidget"));
 
-        Map<?, ?> data = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/clients/1/update/w1", Map.class);
+        Map<?, ?> data = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/clients/1/update_client/protoClient", Map.class);
         assertThat(((List) data.get("list")).size(), is(1));
     }
 }

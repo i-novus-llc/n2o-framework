@@ -20,6 +20,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -44,7 +45,8 @@ public class ValidationDialogAT extends AutoTestBase {
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
     }
 
-   // @Test todo вернуть после фикса NNO-9458
+    @Test
+    @Disabled // todo вернуть после фикса NNO-9458
     public void testDialog() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/index.page.xml"),

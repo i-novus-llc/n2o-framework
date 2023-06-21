@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <datasources>
+        <parent-datasource id="ds2"/>
         <datasource id="modalDs"  object-id="testToolbarAccessTransformer" query-id="testQuery"/>
     </datasources>
     <toolbar>
