@@ -6,7 +6,9 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CopyActionValidator implements SourceValidator<N2oCopyAction>, SourceClassAware {
 
     @Override
@@ -19,7 +21,7 @@ public class CopyActionValidator implements SourceValidator<N2oCopyAction>, Sour
 //        if (source.getSourceDatasourceId() == null)
 //            throw new N2oMetadataValidationException("Для действия <copy> не указан источник данных для копирования 'source-datasource'");
 
-        if (source.getSourceDatasourceId() == null)
+        if (source.getSourceDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getSourceDatasourceId(), p,
                     String.format("В действии <copy> указан несуществующий источник данных для копирования '%s'", source.getSourceDatasourceId()));
 

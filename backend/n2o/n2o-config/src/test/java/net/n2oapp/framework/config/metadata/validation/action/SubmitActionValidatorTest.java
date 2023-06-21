@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -29,38 +30,34 @@ public class SubmitActionValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testMissingDatasource() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationNoDatasource.page.xml"),
-                "Атрибут 'datasource' действия <submit> ссылается на несуществующий источник данных"
-        );
+                () -> validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationNoDatasource.page.xml"));
+        assertEquals("Атрибут 'datasource' действия <submit> ссылается на несуществующий источник данных", exception.getMessage());
     }
 
     @Test
     void testMissingSubmitInDatasource() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationMissingSubmit.page.xml"),
-                "Действие <submit> использует источник данных ds1, в котором не определен submit"
-        );
+                () -> validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationMissingSubmit.page.xml"));
+        assertEquals("Действие <submit> использует источник данных ds1, в котором не определен submit", exception.getMessage());
     }
 
     @Test
     void testMissingDatasourceAttribute() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationMissingDatasource.page.xml"),
-                "Для действия <submit> не задан 'datasource'"
-        );
+                () -> validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationMissingDatasource.page.xml"));
+        assertEquals("Для действия <submit> не задан 'datasource'", exception.getMessage());
     }
 
     @Test
     void testUnsupportedDatasource() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationUnsupport.page.xml"),
-                "Действие <submit> использует источник данных ds1, который не поддерживает submit"
-        );
+                () -> validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationUnsupport.page.xml"));
+        assertEquals("Действие <submit> использует источник данных ds1, который не поддерживает submit", exception.getMessage());
     }
 
     @Test

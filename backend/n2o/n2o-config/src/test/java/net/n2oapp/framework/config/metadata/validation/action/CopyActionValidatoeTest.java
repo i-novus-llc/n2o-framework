@@ -26,10 +26,18 @@ public class CopyActionValidatoeTest extends SourceValidationTestBase {
     }
 
     @Test
-    void testNullSourceDatasource() {
+    void testSourceDatasourceExistence() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/copy/testNullSourceDatasource.page.xml"));
-        assertEquals("Для действия <copy> не указан источник данных для копирования 'source-datasource'", exception.getMessage());
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/copy/testSourceDatasourceExistence.page.xml"));
+        assertEquals("В действии <copy> указан несуществующий источник данных для копирования 'test'", exception.getMessage());
+    }
+
+    @Test
+    void testTargetDatasourceExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/copy/testTargetDatasourceExistence.page.xml"));
+        assertEquals("В действии <copy> указан несуществующий источник данных в который производится копирование 'ds'", exception.getMessage());
     }
 }
