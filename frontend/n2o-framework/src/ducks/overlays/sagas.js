@@ -30,7 +30,7 @@ export function* checkOnDirtyForm(name) {
     for (const widgetName of Object.keys(widgets)) {
         const form = yield select(makeFormByName(widgetName))
 
-        someOneDirtyForm = someOneDirtyForm || (form.prompt && form.dirty)
+        someOneDirtyForm = someOneDirtyForm || form.dirty
     }
 
     return someOneDirtyForm

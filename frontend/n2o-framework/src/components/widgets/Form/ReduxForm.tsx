@@ -78,7 +78,6 @@ const ReduxForm: FC<TReduxFormProps> & { Field: JSX.Element } = (props) => {
             formName={formName}
             datasource={datasource}
             validationKey={validationKey}
-            prompt={prompt}
         >
             {prompt && (
                 <Prompt when={dirty} message={t('defaultPromptMessage')} />
