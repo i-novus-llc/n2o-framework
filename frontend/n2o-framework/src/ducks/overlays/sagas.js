@@ -1,13 +1,12 @@
 import { takeEvery, select, put, call, fork } from 'redux-saga/effects'
-import keys from 'lodash/keys'
-import has from 'lodash/has'
 import get from 'lodash/get'
 import { LOCATION_CHANGE } from 'connected-react-router'
 
-import { makePageRoutesByIdSelector, makePageWidgetsByIdSelector } from '../pages/selectors'
+import { makePageRoutesByIdSelector } from '../pages/selectors'
+import { makeWidgetsByPageIdSelector } from '../widgets/selectors'
 import { dataRequest } from '../datasource/store'
 import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
-import { isDirtyForm } from '../form/selectors'
+import { makeFormByName } from '../form/selectors'
 
 import { CLOSE } from './constants'
 import {
@@ -25,19 +24,13 @@ import {
  */
 export function* checkOnDirtyForm(name) {
     let someOneDirtyForm = false
-    const state = yield select()
-    let widget = makePageWidgetsByIdSelector(name)(state)
 
-    if (has(widget, 'id')) {
-        widget = { [widget.id]: widget }
-    }
+    const widgets = yield select(makeWidgetsByPageIdSelector(name))
 
-    const widgetsKeys = keys(widget)
+    for (const widgetName of Object.keys(widgets)) {
+        const form = yield select(makeFormByName(widgetName))
 
-    for (let i = 0; i < widgetsKeys.length; i++) {
-        if (widget[widgetsKeys[i]].src === 'FormWidget') {
-            someOneDirtyForm = isDirtyForm(widgetsKeys[i])(state)
-        }
+        someOneDirtyForm = someOneDirtyForm || (form.prompt && form.dirty)
     }
 
     return someOneDirtyForm

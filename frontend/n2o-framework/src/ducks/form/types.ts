@@ -31,6 +31,7 @@ export type Form = {
     validationKey: ValidationsKey
     dirty: boolean
     fields: Record<string, Field>
+    prompt: boolean
 }
 
 export type FormsState = Record<string, Form>

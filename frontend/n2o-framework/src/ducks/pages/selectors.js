@@ -90,18 +90,6 @@ export const makePageMetadataByIdSelector = pageId => createSelector(
 )
 
 /**
- * Селектор-генератор для получения виджетов страницы по ID
- * @param {string} pageId
- * @return {any}
- */
-export const makePageWidgetsByIdSelector = pageId => createSelector(
-    makePageMetadataByIdSelector(pageId),
-    (metadata = {}) => (has(metadata, 'widget')
-        ? metadata.widget
-        : get(findDeep(metadata, 'src', 'FormWidget'), '[0]')),
-)
-
-/**
  * Селектор-генератор для получения статуса загрузки по ID
  * @param {string} pageId
  * @return {Object.<string, any> | undefined}

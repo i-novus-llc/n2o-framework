@@ -28,11 +28,12 @@ type TFormProvider = {
     datasource: string,
     prefix: ModelPrefix,
     validationKey?: ValidationsKey,
+    prompt?: boolean,
 }
 
 const FormContext = createContext<TFormContext | null>(null)
 
-const FormProvider: FC<TFormProvider> = ({ children, formName, datasource, prefix, validationKey }) => {
+const FormProvider: FC<TFormProvider> = ({ children, formName, datasource, prefix, validationKey, prompt }) => {
     const dispatch = useDispatch()
     const { getState } = useStore()
 
@@ -64,12 +65,13 @@ const FormProvider: FC<TFormProvider> = ({ children, formName, datasource, prefi
             datasource,
             modelPrefix: prefix,
             validationKey: validationKey || ValidationsKey.Validations,
+            prompt, // TODO вынести из формы в виджет/страницу/модалку
         }))
 
         return () => {
             dispatch(remove(formName))
         }
-    }, [datasource, dispatch, formName, prefix, validationKey])
+    }, [datasource, dispatch, formName, prefix, validationKey, prompt])
 
     return (
         <FormContext.Provider value={{
