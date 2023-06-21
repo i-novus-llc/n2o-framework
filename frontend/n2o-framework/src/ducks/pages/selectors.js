@@ -1,8 +1,4 @@
 import { createSelector } from '@reduxjs/toolkit'
-import has from 'lodash/has'
-import get from 'lodash/get'
-
-import { findDeep } from '../../utils/findDeep'
 
 /*
  Базовые селекторы
