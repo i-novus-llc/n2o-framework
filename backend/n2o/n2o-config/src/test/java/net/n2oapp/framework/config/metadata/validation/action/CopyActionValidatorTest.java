@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class CopyActionValidatoeTest extends SourceValidationTestBase {
+public class CopyActionValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach
@@ -30,7 +30,7 @@ public class CopyActionValidatoeTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/copy/testSourceDatasourceExistence.page.xml"));
-        assertEquals("В действии <copy> указан несуществующий источник данных для копирования 'test'", exception.getMessage());
+        assertEquals("В действии <copy> указан несуществующий источник данных 'source-datasource = test'", exception.getMessage());
     }
 
     @Test
@@ -38,6 +38,6 @@ public class CopyActionValidatoeTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/copy/testTargetDatasourceExistence.page.xml"));
-        assertEquals("В действии <copy> указан несуществующий источник данных в который производится копирование 'ds'", exception.getMessage());
+        assertEquals("В действии <copy> указан несуществующий источник данных 'target-datasource = ds'", exception.getMessage());
     }
 }
