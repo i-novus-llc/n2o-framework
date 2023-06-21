@@ -9,6 +9,9 @@
     <list>
         <test file="net/n2oapp/framework/engine/processor/query/testQueryProcessorUnique.json"/>
     </list>
+    <list filters="exception">
+        <test file="net/n2oapp/framework/engine/processor/query/testQueryProcessorUnique.json"/>
+    </list>
     <fields>
         <field id="id">
             <select>id</select>
@@ -26,6 +29,12 @@
             <select>type</select>
             <filters>
                 <eq filter-id="type">type:eq:type</eq>
+            </filters>
+        </field>
+        <field id="exception">
+            <select>exception</select>
+            <filters>
+                <eq filter-id="exception">exception:eq:exception</eq>
             </filters>
         </field>
     </fields>

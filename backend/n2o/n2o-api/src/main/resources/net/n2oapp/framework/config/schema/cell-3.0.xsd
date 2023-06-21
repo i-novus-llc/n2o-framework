@@ -253,17 +253,17 @@
                         <xs:documentation>Цвет индикатора.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="active" type="xs:boolean" use="optional">
+                <xs:attribute name="active" type="xs:boolean" use="optional" default="false">
                     <xs:annotation>
                         <xs:documentation>С анимацией загрузки</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="size" type="sizeType" use="optional">
+                <xs:attribute name="size" type="sizeType" use="optional" default="normal">
                     <xs:annotation>
                         <xs:documentation>Размер индикатора прогресса</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="striped" type="xs:boolean" use="optional">
+                <xs:attribute name="striped" type="xs:boolean" use="optional" default="false">
                     <xs:annotation>
                         <xs:documentation>С полосками</xs:documentation>
                     </xs:annotation>

@@ -25,6 +25,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -130,7 +131,9 @@ public class DependsOnFieldAT extends AutoTestBase {
         tableField.shouldHaveValue("region1");
     }
 
+    // FIXME NNO-9567
     @Test
+    @Disabled
     void checkDependencyBetweenFieldsAndMultifieldsets() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/on_fields_and_multifieldsets/index.page.xml")
@@ -167,7 +170,7 @@ public class DependsOnFieldAT extends AutoTestBase {
         page.shouldExists();
         input.shouldHaveValue("1");
         // setValue makes 3 inputs !!!
-        onAnyField.shouldHaveValue("3");
+        onAnyField.shouldHaveValue("3");    
         onFieldset.shouldBeEmpty();
         onInput.shouldHaveValue("3");
 

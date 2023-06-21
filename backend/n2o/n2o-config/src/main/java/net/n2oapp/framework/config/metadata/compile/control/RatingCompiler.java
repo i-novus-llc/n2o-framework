@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.meta.control.Rating;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Компиляция поля для ввода и отображения рейтинга
  */
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class RatingCompiler extends StandardFieldCompiler<Rating, N2oRating> {
     @Override
     protected String getControlSrcProperty() {
-        return "n2o.api.control.input.rating.src";
+        return "n2o.api.control.rating.src";
     }
 
     @Override
@@ -26,8 +28,10 @@ public class RatingCompiler extends StandardFieldCompiler<Rating, N2oRating> {
     @Override
     public StandardField<Rating> compile(N2oRating source, CompileContext<?, ?> context, CompileProcessor p) {
         Rating rating = new Rating();
-        rating.setHalf(source.getHalf());
-        rating.setMax(source.getMax());
+        rating.setMax(p.cast(source.getMax(),
+                p.resolve(property("n2o.api.control.rating.max"), Integer.class)));
+        rating.setHalf(p.cast(source.getHalf(),
+                p.resolve(property("n2o.api.control.rating.half"), Boolean.class)));
         rating.setShowTooltip(source.getShowTooltip());
 
         return compileStandardField(rating, source, context, p);

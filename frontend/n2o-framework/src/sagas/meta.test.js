@@ -6,7 +6,6 @@ import { GLOBAL_KEY } from '../ducks/alerts/constants'
 import {
     alertEffect,
     redirectEffect,
-    clearFormEffect,
 } from './meta'
 
 const setupAlertEffect = () => {
@@ -81,26 +80,6 @@ const setupAlertEffect = () => {
 }
 
 describe('Сага для перехвата меты, сайд-эффектов из меты', () => {
-    // TODO: Починить тест, как только починится сага clearFormEffect
-    // describe('Проверка саги clearFormEffect', () => {
-    //     it('должен вызывать экшен сброса формы', () => {
-    //         const gen = clearFormEffect({
-    //             meta: {
-    //                 clearForm: 'testForm',
-    //             },
-    //         })
-    //
-    //         const value = gen.next()
-    //         expect(value.value.type).toBe('PUT')
-    //         expect(value.value.payload.action).toEqual({
-    //             type: 'n2o/models/RESET_FORM',
-    //             meta: {
-    //                 form: 'testForm',
-    //             },
-    //         })
-    //         expect(gen.next().done).toBeTruthy()
-    //     })
-    // })
     describe('Проверка саги redirectEffect', () => {
         it('должен вызвать push', async () => {
             const dispatched = []

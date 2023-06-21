@@ -32,17 +32,18 @@ public interface DropDownTree extends Component {
     void setValue(String value);
 
     /**
+     * Проверка наличия внутреннего элемента по метке
+     * @param label метка для поиска
+     */
+    void shouldHaveOption(String label);
+
+
+    /**
      * Очистка поля поиска
      */
     void clear();
 
     interface DropDownTreeItem extends Expandable, Component, DropDown.DropDownItem {
-
-        /**
-         * Проверка наличия внутреннего элемента по метке
-         * @param label метка для поиска
-         */
-        void shouldHaveOption(String label);
 
         @Override
         default void shouldHaveDescription(String description) {

@@ -1,49 +1,54 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
-    <form>
-        <actions>
-            <action id="act1">
-                <a href="http://ya.ru"/>
-            </action>
-        </actions>
-        <fields>
-            <hidden id="url" default-value="https://example.com"/>
-            <button id="btn1" badge="{badge}" badge-color="{color}" label="delete"
-                    color="danger" icon="fa fa-trash" type="text">
-                <a href="test2/:param1/:param2?param3=:param3" target="application">
-                    <path-param name="param1" value="{field1}"/>
-                    <path-param name="param2" value="1"/>
-                    <query-param name="param3" value="{field3}"/>
-                </a>
-            </button>
-            <button id="btn2" action-id="act1" label="edit" icon="fa fa-pencil" type="icon"/>
-            <button id="btn3" label="load" icon="fa fa-download"/>
-            <button id="btn4">
-                <show-modal page-id="test" route="/test2/:param1/:param2?param3=:param3">
-                    <params>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds"/>
+    </datasources>
+    <regions>
+        <form id="main">
+            <actions>
+                <action id="act1">
+                    <a href="http://ya.ru"/>
+                </action>
+            </actions>
+            <fields>
+                <hidden id="url" default-value="https://example.com"/>
+                <button id="btn1" badge="{badge}" badge-color="{color}" label="delete"
+                        color="danger" icon="fa fa-trash" type="text" datasource="ds">
+                    <a href="test2/:param1/:param2?param3=:param3" target="application">
                         <path-param name="param1" value="{field1}"/>
                         <path-param name="param2" value="1"/>
                         <query-param name="param3" value="{field3}"/>
-                    </params>
-                </show-modal>
-            </button>
-            <button id="btn5">
-                <a href="{url}"/>
-            </button>
-            <button id="btn6" confirm="true"/>
-            <button id="btn7"
-                    confirm="{test === '1'|| test === '2'}"
-                    confirm-text="Зарегистрировать заявление?"
-                    confirm-ok-label="Зарегистрировать"
-                    confirm-ok-color="dark"
-                    confirm-cancel-label="Отмена"
-                    confirm-cancel-color="light"
-            />
-            <button
-                    id="btn8"
-                    description="{description}">
-            </button>
-            <hidden id="description" default-value="test"/>
-        </fields>
-    </form>
-</simple-page>
+                    </a>
+                </button>
+                <button id="btn2" action-id="act1" label="edit" icon="fa fa-pencil" type="icon"/>
+                <button id="btn3" label="load" icon="fa fa-download"/>
+                <button id="btn4">
+                    <show-modal page-id="test" route="/test2/:param1/:param2?param3=:param3">
+                        <params>
+                            <path-param name="param1" value="{field1}"/>
+                            <path-param name="param2" value="1"/>
+                            <query-param name="param3" value="{field3}"/>
+                        </params>
+                    </show-modal>
+                </button>
+                <button id="btn5">
+                    <a href="{url}"/>
+                </button>
+                <button id="btn6" confirm="true"/>
+                <button id="btn7"
+                        confirm="{test === '1'|| test === '2'}"
+                        confirm-text="Зарегистрировать заявление?"
+                        confirm-ok-label="Зарегистрировать"
+                        confirm-ok-color="dark"
+                        confirm-cancel-label="Отмена"
+                        confirm-cancel-color="light"
+                />
+                <button
+                        id="btn8"
+                        description="{description}">
+                </button>
+                <hidden id="description" default-value="test"/>
+            </fields>
+        </form>
+    </regions>
+</page>

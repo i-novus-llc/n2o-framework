@@ -1,6 +1,18 @@
-.code-viewer-body {
-    max-height: 400px;
+.code-viewer-body,
+.code-viewer-body-container {
     overflow-y: auto;
+}
+
+.code-viewer-body {
+    margin: 0 !important;
+}
+
+.n2o-code-viewer {
+    width: 100%;
+
+    pre {
+        overflow: auto !important;
+    }
 }
 
 .code-viewer-actions {
@@ -26,8 +38,4 @@
         opacity: 1;
         transition: opacity 0.3s;
     }
-}
-
-.n2o-code-viewer {
-    width: 100%;
 }

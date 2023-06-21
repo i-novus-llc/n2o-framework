@@ -35,7 +35,7 @@
     <operations>
         <operation id="op" name="name" submit-label="f" description="description" success-text="test" fail-text="test"
                    confirm-text="test" success-title="test" fail-title="test">
-            <invocation result-mapping="['data']">
+            <invocation result-mapping="['data']" result-normalize="#{ T(java.lang.Math).random() * 100.0 }">
                 <sql>select 1</sql>
             </invocation>
             <in>
@@ -98,7 +98,7 @@
             <out>
                 <field id="out" mapping="out"/>
             </out>
-            <invocation>
+            <invocation result-mapping="#this?:T(java.util.Map).of('year', T(java.time.Year).now().getValue())">
                 <sql>select 1</sql>
             </invocation>
         </constraint>

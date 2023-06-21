@@ -63,7 +63,8 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         header.setId(source.getId());
         header.setIcon(source.getLabelIcon());
         header.setWidth(source.getWidth());
-        header.setResizable(source.getResizable());
+        header.setResizable(p.cast(source.getResizable(),
+                p.resolve(property("n2o.api.widget.table.column.resizable"), Boolean.class)));
         header.setFixed(source.getFixed());
         header.setAlignment(source.getAlignment());
 

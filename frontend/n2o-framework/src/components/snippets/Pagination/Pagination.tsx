@@ -7,6 +7,7 @@ import {
     TOTAL,
     TOTAL_TITLE,
     PAGE_LINK_CLASS,
+    COUNT_NEVER,
     IPagination,
 } from './constants'
 import { usePagination, getTotalPages } from './usePagination'
@@ -66,6 +67,10 @@ export function Pagination(props: IPagination) {
 
     const multiplePages = pages.length > 1
     const pagesVisible = showSinglePage ? pages.length > 0 : multiplePages
+
+    if (!pagesVisible && showCount === COUNT_NEVER) {
+        return null
+    }
 
     return (
         <section className={classNames('pagination-container d-inline-flex', className)}>
