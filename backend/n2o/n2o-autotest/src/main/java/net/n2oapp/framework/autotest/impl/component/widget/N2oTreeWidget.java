@@ -14,6 +14,11 @@ public class N2oTreeWidget extends N2oStandardWidget implements TreeWidget {
     }
 
     @Override
+    public void shouldHaveItem(String label) {
+        element().$$(treeItem).find(Condition.text(label)).shouldBe(Condition.exist);
+    }
+
+    @Override
     public void shouldHaveItems(int size) {
         element().$$(treeItem).shouldHaveSize(size);
     }
@@ -24,10 +29,6 @@ public class N2oTreeWidget extends N2oStandardWidget implements TreeWidget {
             setElement(element);
         }
 
-        @Override
-        public void shouldHaveItem(String label) {
-            element().$$(treeItem).find(Condition.text(label)).shouldBe(Condition.exist);
-        }
 
         @Override
         public void expand() {
