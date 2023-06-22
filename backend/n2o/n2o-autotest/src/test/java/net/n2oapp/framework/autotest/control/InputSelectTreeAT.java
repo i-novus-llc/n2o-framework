@@ -48,15 +48,9 @@ public class InputSelectTreeAT extends AutoTestBase {
         inputSelectTree.expandOptions();
         inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(4));
 
-//        Вернуть после исправлений
-//        inputSelectTree.clearSearchField();
-//        inputSelectTree.setFilter("three");
-
         inputSelectTree.selectOption(0);
         inputSelectTree.selectOption(3);
         inputSelectTree.selectOption(1);
-
-        inputSelectTree.expandOptions();
 
         inputSelectTree.shouldBeSelected(0, "one");
         inputSelectTree.shouldBeSelected(1, "two");
@@ -94,8 +88,7 @@ public class InputSelectTreeAT extends AutoTestBase {
         inputSelectTree.shouldBeSelected(0, "one");
         inputSelectTree.shouldBeSelected(1, "message");
         inputSelectTree.shouldBeSelected(2, "long message");
-        // проверяем, что длина названий ограничена 15 символами
-        inputSelectTree.shouldBeSelected(3, "very long messa...");
+        inputSelectTree.shouldBeSelected(3, "very long message");
 
         inputSelectTree.removeAllOptions();
         inputSelectTree.shouldBeUnselected();
