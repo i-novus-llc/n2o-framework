@@ -18,7 +18,8 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ScriptProcessorTest {
@@ -80,11 +81,20 @@ public class ScriptProcessorTest {
 
     @Test
     public void testResolveFunction() {
-        assertThat(ScriptProcessor.resolveFunction("if (gender.id = 1) return 'М'; else return 'Ж';"), is("(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"));
-        assertThat(ScriptProcessor.resolveFunction("gender.id == 1"), is("gender.id == 1"));
-        assertThat(ScriptProcessor.resolveFunction("function(){if (gender.id = 1) return 'М'; else return 'Ж';}"), is("(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"));
-        assertThat(ScriptProcessor.resolveFunction("(function(){ '123'; })()"), is("(function(){ '123'; })()"));
-        assertThat(ScriptProcessor.resolveFunction(ScriptProcessor.resolveFunction("gender.id == 1")), is("gender.id == 1"));
+        assertThat(ScriptProcessor.resolveFunction("if (gender.id = 1) return 'М'; else return 'Ж';"),
+                is("(function(){if (gender.id = 1) return 'М'; else return 'Ж';}).call(this)"));
+        assertThat(ScriptProcessor.resolveFunction("gender.id == 1"),
+                is("gender.id == 1"));
+        assertThat(ScriptProcessor.resolveFunction("function(){if (gender.id = 1) return 'М'; else return 'Ж';}"),
+                is("(function(){if (gender.id = 1) return 'М'; else return 'Ж';}).call(this)"));
+        assertThat(ScriptProcessor.resolveFunction("function () {function helper() \n { return Math.random(); } const a = helper() return a;}"),
+                is("(function () {function helper() \n { return Math.random(); } const a = helper() return a;}).call(this)"));
+        assertThat(ScriptProcessor.resolveFunction("(function(){ '123'; })()"),
+                is("(function(){ '123'; })()"));
+        assertThat(ScriptProcessor.resolveFunction(ScriptProcessor.resolveFunction("gender.id == 1")),
+                is("gender.id == 1"));
+        assertThat(ScriptProcessor.resolveFunction("function helper() {return Math.random();} const a = helper() return a;"),
+                is("(function(){function helper() {return Math.random();} const a = helper() return a;}).call(this)"));
     }
 
     @Test
