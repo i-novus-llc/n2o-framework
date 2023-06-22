@@ -230,7 +230,6 @@ function InputSelectTree(props) {
      */
     const handleSelect = useCallback((value) => {
         onSelect(getItemByValue(data, value, multiSelect, valueFieldId))
-        onBlur()
     }, [data, multiSelect, onSelect, valueFieldId])
 
     /**
