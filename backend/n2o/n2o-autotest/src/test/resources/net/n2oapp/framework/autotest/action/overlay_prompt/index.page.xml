@@ -18,12 +18,12 @@
                 </show-modal>
             </button>
             <button label="Дровер с подтверждением">
-                <open-drawer page-id="page"  route="/:id/drawer">
+                <open-drawer page-id="page" route="/:id/drawer">
                     <path-param name="id" value="{id}"/>
                 </open-drawer>
             </button>
             <button label="Дровер без подтверждения">
-                <open-drawer page-id="page"  unsaved-data-prompt-on-close="false" route="/:id/drawer2">
+                <open-drawer page-id="page" unsaved-data-prompt-on-close="false" route="/:id/drawer2">
                     <path-param name="id" value="{id}"/>
                 </open-drawer>
             </button>
