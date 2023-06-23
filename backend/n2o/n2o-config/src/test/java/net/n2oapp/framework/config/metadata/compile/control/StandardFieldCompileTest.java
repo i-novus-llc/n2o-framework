@@ -99,7 +99,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(7).getType(), is(ValidationType.reset));
 
         assertThat(field.getDependencies().get(8).getOn().get(0), is("test8"));
-        assertThat(field.getDependencies().get(8).getExpression(), is("(function(){if (test8 == 1) return \"Test\";})()"));
+        assertThat(field.getDependencies().get(8).getExpression(), is("(function(){if (test8 == 1) return \"Test\";}).call(this)"));
         assertThat(field.getDependencies().get(8).getType(), is(ValidationType.setValue));
 
         assertThat(field.getDependencies().get(9).getOn().get(0), is("test9"));
