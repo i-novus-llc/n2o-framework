@@ -316,20 +316,6 @@ public abstract class StringUtils {
     }
 
     /**
-     * Убирает переводы на новую строку, пробелы в начале и в конце
-     * @param str Строка
-     * @return Строка без начальных и конечныъх переводов на новую строку и пробелов
-     */
-    public static String simplify(String str) {
-        if (str == null || str.isEmpty())
-            return str;
-        String result = str.trim();
-        result = org.springframework.util.StringUtils.trimLeadingCharacter(result, '\n');
-        result = org.springframework.util.StringUtils.trimTrailingCharacter(result, '\n');
-        return result.trim();
-    }
-
-    /**
      * Проверка, что текст содержит шаблон поиска
      *
      * @param str Строка
