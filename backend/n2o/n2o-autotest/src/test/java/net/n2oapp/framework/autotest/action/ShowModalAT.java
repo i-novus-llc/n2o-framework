@@ -203,7 +203,6 @@ public class ShowModalAT extends AutoTestBase {
         inputText.shouldHaveValue("test");
         saveButton.shouldBeEnabled();
         modalPage.close();
-        Selenide.confirm();
         modalPage.shouldNotExists();
 
         // при повторном открытии модальной страницы кнопки в тулбаре должны быть заблокированы
