@@ -1,14 +1,14 @@
-import React, { FC, useCallback, useEffect, useMemo } from 'react'
-import { createContext } from 'use-context-selector'
+import React, { FC, useCallback, useEffect, useMemo, createContext } from 'react'
 import get from 'lodash/get'
 import { useDispatch, useStore } from 'react-redux'
 
 import { ModelPrefix } from '../../../../core/datasource/const'
-import { setModel, updateModel } from '../../../../ducks/models/store'
+import { updateModel } from '../../../../ducks/models/store'
 // @ts-ignore ignore import error from js file
-import { handleBlur, handleFocus, setDirty } from '../../../../ducks/form/store'
+import { handleBlur, handleFocus, register, remove } from '../../../../ducks/form/store'
 import { TGetValues, TSetBlur, TSetFocus, TSetValue } from '../types'
 import { getModelFieldByPath } from '../../../../ducks/models/selectors'
+import { ValidationsKey } from '../../../../core/validation/IValidation'
 
 type TMethods = {
     setValue: TSetValue
@@ -18,65 +18,66 @@ type TMethods = {
 
 type TFormContext = {
     getValues: TGetValues
-    name: string
+    formName: string
     prefix: ModelPrefix
+    datasource: string
 } & TMethods
 
 type TFormProvider = {
-    name: string,
-    prefix: ModelPrefix
-    initialValues?: object
+    formName: string,
+    datasource: string,
+    prefix: ModelPrefix,
+    validationKey?: ValidationsKey,
 }
 
 const FormContext = createContext<TFormContext | null>(null)
 
-const FormProvider: FC<TFormProvider> = ({ children, name, prefix, initialValues }) => {
+const FormProvider: FC<TFormProvider> = ({ children, formName, datasource, prefix, validationKey }) => {
     const dispatch = useDispatch()
     const { getState } = useStore()
 
     const getValues = useCallback<TGetValues>((fieldName) => {
         const state = getState()
-        const models = getModelFieldByPath(`${prefix}.${name}`)(state)
+        const models = getModelFieldByPath(`${prefix}.${datasource}`)(state)
 
         if (Array.isArray(fieldName)) {
             return get(models, fieldName.map(name => name))
         }
 
         return get(models, fieldName)
-    }, [getState, name, prefix])
+    }, [getState, datasource, prefix])
 
     const methods = useMemo<TMethods>(() => ({
         setValue: (fieldName, value) => {
-            dispatch(updateModel(prefix, name, fieldName, value))
+            dispatch(updateModel(prefix, datasource, fieldName, value))
         },
         setFocus: (fieldName) => {
-            dispatch(handleFocus(prefix, name, fieldName))
+            dispatch(handleFocus(formName, fieldName))
         },
         setBlur: (fieldName) => {
-            dispatch(handleBlur(prefix, name, fieldName))
+            dispatch(handleBlur(formName, fieldName))
         },
-    }), [dispatch, prefix, name])
-
-    const remove = useCallback(() => {
-        dispatch(setDirty(name, false))
-    }, [dispatch, name])
+    }), [dispatch, prefix, formName, datasource])
 
     useEffect(() => {
-        dispatch(setModel(prefix, name, initialValues))
+        dispatch(register(formName, {
+            datasource,
+            modelPrefix: prefix,
+            validationKey: validationKey || ValidationsKey.Validations,
+        }))
 
-        if (prefix === ModelPrefix.edit) {
-            dispatch(setModel(ModelPrefix.active, name, initialValues))
+        return () => {
+            dispatch(remove(formName))
         }
-    }, [initialValues, dispatch, prefix, name])
-
-    useEffect(() => remove, [remove])
+    }, [datasource, dispatch, formName, prefix, validationKey])
 
     return (
         <FormContext.Provider value={{
             ...methods,
             getValues,
-            name,
+            formName,
             prefix,
+            datasource,
         }}
         >
             {children}

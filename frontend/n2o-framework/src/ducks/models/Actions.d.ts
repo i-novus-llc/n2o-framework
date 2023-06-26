@@ -42,8 +42,8 @@ export type MergeModelAction = PayloadAction<{
 }>
 
 export type CopyAction = PayloadAction<{
-    source: ModelsPayload
-    target: ModelsPayload
+    source: FieldPath
+    target: FieldPath
     mode: 'replace' | 'merge' | 'add'
     sourceMapper?: string
 }>

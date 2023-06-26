@@ -1,8 +1,4 @@
 import { createSelector } from '@reduxjs/toolkit'
-import has from 'lodash/has'
-import get from 'lodash/get'
-
-import { findDeep } from '../../utils/findDeep'
 
 /*
  Базовые селекторы
@@ -87,18 +83,6 @@ export const makePageSpinnerByIdSelected = pageId => createSelector(
 export const makePageMetadataByIdSelector = pageId => createSelector(
     makePageByIdSelector(pageId),
     pageState => pageState && pageState.metadata,
-)
-
-/**
- * Селектор-генератор для получения виджетов страницы по ID
- * @param {string} pageId
- * @return {any}
- */
-export const makePageWidgetsByIdSelector = pageId => createSelector(
-    makePageMetadataByIdSelector(pageId),
-    (metadata = {}) => (has(metadata, 'widget')
-        ? metadata.widget
-        : get(findDeep(metadata, 'src', 'FormWidget'), '[0]')),
 )
 
 /**
