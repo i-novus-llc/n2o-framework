@@ -23,7 +23,7 @@ public class ChartCompiler extends BaseWidgetCompiler<Chart, N2oChart> {
     public Chart compile(N2oChart source, CompileContext<?, ?> context, CompileProcessor p) {
         Chart chart = new Chart();
         compileBaseWidget(chart, source, context, p);
-        N2oAbstractDatasource datasource = initDatasource(chart, source, p);
+        N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
 

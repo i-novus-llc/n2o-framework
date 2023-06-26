@@ -132,7 +132,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getFiltersDatasourceId(), is("testTable5Compile_filtersDs"));
 
         Dependency enabled = table.getDependency().getEnabled().get(0);
-        assertThat(enabled.getOn(), is("models.filter['testTable5Compile_filtersDs']"));
+        assertThat(enabled.getOn(), is("models.filter['testTable5Compile_w1']"));
         assertThat(enabled.getCondition(), is("name == 'test2'"));
         Dependency visible = table.getDependency().getVisible().get(0);
         assertThat(visible.getOn(), is("models.filter['testTable5Compile_filtersDs']"));
