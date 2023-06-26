@@ -11,6 +11,8 @@ import classNames from 'classnames'
 import { IItem } from '../../../../utils'
 import { Link } from '../Links/Link'
 import { LinkBody } from '../Links/LinkBody'
+import { ITEM_TYPE } from '../../../../constants'
+import { Action } from '../../../../Action/Action'
 
 interface IDropdown {
     items: IItem[]
@@ -65,7 +67,11 @@ export function Dropdown(props: IDropdown) {
             </DropdownToggle>
             <DropdownMenu flip className={classNames(`menu-level-${level}`, { nested })}>
                 {items.map((item) => {
-                    const { items: nestedItems, title } = item
+                    const { items: nestedItems, title, type } = item
+
+                    if (type === ITEM_TYPE.ACTION) {
+                        return <Action item={item} from="HEADER" className="dropdown-item" />
+                    }
 
                     if (nestedItems) {
                         const onItemClick = () => {
