@@ -6,13 +6,12 @@ import isEmpty from 'lodash/isEmpty'
 
 import { getFromSource } from '../utils'
 import { id as generateId } from '../../utils/id'
+import { Action } from '../Action/Action'
+import { OUTER_LINK_TYPE, ITEM_TYPE } from '../constants'
 
 import SidebarDropdown from './SidebarDropdown'
-import { ItemType } from './utils'
 import { OuterLink } from './OuterLink'
 import { InnerLink } from './InnerLink'
-
-const OUTER_LINK_TYPE = 'outer'
 
 /**
  * Sidebar Item
@@ -36,24 +35,41 @@ export function SidebarItemContainer({
     showContent,
     isMiniView,
     isStaticView,
-    level = 1,
     datasources,
     datasource,
     models,
+    level = 1,
 }) {
     const item = getFromSource(itemProps, datasources, datasource, models)
     const { type, linkType, items = [] } = item
 
-    const renderLink = item => (linkType === OUTER_LINK_TYPE
-        ? (
-            <OuterLink
-                sidebarOpen={sidebarOpen}
-                isMiniView={isMiniView}
-                item={item}
-                {...item}
-            />
-        )
-        : (
+    const renderAction = item => (
+        <Action
+            item={item}
+            className="n2o-sidebar__item"
+            sidebarOpen={sidebarOpen}
+            showContent={showContent}
+            isStaticView={isStaticView}
+            isMiniView={isMiniView}
+            from="SIDEBAR"
+        />
+    )
+
+    const renderLink = (item) => {
+        if (linkType === OUTER_LINK_TYPE) {
+            return (
+                <OuterLink
+                    sidebarOpen={sidebarOpen}
+                    isMiniView={isMiniView}
+                    item={item}
+                    isStaticView={isStaticView}
+                    showContent={showContent}
+                    {...item}
+                />
+            )
+        }
+
+        return (
             <InnerLink
                 sidebarOpen={sidebarOpen}
                 isMiniView={isMiniView}
@@ -62,7 +78,8 @@ export function SidebarItemContainer({
                 showContent={showContent}
                 {...item}
             />
-        ))
+        )
+    }
 
     const renderDropdown = () => {
         const dropdownId = generateId()
@@ -115,17 +132,32 @@ export function SidebarItemContainer({
                 </SidebarDropdown>
             </>
         )
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
+
+    const renderItem = (type) => {
+        if (type === ITEM_TYPE.ACTION) {
+            return renderAction(item)
+        }
+
+        if (type === ITEM_TYPE.LINK) {
+            return renderLink(item)
+        }
+
+        return renderDropdown()
     }
 
     return (
-        <div
-            className={classNames(className, {
-                'n2o-sidebar__item--dropdown': type === ItemType.DROPDOWN,
-            })}
+        <li
+            className={classNames(
+                'n2o-sidebar__item-wrapper',
+                className,
+                {
+                    'n2o-sidebar__item--dropdown': type === ITEM_TYPE.DROPDOWN,
+                },
+            )}
         >
-            {type === ItemType.LINK ? renderLink(item) : renderDropdown()}
-        </div>
+            {renderItem(type)}
+        </li>
     )
 }
 SidebarItemContainer.propTypes = {

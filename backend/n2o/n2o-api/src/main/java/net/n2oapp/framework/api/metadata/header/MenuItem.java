@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ public class MenuItem implements Compiled, PropertiesAware {
     @Deprecated
     private String pageId;
     private Map<String, Object> properties;
+    @JsonProperty
+    private Action action;
 
     @JsonAnyGetter
     public Map<String, Object> getJsonProperties() {

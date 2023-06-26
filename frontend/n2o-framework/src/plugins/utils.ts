@@ -1,6 +1,7 @@
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import merge from 'lodash/merge'
+import { Action as ReduxAction } from 'redux'
 
 // @ts-ignore ignore import error from js file
 import { dataProviderResolver } from '../core/dataProviderResolver'
@@ -14,6 +15,7 @@ export type metaPropsType = {[key: string]: unknown}
 export interface IItem {
     target: string
     href: string
+    id: string
     linkType: 'outer' | 'inner'
     imageSrc?: string
     icon?: string
@@ -23,6 +25,8 @@ export interface IItem {
     items?: IItem[]
     pathMapping?: metaPropsType
     queryMapping?: metaPropsType
+    type: string
+    action: ReduxAction
 }
 
 export const getFromSource = (
