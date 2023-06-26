@@ -69,7 +69,7 @@ public class TableSettingsGeneratorUtil {
         N2oCustomAction wordWrapAction = new N2oCustomAction();
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        Map<String, String> payload = Collections.singletonMap("widgetId", widgetScope.getClientWidgetId());
+        Map<String, String> payload = Collections.singletonMap("id", widgetScope.getClientWidgetId());
 
         wordWrapButton.setSrc(p.resolve(property("n2o.api.generate.button.wordwrap.action.src"), String.class));
         wordWrapAction.setType(p.resolve(property("n2o.api.generate.button.wordwrap.action.type"), String.class));
