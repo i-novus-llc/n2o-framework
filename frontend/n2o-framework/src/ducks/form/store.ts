@@ -386,7 +386,7 @@ const formSlice = createSlice({
 
                 for (; i < start + deleteCount; i += 1) {
                     // eslint-disable-next-line no-loop-func
-                    groupedFields[i].forEach((fieldName) => {
+                    groupedFields[i]?.forEach((fieldName) => {
                         const sourceKey = `${field}[${i}].${fieldName}`
 
                         delete form.fields[sourceKey]
@@ -395,7 +395,7 @@ const formSlice = createSlice({
 
                 for (; i < groupedFields.length; i += 1) {
                     // eslint-disable-next-line no-loop-func
-                    groupedFields[i].forEach((fieldName) => {
+                    groupedFields[i]?.forEach((fieldName) => {
                         const newIndex = i - deleteCount
                         const sourceKey = `${field}[${i}].${fieldName}`
                         const destKey = `${field}[${newIndex}].${fieldName}`
