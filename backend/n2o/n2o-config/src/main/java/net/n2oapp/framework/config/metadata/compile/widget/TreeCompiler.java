@@ -34,7 +34,7 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
     public Tree compile(N2oTree source, CompileContext<?, ?> context, CompileProcessor p) {
         Tree tree = new Tree();
         compileBaseWidget(tree, source, context, p);
-        N2oAbstractDatasource datasource = initDatasource(tree, source, p);
+        N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
