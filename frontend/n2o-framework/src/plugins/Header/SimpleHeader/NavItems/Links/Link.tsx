@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 
 import { LinkTarget } from '../../../../../constants/linkTarget'
 import { IItem } from '../../../../utils'
@@ -8,27 +9,37 @@ import { LinkBody } from './LinkBody'
 import { InnerLink } from './InnerLink'
 
 interface ILink {
-    item: IItem
-    className?: string
     active: boolean
+    className?: string
+    item: IItem
 }
 
 export function Link(props: ILink) {
-    const { item, className, active } = props
+    const {
+        active,
+        className: linkClassName,
+        item,
+    } = props
 
-    const { target: propsTarget, href, linkType } = item
+    const {
+        className: itemClassName,
+        href,
+        linkType,
+        target: propsTarget,
+    } = item
+
     const target = propsTarget === LinkTarget.Application ? LinkTarget.Self : propsTarget
 
     if (linkType === 'outer') {
         return (
-            <OuterLink className={className} href={href} target={target}>
+            <OuterLink className={classNames(linkClassName, itemClassName)} href={href} target={target}>
                 <LinkBody {...item} />
             </OuterLink>
         )
     }
 
     return (
-        <InnerLink className={className} active={active} href={href} target={target}>
+        <InnerLink className={classNames(linkClassName, itemClassName)} active={active} href={href} target={target}>
             <LinkBody {...item} />
         </InnerLink>
     )
