@@ -109,7 +109,7 @@ const formSlice = createSlice({
 
                 for (; i < fromIndex + deleteCount; i += 1) {
                     // eslint-disable-next-line no-loop-func
-                    groupedFields[i].forEach((fieldName) => {
+                    groupedFields[i]?.forEach((fieldName) => {
                         const sourceKey = `${multiField}[${i}].${fieldName}`
 
                         delete state.registeredFields[sourceKey]
@@ -120,7 +120,7 @@ const formSlice = createSlice({
 
                 for (; i < groupedFields.length; i += 1) {
                     // eslint-disable-next-line no-loop-func
-                    groupedFields[i].forEach((fieldName) => {
+                    groupedFields[i]?.forEach((fieldName) => {
                         const newIndex = i - deleteCount
                         const sourceKey = `${multiField}[${i}].${fieldName}`
                         const destKey = `${multiField}[${newIndex}].${fieldName}`
