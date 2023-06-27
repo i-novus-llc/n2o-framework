@@ -204,6 +204,10 @@ class AutoComplete extends React.Component {
     }
 
     onSelect = (item) => {
+        if (!item) {
+            return
+        }
+
         const { onChange, closePopupOnSelect, tags, labelFieldId } = this.props
 
         this.setState(

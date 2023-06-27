@@ -14,16 +14,11 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
-import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.DynamicMetadataProvider;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.api.register.route.RouteRegister;
-import net.n2oapp.framework.api.rest.ControllerFactory;
-import net.n2oapp.framework.api.rest.ExportResponse;
-import net.n2oapp.framework.api.rest.GetDataResponse;
-import net.n2oapp.framework.api.rest.N2oResponse;
-import net.n2oapp.framework.api.rest.SetDataResponse;
+import net.n2oapp.framework.api.rest.*;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.user.UserContext;
@@ -34,7 +29,6 @@ import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.register.scanner.XmlInfoScanner;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
@@ -85,6 +79,7 @@ import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @RestController
 public class ViewController {
+
     private Logger logger = LoggerFactory.getLogger(ViewController.class);
 
     @Value("${n2o.version:unknown}")
@@ -125,8 +120,7 @@ public class ViewController {
     private N2oDynamicMetadataProviderFactory dynamicMetadataProviderFactory;
     private ObjectMapper objectMapper;
     private DomainProcessor domainProcessor;
-    
-    private N2oApplicationBuilder builder;
+    private static final String DEFAULT_APP_ID = "default";
 
     public ViewController(Optional<Map<String, DynamicMetadataProvider>> providers, ObjectMapper objectMapper,
                           @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor, List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers) {
@@ -165,14 +159,12 @@ public class ViewController {
         Map<String, Object> addedValues = new HashMap<>();
         addedValues.put("project", projectId);
 
+        N2oApplicationBuilder builder;
         try {
             ThreadLocalProjectId.setProjectId(projectId);
             projectRouteRegister.clearAll();
             builder = getBuilder(projectId);
-
-            Application application = builder.read().transform().validate().compile().transform().bind().get(new ApplicationContext(getApplicationId(builder)), new DataSet());
-            Map<String, Object> menu = objectMapper.convertValue(application, Map.class);
-            addedValues.put("menu", menu);
+            addedValues.put("menu", getMenu(builder));
 
             AppConfigJsonWriter appConfigJsonWriter = new SandboxAppConfigJsonWriter(projectId, restClient);
             appConfigJsonWriter.setPropertyResolver(builder.getEnvironment().getSystemProperties());
@@ -193,19 +185,16 @@ public class ViewController {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
             projectRouteRegister.clearAll();
+            N2oApplicationBuilder builder = getBuilder(projectId);
             getIndex(builder);
-
+            getMenu(builder);
             String path = getPath(request, "/n2o/page");
             CompileContext<Page, ?> context = builder.route(path, Page.class, request.getParameterMap());
 
             N2oSubModelsProcessor n2oSubModelsProcessor = new N2oSubModelsProcessor(queryProcessor, domainProcessor);
             n2oSubModelsProcessor.setEnvironment(builder.getEnvironment());
 
-            ReadCompileBindTerminalPipeline bind = builder.read().transform().validate().compile().transform().bind();
-            Application application = bind.get(new ApplicationContext(getApplicationId(builder)), new DataSet());
-            objectMapper.convertValue(application, Map.class);
-            
-            return bind.get(context, context.getParams(path, request.getParameterMap()), n2oSubModelsProcessor);
+            return builder.read().transform().validate().compile().transform().bind().get(context, context.getParams(path, request.getParameterMap()), n2oSubModelsProcessor);
         } finally {
             sandboxContext.refresh();
             ThreadLocalProjectId.clear();
@@ -218,6 +207,9 @@ public class ViewController {
     public ResponseEntity<byte[]> export(@PathVariable(value = "projectId") String projectId, HttpServletRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
+            N2oApplicationBuilder builder = getBuilder(projectId);
+            getIndex(builder);
+            getMenu(builder);
 
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
             ExportController exportController = new ExportController(builder.getEnvironment(), dataController);
@@ -253,7 +245,9 @@ public class ViewController {
                                                    HttpServletRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
-
+            N2oApplicationBuilder builder = getBuilder(projectId);
+            getIndex(builder);
+            getMenu(builder);
             String path = getPath(request, "/n2o/data");
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
 
@@ -290,6 +284,9 @@ public class ViewController {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
 
+            N2oApplicationBuilder builder = getBuilder(projectId);
+            getIndex(builder);
+            getMenu(builder);
             String path = getPath(request, "/n2o/data");
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
             dataController.setMessageBuilder(messageBuilder);
@@ -350,16 +347,18 @@ public class ViewController {
         return null;
     }
 
-    private String getApplicationId(N2oApplicationBuilder builder) {
-        String applicationId = builder.getEnvironment().getSystemProperties().getProperty("n2o.application.id", String.class, null);
-        if ("default".equals(applicationId)) {
-            List<SourceInfo> applications = builder.getEnvironment().getMetadataRegister().find(N2oApplication.class);
-            for (SourceInfo si : applications) {
-                applicationId = si.getId();
-                if (si.getScannerClass().isAssignableFrom(XmlInfoScanner.class)) break;
-            }
+    private Map<String, Object> getMenu(N2oApplicationBuilder builder) {
+        return objectMapper.convertValue(getApplication(builder), Map.class);
+    }
+
+    private Application getApplication(N2oApplicationBuilder builder) {
+        String applicationId = builder.getEnvironment().getSystemProperties().getProperty("n2o.application.id");
+        if (applicationId.equals(DEFAULT_APP_ID)) {
+            Optional<SourceInfo> applicationInfo = builder.getEnvironment().getMetadataRegister().find(N2oApplication.class).stream().filter(a -> !a.getId().equals(DEFAULT_APP_ID)).findFirst();
+            applicationId = applicationInfo.isPresent() ? applicationInfo.get().getId() : DEFAULT_APP_ID;
         }
-        return applicationId;
+
+        return builder.read().transform().validate().compile().transform().bind().get(new ApplicationContext(applicationId), new DataSet());
     }
 
     private DataSet getBody(Object body) {

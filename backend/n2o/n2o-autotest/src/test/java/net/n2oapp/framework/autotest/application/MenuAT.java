@@ -2,10 +2,13 @@ package net.n2oapp.framework.autotest.application;
 
 import net.n2oapp.framework.api.metadata.application.SidebarState;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.collection.Menu;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.header.DropdownMenuItem;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -252,5 +255,31 @@ public class MenuAT extends AutoTestBase {
         menuItem.click();
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Тест");
+    }
+
+    @Test
+    public void differentActionInMenuItem() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/menu-item/app.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/menu-item/page1.page.xml")
+        );
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
+
+        Menu menu = page.header().nav();
+        AnchorMenuItem menuItem = menu.anchor(0);
+        menuItem.shouldHaveIcon();
+        menuItem.shouldHaveIconCssClass("fa fa-bell");
+        menuItem.shouldHaveBadge();
+        menuItem.shouldHaveBadgeText("2");
+
+        menuItem.click();
+        page.shouldExists();
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт");
+
+        menu.anchor(1).click();
+        N2oSelenide.modal().shouldHaveTitle("Модальное окно");
     }
 }

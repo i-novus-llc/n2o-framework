@@ -1,9 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
+import { useDispatch } from 'react-redux'
 
 import { AlertTypes } from '../../../../snippets/Alerts/AlertsTypes'
 import { DefaultAlert } from '../../../../snippets/Alerts/DefaultAlert'
-import { hideField } from '../../../../../ducks/form/store'
+import { setFieldVisible } from '../../../../../ducks/form/store'
+import { useFormContext } from '../../../../core/FormProvider/hooks/useFormContext'
 
 /**
  * Компонент - AlertField формы
@@ -30,13 +32,12 @@ export function AlertField({
     severity,
     closeButton,
     href,
-    form,
     id,
-    dispatch,
     visible = true,
-    modelPrefix,
 }) {
-    const onClose = () => dispatch(hideField(modelPrefix, form, id))
+    const dispatch = useDispatch()
+    const { formName } = useFormContext()
+    const onClose = () => dispatch(setFieldVisible(formName, id, false))
 
     if (!visible) {
         return null

@@ -36,7 +36,6 @@
                     </checkbox-group>
                     <radio-group id="rdg" datasource="ds2" search-field-id="name"/>
                </row>
-                <pills id="pills" type="radio"  datasource="ds2"/>
             </fields>
         </form>
     </regions>

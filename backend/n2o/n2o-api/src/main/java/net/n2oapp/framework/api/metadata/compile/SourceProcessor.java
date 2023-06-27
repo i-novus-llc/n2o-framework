@@ -188,7 +188,7 @@ public interface SourceProcessor {
             if (item.getId() == null)
                 continue;
             if (!uniqueSet.add(item.getId())) {
-                throw new N2oMetadataValidationException(getMessage(errorMessage, item.getId()));
+                throw new N2oMetadataValidationException(String.format(errorMessage, item.getId()));
             }
         }
     }

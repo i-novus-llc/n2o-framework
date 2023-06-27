@@ -81,7 +81,7 @@ export const dataSourceProviderSelector = (sourceId: string) => createSelector(
 
 export const dataSourceErrors = (
     sourceId: string,
-    prefix: ModelPrefix.active | ModelPrefix.edit = ModelPrefix.active,
+    prefix: ModelPrefix = ModelPrefix.active,
 ) => createSelector(
     dataSourceByIdSelector(sourceId),
     state => (state.errors?.[prefix] || EMPTY_OBJECT),
@@ -89,7 +89,7 @@ export const dataSourceErrors = (
 
 export const dataSourceFieldError = (
     sourceId: string,
-    prefix: ModelPrefix.active | ModelPrefix.edit,
+    prefix: ModelPrefix,
     field: string,
 ) => createSelector(
     dataSourceErrors(sourceId, prefix),

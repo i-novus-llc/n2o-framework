@@ -7,6 +7,10 @@
         {
           "templateId": "versions/7.25/list_out_params",
           "name": "Вложенные поля в <out> параметрах операции"
+        },
+        {
+          "templateId": "versions/7.25/actions_in_menu",
+          "name": "Действия в пунктах меню"
         }
       ]
     },

@@ -284,7 +284,7 @@
                 <xs:documentation>Источник данных, в котором производится поиск.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="search-filter-id" type="xs:string">
+        <xs:attribute name="search-filter-id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор фильтра.</xs:documentation>
             </xs:annotation>

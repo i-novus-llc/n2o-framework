@@ -152,13 +152,13 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         QueryContext queryContext = new QueryContext(source.getQueryId());
         CompiledQuery query = p.getCompiled(queryContext);
 
-        if (listControl.getHasSearch() != null && listControl.getHasSearch()) {
+        if (Boolean.TRUE.equals(listControl.getHasSearch())) {
             String searchFilterId = p.cast(source.getSearchFilterId(), listControl.getLabelFieldId());
             if (query.getFilterIdToParamMap().containsKey(searchFilterId))
                 return query.getFilterIdToParamMap().get(searchFilterId);
             else if (searchFilterId != null && listControl.getHasSearch())
                 throw new N2oException(
-                        String.format("For search field id [%s] is necessary this filter-id in query [%s]", searchFilterId, query.getId()));
+                        String.format("Для поля '%s' необходимо задать фильтр в '%s.query.xml'", searchFilterId, query.getId()));
         }
         return null;
     }

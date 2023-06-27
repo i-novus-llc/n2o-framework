@@ -29,6 +29,8 @@ public class ButtonField extends ActionField {
     private Confirm confirm;
     @JsonProperty
     private Badge badge;
+    @JsonProperty
+    private String datasource;
     /**
      * Список источников данных, которые нужно валидировать
      */

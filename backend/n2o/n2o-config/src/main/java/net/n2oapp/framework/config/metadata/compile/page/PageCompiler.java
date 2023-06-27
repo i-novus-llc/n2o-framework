@@ -170,7 +170,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
      */
     protected PageProperty initPageName(N2oPage source, String pageName, PageContext context, CompileProcessor p) {
         PageProperty pageProperty = new PageProperty();
-        boolean showTitle = p.cast(source.getShowTitle(), p.resolve(property("n2o.api.default.page.show_title"), Boolean.class));
+        boolean showTitle = p.cast(source.getShowTitle(), p.resolve(property("n2o.api.page.show_title"), Boolean.class));
 
         pageProperty.setHtmlTitle(p.cast(source.getHtmlTitle(), pageName));
         if (context instanceof ModalPageContext)

@@ -1,6 +1,9 @@
 import React, { useContext, useMemo } from 'react'
-import { omit, defaultTo } from 'lodash'
-import { useSelector } from 'react-redux'
+import omit from 'lodash/omit'
+import defaultTo from 'lodash/defaultTo'
+import get from 'lodash/get'
+import { useSelector, connect } from 'react-redux'
+import { compose } from 'recompose'
 
 import { N2OPagination } from '../Table/N2OPagination'
 import WidgetLayout from '../StandardWidget'
@@ -10,6 +13,7 @@ import { FactoryContext } from '../../../core/factory/context'
 import { WithActiveModel } from '../Widget/WithActiveModel'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
+import { getContainerColumns } from '../../../ducks/columns/selectors'
 
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableContainer from './AdvancedTableContainer'
@@ -18,12 +22,15 @@ import { AdvancedTableWidgetTypes } from './propTypes'
 const AdvancedTable = (props) => {
     const {
         id, disabled, toolbar, datasource, className, setPage, loading, fetchData,
-        style, paging, filter, table, size, count, page, hasNext,
+        style, paging, filter, table, size, count, page, hasNext, getColumnsVisibility,
     } = props
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
 
     const { resolveProps } = useContext(FactoryContext)
     const { place = 'bottomLeft' } = paging
+
+    const paginationVisible = getColumnsVisibility()
+
     const pagination = {
         [place]: (
             <N2OPagination
@@ -35,6 +42,7 @@ const AdvancedTable = (props) => {
                 setPage={setPage}
                 hasNext={hasNext}
                 loading={loading}
+                visible={paginationVisible}
             />
         ),
     }
@@ -80,7 +88,23 @@ const OmitProps = Component => (props) => {
     )
 }
 
-export const AdvancedTableWidget = OmitProps(WidgetHOC(WithActiveModel(
+const mapStateToProps = (state, props) => ({
+    getColumnsVisibility: () => {
+        const { id } = props
+        const columns = getContainerColumns(id)(state)
+        const columnsKeys = Object.keys(columns)
+
+        return columnsKeys.some(columnKey => get(columns, `${columnKey}.visible`))
+    },
+})
+
+const Enhanced = WithActiveModel(
     AdvancedTable,
     props => props.table?.hasSelect && defaultTo(props.table?.autoSelect, true),
-)))
+)
+
+export const AdvancedTableWidget = compose(
+    OmitProps,
+    WidgetHOC,
+    connect(mapStateToProps),
+)(Enhanced)

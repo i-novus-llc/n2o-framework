@@ -94,7 +94,6 @@ public class ListFieldAT extends AutoTestBase {
         AutoComplete autoComplete = fields.field("auto_complete").control(AutoComplete.class);
         RadioGroup radioGroup = fields.field("rdg").control(RadioGroup.class);
         CheckboxGroup checkboxGroup = fields.field("chg").control(CheckboxGroup.class);
-        Pills pills = fields.field("pills").control(Pills.class);
 
         select.shouldSelected("test1");
         select.openPopup();
@@ -109,7 +108,6 @@ public class ListFieldAT extends AutoTestBase {
         checkboxGroup.shouldBeChecked("test1");
         checkboxGroup.shouldBeUnchecked("test2");
         checkboxGroup.shouldHaveOptions("test1", "test2", "test3", "test4");
-        pills.shouldHaveOptions("test1", "test2", "test3", "test4");
     }
 
     @Test

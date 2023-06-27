@@ -10,6 +10,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.control.FieldVal
 import net.n2oapp.framework.config.metadata.validation.standard.datasource.StandardDatasourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -33,7 +34,7 @@ public class DatasourceLinkValidationTest extends SourceValidationTestBase {
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(),
                 new N2oAllDataPack(), new N2oActionsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack());
-        builder.validators(new PageValidator(), new WidgetValidator(), new BasePageValidator(),
+        builder.validators(new PageValidator(), new StandardPageValidator(), new WidgetValidator(), new BasePageValidator(),
                 new StandardDatasourceValidator(), new PageActionValidator(), new InvokeActionValidator(),
                 new FormValidator(), new FieldValidator(), new ButtonValidator());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/link/utDsLinkBlank.page.xml"));

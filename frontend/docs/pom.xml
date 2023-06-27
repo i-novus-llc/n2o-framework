@@ -18,6 +18,7 @@
         <sandboxUrl>https://sandbox.n2oapp.net</sandboxUrl>
         <n2oSandboxUrl>https://next.n2oapp.net/sandbox</n2oSandboxUrl>
         <n2oVersionUrl>https://next.n2oapp.net/sandbox/n2o/version</n2oVersionUrl>
+        <next>https://n2o.i-novus.ru</next>
         <docusaurusUrl>/</docusaurusUrl>
     </properties>
 
@@ -37,11 +38,12 @@
                         <configuration>
                             <target>
                                 <echo file="${basedir}/src/ci-config.json">{
-  "docusaurusUrl": "${docusaurusUrl}",
-  "sandboxUrl": "${sandboxUrl}",
-  "n2oSandboxUrl": "${n2oSandboxUrl}",
-  "n2oVersionUrl": "${n2oVersionUrl}",
-  "n2oVersion": "${version}"
+    "sandboxUrl": "${sandboxUrl}",
+    "n2oSandboxUrl": "${n2oSandboxUrl}",
+    "n2oVersionUrl": "${n2oVersionUrl}",
+    "n2oVersion": "${version}",
+    "next": "${next}",
+    "docusaurusUrl": "${docusaurusUrl}"
 }
                                 </echo>
                             </target>

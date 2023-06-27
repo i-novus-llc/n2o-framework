@@ -1,4 +1,5 @@
 // TODO пока тут оставил, в будущем, наверно, вся meta переедет вместе с типами
+import { Meta } from '../ducks/Action'
 import { LinkTarget } from '../constants/linkTarget'
 
 export enum MetaType {
@@ -6,7 +7,6 @@ export enum MetaType {
     Redirect = 'redirect',
     Alert = 'alert',
     Clear = 'clear',
-    ClearForm = 'clearForm',
     UserDialog = 'userDialog',
     ValidationMessages = 'messages'
 }
@@ -16,12 +16,11 @@ export interface IMeta {
     [MetaType.Redirect]?: IRedirectMeta
     [MetaType.Alert]?: IAlertMeta
     [MetaType.Clear]?: unknown
-    [MetaType.ClearForm]?: IClearFormMeta
     [MetaType.UserDialog]?: IUserDialogMeta
     [MetaType.ValidationMessages]?: IValidationMessagesMeta
 }
 
-export interface IActionMeta {
+export interface IActionMeta extends Meta {
     fail?: IMeta
     success?: IMeta
 }
@@ -43,10 +42,6 @@ export interface IAlertMeta {
         messages: unknown
         stacked: unknown
     }
-}
-
-export interface IClearFormMeta {
-    clearForm: string
 }
 
 export interface IUserDialogMeta {

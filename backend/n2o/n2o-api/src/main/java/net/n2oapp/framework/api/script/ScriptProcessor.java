@@ -19,6 +19,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.StringUtils.*;
@@ -35,6 +36,8 @@ public class ScriptProcessor {
     private final static ScriptEngineManager engineMgr = new ScriptEngineManager();
     private static volatile ScriptEngine scriptEngine;
     private static String MOMENT_JS;
+
+    private static Pattern functionPattern = Pattern.compile("function\\s*\\(\\)[\\s\\S]*");
 
     public static String resolveLinks(String text) {
         if (text == null)
@@ -90,15 +93,15 @@ public class ScriptProcessor {
     public static String resolveFunction(String text) {
         if (text == null)
             return null;
-        String trimmedText = simplify(text);
+        String trimmedText = text.trim();
         if (trimmedText.startsWith("(function")) {
             return text;
         }
-        if (trimmedText.startsWith("function")) {
-            return String.format("(%s)()", trimmedText);
+        if (functionPattern.matcher(trimmedText).matches()) {
+            return String.format("(%s).call(this)", trimmedText);
         }
         if (trimmedText.contains("return ")) {
-            return String.format("(function(){%s})()", trimmedText);
+            return String.format("(function(){%s}).call(this)", trimmedText);
         } else {
             return trimmedText;
         }

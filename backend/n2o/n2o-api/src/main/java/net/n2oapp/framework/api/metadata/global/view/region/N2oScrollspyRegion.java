@@ -5,6 +5,8 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
 import java.util.List;
@@ -85,7 +87,7 @@ public class N2oScrollspyRegion extends N2oRegion implements RoutableRegion {
 
     @Getter
     @Setter
-    public static abstract class AbstractMenuItem implements Source, RegionItem {
+    public static abstract class AbstractMenuItem implements Source, IdAware, RegionItem {
         private String id;
         private String title;
     }

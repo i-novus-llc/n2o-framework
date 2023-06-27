@@ -11,4 +11,8 @@ public interface N2oInvocation extends Source, NamespaceUriAware {
     String getResultMapping();
 
     void setResultMapping(String resultMapping);
+
+    String getResultNormalize();
+
+    void setResultNormalize(String resultMapping);
 }

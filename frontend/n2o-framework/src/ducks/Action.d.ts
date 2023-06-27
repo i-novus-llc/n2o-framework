@@ -2,6 +2,7 @@ import { Action as ReduxAction } from 'redux'
 
 interface N2OMeta {
     operationId?: string
+    [key: string]: unknown
 }
 
 interface N2OAction<

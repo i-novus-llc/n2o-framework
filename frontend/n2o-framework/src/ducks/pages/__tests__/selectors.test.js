@@ -8,7 +8,6 @@ import {
     makePageErrorByIdSelector,
     makePageTitleByIdSelector,
     makePageDisabledByIdSelector,
-    makePageWidgetsByIdSelector,
     makePageStatusByIdSelected,
 } from '../selectors'
 
@@ -81,11 +80,6 @@ describe('Проверка селекторов pages', () => {
     it('makePageDisabledByIdSelector должен вернуть disabled по id', () => {
         expect(makePageDisabledByIdSelector('_')(state)).toEqual(
             state.pages._.disabled,
-        )
-    })
-    it('makePageWidgetsByIdSelector должен вернуть widgets по id', () => {
-        expect(makePageWidgetsByIdSelector('_')(state)).toEqual(
-            state.pages._.metadata.widget,
         )
     })
     it('makePageStatusByIdSelector должен вернуть status по id', () => {

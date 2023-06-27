@@ -85,7 +85,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(payload.getSize(), is("sm"));
         assertThat(payload.getScrollable(), is(true));
         assertThat(payload.getPageId(), is("p_create"));
-        assertThat(payload.getPrompt(), is(true));
+        assertThat(payload.getPrompt(), is(false));
 
         assertThat(payload.getHasHeader(), is(false));
         assertThat(payload.getBackdrop(), is(true));

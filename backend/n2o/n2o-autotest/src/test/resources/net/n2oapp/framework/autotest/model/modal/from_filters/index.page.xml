@@ -4,7 +4,7 @@
     <regions>
         <line label="Передача параметров из фильтров таблицы">
             <table  query-id="test" id="tableWgt">
-                <filters>
+                <filters search-on-change="true">
                     <row>
                         <input-text id="name"/>
                         <input-text id="type"/>
