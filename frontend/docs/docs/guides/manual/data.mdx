@@ -2602,6 +2602,19 @@ class MyService {
 </fields>
 ```
 
+#### `#parent` {#normalize_keywords_parent}
+Позволяет ссылаться на значение <u>другого</u> поля (на уровень выше), полученного после маппинга
+
+```xml title="Использование ключевого слова #parent"
+<fields>
+     <field id="name"/>
+     <reference id="org" mapping="['organization']">
+        <field id="id" mapping="['code']"/>
+        <field id="fullName" mapping="['title']" normalize="#this + '_' + #parent['name']"/>
+     </reference>
+</fields>
+```
+
 ### Вызовы функций нормализации {#normalize_functions_call}
 
 В выражениях нормализации могут быть использованы:

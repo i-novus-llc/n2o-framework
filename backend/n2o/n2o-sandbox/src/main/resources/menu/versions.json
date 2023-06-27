@@ -9,6 +9,10 @@
           "name": "Вложенные поля в <out> параметрах операции"
         },
         {
+          "templateId": "versions/7.25/parent_in_normalize",
+          "name": "Ключевое слово #parent в нормализации полей"
+        },
+        {
           "templateId": "versions/7.25/actions_in_menu",
           "name": "Действия в пунктах меню"
         }

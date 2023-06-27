@@ -349,11 +349,10 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         }
 
         result = normalizeValue(result, selection.getResultNormalize(), null, parser, applicationContext);
-        return mapFields(result, query.getDisplayFields());
+        return mapFields(result, query.getDisplayFields(), null);
     }
 
-    private CollectionPage<DataSet> preparePageResult(Object res, CompiledQuery query, N2oQuery.Selection
-            selection,
+    private CollectionPage<DataSet> preparePageResult(Object res, CompiledQuery query, N2oQuery.Selection selection,
                                                       N2oPreparedCriteria criteria) {
         Object additionalInfo = null;
         if (nonNull(selection.getAdditionalMapping()))
@@ -368,7 +367,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         }
 
         List<DataSet> content = result.stream()
-                .map(obj -> mapFields(obj, query.getDisplayFields()))
+                .map(obj -> mapFields(obj, query.getDisplayFields(), null))
                 .collect(Collectors.toList());
 
         CollectionPage<DataSet> collectionPage;
@@ -378,7 +377,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             Boolean hasNext = getNext(content, criteria, selection, query);
             collectionPage = new CollectionPage<>(hasNext, content, criteria);
         } else {
-            int size = getSize(content, criteria, ()-> {
+            int size = getSize(content, criteria, () -> {
                 if (criteria.getSize() == 1) {
                     return 1;
                 } else if (isNull(selection.getCountMapping())) {
@@ -466,11 +465,11 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         }
     }
 
-    private DataSet mapFields(Object entry, List<AbstractField> fields) {
+    private DataSet mapFields(Object entry, List<AbstractField> fields, DataSet parentData) {
         DataSet resultDataSet = new DataSet();
         fields.forEach(field -> mapField(field, resultDataSet, entry));
-        fields.forEach(field -> normalizeField(field, resultDataSet));
-        fields.forEach(field -> processInnerFields(field, resultDataSet));
+        fields.forEach(field -> normalizeField(field, resultDataSet, parentData));
+        fields.forEach(field -> processInnerFields(field, resultDataSet, resultDataSet));
         return resultDataSet;
     }
 
@@ -481,24 +480,24 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             outMap(target, entry, field.getId(), field.getMapping(), ((QuerySimpleField) field).getDefaultValue(), contextProcessor);
     }
 
-    private void processInnerFields(AbstractField field, DataSet target) {
+    private void processInnerFields(AbstractField field, DataSet target, DataSet parentData) {
         if (field instanceof QueryReferenceField) {
             if (field instanceof QueryListField && target.getList(field.getId()) != null) {
                 DataList list = new DataList(target.getList(field.getId()));
                 for (int i = 0; i < list.size(); i++)
-                    list.set(i, mapFields(target.getList(field.getId()).get(i), Arrays.asList(((QueryListField) field).getFields())));
+                    list.set(i, mapFields(target.getList(field.getId()).get(i), Arrays.asList(((QueryListField) field).getFields()), parentData));
                 target.put(field.getId(), list);
             } else if (nonNull(target.get(field.getId())))
-                target.put(field.getId(), mapFields(target.get(field.getId()), Arrays.asList(((QueryReferenceField) field).getFields())));
+                target.put(field.getId(), mapFields(target.get(field.getId()), Arrays.asList(((QueryReferenceField) field).getFields()), parentData));
         }
     }
 
-    private void normalizeField(AbstractField field, DataSet resultDataSet) {
+    private void normalizeField(AbstractField field, DataSet resultDataSet, DataSet parentDataSet) {
         if (nonNull(field.getNormalize())) {
             Object obj = resultDataSet.get(field.getId());
             obj = contextProcessor.resolve(obj);
             try {
-                resultDataSet.put(field.getId(), normalizeValue(obj, field.getNormalize(), resultDataSet, parser, applicationContext));
+                resultDataSet.put(field.getId(), normalizeValue(obj, field.getNormalize(), resultDataSet, parentDataSet, parser, applicationContext));
             } catch (N2oSpelException e) {
                 e.setFieldId(field.getId());
                 throw e;
