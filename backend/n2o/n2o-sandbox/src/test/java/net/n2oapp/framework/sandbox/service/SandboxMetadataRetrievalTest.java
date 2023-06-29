@@ -4,7 +4,6 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.http.JvmProxyConfigurer;
 import lombok.SneakyThrows;
-import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.control.Text;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -78,7 +77,7 @@ public class SandboxMetadataRetrievalTest {
         wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
         wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
         wireMockServer.stubFor(get("/project/myProjectId/config.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        JSONObject config = new JSONObject(viewController.getConfig("myProjectId", null));
+        JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
 
         assertThat(config.getString("project"), is("myProjectId"));
 

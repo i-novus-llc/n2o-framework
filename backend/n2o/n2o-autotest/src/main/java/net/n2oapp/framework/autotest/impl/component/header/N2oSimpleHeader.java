@@ -28,7 +28,7 @@ public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
 
     @Override
     public Menu nav() {
-        return N2oSelenide.collection(element().$$(".main-nav.navbar-nav >li"), N2oMenu.class);
+        return N2oSelenide.collection(element().$$(".main-nav.navbar-nav > li, .main-nav.navbar-nav .n2o-action-item"), N2oMenu.class);
     }
 
     @Override

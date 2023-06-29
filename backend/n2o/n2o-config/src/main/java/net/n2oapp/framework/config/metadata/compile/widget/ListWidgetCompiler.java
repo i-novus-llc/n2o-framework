@@ -37,7 +37,7 @@ public class ListWidgetCompiler extends BaseListWidgetCompiler<ListWidget, N2oLi
     public ListWidget compile(N2oListWidget source, CompileContext<?, ?> context, CompileProcessor p) {
         ListWidget listWidget = new ListWidget();
         compileBaseWidget(listWidget, source, context, p);
-        N2oAbstractDatasource datasource = initDatasource(listWidget, source, p);
+        N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);

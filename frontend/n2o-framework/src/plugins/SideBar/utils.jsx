@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+import { ITEM_TYPE } from '../constants'
+
 export const getCurrentTitle = (isMiniView, icon, title, imageSrc) => {
     if (!title) {
         return null
@@ -16,11 +18,6 @@ export const getCurrentTitle = (isMiniView, icon, title, imageSrc) => {
     }
 
     return title
-}
-
-export const ItemType = {
-    DROPDOWN: 'dropdown',
-    LINK: 'link',
 }
 
 /**
@@ -39,7 +36,7 @@ export const Icon = ({ icon, title, type, sidebarOpen, hasSubItems }) => {
 
     let component = <i className={classNames(icon)} />
 
-    if (!sidebarOpen && type === ItemType.DROPDOWN && !hasSubItems) {
+    if (!sidebarOpen && type === ITEM_TYPE.DROPDOWN && !hasSubItems) {
         return title
     } if (!sidebarOpen && !icon) {
         component = title.substring(0, 1)

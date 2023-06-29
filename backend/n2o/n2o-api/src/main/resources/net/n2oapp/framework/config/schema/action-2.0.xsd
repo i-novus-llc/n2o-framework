@@ -87,8 +87,20 @@
                     </xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="params" type="paramsDefinition" minOccurs="0"/>
-                    <xs:element name="breadcrumbs" type="breadcrumbsDefinition" minOccurs="0"/>
+                    <xs:element name="params" type="paramsDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Параметры url при открытии окна или страницы
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="breadcrumbs" type="breadcrumbsDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Список хлебных крошек открываемой страницы
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
                     <xs:element name="datasources" type="ds:datasources" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>
@@ -185,7 +197,9 @@
 
     <xs:complexType name="pageActionsDefinition">
         <xs:annotation>
-            <xs:documentation>Список действий над странице</xs:documentation>
+            <xs:documentation>
+                Список действий страницы
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="action" type="pageActionDefinition" maxOccurs="unbounded"/>
@@ -194,57 +208,16 @@
 
     <xs:complexType name="pageActionDefinition">
         <xs:annotation>
-            <xs:documentation>Действие над страницей
-                (допускает использование нескольких обработчиков действий в теле)</xs:documentation>
+            <xs:documentation>
+                Действие страницы
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="actions">
                 <xs:attribute name="id" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="name" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Наименование.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="route" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>URL действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="icon" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Иконка действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="hotkey" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Горячая клавиша вызова.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="visible" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Видимость действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="enabled" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Доступность действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="model" type="clientModel">
-                    <xs:annotation>
                         <xs:documentation>
-                            Контекст выполнения действия
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Источник данных для выполнения операции
+                            Идентификатор действия
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -260,7 +233,7 @@
                         Действие открытия страницы
                     </xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="true">
+                <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>
                             Предупредить о несохраненных данных на форме при закрытии страницы
@@ -346,7 +319,7 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>
-                <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="true">
+                <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>
                             Предупредить о несохраненных данных на форме при закрытии модального окна
@@ -421,7 +394,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="true">
+                <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>
                             Предупредить о несохраненных данных на форме при закрытии drawer окна
@@ -1405,11 +1378,15 @@
 
     <xs:complexType name="payloadDef">
         <xs:annotation>
-            <xs:documentation>Полезная нагрузка настраиваемого действия</xs:documentation>
+            <xs:documentation>
+                Полезная нагрузка настраиваемого действия
+            </xs:documentation>
         </xs:annotation>
         <xs:anyAttribute>
             <xs:annotation>
-                <xs:documentation>Любые атрибуты</xs:documentation>
+                <xs:documentation>
+                    Любые атрибуты
+                </xs:documentation>
             </xs:annotation>
         </xs:anyAttribute>
     </xs:complexType>
@@ -1632,7 +1609,9 @@
         </xs:sequence>
         <xs:attribute name="test" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Условие для выполнения действия условного оператора else if</xs:documentation>
+                <xs:documentation>
+                    Условие для выполнения действия условного оператора else if
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

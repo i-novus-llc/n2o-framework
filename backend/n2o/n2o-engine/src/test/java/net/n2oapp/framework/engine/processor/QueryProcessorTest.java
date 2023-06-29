@@ -421,12 +421,12 @@ public class QueryProcessorTest {
 
         DataSet organization = first.getDataSet("myOrganization");
         assertThat(organization.size(), is(3));
-        assertThat(organization.getString("myCode"), is("102refNormalize"));
+        assertThat(organization.getString("myCode"), is("102refNormalize1100"));
         assertThat(organization.getString("myTitle"), is("refNormalize fieldNormalize"));
 
         List<DataSet> organizationEmployees = (List<DataSet>) organization.getList("myEmployees");
         assertThat(organizationEmployees.size(), is(1));
-        assertThat(organizationEmployees.get(0).getString("myId"), is("273employee273"));
+        assertThat(organizationEmployees.get(0).getString("myId"), is("273employee273_102refNormalize1100"));
         assertThat(organizationEmployees.get(0).getString("myName"), is("employee273 fieldNormalize"));
     }
 

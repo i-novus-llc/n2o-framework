@@ -66,6 +66,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setFetchOnInit(p.cast(source.getFetchOnInit(), true));
         compiled.setFetchOnVisibility(p.cast(source.getFetchOnVisibility(), true));
         compileComponent(compiled, source, p);
+        initDatasource(compiled, source, p);
         compileDependencies(compiled, source, p);
     }
 
@@ -115,6 +116,17 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             compiled.setObjectId(((N2oStandardDatasource) datasource).getObjectId());
         compiled.setDatasource(getClientDatasourceId(datasource.getId(), p));
         return datasource;
+    }
+
+    /**
+     * Получение источника данных по id
+     */
+    protected N2oAbstractDatasource getDatasourceById(String datasourceId, CompileProcessor p) {
+        if (datasourceId == null) return null;
+        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+        if (dataSourcesScope != null)
+            return dataSourcesScope.get(datasourceId);
+        return null;
     }
 
     private String initClientWidgetId(S source, CompileContext<?, ?> context, CompileProcessor p) {
@@ -180,7 +192,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return null;
     }
 
-
     private void compileDependencies(D compiled, S source, CompileProcessor p) {
         WidgetDependency dependency = new WidgetDependency();
         List<Dependency> visibleConditions = new ArrayList<>();
@@ -200,9 +211,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 Dependency condition = new Dependency();
                 String unwrapped = ScriptProcessor.resolveFunction(StringUtils.unwrapJs(dep.getValue()));
                 condition.setCondition(unwrapped);
+                String datasourceId = dep.getDatasource() == null ? compiled.getDatasource() :
+                        getClientDatasourceId(dep.getDatasource(), p);
                 ModelLink link = new ModelLink(
                         p.cast(dep.getModel(), ReduxModel.resolve),
-                        getClientDatasourceId(dep.getDatasource(), p));
+                        datasourceId);
                 condition.setOn(link.getBindLink());
                 if (dep instanceof N2oVisibilityDependency) {
                     findByCondition(visibleConditions, unwrapped).ifPresent(visibleConditions::remove);
