@@ -35,6 +35,7 @@ function CheckboxN2O({
     elementId,
     help,
     tabIndex,
+    style,
 }) {
     return (
         <div
@@ -48,6 +49,7 @@ function CheckboxN2O({
                     'd-flex': help,
                 },
             )}
+            style={style}
             onClick={onClick}
         >
             <Input
@@ -118,6 +120,7 @@ CheckboxN2O.propTypes = {
      */
     help: PropTypes.string,
     tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    style: PropTypes.string,
 }
 
 CheckboxN2O.defaultProps = {
