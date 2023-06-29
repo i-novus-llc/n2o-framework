@@ -586,7 +586,7 @@ class InputSelect extends React.Component {
         } = this.state
 
         const inputSelectStyle = { width: '100%', cursor: 'text', ...style }
-        const needAddFilter = filter && !find(stateValue, item => item[labelFieldId] === input)
+        const needAddFilter = !isEmpty(filter) && !find(stateValue, item => item[labelFieldId] === input)
 
         const popUpStyle = { maxHeight: `${popUpMaxHeight}${MEASURE}` }
 
