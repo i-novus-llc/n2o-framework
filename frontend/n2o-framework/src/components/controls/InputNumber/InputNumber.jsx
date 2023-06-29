@@ -43,9 +43,9 @@ const inputMode = {
 export class InputNumber extends React.Component {
     constructor(props) {
         super(props)
-        const { value } = props
+        const { step, value } = props
 
-        this.stepPrecition = getPrecision(props.step)
+        this.stepPrecition = getPrecision(step, value)
         this.state = {
             value: this.resolveValue(
                 !isNil(value) && !isNaN(toNumber(value)) && value !== ''
