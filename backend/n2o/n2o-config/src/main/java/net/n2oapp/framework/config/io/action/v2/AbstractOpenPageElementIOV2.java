@@ -3,13 +3,16 @@ package net.n2oapp.framework.config.io.action.v2;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
+import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBreadcrumb;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.datasource.AbstractDatasourceIO;
+import net.n2oapp.framework.config.io.toolbar.v2.ToolbarIOv2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
@@ -17,8 +20,8 @@ import org.jdom2.Namespace;
  * Абстрактная реализация чтения/записи действия открытия страницы или модального окна версии 2.0
  */
 public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageAction> extends AbstractActionElementIOV2<T> {
-
-    private Namespace datasourceDefaultNamespace = AbstractDatasourceIO.NAMESPACE;
+    private static final Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
+    private static final Namespace datasourceDefaultNamespace = AbstractDatasourceIO.NAMESPACE;
 
     @Override
     public void io(Element e, T op, IOProcessor p) {
@@ -47,6 +50,8 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
                 p.oneOf(N2oParam.class)
                         .add("path-param", N2oPathParam.class, this::param)
                         .add("query-param", N2oQueryParam.class, this::param));
+        p.children(e, "toolbars", "toolbar", op::getToolbars, op::setToolbars, new ToolbarIOv2());
+        p.children(e, "actions", "action",op::getActions, op::setActions, ActionBar::new, this::action);
     }
 
     private void breadcrumbs(Element e, N2oBreadcrumb c, IOProcessor p) {
@@ -59,5 +64,16 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attribute(e, "value", param::getValue, param::setValue);
         p.attribute(e, "datasource", param::getDatasourceId, param::setDatasourceId);
         p.attributeEnum(e, "model", param::getModel, param::setModel, ReduxModel.class);
+    }
+
+    private void action(Element e, ActionBar a, IOProcessor p) {
+        p.attribute(e, "id", a::getId, a::setId);
+        p.attribute(e, "name", a::getLabel, a::setLabel);
+        p.attribute(e, "datasource", a::getDatasourceId, a::setDatasourceId);
+        p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModel.class);
+        p.attribute(e, "icon", a::getIcon, a::setIcon);
+        p.attribute(e, "visible", a::getVisible, a::setVisible);
+        p.attribute(e, "enabled", a::getEnabled, a::setEnabled);
+        p.anyChildren(e, null, a::getN2oActions, a::setN2oActions, p.anyOf(N2oAction.class), actionDefaultNamespace);
     }
 }

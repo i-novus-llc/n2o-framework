@@ -57,7 +57,7 @@ public class CheckboxGroupCompileTest extends SourceCompileTestBase {
 
         Map<String, PageRoutes.Query> queryMapping = page.getRoutes().getQueryMapping();
         assertThat(queryMapping.size(), is(1));
-        assertThat(queryMapping.get("genders").getOnSet().getBindLink(), is("models.resolve['test_main']"));
+        assertThat(queryMapping.get("genders").getOnSet().getBindLink(), is("models.resolve['test_w1']"));
         assertThat(queryMapping.get("genders").getOnSet().getValue(), is("`gender.map(function(t){return t.id})`"));
 
 

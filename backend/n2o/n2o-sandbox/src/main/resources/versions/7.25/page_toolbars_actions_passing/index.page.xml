@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Проброс действий и кнопок в открываемую страницу">
+    <datasources>
+        <datasource id="ds" query-id="test"/>
+    </datasources>
+
+    <regions>
+        <table datasource="ds">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+    </regions>
+
+    <toolbar place="topLeft">
+        <button label="Создать" icon="fa fa-plus">
+            <show-modal page-id="test">
+                <datasources>
+                    <datasource id="modalDs" default-values-mode="defaults"/>
+                </datasources>
+
+                <actions>
+                    <action id="save">
+                        <invoke operation-id="create" object-id="test"/>
+                        <refresh datasource="ds"/>
+                        <close/>
+                    </action>
+                </actions>
+
+                <toolbars>
+                    <toolbar place="bottomRight">
+                        <button label="Сохранить" action-id="save"/>
+                    </toolbar>
+                </toolbars>
+            </show-modal>
+        </button>
+
+        <button label="Изменить" icon="fa fa-pencil" datasource="ds">
+            <show-modal page-id="test">
+                <datasources>
+                    <inherited-datasource id="modalDs" source-datasource="ds"
+                                          source-model="resolve"/>
+                </datasources>
+
+                <actions>
+                    <action id="save">
+                        <invoke operation-id="update" object-id="test"/>
+                        <refresh datasource="ds"/>
+                        <close/>
+                    </action>
+                </actions>
+
+                <toolbars>
+                    <toolbar place="bottomRight">
+                        <button label="Изменить" action-id="save"/>
+                    </toolbar>
+                </toolbars>
+            </show-modal>
+        </button>
+
+        <button label="Удалить" icon="fa fa-trash" datasource="ds">
+            <invoke operation-id="delete"/>
+        </button>
+    </toolbar>
+</page>

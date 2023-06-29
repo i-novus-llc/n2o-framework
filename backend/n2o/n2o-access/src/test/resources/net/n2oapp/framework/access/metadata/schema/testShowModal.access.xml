@@ -5,6 +5,7 @@
     </user>
     <role id="role">
         <object-access object-id="testObjectAccessTransformer" operations="*"/>
+        <url-access pattern="/testOpenPageAccessTransformer/create*"/>
     </role>
     <role id="admin">
         <page-access page-id="testToolbarAccessTransformer"/>
@@ -13,9 +14,13 @@
     <permission id="permission">
         <object-access object-id="testObjectAccessTransformer" operations="create"/>
         <object-access object-id="testToolbarAccessTransformer" operations="*"/>
+        <url-access pattern="/testOpenPageAccessTransformer/update*"/>
     </permission>
     <permission id="permission2">
         <object-access object-id="testObjectAccessTransformer" operations="*"/>
         <url-access pattern="/test/*"/>
     </permission>
+    <anonymous>
+        <url-access pattern="/test/*"/>
+    </anonymous>
 </access>

@@ -582,7 +582,7 @@ public class DemoIntegrationAT {
         protoPage.deleteClientFromTableCell(row);
 
         protoPage.shouldBeDialog("Предупреждение");
-        protoPage.shouldDialogHaveText("Предупреждение", "Вы уверены, что хотите удалить клиента " + surnames.get(row));
+        protoPage.shouldDialogHaveText("Предупреждение", "Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.");
         protoPage.acceptDialog("Предупреждение");
 
         protoPage.alertColorShouldBe(Colors.SUCCESS);
@@ -605,7 +605,7 @@ public class DemoIntegrationAT {
         protoPage.deleteClientFromTableToolBar();
 
         protoPage.shouldBeDialog("Предупреждение");
-        protoPage.shouldDialogHaveText("Предупреждение", "Вы уверены, что хотите удалить клиента " + surnames.get(row));
+        protoPage.shouldDialogHaveText("Предупреждение", "Вы уверены, что хотите удалить клиента?");
         protoPage.acceptDialog("Предупреждение");
 
         protoPage.alertColorShouldBe(Colors.SUCCESS);

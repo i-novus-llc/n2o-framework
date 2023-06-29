@@ -15,6 +15,10 @@
         {
           "templateId": "versions/7.25/actions_in_menu",
           "name": "Действия в пунктах меню"
+        },
+        {
+          "templateId": "versions/7.25/page_toolbars_actions_passing",
+          "name": "Проброс действий и кнопок в открываемую страницу"
         }
       ]
     },
