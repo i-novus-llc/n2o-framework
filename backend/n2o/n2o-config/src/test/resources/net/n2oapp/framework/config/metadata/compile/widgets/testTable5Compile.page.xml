@@ -64,7 +64,7 @@
                 <visibility datasource="filtersDs" model="filter">
                     name == 'test1'
                 </visibility>
-                <enabling datasource="filtersDs" model="filter">
+                <enabling model="filter">
                     name == 'test2'
                 </enabling>
             </dependencies>

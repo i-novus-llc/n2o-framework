@@ -27,7 +27,6 @@ import Switch from './Switch/Switch'
 import InputMoney from './InputMoney/InputMoney'
 import SliderContainer from './Slider/Slider'
 import Rating from './Rating/Rating'
-import Pills from './Pills'
 // eslint-disable-next-line import/no-named-as-default
 import AutoComplete from './AutoComplete/AutoComplete'
 // eslint-disable-next-line import/no-named-as-default
@@ -65,7 +64,6 @@ export default {
     InputMoney,
     Slider: SliderContainer,
     Rating,
-    Pills,
     AutoComplete,
     ProgressControl,
     ImageUploader,

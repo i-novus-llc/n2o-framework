@@ -3,6 +3,7 @@ import {
     select,
     takeEvery,
     cancel,
+    delay,
 } from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 import isArray from 'lodash/isArray'
@@ -15,7 +16,7 @@ import { CALL_ALERT_META } from '../constants/meta'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { addAlert, addMultiAlerts } from '../ducks/alerts/store'
 import { CLOSE_BUTTON_PATH, DEFAULT_CLOSE_BUTTON, GLOBAL_KEY, STORE_KEY_PATH } from '../ducks/alerts/constants'
-import { removeAllModel, setModel } from '../ducks/models/store'
+import { removeAllModel } from '../ducks/models/store'
 import { register } from '../ducks/datasource/store'
 import { requestConfigSuccess } from '../ducks/global/store'
 
@@ -41,6 +42,8 @@ const separateMessagesByPlacement = messages => messages.reduce((acc, message) =
     alertEffect - обрабатывает alert.meta server responses
     маппит id и выполняет redux action */
 export function* alertEffect(action) {
+    // FIXME костыльная задержка для автотестов, которые смотрят на алерт инвока как на то что последующее инвоку обновление виджета было выполнено
+    yield delay(300)
     try {
         const { messages } = action.meta.alert
 
@@ -108,10 +111,6 @@ export function* redirectEffect(action) {
     }
 }
 
-export function* clearFormEffect(action) {
-    yield put(setModel(action.meta.clearForm))
-}
-
 export function* userDialogEffect({ meta }) {
     const { title, description, toolbar, ...rest } = meta.dialog
 
@@ -160,7 +159,6 @@ export const metaSagas = [
         alertEffect,
     ),
     takeEvery(action => action.meta && action.meta.redirect, redirectEffect),
-    takeEvery(action => action.meta && action.meta.clearForm, clearFormEffect),
     takeEvery(action => action.meta && action.meta.dialog, userDialogEffect),
     takeEvery(requestConfigSuccess, dataSourcesRegister),
     takeEvery(action => action.meta?.clear, clearEffect),

@@ -14,7 +14,6 @@
             <menu-item name="${contacts}">
                 <open-page page-id="ProtoPage" route="/proto"/>
             </menu-item>
-            <!--<page page-id="ProtoTabs" route="/tabs"/>-->
             <!--<page page-id="ProtoLine" route="/line"/>-->
             <!--<page page-id="CustomFieldset" route="/custom/route/fieldset"/>-->
             <!--<sub-menu label="Кастомные страницы">-->

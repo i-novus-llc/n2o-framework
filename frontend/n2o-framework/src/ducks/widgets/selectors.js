@@ -18,6 +18,11 @@ export const makeWidgetByIdSelector = widgetId => createSelector(
     widgets => widgets[widgetId] || {},
 )
 
+export const makeWidgetsByPageIdSelector = pageId => createSelector(
+    widgetsSelector,
+    widgets => Object.fromEntries(Object.entries(widgets).filter(([, widget]) => (widget.pageId === pageId))),
+)
+
 /**
  * Селектор-генератор для получения свойства виджета - isInit
  * @param widgetId

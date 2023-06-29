@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <datasource query-id="test">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+        </datasource>
+
+        <fields>
+            <input-text id="name" label="Поле 1" required="true"/>
+            <input-select id="org" label="Поле 2 для проверки #parent в in параметрах">
+                <options>
+                    <option id="1" name="org1"/>
+                    <option id="2" name="org2"/>
+                </options>
+            </input-select>
+            <input-select id="departments" type="multi"
+                          label="Поле 3 для проверки #parent в out параметрах">
+                <options>
+                    <option id="1" name="department1"/>
+                    <option id="2" name="department2"/>
+                    <option id="3" name="department3"/>
+                    <option id="4" name="department4"/>
+                </options>
+            </input-select>
+        </fields>
+    </form>
+</simple-page>

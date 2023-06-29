@@ -1,6 +1,7 @@
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import merge from 'lodash/merge'
+import { Action as ReduxAction } from 'redux'
 
 // @ts-ignore ignore import error from js file
 import { dataProviderResolver } from '../core/dataProviderResolver'
@@ -12,17 +13,21 @@ import { IBadgeProps } from '../components/snippets/Badge/Badge'
 export type metaPropsType = {[key: string]: unknown}
 
 export interface IItem {
-    target: string
-    href: string
-    linkType: 'outer' | 'inner'
-    imageSrc?: string
-    icon?: string
-    title: string
-    imageShape?: string
+    action: ReduxAction
     badge?: IBadgeProps
+    className?: string
+    href: string
+    icon?: string
+    id: string
+    imageShape?: string
+    imageSrc?: string
     items?: IItem[]
+    linkType: 'outer' | 'inner'
     pathMapping?: metaPropsType
     queryMapping?: metaPropsType
+    target: string
+    title: string
+    type: string
 }
 
 export const getFromSource = (

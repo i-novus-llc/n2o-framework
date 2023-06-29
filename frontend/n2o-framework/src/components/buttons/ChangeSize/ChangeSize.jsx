@@ -5,7 +5,7 @@ import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem 
 
 import { makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
 import { DataSourceContext } from '../../../core/widget/context'
-import { LIST_ICON, SIZES } from '../constants'
+import { SIZES } from '../constants'
 
 /**
  * Дропдаун для выбора размера(size) виджета
@@ -14,7 +14,9 @@ import { LIST_ICON, SIZES } from '../constants'
  * @example
  * <ChangeSize entityKey='TestEntityKey'/>
  */
-function ChangeSizeComponent({ size: currentSize, icon }) {
+function ChangeSizeComponent(props) {
+    const { size: currentSize, icon, label, nested = false } = props
+
     const { setSize } = useContext(DataSourceContext)
 
     const items = SIZES.map((size, i) => {
@@ -31,11 +33,18 @@ function ChangeSizeComponent({ size: currentSize, icon }) {
     })
 
     return (
-        <UncontrolledButtonDropdown>
-            <DropdownToggle caret>
-                <i className={icon || LIST_ICON} />
-            </DropdownToggle>
-            <DropdownMenu>{items}</DropdownMenu>
+        <UncontrolledButtonDropdown direction={nested ? 'right' : 'down'}>
+            <div>
+                <div className="n2o-dropdown visible">
+                    <div>
+                        <DropdownToggle caret>
+                            {icon && <i className={icon} />}
+                            {label}
+                        </DropdownToggle>
+                        <DropdownMenu>{items}</DropdownMenu>
+                    </div>
+                </div>
+            </div>
         </UncontrolledButtonDropdown>
     )
 }

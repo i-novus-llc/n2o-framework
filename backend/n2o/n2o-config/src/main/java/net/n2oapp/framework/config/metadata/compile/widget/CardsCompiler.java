@@ -41,7 +41,7 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
     public Cards compile(N2oCards source, CompileContext<?, ?> context, CompileProcessor p) {
         Cards cards = new Cards();
         compileBaseWidget(cards, source, context, p);
-        N2oAbstractDatasource datasource = initDatasource(cards, source, p);
+        N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);

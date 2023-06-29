@@ -1,7 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.menu;
 
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oAnchor;
+import net.n2oapp.framework.api.metadata.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
@@ -23,11 +24,15 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 /**
  * Компиляция простого меню
  */
 @Component
 public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSimpleMenu, ApplicationContext>, SourceClassAware {
+
     private static final String PROPERTY_PREFIX = "n2o.api.menu.item";
 
     @Override
@@ -40,11 +45,13 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         SimpleMenu simpleMenu = new SimpleMenu();
         List<MenuItem> items = new ArrayList<>();
         simpleMenu.setProperties(p.mapAttributes(source));
-        IndexScope idx = p.getScope(IndexScope.class) != null ? p.getScope(IndexScope.class) : new IndexScope(1);
-        if (source.getMenuItems() != null)
+        IndexScope idx = nonNull(p.getScope(IndexScope.class)) ? p.getScope(IndexScope.class) : new IndexScope(1);
+        if (nonNull(source.getMenuItems())) {
             for (N2oSimpleMenu.AbstractMenuItem mi : source.getMenuItems())
                 items.add(createMenuItem(mi, p, context, idx));
+        }
         simpleMenu.setItems(items);
+
         return simpleMenu;
     }
 
@@ -64,17 +71,25 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
             dropdownMenu((N2oSimpleMenu.DropdownMenuItem) source, compiled, p, context, idx);
         }
         compiled.setProperties(p.mapAttributes(source));
+
         return compiled;
     }
 
     private void menuItem(N2oSimpleMenu.MenuItem source, MenuItem compiled, CompileProcessor p, ApplicationContext context) {
         compiled.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
-        compiled.setType("link");
+        if (source.getAction() instanceof N2oAnchor || source.getAction() instanceof N2oOpenPage) 
+            compiled.setType("link");
+        else
+            compiled.setType("action");
         compiled.setPageId(initPageId(source.getAction()));
-        if (source.getName() == null)
+        if (isNull(source.getName()))
             compiled.setTitle(initDefaultName(source.getAction(), p));
-        if (source.getAction() != null) {
-            Action action = p.compile(source.getAction(), context, new ComponentScope(source, p.getScope(ComponentScope.class)));
+        if (nonNull(source.getAction())) {
+            Action action = p.compile(
+                    source.getAction(),
+                    context,
+                    new ComponentScope(source, p.getScope(ComponentScope.class))
+            );
             if (action instanceof LinkAction) {
                 LinkAction linkAction = (LinkAction) action;
                 compiled.setHref(linkAction.getUrl());
@@ -85,10 +100,9 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
                     compiled.setLinkType(MenuItem.LinkType.inner);
                 else
                     compiled.setLinkType(MenuItem.LinkType.outer);
-                //            compiled.setPathMapping(linkAction.getPathMapping());
-                //            compiled.setQueryMapping(linkAction.getQueryMapping());
-            } else
-                throw new N2oException("Action " + action.getClass() + " not supported in menu yet");
+            } else {
+                compiled.setAction(action);
+            }
         }
     }
 
@@ -98,7 +112,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
 
     private String initDefaultName(N2oAction action, CompileProcessor p) {
         String pageId = initPageId(action);
-        if (pageId == null)
+        if (isNull(pageId))
             return null;
         N2oPage page = p.getSource(pageId, N2oPage.class);
         return page.getName();

@@ -34,10 +34,10 @@ public class MappingProcessorTest {
         TestEntity result = new TestEntity();
         TestEntity.InnerEntity innerEntity = new TestEntity.InnerEntity();
         result.setInnerObj(innerEntity);
-        MappingProcessor.inMap(result, "valueStr", "object");
-        MappingProcessor.inMap(result, "valueInt", 55);
-        MappingProcessor.inMap(result, "innerObj.valueStr", "inner");
-        MappingProcessor.inMap(result, "innerObj.valueInt", 66);
+        MappingProcessor.inMap(result, "valueStr", "valueStr", "object");
+        MappingProcessor.inMap(result, "valueInt", "valueInt", 55);
+        MappingProcessor.inMap(result, "innerObj.valueStr", "innerObj.valueStr", "inner");
+        MappingProcessor.inMap(result, "innerObj.valueInt", "innerObj.valueInt", 66);
         assert result.getInnerObj().getValueStr().equals("inner");
         assert result.getInnerObj().getValueInt().equals(66);
         assert result.getValueStr().equals("object");
@@ -203,6 +203,7 @@ public class MappingProcessorTest {
         data.put("name", "John");
         assertThat(MappingProcessor.normalizeValue(obj, "#this", data, parser, beanFactory), is("test"));
         assertThat(MappingProcessor.normalizeValue(obj, "#data['name']", data, parser, beanFactory), is("John"));
+        assertThat(MappingProcessor.normalizeValue(obj, "#parent['name']", null, data, parser, beanFactory), is("John"));
         assertThat(MappingProcessor.normalizeValue(obj, "@myBean.call()", data, parser, beanFactory), is("Doe"));
 
         assertThrows(

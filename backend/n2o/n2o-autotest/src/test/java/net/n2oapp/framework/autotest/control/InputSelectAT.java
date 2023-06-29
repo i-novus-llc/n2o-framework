@@ -148,7 +148,7 @@ public class InputSelectAT extends AutoTestBase {
         input.openPopup();
         input.dropdown().selectMulti(1, 2);
         input.shouldSelectedMulti("Two", "Three");
-        input.clear();
+        input.clearUsingIcon();
         input.shouldBeEmpty();
 
         input.openPopup();
@@ -181,7 +181,7 @@ public class InputSelectAT extends AutoTestBase {
         input.openPopup();
         input.dropdown().selectMulti(1, 2);
         input.shouldSelectedMulti("Two", "Three");
-        input.clear();
+        input.clearUsingIcon();
         input.shouldBeEmpty();
 
         input.openPopup();
@@ -253,7 +253,7 @@ public class InputSelectAT extends AutoTestBase {
         input2.openPopup();
         dropdown2.selectMulti(1, 2);
         input2.shouldSelectedMulti("name2", "name3");
-        input2.clear();
+        input2.clearUsingIcon();
         input2.shouldBeEmpty();
     }
 

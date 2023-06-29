@@ -13,10 +13,12 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor;
+import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initActions;
 import static net.n2oapp.framework.config.util.StylesResolver.resolveStylesToString;
 
@@ -36,7 +38,8 @@ public abstract class AbstractCellCompiler<D extends AbstractCell, S extends N2o
                 compiled.setId(column.getId());
                 compiled.setFieldKey(column.getTextFieldId());
                 compiled.setTooltipFieldId(column.getTooltipFieldId());
-                compiled.setHideOnBlur(column.getHideOnBlur());
+                compiled.setHideOnBlur(p.cast(column.getHideOnBlur(),
+                        p.resolve(property("n2o.api.widget.table.column.hide_on_blur"), Boolean.class)));
                 if (column.getContentAlignment() != null)
                     compiled.getElementAttributes().put("alignment", column.getContentAlignment().getId());
             }

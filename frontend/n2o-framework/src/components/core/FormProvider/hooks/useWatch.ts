@@ -11,10 +11,10 @@ type TUseWatch<T> = {
 }
 
 export const useWatch = <T = unknown>({ defaultValue, name: fieldName }: TUseWatch<T>) => {
-    const { name: formName, prefix } = useFormContext()
+    const { datasource, prefix } = useFormContext()
 
     return useSelector<State, T>((state: State) => {
-        const value = getFormDataSelector(state, `${prefix}.${formName}.${fieldName}`)
+        const value = getFormDataSelector(state, `${prefix}.${datasource}.${fieldName}`)
 
         return typeof value === 'undefined' ? defaultValue : value
     })

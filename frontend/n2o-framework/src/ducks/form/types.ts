@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
+import { ValidationsKey } from '../../core/validation/IValidation'
 import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
 
-export type TFormField = {
+export type Field = {
     isInit: boolean
     visible: boolean
     visible_field: boolean
@@ -20,10 +21,16 @@ export type TFormField = {
     required: boolean
     loading: boolean
     touched?: boolean
+    parentIndex?: number
 }
 
-export type TForm = {
-    dirty?: boolean
-} & Record<string, TFormField>
+export type Form = {
+    formName: string
+    datasource: string
+    modelPrefix: string
+    validationKey: ValidationsKey
+    dirty: boolean
+    fields: Record<string, Field>
+}
 
-export type TFormState = Record<string, TForm>
+export type FormsState = Record<string, Form>

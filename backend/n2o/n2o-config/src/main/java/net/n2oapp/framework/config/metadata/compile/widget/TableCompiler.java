@@ -19,6 +19,7 @@ import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
+import net.n2oapp.framework.api.metadata.meta.widget.Rows;
 import net.n2oapp.framework.api.metadata.meta.widget.table.AbstractTable;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -61,7 +62,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     public D compile(S source, CompileContext<?, ?> context, CompileProcessor p) {
         D table = constructTable();
         compileBaseWidget(table, source, context, p);
-        N2oAbstractDatasource datasource = initDatasource(table, source, p);
+        N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.filter, p);

@@ -1,8 +1,5 @@
 import isObject from 'lodash/isObject'
-import isFunction from 'lodash/isFunction'
-import isArray from 'lodash/isArray'
-import isString from 'lodash/isString'
-import merge from 'lodash/merge'
+import uniq from 'lodash/uniq'
 import isEmpty from 'lodash/isEmpty'
 
 import evalExpression, { parseExpression } from './evalExpression'
@@ -53,32 +50,24 @@ export default function propsResolver(
     data = {},
     additionalBlackList = [],
 ) {
-    const obj = isArray(props) ? [] : {}
-    const fullBlackList = merge(blackList, additionalBlackList)
-
-    if (isObject(props) && !isFunction(props)) {
-        Object.keys(props).forEach((key) => {
-            const property = props[key]
-
-            if (isObject(property)) {
-                obj[key] = fullBlackList.includes(key)
-                    ? property : propsResolver(property, data)
-            } else {
-                const parsedExpression = parseExpression(property)
-
-                obj[key] = parsedExpression ? evalExpression(parsedExpression, data) : property
-            }
-        })
-
-        return obj
-    }
-
-    if (isString(props)) {
+    if (!props) { return props }
+    if (typeof props === 'string') {
         const parsedExpression = parseExpression(props)
 
         if (parsedExpression) {
             return evalExpression(parsedExpression, data)
         }
+    }
+    if (typeof props === 'function') { return props }
+    if (Array.isArray(props)) { return props.map(property => propsResolver(property, data, additionalBlackList)) }
+
+    if (isObject(props)) {
+        const fullBlackList = uniq([...blackList, ...additionalBlackList])
+
+        return Object.fromEntries(Object.entries(props).map(([key, property]) => [
+            key,
+            fullBlackList.includes(key) ? property : propsResolver(property, data, additionalBlackList),
+        ]))
     }
 
     return props

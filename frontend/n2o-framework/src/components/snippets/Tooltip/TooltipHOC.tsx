@@ -6,7 +6,7 @@ import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
 
 interface ITooltipHocProps extends Config {
-    hint?: string | number | React.Component
+    hint?: string | number | React.Component | null
     trigger?: 'click' | 'double-click' | 'right-click' | 'hover' | 'focus',
     /**
      * if this option is enabled, TooltipHOC will give the incoming component tooltipTriggerRef

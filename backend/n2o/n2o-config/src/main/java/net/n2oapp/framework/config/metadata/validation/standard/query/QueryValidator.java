@@ -55,7 +55,7 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
      * @param p       Процессор исходных метаданных
      */
     private void checkForUniqueFields(AbstractField[] fields, String queryId, SourceProcessor p) {
-        p.checkIdsUnique(fields, "Поле {0} встречается более чем один раз в выборке " + queryId);
+        p.checkIdsUnique(fields, String.format("Поле '%s' встречается более чем один раз в выборке '%s'", "%s", queryId));
     }
 
     /**

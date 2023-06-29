@@ -10,6 +10,8 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 
 public class N2oDropdownButton extends N2oButton implements DropdownButton {
 
+    private final String DROPDOWN = ".n2o-dropdown-menu,.dropdown-menu";
+
     @Override
     public void shouldBeEnabled() {
         element().shouldBe(Condition.enabled);
@@ -55,15 +57,19 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
         dropdownMenu().shouldBe(Condition.hidden);
     }
 
+    @Override
+    public void shouldHaveIcon(String iconName) {
+        element().$("i").shouldHave(Condition.cssClass(iconName));
+    }
+
     private SelenideElement dropdownMenu() {
-        return element().parent()
-                .parent()
-                .$(".n2o-dropdown-menu");
+        if (element().parent().$(DROPDOWN).exists())
+            return element().parent().$(DROPDOWN);
+        return element().parent().parent().$(DROPDOWN);
     }
 
     protected ElementsCollection menuItems() {
-        return element().parent()
-                .parent()
+        return dropdownMenu()
                 .$$("div.dropdown-menu .btn.btn-secondary,.dropdown-item");
     }
 }

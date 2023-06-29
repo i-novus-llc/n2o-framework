@@ -37,14 +37,14 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
     public Calendar compile(N2oCalendar source, CompileContext<?, ?> context, CompileProcessor p) {
         Calendar calendar = new Calendar();
         compileBaseWidget(calendar, source, context, p);
-        N2oAbstractDatasource datasource = initDatasource(calendar, source, p);
+        N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
 
         CalendarWidgetComponent component = calendar.getComponent();
         component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.calendar.size"), Integer.class)));
         component.setHeight(source.getHeight());
-        String dateDomain = p.resolve(property("n2o.api.control.datetime.domain"), String.class);
+        String dateDomain = p.resolve(property("n2o.api.control.date_time.domain"), String.class);
         component.setDate((Date) p.resolve(source.getDefaultDate(), dateDomain));
         component.setDefaultView(source.getDefaultView() != null ?
                 source.getDefaultView().getTitle() :

@@ -35,8 +35,9 @@ public class MappingProcessor {
      * @param mapping выражение преобразования
      * @param value   значение
      */
-    public static void inMap(Object target, String mapping, Object value) {
-        inMap(target, mapping, value, mapping);
+
+    public static void inMap(Object target, String fieldId, String mapping, Object value) {
+        inMap(target, fieldId, mapping, value, mapping);
     }
 
     /**
@@ -47,13 +48,14 @@ public class MappingProcessor {
      * @param value       значение
      * @param userMapping выражение преобразования, используемое для формирования сообщения об ошибке
      */
-    public static void inMap(Object target, String mapping, Object value, String userMapping) {
+
+    public static void inMap(Object target, String fieldId, String mapping, Object value, String userMapping) {
         try {
             Expression expression = writeParser.parseExpression(mapping);
             if (target != null)
                 expression.setValue(target, value);
         } catch (Exception e) {
-            throw new N2oSpelException(userMapping, e);
+            throw new N2oSpelException(fieldId, userMapping, e);
         }
     }
 
@@ -142,7 +144,7 @@ public class MappingProcessor {
             try {
                 writeParser.parseExpression(target).setValue(instance, dataSet.get(childParam.getId()));
             } catch (Exception e) {
-                throw new N2oSpelException(parameter.getId(), target, e);
+                throw new N2oSpelException(childParam.getId(), target, e);
             }
         }
         return instance;
@@ -172,7 +174,7 @@ public class MappingProcessor {
      *
      * @param value       Значение для нормализации
      * @param normalizer  Нормализируещее выражение
-     * @param allData     Данные, используемые для нормализации
+     * @param allData     Данные, используемые для нормализации (нужно для #data)
      * @param parser      Парсер SpEL выражений
      * @param beanFactory Фабрика бинов спринга
      * @return Нормализированное значение
@@ -180,12 +182,30 @@ public class MappingProcessor {
     public static Object normalizeValue(Object value, String normalizer, DataSet allData,
                                         ExpressionParser parser,
                                         BeanFactory beanFactory) {
+        return normalizeValue(value, normalizer, allData, null, parser, beanFactory);
+    }
+
+    /**
+     * Нормализация значения по SpEL выражению
+     *
+     * @param value       Значение для нормализации
+     * @param normalizer  Нормализируещее выражение
+     * @param allData     Данные, используемые для нормализации
+     * @param parser      Парсер SpEL выражений
+     * @param beanFactory Фабрика бинов спринга
+     * @return Нормализированное значение
+     */
+    public static Object normalizeValue(Object value, String normalizer, DataSet allData,
+                                        DataSet parentData, ExpressionParser parser,
+                                        BeanFactory beanFactory) {
         if (normalizer == null)
             return value;
         StandardEvaluationContext context = new StandardEvaluationContext(value);
         context.setVariables(registeredFunctions);
         if (allData != null)
             context.setVariable("data", allData);
+        if (parentData != null)
+            context.setVariable("parent", parentData);
         if (beanFactory != null)
             context.setBeanResolver(new BeanFactoryResolver(beanFactory));
         try {
