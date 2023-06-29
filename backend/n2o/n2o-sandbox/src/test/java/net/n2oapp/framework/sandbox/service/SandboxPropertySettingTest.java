@@ -82,7 +82,7 @@ public class SandboxPropertySettingTest {
         wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
         wireMockServer.stubFor(get("/project/myProjectId/config.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
 
-        JSONObject config = new JSONObject(viewController.getConfig("myProjectId", null));
+        JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
         assertThat(config.getJSONObject("menu").getJSONObject("header").getString("src"), is("CustomHeader"));
         assertThat(config.getJSONObject("menu").getJSONObject("footer").getString("src"), is("CustomFooter"));
 
@@ -103,7 +103,7 @@ public class SandboxPropertySettingTest {
                 "roles=[USER,ADMIN]")));
         wireMockServer.stubFor(get("/project/myProjectId/config.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
 
-        JSONObject config = new JSONObject(viewController.getConfig("myProjectId", null));
+        JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
         assertThat(config.getJSONObject("user").getString("email"), is("test@example.com"));
         assertThat(config.getJSONObject("user").getString("name"), is("null"));
         assertThat(config.getJSONObject("user").getString("permissions"), is("null"));

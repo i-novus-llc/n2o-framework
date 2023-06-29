@@ -18,11 +18,7 @@ import net.n2oapp.framework.api.register.DynamicMetadataProvider;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.api.register.route.RouteRegister;
-import net.n2oapp.framework.api.rest.ControllerFactory;
-import net.n2oapp.framework.api.rest.ExportResponse;
-import net.n2oapp.framework.api.rest.GetDataResponse;
-import net.n2oapp.framework.api.rest.N2oResponse;
-import net.n2oapp.framework.api.rest.SetDataResponse;
+import net.n2oapp.framework.api.rest.*;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.user.UserContext;
@@ -70,7 +66,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -160,7 +155,7 @@ public class ViewController {
 
     @CrossOrigin(origins = "*")
     @GetMapping({"/view/{projectId}/n2o/config"})
-    public Map<String, Object> getConfig(@PathVariable(value = "projectId") String projectId, HttpSession session) {
+    public Map<String, Object> getConfig(@PathVariable(value = "projectId") String projectId) {
         Map<String, Object> addedValues = new HashMap<>();
         addedValues.put("project", projectId);
 
@@ -387,7 +382,6 @@ public class ViewController {
     private void getIndex(N2oApplicationBuilder builder) {
         PageContext index = new PageContext(propertyResolver.getProperty("n2o.homepage.id"), "/");
         builder.routes(new RouteInfo("/", index));
-        builder.scan().read().transform().validate().compile().transform().get(index);
     }
 
     private String getPath(HttpServletRequest request, String prefix) {

@@ -60,7 +60,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         prepareInValues(inParameters, inDataSet);
         DataSet resolvedInDataSet = resolveInValuesMapping(inParameters, inDataSet);
         DataSet resultDataSet = invoke(invocation, resolvedInDataSet, inMapping, outMapping);
-        resolveOutValues(outParameters, resultDataSet);
+        resolveOutValues(outParameters, resultDataSet, null);
         inDataSet.merge(resultDataSet, ArrayMergeStrategy.replace, true);
         return inDataSet;
     }
@@ -89,7 +89,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
      * @param parameters    Исходящие поля операции
      * @param resultDataSet Исходящие данные вызова
      */
-    protected void resolveOutValues(Collection<AbstractParameter> parameters, DataSet resultDataSet) {
+    protected void resolveOutValues(Collection<AbstractParameter> parameters, DataSet resultDataSet, DataSet parentDataSet) {
         if (parameters == null) return;
         for (AbstractParameter parameter : parameters) {
             Object value = resultDataSet.get(parameter.getId());
@@ -98,27 +98,27 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                     ObjectReferenceField referenceField = (ObjectReferenceField) parameter;
                     if (value instanceof Collection) {
                         for (Object obj : (Collection<?>) value)
-                            resolveOutValues(List.of(referenceField.getFields()), (DataSet) obj);
+                            resolveOutValues(List.of(referenceField.getFields()), (DataSet) obj, resultDataSet);
                     } else if (value instanceof DataSet) {
-                        resolveOutValues(List.of(referenceField.getFields()), (DataSet) value);
+                        resolveOutValues(List.of(referenceField.getFields()), (DataSet) value, resultDataSet);
                     }
                     if (parameter.getNormalize() != null) {
-                        value = tryToNormalize(value, parameter, resultDataSet, applicationContext);
+                        value = tryToNormalize(value, parameter, resultDataSet, parentDataSet, applicationContext);
                         resultDataSet.put(parameter.getId(), value);
                     }
                 }
             } else {
                 ObjectSimpleField simpleField = (ObjectSimpleField) parameter;
-                resolveOutField(simpleField, resultDataSet, value);
+                resolveOutField(simpleField, resultDataSet, parentDataSet, value);
             }
         }
     }
 
-    private void resolveOutField(ObjectSimpleField simpleField, DataSet resultDataSet, Object value) {
+    private void resolveOutField(ObjectSimpleField simpleField, DataSet resultDataSet, DataSet parentData, Object value) {
         if (value == null && simpleField.getDefaultValue() != null && simpleField.getMapping() == null)
             value = contextProcessor.resolve(simpleField.getDefaultValue());
         if (value != null && simpleField.getNormalize() != null)
-            value = tryToNormalize(value, simpleField, resultDataSet, applicationContext);
+            value = tryToNormalize(value, simpleField, resultDataSet, parentData, applicationContext);
         resultDataSet.put(simpleField.getId(), value);
     }
 
@@ -134,17 +134,17 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
 
         if (invocationParameters == null || inDataSet == null)
             return new DataSet();
-        return normalizeAndMapFields(invocationParameters, inDataSet);
+        return normalizeAndMapFields(invocationParameters, inDataSet, null);
     }
 
     private DataSet normalizeAndMapFields(Collection<AbstractParameter> invocationParameters,
-                                          DataSet inDataSet) {
+                                          DataSet inDataSet, DataSet parentData) {
         DataSet resultDataSet = new DataSet();
         // normalize values
         invocationParameters.forEach(parameter -> {
             Object value = inDataSet.get(parameter.getId());
             if (parameter.getNormalize() != null)
-                value = tryToNormalize(value, parameter, inDataSet, applicationContext);
+                value = tryToNormalize(value, parameter, inDataSet, parentData, applicationContext);
             resultDataSet.put(parameter.getId(), value);
         });
         // remove not enabled data
@@ -167,10 +167,10 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         if (field instanceof ObjectListField || field instanceof ObjectSetField) {
             DataList list = new DataList(dataSet.getList(field.getId()));
             for (int i = 0; i < list.size(); i++)
-                list.set(i, normalizeAndMapFields(innerParams, (DataSet) dataSet.getList(field.getId()).get(i)));
+                list.set(i, normalizeAndMapFields(innerParams, (DataSet) dataSet.getList(field.getId()).get(i), dataSet));
             dataSet.put(field.getId(), list);
         } else {
-            dataSet.put(field.getId(), normalizeAndMapFields(innerParams, dataSet.getDataSet(field.getId())));
+            dataSet.put(field.getId(), normalizeAndMapFields(innerParams, dataSet.getDataSet(field.getId()), dataSet));
         }
     }
 
@@ -206,9 +206,10 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     private Object tryToNormalize(Object value,
                                   AbstractParameter parameter,
                                   DataSet inDataSet,
+                                  DataSet parentData,
                                   ApplicationContext applicationContext) {
         try {
-            value = normalizeValue(value, parameter.getNormalize(), inDataSet, parser, applicationContext);
+            value = normalizeValue(value, parameter.getNormalize(), inDataSet, parentData, parser, applicationContext);
         } catch (N2oSpelException e) {
             e.setFieldId(parameter.getId());
             throw e;

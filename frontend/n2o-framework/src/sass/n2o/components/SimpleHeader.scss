@@ -1,9 +1,30 @@
+@mixin defaultColor {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+@mixin hoverColor {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+@mixin navItem {
+    padding: 10px 15px;
+
+    @include defaultColor;
+}
+
+@mixin dropdownItemHover {
+    background-color: white;
+
+    @include hoverColor;
+}
+
 .n2o-sidebar-switcher {
     margin-right: 2rem;
     width: 1rem;
     font-size: 20px;
     cursor: pointer;
-    color: rgba(0, 0, 0, 0.5);
+
+    @include defaultColor;
 }
 
 .n2o-sidebar-switcher:hover {
@@ -11,17 +32,29 @@
 }
 
 .n2o-header {
+    .n2o-action-item.nav-item {
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+        cursor: pointer;
+
+        @include defaultColor;
+    }
+
+    .n2o-action-item.nav-item:hover {
+        @include hoverColor;
+    }
+
     .dropdown {
         .dropdown-toggle {
-            padding: 10px 15px;
             border: none;
             background-color: transparent !important;
             box-shadow: none !important;
-            color: rgba(0, 0, 0, 0.5);
+
+            @include navItem;
         }
 
         .dropdown-toggle:hover {
-            color: rgba(0, 0, 0, 0.7);
+            @include hoverColor;
         }
 
         .dropdown-toggle:active,
@@ -48,7 +81,7 @@
 
     .dropdown.isOpen {
         .dropdown-toggle {
-            color: rgba(0, 0, 0, 0.7);
+            @include hoverColor;
         }
     }
 
@@ -58,14 +91,28 @@
                 color: white;
             }
 
+            .n2o-action-item.dropdown-item {
+                cursor: pointer;
+
+                @include navItem;
+            }
+
+            .n2o-action-item.dropdown-item:hover {
+                @include dropdownItemHover;
+            }
+
+            .n2o-action-item.dropdown-item:active,
+            .n2o-action-item.dropdown-item:focus {
+                background-color: white;
+            }
+
             .dropdown-item {
                 padding: 0;
                 color: $primary;
 
                 .nav-item {
                     .nav-link {
-                        padding: 10px 15px;
-                        color: rgba(0, 0, 0, 0.5);
+                        @include navItem;
                     }
 
                     .nav-link.dropdown-item.active {
@@ -82,8 +129,7 @@
                     }
 
                     .nav-link.dropdown-item:hover {
-                        background-color: white;
-                        color: rgba(0, 0, 0, 0.7);
+                        @include dropdownItemHover;
                     }
 
                     .nav-link.dropdown-item.active:hover {

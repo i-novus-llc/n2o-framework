@@ -669,6 +669,10 @@
           "name": "Внешняя ссылка"
         },
         {
+          "templateId": "uxcomponents/menu/action",
+          "name": "Действия в пунктах меню"
+        },
+        {
           "templateId": "uxcomponents/menu/submenu",
           "name": "Выпадающее меню"
         },

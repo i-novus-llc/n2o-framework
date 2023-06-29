@@ -80,88 +80,80 @@
         <xs:annotation>
             <xs:documentation>Компонент меню</xs:documentation>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="open-page" type="act:openPageDefinition" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>Действие открытия страницы</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="a" type="act:aDefinition" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>Открыть ссылку</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор компонента меню</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="name" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Наименование компонента меню</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="datasource" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор источника данных</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="icon" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Иконка компонента меню</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="badge" type="xs:integer">
-            <xs:annotation>
-                <xs:documentation>Значок компонента меню</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="badge-color" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Цвет значка</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="badge-shape" type="shapeType" default="circle">
-            <xs:annotation>
-                <xs:documentation>Форма значка</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="badge-position" type="positionType" default="right">
-            <xs:annotation>
-                <xs:documentation>Позиция значка</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="badge-image" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Поле выборки, отвечающее за картинку в значке</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="badge-image-position" type="positionType" default="left">
-            <xs:annotation>
-                <xs:documentation>Позиция картинки в значке</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
-            <xs:annotation>
-                <xs:documentation>Форма картинки в значке</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="image" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Путь к изображению</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="image-shape" type="shapeType" default="rounded">
-            <xs:annotation>
-                <xs:documentation>Форма изображения</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:anyAttribute>
-            <xs:annotation>
-                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
-            </xs:annotation>
-        </xs:anyAttribute>
+        <xs:complexContent>
+            <xs:extension base="act:actions">
+                <xs:attribute name="id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор компонента меню</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="name" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Наименование компонента меню</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор источника данных</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Иконка компонента меню</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Значок компонента меню</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-color" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Цвет значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>Форма значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-position" type="positionType" default="right">
+                    <xs:annotation>
+                        <xs:documentation>Позиция значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за картинку в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>Позиция картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>Форма картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="image" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Путь к изображению</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="image-shape" type="shapeType" default="rounded">
+                    <xs:annotation>
+                        <xs:documentation>Форма изображения</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="pageDef">

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
@@ -41,7 +42,8 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
      */
     @Getter
     @Setter
-    public static abstract class AbstractMenuItem implements Source, IdAware, ExtensionAttributesAware {
+    public static abstract class AbstractMenuItem implements Source, IdAware, ExtensionAttributesAware, DatasourceIdAware {
+
         private String id;
         private String name;
         private String datasourceId;
@@ -58,6 +60,7 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
     @Getter
     @Setter
     public static class MenuItem extends AbstractMenuItem implements BadgeAware {
+
         private String badge;
         private String badgeColor;
         private Position badgePosition;
@@ -71,6 +74,7 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
     @Getter
     @Setter
     public static class DropdownMenuItem extends AbstractMenuItem {
+
         private AbstractMenuItem[] menuItems;
     }
 
@@ -103,6 +107,7 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
 
     @Deprecated
     public static class AnchorMenuItem extends MenuItem {
+
         public void setHref(String href) {
             getAnchor().setHref(href);
         }

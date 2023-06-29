@@ -10,11 +10,11 @@
         <field id="myName" mapping="['name']" normalize="#this.toUpperCase()"/>
         <reference id="myOrganization" mapping="['organization']"
                    normalize="T(net.n2oapp.framework.engine.processor.StaticInvocationTestClass).normalizeOrganization()">
-            <field id="myCode" mapping="['normalizedCode']" normalize="#this + #data[myTitle]"/>
+            <field id="myCode" mapping="['normalizedCode']" normalize="#this + #data[myTitle] + #parent[myCode]"/>
             <field id="myTitle" mapping="['normalizedTitle']" normalize="#this + ' fieldNormalize'"/>
             <list id="myEmployees" mapping="['normalizedEmployees']"
                   normalize="T(net.n2oapp.framework.engine.processor.StaticInvocationTestClass).normalizeEmployees()">
-                <field id="myId" mapping="['normalizedId']" normalize="#this + #data[myName]"/>
+                <field id="myId" mapping="['normalizedId']" normalize="#this + #data[myName] + '_' + #parent[myCode]"/>
                 <field id="myName" mapping="['normalizedName']" normalize="#this + ' fieldNormalize'"/>
             </list>
         </reference>
