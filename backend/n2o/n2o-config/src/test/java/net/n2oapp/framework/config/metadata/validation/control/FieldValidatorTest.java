@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.validation;
+package net.n2oapp.framework.config.metadata.validation.control;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -17,6 +17,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -40,47 +41,42 @@ public class FieldValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testUniqueDependenciesType() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testUniqueDependenciesType.widget.xml"),
-                "В поле field2 повторяются зависимости одного типа"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testUniqueDependenciesType.widget.xml"));
+        assertEquals("В поле 'field2' повторяются зависимости одного типа", exception.getMessage());
     }
 
     @Test
     void testDefaultValueNotNull() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueNotNull.widget.xml"),
-                "У поля field1 атрибут default-value не является ссылкой или не задан: null"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueNotNull.widget.xml"));
+        assertEquals("У поля 'field1' атрибут default-value не является ссылкой или не задан: 'null'", exception.getMessage());
     }
 
     @Test
     void testDefaultValueNotNullForInterval() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueNotNullForInterval.widget.xml"),
-                "У поля field1 default-value не задан"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueNotNullForInterval.widget.xml"));
+        assertEquals("У поля 'field1' default-value не задан", exception.getMessage());
     }
 
     @Test
     void testDefaultValueIsLinkForList() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueIsLinkForList.widget.xml"),
-                "У поля field1 default-value не является ссылкой"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueIsLinkForList.widget.xml"));
+        assertEquals("У поля 'field1' default-value не является ссылкой", exception.getMessage());
     }
 
     @Test
     void testDefaultValueIsLinkForInterval() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueIsLinkForInterval.widget.xml"),
-                "У поля field1 default-value не является ссылкой"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testDefaultValueIsLinkForInterval.widget.xml"));
+        assertEquals("У поля 'field1' default-value не является ссылкой", exception.getMessage());
     }
 
     @Test
@@ -93,11 +89,10 @@ public class FieldValidatorTest extends SourceValidationTestBase {
      */
     @Test
     void testWhiteListValidationWithoutDatasource() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testWhiteListValidationWithoutDatasource.page.xml"),
-                "Для компиляции поля name необходимо указать атрибут datasource или ввести внутренний источник данных виджета main"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testWhiteListValidationWithoutDatasource.page.xml"));
+        assertEquals("Для компиляции поля 'name' необходимо указать атрибут 'datasource' или ввести внутренний источник данных виджета 'main'", exception.getMessage());
     }
 
     /**
@@ -105,22 +100,22 @@ public class FieldValidatorTest extends SourceValidationTestBase {
      */
     @Test
     void testWhiteListValidationWithDatasourceWithoutObject() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testWhiteListValidationWithDatasourceWithoutObject.page.xml"),
-                "Для компиляции поля name виджета main необходимо указать объект источника данных ds1"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testWhiteListValidationWithDatasourceWithoutObject.page.xml"));
+        assertEquals("Для компиляции поля 'name' виджета 'main' необходимо указать объект источника данных 'ds1'", exception.getMessage());
     }
+
 
     /**
      * Проверяется наличие объекта внутреннего источника данных виджета для поля c white-list валидацией
      */
     @Test
     void testWhiteListValidationWithInlineDatasourceWithoutObject() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testWhiteListValidationWithInlineDatasourceWithoutObject.page.xml"),
-                "Для компиляции поля name виджета main необходимо указать объект источника данных "
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testWhiteListValidationWithInlineDatasourceWithoutObject.page.xml"));
+        assertEquals("Для компиляции поля 'name' виджета 'main' необходимо указать объект источника данных ", exception.getMessage());
     }
+
 }

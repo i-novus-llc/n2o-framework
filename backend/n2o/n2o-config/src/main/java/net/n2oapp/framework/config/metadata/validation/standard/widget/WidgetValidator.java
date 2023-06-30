@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
-import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdInQuotesOrEmptyString;
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 /**
@@ -81,7 +81,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
             Arrays.stream(source.getDependencies()).forEach(dependency ->
                     ValidationUtils.checkEmptyDependency(dependency,
                             String.format("Зависимость виджета %s имеет пустое тело",
-                                    getIdInQuotesOrEmptyString(source.getId()))));
+                                    getIdOrEmptyString(source.getId()))));
         }
     }
 
