@@ -12,9 +12,14 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Nonnull;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -147,7 +152,7 @@ public final class ValidationUtils {
      * @return Идентификатор метаданной в случае его существования, иначе пуста строка
      */
     public static String getIdOrEmptyString(String metadataId) {
-        return metadataId != null ? metadataId : "";
+        return metadataId != null ? StringUtils.quote(metadataId) : "";
     }
 
     /**
@@ -156,9 +161,6 @@ public final class ValidationUtils {
      * @param metadataId Идентификатор метаданной
      * @return Идентификатор метаданной в случае его существования, иначе пуста строка
      */
-    public static String getIdInQuotesOrEmptyString(String metadataId) {
-        return metadataId != null ? StringUtils.quote(metadataId) : "";
-    }
 
     /**
      * Получение идентификатора метаданной для сообщения исключений
@@ -179,6 +181,52 @@ public final class ValidationUtils {
     public static void checkEmptyDependency(N2oDependency dependency, String message) {
         if (!StringUtils.hasText(dependency.getValue()))
             throw new N2oMetadataValidationException(message);
+    }
+
+    public static void checkNumber(String text, String message) {
+        if (!NumberUtils.isParsable(text))
+            throw new N2oMetadataValidationException(message);
+    }
+
+    public static void checkInteger(String text, String message) {
+        try {
+            Integer.parseInt(text);
+        } catch (NumberFormatException nfe) {
+            throw new N2oMetadataValidationException(message);
+        }
+    }
+
+    public static void checkShort(String text, String message) {
+        try {
+            Short.parseShort(text);
+        } catch (NumberFormatException nfe) {
+            throw new N2oMetadataValidationException(message);
+        }
+    }
+
+    public static void checkByte(String text, String message) {
+        try {
+            Byte.parseByte(text);
+        } catch (NumberFormatException nfe) {
+            throw new N2oMetadataValidationException(message);
+        }
+    }
+
+    public static void checkDouble(String text, String message) {
+        try {
+            Double.parseDouble(text);
+        } catch (NumberFormatException nfe) {
+            throw new N2oMetadataValidationException(message);
+        }
+    }
+
+    public static void checkDate(String date, String message) {
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        try {
+            formater.parseObject(date);
+        } catch (ParseException e) {
+            throw new N2oMetadataValidationException(message);
+        }
     }
 
     private static void checkTest(N2oConditionBranch branch, SourceProcessor p, @Nonnull String tag) {

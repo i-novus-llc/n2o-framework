@@ -55,7 +55,7 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getStyle().size(), is(2));
         assertThat(page.getPageProperty().getTitle(), is("testPage"));
         assertThat(page.getPageProperty().getHtmlTitle(), is("tab title"));
-        assertThat(page.getPageProperty().getDatasource(), is("test_route_main"));
+        assertThat(page.getPageProperty().getDatasource(), is("test_route_w1"));
         assertThat(page.getPageProperty().getModel(), is(ReduxModel.edit));
         assertThat(page.getWidget(), notNullValue());
         assertThat(page.getWidget().getClass(), is(equalTo(HtmlWidget.class)));

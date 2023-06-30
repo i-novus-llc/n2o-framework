@@ -19,6 +19,10 @@
                badge-color="danger">
         <open-page page-id="index" route="/login"/>
     </menu-item>
+    <menu-item id="alert"
+               name="Menu-item с алертом">
+        <alert text="Алерт" color="success"/>
+    </menu-item>
     <dropdown-menu id="user"
                    name="Виктория"
                    image="/static/users/vika91.png"

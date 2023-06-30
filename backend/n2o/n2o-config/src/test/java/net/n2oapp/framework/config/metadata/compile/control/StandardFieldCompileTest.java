@@ -7,10 +7,15 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
+import net.n2oapp.framework.api.metadata.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -99,7 +104,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(7).getType(), is(ValidationType.reset));
 
         assertThat(field.getDependencies().get(8).getOn().get(0), is("test8"));
-        assertThat(field.getDependencies().get(8).getExpression(), is("(function(){if (test8 == 1) return \"Test\";})()"));
+        assertThat(field.getDependencies().get(8).getExpression(), is("(function(){if (test8 == 1) return \"Test\";}).call(this)"));
         assertThat(field.getDependencies().get(8).getType(), is(ValidationType.setValue));
 
         assertThat(field.getDependencies().get(9).getOn().get(0), is("test9"));
@@ -133,7 +138,14 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     @Test
     void testValidations() {
         PageContext pageContext = new PageContext("testStandardField");
-        pageContext.setSubmitOperationId("update");
+        N2oToolbar n2oToolbar = new N2oToolbar();
+        N2oButton n2oButton = new N2oButton();
+        n2oButton.setId("submit");
+        N2oInvokeAction n2oInvokeAction = new N2oInvokeAction();
+        n2oInvokeAction.setOperationId("update");
+        n2oButton.setActions(new N2oAction[]{n2oInvokeAction});
+        n2oToolbar.setItems(new ToolbarItem[]{n2oButton});
+        pageContext.setToolbars(List.of(n2oToolbar));
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardField.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(pageContext);
@@ -180,11 +192,17 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     @Test
     void testInlineValidations() {
         PageContext pageContext = new PageContext("testStandardFieldInlineValidations");
-        pageContext.setSubmitOperationId("update");
+        N2oToolbar n2oToolbar = new N2oToolbar();
+        N2oButton n2oButton = new N2oButton();
+        n2oButton.setId("submit");
+        N2oInvokeAction n2oInvokeAction = new N2oInvokeAction();
+        n2oInvokeAction.setOperationId("update");
+        n2oButton.setActions(new N2oAction[]{n2oInvokeAction});
+        n2oToolbar.setItems(new ToolbarItem[]{n2oButton});
+        pageContext.setToolbars(List.of(n2oToolbar));
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldInlineValidations.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(pageContext);
-        pageContext.setSubmitOperationId("update");
         List<Validation> clientValidations = ((StandardDatasource) page.getDatasources().get("testStandardFieldInlineValidations_form")).getValidations().get("city");
         assertThat(clientValidations.size(), is(1));
         assertThat(clientValidations.get(0).getSeverity(), is(SeverityType.danger));

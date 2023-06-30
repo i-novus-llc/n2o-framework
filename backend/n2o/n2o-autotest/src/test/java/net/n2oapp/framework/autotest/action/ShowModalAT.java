@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.action;
 
-import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.Button;
@@ -203,7 +202,6 @@ public class ShowModalAT extends AutoTestBase {
         inputText.shouldHaveValue("test");
         saveButton.shouldBeEnabled();
         modalPage.close();
-        Selenide.confirm();
         modalPage.shouldNotExists();
 
         // при повторном открытии модальной страницы кнопки в тулбаре должны быть заблокированы

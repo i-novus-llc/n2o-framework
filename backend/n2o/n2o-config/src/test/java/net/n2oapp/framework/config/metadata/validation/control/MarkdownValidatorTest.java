@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.validation;
+package net.n2oapp.framework.config.metadata.validation.control;
 
 import net.n2oapp.framework.api.metadata.control.N2oMarkdown;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;

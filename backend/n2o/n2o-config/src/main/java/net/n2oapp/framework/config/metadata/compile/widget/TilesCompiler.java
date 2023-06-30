@@ -41,7 +41,7 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
     public Tiles compile(N2oTiles source, CompileContext<?, ?> context, CompileProcessor p) {
         Tiles tiles = new Tiles();
         compileBaseWidget(tiles, source, context, p);
-        N2oAbstractDatasource datasource = initDatasource(tiles, source, p);
+        N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);

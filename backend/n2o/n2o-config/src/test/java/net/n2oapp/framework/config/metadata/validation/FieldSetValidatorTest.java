@@ -13,6 +13,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -47,11 +48,10 @@ public class FieldSetValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testNonUniqueFieldIdWithDependencies() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testNonUniqueFieldIdWithDependencies.widget.xml"),
-                "Поле test1 встречается более одного раза"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testNonUniqueFieldIdWithDependencies.widget.xml"));
+        assertEquals("Поле 'test1' встречается более одного раза", exception.getMessage());
     }
 
     @Test
@@ -61,10 +61,17 @@ public class FieldSetValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testNonUniqueFieldIdWithDependenciesInMultiSet() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testNonUniqueFieldIdInMultiSet.widget.xml"),
-                "Поле test1 встречается более одного раза"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testNonUniqueFieldIdInMultiSet.widget.xml"));
+        assertEquals("Поле 'test1' встречается более одного раза", exception.getMessage());
+    }
+
+    @Test
+    void testInvalidColumnSize() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testInvalidColumnSize.widget.xml"));
+        assertEquals("Размер колонки филдсета виджета 'testInvalidColumnSize' должен иметь значение от 1 до 12", exception.getMessage());
     }
 }

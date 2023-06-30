@@ -316,73 +316,13 @@
             <xs:documentation>Список действий над объектом.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="action" type="actionDefinition" maxOccurs="unbounded"/>
+            <xs:element name="action" type="ac:pageActionDefinition" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="generate" type="wgt:generateDefinition">
             <xs:annotation>
                 <xs:documentation>Генерация стандартных действий.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-    </xs:complexType>
-
-    <xs:complexType name="actionDefinition">
-        <xs:annotation>
-            <xs:documentation>Действие над страницей
-                (допускает использование нескольких обработчиков действий в теле)</xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ac:actions">
-                <xs:attribute name="id" type="xs:string" use="required">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="name" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Наименование.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="route" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>URL действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="icon" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Иконка действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="hotkey" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Горячая клавиша вызова.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="visible" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Видимость действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="enabled" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Доступность действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="model" type="ac:clientModel">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Контекст выполнения действия
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Источник данных для выполнения операции
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="datasourcesDefinition">

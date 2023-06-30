@@ -488,42 +488,39 @@ n2o.api.action.print.base64 = false
 |----------------------------------|--------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
 |page-id                           |Ссылка на [страницу](../xml/page)                       |Идентификатор открываемой страницы                                                                                                  |                                                                   |
 |page-name                         |Строка                                                  |Имя открываемой страницы                                                                                                            |                                                                   |
-|submit-operation-id               |Ссылка на [операцию](../xml/object#operation) в объекте |На открываемой странице будут добавлены кнопки "Сохранить" и "Отмена". Кнопка "Сохранить" будет выполнять заданную операцию объекта |                                                                   |
-|submit-message-on-success         |true false                                              |Показать сообщение после успешного выполнения операции объекта. Выполняется только при заданном атрибуте `submit-operation-id`      |true                                                               |
-|submit-message-on-fail            |true false                                              |Показать сообщение после неудачного выполнения операции объекта. Выполняется только при заданном атрибуте `submit-operation-id`     |true                                                               |
-|object-id                         |Ссылка на [объект](../xml/object)                       |Идентификатор объекта, содержащий выполняемую операцию                                                                              |                                                                   |
-|submit-model                      |resolve edit filter multi datasource                    |Модель, используемая на сгенерированной кнопке "Сохранить". Выполняется только при заданном атрибуте submit-operation-id            |                                                                   |
-|submit-label                      |Строка                                                  |Название кнопки отправки формы на открываемой странице. Выполняется только при заданном атрибуте submit-operation-id                |Сохранить                                                          |
 |route                             |Строка                                                  |URL действия                                                                                                                        |Формируется на основе идентификаторов страницы, виджета и действия |
 |target                            |application newWindow                                   |Сценарий действия открытия страницы:<br/>`newWindow` - в новой вкладке<br/>`application` - в текущем приложении                     |application                                                        |
-|close-after-submit                |true false                                              |Закрыть окно после успешного выполнения операции объекта                                                                            |true                                                               |
-|redirect-url-after-submit         |Строка                                                  |URL адрес, на который произойдет переход после успешного выполнения операции объекта                                                |                                                                   |
-|redirect-target-after-submit      |self newWindow application                              |Сценарий переадресации после успешного выполнения операции объекта:<br/>`self` - в текущей вкладке<br/>`newWindow` - в новой вкладке<br/>`application` - в текущем приложении |                         |
 |refresh-datasources               |Список ссылок на [источники данных](../xml/datasource#datasources) |Список идентификаторов источников данных, которые будут обновлены после успешного выполнения операции                    |Идентификатор источника данных родительского компонента            |
 |refresh-on-close                  |true false                                              |Обновление источника данных после закрытия модального окна                                                                          |false                                                              |
-|refresh-after-submit              |true false                                              |Обновление источника данных после успешного выполнения операции                                                                     |true                                                               |
+
+**Настройки**
+```yaml
+#Показать предупреждение о наличии несохраненных данных в форме
+n2o.api.action.unsaved_data_prompt = false
+```
 
 ### &lt;open-page&gt; {#open-page}
 
 Действие открытия страницы
 
-|Наименование                 |Тип        |Описание                                                                                                                                                        |Значение по умолчанию |
-|-----------------------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
-|unsaved-data-prompt-on-close |true false |Предупредить о несохраненных данных на форме при закрытии страницы. Срабатывает только при генерации кнопки "Закрыть" через использование `submit-operation-id` |true                  |
+| Наименование                 | Тип        | Описание                                                           | Значение по умолчанию |
+|------------------------------|------------|--------------------------------------------------------------------|-----------------------|
+| unsaved-data-prompt-on-close | true false | Предупредить о несохраненных данных на форме при закрытии страницы | false                 |
 
 **Тело**
 
 &lt;params&gt; - Список [параметров пути](#path-param) и [параметров запроса](#query-param) <br/>
 &lt;datasources&gt; - Список переопределений [источников данных](../xml/datasource#datasources) <br/>
-&lt;breadcrumbs&gt; - Список [хлебных крошек](#breadcrumbs)
+&lt;breadcrumbs&gt; - Список [хлебных крошек](#breadcrumbs) <br/>
+&lt;toolbars&gt; - Список [меню](../xml/page#toolbar) управляющих кнопок страницы <br/>
+&lt;actions&gt; - Список [действий страницы](../xml/page#actions)
 
 **Пример**
 
 ```xml
 <open-page
        page-id="employee"
-       route="/open"
-       submit-operation-id="create">
+       route="/open">
     <params>
         <path-param>...</path-param>
         <query-param>...</query-param>
@@ -553,16 +550,7 @@ n2o.api.action.print.base64 = false
 |class                         |[CSS класс](https://getbootstrap.com/docs/4.0/components/modal/#examples)|Класс модального окна                                                                       |                                                        |
 |style                         |CSS свойство                                                             |Стиль модального окна                                                                       |                                                        |
 |backdrop                      |false true static                                                        |Наличие фона модального окна и закрытие по клику на фон:<br/>`false` - прозрачный фон, клик по фону не закрывает модальное окно<br/>`true` - темный фон, клик по фону закрывает модальное окно<br/>`static` - темный фон, клик по фону не закрывает модальное окно |static |
-|unsaved-data-prompt-on-close  |true false                                                               |Предупредить о несохраненных данных на форме при закрытии модального окна                   |true                                                    |
-|submit-action-type            |invoke copy                                                              |Действие при нажатии кнопки "Сохранить"                                                     |invoke                                                  |
-|copy-datasource               |Ссылка на [источник данных](../xml/datasource#datasources)               |Идентификатор источника данных открываемой страницы, из которого будет скопировано значение |Идентификатор источника данных родительского компонента |
-|copy-model                    |resolve edit filter multi datasource                                     |Модель открываемой страницы, из которой будет скопировано значение                          |resolve                                                 |
-|copy-field-id                 |Строка                                                                   |Идентификатор поля виджета открываемой страницы, данные которого будут копироваться         |Вся модель                                              |
-|target-datasource             |Ссылка на [источник данных](../xml/datasource#datasources)               |Источник данных текущей страницы, в который будут скопированы данные                        |Идентификатор источника данных родительского виджета    |
-|target-model                  |resolve edit filter multi datasource                                     |Модель текущей страницы, в которую будут скопированы данные                                 |resolve                                                 |
-|target-field-id               |Строка                                                                   |Идентификатор поля виджета текущей страницы, в которое будут скопированы данные             |Вся модель                                              |
-|target-page                   |parent this                                                              |Страница, в источник данных которой будут скопированы данные                                |parent                                                  |
-|copy-mode                     |merge replace add                                                        |Тип слияния данных:<br/>`merge` - за основу берется модель target, значения из source копируются с заменой<br/>`replace` - за основу берется модель source<br/>`add` - используется для массивов. За основу берется массив target, к нему добавляются все записи из source массива |merge |
+|unsaved-data-prompt-on-close  |true false                                                               |Предупредить о несохраненных данных на форме при закрытии модального окна                   |false                                                   |
 
 **Настройки**
 ```yaml
@@ -580,14 +568,15 @@ n2o.api.action.show_modal.backdrop = static
 
 &lt;params&gt; - Список [параметров пути](#path-param) и [параметров запроса](#query-param) <br/>
 &lt;datasources&gt; - Список переопределений [источников данных](../xml/datasource#datasources) <br/>
-&lt;breadcrumbs&gt; - Список [хлебных крошек](#breadcrumbs)
+&lt;breadcrumbs&gt; - Список [хлебных крошек](#breadcrumbs) <br/>
+&lt;toolbars&gt; - Список [меню](../xml/page#toolbar) управляющих кнопок страницы <br/>
+&lt;actions&gt; - Список [действий страницы](../xml/page#actions)
 
 **Пример**
 
 ```xml
 <show-modal
-       page-id="employee"
-       submit-operation-id="create">
+       page-id="employee">
     <params>
         <path-param>...</path-param>
         <query-param>...</query-param>
@@ -619,16 +608,7 @@ n2o.api.action.show_modal.backdrop = static
 |height                       |Строка                                                     |Высота окна                                                                                 |                                                        |
 |placement                    |left top right bottom                                      |Позиция окна                                                                                |right                                                   |
 |fixed-footer                 |true false                                                 |Фиксирование подвала (footer)                                                               |false                                                   |
-|unsaved-data-prompt-on-close |true false                                                 |Предупредить о несохраненных данных на форме при закрытии drawer окна                       |true                                                    |
-|submit-action-type           |invoke copy                                                |Действие при нажатии кнопки "Сохранить"                                                     |invoke                                                  |
-|copy-datasource              |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных открываемой страницы, из которого будет скопировано значение |Идентификатор источника данных родительского компонента |
-|copy-model                   |resolve edit filter multi datasource                       |Модель открываемой страницы, из которой будет скопировано значение                          |resolve                                                 |
-|copy-field-id                |Строка                                                     |Идентификатор поля виджета открываемой страницы, данные которого будут копироваться         |Вся модель                                              |
-|target-datasource            |Ссылка на [источник данных](../xml/datasource#datasources) |Источник данных текущей страницы, в который будут скопированы данные                        |Идентификатор источника данных родительского виджета    |
-|target-model                 |resolve edit filter multi datasource                       |Модель текущей страницы, в которую будут скопированы данные                                 |resolve                                                 |
-|target-field-id              |Строка                                                     |Идентификатор поля виджета текущей страницы, в которое будут скопированы данные             |Вся модель                                              |
-|target-page                  |parent this                                                |Страница, в источник данных которой будут скопированы данные                                |parent                                                  |
-|copy-mode                    |merge replace add                                          |Тип слияния данных:<br/>`merge` - за основу берется модель target, значения из source копируются с заменой<br/>`replace` - за основу берется модель source<br/>`add` - используется для массивов. За основу берется массив target, к нему добавляются все записи из source массива |merge |
+|unsaved-data-prompt-on-close |true false                                                 |Предупредить о несохраненных данных на форме при закрытии drawer окна                       |false                                                   |
 
 **Настройки**
 ```yaml
@@ -652,14 +632,15 @@ n2o.api.action.open_drawer.fixed_footer = false
 
 &lt;params&gt; - Список [параметров пути](#path-param) и [параметров запроса](#query-param) <br/>
 &lt;datasources&gt; - Список переопределений [источников данных](../xml/datasource#datasources) <br/>
-&lt;breadcrumbs&gt; - Список [хлебных крошек](#breadcrumbs)
+&lt;breadcrumbs&gt; - Список [хлебных крошек](#breadcrumbs) <br/>
+&lt;toolbars&gt; - Список [меню](../xml/page#toolbar) управляющих кнопок страницы <br/>
+&lt;actions&gt; - Список [действий страницы](../xml/page#actions)
 
 **Пример**
 
 ```xml
 <open-drawer
-       page-id="employee"
-       submit-operation-id="create">
+       page-id="employee">
     <params>
         <path-param>...</path-param>
         <query-param>...</query-param>

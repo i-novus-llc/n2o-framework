@@ -2,6 +2,7 @@
 
     <user username="user">
         <object-access object-id="testObjectAccessTransformer" operations="*"/>
+        <url-access pattern="/testTableAccessTransformer/update"/>
     </user>
 
     <role id="role">
@@ -9,6 +10,8 @@
     </role>
 
     <permission id="permission">
+        <url-access pattern="/testListWidgetAccessTransformer/update*"/>
+        <url-access pattern="/testTableAccessTransformer/update*"/>
         <object-access object-id="testObjectAccessTransformer" operations="create,update,read"/>
     </permission>
     <permission id="test2">

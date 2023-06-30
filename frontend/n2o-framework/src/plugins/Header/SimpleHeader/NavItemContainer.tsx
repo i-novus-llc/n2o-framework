@@ -6,6 +6,8 @@ import { ButtonDropdownProps } from 'reactstrap'
 import { WithDataSource } from '../../../core/datasource/WithDataSource'
 import { getFromSource, metaPropsType, IItem } from '../../utils'
 import { IDataSourceModels } from '../../../core/datasource/const'
+import { ITEM_TYPE } from '../../constants'
+import { Action } from '../../Action/Action'
 
 import { Link } from './NavItems/Links/Link'
 import { Dropdown } from './NavItems/Dropdown/Dropdown'
@@ -25,11 +27,15 @@ const NavItemContainer = (props: INavItemContainer) => {
     const item = getFromSource(itemProps, datasources, datasource, models)
     const { type } = item
 
-    if (type === 'dropdown') {
+    if (type === ITEM_TYPE.ACTION) {
+        return <Action item={item} from="HEADER" className="nav-item" />
+    }
+
+    if (type === ITEM_TYPE.DROPDOWN) {
         return <Dropdown className="nav-item" active={active} direction={direction} {...item} />
     }
 
-    if (type === 'link') {
+    if (type === ITEM_TYPE.LINK) {
         return <Link item={item} active={active} />
     }
 

@@ -203,6 +203,7 @@ public class MappingProcessorTest {
         data.put("name", "John");
         assertThat(MappingProcessor.normalizeValue(obj, "#this", data, parser, beanFactory), is("test"));
         assertThat(MappingProcessor.normalizeValue(obj, "#data['name']", data, parser, beanFactory), is("John"));
+        assertThat(MappingProcessor.normalizeValue(obj, "#parent['name']", null, data, parser, beanFactory), is("John"));
         assertThat(MappingProcessor.normalizeValue(obj, "@myBean.call()", data, parser, beanFactory), is("Doe"));
 
         assertThrows(

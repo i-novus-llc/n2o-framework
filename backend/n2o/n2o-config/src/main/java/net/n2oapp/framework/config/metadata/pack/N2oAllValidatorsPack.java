@@ -5,12 +5,11 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationValidator;
 import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.action.*;
-import net.n2oapp.framework.config.metadata.validation.standard.control.MarkdownValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.control.*;
 import net.n2oapp.framework.config.metadata.validation.standard.datasource.InheritedDatasourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.event.OnChangeEventValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.menu.SimpleMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.button.ButtonValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.control.FieldValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.datasource.ApplicationDatasourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.datasource.StandardDatasourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.*;
@@ -38,7 +37,8 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new TableValidator(), new PageActionValidator(), new InvokeActionValidator(), new StandardPageValidator(),
                 new LeftRightPageValidator(), new SimplePageValidator(), new BasePageValidator(), new SearchablePageValidator(),
                 new StandardDatasourceValidator(), new ApplicationDatasourceValidator(), new InheritedDatasourceValidator(),
-                new TopLeftRightPageValidator(), new FieldValidator(), new LineFieldSetValidator(), new MultiFieldSetValidator(),
+                new TopLeftRightPageValidator(), new FieldValidator(), new InputTextValidator(), new DateTimeValidator(),
+                new LineFieldSetValidator(), new MultiFieldSetValidator(),
                 new JavaDataProviderValidator(), new ButtonValidator(), new SubmitActionValidator(),
                 new CustomActionValidator(), new ActionsAwareValidator(), new SwitchActionValidator(),
                 new EditListActionValidator(), new OnChangeEventValidator(), new MarkdownValidator(),

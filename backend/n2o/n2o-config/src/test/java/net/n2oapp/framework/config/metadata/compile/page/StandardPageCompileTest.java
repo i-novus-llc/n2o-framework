@@ -160,7 +160,6 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 ReferentialIntegrityViolationException.class,
                 () -> {
                     PageContext validateObjectIdForMainWidget = new PageContext("testStandardPageObject");
-                    validateObjectIdForMainWidget.setSubmitOperationId("test");
                     compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
                             .get(validateObjectIdForMainWidget);
                 }
@@ -250,9 +249,9 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     @Test
     void testWrongRelativeBreadcrumb() {
         assertThrows(
-                N2oException.class, 
+                N2oException.class,
                 () -> compile("net/n2oapp/framework/config/metadata/compile/page/relative_breadcrumb/wrong.page.xml")
-                        .get(new PageContext("wrong")), 
+                        .get(new PageContext("wrong")),
                 "No parent route found for path \"../\"");
     }
 }

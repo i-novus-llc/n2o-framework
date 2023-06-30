@@ -11,6 +11,7 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import org.junit.jupiter.api.AfterEach;
+import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
@@ -26,10 +27,8 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import static com.codeborne.selenide.Configuration.pageLoadTimeout;
-import static com.codeborne.selenide.Configuration.timeout;
-import static com.codeborne.selenide.Configuration.headless;
-import static com.codeborne.selenide.Configuration.browserCapabilities;
+import static com.codeborne.selenide.Configuration.*;
+import static org.openqa.selenium.remote.CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR;
 
 /**
  * Базовый класс для автотестов
@@ -50,8 +49,8 @@ public class AutoTestBase extends N2oTestBase {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
         headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "true"));
-        timeout = Long.parseLong(System.getProperty("selenide.timeout", "9000"));
-        pageLoadTimeout = Long.parseLong(System.getProperty("selenide.pageLoadTimeout", "9000"));
+        timeout = Long.parseLong(System.getProperty("selenide.timeout", "10000"));
+        pageLoadTimeout = Long.parseLong(System.getProperty("selenide.pageLoadTimeout", "10000"));
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         ChromeOptions options = new ChromeOptions();
@@ -61,6 +60,7 @@ public class AutoTestBase extends N2oTestBase {
 
         capabilities.setCapability("goog:loggingPrefs", loggingPreferences);
         capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+        capabilities.setCapability(UNHANDLED_PROMPT_BEHAVIOUR, UnexpectedAlertBehaviour.DISMISS);
 
         browserCapabilities = capabilities;
     }
@@ -75,9 +75,10 @@ public class AutoTestBase extends N2oTestBase {
     void outputBrowserLog() {
         if (Objects.isNull(logs))
             return;
-        for (LogEntry log : logs.get(LogType.BROWSER)) {
-            System.out.println("BROWSER LOG:" + " " + log.getLevel() + " " + log.getMessage());
-        }
+
+        for (LogEntry log : logs.get(LogType.BROWSER))
+            if (log.getLevel() == Level.SEVERE)
+                System.out.println("BROWSER LOG:" + " " + log.getLevel() + " " + log.getMessage());
     }
 
     @Override

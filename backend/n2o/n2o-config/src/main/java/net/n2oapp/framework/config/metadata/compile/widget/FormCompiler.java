@@ -39,7 +39,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
     public Form compile(N2oForm source, CompileContext<?, ?> context, CompileProcessor p) {
         Form form = new Form();
         compileBaseWidget(form, source, context, p);
-        N2oAbstractDatasource datasource = initDatasource(form, source, p);
+        N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);

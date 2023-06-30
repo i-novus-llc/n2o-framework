@@ -4,7 +4,7 @@
         <datasource id="ds"/>
     </datasources>
     <regions>
-        <form id="main">
+        <form>
             <actions>
                 <action id="act1">
                     <a href="http://ya.ru"/>

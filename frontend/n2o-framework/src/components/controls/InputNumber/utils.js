@@ -1,6 +1,7 @@
 import isNil from 'lodash/isNil'
 import toNumber from 'lodash/toNumber'
 import isNaN from 'lodash/isNaN'
+import isInteger from 'lodash/isInteger'
 
 export function formatToFloat(val, stepPrecision) {
     if (isNil(val) || val === '') { return null }
@@ -19,7 +20,10 @@ export function formatToFloat(val, stepPrecision) {
         : toNumber(formattedStr).toFixed(stepPrecision)
 }
 
-export function getPrecision(step) {
+export function getPrecision(propsStep, value) {
+    const needFractionalChar = !isInteger(Number(value)) && isInteger(Number(propsStep))
+    const step = needFractionalChar ? `${propsStep}.0` : propsStep
+
     const stepArr = step
         .toString()
         .trim()
