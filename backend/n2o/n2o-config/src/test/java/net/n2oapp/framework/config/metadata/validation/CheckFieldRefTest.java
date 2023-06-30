@@ -9,10 +9,9 @@ import net.n2oapp.framework.config.metadata.validation.standard.control.FieldVal
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.SetFieldSetValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 
 public class CheckFieldRefTest extends SourceValidationTestBase {
 
@@ -31,19 +30,15 @@ public class CheckFieldRefTest extends SourceValidationTestBase {
 
     @Test
     void testCheckDefaultValueIsNotDefined() {
-        assertOnException(
-                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldRef/testCheckDefaultValueIsNotDefined.widget.xml"),
-                N2oMetadataValidationException.class, e -> {
-                    assert e.getMessage().contains("У поля id атрибут default-value не является ссылкой или не задан: null");
-                });
+        N2oMetadataValidationException exception = Assertions.assertThrows(N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldRef/testCheckDefaultValueIsNotDefined.widget.xml"));
+        Assertions.assertEquals("У поля 'id' атрибут default-value не является ссылкой или не задан: 'null'", exception.getMessage());
     }
 
     @Test
     void testCheckDefaultValueIsNotLink() {
-        assertOnException(
-                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldRef/testCheckDefaultValueIsNotLink.widget.xml"),
-                N2oMetadataValidationException.class, e -> {
-                    assert e.getMessage().contains("У поля id атрибут default-value не является ссылкой или не задан: ");
-                });
+        N2oMetadataValidationException exception = Assertions.assertThrows(N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldRef/testCheckDefaultValueIsNotLink.widget.xml"));
+        Assertions.assertEquals("У поля 'id' атрибут default-value не является ссылкой или не задан: 'test'", exception.getMessage());
     }
 }

@@ -13,7 +13,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
-import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdInQuotesOrEmptyString;
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 
 /**
  * Валидатор исходного источника данных
@@ -93,15 +93,15 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
         if (datasource.getFilters() != null) {
             if (query == null)
                 throw new N2oMetadataValidationException(
-                        String.format("Источник данных %s имеет префильтры, но не задана выборка", getIdInQuotesOrEmptyString(datasource.getId())));
+                        String.format("Источник данных %s имеет префильтры, но не задана выборка", getIdOrEmptyString(datasource.getId())));
             if (query.getFilters() == null)
                 throw new N2oMetadataValidationException(
-                        String.format("Источник данных %s имеет префильтры, но в выборке '%s' нет filters!", getIdInQuotesOrEmptyString(datasource.getId()), query.getId()));
+                        String.format("Источник данных %s имеет префильтры, но в выборке '%s' нет filters!", getIdOrEmptyString(datasource.getId()), query.getId()));
 
             for (N2oPreFilter preFilter : datasource.getFilters()) {
                 if (preFilter.getFieldId() == null) {
                     throw new N2oMetadataValidationException(
-                            String.format("Источник данных %s содержит префильтр без указанного field-id!", getIdInQuotesOrEmptyString(datasource.getId()))
+                            String.format("Источник данных %s содержит префильтр без указанного field-id!", getIdOrEmptyString(datasource.getId()))
                     );
                 }
 
@@ -147,7 +147,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
         if (datasource.getQueryId() != null) {
             p.checkForExists(datasource.getQueryId(), N2oQuery.class,
                     String.format("Источник данных %s ссылается на несуществующую выборку '%s'",
-                            getIdInQuotesOrEmptyString(datasource.getId()), datasource.getQueryId()));
+                            getIdOrEmptyString(datasource.getId()), datasource.getQueryId()));
             return p.getOrThrow(datasource.getQueryId(), N2oQuery.class);
         }
         return null;
