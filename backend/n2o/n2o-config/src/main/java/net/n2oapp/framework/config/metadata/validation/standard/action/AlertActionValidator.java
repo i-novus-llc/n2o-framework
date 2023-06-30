@@ -6,7 +6,9 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AlertActionValidator implements SourceValidator<N2oAlertAction>, SourceClassAware {
 
     @Override
@@ -18,6 +20,7 @@ public class AlertActionValidator implements SourceValidator<N2oAlertAction>, So
     public void validate(N2oAlertAction source, SourceProcessor p) {
         if (source.getDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
-                    String.format("Действие <alert> ссылается на несуществующий источник данных '%s'", source.getDatasourceId()));
+                    String.format("Действие <alert> ссылается на несуществующий источник данных %s",
+                            ValidationUtils.getIdOrEmptyString(source.getDatasourceId())));
     }
 }

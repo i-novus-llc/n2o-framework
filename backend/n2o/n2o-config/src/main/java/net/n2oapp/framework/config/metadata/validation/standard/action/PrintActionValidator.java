@@ -7,7 +7,9 @@ import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PrintActionValidator implements SourceValidator<N2oPrintAction>, SourceClassAware {
     @Override
     public Class<? extends Source> getSourceClass() {

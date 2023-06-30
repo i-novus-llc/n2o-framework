@@ -37,7 +37,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
             p.safeStreamOf(object.getOperations()).
                     filter(operation -> source.getSubmitOperationId().equals(operation.getId())).
                     findFirst().orElseThrow(() -> new N2oMetadataValidationException("Действие открытия страницы " + getIdOrEmptyString(source.getId()) +
-                    " ссылается на несуществующую в объекте " + source.getObjectId() + " операцию " + source.getSubmitOperationId()));
+                            " ссылается на несуществующую в объекте " + source.getObjectId() + " операцию " + source.getSubmitOperationId()));
         }
         PageScope pageScope = p.getScope(PageScope.class);
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
@@ -73,20 +73,22 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                 isNotDatasource = true;
             if (isNotDatasource && pageScope != null && !pageScope.getWidgetIds().contains(source.getRefreshWidgetId()))
                 throw new N2oMetadataValidationException(
-                        String.format("Атрибут 'refresh-datasources'\\'refresh-widget-id' ссылается на несуществующий источник\\виджет '%s'", refreshDatasourceIds[0]));
+                        String.format("Атрибут 'refresh-datasources'\\'refresh-widget-id' ссылается на несуществующий источник\\виджет %s",
+                                ValidationUtils.getIdOrEmptyString(refreshDatasourceIds[0])));
         } else if (datasourceIdsScope != null) {
             for (String datasourceId : refreshDatasourceIds) {
                 ValidationUtils.checkDatasourceExistence(datasourceId, datasourceIdsScope,
-                        String.format("Атрибут \"refresh-datasources\" ссылается на несуществующий источник данных '%s'", datasourceId));
+                        String.format("Атрибут \"refresh-datasources\" ссылается на несуществующий источник данных %s",
+                                ValidationUtils.getIdOrEmptyString(datasourceId)));
             }
         }
     }
 
     private void checkDatasourceInParam(N2oAbstractPageAction action, SourceProcessor p) {
         N2oParam[] params = action.getParams();
-        if(params!=null)
+        if (params != null)
             Arrays.stream(params).forEach(param -> {
-                if (param.getDatasourceId()!=null)
+                if (param.getDatasourceId() != null)
                     ValidationUtils.checkDatasourceExistence(param.getDatasourceId(), p,
                             String.format("Параметр %s открытия страницы ссылается на несуществующий источник данных %s",
                                     ValidationUtils.getIdOrEmptyString(param.getName()),

@@ -25,14 +25,6 @@ public class ClearActionValidatorTest extends SourceValidationTestBase {
                 new N2oActionsPack(), new N2oCellsPack(), new N2oObjectsPack(), new N2oAllValidatorsPack());
     }
 
-//    @Test
-//    void testNullDatasource() {
-//        N2oMetadataValidationException exception = assertThrows(
-//                N2oMetadataValidationException.class,
-//                () -> validate("net/n2oapp/framework/config/metadata/validation/action/clear/testNullDatasource.page.xml"));
-//        assertEquals("Для действия <clear> не указан источник данных 'datasource'", exception.getMessage());
-//    }
-
     @Test
     void testDatasourceExistence() {
         N2oMetadataValidationException exception = assertThrows(

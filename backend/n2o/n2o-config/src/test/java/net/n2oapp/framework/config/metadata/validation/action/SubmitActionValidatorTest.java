@@ -41,7 +41,7 @@ public class SubmitActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationMissingSubmit.page.xml"));
-        assertEquals("Действие <submit> использует источник данных ds1, в котором не определен submit", exception.getMessage());
+        assertEquals("Действие <submit> использует источник данных 'ds1', в котором не определен submit", exception.getMessage());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class SubmitActionValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationUnsupport.page.xml"));
-        assertEquals("Действие <submit> использует источник данных ds1, который не поддерживает submit", exception.getMessage());
+        assertEquals("Действие <submit> использует источник данных 'ds1', который не поддерживает submit", exception.getMessage());
     }
 
     @Test

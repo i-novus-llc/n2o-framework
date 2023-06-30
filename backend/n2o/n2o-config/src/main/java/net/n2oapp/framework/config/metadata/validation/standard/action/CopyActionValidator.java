@@ -20,10 +20,12 @@ public class CopyActionValidator implements SourceValidator<N2oCopyAction>, Sour
     public void validate(N2oCopyAction source, SourceProcessor p) {
         if (source.getSourceDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getSourceDatasourceId(), p,
-                    String.format("В действии <copy> указан несуществующий источник данных 'source-datasource = %s'", source.getSourceDatasourceId()));
+                    String.format("Атрибут 'source-datasource' действия '<copy>' ссылается на несуществующий источник данных %s",
+                            ValidationUtils.getIdOrEmptyString(source.getSourceDatasourceId())));
 
         if (source.getTargetDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getTargetDatasourceId(), p,
-                    String.format("В действии <copy> указан несуществующий источник данных 'target-datasource = %s'", source.getTargetDatasourceId()));
+                    String.format("Атрибут 'target-datasource' действия '<copy>' ссылается на несуществующий источник данных %s",
+                            ValidationUtils.getIdOrEmptyString(source.getTargetDatasourceId())));
     }
 }

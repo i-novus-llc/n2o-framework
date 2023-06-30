@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class SetValueValidatorTest extends SourceValidationTestBase {
+public class AlertActionValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach
@@ -26,18 +26,10 @@ public class SetValueValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void testSourceDatasourceExistence() {
+    void testDatasourceExistence() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/set_value/testSourceDatasourceExistence.page.xml"));
-        assertEquals("Атрибут 'source-datasource' действия '<set-value>' ссылается на несуществующий источник данных 'test'", exception.getMessage());
-    }
-
-    @Test
-    void testTargetDatasourceExistence() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/set_value/testTargetDatasourceExistence.page.xml"));
-        assertEquals("Атрибут 'target-datasource' действия '<set-value>' ссылается на несуществующий источник данных 'ds'", exception.getMessage());
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/alert/testAlertActionDatasourceExistence.page.xml"));
+        assertEquals("Действие <alert> ссылается на несуществующий источник данных 'ds'", exception.getMessage());
     }
 }
