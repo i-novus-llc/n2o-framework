@@ -10,6 +10,7 @@ import isEmpty from 'lodash/isEmpty'
 import omit from 'lodash/omit'
 
 import Alert from '../../snippets/Alerts/Alert'
+import { isEmptyModel } from '../../../utils/isEmptyModel'
 
 import InputSelectGroup from './InputSelectGroup'
 import PopupList from './PopupList'
@@ -180,7 +181,7 @@ class InputSelect extends React.Component {
             )
         }
 
-        if (!input && value.length) {
+        if (!input && value.length && value.every(element => !isEmptyModel(element))) {
             onChange(this.getValue())
         }
 
