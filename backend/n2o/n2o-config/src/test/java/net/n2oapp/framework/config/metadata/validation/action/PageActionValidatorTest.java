@@ -16,6 +16,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PageActionValidatorTest extends SourceValidationTestBase {
@@ -144,5 +145,14 @@ public class PageActionValidatorTest extends SourceValidationTestBase {
     @Test
     void testPageActionValidationRefreshExistentWidget() {
         validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationRefreshExistentWidget.page.xml");
+    }
+
+    @Test
+    void testParamDatasourceIdExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testParamDatasourceIdExistence.page.xml")
+        );
+        assertEquals("Параметр 'test' открытия страницы ссылается на несуществующий источник данных 'ds1'", exception.getMessage());
     }
 }

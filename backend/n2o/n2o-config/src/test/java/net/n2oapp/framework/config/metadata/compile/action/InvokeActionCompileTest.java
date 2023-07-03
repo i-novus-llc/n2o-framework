@@ -35,6 +35,8 @@ import java.util.Map;
 import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Проверка компиляции invoke-action
@@ -333,5 +335,14 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
                 is("testInvokeActionClearOnSuccess_ds1"));
         assertThat(((ActionContext) route("/testInvokeActionClearOnSuccess/b2", CompiledObject.class)).getClearDatasource(),
                 is("testInvokeActionClearOnSuccess_ds1"));
+    }
+
+    @Test
+    void checkOperationIdExistence() {
+        N2oException exception = assertThrows(
+                N2oException.class,
+                () -> compile("net/n2oapp/framework/config/metadata/compile/action/testCheckOperationIdExistence.page.xml")
+                        .get(new PageContext("testCheckOperationIdExistence")));
+        assertEquals("Действие <invoke> ссылается на несуществующую операцию 'operation-id = testOperation' объекта 'testActionContext'", exception.getMessage());
     }
 }

@@ -133,6 +133,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         N2oClientDataProvider.ActionContextData actionContextData = new N2oClientDataProvider.ActionContextData();
         actionContextData.setObjectId(compiledObject.getId());
         actionContextData.setOperationId(source.getOperationId());
+        checkOperationIdExistence(actionContextData, compiledObject);
         actionContextData.setClearDatasource(metaSaga.getSuccess().getClear());
         actionContextData.setRedirect(initServerRedirect(metaSaga));
         actionContextData.setRefresh(metaSaga.getSuccess().getRefresh());
@@ -193,6 +194,12 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
             if (routeScope.getUrl() != null && RouteUtil.getParams(routeScope.getUrl()).contains(pathParam.getName()))
                 throw new N2oException(String.format("param \"%s\" duplicate in parent url ", pathParam.getName()));
         }
+    }
+
+    private void checkOperationIdExistence(N2oClientDataProvider.ActionContextData actionContextData, CompiledObject compiledObject) {
+        if (!compiledObject.getOperations().containsKey(actionContextData.getOperationId()))
+            throw new N2oException(String.format("Действие <invoke> ссылается на несуществующую операцию 'operation-id = %s' объекта '%s'",
+                    actionContextData.getOperationId(), compiledObject.getId()));
     }
 
     private void initClear(N2oInvokeAction source, CompileProcessor p, MetaSaga meta) {
