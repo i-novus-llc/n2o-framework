@@ -12,14 +12,11 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Nonnull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +26,8 @@ import java.util.Queue;
  * Утилиты проверки метаданных
  */
 public final class ValidationUtils {
+
+    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     private ValidationUtils() {
     }
@@ -159,14 +158,7 @@ public final class ValidationUtils {
      * Получение идентификатора метаданной для сообщения исключений
      *
      * @param metadataId Идентификатор метаданной
-     * @return Идентификатор метаданной в случае его существования, иначе пуста строка
-     */
-
-    /**
-     * Получение идентификатора метаданной для сообщения исключений
-     *
-     * @param metadataId Идентификатор метаданной
-     * @return Пробел + идентификатор метаданной в случае существования идентификатора, иначе пуста строка
+     * @return Пробел + идентификатор метаданной в случае существования идентификатора, иначе пустая строка
      */
     public static String getSpaceWithIdOrEmptyString(String metadataId) {
         return metadataId != null ? " " + StringUtils.quote(metadataId) : "";
@@ -180,11 +172,6 @@ public final class ValidationUtils {
      */
     public static void checkEmptyDependency(N2oDependency dependency, String message) {
         if (!StringUtils.hasText(dependency.getValue()))
-            throw new N2oMetadataValidationException(message);
-    }
-
-    public static void checkNumber(String text, String message) {
-        if (!NumberUtils.isParsable(text))
             throw new N2oMetadataValidationException(message);
     }
 
@@ -221,9 +208,8 @@ public final class ValidationUtils {
     }
 
     public static void checkDate(String date, String message) {
-        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         try {
-            formater.parseObject(date);
+            SIMPLE_DATE_FORMAT.parseObject(date);
         } catch (ParseException e) {
             throw new N2oMetadataValidationException(message);
         }
