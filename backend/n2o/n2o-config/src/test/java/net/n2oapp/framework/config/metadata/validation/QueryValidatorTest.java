@@ -8,6 +8,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -30,37 +31,64 @@ public class QueryValidatorTest extends SourceValidationTestBase {
 
     @Test
     public void testCheckForExistsObject() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForExistsObject.query.xml"),
-                "Выборка checkForExistsObject ссылается на несуществующий объект nonExistantObjectId"
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForExistsObject.query.xml")
         );
+        assertEquals("Выборка checkForExistsObject ссылается на несуществующий объект nonExistantObjectId", exception.getMessage());
     }
 
     @Test
     public void testCheckForUniqueFields() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForUniqueFields.query.xml"),
-                "Поле code встречается более чем один раз в выборке checkForUniqueFields"
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForUniqueFields.query.xml")
         );
+        assertEquals("Поле code встречается более чем один раз в выборке checkForUniqueFields", exception.getMessage());
     }
 
     @Test
     public void testCheckForUniqueFilterFields() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForUniqueFilterFields.query.xml"),
-                "Фильтр nameEq в выборке checkForUniqueFilterFields повторяется"
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForUniqueFilterFields.query.xml")
         );
+        assertEquals("Фильтр nameEq в выборке checkForUniqueFilterFields повторяется", exception.getMessage());
     }
 
     @Test
     public void testCheckForExistsFiltersInSelections() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForExistsFiltersInSelections.query.xml"),
-                "<unique> ссылается на несуществующий фильтр codeEq2"
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForExistsFiltersInSelections.query.xml")
         );
+        assertEquals("<unique> ссылается на несуществующий фильтр codeEq2", exception.getMessage());
+    }
+
+    @Test
+    void checkSwitchWithoutCases() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkSwitchWithoutCases.query.xml")
+        );
+        assertEquals("В элементе '<switch>' поля 'name' отсутствует '<case>'", exception.getMessage());
+    }
+
+    @Test
+    void checkSwitchWithEmptyValueInCases() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkSwitchWithEmptyValueInCases.query.xml")
+        );
+        assertEquals("В '<case>' элемента '<switch>' поля 'name' атрибут 'value' пустой", exception.getMessage());
+    }
+
+    @Test
+    void checkSwitchWithEmptyCase() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkSwitchWithEmptyCase.query.xml")
+        );
+        assertEquals("В '<case>' элемента '<switch>' поля 'name' отсутствует тело", exception.getMessage());
     }
 }

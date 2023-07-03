@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="op">
+            <out>
+                <field id="name">
+                    <switch>
+                        <case value="1"/>
+                    </switch>
+                </field>
+            </out>
+        </operation>
+    </operations>
+</object>
