@@ -198,7 +198,7 @@ class TabRegion extends React.Component {
                             id: tab.id,
                             title: tab.label || tab.widgetId,
                             icon: tab.icon,
-                            active: tab.opened,
+                            active: tab.id === activeEntity,
                             invalid: tab.invalid,
                             visible,
                             disabled: behaviorDisable && !tabHasAccess,

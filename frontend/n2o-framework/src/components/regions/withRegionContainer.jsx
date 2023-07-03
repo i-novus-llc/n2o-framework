@@ -50,6 +50,7 @@ const createRegionContainer = config => (WrappedComponent) => {
                     content,
                     datasource = null,
                     open = true,
+                    tabs = [],
                 } = props
 
                 const getCurrentActiveEntity = () => {
@@ -65,7 +66,9 @@ const createRegionContainer = config => (WrappedComponent) => {
                         }
                     }
 
-                    return activeEntity || active || query[id] || getFirstContentId(content)
+                    const [first = {}] = tabs
+
+                    return activeEntity || active || query[id] || getFirstContentId(content) || first.id
                 }
 
                 const currentActiveEntity = getCurrentActiveEntity()

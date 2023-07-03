@@ -91,7 +91,7 @@ const mapStateToProps = (state, { datasource }) => ({
         dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state)?.length || 0,
 })
 
-const WithSource = Component => DataSourceHOC(WithDatasourceLifeCycle(connect(mapStateToProps)(Component)))
+const WithSource = Component => DataSourceHOC(connect(mapStateToProps)(WithDatasourceLifeCycle(Component)))
 
 export const WithDataSource = (Component) => {
     const WithDataSource = WithSource(Component)
