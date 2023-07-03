@@ -89,10 +89,12 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
 
     private void compileSwitch(ObjectSimpleField field, CompileProcessor p) {
         N2oSwitch n2oSwitch = field.getN2oSwitch();
-        if (Objects.isNull(n2oSwitch)) return;
+        if (Objects.isNull(n2oSwitch)) {
+            return;
+        }
         n2oSwitch.setValueFieldId(field.getId());
         Map<Object, String> resolvedCases = new HashMap<>();
-        if (n2oSwitch.getCases() != null) {
+        if (Objects.nonNull(n2oSwitch.getCases())) {
             for (String key : n2oSwitch.getCases().keySet()) {
                 resolvedCases.put(p.resolve(key), n2oSwitch.getCases().get(key));
             }

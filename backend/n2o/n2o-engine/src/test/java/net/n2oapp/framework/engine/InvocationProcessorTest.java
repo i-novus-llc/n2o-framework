@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
 import net.n2oapp.framework.engine.data.N2oInvocationProcessor;
@@ -876,6 +877,59 @@ public class InvocationProcessorTest {
 
         assertThat(result.getInteger("myId"), is(1));
         assertThat(result.getString("myName"), is("test1"));
+    }
+
+    @Test
+    void testSwitchInOutFields() {
+        N2oTestDataProvider invocation = new N2oTestDataProvider();
+        invocation.setResultNormalize("['organization']");
+        invocation.setOperation(N2oTestDataProvider.Operation.echo);
+
+        //List
+        ObjectReferenceField refField = new ObjectReferenceField();
+        refField.setId("organization");
+
+        //Inner simple1
+        ObjectSimpleField childField1 = new ObjectSimpleField();
+        childField1.setId("id");
+
+        //Inner simple2
+        ObjectSimpleField childField2 = new ObjectSimpleField();
+        childField2.setId("name");
+        N2oSwitch n2oSwitchIn = new N2oSwitch();
+        n2oSwitchIn.setValueFieldId("name");
+        n2oSwitchIn.setResolvedCases(Map.of("test1", "case_in"));
+        n2oSwitchIn.setDefaultCase("default");
+        childField2.setN2oSwitch(n2oSwitchIn);
+
+
+        refField.setFields(new AbstractParameter[]{childField1, childField2});
+
+        //Out simple fields
+        ObjectSimpleField simpleOutId = new ObjectSimpleField();
+        simpleOutId.setId("myId");
+        simpleOutId.setMapping("['id']");
+        ObjectSimpleField simpleOutName = new ObjectSimpleField();
+        simpleOutName.setId("myName");
+        simpleOutName.setMapping("['name']");
+        N2oSwitch n2oSwitchOut = new N2oSwitch();
+        n2oSwitchOut.setValueFieldId("myName");
+        n2oSwitchOut.setResolvedCases(Map.of("case_in", "case_out"));
+        n2oSwitchOut.setDefaultCase("default");
+        simpleOutName.setN2oSwitch(n2oSwitchOut);
+
+        //DATA
+        DataSet innerDataSet = new DataSet();
+        innerDataSet.put("id", 1);
+        innerDataSet.put("name", "test1");
+
+        DataSet dataSet = new DataSet("organization", innerDataSet);
+
+        DataSet result = invocationProcessor.invoke(invocation, dataSet, singletonList(refField),
+                Arrays.asList(simpleOutId, simpleOutName));
+
+        assertThat(result.getInteger("myId"), is(1));
+        assertThat(result.getString("myName"), is("case_out"));
     }
 
     static class SqlInvocationEngine implements MapInvocationEngine<N2oSqlDataProvider> {
