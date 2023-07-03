@@ -175,11 +175,9 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
 
     private void applySwitch(DataSet resultDataSet, ObjectSimpleField parameter) {
         String valueFieldId = parameter.getN2oSwitch().getValueFieldId();
-        String expression = ScriptProcessor.buildSwitchExpression(parameter.getN2oSwitch())
-                .replaceAll("`", "")
-                .replaceAll(valueFieldId, String.format("#this.get('%s')", valueFieldId));
-        Object resultSwitch = normalizeValue(resultDataSet, expression, null, parser, applicationContext);
-        resultDataSet.replace(valueFieldId, resultSwitch);
+        String checkedValue = (String) resultDataSet.get(valueFieldId);
+        String resolvedValue = parameter.getN2oSwitch().getResolvedCases().getOrDefault(checkedValue, parameter.getN2oSwitch().getDefaultCase());
+        resultDataSet.put(valueFieldId, resolvedValue);
     }
 
     private void normalizeInnerFields(ObjectReferenceField field, DataSet dataSet) {

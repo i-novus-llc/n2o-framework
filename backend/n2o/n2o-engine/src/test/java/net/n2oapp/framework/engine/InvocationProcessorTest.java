@@ -898,7 +898,6 @@ public class InvocationProcessorTest {
         childField2.setId("name");
         N2oSwitch n2oSwitchIn = new N2oSwitch();
         n2oSwitchIn.setValueFieldId("name");
-        n2oSwitchIn.setCases(Map.of("test1", "case_in"));
         n2oSwitchIn.setResolvedCases(Map.of("test1", "case_in"));
         n2oSwitchIn.setDefaultCase("default");
         childField2.setN2oSwitch(n2oSwitchIn);
@@ -915,7 +914,6 @@ public class InvocationProcessorTest {
         simpleOutName.setMapping("['name']");
         N2oSwitch n2oSwitchOut = new N2oSwitch();
         n2oSwitchOut.setValueFieldId("myName");
-        n2oSwitchOut.setCases(Map.of("case_in", "case_out"));
         n2oSwitchOut.setResolvedCases(Map.of("case_in", "case_out"));
         n2oSwitchOut.setDefaultCase("default");
         simpleOutName.setN2oSwitch(n2oSwitchOut);
