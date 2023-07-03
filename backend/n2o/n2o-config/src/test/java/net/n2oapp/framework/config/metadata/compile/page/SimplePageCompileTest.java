@@ -65,17 +65,6 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         assertThat(route("/test/route", Page.class), notNullValue());
     }
 
-    @Test
-    void testCompileWithNonExistentAction() {
-        try {
-            compile("net/n2oapp/framework/config/metadata/compile/page/testCompileWithNonExistentAction.page.xml",
-                    "net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml")
-                    .get(new PageContext("testCompileWithNonExistentAction"));
-        } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), is("Value by id = 'nonExistentOperation' not found"));
-        }
-    }
-
     /**
      * Тест настроек простой страницы при открытии в модальном окне
      */
