@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'use-context-selector'
 import React, { FC, useRef } from 'react'
 
-import { TableWidgetContainerProps } from '../models/props'
+import { TableWidgetContainerProps } from '../types/props'
 
 const tablePropsContext = createContext<React.MutableRefObject<TableWidgetContainerProps> | null>(null)
 

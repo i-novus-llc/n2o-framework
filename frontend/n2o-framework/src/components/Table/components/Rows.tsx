@@ -1,6 +1,6 @@
 import React, { Fragment, VFC } from 'react'
 
-import { RowsProps } from '../models/props'
+import { RowsProps } from '../types/props'
 
 import { RowContainer } from './RowContainer'
 import Table from './basic'

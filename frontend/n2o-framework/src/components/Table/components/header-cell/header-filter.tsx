@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { useSelector } from 'react-redux'
 
-import { HeaderFilterProps } from '../../models/props'
+import { HeaderFilterProps } from '../../types/props'
 // @ts-ignore - отсутсвует типизация
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableFilter from '../filter/AdvancedTableFilter'

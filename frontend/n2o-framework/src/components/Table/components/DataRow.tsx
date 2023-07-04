@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useMemo } from 'react'
 
-import { DataRowProps } from '../models/props'
+import { DataRowProps } from '../types/props'
 
 import Table from './basic'
 import { CellContainer } from './CellContainer'

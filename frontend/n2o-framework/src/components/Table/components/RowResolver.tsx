@@ -1,6 +1,6 @@
 import React, { VFC } from 'react'
 
-import { RowResolverProps } from '../models/props'
+import { RowResolverProps } from '../types/props'
 
 import { DataRow } from './DataRow'
 

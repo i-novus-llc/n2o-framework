@@ -1,6 +1,6 @@
 import React, { useMemo, VFC } from 'react'
 
-import { TableWidgetContainerProps } from '../models/props'
+import { TableWidgetContainerProps } from '../types/props'
 import { TableActionsProvider } from '../provider/TableActions'
 import { SelectionType } from '../enum'
 import { getAllValuesByKey } from '../utils'

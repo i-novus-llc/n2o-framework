@@ -1,6 +1,6 @@
 import React, { useCallback, VFC } from 'react'
 
-import { CheckboxHeaderCellProps } from '../../models/props'
+import { CheckboxHeaderCellProps } from '../../types/props'
 import { excludeItems, getAllValuesByKey } from '../../utils'
 // @ts-ignore - отсутствует типизация
 import Checkbox from '../../../controls/Checkbox/CheckboxN2O'

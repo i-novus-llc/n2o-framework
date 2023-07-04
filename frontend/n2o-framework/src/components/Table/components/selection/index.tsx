@@ -1,7 +1,7 @@
 import React, { VFC } from 'react'
 
 import { SelectionType } from '../../enum'
-import { CustomCellComponentProps } from '../../models/props'
+import { CustomCellComponentProps } from '../../types/props'
 
 import { RadioCell } from './radio'
 import { CheckboxCell } from './checkbox'

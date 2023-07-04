@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react'
 
-import { RowContainerProps } from '../models/props'
+import { RowContainerProps } from '../types/props'
 // @ts-ignore - отсутствуют типы
 import propsResolver from '../../../utils/propsResolver'
 

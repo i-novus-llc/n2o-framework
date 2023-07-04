@@ -2,7 +2,7 @@ import React, { memo, useMemo } from 'react'
 
 // @ts-ignore - отсутствуют типы
 import propsResolver from '../../../utils/propsResolver'
-import { CellContainerProps } from '../models/props'
+import { CellContainerProps } from '../types/props'
 
 import Table from './basic'
 import { ExpandButton } from './ExpandButton'

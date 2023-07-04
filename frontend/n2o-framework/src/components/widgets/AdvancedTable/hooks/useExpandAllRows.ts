@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { ChildrenToggleState } from '../../../Table'
-import { Data } from '../../../Table/models/general'
+import { Data } from '../../../Table/types/general'
 import { getValueBySearchKey } from '../../../Table/utils'
 
 export const useExpandAllRows = (

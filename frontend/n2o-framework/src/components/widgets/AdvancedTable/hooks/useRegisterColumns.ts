@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 
 // @ts-ignore - нет типизации
 import { registerColumn } from '../../../../ducks/columns/store'
-import { HeaderCell } from '../../../Table/models/cell'
+import { HeaderCell } from '../../../Table/types/cell'
 
 export const useRegisterColumns = (id: string, columns: HeaderCell[]) => {
     const dispatch = useDispatch()

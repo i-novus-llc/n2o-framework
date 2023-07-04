@@ -2,7 +2,7 @@ import React, { useRef, VFC } from 'react'
 import classNames from 'classnames'
 
 import Table from '../basic'
-import { TableHeaderCellProps } from '../../models/props'
+import { TableHeaderCellProps } from '../../types/props'
 // @ts-ignore - отсутствуют типы
 import { Icon } from '../../../snippets/Icon/Icon'
 import { useMouseDownResize } from '../../hooks/useMouseDownResize'

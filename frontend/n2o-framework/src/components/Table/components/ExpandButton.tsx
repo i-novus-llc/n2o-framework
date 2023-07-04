@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import React, { VFC } from 'react'
 
-import { ExpandButtonProps } from '../models/props'
+import { ExpandButtonProps } from '../types/props'
 import { useTableActions } from '../provider/TableActions'
 
 export const ExpandButton: VFC<ExpandButtonProps> = ({ rowValue, isTreeExpanded }) => {

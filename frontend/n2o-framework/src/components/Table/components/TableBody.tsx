@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useMemo, VFC } from 'react'
 
-import { TableBodyProps } from '../models/props'
+import { TableBodyProps } from '../types/props'
 import { SelectionType } from '../enum'
 import { useTableActions } from '../provider/TableActions'
 

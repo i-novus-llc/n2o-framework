@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep'
 
-import { HeaderCell } from '../models/cell'
+import { HeaderCell } from '../types/cell'
 
 /**
  * Форматировние списка ячеек заголовков, что бы правильно проставить параметр colSpan и rowSpan

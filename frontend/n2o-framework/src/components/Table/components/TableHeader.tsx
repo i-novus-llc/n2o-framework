@@ -1,7 +1,7 @@
 import React, { memo, useMemo } from 'react'
 
 import { SelectionType } from '../enum'
-import { TableHeaderProps } from '../models/props'
+import { TableHeaderProps } from '../types/props'
 import { parseHeaderRows } from '../utils/parseHeaderRows'
 
 import { CheckboxHeaderCell } from './selection/checkbox-header'

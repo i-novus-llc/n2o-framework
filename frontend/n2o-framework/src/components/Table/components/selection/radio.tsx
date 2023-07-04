@@ -1,6 +1,6 @@
 import React, { useCallback, VFC } from 'react'
 
-import { RadioCellProps } from '../../models/props'
+import { RadioCellProps } from '../../types/props'
 // @ts-ignore - отсутствует типизация
 import { InputRadio } from '../../../controls/Radio/Input'
 import { useTableActions } from '../../provider/TableActions'
