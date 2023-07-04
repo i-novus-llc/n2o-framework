@@ -1,6 +1,6 @@
 import { HtmlWidget } from './Html/HtmlWidget'
 import { FormWidget } from './Form/FormWidget'
-import { AdvancedTableWidget } from './AdvancedTable/AdvancedTableWidget'
+import { AdvancedTableWidget } from './AdvancedTable'
 import TreeWidget from './Tree/TreeWidget'
 import ListWidget from './List/ListWidget'
 import ChartWidget from './Chart/ChartWidget'

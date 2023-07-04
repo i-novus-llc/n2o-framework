@@ -3,7 +3,7 @@ import { compose, mapProps } from 'recompose'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
-import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
+import { withWidgetHandlers } from '../hocs/withWidgetHandlers'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 
