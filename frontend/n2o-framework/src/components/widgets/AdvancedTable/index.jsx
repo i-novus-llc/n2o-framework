@@ -12,9 +12,8 @@ import { WithActiveModel } from '../Widget/WithActiveModel'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { getContainerColumns } from '../../../ducks/columns/selectors'
-import { SelectionType, TableWidgetContainer } from '../../Table'
+import { SelectionType, TableActions, TableContainer } from '../../Table'
 import { useCheckAccess } from '../../../core/auth/SecurityController'
-import { TableActions } from '../../Table/provider/actions'
 
 import { useExpandAllRows } from './hooks/useExpandAllRows'
 import { useResolveCellsVisible } from './hooks/useResolveCellsVisible'
@@ -90,9 +89,14 @@ const AdvancedTableContainer = (props) => {
                 break
             }
 
-            case TableActions.selectSingleRow:
             case TableActions.selectRows: {
                 setMultiModel(payload.listRowValue)
+
+                break
+            }
+
+            case TableActions.selectSingleRow: {
+                setMultiModel(payload.rowValue)
 
                 break
             }
@@ -131,7 +135,7 @@ const AdvancedTableContainer = (props) => {
             {...pagination}
         >
             {isInit ? (
-                <TableWidgetContainer
+                <TableContainer
                     actionListener={actionListener}
                     hasSecurityAccess={hasSecurityAccess}
                     childrenToggleState={children}

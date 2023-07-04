@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, TdHTMLAttributes } from 'react'
 
-import { SelectionType } from '../enum'
+import { SelectionType, TableActions } from '../enum'
 import { SortDirection } from '../../../core/datasource/const'
-import { TableActions } from '../provider/actions'
 
 import { Data, DataItem, ExpandedRows, SelectedRows } from './general'
 import { Row } from './row'

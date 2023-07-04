@@ -1,3 +1,3 @@
-export { TableWidgetContainer } from './components/TableWidgetContainer'
-export { ChildrenToggleState, SelectionType, ActionType } from './enum'
+export { TableContainer } from './components/TableContainer'
+export { ChildrenToggleState, SelectionType, ActionType, TableActions } from './enum'
 export { useTableActions } from './provider/TableActions'

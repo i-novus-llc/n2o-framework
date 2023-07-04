@@ -1,14 +1,14 @@
 import React, { useCallback, VFC } from 'react'
 
 import { CheckboxHeaderCellProps } from '../../models/props'
-import { useTableProps } from '../TableWidget'
 import { excludeItems, getAllValuesByKey } from '../../utils'
 // @ts-ignore - отсутствует типизация
 import Checkbox from '../../../controls/Checkbox/CheckboxN2O'
 import { useTableActions } from '../../provider/TableActions'
+import { useTableRefProps } from '../../provider/TableRefProps'
 
 export const CheckboxHeaderCell: VFC<CheckboxHeaderCellProps> = ({ areAllRowsSelected }) => {
-    const refProps = useTableProps()
+    const refProps = useTableRefProps()
     const { selectRows, deselectRows } = useTableActions()
     const onSelect = useCallback((event) => {
         const allRowsId = getAllValuesByKey(refProps.current.data, { keyToIterate: 'children', keyToExtract: 'id' })

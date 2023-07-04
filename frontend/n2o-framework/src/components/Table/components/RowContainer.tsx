@@ -20,3 +20,5 @@ export const RowContainer = memo<RowContainerProps>((props) => {
         />
     )
 })
+
+RowContainer.displayName = 'RowContainer'

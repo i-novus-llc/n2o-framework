@@ -9,21 +9,28 @@ import { ModelPrefix } from '../../../../core/datasource/const'
 
 export const useTableActionReactions = (datasourceId: string) => {
     const store = useStore()
-    const setMultiModelAfterChangeSelectedRows = useCallback((selectedRows: string[]) => {
+    const setMultiModelAfterChangeSelectedRows = useCallback((selectedRows: string[] | string) => {
         const state = store.getState()
         const { multi, datasource } = dataSourceModelsSelector(datasourceId)(state)
         const datasourceAsMap = getHashMapFromData(datasource as any[], { keyAsHash: 'id', keyToIterate: 'children' })
-        const selectedData: any[] = []
 
-        selectedRows.forEach((selectedId) => {
-            const foundData = datasourceAsMap.get(selectedId)
+        if (Array.isArray(selectedRows)) {
+            const selectedData: any[] = []
 
-            selectedData.push(foundData)
-        })
+            selectedRows.forEach((selectedId) => {
+                const foundData = datasourceAsMap.get(selectedId)
 
-        const newMulti = [...multi, ...selectedData]
+                selectedData.push(foundData)
+            })
 
-        store.dispatch(setModel(ModelPrefix.selected, datasourceId, newMulti))
+            const newMulti = [...multi, ...selectedData]
+
+            store.dispatch(setModel(ModelPrefix.selected, datasourceId, newMulti))
+        } else {
+            const newMulti = [datasourceAsMap.get(selectedRows)]
+
+            store.dispatch(setModel(ModelPrefix.selected, datasourceId, newMulti))
+        }
     }, [datasourceId, store])
 
     const unsetMultiModelAfterChangeSelectedRows = useCallback((rowValues: any[]) => {

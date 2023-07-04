@@ -3,8 +3,7 @@ import React, { FC, useMemo } from 'react'
 import { createContext, useContext } from 'use-context-selector'
 
 import { useOnActionMethod } from '../../widgets/hooks/useOnActionMethod'
-
-import { TableActions } from './actions'
+import { TableActions } from '../enum'
 
 type TTableActionContextValue = {
     toggleExpandRow(rowValue: string, isOpen: boolean): void

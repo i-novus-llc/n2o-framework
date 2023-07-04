@@ -5,10 +5,10 @@ import { excludeItems, getAllValuesByKey } from '../../utils'
 // @ts-ignore - отсутствует типизация
 import Checkbox from '../../../controls/Checkbox/CheckboxN2O'
 import { useTableActions } from '../../provider/TableActions'
-import { useTableProps } from '../TableWidget'
+import { useTableRefProps } from '../../provider/TableRefProps'
 
 export const CheckboxCell: VFC<CheckboxCellProps> = ({ rowValue, isSelectedRow, model }) => {
-    const refProps = useTableProps()
+    const refProps = useTableRefProps()
     const { selectRows, deselectRows } = useTableActions()
     const modelRef = useRef(model)
 
