@@ -12,7 +12,7 @@ import {
     List as Virtualizer,
 } from 'react-virtualized'
 
-import { getIndex } from '../Table/Table'
+import { getIndex } from '../Table/utils'
 
 import ListItem from './ListItem'
 import ListMoreButton from './ListMoreButton'
