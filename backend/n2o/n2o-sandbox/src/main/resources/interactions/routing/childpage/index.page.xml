@@ -4,7 +4,7 @@
     <form>
         <toolbar>
             <button label="Дочерняя страница" disable-on-empty-model="false">
-                <open-page page-id="childPage" route="/child"/>
+                <open-page page-id="childpage" route="/child"/>
             </button>
         </toolbar>
     </form>
