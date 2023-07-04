@@ -9,8 +9,10 @@ import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.StringUtils.isLink;
+
 @Component
-public class DateTimeValidator  implements SourceValidator<N2oDatePicker>, SourceClassAware {
+public class DateTimeValidator implements SourceValidator<N2oDatePicker>, SourceClassAware {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oDatePicker.class;
@@ -23,9 +25,10 @@ public class DateTimeValidator  implements SourceValidator<N2oDatePicker>, Sourc
     }
 
     private void checkDefaultValue(N2oDatePicker source, String widgetId) {
-        if (source.getDefaultValue() != null)
-            ValidationUtils.checkDate(source.getDefaultValue(), String.format("Значение 'default-value' поля %s виджета %s должно иметь формат yyyy-MM-dd HH:mm:ss",
-                ValidationUtils.getIdOrEmptyString(source.getId()),
-                ValidationUtils.getIdOrEmptyString(widgetId)));
+        if (source.getDefaultValue() != null && !isLink(source.getDefaultValue()))
+            ValidationUtils.checkDate(source.getDefaultValue(),
+                    String.format("Значение 'default-value' поля %s виджета %s должно иметь формат yyyy-MM-dd HH:mm:ss",
+                            ValidationUtils.getIdOrEmptyString(source.getId()),
+                            ValidationUtils.getIdOrEmptyString(widgetId)));
     }
 }
