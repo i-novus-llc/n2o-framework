@@ -14,7 +14,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -35,16 +34,18 @@ public class TopLeftRightPageAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
+        builder.packs(
+                new N2oAllPagesPack(),
+                new N2oApplicationPack()
+        );
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/page/top_left_right/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/page/top_left_right/openPage.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/page/top_left_right/openPage.page.xml")
+        );
     }
 
     @Test
-    @Disabled
     public void testTopLeftRightPage() {
-        //ToDo раздизейблить и поправить после NNO-9239
         TopLeftRightPage page = open(TopLeftRightPage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница с тремя регионами");
