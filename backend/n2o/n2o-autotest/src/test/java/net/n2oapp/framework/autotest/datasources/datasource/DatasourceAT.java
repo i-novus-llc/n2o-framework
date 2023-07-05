@@ -20,7 +20,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -46,7 +45,11 @@ public class DatasourceAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        builder.packs(
+                new N2oApplicationPack(),
+                new N2oAllPagesPack(),
+                new N2oAllDataPack()
+        );
     }
 
     /**
@@ -55,8 +58,11 @@ public class DatasourceAT extends AutoTestBase {
     @Test
     public void testFormAsFilter() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter/test.query.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter/test.query.xml")
+        );
+
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -133,14 +139,14 @@ public class DatasourceAT extends AutoTestBase {
     /**
      * Тестирование одного datasource на несколько виджетов
      */
-
-    //TODO передлать в https://jira.i-novus.ru/browse/NNO-9156
-    @Disabled
     @Test
     public void testOneDSManyWidgets() {
         setJsonPath("net/n2oapp/framework/autotest/datasources");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml")
+        );
+
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
@@ -158,10 +164,13 @@ public class DatasourceAT extends AutoTestBase {
     @Test
     public void testSaveManyFormOneButton() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/index.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/saveForm.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/test.object.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/test.object.xml")
+        );
+
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -221,9 +230,12 @@ public class DatasourceAT extends AutoTestBase {
     @Test
     public void testValidationManyForm() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/index.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/test.object.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/test.object.xml")
+        );
+
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
