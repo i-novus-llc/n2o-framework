@@ -36,8 +36,8 @@ public class MenuItemAccessAT extends AutoTestBase {
                 new N2oControlsPack(), new N2oActionsPack());
         builder.extensions(new SecurityExtensionAttributeMapper());
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/application/menu/testMenu.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/application/menu/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/access/testMenu.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/access/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/menu/access/app.application.xml"));
     }
 

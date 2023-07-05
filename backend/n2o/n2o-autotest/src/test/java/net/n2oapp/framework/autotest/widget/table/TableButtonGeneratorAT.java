@@ -62,10 +62,11 @@ public class TableButtonGeneratorAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/data.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/data.object.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/data.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/data.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/exportModal.page.xml"));
     }
 
     @Test
@@ -213,6 +214,9 @@ public class TableButtonGeneratorAT extends AutoTestBase {
     @Test
     public void testResize() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator/resize");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/data.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/data.object.xml"));
         N2oDropdownButton resize = table.toolbar().topRight().button(3, N2oDropdownButton.class);
         table.columns().rows().shouldHaveSize(5);
         table.paging().lastShouldHavePage("12");
@@ -261,7 +265,6 @@ public class TableButtonGeneratorAT extends AutoTestBase {
 
     @Test
     public void exportCurrentPageTest() throws IOException {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/exportModal.page.xml"));
         table.shouldExists();
         table.paging().selectPage("2");
 
@@ -315,7 +318,6 @@ public class TableButtonGeneratorAT extends AutoTestBase {
 
     @Test
     public void exportAllTableTest() throws IOException {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/exportModal.page.xml"));
         StandardButton exportBtn = table.toolbar().topRight().button(5, StandardButton.class);
         exportBtn.shouldBeVisible();
 

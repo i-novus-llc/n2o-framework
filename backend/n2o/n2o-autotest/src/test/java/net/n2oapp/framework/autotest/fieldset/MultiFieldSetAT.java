@@ -11,7 +11,6 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
-import net.n2oapp.framework.autotest.api.component.fieldset.FieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
@@ -551,7 +550,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
     @Test
     public void testValidationOnClear() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validation/when_clean/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validation_when_clean/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -756,7 +755,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void checkUpdateParentIndexAfterDeleteItem() {
+    public void checkUpdateParentIndex() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/update_parent_index/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);

@@ -141,12 +141,9 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testOneDSManyWidgets() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml")
-        );
-
+        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
@@ -178,6 +175,7 @@ public class DatasourceAT extends AutoTestBase {
 
         page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class)
                 .toolbar().topLeft().button("Создать").click();
+
         page.breadcrumb().crumb(1).shouldHaveLabel("Создание записи");
 
         InputText nameInput = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
@@ -287,9 +285,9 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testSimpleCopyDepend() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources");
+        setJsonPath("net/n2oapp/framework/autotest/datasources/copyDepend");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/copyDepend/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -312,9 +310,9 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testCopyDepend() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/resolve/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

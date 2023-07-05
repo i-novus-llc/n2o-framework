@@ -131,7 +131,7 @@ public class DependsOnFieldAT extends AutoTestBase {
     }
 
     @Test
-    void checkDependencyBetweenFieldsAndMultifieldsets() {
+    void checkFieldsAndMultifieldsets() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/on_fields_and_multifieldsets/index.page.xml")
         );

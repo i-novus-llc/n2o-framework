@@ -43,11 +43,11 @@ public class ClearActionAT extends AutoTestBase {
 
     @Test
     public void testClearInModal() {
-        setJsonPath("net/n2oapp/framework/autotest/action/clear");
+        setJsonPath("net/n2oapp/framework/autotest/action/clear/simple");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/clear/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/clear/modal.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/clear/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/simple/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/simple/test.query.xml"));
 
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -87,7 +87,7 @@ public class ClearActionAT extends AutoTestBase {
 
     @Test
     public void clearAfterAction() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/clear/clearAfterAction/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/clear/clear_after_action/index.page.xml"));
 
         StandardPage page = open(StandardPage.class);
         page.shouldExists();

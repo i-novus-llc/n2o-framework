@@ -40,7 +40,7 @@ public class HtmlAT extends AutoTestBase {
 
     @Test
     public void testHtml() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/html/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/html/simple/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

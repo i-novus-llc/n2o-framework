@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
-import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -37,7 +36,7 @@ public class RadioGroupAT extends AutoTestBase {
 
     @Test
     public void testRadioGroup() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/radio_group/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/radio_group/simple/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

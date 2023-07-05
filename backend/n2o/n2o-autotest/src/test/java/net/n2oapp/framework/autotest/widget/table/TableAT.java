@@ -65,9 +65,9 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void testTable() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/testTable.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/simple/testTable.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -168,9 +168,9 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void testToolbar() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/test.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/simple/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -190,10 +190,10 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void testHideOnBlur() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar");
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur/test.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

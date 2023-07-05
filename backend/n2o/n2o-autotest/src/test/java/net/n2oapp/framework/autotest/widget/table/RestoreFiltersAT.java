@@ -64,7 +64,7 @@ public class RestoreFiltersAT extends AutoTestBase {
 
         table.shouldExists();
         table.columns().rows().shouldHaveSize(9);
-        filter.setValue("TEST2");
+        filter.setValue("test2");
         search.click();
         table.columns().rows().shouldHaveSize(1);
 
@@ -72,14 +72,14 @@ public class RestoreFiltersAT extends AutoTestBase {
         secPage.shouldExists();
         close.click();
         page.shouldExists();
-        filter.shouldHaveValue("TEST2");
+        filter.shouldHaveValue("test2");
         table.columns().rows().shouldHaveSize(1);
 
         openPage.click();
         secPage.shouldExists();
         secPage.breadcrumb().crumb("Восстановление фильтров после закрытия страницы").click();
         page.shouldExists();
-        filter.shouldHaveValue("TEST2");
+        filter.shouldHaveValue("test2");
         table.columns().rows().shouldHaveSize(1);
 
         showModal.click();
@@ -87,7 +87,7 @@ public class RestoreFiltersAT extends AutoTestBase {
         modal.toolbar().bottomRight().button("Закрыть").click();
         modal.shouldNotExists();
         page.shouldExists();
-        filter.shouldHaveValue("TEST2");
+        filter.shouldHaveValue("test2");
         table.columns().rows().shouldHaveSize(1);
 
         openDrawer.click();
@@ -95,14 +95,14 @@ public class RestoreFiltersAT extends AutoTestBase {
         drawer.toolbar().bottomRight().button("Закрыть").click();
         drawer.shouldNotExists();
         page.shouldExists();
-        filter.shouldHaveValue("TEST2");
+        filter.shouldHaveValue("test2");
         table.columns().rows().shouldHaveSize(1);
 
         Selenide.back();
         secPage.shouldExists();
         Selenide.forward();
         page.shouldExists();
-        filter.shouldHaveValue("TEST2");
+        filter.shouldHaveValue("test2");
         table.columns().rows().shouldHaveSize(1);
     }
 }

@@ -39,7 +39,7 @@ public class LineFieldSetAT extends AutoTestBase {
 
     @Test
     public void testLineFieldSet() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/list/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/list/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();

@@ -11,7 +11,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -97,11 +96,11 @@ public class ScrollspyRegionAT extends AutoTestBase {
         content.region(3, SimpleRegion.class).shouldExists();
         FormWidget formWidget = content.region(3, SimpleRegion.class).content().widget(FormWidget.class);
         formWidget.shouldExists();
-        formWidget.fields().field("Поле1").shouldExists();
+        formWidget.fields().field("field1").shouldExists();
 
         formWidget = scrollspy.contentItem("Элемент2").content().widget(FormWidget.class);
         formWidget.shouldExists();
-        formWidget.fields().field("Поле2").shouldExists();
+        formWidget.fields().field("field2").shouldExists();
 
         scrollspy.contentItem("Элемент2").scrollDown();
         scrollspy.activeContentItemShouldHaveTitle("Элемент2");
