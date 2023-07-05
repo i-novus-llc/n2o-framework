@@ -167,8 +167,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     void testSortableColumns() {
         Table table = (Table) ((SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.page.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml").get(new PageContext("testTable4SortableCompile"))).getWidget();
         assertThat(table.getId(), is("testTable4SortableCompile_main"));
-        assertThat(table.getComponent().getHeaders().size(), is(6));
-        List<ColumnHeader> headers = table.getComponent().getHeaders();
+        assertThat(table.getComponent().getHeader().getCells().size(), is(6));
+        List<ColumnHeader> headers = table.getComponent().getHeader().getCells();
 
         assertThat(headers.get(0).getId(), is("id"));
 
