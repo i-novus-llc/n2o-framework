@@ -28,12 +28,10 @@ public class TableValidator implements SourceValidator<N2oTable>, SourceClassAwa
 
         if (source.getRows() != null && source.getRows().getRowClick() != null)
             Arrays.stream(source.getRows().getRowClick().getActions()).forEach(item -> p.validate(item, widgetScope));
-        p.safeStreamOf(source.getColumns())
-                .filter(N2oSimpleColumn.class::isInstance)
-                .map(abstractColumn -> ((N2oSimpleColumn) abstractColumn).getCell())
-                .filter(N2oActionCell.class::isInstance)
-                .flatMap(actionCell -> p.safeStreamOf(((N2oActionCell) actionCell).getActions()))
-                .forEach(item -> p.validate(item, widgetScope));
+
+        if (source.getColumns() != null)
+            Arrays.stream(source.getColumns()).forEach(col -> p.validate(col, widgetScope));
+
         p.safeStreamOf(source.getFilters()).forEach(item -> p.validate(item, widgetScope));
     }
 

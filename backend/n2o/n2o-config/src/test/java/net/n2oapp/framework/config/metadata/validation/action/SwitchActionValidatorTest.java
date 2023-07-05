@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -32,11 +33,10 @@ public class SwitchActionValidatorTest extends SourceValidationTestBase {
      */
     @Test
     void testValueFieldIdExistence() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testValueFieldIdExistence.page.xml"),
-                "В действии <switch> не указан 'value-field-id'"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testValueFieldIdExistence.page.xml"));
+        assertEquals("В действии <switch> не указан 'value-field-id'", exception.getMessage());
     }
 
     /**
@@ -44,11 +44,10 @@ public class SwitchActionValidatorTest extends SourceValidationTestBase {
      */
     @Test
     void testDatasourceExistence() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testDatasourceExistence.page.xml"),
-                "Тег <switch> в атрибуте 'datasource' ссылается на несуществующий источник данных ds1"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testDatasourceExistence.page.xml"));
+        assertEquals("Тег <switch> в атрибуте 'datasource' ссылается на несуществующий источник данных ds1", exception.getMessage());
     }
 
     /**
@@ -56,11 +55,12 @@ public class SwitchActionValidatorTest extends SourceValidationTestBase {
      */
     @Test
     void testCasesSequence() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testCasesSequence.page.xml"),
                 "В действии <switch> после <default> указан <case>"
         );
+        assertEquals("В действии <switch> после <default> указан <case>", exception.getMessage());
     }
 
     /**
@@ -68,10 +68,9 @@ public class SwitchActionValidatorTest extends SourceValidationTestBase {
      */
     @Test
     void testCaseValueExistence() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testCaseValueExistence.page.xml"),
-                "В <case> действия <switch> не указан атрибут 'value'"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testCaseValueExistence.page.xml"));
+        assertEquals("В <case> действия <switch> не указан атрибут 'value'", exception.getMessage());
     }
 }

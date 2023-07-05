@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <calendar id="calendar" query-id="test"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <calendar id="calendar"
               default-date="2020-07-06T00:00:00"
               default-view="month"
               views="month,day,agenda,week,workWeek"
@@ -10,17 +10,47 @@
               end-field-id = "end"
               cell-color-field-id = "color"
               disabled-field-id = "disabled">
+        <datasource query-id="test"/>
         <action-on-select-slot>
-            <show-modal page-id="createEvent" submit-operation-id="create"
+            <show-modal page-id="createEvent"
                         object-id="test" upload="defaults" route="/create">
-                <query-param name="start" value="{start}"/>
-                <query-param name="end" value="{end}"/>
+                <params>
+                    <query-param name="start" value="{start}"/>
+                    <query-param name="end" value="{end}"/>
+                </params>
+                <datasources>
+                    <parent-datasource id="calendar"/>
+                    <datasource id="ds1" default-values-mode="defaults"/>
+                </datasources>
+                <toolbars>
+                    <toolbar>
+                        <button label="Сохранить">
+                            <invoke operation-id="create"/>
+                            <refresh datasource="calendar"/>
+                            <close/>
+                        </button>
+                    </toolbar>
+                </toolbars>
             </show-modal>
         </action-on-select-slot>
         <action-on-select-event>
-            <show-modal page-id="selectEvent" submit-operation-id="update"
+            <show-modal page-id="selectEvent"
                         object-id="test" route="/:id/update">
-                <path-param name="id" value="{id}"/>
+                <params>
+                    <path-param name="id" value="{id}"/>
+                </params>
+                <datasources>
+                    <parent-datasource id="calendar"/>
+                </datasources>
+                <toolbars>
+                    <toolbar>
+                        <button label="Сохранить">
+                            <invoke operation-id="update"/>
+                            <refresh datasource="calendar"/>
+                            <close/>
+                        </button>
+                    </toolbar>
+                </toolbars>
             </show-modal>
         </action-on-select-event>
     </calendar>

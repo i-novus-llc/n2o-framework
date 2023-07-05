@@ -85,13 +85,13 @@ public class SandboxExportTest {
                 "3;test3\n" +
                 "4;test4\n";
 
-        request.setRequestURI("/sandbox/view/myProjectId/n2o/export/_main");
+        request.setRequestURI("/sandbox/view/myProjectId/n2o/export/_w1");
         request.setParameters(new ParameterMap<>(Map.of(
                 "page", new String[]{"1"},
                 "size", new String[]{"10"},
                 "format", new String[]{"csv"},
                 "charset", new String[]{"UTF-8"},
-                "url", new String[]{"/n2o/data/_main?main_minPrice=5000&page=1&size=10&sorting.name=DESC"})));
+                "url", new String[]{"/n2o/data/_w1?main_minPrice=5000&page=1&size=10&sorting.name=DESC"})));
         wireMockServer.stubFor(get(urlMatching("/project/myProjectId")).withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
         wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));

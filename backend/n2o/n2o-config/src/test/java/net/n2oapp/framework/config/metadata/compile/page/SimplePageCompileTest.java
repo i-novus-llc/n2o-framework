@@ -55,7 +55,7 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getStyle().size(), is(2));
         assertThat(page.getPageProperty().getTitle(), is("testPage"));
         assertThat(page.getPageProperty().getHtmlTitle(), is("tab title"));
-        assertThat(page.getPageProperty().getDatasource(), is("test_route_main"));
+        assertThat(page.getPageProperty().getDatasource(), is("test_route_w1"));
         assertThat(page.getPageProperty().getModel(), is(ReduxModel.edit));
         assertThat(page.getWidget(), notNullValue());
         assertThat(page.getWidget().getClass(), is(equalTo(HtmlWidget.class)));
@@ -63,17 +63,6 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/test/route"));
         assertThat(page.getBreadcrumb().get(0).getLabel(), is("tesName"));
         assertThat(route("/test/route", Page.class), notNullValue());
-    }
-
-    @Test
-    void testCompileWithNonExistentAction() {
-        try {
-            compile("net/n2oapp/framework/config/metadata/compile/page/testCompileWithNonExistentAction.page.xml",
-                    "net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml")
-                    .get(new PageContext("testCompileWithNonExistentAction"));
-        } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), is("Value by id = 'nonExistentOperation' not found"));
-        }
     }
 
     /**

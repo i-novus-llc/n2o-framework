@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
+           xmlns:toolbar="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:element name="a" type="aDefinition"/>
@@ -86,12 +87,38 @@
                     </xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="params" type="paramsDefinition" minOccurs="0"/>
-                    <xs:element name="breadcrumbs" type="breadcrumbsDefinition" minOccurs="0"/>
+                    <xs:element name="params" type="paramsDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Параметры url при открытии окна или страницы
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="breadcrumbs" type="breadcrumbsDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Список хлебных крошек открываемой страницы
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
                     <xs:element name="datasources" type="ds:datasources" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>
                                 Переопределение источников данных в открываемой странице
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="toolbars" type="toolbarsDefinition" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Переопределение меню управляющих кнопок в открываемой странице
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="actions" type="pageActionsDefinition" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Переопределение действий в открываемой странице
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
@@ -110,54 +137,6 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="submit-operation-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            На открываемой странице будут добавлены кнопки "Сохранить" и "Отмена".
-                            Кнопка "Сохранить" будет выполнять заданную операцию объекта
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="submit-message-on-success" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Показать сообщение после успешного выполнения операции объекта.
-                            Выполняется только при заданном атрибуте submit-operation-id
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="submit-message-on-fail" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Показать сообщение после неудачного выполнения операции объекта.
-                            Выполняется только при заданном атрибуте submit-operation-id
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="object-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор объекта, содержащий выполняемую операцию
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="submit-model" type="clientModel">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель, используемая на сгенерированной кнопке "Сохранить".
-                            Выполняется только при заданном атрибуте submit-operation-id
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="submit-label" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Название кнопки отправки формы на открываемой странице.
-                            Выполняется только при заданном атрибуте submit-operation-id.
-                            По умолчанию "Сохранить"
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="route" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
@@ -170,27 +149,6 @@
                     <xs:annotation>
                         <xs:documentation>
                             Сценарий действия открытия страницы
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="close-after-submit" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Закрыть окно после успешного выполнения операции объекта
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="redirect-url-after-submit" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            URL адрес, на который произойдет переход после успешного выполнения операции объекта
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="redirect-target-after-submit" type="targetType">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Сценарий переадресации после успешного выполнения операции объекта
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -210,13 +168,6 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="refresh-after-submit" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Обновление источника данных после успешного выполнения операции
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -233,6 +184,47 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="toolbarsDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Список меню управляющих кнопок
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="toolbar" type="toolbar:toolbarDefinition" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="pageActionsDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Список действий страницы
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="action" type="pageActionDefinition" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="pageActionDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Действие страницы
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="actions">
+                <xs:attribute name="id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор действия
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="openPageDefinition">
         <xs:complexContent>
             <xs:extension base="pageDefinition">
@@ -244,8 +236,7 @@
                 <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>
-                            Предупредить о несохраненных данных на форме при закрытии страницы.
-                            Срабатывает только при генерации кнопки "Закрыть" через использование `submit-operation-id`
+                            Предупредить о несохраненных данных на форме при закрытии страницы
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -335,73 +326,6 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="submit-action-type" type="submitActionType" default="invoke">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Действие при нажатии кнопки "Сохранить"
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор источника данных открываемой страницы, из которого будет скопировано значение.
-                            По умолчанию: идентификатор источника данных родительского компонента
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-model" type="clientModel" default="resolve">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель открываемой страницы, из которой будет скопировано значение
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-field-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор поля открываемой страницы, из которого будет скопировано значение.
-                            По умолчанию: вся модель
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Источник данных текущей страницы, в который будут скопированы данные.
-                            По умолчанию: идентификатор источника данных родительского виджета
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-model" type="clientModel" default="resolve">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель текущей страницы, в которую будут скопированы данные
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-field-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор поля текущей страницы, в которое будут скопированы данные.
-                            По умолчанию: вся модель
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-page" type="refPageType" default="parent">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Страница, в источник данных которой будут скопированы данные
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-mode" type="mergeType" default="merge">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Тип слияния
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -477,88 +401,9 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="submit-action-type" type="submitActionType" default="invoke">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Действие при нажатии кнопки "Сохранить"
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор источника данных открываемой страницы, из которого будет скопировано значение.
-                            По умолчанию: идентификатор источника данных родительского компонента
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-model" type="clientModel" default="resolve">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель открываемой страницы, из которой будет скопировано значение
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-field-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор поля открываемой страницы, из которого будет скопировано значение.
-                            По умолчанию: вся модель
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Источник данных текущей страницы, в который будут скопированы данные.
-                            По умолчанию: идентификатор источника данных родительского виджета
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-model" type="clientModel" default="resolve">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель текущей страницы, в которую будут скопированы данные
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-field-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор поля текущей страницы, в которое будут скопированы данные.
-                            По умолчанию: вся модель
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-page" type="refPageType" default="parent">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Страница, в источник данных которой будут скопированы данные
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-mode" type="mergeType" default="merge">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Тип слияния
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-
-    <xs:simpleType name="submitActionType">
-        <xs:annotation>
-            <xs:documentation>
-                Действие при нажатии кнопки "Сохранить"
-            </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="invoke"/>
-            <xs:enumeration value="copy"/>
-        </xs:restriction>
-    </xs:simpleType>
 
     <xs:simpleType name="modalSize">
         <xs:annotation>
@@ -1509,30 +1354,6 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="refPageType">
-        <xs:annotation>
-            <xs:documentation>
-                Тип используемой страницы
-            </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="this">
-                <xs:annotation>
-                    <xs:documentation>
-                        Текущая страница
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="parent">
-                <xs:annotation>
-                    <xs:documentation>
-                        Родительская страница
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:complexType name="customActionDefinition">
         <xs:annotation>
             <xs:documentation>
@@ -1557,11 +1378,15 @@
 
     <xs:complexType name="payloadDef">
         <xs:annotation>
-            <xs:documentation>Полезная нагрузка настраиваемого действия</xs:documentation>
+            <xs:documentation>
+                Полезная нагрузка настраиваемого действия
+            </xs:documentation>
         </xs:annotation>
         <xs:anyAttribute>
             <xs:annotation>
-                <xs:documentation>Любые атрибуты</xs:documentation>
+                <xs:documentation>
+                    Любые атрибуты
+                </xs:documentation>
             </xs:annotation>
         </xs:anyAttribute>
     </xs:complexType>
@@ -1784,7 +1609,9 @@
         </xs:sequence>
         <xs:attribute name="test" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Условие для выполнения действия условного оператора else if</xs:documentation>
+                <xs:documentation>
+                    Условие для выполнения действия условного оператора else if
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

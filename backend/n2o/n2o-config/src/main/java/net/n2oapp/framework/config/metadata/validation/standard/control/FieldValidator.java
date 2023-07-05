@@ -38,7 +38,8 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
             Boolean sameFieldIdHasDependency = scope.get(source.getId());
             if (sameFieldIdHasDependency != null && (sameFieldIdHasDependency || source.getDependencies() != null))
                 throw new N2oMetadataValidationException(
-                        String.format("Поле %s встречается более одного раза", source.getId()));
+                        String.format("Поле %s встречается более одного раза",
+                                ValidationUtils.getIdOrEmptyString(source.getId())));
             scope.put(source.getId(), source.getDependencies() != null);
         }
         checkDefaultValues(source);
@@ -49,6 +50,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
             checkWhiteListValidation(source, widgetScope, p);
         if (source.getToolbar() != null)
             p.safeStreamOf(source.getToolbar().getItems()).forEach(p::validate);
+
     }
 
     /**
@@ -66,14 +68,14 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
                 N2oSimpleIntervalField interval = (N2oSimpleIntervalField) source;
                 if (interval.getBegin() == null && interval.getEnd() == null)
                     throw new N2oMetadataValidationException(
-                            String.format("У поля %s default-value не задан", source.getId()));
+                            String.format("У поля %s default-value не задан", ValidationUtils.getIdOrEmptyString(source.getId())));
                 if (!StringUtils.isLink(interval.getBegin()) && !StringUtils.isLink(interval.getEnd()))
                     throw new N2oMetadataValidationException(
-                            String.format("У поля %s default-value не является ссылкой", source.getId()));
+                            String.format("У поля %s default-value не является ссылкой", ValidationUtils.getIdOrEmptyString(source.getId())));
             } else if (!StringUtils.isLink(source.getDefaultValue())) {
                 throw new N2oMetadataValidationException(
-                        String.format("У поля %s атрибут default-value не является ссылкой или не задан: %s",
-                                source.getId(), source.getDefaultValue()));
+                        String.format("У поля %s атрибут default-value не является ссылкой или не задан: '%s'",
+                                ValidationUtils.getIdOrEmptyString(source.getId()), source.getDefaultValue()));
             }
     }
 
@@ -85,7 +87,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
     private void checkListFieldDefaultValues(N2oListField list) {
         if (list.getDefValue() != null && list.getDefValue().values().stream().filter(StringUtils::isLink).findFirst().isEmpty())
             throw new N2oMetadataValidationException(
-                    String.format("У поля %s default-value не является ссылкой", list.getId()));
+                    String.format("У поля %s default-value не является ссылкой", ValidationUtils.getIdOrEmptyString(list.getId())));
     }
 
     /**
@@ -100,7 +102,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
                 if (!N2oField.SetValueDependency.class.equals(dependency.getClass()) &&
                         !dependencyClasses.add(dependency.getClass()))
                     throw new N2oMetadataValidationException(
-                            String.format("В поле %s повторяются зависимости одного типа", source.getId()));
+                            String.format("В поле %s повторяются зависимости одного типа", ValidationUtils.getIdOrEmptyString(source.getId())));
             }
         }
     }
@@ -115,7 +117,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
         if (source.getRefDatasourceId() != null && PageRef.THIS.equals(source.getRefPage())) {
             ValidationUtils.checkDatasourceExistence(source.getRefDatasourceId(), datasourceIdsScope,
                     String.format("В ссылке на источник данных поля %s содержится несуществующий источник данных '%s'",
-                            source.getId(), source.getRefDatasourceId()));
+                            ValidationUtils.getIdOrEmptyString(source.getId()), source.getRefDatasourceId()));
         }
     }
 
@@ -157,7 +159,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
     private void checkDatasource(N2oField source, WidgetScope widgetScope, SourceProcessor p) {
         if (widgetScope.getDatasourceId() == null)
             throw new N2oMetadataValidationException(
-                    String.format("Для компиляции поля %s необходимо указать атрибут datasource или ввести внутренний источник данных виджета %s",
+                    String.format("Для компиляции поля %s необходимо указать атрибут 'datasource' или ввести внутренний источник данных виджета %s",
                             ValidationUtils.getIdOrEmptyString(source.getId()),
                             ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId()))
             );

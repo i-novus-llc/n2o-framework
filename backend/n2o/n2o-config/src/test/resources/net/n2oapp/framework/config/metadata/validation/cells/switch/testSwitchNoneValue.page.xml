@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <table>
+        <columns>
+            <column>
+                    <switch>
+                        <case value="Заявка одобрена">success</case>
+                        <case value="Заявка на рассмотрении">info</case>
+                    </switch>
+            </column>
+        </columns>
+    </table>
+</simple-page>
