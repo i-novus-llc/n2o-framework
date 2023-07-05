@@ -29,7 +29,7 @@ http://n2oapp.net/framework/config/schema/fieldset-5.0
 |description         |Строка         |Подзаголовок филдсета                   |                     |
 |field-label-location|left top       |Расположение лейблов                    |top                  |
 |field-label-align   |left right     |Выравнивание лейблов                    |left                 |
-|field-label-width   |Число          |Ширина лейблов в пикселях               |default              |
+|field-label-width   |Строка         |Ширина лейблов. Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px` |default              |
 |visible             |Выражение      |Условие видимости                       |true                 |
 |enabled             |Выражение      |Условие доступности                     |true                 |
 |depends-on          |Строка         |Список полей, от которых зависит филдсет|                     |
@@ -111,7 +111,7 @@ http://n2oapp.net/framework/config/schema/fieldset-5.0
 
 |Наименование|Тип         |Описание         |Значение по умолчанию|
 |------------|------------|-----------------|---------------------|
-|size        |Число       |Ширина столбца   |                     |
+|size        |Число       |Ширина столбца согласно сетке bootstrap (1-12). |
 |class       |CSS класс   |Css класс столбца|                     |
 |style       |CSS свойства|Стиль столбца    |                     |
 |visible     |Строка      |Условие видимости|true                 |

@@ -4,7 +4,7 @@
             <table id="main" query-id="testShowModal" route="/">
                 <toolbar>
                     <button id="create" model="filter">
-                        <open-drawer page-id="testShowModalPage" modal-size="sm"
+                        <open-drawer page-id="testShowModalPage" modal-size="sm" width="200" height="300"
                                      upload="defaults" refresh-widget-id="second" type="drawer"
                                      submit-operation-id="create" submit-model="edit" route="/create"/>
                     </button>

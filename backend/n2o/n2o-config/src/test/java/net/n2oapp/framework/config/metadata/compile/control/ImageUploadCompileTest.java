@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -48,10 +49,10 @@ public class ImageUploadCompileTest extends SourceCompileTestBase {
         assertThat(imageUpload.getListType(), is(ImageUpload.ListType.card));
         assertThat(imageUpload.getCanLightbox(), is(true));
         assertThat(imageUpload.getCanDelete(), is(false));
-        assertThat(imageUpload.getWidth(), is(500));
-        assertThat(imageUpload.getHeight(), is(400));
+        assertThat(imageUpload.getWidth(), is("500px"));
+        assertThat(imageUpload.getHeight(), is("400px"));
         assertThat(imageUpload.getIcon(), is("fa fa-plus"));
-        assertThat(imageUpload.getIconSize(), is(150));
+        assertThat(imageUpload.getIconSize(), is("150px"));
         assertThat(imageUpload.getShowTooltip(), is(false));
         assertThat(imageUpload.getShape(), is(ShapeType.CIRCLE));
         assertThat(imageUpload.getAjax(), is(false));
@@ -87,5 +88,8 @@ public class ImageUploadCompileTest extends SourceCompileTestBase {
         assertThat(imageUpload2.getCanDelete(), is(true));
         assertThat(imageUpload2.getShowTooltip(), is(true));
         assertThat(imageUpload2.getShape(), is(ShapeType.ROUNDED));
+        assertThat(imageUpload2.getWidth(), nullValue());
+        assertThat(imageUpload2.getHeight(), nullValue());
+        assertThat(imageUpload2.getIconSize(), nullValue());
     }
 }

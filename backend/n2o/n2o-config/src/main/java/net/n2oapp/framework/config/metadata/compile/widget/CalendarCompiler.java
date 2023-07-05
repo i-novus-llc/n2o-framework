@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Date;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -43,7 +44,7 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
 
         CalendarWidgetComponent component = calendar.getComponent();
         component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.calendar.size"), Integer.class)));
-        component.setHeight(source.getHeight());
+        component.setHeight(prepareSizeAttribute(source.getHeight()));
         String dateDomain = p.resolve(property("n2o.api.control.date_time.domain"), String.class);
         component.setDate((Date) p.resolve(source.getDefaultDate(), dateDomain));
         component.setDefaultView(source.getDefaultView() != null ?

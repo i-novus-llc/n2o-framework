@@ -16,6 +16,11 @@
                     </sub-menu>
                 </toolbar>
             </column>
+            <filter-column width="200">
+                <filter>
+                    <input-text id="name"/>
+                </filter>
+            </filter-column>
         </columns>
 
     </table>

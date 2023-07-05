@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
@@ -62,7 +63,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         compileBaseProperties(source, header, p);
         header.setId(source.getId());
         header.setIcon(source.getLabelIcon());
-        header.setWidth(source.getWidth());
+        header.setWidth(prepareSizeAttribute(source.getWidth()));
         header.setResizable(p.cast(source.getResizable(),
                 p.resolve(property("n2o.api.widget.table.column.resizable"), Boolean.class)));
         header.setFixed(source.getFixed());

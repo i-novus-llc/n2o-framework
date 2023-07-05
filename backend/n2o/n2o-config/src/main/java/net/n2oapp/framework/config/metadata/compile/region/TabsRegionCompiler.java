@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
@@ -42,8 +43,8 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
                 p.resolve(property("n2o.api.region.tabs.lazy"), Boolean.class)));
         region.setScrollbar(p.cast(source.getScrollbar(),
                 p.resolve(property("n2o.api.region.tabs.scrollbar"), Boolean.class)));
-        region.setMaxHeight(p.cast(source.getMaxHeight(),
-                p.resolve(property("n2o.api.region.tabs.max_height"), String.class)));
+        region.setMaxHeight(prepareSizeAttribute(p.cast(source.getMaxHeight(),
+                p.resolve(property("n2o.api.region.tabs.max_height"), String.class))));
         region.setHideSingleTab(p.cast(source.getHideSingleTab(),
                 p.resolve(property("n2o.api.region.tabs.hide_single_tab"), Boolean.class)));
         region.setActiveTabFieldId(source.getActiveTabFieldId());

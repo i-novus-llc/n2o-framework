@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -41,8 +42,9 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
 
     private TopLeftRightPage.Places.RegionOptions compileRegionOptions(N2oTopLeftRightPage.RegionOptions source, CompileProcessor p) {
         TopLeftRightPage.Places.RegionOptions regionOptions = new TopLeftRightPage.Places.RegionOptions();
-        regionOptions.setWidth(source.getWidth());
-        regionOptions.setFixed(p.cast(source.getFixed(), p.resolve(property("n2o.api.page.top_left_right.region.fixed"), Boolean.class)));
+        regionOptions.setWidth(prepareSizeAttribute(source.getWidth()));
+        regionOptions.setFixed(p.cast(source.getFixed(),
+                p.resolve(property("n2o.api.page.top_left_right.region.fixed"), Boolean.class)));
         regionOptions.setOffset(source.getOffset());
         return regionOptions;
     }

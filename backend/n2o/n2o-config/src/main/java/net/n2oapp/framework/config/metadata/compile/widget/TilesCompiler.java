@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 
@@ -50,8 +51,10 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
         tiles.setColsSm(p.cast(source.getColsSm(), p.resolve(property("n2o.api.widget.tiles.colsSm"), Integer.class)));
         tiles.setColsMd(p.cast(source.getColsMd(), p.resolve(property("n2o.api.widget.tiles.colsMd"), Integer.class)));
         tiles.setColsLg(p.cast(source.getColsLg(), p.resolve(property("n2o.api.widget.tiles.colsLg"), Integer.class)));
-        tiles.setHeight(p.cast(source.getHeight(), p.resolve(property("n2o.api.widget.tiles.height"), Integer.class)));
-        tiles.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.widget.tiles.width"), Integer.class)));
+        tiles.setHeight(prepareSizeAttribute(p.cast(source.getHeight(),
+                p.resolve(property("n2o.api.widget.tiles.height"), String.class))));
+        tiles.setWidth(prepareSizeAttribute(p.cast(source.getWidth(),
+                p.resolve(property("n2o.api.widget.tiles.width"), String.class))));
 
         List<Tiles.Tile> tls = new ArrayList<>(source.getContent().length);
         for (N2oBlock block : source.getContent())

@@ -9,6 +9,7 @@ import { FactoryContext } from '../../../core/factory/context'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
+import { mapToNumeric } from '../../../tools/helpers'
 
 import ChartType from './ChartType'
 import LineChart from './LineChart'
@@ -47,6 +48,15 @@ function ChartWidget(props) {
 
     const Component = Charts[type]
 
+    const { width: propsWidth, height: propsHeight } = chart
+
+    const { width, height } = mapToNumeric(
+        {
+            width: propsWidth,
+            height: propsHeight,
+        },
+    )
+
     return (
         <WidgetLayout
             disabled={disabled}
@@ -59,7 +69,12 @@ function ChartWidget(props) {
             loading={loading}
         >
             <div className="n2o-chart-widget">
-                <Component {...chart} data={datasourceModel} />
+                <Component
+                    {...chart}
+                    width={width}
+                    height={height}
+                    data={datasourceModel}
+                />
             </div>
         </WidgetLayout>
     )

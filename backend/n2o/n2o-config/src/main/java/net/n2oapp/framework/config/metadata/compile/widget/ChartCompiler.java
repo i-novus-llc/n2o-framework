@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.Chart;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 
@@ -33,8 +34,8 @@ public class ChartCompiler extends BaseWidgetCompiler<Chart, N2oChart> {
         chart.setComponent(p.compile(source.getComponent(), context, p));
         chart.getComponent().setSize(p.cast(source.getSize(),
                 p.resolve(property("n2o.api.widget.chart.size"), Integer.class)));
-        chart.getComponent().setWidth(source.getWidth());
-        chart.getComponent().setHeight(source.getHeight());
+        chart.getComponent().setWidth(prepareSizeAttribute(source.getWidth()));
+        chart.getComponent().setHeight(prepareSizeAttribute(source.getHeight()));
         return chart;
     }
 

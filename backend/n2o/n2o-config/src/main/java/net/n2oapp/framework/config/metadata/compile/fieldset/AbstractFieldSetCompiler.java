@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
+
 /**
  * Компиляции абстрактного филдсета
  */
@@ -37,7 +39,7 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
         if (source.getFieldLabelAlign() != null) {
             compiled.setLabelAlignment(FieldSet.LabelAlignment.map(source.getFieldLabelAlign()));
         }
-        compiled.setLabelWidth(source.getFieldLabelWidth());
+        compiled.setLabelWidth(prepareSizeAttribute(source.getFieldLabelWidth()));
 
         compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
         compiled.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));

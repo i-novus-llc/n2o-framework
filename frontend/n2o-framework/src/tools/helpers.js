@@ -6,6 +6,8 @@ import transform from 'lodash/transform'
 import isEqual from 'lodash/isEqual'
 import cloneDeepWith from 'lodash/cloneDeepWith'
 import map from 'lodash/map'
+import isNaN from 'lodash/isNaN'
+import isEmpty from 'lodash/isEmpty'
 
 function buildHTTPQuery(formData, numericPrefix, argSeparator) {
     let i = 0
@@ -178,4 +180,32 @@ export function omitDeep(collection, excludeKeys) {
     }
 
     return cloneDeepWith(collection, omitFn)
+}
+
+/**
+ Бэкенд всегда присылает значения с единицами измерения
+ прим. xml width = '200' будет получено как string '200px'
+ Функция получения численных значений.
+ Используется в компонентах в которых необходимы доп вычисления,
+ либо работающими с integer only
+ **/
+export function mapToNumeric(params) {
+    if (isEmpty(params)) {
+        return {}
+    }
+
+    const newParams = { ...params }
+
+    const keys = Object.keys(newParams)
+
+    keys.forEach((key) => {
+        const value = newParams[key]
+        const parsed = parseFloat(value)
+
+        if (!isNaN(parsed)) {
+            newParams[key] = parsed
+        }
+    })
+
+    return newParams
 }

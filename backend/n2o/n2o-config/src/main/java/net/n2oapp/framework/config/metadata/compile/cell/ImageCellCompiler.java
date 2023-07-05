@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -28,8 +29,10 @@ public class ImageCellCompiler extends AbstractCellCompiler<ImageCell, N2oImageC
     public ImageCell compile(N2oImageCell source, CompileContext<?, ?> context, CompileProcessor p) {
         ImageCell cell = new ImageCell();
         build(cell, source, context, p, property("n2o.api.cell.image.src"));
-        cell.setShape(p.cast(source.getShape(), p.resolve(property("n2o.api.cell.image.shape"), ShapeType.class)));
-        cell.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.cell.image.width"), String.class)));
+        cell.setShape(p.cast(source.getShape(),
+                p.resolve(property("n2o.api.cell.image.shape"), ShapeType.class)));
+        cell.setWidth(prepareSizeAttribute(p.cast(source.getWidth(),
+                p.resolve(property("n2o.api.cell.image.width"), String.class))));
 
         compileAction(cell, source, context, p);
 

@@ -298,9 +298,12 @@
                     <xs:element name="statuses" type="ctr2:statusesType" minOccurs="0"/>
                     <xs:element name="action" type="acn:actions" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="width" type="xs:integer">
+                <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина изображения (px).</xs:documentation>
+                        <xs:documentation>
+                            Ширина изображения.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="action-id" type="xs:string">

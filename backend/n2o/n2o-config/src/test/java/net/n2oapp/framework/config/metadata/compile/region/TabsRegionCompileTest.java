@@ -71,6 +71,9 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(tabs.getMaxHeight(), is("300px"));
         assertThat(tabs.getDatasource(), is("testTabsRegion_ds"));
         assertThat(tabs.getActiveTabFieldId(), is("activeTab"));
+
+        tabs = (TabsRegion) page.getRegions().get("single").get(2);
+        assertThat(tabs.getMaxHeight(), is("500px"));
     }
 
     @Test
