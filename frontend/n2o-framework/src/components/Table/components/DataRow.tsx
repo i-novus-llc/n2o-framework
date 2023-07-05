@@ -38,6 +38,7 @@ export const DataRow = memo<DataRowProps>(({
             data-selected={isSelectedRow}
             data-focused={isFocused}
             data-has-click={hasClick}
+            data-deep-level={treeDeepLevel}
         >
             {cells.map(({
                 elementAttributes,
