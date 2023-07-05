@@ -10,8 +10,6 @@ import { TableHeader } from './TableHeader'
 import { TableBody } from './TableBody'
 import Table from './basic'
 
-import '../style.scss'
-
 export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
     const {
         id,
