@@ -37,7 +37,7 @@ function* mapUrl(value) {
 
     if (routes) {
         yield call(mapQueryToUrl, rootPageId, null, true)
-        yield call(lazyFetch, value.payload)
+        yield call(lazyFetch, value.payload || value)
     }
 }
 
