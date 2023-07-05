@@ -26,41 +26,46 @@ const progressColor = {
 
 class LastTask extends React.Component {
  render() {
-     return null
    return (
      <BasicTable>
        <BasicTable.Header>
          <BasicTable.Row>
-             <BasicTable.HeaderCell component={TextTableHeader} id="task" label="Задача">
-
+             <BasicTable.HeaderCell>
+                <TextTableHeader id="task" label="Задача"/>
              </BasicTable.HeaderCell>
-             <BasicTable.HeaderCell component={TextTableHeader} id="progress" label="Прогресс">
-
+             <BasicTable.HeaderCell component={TextTableHeader} >
+                <TextTableHeader id="progress" label="Прогресс"/>
              </BasicTable.HeaderCell>
-             <BasicTable.HeaderCell component={TextTableHeader} id="tags" label="Теги">
-
+             <BasicTable.HeaderCell component={TextTableHeader} >
+                <TextTableHeader id="tags" label="Теги"/>
              </BasicTable.HeaderCell>
-             <BasicTable.HeaderCell component={TextTableHeader} id="date" label="Дата">
-
+             <BasicTable.HeaderCell component={TextTableHeader} >
+                <TextTableHeader id="date" label="Дата"/>
              </BasicTable.HeaderCell>
-             <BasicTable.HeaderCell component={TextTableHeader} id="actions" label="">
-
+             <BasicTable.HeaderCell component={TextTableHeader} >
+                <TextTableHeader id="actions" label=""/>
              </BasicTable.HeaderCell>
          </BasicTable.Row>
        </BasicTable.Header>
        <BasicTable.Body>
          {
-           tableData.map((data) => (
-             <BasicTable.Row>
-               <BasicTable.Cell component={TextCell} model={data} id="task" fieldKey="task" />
-               <BasicTable.Cell component={ProgressBarCell} model={data} id="progress" color={progressColor[data.id]} />
-               <BasicTable.Cell id="tags">
-                 <span className={`label label-primary`}>{data['tags']}</span>
-               </BasicTable.Cell>
-               <BasicTable.Cell component={TextCell} model={data} id="date" fieldKey="date" />
-               <BasicTable.Cell id="actions">
-                 <IconCell model={data} id="actions" icon="fa fa-trash" />
-               </BasicTable.Cell>
+           tableData.map((data, index) => (
+             <BasicTable.Row key={index}>
+                <BasicTable.Cell id="task">
+                    <TextCell model={data} fieldKey="task"/>
+                </BasicTable.Cell>
+                <BasicTable.Cell id="progress">
+                    <ProgressBarCell model={data} color={progressColor[data.id]}/>
+                </BasicTable.Cell>
+                <BasicTable.Cell id="tags">
+                    <span className={`label label-primary`}>{data['tags']}</span>
+                </BasicTable.Cell>
+                <BasicTable.Cell id="date">
+                    <TextCell model={data} fieldKey="date"/>
+                </BasicTable.Cell>
+                <BasicTable.Cell id="actions">
+                    <IconCell model={data} id="actions" icon="fa fa-trash" />
+                </BasicTable.Cell>
              </BasicTable.Row>
            ))
          }
