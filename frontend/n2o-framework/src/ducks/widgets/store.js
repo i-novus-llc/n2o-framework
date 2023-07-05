@@ -340,6 +340,26 @@ const widgetSlice = createSlice({
                 delete state[payload.widgetId]
             },
         },
+
+        toggleTableWordWrap: {
+            // eslint-disable-next-line sonarjs/no-identical-functions
+            prepare(widgetId) {
+                return ({
+                    payload: { widgetId },
+                })
+            },
+
+            reducer(state, { payload }) {
+                const { id } = payload
+                const table = state?.[id]?.table
+
+                if (table) {
+                    const currentStateWordWrap = table.textWrap
+
+                    table.textWrap = !currentStateWordWrap
+                }
+            },
+        },
     },
 })
 
