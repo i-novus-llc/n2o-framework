@@ -7,6 +7,7 @@ import { getState } from '../../snippets/ScrollContainer/ScrollContainer'
 import withWidgetProps from '../withWidgetProps'
 import withRegionContainer from '../withRegionContainer'
 import { widgetsSelector } from '../../../ducks/widgets/selectors'
+import { mapToNumeric } from '../../../tools/helpers'
 
 import { ScrollSpyTypes } from './ScrollSpyTypes'
 import { Menu } from './Menu'
@@ -37,7 +38,7 @@ export function Region(
         widgets,
         disabled,
         content: items = [],
-        maxHeight = 'auto',
+        maxHeight: propsMaxHeight = 'auto',
         placement = 'left',
         headlines = true,
     },
@@ -48,6 +49,8 @@ export function Region(
     const containerRef = useRef(null)
     const contentRef = useRef(null)
     const container = containerRef.current
+
+    const { maxHeight } = mapToNumeric({ maxHeight: propsMaxHeight })
 
     const scrollable = maxHeight || style?.maxHeight || false
     const firstMenuItem = items?.[0]

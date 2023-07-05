@@ -14,10 +14,10 @@ public class N2oImageUpload extends N2oFileUpload {
     private ImageUpload.ListType listType;
     private Boolean canLightbox;
     private Boolean canDelete;
-    private Integer width;
-    private Integer height;
+    private String width;
+    private String height;
     private String icon;
-    private Integer iconSize;
+    private String iconSize;
     private Boolean showTooltip;
     private ShapeType shape;
     private Boolean showName;

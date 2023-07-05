@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
@@ -82,8 +83,8 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                 subModelsScope, tableFiltersScope);
         component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         component.setTableSize(source.getTableSize() != null ? source.getTableSize().name().toLowerCase() : null);
-        component.setWidth(source.getWidth());
-        component.setHeight(source.getHeight());
+        component.setWidth(prepareSizeAttribute(source.getWidth()));
+        component.setHeight(prepareSizeAttribute(source.getHeight()));
         component.setTextWrap(p.cast(source.getTextWrap(), p.resolve(property("n2o.api.widget.table.text_wrap"), Boolean.class)));
         if (source.getRows() != null) {
             component.setRows(new Rows());

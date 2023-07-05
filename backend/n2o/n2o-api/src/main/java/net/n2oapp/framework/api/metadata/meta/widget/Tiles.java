@@ -23,9 +23,9 @@ public class Tiles extends Widget {
     @JsonProperty
     private Integer colsLg;
     @JsonProperty
-    private Integer height;
+    private String height;
     @JsonProperty
-    private Integer width;
+    private String width;
     @JsonProperty
     private Pagination paging;
     @JsonProperty

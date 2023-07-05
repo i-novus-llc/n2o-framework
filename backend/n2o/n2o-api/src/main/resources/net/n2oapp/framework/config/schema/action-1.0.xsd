@@ -325,12 +325,18 @@
                 </xs:attribute>
                 <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина компонента</xs:documentation>
+                        <xs:documentation>
+                            Ширина компонента.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Высота компонента</xs:documentation>
+                        <xs:documentation>
+                            Высота компонента.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="placement" type="placementEnum">

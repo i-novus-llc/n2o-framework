@@ -6,6 +6,7 @@
             <set label="{label}" help="This is {help}" description="description" field-label-location="left"
                  field-label-align="right" field-label-width="30" visible="true" enabled="false"
                  test:codeVerified="{emailSender.status=='send'}"/>
+            <set/>
         </fields>
     </form>
 </simple-page>

@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.control.ImageField;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -35,8 +36,8 @@ public class ImageFieldCompiler extends ActionFieldCompiler<ImageField, N2oImage
         imageField.setDescription(p.resolveJS(source.getDescription()));
         imageField.setTextPosition(p.cast(source.getTextPosition(),
                 p.resolve(property("n2o.api.control.image.text_position"), TextPosition.class)));
-        imageField.setWidth(p.cast(source.getWidth(),
-                p.resolve(property("n2o.api.control.image.width"), String.class)));
+        imageField.setWidth(prepareSizeAttribute(p.cast(source.getWidth(),
+                p.resolve(property("n2o.api.control.image.width"), String.class))));
         imageField.setShape(p.cast(source.getShape(),
                 p.resolve(property("n2o.api.control.image.shape"), ShapeType.class)));
         imageField.setStatuses(compileStatuses(source.getStatuses(), p));

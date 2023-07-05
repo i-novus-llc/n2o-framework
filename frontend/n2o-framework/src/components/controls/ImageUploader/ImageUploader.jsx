@@ -4,6 +4,7 @@ import { compose } from 'recompose'
 import { withTranslation } from 'react-i18next'
 
 import withFileUploader from '../FileUploader/withFileUploader'
+import { mapToNumeric } from '../../../tools/helpers'
 
 import ImageUpload from './ImageUpload'
 import {
@@ -35,14 +36,22 @@ function ImageUploader({
     children,
     showTooltip,
     imgError,
-    width,
-    height,
-    iconSize,
+    width: propsWidth,
+    height: propsHeight,
+    iconSize: propsIconSize,
     unit,
     canDelete,
     shape,
     ...rest
 }) {
+    const { width, height, iconSize } = mapToNumeric(
+        {
+            width: propsWidth,
+            height: propsHeight,
+            iconSize: propsIconSize,
+        },
+    )
+
     const currentLabel = getCurrentLabel(imgError, label)
     const size = createCustomSizes(width, height, iconSize, unit)
     const component = children || defaultDropZone(icon, currentLabel, size)

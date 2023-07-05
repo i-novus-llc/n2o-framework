@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
+
 /**
  * Компиляция страницы с правыми и левыми регионами
  */
@@ -20,7 +22,7 @@ public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage, St
         StandardPage page = new StandardPage();
         if ((source.getLeftWidth() != null && !source.getLeftWidth().isEmpty()) ||
                 (source.getRightWidth() != null && !source.getRightWidth().isEmpty()))
-            page.setWidth(page.new RegionWidth(source.getLeftWidth(), source.getRightWidth()));
+            page.setWidth(page.new RegionWidth(prepareSizeAttribute(source.getLeftWidth()), prepareSizeAttribute(source.getRightWidth())));
         return compilePage(source, page, context, p, null);
     }
 

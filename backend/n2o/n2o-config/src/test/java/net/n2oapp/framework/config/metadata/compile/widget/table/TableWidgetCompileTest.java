@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
@@ -168,7 +167,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     void testSortableColumns() {
         Table table = (Table) ((SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.page.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml").get(new PageContext("testTable4SortableCompile"))).getWidget();
         assertThat(table.getId(), is("testTable4SortableCompile_w1"));
-        assertThat(table.getComponent().getHeaders().size(), is(6));
+        assertThat(table.getComponent().getHeaders().size(), is(7));
         List<ColumnHeader> headers = table.getComponent().getHeaders();
 
         assertThat(headers.get(0).getId(), is("id"));
@@ -246,11 +245,12 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     void testColumnsWidth() {
         Table table = (Table) ((SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.page.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml").get(new PageContext("testTable4SortableCompile"))).getWidget();
         assertThat(table.getId(), is("testTable4SortableCompile_w1"));
-        assertThat(table.getComponent().getHeaders().size(), is(6));
+        assertThat(table.getComponent().getHeaders().size(), is(7));
         List<ColumnHeader> headers = table.getComponent().getHeaders();
 
-        assertThat(headers.get(0).getWidth(), is("100"));
+        assertThat(headers.get(0).getWidth(), is("100px"));
         assertThat(headers.get(1).getWidth(), nullValue());
+        assertThat(headers.get(6).getWidth(), is("200px"));
     }
 
     @Test
@@ -316,6 +316,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(0).getChildren(), nullValue());
         assertThat(headers.get(1).getLabel(), is("label"));
         assertThat(headers.get(1).getMultiHeader(), is(true));
+        assertThat(headers.get(1).getWidth(), is("300px"));
 
         headers = headers.get(1).getChildren();
         assertThat(headers.size(), is(3));

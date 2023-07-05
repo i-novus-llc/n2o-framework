@@ -2,7 +2,7 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
     <regions>
         <region>
-            <calendar id="calendar1" views="month" size="20"
+            <calendar id="calendar1" views="month" size="20" height="300"
                       title-field-id="title" tooltip-field-id="tooltip"
                       start-field-id="start" end-field-id="end"
                       cell-color-field-id="color" disabled-field-id="disabled"/>

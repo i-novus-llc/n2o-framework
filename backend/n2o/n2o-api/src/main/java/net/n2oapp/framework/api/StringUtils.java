@@ -2,6 +2,7 @@ package net.n2oapp.framework.api;
 
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.lang.Nullable;
 
 import java.util.Set;
@@ -361,5 +362,26 @@ public abstract class StringUtils {
             return str;
         int num = str.contains("'") ? 2 : 1;
         return str.substring(num, str.length() - num);
+    }
+
+
+    /**
+     * Преобразование атрибута размера к корректному формату.
+     * Если оно представлено числом, то значение + "px".
+     * Иначе строка в исходном виде.
+     * Примеры:
+     * {@code
+     * prepareSizeAttribute("100");    //"100px"
+     * prepareSizeAttribute("100.5");  //"100.5px"
+     * prepareSizeAttribute("150em");  //"150em"
+     * prepareSizeAttribute("200px");  //"200px"
+     * }
+     *
+     * @param value Значение
+     * @return Значение атрибута размера в корректном формате
+     */
+
+    public static String prepareSizeAttribute(String value) {
+        return NumberUtils.isCreatable(value) ? value.concat("px") : value;
     }
 }

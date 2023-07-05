@@ -79,4 +79,15 @@ public class TopLeftRightPageCompileTest extends SourceCompileTestBase {
         assertThat(right.get(3).getContent().get(0), instanceOf(Form.class));
         assertThat(right.get(3).getContent().get(1), instanceOf(Table.class));
     }
+
+    @Test
+    void testWidth() {
+        TopLeftRightPage page = (TopLeftRightPage) compile("net/n2oapp/framework/config/metadata/compile/page/testTopLeftRightPage1.page.xml")
+                .get(new PageContext("testTopLeftRightPage1"));
+
+        assertThat(page.getPlaces().getTop().getWidth(), is("500px"));
+        assertThat(page.getPlaces().getLeft().getWidth(), is("200px"));
+        assertThat(page.getPlaces().getRight().getWidth(), is("300px"));
+
+    }
 }

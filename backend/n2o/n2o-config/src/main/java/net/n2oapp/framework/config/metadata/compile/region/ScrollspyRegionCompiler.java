@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -42,7 +43,7 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
                 p.resolve(property("n2o.api.region.scrollspy.placement"), String.class)));
         region.setHeadlines(p.cast(source.getHeadlines(),
                 p.resolve(property("n2o.api.region.scrollspy.headlines"), Boolean.class)));
-        region.setMaxHeight(source.getMaxHeight());
+        region.setMaxHeight(prepareSizeAttribute(source.getMaxHeight()));
         region.setMenu(initMenu(source.getMenu(), context, p));
         region.setActive(source.getActive());
         compileRoute(source, region.getId(), "n2o.api.region.scrollspy.routable", p);

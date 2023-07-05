@@ -3,7 +3,7 @@
     <table id="table" query-id="testTable5Compile">
         <columns>
             <column text-field-id="test1"/>
-            <multi-column label="label">
+            <multi-column label="label" width="300">
                 <multi-column src="MyTableHeader" class="my-table-header" style="color: red">
                     <column text-field-id="test2"/>
                     <column text-field-id="test3"/>
