@@ -38,9 +38,9 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testAutoComplete() {
-        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
-                        new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/test.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/index.page.xml"),
+                        new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -68,9 +68,9 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testTags() {
-        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/test.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -117,9 +117,9 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testPrefilters() {
-        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete/pre_filters");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/pre_filters/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/pre_filters/test.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete/preFilters");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/preFilters/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/preFilters/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

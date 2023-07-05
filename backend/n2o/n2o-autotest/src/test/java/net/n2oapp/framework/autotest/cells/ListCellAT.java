@@ -28,10 +28,10 @@ public class ListCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        setJsonPath("net/n2oapp/framework/autotest/cells");
+        setJsonPath("net/n2oapp/framework/autotest/cells/list");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/list/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/cells/list/testTable.query.xml"));
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();

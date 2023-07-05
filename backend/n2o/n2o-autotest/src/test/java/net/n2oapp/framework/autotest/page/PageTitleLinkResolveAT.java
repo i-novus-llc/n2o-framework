@@ -40,14 +40,13 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        setJsonPath("net/n2oapp/framework/autotest/page/title/params");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/test.query.xml"));
     }
     
     @Test
     public void testPathParam() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/index.page.xml"),
+        setJsonPath("net/n2oapp/framework/autotest/page/title/params/path_params");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/masterWidget.widget.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/page.page.xml"));
         StandardPage page = open(StandardPage.class);
@@ -106,7 +105,9 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
 
     @Test
     public void testQueryParams() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/index.page.xml"),
+        setJsonPath("net/n2oapp/framework/autotest/page/title/params/query_params");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/page.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -167,7 +168,9 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
 
     @Test
     public void testConstantParams() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/index.page.xml"),
+        setJsonPath("net/n2oapp/framework/autotest/page/title/params/constant_value");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/open.page.xml"));
 
         StandardPage page = open(StandardPage.class);

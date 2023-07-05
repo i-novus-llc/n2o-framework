@@ -43,7 +43,7 @@ public class SimpleFieldSetAT extends AutoTestBase {
 
     @Test
     public void testFieldSet() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/common/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();

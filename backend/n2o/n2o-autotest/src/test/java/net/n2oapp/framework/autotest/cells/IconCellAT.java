@@ -28,10 +28,10 @@ public class IconCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        setJsonPath("net/n2oapp/framework/autotest/cells");
+        setJsonPath("net/n2oapp/framework/autotest/cells/icon");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/icon/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/cells/icon/testTable.query.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
