@@ -33,15 +33,22 @@ public class AlertActionAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
-                new N2oFieldSetsPack(), new N2oControlsPack(), new N2oActionsPack());
+        builder.packs(
+                new N2oPagesPack(),
+                new N2oApplicationPack(),
+                new N2oWidgetsPack(),
+                new N2oFieldSetsPack(),
+                new N2oControlsPack(),
+                new N2oActionsPack()
+        );
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/alert/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/alert/test.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/alert/test.page.xml")
+        );
     }
 
-    @Disabled //FIXME поправить в конце работ над story/NNO-7104
     @Test
+    @Disabled
     public void testAlertAction() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -78,7 +85,7 @@ public class AlertActionAT extends AutoTestBase {
         alert.shouldHaveUrl(getBaseUrl() + "/#/test");
         alert.shouldHaveText("Привет, мир!");
         alert.click();
-        page.shouldExists();
+        page.breadcrumb().crumb(0).shouldHaveLabel("Всплывающие уведомления");
         page.breadcrumb().crumb(1).shouldHaveLabel("Тест");
     }
 }
