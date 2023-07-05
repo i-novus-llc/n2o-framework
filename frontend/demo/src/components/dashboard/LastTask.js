@@ -2,7 +2,7 @@
  * Тест таблицы
  */
 import React from 'react';
-import Table from "n2o-framework/lib/components/widgets/Table/Table";
+import { BasicTable } from "n2o-framework/lib/components/Table";
 import TextTableHeader from 'n2o-framework/lib/components/widgets/Table/headers/TextTableHeader';
 import TextCell from 'n2o-framework/lib/components/widgets/Table/cells/TextCell/TextCell';
 import ProgressBarCell from 'n2o-framework/lib/components/widgets/Table/cells/ProgressBarCell/ProgressBarCell';
@@ -26,35 +26,46 @@ const progressColor = {
 
 class LastTask extends React.Component {
  render() {
+     return null
    return (
-     <Table>
-       <Table.Header>
-         <Table.Row>
-           <Table.Cell as="th" component={TextTableHeader} id="task" label="Задача" />
-           <Table.Cell as="th" component={TextTableHeader} id="progress" label="Прогресс" />
-           <Table.Cell as="th" component={TextTableHeader} id="tags" label="Теги" />
-           <Table.Cell as="th" component={TextTableHeader} id="date" label="Дата" />
-           <Table.Cell as="th" component={TextTableHeader} id="actions" label="" />
-         </Table.Row>
-       </Table.Header>
-       <Table.Body>
+     <BasicTable>
+       <BasicTable.Header>
+         <BasicTable.Row>
+             <BasicTable.HeaderCell component={TextTableHeader} id="task" label="Задача">
+
+             </BasicTable.HeaderCell>
+             <BasicTable.HeaderCell component={TextTableHeader} id="progress" label="Прогресс">
+
+             </BasicTable.HeaderCell>
+             <BasicTable.HeaderCell component={TextTableHeader} id="tags" label="Теги">
+
+             </BasicTable.HeaderCell>
+             <BasicTable.HeaderCell component={TextTableHeader} id="date" label="Дата">
+
+             </BasicTable.HeaderCell>
+             <BasicTable.HeaderCell component={TextTableHeader} id="actions" label="">
+
+             </BasicTable.HeaderCell>
+         </BasicTable.Row>
+       </BasicTable.Header>
+       <BasicTable.Body>
          {
            tableData.map((data) => (
-             <Table.Row>
-               <Table.Cell component={TextCell} model={data} id="task" fieldKey="task" />
-               <Table.Cell component={ProgressBarCell} model={data} id="progress" color={progressColor[data.id]} />
-               <Table.Cell id="tags">
+             <BasicTable.Row>
+               <BasicTable.Cell component={TextCell} model={data} id="task" fieldKey="task" />
+               <BasicTable.Cell component={ProgressBarCell} model={data} id="progress" color={progressColor[data.id]} />
+               <BasicTable.Cell id="tags">
                  <span className={`label label-primary`}>{data['tags']}</span>
-               </Table.Cell>
-               <Table.Cell component={TextCell} model={data} id="date" fieldKey="date" />
-               <Table.Cell id="actions">
+               </BasicTable.Cell>
+               <BasicTable.Cell component={TextCell} model={data} id="date" fieldKey="date" />
+               <BasicTable.Cell id="actions">
                  <IconCell model={data} id="actions" icon="fa fa-trash" />
-               </Table.Cell>
-             </Table.Row>
+               </BasicTable.Cell>
+             </BasicTable.Row>
            ))
          }
-       </Table.Body>
-     </Table>
+       </BasicTable.Body>
+     </BasicTable>
    )
  }
 }
