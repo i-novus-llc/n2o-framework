@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
 
-import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdInQuotesOrEmptyString;
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 
 /**
  * Валидатор объекта
@@ -56,9 +56,9 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                     if (validation.getSide().contains("client"))
                         throw new N2oMetadataValidationException(
                                 String.format("Атрибут 'side' валидации %s операции %s объекта %s не может иметь значение client",
-                                        getIdInQuotesOrEmptyString(validation.getId()),
-                                        getIdInQuotesOrEmptyString(operation.getId()),
-                                        getIdInQuotesOrEmptyString(objectId)));
+                                        getIdOrEmptyString(validation.getId()),
+                                        getIdOrEmptyString(operation.getId()),
+                                        getIdOrEmptyString(objectId)));
             }
     }
 

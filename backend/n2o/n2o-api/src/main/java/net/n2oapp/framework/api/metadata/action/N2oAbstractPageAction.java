@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
+import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBreadcrumb;
@@ -49,11 +50,17 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private Boolean refreshOnClose;
     private Boolean unsavedDataPromptOnClose;
     //on submit
+    @Deprecated
     private String submitOperationId;
+    @Deprecated
     private String submitLabel;
+    @Deprecated
     private ReduxModel submitModel;
+    @Deprecated
     private SubmitActionType submitActionType;
+    @Deprecated
     private Boolean submitMessageOnSuccess;
+    @Deprecated
     private Boolean submitMessageOnFail;
 
     private CopyMode copyMode;
@@ -66,9 +73,13 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private PageRef targetPage;
 
     private Boolean createMore;
+    @Deprecated
     private Boolean closeAfterSubmit;
+    @Deprecated
     private String redirectUrlAfterSubmit;
+    @Deprecated
     private Target redirectTargetAfterSubmit;
+    @Deprecated
     private Boolean refreshAfterSubmit;
     private String[] refreshDatasourceIds;
     //on resolve
@@ -79,9 +90,10 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private N2oParam[] params;
     private N2oAbstractDatasource[] datasources;
     private N2oBreadcrumb[] breadcrumbs;
+    private N2oToolbar[] toolbars;
+    private ActionBar[] actions;
     @Deprecated
     private String width;
-    private N2oToolbar[] toolbars;
 
     @Deprecated // при удалении убрать, N2oStandardDatasourceMerger, а также его вызов в PageCompiler
     public void adaptV1() {

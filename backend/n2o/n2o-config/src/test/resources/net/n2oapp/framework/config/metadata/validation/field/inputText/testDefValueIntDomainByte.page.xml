@@ -1,0 +1,5 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <input-text id="field1" domain="byte" default-value="14777777"/>
+    </fields>
+</form>

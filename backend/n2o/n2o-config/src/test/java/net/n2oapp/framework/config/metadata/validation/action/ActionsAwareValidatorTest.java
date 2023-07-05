@@ -8,6 +8,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -33,11 +34,10 @@ public class ActionsAwareValidatorTest extends SourceValidationTestBase {
      */
     @Test
     void testMissedPageActions() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/aware/testMissedPageActions.page.xml"),
-                "Для компонента с action-id=\"test\" не найдены действия <actions>"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/aware/testMissedPageActions.page.xml"));
+        assertEquals("Для компонента с action-id=\"test\" не найдены действия <actions>", exception.getMessage());
     }
 
     /**
@@ -45,11 +45,10 @@ public class ActionsAwareValidatorTest extends SourceValidationTestBase {
      */
     @Test
     void testMissedWidgetActions() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/aware/testMissedPageActions.page.xml"),
-                "Для компонента с action-id=\"test\" не найдены действия <actions>"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/aware/testMissedPageActions.page.xml"));
+        assertEquals("Для компонента с action-id=\"test\" не найдены действия <actions>", exception.getMessage());
     }
 
     /**
@@ -57,11 +56,10 @@ public class ActionsAwareValidatorTest extends SourceValidationTestBase {
      */
     @Test
     void testActionExistenceByActionId() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/aware/testActionExistenceByActionId.page.xml"),
-                "Компонент с action-id=\"test\" ссылается на несуществующее действие test"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/aware/testActionExistenceByActionId.page.xml"));
+        assertEquals("Компонент с action-id=\"test\" ссылается на несуществующее действие test", exception.getMessage());
     }
 
     /**
@@ -69,10 +67,9 @@ public class ActionsAwareValidatorTest extends SourceValidationTestBase {
      */
     @Test
     void testUsingActionIdAndActionAtTheSameTime() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/aware/testUsingActionIdAndActionAtTheSameTime.page.xml"),
-                "Компонент с action-id=\"test\" содержит действия и использует ссылку action-id одновременно"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/aware/testUsingActionIdAndActionAtTheSameTime.page.xml"));
+        assertEquals("Компонент с action-id=\"test\" содержит действия и использует ссылку action-id одновременно", exception.getMessage());
     }
 }

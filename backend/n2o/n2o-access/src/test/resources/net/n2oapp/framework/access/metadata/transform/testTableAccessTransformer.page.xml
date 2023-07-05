@@ -1,11 +1,28 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds2" object-id="testObjectAccessTransformer"/>
+    </datasources>
     <regions>
         <panel id="regionId" place="single">
             <table id="testTable" object-id="testObjectAccessTransformer">
                 <rows>
                     <click>
-                        <open-page page-id="testToolbarAccessTransformer" submit-operation-id="update" object-id="testObjectAccessTransformer"/>
+                        <open-page page-id="testToolbarAccessTransformer" route="/update">
+                            <datasources>
+                                <parent-datasource id="ds2"/>
+                                <datasource id="modalDs" object-id="testObjectAccessTransformer"/>
+                            </datasources>
+                            <toolbars>
+                                <toolbar>
+                                    <button label="Сохранить">
+                                        <invoke operation-id="update"/>
+                                        <refresh datasource="ds2"/>
+                                        <close/>
+                                    </button>
+                                </toolbar>
+                            </toolbars>
+                        </open-page>
                     </click>
                 </rows>
             </table>

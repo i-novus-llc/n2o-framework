@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -32,11 +33,10 @@ public class ConditionBranchValidationTest extends SourceValidationTestBase {
      */
     @Test
     void testStartsWithIf() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testStartsWithIf.page.xml"),
-                "Условный оператор if-else начинается не с тега <if>"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testStartsWithIf.page.xml"));
+        assertEquals("Условный оператор if-else начинается не с тега <if>", exception.getMessage());
     }
 
     /**
@@ -44,11 +44,10 @@ public class ConditionBranchValidationTest extends SourceValidationTestBase {
      */
     @Test
     void testDatasourceExistence() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testDatasourceExistence.page.xml"),
-                "Тег <if> в атрибуте 'datasource' ссылается на несуществующий источник данных ds1"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testDatasourceExistence.page.xml"));
+        assertEquals("Тег <if> в атрибуте 'datasource' ссылается на несуществующий источник данных ds1", exception.getMessage());
     }
 
     /**
@@ -56,11 +55,10 @@ public class ConditionBranchValidationTest extends SourceValidationTestBase {
      */
     @Test
     void testWrongIfElseAndElseSequence() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testWrongIfElseAndElseSequence.page.xml"),
-                "Неверный порядок тегов <else-if> и <else> в условном операторе if-else"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testWrongIfElseAndElseSequence.page.xml"));
+        assertEquals("Неверный порядок тегов <else-if> и <else> в условном операторе if-else", exception.getMessage());
     }
 
     /**
@@ -68,11 +66,10 @@ public class ConditionBranchValidationTest extends SourceValidationTestBase {
      */
     @Test
     void testIfTestRequirement() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testIfTestRequirement.page.xml"),
-                "В теге <if> условного операторе if-else не задано условие 'test'"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testIfTestRequirement.page.xml"));
+        assertEquals("В теге <if> условного операторе if-else не задано условие 'test'", exception.getMessage());
     }
 
     /**
@@ -80,11 +77,12 @@ public class ConditionBranchValidationTest extends SourceValidationTestBase {
      */
     @Test
     void testElseIfTestRequirement() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/condition/testElseIfTestRequirement.page.xml"),
                 "В теге <else-if> условного операторе if-else не задано условие 'test'"
         );
+        assertEquals("В теге <else-if> условного операторе if-else не задано условие 'test'", exception.getMessage());
     }
 
     /**

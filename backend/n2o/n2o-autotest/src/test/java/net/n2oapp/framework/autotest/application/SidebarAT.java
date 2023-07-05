@@ -10,7 +10,6 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -32,14 +31,23 @@ public class SidebarAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
-                new N2oControlsPack(), new N2oActionsPack());
+        builder.packs(
+                new N2oPagesPack(),
+                new N2oApplicationPack(),
+                new N2oWidgetsPack(),
+                new N2oFieldSetsPack(),
+                new N2oControlsPack(),
+                new N2oActionsPack()
+        );
     }
 
     @Test
     public void testSidebar() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/simple/test.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/simple/index.page.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/simple/test.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/simple/index.page.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         SimpleHeader header = page.header();
@@ -54,11 +62,12 @@ public class SidebarAT extends AutoTestBase {
     }
 
     @Test
-    @Disabled
     public void testFullsizeSidebar() {
-        //ToDo раздизейблить и поправить после NNO-9239
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fullsize/fullsize.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fullsize/index.page.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fullsize/fullsize.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fullsize/index.page.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         SimpleHeader header = page.header();
@@ -69,11 +78,12 @@ public class SidebarAT extends AutoTestBase {
     }
 
     @Test
-    @Disabled
     public void testFixedSidebar() {
-        //ToDo раздизейблить и поправить после NNO-9239
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fixed/fixed.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fixed/index.page.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fixed/fixed.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fixed/index.page.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         SimpleHeader header = page.header();
@@ -84,11 +94,12 @@ public class SidebarAT extends AutoTestBase {
     }
 
     @Test
-    @Disabled
     public void testRightSidebar() {
-        //ToDo раздизейблить и поправить после NNO-9239
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/right/right.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/right/index.page.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/right/right.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/right/index.page.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         SimpleHeader header = page.header();
@@ -100,8 +111,11 @@ public class SidebarAT extends AutoTestBase {
 
     @Test
     public void testSidebarOverlay() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/overlay/overlay.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/overlay/index.page.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/overlay/overlay.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/overlay/index.page.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         SimpleHeader header = page.header();
@@ -113,8 +127,11 @@ public class SidebarAT extends AutoTestBase {
 
     @Test
     public void testSidebarDefaultMicro() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/default_micro/default_micro.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/default_micro/index.page.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/default_micro/default_micro.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/default_micro/index.page.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.sidebar().shouldExists();
@@ -123,8 +140,11 @@ public class SidebarAT extends AutoTestBase {
 
     @Test
     public void testSidebarDefaultMini() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/default_mini/default_mini.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/default_mini/index.page.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/default_mini/default_mini.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/default_mini/index.page.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.sidebar().shouldExists();

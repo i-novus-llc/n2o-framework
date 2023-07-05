@@ -30,11 +30,8 @@ public class TableSettingsGeneratorUtil {
     }
 
     public static N2oButton generateFilters(N2oToolbar toolbar, CompileProcessor p) {
-        String widgetId = toolbar.getTargetWidgetId();
-        if (widgetId == null) {
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            widgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
-        }
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        String widgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
         N2oButton filterButton = new N2oButton();
         fillButton(filterButton, toolbar.getIsGeneratedForSubMenu(), "filters", p);
         N2oCustomAction filterAction = new N2oCustomAction();
