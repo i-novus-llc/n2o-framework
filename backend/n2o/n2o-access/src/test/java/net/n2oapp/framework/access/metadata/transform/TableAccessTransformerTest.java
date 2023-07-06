@@ -47,7 +47,7 @@ public class TableAccessTransformerTest extends SourceCompileTestBase {
 
         Security.SecurityObject securityObject = ((Security) (((Table) page.getRegions().get("single").get(0).getContent().get(0))
                 .getComponent()).getBody().getRow().getProperties()
-                .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+                .get(SECURITY_PROP_NAME)).getSecurityMap().get("url");
 
         assertThat(securityObject.getPermissions().size(), is(1));
         assertThat(securityObject.getPermissions().contains("permission"), is(true));

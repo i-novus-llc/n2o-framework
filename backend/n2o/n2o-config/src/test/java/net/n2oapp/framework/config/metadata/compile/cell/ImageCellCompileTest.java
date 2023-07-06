@@ -71,7 +71,7 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getTextPosition(), is(N2oImageCell.Position.right));
         assertThat(cell.getShape(), is(ShapeType.SQUARE));
 
-        cell = (ImageCell) table.getComponent().getCells().get(2);
+        cell = (ImageCell) table.getComponent().getBody().getCells().get(2);
         assertThat(cell.getWidth(), is("200px"));
     }
 }
