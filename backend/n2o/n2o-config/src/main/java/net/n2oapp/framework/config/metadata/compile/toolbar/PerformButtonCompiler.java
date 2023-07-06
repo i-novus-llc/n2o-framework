@@ -139,12 +139,14 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
     private Confirm initConfirm(N2oButton source, CompileProcessor p, CompileContext<?, ?> context, CompiledObject.Operation operation, Object condition) {
         Confirm confirm = new Confirm();
-        confirm.setTitle(p.cast(source.getConfirmTitle(), operation != null ? operation.getFormSubmitLabel() : null, p.getMessage("n2o.confirm.title")));
+        confirm.setTitle(p.cast(source.getConfirmTitle(), () -> operation != null ? operation.getFormSubmitLabel() : null,
+                () -> p.getMessage("n2o.confirm.title")));
         confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.modal));
-        confirm.setOkLabel(p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
-        confirm.setCancelLabel(p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
+        confirm.setOkLabel(p.cast(source.getConfirmOkLabel(), () -> p.getMessage("n2o.confirm.default.okLabel")));
+        confirm.setCancelLabel(p.cast(source.getConfirmCancelLabel(), () -> p.getMessage("n2o.confirm.default.cancelLabel")));
         confirm.setText(initExpression(
-                p.cast(source.getConfirmText(), operation != null ? operation.getConfirmationText() : null, p.getMessage("n2o.confirm.text"))));
+                p.cast(source.getConfirmText(), () -> operation != null ? operation.getConfirmationText() : null,
+                        () -> p.getMessage("n2o.confirm.text"))));
         confirm.setCondition(initConfirmCondition(condition));
 
         if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getCondition())) {
