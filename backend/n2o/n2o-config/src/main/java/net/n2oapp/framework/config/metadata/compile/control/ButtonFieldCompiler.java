@@ -108,10 +108,12 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
             return;
         Confirm confirm = new Confirm();
         confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.modal));
-        confirm.setText(p.cast(source.getConfirmText(), (operation != null ? operation.getConfirmationText() : null), p.getMessage("n2o.confirm.text")));
-        confirm.setTitle(p.cast(source.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
-        confirm.setOkLabel(p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
-        confirm.setCancelLabel(p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
+        confirm.setText(p.cast(source.getConfirmText(), () -> (operation != null ? operation.getConfirmationText() : null),
+                () -> p.getMessage("n2o.confirm.text")));
+        confirm.setTitle(p.cast(source.getConfirmTitle(), () -> (operation != null ? operation.getFormSubmitLabel() : null),
+                () -> p.getMessage("n2o.confirm.title")));
+        confirm.setOkLabel(p.cast(source.getConfirmOkLabel(), () -> p.getMessage("n2o.confirm.default.okLabel")));
+        confirm.setCancelLabel(p.cast(source.getConfirmCancelLabel(), () -> p.getMessage("n2o.confirm.default.cancelLabel")));
         if (StringUtils.hasLink(confirm.getText())) {
             Set<String> links = StringUtils.collectLinks(confirm.getText());
             String text = Placeholders.js("'" + confirm.getText() + "'");

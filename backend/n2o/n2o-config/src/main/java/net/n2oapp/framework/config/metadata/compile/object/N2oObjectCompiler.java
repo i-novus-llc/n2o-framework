@@ -408,11 +408,11 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiledOperation.setName(operation.getName());
         compiledOperation.setConfirm(operation.getConfirm());
         compiledOperation.setConfirmationText(castDefault(operation.getConfirmationText(),
-                p.getMessage("n2o.confirm.text")));
+                () -> p.getMessage("n2o.confirm.text")));
         compiledOperation.setBulkConfirmationText(castDefault(operation.getBulkConfirmationText(),
-                p.getMessage("n2o.confirm.group")));
+                () -> p.getMessage("n2o.confirm.group")));
         compiledOperation.setSuccessText(castDefault(operation.getSuccessText(),
-                p.getMessage("n2o.success")));
+                () -> p.getMessage("n2o.success")));
         compiledOperation.setFailText(operation.getFailText());
         compiledOperation.setInvocation(operation.getInvocation());
         compiledOperation.setValidations(operation.getValidations());
