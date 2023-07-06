@@ -23,7 +23,7 @@
                 </content>
                 <pagination src="pagingSrc" show-count="false" prev="true" next="true"/>
             </cards>
-            <cards>
+            <cards height="300">
                 <content>
                     <col>
                         <block id="31">

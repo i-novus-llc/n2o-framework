@@ -48,6 +48,7 @@ public class CalendarWidgetCompileTest extends SourceCompileTestBase {
         assertThat(calendar.getSrc(), is("CalendarWidget"));
         assertThat(calendar.getName(), is("calendar1"));
         assertThat(calendar.getComponent().getSize(), is(20));
+        assertThat(calendar.getComponent().getHeight(), is("300px"));
         assertThat(calendar.getComponent().getDefaultView(), is("month"));
         assertThat(calendar.getComponent().getMarkDaysOff(), is(true));
         assertThat(calendar.getComponent().getSelectable(), is(true));

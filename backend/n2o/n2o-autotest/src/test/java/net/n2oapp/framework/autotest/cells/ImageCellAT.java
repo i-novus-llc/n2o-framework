@@ -41,9 +41,9 @@ public class ImageCellAT extends AutoTestBase {
 
     @Test
     public void imageCellTest() {
-        setJsonPath("net/n2oapp/framework/autotest/cells");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/cells/image/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/image/simple/testTable.query.xml"));
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();

@@ -166,8 +166,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Test
     void testSortableColumns() {
         Table table = (Table) ((SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.page.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml").get(new PageContext("testTable4SortableCompile"))).getWidget();
-        assertThat(table.getId(), is("testTable4SortableCompile_main"));
-        assertThat(table.getComponent().getHeader().getCells().size(), is(6));
+        assertThat(table.getId(), is("testTable4SortableCompile_w1"));
+        assertThat(table.getComponent().getHeader().getCells().size(), is(7));
         List<ColumnHeader> headers = table.getComponent().getHeader().getCells();
 
         assertThat(headers.get(0).getId(), is("id"));
@@ -245,11 +245,12 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     void testColumnsWidth() {
         Table table = (Table) ((SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.page.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml").get(new PageContext("testTable4SortableCompile"))).getWidget();
         assertThat(table.getId(), is("testTable4SortableCompile_w1"));
-        assertThat(table.getComponent().getHeader().getCells().size(), is(6));
+        assertThat(table.getComponent().getHeader().getCells().size(), is(7));
         List<ColumnHeader> headers = table.getComponent().getHeader().getCells();
 
-        assertThat(headers.get(0).getElementAttributes().get("width"), is("100"));
+        assertThat(headers.get(0).getElementAttributes().get("width"), is("100px"));
         assertThat(headers.get(1).getElementAttributes().get("width"), nullValue());
+        assertThat(headers.get(6).getElementAttributes().get("width"), is("200px"));
     }
 
     @Test

@@ -24,7 +24,7 @@ public class N2oScrollspyRegion extends N2oRegion implements RoutableRegion {
     private Boolean headlines;
     private String activeParam;
     private Boolean routable;
-    private Integer maxHeight;
+    private String maxHeight;
     private AbstractMenuItem[] menu;
 
     @Override

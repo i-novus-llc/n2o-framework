@@ -369,14 +369,16 @@
                 <xs:attribute name="width" type="xs:string" default="400">
                     <xs:annotation>
                         <xs:documentation>
-                            Ширина окна
+                            Ширина окна.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Высота окна
+                            Высота окна.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

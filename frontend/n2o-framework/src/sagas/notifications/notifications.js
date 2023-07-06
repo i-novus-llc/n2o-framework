@@ -5,7 +5,7 @@ import { take, call, fork, select, put, takeEvery } from 'redux-saga/effects'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 
-import { menuSelector } from '../../ducks/global/store'
+import { menuSelector } from '../../ducks/global/selectors'
 
 export function subscribeMetadata(emitter, updater, dataSourceId, source) {
     // eslint-disable-next-line consistent-return

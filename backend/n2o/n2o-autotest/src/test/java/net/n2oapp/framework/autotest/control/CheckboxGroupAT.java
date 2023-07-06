@@ -35,7 +35,7 @@ public class CheckboxGroupAT extends AutoTestBase {
 
     @Test
     public void testCheckboxGroup() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/checkbox_group/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/checkbox_group/simple/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

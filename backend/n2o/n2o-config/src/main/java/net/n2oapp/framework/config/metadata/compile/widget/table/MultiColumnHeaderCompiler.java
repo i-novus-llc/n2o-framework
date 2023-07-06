@@ -4,12 +4,14 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oMultiColumn;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -30,7 +32,7 @@ public class MultiColumnHeaderCompiler extends AbstractHeaderCompiler<N2oMultiCo
         header.setMultiHeader(true);
         header.setChildren(new ArrayList<>());
         header.getElementAttributes().put("alignment", p.cast(source.getAlignment() == null ? null : source.getAlignment().getId(),
-                p.resolve(property("n2o.api.widget.column.multi.alignment"), String.class)));
+                () -> p.resolve(property("n2o.api.widget.column.multi.alignment"), String.class)));
         for (AbstractColumn subColumn : source.getChildren()) {
             subColumn.setContentAlignment(p.cast(subColumn.getContentAlignment(), source.getContentAlignment()));
             header.getChildren().add(p.compile(subColumn, context, p));

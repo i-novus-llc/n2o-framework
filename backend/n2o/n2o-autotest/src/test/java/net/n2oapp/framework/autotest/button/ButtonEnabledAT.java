@@ -42,7 +42,7 @@ public class ButtonEnabledAT extends AutoTestBase {
 
     @Test
     public void testEnabledButton() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/enabled/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/enabled/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

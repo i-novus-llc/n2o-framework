@@ -85,9 +85,12 @@
                         <xs:documentation>Выравнивание лейблов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="field-label-width" type="xs:integer">
+                <xs:attribute name="field-label-width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина лейблов в пикселях.</xs:documentation>
+                        <xs:documentation>
+                            Ширина лейблов.
+                            Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="visible" type="xs:string">
@@ -248,9 +251,9 @@
                 <xs:sequence>
                     <xs:element name="row" type="rowDefinition" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="size" type="xs:string">
+                <xs:attribute name="size" type="xs:integer">
                     <xs:annotation>
-                        <xs:documentation>Ширина столбца.</xs:documentation>
+                        <xs:documentation>Ширина столбца согласно сетке bootstrap (1-12).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">

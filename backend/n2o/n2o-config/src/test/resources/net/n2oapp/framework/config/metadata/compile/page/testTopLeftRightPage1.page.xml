@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+                     scroll-top-button="true">
+    <top width="500">
+        <form/>
+    </top>
+    <left width="200">
+        <form/>
+    </left>
+    <right width="300">
+        <form/>
+    </right>
+</top-left-right-page>

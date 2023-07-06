@@ -35,8 +35,8 @@ public class ChartWidgetCompileTest extends SourceCompileTestBase {
         Chart chart = (Chart) page.getWidget();
         assertThat(chart.getSrc(), is("ChartWidget"));
         assertThat(chart.getName(), is("testChart"));
-        assertThat(chart.getComponent().getWidth(), is(600));
-        assertThat(chart.getComponent().getHeight(), is(400));
+        assertThat(chart.getComponent().getWidth(), is("600px"));
+        assertThat(chart.getComponent().getHeight(), is("400px"));
         assertThat(chart.getComponent().getSize(), is(20));
         assertThat(chart.getName(), is("testChart"));
         assertThat(chart.getIcon(), is("icon"));

@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { useSelector } from 'react-redux'
 
 // @ts-ignore ignore import error from js file
-import { breadcrumbsSelector } from '../../../ducks/global/store'
+import { breadcrumbsSelector } from '../../../ducks/global/selectors'
 import { ElementVisibility, WindowType } from '../WindowType'
 
 import { breadcrumb } from './const'

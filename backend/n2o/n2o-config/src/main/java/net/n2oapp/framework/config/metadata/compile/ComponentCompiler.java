@@ -19,7 +19,7 @@ public abstract class ComponentCompiler<D extends Component, S extends SourceCom
         if (getSrcProperty() == null) {
             compiled.setSrc(source.getSrc());
         } else {
-            compiled.setSrc(p.cast(source.getSrc(), p.resolve(Placeholders.property(getSrcProperty()), String.class)));
+            compiled.setSrc(p.cast(source.getSrc(), () -> p.resolve(Placeholders.property(getSrcProperty()), String.class)));
         }
         if (compiled.getSrc() == null)
             throw new N2oException("component src is required");

@@ -29,9 +29,9 @@ public class RatingCompiler extends StandardFieldCompiler<Rating, N2oRating> {
     public StandardField<Rating> compile(N2oRating source, CompileContext<?, ?> context, CompileProcessor p) {
         Rating rating = new Rating();
         rating.setMax(p.cast(source.getMax(),
-                p.resolve(property("n2o.api.control.rating.max"), Integer.class)));
+                () -> p.resolve(property("n2o.api.control.rating.max"), Integer.class)));
         rating.setHalf(p.cast(source.getHalf(),
-                p.resolve(property("n2o.api.control.rating.half"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.control.rating.half"), Boolean.class)));
         rating.setShowTooltip(source.getShowTooltip());
 
         return compileStandardField(rating, source, context, p);

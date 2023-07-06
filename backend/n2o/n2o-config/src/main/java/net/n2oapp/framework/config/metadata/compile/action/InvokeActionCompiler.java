@@ -86,10 +86,10 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         source.setRoute(p.cast(source.getRoute(), "/" + source.getId()));
         initSubmitMessageDefaults(source, p);
         source.setOptimistic(p.cast(source.getOptimistic(),
-                p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
         source.setSubmitAll(p.cast(source.getSubmitAll(), true));
         source.setMethod(p.cast(source.getMethod(),
-                p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class)));
+                () -> p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class)));
         source.setClearOnSuccess(p.cast(source.getClearOnSuccess(), false));
     }
 

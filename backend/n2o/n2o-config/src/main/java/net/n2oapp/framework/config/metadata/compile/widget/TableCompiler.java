@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
@@ -66,7 +67,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.filter, p);
-        SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), new SubModelsScope());
+        SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), SubModelsScope::new);
         ValidationScope validationScope = p.getScope(ValidationScope.class) == null ? new ValidationScope() : p.getScope(ValidationScope.class);
         FiltersScope filtersScope = p.getScope(FiltersScope.class);
         TableFiltersScope tableFiltersScope = null;
@@ -80,8 +81,8 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);
         compileColumns(source, context, p, component, query, object, widgetScope, widgetActions,
                 subModelsScope, tableFiltersScope);
-        component.setWidth(source.getWidth());
-        component.setHeight(source.getHeight());
+        component.setWidth(prepareSizeAttribute(source.getWidth()));
+        component.setHeight(prepareSizeAttribute(source.getHeight()));
         component.setTextWrap(p.cast(source.getTextWrap(), p.resolve(property("n2o.api.widget.table.text_wrap"), Boolean.class)));
         if (source.getRows() != null) {
             if (component.getBody().getRow() == null)
@@ -105,9 +106,9 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         }
         table.setPaging(compilePaging(table, source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p));
         table.setChildren(p.cast(source.getChildren(),
-                p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggle.class))
+                () -> p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggle.class))
         );
-        component.setAutoSelect(p.cast(source.getAutoSelect(), p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
+        component.setAutoSelect(p.cast(source.getAutoSelect(), () -> p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
 
         return table;
     }
@@ -138,7 +139,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
             if (isNotEmpty(sortings))
                 passSortingToDatasource(sortings, source, p);
 
-            component.setRowSelection(p.cast(source.getSelection(), p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class)));
+            component.setRowSelection(p.cast(source.getSelection(), () -> p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class)));
         }
     }
 

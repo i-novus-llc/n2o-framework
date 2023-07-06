@@ -31,11 +31,11 @@ public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRe
         region.setContent(initContent(source.getContent(), context, p, source));
         region.setLabel(source.getLabel());
         region.setCollapsible(p.cast(source.getCollapsible(),
-                p.resolve(property("n2o.api.region.line.collapsible"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.region.line.collapsible"), Boolean.class)));
         region.setHasSeparator(p.cast(source.getHasSeparator(),
-                p.resolve(property("n2o.api.region.line.has_separator"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.region.line.has_separator"), Boolean.class)));
         region.setExpand(p.cast(source.getExpand(),
-                p.resolve(property("n2o.api.region.line.expand"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.region.line.expand"), Boolean.class)));
         return region;
     }
 

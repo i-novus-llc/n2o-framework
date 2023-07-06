@@ -18,13 +18,13 @@ public class ImageUpload extends FileUpload {
     @JsonProperty
     private Boolean canDelete;
     @JsonProperty
-    private Integer width;
+    private String width;
     @JsonProperty
-    private Integer height;
+    private String height;
     @JsonProperty
     private String icon;
     @JsonProperty
-    private Integer iconSize;
+    private String iconSize;
     @JsonProperty
     private Boolean showTooltip;
     @JsonProperty

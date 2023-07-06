@@ -43,10 +43,10 @@ public class MultiActionAT extends AutoTestBase {
 
     @Test
     public void testMulti() {
-        setJsonPath("net/n2oapp/framework/autotest/action/multi");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/multi/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/multi/page.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/multi/test.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/action/multi/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/multi/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/multi/simple/page.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/multi/simple/test.query.xml"));
 
         StandardPage page = open(StandardPage.class);
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);

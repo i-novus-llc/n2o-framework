@@ -115,7 +115,7 @@ export function* userDialogEffect({ meta }) {
     const { title, description, toolbar, ...rest } = meta.dialog
 
     yield put(
-        insertDialog('dialog', true, {
+        insertDialog('dialog', true, 'dialog', {
             title,
             description,
             toolbar,

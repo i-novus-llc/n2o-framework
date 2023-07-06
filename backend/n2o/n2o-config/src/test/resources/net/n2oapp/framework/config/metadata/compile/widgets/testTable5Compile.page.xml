@@ -5,7 +5,7 @@
 
     <regions>
         <table fetch-on-init="false" selection="checkbox"
-               height="200px" width="400px" text-wrap="false">
+               height="200" width="400" text-wrap="false">
             <datasource query-id="testTable5Compile" object-id="utBlank"/>
             <actions>
                 <action id="testAction">

@@ -23,23 +23,23 @@ public class MultiFieldSetCompiler extends AbstractFieldSetCompiler<MultiFieldSe
         fieldSet.setChildrenLabel(p.resolveJS(source.getChildrenLabel()));
         fieldSet.setFirstChildrenLabel(p.resolveJS(source.getFirstChildrenLabel()));
         fieldSet.setSrc(p.cast(source.getSrc(),
-                p.resolve(property("n2o.api.fieldset.multi_set.src"), String.class)));
+                () -> p.resolve(property("n2o.api.fieldset.multi_set.src"), String.class)));
         fieldSet.setName(source.getId());
         fieldSet.setAddButtonLabel(source.getAddButtonLabel());
         fieldSet.setRemoveAllButtonLabel(source.getRemoveAllButtonLabel());
         fieldSet.setCanRemoveFirstItem(p.cast(source.getCanRemoveFirst(),
-                p.resolve(property("n2o.api.fieldset.multi_set.can_remove_first_item"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.fieldset.multi_set.can_remove_first_item"), Boolean.class)));
         fieldSet.setNeedAddButton(p.cast(source.getCanAdd(),
-                p.resolve(property("n2o.api.fieldset.multi_set.can_add"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.fieldset.multi_set.can_add"), Boolean.class)));
         fieldSet.setNeedRemoveButton(p.cast(source.getCanRemove(),
-                p.resolve(property("n2o.api.fieldset.multi_set.can_remove"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.fieldset.multi_set.can_remove"), Boolean.class)));
         fieldSet.setNeedCopyButton(p.cast(source.getCanCopy(),
-                p.resolve(property("n2o.api.fieldset.multi_set.can_copy"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.fieldset.multi_set.can_copy"), Boolean.class)));
         fieldSet.setNeedRemoveAllButton(p.cast(source.getCanRemoveAll(),
-                p.resolve(property("n2o.api.fieldset.multi_set.can_remove_all"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.fieldset.multi_set.can_remove_all"), Boolean.class)));
         fieldSet.setPrimaryKey(p.cast(source.getPrimaryKey(), "id"));
         fieldSet.setGeneratePrimaryKey(p.cast(source.getGeneratePrimaryKey(),
-                p.resolve(property("n2o.api.fieldset.multi_set.generate_primary_key"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.fieldset.multi_set.generate_primary_key"), Boolean.class)));
 
         return fieldSet;
     }

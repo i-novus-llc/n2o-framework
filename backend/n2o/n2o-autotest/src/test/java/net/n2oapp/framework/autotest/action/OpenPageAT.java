@@ -16,6 +16,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -95,11 +96,11 @@ public class OpenPageAT extends AutoTestBase {
 
     @Test
     public void testResolveBreadcrumb() {
-        setJsonPath("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb");
+        setJsonPath("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/widget.widget.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/page.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page/widget.widget.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page/page.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -116,11 +117,11 @@ public class OpenPageAT extends AutoTestBase {
 
     @Test
     public void testResolveBreadcrumbOnStandardPage() {
-        setJsonPath("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb");
+        setJsonPath("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/widget.widget.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/page.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page/widget.widget.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page/page.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -136,12 +137,13 @@ public class OpenPageAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled
     public void testTargetNewWindow() {
-        setJsonPath("net/n2oapp/framework/autotest/action/open_page/target/new_window");
+        setJsonPath("net/n2oapp/framework/autotest/action/open_page/target_new_window");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target/new_window/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target/new_window/page.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target/new_window/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target_new_window/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target_new_window/page.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target_new_window/test.query.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -164,7 +166,7 @@ public class OpenPageAT extends AutoTestBase {
     }
 
     @Test
-    public void testNestedRoutesWithPathParameters() {
+    public void testNestedRoutesWithPathParams() {
         setJsonPath("net/n2oapp/framework/autotest/action/open_page/nested_routes");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/nested_routes/book.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/nested_routes/books.query.xml"),

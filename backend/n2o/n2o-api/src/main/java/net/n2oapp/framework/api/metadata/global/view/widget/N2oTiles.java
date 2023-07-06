@@ -13,8 +13,8 @@ public class N2oTiles extends N2oAbstractListWidget {
     private Integer colsSm;
     private Integer colsMd;
     private Integer colsLg;
-    private Integer height;
-    private Integer width;
+    private String height;
+    private String width;
     private N2oPagination pagination;
     private N2oBlock[] content;
 }

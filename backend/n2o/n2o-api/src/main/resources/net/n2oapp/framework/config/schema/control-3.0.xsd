@@ -627,19 +627,28 @@
                         <xs:documentation>Иконка по умолчанию в области загрузки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="width" type="xs:integer">
+                <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина области загрузки.</xs:documentation>
+                        <xs:documentation>
+                            Ширина области загрузки.
+                            Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="height" type="xs:integer">
+                <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Высота области загрузки.</xs:documentation>
+                        <xs:documentation>
+                            Высота области загрузки.
+                            Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="icon-size" type="xs:integer">
+                <xs:attribute name="icon-size" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Размеры иконки (по умолчанию по размеру области загрузки).</xs:documentation>
+                        <xs:documentation>
+                            Размеры иконки (по умолчанию по размеру области загрузки).
+                            Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="show-tooltip" type="xs:boolean" default="true">
@@ -1117,7 +1126,10 @@
                 </xs:attribute>
                 <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина картинки.</xs:documentation>
+                        <xs:documentation>
+                            Ширина картинки.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="action-id" type="xs:string">

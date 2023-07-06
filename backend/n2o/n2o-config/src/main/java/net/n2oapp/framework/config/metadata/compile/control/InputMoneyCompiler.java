@@ -30,9 +30,9 @@ public class InputMoneyCompiler extends StandardFieldCompiler<InputMoney, N2oInp
     public StandardField<InputMoney> compile(N2oInputMoney source, CompileContext<?, ?> context, CompileProcessor p) {
         InputMoney inputMoney = new InputMoney();
         inputMoney.setPrefix(p.cast(p.resolveJS(source.getPrefix()),
-                p.resolve(property("n2o.api.control.input_money.prefix"), String.class), ""));
+                () -> p.resolve(property("n2o.api.control.input_money.prefix"), String.class), () -> ""));
         inputMoney.setSuffix(p.cast(p.resolveJS(source.getSuffix()),
-                p.resolve(property("n2o.api.control.input_money.suffix"), String.class), ""));
+                () -> p.resolve(property("n2o.api.control.input_money.suffix"), String.class), () -> ""));
         inputMoney.setThousandsSeparatorSymbol(source.getThousandsSeparator());
         inputMoney.setDecimalSymbol(source.getDecimalSeparator());
         inputMoney.setIntegerLimit(source.getIntegerLimit());
@@ -42,7 +42,7 @@ public class InputMoneyCompiler extends StandardFieldCompiler<InputMoney, N2oInp
 
     private void compileDecimalMode(InputMoney inputMoney, N2oInputMoney source, CompileProcessor p) {
         FractionFormatting fractionFormatting =  p.cast(source.getFractionFormatting(),
-                p.resolve(property("n2o.api.control.input_money.fraction_formatting"), FractionFormatting.class));
+                () -> p.resolve(property("n2o.api.control.input_money.fraction_formatting"), FractionFormatting.class));
         switch (fractionFormatting) {
             case manual: {
                 inputMoney.setAllowDecimal(true);

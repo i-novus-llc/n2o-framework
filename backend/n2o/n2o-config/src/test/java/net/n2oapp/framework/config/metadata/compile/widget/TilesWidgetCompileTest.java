@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
-import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageCell;
 import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
@@ -15,8 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -48,8 +46,8 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tiles.getColsSm(), is(2));
         assertThat(tiles.getColsMd(), is(3));
         assertThat(tiles.getColsLg(), is(6));
-        assertThat(tiles.getHeight(), is(450));
-        assertThat(tiles.getWidth(), is(300));
+        assertThat(tiles.getHeight(), is("450px"));
+        assertThat(tiles.getWidth(), is("300px"));
 
         Tiles.Tile tile = tiles.getTile().get(0);
         assertThat(tile.getId(), is("test1"));
@@ -83,6 +81,8 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tiles.getColsSm(), is(1));
         assertThat(tiles.getColsMd(), is(2));
         assertThat(tiles.getColsLg(), is(4));
+        assertThat(tiles.getHeight(), nullValue());
+        assertThat(tiles.getWidth(), nullValue());
 
         assertThat(tiles.getPaging().getNext(), is(false));
         assertThat(tiles.getPaging().getPrev(), is(false));

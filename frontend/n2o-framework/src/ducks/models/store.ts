@@ -30,7 +30,7 @@ const modelsSlice = createSlice({
     initialState,
     reducers: {
         SET: {
-            prepare(prefix: ModelPrefix, key: string, model?: object) {
+            prepare(prefix: ModelPrefix, key: string, model?: object | null) {
                 return ({
                     payload: { prefix, key, model },
                     meta: { prefix, key, model },

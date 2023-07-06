@@ -12,7 +12,7 @@ type FieldPath = ModelsPayload & {
 }
 
 export type SetModelAction = PayloadAction<ModelsPayload & {
-    model?: object
+    model?: object | null
 }>
 
 export type RemoveModelAction = PayloadAction<ModelsPayload>

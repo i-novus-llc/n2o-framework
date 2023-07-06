@@ -166,7 +166,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     private void compileAutoFocus(S source, D compiled, CompileProcessor p) {
         if (isNull(compiled.getComponent()))
             return;
-        compiled.getComponent().setAutoFocus(p.cast(source.getAutoFocus(), p.resolve(property("n2o.api.widget.auto_focus"), Boolean.class), true));
+        compiled.getComponent().setAutoFocus(p.cast(source.getAutoFocus(),
+                () -> p.resolve(property("n2o.api.widget.auto_focus"), Boolean.class), () -> true));
     }
 
     /**

@@ -125,6 +125,7 @@
             <xs:annotation>
                 <xs:documentation>
                     Максимальная высота содержимого вкладок.
+                    Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

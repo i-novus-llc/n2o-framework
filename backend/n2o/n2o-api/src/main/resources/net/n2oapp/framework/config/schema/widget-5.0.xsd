@@ -300,13 +300,18 @@
                 </xs:attribute>
                 <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Максимальная ширина таблицы.
+                        <xs:documentation>
+                            Максимальная ширина таблицы.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Максимальная высота таблицы.</xs:documentation>
+                        <xs:documentation>
+                            Максимальная высота таблицы.
+                            Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="text-wrap" type="xs:boolean" default="true">
@@ -377,7 +382,10 @@
         </xs:attribute>
         <xs:attribute name="width" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Ширина столбца.</xs:documentation>
+                <xs:documentation>
+                    Ширина столбца.
+                    Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="resizable" type="xs:boolean" default="false">
@@ -688,14 +696,20 @@
                     <xs:element name="lines" type="chart:lineChartDefinition" minOccurs="0"/>
                     <xs:element name="pie" type="chart:pieChartDefinition" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="width" type="xs:integer">
+                <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина диаграммы.</xs:documentation>
+                        <xs:documentation>
+                            Ширина диаграммы.
+                            Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="height" type="xs:integer">
+                <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Высота диаграммы.</xs:documentation>
+                        <xs:documentation>
+                            Высота диаграммы.
+                            Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -788,7 +802,10 @@
                 </xs:sequence>
                 <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Высота календаря.</xs:documentation>
+                        <xs:documentation>
+                            Высота календаря.
+                            Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="default-date" type="xs:string">
@@ -963,14 +980,20 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="height" type="xs:integer">
+                <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Минимальная высота плитки.</xs:documentation>
+                        <xs:documentation>
+                            Минимальная высота плитки.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="width" type="xs:integer">
+                <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина плитки.</xs:documentation>
+                        <xs:documentation>
+                            Ширина плитки.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1066,7 +1089,10 @@
                 </xs:attribute>
                 <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Высота карточек.</xs:documentation>
+                        <xs:documentation>
+                            Высота карточек.
+                            Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1082,7 +1108,7 @@
         </xs:sequence>
         <xs:attribute name="size" type="xs:integer">
             <xs:annotation>
-                <xs:documentation>Ширина колонки по бутстрапу.</xs:documentation>
+                <xs:documentation>Ширина колонки согласно сетке bootstrap (1-12).</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

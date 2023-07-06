@@ -41,7 +41,7 @@ public class SwitchActionCompiler extends AbstractActionCompiler<SwitchAction, N
     private void compilePayload(N2oSwitchAction source, SwitchActionPayload payload, CompileContext<?, ?> context, CompileProcessor p) {
         payload.setValueFieldId(source.getValueFieldId());
         initDatasource(payload, source.getDatasourceId(), p);
-        payload.setModel(p.cast(source.getModel(), getLocalModel(p)));
+        payload.setModel(p.cast(source.getModel(), () -> getLocalModel(p)));
 
         PageIndexScope indexScope = p.getScope(PageIndexScope.class);
         int switchIndex = indexScope.get();
@@ -78,7 +78,7 @@ public class SwitchActionCompiler extends AbstractActionCompiler<SwitchAction, N
     }
 
     private void initDatasource(SwitchActionPayload payload, String datasourceId, CompileProcessor p) {
-        payload.setDatasource(getClientDatasourceId(p.cast(datasourceId, getLocalDatasourceId(p)), p));
+        payload.setDatasource(getClientDatasourceId(p.cast(datasourceId, () -> getLocalDatasourceId(p)), p));
         if (payload.getDatasource() == null) {
             throw new N2oException(String.format("Datasource is undefined for switch action with value-field-id=%s",
                     payload.getValueFieldId()));

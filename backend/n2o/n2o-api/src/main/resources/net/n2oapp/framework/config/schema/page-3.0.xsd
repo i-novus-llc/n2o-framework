@@ -178,7 +178,10 @@
                 </xs:annotation>
                 <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина региона.</xs:documentation>
+                        <xs:documentation>
+                            Ширина региона.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -213,7 +216,10 @@
                 </xs:annotation>
                 <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина региона.</xs:documentation>
+                        <xs:documentation>
+                            Ширина региона.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="fixed" type="xs:boolean" default="false">

@@ -45,8 +45,8 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
         Models models = p.getScope(Models.class);
-        SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), new SubModelsScope());
-        CopiedFieldScope copiedFieldScope = p.cast(p.getScope(CopiedFieldScope.class), new CopiedFieldScope());
+        SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), SubModelsScope::new);
+        CopiedFieldScope copiedFieldScope = p.cast(p.getScope(CopiedFieldScope.class), CopiedFieldScope::new);
         WidgetParamScope paramScope = new WidgetParamScope();
         ValidationScope validationScope = p.getScope(ValidationScope.class) == null ? new ValidationScope() : p.getScope(ValidationScope.class);
         form.getComponent().setPrompt(initPrompt(source, p));
@@ -67,7 +67,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
 
     private Boolean initPrompt(N2oForm source, CompileProcessor p) {
         return p.cast(source.getPrompt(),
-                p.resolve(property("n2o.api.widget.form.unsaved_data_prompt"), Boolean.class));
+                () -> p.resolve(property("n2o.api.widget.form.unsaved_data_prompt"), Boolean.class));
     }
 
     @Override

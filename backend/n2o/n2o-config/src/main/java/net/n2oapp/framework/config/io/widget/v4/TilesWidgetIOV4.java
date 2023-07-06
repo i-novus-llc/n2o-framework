@@ -30,8 +30,8 @@ public class TilesWidgetIOV4 extends AbstractListWidgetElementIOv4<N2oTiles> {
         p.attributeInteger(e, "cols-sm", t::getColsSm, t::setColsSm);
         p.attributeInteger(e, "cols-md", t::getColsMd, t::setColsMd);
         p.attributeInteger(e, "cols-lg", t::getColsLg, t::setColsLg);
-        p.attributeInteger(e, "width", t::getWidth, t::setWidth);
-        p.attributeInteger(e, "height", t::getHeight, t::setHeight);
+        p.attribute(e, "width", t::getWidth, t::setWidth);
+        p.attribute(e, "height", t::getHeight, t::setHeight);
         p.children(e, "content", "block", t::getContent, t::setContent, N2oBlock::new, this::block);
     }
 

@@ -39,7 +39,7 @@ public class PanelRegionAT extends AutoTestBase {
 
     @Test
     public void testPanelRegion() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/panel/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/panel/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

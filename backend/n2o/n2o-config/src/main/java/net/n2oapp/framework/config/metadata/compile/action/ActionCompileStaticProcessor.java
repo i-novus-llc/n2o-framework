@@ -217,7 +217,7 @@ public class ActionCompileStaticProcessor {
 
     private static void initMultiActionIds(N2oAction[] actions, String prefix, CompileProcessor p, PageIndexScope pageIndexScope) {
         if (ArrayUtils.getLength(actions) > 1) {
-            PageIndexScope indexScope = p.cast(pageIndexScope, p.getScope(PageIndexScope.class));
+            PageIndexScope indexScope = p.cast(pageIndexScope, () -> p.getScope(PageIndexScope.class));
             Arrays.stream(actions).filter(ActionCompileStaticProcessor::isNotFailConditions)
                     .forEach(action -> action.setId(p.cast(action.getId(), prefix + indexScope.get())));
         }
