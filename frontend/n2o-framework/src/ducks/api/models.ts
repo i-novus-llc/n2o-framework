@@ -4,5 +4,6 @@ import { creator as editListCreator, effect as editListEffect } from './models/e
 import { EffectWrapper } from './utils/effectWrapper'
 
 export const sagas = [
+    // @ts-ignore проблема с типизацией saga
     takeEvery(editListCreator.type, EffectWrapper(editListEffect)),
 ]

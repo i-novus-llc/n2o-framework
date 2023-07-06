@@ -20,7 +20,7 @@ import {
     makePageStatusByIdSelected,
     pagesSelector,
 } from '../../ducks/pages/selectors'
-import { rootPageSelector } from '../../ducks/global/store'
+import { rootPageSelector } from '../../ducks/global/selectors'
 import { Spinner } from '../snippets/Spinner/Spinner'
 import { errorController } from '../errors/errorController'
 

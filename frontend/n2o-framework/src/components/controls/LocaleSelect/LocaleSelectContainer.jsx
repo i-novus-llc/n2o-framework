@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { getLocales, localeSelector, changeLocale } from '../../../ducks/global/store'
+import { changeLocale } from '../../../ducks/global/store'
+import { localeSelector, getLocales } from '../../../ducks/global/selectors'
 
 function LocaleSelectContainer(WrappedComponent) {
     const Component = props => (<WrappedComponent {...props} />)

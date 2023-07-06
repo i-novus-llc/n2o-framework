@@ -12,10 +12,8 @@ import { replace } from 'connected-react-router'
 
 // @ts-ignore import from js file
 import { getParams } from '../../../core/dataProviderResolver'
-// @ts-ignore import from js file
-import { getLocation, rootPageSelector } from '../../global/store'
+import { getLocation, rootPageSelector } from '../../global/selectors'
 import { State } from '../../State'
-// @ts-ignore import from js file
 import { makePageRoutesByIdSelector } from '../selectors'
 
 export function* generateNewQuery(pageId: string, query?: object | null) {
@@ -23,15 +21,15 @@ export function* generateNewQuery(pageId: string, query?: object | null) {
     const routes = makePageRoutesByIdSelector(pageId)(state)
 
     if (!isEmpty(routes?.queryMapping) || !isEmpty(query)) {
-        const location = getLocation(state)
+        const location: { search: string } = getLocation(state)
 
-        const nextRoutesQuery: object = getParams(mapValues(routes.queryMapping, 'set'), state)
+        const nextRoutesQuery: object = getParams(mapValues(routes?.queryMapping, 'set'), state)
         const nonNullableNextRoutesQuery: NonNullable<object> = pickBy(nextRoutesQuery, identity)
 
         const currentQuery: object = queryString.parse(location.search)
-        const currentRoutesQuery: object = pick(currentQuery, keys(routes.queryMapping))
+        const currentRoutesQuery: object = pick(currentQuery, keys(routes?.queryMapping))
         const newQuery = {
-            ...omit(currentQuery, keys(routes.queryMapping)),
+            ...omit(currentQuery, keys(routes?.queryMapping)),
             ...nonNullableNextRoutesQuery,
             ...(query || {}),
         }

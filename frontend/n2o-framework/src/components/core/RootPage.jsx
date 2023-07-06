@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { compose, defaultProps, getContext } from 'recompose'
 import { createStructuredSelector } from 'reselect'
 
-import { rootPageSelector } from '../../ducks/global/store'
+import { rootPageSelector } from '../../ducks/global/selectors'
 
 // eslint-disable-next-line import/no-named-as-default
 import Page from './Page'

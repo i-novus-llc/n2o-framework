@@ -4,7 +4,7 @@ import throttle from 'lodash/throttle'
 import debounce from 'lodash/debounce'
 import { connect } from 'react-redux'
 
-import { alertsByKeySelector } from '../../ducks/alerts/store'
+import { alertsByKeySelector } from '../../ducks/alerts/selectors'
 
 /**
  * HOC для контейнеров {@Link InputSelectContainer} и {@Link N2OSelectContainer}
