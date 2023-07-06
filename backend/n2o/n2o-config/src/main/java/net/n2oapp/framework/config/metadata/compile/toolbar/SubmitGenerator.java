@@ -80,7 +80,7 @@ public class SubmitGenerator implements ButtonGenerator {
             }
             break;
         }
-        saveButton.setLabel(p.cast(submitLabel, p.getMessage("n2o.api.action.toolbar.button.submit.label")));
+        saveButton.setLabel(p.cast(submitLabel, () -> p.getMessage("n2o.api.action.toolbar.button.submit.label")));
         saveButton.setDatasourceId(datasource);
         saveButton.setActions(new N2oAction[]{action});
         saveButton.setDatasourceId(toolbar.getDatasourceId());
