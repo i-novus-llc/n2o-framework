@@ -47,15 +47,17 @@ public class ButtonCompileUtil {
     public static Confirm initConfirm(Button source, CompileProcessor p, CompiledObject.Operation operation, Object condition) {
         Confirm confirm = new Confirm();
         confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.MODAL));
-        confirm.setTitle(p.cast(source.getConfirmTitle(), operation != null ? operation.getFormSubmitLabel() : null, p.getMessage("n2o.confirm.title")));
+        confirm.setTitle(p.cast(source.getConfirmTitle(), () -> operation != null ? operation.getFormSubmitLabel() : null,
+                () -> p.getMessage("n2o.confirm.title")));
         confirm.setOk(new Confirm.Button(
-                p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")),
-                p.cast(source.getConfirmOkColor(), p.resolve(property("n2o.api.button.confirm.ok_color"), String.class))));
+                p.cast(source.getConfirmOkLabel(), () -> p.getMessage("n2o.confirm.default.okLabel")),
+                p.cast(source.getConfirmOkColor(), () -> p.resolve(property("n2o.api.button.confirm.ok_color"), String.class))));
         confirm.setCancel(new Confirm.Button(
-                p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")),
-                p.cast(source.getConfirmCancelColor(), p.resolve(property("n2o.api.button.confirm.cancel_color"), String.class))));
+                p.cast(source.getConfirmCancelLabel(), () -> p.getMessage("n2o.confirm.default.cancelLabel")),
+                p.cast(source.getConfirmCancelColor(), () -> p.resolve(property("n2o.api.button.confirm.cancel_color"), String.class))));
         confirm.setText(initExpression(
-                p.cast(source.getConfirmText(), operation != null ? operation.getConfirmationText() : null, p.getMessage("n2o.confirm.text"))));
+                p.cast(source.getConfirmText(), () -> operation != null ? operation.getConfirmationText() : null,
+                        () -> p.getMessage("n2o.confirm.text"))));
         confirm.setCondition(initConfirmCondition(condition));
         confirm.setCloseButton(p.resolve(property("n2o.api.button.confirm.close_button"), Boolean.class));
         confirm.setReverseButtons(p.resolve(property("n2o.api.button.confirm.reverse_buttons"), Boolean.class));

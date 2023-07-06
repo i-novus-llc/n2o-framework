@@ -187,15 +187,20 @@ public interface CompileProcessor {
      * Привести значение к значению по умолчанию, если оно null.
      * Если первое значение по умолчанию тоже null, берется следующее и т.д.
      *
-     * @param value                Исходное значение
-     * @param defaultValueFunction Значения по умолчанию, получаемое через функцию
-     * @param <T>                  Тип значения
+     * @param value                 Исходное значение
+     * @param defaultValueFunctions Значения по умолчанию, получаемое через функцию
+     * @param <T>                   Тип значения
      * @return Значение приведенное к значению по умолчанию
      */
     @SuppressWarnings("unchecked")
-    default <T> T cast(T value, Supplier<T> defaultValueFunction) {
+    default <T> T cast(T value, Supplier<T>... defaultValueFunctions) {
         if (value != null) return value;
-        if (defaultValueFunction != null) return defaultValueFunction.get();
+        if (defaultValueFunctions != null) {
+            for (Supplier<T> func : defaultValueFunctions) {
+                if (func.get() != null)
+                    return func.get();
+            }
+        }
         return null;
     }
 }
