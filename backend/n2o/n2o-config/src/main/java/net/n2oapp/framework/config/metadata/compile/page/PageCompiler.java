@@ -52,7 +52,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
      * @param p       Процессор сборки
      */
     protected void compileBaseProperties(S source, C page, PageContext context, CompileProcessor p) {
-        page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(initPageRoute(source, context, p))));
+        page.setId(p.cast(context.getClientPageId(), () -> RouteUtil.convertPathToId(initPageRoute(source, context, p))));
         Models models = new Models();
         page.setModels(models);
         page.getPageProperty().setModel(p.cast(source.getModel(), ReduxModel.resolve));
@@ -175,7 +175,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
      */
     protected PageProperty initPageName(N2oPage source, String pageName, PageContext context, CompileProcessor p) {
         PageProperty pageProperty = new PageProperty();
-        boolean showTitle = p.cast(source.getShowTitle(), p.resolve(property("n2o.api.page.show_title"), Boolean.class));
+        boolean showTitle = p.cast(source.getShowTitle(), () -> p.resolve(property("n2o.api.page.show_title"), Boolean.class));
 
         pageProperty.setHtmlTitle(p.cast(source.getHtmlTitle(), pageName));
         if (context instanceof ModalPageContext)
@@ -217,7 +217,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
      */
     protected N2oToolbar cloneToolbar(N2oToolbar t, N2oWidget resultWidget, CompileProcessor p) {
         N2oToolbar toolbar = new N2oToolbar();
-        toolbar.setPlace(p.cast(t.getPlace(), p.resolve(property("n2o.api.page.toolbar.place"), String.class)));
+        toolbar.setPlace(p.cast(t.getPlace(), () -> p.resolve(property("n2o.api.page.toolbar.place"), String.class)));
         toolbar.setGenerate(t.getGenerate());
         toolbar.setStyle(t.getStyle());
         toolbar.setDatasourceId(t.getDatasourceId());

@@ -29,10 +29,10 @@ public class LineChartCompiler extends StandardChartCompiler<LineChart, N2oLineC
             component.setFieldId(item.getFieldId());
             component.setLabel(item.getLabel());
             component.setType(p.cast(item.getType(),
-                    p.resolve(property("n2o.api.widget.chart.line.type"), ChartLineType.class)));
+                    () -> p.resolve(property("n2o.api.widget.chart.line.type"), ChartLineType.class)));
             component.setColor(item.getColor());
             component.setHasLabel(p.cast(item.getHasLabel(),
-                    p.resolve(property("n2o.api.widget.chart.line.has_label"), Boolean.class)));
+                    () -> p.resolve(property("n2o.api.widget.chart.line.has_label"), Boolean.class)));
             chart.addItem(component);
         }
         return compileStandardChart(chart, source, p);

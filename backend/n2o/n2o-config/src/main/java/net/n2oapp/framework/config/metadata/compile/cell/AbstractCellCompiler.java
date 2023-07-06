@@ -38,11 +38,11 @@ public abstract class AbstractCellCompiler<D extends AbstractCell, S extends N2o
                 compiled.setFieldKey(column.getTextFieldId());
                 compiled.setTooltipFieldId(column.getTooltipFieldId());
                 compiled.setHideOnBlur(p.cast(column.getHideOnBlur(),
-                        p.resolve(property("n2o.api.widget.table.column.hide_on_blur"), Boolean.class)));
+                        () -> p.resolve(property("n2o.api.widget.table.column.hide_on_blur"), Boolean.class)));
                 compiled.setContentAlignment(column.getContentAlignment());
             }
         }
-        compiled.setSrc(p.cast(source.getSrc(), p.resolve(defaultSrc, String.class)));
+        compiled.setSrc(p.cast(source.getSrc(), () -> p.resolve(defaultSrc, String.class)));
         compiled.setCssClass(p.resolveJS(source.getCssClass()));
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));

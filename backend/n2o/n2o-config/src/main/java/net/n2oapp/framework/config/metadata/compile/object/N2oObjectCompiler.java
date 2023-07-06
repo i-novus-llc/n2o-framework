@@ -406,8 +406,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiledOperation.setId(operation.getId());
         compiledOperation.setDescription(operation.getDescription());
         compiledOperation.setName(operation.getName());
-        compiledOperation.setSuccessText(castDefault(operation.getSuccessText(),
-                p.getMessage("n2o.success")));
+        compiledOperation.setSuccessText(castDefault(operation.getSuccessText(), () -> p.getMessage("n2o.success")));
         compiledOperation.setSuccessTitle(operation.getSuccessTitle());
         compiledOperation.setFailText(operation.getFailText());
         compiledOperation.setFailTitle(operation.getFailTitle());

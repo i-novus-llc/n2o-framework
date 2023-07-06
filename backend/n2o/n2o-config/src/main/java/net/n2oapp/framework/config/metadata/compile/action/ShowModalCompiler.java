@@ -43,16 +43,16 @@ public class ShowModalCompiler extends AbstractModalCompiler<ShowModal, N2oShowM
     protected void compilePayload(N2oShowModal source, ShowModal showModal, PageContext pageContext, CompileProcessor p) {
         ShowModalPayload payload = showModal.getPayload();
         payload.setSize(p.cast(source.getModalSize(),
-                p.resolve(property("n2o.api.action.show_modal.size"), String.class)));
+                () -> p.resolve(property("n2o.api.action.show_modal.size"), String.class)));
         payload.setScrollable(p.cast(source.getScrollable(),
-                p.resolve(property("n2o.api.action.show_modal.scrollable"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.action.show_modal.scrollable"), Boolean.class)));
         payload.setCloseButton(true);
         payload.setPrompt(pageContext.getUnsavedDataPromptOnClose());
         payload.setHasHeader(p.cast(source.getHasHeader(),
-                p.resolve(property("n2o.api.action.show_modal.has_header"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.action.show_modal.has_header"), Boolean.class)));
         payload.setClassName(source.getClassName());
         String backdrop = p.cast(source.getBackdrop(),
-                p.resolve(property("n2o.api.action.show_modal.backdrop"), String.class));
+                () -> p.resolve(property("n2o.api.action.show_modal.backdrop"), String.class));
         payload.setBackdrop("true".equals(backdrop) || "false".equals(backdrop) ? Boolean.valueOf(backdrop) : backdrop);
         payload.setStyle(StylesResolver.resolveStyles(source.getStyle()));
     }

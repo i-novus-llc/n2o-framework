@@ -24,7 +24,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 public abstract class AbstractHeaderCompiler<S extends AbstractColumn> implements BaseSourceCompiler<ColumnHeader, S, CompileContext<?, ?>> {
 
     protected void compileBaseProperties(S source, ColumnHeader compiled, CompileProcessor p) {
-        compiled.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.widget.column.src"), String.class)));
+        compiled.setSrc(p.cast(source.getSrc(), () -> p.resolve(property("n2o.api.widget.column.src"), String.class)));
         compiled.setCssClass(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
 

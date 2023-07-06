@@ -116,7 +116,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                 if (filter.getFilterId().equals(preFilter.getFilterId())) {
                     filter.setParam(p.cast(preFilter.getParam(), filter.getParam()));
                     if (preFilter.getLink() != null && !preFilter.getLink().isLink()) {
-                        filter.setCompiledDefaultValue(p.cast(preFilter.getLink().getValue(), p.resolve(filter.getDefaultValue(), filter.getDomain())));
+                        filter.setCompiledDefaultValue(p.cast(preFilter.getLink().getValue(),
+                                () -> p.resolve(filter.getDefaultValue(), filter.getDomain())));
                     }
                 }
             }
@@ -136,7 +137,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     private Map<String, String> initParamToFilterIdMap(Map<String, N2oQuery.Filter> filterIdsMap, CompileProcessor p) {
         Map<String, String> filterParams = new StrictMap<>();
         for (N2oQuery.Filter filter : filterIdsMap.values()) {
-            String param = p.cast(filter.getParam(), RouteUtil.normalizeParam(filter.getFilterId()));
+            String param = p.cast(filter.getParam(), () -> RouteUtil.normalizeParam(filter.getFilterId()));
             filterParams.put(param, filter.getFilterId());
         }
         return filterParams;
@@ -173,13 +174,13 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                 if (selection.getInvocation() instanceof N2oRestDataProvider) {
                     N2oRestDataProvider invocation = (N2oRestDataProvider) selection.getInvocation();
                     invocation.setFiltersSeparator(p.cast(invocation.getFiltersSeparator(),
-                            p.resolve(property("n2o.config.rest.filters_separator"), String.class)));
+                            () -> p.resolve(property("n2o.config.rest.filters_separator"), String.class)));
                     invocation.setSelectSeparator(p.cast(invocation.getSelectSeparator(),
-                            p.resolve(property("n2o.config.rest.select_separator"), String.class)));
-                    invocation.setJoinSeparator(p.cast(invocation.getJoinSeparator(), p.resolve(property(
-                            "n2o.config.rest.join_separator"), String.class)));
+                            () -> p.resolve(property("n2o.config.rest.select_separator"), String.class)));
+                    invocation.setJoinSeparator(p.cast(invocation.getJoinSeparator(),
+                            () -> p.resolve(property("n2o.config.rest.join_separator"), String.class)));
                     invocation.setSortingSeparator(p.cast(invocation.getSortingSeparator(),
-                            p.resolve(property("n2o.config.rest.sorting_separator"), String.class)));
+                            () -> p.resolve(property("n2o.config.rest.sorting_separator"), String.class)));
 
                 }
             }
@@ -222,8 +223,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     private void initDefaultFilters(N2oQuery.Filter[] filters, CompileProcessor p) {
         if (filters != null) {
             for (N2oQuery.Filter filter : filters) {
-                filter.setFilterId(p.cast(filter.getFilterId(), RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType()));
-                filter.setParam(p.cast(filter.getParam(), RouteUtil.normalizeParam(filter.getFilterId())));
+                filter.setFilterId(p.cast(filter.getFilterId(), () -> RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType()));
+                filter.setParam(p.cast(filter.getParam(), () -> RouteUtil.normalizeParam(filter.getFilterId())));
                 if (filter.getText() != null)
                     filter.setText(filter.getText().trim());
                 if (filter.getMapping() == null)
@@ -238,10 +239,10 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             field.setIsSelected(castDefault(field.getIsSelected(), defaultSelected));
 
             if (field.getIsSelected()) {
-                field.setMapping(castDefault(field.getMapping(), spel(field.getId())));
+                field.setMapping(castDefault(field.getMapping(), () -> spel(field.getId())));
             }
             if (field instanceof QueryReferenceField) {
-                field.setMapping(castDefault(field.getMapping(), spel(field.getId())));
+                field.setMapping(castDefault(field.getMapping(), () -> spel(field.getId())));
                 initDefaultFields(Arrays.asList(((QueryReferenceField) field).getFields()), defaultSelected, defaultSorted);
             } else
                 initDefaultSimpleField(((QuerySimpleField) field), defaultSorted);
@@ -253,7 +254,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         field.setIsSorted(castDefault(field.getIsSorted(), !isBlank(field.getSortingExpression()), defaultSorted));
 
         if (field.getIsSorted()) {
-            field.setSortingMapping(castDefault(field.getSortingMapping(), spel(field.getId() + "Direction")));
+            field.setSortingMapping(castDefault(field.getSortingMapping(), () -> spel(field.getId() + "Direction")));
         }
     }
 

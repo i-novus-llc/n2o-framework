@@ -30,7 +30,7 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
     public void compileDatasource(S source, D compiled, CompileProcessor p) {
         initDatasource(source, compiled, p);
         compiled.setPaging(new Paging(p.cast(source.getSize(),
-                p.resolve(property("n2o.api.datasource.size"), Integer.class))));
+                () -> p.resolve(property("n2o.api.datasource.size"), Integer.class))));
         compiled.setDependencies(initDependencies(source, p));
         compiled.setValidations(initValidations(source, p, ReduxModel.resolve));
         compiled.setFilterValidations(initValidations(source, p, ReduxModel.filter));
@@ -69,9 +69,9 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
                     copyDependency.setField(dependency.getTargetFieldId());
                     copyDependency.setType(DependencyType.copy);
                     copyDependency.setSubmit(p.cast(dependency.getSubmit(),
-                            p.resolve(property("n2o.api.datasource.dependency.copy.submit"), Boolean.class)));
+                            () -> p.resolve(property("n2o.api.datasource.dependency.copy.submit"), Boolean.class)));
                     copyDependency.setApplyOnInit(p.cast(dependency.getApplyOnInit(),
-                            p.resolve(property("n2o.api.datasource.dependency.copy.apply_on_init"), Boolean.class)));
+                            () -> p.resolve(property("n2o.api.datasource.dependency.copy.apply_on_init"), Boolean.class)));
                     dependencies.add(copyDependency);
                 }
             }

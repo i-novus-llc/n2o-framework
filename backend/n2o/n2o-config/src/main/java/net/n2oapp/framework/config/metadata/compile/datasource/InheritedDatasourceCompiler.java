@@ -46,7 +46,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
         InheritedDatasource.Submit submit = new InheritedDatasource.Submit();
         N2oInheritedDatasource.Submit sourceSubmit = source.getSubmit();
         submit.setAuto(p.cast(sourceSubmit.getAuto(),
-                p.resolve(property("n2o.api.datasource.inherited.submit.auto"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.datasource.inherited.submit.auto"), Boolean.class)));
         submit.setModel(p.cast(sourceSubmit.getModel(), ReduxModel.resolve));
         submit.setTargetDs(getClientDatasourceId(p.cast(sourceSubmit.getTargetDatasource(), source.getSourceDatasource()), p));
         submit.setTargetModel(p.cast(sourceSubmit.getTargetModel(), source.getSourceModel(), ReduxModel.resolve));

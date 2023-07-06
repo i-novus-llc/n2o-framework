@@ -23,15 +23,15 @@ public abstract class BaseFileUploadCompiler<D extends FileUpload, S extends N2o
         control.setMulti(p.cast(source.getMulti(), false));
         control.setAccept(source.getAccept());
         control.setShowSize(p.cast(source.getShowSize(),
-                p.resolve(property("n2o.api.control.file_upload.show_size"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.control.file_upload.show_size"), Boolean.class)));
         control.setValueFieldId(p.cast(source.getValueFieldId(),
-                p.resolve(property("n2o.api.control.file_upload.value_field_id"), String.class)));
+                () -> p.resolve(property("n2o.api.control.file_upload.value_field_id"), String.class)));
         control.setLabelFieldId(p.cast(source.getLabelFieldId(),
-                p.resolve(property("n2o.api.control.file_upload.label_field_id"), String.class)));
+                () -> p.resolve(property("n2o.api.control.file_upload.label_field_id"), String.class)));
         control.setUrlFieldId(p.cast(source.getUrlFieldId(),
-                p.resolve(property("n2o.api.control.file_upload.url_field_id"), String.class)));
+                () -> p.resolve(property("n2o.api.control.file_upload.url_field_id"), String.class)));
         control.setResponseFieldId(p.cast(source.getMessageFieldId(),
-                p.resolve(property("n2o.api.control.file_upload.response_field_id"), String.class)));
+                () -> p.resolve(property("n2o.api.control.file_upload.response_field_id"), String.class)));
         control.setRequestParam(p.cast(source.getRequestParam(), "file"));
         return compileStandardField(control, source, context, p);
     }

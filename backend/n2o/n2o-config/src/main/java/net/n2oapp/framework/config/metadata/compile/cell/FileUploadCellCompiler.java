@@ -29,23 +29,23 @@ public class FileUploadCellCompiler  extends AbstractCellCompiler<FileUploadCell
         cell.setDeleteUrl(p.resolveJS(source.getDeleteUrl()));
 
         cell.setMulti(p.cast(source.getMulti(),
-                p.resolve(property("n2o.api.cell.file_upload.multi"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.cell.file_upload.multi"), Boolean.class)));
         cell.setAjax(p.cast(source.getAjax(),
-                p.resolve(property("n2o.api.cell.file_upload.ajax"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.cell.file_upload.ajax"), Boolean.class)));
 
         cell.setAccept(source.getAccept());
         cell.setShowSize(p.cast(source.getShowSize(),
-                p.resolve(property("n2o.api.cell.file_upload.show_size"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.cell.file_upload.show_size"), Boolean.class)));
         cell.setValueFieldId(p.cast(source.getValueFieldId(),
-                p.resolve(property("n2o.api.cell.file_upload.value_field_id"), String.class)));
+                () -> p.resolve(property("n2o.api.cell.file_upload.value_field_id"), String.class)));
         cell.setLabelFieldId(p.cast(source.getLabelFieldId(),
-                p.resolve(property("n2o.api.cell.file_upload.label_field_id"), String.class)));
+                () -> p.resolve(property("n2o.api.cell.file_upload.label_field_id"), String.class)));
         cell.setUrlFieldId(p.cast(source.getUrlFieldId(),
-                p.resolve(property("n2o.api.cell.file_upload.url_field_id"), String.class)));
+                () -> p.resolve(property("n2o.api.cell.file_upload.url_field_id"), String.class)));
         cell.setResponseFieldId(p.cast(source.getMessageFieldId(),
-                p.resolve(property("n2o.api.cell.file_upload.message_field_id"), String.class)));
+                () -> p.resolve(property("n2o.api.cell.file_upload.message_field_id"), String.class)));
         cell.setRequestParam(p.cast(source.getRequestParam(),
-                p.resolve(property("n2o.api.cell.file_upload.request_param"), String.class)));
+                () -> p.resolve(property("n2o.api.cell.file_upload.request_param"), String.class)));
         cell.setUploadIcon(source.getUploadIcon());
         cell.setDeleteIcon(source.getDeleteIcon());
         cell.setLabel(source.getLabel());

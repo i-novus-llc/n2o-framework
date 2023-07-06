@@ -33,7 +33,7 @@ public class ChartCompiler extends BaseWidgetCompiler<Chart, N2oChart> {
 
         chart.setComponent(p.compile(source.getComponent(), context, p));
         chart.getComponent().setSize(p.cast(source.getSize(),
-                p.resolve(property("n2o.api.widget.chart.size"), Integer.class)));
+                () -> p.resolve(property("n2o.api.widget.chart.size"), Integer.class)));
         chart.getComponent().setWidth(prepareSizeAttribute(source.getWidth()));
         chart.getComponent().setHeight(prepareSizeAttribute(source.getHeight()));
         return chart;

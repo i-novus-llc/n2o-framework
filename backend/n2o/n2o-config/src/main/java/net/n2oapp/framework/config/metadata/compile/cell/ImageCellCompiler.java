@@ -30,9 +30,9 @@ public class ImageCellCompiler extends AbstractCellCompiler<ImageCell, N2oImageC
         ImageCell cell = new ImageCell();
         build(cell, source, context, p, property("n2o.api.cell.image.src"));
         cell.setShape(p.cast(source.getShape(),
-                p.resolve(property("n2o.api.cell.image.shape"), ShapeType.class)));
+                () -> p.resolve(property("n2o.api.cell.image.shape"), ShapeType.class)));
         cell.setWidth(prepareSizeAttribute(p.cast(source.getWidth(),
-                p.resolve(property("n2o.api.cell.image.width"), String.class))));
+                () -> p.resolve(property("n2o.api.cell.image.width"), String.class))));
 
         compileAction(cell, source, context, p);
 
@@ -40,7 +40,7 @@ public class ImageCellCompiler extends AbstractCellCompiler<ImageCell, N2oImageC
         cell.setDescription(p.resolveJS(source.getDescription()));
         cell.setData(p.resolveJS(source.getData()));
         cell.setTextPosition(p.cast(source.getTextPosition(),
-                p.resolve(property("n2o.api.cell.image.text_position"), N2oImageCell.Position.class)));
+                () -> p.resolve(property("n2o.api.cell.image.text_position"), N2oImageCell.Position.class)));
         cell.setStatuses(compileStatuses(source.getStatuses(), p));
 
         return cell;
@@ -56,7 +56,7 @@ public class ImageCellCompiler extends AbstractCellCompiler<ImageCell, N2oImageC
             statusElement.setFieldId(e.getFieldId());
             statusElement.setIcon(p.resolveJS(e.getIcon()));
             statusElement.setPlace(p.cast(e.getPlace(),
-                    p.resolve(property("n2o.api.cell.image.status_place"), ImageStatusElementPlace.class)));
+                    () -> p.resolve(property("n2o.api.cell.image.status_place"), ImageStatusElementPlace.class)));
             statusElements[i++] = statusElement;
         }
         return statusElements;

@@ -82,12 +82,12 @@ public class BadgeUtil {
      */
     private static void setDefaults(Badge compiled, BadgeAware source, String propertyPrefix, CompileProcessor p) {
         compiled.setShape(p.cast(source.getBadgeShape(),
-                p.resolve(property(propertyPrefix + SHAPE), ShapeType.class)));
+                () -> p.resolve(property(propertyPrefix + SHAPE), ShapeType.class)));
         compiled.setPosition(p.cast(source.getBadgePosition(),
-                p.resolve(property(propertyPrefix + POSITION), Position.class)));
+                () -> p.resolve(property(propertyPrefix + POSITION), Position.class)));
         compiled.setImagePosition(p.cast(source.getBadgeImagePosition(),
-                p.resolve(property(propertyPrefix + IMAGE_POSITION), Position.class)));
+                () -> p.resolve(property(propertyPrefix + IMAGE_POSITION), Position.class)));
         compiled.setImageShape(p.cast(source.getBadgeImageShape(),
-                p.resolve(property(propertyPrefix + IMAGE_SHAPE), ShapeType.class)));
+                () -> p.resolve(property(propertyPrefix + IMAGE_SHAPE), ShapeType.class)));
     }
 }

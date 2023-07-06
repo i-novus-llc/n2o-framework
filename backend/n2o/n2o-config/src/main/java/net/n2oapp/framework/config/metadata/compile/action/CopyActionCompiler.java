@@ -56,7 +56,7 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
         super.initDefaults(source, context, p);
         source.setMode(p.cast(source.getMode(), CopyMode.merge));
         source.setSourceModel(p.cast(source.getSourceModel(), ReduxModel.resolve));
-        source.setSourceDatasourceId(p.cast(source.getSourceDatasourceId(), getLocalDatasourceId(p)));
+        source.setSourceDatasourceId(p.cast(source.getSourceDatasourceId(), () -> getLocalDatasourceId(p)));
         source.setTargetModel(p.cast(source.getTargetModel(), ReduxModel.resolve));
         source.setTargetDatasourceId(p.cast(source.getTargetDatasourceId(), source.getSourceDatasourceId()));
     }
@@ -64,7 +64,7 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     private MetaSaga compileMeta(N2oCopyAction source, CompileProcessor p) {
         MetaSaga meta = new MetaSaga();
         boolean closeOnSuccess = p.cast(source.getCloseOnSuccess(),
-                p.resolve(property("n2o.api.action.copy.close_on_success"), Boolean.class));
+                () -> p.resolve(property("n2o.api.action.copy.close_on_success"), Boolean.class));
         meta.setModalsToClose(closeOnSuccess ? 1 : 0);
         return meta;
     }

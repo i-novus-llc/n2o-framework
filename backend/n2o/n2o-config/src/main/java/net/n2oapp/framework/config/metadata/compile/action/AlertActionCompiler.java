@@ -46,7 +46,7 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
     private AlertActionPayload initPayload(N2oAlertAction source, CompileProcessor p) {
         AlertActionPayload payload = new AlertActionPayload();
         payload.setKey(p.cast(p.resolve(source.getPlacement(), MessagePlacement.class),
-                p.resolve(property("n2o.api.action.alert.placement"), MessagePlacement.class)));
+                () -> p.resolve(property("n2o.api.action.alert.placement"), MessagePlacement.class)));
         payload.setAlerts(initMessage(source, p));
         return payload;
     }
@@ -60,18 +60,18 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
         message.setClassName(source.getCssClass());
         message.setHref(p.resolveJS(source.getHref()));
         message.setSeverity(p.cast(source.getColor(),
-                p.resolve(property("n2o.api.action.alert.color"), String.class)));
+                () -> p.resolve(property("n2o.api.action.alert.color"), String.class)));
         message.setCloseButton(p.cast(source.getCloseButton(),
-                p.resolve(property("n2o.api.action.alert.close_button"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.action.alert.close_button"), Boolean.class)));
         message.setPlacement(p.cast(p.resolve(source.getPlacement(), MessagePlacement.class),
-                p.resolve(property("n2o.api.action.alert.placement"), MessagePlacement.class)));//fixme добавить резолв из контекста
+                () -> p.resolve(property("n2o.api.action.alert.placement"), MessagePlacement.class)));//fixme добавить резолв из контекста
         message.setTimeout(p.cast(p.resolve(source.getTimeout(), Integer.class),
-                p.resolve(property(String.format("n2o.api.message.%s.timeout", message.getSeverity())), Integer.class)));
+                () -> p.resolve(property(String.format("n2o.api.message.%s.timeout", message.getSeverity())), Integer.class)));
         message.setTime(initTimeStamp(source));
 
         if (isJs(message.getText()) || isJs(message.getTitle()) || isJs(message.getHref())) {
-            String datasourceId = p.cast(source.getDatasourceId(), getLocalDatasourceId(p));
-            ReduxModel reduxModel = p.cast(source.getModel(), getLocalModel(p));
+            String datasourceId = p.cast(source.getDatasourceId(), () -> getLocalDatasourceId(p));
+            ReduxModel reduxModel = p.cast(source.getModel(), () -> getLocalModel(p));
             if (datasourceId == null) {
                 throw new N2oException("Datasource not found for action <alert> with linked attributes");
             }

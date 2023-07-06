@@ -48,7 +48,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         source.setId(p.cast(source.getId(), source.getTextFieldId(), "cell" + indexNumber));
         source.setSortingFieldId(p.cast(source.getSortingFieldId(), source.getTextFieldId()));
         source.setAlignment(p.cast(source.getAlignment(),
-                p.resolve(property("n2o.api.widget.column.alignment"), Alignment.class)));
+                () -> p.resolve(property("n2o.api.widget.column.alignment"), Alignment.class)));
         source.setContentAlignment(p.cast(source.getContentAlignment(), source.getAlignment()));
 
         N2oCell cell = source.getCell();
@@ -65,7 +65,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         header.setIcon(source.getLabelIcon());
         header.setWidth(prepareSizeAttribute(source.getWidth()));
         header.setResizable(p.cast(source.getResizable(),
-                p.resolve(property("n2o.api.widget.table.column.resizable"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.widget.table.column.resizable"), Boolean.class)));
         header.setFixed(source.getFixed());
         header.setAlignment(source.getAlignment());
 

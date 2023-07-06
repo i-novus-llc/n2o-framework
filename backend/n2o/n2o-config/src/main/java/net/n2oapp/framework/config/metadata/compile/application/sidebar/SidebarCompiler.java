@@ -30,7 +30,7 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
     public Sidebar compile(N2oSidebar source, ApplicationContext context, CompileProcessor p) {
         Sidebar sidebar = new Sidebar();
         initDatasource(sidebar, source, p);
-        sidebar.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.sidebar.src"), String.class)));
+        sidebar.setSrc(p.cast(source.getSrc(), () -> p.resolve(property("n2o.api.sidebar.src"), String.class)));
         sidebar.setClassName(source.getCssClass());
         sidebar.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         Logo logo = new Logo();
@@ -44,13 +44,13 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
         ComponentScope componentScope = new ComponentScope(source);
         sidebar.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context, componentScope) : new SimpleMenu());
         sidebar.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context) : new SimpleMenu());
-        sidebar.setSide(p.cast(source.getSide(), p.resolve(property("n2o.api.sidebar.side"), Side.class)));
+        sidebar.setSide(p.cast(source.getSide(), () -> p.resolve(property("n2o.api.sidebar.side"), Side.class)));
         sidebar.setDefaultState(p.cast(source.getDefaultState(), SidebarState.maxi));
         sidebar.setToggledState(p.cast(source.getToggledState(),
                 SidebarState.maxi.equals(sidebar.getDefaultState()) ? SidebarState.mini : SidebarState.maxi,
                 SidebarState.class));
-        sidebar.setOverlay(p.cast(source.getOverlay(), p.resolve(property("n2o.api.sidebar.overlay"), Boolean.class)));
-        sidebar.setToggleOnHover(p.cast(source.getToggleOnHover(), p.resolve(property("n2o.api.sidebar.toggle_on_hover"), Boolean.class)));
+        sidebar.setOverlay(p.cast(source.getOverlay(), () -> p.resolve(property("n2o.api.sidebar.overlay"), Boolean.class)));
+        sidebar.setToggleOnHover(p.cast(source.getToggleOnHover(), () -> p.resolve(property("n2o.api.sidebar.toggle_on_hover"), Boolean.class)));
         sidebar.setProperties(p.mapAttributes(source));
         return sidebar;
     }

@@ -81,9 +81,9 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
         source.setDatasourceId(initDatasource(source, p));
         source.setSrc(p.cast(source.getSrc(),
-                p.resolve(property("n2o.api.button.src"), String.class)));
+                () -> p.resolve(property("n2o.api.button.src"), String.class)));
         source.setRounded(p.cast(source.getRounded(),
-                p.resolve(property("n2o.api.button.rounded"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.button.rounded"), Boolean.class)));
         boolean validate = initValidate(source, p, source.getDatasourceId());
         source.setValidate(validate);
         source.setValidateDatasourceIds(initValidateDatasources(source, validate, source.getDatasourceId()));
@@ -157,7 +157,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
      */
     private Condition enabledByEmptyModelCondition(N2oButton source, String clientDatasource, ComponentScope componentScope, CompileProcessor p) {
         DisableOnEmptyModelType disableOnEmptyModel = p.cast(source.getDisableOnEmptyModel(),
-                p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelType.class));
+                () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelType.class));
         if (DisableOnEmptyModelType.FALSE.equals(disableOnEmptyModel)) return null;
 
         boolean parentIsNotCell = componentScope == null || componentScope.unwrap(N2oCell.class) == null;
