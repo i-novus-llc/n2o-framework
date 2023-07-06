@@ -22,9 +22,8 @@ import {
     requestConfig as requestConfigAction,
     setReady as setReadyAction,
     registerLocales,
-    globalSelector,
-// @ts-ignore ignore import error from js file
 } from '../../ducks/global/store'
+import { globalSelector } from '../../ducks/global/selectors'
 // @ts-ignore ignore import error from js file
 import { errorController } from '../errors/errorController'
 import { FactoryLevels } from '../../core/factory/factoryLevels'

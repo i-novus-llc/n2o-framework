@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 import { userSelector } from '../../ducks/user/selectors'
 import { makePageMetadataByIdSelector } from '../../ducks/pages/selectors'
-import { rootPageSelector } from '../../ducks/global/store'
+import { rootPageSelector } from '../../ducks/global/selectors'
 
 import { SECURITY_CHECK, SECURITY_INITIALIZE } from './authTypes'
 

@@ -75,6 +75,7 @@ describe('Тесты widget reducer', () => {
                 sorting: {
                     name: 'ASC',
                 },
+                table: {},
                 type: 'table',
                 validation: {},
                 error: null,
