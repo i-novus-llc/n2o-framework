@@ -39,7 +39,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         initDefaults(source, context, p);
         LinkActionImpl linkAction = new LinkActionImpl();
         source.setSrc(p.cast(source.getSrc(),
-                p.resolve(Placeholders.property("n2o.api.action.link.src"), String.class)));
+                () -> p.resolve(Placeholders.property("n2o.api.action.link.src"), String.class)));
         linkAction.setType(p.resolve(property("n2o.api.action.link.type"), String.class));
 
         compileAction(linkAction, source, p);
@@ -72,8 +72,8 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         String resolvedPath = p.resolveJS(path);
         linkAction.setUrl(resolvedPath);
         if (StringUtils.isJs(resolvedPath)) {
-            String datasourceId = p.cast(source.getDatasourceId(), getLocalDatasourceId(p));
-            ReduxModel reduxModel = p.cast(source.getModel(), getLocalModel(p));
+            String datasourceId = p.cast(source.getDatasourceId(), () -> getLocalDatasourceId(p));
+            ReduxModel reduxModel = p.cast(source.getModel(), () -> getLocalModel(p));
             if (datasourceId == null) {
                 throw new N2oException("Datasource not found for action <a> with linked href " + source.getHref());
             }

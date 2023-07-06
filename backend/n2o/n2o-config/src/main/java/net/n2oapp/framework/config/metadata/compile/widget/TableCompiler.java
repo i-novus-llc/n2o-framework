@@ -67,7 +67,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.filter, p);
-        SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), new SubModelsScope());
+        SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), SubModelsScope::new);
         ValidationScope validationScope = p.getScope(ValidationScope.class) == null ? new ValidationScope() : p.getScope(ValidationScope.class);
         FiltersScope filtersScope = p.getScope(FiltersScope.class);
         TableFiltersScope tableFiltersScope = null;
@@ -81,7 +81,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);
         compileColumns(source, context, p, component, query, object, widgetScope, widgetActions,
                 subModelsScope, tableFiltersScope);
-        component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
+        component.setSize(p.cast(source.getSize(), () -> p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         component.setTableSize(source.getTableSize() != null ? source.getTableSize().name().toLowerCase() : null);
         component.setWidth(prepareSizeAttribute(source.getWidth()));
         component.setHeight(prepareSizeAttribute(source.getHeight()));
@@ -104,13 +104,13 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         }
         table.setPaging(compilePaging(table, source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p));
         table.setChildren(p.cast(source.getChildren(),
-                p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggle.class))
+                () -> p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggle.class))
         );
-        component.setAutoCheckboxOnSelect(p.cast(source.getCheckOnSelect(), p.resolve(property("n2o.api.widget.table.check_on_select"), Boolean.class)));
-        component.setAutoSelect(p.cast(source.getAutoSelect(), p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
+        component.setAutoCheckboxOnSelect(p.cast(source.getCheckOnSelect(), () -> p.resolve(property("n2o.api.widget.table.check_on_select"), Boolean.class)));
+        component.setAutoSelect(p.cast(source.getAutoSelect(), () -> p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
 
         if (Boolean.TRUE.equals(p.cast(source.getCheckboxes(),
-                p.resolve(property("n2o.api.widget.table.checkboxes"), Boolean.class))))
+                () -> p.resolve(property("n2o.api.widget.table.checkboxes"), Boolean.class))))
             component.setRowSelection(RowSelectionEnum.CHECKBOX);
 
         return table;
@@ -142,7 +142,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
             if (isNotEmpty(sortings))
                 passSortingToDatasource(sortings, source, p);
 
-            RowSelectionEnum rowSelection = p.cast(source.getSelection(), p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class));
+            RowSelectionEnum rowSelection = p.cast(source.getSelection(), () -> p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class));
             switch (rowSelection) {
                 case NONE:
                     component.setHasSelect(false);

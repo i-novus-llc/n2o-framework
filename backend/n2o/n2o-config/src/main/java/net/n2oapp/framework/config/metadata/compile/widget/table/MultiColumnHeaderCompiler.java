@@ -33,7 +33,7 @@ public class MultiColumnHeaderCompiler extends AbstractHeaderCompiler<N2oMultiCo
         header.setWidth(prepareSizeAttribute(source.getWidth()));
         header.setChildren(new ArrayList<>());
         header.setAlignment(p.cast(source.getAlignment(),
-                p.resolve(property("n2o.api.widget.column.multi.alignment"), Alignment.class)));
+                () -> p.resolve(property("n2o.api.widget.column.multi.alignment"), Alignment.class)));
         for (AbstractColumn subColumn : source.getChildren()) {
             subColumn.setContentAlignment(p.cast(subColumn.getContentAlignment(), source.getContentAlignment()));
             header.getChildren().add(p.compile(subColumn, context, p));

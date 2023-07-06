@@ -130,7 +130,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String pageId = source.getPageId();
         ReduxModel actionDataModel = getModelFromComponentScope(p);
         PageScope pageScope = p.getScope(PageScope.class);
-        String route = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
+        String route = p.cast(routeScope != null ? routeScope.getUrl() : null, () -> context.getRoute((N2oCompileProcessor) p), () -> "");
 
         Map<String, ModelLink> pathMapping = new StrictMap<>();
         Map<String, ModelLink> queryMapping = new StrictMap<>();
@@ -192,7 +192,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             }
         }
         pageContext.setUnsavedDataPromptOnClose(p.cast(source.getUnsavedDataPromptOnClose(),
-                p.resolve(property("n2o.api.action.unsaved_data_prompt"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.action.unsaved_data_prompt"), Boolean.class)));
         pageContext.setPathRouteMapping(pathMapping);
         initQueryMapping(source.getQueryParams(), pathMapping, queryMapping, p);
         pageContext.setQueryRouteMapping(queryMapping);
@@ -456,7 +456,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                     copyAction.setTargetModel(source.getTargetModel());
                     copyAction.setTargetPage(p.cast(source.getTargetPage(), PageRef.PARENT));
                     if (copyAction.getTargetPage().equals(PageRef.PARENT)) {
-                        copyAction.setTargetDatasourceId(p.cast(source.getTargetDatasourceId(), getLocalDatasourceId(p)));
+                        copyAction.setTargetDatasourceId(p.cast(source.getTargetDatasourceId(), () -> getLocalDatasourceId(p)));
                     } else {
                         copyAction.setTargetDatasourceId(source.getTargetDatasourceId());
                     }
@@ -502,7 +502,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
                     if (source.getRedirectUrlAfterSubmit() != null) {
                         invokeAction.setRedirectTarget(p.cast(source.getRedirectTargetAfterSubmit(),
-                                RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? Target.application : Target.self));
+                                () -> (RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? Target.application : Target.self)));
                         invokeAction.setRedirectUrl(source.getRedirectUrlAfterSubmit());
                     }
 
@@ -512,7 +512,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                 }
                 break;
             }
-            saveButton.setLabel(p.cast(source.getSubmitLabel(), p.getMessage("n2o.api.action.toolbar.button.submit.label")));
+            saveButton.setLabel(p.cast(source.getSubmitLabel(), () -> p.getMessage("n2o.api.action.toolbar.button.submit.label")));
             saveButton.setActions(actions);
             saveButton.setModel(p.cast(saveButtonModel, ReduxModel.resolve));
             saveButton.setValidate(true);

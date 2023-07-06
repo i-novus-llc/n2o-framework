@@ -5,6 +5,7 @@ import org.springframework.util.SerializationUtils;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class CompileUtil {
 
@@ -36,9 +37,19 @@ public class CompileUtil {
     }
 
 
-    public static String castDefault(String value, String defaultValue1, String... defaultValues) {
+    /**
+     * Привести значение к значению по умолчанию, если оно null.
+     * Если первое значение по умолчанию тоже null, берется следующее и т.д.
+     * Следует использовать только когда значние по умолчанию это константа или его легко получить,
+     * в другом случае использовать метод с Supplier
+     *
+     * @param value          Исходное значение
+     * @param defaultValues  Значения по умолчанию
+     * @return               Значение приведенное к значению по умолчанию
+     */
+    @SafeVarargs
+    public static String castDefault(String value, String... defaultValues) {
         if (value != null) return value;
-        if (defaultValue1 != null) return defaultValue1;
         if (defaultValues == null) return null;
         for (String defaultValue : defaultValues) {
             if (defaultValue != null) {
@@ -48,7 +59,26 @@ public class CompileUtil {
         return null;
     }
 
-
+    /**
+     * Привести значение к значению по умолчанию, если оно null.
+     * Если первое значение по умолчанию тоже null, берется следующее и т.д.
+     * Следует использовать, когда получение значения по умолчанию является ресурсно или трудозатратным
+     *
+     * @param value          Исходное значение
+     * @param defaultValues  Значения по умолчанию, получаемое через функцию
+     * @return               Значение приведенное к значению по умолчанию
+     */
+    @SafeVarargs
+    public static String castDefault(String value, Supplier<String>... defaultValues) {
+        if (value != null) return value;
+        if (defaultValues == null) return null;
+        for (Supplier<String> defaultValue : defaultValues) {
+            if (defaultValue != null) {
+                return defaultValue.get();
+            }
+        }
+        return null;
+    }
 
     public static Integer castDefault(Integer value, Integer defaultValue1, Integer... defaultValues) {
         if (value != null) return value;

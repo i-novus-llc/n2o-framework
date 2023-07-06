@@ -51,7 +51,7 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
     }
 
     protected void compileRoute(RoutableRegion source, String regionId, String property, CompileProcessor p) {
-        Boolean routable = p.cast(source.getRoutable(), p.resolve(property(property), Boolean.class));
+        Boolean routable = p.cast(source.getRoutable(), () -> p.resolve(property(property), Boolean.class));
         PageRoutes routes = p.getScope(PageRoutes.class);
         if (routes == null || !Boolean.TRUE.equals(routable))
             return;

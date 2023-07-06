@@ -52,9 +52,9 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
         tiles.setColsMd(p.cast(source.getColsMd(), p.resolve(property("n2o.api.widget.tiles.colsMd"), Integer.class)));
         tiles.setColsLg(p.cast(source.getColsLg(), p.resolve(property("n2o.api.widget.tiles.colsLg"), Integer.class)));
         tiles.setHeight(prepareSizeAttribute(p.cast(source.getHeight(),
-                p.resolve(property("n2o.api.widget.tiles.height"), String.class))));
+                () -> p.resolve(property("n2o.api.widget.tiles.height"), String.class))));
         tiles.setWidth(prepareSizeAttribute(p.cast(source.getWidth(),
-                p.resolve(property("n2o.api.widget.tiles.width"), String.class))));
+                () -> p.resolve(property("n2o.api.widget.tiles.width"), String.class))));
 
         List<Tiles.Tile> tls = new ArrayList<>(source.getContent().length);
         for (N2oBlock block : source.getContent())

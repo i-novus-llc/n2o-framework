@@ -40,9 +40,9 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
         build(region, source, p);
         region.setTitle(source.getTitle());
         region.setPlacement(p.cast(source.getPlacement(),
-                p.resolve(property("n2o.api.region.scrollspy.placement"), String.class)));
+                () -> p.resolve(property("n2o.api.region.scrollspy.placement"), String.class)));
         region.setHeadlines(p.cast(source.getHeadlines(),
-                p.resolve(property("n2o.api.region.scrollspy.headlines"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.region.scrollspy.headlines"), Boolean.class)));
         region.setMaxHeight(prepareSizeAttribute(source.getMaxHeight()));
         region.setMenu(initMenu(source.getMenu(), context, p));
         region.setActive(source.getActive());
@@ -85,7 +85,7 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
         initElement(element, item, p);
         element.setGroup(initMenu(((N2oScrollspyRegion.GroupItem) item).getGroup(), context, p));
         element.setHeadline(p.cast(((N2oScrollspyRegion.GroupItem) item).getHeadline(),
-                p.resolve(property("n2o.api.region.scrollspy.group.headline"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.region.scrollspy.group.headline"), Boolean.class)));
         return element;
     }
 

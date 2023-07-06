@@ -38,10 +38,10 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
 
         Application.Layout layout = new Application.Layout();
         layout.setFixed(p.cast(source.getNavigationLayoutFixed(),
-                p.resolve(property("n2o.application.navigation_layout_fixed"), Boolean.class)));
+                () -> p.resolve(property("n2o.application.navigation_layout_fixed"), Boolean.class)));
 
         NavigationLayout navLayout = p.cast(source.getNavigationLayout(),
-                p.resolve(property("n2o.application.navigation_layout"), NavigationLayout.class));
+                () -> p.resolve(property("n2o.application.navigation_layout"), NavigationLayout.class));
         layout.setFullSizeHeader(navLayout.equals(NavigationLayout.fullSizeHeader));
 
         application.setLayout(layout);
@@ -83,7 +83,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     private Header initHeader(N2oHeader source, ApplicationContext context, DataSourcesScope dataSourcesScope, CompileProcessor p) {
         if (source == null) return null;
         Header header = new Header();
-        header.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.header.src"), String.class)));
+        header.setSrc(p.cast(source.getSrc(), () -> p.resolve(property("n2o.api.header.src"), String.class)));
         header.setClassName(source.getCssClass());
         header.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         Logo logo = new Logo();
@@ -118,7 +118,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     private Footer initFooter(N2oFooter source, CompileProcessor p) {
         if (source == null || source.getVisible() != null && !source.getVisible()) return null;
         Footer footer = new Footer();
-        footer.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.footer.src"), String.class)));
+        footer.setSrc(p.cast(source.getSrc(), () -> p.resolve(property("n2o.api.footer.src"), String.class)));
         footer.setClassName(source.getCssClass());
         footer.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         footer.setTextRight(p.resolveJS(source.getRightText()));

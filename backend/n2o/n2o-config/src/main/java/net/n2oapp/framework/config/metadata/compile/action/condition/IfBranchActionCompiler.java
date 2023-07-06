@@ -28,12 +28,12 @@ public class IfBranchActionCompiler extends BaseConditionActionCompiler<N2oIfBra
                                   CompileProcessor p, PageIndexScope indexScope) {
         N2oIfBranchAction ifSource = (N2oIfBranchAction) source;
         initDatasource(payload, ifSource, p);
-        payload.setModel(p.cast(ifSource.getModel(), getLocalModel(p)));
+        payload.setModel(p.cast(ifSource.getModel(), () -> getLocalModel(p)));
         super.compilePayload(source, payload, failBranchesScope, context, p, indexScope);
     }
 
     private void initDatasource(ConditionActionPayload payload, N2oIfBranchAction source, CompileProcessor p) {
-        payload.setDatasource(getClientDatasourceId(p.cast(source.getDatasourceId(), getLocalDatasourceId(p)), p));
+        payload.setDatasource(getClientDatasourceId(p.cast(source.getDatasourceId(), () -> getLocalDatasourceId(p)), p));
         if (payload.getDatasource() == null) {
             throw new N2oException(String.format("Datasource is undefined for if-branch with test=\"%s\"",
                     source.getTest()));

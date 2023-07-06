@@ -53,7 +53,7 @@ public class ClientDataProviderUtil {
             dataProvider.setFormMapping(compileParams(source.getFormParams(), context, p, targetModel, source.getClientDatasourceId()));
             dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), context, p, targetModel, source.getClientDatasourceId()));
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-            path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
+            path = p.cast(routeScope != null ? routeScope.getUrl() : null, () -> context.getRoute((N2oCompileProcessor) p), () -> "");
             if (context.getPathRouteMapping() != null)
                 pathMapping.putAll(context.getPathRouteMapping());
             path = normalize(path + normalize(p.cast(source.getUrl(), source.getId(), "")));
@@ -192,9 +192,9 @@ public class ClientDataProviderUtil {
             actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
             actionContext.setMessageOnFail(p.cast(actionContextData.isMessageOnFail(), true));
             actionContext.setMessagePosition(p.cast(actionContextData.getMessagePosition(),
-                    p.resolve(property("n2o.api.message.position"), MessagePosition.class)));
+                    () -> p.resolve(property("n2o.api.message.position"), MessagePosition.class)));
             actionContext.setMessagePlacement(p.cast(actionContextData.getMessagePlacement(),
-                    p.resolve(property("n2o.api.message.placement"), MessagePlacement.class)));
+                    () -> p.resolve(property("n2o.api.message.placement"), MessagePlacement.class)));
 
             Set<String> formParams = new HashSet<>();
             if (source.getFormParams() != null)
