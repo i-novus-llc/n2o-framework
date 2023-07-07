@@ -1118,6 +1118,11 @@
             <xs:element name="switch" type="switchDefinition" minOccurs="0"/>
             <xs:element name="click" type="clickDefinition" minOccurs="0"/>
         </xs:sequence>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Реализация строки (React компонент)</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
