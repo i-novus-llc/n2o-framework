@@ -16,6 +16,7 @@ import { setModel } from '../../ducks/models/store'
 import { failValidate, reset } from '../../ducks/datasource/store'
 import { ValidationsKey } from '../../core/validation/IValidation'
 import { dataSourceErrors } from '../../ducks/datasource/selectors'
+import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
@@ -40,7 +41,7 @@ const WidgetFilters = (props) => {
     const { getState } = useStore()
     const dispatch = useDispatch()
     /*
-     * временно заиспользовал edit иодель, чтобы не сетить в фильтр пока явно не нажата кнопка "поиск"
+     * временно заиспользовал edit модель, чтобы не сетить в фильтр пока явно не нажата кнопка "поиск"
      * хак не имеет смысла, когда включено автообновление по мере ввода
      */
     const modelPrefix = searchOnChange ? ModelPrefix.filter : ModelPrefix.edit
@@ -52,15 +53,22 @@ const WidgetFilters = (props) => {
     const visible = useSelector(makeWidgetFilterVisibilitySelector(widgetId))
     const reduxFormFilter = useSelector(getModelByPrefixAndNameSelector(modelPrefix, datasource))
     const filterMessages = useSelector(dataSourceErrors(datasource, ModelPrefix.filter))
+    const reduxFilterModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.filter, datasource, EMPTY_OBJECT))
 
     // update default-values on init for edit-model
     useEffect(() => {
-        if (modelPrefix !== ModelPrefix.filter) {
-            const defaultValues = getModelByPrefixAndNameSelector(ModelPrefix.filter, datasource)(getState())
-
-            dispatch(setModel(modelPrefix, datasource, defaultValues))
+        if (modelPrefix === ModelPrefix.filter) {
+            return
         }
-    }, [datasource, dispatch, getState, modelPrefix])
+
+        const reduxEditModel = getModelByPrefixAndNameSelector(ModelPrefix.edit, datasource, EMPTY_OBJECT)(getState())
+
+        if (isEqual(reduxEditModel, reduxFilterModel)) {
+            return
+        }
+
+        dispatch(setModel(modelPrefix, datasource, reduxFilterModel))
+    }, [datasource, dispatch, getState, modelPrefix, reduxFilterModel])
 
     const clearDatasourceModel = useCallback(() => {
         dispatch(reset(datasource))
