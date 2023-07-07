@@ -21,6 +21,7 @@ public abstract class AbstractListWidgetElementIOv5<T extends N2oAbstractListWid
     }
 
     private void rows(Element e, N2oRow r, IOProcessor p) {
+        p.attribute(e, "src", r::getSrc, r::setSrc);
         p.attribute(e, "class", r::getRowClass, r::setRowClass);
         p.attribute(e, "style", r::getStyle, r::setStyle);
         p.child(e, null, "click", r::getRowClick, r::setRowClick, N2oRowClick::new, this::rowClick);

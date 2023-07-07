@@ -10,6 +10,8 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 @Getter
 @Setter
 public class N2oRow implements Source, NamespaceUriAware {
+    @N2oAttribute("Реализация строки (React компонент)")
+    private String src;
     @N2oAttribute("Цвет")
     private N2oSwitch color;
     private N2oRowClick rowClick;

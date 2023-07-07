@@ -75,7 +75,7 @@
             <column text-field-id="test5"/>
         </multi-column>
     </columns>
-    <rows class="test">
+    <rows class="test" src="RowsSrc">
         <switch value-field-id="gender.id">
             <case value="1">Мужской</case>
             <case value="2">Женский</case>

@@ -55,7 +55,7 @@
                 <column id="id" text-field-id="textFieldId"/>
                 <column label="label" id="id" text-field-id="textFieldId"/>
             </columns>
-            <rows class="red" style="color:blue"/>
+            <rows class="red" style="color:blue" src="TableRow"/>
             <filters place="left" datasource="filtersDs">
                 <input-text id="name" required="true"/>
             </filters>

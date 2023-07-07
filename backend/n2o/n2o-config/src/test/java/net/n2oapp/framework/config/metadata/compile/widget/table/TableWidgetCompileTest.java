@@ -113,6 +113,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getBody().getCells().get(3).getId(), is("cell3"));
 
         assertThat(table.getToolbar().getButton("but"), notNullValue());
+        assertThat(table.getComponent().getBody().getRow().getSrc(), is("TableRow"));
         assertThat(table.getComponent().getBody().getRow().getElementAttributes().get("className"), is("red"));
         assertThat(table.getComponent().getBody().getRow().getElementAttributes().get("style"), is("color:blue"));
         QueryContext queryContext = (QueryContext) route("/testTable5Compile/w1", CompiledQuery.class);

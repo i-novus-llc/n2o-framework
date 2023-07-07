@@ -57,6 +57,8 @@ public class TableWidgetComponent extends WidgetComponent {
     @Setter
     public static class BodyRow implements Compiled, JsonPropertiesAware {
         @JsonProperty
+        private String src;
+        @JsonProperty
         private RowClick click;
         @JsonProperty
         private Map<String, String> elementAttributes = new HashMap<>();
