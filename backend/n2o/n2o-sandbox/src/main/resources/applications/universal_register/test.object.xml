@@ -8,7 +8,6 @@
         <in>
             <field id="createDate" normalize="T(java.time.LocalDate).now()"/>
             <field id="snils"/>
-            <field id="gender"/>
             <field id="citizen"/>
             <field id="birthday"/>
             <field id="gender"/>
@@ -59,7 +58,6 @@
         <in>
             <field id="id"/>
             <field id="snils"/>
-            <field id="gender"/>
             <field id="citizen"/>
             <field id="birthday"/>
             <field id="gender"/>
