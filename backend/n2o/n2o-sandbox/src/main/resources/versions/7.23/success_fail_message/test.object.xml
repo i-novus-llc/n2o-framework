@@ -27,7 +27,7 @@
                 <field id="id"/>
             </in>
             <validations>
-                <condition server-moment="before-operation"
+                <condition id="c1" server-moment="before-operation"
                            title="Ошибка валидации"
                            message="Запись с id={id} не может быть удалена">
                     id > 4
