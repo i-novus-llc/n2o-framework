@@ -50,6 +50,6 @@ public class ColumnHeader implements IdAware, Compiled, JsonPropertiesAware {
     @JsonProperty
     private Map<ValidationType, List<Condition>> conditionsCells = new HashMap<>();
     @JsonProperty
-    private Map<String, String> elementAttributes = new HashMap<>();
+    private Map<String, Object> elementAttributes = new HashMap<>();
     private Map<String, Object> properties;
 }
