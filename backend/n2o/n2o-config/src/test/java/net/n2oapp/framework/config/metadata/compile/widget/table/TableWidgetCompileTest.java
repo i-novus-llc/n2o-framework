@@ -270,12 +270,12 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml").get(new PageContext("testTableColumnVisibility"));
         List<ColumnHeader> columnHeaders = ((Table) page.getRegions().get("single").get(0).getContent().get(0)).getComponent().getHeader().getCells();
         assertThat(columnHeaders.get(0).getVisible(), nullValue());
-        assertThat(columnHeaders.get(0).getConditionsCells().get(ValidationType.visible).get(0).getExpression(), is("abc == 1"));
-        assertThat(columnHeaders.get(0).getConditionsCells().get(ValidationType.visible).get(0).getModelLink(), is("models.filter['testTableColumnVisibility_table']"));
+        assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getExpression(), is("abc == 1"));
+        assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.filter['testTableColumnVisibility_table']"));
         assertThat(columnHeaders.get(1).getVisible(), is(Boolean.TRUE));
         assertThat(columnHeaders.get(2).getVisible(), nullValue());
-        assertThat(columnHeaders.get(3).getConditionsCells().get(ValidationType.visible).get(0).getExpression(), is("type == 1"));
-        assertThat(columnHeaders.get(3).getConditionsCells().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['testTableColumnVisibility_form']"));
+        assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getExpression(), is("type == 1"));
+        assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['testTableColumnVisibility_form']"));
     }
 
     @Test

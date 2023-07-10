@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
-import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.ArrayList;
 
@@ -18,7 +17,6 @@ import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.util.StylesResolver.resolveStyles;
-import static net.n2oapp.framework.config.util.StylesResolver.resolveStylesToString;
 
 /**
  * Компиляция абстрактного заголовка таблицы
@@ -36,10 +34,10 @@ public abstract class AbstractHeaderCompiler<S extends AbstractColumn> implement
             condition.setExpression(unwrapLink(source.getVisible()));
             String datasourceId = widgetScope.getClientDatasourceId();
             condition.setModelLink(new ModelLink(ReduxModel.filter, datasourceId).getBindLink());
-            if (!compiled.getConditionsCells().containsKey(ValidationType.visible)) {
-                compiled.getConditionsCells().put(ValidationType.visible, new ArrayList<>());
+            if (!compiled.getConditions().containsKey(ValidationType.visible)) {
+                compiled.getConditions().put(ValidationType.visible, new ArrayList<>());
             }
-            compiled.getConditionsCells().get(ValidationType.visible).add(condition);
+            compiled.getConditions().get(ValidationType.visible).add(condition);
         } else {
             compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
         }

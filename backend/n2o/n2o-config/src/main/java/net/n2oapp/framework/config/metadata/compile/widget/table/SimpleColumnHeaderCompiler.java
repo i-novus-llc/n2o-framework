@@ -80,10 +80,10 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
                 Condition condition = new Condition();
                 condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
                 condition.setModelLink(new ModelLink(refModel, datasourceId).getBindLink());
-                if (!header.getConditionsCells().containsKey(ValidationType.visible)) {
-                    header.getConditionsCells().put(ValidationType.visible, new ArrayList<>());
+                if (!header.getConditions().containsKey(ValidationType.visible)) {
+                    header.getConditions().put(ValidationType.visible, new ArrayList<>());
                 }
-                header.getConditionsCells().get(ValidationType.visible).add(condition);
+                header.getConditions().get(ValidationType.visible).add(condition);
             }
         }
 
