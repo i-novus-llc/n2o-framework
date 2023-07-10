@@ -57,6 +57,8 @@ export class N2OPagination extends Component {
     }
 }
 
+N2OPagination.displayName = 'N2OPagination'
+
 N2OPagination.propTypes = {
     count: PropTypes.number,
     size: PropTypes.number,

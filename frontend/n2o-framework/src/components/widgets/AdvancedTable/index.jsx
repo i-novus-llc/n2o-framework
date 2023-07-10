@@ -27,7 +27,7 @@ const shouldSetResolveModel = props => (
 const AdvancedTableContainer = (props) => {
     const {
         id, disabled, toolbar, datasource, className, setPage, loading, fetchData,
-        style, paging, filter, table, size, count, page, sorting, children, isInit,
+        style, paging, filter, table, size, count, page, sorting, children, hasNext, isInit,
     } = props
     const [expandedRows, setExpandedRows] = useState([])
     const columnsState = useSelector(getContainerColumns(id))
@@ -58,6 +58,7 @@ const AdvancedTableContainer = (props) => {
     const tableConfig = useMemo(() => (
         omit(table, ['autoSelect', 'autoFocus', 'textWrap', 'header.cells', 'body.cells'])
     ), [table])
+    const paginationVisible = useMemo(() => Object.values(columnsState).some(column => column.visible), [columnsState])
     const hasSecurityAccess = useCheckAccess(tableConfig.body?.row?.security)
 
     const { place = 'bottomLeft' } = paging
@@ -65,11 +66,13 @@ const AdvancedTableContainer = (props) => {
         [place]: (
             <N2OPagination
                 {...paging}
+                hasNext={hasNext}
                 size={size}
                 count={count}
                 activePage={page}
                 datasource={datasourceModel}
                 setPage={setPage}
+                visible={paginationVisible}
             />
         ),
     }
