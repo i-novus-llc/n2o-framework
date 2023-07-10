@@ -31,7 +31,7 @@ export const TableHeader = memo<TableHeaderProps>(({
                     {columns.map(cell => (
                         <TableHeaderCell
                             key={cell.id}
-                            sortingDirection={sorting?.[cell.id]}
+                            sortingDirection={cell.sortingParam ? sorting[cell.sortingParam] : undefined}
                             {...cell}
                         />
                     ))}

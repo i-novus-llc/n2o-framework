@@ -28,6 +28,7 @@ export type HeaderCell = {
     colSpan?: number
     rowSpan?: number
     hasSubColumns?: boolean
+    sortingParam?: string
     filterControl?: {
         src: string
         id: string
