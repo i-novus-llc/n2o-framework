@@ -114,7 +114,7 @@ public class BulkOperationAT extends AutoTestBase {
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
-        table.columns().headers().shouldHaveSize(3);
+        table.columns().headers().shouldHaveSize(2);
 
         TableWidget.Rows rows = table.columns().rows();
         TextCell id1 = rows.row(0).cell(1, TextCell.class);

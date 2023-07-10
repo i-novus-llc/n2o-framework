@@ -21,7 +21,7 @@ public abstract class N2oTableHeader extends N2oComponent implements TableHeader
 
     @Override
     public void click() {
-        SelenideElement elm = element().$(".n2o-checkbox");
+        SelenideElement elm = element().$(".checkbox-cell .n2o-checkbox .n2o-input");
         if (elm.exists())
             elm.click();
         else

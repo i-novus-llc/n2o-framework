@@ -12,7 +12,7 @@ import static net.n2oapp.framework.autotest.N2oSelenide.component;
 
 public class N2oCells extends N2oComponentsCollection implements Cells {
 
-    private static final String ROW_CLICK_CSS_CONDITION = "row-click";
+    private static final String ROW_CLICK_ATTRIBUTE = "data-has-click";
 
     @Override
     public TextCell cell(int index) {
@@ -36,12 +36,12 @@ public class N2oCells extends N2oComponentsCollection implements Cells {
 
     @Override
     public void shouldBeClickable() {
-        row().shouldHave(Condition.cssClass(ROW_CLICK_CSS_CONDITION));
+        row().shouldBe(Condition.attribute(ROW_CLICK_ATTRIBUTE, "true"));
     }
 
     @Override
     public void shouldNotBeClickable() {
-        row().shouldNotHave(Condition.cssClass(ROW_CLICK_CSS_CONDITION));
+        row().shouldBe(Condition.attribute(ROW_CLICK_ATTRIBUTE, "false"));
     }
 
     @Override

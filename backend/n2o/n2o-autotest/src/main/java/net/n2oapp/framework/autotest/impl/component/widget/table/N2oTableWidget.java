@@ -76,7 +76,7 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
 
         @Override
         public TableHeaders headers() {
-            return N2oSelenide.collection(element().$$(".n2o-advanced-table-thead th.n2o-advanced-table-header-cel"), TableHeaders.class);
+            return N2oSelenide.collection(element().$$(".n2o-advanced-table .header tr th"), TableHeaders.class);
         }
 
         @Override
@@ -105,7 +105,7 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
 
         @Override
         public void shouldBeSelected(int row) {
-            rows().get(row).shouldHave(Condition.cssClass("table-active"));
+            rows().get(row).shouldBe(Condition.attribute("data-focused", "true"));
         }
 
         @Override
@@ -131,7 +131,7 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
 
         @Override
         public void columnShouldBeSortedBy(int columnIndex, SortingDirection direction) {
-            ElementsCollection elements = element().should(Condition.exist).$$(".n2o-table-row td:nth-child(" + (++columnIndex) + ")");
+            ElementsCollection elements = element().should(Condition.exist).$$(".table-row td:nth-child(" + (++columnIndex) + ")");
 
             switch (direction) {
                 case ASC:
@@ -148,11 +148,11 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         }
 
         protected ElementsCollection column(int index) {
-            return element().$$(String.format(".n2o-table-row td:nth-child(%d)", ++index));
+            return element().$$(String.format(".table-row td:nth-child(%d)", ++index));
         }
 
         protected ElementsCollection rows() {
-            return element().$$(".n2o-advanced-table-tbody .n2o-table-row");
+            return element().$$(".n2o-advanced-table tbody .table-row");
         }
     }
 }
