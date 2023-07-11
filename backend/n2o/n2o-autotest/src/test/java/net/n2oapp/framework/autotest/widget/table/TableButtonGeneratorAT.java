@@ -71,6 +71,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
 
     @Test
     public void testFilters() {
+        table.columns().rows().shouldHaveSize(5);
         InputText inputName = table.filters().fields().field("Наименование").control(InputText.class);
         InputText inputRegion = table.filters().fields().field("Регион").control(InputText.class);
         Button search = table.filters().toolbar().button("Найти");
@@ -107,7 +108,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(1);
 
         toolbar.button(0, N2oStandardButton.class).click();
-//        inputName.shouldHaveValue("ТМК");
+        inputName.shouldHaveValue("ТМК");
         table.columns().rows().shouldHaveSize(1);
     }
 
@@ -118,6 +119,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
         table.columns().headers().header(2).shouldHaveTitle("Наименование");
         table.columns().headers().header(3).shouldHaveTitle("Регион");
+        table.paging().shouldExists();
 
         N2oDropdownButton button = toolbar.button(1, N2oDropdownButton.class);
         button.shouldBeCollapsed();
@@ -142,6 +144,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         table.columns().headers().header(0).shouldHaveTitle("Идентификатор");
         table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
         table.columns().headers().header(2).shouldHaveTitle("Регион");
+        table.paging().shouldExists();
 
         button.click();
         button.shouldBeExpanded();
@@ -156,6 +159,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         table.columns().headers().shouldHaveSize(2);
         table.columns().headers().header(0).shouldHaveTitle("Идентификатор ИПС");
         table.columns().headers().header(1).shouldHaveTitle("Регион");
+        table.paging().shouldExists();
 
         button.menuItem("Идентификатор ИПС").click();
         button.menuItem("Регион").click();
@@ -164,6 +168,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         button.menuItem("Наименование").shouldNotHaveIcon();
         button.menuItem("Регион").shouldNotHaveIcon();
         table.columns().headers().shouldHaveSize(0);
+        table.paging().shouldNotExists();
 
         button.menuItem("Наименование").click();
         button.menuItem("Наименование").shouldHaveIcon("fa-check");

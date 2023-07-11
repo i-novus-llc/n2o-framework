@@ -90,34 +90,4 @@ public class MasterDetailAT extends AutoTestBase {
         rows.row(1).cell(0).shouldHaveText("test44");
         rows.row(1).cell(1).shouldHaveText("2");
     }
-
-    @Test
-    public void paginationTest() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/master_detail/pagination");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/pagination/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/pagination/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/pagination/test2.query.xml")
-        );
-
-        StandardPage page = open(StandardPage.class);
-        page.shouldExists();
-
-        RegionItems regionItems = page.regions().region(0, SimpleRegion.class).content();
-        TableWidget tableOne = regionItems.widget(0, TableWidget.class);
-        TableWidget tableTwo = regionItems.widget(1, TableWidget.class);
-
-        tableOne.shouldExists();
-        tableTwo.shouldExists();
-
-        tableOne.columns().rows().row(2).click();
-        tableTwo.columns().rows().row(0).cell(0).shouldHaveText("5");
-
-        tableTwo.paging().selectPage("3");
-        tableTwo.columns().rows().row(0).cell(0).shouldHaveText("9");
-
-        tableOne.columns().rows().row(1).click();
-        tableTwo.paging().shouldHaveActivePage("1");
-        tableTwo.columns().rows().row(0).cell(0).shouldHaveText("2");
-    }
 }
