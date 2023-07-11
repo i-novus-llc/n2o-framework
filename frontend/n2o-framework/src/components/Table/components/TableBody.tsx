@@ -21,12 +21,12 @@ export const TableBody: VFC<TableBodyProps> = (props) => {
     const isAccessRowActionClick = click && hasSecurityAccess
     const hasOnClick = Boolean(isAccessRowActionClick || hasSelection)
     const rowOnClickAction = useCallback((data) => {
-        if (isAccessRowActionClick) {
-            onDispatchRowAction(click, data)
-        }
-
         if (hasSelection) {
             setFocusOnRow(data.id, data)
+        }
+
+        if (isAccessRowActionClick) {
+            onDispatchRowAction(click, data)
         }
     }, [click, hasSelection, onDispatchRowAction, setFocusOnRow, isAccessRowActionClick])
 
