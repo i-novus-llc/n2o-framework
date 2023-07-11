@@ -152,7 +152,7 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         }
 
         protected ElementsCollection rows() {
-            return element().$$(".n2o-advanced-table tbody .table-row");
+            return element().$$(".n2o-advanced-table tbody .table-row:not(.table-row-presentation)");
         }
     }
 }

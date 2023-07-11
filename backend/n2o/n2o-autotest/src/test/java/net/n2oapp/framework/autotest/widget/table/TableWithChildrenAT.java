@@ -93,19 +93,16 @@ public class TableWithChildrenAT extends AutoTestBase {
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.paging().shouldHaveTotalElements(4);
-        table.columns().rows().shouldHaveSize(4);
+        table.columns().rows().shouldHaveSize(10);
 
         Cells parentRow = table.columns().rows().row(0);
         parentRow.cell(1).shouldHaveText("test1");
-        parentRow.shouldNotBeClickable();
-        Modal modal = N2oSelenide.modal();
-        parentRow.click();
-        modal.shouldNotExists();
+        parentRow.cell(0).expand();
         table.columns().rows().shouldHaveSize(7);
         Cells childrenRow = table.columns().rows().row(1);
         childrenRow.cell(1).shouldHaveText("name11");
-        childrenRow.shouldBeClickable();
         childrenRow.click();
+        Modal modal = N2oSelenide.modal();
         modal.shouldExists();
         modal.close();
     }

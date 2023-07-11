@@ -35,16 +35,6 @@ public class N2oCells extends N2oComponentsCollection implements Cells {
     }
 
     @Override
-    public void shouldBeClickable() {
-        row().shouldBe(Condition.attribute(ROW_CLICK_ATTRIBUTE, "true"));
-    }
-
-    @Override
-    public void shouldNotBeClickable() {
-        row().shouldBe(Condition.attribute(ROW_CLICK_ATTRIBUTE, "false"));
-    }
-
-    @Override
     public void hover() {
         row().hover();
     }

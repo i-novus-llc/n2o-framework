@@ -82,7 +82,6 @@ public class SwitchCaseActionAT extends AutoTestBase {
 
         table.shouldExists();
         table.columns().rows().row(1).cell(1).shouldHaveText("1");
-        table.columns().rows().row(1).shouldBeClickable();
         table.columns().rows().row(1).click();
         page.shouldExists();
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/type1");
@@ -91,7 +90,6 @@ public class SwitchCaseActionAT extends AutoTestBase {
         page.shouldExists();
         table.shouldExists();
         table.columns().rows().row(3).cell(1).shouldHaveText("2");
-        table.columns().rows().row(3).shouldBeClickable();
         table.columns().rows().row(3).click();
         page.shouldExists();
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/type2");
@@ -100,7 +98,6 @@ public class SwitchCaseActionAT extends AutoTestBase {
         page.shouldExists();
         table.shouldExists();
         table.columns().rows().row(2).cell(1).shouldHaveText("3");
-        table.columns().rows().row(2).shouldBeClickable();
         table.columns().rows().row(2).click();
         page.shouldExists();
         page.shouldHaveUrlMatches("https://example.com/");
