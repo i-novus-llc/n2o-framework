@@ -22,6 +22,7 @@ export type HeaderCell = {
     fieldId: string
     elementAttributes: {
         alignment?: 'center' | 'right' | 'left' | 'justify'
+        className?: string
     }
     component: FC
     children?: HeaderCell[]

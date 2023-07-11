@@ -24,7 +24,7 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = (props) => {
         ...otherCellProps
     } = props
 
-    // Заготовка для ресайза колонок
+    const { className = '', ...otherElementAttributes } = elementAttributes
     const cellRef = useRef<HTMLTableCellElement>(null)
     const onMouseDownResizeCell = useMouseDownResize(cellRef)
 
@@ -32,6 +32,7 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = (props) => {
         <Table.HeaderCell
             className={classNames({
                 'n2o-advanced-table-header-text-center': multiHeader,
+                [className]: Boolean(className),
             })}
             data-resizeble={resizable}
             ref={cellRef}
@@ -40,6 +41,7 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = (props) => {
         >
             <div className="n2o-advanced-table-header-cell-content">
                 {icon && <Icon name={icon} />}
+                <Component {...otherCellProps} {...otherElementAttributes} sorting={sortingDirection} />
                 {filterControl ? (
                     <HeaderFilter
                         id={id}
@@ -47,7 +49,6 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = (props) => {
                     />
 
                 ) : null}
-                <Component {...otherCellProps} {...elementAttributes} sorting={sortingDirection} />
             </div>
             {resizable ? <div className="resizeTrigger" onMouseDown={onMouseDownResizeCell} /> : null}
         </Table.HeaderCell>
