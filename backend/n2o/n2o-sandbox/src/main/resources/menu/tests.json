@@ -768,6 +768,10 @@
           "name": "InputTextAT. testArrowsDifIntervals"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/control/domain_numeric/",
+          "name": "InputTextAT. testStepForDomainNumeric"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/control/interval_field",
           "name": "IntervalFieldAT"
         },
