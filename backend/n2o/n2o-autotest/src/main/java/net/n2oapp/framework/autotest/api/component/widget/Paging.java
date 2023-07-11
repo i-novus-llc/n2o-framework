@@ -194,6 +194,16 @@ public interface Paging extends Component {
      */
     void countButtonClick();
 
+    /**
+     * Проверка существования пагинации
+     */
+    void shouldExists();
+
+    /**
+     * Проверка не существования пагинации
+     */
+    void shouldNotExists();
+
     enum Layout {
         BORDERED("bordered"),
         FLAT("flat"),
