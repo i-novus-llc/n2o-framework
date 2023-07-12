@@ -12,6 +12,7 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Keys;
 
 /**
  * Автотест для компонента ввода текста с автозаполнением
@@ -111,6 +112,12 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.click();
         autoComplete.setValue("Иванов К.Л.");
         autoComplete.chooseDropdownOption("Иванов К.Л.");
+        autoComplete.shouldHaveTags("Иванов П.И...", "Иванченко ...", "Иванов К.Л...");
+
+        // проверяем, что нажатие Enter не создает пустой тэг
+        autoComplete.clear();
+        autoComplete.click();
+        autoComplete.enter();
         autoComplete.shouldHaveTags("Иванов П.И...", "Иванченко ...", "Иванов К.Л...");
 
     }
