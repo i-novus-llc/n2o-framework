@@ -9,6 +9,7 @@ import entries from 'lodash/entries'
 import isEmpty from 'lodash/isEmpty'
 import isObject from 'lodash/isObject'
 import find from 'lodash/find'
+import intersection from 'lodash/intersection'
 
 import { widgetsSelector } from '../widgets/selectors'
 import { setModel, copyModel, clearModel } from '../models/store'
@@ -189,6 +190,25 @@ export const formPluginSagas = [
         }
 
         validateFields[datasource].push(field)
+    }),
+    takeEvery([
+        setModel,
+    ], ({ payload }) => {
+        const { prefix, key, model } = payload
+
+        if (!model || prefix !== ModelPrefix.filter) {
+            return
+        }
+
+        if (!validateFields[key]) {
+            validateFields[key] = []
+        }
+
+        if (isEmpty(model)) {
+            validateFields[key] = []
+        } else {
+            validateFields[key] = intersection(Object.keys(model), validateFields[key])
+        }
     }),
     debounce(200, [
         actionTypes.CHANGE,
