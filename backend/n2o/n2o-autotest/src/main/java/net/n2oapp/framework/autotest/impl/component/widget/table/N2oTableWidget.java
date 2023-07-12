@@ -148,7 +148,7 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         }
 
         protected ElementsCollection column(int index) {
-            return element().$$(String.format(".table-row td:nth-child(%d)", ++index));
+            return element().$$(String.format(".table-row[data-deep-level] td:nth-child(%d)", ++index));
         }
 
         protected ElementsCollection rows() {

@@ -124,7 +124,7 @@ const AdvancedTableContainer = (props) => {
     }, [setActiveModel, setMultiModel, unsetMultiModel])
 
     useRegisterColumns(id, cells.header)
-    useExpandAllRows(setExpandedRows, datasourceModel, children)
+    useExpandAllRows(setExpandedRows, children, datasourceModel)
 
     return (
         <WidgetLayout
