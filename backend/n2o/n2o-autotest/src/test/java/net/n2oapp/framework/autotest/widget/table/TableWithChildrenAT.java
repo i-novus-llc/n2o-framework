@@ -72,12 +72,12 @@ public class TableWithChildrenAT extends AutoTestBase {
 
         table.columns().rows().row(0).cell(0).expand();
         table.columns().rows().row(0).cell(0).shouldBeCollapsed();
-        table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "", "", "", "2", "21", "22", "23", "3", "4"));
+        table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "2", "21", "22", "23", "3", "4"));
 
-        table.columns().rows().row(4).cell(0).shouldBeExpanded();
-        table.columns().rows().row(4).cell(0).expand();
-        table.columns().rows().row(4).cell(0).shouldBeCollapsed();
-        table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "", "", "", "2", "", "", "", "3", "4"));
+        table.columns().rows().row(1).cell(0).shouldBeExpanded();
+        table.columns().rows().row(1).cell(0).expand();
+        table.columns().rows().row(1).cell(0).shouldBeCollapsed();
+        table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "2", "3", "4"));
 
         table.columns().rows().row(0).cell(0).expand();
         table.columns().rows().row(0).cell(0).shouldBeExpanded();
@@ -99,8 +99,8 @@ public class TableWithChildrenAT extends AutoTestBase {
         parentRow.cell(1).shouldHaveText("test1");
         parentRow.cell(0).expand();
         table.columns().rows().shouldHaveSize(7);
-        Cells childrenRow = table.columns().rows().row(1);
-        childrenRow.cell(1).shouldHaveText("name11");
+        Cells childrenRow = table.columns().rows().row(2);
+        childrenRow.cell(1).shouldHaveText("name21");
         childrenRow.click();
         Modal modal = N2oSelenide.modal();
         modal.shouldExists();
