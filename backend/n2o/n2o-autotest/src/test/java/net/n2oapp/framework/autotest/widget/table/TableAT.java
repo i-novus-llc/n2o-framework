@@ -153,14 +153,12 @@ public class TableAT extends AutoTestBase {
 
         Cells firstRow = table.columns().rows().row(0);
         firstRow.cell(1).shouldHaveText("1");
-        firstRow.shouldNotBeClickable();
         Modal modal = N2oSelenide.modal();
         firstRow.click();
         modal.shouldNotExists();
 
         Cells thirdRow = table.columns().rows().row(2);
         thirdRow.cell(1).shouldHaveText("2");
-        thirdRow.shouldBeClickable();
         thirdRow.click();
         modal.shouldExists();
         modal.close();

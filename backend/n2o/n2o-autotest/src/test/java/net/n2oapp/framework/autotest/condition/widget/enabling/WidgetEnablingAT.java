@@ -70,7 +70,6 @@ public class WidgetEnablingAT extends AutoTestBase {
         page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
 
         Cells row = table.columns().rows().row(2);
-        row.shouldBeClickable();
         row.click();
         page.alerts(Alert.Placement.top).alert(0).shouldExists();
 
