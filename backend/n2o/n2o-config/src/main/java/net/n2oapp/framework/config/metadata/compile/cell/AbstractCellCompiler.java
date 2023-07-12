@@ -38,8 +38,6 @@ public abstract class AbstractCellCompiler<D extends AbstractCell, S extends N2o
                 compiled.setId(column.getId());
                 compiled.setFieldKey(column.getTextFieldId());
                 compiled.setTooltipFieldId(column.getTooltipFieldId());
-                compiled.setHideOnBlur(p.cast(column.getHideOnBlur(),
-                        () -> p.resolve(property("n2o.api.widget.table.column.hide_on_blur"), Boolean.class)));
                 if (column.getContentAlignment() != null)
                     compiled.getElementAttributes().put("alignment", column.getContentAlignment().getId());
             }

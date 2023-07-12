@@ -108,7 +108,6 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((AbstractCell) table.getComponent().getBody().getCells().get(0)).getElementAttributes().get("style"), is("marginLeft:10px"));
         assertThat(((TextCell) table.getComponent().getBody().getCells().get(0)).getElementAttributes().get("className"), is("`test == 1 ? 'css1' : test == 2 ? 'css2' : 'css3'`"));
         assertThat(((TextCell) table.getComponent().getBody().getCells().get(0)).getFormat(), is("password"));
-        assertThat(((TextCell) table.getComponent().getBody().getCells().get(0)).getHideOnBlur(), is(true));
         assertThat(table.getComponent().getBody().getCells().get(2).getId(), is("cell2"));
         assertThat(table.getComponent().getBody().getCells().get(3).getId(), is("cell3"));
 

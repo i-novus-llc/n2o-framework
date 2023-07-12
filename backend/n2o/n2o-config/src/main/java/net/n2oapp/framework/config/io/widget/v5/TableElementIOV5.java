@@ -64,7 +64,6 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPosition.class);
         p.anyChildren(e, "dependencies", c::getColumnVisibilities, c::setColumnVisibilities, p.oneOf(AbstractColumn.ColumnVisibility.class)
                 .add("visibility", AbstractColumn.ColumnVisibility.class, this::dependency));
-        p.attributeBoolean(e, "hide-on-blur", c::getHideOnBlur, c::setHideOnBlur);
         p.anyAttributes(e, c::getExtAttributes, c::setExtAttributes);
     }
 

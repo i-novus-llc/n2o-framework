@@ -5,7 +5,7 @@
        object-id="stub" icon="testIcon" class="testClass" route="testRoute" selection="radio" master-param="uid"
        width="300px" height="300px" text-wrap="false" children="expand">
     <columns>
-        <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left" hide-on-blur="true"
+        <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left"
                 src="MyTableHeader" class="my-table-header" style="color: red">
             <toolbar generate="update,delete">
                 <sub-menu style="margin-left:10px;width:300px" show-toggle-icon="false">

@@ -4,7 +4,7 @@
         <columns>
             <column text-field-id="id"/>
             <column text-field-id="name"/>
-            <column text-field-id="options" hide-on-blur="true">
+            <column text-field-id="options">
                 <toolbar>
                     <button label="Кнопка"/>
                     <sub-menu label="Меню">

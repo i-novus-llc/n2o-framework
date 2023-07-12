@@ -27,8 +27,5 @@ public abstract class AbstractCell implements Cell, JsonPropertiesAware {
     @JsonProperty
     private String tooltipFieldId;
     @JsonProperty
-    @Deprecated
-    private Boolean hideOnBlur;
-    @JsonProperty
     private Map<String, String> elementAttributes = new HashMap<>();
 }

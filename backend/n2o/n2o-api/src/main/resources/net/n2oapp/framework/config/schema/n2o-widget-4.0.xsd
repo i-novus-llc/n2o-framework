@@ -369,11 +369,6 @@
                 <xs:documentation>Поле выборки, отображаемое в ячейке в виде текста.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="hide-on-blur" type="xs:boolean" default="false">
-            <xs:annotation>
-                <xs:documentation>Скрытие ячейки при наведении на строку.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="tooltip-field-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>

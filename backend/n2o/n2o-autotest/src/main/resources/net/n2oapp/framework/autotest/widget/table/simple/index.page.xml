@@ -1,40 +1,44 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Название страницы" route="/">
-    <table id="test" src="AdvancedTableWidget" class="n2o" size="5" query-id="testTable" route="/table"
-           fetch-on-init="true">
-        <columns>
-            <column text-field-id="id">
-                <dependencies>
-                    <visibility >false</visibility>
-                </dependencies>
-            </column>
-            <column text-field-id="name" label="Имя" width="50px" style="color: red"/>
-            <column text-field-id="surname" label="Фамилия" icon="fa fa-plus" class="font-italic">
-                <icon type="iconAndText" icon="fa fa-plus"/>
-            </column>
-            <column text-field-id="birthday" label="Дата рождения" sorting-direction="asc"/>
-        </columns>
-        <rows>
-            <switch value-field-id="gender.id">
-                <case value="1">bg-danger</case>
-                <case value="2">bg-info</case>
-                <default>bg-success</default>
-            </switch>
-        </rows>
-        <pagination next="true" prev="true"/>
-        <filters>
-            <input-text id="name" label="Имя"/>
-            <select id="gender" label="Пол">
-                <options>
-                    <option id="1" name="Мужской"/>
-                    <option id="2" name="Женский"/>
-                </options>
-            </select>
-            <search-buttons id="testId" search-label="searchLabel" reset-label="resetLabel"
-                            clear-ignore="name, surname"/>
-        </filters>
-        <toolbar place="topRight" generate="tableSettings"/>
-    </table>
-</simple-page>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Название страницы" route="/">
+    <datasources>
+        <datasource id="ds1" size="5" query-id="testTable"/>
+    </datasources>
+    <regions>
+        <table id="test" src="AdvancedTableWidget" class="n2o" datasource="ds1">
+            <columns>
+                <column text-field-id="id">
+                    <dependencies>
+                        <visibility datasource="ds1" model="filter">name=='test'</visibility>
+                    </dependencies>
+                </column>
+                <column text-field-id="name" label="Имя" width="50px" style="color: red"/>
+                <column text-field-id="surname" label="Фамилия" icon="fa fa-plus" class="font-italic">
+                    <icon type="iconAndText" icon="fa fa-plus"/>
+                </column>
+                <column text-field-id="birthday" label="Дата рождения" sorting-direction="asc"/>
+            </columns>
+            <rows>
+                <switch value-field-id="gender.id">
+                    <case value="1">bg-danger</case>
+                    <case value="2">bg-info</case>
+                    <default>bg-success</default>
+                </switch>
+            </rows>
+            <pagination next="true" prev="true"/>
+            <filters>
+                <input-text id="name" label="Имя"/>
+                <select id="gender" label="Пол">
+                    <options>
+                        <option id="1" name="Мужской"/>
+                        <option id="2" name="Женский"/>
+                    </options>
+                </select>
+                <search-buttons id="testId" search-label="searchLabel" reset-label="resetLabel"
+                                clear-ignore="name, surname"/>
+            </filters>
+            <toolbar place="topRight" generate="tableSettings"/>
+        </table>
+    </regions>
+</page>
 
 
