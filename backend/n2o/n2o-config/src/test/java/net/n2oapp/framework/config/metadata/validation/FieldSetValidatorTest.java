@@ -74,4 +74,12 @@ public class FieldSetValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testInvalidColumnSize.widget.xml"));
         assertEquals("Размер колонки филдсета виджета 'testInvalidColumnSize' должен иметь значение от 1 до 12", exception.getMessage());
     }
+
+    @Test
+    void testEmptyMultiSet() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testEmptyMultiSet.widget.xml"));
+        assertEquals("Мультифилдсет  виджета 'testEmptyMultiSet' имеет пустое тело", exception.getMessage());
+    }
 }
