@@ -1,12 +1,16 @@
 package net.n2oapp.framework.config.metadata.validation.standard.button;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oCustomAction;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +22,7 @@ import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
  * Валидатор исходной модели кнопки
  */
 @Component
-public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassAware {
+public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassAware  {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -28,7 +32,10 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
     @Override
     public void validate(N2oButton source, SourceProcessor p) {
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
         checkDatasource(source, datasourceIdsScope);
+        if (widgetScope == null)
+            checkDatasourceForConfirm(source);
         checkValidateDatasource(source, datasourceIdsScope);
 
         if (isNotEmpty(source.getActions()))
@@ -61,9 +68,22 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
             String button = ValidationUtils.getIdOrEmptyString(source.getId());
             for (String validateDs : source.getValidateDatasourceIds()) {
                 ValidationUtils.checkDatasourceExistence(validateDs, datasourceIdsScope,
-                        String.format("Атрибут \"validate-datasources\" кнопки %s содержит несуществующий источник данных '%s'",
+                        String.format("Атрибут 'validate-datasources' кнопки %s содержит несуществующий источник данных '%s'",
                                 button, validateDs));
             }
         }
+    }
+
+    /**
+     * Проверка существования источника данных для кнопки, если
+     * confirm или confirm-text являются ссылками
+     *
+     * @param source             Исходная модель кнопки
+     */
+    private void checkDatasourceForConfirm(N2oButton source) {
+        if ((StringUtils.isLink(source.getConfirm()) || StringUtils.isLink(source.getConfirmText())) && source.getDatasourceId() == null)
+            throw new N2oMetadataValidationException(String.format("Кнопка %s имеет ссылки в 'confirm' атрибутах, но не ссылается на какой-либо источник данных",
+                    ValidationUtils.getIdOrEmptyString(source.getId())));
+
     }
 }
