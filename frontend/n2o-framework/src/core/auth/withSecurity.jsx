@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import get from 'lodash/get'
 import set from 'lodash/set'
+import cloneDeep from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
 import PropTypes from 'prop-types'
 import { compose, getContext } from 'recompose'
@@ -25,7 +26,6 @@ export function withSecurityList(WrappedComponent, path) {
     class Security extends Component {
         state = {
             itemsWithSuccessfulSecurity: [],
-
         }
 
         async componentDidMount() {
@@ -73,8 +73,7 @@ export function withSecurityList(WrappedComponent, path) {
 
         resolveProps = (props) => {
             const { itemsWithSuccessfulSecurity } = this.state
-
-            const finalProps = { ...props }
+            const finalProps = path.includes('.') ? cloneDeep(props) : props
 
             return set(finalProps, path, itemsWithSuccessfulSecurity)
         }
@@ -92,6 +91,8 @@ export function withSecurityList(WrappedComponent, path) {
         checkSecurity: PropTypes.func,
         user: PropTypes.object,
     }
+
+    Security.displayName = 'Security'
 
     return withSecurity(Security)
 }

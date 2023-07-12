@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { defaultTo } from 'lodash'
 import { useSelector } from 'react-redux'
 import omit from 'lodash/omit'
+import { compose } from 'recompose'
 
 import { N2OPagination } from '../Table/N2OPagination'
 import WidgetLayout from '../StandardWidget'
@@ -14,6 +15,7 @@ import { ModelPrefix } from '../../../core/datasource/const'
 import { getContainerColumns } from '../../../ducks/columns/selectors'
 import { SelectionType, TableActions, TableContainer } from '../../Table'
 import { useCheckAccess } from '../../../core/auth/SecurityController'
+import { withSecurityList } from '../../../core/auth/withSecurity'
 
 import { useExpandAllRows } from './hooks/useExpandAllRows'
 import { useResolveCellsVisible } from './hooks/useResolveCellsVisible'
@@ -157,7 +159,6 @@ const AdvancedTableContainer = (props) => {
     )
 }
 
-export const AdvancedTableWidget = WidgetHOC(WithActiveModel(
-    AdvancedTableContainer,
-    shouldSetResolveModel,
-))
+export const AdvancedTableWidget = compose(
+    WidgetHOC,
+)(WithActiveModel(withSecurityList(AdvancedTableContainer, 'table.header.cells'), shouldSetResolveModel))

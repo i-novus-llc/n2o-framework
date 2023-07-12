@@ -14,6 +14,7 @@ type TColumnState = Record<string, {
 // eslint-disable-next-line max-len
 export const useResolveCellsVisible = <Cell extends TCell, HeaderCell extends TCell>(cells: { body: Cell[], header: HeaderCell[] }, columnsState: TColumnState) => (
     useMemo(() => {
+        const isExistHeaderCells = new Set(cells.header.map(({ id }) => id))
         const filterByVisible = (id: string) => {
             const cellState = columnsState[id]
 
@@ -24,7 +25,8 @@ export const useResolveCellsVisible = <Cell extends TCell, HeaderCell extends TC
             return true
         }
         const header = cells.header.filter(cellData => filterByVisible(cellData.id))
-        const body = cells.body.filter(cellData => filterByVisible(cellData.id))
+        const body = cells.body.filter(cellData => (
+            isExistHeaderCells.has(cellData.id) ? filterByVisible(cellData.id) : false))
 
         return { body, header }
     }, [cells, columnsState])
