@@ -23,6 +23,7 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
         expandedRows,
         selectedRows,
         actionListener,
+        errorComponent: ErrorComponent,
     } = props
     const { width, height, rowSelection, body, header } = tableConfig
     const areAllRowsSelected = useMemo(() => {
@@ -55,19 +56,23 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
                             areAllRowsSelected={areAllRowsSelected}
                         />
 
-                        <TableBody
-                            hasSecurityAccess={hasSecurityAccess}
-                            focusedRowValue={focusedRowValue}
-                            treeDataKey="children"
-                            selectedKey="id"
-                            selectedRows={selectedRows}
-                            selection={rowSelection}
-                            expandedRows={expandedRows}
-                            row={body.row}
-                            cells={cells.body}
-                            rowRenderFieldKey="id"
-                            data={data}
-                        />
+                        {ErrorComponent ? (
+                            <ErrorComponent />
+                        ) : (
+                            <TableBody
+                                hasSecurityAccess={hasSecurityAccess}
+                                focusedRowValue={focusedRowValue}
+                                treeDataKey="children"
+                                selectedKey="id"
+                                selectedRows={selectedRows}
+                                selection={rowSelection}
+                                expandedRows={expandedRows}
+                                row={body.row}
+                                cells={cells.body}
+                                rowRenderFieldKey="id"
+                                data={data}
+                            />
+                        )}
                     </Table>
                 </div>
             </TableActionsProvider>
