@@ -18,7 +18,7 @@ export const HeaderFilter = memo<HeaderFilterProps>(({ filterControl, id }) => {
         dataSourceModelByPrefixSelector(refTableProps.current.id, ModelPrefix.filter)(state)?.[id]
     ))
 
-    const onFilter = useChangeFilter(id as string)
+    const onFilter = useChangeFilter(refTableProps.current.id)
 
     return (
         <AdvancedTableFilter
