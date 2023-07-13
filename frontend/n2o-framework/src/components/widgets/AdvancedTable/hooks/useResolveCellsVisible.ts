@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
 
+import { getAllValuesByKey } from '../../../Table/utils'
+
 type TCell = {
     [x: string]: unknown
     id: string
@@ -14,7 +16,8 @@ type TColumnState = Record<string, {
 // eslint-disable-next-line max-len
 export const useResolveCellsVisible = <Cell extends TCell, HeaderCell extends TCell>(cells: { body: Cell[], header: HeaderCell[] }, columnsState: TColumnState) => (
     useMemo(() => {
-        const isExistHeaderCells = new Set(cells.header.map(({ id }) => id))
+        const allHeaderCellIds = getAllValuesByKey(cells.header, { keyToIterate: 'children', keyToExtract: 'id' })
+        const isExistHeaderCells = new Set(allHeaderCellIds)
         const filterByVisible = (id: string) => {
             const cellState = columnsState[id]
 
