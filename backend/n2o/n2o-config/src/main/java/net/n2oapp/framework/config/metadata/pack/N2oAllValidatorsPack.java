@@ -2,9 +2,9 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.application.ApplicationValidator;
-import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.action.*;
+import net.n2oapp.framework.config.metadata.validation.standard.application.ApplicationValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.application.SidebarValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.button.ButtonValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.button.SubMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.cell.*;
