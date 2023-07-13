@@ -12,7 +12,6 @@ import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oInputSelect;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -20,7 +19,6 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Keys;
 
 import static net.n2oapp.framework.autotest.N2oSelenide.page;
 
@@ -164,7 +162,7 @@ public class InputSelectAT extends AutoTestBase {
         input.clearItems("Two", "One");
         input.shouldBeEmpty();
 
-        // проверяем удаление элементов через Backspa
+        // проверяем удаление элементов через Backspace
         input.openPopup();
         input.dropdown().selectMulti(2, 1, 0);
         input.shouldSelectedMulti("Three", "Two", "One");
