@@ -23,7 +23,7 @@ function SidebarDropdown({
     title,
     children,
     icon,
-    type,
+    src,
     showContent,
     isMiniView,
     id,
@@ -57,7 +57,7 @@ function SidebarDropdown({
                         className={itemDropdownClass}
                         id={id}
                     >
-                        <Icon icon={icon} title={title} type={type} sidebarOpen={sidebarOpen} hasSubItems />
+                        <Icon icon={icon} title={title} type={src} sidebarOpen={sidebarOpen} hasSubItems />
                         <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
                         <span className={classNames(
                             'n2o-sidebar__item-title',
@@ -95,7 +95,6 @@ SidebarDropdown.propTypes = {
     showContent: PropTypes.bool,
     isMiniView: PropTypes.bool,
     icon: PropTypes.string,
-    type: PropTypes.string,
     id: PropTypes.string,
     imageSrc: PropTypes.string,
     imageShape: PropTypes.string,

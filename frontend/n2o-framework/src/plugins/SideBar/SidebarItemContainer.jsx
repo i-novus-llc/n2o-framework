@@ -7,7 +7,7 @@ import isEmpty from 'lodash/isEmpty'
 import { getFromSource } from '../utils'
 import { id as generateId } from '../../utils/id'
 import { Action } from '../Action/Action'
-import { OUTER_LINK_TYPE, ITEM_TYPE } from '../constants'
+import { OUTER_LINK_TYPE, ITEM_SRC } from '../constants'
 
 import SidebarDropdown from './SidebarDropdown'
 import { OuterLink } from './OuterLink'
@@ -41,7 +41,7 @@ export function SidebarItemContainer({
     level = 1,
 }) {
     const item = getFromSource(itemProps, datasources, datasource, models)
-    const { type, linkType, items = [] } = item
+    const { src, linkType, items = [] } = item
 
     const renderAction = item => (
         <Action
@@ -134,12 +134,12 @@ export function SidebarItemContainer({
         )
     }
 
-    const renderItem = (type) => {
-        if (type === ITEM_TYPE.ACTION) {
+    const renderItem = (src) => {
+        if (src === ITEM_SRC.ACTION) {
             return renderAction(item)
         }
 
-        if (type === ITEM_TYPE.LINK) {
+        if (src === ITEM_SRC.LINK) {
             return renderLink(item)
         }
 
@@ -152,11 +152,11 @@ export function SidebarItemContainer({
                 'n2o-sidebar__item-wrapper',
                 className,
                 {
-                    'n2o-sidebar__item--dropdown': type === ITEM_TYPE.DROPDOWN,
+                    'n2o-sidebar__item--dropdown': src === ITEM_SRC.DROPDOWN,
                 },
             )}
         >
-            {renderItem(type)}
+            {renderItem(src)}
         </li>
     )
 }

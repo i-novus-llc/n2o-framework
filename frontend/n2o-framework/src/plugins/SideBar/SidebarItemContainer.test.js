@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 import { SidebarItemContainer } from './SidebarItemContainer'
+import {ITEM_SRC} from '../constants'
 
 const setup = props => mount(
     <Router>
@@ -13,7 +14,7 @@ describe('Тесты SidebarItemContainer', () => {
     it('Отрисовка link', () => {
         const wrapper = setup({
             itemProps: {
-                type: 'link',
+                src: ITEM_SRC.LINK,
                 title: 'test',
                 href: 'testHref',
             },
@@ -23,7 +24,7 @@ describe('Тесты SidebarItemContainer', () => {
     it('Отрисовка Dropdown', () => {
         const wrapper = setup({
             itemProps: {
-                type: 'dropdown',
+                src: ITEM_SRC.DROPDOWN,
                 title: 'test',
             },
         })

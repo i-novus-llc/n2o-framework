@@ -2,13 +2,13 @@ import React from 'react'
 import classNames from 'classnames'
 import { BadgeProps } from 'reactstrap'
 
-import { NavItemImage } from '../../../../../components/snippets/NavItemImage/NavItemImage'
-import { Badge } from '../../../../../components/snippets/Badge/Badge'
+import { NavItemImage } from '../../../../../../components/snippets/NavItemImage/NavItemImage'
+import { Badge } from '../../../../../../components/snippets/Badge/Badge'
 
 interface ILinkBody {
     imageSrc?: string
     icon?: string
-    title: string
+    title?: string
     imageShape?: string
     badge?: BadgeProps
 }
