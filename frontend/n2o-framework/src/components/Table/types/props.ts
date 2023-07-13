@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, TdHTMLAttributes } from 'react'
+import { FC, TdHTMLAttributes, VFC } from 'react'
 
 import { SelectionType, TableActions } from '../enum'
 import { SortDirection } from '../../../core/datasource/const'
@@ -18,6 +18,7 @@ export type TableWidgetContainerProps = {
     expandedRows: ExpandedRows
     selectedRows: SelectedRows
     actionListener(action: TableActions, payload: any): void
+    errorComponent?: VFC
     cells: {
         body: Cell[]
         header: HeaderCell[]

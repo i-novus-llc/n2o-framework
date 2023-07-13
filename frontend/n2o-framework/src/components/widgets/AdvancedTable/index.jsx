@@ -159,6 +159,8 @@ const AdvancedTableContainer = (props) => {
     )
 }
 
+AdvancedTableContainer.displayName = 'AdvancedTableWidget'
+
 export const AdvancedTableWidget = compose(
     WidgetHOC,
 )(WithActiveModel(withSecurityList(AdvancedTableContainer, 'table.header.cells'), shouldSetResolveModel))
