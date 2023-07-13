@@ -14,6 +14,7 @@ import snippets from '../../components/snippets'
 import overlays from '../../components/core/overlays'
 import * as templates from '../../components/core/templates/templates'
 import * as breadcrumbs from '../../components/core/Breadcrumb/breadcrumb'
+import { headerItems } from '../../plugins/Header/SimpleHeader/Menu/ContextItems'
 
 export const factories = {
     controls,
@@ -30,6 +31,7 @@ export const factories = {
     templates,
     overlays,
     breadcrumbs,
+    headerItems,
 }
 
 export default function createFactoryConfig(customConfig = {}) {

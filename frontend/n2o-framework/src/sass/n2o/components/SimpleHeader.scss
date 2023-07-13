@@ -68,6 +68,16 @@
             .dropdown-item.active::before {
                 display: none;
             }
+
+            .static-menu-item {
+                @include navItem;
+
+                cursor: default;
+            }
+
+            .dropdown-item.nav-item.static-menu-item:hover {
+                @include dropdownItemHover;
+            }
         }
     }
 

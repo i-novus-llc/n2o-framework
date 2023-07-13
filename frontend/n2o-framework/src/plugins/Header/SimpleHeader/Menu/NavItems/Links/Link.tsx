@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { LinkTarget } from '../../../../../constants/linkTarget'
-import { IItem } from '../../../../utils'
+import { LinkTarget } from '../../../../../../constants/linkTarget'
+import { IItem } from '../../Item'
 
 import { OuterLink } from './OuterLink'
 import { LinkBody } from './LinkBody'

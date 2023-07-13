@@ -1,39 +1,24 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import {
     Dropdown as DropdownParent,
     DropdownMenu,
     DropdownItem,
-    ButtonDropdownProps,
     DropdownToggle,
 } from 'reactstrap'
 import classNames from 'classnames'
 
-import { IItem } from '../../../../utils'
-import { Link } from '../Links/Link'
 import { LinkBody } from '../Links/LinkBody'
-import { ITEM_TYPE } from '../../../../constants'
-import { Action } from '../../../../Action/Action'
-
-interface IDropdown {
-    items: IItem[]
-    active: boolean
-    title: string
-    className?: string
-    nested?: boolean
-    icon?: string
-    imageSrc?: string
-    imageShape?: string
-    direction?: ButtonDropdownProps['direction']
-    recursiveClose?: boolean
-    onItemClick?(): void
-    level?: number
-}
+import { IContextComponent, IDropdown } from '../../Item'
+import { ITEM_SRC } from '../../../../../constants'
+import { FactoryContext } from '../../../../../../core/factory/context'
+import { FactoryLevels } from '../../../../../../core/factory/factoryLevels'
 
 export function Dropdown(props: IDropdown) {
     const [isOpen, setOpen] = useState(false)
 
     const toggle = useCallback(() => setOpen(!isOpen), [isOpen])
     const forceParentClose = useCallback(() => setOpen(false), [setOpen])
+    const { getComponent } = useContext(FactoryContext)
 
     const {
         items,
@@ -67,11 +52,7 @@ export function Dropdown(props: IDropdown) {
             </DropdownToggle>
             <DropdownMenu flip className={classNames(`menu-level-${level}`, { nested })}>
                 {items.map((item) => {
-                    const { items: nestedItems, title, type } = item
-
-                    if (type === ITEM_TYPE.ACTION) {
-                        return <Action item={item} from="HEADER" className="dropdown-item" />
-                    }
+                    const { items: nestedItems, title, src } = item
 
                     if (nestedItems) {
                         const onItemClick = () => {
@@ -89,14 +70,26 @@ export function Dropdown(props: IDropdown) {
                                 level={level + 1}
                                 recursiveClose={recursiveClose}
                                 onItemClick={onItemClick}
+                                direction="right"
                                 nested
                             />
                         )
                     }
 
+                    const ContextComponent: IContextComponent = getComponent(src, FactoryLevels.HEADER_ITEMS)
+
+                    if (!ContextComponent) {
+                        return null
+                    }
+
                     return (
-                        <DropdownItem onClick={onItemClick}>
-                            <Link item={item} active={active} className="dropdown-item" />
+                        <DropdownItem active={active} onClick={onItemClick} disabled={src === ITEM_SRC.STATIC}>
+                            <ContextComponent
+                                item={item}
+                                from="HEADER"
+                                className={classNames('dropdown-item', className)}
+                                active={active}
+                            />
                         </DropdownItem>
                     )
                 })

@@ -4,7 +4,7 @@ import classNames from 'classnames'
 interface INavItemImage {
     imageSrc?: string
     imageShape?: string
-    title: string
+    title?: string
 }
 
 export const NavItemImage = (props: INavItemImage) => {
