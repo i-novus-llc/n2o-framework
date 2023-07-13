@@ -3,14 +3,13 @@ package net.n2oapp.framework.config.metadata.validation.standard.query;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import net.n2oapp.framework.config.metadata.compile.InvocationScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
@@ -131,11 +130,11 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
      */
     private void checkInvocations(N2oQuery query, SourceProcessor p) {
         if (query.getLists() != null)
-            validateInvocations(query.getLists(), p);
+            validateInvocations(query.getLists(), query.getId(), p);
         if (query.getCounts() != null)
-            validateInvocations(query.getCounts(), p);
+            validateInvocations(query.getCounts(), query.getId(), p);
         if (query.getUniques() != null)
-            validateInvocations(query.getUniques(), p);
+            validateInvocations(query.getUniques(), query.getId(), p);
     }
 
     /**
@@ -144,11 +143,13 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
      * @param selections Массив selection элементов в выборке
      * @param p          Процессор исходных метаданных
      */
-    private void validateInvocations(N2oQuery.Selection[] selections, SourceProcessor p) {
+    private void validateInvocations(N2oQuery.Selection[] selections, String queryId, SourceProcessor p) {
+        InvocationScope invocationScope = new InvocationScope();
+        invocationScope.setQueryId(queryId);
         Arrays.stream(selections)
                 .map(N2oQuery.Selection::getInvocation)
                 .filter(Objects::nonNull)
-                .forEach(p::validate);
+                .forEach(invocation -> p.validate(invocation, invocationScope));
     }
 
 
