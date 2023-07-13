@@ -10,6 +10,6 @@ public class N2oTableSimpleHeader extends N2oTableHeader implements TableSimpleH
 
     @Override
     public void shouldHaveCssClass(String cssClass) {
-        element().$(".n2o-advanced-table-header-cell-content").shouldHave(Condition.cssClass(cssClass));
+        element().shouldHave(Condition.cssClass(cssClass));
     }
 }

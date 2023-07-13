@@ -48,8 +48,6 @@ public abstract class AbstractColumn implements IdAware, Source, ExtensionAttrib
     @N2oAttribute("Прилипание столбца к краю")
     private ColumnFixedPosition fixed;
     private ColumnVisibility[] columnVisibilities;
-    @N2oAttribute("Скрытие ячейки при наведении на строку")
-    private Boolean hideOnBlur;
     @N2oAttribute("Выравнивание заголовка")
     private Alignment alignment;
     @N2oAttribute("Выравнивание содержимого в ячейках столбца")

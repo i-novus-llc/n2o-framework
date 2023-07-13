@@ -34,7 +34,7 @@
                 </group>
             </toolbar>
             <columns>
-                <column text-field-id="id" hide-on-blur="true" src="MyTableHeader" class="my-table-header"
+                <column text-field-id="id" src="MyTableHeader" class="my-table-header"
                         style="color: red">
                     <text format="password" style="margin-left:10px">
                         <switch value-field-id="test">
