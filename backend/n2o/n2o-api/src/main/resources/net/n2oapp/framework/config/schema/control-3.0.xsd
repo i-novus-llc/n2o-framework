@@ -5,6 +5,7 @@
            xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
            xmlns:btn="http://n2oapp.net/framework/config/schema/button-2.0"
+           xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
            xmlns:dmn="http://n2oapp.net/framework/config/schema/base/domain-base-1.0">
 
 
@@ -914,7 +915,7 @@
                         <xs:documentation>CSS класс уведомления.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="color" type="xs:string" default="secondary">
+                <xs:attribute name="color" type="bs:colorDefinition" default="secondary">
                     <xs:annotation>
                         <xs:documentation>Цвет уведомления.</xs:documentation>
                     </xs:annotation>
@@ -1044,9 +1045,9 @@
                         <xs:documentation>Отображение полосок на шкале прогресса.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="color" type="xs:string">
+                <xs:attribute name="color" type="bs:colorDefinition">
                     <xs:annotation>
-                        <xs:documentation>Цвет шкалы прогресса.</xs:documentation>
+                        <xs:documentation>Цвет шкалы прогресса. Возможно использование плейсхолдеров.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="bar-class" type="xs:string">
@@ -1437,7 +1438,7 @@
                         <xs:documentation>Идентификатор поля</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="color" type="xs:string">
+                <xs:attribute name="color" type="bs:colorDefinition">
                     <xs:annotation>
                         <xs:documentation>Цвет индикатора.</xs:documentation>
                     </xs:annotation>
@@ -2217,5 +2218,4 @@
             <xs:enumeration value="rounded"/>
         </xs:restriction>
     </xs:simpleType>
-
 </xs:schema>

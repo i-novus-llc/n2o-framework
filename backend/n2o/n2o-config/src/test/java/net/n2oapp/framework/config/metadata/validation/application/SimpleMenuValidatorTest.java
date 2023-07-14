@@ -35,7 +35,7 @@ public class SimpleMenuValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testMenuItemWithoutAction.menu.xml"));
-        assertEquals("Не задано действие для 'menu-item'", exception.getMessage());
+        assertEquals("Не задано действие для <menu-item>", exception.getMessage());
     }
 
     @Test
@@ -43,7 +43,7 @@ public class SimpleMenuValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testMenuItemWithoutName.menu.xml"));
-        assertEquals("Не задан 'name' для 'menu-item'", exception.getMessage());
+        assertEquals("Не задан 'name' для <menu-item>", exception.getMessage());
     }
 
     @Test
@@ -51,6 +51,14 @@ public class SimpleMenuValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testDropdownMenuWithoutName.menu.xml"));
-        assertEquals("Не задан 'name' для 'dropdown-menu'", exception.getMessage());
+        assertEquals("Не задан 'name' для <dropdown-menu>", exception.getMessage());
+    }
+
+    @Test
+    void testColor() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testMenuItemBadgeColor.menu.xml"));
+        assertEquals("<menu-item> использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
     }
 }

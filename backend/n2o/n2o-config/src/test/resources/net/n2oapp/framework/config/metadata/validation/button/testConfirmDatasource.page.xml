@@ -7,7 +7,7 @@
     <regions>
         <form datasource="ds1">
             <toolbar>
-                <button confirm="{test}" />
+                <button confirm="{test}" datasource="ds1"/>
             </toolbar>
         </form>
     </regions>

@@ -19,6 +19,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.menu.SimpleMenuV
 import net.n2oapp.framework.config.metadata.validation.standard.object.ObjectValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.*;
 import net.n2oapp.framework.config.metadata.validation.standard.query.QueryValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.regions.PanelRegionValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.regions.ScrollspyValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.regions.TabsValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.*;
@@ -50,6 +51,8 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new CardsValidator(), new ListWidgetValidator(), new TabsValidator(), new ScrollspyValidator(), new SwitchCellValidator(),
                 new LinkCellValidator(), new BadgeCellValidator(), new IconCellValidator(), new EditCellValidator(),
                 new ToolbarCellValidator(), new ListCellValidator(), new MultiColumnValidator(), new SimpleColumnValidator(),
-                new FilterColumnValidator(), new BlockValidator());
+                new FilterColumnValidator(), new BlockValidator(),
+                new ProgressBarCellValidator(), new PanelRegionValidator(),
+                new ProgressValidator(), new StatusValidator(), new AlertFieldValidator());
     }
 }
