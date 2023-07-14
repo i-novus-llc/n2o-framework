@@ -3,6 +3,7 @@
            xmlns:acn="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:ctr2="http://n2oapp.net/framework/config/schema/control-3.0"
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
+           xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:element name="text" type="textDefinition"/>
@@ -173,9 +174,9 @@
                 <xs:sequence>
                     <xs:element name="switch" type="switchDefinition" minOccurs="0" maxOccurs="1"/>
                 </xs:sequence>
-                <xs:attribute name="color" type="xs:string" use="optional">
+                <xs:attribute name="color" type="bs:colorDefinition" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Цвет элементов.</xs:documentation>
+                        <xs:documentation>Цвет элементов. Возможно использование плейсхолдеров</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="size" type="xs:string" use="optional">
@@ -248,9 +249,9 @@
                 <xs:annotation>
                     <xs:documentation>Индикатор прогресса.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="color" type="xs:string" use="optional">
+                <xs:attribute name="color" type="bs:colorDefinition" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Цвет индикатора.</xs:documentation>
+                        <xs:documentation>Цвет индикатора. Возможно использование плейсхолдеров.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="active" type="xs:boolean" use="optional" default="false">
@@ -394,9 +395,9 @@
                         <xs:documentation>Расположение относительно текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="color" type="xs:string" use="optional">
+                <xs:attribute name="color" type="bs:colorDefinition" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Цвет значка.</xs:documentation>
+                        <xs:documentation>Цвет значка. Возможно использование плейсхолдеров.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="text" type="xs:string" use="optional">
@@ -760,5 +761,4 @@
             <xs:enumeration value="rounded"/>
         </xs:restriction>
     </xs:simpleType>
-
 </xs:schema>

@@ -182,14 +182,14 @@
         <xs:attribute name="color" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Цвет области
+                    Цвет области в формате HEX
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="stroke-color" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Цвет линии
+                    Цвет линии в формате HEX
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -247,7 +247,7 @@
         <xs:attribute name="color" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Цвет столбцов
+                    Цвет столбцов в формате HEX
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -298,7 +298,7 @@
         <xs:attribute name="color" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Цвет линии
+                    Цвет линии в формате HEX
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -412,7 +412,7 @@
         <xs:attribute name="color" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Цвет круговой области
+                    Цвет круговой области в формате HEX
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

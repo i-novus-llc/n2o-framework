@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
+           xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
            xmlns:toolbar="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -1269,10 +1270,10 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="color" type="xs:string" default="secondary">
+                <xs:attribute name="color" type="bs:colorDefinition" default="secondary">
                     <xs:annotation>
                         <xs:documentation>
-                            Цвет уведомления
+                            Цвет уведомления. Возможно использование плейсхолдеров
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

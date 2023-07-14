@@ -269,7 +269,7 @@ n2o.api.widget.calendar.time_slot_count=2
 
 |Наименование|Тип                                                                                                                                                                                                                                                                           |Описание                                                                                                                  |
 |------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
-|id          |dateFormat, dayFormat, weekdayFormat, timeGutterFormat, monthHeaderFormat, dayRangeHeaderFormat, dayHeaderFormat, agendaHeaderFormat, selectRangeFormat, agendaDateFormat, agendaTimeFormat, agendaTimeRangeFormat, eventTimeRangeFormat, eventTimeRangeStartFormat, eventTimeRangeEndFormat|Тип формата. [Список всех возможных форматов](http://jquense.github.io/react-big-calendar/examples/index.html#prop-formats)|
+|id          |dateFormat dayFormat weekdayFormat timeGutterFormat monthHeaderFormat dayRangeHeaderFormat dayHeaderFormat agendaHeaderFormat selectRangeFormat agendaDateFormat agendaTimeFormat agendaTimeRangeFormat eventTimeRangeFormat eventTimeRangeStartFormat eventTimeRangeEndFormat|Тип формата. [Список всех возможных форматов](http://jquense.github.io/react-big-calendar/examples/index.html#prop-formats)|
 |value       |Строка                                                                                                                                                                                                                                                                        |Значение формата                                                                                                          |
 
 **Пример**
@@ -316,7 +316,7 @@ n2o.api.widget.calendar.time_slot_count=2
 |checkboxes     |true false                |Наличие чекбоксов в первом столбце таблицы                      |false                |
 |check-on-select|true false                |Срабатывание (включение/выключение) чекбокса при клике по строке|true                 |
 |auto-select    |true false                |Автоматическое выделение первой строки таблицы                  |true                 |
-|children       |collapse, expand          |Отображение дочерних записей в свернутом или раскрытом виде     |collapse             |
+|children       |collapse expand           |Отображение дочерних записей в свернутом или раскрытом виде     |collapse             |
 
 :::note
 Для выравнивания содержимого ячеек по верхнему или по нижнему краю используйте `class="text-align-top"` или `class="text-align-bottom"`
@@ -398,13 +398,13 @@ n2o.api.widget.table.checkboxes=false
 |style            |Строка                                   |Стиль заголовка столбца таблицы                   |                                                            |
 |text-field-id    |Ссылка на поле выборки                   |Поле выборки, отображаемое в столбце в виде текста|                                                            |
 |tooltip-field-id |Ссылка на поле выборки                   |Поле выборки, отображаемое при наведении на ячейку|                                                            |
-|visible          |true / false                             |Столбец видимый по умолчанию?                     |true                                                        |
+|visible          |true false                               |Столбец видимый по умолчанию?                     |true                                                        |
 |width            |Строка                                   |Ширина столбца. Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
 |resizable        |true false                               |Можно ли изменить ширину столбца                  |false                                                       |
 |label            |Строка                                   |Наименование заголовка столбца                    |Значение поля выборки `text-field-id`, иначе значение `id`  |
 |icon             |[CSS класс](http://fontawesome.io/icons/)|Иконка заголовка столбца                          |                                                            |
 |sorting-field-id |Ссылка на поле выборки                   |Поле, по которому сортируется столбец             |Значение `text-field-id`                                    |
-|sorting-direction|asc, desc                                |Направление сортировки по умолчанию               |                                                            |
+|sorting-direction|asc desc                                 |Направление сортировки по умолчанию               |                                                            |
 |fixed            |left right                               |Прилипание столбца к краю                         |                                                            |
 |hide-on-blur     |true false                               |Скрытие ячейки при наведении на строку            |false                                                       |
 |alignment        |left right center                        |Выравнивание заголовка столбца таблицы            |left                                                        |
@@ -487,13 +487,13 @@ Java Script выражение.
 |id               |Строка                                   |Идентификатор столбца                             |Значение `text-field-id`                                  |
 |text-field-id    |Ссылка на поле выборки                   |Поле выборки, отображаемое в столбце              |                                                          |
 |tooltip-field-id |Ссылка на поле выборки                   |Поле выборки, отображаемое при наведении на ячейку|                                                          |
-|visible          |true / false                             |Столбец видимый по умолчанию?                     |true                                                      |
+|visible          |true false                               |Столбец видимый по умолчанию?                     |true                                                      |
 |width            |Строка                                   |Ширина столбца. Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
 |resizable        |true false                               |Можно ли изменить ширину столбца                  |false                                                     |
 |label            |Строка                                   |Наименование заголовка столбца                    |Значение поля выборки `text-field-id`, иначе значение `id`|
 |icon             |[CSS класс](http://fontawesome.io/icons/)|Иконка заголовка столбца                          |                                                          |
 |sorting-field-id |Ссылка на поле выборки                   |Поле, по которому сортируется столбец             |Значение `text-field-id`                                  |
-|sorting-direction|asc, desc                                |Направление сортировки по умолчанию               |                                                          |
+|sorting-direction|asc desc                                 |Направление сортировки по умолчанию               |                                                          |
 |fixed            |left right                               |Прилипание столбца к краю                         |                                                          |
 |src              |React компонент                          |Реализация столбца таблицы                        |                                                          |
 |class            |Строка                                   |Css класс заголовка столбца таблицы               |                                                          |
@@ -608,7 +608,7 @@ n2o.api.widget.column.multi.alignment=center
 
 |Наименование           |Тип                                                  |Описание                                                |Значение по умолчанию|
 |-----------------------|-----------------------------------------------------|--------------------------------------------------------|---------------------|
-|place                  |top, left                                            |Позиция фильтров                                        |top                  |
+|place                  |top left                                             |Позиция фильтров                                        |top                  |
 |search-on-change       |true false                                           |Запускать фильтрацию по мере ввода                      |false                |
 |datasource             |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных для виджета              |                     |
 
@@ -641,10 +641,10 @@ n2o.api.widget.column.multi.alignment=center
 |badge-field-id       |Ссылка на поле выборки |Значок узла дерева                  |                     |
 |badge-color-field-id |Ссылка на поле выборки |Цвет значка узла дерева             |                     |
 |badge-position       |left right             |Позиция значка                      |right                |
-|badge-shape          |rounded, circle, square|Форма значка                        |square               |
+|badge-shape          |rounded circle square  |Форма значка                        |square               |
 |badge-image-field-id |Ссылка на поле выборки |Картинка в значке                   |                     |
 |badge-image-position |left right             |Позиция картинки в значке           |left                 |
-|badge-image-shape    |rounded, circle, square|Форма картинки в значке             |circle               |
+|badge-image-shape    |rounded circle square  |Форма картинки в значке             |circle               |
 |image-field-id       |Ссылка на поле выборки |Изображение узла дерева             |                     |
 |multi-select         |true false             |Режим множественного выбора         |true                 |
 |checkboxes           |true false             |Выбор в режиме чекбокс              |false                |
@@ -1043,7 +1043,7 @@ n2o.api.widget.toolbar.place=topLeft
 
 |Наименование|Тип                |Описание                      |
 |------------|-------------------|------------------------------|
-|generate    |crud, saveAndClose, close|Генерация стандартных действий
+|generate    |crud saveAndClose close|Генерация стандартных действий
 
 **Тело**<br/>
 `<action>` - Список [действий над виджетом](#action)

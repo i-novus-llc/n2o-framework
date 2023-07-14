@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/button-1.0"
            xmlns:acn="http://n2oapp.net/framework/config/schema/action-1.0"
+           xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:complexType name="baseButtonDefinition" abstract="true">
@@ -31,7 +32,7 @@
                         <xs:documentation>Кнопка с иконкой или без.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="color" type="colorDefinition">
+                <xs:attribute name="color" type="bs:buttonColorDefinition">
                     <xs:annotation>
                         <xs:documentation>Цвет кнопки.</xs:documentation>
                     </xs:annotation>
@@ -267,27 +268,6 @@
             <xs:enumeration value="text"/>
             <xs:enumeration value="textAndIcon"/>
         </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="colorDefinition">
-        <xs:annotation>
-            <xs:documentation>Цвет кнопки.</xs:documentation>
-        </xs:annotation>
-        <xs:union memberTypes="xs:string">
-            <xs:simpleType>
-                <xs:restriction base="xs:string">
-                    <xs:enumeration value="primary"/>
-                    <xs:enumeration value="secondary"/>
-                    <xs:enumeration value="success"/>
-                    <xs:enumeration value="danger"/>
-                    <xs:enumeration value="warning"/>
-                    <xs:enumeration value="info"/>
-                    <xs:enumeration value="light"/>
-                    <xs:enumeration value="dark"/>
-                    <xs:enumeration value="link"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:union>
     </xs:simpleType>
 
     <xs:simpleType name="clientModel">
