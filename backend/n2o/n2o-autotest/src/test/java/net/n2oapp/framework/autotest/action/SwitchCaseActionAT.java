@@ -97,6 +97,7 @@ public class SwitchCaseActionAT extends AutoTestBase {
 
         page.shouldExists();
         table.shouldExists();
+        table.columns().rows().row(2).cell(1).shouldExists();
         table.columns().rows().row(2).cell(1).shouldHaveText("3");
         table.columns().rows().row(2).click();
         page.shouldExists();
