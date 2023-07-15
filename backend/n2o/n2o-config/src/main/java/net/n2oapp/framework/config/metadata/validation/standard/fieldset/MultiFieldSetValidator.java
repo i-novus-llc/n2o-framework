@@ -5,6 +5,9 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oMultiFieldSet;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FieldsScope;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +19,10 @@ public class MultiFieldSetValidator implements SourceValidator<N2oMultiFieldSet>
 
     @Override
     public void validate(N2oMultiFieldSet source, SourceProcessor p) {
+        if (source.getItems() == null)
+            throw new N2oMetadataValidationException(String.format("Мультифилдсет %s виджета %s имеет пустое тело",
+                    ValidationUtils.getIdOrEmptyString(source.getId()),
+                    ValidationUtils.getIdOrEmptyString(p.getScope(WidgetScope.class).getWidgetId())));
         validateItems(source, p);
     }
 

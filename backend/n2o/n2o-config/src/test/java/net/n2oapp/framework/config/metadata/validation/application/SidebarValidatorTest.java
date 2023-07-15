@@ -5,12 +5,13 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.application.ApplicationIOv3;
 import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv3;
 import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
-import net.n2oapp.framework.config.metadata.compile.application.ApplicationValidator;
-import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.application.ApplicationValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.application.SidebarValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -38,55 +39,49 @@ public class SidebarValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testValidationFail() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/application/sidebar/validationFail.application.xml"),
-                "Menu test doesnt exists for sidebar"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/application/sidebar/validationFail.application.xml"));
+        assertEquals("<menu> сайдбара ссылается на несуществующий 'ref-id = test'", exception.getMessage());
     }
 
     @Test
     void testEmptyPathValidationFail() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/application/sidebar/emptyPathValidationFail.application.xml"),
-                "More than one sidebar does not contain a path"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/application/sidebar/emptyPathValidationFail.application.xml"));
+        assertEquals("Приложение имеет более одного <sidebar> не содержащих 'path'", exception.getMessage());
     }
 
     @Test
     void testEqualPathsValidationFail() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/application/sidebar/equalPathsValidationFail.application.xml"),
-                "The /persons path is already taken by one of the sidebars"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/application/sidebar/equalPathsValidationFail.application.xml"));
+        assertEquals("Два или более <sidebar> имеют одинаковый 'path = /persons'", exception.getMessage());
     }
 
     @Test
     void testExistingSidebarInlineDatasource() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/application/sidebarDatasourceDuplicate.application.xml"),
-                "Идентификатор 'person' внутреннего источника данных сайдбара уже используется другим источником данных"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/application/sidebarDatasourceDuplicate.application.xml"));
+        assertEquals("Идентификатор 'person' внутреннего источника данных сайдбара уже используется другим источником данных", exception.getMessage());
     }
 
     @Test
     void testUsingInlineDatasourceAndLinkAtTheSameTime() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/application/testUsingInlineDatasourceAndLinkAtTheSameTime.application.xml"),
-                "Сайдбар использует внутренний источник данных и ссылку на источник данных 'ds' одновременно"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/application/testUsingInlineDatasourceAndLinkAtTheSameTime.application.xml"));
+        assertEquals("Сайдбар использует внутренний источник данных и ссылку на источник данных 'ds' одновременно", exception.getMessage());
     }
 
     @Test
     void testLinkToNonExistentDatasource() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/application/testLinkToNonExistentDatasource.application.xml"),
-                "Сайдбар ссылается на несуществующий источник данных 'ds'"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/application/testLinkToNonExistentDatasource.application.xml"));
+        assertEquals("Сайдбар ссылается на несуществующий источник данных 'ds'", exception.getMessage());
     }
 }

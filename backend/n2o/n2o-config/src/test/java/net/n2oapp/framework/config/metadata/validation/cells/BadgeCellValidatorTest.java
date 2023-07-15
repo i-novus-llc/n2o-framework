@@ -40,4 +40,12 @@ public class BadgeCellValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/cells/badge/testBadgeCase.page.xml"));
         assertEquals("Для <case> конструкции <switch> ячейки <badge> виджета  не указано значение 'value'", exception.getMessage());
     }
+
+    @Test
+    void testColor() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/cells/badge/testBadgeColor.page.xml"));
+        assertEquals("В ячейке <badge> виджета  указано недопустимое значение атрибута color=\"red\"", exception.getMessage());
+    }
 }

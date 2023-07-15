@@ -7,7 +7,7 @@
             <alert id="warn" color="warning" text="Что-то может пойти не так"/>
             <alert id="info" color="info" text="Что-то пошло"/>
             <alert id="success" color="success" text="Все пошло как надо"/>
-            <alert id="text" color="" title="Заголовок" text="Текст"/>
+            <alert id="text" title="Заголовок" text="Текст"/>
         </fields>
     </form>
 </simple-page>

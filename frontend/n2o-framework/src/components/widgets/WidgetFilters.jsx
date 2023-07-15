@@ -20,6 +20,7 @@ import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
+import { modelLinkMapper } from './helpers'
 
 export const WidgetFilterContext = createContext({
     formName: '',
@@ -35,7 +36,7 @@ const WidgetFilters = (props) => {
         fetchData,
         searchOnChange,
         blackResetList,
-        filterFieldsets,
+        filterFieldsets: propsFilterFieldsets,
         datasource,
     } = props
     const { getState } = useStore()
@@ -45,6 +46,11 @@ const WidgetFilters = (props) => {
      * хак не имеет смысла, когда включено автообновление по мере ввода
      */
     const modelPrefix = searchOnChange ? ModelPrefix.filter : ModelPrefix.edit
+    /*
+     * филды с подмененными links в DataProvider (c filter на edit)
+     */
+    const modifiedFilterFieldsets = useMemo(() => modelLinkMapper(propsFilterFieldsets), [propsFilterFieldsets])
+    const filterFieldsets = searchOnChange ? propsFilterFieldsets : modifiedFilterFieldsets
     const fieldsKeys = useMemo(() => {
         const resolved = Object.values(propsResolver(fieldsets) || {})
 

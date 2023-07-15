@@ -159,8 +159,8 @@ export function* watchEvents() {
 
         for (const { datasource, model: prefix, field, action } of events) {
             const modelLink = [prefix, datasource]
-            const model = get(models, modelLink)
-            const prevModel = get(prevModels, modelLink)
+            const model = get(models, modelLink, null)
+            const prevModel = get(prevModels, modelLink, null)
 
             let value = model
             let prevValue = prevModel

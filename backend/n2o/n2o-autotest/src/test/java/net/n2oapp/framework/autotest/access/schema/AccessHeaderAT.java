@@ -62,7 +62,7 @@ public class AccessHeaderAT extends AutoTestBase {
         page.widget(FormWidget.class).shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
 
-        page.header().nav().shouldHaveSize(3);
+        page.header().nav().shouldHaveSize(4);
 
         AnchorMenuItem menuItem0 = page.header().nav().anchor(0);
         menuItem0.shouldHaveLabel("Доступно всем");
@@ -87,6 +87,11 @@ public class AccessHeaderAT extends AutoTestBase {
         extraLink.shouldHaveLabel("Admin");
         extraLink.click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
+
+        page.header().nav().dropdown(3).shouldExists();
+        page.header().nav().dropdown(3).click();
+        page.header().nav().dropdown(3).shouldHaveSize(1);
+        page.header().nav().dropdown(3).item(0).shouldHaveLabel("Требуется роль admin");
     }
 
     @Test
@@ -114,5 +119,6 @@ public class AccessHeaderAT extends AutoTestBase {
         menuItem3.shouldHaveUrl(getBaseUrl() + "/#/menu4");
         menuItem3.click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница доступная только анонимам");
+        page.header().nav().shouldHaveSize(2);
     }
 }

@@ -337,10 +337,6 @@
           "name": "MasterDetailAT. testMasterDetail"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/widget/master_detail/pagination",
-          "name": "MasterDetailAT. paginationTest"
-        },
-        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/button_generator/simple",
           "name": "TableButtonGeneratorAT"
         },
@@ -475,6 +471,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/with_children",
           "name": "TableWithChildrenAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/fetch_dependency",
+          "name": "FetchDependencyAT .paginationTest()"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/widget/tiles",
@@ -766,6 +766,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/control/input_text/min_max",
           "name": "InputTextAT. testArrowsDifIntervals"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/domain_numeric/",
+          "name": "InputTextAT. testStepForDomainNumeric"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/interval_field",

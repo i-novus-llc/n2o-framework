@@ -40,4 +40,12 @@ public class ListCellValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/cells/list/testListCase.page.xml"));
         assertEquals("Для <case> конструкции <switch> ячейки <list> виджета  не указано значение 'value'", exception.getMessage());
     }
+
+    @Test
+    void testColor() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/cells/list/testListColor.page.xml"));
+        assertEquals("В ячейке <list> виджета  указано недопустимое значение атрибута color=\"red\"", exception.getMessage());
+    }
 }

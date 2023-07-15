@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:wgt="http://n2oapp.net/framework/config/schema/widget-5.0"
+           xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
            targetNamespace="http://n2oapp.net/framework/config/schema/region-3.0">
 
     <xs:element name="region" type="simpleRegionDefinition"/>
@@ -166,7 +167,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="color" type="xs:string">
+                <xs:attribute name="color" type="bs:colorDefinition">
                     <xs:annotation>
                         <xs:documentation>
                             Цвет панели
