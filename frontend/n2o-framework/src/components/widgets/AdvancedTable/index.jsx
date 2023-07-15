@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { defaultTo } from 'lodash'
 import { useSelector } from 'react-redux'
 import omit from 'lodash/omit'
@@ -9,40 +9,38 @@ import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { FactoryContext } from '../../../core/factory/context'
-import { WithActiveModel } from '../Widget/WithActiveModel'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { getContainerColumns } from '../../../ducks/columns/selectors'
 import { SelectionType, TableActions, TableContainer } from '../../Table'
 import { useCheckAccess } from '../../../core/auth/SecurityController'
 import { withSecurityList } from '../../../core/auth/withSecurity'
+import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 
 import { useExpandAllRows } from './hooks/useExpandAllRows'
 import { useResolveCellsVisible } from './hooks/useResolveCellsVisible'
 import { useRegisterColumns } from './hooks/useRegisterColumns'
 import { useTableActionReactions } from './hooks/useTableActionReactions'
 
-const shouldSetResolveModel = props => (
-    props.table.rowSelection !== SelectionType.None && defaultTo(props.table?.autoSelect, true)
-)
-
 const AdvancedTableContainer = (props) => {
     const {
         id, disabled, toolbar, datasource, className, setPage, loading, fetchData,
         style, paging, filter, table, size, count, page, sorting, children, hasNext, isInit,
+        setResolve,
     } = props
     const [expandedRows, setExpandedRows] = useState([])
     const columnsState = useSelector(getContainerColumns(id))
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
     const selectedRows = useSelector((state) => {
-        const models = dataSourceModelByPrefixSelector(datasource, ModelPrefix.selected)(state)
+        const models = dataSourceModelByPrefixSelector(datasource, ModelPrefix.selected)(state) || EMPTY_ARRAY
 
-        if (!models) {
-            return []
+        if (models.length) {
+            return models.map(({ id }) => id)
         }
 
-        return models.map(({ id }) => id)
+        return EMPTY_ARRAY
     })
+
     const focusedRowValue = useSelector((state) => {
         const model = dataSourceModelByPrefixSelector(datasource, ModelPrefix.active)(state)
 
@@ -122,6 +120,13 @@ const AdvancedTableContainer = (props) => {
             }
         }
     }, [setActiveModel, setMultiModel, unsetMultiModel])
+    const isNeedSetResolveModel = table.rowSelection !== SelectionType.None && defaultTo(table.autoSelect, true)
+
+    useEffect(() => {
+        if (isNeedSetResolveModel && datasourceModel) {
+            setResolve(datasourceModel[0])
+        }
+    }, [datasourceModel, setResolve, isNeedSetResolveModel])
 
     useRegisterColumns(id, cells.header)
     useExpandAllRows(setExpandedRows, children, datasourceModel)
@@ -163,4 +168,4 @@ AdvancedTableContainer.displayName = 'AdvancedTableWidget'
 
 export const AdvancedTableWidget = compose(
     WidgetHOC,
-)(WithActiveModel(withSecurityList(AdvancedTableContainer, 'table.header.cells'), shouldSetResolveModel))
+)(withSecurityList(AdvancedTableContainer, 'table.header.cells'))
