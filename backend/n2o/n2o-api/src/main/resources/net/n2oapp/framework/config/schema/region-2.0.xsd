@@ -223,7 +223,7 @@
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Класс иконки.</xs:documentation>
+                        <xs:documentation>Класс иконки из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="color" type="bs:colorDefinition">

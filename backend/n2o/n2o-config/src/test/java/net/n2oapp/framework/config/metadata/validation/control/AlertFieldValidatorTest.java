@@ -2,7 +2,10 @@ package net.n2oapp.framework.config.metadata.validation.control;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.metadata.validation.standard.control.AlertFieldValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;

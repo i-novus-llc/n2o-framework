@@ -147,7 +147,7 @@
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка ссылки.</xs:documentation>
+                        <xs:documentation>Иконка ссылки из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="type" type="linkIconType" default="text">
@@ -205,7 +205,7 @@
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Класс иконки.</xs:documentation>
+                        <xs:documentation>Класс иконки из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="type" type="iconType" use="optional" default="icon">
@@ -660,12 +660,12 @@
                 </xs:attribute>
                 <xs:attribute name="upload-icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка загрузки файлов.</xs:documentation>
+                        <xs:documentation>Иконка загрузки файлов из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="delete-icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка удаления файлов.</xs:documentation>
+                        <xs:documentation>Иконка удаления файлов из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:anyAttribute>
