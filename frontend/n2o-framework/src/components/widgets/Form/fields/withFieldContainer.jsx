@@ -13,7 +13,7 @@ import {
 import { registerFieldExtra, unRegisterExtraField } from '../../../../ducks/form/store'
 import propsResolver from '../../../../utils/propsResolver'
 import { getModelByPrefixAndNameSelector } from '../../../../ducks/models/selectors'
-import { useFormContext } from '../../../core/FormProvider/hooks/useFormContext'
+import { useFormContext } from '../../../core/FormProvider'
 import { setFieldSubmit } from '../../../../ducks/datasource/store'
 
 import { getValidationClass, modifyOn, replaceIndex, resolveControlIndexes } from './utils'
@@ -104,7 +104,7 @@ const useParentIndex = (props) => {
     }
 }
 
-const useResolvedProps = ({ input, meta, model, setReRenderRef, ...rest }) => useMemo(() => {
+const useResolvedProps = ({ input, meta, model, ...rest }) => useMemo(() => {
     const pr = propsResolver(rest, model, ['toolbar', 'html', 'content', 'meta'])
 
     return {
@@ -112,9 +112,8 @@ const useResolvedProps = ({ input, meta, model, setReRenderRef, ...rest }) => us
         ...meta,
         model,
         ...input,
-        ref: setReRenderRef,
     }
-}, [input, meta, model, rest, setReRenderRef])
+}, [input, meta, model, rest])
 
 const useAutosave = (id, dataProvider) => {
     const { datasource } = useFormContext()
