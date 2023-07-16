@@ -26,6 +26,7 @@ import { dataProviderResolver } from '../../../core/dataProviderResolver'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
 import { ModelPrefix, SortDirection } from '../../../core/datasource/const'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { registerColumn } from '../../../ducks/columns/store'
 
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell'
 // eslint-disable-next-line import/no-named-as-default
@@ -49,6 +50,8 @@ class AdvancedTableContainer extends React.Component {
         this.mapData = this.mapData.bind(this)
         this.renderCell = this.renderCell.bind(this)
         this.handleSetFilter = this.handleSetFilter.bind(this)
+        this.registeredColumn = this.registeredColumn.bind(this)
+        this.getColumnVisibilityState = this.getColumnVisibilityState.bind(this)
     }
 
     componentDidUpdate(prevProps) {
@@ -73,12 +76,56 @@ class AdvancedTableContainer extends React.Component {
 
     componentDidMount() {
         const { datasourceModel } = this.props
+        const { columns } = this.state
+
+        if (columns.length) {
+            this.registeredColumn(columns)
+        }
 
         if (datasourceModel) {
             this.setState({
                 data: this.mapData(datasourceModel),
                 columns: this.mapColumns(),
             })
+        }
+    }
+
+    registeredColumn(columns) {
+        const { dispatch, id } = this.props
+
+        function traverse(item) {
+            if (item.id) {
+                const {
+                    id: columnId,
+                    label,
+                    visible = true,
+                    disable = false,
+                    conditions,
+                } = item
+
+                dispatch(
+                    registerColumn(
+                        id,
+                        columnId,
+                        label,
+                        visible,
+                        disable,
+                        conditions,
+                    ),
+                )
+            }
+
+            const iterateItem = item.children
+
+            if (Array.isArray(iterateItem)) {
+                for (const nestedItem of iterateItem) {
+                    traverse(nestedItem)
+                }
+            }
+        }
+
+        for (const item of columns) {
+            traverse(item)
         }
     }
 
@@ -128,6 +175,12 @@ class AdvancedTableContainer extends React.Component {
         return header
     });
 
+    getColumnVisibilityState(item) {
+        const { registredColumns } = this.props
+
+        return item.visible === undefined ? get(registredColumns, `${item.id}.visible`, true) : item.visible
+    }
+
     mapColumns() {
         const {
             cells,
@@ -148,6 +201,13 @@ class AdvancedTableContainer extends React.Component {
                 return { ...header, children: newChildren }
             }
 
+            // Если это мультиколонка и хотя бы один ребенок виден. Не скрываем мультиколонку
+            if (multiHeader && !isEmpty(children)) {
+                const isVisible = children.some(child => this.getColumnVisibilityState(child))
+
+                return { ...header, visible: isVisible }
+            }
+
             return header
         })
 
@@ -160,15 +220,24 @@ class AdvancedTableContainer extends React.Component {
         })
 
         return this.mapHeaders(headers).map((header) => {
-            const { visible, multiHeader } = header
+            const { multiHeader } = header
 
             const cell = find(cells, c => c.id === header.id) || {}
             const children = get(header, 'children', null)
-            const needRender = visible === undefined ? get(registredColumns, `${header.id}.visible`, true) : visible
+            const needRender = this.getColumnVisibilityState(header)
 
-            const mapChildren = children => map(children, (child) => {
+            const mapChildren = (children = []) => (children.reduce((acc, child) => {
                 if (multiHeader && !needRender) {
-                    return []
+                    return acc
+                }
+
+                // Если ребенком является колонка таблицы. Необходимо проверить ее состояние видимости
+                if (child.id) {
+                    const needRender = this.getColumnVisibilityState(child)
+
+                    if (!needRender) {
+                        return acc
+                    }
                 }
 
                 if (!isEmpty(child.children)) {
@@ -178,7 +247,7 @@ class AdvancedTableContainer extends React.Component {
                 const cell = find(cells, c => c.id === child.id) || {}
                 const compiledSorting = isEmpty(sorting) ? SortDirection.none : sorting[child.sortingParam]
 
-                return {
+                acc.push({
                     ...child,
                     title: (
                         <AdvancedTableHeaderCell
@@ -203,8 +272,10 @@ class AdvancedTableContainer extends React.Component {
                             ...cell,
                         }),
                     }),
-                }
-            })
+                })
+
+                return acc
+            }, []))
 
             if (children) {
                 header = { ...header }
@@ -225,7 +296,7 @@ class AdvancedTableContainer extends React.Component {
                     needRender,
                     setSorting,
                 }),
-                label: header.title,
+                label: header.label,
                 dataIndex: header.id,
                 columnId: header.id,
                 key: header.id,
