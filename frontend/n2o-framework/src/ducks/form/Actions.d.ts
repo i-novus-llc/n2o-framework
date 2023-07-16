@@ -49,6 +49,11 @@ export type SetFieldVisibleAction = FieldAction<{
     visible: boolean
 }>
 
+export type DangerouslySetFieldValue = FieldAction<{
+    key: string
+    value: unknown
+}>
+
 export type FieldsAction<T = unknown> = FormAction<T & {
     formName: string
     fields: string[]
