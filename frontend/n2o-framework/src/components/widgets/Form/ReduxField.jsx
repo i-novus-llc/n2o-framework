@@ -8,8 +8,9 @@ import { Controller } from '../../core/FormProvider'
 import withFieldContainer from './fields/withFieldContainer'
 import StandardField from './fields/StandardField/StandardField'
 
+// FIXME временное решение для fieldDependency type fetch,
+//  вызывает _fetchData компонента, дергается в withObserveDependency
 const config = {
-    // FIXME Непонятно почему зависимость 'fetch' реализована тут, отдельно от всех остальных. Надо свести всё в единое место
     onChange({ dependency }, dependencyType) {
         if (!this.controlRef) { return }
         const { _fetchData, size, labelFieldId } = this.controlRef.props

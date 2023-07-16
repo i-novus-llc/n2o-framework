@@ -11,7 +11,7 @@ import {
     BlurFieldAction, FocusFieldAction,
     RegisterAction, RegisterFieldAction,
     RegisterFieldDependencyAction, RemoveAction,
-    SetFieldDisabledAction, SetFieldLoadingAction,
+    SetFieldDisabledAction, SetFieldLoadingAction, DangerouslySetFieldValue,
     SetFieldRequiredAction, SetFieldVisibleAction,
     SetMultiFieldDisabledAction, SetMultiFieldVisibleAction,
     TouchFieldsAction, UnregisterFieldAction,
@@ -206,6 +206,24 @@ const formSlice = createSlice({
                 const { formName, fieldName, required } = action.payload
 
                 set(state, [formName, 'fields', fieldName, 'required'], required)
+            },
+        },
+
+        /**
+         * Установить кастомный параметр в поле
+         * @deprecated
+         */
+        dangerouslySetFieldValue: {
+            prepare(formName: string, fieldName: string, key: string, value: unknown) {
+                return ({
+                    payload: { formName, fieldName, key, value },
+                })
+            },
+
+            reducer(state, action: DangerouslySetFieldValue) {
+                const { formName, fieldName, key, value } = action.payload
+
+                set(state, [formName, 'fields', fieldName, key], value)
             },
         },
 
@@ -424,6 +442,7 @@ export const {
     setFieldLoading,
     setMultiFieldVisible,
     setMultiFieldDisabled,
+    dangerouslySetFieldValue,
     REGISTER_DEPENDENCY: registerFieldDependency,
     BLUR: handleBlur,
     FOCUS: handleFocus,
