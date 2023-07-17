@@ -4,6 +4,8 @@ import com.codeborne.selenide.CollectionCondition;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
 import net.n2oapp.framework.autotest.api.component.PopupControl;
 
+import java.time.Duration;
+
 /**
  * Компонент ввода с выбором в выпадающем списке в виде дерева для автотестирования
  */
@@ -54,7 +56,7 @@ public interface InputSelectTree extends Control, PopupControl {
      * @param index номер проверяемой опции
      * @param value ожидаемое значение
      */
-    void shouldBeSelected(int index, String value);
+    void shouldBeSelected(int index, String value, Duration... duration);
 
     /**
      * Удаление выбранной опции из поля ввода

@@ -5,6 +5,8 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.Slider;
 import org.openqa.selenium.Keys;
 
+import java.time.Duration;
+
 /**
  * Компонент ползунок для автотестирования
  */
@@ -46,7 +48,7 @@ public class N2oSlider extends N2oControl implements Slider {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
+    public void shouldHaveValue(String value, Duration... duration) {
         shouldHaveValue(sliderElement(0), value);
     }
 

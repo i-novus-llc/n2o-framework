@@ -75,7 +75,7 @@ public class InputSelectAT extends AutoTestBase {
 
         input.shouldBeEmpty();
         input.openPopup();
-        input.dropdown().shouldHaveOptions("One", "Two", "Three");
+        input.dropdown().shouldHaveOptions(new String[]{"One", "Two", "Three"});
         // close popup by click on options
         input.openPopup();
         input.dropdown().selectItem(1);
@@ -145,20 +145,20 @@ public class InputSelectAT extends AutoTestBase {
 
         input.shouldBeEmpty();
         input.openPopup();
-        input.dropdown().shouldHaveOptions("One", "Two", "Three");
+        input.dropdown().shouldHaveOptions(new String[]{"One", "Two", "Three"});
         input.openPopup();
         input.dropdown().selectMulti(1, 2);
-        input.shouldSelectedMulti("Two", "Three");
+        input.shouldSelectedMulti(new String[]{"Two", "Three"});
         input.clearUsingIcon();
         input.shouldBeEmpty();
 
         input.openPopup();
         input.dropdown().selectMulti(2, 1, 0);
-        input.shouldSelectedMulti("Three", "Two", "One");
+        input.shouldSelectedMulti(new String[]{"Three", "Two", "One"});
 
         // удаление выбранных значений
         input.clearItems("Three");
-        input.shouldSelectedMulti("Two", "One");
+        input.shouldSelectedMulti(new String[]{"Two", "One"});
         input.clearItems("Two", "One");
         input.shouldBeEmpty();
 
@@ -189,20 +189,20 @@ public class InputSelectAT extends AutoTestBase {
 
         input.shouldBeEmpty();
         input.openPopup();
-        input.dropdown().shouldHaveOptions("One", "Two", "Three");
+        input.dropdown().shouldHaveOptions(new String[]{"One", "Two", "Three"});
         input.openPopup();
         input.dropdown().selectMulti(1, 2);
-        input.shouldSelectedMulti("Two", "Three");
+        input.shouldSelectedMulti(new String[]{"Two", "Three"});
         input.clearUsingIcon();
         input.shouldBeEmpty();
 
         input.openPopup();
         input.dropdown().selectMulti(2, 1, 0);
-        input.shouldSelectedMulti("Three", "Two", "One");
+        input.shouldSelectedMulti(new String[]{"Three", "Two", "One"});
 
         // удаление выбранных значений
         input.clearItems("Three");
-        input.shouldSelectedMulti("Two", "One");
+        input.shouldSelectedMulti(new String[]{"Two", "One"});
         input.clearItems("Two", "One");
         input.shouldBeEmpty();
 
@@ -234,7 +234,7 @@ public class InputSelectAT extends AutoTestBase {
         input.shouldBeEmpty();
         input.openPopup();
         DropDown dropdown = input.dropdown();
-        dropdown.shouldHaveOptions("name1", "name2", "name3");
+        dropdown.shouldHaveOptions(new String[]{"name1", "name2", "name3"});
         input.openPopup();
         dropdown.item("name1").shouldHaveDescription("desc1");
         input.openPopup();
@@ -261,10 +261,10 @@ public class InputSelectAT extends AutoTestBase {
         input2.openPopup();
         dropdown2.item("name3").shouldHaveDescription("desc3");
         input2.openPopup();
-        dropdown2.shouldHaveOptions("name1", "name2", "name3");
+        dropdown2.shouldHaveOptions(new String[]{"name1", "name2", "name3"});
         input2.openPopup();
         dropdown2.selectMulti(1, 2);
-        input2.shouldSelectedMulti("name2", "name3");
+        input2.shouldSelectedMulti(new String[]{"name2", "name3"});
         input2.clearUsingIcon();
         input2.shouldBeEmpty();
     }
@@ -296,11 +296,11 @@ public class InputSelectAT extends AutoTestBase {
         gender.shouldExists();
         gender.shouldHaveValue("Мужской");
         gender.openPopup();
-        gender.dropdown().shouldHaveOptions("Мужской");
+        gender.dropdown().shouldHaveOptions(new String[]{"Мужской"});
         genderWithConst.shouldExists();
         genderWithConst.shouldHaveValue("Женский");
         genderWithConst.openPopup();
-        genderWithConst.dropdown().shouldHaveOptions("Женский");
+        genderWithConst.dropdown().shouldHaveOptions(new String[]{"Женский"});
     }
 
     @Test
@@ -330,11 +330,11 @@ public class InputSelectAT extends AutoTestBase {
         gender.shouldExists();
         gender.shouldHaveValue("Мужской");
         gender.openPopup();
-        gender.dropdown().shouldHaveOptions("Мужской");
+        gender.dropdown().shouldHaveOptions(new String[]{"Мужской"});
         genderWithConst.shouldExists();
         genderWithConst.shouldHaveValue("Женский");
         genderWithConst.openPopup();
-        genderWithConst.dropdown().shouldHaveOptions("Женский");
+        genderWithConst.dropdown().shouldHaveOptions(new String[]{"Женский"});
     }
 
     @Test
@@ -390,11 +390,11 @@ public class InputSelectAT extends AutoTestBase {
 
         inputSelect.openPopup();
         DropDown dropdown = inputSelect.dropdown();
-        dropdown.shouldHaveOptions("Новая", "Средняя", "Старая");
+        dropdown.shouldHaveOptions(new String[]{"Новая", "Средняя", "Старая"});
         dropdown.selectItemBy(Condition.text("Средняя"));
         inputSelect.shouldHaveValue("Средняя");
 
         inputSelect.openPopup();
-        dropdown.shouldHaveOptions("Новая", "Средняя", "Старая");
+        dropdown.shouldHaveOptions(new String[]{"Новая", "Средняя", "Старая"});
     }
 }

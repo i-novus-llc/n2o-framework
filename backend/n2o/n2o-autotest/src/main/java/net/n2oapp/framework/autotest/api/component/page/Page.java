@@ -11,6 +11,8 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 
+import java.time.Duration;
+
 /**
  * Страница для автотестирования
  */
@@ -78,7 +80,7 @@ public interface Page extends Component {
      * Проверка заголовка на соответствие
      * @param title ожидаемый заголовок страницы
      */
-    void shouldHaveTitle(String title);
+    void shouldHaveTitle(String title, Duration... duration);
 
     /**
      * Прокрутка страницы в самый верх
@@ -152,7 +154,7 @@ public interface Page extends Component {
          * @param text ожидаемый текст
          */
         @Deprecated
-        void firstTitleShouldHaveText(String text);
+        void firstTitleShouldHaveText(String text, Duration... duration);
 
         /**
          * Проверка заголовка последней хлебной крошки на соответствие
@@ -160,7 +162,7 @@ public interface Page extends Component {
          * @param title ожидаемый текст заголовка
          */
         @Deprecated
-        void lastTitleShouldHaveText(String title);
+        void lastTitleShouldHaveText(String title, Duration... duration);
 
         /**
          * Проверка заголовка хлебной крошки соответствующей номеру
@@ -169,7 +171,7 @@ public interface Page extends Component {
          * @param index номер проверяемой крошки
          */
         @Deprecated
-        void titleShouldHaveText(String title, Integer index);
+        void titleShouldHaveText(String title, Integer index, Duration... duration);
 
         /**
          * Проверка количества хлебных крошек
@@ -202,7 +204,7 @@ public interface Page extends Component {
              * Проверка заголовка на соответствие
              * @param text ожидаемый текст заголовка
              */
-            void shouldHaveLabel(String text);
+            void shouldHaveLabel(String text, Duration... duration);
 
             /**
              * Проверка ссылки на соответствие
@@ -231,7 +233,7 @@ public interface Page extends Component {
          * Проверка заголовка диалога
          * @param text ожидаемый заголовок
          */
-        void shouldHaveText(String text);
+        void shouldHaveText(String text, Duration... duration);
 
         /**
          * Возвращает стандартную кнопку диалога, соответствующую ожидаемому заголовку
@@ -266,7 +268,7 @@ public interface Page extends Component {
          * Проверка заголовка на соответствие
          * @param text ожидаемый заголовок
          */
-        void shouldHaveText(String text);
+        void shouldHaveText(String text, Duration... duration);
 
         /**
          * Возвращает кнопку соответствующую метке

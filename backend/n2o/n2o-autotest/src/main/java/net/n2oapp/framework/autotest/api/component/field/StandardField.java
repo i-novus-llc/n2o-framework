@@ -5,6 +5,8 @@ import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.control.Control;
 
+import java.time.Duration;
+
 /**
  * Стандартное поле формы для автотестирования
  */
@@ -36,7 +38,7 @@ public interface StandardField extends Field {
      * Проверка соответствия метки условию
      * @param condition ожидаемое условие
      */
-    void shouldHaveLabelBy(Condition condition);
+    void shouldHaveLabelBy(Condition condition, Duration... duration);
 
     /**
      * Проверка положения метки
@@ -48,6 +50,6 @@ public interface StandardField extends Field {
      * Проверка сообщения валидации на соответствие условию
      * @param condition ожидаемое условие
      */
-    void shouldHaveValidationMessage(Condition condition);
+    void shouldHaveValidationMessage(Condition condition, Duration... duration);
 
 }

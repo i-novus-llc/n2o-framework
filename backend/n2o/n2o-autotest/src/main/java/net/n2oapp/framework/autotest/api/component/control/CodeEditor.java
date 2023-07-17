@@ -1,5 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
+import java.time.Duration;
+
 /**
  * Компонент редактирования кода для автотестирования
  */
@@ -16,5 +18,5 @@ public interface CodeEditor extends Control {
      * @param value ожидаемое значение
      * @param line проверяемая строка
      */
-    void shouldHaveValue(String value, int line);
+    void shouldHaveValue(String value, int line, Duration... duration);
 }

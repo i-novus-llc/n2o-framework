@@ -4,13 +4,15 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.DateInterval;
 
+import java.time.Duration;
+
 /**
  * Компонент ввода интервала дат для автотестирования
  */
 public class N2oDateInterval extends N2oControl implements DateInterval {
 
     @Override
-    public void shouldHaveValue(String value) {
+    public void shouldHaveValue(String value, Duration... duration) {
         throw new UnsupportedOperationException();
     }
 
@@ -43,15 +45,19 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void beginShouldHaveValue(String value) {
-        element().$(".n2o-date-input-first input").shouldHave(value == null
-                || value.isEmpty() ? Condition.empty : Condition.value(value));
+    public void beginShouldHaveValue(String value, Duration... duration) {
+        Condition condition = value == null || value.isEmpty() ? Condition.empty : Condition.value(value);
+        SelenideElement element = element().$(".n2o-date-input-first input");
+
+        should(condition, element, duration);
     }
 
     @Override
-    public void endShouldHaveValue(String value) {
-        element().$(".n2o-date-input-last input").shouldHave(value == null
-                || value.isEmpty() ? Condition.empty : Condition.value(value));
+    public void endShouldHaveValue(String value, Duration... duration) {
+        Condition condition = value == null || value.isEmpty() ? Condition.empty : Condition.value(value);
+        SelenideElement element = element().$(".n2o-date-input-last input");
+
+        should(condition, element, duration);
     }
 
     @Override
@@ -103,23 +109,23 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void beginCurrentMonthShouldHaveValue(String month) {
-        shouldHaveCurrentMonth(firstCalendar(), month);
+    public void beginCurrentMonthShouldHaveValue(String month, Duration... duration) {
+        shouldHaveCurrentMonth(firstCalendar(), month, duration);
     }
 
     @Override
-    public void endCurrentMonthShouldHaveValue(String month) {
-        shouldHaveCurrentMonth(lastCalendar(), month);
+    public void endCurrentMonthShouldHaveValue(String month, Duration... duration) {
+        shouldHaveCurrentMonth(lastCalendar(), month, duration);
     }
 
     @Override
-    public void beginCurrentYearShouldHaveValue(String year) {
-        shouldHaveCurrentYear(firstCalendar(), year);
+    public void beginCurrentYearShouldHaveValue(String year, Duration... duration) {
+        shouldHaveCurrentYear(firstCalendar(), year, duration);
     }
 
     @Override
-    public void endCurrentYearShouldHaveValue(String year) {
-        shouldHaveCurrentYear(lastCalendar(), year);
+    public void endCurrentYearShouldHaveValue(String year, Duration... duration) {
+        shouldHaveCurrentYear(lastCalendar(), year, duration);
     }
 
     @Override
@@ -257,12 +263,12 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
                 .get(0).shouldBe(Condition.exist).click();
     }
 
-    private void shouldHaveCurrentMonth(SelenideElement element, String month) {
-        element.$(".n2o-calendar-header-month-title").shouldHave(Condition.text(month));
+    private void shouldHaveCurrentMonth(SelenideElement element, String month, Duration... duration) {
+        should(Condition.text(month), element.$(".n2o-calendar-header-month-title"), duration);
     }
 
-    private void shouldHaveCurrentYear(SelenideElement element, String year) {
-        element.$(".n2o-calendar-header-year-title").shouldHave(Condition.text(year));
+    private void shouldHaveCurrentYear(SelenideElement element, String year, Duration... duration) {
+        should(Condition.text(year), element.$(".n2o-calendar-header-year-title"), duration);
     }
 
     private void clickPreviousMonthButton(SelenideElement element) {

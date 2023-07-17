@@ -5,6 +5,8 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 /**
  * Компонент пагинации для автотестирования
  */
@@ -31,8 +33,9 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void shouldHaveActivePage(String label) {
-        element().$(paginationContainer.concat(" ").concat(pageItemLocator).concat(".active.page-link .title")).shouldHave(Condition.text(label));
+    public void shouldHaveActivePage(String label, Duration... duration) {
+        SelenideElement e = element().$(paginationContainer.concat(" ").concat(pageItemLocator).concat(".active.page-link .title"));
+        should(Condition.text(label), e, duration);
     }
 
     @Override
@@ -84,8 +87,8 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void prevShouldHaveLabel(String label) {
-        prevButton().parent().shouldHave(Condition.text(label));
+    public void prevShouldHaveLabel(String label, Duration... duration) {
+        should(Condition.text(label), prevButton().parent(), duration);
     }
 
     @Override
@@ -109,8 +112,8 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void nextShouldHaveLabel(String label) {
-        nextButton().parent().shouldHave(Condition.text(label));
+    public void nextShouldHaveLabel(String label, Duration... duration) {
+        should(Condition.text(label), nextButton().parent(), duration);
     }
 
     @Override
@@ -160,8 +163,8 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void lastShouldHavePage(String label) {
-        lastPage().parent().shouldHave(Condition.text(label));
+    public void lastShouldHavePage(String label, Duration... duration) {
+        should(Condition.text(label), lastPage().parent(), duration);
     }
 
     @Override

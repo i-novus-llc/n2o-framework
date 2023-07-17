@@ -6,6 +6,8 @@ import net.n2oapp.framework.autotest.api.component.Markdown;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oSnippet;
 
+import java.time.Duration;
+
 public class N2oMarkdown extends N2oSnippet implements Markdown {
 
     @Override
@@ -14,8 +16,8 @@ public class N2oMarkdown extends N2oSnippet implements Markdown {
     }
 
     @Override
-    public void shouldHaveText(String text) {
-        element().shouldHave(Condition.exactText(text));
+    public void shouldHaveText(String text, Duration... duration) {
+        should(Condition.exactText(text), duration);
     }
 
     @Override

@@ -8,6 +8,7 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nonnull;
+import java.time.Duration;
 
 /**
  * Регион в виде вкладок для автотестирования
@@ -64,7 +65,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
                         @Override
                         public CheckResult check(Driver driver, WebElement element) {
                             boolean result = !nestingElements.contains(element);
-                            return new CheckResult(result ? CheckResult.Verdict.ACCEPT : CheckResult.Verdict.REJECT, (Object)null);
+                            return new CheckResult(result ? CheckResult.Verdict.ACCEPT : CheckResult.Verdict.REJECT, null);
                         }
                     });
             return N2oSelenide.collection(firstLevelElements, RegionItems.class);
@@ -76,8 +77,8 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         }
 
         @Override
-        public void shouldHaveName(String text) {
-            element().shouldHave(Condition.text(text));
+        public void shouldHaveName(String text, Duration... duration) {
+            should(Condition.text(text), duration);
         }
 
         @Override

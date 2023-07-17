@@ -6,6 +6,7 @@ import com.codeborne.selenide.ElementsCollection;
 import net.n2oapp.framework.autotest.api.component.cell.FileUploadCell;
 
 import java.io.File;
+import java.time.Duration;
 
 /**
  * Загрузка файла в ячейке для автотестирования
@@ -13,7 +14,7 @@ import java.io.File;
 public class N2oFileUploadCell extends N2oCell implements FileUploadCell {
 
     @Override
-    public void shouldBeEmpty() {
+    public void shouldBeEmpty(Duration... duration) {
         throw new UnsupportedOperationException();
     }
 
@@ -40,17 +41,23 @@ public class N2oFileUploadCell extends N2oCell implements FileUploadCell {
     }
 
     @Override
-    public void uploadFileShouldHaveName(int index, String fileName) {
-        files().get(index)
-                .$(".n2o-file-uploader-file-name")
-                .shouldHave(Condition.text(fileName));
+    public void uploadFileShouldHaveName(int index, String fileName, Duration... duration) {
+        should(
+                Condition.text(fileName),
+                files().get(index)
+                .$(".n2o-file-uploader-file-name"),
+                duration
+        );
     }
 
     @Override
-    public void uploadFileShouldHaveSize(int index, String fileSize) {
-        files().get(index)
-                .$(".n2o-file-uploader-item-size")
-                .shouldHave(Condition.text(fileSize));
+    public void uploadFileShouldHaveSize(int index, String fileSize, Duration... duration) {
+        should(
+                Condition.text(fileSize),
+                files().get(index)
+                        .$(".n2o-file-uploader-item-size"),
+                duration
+        );
     }
 
     @Override

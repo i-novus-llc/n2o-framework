@@ -3,7 +3,8 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.PasswordControl;
-import org.openqa.selenium.Keys;
+
+import java.time.Duration;
 
 /**
  * Поле ввода пароля для автотестирования
@@ -33,14 +34,14 @@ public class N2oPasswordControl extends N2oControl implements PasswordControl {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
+    public void shouldHaveValue(String value, Duration... duration) {
         SelenideElement input = inputElement();
         boolean logicResult = value == null || value.isEmpty();
 
         if (input.exists())
-            input.shouldHave(logicResult ? Condition.empty : Condition.value(value));
+            should(logicResult ? Condition.empty : Condition.value(value), input, duration);
         else
-            cellInputElement().shouldHave(logicResult ? Condition.empty : Condition.text(value));
+            should(logicResult ? Condition.empty : Condition.text(value), cellInputElement(), duration);
     }
 
     @Override

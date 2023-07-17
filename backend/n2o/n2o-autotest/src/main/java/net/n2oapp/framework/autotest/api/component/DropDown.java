@@ -4,6 +4,8 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.badge.Badge;
 
+import java.time.Duration;
+
 /**
  * Выпадающий список для автотестирования
  */
@@ -27,7 +29,7 @@ public interface DropDown extends Component {
      * Проверка наличие всех элементов в выпадающего списка по метке
      * @param options список меток элементов
      */
-    void shouldHaveOptions(String... options);
+    void shouldHaveOptions(String[] options, Duration... duration);
 
     /**
      * Выбор элемента из выпадающего списка по номеру
@@ -74,7 +76,7 @@ public interface DropDown extends Component {
          * Проверка текста
          * @param value ожидаемый текст
          */
-        void shouldHaveValue(String value);
+        void shouldHaveValue(String value, Duration... duration);
 
         /**
          * Проверка выбранности
@@ -90,7 +92,7 @@ public interface DropDown extends Component {
          * Проверка соответствия описания
          * @param description ожидаемое описание
          */
-        void shouldHaveDescription(String description);
+        void shouldHaveDescription(String description, Duration... duration);
 
         /**
          * Проверка соответствия цвета

@@ -6,13 +6,15 @@ import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarEvent
 import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarTimeViewHeader;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 /**
  * Заголовок отображения календаря со временем для автотестирования
  */
 public abstract class N2oCalendarTimeViewHeader extends N2oComponent implements CalendarTimeViewHeader {
     @Override
-    public void shouldHaveTitle(String title) {
-        element().$(".rbc-row-resource .rbc-header").shouldHave(Condition.text(title));
+    public void shouldHaveTitle(String title, Duration... duration) {
+        should(Condition.text(title), element().$(".rbc-row-resource .rbc-header"), duration);
     }
 
     @Override

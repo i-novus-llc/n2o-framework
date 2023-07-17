@@ -5,6 +5,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import net.n2oapp.framework.autotest.api.component.cell.RatingCell;
 
+import java.time.Duration;
+
 /**
  * Ячейка таблицы с рейтингом для автотестирования
  */
@@ -17,8 +19,8 @@ public class N2oRatingCell extends N2oCell implements RatingCell {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
-        ratingInput().find(Condition.selected).shouldHave(Condition.value(value));
+    public void shouldHaveValue(String value, Duration... duration) {
+        should(Condition.value(value), ratingInput().find(Condition.selected), duration);
     }
 
     @Override

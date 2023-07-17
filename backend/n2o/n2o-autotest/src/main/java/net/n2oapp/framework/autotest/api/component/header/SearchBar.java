@@ -3,6 +3,8 @@ package net.n2oapp.framework.autotest.api.component.header;
 import net.n2oapp.framework.autotest.api.collection.SearchResult;
 import net.n2oapp.framework.autotest.api.component.Component;
 
+import java.time.Duration;
+
 /**
  * Панель поиска в шапке для автотестирования
  */
@@ -23,7 +25,7 @@ public interface SearchBar extends Component {
      * Проверка значения внутри поля поиска на соответствие
      * @param value ожидаемое значение
      */
-    void shouldHaveValue(String value);
+    void shouldHaveValue(String value, Duration... duration);
 
     /**
      * @return Список с результатами поиска в шапке для автотестирования

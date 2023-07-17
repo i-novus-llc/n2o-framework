@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.api.component.region;
 
 import net.n2oapp.framework.autotest.api.component.Expandable;
 
+import java.time.Duration;
+
 /**
  * Регион с горизонтальным делителем для автотестирования
  */
@@ -25,5 +27,5 @@ public interface LineRegion extends Region, Expandable {
      * Проверка заголовка региона
      * @param title ожидаемый заголовок
      */
-    void shouldHaveLabel(String title);
+    void shouldHaveLabel(String title, Duration... duration);
 }

@@ -3,7 +3,8 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.NumberPicker;
-import org.openqa.selenium.Keys;
+
+import java.time.Duration;
 
 /**
  * Компонент ввода числа из диапазона
@@ -32,9 +33,9 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
-        inputElement().shouldHave(
-                value == null || value.isEmpty() ? Condition.empty : Condition.value(value));
+    public void shouldHaveValue(String value, Duration... duration) {
+        Condition condition = value == null || value.isEmpty() ? Condition.empty : Condition.value(value);
+        should(condition, inputElement(), duration);
     }
 
     @Override

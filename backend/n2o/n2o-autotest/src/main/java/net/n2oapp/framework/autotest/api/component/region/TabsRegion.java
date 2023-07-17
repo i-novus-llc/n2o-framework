@@ -3,6 +3,8 @@ package net.n2oapp.framework.autotest.api.component.region;
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.Component;
 
+import java.time.Duration;
+
 /**
  * Регион в виде вкладок для автотестирования
  */
@@ -62,7 +64,7 @@ public interface TabsRegion extends Region {
          * Проверка наименования на соответствие
          * @param text ожидаемый текст наименования
          */
-        void shouldHaveName(String text);
+        void shouldHaveName(String text, Duration... duration);
 
         /**
          * Проверка отсутствия наименования

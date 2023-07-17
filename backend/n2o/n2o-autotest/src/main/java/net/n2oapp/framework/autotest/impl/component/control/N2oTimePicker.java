@@ -5,6 +5,8 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.TimePicker;
 
+import java.time.Duration;
+
 /**
  * Компонент ввода времени для автотестирования
  */
@@ -47,7 +49,7 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
+    public void shouldHaveValue(String value, Duration... duration) {
         element().$(".n2o-input").shouldHave(Condition.attribute("value", value));
     }
 

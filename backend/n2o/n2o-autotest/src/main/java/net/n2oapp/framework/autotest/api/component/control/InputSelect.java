@@ -3,6 +3,8 @@ package net.n2oapp.framework.autotest.api.component.control;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.PopupControl;
 
+import java.time.Duration;
+
 /**
  * Компонент ввода текста с выбором из выпадающего списка для автотестирования
  */
@@ -45,7 +47,7 @@ public interface InputSelect extends Control, PopupControl {
      * Проверка наличия выбранных опций с ожидаемыми значениями
      * @param values список ожидаемых значений
      */
-    void shouldSelectedMulti(String... values);
+    void shouldSelectedMulti(String[] values, Duration... duration);
 
     /**
      * @return выпадающий список для автотестирования

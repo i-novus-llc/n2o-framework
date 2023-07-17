@@ -5,6 +5,8 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.control.Progress;
 
+import java.time.Duration;
+
 /**
  * Компонент отображения прогресса для автотестирования
  */
@@ -16,7 +18,7 @@ public class N2oProgress extends N2oControl implements Progress {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
+    public void shouldHaveValue(String value, Duration... duration) {
         progressBar().shouldHave(Condition.attribute("aria-valuenow", value));
     }
 

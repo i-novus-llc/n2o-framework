@@ -4,6 +4,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 
+import java.time.Duration;
+
 /**
  * Кнопка с ссылкой для автотестирования
  */
@@ -25,8 +27,8 @@ public class N2oAnchorMenuItem extends N2oMenuItem implements AnchorMenuItem {
     }
 
     @Override
-    public void shouldHaveBadgeText(String text) {
-        badge().shouldHave(Condition.text(text));
+    public void shouldHaveBadgeText(String text, Duration... duration) {
+        should(Condition.text(text), badge(), duration);
     }
 
     @Override

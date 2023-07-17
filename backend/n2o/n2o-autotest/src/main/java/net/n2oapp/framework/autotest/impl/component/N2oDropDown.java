@@ -7,6 +7,7 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.OptionalInt;
 
@@ -23,13 +24,16 @@ public class N2oDropDown extends N2oComponent implements DropDown {
     }
 
     @Override
-    public void shouldHaveOptions(String... options) {
+    public void shouldHaveOptions(String[] options, Duration... duration) {
         if (options.length > 0) {
             items().shouldBe(
                     CollectionCondition.sizeGreaterThan(options.length - 1)
             );
-            element().$$(".dropdown-item .text-cropped, .dropdown-item .custom-control-label")
-                    .shouldHave(CollectionCondition.exactTexts(options));
+            should(
+                    CollectionCondition.exactTexts(options),
+                    element().$$(".dropdown-item .text-cropped, .dropdown-item .custom-control-label"),
+                    duration
+            );
         }
     }
 
@@ -102,8 +106,8 @@ public class N2oDropDown extends N2oComponent implements DropDown {
             setElement(element);
         }
 
-        public void shouldHaveValue(String value) {
-            element().shouldHave(Condition.text(value));
+        public void shouldHaveValue(String value, Duration... duration) {
+            should(Condition.text(value), duration);
         }
 
         @Override
@@ -117,8 +121,8 @@ public class N2oDropDown extends N2oComponent implements DropDown {
         }
 
         @Override
-        public void shouldHaveDescription(String description) {
-            element().$(".dropdown-header").shouldHave(Condition.text(description));
+        public void shouldHaveDescription(String description, Duration... duration) {
+            should(Condition.text(description), element().$(".dropdown-header"), duration);
         }
 
         @Override

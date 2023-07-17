@@ -1,6 +1,8 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
 
+import java.time.Duration;
+
 /**
  * Компонент группы чекбоксов для автотестирования
  */
@@ -34,7 +36,7 @@ public interface CheckboxGroup extends Control {
      * Проверка существования чекбоксов с заданными метками в чекбокс группе
      * @param labels метки ожидаемых чекбоксов
      */
-    void shouldHaveOptions(String... labels);
+    void shouldHaveOptions(String[] labels, Duration... duration);
 
     /**
      * Проверка соответствия тултипа при наведении на чекбокс со значением самой метки чекбокса

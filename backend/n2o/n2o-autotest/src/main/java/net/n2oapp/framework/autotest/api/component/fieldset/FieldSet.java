@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.api.component.fieldset;
 
 import net.n2oapp.framework.autotest.api.component.Component;
 
+import java.time.Duration;
+
 /**
  * Филдсет для автотестирования
  */
@@ -21,7 +23,7 @@ public interface FieldSet extends Component, Help {
      * Проверка метки на соответствие
      * @param label ожидаемое значение метки
      */
-    void shouldHaveLabel(String label);
+    void shouldHaveLabel(String label, Duration... duration);
 
     /**
      * Проверка того, что метки не существует
@@ -32,7 +34,7 @@ public interface FieldSet extends Component, Help {
      * Проверка описание на соответствие
      * @param description ожидаемое описание
      */
-    void shouldHaveDescription(String description);
+    void shouldHaveDescription(String description, Duration... duration);
 
     /**
      * Проверка того, что метки не существует
