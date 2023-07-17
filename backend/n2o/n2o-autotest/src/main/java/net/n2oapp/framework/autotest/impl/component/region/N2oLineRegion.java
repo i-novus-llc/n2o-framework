@@ -6,6 +6,8 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.region.LineRegion;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 
+import java.time.Duration;
+
 /**
  * Регион с горизонтальным делителем для автотестирования
  */
@@ -26,8 +28,8 @@ public class N2oLineRegion extends N2oRegion implements LineRegion {
     }
 
     @Override
-    public void shouldHaveLabel(String title) {
-        header().$(".n2o-panel-header-text").shouldHave(Condition.text(title));
+    public void shouldHaveLabel(String title, Duration... duration) {
+        should(Condition.text(title), header().$(".n2o-panel-header-text"), duration);
     }
 
     @Override

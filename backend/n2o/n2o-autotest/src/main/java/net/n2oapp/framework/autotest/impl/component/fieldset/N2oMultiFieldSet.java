@@ -7,6 +7,8 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
 
+import java.time.Duration;
+
 import static net.n2oapp.framework.autotest.N2oSelenide.component;
 
 /**
@@ -19,8 +21,8 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
     }
 
     @Override
-    public void shouldHaveLabel(String label) {
-        label().shouldHave(Condition.text(label));
+    public void shouldHaveLabel(String label, Duration... duration) {
+        should(Condition.text(label), label(), duration);
     }
 
     @Override
@@ -64,8 +66,8 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
     }
 
     @Override
-    public void addButtonShouldHaveLabel(String label) {
-        addButton().shouldHave(Condition.text(label));
+    public void addButtonShouldHaveLabel(String label, Duration... duration) {
+        should(Condition.text(label), addButton(), duration);
     }
 
     @Override
@@ -84,8 +86,8 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
     }
 
     @Override
-    public void removeAllButtonShouldHaveLabel(String label) {
-        removeAllButton().shouldHave(Condition.text(label));
+    public void removeAllButtonShouldHaveLabel(String label, Duration... duration) {
+        should(Condition.text(label), removeAllButton(), duration);
     }
 
     @Override

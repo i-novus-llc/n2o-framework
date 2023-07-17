@@ -10,6 +10,8 @@ import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.impl.collection.N2oMenu;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 /**
  * Боковая панель для автотестирования
  */
@@ -20,11 +22,14 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
     }
 
     @Override
-    public void shouldHaveTitle(String title) {
-        navBrands()
-                .filterBy(Condition.not(Condition.cssClass("n2o-brand")))
-                .get(0)
-                .shouldHave(Condition.exactText(title));
+    public void shouldHaveTitle(String title, Duration... duration) {
+        should(
+                Condition.exactText(title),
+                navBrands()
+                        .filterBy(Condition.not(Condition.cssClass("n2o-brand")))
+                        .get(0),
+                duration
+        );
     }
 
     @Override
@@ -34,11 +39,14 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
     }
 
     @Override
-    public void shouldHaveSubtitle(String subtitle) {
-        navBrands()
-                .filterBy(Condition.not(Condition.cssClass("n2o-brand")))
-                .get(1)
-                .shouldHave(Condition.exactText(subtitle));
+    public void shouldHaveSubtitle(String subtitle, Duration... duration) {
+        should(
+                Condition.exactText(subtitle),
+                navBrands()
+                        .filterBy(Condition.not(Condition.cssClass("n2o-brand")))
+                        .get(1),
+                duration
+        );
     }
 
     @Override

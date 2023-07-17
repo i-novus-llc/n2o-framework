@@ -6,6 +6,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.autotest.api.component.header.MenuItem;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 /**
  * Базовый класс кнопки в меню для автотестирования
  */
@@ -37,8 +39,8 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
     }
 
     @Override
-    public void shouldHaveLabel(String text) {
-        element().shouldHave(Condition.text(text));
+    public void shouldHaveLabel(String text, Duration... duration) {
+        should(Condition.text(text), duration);
     }
 
     @Override

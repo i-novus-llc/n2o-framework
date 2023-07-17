@@ -60,7 +60,7 @@ public class TooltipListCellAT extends AutoTestBase {
         cell4.hover();
         Tooltip tooltip = cell4.tooltip();
         tooltip.shouldExists();
-        tooltip.shouldHaveText("val1", "val2", "val3", "val4", "val5");
+        tooltip.shouldHaveText(new String[]{"val1", "val2", "val3", "val4", "val5"});
 
         TooltipListCell cell3 = rows.row(2).cell(0, TooltipListCell.class);
         cell3.shouldBeEmpty();
@@ -74,7 +74,7 @@ public class TooltipListCellAT extends AutoTestBase {
         cell2.hover();
         tooltip = cell2.tooltip();
         tooltip.shouldExists();
-        tooltip.shouldHaveText("val1", "val2", "val3");
+        tooltip.shouldHaveText(new String[]{"val1", "val2", "val3"});
 
         // если значение одно, то оно и отображается в поле без тултипа
         TooltipListCell cell1 = rows.row(0).cell(0, TooltipListCell.class);
@@ -100,7 +100,7 @@ public class TooltipListCellAT extends AutoTestBase {
         cell4.click();
         Tooltip tooltip = cell4.tooltip();
         tooltip.shouldExists();
-        tooltip.shouldHaveText("val1", "val2", "val3", "val4", "val5");
+        tooltip.shouldHaveText(new String[]{"val1", "val2", "val3", "val4", "val5"});
         // проверяем, что при наведении тултип не появляется
         rows0.row(0).cell(0, TooltipListCell.class).click();
         cell4.hover();
@@ -118,7 +118,7 @@ public class TooltipListCellAT extends AutoTestBase {
         cell2.click();
         tooltip = cell2.tooltip();
         tooltip.shouldExists();
-        tooltip.shouldHaveText("val1", "val2", "val3");
+        tooltip.shouldHaveText(new String[]{"val1", "val2", "val3"});
 
         // если значение одно, то оно и отображается в поле без тултипа
         TooltipListCell cell1 = rows.row(0).cell(0, TooltipListCell.class);

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
 import java.io.File;
+import java.time.Duration;
 
 /**
  * Загрузка файла для автотестирования
@@ -38,7 +39,7 @@ public interface FileUploadControl extends Control {
      * @param index номер проверяемого файла
      * @param fileName ожидаемое имя файла
      */
-    void uploadFileShouldHaveName(int index, String fileName);
+    void uploadFileShouldHaveName(int index, String fileName, Duration... duration);
 
     /**
      * Проверка размера загруженного файлов

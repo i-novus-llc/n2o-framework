@@ -3,7 +3,8 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.MaskedInput;
-import org.openqa.selenium.Keys;
+
+import java.time.Duration;
 
 /**
  * Компонент ввода текста с маской для автотестирования
@@ -33,13 +34,13 @@ public class N2oMaskedInput extends N2oControl implements MaskedInput {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
+    public void shouldHaveValue(String value, Duration... duration) {
         SelenideElement input = inputElement();
 
         if (input.exists())
-            input.shouldHave(Condition.value(value));
+            should(Condition.value(value), input, duration);
         else
-            cellInputElement().shouldHave(Condition.text(value));
+            should(Condition.text(value), cellInputElement(), duration);
     }
 
     @Override

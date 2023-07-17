@@ -77,7 +77,7 @@ public class FieldResetDependencyAT extends AutoTestBase {
         inputText.shouldHaveValue("test reset");
         datePicker.shouldHaveValue("02.02.2023");
         select.shouldSelected("2");
-        inputSelect.shouldSelectedMulti("2", "3");
+        inputSelect.shouldSelectedMulti(new String[]{"2", "3"});
         checkbox.shouldBeChecked();
         checkboxGroup.shouldBeChecked("test1");
         checkboxGroup.shouldBeChecked("test3");
@@ -87,7 +87,7 @@ public class FieldResetDependencyAT extends AutoTestBase {
         inputText.shouldHaveValue("test reset");
         datePicker.shouldHaveValue("02.02.2023");
         select.shouldSelected("2");
-        inputSelect.shouldSelectedMulti("2", "3");
+        inputSelect.shouldSelectedMulti(new String[]{"2", "3"});
         checkbox.shouldBeChecked();
         checkboxGroup.shouldBeChecked("test1");
         checkboxGroup.shouldBeChecked("test3");

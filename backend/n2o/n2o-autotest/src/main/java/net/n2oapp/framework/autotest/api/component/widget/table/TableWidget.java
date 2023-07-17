@@ -5,6 +5,7 @@ import net.n2oapp.framework.autotest.api.collection.*;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.StandardWidget;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -118,7 +119,7 @@ public interface TableWidget extends StandardWidget {
          * @param index номер проверяемой колонки
          * @param text ожидаемый текст
          */
-        void columnShouldHaveTexts(int index, List<String> text);
+        void columnShouldHaveTexts(int index, List<String> text, Duration... duration);
 
         /**
          * Проверка того, что у колонки нет текста.

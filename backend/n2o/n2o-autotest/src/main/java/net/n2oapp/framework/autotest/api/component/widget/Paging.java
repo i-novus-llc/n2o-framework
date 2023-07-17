@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.api.component.widget;
 
 import net.n2oapp.framework.autotest.api.component.Component;
 
+import java.time.Duration;
+
 /**
  * Компонент пагинации для автотестирования
  */
@@ -11,7 +13,7 @@ public interface Paging extends Component {
      * Проверка активной/выбранной страницы
      * @param number ожидаемый номер выбранной страницы
      */
-    void shouldHaveActivePage(String number);
+    void shouldHaveActivePage(String number, Duration... duration);
 
     /**
      * Клик по номеру страницы
@@ -66,7 +68,7 @@ public interface Paging extends Component {
      * Проверка метки кнопки перехода на предыдущую страницу
      * @param label ожидаемое значение метки
      */
-    void prevShouldHaveLabel(String label);
+    void prevShouldHaveLabel(String label, Duration... duration);
 
     /**
      * Проверка иконки кнопки перехода на предыдущую страницу
@@ -93,7 +95,7 @@ public interface Paging extends Component {
      * Проверка метки кнопки перехода на следующую страницу
      * @param label ожидаемое значение метки
      */
-    void nextShouldHaveLabel(String label);
+    void nextShouldHaveLabel(String label, Duration... duration);
 
     /**
      * Проверка иконки кнопки перехода на следующую страницу
@@ -140,7 +142,7 @@ public interface Paging extends Component {
      * Проверка значения кнопки перехода на последнюю страницу
      * @param page ожидаемое значение кнопки
      */
-    void lastShouldHavePage(String page);
+    void lastShouldHavePage(String page, Duration... duration);
 
     /**
      * Переход на последнюю страницу

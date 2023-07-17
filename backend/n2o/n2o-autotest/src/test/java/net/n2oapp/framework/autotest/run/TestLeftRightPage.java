@@ -10,6 +10,8 @@ import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 import static net.n2oapp.framework.autotest.N2oSelenide.collection;
 
 public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
@@ -75,7 +77,7 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     }
 
     @Override
-    public void shouldHaveTitle(String title) {
+    public void shouldHaveTitle(String title, Duration... duration) {
 
     }
 

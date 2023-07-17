@@ -61,23 +61,23 @@ public class Case11AT extends AutoTestBase {
         CheckboxGroup checkboxGroup = fields.field("Фильтр по чекбоксам").control(CheckboxGroup.class);
 
         filteredByLink.openPopup();
-        filteredByLink.dropdown().shouldHaveOptions("test1", "test2");
+        filteredByLink.dropdown().shouldHaveOptions(new String[]{"test1", "test2"});
         filteredByConstant.openPopup();
-        filteredByConstant.dropdown().shouldHaveOptions("test1", "test2");
+        filteredByConstant.dropdown().shouldHaveOptions(new String[]{"test1", "test2"});
         filteredByLinkWithCache.openPopup();
-        filteredByLinkWithCache.dropdown().shouldHaveOptions("test1", "test2");
-        radioGroup.shouldHaveOptions("test1", "test2");
-        checkboxGroup.shouldHaveOptions("test1", "test2");
+        filteredByLinkWithCache.dropdown().shouldHaveOptions(new String[]{"test1", "test2"});
+        radioGroup.shouldHaveOptions(new String[]{"test1", "test2"});
+        checkboxGroup.shouldHaveOptions(new String[]{"test1", "test2"});
 
         type.click();
         type.setValue("2");
         filteredByLink.openPopup();
-        filteredByLink.dropdown().shouldHaveOptions("test3", "test4");
+        filteredByLink.dropdown().shouldHaveOptions(new String[]{"test3", "test4"});
         filteredByConstant.openPopup();
-        filteredByConstant.dropdown().shouldHaveOptions("test1", "test2");
+        filteredByConstant.dropdown().shouldHaveOptions(new String[]{"test1", "test2"});
         filteredByLinkWithCache.openPopup();
-        filteredByLinkWithCache.dropdown().shouldHaveOptions("test3", "test4");
-        radioGroup.shouldHaveOptions("test3", "test4");
-        checkboxGroup.shouldHaveOptions("test3", "test4");
+        filteredByLinkWithCache.dropdown().shouldHaveOptions(new String[]{"test3", "test4"});
+        radioGroup.shouldHaveOptions(new String[]{"test3", "test4"});
+        checkboxGroup.shouldHaveOptions(new String[]{"test3", "test4"});
     }
 }

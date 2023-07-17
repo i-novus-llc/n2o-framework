@@ -6,14 +6,16 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 
+import java.time.Duration;
+
 /**
  * Компонент выбора из выпадающего списка для автотестирования
  */
 public class N2oSelect extends N2oControl implements Select {
 
     @Override
-    public void shouldHaveValue(String value) {
-        shouldSelected(value);
+    public void shouldHaveValue(String value, Duration... duration) {
+        shouldSelected(value, duration);
     }
 
     @Override
@@ -32,8 +34,8 @@ public class N2oSelect extends N2oControl implements Select {
     }
 
     @Override
-    public void shouldSelected(String value) {
-        selectedItemsContainer().shouldHave(Condition.text(value));
+    public void shouldSelected(String value, Duration... duration) {
+        should(Condition.text(value), selectedItemsContainer(), duration);
     }
 
     @Override

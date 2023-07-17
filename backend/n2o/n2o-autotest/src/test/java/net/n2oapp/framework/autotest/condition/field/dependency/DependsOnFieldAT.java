@@ -86,7 +86,7 @@ public class DependsOnFieldAT extends AutoTestBase {
         master.shouldHaveValue("1");
         StandardField dependentList = fields.field("Зависимый список");
         dependentList.shouldExists();
-        dependentList.control(InputSelect.class).shouldSelectedMulti("orgs1", "orgs2");
+        dependentList.control(InputSelect.class).shouldSelectedMulti(new String[]{"orgs1", "orgs2"});
     }
 
     @Test

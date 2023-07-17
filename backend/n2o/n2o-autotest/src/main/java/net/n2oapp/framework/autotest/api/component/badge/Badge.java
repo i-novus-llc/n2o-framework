@@ -5,6 +5,8 @@ import net.n2oapp.framework.autotest.BadgePosition;
 import net.n2oapp.framework.autotest.BadgeShape;
 import net.n2oapp.framework.autotest.api.component.Component;
 
+import java.time.Duration;
+
 /**
  * Ячейка со значком для автотестирования
  */
@@ -66,14 +68,14 @@ public interface Badge extends Component {
      * Проверка текста внутри баджа на точное соответствие (не учитывая регистр) ожидаемому тексту
      * @param text ожидаемый текст баджа
      */
-    default void badgeShouldHaveText(String text) {
-        element().$(".n2o-badge").shouldHave(Condition.exactText(text));
+    default void badgeShouldHaveText(String text, Duration... duration) {
+        should(Condition.exactText(text), element().$(".n2o-badge"), duration);
     }
 
     /**
      * Проверка на отсутствие текста внутри баджа
      */
-    default void badgeShouldNotHaveText() {
-        element().$(".n2o-badge").shouldHave(Condition.empty);
+    default void badgeShouldNotHaveText(Duration... duration) {
+        should(Condition.empty, element().$(".n2o-badge"), duration);
     }
 }

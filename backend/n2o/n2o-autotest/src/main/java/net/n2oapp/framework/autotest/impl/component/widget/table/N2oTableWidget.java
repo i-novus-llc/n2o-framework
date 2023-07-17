@@ -12,6 +12,7 @@ import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oPaging;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oStandardWidget;
 
+import java.time.Duration;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -115,8 +116,8 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         }
 
         @Override
-        public void columnShouldHaveTexts(int index, List<String> texts) {
-            column(index).shouldHave(CollectionCondition.texts(texts));
+        public void columnShouldHaveTexts(int index, List<String> texts, Duration... duration) {
+            should(CollectionCondition.texts(texts), column(index), duration);
         }
 
         @Override

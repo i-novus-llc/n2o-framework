@@ -6,18 +6,21 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.cell.ListCell;
 
+import java.time.Duration;
+
 /**
  * Ячейка таблицы со списком для автотестирования
  */
 public class N2oListCell extends N2oCell implements ListCell {
+
     @Override
     public void shouldHaveSize(int size) {
         badges().shouldHave(CollectionCondition.size(size));
     }
 
     @Override
-    public void shouldHaveText(int index, String val) {
-        badges().get(index).shouldHave(Condition.text(val));
+    public void shouldHaveText(int index, String val, Duration... duration) {
+        should(Condition.text(val), badges().get(index), duration);
     }
 
     @Override

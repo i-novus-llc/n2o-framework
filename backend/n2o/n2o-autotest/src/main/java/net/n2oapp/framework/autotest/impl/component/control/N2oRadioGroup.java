@@ -5,14 +5,16 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 
+import java.time.Duration;
+
 /**
  * Компонент радиокнопок для автотестирования
  */
 public class N2oRadioGroup extends N2oControl implements RadioGroup {
 
     @Override
-    public void shouldHaveValue(String value) {
-        shouldBeChecked(value);
+    public void shouldHaveValue(String value, Duration... duration) {
+        shouldBeChecked(value, duration);
     }
 
     @Override
@@ -21,8 +23,8 @@ public class N2oRadioGroup extends N2oControl implements RadioGroup {
     }
 
     @Override
-    public void shouldBeChecked(String label) {
-        element().$(".checked span").shouldHave(Condition.text(label));
+    public void shouldBeChecked(String label, Duration... duration) {
+        should(Condition.text(label), element().$(".checked span"), duration);
     }
 
     @Override
@@ -31,8 +33,8 @@ public class N2oRadioGroup extends N2oControl implements RadioGroup {
     }
 
     @Override
-    public void shouldHaveOptions(String... labels) {
-        radioInput().shouldHave(CollectionCondition.exactTexts(labels));
+    public void shouldHaveOptions(String[] labels, Duration... duration) {
+        should(CollectionCondition.exactTexts(labels), radioInput(), duration);
     }
 
     @Override

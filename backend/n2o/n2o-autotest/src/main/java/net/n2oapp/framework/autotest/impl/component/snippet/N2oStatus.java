@@ -5,13 +5,15 @@ import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.snippet.Status;
 
+import java.time.Duration;
+
 /**
  * Компонент отображения статуса для автотестирования
  */
 public class N2oStatus extends N2oSnippet implements Status {
     @Override
-    public void shouldHaveText(String text) {
-        element().$(".n2o-status-text_text").shouldHave(Condition.text(text));
+    public void shouldHaveText(String text, Duration... duration) {
+        should(Condition.text(text), element().$(".n2o-status-text_text"), duration);
     }
 
     @Override

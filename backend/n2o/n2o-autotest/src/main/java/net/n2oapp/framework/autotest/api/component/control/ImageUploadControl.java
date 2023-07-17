@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 
 import java.io.File;
+import java.time.Duration;
 
 /**
  * Загрузка изображения для автотестирования
@@ -85,7 +86,7 @@ public interface ImageUploadControl extends Control {
      * @param index номер проверяемого изображения
      * @param fileName ожидаемое имя изображения
      */
-    void shouldHaveName(int index, String fileName);
+    void shouldHaveName(int index, String fileName, Duration... duration);
 
     /**
      * Проверка наличия информации о размере у загруженного изображения

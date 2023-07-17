@@ -45,7 +45,7 @@ public class RadioGroupAT extends AutoTestBase {
         RadioGroup radio = fields.field("Radio1").control(RadioGroup.class);
         radio.shouldExists();
         radio.shouldHaveType(RadioGroup.RadioType.DEFAULT);
-        radio.shouldHaveOptions("One", "Two", "Three");
+        radio.shouldHaveOptions(new String[]{"One", "Two", "Three"});
         radio.shouldBeEmpty();
         radio.check("Three");
         radio.shouldBeChecked("Three");
@@ -55,7 +55,7 @@ public class RadioGroupAT extends AutoTestBase {
         RadioGroup btnRadio = fields.field("BtnRadio").control(RadioGroup.class);
         btnRadio.shouldExists();
         btnRadio.shouldHaveType(RadioGroup.RadioType.BTN);
-        btnRadio.shouldHaveOptions("One", "Two", "Three");
+        btnRadio.shouldHaveOptions(new String[]{"One", "Two", "Three"});
         btnRadio.check("Three");
         btnRadio.shouldBeChecked("Three");
         btnRadio.check("Two");
@@ -64,7 +64,7 @@ public class RadioGroupAT extends AutoTestBase {
         RadioGroup tabsRadio = fields.field("TabsRadio").control(RadioGroup.class);
         tabsRadio.shouldExists();
         tabsRadio.shouldHaveType(RadioGroup.RadioType.TABS);
-        tabsRadio.shouldHaveOptions("One", "Two", "Three");
+        tabsRadio.shouldHaveOptions(new String[]{"One", "Two", "Three"});
         tabsRadio.check("Three");
         tabsRadio.shouldBeChecked("Three");
         tabsRadio.check("Two");

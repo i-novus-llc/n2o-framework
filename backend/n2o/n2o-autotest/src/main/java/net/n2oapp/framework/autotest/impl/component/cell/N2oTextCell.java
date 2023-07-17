@@ -6,19 +6,21 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 
+import java.time.Duration;
+
 /**
  * Ячейка с текстом для автотестирования
  */
 public class N2oTextCell extends N2oCell implements TextCell {
 
     @Override
-    public void shouldHaveText(String text) {
-        element().shouldHave(Condition.exactText(text));
+    public void shouldHaveText(String text, Duration... duration) {
+        should(Condition.exactText(text), duration);
     }
 
     @Override
-    public void shouldHaveSubText(String... text) {
-        element().$$(".text-muted").shouldHave(CollectionCondition.texts(text));
+    public void shouldHaveSubText(String[] text, Duration... duration) {
+        should(CollectionCondition.texts(text), element().$$(".text-muted"), duration);
     }
 
     @Override
