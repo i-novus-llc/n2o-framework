@@ -16,21 +16,21 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |---------------------|---------------------------------------------------------------------------|--------------------------------|--------------------------|
 |id                   |Строка                                                                     |Идентификатор кнопки            |Вычисляется из `action-id`|
 |label                |Строка                                                                     |Заголовок кнопки                |                          |
-|icon                 |[CSS класс](http://fontawesome.io/icons/)                                  |Иконка                          |                          |
-|type                 |text, icon, iconAndText                                                    |Кнопка с иконкой или без        |iconAndText               |
+|icon                 |[Класс иконки](https://fontawesome.com/v4.7/icons/)                        |Иконка                          |                          |
+|type                 |text icon iconAndText                                                      |Кнопка с иконкой или без        |iconAndText               |
 |class                |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples)|Css класс кнопки                |                          |
 |style                |CSS свойство                                                               |Стиль кнопки                    |                          |
-|color                |primary, secondary, success, danger, warning, info, light, dark, link      |Цвет кнопки                     |                          |
+|color                |primary secondary success danger warning info light dark link              |Цвет кнопки                     |                          |
 |badge                |Строка                                                                     |Значок кнопки                   |                          |
-|badge-color          |Строка                                                                     |Цвет значка                     |                          |
-|badge-shape          |rounded, circle, square                                                    |Форма значка                    |circle                    |
-|badge-position       |left, right                                                                |Позиция значка                  |right                     |
+|badge-color          |primary secondary success danger warning info light dark                   |Цвет значка. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)                     |                          |
+|badge-shape          |rounded circle square                                                      |Форма значка                    |circle                    |
+|badge-position       |left right                                                                 |Позиция значка                  |right                     |
 |badge-image          |Строка                                                                     |Картинка в значке               |                          |
-|badge-image-shape    |rounded, circle, square                                                    |Форма картинки в значке         |circle                    |
-|badge-image-position |left, right                                                                |Позиция картинки в значке       |left                      |
+|badge-image-shape    |rounded circle square                                                      |Форма картинки в значке         |circle                    |
+|badge-image-position |left right                                                                 |Позиция картинки в значке       |left                      |
 |src                  |Строка                                                                     |Реализация кнопки.              |                          |
 |description          |Строка                                                                     |Описание при наведении на кнопку|                          |
-|tooltip-position     |left, right, top, bottom                                                   |Позиция подсказки.              |                          |
+|tooltip-position     |left right top bottom                                                      |Позиция подсказки.              |                          |
 |model                |resolve edit filter multi datasource                                       |Модель, над которой выполнится действие. Если модель пустая, то кнопка будет заблокирована |resolve   |
 |datasource           |Ссылка на [источник данных](../xml/datasource#datasources)                 |Идентификатор источника данных, над которым будет выполнена операция |Источник данных текущего виджета|
 |visible              |Строка                                                                     |Видимость по умолчанию.         |                          |
@@ -68,9 +68,9 @@ n2o.api.button.badge.image_shape=circle
 |confirm-text             |Строка                                                                |Текст предупреждения.                                                                                                                                                                           |                                |
 |confirm-title            |Строка                                                                |Заголовок окна предупреждения.                                                                                                                                                                  |                                |
 |confirm-ok-label         |Строка                                                                |Текст кнопки подтверждения.                                                                                                                                                                     |                                |
-|confirm-ok-color         |primary, secondary, success, danger, warning, info, light, dark, link |Цвет кнопки подтверждения.                                                                                                                                                                      |primary                         |
+|confirm-ok-color         |primary secondary success danger warning info light dark link         |Цвет кнопки подтверждения.                                                                                                                                                                      |primary                         |
 |confirm-cancel-label     |Строка                                                                |Текст кнопки отмены.                                                                                                                                                                            |                                |
-|confirm-cancel-color     |primary, secondary, success, danger, warning, info, light, dark, link |Цвет кнопки отмены.                                                                                                                                                                             |secondary                       |
+|confirm-cancel-color     |primary secondary success danger warning info light dark link         |Цвет кнопки отмены.                                                                                                                                                                             |secondary                       |
 |disable-on-empty-model   |true false auto                                                       |Недоступность кнопки при пустой модели. `true` - всегда недоступна,`false` - всегда доступна, `auto` - недоступна только при пустой модели resolve, для всех остальных моделей доступна всегда. |auto                            |
 
 
@@ -162,7 +162,7 @@ n2o.api.submenu.show_toggle_icon=true
 
 ```xml
 <sub-menu>
-  <menu-item label="Удалить запись" icon="fa-trash">
+  <menu-item label="Удалить запись" icon="fa fa-trash">
     <invoke operation-id="delete"/>
   </menu-item>
 </sub-menu>

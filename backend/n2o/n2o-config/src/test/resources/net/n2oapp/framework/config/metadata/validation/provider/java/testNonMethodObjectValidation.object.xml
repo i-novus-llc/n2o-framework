@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <validations>
+        <constraint id="test">
+            <invocation>
+                <java class="net.n2oapp.framework.sandbox.examples.MyService">
+                    <spring/>
+                </java>
+            </invocation>
+        </constraint>
+    </validations>
+</object>
+
+

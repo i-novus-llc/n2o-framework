@@ -3,6 +3,9 @@
     <list>
         <test file="test.json"/>
     </list>
+    <count>
+        <test file="test.json" operation="count"/>
+    </count>
 
     <filters>
         <eq filter-id="id" field-id="id"/>

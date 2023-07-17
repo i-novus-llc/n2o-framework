@@ -34,7 +34,7 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 |format          |Строка    |Формат текста                           |                     |
 |subtext-field-id|Строка    |Идентификатор поля второго уровня текста|                     |
 |subtext-format  |Строка    |Формат второго уровня текста            |                     |
-|icon            |Строка    |Иконка                                  |                     |
+|icon            |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Иконка                                  |                     |
 |icon-position   |left right|Позиция иконки                          |left                 |
 
 **Настройки**
@@ -72,7 +72,7 @@ n2o.api.cell.text.icon_position=left
 |url         |Строка                                                                                  |Адрес URL открываемой страницы                             |                     |
 |target      |self newWindow application                                                              |Сценарий открытия ссылки                                   |                     |
 |action-id   |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions) |Действие виджета, которое будет вызвано при клике по ссылке|                     |
-|icon        |Строка                                                                                  |Иконка ссылки                                              |                     |
+|icon        |[Класс иконки](https://fontawesome.com/v4.7/icons/)                                     |Иконка ссылки                                              |                     |
 |type        |text icon iconAndText                                                                   |Текст с иконкой или без                                    |text                 |
 
 
@@ -111,7 +111,7 @@ n2o.api.cell.link.type=text
 |Наименование|Тип                                      |Описание           |Значение по умолчанию                |
 |------------|-----------------------------------------|-------------------|-------------------------------------|
 |text        |Строка                                   |Текст иконки       |Берётся из значения в `text-field-id`|
-|icon        |[CSS класс](http://fontawesome.io/icons/)|Класс иконки       |                                     |
+|icon        |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Класс иконки|                                  |
 |type        |icon iconAndText                         |С текстом или без  |icon                                 |
 |position    |right left                               |Расположение текста|                                     |
 
@@ -188,9 +188,9 @@ n2o.api.cell.icon.type=icon
 |------------|-------------------------------------------------------------------------------|---------------------------|---------------------|
 |class       |[CSS class](https://getbootstrap.com/docs/4.0/components/progress/#backgrounds)|Стиль индикатора           |                     |
 |active      |true false                                                                     |С анимацией загрузки?      |false                |
-|size        |large, normal, small                                                           |Размер индикатора прогресса|normal               |
+|size        |large normal small                                                             |Размер индикатора прогресса|normal               |
 |striped     |true false                                                                     |С полосками?               |false                |
-|color       |Строка                                                                         |Цвет индикатора            |                     |
+|color       |primary secondary success danger warning info light dark                       |Цвет индикатора. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)             |                     |
 
 
 **Настройки**
@@ -225,10 +225,10 @@ n2o.api.cell.progress.striped=false
 |class        |[CSS class](https://getbootstrap.com/docs/4.0/content/images/)                         |Стиль обрамления                                               |                     |
 |width        |Строка                                                                                 |Ширина изображения. Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px` |
 |action-id    |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions)|Ссылка на действие, которое выполнятся при клике по изображению|                     |
-|shape        |square, circle, rounded                                                                |Форма картинки                                                 |square               |
+|shape        |square circle rounded                                                                  |Форма картинки                                                 |square               |
 |title        |Строка                                                                                 |Заголовок                                                      |                     |
 |description  |Строка                                                                                 |Подзаголовок                                                   |                     |
-|text-position|top, left, right, bottom|Расположение текста относительно картинки                     |right                                                          |                     |
+|text-position|top left right bottom|Расположение текста относительно картинки                        |right                                                          |                     |
 
 **Настройки**
 ```yaml
@@ -280,8 +280,8 @@ n2o.api.cell.image.text_position=right
 |------------|------------------------------------------|--------------------------|---------------------|
 |Src         |React компонент                           |Реализация статуса        |Status               |
 |field-id    |Строка                                    |Поле с данными для статуса|                     |
-|icon        |Строка                                    |Иконка статуса            |                     |
-|place       |topLeft, topRight, bottomLeft, bottomRight|Расположение статуса      |topLeft              |
+|icon        |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Иконка статуса   |                     |
+|place       |topLeft topRight bottomLeft bottomRight   |Расположение статуса      |topLeft              |
 
 
 **Настройки**
@@ -321,8 +321,8 @@ n2o.api.cell.image.status_place=topLeft
 |request-param   |Строка                                                            |Наименование поля в запросе miltipart form data         |file                 |
 |show-size       |true false                                                        |Отображение размера файла                               |true                 |
 |accept          |Строка                                                            |Доступные расширения файлов (через запятую)             |                     |
-|delete-icon     |Строка                                                            |Иконка удаления файлов                                  |                     |
-|upload-icon     |Строка                                                            |Иконка загрузки файлов                                  |                     |
+|delete-icon     |[Класс иконки](https://fontawesome.com/v4.7/icons/)               |Иконка удаления файлов                                  |                     |
+|upload-icon     |[Класс иконки](https://fontawesome.com/v4.7/icons/)               |Иконка загрузки файлов                                  |                     |
 
 **Настройки**
 ```yaml
@@ -364,7 +364,7 @@ n2o.api.cell.file_upload.show_size=true
 |Наименование|Тип                                                                                    |Описание                                                                    |Значение по умолчанию|
 |------------|---------------------------------------------------------------------------------------|----------------------------------------------------------------------------|---------------------|
 |action-id   |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions)|Ссылка на действие виджета, которое выполнятся при завершении редактирования|                     |
-|type        |inline, popup                                                                          |Расположение                                                                |inline               |
+|type        |inline popup                                                                           |Расположение                                                                |inline               |
 |format      |Строка                                                                                 |Формат текста                                                               |                     |
 |enabled     |true false                                                                             |Условие доступности                                                         |true                 |
 
@@ -419,7 +419,7 @@ n2o.api.cell.edit.enabled=true
 |Наименование|Тип                                                                                    |Описание                                                            |Значение по умолчанию    |
 |------------|---------------------------------------------------------------------------------------|--------------------------------------------------------------------|-------------------------|
 |label       |Строка                                                                                 |Подпись кнопки                                                      |Вычисляется из action-id |
-|icon        |[CSS класс](http://fontawesome.io/icons/)                                              |Иконка кнопки                                                       |Вычисляется из action-id |
+|icon        |[Класс иконки](https://fontawesome.com/v4.7/icons/)                                    |Иконка кнопки                                                       |Вычисляется из action-id |
 |action-id   |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions)|Ссылка на действие виджета, которое выполнятся при нажатии на кнопку|                         |
 |class       |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples)            |Стиль кнопки                                                        |                         |
 
@@ -454,15 +454,15 @@ n2o.api.cell.edit.enabled=true
 
 |Наименование   |Тип                     |Описание                                      |Значение по умолчанию|
 |---------------|------------------------|----------------------------------------------|---------------------|
-|position       |right, left             |Расположение                                  |                     |
+|position       |right left              |Расположение                                  |                     |
 |text           |Строка                  |Текст вне значка                              |                     |
-|color          |CSS класс               |Цвет значка                                   |                     |
+|color          |primary secondary success danger warning info light dark               |Цвет значка. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)|         |
 |format         |Строка                  |Формат текста в значке                        |                     |
 |text-format    |Строка                  |Формат текста вне значка                      |                     |
-|shape          |square, circle, rounded |Форма значка                                  |square               |
+|shape          |square circle rounded   |Форма значка                                  |square               |
 |image-field-id |Строка                  |Поле выборки, отвечающее за картинку в значке |                     |
-|image-position |right, left             |Позиция картинки в значке                     |left                 |
-|image-shape    |square, circle, rounded |Форма картинки в значке                       |circle               |
+|image-position |right left              |Позиция картинки в значке                     |left                 |
+|image-shape    |square circle rounded   |Форма картинки в значке                       |circle               |
 
 
 **Настройки**
@@ -502,7 +502,7 @@ n2o.api.cell.badge.image_shape=circle
 |Наименование  |Тип                   |Описание                                                                                                          |Значение по умолчанию|
 |--------------|----------------------|------------------------------------------------------------------------------------------------------------------|---------------------|
 |size          |Число                 |Количество элементов для группировки                                                                              |                     |
-|color         |CSS класс             |Цвет элементов                                                                                                    |                     |
+|color         |primary secondary success danger warning info light dark                                                       |Цвет элементов. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)           |                     |
 |label-field-id|Вложенное поле столбца|Отображаемое поле в объекте, если столбец - массив объектов. Если отсутствует, то столбец является массивом строк.|                     |
 
 **Тело**

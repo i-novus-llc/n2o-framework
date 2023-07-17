@@ -76,7 +76,7 @@
                                 submit-operation-id="create"
                                 page-name="Карточка нового клиента">
                         <datasources>
-                            <datasource default-values-mode="defaults"/>
+                            <datasource id="main" default-values-mode="defaults"/>
                         </datasources>
                     </show-modal>
                 </button>

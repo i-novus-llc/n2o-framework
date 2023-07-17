@@ -22,7 +22,7 @@ public class N2oPaging extends N2oComponent implements Paging {
 
     protected String prevButtonLocator = ".prev";
 
-    protected String paginationLocator = ".pagination-container";
+    protected String paginationContainer = ".pagination-container";
 
     protected String totalTextLocator = ".pagination__total__text";
 
@@ -32,7 +32,7 @@ public class N2oPaging extends N2oComponent implements Paging {
 
     @Override
     public void shouldHaveActivePage(String label) {
-        element().$(paginationLocator.concat(" ").concat(pageItemLocator).concat(".active.page-link .title")).shouldHave(Condition.text(label));
+        element().$(paginationContainer.concat(" ").concat(pageItemLocator).concat(".active.page-link .title")).shouldHave(Condition.text(label));
     }
 
     @Override
@@ -218,20 +218,33 @@ public class N2oPaging extends N2oComponent implements Paging {
         countButton().click();
     }
 
+    @Override
+    public void shouldExists() {
+        element().$(paginationContainer).lastChild().shouldBe(Condition.exist);
+    }
+
+    @Override
+    public void shouldNotExists() {
+        if (element().$(paginationContainer).exists()) {
+            element().$(paginationContainer).lastChild().shouldNotHave(Condition.exist);
+        } else
+            element().$(paginationContainer).shouldNotBe(Condition.exist);
+    }
+
     protected SelenideElement pageNumberButton(String number) {
-        return element().$$(paginationLocator.concat(" ").concat(pageItemLocator)).findBy(Condition.text(number));
+        return element().$$(paginationContainer.concat(" ").concat(pageItemLocator)).findBy(Condition.text(number));
     }
 
     protected SelenideElement paginationInfo() {
-        return element().$(paginationLocator.concat(" ").concat(totalTextLocator));
+        return element().$(paginationContainer.concat(" ").concat(totalTextLocator));
     }
 
     protected SelenideElement prevButton() {
-        return element().$(paginationLocator.concat(" ").concat(prevButtonLocator));
+        return element().$(paginationContainer.concat(" ").concat(prevButtonLocator));
     }
 
     protected SelenideElement nextButton() {
-        return element().$(paginationLocator.concat(" ").concat(nextButtonLocator));
+        return element().$(paginationContainer.concat(" ").concat(nextButtonLocator));
     }
 
     protected SelenideElement firstPage() {

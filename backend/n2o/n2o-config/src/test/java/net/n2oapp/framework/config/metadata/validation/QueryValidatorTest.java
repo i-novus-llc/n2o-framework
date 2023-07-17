@@ -8,6 +8,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -29,38 +30,42 @@ public class QueryValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    public void testCheckForExistsObject() {
-        assertThrows(
+    void testCheckForExistsObject() {
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForExistsObject.query.xml"),
-                "Выборка checkForExistsObject ссылается на несуществующий объект nonExistantObjectId"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForExistsObject.query.xml"));
+        assertEquals("Выборка 'checkForExistsObject' ссылается на несуществующий объект 'nonExistantObjectId'", exception.getMessage());
     }
 
     @Test
-    public void testCheckForUniqueFields() {
-        assertThrows(
+    void testCheckForUniqueFields() {
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForUniqueFields.query.xml"),
-                "Поле code встречается более чем один раз в выборке checkForUniqueFields"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForUniqueFields.query.xml"));
+        assertEquals("Поле 'code' встречается более чем один раз в выборке 'checkForUniqueFields'", exception.getMessage());
     }
 
     @Test
-    public void testCheckForUniqueFilterFields() {
-        assertThrows(
+    void testCheckForUniqueFilterFields() {
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForUniqueFilterFields.query.xml"),
-                "Фильтр nameEq в выборке checkForUniqueFilterFields повторяется"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForUniqueFilterFields.query.xml"));
+        assertEquals("Фильтр 'nameEq' в выборке 'checkForUniqueFilterFields' повторяется", exception.getMessage());
     }
 
     @Test
-    public void testCheckForExistsFiltersInSelections() {
-        assertThrows(
+    void testCheckForExistsFiltersInSelections() {
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForExistsFiltersInSelections.query.xml"),
-                "<unique> ссылается на несуществующий фильтр codeEq2"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForExistsFiltersInSelections.query.xml"));
+        assertEquals( "<unique> ссылается на несуществующий фильтр 'codeEq2' в выборке 'checkForExistsFiltersInSelections'", exception.getMessage());
+    }
+
+    @Test
+    void testCheckFieldIdExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkFieldIdExistence.page.xml"));
+        assertEquals( "Одно из полей выборки 'checkFieldIdExistence' не имеет 'id'", exception.getMessage());
     }
 }

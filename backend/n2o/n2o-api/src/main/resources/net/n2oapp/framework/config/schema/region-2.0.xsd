@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:wgt="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+           xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
            targetNamespace="http://n2oapp.net/framework/config/schema/region-2.0">
 
     <xs:element name="region" type="regionDefinition"/>
@@ -222,10 +223,10 @@
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Класс иконки.</xs:documentation>
+                        <xs:documentation>Класс иконки из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="color" type="xs:string">
+                <xs:attribute name="color" type="bs:colorDefinition">
                     <xs:annotation>
                         <xs:documentation>Стиль панели.</xs:documentation>
                     </xs:annotation>

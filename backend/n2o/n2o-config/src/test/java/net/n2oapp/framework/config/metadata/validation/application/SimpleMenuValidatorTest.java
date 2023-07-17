@@ -9,6 +9,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -31,28 +32,33 @@ public class SimpleMenuValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testMenuItemWithoutAction() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testMenuItemWithoutAction.menu.xml"),
-                "Не задано действие для 'menu-item'"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testMenuItemWithoutAction.menu.xml"));
+        assertEquals("Не задано действие для <menu-item>", exception.getMessage());
     }
 
     @Test
     void testMenuItemWithoutName() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testMenuItemWithoutName.menu.xml"),
-                "Не задан 'name' для 'menu-item'"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testMenuItemWithoutName.menu.xml"));
+        assertEquals("Не задан 'name' для <menu-item>", exception.getMessage());
     }
 
     @Test
     void testDropdownMenuWithoutName() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testDropdownMenuWithoutName.menu.xml"),
-                "Не задан 'name' для 'dropdown-menu'"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testDropdownMenuWithoutName.menu.xml"));
+        assertEquals("Не задан 'name' для <dropdown-menu>", exception.getMessage());
+    }
+
+    @Test
+    void testColor() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testMenuItemBadgeColor.menu.xml"));
+        assertEquals("<menu-item> использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
     }
 }

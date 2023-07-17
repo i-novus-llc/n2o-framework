@@ -51,4 +51,10 @@ public interface InputSelect extends Control, PopupControl {
      * @return выпадающий список для автотестирования
      */
     DropDown dropdown();
+
+    /**
+     * Ручная очистка поля ввода
+     * через клавишу backspace
+     */
+    void backspace();
 }

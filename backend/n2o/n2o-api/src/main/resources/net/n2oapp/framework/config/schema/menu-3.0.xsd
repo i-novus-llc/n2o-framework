@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/menu-3.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
            xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0">
 
     <xs:element name="nav" type="menuDefinition"/>
@@ -56,7 +57,7 @@
         </xs:attribute>
         <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Иконка выпадающего меню</xs:documentation>
+                <xs:documentation>Иконка выпадающего меню из https://fontawesome.com/v4.7/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="image" type="xs:string">
@@ -99,7 +100,7 @@
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка компонента меню</xs:documentation>
+                        <xs:documentation>Иконка компонента меню из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="badge" type="xs:integer">
@@ -107,9 +108,9 @@
                         <xs:documentation>Значок компонента меню</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="badge-color" type="xs:string">
+                <xs:attribute name="badge-color" type="bs:colorDefinition">
                     <xs:annotation>
-                        <xs:documentation>Цвет значка</xs:documentation>
+                        <xs:documentation>Цвет значка. Возможно использование плейсхолдеров</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="badge-shape" type="shapeType" default="circle">
@@ -234,5 +235,4 @@
             <xs:enumeration value="right"/>
         </xs:restriction>
     </xs:simpleType>
-
 </xs:schema>

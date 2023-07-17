@@ -1,0 +1,24 @@
+package net.n2oapp.framework.config.metadata.validation.standard.button;
+
+import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
+import net.n2oapp.framework.api.metadata.validate.SourceValidator;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.stereotype.Component;
+
+@Component
+public class SubMenuValidator implements SourceValidator<N2oSubmenu>, SourceClassAware {
+
+    @Override
+    public Class<? extends Source> getSourceClass() {
+        return N2oSubmenu.class;
+    }
+
+    @Override
+    public void validate(N2oSubmenu source, SourceProcessor p) {
+        if (!ArrayUtils.isEmpty(source.getMenuItems()))
+            p.safeStreamOf(source.getMenuItems()).forEach(p::validate);
+    }
+}

@@ -84,6 +84,7 @@ public class InputSelectAT extends AutoTestBase {
 
         input.openPopup();
         input.dropdown().item(1).shouldBeSelected();
+        input.dropdown().item(1).shouldBeDisabled();
 
         input.clear();
         input.shouldBeEmpty();
@@ -159,6 +160,17 @@ public class InputSelectAT extends AutoTestBase {
         input.clearItems("Three");
         input.shouldSelectedMulti("Two", "One");
         input.clearItems("Two", "One");
+        input.shouldBeEmpty();
+
+        // проверяем удаление элементов через Backspace
+        input.openPopup();
+        input.dropdown().selectMulti(2, 1, 0);
+        input.shouldSelectedMulti("Three", "Two", "One");
+        input.backspace();
+        input.shouldSelectedMulti("Three", "Two");
+        input.backspace();
+        input.shouldSelectedMulti("Three");
+        input.backspace();
         input.shouldBeEmpty();
     }
 

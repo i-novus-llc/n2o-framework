@@ -104,9 +104,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         if (link != null && link.getValue() instanceof DefaultValues) {
             DefaultValues defaultValues = (DefaultValues) link.getValue();
             defaultValues.getValues().remove(modelLinkValue.split("\\.")[1]);
-            if (defaultValues.getValues().isEmpty()) {
-                page.getModels().remove(modelId);
-            }
+            page.getModels().remove(modelId);
         }
     }
 

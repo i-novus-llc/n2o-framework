@@ -336,7 +336,7 @@
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка действия.</xs:documentation>
+                        <xs:documentation>Иконка действия из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="hotkey" type="xs:string">
