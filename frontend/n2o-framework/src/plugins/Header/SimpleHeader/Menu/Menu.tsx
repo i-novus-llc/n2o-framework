@@ -2,8 +2,9 @@ import React from 'react'
 import isEmpty from 'lodash/isEmpty'
 
 import { metaPropsType } from '../../../utils'
+import { IItem } from '../../../CommonMenuTypes'
 
-import { Item, IItem } from './Item'
+import { Item } from './Item'
 
 interface IProps {
     items: IItem[]

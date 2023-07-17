@@ -3,17 +3,17 @@ import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
 import { ExtendedTooltipComponent } from '../../components/snippets/Tooltip/TooltipHOC'
-import { ItemContent as SidebarItem } from '../SideBar/ItemContent'
+import { LinkBody as SidebarItem } from '../SideBar/Menu/NavItems/Links/LinkBody'
 import { LinkBody as HeaderItem } from '../Header/SimpleHeader/Menu/NavItems/Links/LinkBody'
-import { IItem } from '../Header/SimpleHeader/Menu/Item'
+import { IItem } from '../CommonMenuTypes'
 
 interface IAction {
     item: IItem,
-    className?: string
-    isStaticView?: boolean
-    sidebarOpen?: boolean
-    showContent?: boolean
-    isMiniView?: boolean
+    className: string
+    isStaticView: boolean
+    sidebarOpen: boolean
+    showContent: boolean
+    isMiniView: boolean
     from: 'HEADER' | 'SIDEBAR'
 }
 

@@ -8,8 +8,7 @@ import { getFromSource, metaPropsType } from '../../utils'
 import { IDataSourceModels } from '../../../core/datasource/const'
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
-
-import { IContextComponent, IItem } from './Menu/Item'
+import { IItem, IFactoryComponent } from '../../CommonMenuTypes'
 
 interface INavItemContainer {
     itemProps: IItem
@@ -27,14 +26,14 @@ const NavItemContainer = (props: INavItemContainer) => {
     const { src } = item
 
     const { getComponent } = useContext(FactoryContext)
-    const ContextComponent: IContextComponent = getComponent(src, FactoryLevels.HEADER_ITEMS)
+    const FactoryComponent: IFactoryComponent = getComponent(src, FactoryLevels.HEADER_ITEMS)
 
-    if (!ContextComponent) {
+    if (!FactoryComponent) {
         return null
     }
 
     return (
-        <ContextComponent
+        <FactoryComponent
             item={item}
             from="HEADER"
             className="nav-item"

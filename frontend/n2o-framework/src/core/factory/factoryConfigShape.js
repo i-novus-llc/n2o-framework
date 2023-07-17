@@ -14,6 +14,7 @@ const factoryConfigShape = PropTypes.shape({
     buttons: PropTypes.objectOf(PropTypes.element),
     overlays: PropTypes.objectOf(PropTypes.func),
     headerItems: PropTypes.objectOf(PropTypes.func),
+    sidebarItems: PropTypes.objectOf(PropTypes.func),
 })
 
 export default factoryConfigShape

@@ -8,7 +8,8 @@ import {
 import classNames from 'classnames'
 
 import { LinkBody } from '../Links/LinkBody'
-import { IContextComponent, IDropdown } from '../../Item'
+import { IDropdown } from '../../Item'
+import { IFactoryComponent } from '../../../../../CommonMenuTypes'
 import { ITEM_SRC } from '../../../../../constants'
 import { FactoryContext } from '../../../../../../core/factory/context'
 import { FactoryLevels } from '../../../../../../core/factory/factoryLevels'
@@ -76,15 +77,15 @@ export function Dropdown(props: IDropdown) {
                         )
                     }
 
-                    const ContextComponent: IContextComponent = getComponent(src, FactoryLevels.HEADER_ITEMS)
+                    const FactoryComponent: IFactoryComponent = getComponent(src, FactoryLevels.HEADER_ITEMS)
 
-                    if (!ContextComponent) {
+                    if (!FactoryComponent) {
                         return null
                     }
 
                     return (
                         <DropdownItem active={active} onClick={onItemClick} disabled={src === ITEM_SRC.STATIC}>
-                            <ContextComponent
+                            <FactoryComponent
                                 item={item}
                                 from="HEADER"
                                 className={classNames('dropdown-item', className)}
