@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Ленивая загрузка вкладок при наличие зависимостей">
+    <datasources>
+        <datasource id="ds1" query-id="test"/>
+        <datasource id="ds2" query-id="test">
+            <dependencies>
+                <fetch on="dsShow"/>
+            </dependencies>
+        </datasource>
+        <datasource id="dsShow" query-id="test"/>
+    </datasources>
+
+    <regions>
+        <form id="fields">
+            <fields>
+                <row>
+                    <output-text id="one" label="1"/>
+                    <output-text id="two" label="2"/>
+                </row>
+            </fields>
+            <toolbar>
+                <button label="Данные" enabled="true">
+                    <set-value to="one" target-datasource="fields" source-datasource="ds1">
+                        return test
+                    </set-value>
+                    <set-value to="two" target-datasource="fields" source-datasource="ds2">
+                        return test
+                    </set-value>
+                </button>
+            </toolbar>
+        </form>
+        <form datasource="dsShow"/>
+        <tabs routable="false" lazy="true">
+            <tab name="tab ds1">
+                <form id="table1" datasource="ds1"/>
+            </tab>
+            <tab name="tab ds2">
+                <form id="table2" datasource="ds2" fetch-on-visibility="true">
+                    <dependencies>
+                        <visibility datasource="dsShow">show</visibility>
+                    </dependencies>
+                </form>
+            </tab>
+        </tabs>
+    </regions>
+</page>
