@@ -24,7 +24,7 @@ import {
     unsetRequired,
     setLoading,
     registerFieldExtra,
-    initializeDependencies,
+    initializeDependencies, syncValues,
 } from '../ducks/form/store'
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
@@ -351,6 +351,15 @@ export function* resolveDependencyDefaultModels({ payload }) {
     }
 }
 
+function* resolveOnSetModel({ payload, meta }) {
+    const { form } = meta
+    const { model } = payload
+
+    for (const field of Object.keys(model)) {
+        yield call(resolveDependency, change(form, field, model[field]))
+    }
+}
+
 export const fieldDependencySagas = [
     takeEvery([
         actionTypes.INITIALIZE,
@@ -360,4 +369,5 @@ export const fieldDependencySagas = [
     ], resolveDependency),
     takeEvery(resolveRequest, resolveDependencyOnInit),
     takeLatest(combineModels, resolveDependencyDefaultModels),
+    takeEvery(syncValues, resolveOnSetModel),
 ]
