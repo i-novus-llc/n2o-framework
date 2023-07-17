@@ -15,7 +15,8 @@ import ChangeSize from '../../components/buttons/ChangeSize/ChangeSize'
 import controls from '../../components/controls'
 import overlays from '../../components/core/overlays'
 import * as breadcrumbs from '../../components/core/Breadcrumb/breadcrumb'
-import { headerItems } from '../../plugins/Header/SimpleHeader/Menu/ContextItems'
+import { headerItems } from '../../plugins/Header/SimpleHeader/Menu/FactoryItems'
+import { sidebarItems } from '../../plugins/SideBar/Menu/FactoryItems'
 
 import { NotFoundFactory } from './NotFoundFactory'
 
@@ -28,7 +29,8 @@ const index = {
     ...controls,
     ...overlays,
     ...breadcrumbs,
-    ...headerItems,
+    headerItems,
+    sidebarItems,
     ToggleColumn,
     ChangeSize,
     NotFoundFactory,

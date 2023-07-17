@@ -14,4 +14,5 @@ export default [
     'overlays',
     'breadcrumbs',
     'headerItems',
+    'sidebarItems',
 ]

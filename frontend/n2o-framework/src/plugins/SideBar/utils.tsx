@@ -1,10 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { ITEM_SRC } from '../constants'
 
-export const getCurrentTitle = (isMiniView, icon, title, imageSrc) => {
+export const getCurrentTitle = (isMiniView: boolean, icon?: string, title?: string, imageSrc?: string) => {
     if (!title) {
         return null
     }
@@ -28,39 +27,43 @@ export const getCurrentTitle = (isMiniView, icon, title, imageSrc) => {
  * @param sidebarOpen - флаг сжатия сайдбара
  * @returns {*}
  */
-export const Icon = ({ icon, title, src, sidebarOpen, hasSubItems }) => {
+
+interface IIcon {
+    icon?: string
+    title: string
+    src: string
+    sidebarOpen: boolean
+    hasSubItems?: boolean
+}
+export const Icon = ({ icon, title, src, sidebarOpen, hasSubItems }: IIcon): JSX.Element | null => {
     if (!icon) {
         return null
     }
 
-    let component = <i className={classNames(icon)} />
-
     if (!sidebarOpen && src === ITEM_SRC.DROPDOWN && !hasSubItems) {
-        return title
+        return <>title</>
     } if (!sidebarOpen && !icon) {
-        component = title.substring(0, 1)
+        const reducedTitle = title.substring(0, 1)
+
+        return <span className="n2o-sidebar__item-content-icon">{reducedTitle}</span>
     }
 
-    return <span className="n2o-sidebar__item-content-icon">{component}</span>
+    return (
+        <span className="n2o-sidebar__item-content-icon">
+            <i className={classNames(icon)} />
+        </span>
+    )
 }
 
-Icon.propTypes = {
-    icon: PropTypes.string,
-    title: PropTypes.string,
-    src: PropTypes.string,
-    sidebarOpen: PropTypes.bool,
-    hasSubItems: PropTypes.bool,
+interface ITitle {
+    title: string | null
+    className: string
 }
 
-export const Title = ({ title, className }) => {
+export const Title = ({ title, className }: ITitle) => {
     if (!title) {
         return null
     }
 
     return <span className={className}>{title}</span>
-}
-
-Title.propTypes = {
-    title: PropTypes.string,
-    className: PropTypes.string,
 }

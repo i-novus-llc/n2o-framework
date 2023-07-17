@@ -8,7 +8,7 @@ import { dataProviderResolver } from '../core/dataProviderResolver'
 import { resolveItem } from '../utils/propsResolver'
 import { IDataSourceModels } from '../core/datasource/const'
 
-import { IItem } from './Header/SimpleHeader/Menu/Item'
+import { IItem } from './CommonMenuTypes'
 
 export type metaPropsType = {[key: string]: unknown}
 

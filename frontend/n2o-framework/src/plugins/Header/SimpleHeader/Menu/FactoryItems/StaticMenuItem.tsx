@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { IContextItem } from '../Item'
+import { IContextItem } from '../../../../CommonMenuTypes'
 import { LinkBody } from '../NavItems/Links/LinkBody'
 
 export function StaticMenuItem(props: IContextItem) {

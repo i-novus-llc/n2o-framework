@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { LinkTarget } from '../../../../../../constants/linkTarget'
-import { IItem } from '../../Item'
+import { IItem } from '../../../../../CommonMenuTypes'
 
 import { OuterLink } from './OuterLink'
 import { LinkBody } from './LinkBody'

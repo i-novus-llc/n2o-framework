@@ -22,8 +22,7 @@ import { WithContextDataSource } from '../WithContextDataSource/WithContextDataS
 import { dataSourceModelByPrefixSelector } from '../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
 
-// eslint-disable-next-line import/no-named-as-default
-import SidebarItemContainer from './SidebarItemContainer'
+import { NavItemContainer } from './NavItemContainer'
 
 /**
  * Sidebar
@@ -106,6 +105,7 @@ export function SideBar({
     isStaticView,
     datasources,
     datasource,
+    models = {},
 }) {
     const sidebarRef = useRef()
     const currentVisible = controlled ? sidebarOpen : visible
@@ -130,7 +130,7 @@ export function SideBar({
         (toggledState === sidebarView.mini && currentVisible)
 
     const renderItems = items => map(items, (item, key) => (
-        <SidebarItemContainer
+        <NavItemContainer
             key={key}
             itemProps={item}
             activeId={activeId}
@@ -142,6 +142,7 @@ export function SideBar({
             isStaticView={isStaticView}
             datasources={datasources}
             datasource={(item || {}).datasource || datasource}
+            models={models}
             visible
         />
     ))

@@ -13,6 +13,7 @@ export const TEMPLATES = 'templates'
 export const OVERLAYS = 'overlays'
 export const BREADCRUMBS = 'breadcrumbs'
 export const HEADER_ITEMS = 'headerItems'
+export const SIDEBAR_ITEM = 'sidebarItems'
 
 export enum FactoryLevels {
     CONTROLS = 'controls',
@@ -29,5 +30,6 @@ export enum FactoryLevels {
     TEMPLATES = 'templates',
     OVERLAYS = 'overlays',
     BREADCRUMBS = 'breadcrumbs',
-    HEADER_ITEMS = 'headerItems'
+    HEADER_ITEMS = 'headerItems',
+    SIDEBAR_ITEM = 'sidebarItems'
 }
