@@ -5,7 +5,6 @@ import {
 } from 'redux-saga/effects'
 import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
-import cloneDeep from 'lodash/cloneDeep'
 import sortBy from 'lodash/sortBy'
 
 import {
@@ -28,7 +27,6 @@ import { getModelsByDependency } from '../ducks/models/selectors'
 import { getWidgetDependency } from './widgetDependency/getWidgetDependency'
 import { resolveDependency } from './widgetDependency/resolve'
 
-let prevState = {}
 let widgetsDependencies = {}
 
 export function* registerDependency({ payload, type }) {
@@ -50,13 +48,13 @@ export function* registerDependency({ payload, type }) {
     )
 }
 
-export function* updateModelSaga({ type }) {
+export function* updateModelSaga({ type, meta }) {
     const state = yield select()
 
     yield call(
         resolveWidgetDependency,
         type,
-        prevState,
+        meta.prevState,
         state,
         widgetsDependencies,
     )
@@ -120,17 +118,4 @@ export const widgetDependencySagas = [
         removeFieldFromArray,
         copyFieldArray,
     ], updateModelSaga),
-    takeEvery(
-        [
-            setModel,
-            removeModel,
-            removeAllModel,
-            copyModel,
-            clearModel,
-        ],
-        function* noWidgetRecursion() {
-            // Костыль, для сохранения предыдущего состояния, нужен чтобы не загнаться в рекурсивное обновление
-            prevState = cloneDeep(yield select())
-        },
-    ),
 ]
