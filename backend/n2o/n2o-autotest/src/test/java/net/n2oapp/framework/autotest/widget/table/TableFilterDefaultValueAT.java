@@ -91,6 +91,18 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
         table.filters().toolbar().button("Найти").click();
         rows.row(0).cell(1).shouldHaveText("test4");
 
+        //проверка фильтрации при переключении пагинации
+        filter.clear();
+        table.filters().toolbar().button("Найти").click();
+        table.columns().rows().shouldHaveSize(4);
+        rows.row(0).cell(1).shouldHaveText("test1");
+        rows.row(1).cell(1).shouldHaveText("test2");
+        filter.setValue("test1");
+        table.paging().selectPage("2");
+        table.columns().rows().shouldHaveSize(4);
+        rows.row(0).cell(1).shouldHaveText("test5");
+        rows.row(1).cell(1).shouldHaveText("test6");
+
         //todo NNO-7523 filter value should saved after refresh
         /*Selenide.refresh();
         rows.row(0).cell(1).textShouldHave("test4");
