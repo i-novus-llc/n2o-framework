@@ -165,11 +165,11 @@ public class InputSelectAT extends AutoTestBase {
         // проверяем удаление элементов через Backspace
         input.openPopup();
         input.dropdown().selectMulti(2, 1, 0);
-        input.shouldSelectedMulti("Three", "Two", "One");
+        input.shouldSelectedMulti(new String[]{"Three", "Two", "One"});
         input.backspace();
-        input.shouldSelectedMulti("Three", "Two");
+        input.shouldSelectedMulti(new String[]{"Three", "Two"});
         input.backspace();
-        input.shouldSelectedMulti("Three");
+        input.shouldSelectedMulti(new String[]{"Three"});
         input.backspace();
         input.shouldBeEmpty();
     }
