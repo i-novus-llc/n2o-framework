@@ -62,8 +62,7 @@ export function eventLessHour(date, step) {
     if (isNumber(step)) {
         const begin = new Date(get(date, 'begin'))
         const end = new Date(get(date, 'end'))
-        const difference =
-      Math.abs(end.getTime() - begin.getTime()) / (1000 * 3600)
+        const difference = Math.abs(end.getTime() - begin.getTime()) / (1000 * 3600)
 
         return difference <= (step / 60) * 2
     }

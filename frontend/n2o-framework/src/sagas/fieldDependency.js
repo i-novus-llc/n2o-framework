@@ -303,7 +303,7 @@ export function* resolveOnInit({ type, payload }) {
 }
 
 function* resolveOnSetModel({ payload, meta }) {
-    const { prefix, key: datasource, model } = payload
+    const { prefix, key: datasource, model, isDefault } = payload
 
     if (prefix === ModelPrefix.source || prefix === ModelPrefix.selected || !model) {
         return
@@ -325,9 +325,12 @@ function* resolveOnSetModel({ payload, meta }) {
             // Обход каждой зависимости
             for (const dep of dependency) {
                 const { on = [], applyOnInit } = dep
-                const isSomeDepsNeedRun = on.length || applyOnInit
 
-                if (!isSomeDepsNeedRun) {
+                if (isDefault) {
+                    if (applyOnInit) {
+                        yield fork(modify, form, model || {}, fieldId, dep, field)
+                    }
+
                     // eslint-disable-next-line no-continue
                     continue
                 }
