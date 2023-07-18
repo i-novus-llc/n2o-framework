@@ -73,7 +73,7 @@ const WidgetFilters = (props) => {
             return
         }
 
-        dispatch(setModel(modelPrefix, datasource, reduxFilterModel))
+        dispatch(setModel(modelPrefix, datasource, reduxFilterModel, true))
     }, [datasource, dispatch, getState, modelPrefix, reduxFilterModel])
 
     const clearDatasourceModel = useCallback(() => {
