@@ -366,10 +366,10 @@ const formSlice = createSlice({
         [updateModel.type](state, action) {
             const { key, prefix } = action.payload
 
-            Object.entries(state).forEach(([formName, form]) => {
-                if (form.datasource !== key || form.modelPrefix !== prefix) { return }
-
-                form.dirty = true
+            Object.values(state).forEach((form) => {
+                if (form.datasource === key && form.modelPrefix === prefix) {
+                    form.dirty = true
+                }
             })
         },
         [removeFieldFromArray.type](state, action: RemoveFieldFromArrayAction) {
