@@ -1,5 +1,6 @@
 import { Action } from 'redux'
 
+import { ModelPrefix } from '../../core/datasource/const'
 import { ICrumb } from '../../components/core/Breadcrumb/const'
 import { DataSourceState } from '../datasource/DataSource'
 import { DefaultModels } from '../models/Models'
@@ -8,7 +9,7 @@ import { IRoutes } from './sagas/types'
 
 export interface IEvents {
     datasource: string
-    model: string
+    model: ModelPrefix
     field: string
     action: Action
 }
