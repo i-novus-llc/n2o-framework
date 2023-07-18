@@ -4,12 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
-import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
-import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.action.N2oOpenPage;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
+import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
@@ -61,6 +61,9 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
     @Setter
     public static class MenuItem extends AbstractMenuItem implements BadgeAware {
 
+        private String src;
+        private String cssClass;
+        private String style;
         private String badge;
         private String badgeColor;
         private Position badgePosition;
@@ -131,7 +134,3 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
         }
     }
 }
-
-
-
-

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Component;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
@@ -17,7 +19,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class MenuItem implements Compiled, PropertiesAware {
+public class MenuItem extends Component implements Compiled, PropertiesAware, IdAware {
     @JsonProperty
     private String id;
     @JsonProperty
@@ -32,8 +34,6 @@ public class MenuItem implements Compiled, PropertiesAware {
     private String datasource;
     @JsonProperty("items")
     private ArrayList<MenuItem> subItems;
-    @JsonProperty("type")
-    private String type;
     @JsonProperty
     private String href;
     @JsonProperty

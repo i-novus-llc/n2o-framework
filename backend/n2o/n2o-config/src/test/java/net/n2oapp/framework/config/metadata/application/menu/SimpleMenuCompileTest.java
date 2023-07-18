@@ -21,6 +21,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -57,7 +58,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         MenuItem menuItem = menu.getItems().get(0);
 
         assertThat(menuItem.getId(), is("notif"));
-        assertThat(menuItem.getType(), is("link"));
+        assertThat(menuItem.getSrc(), is("LinkMenuItem"));
         assertThat(menuItem.getTitle(), is("Уведомления"));
         assertThat(menuItem.getIcon(), is("fa fa-bell"));
         assertThat(menuItem.getBadge().getText(), is("2"));
@@ -82,7 +83,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
 
         // dropdown 1
         assertThat(dropdownMenu.getId(), is("user"));
-        assertThat(dropdownMenu.getType(), is("dropdown"));
+        assertThat(dropdownMenu.getSrc(), is("DropdownMenuItem"));
         assertThat(dropdownMenu.getTitle(), is("Виктория"));
         assertThat(dropdownMenu.getImageSrc(), is("/static/users/vika91.png"));
         assertThat(dropdownMenu.getImageShape(), is(ShapeType.CIRCLE));
@@ -91,20 +92,20 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         // dropdown 1 -> dropdown
         MenuItem subDropdownItem = dropdownMenu.getSubItems().get(0);
         assertThat(subDropdownItem.getId(), is("mi5"));
-        assertThat(subDropdownItem.getType(), is("dropdown"));
+        assertThat(subDropdownItem.getSrc(), is("DropdownMenuItem"));
         assertThat(subDropdownItem.getTitle(), is("Отделы"));
         assertThat(subDropdownItem.getSubItems().size(), is(2));
 
         // dropdown 1 -> dropdown -> item
         MenuItem subMenuItem = subDropdownItem.getSubItems().get(0);
         assertThat(subMenuItem.getId(), is("mi6"));
-        assertThat(subMenuItem.getType(), is("link"));
+        assertThat(subMenuItem.getSrc(), is("LinkMenuItem"));
         assertThat(subMenuItem.getHref(), is("/developers"));
 
         // dropdown 1 -> item
         subMenuItem = dropdownMenu.getSubItems().get(1);
         assertThat(subMenuItem.getId(), is("mi8"));
-        assertThat(subMenuItem.getType(), is("link"));
+        assertThat(subMenuItem.getSrc(), is("LinkMenuItem"));
         assertThat(subMenuItem.getTitle(), is("Профиль"));
         assertThat(subMenuItem.getIcon(), is("fa fa-user"));
         assertThat(subMenuItem.getHref(), is("/profile"));
@@ -123,11 +124,36 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         MenuItem menuItem = menu.getItems().get(2);
 
         assertThat(menuItem.getId(), is("alert"));
-        assertThat(menuItem.getType(), is("action"));
+        assertThat(menuItem.getSrc(), is("ActionMenuItem"));
         assertThat(menuItem.getTitle(), is("Menu-item с алертом"));
         assertThat(menuItem.getAction(), instanceOf(AlertAction.class));
         ResponseMessage message = ((AlertActionPayload) ((AlertAction) menuItem.getAction()).getPayload()).getAlerts().get(0);
         assertThat(message.getSeverity(), is("success"));
         assertThat(message.getText(), is("Алерт"));
+    }
+
+    @Test
+    void testExtraMenu() {
+        Application application = read().compile().get(new ApplicationContext("testApplication"));
+        SimpleMenu menu = application.getHeader().getExtraMenu();
+
+        MenuItem menuItem = menu.getItems().get(0);
+        assertThat(menuItem.getSrc(), is("Test"));
+        assertThat(menuItem.getClassName(), is("class"));
+        assertThat(menuItem.getStyle().get("background"), is("blue"));
+
+        menuItem = menu.getItems().get(1);
+        assertThat(menuItem.getSrc(), is("DropdownMenuItem"));
+
+        menuItem = menu.getItems().get(1).getSubItems().get(0);
+        assertThat(menuItem.getSrc(), is("LinkMenuItem"));
+
+        menuItem = menu.getItems().get(1).getSubItems().get(1);
+        assertThat(menuItem.getSrc(), is("ActionMenuItem"));
+        assertThat(menuItem.getClassName(), is("text-center"));
+        assertThat(menuItem.getStyle().get("background"), is("red"));
+
+        menuItem = menu.getItems().get(1).getSubItems().get(2);
+        assertThat(menuItem.getSrc(), is("StaticMenuItem"));
     }
 }
