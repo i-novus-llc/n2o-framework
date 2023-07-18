@@ -12,7 +12,6 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Keys;
 
 /**
  * Автотест для компонента ввода текста с автозаполнением
@@ -33,15 +32,24 @@ public class AutoCompleteAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
-                new N2oFieldSetsPack(), new N2oControlsPack(), new N2oAllDataPack());
+        builder.packs(
+                new N2oPagesPack(),
+                new N2oApplicationPack(),
+                new N2oWidgetsPack(),
+                new N2oFieldSetsPack(),
+                new N2oControlsPack(),
+                new N2oAllDataPack()
+        );
     }
 
     @Test
     public void testAutoComplete() {
         setJsonPath("net/n2oapp/framework/autotest/control/auto_complete/simple");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/index.page.xml"),
-                        new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/test.query.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/test.query.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -70,8 +78,11 @@ public class AutoCompleteAT extends AutoTestBase {
     @Test
     public void testTags() {
         setJsonPath("net/n2oapp/framework/autotest/control/auto_complete/simple");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/test.query.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/test.query.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -118,15 +129,17 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.clear();
         autoComplete.click();
         autoComplete.enter();
-        autoComplete.shouldHaveTags("Иванов П.И...", "Иванченко ...", "Иванов К.Л...");
-
+        autoComplete.shouldHaveTags(new String[]{"Иванов П.И...", "Иванченко ...", "Иванов К.Л..."});
     }
 
     @Test
     public void testPrefilters() {
         setJsonPath("net/n2oapp/framework/autotest/control/auto_complete/preFilters");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/preFilters/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/preFilters/test.query.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/preFilters/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/preFilters/test.query.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
