@@ -43,6 +43,7 @@ class WidgetFilters extends React.Component {
         this.handleFilter = this.handleFilter.bind(this)
         this.handleReset = this.handleReset.bind(this)
         this.debouncedHandleFilter = debounce(this.handleFilter, FILTER_DELAY)
+        this.handleResetByFilter = this.handleResetByFilter.bind(this)
 
         this.contextValue = {
             formName: this.formName,
@@ -81,13 +82,13 @@ class WidgetFilters extends React.Component {
         dispatch(destroy(datasource))
     }
 
-    handleFilter() {
+    handleFilter(forceFetch) {
         const { fetchData } = this.props
 
-        fetchData({ page: 1 })
+        fetchData({ page: 1 }, forceFetch)
     }
 
-    handleReset(fetchOnClear = true) {
+    handleReset(fetchOnClear = true, forceFetch) {
         const {
             filterFieldsets,
             blackResetList,
@@ -127,12 +128,16 @@ class WidgetFilters extends React.Component {
                     setFilter(newReduxForm)
 
                     if (fetchOnClear) {
-                        this.handleFilter()
+                        this.handleFilter(forceFetch)
                     } else {
                         resetModels(this.formName)
                     }
                 },
             ))
+    }
+
+    handleResetByFilter() {
+        this.handleReset(true, true)
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -165,7 +170,7 @@ class WidgetFilters extends React.Component {
                     visible={visible}
                     hideButtons={hideButtons}
                     onSearch={this.handleFilter}
-                    onReset={this.handleReset}
+                    onReset={this.handleResetByFilter}
                 >
                     <ReduxForm
                         form={this.formName}
