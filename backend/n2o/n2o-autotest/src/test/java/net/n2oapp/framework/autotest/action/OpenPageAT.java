@@ -16,7 +16,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -137,12 +136,11 @@ public class OpenPageAT extends AutoTestBase {
     }
 
     @Test
-    @Disabled
     public void testTargetNewWindow() {
         setJsonPath("net/n2oapp/framework/autotest/action/open_page/target_new_window");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target_new_window/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target_new_window/page.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target_new_window/newWindow.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target_new_window/test.query.xml"));
 
         SimplePage page = open(SimplePage.class);
@@ -156,9 +154,10 @@ public class OpenPageAT extends AutoTestBase {
         table.toolbar().topLeft().button("Открыть").click();
 
         Selenide.switchTo().window(1);
+
         page.shouldExists();
         page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/1/open");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open/1/testNewWindow");
 
         page.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("1");
         page.widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test1");
