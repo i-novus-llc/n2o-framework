@@ -322,17 +322,12 @@ function* resolveOnSetModel({ payload, meta }) {
                 continue
             }
 
-            const selfChanged = !isEqual(
-                get(model, fieldId),
-                get(prevModel, fieldId),
-            )
-
             // Обход каждой зависимости
             for (const dep of dependency) {
                 const { on = [], applyOnInit } = dep
 
                 if (isDefault) {
-                    if (selfChanged && applyOnInit) {
+                    if (applyOnInit) {
                         yield fork(modify, form, model || {}, fieldId, dep, field)
                     }
 
