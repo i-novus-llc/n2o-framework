@@ -131,8 +131,6 @@ export type RowContainerProps = {
 
 export type RowResolverProps = Omit<RowContainerProps, 'click' | 'hasSelect'>
 
-export type DataRowProps = Omit<RowResolverProps, 'selection' | 'rowComponent' | 'component'>
-
 export type HeaderFilterProps = {
     id: string
 } & Required<Pick<HeaderCell, 'filterControl'>>
