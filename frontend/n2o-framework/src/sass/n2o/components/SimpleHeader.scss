@@ -84,8 +84,12 @@
     .n2o-navbar-collapse-open {
         .dropdown {
             .dropdown-toggle {
-                padding-left: 0;
+                padding: $collapsed-item-padding;
             }
+        }
+
+        .n2o-action-item.nav-item {
+            padding: $collapsed-item-padding;
         }
     }
 

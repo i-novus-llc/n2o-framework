@@ -5,7 +5,11 @@ import { IContextItem } from '../../../../CommonMenuTypes'
 import { LinkBody } from '../NavItems/Links/LinkBody'
 
 export function StaticMenuItem(props: IContextItem) {
-    const { item, className } = props
+    const { item, className, style } = props
 
-    return <li className={classNames(className, 'static-menu-item')}><LinkBody {...item} /></li>
+    return (
+        <li className={classNames(className, 'static-menu-item')} style={style}>
+            <LinkBody {...item} />
+        </li>
+    )
 }
