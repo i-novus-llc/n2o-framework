@@ -33,7 +33,7 @@ export interface IItem extends ICommon {
     datasource?: string
     datasources?: metaPropsType[]
     target: string
-    style: React.CSSProperties
+    style?: React.CSSProperties
     pathMapping?: metaPropsType[]
     queryMapping?: metaPropsType[]
     action?: Action
@@ -52,6 +52,7 @@ export interface IContextItemCommon {
     activeId?: string
     from: 'HEADER' | 'SIDEBAR'
     className: string
+    style?: React.CSSProperties
     direction?: ButtonDropdownProps['direction']
     isStaticView?: boolean
     sidebarOpen?: boolean

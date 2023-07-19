@@ -27,7 +27,7 @@ export function Action(props: IAction) {
         isMiniView,
         from = 'SIDEBAR',
     } = props
-    const { id, title, action } = item
+    const { id, title, action, style } = item
 
     const dispatch = useDispatch()
     const onClick = useCallback(() => dispatch(action), [action, dispatch])
@@ -43,6 +43,7 @@ export function Action(props: IAction) {
                 id={id}
                 className={classNames('n2o-action-item', className)}
                 onClick={onClick}
+                style={style}
             >
                 {from === 'SIDEBAR'
                     ? (
