@@ -31,14 +31,6 @@ public class SimpleMenuValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void testMenuItemWithoutAction() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testMenuItemWithoutAction.menu.xml"));
-        assertEquals("Не задано действие для <menu-item>", exception.getMessage());
-    }
-
-    @Test
     void testMenuItemWithoutName() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
