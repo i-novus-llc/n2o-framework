@@ -8,13 +8,21 @@ import { RemoveFieldFromArrayAction } from '../models/Actions'
 import { getDefaultField, getDefaultState } from './FormPlugin'
 import { Field, Form, FormsState } from './types'
 import {
-    BlurFieldAction, FocusFieldAction,
-    RegisterAction, RegisterFieldAction,
-    RegisterFieldDependencyAction, RemoveAction,
-    SetFieldDisabledAction, SetFieldLoadingAction, DangerouslySetFieldValue,
-    SetFieldRequiredAction, SetFieldVisibleAction,
-    SetMultiFieldDisabledAction, SetMultiFieldVisibleAction,
-    TouchFieldsAction, UnregisterFieldAction,
+    BlurFieldAction,
+    DangerouslySetFieldValue,
+    FocusFieldAction,
+    RegisterAction,
+    RegisterFieldAction,
+    RegisterFieldDependencyAction,
+    RemoveAction,
+    SetFieldDisabledAction,
+    SetFieldLoadingAction,
+    SetFieldRequiredAction,
+    SetFieldVisibleAction,
+    SetMultiFieldDisabledAction,
+    SetMultiFieldVisibleAction,
+    TouchFieldsAction,
+    UnregisterFieldAction,
 } from './Actions'
 
 // eslint-disable-next-line no-console
@@ -46,25 +54,13 @@ const formSlice = createSlice({
             reducer(state, { payload }: RegisterAction) {
                 const { formName, initState } = payload
 
-                const form = {
+                state[formName] = {
                     ...getDefaultState(),
                     ...initState,
+                    isInit: true,
                     datasource: initState.datasource || formName,
                     formName,
                 }
-
-                const prevForm = state[formName]
-
-                // Почему-то поля регестрируются раньше чем сама форма
-                // FIXME разобраться и убрать костыль
-                if (prevForm) {
-                    form.fields = {
-                        ...prevForm.fields,
-                        ...form.fields,
-                    }
-                }
-
-                state[formName] = form
             },
         },
         remove: {
@@ -168,13 +164,6 @@ const formSlice = createSlice({
                 })
             },
 
-            /**
-             * Зарегестрировать зависимости поля от других полей
-             * @param {FormPluginStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {FormPluginStore.registerFieldDependencyPayload} action.payload
-             */
             reducer(state, action: RegisterFieldDependencyAction) {
                 const { formName, fieldName, dependency } = action.payload
                 // const field = state[formName]?.fields[fieldName]
@@ -195,13 +184,6 @@ const formSlice = createSlice({
                 })
             },
 
-            /**
-             * Установить флаг обазяательного поля
-             * @param {FormPluginStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {FormPluginStore.setRequiredPayload} action.payload
-             */
             reducer(state, action: SetFieldRequiredAction) {
                 const { formName, fieldName, required } = action.payload
 
@@ -235,13 +217,6 @@ const formSlice = createSlice({
                 })
             },
 
-            /**
-             * Поставить флаг загрузки
-             * @param {FormPluginStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {FormPluginStore.setLoadingPayload} action.payload
-             */
             reducer(state, action: SetFieldLoadingAction) {
                 const { formName, fieldName, loading } = action.payload
 
@@ -257,13 +232,6 @@ const formSlice = createSlice({
                 })
             },
 
-            /**
-             * Показать несколько полей
-             * @param {FormPluginStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {FormPluginStore.showMultiFieldsPayload} action.payload
-             */
             reducer(state, action: SetMultiFieldVisibleAction) {
                 const { formName, fields, visible } = action.payload
 
@@ -286,13 +254,6 @@ const formSlice = createSlice({
                 })
             },
 
-            /**
-             * Деактивация нескольких полей
-             * @param {FormPluginStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {FormPluginStore.disableMultiFieldsPayload} action.payload
-             */
             reducer(state, action: SetMultiFieldDisabledAction) {
                 const { formName, fields, disabled } = action.payload
 
