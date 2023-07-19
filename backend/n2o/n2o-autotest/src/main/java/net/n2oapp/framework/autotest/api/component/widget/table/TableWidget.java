@@ -96,7 +96,7 @@ public interface TableWidget extends StandardWidget {
          * Проверка количества строк
          * @param size ожидаемое количество
          */
-        void shouldHaveSize(int size);
+        void shouldHaveSize(int size, Duration... duration);
 
         /**
          * Проверка отсутствия строк

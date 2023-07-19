@@ -95,8 +95,8 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         }
 
         @Override
-        public void shouldHaveSize(int size) {
-            rows().shouldHave(CollectionCondition.size(size));
+        public void shouldHaveSize(int size, Duration... duration) {
+            should(CollectionCondition.size(size), rows(), duration);
         }
 
         @Override
