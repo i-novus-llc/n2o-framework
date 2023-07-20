@@ -81,6 +81,10 @@
         }
     }
 
+    .dropdown.nav-item.dropdown-item:hover {
+        @include dropdownItemHover;
+    }
+
     .n2o-navbar-collapse-open {
         .dropdown {
             .dropdown-toggle {
@@ -155,6 +159,23 @@
                         background-color: white;
                     }
                 }
+            }
+
+            .dropdown-item.dropdown-toggle {
+                border: none;
+                background-color: transparent !important;
+                box-shadow: none !important;
+
+                @include navItem;
+            }
+
+            .dropdown-item.dropdown-toggle:hover {
+                @include hoverColor;
+            }
+
+            .dropdown-item.dropdown-toggle:active,
+            .dropdown-item.dropdown-toggle:focus {
+                background-color: white;
             }
 
             .dropdown-menu.show {

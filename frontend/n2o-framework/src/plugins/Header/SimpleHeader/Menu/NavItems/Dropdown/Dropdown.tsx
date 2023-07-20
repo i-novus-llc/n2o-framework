@@ -48,7 +48,7 @@ export function Dropdown(props: IDropdown) {
             direction={direction}
             tag="li"
         >
-            <DropdownToggle caret>
+            <DropdownToggle className={classNames({ 'dropdown-item': level > 0 })} caret>
                 <LinkBody imageSrc={imageSrc} icon={icon} title={title} imageShape={imageShape} />
             </DropdownToggle>
             <DropdownMenu flip className={classNames(`menu-level-${level}`, { nested })}>
@@ -67,7 +67,7 @@ export function Dropdown(props: IDropdown) {
                                 items={nestedItems}
                                 active={active}
                                 title={title}
-                                className={className}
+                                className={classNames(className, 'dropdown-item')}
                                 level={level + 1}
                                 recursiveClose={recursiveClose}
                                 onItemClick={onItemClick}
