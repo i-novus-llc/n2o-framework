@@ -32,7 +32,7 @@ function queryMapper(queryMapping: QueryMapping, replaceOptions: IReplaceOptions
 }
 
 function fieldsMapper(fields: FieldType[], replaceOptions: IReplaceOptions) {
-    return fields.map((field) => {
+    return fields?.map((field) => {
         const { control } = field
 
         if (!control) { return field }
@@ -71,12 +71,12 @@ export function modelLinkMapper(
 
         return {
             ...fieldset,
-            rows: rows.map((row) => {
+            rows: rows?.map((row) => {
                 const { cols } = row
 
                 return {
                     ...row,
-                    cols: cols.map((col) => {
+                    cols: cols?.map((col) => {
                         const { fields } = col
 
                         return { ...col, fields: fieldsMapper(fields, replaceOptions) }
