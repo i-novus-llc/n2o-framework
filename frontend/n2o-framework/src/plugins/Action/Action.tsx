@@ -39,7 +39,8 @@ export function Action(props: IAction) {
             hint={hint}
             placement="right"
         >
-            <div
+            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+            <li
                 id={id}
                 className={classNames('n2o-action-item', className)}
                 onClick={onClick}
@@ -56,7 +57,7 @@ export function Action(props: IAction) {
                         />
                     )
                     : <HeaderItem {...item} />}
-            </div>
+            </li>
         </ExtendedTooltipComponent>
     )
 }
