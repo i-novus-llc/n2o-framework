@@ -26,6 +26,7 @@ import {
     updateModel,
 } from '../models/store'
 import { modelsSelector } from '../models/selectors'
+import { ModelPrefix } from '../../core/datasource/const'
 
 import { pagesSelector } from './selectors'
 import {
@@ -140,8 +141,9 @@ export function* watchEvents() {
 
         for (const { datasource, model: prefix, field, action } of events) {
             const modelLink = [prefix, datasource]
-            const model = get(models, modelLink, null)
-            const prevModel = get(prevModels, modelLink, null)
+            const def = prefix === ModelPrefix.source || prefix === ModelPrefix.selected ? [] : {}
+            const model = get(models, modelLink, def)
+            const prevModel = get(prevModels, modelLink, def)
 
             let value = model
             let prevValue = prevModel
