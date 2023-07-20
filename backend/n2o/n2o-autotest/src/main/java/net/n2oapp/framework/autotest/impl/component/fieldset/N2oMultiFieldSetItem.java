@@ -8,13 +8,15 @@ import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 /**
  * Элемент филдсета с динамическим числом полей для автотестирования
  */
 public class N2oMultiFieldSetItem extends N2oComponent implements MultiFieldSetItem {
     @Override
-    public void shouldHaveLabel(String label) {
-        label().shouldHave(Condition.text(label));
+    public void shouldHaveLabel(String label, Duration... duration) {
+        should(Condition.text(label), label(), duration);
     }
 
     @Override

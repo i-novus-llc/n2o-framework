@@ -3,6 +3,8 @@ package net.n2oapp.framework.autotest.api.component.snippet;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.Component;
 
+import java.time.Duration;
+
 /**
  * Компонент предупреждения для автотестирования
  */
@@ -18,7 +20,7 @@ public interface Alert extends Snippet {
      * Проверка заголовка на соответствие
      * @param text ожидаемый заголовок предупреждения
      */
-    void shouldHaveTitle(String text);
+    void shouldHaveTitle(String text, Duration... duration);
 
     /**
      * Проверка ссылки на соответвие
@@ -34,7 +36,7 @@ public interface Alert extends Snippet {
     /**
      * Проверка того, что предупреждение содержит информацию о времени
      */
-    void shouldHaveTimestamp(String timestamp);
+    void shouldHaveTimestamp(String timestamp, Duration... duration);
 
     /**
      * Клик по предупреждению

@@ -3,9 +3,11 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.FileUploadControl;
 
 import java.io.File;
+import java.time.Duration;
 
 /**
  * Загрузка файла для автотестирования
@@ -19,7 +21,7 @@ public class N2oFileUploadControl extends N2oControl implements FileUploadContro
     }
 
     @Override
-    public void shouldHaveValue(String value) {
+    public void shouldHaveValue(String value, Duration... duration) {
         //ToDo реализовать
     }
 
@@ -47,9 +49,9 @@ public class N2oFileUploadControl extends N2oControl implements FileUploadContro
     }
 
     @Override
-    public void uploadFileShouldHaveName(int index, String fileName) {
-        files().get(index).$(".n2o-file-uploader-file-name")
-                .shouldHave(Condition.text(fileName));
+    public void uploadFileShouldHaveName(int index, String fileName, Duration... duration) {
+        SelenideElement element = files().get(index).$(".n2o-file-uploader-file-name");
+        should(Condition.text(fileName), element, duration);
     }
 
     @Override

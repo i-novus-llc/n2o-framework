@@ -6,6 +6,8 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import org.openqa.selenium.Keys;
 
+import java.time.Duration;
+
 /**
  * Компонент ввода даты для автотестирования
  */
@@ -21,13 +23,13 @@ public class N2oDateInput extends N2oControl implements DateInput {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
+    public void shouldHaveValue(String value, Duration... duration) {
         SelenideElement input = inputElement();
 
         if (input.exists())
-            input.shouldHave(Condition.value(value));
+            should(Condition.value(value), input, duration);
         else
-            cellInputElement().shouldHave(Condition.text(value));
+            should(Condition.text(value), cellInputElement(), duration);
     }
 
     @Override
@@ -103,14 +105,13 @@ public class N2oDateInput extends N2oControl implements DateInput {
     }
 
     @Override
-    public void shouldHaveCurrentMonth(String month) {
-        element().$(".n2o-calendar-header-month-title")
-                .shouldHave(Condition.text(month));
+    public void shouldHaveCurrentMonth(String month, Duration... duration) {
+        should(Condition.text(month), element().$(".n2o-calendar-header-month-title"), duration);
     }
 
     @Override
-    public void shouldHaveCurrentYear(String year) {
-        element().$(".n2o-calendar-header-year-title").shouldHave(Condition.text(year));
+    public void shouldHaveCurrentYear(String year, Duration... duration) {
+        should(Condition.text(year), element().$(".n2o-calendar-header-year-title"), duration);
     }
 
     @Override

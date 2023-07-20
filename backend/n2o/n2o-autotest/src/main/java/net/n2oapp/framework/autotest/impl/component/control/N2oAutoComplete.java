@@ -7,6 +7,8 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.AutoComplete;
 import org.openqa.selenium.Keys;
 
+import java.time.Duration;
+
 
 /**
  * Компонент ввода текста с автозаполнением для автотестирования
@@ -44,18 +46,19 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
-        inputElement().shouldHave(Condition.value(value));
+    public void shouldHaveValue(String value, Duration... duration) {
+        should(Condition.value(value), inputElement(), duration);
     }
 
     @Override
-    public void shouldHaveTags(String... tags) {
-        selectedItems().shouldHave(CollectionCondition.size(tags.length), CollectionCondition.texts(tags));
+    public void shouldHaveTags(String[] tags, Duration... duration) {
+        should(CollectionCondition.size(tags.length), selectedItems(), duration);
+        should(CollectionCondition.texts(tags), selectedItems(), duration);
     }
 
     @Override
-    public void shouldHaveDropdownOptions(String... values) {
-        dropdownOptions().shouldHave(CollectionCondition.texts(values));
+    public void shouldHaveDropdownOptions(String[] values, Duration... duration) {
+        should(CollectionCondition.texts(values), dropdownOptions(), duration);
     }
 
     @Override

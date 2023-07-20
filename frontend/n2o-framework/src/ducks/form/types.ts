@@ -25,6 +25,7 @@ export type Field = {
 }
 
 export type Form = {
+    isInit: boolean
     formName: string
     datasource: string
     modelPrefix: string

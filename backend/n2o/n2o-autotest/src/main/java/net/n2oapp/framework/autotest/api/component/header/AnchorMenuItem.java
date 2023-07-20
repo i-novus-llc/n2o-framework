@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.api.component.header;
 
 import net.n2oapp.framework.autotest.api.component.badge.Badge;
 
+import java.time.Duration;
+
 /**
  * Кнопка с ссылкой для автотестирования
  */
@@ -27,7 +29,7 @@ public interface AnchorMenuItem extends MenuItem, Badge {
      * Проверка текста баджа на соответствие
      * @param text ожидаемый текст баджа
      */
-    void shouldHaveBadgeText(String text);
+    void shouldHaveBadgeText(String text, Duration... duration);
 
     /**
      * Проверка цвета баджа на соответствие

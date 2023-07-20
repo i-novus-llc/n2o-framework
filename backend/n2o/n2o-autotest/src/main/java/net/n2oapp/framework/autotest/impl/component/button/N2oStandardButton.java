@@ -7,19 +7,16 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 
+import java.time.Duration;
+
 /**
  * Стандартная кнопка для автотестирования
  */
 public class N2oStandardButton extends N2oButton implements StandardButton {
 
     @Override
-    public void shouldBeEnabled() {
-        element().shouldBe(Condition.enabled);
-    }
-
-    @Override
-    public void shouldHaveLabel(String label) {
-        element().shouldHave(Condition.exactText(label));
+    public void shouldHaveLabel(String label, Duration... duration) {
+        should(Condition.exactText(label), duration);
     }
 
     @Override

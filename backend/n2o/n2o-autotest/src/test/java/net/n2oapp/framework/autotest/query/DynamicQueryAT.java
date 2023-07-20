@@ -50,10 +50,10 @@ public class DynamicQueryAT extends AutoTestBase {
         Select select2 = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields().field("Поле 2").control(Select.class);
 
         select1.openPopup();
-        select1.dropdown().shouldHaveOptions("1", "test2", "test3", "test4");
+        select1.dropdown().shouldHaveOptions(new String[]{"1", "test2", "test3", "test4"});
         select1.click();
 
         select2.openPopup();
-        select2.dropdown().shouldHaveOptions("2", "test2", "test3", "test4");
+        select2.dropdown().shouldHaveOptions(new String[]{"2", "test2", "test3", "test4"});
     }
 }

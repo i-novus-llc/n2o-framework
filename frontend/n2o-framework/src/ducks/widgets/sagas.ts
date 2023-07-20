@@ -21,12 +21,6 @@ export function* runResolve(action: Resolve) {
     }
 }
 
-export function* clearOnDisable(action: Resolve) {
-    const { modelId } = action.payload
-
-    yield put(setModel(ModelPrefix.source, modelId, null))
-}
-
 /**
  * Сайд-эффекты для виджет редюсера
  * @ignore

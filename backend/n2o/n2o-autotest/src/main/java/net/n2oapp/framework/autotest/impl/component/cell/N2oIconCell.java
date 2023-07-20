@@ -6,6 +6,8 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.cell.IconCell;
 
+import java.time.Duration;
+
 /**
  * Ячейка таблицы с иконкой для автотестирования
  */
@@ -16,8 +18,8 @@ public class N2oIconCell extends N2oCell implements IconCell {
     }
 
     @Override
-    public void shouldHaveText(String text) {
-        element().$(".n2o-cell-text").shouldHave(Condition.exactText(text));
+    public void shouldHaveText(String text, Duration... duration) {
+        should(Condition.exactText(text), element().$(".n2o-cell-text"), duration);
     }
 
     @Override

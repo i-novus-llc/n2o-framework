@@ -6,6 +6,8 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.fieldset.LineFieldSet;
 
+import java.time.Duration;
+
 /**
  * Филдсет с горизонтальным делителем для автотестирования
  */
@@ -32,10 +34,10 @@ public class N2oLineFieldSet extends N2oFieldSet implements LineFieldSet {
     }
 
     @Override
-    public void shouldHaveLabel(String label) {
+    public void shouldHaveLabel(String label, Duration... duration) {
         SelenideElement labelElement = header().exists() ? panelHeaderText() : fieldsetTitleText();
 
-        labelElement.shouldHave(Condition.text(label));
+        should(Condition.text(label), labelElement, duration);
     }
 
     @Override

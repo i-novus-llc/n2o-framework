@@ -6,6 +6,8 @@ import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 /**
  * Компонент предупреждения для автотестирования
  */
@@ -24,8 +26,8 @@ public class N2oAlert extends N2oSnippet implements Alert {
     }
 
     @Override
-    public void shouldHaveTitle(String text) {
-        element().$(".n2o-alert-segment__title").shouldHave(Condition.text(text));
+    public void shouldHaveTitle(String text, Duration... duration) {
+        should(Condition.text(text), element().$(".n2o-alert-segment__title"), duration);
     }
 
     @Override
@@ -39,13 +41,13 @@ public class N2oAlert extends N2oSnippet implements Alert {
     }
 
     @Override
-    public void shouldHaveText(String text) {
-        element().$(".n2o-alert-segment__text").shouldHave(Condition.text(text));
+    public void shouldHaveText(String text, Duration... duration) {
+        should(Condition.text(text), element().$(".n2o-alert-segment__text"), duration);
     }
 
     @Override
-    public void shouldHaveTimestamp(String timestamp) {
-        element().$(".n2o-alert-segment__timestamp").shouldHave(Condition.text(timestamp));
+    public void shouldHaveTimestamp(String timestamp, Duration... duration) {
+        should(Condition.text(timestamp), element().$(".n2o-alert-segment__timestamp"), duration);
     }
 
     @Override

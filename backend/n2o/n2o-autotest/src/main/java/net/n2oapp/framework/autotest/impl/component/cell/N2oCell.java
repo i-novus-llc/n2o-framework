@@ -5,6 +5,8 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 /**
  * Ячейка списковых виджетов (table, list) для автотестирования
  */
@@ -13,8 +15,8 @@ public class N2oCell extends N2oComponent implements Cell {
     private static final String EXPAND_ICON_SELECTOR = ".n2o-advanced-table-expand .n2o-advanced-table-expand-icon";
 
     @Override
-    public void shouldBeEmpty() {
-        element().shouldBe(Condition.empty);
+    public void shouldBeEmpty(Duration... duration) {
+        should(Condition.empty, duration);
     }
 
     @Override

@@ -2,9 +2,6 @@ import each from 'lodash/each'
 import isObject from 'lodash/isObject'
 import isArray from 'lodash/isArray'
 import isString from 'lodash/isString'
-import transform from 'lodash/transform'
-import isEqual from 'lodash/isEqual'
-import cloneDeepWith from 'lodash/cloneDeepWith'
 import map from 'lodash/map'
 import isNaN from 'lodash/isNaN'
 import isEmpty from 'lodash/isEmpty'
@@ -121,65 +118,6 @@ function needLinked(query) {
     }
 
     return false
-}
-
-/**
- * Возвращается widgetId на основе page и container
- * @param pageId
- * @param cntId
- * @returns {string}
- */
-export function getWidgetId(pageId, cntId) {
-    return `${pageId}.${cntId}`
-}
-
-/**
- * Проверка является ли объект Promise
- * @param obj
- * @returns {boolean}
- */
-export function isPromise(obj) {
-    return (
-        !!obj &&
-        (typeof obj === 'object' || typeof obj === 'function') &&
-        typeof obj.then === 'function'
-    )
-}
-
-/**
- * Глубокое сравнение двух объектов
- * @param  {Object} object объект сравнания
- * @param  {Object} base   объект с чем сарвнивают
- * @return {Object}        возвращает новый объект с разницей
- */
-export function difference(object, base) {
-    const changes = (object, base) => transform(object, (result, value, key) => {
-        if (!isEqual(value, base[key])) {
-            result[key] = isObject(value) && isObject(base[key])
-                ? changes(value, base[key])
-                : value
-        }
-    })
-
-    return changes(object, base)
-}
-
-/**
- * Глубокое удаление ключей
- * @param collection
- * @param excludeKeys
- * @returns {*}
- */
-export function omitDeep(collection, excludeKeys) {
-    function omitFn(value) {
-        if (value && typeof value === 'object') {
-            excludeKeys.forEach((key) => {
-                delete value[key]
-            })
-        }
-    }
-
-    return cloneDeepWith(collection, omitFn)
 }
 
 /**

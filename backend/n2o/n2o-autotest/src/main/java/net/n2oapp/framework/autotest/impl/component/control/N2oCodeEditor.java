@@ -4,8 +4,8 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import net.n2oapp.framework.autotest.api.component.control.CodeEditor;
-import org.openqa.selenium.Keys;
 
+import java.time.Duration;
 import java.util.stream.IntStream;
 
 /**
@@ -26,14 +26,14 @@ public class N2oCodeEditor extends N2oControl implements CodeEditor {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
+    public void shouldHaveValue(String value, Duration... duration) {
         String[] lines = value.trim().split("\n");
-        IntStream.range(0, lines.length).forEach(i -> shouldHaveValue(lines[i], i));
+        IntStream.range(0, lines.length).forEach(i -> shouldHaveValue(lines[i], i, duration));
     }
 
     @Override
-    public void shouldHaveValue(String value, int line) {
-        lines().get(line).shouldHave(Condition.text(value));
+    public void shouldHaveValue(String value, int line, Duration... duration) {
+        should(Condition.text(value), lines().get(line), duration);
     }
 
     protected ElementsCollection lines() {

@@ -241,7 +241,11 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/region/tabs/lazy",
-          "name": "TabsLazyInitAT"
+          "name": "TabsLazyInitAT. testLazyInit"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/laze_with_dependencies",
+          "name": "TabsLazyInitAT. testLazyInitWithDependencies"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/region/tabs/nesting",

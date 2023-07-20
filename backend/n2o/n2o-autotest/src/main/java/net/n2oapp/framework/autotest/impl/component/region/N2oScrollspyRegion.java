@@ -7,7 +7,8 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.ScrollspyRegion;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
-import org.openqa.selenium.Keys;
+
+import java.time.Duration;
 
 /**
  * Регион с отслеживанием прокрутки для автотестирования
@@ -30,13 +31,13 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
     }
 
     @Override
-    public void activeContentItemShouldHaveTitle(String title) {
-        contentItems().findBy(Condition.cssClass("active")).shouldHave(Condition.text(title));
+    public void activeContentItemShouldHaveTitle(String title, Duration... duration) {
+        should(Condition.text(title), contentItems().findBy(Condition.cssClass("active")), duration);
     }
 
     @Override
-    public void activeMenuItemShouldHaveTitle(String title) {
-        menu().element().$(".n2o-scroll-spy-region__menu-item.active").shouldHave(Condition.text(title));
+    public void activeMenuItemShouldHaveTitle(String title, Duration... duration) {
+        should(Condition.text(title), menu().element().$(".n2o-scroll-spy-region__menu-item.active"), duration);
     }
 
     @Override
@@ -81,8 +82,8 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
         }
 
         @Override
-        public void shouldHaveTitle(String title) {
-            element().$(".n2o-scroll-spy-region__menu-title").shouldHave(Condition.text(title));
+        public void shouldHaveTitle(String title, Duration... duration) {
+            should(Condition.text(title), element().$(".n2o-scroll-spy-region__menu-title"), duration);
         }
 
         @Override
@@ -134,8 +135,8 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
         }
 
         @Override
-        public void shouldHaveText(String text) {
-            element().shouldHave(Condition.text(text));
+        public void shouldHaveText(String text, Duration... duration) {
+            should(Condition.text(text), duration);
         }
 
         @Override
@@ -152,8 +153,8 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
         }
 
         @Override
-        public void shouldHaveText(String text) {
-            element().shouldHave(Condition.text(text));
+        public void shouldHaveText(String text, Duration... duration) {
+            should(Condition.text(text), duration);
         }
 
         @Override
@@ -194,8 +195,8 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
         }
 
         @Override
-        public void shouldHaveTitle(String text) {
-            element().$(".n2o-scroll-spy-region__group-items-title").shouldHave(Condition.text(text));
+        public void shouldHaveTitle(String text, Duration... duration) {
+            should(Condition.text(text), element().$(".n2o-scroll-spy-region__group-items-title"), duration);
         }
 
         @Override

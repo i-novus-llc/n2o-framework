@@ -5,6 +5,8 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarMonthView;
 
+import java.time.Duration;
+
 /**
  * Вид отображения календаря 'Месяц' для автотестирования
  */
@@ -25,8 +27,8 @@ public class N2oCalendarMonthView extends N2oStandardCalendarView implements Cal
     }
 
     @Override
-    public void shouldBeToday(String day) {
-        dateCells().findBy(Condition.cssClass("rbc-now")).shouldHave(Condition.text(day));
+    public void shouldBeToday(String day, Duration... duration) {
+        should(Condition.text(day), dateCells().findBy(Condition.cssClass("rbc-now")), duration);
     }
 
     @Override

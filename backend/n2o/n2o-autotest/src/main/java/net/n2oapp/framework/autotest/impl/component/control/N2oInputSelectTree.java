@@ -8,6 +8,8 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
 import net.n2oapp.framework.autotest.api.component.control.InputSelectTree;
 
+import java.time.Duration;
+
 /**
  * Компонент ввода с выбором в выпадающем списке в виде дерева для автотестирования
  */
@@ -21,7 +23,7 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
+    public void shouldHaveValue(String value, Duration... duration) {
 
     }
 
@@ -62,8 +64,8 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
     }
 
     @Override
-    public void shouldBeSelected(int index, String value) {
-        selectedElements().get(index).shouldHave(Condition.text(value));
+    public void shouldBeSelected(int index, String value, Duration... duration) {
+        should(Condition.text(value), selectedElements().get(index), duration);
     }
 
     @Override
@@ -111,7 +113,7 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void shouldBeClosed() {
-        dropdownElement().shouldNotBe(Condition.visible);;
+        dropdownElement().shouldNotBe(Condition.visible);
     }
 
     @Deprecated

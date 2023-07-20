@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 
+import java.time.Duration;
+
 /**
  * Ячейка таблицы с изображением для автотестирования
  */
@@ -40,15 +42,21 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     }
 
     @Override
-    public void shouldHaveTitle(String title) {
-        element().$(".n2o-image__info .n2o-image__info_label")
-                .shouldBe(Condition.exactText(title));
+    public void shouldHaveTitle(String title, Duration... duration) {
+        should(
+                Condition.exactText(title),
+                element().$(".n2o-image__info .n2o-image__info_label"),
+                duration
+        );
     }
 
     @Override
-    public void shouldHaveDescription(String description) {
-        element().$(".n2o-image__info .n2o-image__info_description")
-                .shouldBe(Condition.exactText(description));
+    public void shouldHaveDescription(String description, Duration... duration) {
+        should(
+                Condition.exactText(description),
+                element().$(".n2o-image__info .n2o-image__info_description"),
+                duration
+        );
     }
 
     @Override
@@ -58,10 +66,12 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     }
 
     @Override
-    public void shouldHaveStatus(ImageStatusElementPlace position, int index, String title) {
-        getStatus(position, index)
-                .$(".n2o-status__text")
-                .shouldBe(Condition.text(title));
+    public void shouldHaveStatus(ImageStatusElementPlace position, int index, String title, Duration... duration) {
+        should(
+                Condition.text(title),
+                getStatus(position, index).$(".n2o-status__text"),
+                duration
+        );
     }
 
     @Override

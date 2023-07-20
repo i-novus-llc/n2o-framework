@@ -1,14 +1,15 @@
 import React, { FC, useCallback, useEffect, useMemo, createContext } from 'react'
 import get from 'lodash/get'
-import { useDispatch, useStore } from 'react-redux'
+import { useDispatch, useSelector, useStore } from 'react-redux'
 
 import { ModelPrefix } from '../../../../core/datasource/const'
 import { updateModel } from '../../../../ducks/models/store'
-// @ts-ignore ignore import error from js file
 import { handleBlur, handleFocus, register, remove } from '../../../../ducks/form/store'
 import { TGetValues, TSetBlur, TSetFocus, TSetValue } from '../types'
 import { getModelFieldByPath } from '../../../../ducks/models/selectors'
 import { ValidationsKey } from '../../../../core/validation/IValidation'
+import { makeFormByName } from '../../../../ducks/form/selectors'
+import { State } from '../../../../ducks/State'
 
 type TMethods = {
     setValue: TSetValue
@@ -34,6 +35,7 @@ const FormContext = createContext<TFormContext | null>(null)
 
 const FormProvider: FC<TFormProvider> = ({ children, formName, datasource, prefix, validationKey }) => {
     const dispatch = useDispatch()
+    const isInitForm = useSelector((state: State) => Boolean(makeFormByName(formName)(state).isInit))
     const { getState } = useStore()
 
     const getValues = useCallback<TGetValues>((fieldName) => {
@@ -72,16 +74,18 @@ const FormProvider: FC<TFormProvider> = ({ children, formName, datasource, prefi
     }, [datasource, dispatch, formName, prefix, validationKey])
 
     return (
-        <FormContext.Provider value={{
-            ...methods,
-            getValues,
-            formName,
-            prefix,
-            datasource,
-        }}
-        >
-            {children}
-        </FormContext.Provider>
+        isInitForm ? (
+            <FormContext.Provider value={{
+                ...methods,
+                getValues,
+                formName,
+                prefix,
+                datasource,
+            }}
+            >
+                {children}
+            </FormContext.Provider>
+        ) : null
     )
 }
 
