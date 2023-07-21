@@ -12,7 +12,7 @@ import { connect } from 'react-redux'
 import withSecurity from '../../../core/auth/withSecurity'
 import withColumn from '../Table/withColumn'
 import TableCell from '../Table/TableCell'
-import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
+import { withWidgetHandlers } from '../hocs/withWidgetHandlers'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 

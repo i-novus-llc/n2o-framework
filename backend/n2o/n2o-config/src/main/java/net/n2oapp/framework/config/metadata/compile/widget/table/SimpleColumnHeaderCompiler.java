@@ -63,11 +63,14 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         compileBaseProperties(source, header, p);
         header.setId(source.getId());
         header.setIcon(source.getLabelIcon());
-        header.setWidth(prepareSizeAttribute(source.getWidth()));
+        header.setResizable(p.cast(source.getResizable(),
+                p.resolve(property("n2o.api.widget.table.column.resizable"), Boolean.class)));
+        header.getElementAttributes().put("width", prepareSizeAttribute(source.getWidth()));
         header.setResizable(p.cast(source.getResizable(),
                 () -> p.resolve(property("n2o.api.widget.table.column.resizable"), Boolean.class)));
         header.setFixed(source.getFixed());
-        header.setAlignment(source.getAlignment());
+        if (source.getAlignment() != null)
+            header.getElementAttributes().put("alignment", source.getAlignment().getId());
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (source.getColumnVisibilities() != null) {

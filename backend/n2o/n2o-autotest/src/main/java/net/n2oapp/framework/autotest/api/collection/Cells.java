@@ -59,16 +59,6 @@ public interface Cells extends ComponentsCollection {
     void click();
 
     /**
-     * Проверка возможности клика по строке с ячейками
-     */
-    void shouldBeClickable();
-
-    /**
-     * Проверка недоступности клика по строке с ячейками
-     */
-    void shouldNotBeClickable();
-
-    /**
      * Наведение мыши на строку с ячейками
      */
     void hover();

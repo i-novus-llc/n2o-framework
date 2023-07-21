@@ -159,7 +159,7 @@ public class TableSelectionAT extends AutoTestBase {
         TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(3);
         rows.shouldBeSelected(0);
-        rows.row(1).click();
+        rows.row(1).cell(0, CheckboxCell.class).setChecked(true);
         rows.shouldBeSelected(1);
 
         CheckboxCell cell1 = rows.row(0).cell(0, CheckboxCell.class);

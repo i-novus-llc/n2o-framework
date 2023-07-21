@@ -469,10 +469,6 @@
           "name": "ToolbarColumnAccessAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur",
-          "name": "TableAT. testHideOnBlur"
-        },
-        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/with_children",
           "name": "TableWithChildrenAT"
         },

@@ -42,6 +42,8 @@ export const N2OPagination = (props) => {
     )
 }
 
+N2OPagination.displayName = 'N2OPagination'
+
 N2OPagination.propTypes = {
     count: PropTypes.number,
     size: PropTypes.number,

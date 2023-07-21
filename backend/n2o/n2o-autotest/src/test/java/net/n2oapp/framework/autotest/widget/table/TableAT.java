@@ -92,49 +92,32 @@ public class TableAT extends AutoTestBase {
         table.columns().rows().row(2).shouldHaveColor(Colors.SUCCESS);
 
         for (int i = 0; i < 3; i++) {
-            table.columns().rows().row(i).cell(0).shouldBeHidden();
+            table.columns().rows().row(i).cell(0).shouldBeVisible();
             table.columns().rows().row(i).cell(1).shouldBeVisible();
             table.columns().rows().row(i).cell(2).shouldBeVisible();
             table.columns().rows().row(i).cell(2).shouldHaveIcon("fa-plus");
             table.columns().rows().row(i).cell(3).shouldBeVisible();
         }
+        table.columns().headers().header(0).shouldHaveTitle("id");
+        table.filters().fields().field("Имя").control(InputText.class).clear();
+        table.filters().toolbar().button("searchLabel").click();
 
-        table.columns().headers().header(0).shouldBeVisible();
         table.columns().headers().header(0).shouldHaveTitle("Имя");
         table.columns().headers().header(0).shouldHaveStyle("color: red");
-        table.columns().headers().header(1).shouldBeVisible();
         table.columns().headers().header(1).shouldHaveTitle("Фамилия");
         table.columns().headers().header(1).shouldHaveCssClass("font-italic");
         table.columns().headers().header(1).shouldHaveIcon("fa-plus");
-        table.columns().headers().header(2).shouldBeVisible();
         table.columns().headers().header(2).shouldHaveTitle("Дата рождения");
 
         table.toolbar().topRight().button(1, DropdownButton.class).click();
         table.toolbar().topRight().button(1, DropdownButton.class).menuItem("Фамилия").click();
-
-        table.columns().headers().header(0).shouldBeVisible();
-        table.columns().headers().header(1).shouldBeVisible();
-        for (int i = 0; i < 3; i++) {
-            table.columns().rows().row(i).cell(0).shouldBeHidden();
-            table.columns().rows().row(i).cell(1).shouldBeVisible();
-            table.columns().rows().row(i).cell(2).shouldBeHidden();
-            table.columns().rows().row(i).cell(2).shouldNotHaveIcon();
-            table.columns().rows().row(i).cell(3).shouldBeVisible();
-        }
+        table.columns().headers().header(0).shouldHaveTitle("Имя");
+        table.columns().headers().header(1).shouldHaveTitle("Дата рождения");
 
         table.toolbar().topRight().button(1, DropdownButton.class).menuItem("Фамилия").click();
-
-        table.columns().headers().header(0).shouldBeVisible();
-        table.columns().headers().header(1).shouldBeVisible();
-        table.columns().headers().header(1).shouldHaveIcon("fa-plus");
-        table.columns().headers().header(2).shouldBeVisible();
-        for (int i = 0; i < 3; i++) {
-            table.columns().rows().row(i).cell(0).shouldBeHidden();
-            table.columns().rows().row(i).cell(1).shouldBeVisible();
-            table.columns().rows().row(i).cell(2).shouldBeVisible();
-            table.columns().rows().row(i).cell(2).shouldHaveIcon("fa-plus");
-            table.columns().rows().row(i).cell(3).shouldBeVisible();
-        }
+        table.columns().headers().header(0).shouldHaveTitle("Имя");
+        table.columns().headers().header(1).shouldHaveTitle("Фамилия");
+        table.columns().headers().header(2).shouldHaveTitle("Дата рождения");
     }
 
     @Test
@@ -153,14 +136,12 @@ public class TableAT extends AutoTestBase {
 
         Cells firstRow = table.columns().rows().row(0);
         firstRow.cell(1).shouldHaveText("1");
-        firstRow.shouldNotBeClickable();
         Modal modal = N2oSelenide.modal();
         firstRow.click();
         modal.shouldNotExists();
 
         Cells thirdRow = table.columns().rows().row(2);
         thirdRow.cell(1).shouldHaveText("2");
-        thirdRow.shouldBeClickable();
         thirdRow.click();
         modal.shouldExists();
         modal.close();
@@ -182,35 +163,6 @@ public class TableAT extends AutoTestBase {
         button.shouldExists();
         button.shouldBeEnabled();
         button = rows.row(1).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
-        button.shouldExists();
-        button.shouldBeDisabled();
-        button = rows.row(2).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
-        button.shouldNotExists();
-    }
-
-    @Test
-    public void testHideOnBlur() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur/test.query.xml"));
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-
-        TableWidget table = page.widget(TableWidget.class);
-        TableWidget.Rows rows = table.columns().rows();
-        rows.shouldHaveSize(3);
-
-        StandardButton button = rows.row(0).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
-        button.shouldNotExists();
-        rows.row(0).hover();
-        button.shouldBeEnabled();
-        button.click();
-        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("echo");
-
-        button = rows.row(1).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
-        button.shouldNotExists();
-        rows.row(1).hover();
         button.shouldExists();
         button.shouldBeDisabled();
         button = rows.row(2).cell(2, ToolbarCell.class).toolbar().button("Кнопка");

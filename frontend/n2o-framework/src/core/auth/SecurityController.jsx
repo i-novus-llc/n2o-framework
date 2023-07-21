@@ -17,7 +17,37 @@ export const Behavior = {
     DISABLE: 'disable',
 }
 
-const useSecurityController = ({ config = {}, onPermissionsSet, disabled, ...rest }) => {
+export const useCheckAccess = (config) => {
+    const [hasAccess, setHasAccess] = useState(isEmpty(config))
+    const { checkSecurity } = useContext(SecurityContext)
+
+    useEffect(() => {
+        if (isEmpty(config)) {
+            return
+        }
+
+        const checkPermissions = async (config) => {
+            try {
+                const hasAccess = await checkSecurity(config)
+
+                setHasAccess(hasAccess)
+            } catch (err) {
+                setHasAccess(false)
+            }
+        }
+
+        checkPermissions(config)
+    }, [checkSecurity, config])
+
+    return hasAccess
+}
+
+/** TODO: Необходим рефакторинг.
+ *        В данный момент нет никакой мемоизации на props, что вызывет лишние рендеры.
+ *        Возможно вцелом стоит пересмотрет работу хука
+ * */
+export const useSecurityController = (securityConfig) => {
+    const { config = {}, onPermissionsSet, disabled, ...rest } = securityConfig
     const { getState } = useStore()
     const prevResolvedConfig = useRef(null)
     const [hasAccess, setHasAccess] = useState(isEmpty(config) || null)

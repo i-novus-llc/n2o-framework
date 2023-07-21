@@ -40,14 +40,14 @@ public class ProgressBarCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testProgressBarCell.page.xml")
                 .get(new PageContext("testProgressBarCell"));
         Table table = (Table) page.getWidget();
-        ProgressBarCell cell = (ProgressBarCell) table.getComponent().getCells().get(0);
+        ProgressBarCell cell = (ProgressBarCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("ProgressBarCell"));
         assertThat(cell.getActive(), is(true));
         assertThat(cell.getColor(), is("info"));
         assertThat(cell.getSize(), is(N2oProgressBarCell.Size.large));
         assertThat(cell.getStriped(), is(true));
 
-        cell = (ProgressBarCell) table.getComponent().getCells().get(1);
+        cell = (ProgressBarCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getSrc(), is("ProgressBarCell"));
         assertThat(cell.getSize(), is(N2oProgressBarCell.Size.normal));
         assertThat(cell.getActive(), is(false));

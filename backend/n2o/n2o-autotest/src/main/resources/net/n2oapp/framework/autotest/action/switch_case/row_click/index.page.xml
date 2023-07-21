@@ -14,9 +14,6 @@
                         <open-page page-id="page1" route="/type1"/>
                     </case>
                     <case value="2">
-                        <open-page page-id="page2" route="/type2"/>
-                    </case>
-                    <case value="3">
                         <a href="https://example.com"/>
                     </case>
                 </switch>

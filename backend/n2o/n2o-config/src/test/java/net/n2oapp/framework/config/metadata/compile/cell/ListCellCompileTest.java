@@ -39,12 +39,12 @@ public class ListCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testListCell.page.xml")
                 .get(new PageContext("testListCell"));
         Table table = (Table) page.getWidget();
-        ListCell cell = (ListCell) table.getComponent().getCells().get(0);
+        ListCell cell = (ListCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("CollapsedCell"));
         assertThat(cell.getSize(), is(3));
         assertThat(cell.getColor(), is("color"));
 
-        cell = (ListCell) table.getComponent().getCells().get(1);
+        cell = (ListCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getSrc(), is("CollapsedCell"));
         assertThat(cell.getSize(), is(5));
         assertThat(cell.getColor(), is("`type.id == 1 ? 'success' : type.id == 2 ? 'danger' : 'info'`"));
