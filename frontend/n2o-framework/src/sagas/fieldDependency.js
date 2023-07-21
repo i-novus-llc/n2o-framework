@@ -235,6 +235,12 @@ const shouldBeResolved = ({
         )
     )) { return true }
 
+    // Произошла синхронизация моделей формы и редюсера models.
+    // Тригерим только если у поля есть зависимости
+    if (actionType === syncValues.type && on.length) {
+        return true
+    }
+
     // apply on change
     /*
      * условие 2 нужно чтобы стрелть событиями когда обновлённое поле это объект,
