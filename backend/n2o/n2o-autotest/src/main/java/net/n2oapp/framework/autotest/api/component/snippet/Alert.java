@@ -39,6 +39,12 @@ public interface Alert extends Snippet {
     void shouldHaveTimestamp(String timestamp, Duration... duration);
 
     /**
+     * Проверка того, что предупреждение отсутствует
+     * @param duration задержка
+     */
+    void shouldNotExists(Duration... duration);
+
+    /**
      * Клик по предупреждению
      */
     void click();

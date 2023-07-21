@@ -51,6 +51,11 @@ public class N2oAlert extends N2oSnippet implements Alert {
     }
 
     @Override
+    public void shouldNotExists(Duration... duration) {
+        should(Condition.not(Condition.exist), element(), duration);
+    }
+
+    @Override
     public CloseButton closeButton() {
         return new N2oCloseButton(element().$(".n2o-alert-segment__icon-close"));
     }
