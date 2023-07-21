@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Bulk Операции">
-    <table id="table1" checkboxes="true">
+    <table id="table1" selection="checkbox">
         <datasource query-id="test"/>
 
         <columns>
