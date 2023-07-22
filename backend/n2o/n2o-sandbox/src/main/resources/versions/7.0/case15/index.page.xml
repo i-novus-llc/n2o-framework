@@ -3,19 +3,19 @@
              name="Значки в ячейках таблицы">
     <table query-id="test">
         <columns>
-            <column id="c1" label="Значок" text-field-id="name">
+            <column id="c1" label="Значок" text-field-id="name1">
                 <badge color="danger"/>
             </column>
-            <column id="c2" label="Значок с текстом" text-field-id="name">
+            <column id="c2" label="Значок с текстом" text-field-id="name2">
                 <badge text="Text" color="success"/>
             </column>
-            <column id="c3" label="Значок слева с текстом" text-field-id="name">
+            <column id="c3" label="Значок слева с текстом" text-field-id="name3">
                 <badge text="Text" color="info" position="left"/>
             </column>
             <column id="c4" label="Значок с динамическим текстом" text-field-id="id">
                 <badge text="{name}"/>
             </column>
-            <column id="c5" label="Значок с переключателем цвета" text-field-id="name">
+            <column id="c5" label="Значок с переключателем цвета" text-field-id="name5">
                 <badge>
                     <switch value-field-id="type">
                         <case value="1">danger</case>
@@ -24,7 +24,7 @@
                     </switch>
                 </badge>
             </column>
-            <column id="c6" label="Значок с динамическим цветом" text-field-id="name">
+            <column id="c6" label="Значок с динамическим цветом" text-field-id="name6">
                 <badge color="{type == 1 ? 'warning' : 'dark'}"/>
             </column>
             <column id="c7" label="Текст без значка" text-field-id="option">

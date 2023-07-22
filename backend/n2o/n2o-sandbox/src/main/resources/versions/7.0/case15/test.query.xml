@@ -14,8 +14,20 @@
         <field id="type">
             <select/>
         </field>
-        <field id="name">
-            <select/>
+        <field id="name1">
+            <select mapping="['name']"/>
+        </field>
+        <field id="name2">
+            <select mapping="['name']"/>
+        </field>
+        <field id="name3">
+            <select mapping="['name']"/>
+        </field>
+        <field id="name5" >
+            <select mapping="['name']"/>
+        </field>
+        <field id="name6">
+            <select mapping="['name']"/>
         </field>
         <field id="option">
             <select/>

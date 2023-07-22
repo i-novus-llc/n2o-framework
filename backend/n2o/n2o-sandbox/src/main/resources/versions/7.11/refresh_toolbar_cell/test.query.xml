@@ -12,8 +12,26 @@
                 <eq filter-id="id"/>
             </filters>
         </field>
-        <field id="name">
-            <select/>
+        <field id="name1">
+            <select mapping="['name']"/>
+        </field>
+        <field id="name2">
+            <select mapping="['name']"/>
+        </field>
+        <field id="name3">
+            <select mapping="['name']"/>
+        </field>
+        <field id="name4">
+            <select mapping="['name']"/>
+        </field>
+        <field id="name5">
+            <select mapping="['name']"/>
+        </field>
+        <field id="name6">
+            <select mapping="['name']"/>
+        </field>
+        <field id="name7">
+            <select mapping="['name']"/>
         </field>
     </fields>
 </query>
