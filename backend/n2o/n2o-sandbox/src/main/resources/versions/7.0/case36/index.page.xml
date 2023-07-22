@@ -3,15 +3,15 @@
              name="Ячейка чекбокс">
     <table query-id="test">
         <columns>
-            <column text-field-id="check" label="Без action" id="c2">
+            <column text-field-id="check1" label="Без action" id="c2">
                 <checkbox/>
             </column>
-            <column text-field-id="check" label="C action" id="c3">
+            <column text-field-id="check2" label="C action" id="c3">
                 <checkbox>
                     <invoke operation-id="update"/>
                 </checkbox>
             </column>
-            <column text-field-id="check" label="С условием на enabled" id="c1">
+            <column text-field-id="check3" label="С условием на enabled" id="c1">
                 <checkbox enabled="{check==true}"/>
             </column>
         </columns>
