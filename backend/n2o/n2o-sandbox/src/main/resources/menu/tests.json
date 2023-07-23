@@ -401,6 +401,10 @@
           "name": "TableFiltersValidationAT. testValidationFetch"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filter_model",
+          "name": "FilterModelAT"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/multi_column",
           "name": "MultiColumnAT"
         },
