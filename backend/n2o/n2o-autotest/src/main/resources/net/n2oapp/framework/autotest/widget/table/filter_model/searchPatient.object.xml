@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="search">
+            <invocation>
+                <test file="patient.json" operation="findOne"/>
+            </invocation>
+            <in>
+                <field id="snils" mapping="['snils']"/>
+            </in>
+            <out>
+                <field id="patientName" domain="string" mapping="#this != null ? ['name'] : null"/>
+            </out>
+        </operation>
+    </operations>
+</object>
