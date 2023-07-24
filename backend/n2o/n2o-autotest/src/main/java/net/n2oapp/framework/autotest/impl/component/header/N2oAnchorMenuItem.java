@@ -41,6 +41,15 @@ public class N2oAnchorMenuItem extends N2oMenuItem implements AnchorMenuItem {
         element().$("a").shouldHave(Condition.attribute("href", url));
     }
 
+    @Override
+    public void shouldNotBeClickable() {
+        if (element().is(Condition.tagName("button"))) {
+            element().$("li.nav_item").shouldHave(Condition.cssClass("static-menu-item"));
+        } else {
+            element().shouldHave(Condition.cssClass("static-menu-item"));
+        }
+    }
+
     protected SelenideElement icon() {
         return element().$("i");
     }

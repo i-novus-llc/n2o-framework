@@ -70,6 +70,10 @@
           "name": "MenuAT. sidebarMiImageTextAndBadge"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/header/non_action_menu_item",
+          "name": "MenuAT. nonActionMenuItem"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/application/sidebar/simple",
           "name": "SidebarAT. testSidebar"
         },

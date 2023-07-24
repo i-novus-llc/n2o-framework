@@ -23,7 +23,7 @@ public class N2oDropdownMenuItem extends N2oMenuItem implements DropdownMenuItem
 
     @Override
     public void shouldHaveSize(int size) {
-        element().$$(".nav-item").shouldHave(CollectionCondition.size(size));
+        element().$$(".dropdown-menu > .dropdown-item").shouldHave(CollectionCondition.size(size));
     }
 }
 
