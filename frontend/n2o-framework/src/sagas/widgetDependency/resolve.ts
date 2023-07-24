@@ -2,18 +2,19 @@ import reduce from 'lodash/reduce'
 import { call, put } from 'redux-saga/effects'
 
 import { disableWidget, enableWidget, hideWidget, showWidget } from '../../ducks/widgets/store'
+// @ts-ignore ignore import error from js file
 import propsResolver from '../../utils/propsResolver'
 import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
 
-export const reduceFunction = (isTrue, { model, config }) => isTrue && propsResolver(`\`${config.condition}\``, model)
+import { IModel, OptionsType } from './WidgetTypes'
+
+export const reduceFunction = (isTrue: boolean, { model, config }: IModel) => isTrue && propsResolver(`\`${config?.condition}\``, model)
 
 /**
  * Резолв видимости
- * @param widgetId
- * @param model
- * @returns {IterableIterator<*>}
  */
-export function* resolveVisible(widgetId, model) {
+
+export function* resolveVisible(widgetId: string, model: OptionsType) {
     const visible = reduce(model, reduceFunction, true)
 
     if (visible) {
@@ -25,11 +26,8 @@ export function* resolveVisible(widgetId, model) {
 
 /**
  * Резолв активности
- * @param widgetId
- * @param model
- * @returns {IterableIterator<*>}
  */
-export function* resolveEnabled(widgetId, model) {
+export function* resolveEnabled(widgetId: string, model: OptionsType) {
     const enabled = reduce(model, reduceFunction, true)
 
     if (enabled) {
@@ -41,15 +39,11 @@ export function* resolveEnabled(widgetId, model) {
 
 /**
  * Резолв конкретной зависимости по типу
- * @param dependencyType
- * @param widgetId
- * @param model
- * @returns {IterableIterator<*|CallEffect>}
  */
 export function* resolveDependency(
-    dependencyType,
-    widgetId,
-    model,
+    dependencyType: string,
+    widgetId: string,
+    model: OptionsType,
 ) {
     switch (dependencyType) {
         case DEPENDENCY_TYPES.visible: {

@@ -5,7 +5,7 @@ import { ReactReduxContext, connect } from 'react-redux'
 import { makeFieldParam } from '../../ducks/form/selectors'
 import { DEPENDENCY_TYPES } from '../dependencyTypes'
 
-export const FETCH_TRIGGER = 'fetchTrigger'
+import { FETCH_TRIGGER } from './constants'
 
 // FIXME временное решение для fieldDependency type fetch, вызывает _fetchData компонента
 //  config формируется в файле ReduxField

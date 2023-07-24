@@ -1,9 +1,13 @@
 import forOwn from 'lodash/forOwn'
 import isEmpty from 'lodash/isEmpty'
 
-export const sortDependency = (dependency) => {
-    const tmpFetch = {}
-    let newDependency = {}
+import { metaPropsType } from '../../plugins/utils'
+
+import { IDependencies } from './WidgetTypes'
+
+export const sortDependency = (dependency: IDependencies) => {
+    const tmpFetch: metaPropsType = {}
+    let newDependency: metaPropsType = {}
 
     forOwn(dependency, (v, k) => {
         if (k !== 'fetch') {

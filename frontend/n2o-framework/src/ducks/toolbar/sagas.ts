@@ -38,7 +38,7 @@ export function* resolveButton(button: IButton) {
         const { visible, enabled } = button.conditions
 
         if (visible) {
-            const nextVisible = resolveConditions(visible, state).resolve
+            const nextVisible = resolveConditions(state, visible).resolve
 
             yield put(
                 changeButtonVisibility(button.key, button.buttonId, nextVisible),
@@ -47,7 +47,7 @@ export function* resolveButton(button: IButton) {
         }
 
         if (enabled) {
-            const resolvedEnabled = resolveConditions(enabled, state)
+            const resolvedEnabled = resolveConditions(state, enabled)
 
             yield put(changeButtonDisabled(button.key, button.buttonId, !resolvedEnabled?.resolve))
             if (!resolvedEnabled?.resolve) {

@@ -12,7 +12,7 @@ type FieldPath = ModelsPayload & {
 }
 
 export type SetModelAction = PayloadAction<ModelsPayload & {
-    model?: object | null
+    model?: Record<string, unknown> | null
     isDefault?: boolean
 }>
 

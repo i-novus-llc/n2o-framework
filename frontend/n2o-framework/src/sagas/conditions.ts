@@ -30,6 +30,7 @@ import { resolveColumn } from '../ducks/columns/sagas'
 import { registerColumn } from '../ducks/columns/store'
 // eslint-disable-next-line import/no-cycle
 import { resolveButton } from '../ducks/toolbar/sagas'
+import { State } from '../ducks/State'
 
 /**
  * Обработчики вызова зависимостей
@@ -43,7 +44,20 @@ const REMOVE_TO_ADD_ACTIONS_NAMES_DICT = {
     [removeButton.type]: registerButton.type,
 }
 
-function evalExpressionMulti(expression, context) {
+type ContextType = Record<string, Record<string, unknown>> | Array<Record<string, unknown>>
+export interface ICondition {
+    expression: string
+    modelLink: string
+    message?: string
+}
+
+type Conditions = ICondition[]
+type ConditionsByName = Record<string, Conditions>
+type EntityMeta = { conditions: ConditionsByName, key: string, buttonId: string }
+type Entity = Record<string, EntityMeta[]>
+type EntitiesType = Record<string, Entity>
+
+function evalExpressionMulti(expression: string, context: ContextType) {
     const multiContext = Array.isArray(context) ? context : values(context)
 
     if (isEmpty(multiContext)) {
@@ -59,10 +73,14 @@ function evalExpressionMulti(expression, context) {
  * @param state
  * @returns {object}
  */
-export const resolveConditions = (conditions = [], state) => {
+
+export const resolveConditions = (
+    state: State,
+    conditions: Conditions = [],
+): { resolve: boolean, message: string | undefined } => {
     const falsyExpressions = reduce(
         conditions,
-        (acc, condition) => {
+        (acc: Conditions, condition) => {
             const { expression, modelLink } = condition
 
             const context = get(state, modelLink, {})
@@ -71,9 +89,7 @@ export const resolveConditions = (conditions = [], state) => {
                 ? evalExpressionMulti(expression, context)
                 : evalExpression(expression, context)
 
-            return !evalResult
-                ? acc.concat(condition)
-                : acc
+            return !evalResult ? acc.concat(condition) : acc
         },
         [],
     )
@@ -84,7 +100,7 @@ export const resolveConditions = (conditions = [], state) => {
     return { resolve: isEmpty(falsyExpressions), message }
 }
 
-function* callConditionHandlers(entities, prefix, key, type) {
+function* callConditionHandlers(entities: Record<string, unknown>, prefix: string, key: string, type: string) {
     const modelLink = `models.${prefix}['${key}']`
     const entity = get(entities, [type, modelLink], null)
 
@@ -98,7 +114,14 @@ function* callConditionHandlers(entities, prefix, key, type) {
  * @param entities
  * @param action
  */
-function* watchModel(entities, action) {
+
+interface IWatchModelPayload {
+    prefix: string
+    prefixes: string
+    key: string
+}
+
+function* watchModel(entities: EntitiesType, action: { payload: IWatchModelPayload }) {
     const { prefix, prefixes, key } = action.payload
     const groupTypes = keys(entities)
 
@@ -118,7 +141,14 @@ function* watchModel(entities, action) {
     }
 }
 
-function* watchCombineModels(entities, { payload: { combine } }) {
+interface IWatchCombineModelsPayload {
+    combine: Record<string, unknown>
+}
+
+function* watchCombineModels(
+    entities: EntitiesType,
+    { payload: { combine } }: { payload: IWatchCombineModelsPayload },
+) {
     const groupTypes = keys(entities)
     const [prefix] = keys(combine)
     const [key] = keys(combine[prefix])
@@ -130,14 +160,22 @@ function* watchCombineModels(entities, { payload: { combine } }) {
     }
 }
 
-function watchRemove(entities, action) {
+interface IWatchRemovePayload {
+    key: string
+    buttonId: string
+}
+
+function watchRemove(entities: EntitiesType, action: { type: string, payload: IWatchRemovePayload }) {
     const { type, payload } = action
+
     const conditions = entities[REMOVE_TO_ADD_ACTIONS_NAMES_DICT[type]]
+
     const modelLinks = keys(conditions)
-    const newConditions = {}
+    const newConditions: Entity = {}
 
     modelLinks.forEach((modelLink) => {
-        const curModelLinkConditions = conditions[modelLink].filter(
+        const curConditions = conditions[modelLink]
+        const curModelLinkConditions = curConditions.filter(
             ({ key, buttonId }) => key !== payload.key || buttonId !== payload.buttonId,
         )
 
@@ -145,13 +183,16 @@ function watchRemove(entities, action) {
             newConditions[modelLink] = curModelLinkConditions
         }
     })
+
     entities[REMOVE_TO_ADD_ACTIONS_NAMES_DICT[type]] = newConditions
 }
 
 function* conditionWatchers() {
     const entities = {}
 
+    // @ts-ignore проблема с типизацией saga
     yield takeEvery([registerButton, registerColumn], watchRegister, entities)
+    // @ts-ignore проблема с типизацией saga
     yield takeEvery([
         setModel,
         clearModel,
@@ -160,6 +201,7 @@ function* conditionWatchers() {
         removeFieldFromArray,
         copyFieldArray,
     ], watchModel, entities)
+    // @ts-ignore проблема с типизацией saga
     yield takeEvery(combineModels, watchCombineModels, entities)
     yield takeEvery(removeButton, watchRemove, entities)
 }
@@ -168,11 +210,17 @@ function* conditionWatchers() {
  * Наблюдение за регистрацией сущностей
  * @return
  */
-function* watchRegister(entities, { type, payload }) {
+
+interface IWatchRegisterPayload {
+    conditions: ConditionsByName
+}
+
+function* watchRegister(entities: EntitiesType, { type, payload }: {type: string, payload: IWatchRegisterPayload}) {
     const { conditions } = payload
 
     if (conditions && !isEmpty(conditions)) {
         prepareEntity(entities, payload, type)
+        // @ts-ignore FIXME непонял как поправить
         yield fork(ConditionHandlers[type], payload)
     }
 }
@@ -184,11 +232,16 @@ function* watchRegister(entities, { type, payload }) {
  * @param type
  * @return {any}
  */
-export function prepareEntity(entities, payload, type) {
-    const { conditions } = payload
-    const linksBuffer = []
 
-    forOwn(conditions, condition => map(condition, ({ modelLink }) => {
+interface IPrepareEntityPayload {
+    conditions: ConditionsByName
+}
+
+export function prepareEntity(entities: EntitiesType, payload: IPrepareEntityPayload, type: string) {
+    const { conditions } = payload
+    const linksBuffer: string[] = []
+
+    forOwn(conditions, condition => map(condition, ({ modelLink }: {modelLink: string}) => {
         if (!linksBuffer.includes(modelLink)) {
             const entityData = get(entities, [type, modelLink], [])
             const modelLinks = [...entityData, payload]

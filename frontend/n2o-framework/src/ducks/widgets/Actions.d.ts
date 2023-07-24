@@ -9,7 +9,7 @@ export type RegisterPayload = {
 export type ResolvePayload = {
     widgetId: string
     modelId: string
-    model: object
+    model: Record<string, unknown>
 }
 
 export type TogglePayload = {

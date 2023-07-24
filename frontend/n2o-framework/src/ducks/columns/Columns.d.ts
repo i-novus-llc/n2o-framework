@@ -1,5 +1,7 @@
+import { ICondition } from '../../sagas/conditions'
+
 interface IConditions {
-    visible?: boolean
+    visible?: ICondition[]
 }
 
 export interface IColumn {

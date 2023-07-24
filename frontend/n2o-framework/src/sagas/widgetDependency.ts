@@ -23,33 +23,30 @@ import {
 } from '../ducks/models/store'
 import { DEPENDENCY_ORDER } from '../core/dependencyTypes'
 import { getModelsByDependency } from '../ducks/models/selectors'
+import { State } from '../ducks/State'
 
 import { getWidgetDependency } from './widgetDependency/getWidgetDependency'
 import { resolveDependency } from './widgetDependency/resolve'
+import { IDependency, IWidgetDependencies } from './widgetDependency/WidgetTypes'
 
-let widgetsDependencies = {}
+let widgetsDependencies: IWidgetDependencies = {}
 
-export function* registerDependency({ payload, type }) {
+interface IRegisterDependencyPayload {
+    widgetId: string
+    dependency: IDependency
+}
+export function* registerDependency({ payload, type }: { payload: IRegisterDependencyPayload, type: string }) {
     const { widgetId, dependency } = payload
-    const state = yield select()
+    const state: State = yield select()
 
-    widgetsDependencies = yield call(
-        getWidgetDependency,
-        widgetsDependencies,
-        widgetId,
-        dependency,
-    )
-    yield call(
-        resolveWidgetDependency,
-        type,
-        {},
-        state,
-        widgetsDependencies,
-    )
+    // @ts-ignore FIXME не знаю как поправить
+    widgetsDependencies = yield call(getWidgetDependency, widgetsDependencies, widgetId, dependency)
+    // @ts-ignore FIXME не знаю как поправить
+    yield call(resolveWidgetDependency, type, {}, state, widgetsDependencies)
 }
 
-export function* updateModelSaga({ type, meta }) {
-    const state = yield select()
+export function* updateModelSaga({ type, meta }: { type: string, meta: { prevState: State } }) {
+    const state: State = yield select()
 
     yield call(
         resolveWidgetDependency,
@@ -70,18 +67,20 @@ export function* updateModelSaga({ type, meta }) {
  * @template CallEffect
  */
 export function* resolveWidgetDependency(
-    type,
-    prevState,
-    state,
-    widgetsDependencies,
+    type: string,
+    prevState: State,
+    state: State,
+    widgetsDependencies: IWidgetDependencies,
 ) {
     const dependenciesKeys = sortBy(keys(widgetsDependencies), item => DEPENDENCY_ORDER.indexOf(item))
 
-    for (let i = 0; i < dependenciesKeys.length; i++) {
-        const { dependency, widgetId } = widgetsDependencies[dependenciesKeys[i]]
+    for (let i = 0; i < dependenciesKeys.length; i += 1) {
+        const key = dependenciesKeys[i]
+        // @ts-ignore FIXME не знаю как поправить
+        const { dependency, widgetId } = widgetsDependencies[key]
         const widgetDependenciesKeys = sortBy(keys(dependency), item => DEPENDENCY_ORDER.indexOf(item))
 
-        for (let j = 0; j < widgetDependenciesKeys.length; j++) {
+        for (let j = 0; j < widgetDependenciesKeys.length; j += 1) {
             const dep = dependency[widgetDependenciesKeys[j]]
             const prevModel = getModelsByDependency(dep)(prevState)
             const model = getModelsByDependency(dep)(state)
@@ -94,12 +93,8 @@ export function* resolveWidgetDependency(
             const isEqualModel = isFormActionType ? true : !isEqual(prevModel, model)
 
             if (isEqualModel) {
-                yield call(
-                    resolveDependency,
-                    widgetDependenciesKeys[j],
-                    widgetId,
-                    model,
-                )
+                // @ts-ignore FIXME не знаю как поправить
+                yield call(resolveDependency, widgetDependenciesKeys[j], widgetId, model)
             }
         }
     }
@@ -107,6 +102,7 @@ export function* resolveWidgetDependency(
 
 export const widgetDependencySagas = [
     takeEvery(REGISTER_DEPENDENCY, registerDependency),
+    // @ts-ignore Проблема с типизацией saga
     takeEvery([
         setModel,
         removeModel,
