@@ -141,6 +141,7 @@ export const defaultApiProvider = {
  * Возвращает стандартный api для N2O
  */
 export default handleApi(defaultApiProvider)
+export const defaultApiProviderEnhanced = handleApi(defaultApiProvider)
 
 /**
  * todo: нужно переделать на другую реализацию, эту нельзя кастомить

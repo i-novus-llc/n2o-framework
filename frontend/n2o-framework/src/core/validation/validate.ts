@@ -1,4 +1,5 @@
 import { isEmpty } from 'lodash'
+import { Dispatch } from 'redux'
 
 import {
     dataSourceModelByPrefixSelector,
@@ -21,11 +22,12 @@ import { ValidationsKey } from './IValidation'
  * @returns {boolean}
  * TODO переместить из ядра. Получается ядро завсит от редакса, а редакс от ядра
  */
+
 export const validate = async (
     state: GlobalState,
     datasourceId: string,
     prefix = ModelPrefix.active,
-    dispatch: (arg: unknown) => void = () => {},
+    dispatch: Dispatch | ((arg: unknown) => void) = () => {},
     touched = false,
 ) => {
     const validation = dataSourceValidationSelector(

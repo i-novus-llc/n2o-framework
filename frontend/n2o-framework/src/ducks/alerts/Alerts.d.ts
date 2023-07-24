@@ -1,4 +1,4 @@
-import { KeyType, SeverityType } from './constants'
+import { KeyType, SeverityType, PLACEMENT } from './constants'
 
 export interface IAlert {
     id: string
@@ -7,7 +7,7 @@ export interface IAlert {
     text?: string
     timeout?: number
     closeButton: boolean
-    placement: KeyType
+    placement: PLACEMENT
     stopped?: boolean
     modelLink?: string
 }

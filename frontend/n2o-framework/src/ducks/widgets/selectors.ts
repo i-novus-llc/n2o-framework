@@ -9,7 +9,9 @@ import {
 import { State } from '../State'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
-export const widgetsSelector = (state: State) => state.widgets || EMPTY_OBJECT
+import { State as WidgetsState } from './Widgets'
+
+export const widgetsSelector = (state: State): WidgetsState => state.widgets || EMPTY_OBJECT
 
 /**
  * Селектор-генератор для получения виджета по ID

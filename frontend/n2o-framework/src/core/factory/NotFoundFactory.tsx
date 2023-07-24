@@ -1,8 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Alert } from 'reactstrap'
 
-export function NotFoundFactory({ src, level }) {
+interface INotFoundFactory {
+    src: string
+    level: string
+}
+
+export function NotFoundFactory(props: INotFoundFactory) {
+    const { src, level } = props
+
     /* eslint-disable react/jsx-one-expression-per-line */
     return (
         <Alert color="danger">
@@ -15,11 +21,6 @@ export function NotFoundFactory({ src, level }) {
             {level}
         </Alert>
     )
-}
-
-NotFoundFactory.propTypes = {
-    src: PropTypes.string.isRequired,
-    level: PropTypes.string,
 }
 
 export default NotFoundFactory

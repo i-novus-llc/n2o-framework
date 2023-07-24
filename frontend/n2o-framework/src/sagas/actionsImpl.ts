@@ -12,6 +12,7 @@ import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import every from 'lodash/every'
 import merge from 'deepmerge'
+import { Dispatch } from 'redux'
 
 import { START_INVOKE, SUBMIT } from '../constants/actionImpls'
 import {
@@ -19,10 +20,13 @@ import {
 } from '../ducks/widgets/selectors'
 import { getModelByPrefixAndNameSelector } from '../ducks/models/selectors'
 import { validate as validateDatasource } from '../core/validation/validate'
+// @ts-ignore ignore import error from js file
 import { dataProviderResolver } from '../core/dataProviderResolver'
+// @ts-ignore ignore import error from js file
 import { FETCH_INVOKE_DATA } from '../core/api'
 import { setModel } from '../ducks/models/store'
 import { disablePage, enablePage } from '../ducks/pages/store'
+// @ts-ignore ignore import error from js file
 import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { disableWidget, enableWidget } from '../ducks/widgets/store'
 import { resolveButton } from '../ducks/toolbar/sagas'
@@ -30,15 +34,24 @@ import { changeButtonDisabled } from '../ducks/toolbar/store'
 import { ModelPrefix } from '../core/datasource/const'
 import { failValidate, submit } from '../ducks/datasource/store'
 import { EffectWrapper } from '../ducks/api/utils/effectWrapper'
+import { State } from '../ducks/State'
+import { State as WidgetsState } from '../ducks/widgets/Widgets'
+import { ButtonContainer } from '../ducks/toolbar/Toolbar'
+import { metaPropsType } from '../plugins/utils'
 
 import fetchSaga from './fetch'
 
 // TODO перенести инвок в datassource
 
-export function* validate({ dispatch, validate }) {
+interface IValidate {
+    dispatch: Dispatch
+    validate: string[]
+}
+
+export function* validate({ dispatch, validate }: IValidate) {
     if (!validate?.length) { return true }
 
-    const state = yield select()
+    const state: State = yield select()
     let valid = true
 
     for (const datasourceId of validate) {
@@ -62,8 +75,15 @@ export function* validate({ dispatch, validate }) {
  * @param apiProvider
  * @returns {IterableIterator<*>}
  */
-export function* fetchInvoke(dataProvider, model, apiProvider) {
-    const state = yield select()
+
+type FetchInvokeModel = { id: string } | Array<{ id: string }>
+
+export function* fetchInvoke(
+    dataProvider: { method?: string, submitForm?: boolean, optimistic?: boolean },
+    model: FetchInvokeModel,
+    apiProvider: unknown,
+) {
+    const state: State = yield select()
 
     const submitForm = get(dataProvider, 'submitForm', true)
     const {
@@ -72,7 +92,7 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
         headersParams,
     } = yield dataProviderResolver(state, dataProvider)
 
-    const createModelRequest = ({ id, ...data }) => {
+    const createModelRequest = ({ id, ...data }: { id: string }) => {
         const modelRequest = {
             id,
             ...formParams,
@@ -90,6 +110,7 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
 
     const modelRequest = Array.isArray(model) ? model.map(createModelRequest) : createModelRequest(model || {})
 
+    // @ts-ignore проблема с типизацией saga
     return yield call(
         fetchSaga,
         FETCH_INVOKE_DATA,
@@ -104,7 +125,11 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
     )
 }
 
-export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {
+export function* handleFailInvoke(
+    metaInvokeFail: Record<string, unknown>,
+    widgetId: string,
+    metaResponse: Record<string, unknown>,
+) {
     const meta = merge(metaInvokeFail, metaResponse)
 
     yield put(failInvoke(widgetId, meta))
@@ -116,20 +141,22 @@ export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {
  * @param {object[]} buttons
  * @param {string[]} buttonIds
  */
-function* enable(pageId, widgets, buttons, buttonIds) {
+function* enable(pageId: string, widgets: string[], buttons: ButtonContainer, buttonIds: string[]) {
     if (pageId) {
         yield put(enablePage(pageId))
 
-        for (const buttonId of buttonIds) {
-            const button = buttons[buttonId]
-            const needUnDisableButton = every(button.conditions, (v, k) => k !== 'enabled')
+        if (buttons) {
+            for (const buttonId of buttonIds) {
+                const button = buttons[buttonId]
+                const needUnDisableButton = every(button.conditions, (v, k) => k !== 'enabled')
 
-            if (!isEmpty(button.conditions)) {
-                yield call(resolveButton, buttons[buttonId])
-            }
+                if (!isEmpty(button.conditions)) {
+                    yield call(resolveButton, buttons[buttonId])
+                }
 
-            if (needUnDisableButton) {
-                yield put(changeButtonDisabled(pageId, buttonId, false))
+                if (needUnDisableButton) {
+                    yield put(changeButtonDisabled(pageId, buttonId, false))
+                }
             }
         }
     }
@@ -143,8 +170,24 @@ function* enable(pageId, widgets, buttons, buttonIds) {
 /**
  * вызов экшена
  */
+
+interface IHandleInvokePayload {
+    datasource: string
+    model: ModelPrefix
+    dataProvider: { submitForm?: boolean, optimistic?: boolean }
+    pageId: string
+}
+
+interface IHandleInvokeMeta {
+    success: metaPropsType
+    fail: metaPropsType
+}
+
 // eslint-disable-next-line complexity
-export function* handleInvoke(apiProvider, action) {
+export function* handleInvoke(
+    apiProvider: unknown,
+    action: { payload: IHandleInvokePayload, meta: IHandleInvokeMeta },
+) {
     const {
         datasource,
         model: modelPrefix,
@@ -152,13 +195,14 @@ export function* handleInvoke(apiProvider, action) {
         pageId,
     } = action.payload
 
-    const state = yield select()
+    const state: State = yield select()
     const optimistic = get(dataProvider, 'optimistic', false)
-    const buttons = get(state, ['toolbar', pageId], [])
+    const buttons = get(state, ['toolbar', pageId])
     const buttonIds = !optimistic && has(state, 'toolbar') ? keys(buttons) : []
-    const model = yield select(getModelByPrefixAndNameSelector(modelPrefix, datasource))
-    const widgets = Object.entries(yield select(widgetsSelector))
-        .filter(([, widget]) => (widget.datasource === datasource))
+    const model: FetchInvokeModel = yield select(getModelByPrefixAndNameSelector(modelPrefix, datasource))
+    const allWidgets: WidgetsState = yield select(widgetsSelector)
+    const widgets = Object.entries(allWidgets)
+        .filter(([, widget]) => widget?.datasource === datasource)
         .map(([key]) => key)
 
     try {
@@ -176,7 +220,7 @@ export function* handleInvoke(apiProvider, action) {
                 yield put(disableWidget(id))
             }
         }
-        const response = optimistic
+        const response: {meta: metaPropsType, data: {$list: metaPropsType}} = optimistic
             ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
             : yield call(fetchInvoke, dataProvider, model, apiProvider)
 
@@ -198,7 +242,7 @@ export function* handleInvoke(apiProvider, action) {
         // eslint-disable-next-line no-console
         console.error(err)
 
-        const errorMeta = err?.json?.meta || {}
+        const errorMeta = get(err, 'json.meta', {})
 
         yield* handleFailInvoke(
             action.meta.fail || {},
@@ -207,12 +251,13 @@ export function* handleInvoke(apiProvider, action) {
         )
 
         if (errorMeta.messages) {
-            const fields = {}
+            const fields: Record<string, unknown> = {}
 
             for (const [fieldName, error] of Object.entries(errorMeta.messages.fields)) {
                 fields[fieldName] = Array.isArray(error) ? error : [error]
             }
 
+            // @ts-ignore FIXME непонял как поправить
             yield put(failValidate(datasource, fields, modelPrefix, { touched: true }))
         }
 
@@ -222,11 +267,14 @@ export function* handleInvoke(apiProvider, action) {
     }
 }
 
-export default apiProvider => [
+export default (apiProvider: unknown) => [
+    // @ts-ignore проблема с типизацией saga
     takeEvery(START_INVOKE, EffectWrapper(handleInvoke), apiProvider),
+    // @ts-ignore проблема с типизацией saga
     takeEvery(SUBMIT, function* submitSaga({ meta = {}, payload = {} }) {
         const { datasource } = payload
 
+        // @ts-ignore проблема с типизацией saga
         yield put(submit(datasource, null, meta))
     }),
 ]

@@ -1,8 +1,10 @@
 import React from 'react'
 
+import { ICondition } from '../../sagas/conditions'
+
 export interface IConditions {
-    enabled: object[]
-    visible: Array<Record<string, unknown>>
+    enabled: ICondition[]
+    visible: ICondition[]
 }
 
 export interface IRegisterButtonProps {
@@ -40,6 +42,6 @@ export type IButton = {
     }
 }
 
-type ButtonContainer = Record<string, IButton>
+export type ButtonContainer = Record<string, IButton>
 
 export type State = Record<string, ButtonContainer>
