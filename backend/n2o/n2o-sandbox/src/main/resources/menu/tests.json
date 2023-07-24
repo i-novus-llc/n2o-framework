@@ -1001,6 +1001,10 @@
           "name": "InheritedDatasourceAT. testSubmitTargetFiledID"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/datasources/inherited_datasource/fetch_depend",
+          "name": "InheritedDatasourceAT. testFetchDependencies"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent",
           "name": "ParentDatasourceAT. testFiltersByParent"
         },
