@@ -13,11 +13,11 @@ import StandardField from './fields/StandardField/StandardField'
 const config = {
     onChange({ dependency }, dependencyType) {
         if (!this.controlRef) { return }
-        const { _fetchData, size, labelFieldId } = this.controlRef.props
+        const { fetchData, size, labelFieldId } = this.controlRef.props
         const haveReRenderDependency = some(dependency, { type: dependencyType })
 
         if (haveReRenderDependency) {
-            _fetchData({
+            fetchData({
                 size,
                 [`sorting.${labelFieldId}`]: 'ASC',
             })

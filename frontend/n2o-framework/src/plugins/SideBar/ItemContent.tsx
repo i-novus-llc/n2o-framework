@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { Action as ReduxAction } from 'redux'
 
 import { NavItemImage } from '../../components/snippets/NavItemImage/NavItemImage'
-import { Badge, IBadgeProps } from '../../components/snippets/Badge/Badge'
+import { Badge, Props } from '../../components/snippets/Badge/Badge'
 
 // @ts-ignore ignore import error from js file
 import { Icon, Title, getCurrentTitle } from './utils'
@@ -17,7 +17,7 @@ export interface IItemContent{
     sidebarOpen?: boolean
     imageSrc?: string
     imageShape?: string
-    badge?: IBadgeProps
+    badge?: Props
     isStaticView?: boolean
     showContent?: boolean
     isMiniView?: boolean

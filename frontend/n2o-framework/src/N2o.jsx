@@ -22,8 +22,8 @@ import { DefaultBreadcrumb } from './components/core/Breadcrumb/DefaultBreadcrum
 import globalFnDate from './utils/globalFnDate'
 import { errorTemplates } from './components/errors/errorTemplates'
 import locales from './locales'
-import { GlobalAlertsConnected } from './components/core/GlobalAlerts'
 import { Tooltip } from './components/snippets/Tooltip/Tooltip'
+import { ErrorHandlersProvider } from './core/error/Container'
 
 const { version } = packageJson
 
@@ -58,28 +58,30 @@ class N2o extends Component {
             children,
             i18n,
             locales: customLocales = {},
+            defaultErrorPages,
         } = this.props
 
         const config = this.generateConfig()
 
+        const handlers = [defaultErrorPages]
+
         return (
             <Provider store={this.store}>
-                <SecurityProvider {...security}>
-                    <FactoryProvider config={config} securityBlackList={['actions']}>
-                        <Application
-                            i18n={i18n}
-                            locales={locales}
-                            customLocales={customLocales}
-                            realTimeConfig={realTimeConfig}
-                            render={() => (
-                                <>
-                                    <GlobalAlertsConnected />
+                <ErrorHandlersProvider value={handlers}>
+                    <SecurityProvider {...security}>
+                        <FactoryProvider config={config} securityBlackList={['actions']}>
+                            <Application
+                                i18n={i18n}
+                                locales={locales}
+                                customLocales={customLocales}
+                                realTimeConfig={realTimeConfig}
+                                render={() => (
                                     <Router embeddedRouting={embeddedRouting}>{children}</Router>
-                                </>
-                            )}
-                        />
-                    </FactoryProvider>
-                </SecurityProvider>
+                                )}
+                            />
+                        </FactoryProvider>
+                    </SecurityProvider>
+                </ErrorHandlersProvider>
             </Provider>
         )
     }

@@ -3,12 +3,12 @@
     <form>
         <fields>
             <date-interval id="test"
+                           label="Date-interval"
                            date-format="DD/MM/YYYY"
                            time-format="HH:mm:ss"
                            min="2012-12-05T00:00:00"
                            max="2021-12-15T00:00:00"
-                           placeholder="Введите дату"
-                           utc="false">
+                           placeholder="Введите дату">
             </date-interval>
         </fields>
     </form>

@@ -7,7 +7,7 @@ import listContainer from '../../controls/listContainer'
 import SearchBar from './SearchBar'
 
 function SearchBarContainer({
-    data,
+    options,
     trigger,
     onSearch,
     button,
@@ -17,7 +17,7 @@ function SearchBarContainer({
     iconFieldId,
     labelFieldId,
     urlFieldId,
-    _fetchData,
+    fetchData,
 }) {
     return (
         <SearchBar
@@ -25,10 +25,10 @@ function SearchBarContainer({
             iconFieldId={iconFieldId}
             labelFieldId={labelFieldId}
             urlFieldId={urlFieldId}
-            menu={data}
+            menu={options}
             trigger={trigger}
             onSearch={onSearch}
-            onFocus={() => _fetchData()}
+            onFocus={() => fetchData()}
             button={button}
             icon={icon}
             directionIconsInPopUp={directionIconsInPopUp}
@@ -41,14 +41,14 @@ SearchBarContainer.defaultProps = {
     icon: 'fa fa-search',
     directionIconsInPopUp: 'left',
     onSearch: () => {},
-    data: [],
+    options: [],
 }
 
 SearchBarContainer.propTypes = {
     /**
      * данные в popUp(ссылки), при наличии dataProvider
      */
-    data: PropTypes.array,
+    options: PropTypes.array,
     /**
      * Направление иконок ссылок в popUp
      */
@@ -58,7 +58,7 @@ SearchBarContainer.propTypes = {
     labelFieldId: PropTypes.string,
     descrFieldId: PropTypes.string,
     iconFieldId: PropTypes.string,
-    _fetchData: PropTypes.func,
+    fetchData: PropTypes.func,
     onSearch: PropTypes.func,
     trigger: PropTypes.any,
     button: PropTypes.any,

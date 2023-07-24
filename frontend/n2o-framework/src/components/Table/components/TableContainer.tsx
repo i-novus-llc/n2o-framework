@@ -23,7 +23,7 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
         expandedRows,
         selectedRows,
         actionListener,
-        errorComponent: ErrorComponent,
+        errorComponent,
     } = props
     const { width, height, rowSelection, body, header } = tableConfig
     const areAllRowsSelected = useMemo(() => {
@@ -56,9 +56,7 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
                             areAllRowsSelected={areAllRowsSelected}
                         />
 
-                        {ErrorComponent ? (
-                            <ErrorComponent />
-                        ) : (
+                        {errorComponent || (
                             <TableBody
                                 hasSecurityAccess={hasSecurityAccess}
                                 focusedRowValue={focusedRowValue}

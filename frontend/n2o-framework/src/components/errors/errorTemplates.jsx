@@ -47,10 +47,13 @@ export const errorTemplates = (config = {}) => {
         ...config,
     }
 
-    return Object.entries(components).map(([status, component]) => ({
-        status,
-        component,
-    }))
+    return (error) => {
+        if (error.status) {
+            return components[error.status]
+        }
+
+        return undefined
+    }
 }
 
 export default errorTemplates

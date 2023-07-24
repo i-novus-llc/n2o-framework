@@ -1,0 +1,43 @@
+import React from 'react'
+import classNames from 'classnames'
+
+import { TBaseProps } from '../types'
+
+type Props = TBaseProps & {
+    text: string,
+    icon: string,
+    iconDirection: string,
+}
+
+export function Status({
+    text,
+    icon,
+    className,
+    iconDirection = 'left',
+}: Props) {
+    if (!icon && !text) {
+        return null
+    }
+
+    return (
+        <div
+            className={classNames('n2o-status', className, {
+                'status-icon-left': iconDirection === 'left',
+                'status-icon-right': iconDirection === 'right',
+            })}
+        >
+            {icon && (
+                <i
+                    className={classNames('n2o-status__icon', icon, {
+                        'with-text': text,
+                    })}
+                />
+            )}
+            {text && (
+                <div className={classNames('n2o-status__text', { 'with-icon': icon })}>
+                    {text}
+                </div>
+            )}
+        </div>
+    )
+}
