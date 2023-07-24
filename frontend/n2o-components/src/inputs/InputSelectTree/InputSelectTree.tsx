@@ -21,7 +21,6 @@ import { TreeNode } from './TreeSelectNode'
 import { visiblePartPopup, getCheckedStrategy } from './until'
 
 const renderSwitcherIcon = ({ isLeaf }: {isLeaf: boolean}) => (isLeaf ? null : <Icon name="fa fa-chevron-right" />)
-const inputIcon = <Icon name="fa fa-chevron-down" />
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getPopupContainer = (container: any) => container
 /**
@@ -298,7 +297,7 @@ function InputSelectTree({
                 value={setValue(value)}
                 onDropdownVisibleChange={handleDropdownVisibleChange}
                 switcherIcon={renderSwitcherIcon}
-                inputIcon={inputIcon}
+                suffixIcon={<Icon name="fa fa-chevron-down" />}
                 multiple={multiSelect}
                 treeCheckable={hasCheckboxes && <Checkbox inline />}
                 treeData={treeData}
