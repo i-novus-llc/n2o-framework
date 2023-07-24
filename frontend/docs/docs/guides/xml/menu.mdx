@@ -15,7 +15,7 @@ description: ""
 |name                 |Строка                 |Наименование компонента меню   |                     |
 |datasource           |Строка                 |Идентификатор источника данных |                     |
 |icon                 |[Класс иконки](https://fontawesome.com/v4.7/icons/)    |                     |
-|src                  |Строка                 |Реализация компонента меню     |                     |
+|src                  |Строка                 |React компонент меню           |                     |
 |class                |CSS класс              |Класс компонента меню          |                     |
 |style                |CSS свойство           |Стиль компонента меню          |                     |
 |badge                |Число                  |Значок компонента меню         |                     |
@@ -32,6 +32,10 @@ description: ""
 
 [Действия](../xml/action)
 
+:::note
+Если не задать тело для `<menu-item>`, то он будет не кликабельным
+:::
+
 **Пример**
 
 ```xml
@@ -42,6 +46,7 @@ description: ""
                badge-color="warning">
         <a label="N2O" href="https://n2oapp.net/demo/" target="newWindow"/>
     </menu-item>
+    <menu-item name="Иванов И.И."/>
 ```
 
 ### &lt;dropdown-menu&gt; {#dropdown-menu}

@@ -79,7 +79,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
 
     private void menuItem(N2oSimpleMenu.MenuItem source, MenuItem compiled, CompileProcessor p, ApplicationContext context) {
         compiled.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
-        compiled.setSrc(initSrc(source.getSrc(), source.getAction(), source, p));
+        compiled.setSrc(initSrc(source.getSrc(), source.getAction(), p));
         compiled.setClassName(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setPageId(initPageId(source.getAction()));
@@ -107,17 +107,15 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         }
     }
 
-    private String initSrc(String src, N2oAction action, N2oSimpleMenu.MenuItem source, CompileProcessor p) {
-            if (nonNull(src))
-                return src;
-            else
-                if (action instanceof N2oAnchor || action instanceof N2oOpenPage)
-                    return p.resolve(property("n2o.api.menu.item.link.src"), String.class);
-                else
-                    if (nonNull(action))
-                        return p.resolve(property("n2o.api.menu.item.action.src"), String.class);
-                    else
-                        return p.resolve(property("n2o.api.menu.item.static.src"), String.class);
+    private String initSrc(String src, N2oAction action, CompileProcessor p) {
+        if (nonNull(src))
+            return src;
+        else if (action instanceof N2oAnchor || action instanceof N2oOpenPage)
+            return p.resolve(property("n2o.api.menu.item.link.src"), String.class);
+        else if (nonNull(action))
+            return p.resolve(property("n2o.api.menu.item.action.src"), String.class);
+        else
+            return p.resolve(property("n2o.api.menu.item.static.src"), String.class);
     }
 
     private String initPageId(N2oAction action) {
@@ -133,7 +131,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     }
 
     private void dropdownMenu(N2oSimpleMenu.DropdownMenuItem source, MenuItem item, CompileProcessor p, ApplicationContext context, IndexScope idx) {
-        item.setSrc("DropdownMenuItem");
+        item.setSrc(p.resolve(property("n2o.api.menu.item.dropdown.src"), String.class));
         ArrayList<MenuItem> subItems = new ArrayList<>();
         for (N2oSimpleMenu.AbstractMenuItem subItem : source.getMenuItems())
             subItems.add(createMenuItem(subItem, p, context, idx));

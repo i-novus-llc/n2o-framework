@@ -95,7 +95,7 @@
                 </xs:attribute>
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Реализация компонента меню</xs:documentation>
+                        <xs:documentation>React компонент меню</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
