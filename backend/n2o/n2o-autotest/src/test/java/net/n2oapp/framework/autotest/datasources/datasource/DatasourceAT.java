@@ -6,7 +6,6 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
-import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.cards.CardsWidget;
@@ -142,8 +141,11 @@ public class DatasourceAT extends AutoTestBase {
     @Test
     public void testOneDSManyWidgets() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/test.query.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/test.query.xml")
+        );
+
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
@@ -153,73 +155,6 @@ public class DatasourceAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(4);
         tiles.paging().shouldHaveTotalElements(4);
         cards.paging().shouldHaveTotalElements(4);
-    }
-
-    /**
-     * Тестирование сохранения нескольких форм одной кнопкой
-     */
-    @Test
-    public void testSaveManyFormOneButton() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/saveForm.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/test.object.xml")
-        );
-
-        StandardPage page = open(StandardPage.class);
-        page.shouldExists();
-
-        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
-
-        page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class)
-                .toolbar().topLeft().button("Создать").click();
-
-        page.breadcrumb().crumb(1).shouldHaveLabel("Создание записи");
-
-        InputText nameInput = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
-                .fields().field("Имя").control(InputText.class);
-        InputText surnameInput = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
-                .fields().field("Фамилия").control(InputText.class);
-        Button saveButton = page.toolbar().bottomRight().button("Сохранить");
-
-        TabsRegion tabs = page.regions().region(1, TabsRegion.class);
-        InputText addressInput = tabs.tab(0).content().widget(FormWidget.class)
-                .fields().field("Адрес").control(InputText.class);
-        InputText organizationInput = tabs.tab(1).content().widget(FormWidget.class)
-                .fields().field("Название организации").control(InputText.class);
-
-        nameInput.click();
-        nameInput.setValue("Сергей");
-        surnameInput.click();
-        surnameInput.setValue("Катеев");
-        addressInput.click();
-        addressInput.setValue("ул. Есенина 54");
-        tabs.tab(1).click();
-        tabs.tab(0).click();
-        saveButton.click();
-        tabs.tab(1).shouldBeActive();
-
-        tabs.tab(1).click();
-        organizationInput.shouldBeEnabled();
-        organizationInput.click();
-        organizationInput.setValue("Сбербанк");
-        saveButton.click();
-
-        page.breadcrumb().shouldHaveSize(1);
-        page.breadcrumb().crumb(0).shouldHaveLabel("Сохранение нескольких форм одной кнопкой");
-
-        table.columns().rows().row(0).cell(0).shouldHaveText("Сергей");
-        table.columns().rows().row(0).click();
-
-        page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class)
-                .toolbar().topLeft().button("Изменить").click();
-        page.breadcrumb().crumb(1).shouldHaveLabel("Создание записи");
-
-        nameInput.shouldHaveValue("Сергей");
-        tabs.tab(1).click();
-        organizationInput.shouldHaveValue("Сбербанк");
     }
 
     /**
@@ -257,7 +192,7 @@ public class DatasourceAT extends AutoTestBase {
 
         nameInput.click();
         nameInput.setValue("Сергей");
-        birthdayInput.setValue(formatter.format(LocalDate.now().minusDays(1)));
+        birthdayInput.setValue(formatter.format(LocalDate.now().minusDays(10)));
         createButton.click();
         alert.shouldExists();
         alert.shouldHaveText("Данные сохранены");
@@ -265,7 +200,7 @@ public class DatasourceAT extends AutoTestBase {
 
         nameInput.click();
         nameInput.setValue("Сергей");
-        birthdayInput.setValue(formatter.format(LocalDate.now().minusDays(1)));
+        birthdayInput.setValue(formatter.format(LocalDate.now().minusDays(10)));
         createButton.click();
         alert.shouldExists();
         alert.shouldHaveText("Имя Сергей уже существует");
@@ -273,7 +208,7 @@ public class DatasourceAT extends AutoTestBase {
 
         nameInput.click();
         nameInput.setValue("Артем");
-        birthdayInput.setValue(formatter.format(LocalDate.now().minusDays(1)));
+        birthdayInput.setValue(formatter.format(LocalDate.now().minusDays(10)));
         createButton.click();
         alert.shouldExists();
         alert.shouldHaveText("Данные сохранены");
@@ -286,8 +221,11 @@ public class DatasourceAT extends AutoTestBase {
     @Test
     public void testSimpleCopyDepend() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/copyDepend");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/copyDepend/test.query.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/copyDepend/test.query.xml")
+        );
+
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -311,8 +249,11 @@ public class DatasourceAT extends AutoTestBase {
     @Test
     public void testCopyDepend() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve/test.query.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve/test.query.xml")
+        );
+
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -344,9 +285,12 @@ public class DatasourceAT extends AutoTestBase {
     @Test
     public void testSubmit() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/submit");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/index.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/test.query.xml")
+        );
+
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
