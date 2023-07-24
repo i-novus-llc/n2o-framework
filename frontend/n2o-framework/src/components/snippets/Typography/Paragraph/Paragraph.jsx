@@ -1,11 +1,3 @@
-import React from 'react'
+import { Paragraph } from '@i-novus/n2o-components/lib/display/Typography/Paragraph'
 
-import { Base } from '../Base'
-
-function Paragraph({ ...rest }) {
-    const tag = 'p'
-
-    return <Base tag={tag} {...rest} />
-}
-
-export default Paragraph
+export { Paragraph, Paragraph as default }

@@ -8,7 +8,7 @@ import { dataProviderResolver } from '../core/dataProviderResolver'
 // @ts-ignore ignore import error from js file
 import { resolveItem } from '../utils/propsResolver'
 import { IDataSourceModels } from '../core/datasource/const'
-import { IBadgeProps } from '../components/snippets/Badge/Badge'
+import { Props as IBadgeProps } from '../components/snippets/Badge/Badge'
 
 export type metaPropsType = {[key: string]: unknown}
 

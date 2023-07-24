@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import isUndefined from 'lodash/isUndefined'
 import get from 'lodash/get'
 
-import Text from '../../../../snippets/Text/Text'
+import { Text } from '../../../../snippets/Text/Text'
 // eslint-disable-next-line import/no-named-as-default
 import Icon from '../../../../snippets/Icon/Icon'
 import withTooltip from '../../withTooltip'

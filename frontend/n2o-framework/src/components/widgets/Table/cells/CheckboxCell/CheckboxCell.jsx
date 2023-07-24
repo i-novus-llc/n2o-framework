@@ -16,7 +16,7 @@ import { push } from 'connected-react-router'
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
 // eslint-disable-next-line import/no-named-as-default
-import CheckboxN2O from '../../../../controls/Checkbox/CheckboxN2O'
+import Checkbox from '../../../../controls/Checkbox/Checkbox'
 
 function CheckboxCell({
     visible,
@@ -28,7 +28,7 @@ function CheckboxCell({
 }) {
     return (
         visible && (
-            <CheckboxN2O
+            <Checkbox
                 className="сheckbox-сell"
                 inline
                 onClick={handleClick}
