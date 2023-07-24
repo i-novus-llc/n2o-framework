@@ -953,10 +953,6 @@
           "name": "DatasourceAT. testFormAsFilter"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button",
-          "name": "DatasourceAT. testSaveManyFormOneButton"
-        },
-        {
           "templateId": "net/n2oapp/framework/autotest/datasources/datasource/submit",
           "name": "DatasourceAT. testSubmit"
         },
