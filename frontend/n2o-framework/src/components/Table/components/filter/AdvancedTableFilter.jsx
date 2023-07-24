@@ -5,8 +5,6 @@ import isEmpty from 'lodash/isEmpty'
 import { Dropdown, DropdownToggle, DropdownMenu, Badge, Button } from 'reactstrap'
 import isNumber from 'lodash/isNumber'
 
-import { MODIFIERS } from '../../../controls/DatePicker/utils'
-
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableFilterPopup from './AdvancedTableFilterPopup'
 
@@ -109,7 +107,6 @@ class AdvancedTableFilter extends Component {
                   <DropdownMenu
                       className="n2o-advanced-table-filter-dropdown"
                       tag="div"
-                      modifiers={MODIFIERS}
                       positionFixed
                       right
                   >

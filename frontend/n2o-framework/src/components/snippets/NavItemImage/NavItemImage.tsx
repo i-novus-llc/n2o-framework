@@ -7,7 +7,7 @@ interface INavItemImage {
     title?: string
 }
 
-export const NavItemImage = (props: INavItemImage) => {
+const NavItemImage = (props: INavItemImage) => {
     const {
         imageSrc,
         imageShape = 'square',
@@ -27,3 +27,5 @@ export const NavItemImage = (props: INavItemImage) => {
         />
     )
 }
+
+export { NavItemImage, NavItemImage as default }

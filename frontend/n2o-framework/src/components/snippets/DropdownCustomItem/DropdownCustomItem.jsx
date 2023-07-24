@@ -1,9 +1,3 @@
-import React from 'react'
-import { Button } from 'reactstrap'
-import omit from 'lodash/omit'
+import { DropdownCustomItem } from '@i-novus/n2o-components/lib/display/DropdownCustomItem'
 
-export function DropdownCustomItem(props) {
-    return <Button {...omit(props, ['color'])} className="dropdown-item-btn" />
-}
-
-export default DropdownCustomItem
+export { DropdownCustomItem, DropdownCustomItem as default }

@@ -7,14 +7,16 @@
   },
   "workspaces": [
     "n2o-framework",
+    "n2o-components",
     "n2o-simple-project",
     "demo"
   ],
   "scripts": {
-    "build": "yarn run build:n2o && yarn run build:simple && yarn run build:demo",
-    "build:demo": "yarn workspace n2o-demo-client run build",
-    "build:simple": "yarn workspace n2o-simple-project run build",
+    "build": "yarn run build:ui && yarn run build:n2o && yarn run build:simple && yarn run build:demo",
+    "build:ui": "yarn workspace @i-novus/n2o-components run build",
     "build:n2o": "yarn workspace n2o-framework run build",
+    "build:simple": "yarn workspace n2o-simple-project run build",
+    "build:demo": "yarn workspace n2o-demo-client run build",
     "version:patch": "yarn workspace n2o-framework version --patch --no-git-tag-version",
     "version:minor": "yarn workspace n2o-framework version --minor --no-git-tag-version",
     "version:major": "yarn workspace n2o-framework version --major --no-git-tag-version",

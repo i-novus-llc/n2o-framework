@@ -22,7 +22,7 @@ import {
 } from '../../ducks/pages/selectors'
 import { rootPageSelector } from '../../ducks/global/selectors'
 import { Spinner } from '../snippets/Spinner/Spinner'
-import { errorController } from '../errors/errorController'
+import { ErrorContainer } from '../../core/error/Container'
 
 import withMetadata from './withMetadata'
 import withActions from './withActions'
@@ -34,9 +34,7 @@ function Page(props, context) {
     const {
         metadata,
         loading,
-        status: pageStatus,
         defaultTemplate: Template = React.Fragment,
-        defaultErrorPages,
         page,
         pages,
         pageId,
@@ -44,26 +42,23 @@ function Page(props, context) {
         error,
     } = props
 
-    const status = pageStatus || get(error, 'status', null)
     const spinner = get(pages, `${pageId}.spinner`, {})
-
-    const errorPage = errorController(status, defaultErrorPages)
 
     const renderDefaultBody = () => {
         const { defaultPage: contextDefaultPage } = context
         const defaultPage = get(metadata, 'src', contextDefaultPage)
         const regions = get(metadata, 'regions', {})
 
-        return errorPage ? (
-            React.createElement(errorPage)
-        ) : (
-            <Factory
-                id={get(metadata, 'id')}
-                src={defaultPage}
-                level={PAGES}
-                regions={regions}
-                {...props}
-            />
+        return (
+            <ErrorContainer error={error}>
+                <Factory
+                    id={get(metadata, 'id')}
+                    src={defaultPage}
+                    level={PAGES}
+                    regions={regions}
+                    {...props}
+                />
+            </ErrorContainer>
         )
     }
 
@@ -94,7 +89,6 @@ Page.propTypes = {
     status: PropTypes.number,
     page: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     defaultTemplate: PropTypes.any,
-    defaultErrorPages: PropTypes.any,
     rootPage: PropTypes.bool,
     pages: PropTypes.object,
     pageId: PropTypes.string,
@@ -134,9 +128,6 @@ export default compose(
             PropTypes.element,
             PropTypes.node,
         ]),
-        defaultErrorPages: PropTypes.arrayOf(
-            PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
-        ),
         defaultTemplate: PropTypes.oneOfType([
             PropTypes.func,
             PropTypes.element,

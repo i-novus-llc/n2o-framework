@@ -4,7 +4,6 @@ import sinon from 'sinon'
 import {
     flatFields,
     getAutoFocusId,
-    fetchIfChangeDependencyValue,
 } from '../utils'
 
 const fieldsets = [
@@ -60,23 +59,5 @@ describe('Тест утильных функций', () => {
     })
     it('getAutoFocusId возвращает id поля, которое будет в фокусе при автофокусе', () => {
         expect(getAutoFocusId(fields)).toEqual('name2')
-    })
-    it('fetchIfChangeDependencyValue запрашивает даные при измененеии зависимости', () => {
-        const _fetchData = sinon.spy()
-        const notFetch = sinon.spy()
-        fetchIfChangeDependencyValue(
-            { type: 1 },
-            { type: 2 },
-            { props: { _fetchData } },
-        )
-        expect(_fetchData.calledOnce).toEqual(true)
-        fetchIfChangeDependencyValue(
-            { type: 1 },
-            { type: 1 },
-            { props: { notFetch } },
-        )
-        fetchIfChangeDependencyValue({ type: 1 }, { type: 2 })
-        fetchIfChangeDependencyValue({ type: 1 }, { type: 2 }, { props: {} })
-        expect(notFetch.calledOnce).toEqual(false)
     })
 })
