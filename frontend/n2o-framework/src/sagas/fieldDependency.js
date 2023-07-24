@@ -18,6 +18,7 @@ import {
     setFieldRequired,
     setFieldLoading,
     registerFieldExtra,
+    dangerouslySetFieldValue,
 } from '../ducks/form/store'
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
@@ -35,6 +36,7 @@ import { ValidationsKey } from '../core/validation/IValidation'
 import { addAlert } from '../ducks/alerts/store'
 import { GLOBAL_KEY } from '../ducks/alerts/constants'
 import { ModelPrefix } from '../core/datasource/const'
+import { FETCH_TRIGGER } from '../core/dependencies/withObserveDependency'
 
 import fetchSaga from './fetch'
 
@@ -177,6 +179,20 @@ export function* modify(form, values, fieldName, dependency = {}, field) {
 
             break
         }
+        /* FIXME Временное решение, fetch с помощью dataProvider
+            нужно перенести _fetchData из withFetchData в middleware
+             fetchTrigger используется в withObserveDependency
+        **/
+        case 'fetch': {
+            yield put(dangerouslySetFieldValue(
+                formName,
+                fieldName,
+                FETCH_TRIGGER,
+                Math.random(),
+            ))
+
+            break
+        }
         default:
             break
     }
@@ -287,7 +303,7 @@ export function* resolveOnInit({ type, payload }) {
 }
 
 function* resolveOnSetModel({ payload, meta }) {
-    const { prefix, key: datasource, model } = payload
+    const { prefix, key: datasource, model, isDefault } = payload
 
     if (prefix === ModelPrefix.source || prefix === ModelPrefix.selected || !model) {
         return
@@ -309,9 +325,12 @@ function* resolveOnSetModel({ payload, meta }) {
             // Обход каждой зависимости
             for (const dep of dependency) {
                 const { on = [], applyOnInit } = dep
-                const isSomeDepsNeedRun = on.length || applyOnInit
 
-                if (!isSomeDepsNeedRun) {
+                if (isDefault) {
+                    if (applyOnInit) {
+                        yield fork(modify, form, model || {}, fieldId, dep, field)
+                    }
+
                     // eslint-disable-next-line no-continue
                     continue
                 }

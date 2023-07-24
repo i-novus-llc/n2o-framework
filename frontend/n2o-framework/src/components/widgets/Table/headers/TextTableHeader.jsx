@@ -8,6 +8,7 @@ import {
     changeFrozenColumn,
     changeColumnVisibility,
 } from '../../../../ducks/columns/store'
+import { useDataSourceMethodsContext } from '../../../../core/widget/context'
 
 /**
  * Текстовый заголовок таблицы с возможностью сортировки
@@ -16,29 +17,27 @@ import {
  * @reactProps {string} label - Текст заголовка столбца
  * @reactProps {function} onSort - эвент сортировки. Вызывает при смене направления сортировки
  */
-class TextTableHeader extends React.PureComponent {
-    render() {
-        const { sortingParam, sorting, label, setSorting, style } = this.props
+const TextTableHeader = (props) => {
+    const { sortingParam, sorting, label, style } = props
+    const { setSorting } = useDataSourceMethodsContext()
 
-        return (
-            <span className="n2o-advanced-table-header-title" style={style}>
-                {sortingParam ? (
-                    <Sorter sorting={sorting} sortingParam={sortingParam} onSort={setSorting}>
-                        {label}
-                    </Sorter>
-                ) : (
-                    label
-                )}
-            </span>
-        )
-    }
+    return (
+        <span className="n2o-advanced-table-header-title" style={style}>
+            {sortingParam ? (
+                <Sorter sorting={sorting} sortingParam={sortingParam} onSort={setSorting}>
+                    {label}
+                </Sorter>
+            ) : (
+                label
+            )}
+        </span>
+    )
 }
 
 TextTableHeader.propTypes = {
     sortingParam: PropTypes.string,
     sorting: PropTypes.string,
     label: PropTypes.string,
-    setSorting: PropTypes.func,
     style: PropTypes.object,
 }
 

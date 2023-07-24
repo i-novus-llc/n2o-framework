@@ -41,7 +41,7 @@ public class RatingCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testRatingCell.page.xml")
                 .get(new PageContext("testRatingCell"));
         Table table = (Table) page.getWidget();
-        RatingCell cell = (RatingCell) table.getComponent().getCells().get(0);
+        RatingCell cell = (RatingCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("RatingCell"));
         assertThat(cell.getHalf(), is(true));
         assertThat(cell.getMax(), is(10));
@@ -49,14 +49,14 @@ public class RatingCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getReadonly(), is(false));
         assertThat(cell.getAction(), instanceOf(InvokeAction.class));
 
-        cell = (RatingCell) table.getComponent().getCells().get(1);
+        cell = (RatingCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getSrc(), is("RatingCell"));
         assertThat(cell.getHalf(), is(false));
         assertThat(cell.getMax(), is(5));
         assertThat(cell.getShowTooltip(), is(false));
         assertThat(cell.getReadonly(), is(true));
 
-        cell = (RatingCell) table.getComponent().getCells().get(2);
+        cell = (RatingCell) table.getComponent().getBody().getCells().get(2);
         assertThat(cell.getAction(), instanceOf(InvokeAction.class));
     }
 }

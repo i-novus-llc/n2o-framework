@@ -76,7 +76,7 @@ export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknow
 
         const response: QueryResult = yield query(id, provider, options, apiProvider)
 
-        yield put(setModel(ModelPrefix.source, id, response.list))
+        yield put(setModel(ModelPrefix.source, id, response.list, true))
 
         if (response.additionalInfo) {
             // @ts-ignore Проблема с типизацией

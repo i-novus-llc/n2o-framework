@@ -5,7 +5,7 @@ import get from 'lodash/get'
 import moment from 'moment/moment'
 import { connect } from 'react-redux'
 
-import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
+import { withWidgetHandlers } from '../hocs/withWidgetHandlers'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 

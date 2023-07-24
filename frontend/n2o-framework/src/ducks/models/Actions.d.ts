@@ -13,6 +13,7 @@ type FieldPath = ModelsPayload & {
 
 export type SetModelAction = PayloadAction<ModelsPayload & {
     model?: object | null
+    isDefault?: boolean
 }>
 
 export type RemoveModelAction = PayloadAction<ModelsPayload>
@@ -38,7 +39,7 @@ export type ClearModelAction = PayloadAction<{
 }>
 
 export type MergeModelAction = PayloadAction<{
-    combine: unknown
+    combine: Record<ModelPrefix, Record<string, object | object[]>>
 }>
 
 export type CopyAction = PayloadAction<{

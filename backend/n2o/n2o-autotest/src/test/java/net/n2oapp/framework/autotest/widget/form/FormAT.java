@@ -88,17 +88,17 @@ public class FormAT extends AutoTestBase {
         // подсказка при недоступности кнопки1 и кнопки2
         button1.shouldBeDisabled();
         button1.hover();
-        button1.tooltip().shouldHaveText("Заполните имя");
+        button1.tooltip().shouldHaveText(new String[]{"Заполните имя"});
         button2.shouldBeDisabled();
         button2.hover();
-        button2.tooltip().shouldHaveText("Заполните имя");
+        button2.tooltip().shouldHaveText(new String[]{"Заполните имя"});
 
         name.click();
         name.setValue("test");
         // подсказка при доступности кнопки1 и кнопки2
         button1.shouldBeEnabled();
         button1.hover();
-        button1.tooltip().shouldHaveText("Описание");
+        button1.tooltip().shouldHaveText(new String[]{"Описание"});
         button2.shouldBeEnabled();
         button2.hover();
         // у кнопки2 не должно быть подсказки, т.к. не указан description

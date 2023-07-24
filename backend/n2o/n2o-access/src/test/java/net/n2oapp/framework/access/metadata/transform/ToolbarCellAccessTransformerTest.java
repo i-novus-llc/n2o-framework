@@ -48,7 +48,7 @@ public class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
         );
         SimplePage page = (SimplePage) pipeline.transform().get(new PageContext("testToolbarCellAccessTransformer"));
         Security.SecurityObject security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidget()
-                .getComponent()).getCells().get(0)).getToolbar().get(0).getButtons().get(0)
+                .getComponent()).getBody().getCells().get(0)).getToolbar().get(0).getButtons().get(0)
                 .getProperties().get(Security.SECURITY_PROP_NAME)).getSecurityMap().get("object");
 
         assertThat(security.getRoles().size(), is(1));
@@ -59,7 +59,7 @@ public class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
         assertTrue(security.getUsernames().contains("user"));
 
         security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidget()
-                .getComponent()).getCells().get(0)).getToolbar().get(0).getButtons().get(2)
+                .getComponent()).getBody().getCells().get(0)).getToolbar().get(0).getButtons().get(2)
                 .getProperties().get(Security.SECURITY_PROP_NAME)).getSecurityMap().get("url");
 
         assertThat(security.getRoles().size(), is(1));

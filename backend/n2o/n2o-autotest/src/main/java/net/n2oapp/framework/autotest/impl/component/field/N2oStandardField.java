@@ -9,6 +9,8 @@ import net.n2oapp.framework.autotest.api.component.control.Control;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.impl.collection.N2oToolbar;
 
+import java.time.Duration;
+
 /**
  * Стандартное поле формы для автотестирования
  */
@@ -39,8 +41,8 @@ public class N2oStandardField extends N2oField implements StandardField {
     }
 
     @Override
-    public void shouldHaveLabelBy(Condition condition) {
-        element().$("label").shouldHave(condition);
+    public void shouldHaveLabelBy(Condition condition, Duration... duration) {
+        should(condition, element().$("label"), duration);
     }
 
     @Override
@@ -49,8 +51,8 @@ public class N2oStandardField extends N2oField implements StandardField {
     }
 
     @Override
-    public void shouldHaveValidationMessage(Condition condition) {
-        element().$(".n2o-validation-message").shouldHave(condition);
+    public void shouldHaveValidationMessage(Condition condition, Duration... duration) {
+        should(condition, element().$(".n2o-validation-message"), duration);
     }
 
     protected SelenideElement requiredLabel() {

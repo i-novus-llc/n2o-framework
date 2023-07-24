@@ -94,7 +94,7 @@ public class RequestDataAT extends AutoTestBase {
         inputSelectMulti.openPopup();
         inputSelectMulti.dropdown().selectMulti(2, 4);
         inputSelectMulti.closePopup();
-        inputSelectMulti.shouldSelectedMulti("test3", "test5");
+        inputSelectMulti.shouldSelectedMulti(new String[]{"test3", "test5"});
 
         autoCompleteMulti.click();
         autoCompleteMulti.setValue("test1");
@@ -104,7 +104,7 @@ public class RequestDataAT extends AutoTestBase {
         autoCompleteMulti.setValue("test6");
         autoCompleteMulti.enter();
 
-        autoCompleteMulti.shouldHaveTags("test1", "test6");
+        autoCompleteMulti.shouldHaveTags(new String[]{"test1", "test6"});
 
         save.click();
         Selenide.refresh();
@@ -115,8 +115,8 @@ public class RequestDataAT extends AutoTestBase {
         select.shouldSelected("test5");
         inputSelect.shouldHaveValue("test6");
         autoComplete.shouldHaveValue("test5");
-        inputSelectMulti.shouldSelectedMulti("test3", "test5");
-        autoCompleteMulti.shouldHaveTags("test1", "test6");
+        inputSelectMulti.shouldSelectedMulti(new String[]{"test3", "test5"});
+        autoCompleteMulti.shouldHaveTags(new String[]{"test1", "test6"});
 
         select.openPopup();
         select.clear();

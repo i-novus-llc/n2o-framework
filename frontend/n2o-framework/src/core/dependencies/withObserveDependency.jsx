@@ -1,129 +1,50 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { ReactReduxContext } from 'react-redux'
-import isEmpty from 'lodash/isEmpty'
-import isFunction from 'lodash/isFunction'
-import map from 'lodash/map'
+import { ReactReduxContext, connect } from 'react-redux'
 
-import observeStore from '../../utils/observeStore'
-import { setWatchDependency } from '../../components/widgets/Form/utils'
+import { makeFieldParam } from '../../ducks/form/selectors'
 import { DEPENDENCY_TYPES } from '../dependencyTypes'
 
+export const FETCH_TRIGGER = 'fetchTrigger'
+
+// FIXME временное решение для fieldDependency type fetch, вызывает _fetchData компонента
+//  config формируется в файле ReduxField
+//  FETCH_TRIGGER подкладывает saga fieldDependency
 export default config => (WrappedComponent) => {
-    class ReRenderComponent extends Component {
-        constructor(props) {
-            super(props)
-
-            this.observers = []
-
-            this.observeState = this.observeState.bind(this)
-            this.setComponentRef = this.setComponentRef.bind(this)
-            this.fetchDependencyAction = this.fetchDependencyAction.bind(this)
-            this.reRenderDependencyAction = this.reRenderDependencyAction.bind(this)
-            this.setObserveState = this.setObserveState.bind(this)
-            this.unsubscribe = this.unsubscribe.bind(this)
-            this.setReRenderRef = this.setReRenderRef.bind(this)
-        }
-
-        componentDidMount() {
-            this.dependencyActions = {
-                fetch: this.fetchDependencyAction,
-                reRender: this.reRenderDependencyAction,
-            }
-
-            this.setObserveState()
+    class FetchDependency extends Component {
+        setComponentRef = (el) => {
+            this.componentRef = el
         }
 
         componentDidUpdate(prevProps) {
-            const { disabled } = this.props
+            const { disabled, fetchTrigger } = this.props
+
+            if (prevProps.fetchTrigger !== fetchTrigger) {
+                config.onChange.apply(this.componentRef, [this.props, DEPENDENCY_TYPES.fetch])
+            }
 
             if (prevProps.disabled !== disabled) {
                 config.onChange.call(this.componentRef, this.props)
             }
         }
 
-        componentWillUnmount() {
-            if (!isEmpty(this.observers)) {
-                this.unsubscribe()
-            }
-        }
-
-        fetchDependencyAction() {
-            config.onChange.apply(this.componentRef, [
-                this.props,
-                DEPENDENCY_TYPES.fetch,
-            ])
-        }
-
-        reRenderDependencyAction() {
-            if (this.reRenderRef) {
-                this.reRenderRef.forceUpdate()
-            }
-            if (isFunction(config.onChange)) {
-                config.onChange.apply(this.componentRef, [this.props])
-            }
-        }
-
-        setComponentRef(el) {
-            this.componentRef = el
-        }
-
-        setReRenderRef(el) {
-            this.reRenderRef = el
-        }
-
-        observeState(dependencyType, dependencyAction) {
-            const { store } = this.context
-            const { dependencySelector } = this.props
-
-            return observeStore(
-                store,
-                state => dependencySelector(state, this.props, dependencyType),
-                dependencyAction,
-            )
-        }
-
-        setObserveState() {
-            const { dependency } = this.props
-
-            map(dependency, (d) => {
-                if (this.dependencyActions[d.type]) {
-                    const observer = this.observeState(
-                        d.type,
-                        this.dependencyActions[d.type],
-                    )
-
-                    this.observers.push(observer)
-                }
-            })
-        }
-
-        unsubscribe() {
-            map(this.observers, o => o())
-        }
-
         render() {
-            return (
-                <WrappedComponent
-                    {...this.props}
-                    setReRenderRef={this.setReRenderRef}
-                    ref={this.setComponentRef}
-                />
-            )
+            return <WrappedComponent {...this.props} ref={this.setComponentRef} />
         }
     }
 
-    ReRenderComponent.propTypes = {
-        dependencySelector: PropTypes.func,
-        dependency: PropTypes.any,
+    FetchDependency.propTypes = {
         disabled: PropTypes.bool,
+        fetchTrigger: PropTypes.number,
     }
 
-    ReRenderComponent.defaultProps = {
-        dependencySelector: setWatchDependency,
-    }
+    FetchDependency.contextType = ReactReduxContext
 
-    ReRenderComponent.contextType = ReactReduxContext
+    return connect((state, props) => {
+        const { form, name } = props
 
-    return ReRenderComponent
+        return {
+            fetchTrigger: makeFieldParam(form, name, FETCH_TRIGGER)(state),
+        }
+    })(FetchDependency)
 }

@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
@@ -152,8 +153,8 @@ public class CopyActionAT extends AutoTestBase {
         TableWidget table = modal.content(SimplePage.class).widget(TableWidget.class);
         StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
 
-        table.columns().rows().row(0).click();
-        table.columns().rows().row(2).click();
+        table.columns().rows().row(0).cell(0, CheckboxCell.class).setChecked(true);
+        table.columns().rows().row(2).cell(0, CheckboxCell.class).setChecked(true);
         saveBtn.click();
         modal.shouldNotExists();
 
@@ -170,8 +171,8 @@ public class CopyActionAT extends AutoTestBase {
         btn.click();
         modal = N2oSelenide.modal();
 
-        table.columns().rows().row(3).click();
-        table.columns().rows().row(0).click();
+        table.columns().rows().row(3).cell(0, CheckboxCell.class).setChecked(true);
+        table.columns().rows().row(0).cell(0, CheckboxCell.class).setChecked(true);
         saveBtn.click();
         modal.shouldNotExists();
 
@@ -184,10 +185,10 @@ public class CopyActionAT extends AutoTestBase {
         item1.fields().field("name").control(InputText.class).shouldHaveValue("test1");
         item2.fields().field("id").control(InputText.class).shouldHaveValue("3");
         item2.fields().field("name").control(InputText.class).shouldHaveValue("test3");
-        item3.fields().field("id").control(InputText.class).shouldHaveValue("1");
-        item3.fields().field("name").control(InputText.class).shouldHaveValue("test1");
-        item4.fields().field("id").control(InputText.class).shouldHaveValue("4");
-        item4.fields().field("name").control(InputText.class).shouldHaveValue("test4");
+        item4.fields().field("id").control(InputText.class).shouldHaveValue("1");
+        item4.fields().field("name").control(InputText.class).shouldHaveValue("test1");
+        item3.fields().field("id").control(InputText.class).shouldHaveValue("4");
+        item3.fields().field("name").control(InputText.class).shouldHaveValue("test4");
     }
 
     @Test

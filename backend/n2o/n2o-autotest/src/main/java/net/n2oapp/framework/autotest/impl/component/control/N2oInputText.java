@@ -5,6 +5,8 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 
+import java.time.Duration;
+
 /**
  * Компонент ввода текста для автотестирования
  */
@@ -39,13 +41,13 @@ public class N2oInputText extends N2oControl implements InputText {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
+    public void shouldHaveValue(String value, Duration... duration) {
         SelenideElement input = inputElement();
 
         if (input.exists())
-            input.shouldHave(Condition.exactValue(value));
+            should(Condition.exactValue(value), input, duration);
         else
-            cellInputElement().shouldHave(Condition.selectedText(value));
+            should(Condition.selectedText(value), cellInputElement(), duration);
     }
 
     @Override
@@ -75,8 +77,8 @@ public class N2oInputText extends N2oControl implements InputText {
     }
 
     @Override
-    public void shouldHaveMeasureText(String text) {
-        inputMeasure().shouldHave(Condition.text(text));
+    public void shouldHaveMeasureText(String text, Duration... duration) {
+        should(Condition.text(text), inputMeasure(), duration);
     }
 
     protected ElementsCollection stepButton() {

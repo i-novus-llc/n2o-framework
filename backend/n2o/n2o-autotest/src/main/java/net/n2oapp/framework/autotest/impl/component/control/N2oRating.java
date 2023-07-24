@@ -2,7 +2,10 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.Rating;
+
+import java.time.Duration;
 
 /**
  * Компонент ввода и отображения рейтинга для автотестирования
@@ -25,8 +28,9 @@ public class N2oRating extends N2oControl implements Rating {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
-        ratingInput().find(Condition.checked).shouldBe(Condition.exist).shouldHave(Condition.value(value));
+    public void shouldHaveValue(String value, Duration... duration) {
+        SelenideElement e = ratingInput().find(Condition.checked).shouldBe(Condition.exist);
+        should(Condition.value(value), e, duration);
     }
 
     protected ElementsCollection ratingInput() {

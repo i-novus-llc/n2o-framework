@@ -45,6 +45,11 @@ export const makeFieldByName = (formName: string, fieldName: string) => createSe
     form => get(form.fields, fieldName, defaultField),
 )
 
+export const makeFieldParam = (formName: string, fieldName: string, key: string) => createSelector(
+    makeFormByName(formName),
+    form => get(form.fields, `${fieldName}.${key}`, null),
+)
+
 /**
  * селектор для значения видимости поля
  */

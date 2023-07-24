@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.api.component;
 
 import net.n2oapp.framework.autotest.Colors;
 
+import java.time.Duration;
+
 /**
  * Выпадающий список в виде древа для автотестирования
  */
@@ -46,7 +48,7 @@ public interface DropDownTree extends Component {
     interface DropDownTreeItem extends Expandable, Component, DropDown.DropDownItem {
 
         @Override
-        default void shouldHaveDescription(String description) {
+        default void shouldHaveDescription(String description, Duration... duration) {
             throw new UnsupportedOperationException();
         }
 

@@ -183,10 +183,10 @@ public class FieldsAT extends AutoTestBase {
         selectInput.shouldBeEmpty();
         selectInput.openPopup();
         selectInput.dropdown().selectMulti(0);
-        selectInput.shouldSelectedMulti("test1");
+        selectInput.shouldSelectedMulti(new String[]{"test1"});
         selectInput.openPopup();
         selectInput.dropdown().selectMulti(1, 2);
-        selectInput.shouldSelectedMulti("test1", "test2", "test3");
+        selectInput.shouldSelectedMulti(new String[]{"test1", "test2", "test3"});
         selectInput.clearUsingIcon();
         selectInput.shouldBeEmpty();
     }

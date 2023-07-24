@@ -10,6 +10,8 @@ import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nonnull;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.CheckResult.Verdict.ACCEPT;
 import static com.codeborne.selenide.CheckResult.Verdict.REJECT;
 
@@ -28,9 +30,8 @@ public class N2oDrawer extends N2oComponent implements Drawer {
     }
 
     @Override
-    public void shouldHaveTitle(String text) {
-        element().$(".drawer-title")
-                .shouldHave(Condition.text(text));
+    public void shouldHaveTitle(String text, Duration... duration) {
+        should(Condition.text(text), element().$(".drawer-title"), duration);
     }
 
     @Override

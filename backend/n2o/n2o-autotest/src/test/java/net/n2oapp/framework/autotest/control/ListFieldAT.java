@@ -60,24 +60,24 @@ public class ListFieldAT extends AutoTestBase {
 
         type.shouldHaveValue("1");
         filteredByLink.openPopup();
-        filteredByLink.dropdown().shouldHaveOptions("test1", "test2");
+        filteredByLink.dropdown().shouldHaveOptions(new String[]{"test1", "test2"});
         filteredByConstant.openPopup();
-        filteredByConstant.dropdown().shouldHaveOptions("test1", "test2");
+        filteredByConstant.dropdown().shouldHaveOptions(new String[]{"test1", "test2"});
         filteredByLinkWithCache.openPopup();
-        filteredByLinkWithCache.dropdown().shouldHaveOptions("test1", "test2");
-        radioGroup.shouldHaveOptions("test1", "test2");
-        checkboxGroup.shouldHaveOptions("test1", "test2");
+        filteredByLinkWithCache.dropdown().shouldHaveOptions(new String[]{"test1", "test2"});
+        radioGroup.shouldHaveOptions(new String[]{"test1", "test2"});
+        checkboxGroup.shouldHaveOptions(new String[]{"test1", "test2"});
 
         type.click();
         type.setValue("2");
         filteredByLink.openPopup();
-        filteredByLink.dropdown().shouldHaveOptions("test3", "test4");
+        filteredByLink.dropdown().shouldHaveOptions(new String[]{"test3", "test4"});
         filteredByConstant.openPopup();
-        filteredByConstant.dropdown().shouldHaveOptions("test1", "test2");
+        filteredByConstant.dropdown().shouldHaveOptions(new String[]{"test1", "test2"});
         filteredByLinkWithCache.openPopup();
-        filteredByLinkWithCache.dropdown().shouldHaveOptions("test3", "test4");
-        radioGroup.shouldHaveOptions("test3", "test4");
-        checkboxGroup.shouldHaveOptions("test3", "test4");
+        filteredByLinkWithCache.dropdown().shouldHaveOptions(new String[]{"test3", "test4"});
+        radioGroup.shouldHaveOptions(new String[]{"test3", "test4"});
+        checkboxGroup.shouldHaveOptions(new String[]{"test3", "test4"});
     }
 
     @Test
@@ -97,17 +97,17 @@ public class ListFieldAT extends AutoTestBase {
 
         select.shouldSelected("test1");
         select.openPopup();
-        select.dropdown().shouldHaveOptions("test1", "test2", "test3", "test4");
+        select.dropdown().shouldHaveOptions(new String[]{"test1", "test2", "test3", "test4"});
         inputSelect.shouldBeEmpty();
         inputSelect.openPopup();
-        inputSelect.dropdown().shouldHaveOptions("test1", "test2", "test3", "test4");
+        inputSelect.dropdown().shouldHaveOptions(new String[]{"test1", "test2", "test3", "test4"});
         autoComplete.shouldBeEmpty();
         autoComplete.click();
-        autoComplete.shouldHaveDropdownOptions("test1", "test2", "test3", "test4");
-        radioGroup.shouldHaveOptions("test1", "test2", "test3", "test4");
+        autoComplete.shouldHaveDropdownOptions(new String[]{"test1", "test2", "test3", "test4"});
+        radioGroup.shouldHaveOptions(new String[]{"test1", "test2", "test3", "test4"});
         checkboxGroup.shouldBeChecked("test1");
         checkboxGroup.shouldBeUnchecked("test2");
-        checkboxGroup.shouldHaveOptions("test1", "test2", "test3", "test4");
+        checkboxGroup.shouldHaveOptions(new String[]{"test1", "test2", "test3", "test4"});
     }
 
     @Test
@@ -125,7 +125,7 @@ public class ListFieldAT extends AutoTestBase {
                 .region(0, SimpleRegion.class).content().widget(FormWidget.class).fields().field("Группа документов").control(InputSelect.class);
 
         inputSelect.openPopup();
-        inputSelect.dropdown().shouldHaveOptions("Документы, подтверждающие обучение", "Документы, подтверждающие размер заработной платы");
+        inputSelect.dropdown().shouldHaveOptions(new String[]{"Документы, подтверждающие обучение", "Документы, подтверждающие размер заработной платы"});
     }
 
     @Test
@@ -143,17 +143,17 @@ public class ListFieldAT extends AutoTestBase {
         fields.field("size 4").control(InputSelect.class).shouldBeEmpty();
         fields.field("size 5").control(InputSelect.class).shouldBeEmpty();
 
-        fields.field("def 1").control(InputSelect.class).shouldSelectedMulti("test1");
-        fields.field("def 2").control(InputSelect.class).shouldSelectedMulti("test1", "test2");
-        fields.field("def 3").control(InputSelect.class).shouldSelectedMulti("test1", "test2", "test3");
-        fields.field("def 4").control(InputSelect.class).shouldSelectedMulti("test1", "test2", "test3", "test4");
-        fields.field("def 5").control(InputSelect.class).shouldSelectedMulti("test1", "test2", "test3", "test4");
+        fields.field("def 1").control(InputSelect.class).shouldSelectedMulti(new String[]{"test1"});
+        fields.field("def 2").control(InputSelect.class).shouldSelectedMulti(new String[]{"test1", "test2"});
+        fields.field("def 3").control(InputSelect.class).shouldSelectedMulti(new String[]{"test1", "test2", "test3"});
+        fields.field("def 4").control(InputSelect.class).shouldSelectedMulti(new String[]{"test1", "test2", "test3", "test4"});
+        fields.field("def 5").control(InputSelect.class).shouldSelectedMulti(new String[]{"test1", "test2", "test3", "test4"});
 
         fields.field("check").control(Checkbox.class).setChecked(true);
-        fields.field("size 1").control(InputSelect.class).shouldSelectedMulti("test1");
-        fields.field("size 2").control(InputSelect.class).shouldSelectedMulti("test1", "test2");
-        fields.field("size 3").control(InputSelect.class).shouldSelectedMulti("test1", "test2", "test3");
-        fields.field("size 4").control(InputSelect.class).shouldSelectedMulti("test1", "test2", "test3", "test4");
-        fields.field("size 5").control(InputSelect.class).shouldSelectedMulti("test1", "test2", "test3", "test4");
+        fields.field("size 1").control(InputSelect.class).shouldSelectedMulti(new String[]{"test1"});
+        fields.field("size 2").control(InputSelect.class).shouldSelectedMulti(new String[]{"test1", "test2"});
+        fields.field("size 3").control(InputSelect.class).shouldSelectedMulti(new String[]{"test1", "test2", "test3"});
+        fields.field("size 4").control(InputSelect.class).shouldSelectedMulti(new String[]{"test1", "test2", "test3", "test4"});
+        fields.field("size 5").control(InputSelect.class).shouldSelectedMulti(new String[]{"test1", "test2", "test3", "test4"});
     }
 }

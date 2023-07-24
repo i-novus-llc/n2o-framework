@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.api.component.control;
 
 import net.n2oapp.framework.autotest.api.component.PopupControl;
 
+import java.time.Duration;
+
 /**
  * Компонент ввода даты для автотестирования
  */
@@ -79,13 +81,13 @@ public interface DateInput extends Control, PopupControl {
      * Проверка текущего месяца в календаре
      * @param month ожидаемый текущий месяц
      */
-    void shouldHaveCurrentMonth(String month);
+    void shouldHaveCurrentMonth(String month, Duration... duration);
 
     /**
      * Проверка текущего года в календаре
      * @param year ожидаемый текущий год
      */
-    void shouldHaveCurrentYear(String year);
+    void shouldHaveCurrentYear(String year, Duration... duration);
 
     /**
      * Клик по кнопке для перехода к предыдущему месяцу в календаре

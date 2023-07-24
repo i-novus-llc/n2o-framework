@@ -13,8 +13,12 @@
             </filters>
         </field>
 
-        <field id="check" domain="boolean">
-            <select/>
+        <field id="check1" domain="boolean">
+            <select mapping="['check']"/>
+        </field>
+
+        <field id="check2" domain="boolean">
+            <select mapping="['check']"/>
         </field>
     </fields>
 </query>

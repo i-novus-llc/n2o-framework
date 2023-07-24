@@ -41,11 +41,18 @@ public class RefreshToolbarCellAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("versions/7.11/refresh_toolbar_cell/index.page.xml"),
+        builder.packs(
+                new N2oAllPagesPack(),
+                new N2oApplicationPack(),
+                new N2oAllDataPack()
+        );
+        setJsonPath("versions/7.11/refresh_toolbar_cell");
+        builder.sources(
+                new CompileInfo("versions/7.11/refresh_toolbar_cell/index.page.xml"),
                 new CompileInfo("versions/7.11/refresh_toolbar_cell/test.page.xml"),
                 new CompileInfo("versions/7.11/refresh_toolbar_cell/test.object.xml"),
-                new CompileInfo("versions/7.11/refresh_toolbar_cell/test.query.xml"));
+                new CompileInfo("versions/7.11/refresh_toolbar_cell/test.query.xml")
+        );
     }
 
     @Test

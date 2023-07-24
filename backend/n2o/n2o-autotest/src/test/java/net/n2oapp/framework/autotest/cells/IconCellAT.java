@@ -65,24 +65,24 @@ public class IconCellAT extends AutoTestBase {
         cell.hover();
         Tooltip tooltip = cell.tooltip();
         tooltip.shouldExists();
-        tooltip.shouldHaveText("minus");
+        tooltip.shouldHaveText(new String[]{"minus"});
 
         cell = rows.row(2).cell(0, IconCell.class);
         cell.hover();
         tooltip = cell.tooltip();
         tooltip.shouldExists();
-        tooltip.shouldHaveText("fax");
+        tooltip.shouldHaveText(new String[]{"fax"});
 
         cell = rows.row(1).cell(0, IconCell.class);
         cell.hover();
         tooltip = cell.tooltip();
         tooltip.shouldExists();
-        tooltip.shouldHaveText("plus");
+        tooltip.shouldHaveText(new String[]{"plus"});
 
         cell = rows.row(0).cell(0, IconCell.class);
         cell.hover();
         tooltip = cell.tooltip();
         tooltip.shouldExists();
-        tooltip.shouldHaveText("phone");
+        tooltip.shouldHaveText(new String[]{"phone"});
     }
 }

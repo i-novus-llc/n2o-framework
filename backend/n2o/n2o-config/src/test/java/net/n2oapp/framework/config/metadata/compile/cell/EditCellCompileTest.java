@@ -55,7 +55,7 @@ public class EditCellCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/cell/testEditCell.object.xml")
                 .get(context);
         Table table = (Table) page.getWidget();
-        EditCell cell = (EditCell) table.getComponent().getCells().get(0);
+        EditCell cell = (EditCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("EditableCell"));
         assertThat(cell.getFormat(), is("formatTest"));
         assertThat(cell.getEditType(), is(EditType.inline));
@@ -70,7 +70,7 @@ public class EditCellCompileTest extends SourceCompileTestBase {
         assertThat(((InvokeAction)cell.getAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/main/:id/open/actionTest"));
         assertThat(((InvokeAction)cell.getAction()).getPayload().getDataProvider().getPathMapping().get("id"), is(new ModelLink(ReduxModel.resolve, "main", "id")));
 
-        cell = (EditCell) table.getComponent().getCells().get(1);
+        cell = (EditCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getSrc(), is("EditableCell"));
         assertThat(cell.getEditType(), is(EditType.popup));
         assertThat(cell.getEnabled(), is(false));

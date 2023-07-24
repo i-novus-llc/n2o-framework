@@ -20,8 +20,9 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
 
 /**
  * Автотест для групповых операций изменения и удаления
@@ -46,13 +47,14 @@ public class BulkOperationAT extends AutoTestBase {
     }
 
     @Test
-    @Disabled
     public void bulkOperationTest() {
         setJsonPath("net/n2oapp/framework/autotest/action/bulk_operation");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/index.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/setName.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/test.query.xml")
+        );
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Bulk Операции");
@@ -96,7 +98,7 @@ public class BulkOperationAT extends AutoTestBase {
         deleteManyButton.shouldExists();
         deleteManyButton.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
-        table.columns().rows().shouldHaveSize(2);
+        table.columns().rows().shouldHaveSize(2, Duration.ofMillis(5000));
         name1.shouldHaveText("test3");
         name2.shouldHaveText("test4");
     }

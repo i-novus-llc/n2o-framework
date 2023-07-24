@@ -241,7 +241,11 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/region/tabs/lazy",
-          "name": "TabsLazyInitAT"
+          "name": "TabsLazyInitAT. testLazyInit"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/laze_with_dependencies",
+          "name": "TabsLazyInitAT. testLazyInitWithDependencies"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/region/tabs/nesting",
@@ -397,6 +401,10 @@
           "name": "TableFiltersValidationAT. testValidationFetch"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filter_model",
+          "name": "FilterModelAT"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/multi_column",
           "name": "MultiColumnAT"
         },
@@ -463,10 +471,6 @@
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/toolbar/access",
           "name": "ToolbarColumnAccessAT"
-        },
-        {
-          "templateId": "net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur",
-          "name": "TableAT. testHideOnBlur"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/with_children",

@@ -1,4 +1,4 @@
-import { createContext } from 'react'
+import { createContext, useContext } from 'react'
 
 /* eslint-disable no-unused-vars,  @typescript-eslint/no-unused-vars */
 export const METHODS = {
@@ -13,3 +13,7 @@ export const METHODS = {
 }
 
 export const DataSourceContext = createContext(METHODS)
+
+export const useDataSourceMethodsContext = () => (
+    useContext(DataSourceContext)
+)

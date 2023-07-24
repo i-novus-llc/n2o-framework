@@ -3,6 +3,8 @@ package net.n2oapp.framework.autotest.api.component.snippet;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 
+import java.time.Duration;
+
 /**
  * Компонент вывода изображения для автотестирования
  */
@@ -12,13 +14,13 @@ public interface Image extends Snippet {
      * Проверка заголовка на соответствие 
      * @param text ожидаемый текст заголовка
      */
-    void shouldHaveTitle(String text);
+    void shouldHaveTitle(String text, Duration... duration);
 
     /**
      * Проверка описания на соответствие 
      * @param text ожидаемый текст описания
      */
-    void shouldHaveDescription(String text);
+    void shouldHaveDescription(String text, Duration... duration);
 
     /**
      * Проверка формы изображения на соответствие

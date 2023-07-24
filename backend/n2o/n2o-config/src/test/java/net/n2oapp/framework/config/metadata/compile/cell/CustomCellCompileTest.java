@@ -44,7 +44,7 @@ public class CustomCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testCustomCell.page.xml")
                 .get(new PageContext("testCustomCell"));
         Table table = (Table) page.getWidget();
-        CustomCell cell = (CustomCell) table.getComponent().getCells().get(0);
+        CustomCell cell = (CustomCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("MyCell"));
         assertThat(cell.getAction(), instanceOf(LinkActionImpl.class));
     }

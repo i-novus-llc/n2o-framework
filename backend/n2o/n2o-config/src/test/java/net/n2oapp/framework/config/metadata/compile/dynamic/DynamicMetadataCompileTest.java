@@ -63,8 +63,8 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
 
         Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
         assertThat(table, instanceOf(Table.class));
-        assertThat(table.getComponent().getCells().size(), is(1));
-        assertThat(table.getComponent().getCells().get(0).getId(), is("id"));
+        assertThat(table.getComponent().getBody().getCells().size(), is(1));
+        assertThat(table.getComponent().getBody().getCells().get(0).getId(), is("id"));
         CompiledQuery query = routeAndGet("/test/route/main", CompiledQuery.class);
         assertThat(query.getId(), is("testDynamic?Dummy"));
         assertThat(((N2oSqlDataProvider) query.getLists()[0].getInvocation()).getQuery(), is("test select"));

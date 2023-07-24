@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -20,17 +21,11 @@ public abstract class AbstractCell implements Cell, JsonPropertiesAware {
     private String fieldKey;
     @JsonProperty
     private String src;
-    @JsonProperty("className")
-    private String cssClass;
-    @JsonProperty
-    private Map<String, String> style;
     @JsonProperty
     private Object visible;
     private Map<String, Object> properties;
     @JsonProperty
     private String tooltipFieldId;
     @JsonProperty
-    private Alignment contentAlignment;
-    @JsonProperty
-    private Boolean hideOnBlur;
+    private Map<String, String> elementAttributes = new HashMap<>();
 }

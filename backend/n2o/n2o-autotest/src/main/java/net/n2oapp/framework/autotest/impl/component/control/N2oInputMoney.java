@@ -4,6 +4,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.InputMoneyControl;
 
+import java.time.Duration;
+
 /**
  * Компонент ввода денежных единиц для автотестирования
  */
@@ -33,14 +35,14 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
+    public void shouldHaveValue(String value, Duration... duration) {
         boolean b = value == null || value.isEmpty();
         SelenideElement input = inputElement();
 
         if (input.exists())
-            input.shouldHave(b ? Condition.empty : Condition.value(value));
+            should(b ? Condition.empty : Condition.value(value), input, duration);
         else
-            cellInputElement().shouldHave(b ? Condition.empty : Condition.text(value));
+            should(b ? Condition.empty : Condition.text(value), cellInputElement(), duration);
     }
 
     @Override

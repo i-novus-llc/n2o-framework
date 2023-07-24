@@ -7,7 +7,7 @@
         </browser-storage>
     </datasources>
     <regions>
-        <table datasource="ds1" selection="none" auto-select="false" table-size="5">
+        <table datasource="ds1" selection="none" auto-select="false">
             <columns>
                 <column text-field-id="description">
                     <text/>

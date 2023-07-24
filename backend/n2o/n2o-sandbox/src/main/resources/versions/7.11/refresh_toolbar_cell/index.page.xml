@@ -3,38 +3,38 @@
              name="Динамическое обновление ячеек таблицы">
     <table query-id="test">
         <columns>
-            <column id="name1" text-field-id="name"/>
+            <column id="name1" text-field-id="name1"/>
 
-            <column id="nameE1" text-field-id="name" label="tbEnabled">
+            <column id="nameE1" text-field-id="name2" label="tbEnabled">
                 <toolbar>
-                    <button label="enabled for 'test1'" enabled="{name=='test1'}"/>
+                    <button label="enabled for 'test1'" enabled="{name1=='test1'}"/>
                 </toolbar>
             </column>
-            <column id="nameE2" text-field-id="name" label="cbEnabled">
-                <checkbox enabled="{name=='test1'}"/>
+            <column id="nameE2" text-field-id="name3" label="cbEnabled">
+                <checkbox enabled="{name1=='test1'}"/>
             </column>
-            <column id="nameE3" text-field-id="name" label="sbmEnabled">
+            <column id="nameE3" text-field-id="name4" label="sbmEnabled">
                 <toolbar>
                     <sub-menu>
-                        <menu-item enabled="{name=='test1'}" label="enabled for 'test1'"/>
+                        <menu-item enabled="{name1=='test1'}" label="enabled for 'test1'"/>
                         <menu-item enabled="{false}" label="always disabled"/>
                         <menu-item label="always enabled"/>
                     </sub-menu>
                 </toolbar>
             </column>
 
-            <column id="nameV1" text-field-id="name" label="tbVisible">
+            <column id="nameV1" text-field-id="name5" label="tbVisible">
                 <toolbar>
-                    <button label="visible for 'test1'" visible="{name=='test1'}"/>
+                    <button label="visible for 'test1'" visible="{name1=='test1'}"/>
                 </toolbar>
             </column>
-            <column id="nameV2" text-field-id="name" label="cbVisible">
-                <checkbox visible="{name=='test1'}"/>
+            <column id="nameV2" text-field-id="name6" label="cbVisible">
+                <checkbox visible="{name1=='test1'}"/>
             </column>
-            <column id="nameV3" text-field-id="name" label="sbmVisible">
+            <column id="nameV3" text-field-id="name7" label="sbmVisible">
                 <toolbar>
                     <sub-menu>
-                        <menu-item visible="{name=='test1'}" label="visible for 'test1'"/>
+                        <menu-item visible="{name1=='test1'}" label="visible for 'test1'"/>
                         <menu-item visible="{false}" label="always invisible"/>
                         <menu-item label="always visible"/>
                     </sub-menu>

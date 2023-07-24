@@ -65,10 +65,10 @@ export const Form = ({
 
     useEffect(() => {
         if (modelPrefix === ModelPrefix.edit) {
-            dispatch(setModel(ModelPrefix.edit, datasource, initialValues))
+            dispatch(setModel(ModelPrefix.edit, datasource, initialValues, true))
         }
 
-        dispatch(setModel(ModelPrefix.active, datasource, initialValues))
+        dispatch(setModel(ModelPrefix.active, datasource, initialValues, true))
     }, [dispatch, datasource, initialValues, modelPrefix])
 
     return (

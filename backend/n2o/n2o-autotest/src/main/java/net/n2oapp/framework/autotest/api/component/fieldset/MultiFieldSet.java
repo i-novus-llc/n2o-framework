@@ -1,5 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.fieldset;
 
+import java.time.Duration;
+
 /**
  * Филдсет с динамическим числом полей для автотестирования
  */
@@ -41,7 +43,7 @@ public interface MultiFieldSet extends FieldSet {
      * Проверка метки кнопки добавления филдсетов
      * @param label ожидаемое значение метки
      */
-    void addButtonShouldHaveLabel(String label);
+    void addButtonShouldHaveLabel(String label, Duration... duration);
 
     /**
      * Клик на кнопку добавления филдсета
@@ -62,7 +64,7 @@ public interface MultiFieldSet extends FieldSet {
      * Проверка метки кнопки удаления всех филдсетов
      * @param label ожидаемое значение метки
      */
-    void removeAllButtonShouldHaveLabel(String label);
+    void removeAllButtonShouldHaveLabel(String label, Duration... duration);
 
     /**
      * Клик на кнопку удаления всех филдсетов

@@ -50,7 +50,6 @@ public class AutoTestBase extends N2oTestBase {
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
         headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "true"));
         timeout = Long.parseLong(System.getProperty("selenide.timeout", "10000"));
-        pageLoadTimeout = Long.parseLong(System.getProperty("selenide.pageLoadTimeout", "10000"));
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         ChromeOptions options = new ChromeOptions();

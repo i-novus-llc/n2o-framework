@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Утилита преобразования стилей
@@ -33,6 +34,16 @@ public class StylesResolver {
         }
 
         return result;
+    }
+
+    /**
+     * Преобразовать html стили в react стили
+     */
+    public static String resolveStylesToString(String input) {
+        if (input == null) return null;
+        Map<String, String> styleMap = resolveStyles(input);
+        return styleMap.keySet().stream().map(key -> key + ":" + styleMap.get(key))
+                .collect(Collectors.joining(";"));
     }
 
     /**

@@ -6,18 +6,20 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import net.n2oapp.framework.autotest.api.component.snippet.Image;
 
+import java.time.Duration;
+
 /**
  * Компонент вывода изображения для автотестирования
  */
 public class N2oImage extends N2oSnippet implements Image {
     @Override
-    public void shouldHaveTitle(String text) {
-        imageInfo().$(".n2o-image__info_label").shouldHave(Condition.text(text));
+    public void shouldHaveTitle(String text, Duration... duration) {
+        should(Condition.text(text), imageInfo().$(".n2o-image__info_label"), duration);
     }
 
     @Override
-    public void shouldHaveDescription(String text) {
-        imageInfo().$(".n2o-image__info_description").shouldHave(Condition.text(text));
+    public void shouldHaveDescription(String text, Duration... duration) {
+        should(Condition.text(text), imageInfo().$(".n2o-image__info_description"), duration);
     }
 
     @Override
@@ -42,8 +44,8 @@ public class N2oImage extends N2oSnippet implements Image {
     }
 
     @Override
-    public void shouldHaveText(String text) {
-        element().shouldHave(Condition.text(text));
+    public void shouldHaveText(String text, Duration... duration) {
+        should(Condition.text(text), duration);
     }
 
     protected SelenideElement imageInfo() {

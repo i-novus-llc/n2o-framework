@@ -7,7 +7,7 @@
             </invocation>
             <in>
                 <field id="id"/>
-                <field id="check"/>
+                <field id="check" mapping="['check']"/>
             </in>
         </operation>
     </operations>

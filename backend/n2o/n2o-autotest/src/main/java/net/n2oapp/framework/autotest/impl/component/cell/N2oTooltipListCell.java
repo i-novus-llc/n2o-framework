@@ -6,13 +6,15 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.cell.TooltipListCell;
 
+import java.time.Duration;
+
 /**
  * Ячейка с тултипом и раскрывающимся текстовым списком для автотестирования
  */
 public class N2oTooltipListCell extends N2oCell implements TooltipListCell {
     @Override
-    public void shouldHaveText(String text) {
-        element().shouldHave(Condition.exactText(text));
+    public void shouldHaveText(String text, Duration... duration) {
+        should(Condition.exactText(text), duration);
     }
 
     @Override

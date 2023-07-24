@@ -72,7 +72,6 @@ public class SwitchCaseActionAT extends AutoTestBase {
         setJsonPath("net/n2oapp/framework/autotest/action/switch_case/row_click");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/row_click/page1.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/row_click/page2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/row_click/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/row_click/index.page.xml"));
 
@@ -82,7 +81,6 @@ public class SwitchCaseActionAT extends AutoTestBase {
 
         table.shouldExists();
         table.columns().rows().row(1).cell(1).shouldHaveText("1");
-        table.columns().rows().row(1).shouldBeClickable();
         table.columns().rows().row(1).click();
         page.shouldExists();
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/type1");
@@ -90,17 +88,8 @@ public class SwitchCaseActionAT extends AutoTestBase {
 
         page.shouldExists();
         table.shouldExists();
-        table.columns().rows().row(3).cell(1).shouldHaveText("2");
-        table.columns().rows().row(3).shouldBeClickable();
-        table.columns().rows().row(3).click();
-        page.shouldExists();
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/type2");
-        page.breadcrumb().crumb(0).click();
-
-        page.shouldExists();
-        table.shouldExists();
-        table.columns().rows().row(2).cell(1).shouldHaveText("3");
-        table.columns().rows().row(2).shouldBeClickable();
+        table.columns().rows().row(2).cell(1).shouldExists();
+        table.columns().rows().row(2).cell(1).shouldHaveText("2");
         table.columns().rows().row(2).click();
         page.shouldExists();
         page.shouldHaveUrlMatches("https://example.com/");

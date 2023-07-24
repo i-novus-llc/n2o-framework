@@ -57,7 +57,7 @@
         </xs:attribute>
         <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Иконка выпадающего меню</xs:documentation>
+                <xs:documentation>Иконка выпадающего меню из https://fontawesome.com/v4.7/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="image" type="xs:string">
@@ -115,7 +115,7 @@
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка компонента меню</xs:documentation>
+                        <xs:documentation>Иконка компонента меню из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="badge" type="xs:integer">

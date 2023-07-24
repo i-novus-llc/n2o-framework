@@ -5,6 +5,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
 
+import java.time.Duration;
+
 public class N2oDropDownTree extends N2oComponent implements DropDownTree {
     private static final String CSS_SELECTORS = ".n2o-select-tree-tree-treenode-switcher-open, .n2o-select-tree-tree-treenode-switcher-close";
 
@@ -74,8 +76,8 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
             switcher().shouldHave(Condition.cssClass(String.format("%s_close", SWITCHER)));
         }
 
-        public void shouldHaveValue(String value) {
-            element().shouldHave(Condition.text(value));
+        public void shouldHaveValue(String value, Duration... duration) {
+            should(Condition.text(value), duration);
         }
 
         public void shouldBeSelected() {

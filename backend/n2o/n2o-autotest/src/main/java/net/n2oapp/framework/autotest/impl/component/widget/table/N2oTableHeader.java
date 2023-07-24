@@ -5,13 +5,15 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableHeader;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 /**
  * Заголовки столбцов таблицы для автотестирования
  */
 public abstract class N2oTableHeader extends N2oComponent implements TableHeader {
     @Override
-    public void shouldHaveTitle(String title) {
-        element().shouldHave(Condition.text(title));
+    public void shouldHaveTitle(String title, Duration... duration) {
+        should(Condition.text(title), duration);
     }
 
     @Override
@@ -21,7 +23,7 @@ public abstract class N2oTableHeader extends N2oComponent implements TableHeader
 
     @Override
     public void click() {
-        SelenideElement elm = element().$(".n2o-checkbox");
+        SelenideElement elm = element().$(".checkbox-cell .n2o-checkbox .n2o-input");
         if (elm.exists())
             elm.click();
         else

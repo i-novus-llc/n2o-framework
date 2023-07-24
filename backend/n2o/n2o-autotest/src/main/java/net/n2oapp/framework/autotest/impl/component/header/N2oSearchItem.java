@@ -5,6 +5,8 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.header.SearchItem;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 
 /**
  * Базовый класс элемента выпадающего списка поиска в шапке для автотестирования
@@ -12,8 +14,8 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 public class N2oSearchItem extends N2oComponent implements SearchItem {
 
     @Override
-    public void shouldHaveTitle(String title) {
-        navLink().shouldHave(Condition.text(title));
+    public void shouldHaveTitle(String title, Duration... duration) {
+        should(Condition.text(title), navLink(), duration);
     }
 
     @Override

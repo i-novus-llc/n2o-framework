@@ -4,6 +4,8 @@ import net.n2oapp.framework.autotest.api.collection.FieldSets;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.Component;
 
+import java.time.Duration;
+
 /**
  * Элемент филдсета с динамическим числом полей для автотестирования
  */
@@ -12,7 +14,7 @@ public interface MultiFieldSetItem extends Component {
      * Проверка метки на соответствие
      * @param label ожидаемое значение метки
      */
-    void shouldHaveLabel(String label);
+    void shouldHaveLabel(String label, Duration... duration);
 
     /**
      * Проверка наличи кнопки удаления этого филдсета

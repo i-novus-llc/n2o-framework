@@ -2,14 +2,19 @@ package net.n2oapp.framework.api;
 
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.lang.Nullable;
+import org.springframework.validation.ValidationUtils;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceNullByEmpty;
 import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceOptional;
 
@@ -123,7 +128,7 @@ public abstract class StringUtils {
      * }
      *
      * @param text Текст
-     * @return
+     * @return true - окаймлена, false - не окаймлена
      */
     public static boolean isEscapedString(String text) {
         return text.startsWith("'") && text.endsWith("'");
