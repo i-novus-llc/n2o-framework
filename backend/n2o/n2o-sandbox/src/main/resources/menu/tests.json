@@ -1353,6 +1353,10 @@
           "name": "FieldResetDependencyAT. testApplyOnInit"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/apply_on_init_modal",
+          "name": "FieldResetDependencyAT. testApplyOnInitShowModal"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/visibility",
           "name": "FieldVisibilityAT"
         },
