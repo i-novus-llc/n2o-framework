@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { ITEM_SRC } from '../constants'
 
-export const getCurrentTitle = (isMiniView: boolean, icon?: string, title?: string, imageSrc?: string) => {
+export const getCurrentTitle = (isMiniView?: boolean, icon?: string, title?: string, imageSrc?: string) => {
     if (!title) {
         return null
     }
@@ -32,7 +32,7 @@ interface IIcon {
     icon?: string
     title: string
     src: string
-    sidebarOpen: boolean
+    sidebarOpen?: boolean
     hasSubItems?: boolean
 }
 export const Icon = ({ icon, title, src, sidebarOpen, hasSubItems }: IIcon): JSX.Element | null => {

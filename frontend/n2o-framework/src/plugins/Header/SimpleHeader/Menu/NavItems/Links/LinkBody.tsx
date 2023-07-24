@@ -2,8 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import { BadgeProps } from 'reactstrap'
 
+import { Badge } from '@i-novus/n2o-components/lib/display/Badge/Badge'
+
 import { NavItemImage } from '../../../../../../components/snippets/NavItemImage/NavItemImage'
-import { Badge } from '../../../../../../components/snippets/Badge/Badge'
 
 interface ILinkBody {
     imageSrc?: string

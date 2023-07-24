@@ -2,7 +2,7 @@ import React from 'react'
 import { ButtonDropdownProps } from 'reactstrap'
 
 import { Action } from '../ducks/Action'
-import { IBadgeProps } from '../components/snippets/Badge/Badge'
+import { Props } from '../components/snippets/Badge/Badge'
 import { IDataSourceModels } from '../core/datasource/const'
 
 import { metaPropsType } from './utils'
@@ -39,7 +39,7 @@ export interface IItem extends ICommon {
     action?: Action
     items: IItem[]
     pathname: string
-    badge?: IBadgeProps
+    badge?: Props
     linkType: 'outer' | 'inner'
     direction?: string
     activeId?: string
