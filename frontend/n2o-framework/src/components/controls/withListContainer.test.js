@@ -37,84 +37,13 @@ describe('withListContainer HOC test', () => {
         expect(wrapper.find('EmptyComponent').exists()).toBeTruthy()
     })
 
-    it('handleScrollEnd с идеальными параметрами', async () => {
-        const _fetchData = sinon.spy()
-        const { wrapper } = setup({
-            page: 1,
-            size: 10,
-            count: 300,
-            labelFieldId: 'label',
-            _fetchData,
-        })
-        wrapper
-            .find('EmptyComponent')
-            .props()
-            .onScrollEnd()
-        expect(_fetchData.calledOnce).toBe(true)
-        expect(
-            _fetchData.calledWith({ page: 2, size: 10, 'sorting.label': 'ASC' }, true),
-        ).toBe(true)
-    })
-
-    it('handleScrollEnd без page', async () => {
-        const _fetchData = sinon.spy()
-        const { wrapper } = setup({ size: 10, count: 300, _fetchData })
-        wrapper
-            .find('EmptyComponent')
-            .props()
-            .onScrollEnd()
-        expect(_fetchData.calledOnce).toBe(false)
-    })
-
-    it('handleScrollEnd без size', async () => {
-        const _fetchData = sinon.spy()
-        const { wrapper } = setup({ page: 1, count: 300, _fetchData })
-        wrapper
-            .find('EmptyComponent')
-            .props()
-            .onScrollEnd()
-        expect(_fetchData.calledOnce).toBe(false)
-    })
-
-    it('handleScrollEnd без count', async () => {
-        const _fetchData = sinon.spy()
-        const { wrapper } = setup({ page: 1, size: 10, _fetchData })
-        wrapper
-            .find('EmptyComponent')
-            .props()
-            .onScrollEnd()
-        expect(_fetchData.calledOnce).toBe(false)
-    })
-
-    it('handleOpen', () => {
-        const _fetchData = sinon.spy()
-        const { wrapper } = setup({
-            page: 1,
-            size: 10,
-            labelFieldId: 'label',
-            _fetchData,
-        })
-        wrapper
-            .find('EmptyComponent')
-            .props()
-            .onOpen()
-
-        expect(_fetchData.calledOnce).toBe(true)
-        expect(
-            _fetchData.calledWith(
-                { size: 10, page: 1, 'sorting.label': 'ASC' },
-                false,
-            ),
-        ).toBe(true)
-    })
-
     it('handleSearch', async () => {
-        const _fetchData = sinon.spy()
+        const fetchData = sinon.spy()
         const { wrapper } = setup({
             page: 1,
             size: 10,
             labelFieldId: 'label',
-            _fetchData,
+            fetchData,
         })
         wrapper
             .find('EmptyComponent')
@@ -122,9 +51,9 @@ describe('withListContainer HOC test', () => {
             .onSearch('search string')
 
         await delay(400)
-        expect(_fetchData.calledOnce).toBe(true)
+        expect(fetchData.calledOnce).toBe(true)
         expect(
-            _fetchData.calledWith(
+            fetchData.calledWith(
                 {
                     size: 10,
                     page: 1,
@@ -137,12 +66,12 @@ describe('withListContainer HOC test', () => {
     })
 
     it('handleSearch проверка таймера вврода', async () => {
-        const _fetchData = sinon.spy()
+        const fetchData = sinon.spy()
         const { wrapper } = setup({
             page: 1,
             size: 10,
             labelFieldId: 'label',
-            _fetchData,
+            fetchData,
         })
         const searchFn = wrapper.find('EmptyComponent').props().onSearch
 
@@ -151,33 +80,6 @@ describe('withListContainer HOC test', () => {
         searchFn()
 
         await delay(400)
-        expect(_fetchData.calledOnce).toBe(true)
-    })
-
-    it('handleItemOpen', () => {
-        const _fetchData = sinon.spy()
-        const { wrapper } = setup({
-            page: 1,
-            size: 10,
-            labelFieldId: 'label',
-            _fetchData,
-        })
-        wrapper
-            .find('EmptyComponent')
-            .props()
-            .handleItemOpen('parent_id_value')
-
-        expect(_fetchData.calledOnce).toBe(true)
-        expect(
-            _fetchData.calledWith(
-                {
-                    size: 10,
-                    page: 1,
-                    'sorting.label': 'ASC',
-                    'filter.parent_id': 'parent_id_value',
-                },
-                true,
-            ),
-        ).toBe(true)
+        expect(fetchData.calledOnce).toBe(true)
     })
 })

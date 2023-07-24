@@ -61,11 +61,11 @@ describe('fetchData HOC test', () => {
         wrapper
             .find('EmptyComponent')
             .props()
-            ._fetchData()
+            .fetchData()
 
         await delay(400)
         wrapper.update()
-        expect(wrapper.find('EmptyComponent').props().data.length).toBe(12)
+        expect(wrapper.find('EmptyComponent').props().options.length).toBe(12)
     })
 
     it('Вызов fetchData с параметрами', async () => {
@@ -76,7 +76,7 @@ describe('fetchData HOC test', () => {
         wrapper
             .find('EmptyComponent')
             .props()
-            ._fetchData({ page: 10, size: 2 })
+            .fetchData({ page: 10, size: 2 })
 
         await delay(400)
         wrapper.update()
@@ -94,21 +94,21 @@ describe('fetchData HOC test', () => {
         wrapper
             .find('EmptyComponent')
             .props()
-            ._fetchData(null, true)
+            .fetchData(null, true)
 
         await delay(400)
         wrapper.update()
-        expect(wrapper.find('EmptyComponent').props().data.length).toBe(5)
+        expect(wrapper.find('EmptyComponent').props().options.length).toBe(5)
 
         wrapper
             .find('EmptyComponent')
             .props()
-            ._fetchData(null, true)
+            .fetchData(null, true)
 
         await delay(400)
 
         wrapper.update()
-        expect(wrapper.find('EmptyComponent').props().data.length).toBe(5)
+        expect(wrapper.find('EmptyComponent').props().options.length).toBe(5)
     })
 
     it('Обработка серверной ошибки', async () => {
@@ -135,7 +135,7 @@ describe('fetchData HOC test', () => {
         wrapper
             .find('EmptyComponent')
             .props()
-            ._fetchData()
+            .fetchData()
 
         await delay(400)
 
@@ -160,7 +160,7 @@ describe('fetchData HOC test', () => {
         wrapper
             .find('EmptyComponent')
             .props()
-            ._fetchData()
+            .fetchData()
 
         await delay(400)
         expect(count).toBe(0)
@@ -204,7 +204,7 @@ describe('fetchData HOC test', () => {
         wrapper
             .find('EmptyComponent')
             .props()
-            ._fetchData()
+            .fetchData()
 
 
 

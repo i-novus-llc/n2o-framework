@@ -17,7 +17,7 @@ export class ComponentCache {
      */
     set(component, config, wrapper) {
         if (!this.cache.has(component)) {
-            this.cache.set(component, new WeakMap())
+            this.cache.set(component, new Map())
         }
         this.cache.get(component).set(config, wrapper)
     }

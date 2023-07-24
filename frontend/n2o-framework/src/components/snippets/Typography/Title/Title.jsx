@@ -1,12 +1,3 @@
-import React from 'react'
+import { Title } from '@i-novus/n2o-components/lib/display/Typography/Title'
 
-import { Base } from '../Base'
-
-// eslint-disable-next-line react/prop-types
-export function Title({ level, ...rest }) {
-    const tag = `h${level}`
-
-    return <Base tag={tag} {...rest} />
-}
-
-export default Title
+export { Title, Title as default }

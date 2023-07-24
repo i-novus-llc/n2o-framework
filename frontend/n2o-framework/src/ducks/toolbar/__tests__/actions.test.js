@@ -1,5 +1,4 @@
 import {
-    callActionImpl,
     toggleButtonVisibility,
     changeButtonDisabled,
     toggleButtonDisabled,
@@ -29,18 +28,6 @@ const style = {
 const btnClass = 'btn-class'
 
 describe('Тесты экшенов toolbar', () => {
-    describe('Проверка экшена callActionAmpl', () => {
-        it('Возвращает правильный payload', () => {
-            const action = callActionImpl('toggleFilter', {
-                name: 'test',
-            })
-            expect(action.payload.actionSrc).toEqual('toggleFilter')
-            expect(action.payload.options).toEqual({
-                name: 'test',
-            })
-        })
-    })
-
     describe('Проверка экшена changeButtonVisible', () => {
         it('Возвращает правильный payload', () => {
             const action = changeButtonVisibility(key, id, true)

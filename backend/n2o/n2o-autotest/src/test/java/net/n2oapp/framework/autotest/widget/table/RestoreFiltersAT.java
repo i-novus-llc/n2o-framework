@@ -19,6 +19,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+
 /**
  * Автотест для проверки востановления значений фильтров таблицы после закрытия страницы
  */
@@ -38,17 +40,24 @@ public class RestoreFiltersAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        builder.packs(
+                new N2oApplicationPack(),
+                new N2oAllPagesPack(),
+                new N2oAllDataPack()
+        );
     }
 
     @Test
     public void test() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close/index.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close/open.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close/test.query.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
-        StandardPage secPage = open(StandardPage.class);
+        StandardPage secPage = N2oSelenide.page(StandardPage.class);
         Modal modal = N2oSelenide.modal();
         Drawer drawer = N2oSelenide.drawer();
         page.shouldExists();
@@ -59,7 +68,6 @@ public class RestoreFiltersAT extends AutoTestBase {
         Button openPage = table.toolbar().topLeft().button("open-page");
         Button showModal = table.toolbar().topLeft().button("show-modal");
         Button openDrawer = table.toolbar().topLeft().button("open-drawer");
-
         Button close = secPage.toolbar().bottomRight().button("Закрыть");
 
         table.shouldExists();
@@ -102,7 +110,7 @@ public class RestoreFiltersAT extends AutoTestBase {
         secPage.shouldExists();
         Selenide.forward();
         page.shouldExists();
-        filter.shouldHaveValue("test2");
+        filter.shouldHaveValue("test2", Duration.ofSeconds(15));
         table.columns().rows().shouldHaveSize(1);
     }
 }

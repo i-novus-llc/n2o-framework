@@ -3,7 +3,7 @@ import React, { useCallback, VFC } from 'react'
 import { CheckboxHeaderCellProps } from '../../types/props'
 import { excludeItems, getAllValuesByKey } from '../../utils'
 // @ts-ignore - отсутствует типизация
-import Checkbox from '../../../controls/Checkbox/CheckboxN2O'
+import Checkbox from '../../../controls/Checkbox/Checkbox'
 import { useTableActions } from '../../provider/TableActions'
 import { useTableRefProps } from '../../provider/TableRefProps'
 

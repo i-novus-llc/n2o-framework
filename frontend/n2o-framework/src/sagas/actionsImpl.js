@@ -4,9 +4,7 @@ import {
     put,
     select,
     takeEvery,
-    throttle,
 } from 'redux-saga/effects'
-import isFunction from 'lodash/isFunction'
 import get from 'lodash/get'
 import has from 'lodash/has'
 import keys from 'lodash/keys'
@@ -21,7 +19,6 @@ import {
 } from '../ducks/widgets/selectors'
 import { getModelByPrefixAndNameSelector } from '../ducks/models/selectors'
 import { validate as validateDatasource } from '../core/validation/validate'
-import { actionResolver } from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { FETCH_INVOKE_DATA } from '../core/api'
 import { setModel } from '../ducks/models/store'
@@ -29,7 +26,7 @@ import { disablePage, enablePage } from '../ducks/pages/store'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { disableWidget, enableWidget } from '../ducks/widgets/store'
 import { resolveButton } from '../ducks/toolbar/sagas'
-import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
+import { changeButtonDisabled } from '../ducks/toolbar/store'
 import { ModelPrefix } from '../core/datasource/const'
 import { failValidate, submit } from '../ducks/datasource/store'
 import { EffectWrapper } from '../ducks/api/utils/effectWrapper'
@@ -56,38 +53,6 @@ export function* validate({ dispatch, validate }) {
     }
 
     return valid
-}
-
-/**
- * вызов экшена
- */
-export function* handleAction(factories, action) {
-    const { options, actionSrc } = action.payload
-
-    try {
-        let actionFunc
-
-        if (isFunction(actionSrc)) {
-            actionFunc = actionSrc
-        } else {
-            actionFunc = actionResolver(actionSrc, factories)
-        }
-        const state = yield select()
-        const valid = yield validate(options)
-
-        if (!valid) {
-            // eslint-disable-next-line no-console
-            console.log(`DataSources "${options.valid}" is not valid.`)
-        } else if (actionFunc) {
-            yield call(actionFunc, {
-                ...options,
-                state,
-            })
-        }
-    } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err)
-    }
 }
 
 /**
@@ -257,8 +222,7 @@ export function* handleInvoke(apiProvider, action) {
     }
 }
 
-export default (apiProvider, factories) => [
-    throttle(500, callActionImpl.type, handleAction, factories),
+export default apiProvider => [
     takeEvery(START_INVOKE, EffectWrapper(handleInvoke), apiProvider),
     takeEvery(SUBMIT, function* submitSaga({ meta = {}, payload = {} }) {
         const { datasource } = payload

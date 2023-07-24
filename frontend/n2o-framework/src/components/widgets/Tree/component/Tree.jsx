@@ -20,7 +20,7 @@ import {
     singleDoubleClickFilter,
 } from '../until'
 import { Icon } from '../../../snippets/Icon/Icon'
-import { CheckboxN2OWrapped } from '../../../controls/Checkbox/CheckboxN2O'
+import { Checkbox } from '../../../controls/Checkbox/Checkbox'
 
 import Filter from './Filter'
 import ExpandBtn from './ExpandBtn'
@@ -127,7 +127,7 @@ class Tree extends Component {
             )
         }
 
-        return <CheckboxN2OWrapped inline />
+        return <Checkbox inline />
     }
 
     // eslint-disable-next-line consistent-return
@@ -247,7 +247,7 @@ class Tree extends Component {
             filterPlaceholder,
         } = this.props
 
-        const checkable = hasCheckboxes && multiselect ? <CheckboxN2OWrapped inline /> : false
+        const checkable = hasCheckboxes && multiselect ? <Checkbox inline /> : false
 
         return (
             <div className={`${prefixCls}-wrapper pt-4`}>

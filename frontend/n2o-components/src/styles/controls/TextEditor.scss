@@ -1,0 +1,23 @@
+@import 'react-draft-wysiwyg/dist/react-draft-wysiwyg';
+@import '../variables.scss';
+
+.n2o-text-editor-wrapper {
+    border: $text-editor-border;
+    word-break: break-all;
+    word-wrap: break-word;
+    max-width: 100%;
+
+    &--disabled {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+
+    .rdw-editor-toolbar {
+        border: none;
+        border-bottom: $text-editor-border;
+    }
+
+    .n2o-text-editor {
+        padding: 0 10px;
+    }
+}
