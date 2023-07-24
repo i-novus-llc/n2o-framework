@@ -42,4 +42,10 @@ public interface AnchorMenuItem extends MenuItem, Badge {
      * @param url ожидаемая ссылка
      */
     void shouldHaveUrl(String url);
+
+
+    /**
+     * Проверка на некликабельность
+     */
+    void shouldNotBeClickable();
 }

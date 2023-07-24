@@ -1,39 +1,25 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import {
     Dropdown as DropdownParent,
     DropdownMenu,
     DropdownItem,
-    ButtonDropdownProps,
     DropdownToggle,
 } from 'reactstrap'
 import classNames from 'classnames'
 
-import { IItem } from '../../../../utils'
-import { Link } from '../Links/Link'
 import { LinkBody } from '../Links/LinkBody'
-import { ITEM_TYPE } from '../../../../constants'
-import { Action } from '../../../../Action/Action'
-
-interface IDropdown {
-    items: IItem[]
-    active: boolean
-    title: string
-    className?: string
-    nested?: boolean
-    icon?: string
-    imageSrc?: string
-    imageShape?: string
-    direction?: ButtonDropdownProps['direction']
-    recursiveClose?: boolean
-    onItemClick?(): void
-    level?: number
-}
+import { IDropdown } from '../../Item'
+import { IFactoryComponent } from '../../../../../CommonMenuTypes'
+import { ITEM_SRC } from '../../../../../constants'
+import { FactoryContext } from '../../../../../../core/factory/context'
+import { FactoryLevels } from '../../../../../../core/factory/factoryLevels'
 
 export function Dropdown(props: IDropdown) {
     const [isOpen, setOpen] = useState(false)
 
     const toggle = useCallback(() => setOpen(!isOpen), [isOpen])
     const forceParentClose = useCallback(() => setOpen(false), [setOpen])
+    const { getComponent } = useContext(FactoryContext)
 
     const {
         items,
@@ -62,16 +48,12 @@ export function Dropdown(props: IDropdown) {
             direction={direction}
             tag="li"
         >
-            <DropdownToggle caret>
+            <DropdownToggle className={classNames({ 'dropdown-item': level > 0 })} caret>
                 <LinkBody imageSrc={imageSrc} icon={icon} title={title} imageShape={imageShape} />
             </DropdownToggle>
             <DropdownMenu flip className={classNames(`menu-level-${level}`, { nested })}>
                 {items.map((item) => {
-                    const { items: nestedItems, title, type } = item
-
-                    if (type === ITEM_TYPE.ACTION) {
-                        return <Action item={item} from="HEADER" className="dropdown-item" />
-                    }
+                    const { items: nestedItems, title, src } = item
 
                     if (nestedItems) {
                         const onItemClick = () => {
@@ -85,18 +67,30 @@ export function Dropdown(props: IDropdown) {
                                 items={nestedItems}
                                 active={active}
                                 title={title}
-                                className={className}
+                                className={classNames(className, 'dropdown-item')}
                                 level={level + 1}
                                 recursiveClose={recursiveClose}
                                 onItemClick={onItemClick}
+                                direction="right"
                                 nested
                             />
                         )
                     }
 
+                    const FactoryComponent: IFactoryComponent = getComponent(src, FactoryLevels.HEADER_ITEMS)
+
+                    if (!FactoryComponent) {
+                        return null
+                    }
+
                     return (
-                        <DropdownItem onClick={onItemClick}>
-                            <Link item={item} active={active} className="dropdown-item" />
+                        <DropdownItem active={active} onClick={onItemClick} disabled={src === ITEM_SRC.STATIC}>
+                            <FactoryComponent
+                                item={item}
+                                from="HEADER"
+                                className={classNames('dropdown-item', className)}
+                                active={active}
+                            />
                         </DropdownItem>
                     )
                 })

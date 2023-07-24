@@ -68,14 +68,32 @@
             .dropdown-item.active::before {
                 display: none;
             }
+
+            .static-menu-item {
+                @include navItem;
+
+                cursor: default;
+            }
+
+            .dropdown-item.nav-item.static-menu-item:hover {
+                @include dropdownItemHover;
+            }
         }
+    }
+
+    .dropdown.nav-item.dropdown-item:hover {
+        @include dropdownItemHover;
     }
 
     .n2o-navbar-collapse-open {
         .dropdown {
             .dropdown-toggle {
-                padding-left: 0;
+                padding: $collapsed-item-padding;
             }
+        }
+
+        .n2o-action-item.nav-item {
+            padding: $collapsed-item-padding;
         }
     }
 
@@ -141,6 +159,23 @@
                         background-color: white;
                     }
                 }
+            }
+
+            .dropdown-item.dropdown-toggle {
+                border: none;
+                background-color: transparent !important;
+                box-shadow: none !important;
+
+                @include navItem;
+            }
+
+            .dropdown-item.dropdown-toggle:hover {
+                @include hoverColor;
+            }
+
+            .dropdown-item.dropdown-toggle:active,
+            .dropdown-item.dropdown-toggle:focus {
+                background-color: white;
             }
 
             .dropdown-menu.show {

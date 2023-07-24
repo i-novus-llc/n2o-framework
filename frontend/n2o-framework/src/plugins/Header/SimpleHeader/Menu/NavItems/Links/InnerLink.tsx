@@ -9,16 +9,18 @@ export interface ILink {
     active?: boolean,
     href: string,
     target: string
+    style?: React.CSSProperties
 }
 
 export function InnerLink(props: ILink) {
-    const { children, className, active, href, target } = props
+    const { children, className, active, href, target, style } = props
 
     return (
         <NavItem>
             <NavLink
                 className={classNames('nav-link', className, { active })}
                 to={href}
+                style={style}
                 activeClassName="active"
                 target={target}
                 exact

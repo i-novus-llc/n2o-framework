@@ -3,16 +3,17 @@ import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
 import { ExtendedTooltipComponent } from '../../components/snippets/Tooltip/TooltipHOC'
-import { ItemContent as SidebarItem, IItemContent } from '../SideBar/ItemContent'
-import { LinkBody as HeaderItem } from '../Header/SimpleHeader/NavItems/Links/LinkBody'
+import { LinkBody as SidebarItem } from '../SideBar/Menu/NavItems/Links/LinkBody'
+import { LinkBody as HeaderItem } from '../Header/SimpleHeader/Menu/NavItems/Links/LinkBody'
+import { IItem } from '../CommonMenuTypes'
 
 interface IAction {
-    item: IItemContent,
-    className?: string
-    isStaticView?: boolean
-    sidebarOpen?: boolean
-    showContent?: boolean
-    isMiniView?: boolean
+    item: IItem,
+    className: string
+    isStaticView: boolean
+    sidebarOpen: boolean
+    showContent: boolean
+    isMiniView: boolean
     from: 'HEADER' | 'SIDEBAR'
 }
 
@@ -26,7 +27,7 @@ export function Action(props: IAction) {
         isMiniView,
         from = 'SIDEBAR',
     } = props
-    const { id, title, action } = item
+    const { id, title, action, style } = item
 
     const dispatch = useDispatch()
     const onClick = useCallback(() => dispatch(action), [action, dispatch])
@@ -38,10 +39,12 @@ export function Action(props: IAction) {
             hint={hint}
             placement="right"
         >
-            <div
+            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+            <li
                 id={id}
                 className={classNames('n2o-action-item', className)}
                 onClick={onClick}
+                style={style}
             >
                 {from === 'SIDEBAR'
                     ? (
@@ -54,7 +57,7 @@ export function Action(props: IAction) {
                         />
                     )
                     : <HeaderItem {...item} />}
-            </div>
+            </li>
         </ExtendedTooltipComponent>
     )
 }

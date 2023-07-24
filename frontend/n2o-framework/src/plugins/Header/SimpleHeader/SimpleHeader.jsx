@@ -3,17 +3,15 @@ import { withResizeDetector } from 'react-resize-detector'
 import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import isUndefined from 'lodash/isUndefined'
-import map from 'lodash/map'
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
 import { Navbar, Nav, NavbarToggler, Collapse } from 'reactstrap'
 
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer'
 
-// eslint-disable-next-line import/no-named-as-default
-import NavItemContainer from './NavItemContainer'
 import { Logo } from './Logo'
 import { SidebarSwitcher } from './SidebarSwitcher'
+import { Menu, Menu as ExtraMenu } from './Menu/Menu'
 
 /**
  * Хедер-плагин
@@ -82,32 +80,11 @@ class SimpleHeader extends React.Component {
             ? 'CHANGE'
             : 'ENTER'
 
-        const mapItems = (items, options) => map(items, (item, i) => {
-            const { href } = item
-            const active = pathname.includes(href)
-
-            return (
-                <NavItemContainer
-                    key={i}
-                    itemProps={item}
-                    active={active}
-                    options={options}
-                    datasource={item.datasource}
-                    id={item.id}
-                    datasources={datasources}
-                    visible
-                />
-            )
-        })
-
         const { N2O_ELEMENT_VISIBILITY } = window
 
         if (N2O_ELEMENT_VISIBILITY && N2O_ELEMENT_VISIBILITY.header === false) {
             style = { ...style, display: 'none' }
         }
-
-        const navItems = mapItems(items)
-        const extraNavItems = mapItems(extraMenu, { right: true })
 
         const simpleHeaderClassNames = classNames(
             'n2o-header',
@@ -149,10 +126,18 @@ class SimpleHeader extends React.Component {
                         navbar
                     >
                         <Nav className="main-nav" navbar>
-                            {navItems}
+                            <Menu
+                                items={items}
+                                pathname={pathname}
+                                datasources={datasources}
+                            />
                         </Nav>
                         <Nav className="ml-auto main-nav-extra" navbar>
-                            {extraNavItems}
+                            <ExtraMenu
+                                items={extraMenu}
+                                pathname={pathname}
+                                datasources={datasources}
+                            />
                             {search && (
                                 <SearchBarContainer trigger={trigger} {...search} />
                             )}

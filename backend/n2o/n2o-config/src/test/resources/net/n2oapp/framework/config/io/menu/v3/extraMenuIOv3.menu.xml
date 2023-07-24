@@ -2,6 +2,9 @@
 <extra-menu xmlns="http://n2oapp.net/framework/config/schema/menu-3.0">
     <menu-item id="notif"
                name="Уведомления"
+               src="StaticMenuItem"
+               class="class"
+               style="background-color: blue"
                datasource="ds1"
                icon="fa fa-bell"
                badge="2"
@@ -36,6 +39,9 @@
             </menu-item>
         </dropdown-menu>
         <menu-item name="Профиль"
+                   src="StaticMenuItem"
+                   class="class"
+                   style="background-color: blue"
                    icon="fa fa-user">
             <a href="/profile" target="application"/>
         </menu-item>

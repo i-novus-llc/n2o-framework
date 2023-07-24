@@ -1,35 +1,36 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { NavItemImage } from '../../components/snippets/NavItemImage/NavItemImage'
-import { ExtendedTooltipComponent } from '../../components/snippets/Tooltip/TooltipHOC'
+import { NavItemImage } from '../../../../../components/snippets/NavItemImage/NavItemImage'
+import { ExtendedTooltipComponent } from '../../../../../components/snippets/Tooltip/TooltipHOC'
+import { Icon } from '../../../utils'
 
-import { Icon } from './utils'
+interface IDropdownWrapper {
+    sidebarOpen: boolean
+    title?: string
+    children?: JSX.Element
+    icon?: string
+    src: string
+    showContent: boolean
+    isMiniView: boolean
+    id: string
+    imageSrc?: string
+    imageShape?: string
+}
 
-/**
- * Sidebar Dropdown Item
- * @param sidebarOpen - флаг сжатия сайдбара
- * @param title - текст дропдауна
- * @param children - subItems
- * @param isOpen - флаг видимости subItems
- * @param type - тип
- * @param id - id
- * @returns {*}
- * @constructor
- */
-function SidebarDropdown({
-    sidebarOpen,
-    title,
-    children,
-    icon,
-    type,
-    showContent,
-    isMiniView,
-    id,
-    imageSrc,
-    imageShape,
-}) {
+export function DropdownWrapper(props: IDropdownWrapper) {
+    const {
+        sidebarOpen,
+        title,
+        children,
+        icon,
+        src,
+        showContent,
+        isMiniView,
+        id,
+        imageSrc,
+        imageShape,
+    } = props
     const [isOpen, setOpen] = useState(false)
     const toggle = () => setOpen(!isOpen)
 
@@ -57,7 +58,7 @@ function SidebarDropdown({
                         className={itemDropdownClass}
                         id={id}
                     >
-                        <Icon icon={icon} title={title} type={type} sidebarOpen={sidebarOpen} hasSubItems />
+                        <Icon icon={icon} title={title || ''} src={src} sidebarOpen={sidebarOpen} hasSubItems />
                         <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
                         <span className={classNames(
                             'n2o-sidebar__item-title',
@@ -88,17 +89,4 @@ function SidebarDropdown({
     )
 }
 
-SidebarDropdown.propTypes = {
-    sidebarOpen: PropTypes.bool,
-    title: PropTypes.string,
-    children: PropTypes.node,
-    showContent: PropTypes.bool,
-    isMiniView: PropTypes.bool,
-    icon: PropTypes.string,
-    type: PropTypes.string,
-    id: PropTypes.string,
-    imageSrc: PropTypes.string,
-    imageShape: PropTypes.string,
-}
-
-export default SidebarDropdown
+export default DropdownWrapper

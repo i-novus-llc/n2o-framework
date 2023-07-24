@@ -31,9 +31,6 @@ public class SimpleMenuValidator extends TypedMetadataValidator<N2oSimpleMenu> {
     }
 
     private void validateMenuItem(N2oSimpleMenu.MenuItem menuItem) {
-        if (menuItem.getAction() == null)
-            throw new N2oMetadataValidationException("Не задано действие для <menu-item>");
-
         if (menuItem.getAction() instanceof N2oAnchor && menuItem.getName() == null)
             throw new N2oMetadataValidationException("Не задан 'name' для <menu-item>");
 

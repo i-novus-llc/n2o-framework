@@ -1,12 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.menu;
 
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
-import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
@@ -19,6 +19,7 @@ import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Компиляция простого меню
@@ -77,10 +79,9 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
 
     private void menuItem(N2oSimpleMenu.MenuItem source, MenuItem compiled, CompileProcessor p, ApplicationContext context) {
         compiled.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
-        if (source.getAction() instanceof N2oAnchor || source.getAction() instanceof N2oOpenPage) 
-            compiled.setType("link");
-        else
-            compiled.setType("action");
+        compiled.setSrc(initSrc(source.getSrc(), source.getAction(), p));
+        compiled.setClassName(source.getCssClass());
+        compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setPageId(initPageId(source.getAction()));
         if (isNull(source.getName()))
             compiled.setTitle(initDefaultName(source.getAction(), p));
@@ -106,6 +107,17 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         }
     }
 
+    private String initSrc(String src, N2oAction action, CompileProcessor p) {
+        if (nonNull(src))
+            return src;
+        else if (action instanceof N2oAnchor || action instanceof N2oOpenPage)
+            return p.resolve(property("n2o.api.menu.item.link.src"), String.class);
+        else if (nonNull(action))
+            return p.resolve(property("n2o.api.menu.item.action.src"), String.class);
+        else
+            return p.resolve(property("n2o.api.menu.item.static.src"), String.class);
+    }
+
     private String initPageId(N2oAction action) {
         return action instanceof N2oAbstractPageAction ? ((N2oAbstractPageAction) action).getPageId() : null;
     }
@@ -119,7 +131,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     }
 
     private void dropdownMenu(N2oSimpleMenu.DropdownMenuItem source, MenuItem item, CompileProcessor p, ApplicationContext context, IndexScope idx) {
-        item.setType("dropdown");
+        item.setSrc(p.resolve(property("n2o.api.menu.item.dropdown.src"), String.class));
         ArrayList<MenuItem> subItems = new ArrayList<>();
         for (N2oSimpleMenu.AbstractMenuItem subItem : source.getMenuItems())
             subItems.add(createMenuItem(subItem, p, context, idx));

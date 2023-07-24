@@ -1,40 +1,22 @@
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import merge from 'lodash/merge'
-import { Action as ReduxAction } from 'redux'
 
 // @ts-ignore ignore import error from js file
 import { dataProviderResolver } from '../core/dataProviderResolver'
 // @ts-ignore ignore import error from js file
 import { resolveItem } from '../utils/propsResolver'
 import { IDataSourceModels } from '../core/datasource/const'
-import { Props as IBadgeProps } from '../components/snippets/Badge/Badge'
+
+import { IItem } from './CommonMenuTypes'
 
 export type metaPropsType = {[key: string]: unknown}
-
-export interface IItem {
-    action: ReduxAction
-    badge?: IBadgeProps
-    className?: string
-    href: string
-    icon?: string
-    id: string
-    imageShape?: string
-    imageSrc?: string
-    items?: IItem[]
-    linkType: 'outer' | 'inner'
-    pathMapping?: metaPropsType
-    queryMapping?: metaPropsType
-    target: string
-    title: string
-    type: string
-}
 
 export const getFromSource = (
     itemProps: IItem,
     datasources: metaPropsType[],
-    datasource: string,
     models: IDataSourceModels,
+    datasource?: string,
 ) => {
     const props = { ...itemProps }
     const { href, pathMapping = {}, queryMapping = {} } = props

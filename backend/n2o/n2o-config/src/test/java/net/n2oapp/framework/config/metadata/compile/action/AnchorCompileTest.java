@@ -121,7 +121,7 @@ public class AnchorCompileTest extends SourceCompileTestBase {
                 .get(new ApplicationContext("testAnchorMenuItem"));
 
         MenuItem menuItem = application.getSidebars().get(0).getMenu().getItems().get(0);
-        assertThat(menuItem.getType(), is("link"));
+        assertThat(menuItem.getSrc(), is("LinkMenuItem"));
         assertThat(menuItem.getHref(), is("/person/:id/docs"));
         assertThat(menuItem.getLinkType(), is(MenuItem.LinkType.inner));
         assertThat(menuItem.getPathMapping().size(), is(1));
@@ -133,7 +133,7 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getQueryMapping().get("name").getValue(), is("`name`"));
 
         menuItem = application.getSidebars().get(0).getMenu().getItems().get(1);
-        assertThat(menuItem.getType(), is("link"));
+        assertThat(menuItem.getSrc(), is("LinkMenuItem"));
         assertThat(menuItem.getHref(), is("/person/:id/profile"));
         assertThat(menuItem.getLinkType(), is(MenuItem.LinkType.inner));
         assertThat(menuItem.getPathMapping().size(), is(1));
