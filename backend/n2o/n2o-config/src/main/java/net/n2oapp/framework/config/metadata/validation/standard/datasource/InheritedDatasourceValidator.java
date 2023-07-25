@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Валидатор источника данных, получающего данные из другого источника данных
  */
 @Component
-public class InheritedDatasourceValidator extends AbstractDataSourceValidator<N2oInheritedDatasource> {
+public class InheritedDatasourceValidator extends DatasourceValidator<N2oInheritedDatasource> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -19,6 +19,7 @@ public class InheritedDatasourceValidator extends AbstractDataSourceValidator<N2
 
     @Override
     public void validate(N2oInheritedDatasource source, SourceProcessor p) {
+        super.validate(source, p);
         checkSourceDatasource(source);
     }
 
