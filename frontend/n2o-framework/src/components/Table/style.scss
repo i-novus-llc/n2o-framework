@@ -12,8 +12,6 @@
 }
 
 .n2o-advanced-table {
-    width: 100%;
-
     --padding-aside-cell: 0.3rem;
     --padding-multiplier: 30px;
 
@@ -98,5 +96,9 @@
                 padding-left: calc(var(--deep-level) * var(--padding-multiplier) + var(--padding-aside-cell));
             }
         }
+    }
+
+    .cell-selection {
+        width: 30px;
     }
 }

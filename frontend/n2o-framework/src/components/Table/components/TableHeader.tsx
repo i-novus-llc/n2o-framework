@@ -21,7 +21,7 @@ export const TableHeader = memo<TableHeaderProps>(({
             {rows.map(columns => (
                 <Table.Row>
                     {selection === SelectionType.Checkbox ? (
-                        <Table.HeaderCell key={selection}>
+                        <Table.HeaderCell key={selection} className="cell-selection">
                             <CheckboxHeaderCell areAllRowsSelected={areAllRowsSelected} />
                         </Table.HeaderCell>
                     ) : null}
