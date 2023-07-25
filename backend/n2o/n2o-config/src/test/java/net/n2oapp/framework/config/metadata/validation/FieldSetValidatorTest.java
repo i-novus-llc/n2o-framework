@@ -90,4 +90,25 @@ public class FieldSetValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testEmptyMultiSet.widget.xml"));
         assertEquals("Мультифилдсет  виджета 'testEmptyMultiSet' имеет пустое тело", exception.getMessage());
     }
+
+    @Test
+    void testEmptyCol() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testEmptyCol.widget.xml"));
+        assertEquals("Для <сol> виджета 'testEmptyCol' необходимо задать поля, либо же атрибут 'size'", exception.getMessage());
+    }
+
+    @Test
+    void testEmptyColValid() {
+        validate("net/n2oapp/framework/config/metadata/validation/fieldset/testEmptyColValid.widget.xml");
+    }
+
+    @Test
+    void testEmptyRow() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testEmptyRow.widget.xml"));
+        assertEquals("Для <row> виджета 'testEmptyRow' необходимо задать поля", exception.getMessage());
+    }
 }
