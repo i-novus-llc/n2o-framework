@@ -16,6 +16,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -35,7 +36,7 @@ public class ApplicationDatasourceValidatorTest extends SourceValidationTestBase
         builder.ios(new ApplicationIOv3());
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oAllDataPack());
         builder.validators(new PageValidator(), new WidgetValidator(), new BasePageValidator(), new ApplicationDatasourceValidator());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/empty.application.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/application/empty.application.xml"));
         builder.properties("n2o.application.id=empty");
     }
 
@@ -43,12 +44,22 @@ public class ApplicationDatasourceValidatorTest extends SourceValidationTestBase
      * Проверяется, что источник данных ссылается на несуществующий источник данных из application.xml
      */
     @Test
-    void testNonExistentObject() {
-        assertThrows(
+    void testDatasourceIdExistence() {
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testApplicationDatasourceNonExistentId.page.xml"),
-                "Источник данных <app-datasource> ссылается на несуществующий в empty.application.xml источник данных 'nonEXIST'"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/application/testDatasourceIdExistence.page.xml"));
+        assertEquals("В одном из источников данных страницы 'testDatasourceIdExistence' не задан 'id'", exception.getMessage());
+    }
+
+    /**
+     * Проверяется, что источник данных ссылается на несуществующий источник данных из application.xml
+     */
+    @Test
+    void testNonExistentObject() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/application/testApplicationDatasourceNonExistentId.page.xml"));
+        assertEquals("Источник данных <app-datasource> ссылается на несуществующий в empty.application.xml источник данных 'nonEXIST'", exception.getMessage());
     }
 
     /**
@@ -56,10 +67,9 @@ public class ApplicationDatasourceValidatorTest extends SourceValidationTestBase
      */
     @Test
     void testSourceDatasourceNonExistentId() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testSourceAppDatasourceNonExistentId.page.xml"),
-                "Источник данных <app-datasource> ссылается на несуществующий в empty.application.xml источник данных 'nonEXIST'"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/application/testSourceAppDatasourceNonExistentId.page.xml"));
+        assertEquals("Источник данных <app-datasource> ссылается на несуществующий в empty.application.xml источник данных 'nonEXIST'", exception.getMessage());
     }
 }

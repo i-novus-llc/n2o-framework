@@ -25,6 +25,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.config.metadata.validation.standard.PageValidationUtil.fillDatasourceIdsScopeByInlineDatasource;
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 
 /**
  * Валидатор "Исходной" модели страницы
@@ -44,13 +45,17 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         List<N2oWidget> widgets = page.getWidgets();
 
         p.checkIdsUnique(datasources,
-                String.format("Источник данных '%s' встречается более чем один раз в метаданной страницы '%s'", "%s", page.getId()));
+                String.format("Источник данных '%s' встречается более чем один раз в метаданной страницы %s", "%s",
+                        getIdOrEmptyString(page.getId())));
         p.checkIdsUnique(actions,
-                String.format("Действие '%s' встречается более чем один раз в метаданной страницы '%s'", "%s", page.getId()));
+                String.format("Действие '%s' встречается более чем один раз в метаданной страницы %s", "%s",
+                        getIdOrEmptyString(page.getId())));
         p.checkIdsUnique(widgets,
-                String.format("Виджет '%s' встречается более чем один раз на странице '%s'", "%s", page.getId()));
+                String.format("Виджет '%s' встречается более чем один раз на странице %s", "%s",
+                        getIdOrEmptyString(page.getId())));
 
         PageScope pageScope = new PageScope();
+        pageScope.setPageId(page.getId());
         pageScope.setWidgetIds(p.safeStreamOf(widgets).map(N2oMetadata::getId).collect(Collectors.toSet()));
         DataSourcesScope dataSourcesScope = new DataSourcesScope(
                 p.safeStreamOf(datasources).collect(Collectors.toMap(N2oAbstractDatasource::getId, Function.identity())));
@@ -73,7 +78,7 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         p.safeStreamOf(actions).flatMap(actionBar -> p.safeStreamOf(actionBar.getN2oActions()))
                 .forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope));
 
-        p.safeStreamOf(datasources).forEach(datasource -> p.validate(datasource, datasourceIdsScope));
+        p.safeStreamOf(datasources).forEach(datasource -> p.validate(datasource, pageScope, datasourceIdsScope));
         p.safeStreamOf(page.getEvents()).forEach(event -> p.validate(event, pageScope, datasourceIdsScope, dataSourcesScope, actionBarScope));
     }
 
@@ -81,8 +86,13 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         widgets.forEach(n2oWidget -> {
             if (datasourceIdsScope.contains(n2oWidget.getId()))
                 throw new N2oMetadataValidationException(
-                        String.format("Идентификатор виджета '%s' не должен использоваться в качестве идентификатора источника данных",
-                                n2oWidget.getId()));
+                        String.format("Идентификатор виджета %s не должен использоваться в качестве идентификатора источника данных",
+                                getIdOrEmptyString(n2oWidget.getId())));
+            if (n2oWidget.getDatasource() != null && datasourceIdsScope.contains(n2oWidget.getDatasource().getId()))
+                throw new N2oMetadataValidationException(
+                        String.format("Идентификатор %s внутреннего источника данных виджета %s уже существует среди источников данных страницы",
+                                getIdOrEmptyString(n2oWidget.getDatasource().getId()),
+                                getIdOrEmptyString(n2oWidget.getId())));
         });
     }
 }

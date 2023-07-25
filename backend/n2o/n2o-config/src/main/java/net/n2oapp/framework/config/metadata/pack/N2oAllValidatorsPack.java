@@ -5,6 +5,10 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.validation.standard.action.*;
 import net.n2oapp.framework.config.metadata.validation.standard.application.ApplicationValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.application.SidebarValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.control.*;
+import net.n2oapp.framework.config.metadata.validation.standard.datasource.*;
+import net.n2oapp.framework.config.metadata.validation.standard.event.OnChangeEventValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.menu.SimpleMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.button.ButtonValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.button.SubMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.cell.*;
@@ -44,8 +48,9 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new TableValidator(), new PageActionValidator(), new InvokeActionValidator(), new StandardPageValidator(),
                 new LeftRightPageValidator(), new SimplePageValidator(), new BasePageValidator(), new SearchablePageValidator(),
                 new StandardDatasourceValidator(), new ApplicationDatasourceValidator(), new InheritedDatasourceValidator(),
-                new TopLeftRightPageValidator(), new FieldValidator(), new InputTextValidator(), new DateTimeValidator(),
-                new LineFieldSetValidator(), new MultiFieldSetValidator(), new JavaDataProviderValidator(), new ButtonValidator(), new SubMenuValidator(),
+                new BrowserStorageDataSourceValidator(), new ParentDatasourceValidator(), new TopLeftRightPageValidator(),
+                new FieldValidator(), new InputTextValidator(), new DateTimeValidator(), new LineFieldSetValidator(),
+                new MultiFieldSetValidator(), new JavaDataProviderValidator(), new ButtonValidator(), new SubMenuValidator(),
                 new SubmitActionValidator(), new CustomActionValidator(), new ActionsAwareValidator(), new SwitchActionValidator(),
                 new EditListActionValidator(), new OnChangeEventValidator(), new MarkdownValidator(), new TilesValidator(),
                 new CardsValidator(), new ListWidgetValidator(), new TabsValidator(), new ScrollspyValidator(), new SwitchCellValidator(),

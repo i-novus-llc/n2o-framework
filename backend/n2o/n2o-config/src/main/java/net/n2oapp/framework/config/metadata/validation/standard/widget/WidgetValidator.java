@@ -45,7 +45,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
         ComponentScope componentScope = new ComponentScope(source);
         if (nonNull(source.getDatasource())) {
-            WidgetScope widgetScope = new WidgetScope(source.getId(), null, null, (N2oCompileProcessor) p);
+            WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasource(), null, (N2oCompileProcessor) p);
             p.validate(source.getDatasource(), widgetScope, datasourceIdsScope);
         }
 
