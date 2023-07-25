@@ -19,7 +19,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
@@ -132,8 +131,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         PageScope pageScope = p.getScope(PageScope.class);
         String route = p.cast(routeScope != null ? routeScope.getUrl() : null, () -> context.getRoute((N2oCompileProcessor) p), () -> "");
 
-        Map<String, ModelLink> pathMapping = new StrictMap<>();
-        Map<String, ModelLink> queryMapping = new StrictMap<>();
+        Map<String, ModelLink> pathMapping = new HashMap<>();
+        Map<String, ModelLink> queryMapping = new LinkedHashMap<>();
         if (routeScope != null) {
             pathMapping.putAll(routeScope.getPathMapping());
             queryMapping.putAll(routeScope.getQueryMapping());

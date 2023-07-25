@@ -13,7 +13,6 @@ import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceFi
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
@@ -90,7 +89,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     }
 
     private static Map<String, AbstractField> initFieldsMap(List<AbstractField> fields, String id) {
-        Map<String, AbstractField> result = new StrictMap<>("Field '%s' in query '" + id + "' not found");
+        Map<String, AbstractField> result = new HashMap<>();
         for (AbstractField field : fields) {
             result.put(field.getAbsoluteId(), field);
             if (field instanceof QueryReferenceField)
@@ -125,7 +124,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     }
 
     private Map<String, Map.Entry<String, FilterType>> initInvertFiltersMap(N2oQuery source, Map<String, AbstractField> fieldsMap) {
-        Map<String, Map.Entry<String, FilterType>> invertFiltersMap = new StrictMap<>();
+        Map<String, Map.Entry<String, FilterType>> invertFiltersMap = new HashMap<>();
         fieldsMap.values().stream().filter(queryField -> source.isSearchAvailable(queryField.getId())).forEach(queryField -> {
             for (N2oQuery.Filter f : source.getFiltersList(queryField.getAbsoluteId())) {
                 invertFiltersMap.put(f.getFilterId(), new CompiledQuery.FilterEntry(queryField.getAbsoluteId(), f.getType()));
@@ -135,7 +134,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     }
 
     private Map<String, String> initParamToFilterIdMap(Map<String, N2oQuery.Filter> filterIdsMap, CompileProcessor p) {
-        Map<String, String> filterParams = new StrictMap<>();
+        Map<String, String> filterParams = new HashMap<>();
         for (N2oQuery.Filter filter : filterIdsMap.values()) {
             String param = p.cast(filter.getParam(), () -> RouteUtil.normalizeParam(filter.getFilterId()));
             filterParams.put(param, filter.getFilterId());
@@ -144,7 +143,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     }
 
     private Map<String, String> initFilterIdToParamMap(Map<String, String> paramToFilterMap) {
-        Map<String, String> filterParams = new StrictMap<>();
+        Map<String, String> filterParams = new HashMap<>();
         for (Map.Entry<String, String> paramEntry : paramToFilterMap.entrySet()) {
             filterParams.put(paramEntry.getValue(), paramEntry.getKey());
         }
@@ -152,7 +151,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     }
 
     private Map<String, N2oQuery.Filter> initFilterFieldsMap(Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap) {
-        Map<String, N2oQuery.Filter> result = new StrictMap<>();
+        Map<String, N2oQuery.Filter> result = new HashMap<>();
         for (Map<FilterType, N2oQuery.Filter> filterMap : filtersMap.values()) {
             for (N2oQuery.Filter filter : filterMap.values()) {
                 result.put(filter.getFilterId(), filter);
@@ -269,7 +268,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     }
 
     private static Map<String, QuerySimpleField> initSimpleFieldsMap(List<QuerySimpleField> fields, String id) {
-        Map<String, QuerySimpleField> result = new StrictMap<>("Field '%s' in query '" + id + "' not found");
+        Map<String, QuerySimpleField> result = new HashMap<>();
         for (QuerySimpleField field : fields) {
             result.put(field.getAbsoluteId(), field);
         }

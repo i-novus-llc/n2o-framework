@@ -14,7 +14,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleFie
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oInvocationValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.action.DefaultActions;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
@@ -49,7 +48,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiled.setModuleName(source.getModuleName());
         compiled.setServiceName(source.getServiceName());
 
-        compiled.setOperations(new StrictMap<>());
+        compiled.setOperations(new HashMap<>());
         compiled.setObjectFields(new ArrayList<>());
         compiled.setObjectFieldsMap(new HashMap<>());
         initObjectFields(source, compiled, p);

@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
@@ -18,6 +17,7 @@ import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -85,7 +85,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
 
     private void initMappings(LinkAction compiled, N2oAnchor source, CompileProcessor p, ParentRouteScope routeScope) {
         Map<String, ModelLink> pathMapping = initParentRoutePathMappings(routeScope, compiled.getUrl());
-        Map<String, ModelLink> queryMapping = new StrictMap<>();
+        Map<String, ModelLink> queryMapping = new LinkedHashMap<>();
         initMappings(source.getPathParams(), source.getQueryParams(), pathMapping, queryMapping, p);
 
         compiled.setQueryMapping(queryMapping);

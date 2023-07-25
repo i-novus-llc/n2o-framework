@@ -23,7 +23,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
@@ -145,8 +144,8 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
     }
 
     private void initDataProviderMappings(ClientDataProvider dataProvider, List<Filter> filters, CompileProcessor p) {
-        dataProvider.setPathMapping(new StrictMap<>());
-        dataProvider.setQueryMapping(new StrictMap<>());
+        dataProvider.setPathMapping(new HashMap<>());
+        dataProvider.setQueryMapping(new LinkedHashMap<>());
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
         if (parentRouteScope != null) {
             dataProvider.getPathMapping().putAll(parentRouteScope.getPathMapping());
@@ -328,7 +327,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         String clientDatasourceId = source.getClientDatasourceId();
         ReduxModel targetModel = initTargetWidgetModel(p, source.getTargetModel());
 
-        Map<String, ModelLink> pathMapping = new StrictMap<>();
+        Map<String, ModelLink> pathMapping = new HashMap<>();
         pathMapping.putAll(compileParams(source.getPathParams(), context, p, targetModel, clientDatasourceId));
         dataProvider.setFormMapping(compileParams(source.getFormParams(), context, p, targetModel, clientDatasourceId));
         dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), context, p, targetModel, clientDatasourceId));
@@ -367,7 +366,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                                                  CompileProcessor p, ReduxModel model, String clientDatasourceId) {
         if (params == null)
             return Collections.emptyMap();
-        Map<String, ModelLink> result = new StrictMap<>();
+        Map<String, ModelLink> result = new HashMap<>();
         for (N2oParam param : params) {
             ModelLink link;
             if (param.getValueParam() == null) {

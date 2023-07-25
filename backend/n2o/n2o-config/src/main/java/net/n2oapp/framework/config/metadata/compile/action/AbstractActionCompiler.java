@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
@@ -18,6 +17,8 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -86,7 +87,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      * @return Map родительских маппингов путей
      */
     protected Map<String, ModelLink> initParentRoutePathMappings(ParentRouteScope routeScope, String url) {
-        Map<String, ModelLink> parentRoutePathMappings = new StrictMap<>();
+        Map<String, ModelLink> parentRoutePathMappings = new HashMap<>();
         if (routeScope != null && routeScope.getPathMapping() != null) {
             List<String> pathParams = RouteUtil.getParams(url);
             routeScope.getPathMapping().forEach((k, v) -> {
