@@ -44,17 +44,17 @@
                 </xs:attribute>
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Реализация региона.</xs:documentation>
+                        <xs:documentation>React компонент региона.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>CSS класс панели.</xs:documentation>
+                        <xs:documentation>Класс компонента панели.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль панели.</xs:documentation>
+                        <xs:documentation>Стиль компонента панели.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
 
@@ -81,17 +81,17 @@
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация региона.</xs:documentation>
+                <xs:documentation>React компонент региона.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>CSS класс панели.</xs:documentation>
+                <xs:documentation>Класс компонента панели.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль панели.</xs:documentation>
+                <xs:documentation>Стиль компонента панели.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="always-refresh" type="xs:boolean" default="false">

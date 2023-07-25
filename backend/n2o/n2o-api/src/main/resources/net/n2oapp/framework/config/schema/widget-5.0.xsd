@@ -94,17 +94,17 @@
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация виджета (React компонент).</xs:documentation>
+                <xs:documentation>React компонент виджета</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>CSS класс, который будет добавлен к виджету.</xs:documentation>
+                <xs:documentation>Класс компонента виджета.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль виджета.</xs:documentation>
+                <xs:documentation>Стиль компонента виджета</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="name" type="xs:string">
@@ -357,7 +357,7 @@
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация столбца таблицы (React компонент).</xs:documentation>
+                <xs:documentation>React компонент таблицы</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="text-field-id" type="xs:string">
@@ -418,12 +418,12 @@
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Css класс заголовка столбца таблицы.</xs:documentation>
+                <xs:documentation>Класс компонента заголовка столбца таблицы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
+                <xs:documentation>Стиль компонента заголовка столбца таблицы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="alignment" type="alignmentType" default="left">
@@ -500,17 +500,17 @@
                 </xs:attribute>
                 <xs:attribute name="src" type="xs:string" default="TextTableHeader">
                     <xs:annotation>
-                        <xs:documentation>Реализация столбца таблицы (React компонент).</xs:documentation>
+                        <xs:documentation>React компонент столбца таблицы</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Css класс заголовка столбца таблицы.</xs:documentation>
+                        <xs:documentation>Класс компонента заголовка столбца таблицы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
+                        <xs:documentation>Стиль компонента заголовка столбца таблицы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="alignment" type="alignmentType" default="center">
@@ -1031,12 +1031,12 @@
             <xs:extension base="blockDefinition">
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>CSS класс.</xs:documentation>
+                        <xs:documentation>Класс компонента блока.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль блока.</xs:documentation>
+                        <xs:documentation>Стиль компонента блока.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1115,19 +1115,17 @@
         </xs:sequence>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация строки (React компонент)</xs:documentation>
+                <xs:documentation>React компонент строки</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>
-                    Поле выборки, отвечающее за класс строки(таким образом можно задать цвет, стиль, фон строки).
-                </xs:documentation>
+                <xs:documentation>Класс компонента строки</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль.</xs:documentation>
+                <xs:documentation>Стиль компонента строки</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -1196,7 +1194,7 @@
     <xs:complexType name="paginationDefinition">
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация пагинации.</xs:documentation>
+                <xs:documentation>React компонент пагинации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="prev" type="xs:boolean" default="false">
@@ -1241,12 +1239,12 @@
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>CSS класс, который будет добавлен к пагинации.</xs:documentation>
+                <xs:documentation>Класс компонента пагинации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль пагинации.</xs:documentation>
+                <xs:documentation>Стиль компонента пагинации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="place" type="placeEnum" default="bottomLeft">

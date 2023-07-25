@@ -30,7 +30,7 @@
         </xs:attribute>
         <xs:attribute name="src">
             <xs:annotation>
-                <xs:documentation>Реализация меню</xs:documentation>
+                <xs:documentation>React компонент меню</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

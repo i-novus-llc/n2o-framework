@@ -138,17 +138,17 @@
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация компонента</xs:documentation>
+                <xs:documentation>React компонент поля</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>CSS класс стилей</xs:documentation>
+                <xs:documentation>Класс компонента поля</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль поля</xs:documentation>
+                <xs:documentation>Стиль компонента поля</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="placeholder" type="xs:string">
@@ -907,12 +907,12 @@
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль уведомления.</xs:documentation>
+                        <xs:documentation>Стиль компонента уведомления.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>CSS класс уведомления.</xs:documentation>
+                        <xs:documentation>Класс компонента уведомления.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="color" type="bs:colorDefinition" default="secondary">
@@ -1154,7 +1154,7 @@
         </xs:annotation>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация статуса.</xs:documentation>
+                <xs:documentation>React компонент статуса.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute type="xs:string" name="field-id" use="required">

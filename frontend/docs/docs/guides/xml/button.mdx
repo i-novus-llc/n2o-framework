@@ -18,23 +18,23 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |label                |Строка                                                                     |Заголовок кнопки                |                          |
 |icon                 |[Класс иконки](https://fontawesome.com/v4.7/icons/)                        |Иконка                          |                          |
 |type                 |text icon iconAndText                                                      |Кнопка с иконкой или без        |iconAndText               |
-|class                |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples)|Css класс кнопки                |                          |
-|style                |CSS свойство                                                               |Стиль кнопки                    |                          |
+|src                  |Строка                                                                     |React компонент кнопки          |                          |
+|class                |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples)|Класс компонента кнопки         |                          |
+|style                |CSS свойство                                                               |Стиль компонента кнопки         |                          |
 |color                |primary secondary success danger warning info light dark link              |Цвет кнопки                     |                          |
 |badge                |Строка                                                                     |Значок кнопки                   |                          |
-|badge-color          |primary secondary success danger warning info light dark                   |Цвет значка. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)                     |                          |
+|badge-color          |primary secondary success danger warning info light dark                   |Цвет значка. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)|                          |
 |badge-shape          |rounded circle square                                                      |Форма значка                    |circle                    |
 |badge-position       |left right                                                                 |Позиция значка                  |right                     |
 |badge-image          |Строка                                                                     |Картинка в значке               |                          |
 |badge-image-shape    |rounded circle square                                                      |Форма картинки в значке         |circle                    |
 |badge-image-position |left right                                                                 |Позиция картинки в значке       |left                      |
-|src                  |Строка                                                                     |Реализация кнопки.              |                          |
 |description          |Строка                                                                     |Описание при наведении на кнопку|                          |
 |tooltip-position     |left right top bottom                                                      |Позиция подсказки.              |                          |
 |model                |resolve edit filter multi datasource                                       |Модель, над которой выполнится действие. Если модель пустая, то кнопка будет заблокирована |resolve   |
 |datasource           |Ссылка на [источник данных](../xml/datasource#datasources)                 |Идентификатор источника данных, над которым будет выполнена операция |Источник данных текущего виджета|
-|visible              |Строка                                                                     |Видимость по умолчанию.         |                          |
-|enabled              |Строка                                                                     |Доступность по умолчанию.       |                          |
+|visible              |true false                                                                 |Видимость по умолчанию.         |true                      |
+|enabled              |true false                                                                 |Доступность по умолчанию.       |true                      |
 
 
 **Настройки**

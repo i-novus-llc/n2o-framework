@@ -40,7 +40,7 @@
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация страницы.</xs:documentation>
+                <xs:documentation>React компонент страницы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="route" type="xs:string">
@@ -65,12 +65,12 @@
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>CSS класс страницы</xs:documentation>
+                <xs:documentation>Класс компонента страницы</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль страницы</xs:documentation>
+                <xs:documentation>Стиль компонента страницы</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>
@@ -101,7 +101,7 @@
                 </xs:annotation>
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Реализация страницы</xs:documentation>
+                        <xs:documentation>React компонент страницы</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="name" type="xs:string">
@@ -139,12 +139,12 @@
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>CSS класс страницы</xs:documentation>
+                        <xs:documentation>Класс компонента страницы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль страницы</xs:documentation>
+                        <xs:documentation>Стиль компонента страницы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:anyAttribute>
@@ -258,7 +258,7 @@
         </xs:annotation>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>CSS класс стилей.</xs:documentation>
+                <xs:documentation>Класс компонента.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="placeholder" type="xs:string">
