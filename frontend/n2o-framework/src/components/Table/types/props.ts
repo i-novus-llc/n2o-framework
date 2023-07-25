@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, TdHTMLAttributes, VFC } from 'react'
+import { FC, VFC } from 'react'
 
 import { SelectionType, TableActions } from '../enum'
 import { SortDirection } from '../../../core/datasource/const'
@@ -113,12 +113,9 @@ export type ExpandButtonProps = {
     isTreeExpanded: boolean
 }
 
-export type RowsProps = Omit<TableBodyProps, 'row' | 'hasSecurityAccess'> & {
+export type RowsProps = Omit<TableBodyProps, 'row'> & {
     treeDeepLevel?: number
-    onClick?(model: any): void
-    elementAttributes?: Partial<TdHTMLAttributes<HTMLTableRowElement>>
-    component?: FC<any>
-}
+} & Row
 
 export type RowContainerProps = {
     data: DataItem
@@ -129,7 +126,7 @@ export type RowContainerProps = {
     rowValue: string
 } & Omit<RowsProps, 'rowRenderFieldKey' | 'treeDataKey' | 'expandedRows' | 'selectedRows' | 'data' | 'selectedKey' | 'focusedRowValue'>
 
-export type RowResolverProps = Omit<RowContainerProps, 'click' | 'hasSelect'>
+export type RowResolverProps = Omit<RowContainerProps, | 'hasSelect'>
 
 export type HeaderFilterProps = {
     id: string
