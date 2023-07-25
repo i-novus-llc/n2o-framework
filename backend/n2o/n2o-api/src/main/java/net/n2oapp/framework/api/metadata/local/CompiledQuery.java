@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 
 import java.util.*;
@@ -41,11 +40,11 @@ public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
     private List<String> selectExpressions; // fieldId - select body
     protected String id;
 
-    private Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap = new StrictMap<>(); //[fieldId : [filterType : filterId]]
-    private Map<String, Map.Entry<String, FilterType>> invertFiltersMap = new StrictMap<>(); //[filterId : [fieldId, filterType]]
-    private Map<String, N2oQuery.Filter> filterFieldsMap = new StrictMap<>(); //[filterId : filter]
-    private Map<String, String> paramToFilterIdMap = new StrictMap<>(); // [urlParam : filterId]
-    private Map<String, String> filterIdToParamMap = new StrictMap<>(); // [filterId : urlParam]
+    private Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap = new HashMap<>(); //[fieldId : [filterType : filterId]]
+    private Map<String, Map.Entry<String, FilterType>> invertFiltersMap = new HashMap<>(); //[filterId : [fieldId, filterType]]
+    private Map<String, N2oQuery.Filter> filterFieldsMap = new HashMap<>(); //[filterId : filter]
+    private Map<String, String> paramToFilterIdMap = new HashMap<>(); // [urlParam : filterId]
+    private Map<String, String> filterIdToParamMap = new HashMap<>(); // [filterId : urlParam]
     private Set<String> copiedFields;
 
     public List<AbstractField> getDisplayedInnerFields(QueryReferenceField referenceField) {

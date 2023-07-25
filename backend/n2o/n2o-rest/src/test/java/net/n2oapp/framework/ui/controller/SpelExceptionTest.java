@@ -1,6 +1,5 @@
 package net.n2oapp.framework.ui.controller;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.context.ContextEngine;
@@ -14,7 +13,6 @@ import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.processing.DataProcessing;
 import net.n2oapp.framework.api.ui.*;
 import net.n2oapp.framework.api.user.UserContext;
@@ -414,7 +412,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
         filter.setFieldId("name");
         filter.setNormalize("#this.toUpperCase(");
         filter.setDefaultValue("test");
-        Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap = new StrictMap<>();
+        Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap = new LinkedHashMap<>();
         filtersMap.put("name", Map.of(FilterType.eq, filter));
         query.setFiltersMap(filtersMap);
 
@@ -454,7 +452,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
         filter.setFieldId("name");
         filter.setMapping("['test'].toUpperCase(");
         filter.setDefaultValue("test");
-        Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap = new StrictMap<>();
+        Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap = new LinkedHashMap<>();
         filtersMap.put("name", Map.of(FilterType.eq, filter));
         query.setFiltersMap(filtersMap);
 

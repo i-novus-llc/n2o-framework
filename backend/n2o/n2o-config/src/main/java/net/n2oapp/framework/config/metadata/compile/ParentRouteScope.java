@@ -1,10 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile;
 
 import lombok.Getter;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -13,8 +14,8 @@ import java.util.Map;
 @Getter
 public class ParentRouteScope {
     private String url;
-    private Map<String, ModelLink> pathMapping = new StrictMap<>();
-    private Map<String, ModelLink> queryMapping = new StrictMap<>();
+    private Map<String, ModelLink> pathMapping = new HashMap<>();
+    private Map<String, ModelLink> queryMapping = new LinkedHashMap<>();
 
     public ParentRouteScope(String url) {
         this.url = url;

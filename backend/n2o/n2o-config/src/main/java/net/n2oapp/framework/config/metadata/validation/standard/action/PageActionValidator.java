@@ -88,6 +88,10 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
         N2oParam[] params = action.getParams();
         if (params != null)
             Arrays.stream(params).forEach(param -> {
+                if (param.getName() == null)
+                    throw new N2oMetadataValidationException(String.format("В параметре действия открытия страницы %s не задан атрибут 'name'",
+                            ValidationUtils.getIdOrEmptyString(action.getPageId())));
+
                 if (param.getDatasourceId() != null)
                     ValidationUtils.checkDatasourceExistence(param.getDatasourceId(), p,
                             String.format("Параметр %s открытия страницы ссылается на несуществующий источник данных %s",

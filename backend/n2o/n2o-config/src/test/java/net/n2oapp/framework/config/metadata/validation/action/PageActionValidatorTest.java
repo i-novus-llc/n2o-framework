@@ -138,6 +138,15 @@ public class PageActionValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
+    void testParamNameExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testParamNameExistence.page.xml")
+        );
+        assertEquals("В параметре действия открытия страницы 'utBlank' не задан атрибут 'name'", exception.getMessage());
+    }
+
+    @Test
     void testParamDatasourceIdExistence() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,

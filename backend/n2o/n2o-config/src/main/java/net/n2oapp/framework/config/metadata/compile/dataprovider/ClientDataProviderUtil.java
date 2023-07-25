@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
@@ -48,7 +47,7 @@ public class ClientDataProviderUtil {
         if (RequestMethod.POST == source.getMethod() ||
                 RequestMethod.PUT == source.getMethod() ||
                 RequestMethod.DELETE == source.getMethod()) {
-            Map<String, ModelLink> pathMapping = new StrictMap<>();
+            Map<String, ModelLink> pathMapping = new HashMap<>();
             pathMapping.putAll(compileParams(source.getPathParams(), context, p, targetModel, source.getClientDatasourceId()));
             dataProvider.setFormMapping(compileParams(source.getFormParams(), context, p, targetModel, source.getClientDatasourceId()));
             dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), context, p, targetModel, source.getClientDatasourceId()));
@@ -93,7 +92,7 @@ public class ClientDataProviderUtil {
                                                         String defaultClientDatasourceId) {
         if (params == null)
             return Collections.emptyMap();
-        Map<String, ModelLink> result = new StrictMap<>();
+        Map<String, ModelLink> result = new LinkedHashMap<>();
         for (N2oParam param : params) {
             ModelLink link;
             if (param.getValueParam() == null) {
@@ -154,8 +153,8 @@ public class ClientDataProviderUtil {
             N2oClientDataProvider.ActionContextData actionContextData = source.getActionContextData();
             ActionContext actionContext = new ActionContext(actionContextData.getObjectId(), actionContextData.getOperationId(), url);
 
-            Map<String, ModelLink> routePathMapping = new StrictMap<>();
-            Map<String, ModelLink> routeQueryMapping = new StrictMap<>();
+            Map<String, ModelLink> routePathMapping = new HashMap<>();
+            Map<String, ModelLink> routeQueryMapping = new LinkedHashMap<>();
 
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
             if (routeScope != null) {
@@ -200,7 +199,7 @@ public class ClientDataProviderUtil {
             if (source.getFormParams() != null)
                 Arrays.stream(source.getFormParams()).forEach(fp -> formParams.add(fp.getName()));
 
-            Map<String, String> operationMapping = new StrictMap<>();
+            Map<String, String> operationMapping = new HashMap<>();
             for (AbstractParameter inParameter : actionContextData.getOperation().getInParametersMap().values()) {
                 if (inParameter instanceof ObjectSimpleField) {
                     String param = ((ObjectSimpleField) inParameter).getParam();
