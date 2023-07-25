@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo, VFC } from 'react'
 
 import { RowResolverProps } from '../types/props'
+import { SelectionType } from '../enum'
+import { useTableActions } from '../provider/TableActions'
 
 import Table from './basic'
 import { CellContainer } from './CellContainer'
@@ -9,7 +11,6 @@ export const RowResolver: VFC<RowResolverProps> = (props) => {
     const {
         component: CustomRowComponent,
         elementAttributes,
-        onClick,
         data,
         treeDeepLevel,
         isSelectedRow,
@@ -18,16 +19,35 @@ export const RowResolver: VFC<RowResolverProps> = (props) => {
         rowValue,
         isTreeExpanded,
         hasExpandedButton,
+        selection,
+        hasSecurityAccess,
+        click,
         ...otherProps
     } = props
+    const { setFocusOnRow, onDispatchRowAction } = useTableActions()
 
     const { style, ...otherElementAttributes } = elementAttributes || {}
-    const hasClick = !!onClick
-    const onRowClick = useCallback(() => {
-        if (onClick) {
-            onClick(data)
+    const hasSelection = selection !== SelectionType.None
+    const hasRowAction = click && hasSecurityAccess
+
+    const onClickRowAction = useCallback((data) => {
+        if (click) {
+            onDispatchRowAction(click, data)
         }
-    }, [data, onClick])
+    }, [click, onDispatchRowAction])
+    const onSelection = useCallback((data) => {
+        setFocusOnRow(data.id, data)
+    }, [setFocusOnRow])
+
+    const onRowClick = useCallback((data) => {
+        if (hasSelection) {
+            onSelection(data)
+        }
+
+        if (hasRowAction) {
+            onClickRowAction(data)
+        }
+    }, [hasSelection, hasRowAction, onClickRowAction, onSelection])
 
     const mergedStyle = useMemo(() => ({
         '--deep-level': treeDeepLevel,
@@ -54,20 +74,21 @@ export const RowResolver: VFC<RowResolverProps> = (props) => {
     ), [cells, data, hasExpandedButton, isSelectedRow, isTreeExpanded, rowValue])
     const dataParams = useMemo(() => ({
         'data-focused': isFocused,
-        'data-has-click': hasClick,
+        'data-has-click': hasSelection || hasRowAction,
         'data-deep-level': treeDeepLevel,
-    }), [hasClick, isFocused, treeDeepLevel])
+    }), [hasRowAction, hasSelection, isFocused, treeDeepLevel])
 
     return CustomRowComponent ? (
         <CustomRowComponent
             {...otherProps}
+            selection={selection}
             data={data}
             elementAttributes={otherElementAttributes}
-            onClick={onRowClick}
+            onClick={hasRowAction ? onClickRowAction : undefined}
+            onSelection={hasSelection ? onSelection : undefined}
             style={mergedStyle}
             isSelectedRow={isSelectedRow}
             isFocused={isFocused}
-            hasClick={hasClick}
             treeDeepLevel={treeDeepLevel}
             dataParams={dataParams}
         >
@@ -76,7 +97,7 @@ export const RowResolver: VFC<RowResolverProps> = (props) => {
     ) : (
         <Table.Row
             {...otherElementAttributes}
-            onClick={onRowClick}
+            onClick={() => onRowClick(data)}
             style={mergedStyle}
             data-selected={isSelectedRow}
             {...dataParams}
