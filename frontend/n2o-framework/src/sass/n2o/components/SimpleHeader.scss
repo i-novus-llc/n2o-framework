@@ -44,6 +44,12 @@
         @include hoverColor;
     }
 
+    .navbar-nav {
+        .static-menu-item {
+            @include navItem;
+        }
+    }
+
     .dropdown {
         .dropdown-toggle {
             border: none;
@@ -93,6 +99,10 @@
         }
 
         .n2o-action-item.nav-item {
+            padding: $collapsed-item-padding;
+        }
+
+        .nav-item.static-menu-item {
             padding: $collapsed-item-padding;
         }
     }
