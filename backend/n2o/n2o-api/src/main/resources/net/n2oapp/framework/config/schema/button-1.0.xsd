@@ -39,17 +39,17 @@
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>CSS класс кнопки.</xs:documentation>
+                        <xs:documentation>Класс компонента кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль кнопки.</xs:documentation>
+                        <xs:documentation>Стиль компонента кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Реализация кнопки (React компонент).</xs:documentation>
+                        <xs:documentation>React компонент кнопки</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="description" type="xs:string">

@@ -51,21 +51,21 @@
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Реализация региона
+                            React компонент региона
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            CSS класс региона
+                            Класс компонента региона
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Стиль региона
+                            Стиль компонента региона
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -226,21 +226,21 @@
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Реализация региона
+                    React компонент региона
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    CSS класс региона
+                    Класс компонента региона
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Стиль региона
+                    Стиль компонента региона
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -372,21 +372,21 @@
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Реализация региона
+                    React компонент региона
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    CSS класс региона
+                    Класс компонента региона
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Стиль региона
+                    Стиль компонента региона
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
