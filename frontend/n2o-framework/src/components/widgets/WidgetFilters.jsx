@@ -80,12 +80,17 @@ const WidgetFilters = (props) => {
         dispatch(reset(datasource))
     }, [dispatch, datasource])
 
-    const handleFilter = useCallback(() => {
+    const handleFilter = useCallback((forceUpdate) => {
         if (modelPrefix === ModelPrefix.edit) {
             dispatch(setModel(ModelPrefix.filter, datasource, reduxFormFilter))
         }
-        fetchData({ page: 1 })
+        fetchData({ page: 1 }, forceUpdate)
     }, [dispatch, fetchData, datasource, modelPrefix, reduxFormFilter])
+
+    const handleFilterByFilter = useCallback(() => {
+        handleFilter(true)
+    }, [handleFilter])
+
     const handleReset = useCallback((fetchOnClear = true, forceFetch) => {
         const filterModel = getModelByPrefixAndNameSelector(modelPrefix, datasource)(getState())
         const newReduxForm = clone(filterModel)
@@ -145,7 +150,7 @@ const WidgetFilters = (props) => {
                 style={{ display: visible ? '' : 'none' }}
                 visible={visible}
                 hideButtons={hideButtons}
-                onSearch={handleFilter}
+                onSearch={handleFilterByFilter}
                 onReset={handleResetByFilter}
             >
                 <ReduxForm
