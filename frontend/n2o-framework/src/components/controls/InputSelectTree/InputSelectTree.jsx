@@ -24,7 +24,6 @@ import TreeNode from './TreeSelectNode'
 import { visiblePartPopup, getCheckedStrategy } from './until'
 
 const renderSwitcherIcon = ({ isLeaf }) => (isLeaf ? null : <Icon name="fa fa-chevron-right" />)
-const inputIcon = <Icon name="fa fa-chevron-down" />
 const getPopupContainer = container => container
 /**
  * Взять данные по ids.
@@ -300,7 +299,7 @@ function InputSelectTree(props) {
                 value={setValue(value)}
                 onDropdownVisibleChange={handleDropdownVisibleChange}
                 switcherIcon={renderSwitcherIcon}
-                inputIcon={inputIcon}
+                suffixIcon={<Icon name="fa fa-chevron-down" />}
                 multiple={multiSelect}
                 treeCheckable={hasCheckboxes && <CheckboxN2O inline />}
                 treeData={treeData}
