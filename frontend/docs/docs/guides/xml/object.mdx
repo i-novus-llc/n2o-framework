@@ -35,11 +35,11 @@ http://n2oapp.net/framework/config/schema/object-4.0
 </object>
 ```
 
-### &lt;fields&gt;
+## &lt;fields&gt;
 
 Поля объекта.
 
-#### &lt;field&gt; {#field2}
+### &lt;field&gt; {#field2}
 
 Простое поле объекта.
 
@@ -55,15 +55,58 @@ http://n2oapp.net/framework/config/schema/object-4.0
 |required     |true false                      |Обязательность поля                                   |false                |
 |enabled      |Строка                          |Условие, при котором должен быть выполнен маппинг     |                     |
 
+**Тело**
+
+&lt;switch&gt; - [Переключатель](#switch) <br/>
+
 **Пример**
 
 ```xml
 <fields>
-  <field id="birthday" domain="date" mapping="['birthDate']"/>
+    <field id="birthday" domain="date" mapping="['birthDate']">
+        <switch>...</switch>
+    </field>
 </fields>
 ```
 
-#### &lt;reference&gt;
+#### &lt;switch&gt; {#switch}
+
+Переключатель
+
+**Пример**
+
+```xml
+<switch>
+  <case value="1">Мужской</case>
+  <case value="2">Женский</case>
+  <default>Неопределенный</default>
+</switch>
+```
+
+#### &lt;case&gt; {#case}
+
+Вариант переключения
+
+**Атрибуты**
+
+|Наименование |Тип    |Описание                                       |
+|-------------|-------|-----------------------------------------------|
+|value        |Строка |Значение, с которым сравнивается значение поля |
+
+**Тело**
+
+Значение, возвращаемое в случае совпадения value со значением поля
+
+#### &lt;default&gt; {#default}
+
+Вариант по умолчанию
+
+**Тело**
+
+Значение, которое будет выбрано при несовпадении ни одного из value со значением поля
+
+
+### &lt;reference&gt;
 
 Составное поле.
 
@@ -103,7 +146,7 @@ http://n2oapp.net/framework/config/schema/object-4.0
 </fields>
 ```
 
-#### &lt;list&gt;
+### &lt;list&gt;
 
 Поле - список объектов.
 
@@ -123,7 +166,7 @@ http://n2oapp.net/framework/config/schema/object-4.0
 </fields>
 ```
 
-#### &lt;set&gt;
+### &lt;set&gt;
 
 Поле - множество объектов.
 
@@ -143,11 +186,11 @@ http://n2oapp.net/framework/config/schema/object-4.0
 </fields>
 ```
 
-### &lt;operations&gt;
+## &lt;operations&gt;
 
 Список операций над объектом.
 
-#### &lt;operation&gt; {#operation}
+### &lt;operation&gt; {#operation}
 
 Операция над объектом.
 
@@ -187,7 +230,7 @@ http://n2oapp.net/framework/config/schema/object-4.0
 </operations>
 ```
 
-##### &lt;invocation&gt;
+#### &lt;invocation&gt;
 
 Вызов операции.
 
@@ -291,7 +334,7 @@ http://n2oapp.net/framework/config/schema/object-4.0
 
 Список [параметров](../xml/object#Operation_parameter)
 
-##### &lt;validations&gt;
+#### &lt;validations&gt;
 
 Список валидаций операции.
 
@@ -306,11 +349,11 @@ http://n2oapp.net/framework/config/schema/object-4.0
 
 [Список валидаций](#validations3)
 
-### &lt;validations&gt; {#validations3}
+## &lt;validations&gt; {#validations3}
 
 Валидации объекта.
 
-#### Базовые свойства {#Basic_properties}
+### Базовые свойства {#Basic_properties}
 
 **Атрибуты**
 
@@ -325,7 +368,7 @@ http://n2oapp.net/framework/config/schema/object-4.0
 |enabled      |true false                                                                                                          |Включение валидации. Поддерживаются плейсхолдеры условия.                   |true                                                                                    |
 |side         |client server client,server                                                                                         |Выполнение на клиенте и/или сервере                                         |client,server                                                                           |
 
-#### &lt;condition&gt;
+### &lt;condition&gt;
 
 Валидация условия значений полей.
 
@@ -354,7 +397,7 @@ java Script выражение
 </validations>
 ```
 
-#### &lt;mandatory&gt;
+### &lt;mandatory&gt;
 
 Валидация обязательности заполнения поля.
 
@@ -388,7 +431,7 @@ JavaScript выражение
 </validations>
 ```
 
-#### &lt;constraint&gt;
+### &lt;constraint&gt;
 
 Валидация ограничений полей.
 
@@ -423,7 +466,7 @@ JavaScript выражение
 </validations>
 ```
 
-#### &lt;dialog&gt;
+### &lt;dialog&gt;
 
 Валидация с диалогом выбора.
 
@@ -462,7 +505,7 @@ JavaScript выражение
 </validations>
 ```
 
-##### &lt;invocation&gt;
+#### &lt;invocation&gt;
 
 Вызов валидации.
 
@@ -470,7 +513,7 @@ JavaScript выражение
 
 [Провайдер данных](../xml/dataprovider)
 
-##### &lt;in&gt;
+#### &lt;in&gt;
 
 Входящие параметры валидации.
 
@@ -478,7 +521,7 @@ JavaScript выражение
 
 Список [параметров](../xml/object#Operation_parameter)
 
-##### &lt;out&gt;
+#### &lt;out&gt;
 
 Исходящие параметры валидации.
 
@@ -492,6 +535,6 @@ JavaScript выражение
 
 Список [параметров](../xml/object#Operation_parameter)
 
-##### &lt;toolbar&gt;
+#### &lt;toolbar&gt;
 
 [Меню управляющих кнопок](../xml/widget#toolbar_in_widget).

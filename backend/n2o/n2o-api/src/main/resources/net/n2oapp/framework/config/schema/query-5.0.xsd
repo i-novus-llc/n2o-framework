@@ -415,14 +415,20 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="case" type="caseDefinition"/>
-            <xs:element name="default" type="xs:string" minOccurs="0"/>
+            <xs:element name="default" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Вариант по умолчанию
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="caseDefinition">
         <xs:annotation>
             <xs:documentation>
-                Значение, возвращаемое в случае совпадения value со значением поля
+                Вариант переключения
             </xs:documentation>
         </xs:annotation>
         <xs:attribute name="value" type="xs:string" use="required">
