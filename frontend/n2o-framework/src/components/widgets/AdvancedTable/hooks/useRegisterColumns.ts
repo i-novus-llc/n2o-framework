@@ -4,17 +4,15 @@ import { useDispatch } from 'react-redux'
 // @ts-ignore - нет типизации
 import { registerColumn } from '../../../../ducks/columns/store'
 import { HeaderCell } from '../../../Table/types/cell'
+import { getAllValuesByKey } from '../../../Table/utils'
 
 export const useRegisterColumns = (id: string, columns: HeaderCell[]) => {
     const dispatch = useDispatch()
 
-    /* TODO:
-            В данный момент воспроизведено поведение из состояния до рефакторинга.
-            Регистрируются только те ячейки, которые не обернуты в multi-column
-            Необходимо исправить это поведение и починить параметр visible у мультиколонок
-        */
     useLayoutEffect(() => {
-        columns.forEach((cellData) => {
+        const allHeaderCell = getAllValuesByKey(columns, { keyToIterate: 'children' })
+
+        allHeaderCell.forEach((cellData) => {
             if (cellData.id) {
                 dispatch(registerColumn(
                     id,
