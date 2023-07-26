@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="testOperation">
+            <validations white-list="test, test2"/>
+        </operation>
+    </operations>
+    <validations>
+        <constraint id="testValidation">
+            <invocation/>
+        </constraint>
+    </validations>
+</object>
+

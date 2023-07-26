@@ -361,7 +361,10 @@ public final class IOProcessorImpl implements IOProcessor {
             }
             for (Object child : seqE.getChildren(childrenName, seqE.getNamespace())) {
                 Element childE = (Element) child;
-                String key = process(childE.getAttribute(keyName).getValue());
+                String key = null;
+                if (childE.getAttribute(keyName) != null)
+                    key = process(childE.getAttribute(keyName).getValue());
+
                 String value = valueName == null ?
                         childE.getValue() :
                         childE.getAttribute(valueName).getValue();

@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.datasources.inherited_datasource;
 
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
+import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
@@ -45,8 +46,8 @@ public class InheritedDatasourceAT extends AutoTestBase {
      * Тестирование fetch зависимости
      */
     @Test
-    public void testFetchData() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/index.page.xml"));
+    void testFetchData() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -72,10 +73,10 @@ public class InheritedDatasourceAT extends AutoTestBase {
      * Тестирование модели Resolve
      */
     @Test
-    public void testModelResolve() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources");
+    void testModelResolve() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/inherited_datasource/resolve");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/resolve/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/resolve/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -105,10 +106,10 @@ public class InheritedDatasourceAT extends AutoTestBase {
      * Тестирование модели Multi
      */
     @Test
-    public void testModelMulti() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources");
+    void testModelMulti() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/inherited_datasource/multi");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/multi/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/multi/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -136,10 +137,10 @@ public class InheritedDatasourceAT extends AutoTestBase {
      * Тестирование модели Datasource
      */
     @Test
-    public void testModelDatasource() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources");
+    void testModelDatasource() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/inherited_datasource/datasource");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/datasource/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/datasource/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -156,7 +157,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
      * Тестирование при котором данные таблицы берутся из поля
      */
     @Test
-    public void testSourceFieldId() {
+    void testSourceFieldId() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field/test.query.xml"));
@@ -168,7 +169,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
     }
 
     @Test
-    public void testFetchAndSubmitValue() {
+    void testFetchAndSubmitValue() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/fetch_submit_value/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -212,8 +213,8 @@ public class InheritedDatasourceAT extends AutoTestBase {
     }
 
     @Test
-    public void testFetchValueSourceFiledID() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field/fetch_value/index.page.xml"));
+    void testFetchValueSourceFiledID() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field_fetch_value/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -231,8 +232,8 @@ public class InheritedDatasourceAT extends AutoTestBase {
     }
 
     @Test
-    public void testSubmitTargetFiledID() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/submit/target_field/submit_value/index.page.xml"));
+    void testSubmitTargetFiledID() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/submit/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -250,6 +251,26 @@ public class InheritedDatasourceAT extends AutoTestBase {
         dollar.shouldHaveValue("20");
         submit.click();
         other.shouldHaveValue("4");
+    }
+
+    @Test
+    void testFetchDependencies() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/inherited_datasource/fetch_depend");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/fetch_depend/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/fetch_depend/test.query.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class);
+
+        InputSelect input = form.fields().field("Тип документа").control(InputSelect.class);
+        input.shouldHaveValue("Свидетельство о рождении");
+        table.columns().rows().row(1).click();
+        input.shouldHaveValue("Документ 1");
+        table.columns().rows().row(2).click();
+        input.shouldHaveValue("Документ 2");
+
     }
 }
 

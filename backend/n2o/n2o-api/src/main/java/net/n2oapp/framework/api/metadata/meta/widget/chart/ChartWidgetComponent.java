@@ -18,9 +18,9 @@ public class ChartWidgetComponent<T extends AbstractChartItem> extends WidgetCom
     @JsonProperty
     private ChartType type;
     @JsonProperty
-    private Integer width;
+    private String width;
     @JsonProperty
-    private Integer height;
+    private String height;
 
     public ChartWidgetComponent() {
     }

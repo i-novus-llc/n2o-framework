@@ -45,7 +45,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
     }
 
     protected void compileControl(D control, S source, CompileProcessor p, StandardField<D> field, CompileContext<?, ?> context) {
-        control.setSrc(p.cast(control.getSrc(), p.resolve(Placeholders.property(getControlSrcProperty()), String.class)));
+        control.setSrc(p.cast(control.getSrc(), () -> p.resolve(Placeholders.property(getControlSrcProperty()), String.class)));
         if (control.getSrc() == null)
             throw new N2oException("control src is required");
         control.setId(source.getId());

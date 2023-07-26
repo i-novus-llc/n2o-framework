@@ -23,6 +23,9 @@
             <column text-field-id="test">
                 <image/>
             </column>
+            <column text-field-id="test">
+                <image width="200"/>
+            </column>
         </columns>
     </table>
 </simple-page>

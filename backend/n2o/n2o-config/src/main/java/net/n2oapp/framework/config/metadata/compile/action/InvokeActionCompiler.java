@@ -3,10 +3,10 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
-import net.n2oapp.framework.api.metadata.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -84,24 +84,18 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
     protected void initDefaults(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
         source.setRoute(p.cast(source.getRoute(), "/" + source.getId()));
-        initSubmitMessageDefaults(source, p, context);
+        initSubmitMessageDefaults(source, p);
         source.setOptimistic(p.cast(source.getOptimistic(),
-                p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
         source.setSubmitAll(p.cast(source.getSubmitAll(), true));
         source.setMethod(p.cast(source.getMethod(),
-                p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class)));
+                () -> p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class)));
         source.setClearOnSuccess(p.cast(source.getClearOnSuccess(), false));
     }
 
-    private void initSubmitMessageDefaults(N2oInvokeAction source, CompileProcessor p, CompileContext<?, ?> context) {
-        Boolean submitOnSuccess = null;
-        Boolean submitOnFail = null;
-        if (source.getOperationId() != null && context instanceof PageContext) {
-            submitOnSuccess = ((PageContext) context).getSubmitMessageOnSuccess();
-            submitOnFail = ((PageContext) context).getSubmitMessageOnFail();
-        }
-        source.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), submitOnSuccess, true));
-        source.setMessageOnFail(p.cast(source.getMessageOnFail(), submitOnFail, true));
+    private void initSubmitMessageDefaults(N2oInvokeAction source, CompileProcessor p) {
+        source.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), true));
+        source.setMessageOnFail(p.cast(source.getMessageOnFail(), true));
     }
 
     private String getMessageWidgetId(InvokeAction compiled, CompileContext<?, ?> context, boolean closeOnSuccess) {
@@ -139,6 +133,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         N2oClientDataProvider.ActionContextData actionContextData = new N2oClientDataProvider.ActionContextData();
         actionContextData.setObjectId(compiledObject.getId());
         actionContextData.setOperationId(source.getOperationId());
+        checkOperationIdExistence(actionContextData, compiledObject);
         actionContextData.setClearDatasource(metaSaga.getSuccess().getClear());
         actionContextData.setRedirect(initServerRedirect(metaSaga));
         actionContextData.setRefresh(metaSaga.getSuccess().getRefresh());
@@ -199,6 +194,12 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
             if (routeScope.getUrl() != null && RouteUtil.getParams(routeScope.getUrl()).contains(pathParam.getName()))
                 throw new N2oException(String.format("param \"%s\" duplicate in parent url ", pathParam.getName()));
         }
+    }
+
+    private void checkOperationIdExistence(N2oClientDataProvider.ActionContextData actionContextData, CompiledObject compiledObject) {
+        if (!compiledObject.getOperations().containsKey(actionContextData.getOperationId()))
+            throw new N2oException(String.format("Действие <invoke> ссылается на несуществующую операцию 'operation-id = %s' объекта '%s'",
+                    actionContextData.getOperationId(), compiledObject.getId()));
     }
 
     private void initClear(N2oInvokeAction source, CompileProcessor p, MetaSaga meta) {

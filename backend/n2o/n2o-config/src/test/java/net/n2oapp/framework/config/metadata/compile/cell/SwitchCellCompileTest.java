@@ -52,9 +52,9 @@ public class SwitchCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testSwitchCell.page.xml")
                 .get(new PageContext("testSwitchCell"));
         Table table = (Table) page.getWidget();
-        assertThat(table.getComponent().getCells().size(), is(1));
-        assertThat(table.getComponent().getCells().get(0), instanceOf(SwitchCell.class));
-        SwitchCell cell = (SwitchCell) table.getComponent().getCells().get(0);
+        assertThat(table.getComponent().getBody().getCells().size(), is(1));
+        assertThat(table.getComponent().getBody().getCells().get(0), instanceOf(SwitchCell.class));
+        SwitchCell cell = (SwitchCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("SwitchCell"));
         assertThat(cell.getSwitchFieldId(), is("type.id"));
 
@@ -82,9 +82,9 @@ public class SwitchCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testSwitchCellWithoutDefault.page.xml")
                 .get(new PageContext("testSwitchCellWithoutDefault"));
         Table table = (Table) page.getWidget();
-        assertThat(table.getComponent().getCells().size(), is(1));
-        assertThat(table.getComponent().getCells().get(0), instanceOf(SwitchCell.class));
-        SwitchCell cell = (SwitchCell) table.getComponent().getCells().get(0);
+        assertThat(table.getComponent().getBody().getCells().size(), is(1));
+        assertThat(table.getComponent().getBody().getCells().get(0), instanceOf(SwitchCell.class));
+        SwitchCell cell = (SwitchCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("SwitchCell"));
         assertThat(cell.getSwitchFieldId(), is("type.id"));
 

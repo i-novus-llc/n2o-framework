@@ -10,9 +10,134 @@ description: ""
 - Механизм чтения из Groovy файлов был полностью удален.
 
 ## Изменения в XML API {#changes-xml-api}
+
 - Прекращена поддержка схемы `object-3.0`.
 - Прекращена поддержка схемы `application-1.0`.
 - Прекращена поддержка deprecated атрибута `name` в `<form-param>`.
 Вместо него необходимо использовать атрибут `id`.
 - Удален атрибут `hide-overflow` поля `<code>`.
 - Прекращена поддержка компонента `<pills>`.
+- Упразднен атрибут `table-size` (размер строк таблицы), регулировать размер строк необходимо с помощью стилей.
+- Упразднен атрибут `checkboxes` (наличие чекбоксов в первом столбце таблицы). Этот функционал можно реализовать с
+помощью `selection="checkbox"`
+- Упразднен атрибут `check-on-select` (срабатывание (включение/выключение) чекбокса при клике по строке) у таблицы.
+Теперь при клике по строке с установленным `selection="checkbox"` будет, либо срабатывать действие (если оно задано),
+либо выбираться чекбокс строки.
+- Упразднен атрибут `hide-on-blur` (Скрытие ячейки при наведении на строку) у колонок таблицы. Функционал больше не поддерживается.
+- Был добавлен функционал [прокидывания тулбаров](../manual/actions#open_page_toolbar_passing) на открываемую страницу.
+В связи с чем были внесены следующие изменения.
+
+1. Кнопки с действиями открытия страниц теперь нельзя скрывать по точке доступа `<object-access>`.
+Вместо этого используйте `<page-access>` или `<url-access>`.
+2. Упразднены атрибуты `confirm`, `confirm-text`, `submit-label` операций объектов.
+3. Упразднены атрибуты `submit-operation-id`, `submit-message-on-success`, `submit-message-on-fail`, `submit-model`, `submit-label`
+с сохранением обратной совместимости.
+
+Вместо `submit-operation-id` рекомендуется использовать кнопку с `invoke` действием.
+Атрибуты `submit-message-*` заменяются их аналогами из `invoke`.
+
+```xml title="Пример, как работало в версии 7.24 и ниже"
+ <show-modal page-id="personCard"
+             submit-operation-id="update" submit-label="Сохранить"
+             submit-message-on-success="Данные сохранены" submit-message-on-fail="Данные не удалось сохранить"/>
+```
+
+```xml title="Пример, как работает в версии 7.25"
+<show-modal page-id="personCard">
+    <toolbars>
+        <toolbar>
+            <button label="Сохранить">
+                <invoke operation-id="update" message-on-success="Данные сохранены" message-on-fail="Данные не удалось сохранить"/>
+            </button>
+        </toolbar>
+    </toolbars>
+</show-modal>
+```
+
+4. Упразднены атрибуты `close-after-submit`, `redirect-target-after-submit`, `refresh-after-submit`
+с сохранением обратной совместимости.
+
+Вместо этих атрибутов используйте более гибкий механизм мультидействий.
+
+Вариант 1: submit + refresh + close
+
+```xml title="Пример как работало в версии 7.24 и ниже"
+ <show-modal page-id="personCard" submit-operation-id="update" close-after-submit="true" refresh-after-submit="true"/>
+```
+
+```xml title="Пример как работает в версии 7.25"
+<show-modal page-id="personCard">
+    <toolbars>
+        <toolbar>
+            <button label="Сохранить">
+                <invoke operation-id="update"/>
+                <refresh datasource="parentDs"/>
+                <close/>
+            </button>
+        </toolbar>
+    </toolbars>
+    <datasources>
+        <parent-datasource id="parentDs"/>
+    </datasources>
+</show-modal>
+```
+
+Вариант 2: submit + redirect
+
+```xml title="Пример как работало в версии 7.24 и ниже"
+ <show-modal page-id="personCard" submit-operation-id="update" redirect-target-after-submit="/main"/>
+```
+
+```xml title="Пример как работает в версии 7.25"
+<show-modal page-id="personCard">
+    <toolbars>
+        <toolbar>
+            <button label="Сохранить">
+                <invoke operation-id="update"/>
+                <a href="/main" target="application"/>
+            </button>
+        </toolbar>
+    </toolbars>
+</show-modal>
+```
+
+5. Упразднены атрибуты копирования `submit-action-type`, `copy-datasource`, `copy-model`, `copy-field-id`, `target-datasource`, `target-model`,
+`target-field-id`, `copy-mode`, `target-page` с сохранением обратной совместимости.
+
+Используйте действие `<copy>`.
+
+```xml title="Пример как работало в версии 7.24 и ниже"
+<show-modal page-id="personCard" submit-action-type="copy" copy-datasource="modal_ds" target-datasource="ds1"/>
+```
+
+```xml title="Пример как работает в версии 7.25"
+<show-modal page-id="personCard">
+    <toolbars>
+        <toolbar>
+            <button label="Копировать">
+                <copy copy-datasource="modal_ds" target-datasource="ds1"/>
+            </button>
+        </toolbar>
+    </toolbars>
+    <datasources>
+        <parent-datasource id="ds1"/>
+    </datasources>
+</show-modal>
+```
+
+## Изменения функциональности
+
+- Изменилась логика формирования идентификатора виджета в `<simple-page>`.
+Раньше, если он не был указан в xml, то генерировалось значение равное `main`.
+Теперь идентификатор формируется также, как и у `<page>`: 'w' + индекс.
+
+:::note
+Если где-то в route использовался `main`, то необходимо проверить не является ли он сгенерированным идентификатором виджета.
+:::
+
+## Изменения в API автотестов {#changes-autotest-api}
+
+- Все методы проверки значений были расширены необязательным атрибутом Duration (таймаут проверки).
+В связи с чем методы, использующие в качестве аргумента varargs тип, теперь используют массив.
+
+Пример: `shouldHaveOptions(String... values)` -> `shouldHaveOptions(String[] values, Duration... duration)`

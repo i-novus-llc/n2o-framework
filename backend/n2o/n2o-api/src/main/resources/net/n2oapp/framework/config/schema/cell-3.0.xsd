@@ -3,6 +3,7 @@
            xmlns:acn="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:ctr2="http://n2oapp.net/framework/config/schema/control-3.0"
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
+           xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:element name="text" type="textDefinition"/>
@@ -52,17 +53,17 @@
         </xs:annotation>
         <xs:attribute name="src" type="xs:string" use="optional">
             <xs:annotation>
-                <xs:documentation>Реализация ячейки.</xs:documentation>
+                <xs:documentation>React компонент ячейки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string" use="optional">
             <xs:annotation>
-                <xs:documentation>CSS класс текста.</xs:documentation>
+                <xs:documentation>Класс компонента текста.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string" use="optional">
             <xs:annotation>
-                <xs:documentation>Стиль колонки.</xs:documentation>
+                <xs:documentation>Стиль компонента колонки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="visible" type="xs:boolean" use="optional">
@@ -122,7 +123,7 @@
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка.</xs:documentation>
+                        <xs:documentation>Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="icon-position" type="positionType" use="optional" default="left">
@@ -152,7 +153,7 @@
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка ссылки.</xs:documentation>
+                        <xs:documentation>Иконка ссылки из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="type" type="linkIconType" default="text">
@@ -173,9 +174,9 @@
                 <xs:sequence>
                     <xs:element name="switch" type="switchDefinition" minOccurs="0" maxOccurs="1"/>
                 </xs:sequence>
-                <xs:attribute name="color" type="xs:string" use="optional">
+                <xs:attribute name="color" type="bs:colorDefinition" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Цвет элементов.</xs:documentation>
+                        <xs:documentation>Цвет элементов. Возможно использование плейсхолдеров</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="size" type="xs:string" use="optional">
@@ -210,7 +211,7 @@
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Класс иконки.</xs:documentation>
+                        <xs:documentation>Класс иконки из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="type" type="iconType" use="optional" default="icon">
@@ -248,9 +249,9 @@
                 <xs:annotation>
                     <xs:documentation>Индикатор прогресса.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="color" type="xs:string" use="optional">
+                <xs:attribute name="color" type="bs:colorDefinition" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Цвет индикатора.</xs:documentation>
+                        <xs:documentation>Цвет индикатора. Возможно использование плейсхолдеров.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="active" type="xs:boolean" use="optional" default="false">
@@ -282,9 +283,12 @@
                     <xs:element name="statuses" type="ctr2:statusesType" minOccurs="0"/>
                     <xs:element name="action" type="acn:actions" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="width" type="xs:integer">
+                <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина изображения (px).</xs:documentation>
+                        <xs:documentation>
+                            Ширина изображения.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="action-id" type="xs:string">
@@ -391,9 +395,9 @@
                         <xs:documentation>Расположение относительно текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="color" type="xs:string" use="optional">
+                <xs:attribute name="color" type="bs:colorDefinition" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Цвет значка.</xs:documentation>
+                        <xs:documentation>Цвет значка. Возможно использование плейсхолдеров.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="text" type="xs:string" use="optional">
@@ -651,12 +655,12 @@
                 </xs:attribute>
                 <xs:attribute name="upload-icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка загрузки файлов.</xs:documentation>
+                        <xs:documentation>Иконка загрузки файлов из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="delete-icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка удаления файлов.</xs:documentation>
+                        <xs:documentation>Иконка удаления файлов из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:anyAttribute>
@@ -757,5 +761,4 @@
             <xs:enumeration value="rounded"/>
         </xs:restriction>
     </xs:simpleType>
-
 </xs:schema>

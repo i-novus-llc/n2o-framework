@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 
 import Buttons from '../../../../snippets/Filter/Buttons'
-import { useWidgetFilterContext } from '../../../WidgetFilters'
+import { WidgetFilterContext } from '../../../WidgetFilters'
 
 /**
  * Компонент обертка для встраивания кнопок фильтра в любое место формы, как Field.
@@ -13,7 +13,7 @@ import { useWidgetFilterContext } from '../../../WidgetFilters'
  */
 const FilterButtonsField = (props) => {
     const { visible = true, searchLabel, resetLabel, className, disabled = false } = props
-    const { filter, reset } = useWidgetFilterContext()
+    const { search, reset } = useContext(WidgetFilterContext)
 
     if (!visible) {
         return null
@@ -26,7 +26,7 @@ const FilterButtonsField = (props) => {
                 disabled={disabled}
                 searchLabel={searchLabel}
                 resetLabel={resetLabel}
-                onSearch={filter}
+                onSearch={search}
                 onReset={reset}
             />
         ) : null

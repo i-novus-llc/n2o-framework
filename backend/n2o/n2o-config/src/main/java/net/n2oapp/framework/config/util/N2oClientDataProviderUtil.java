@@ -117,9 +117,9 @@ public class N2oClientDataProviderUtil {
         actionContextData.setMessageOnSuccess(p.cast(submit.getMessageOnSuccess(), false));
         actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), false));
         actionContextData.setMessagePosition(p.cast(submit.getMessagePosition(),
-                p.resolve(property("n2o.api.message.position"), MessagePosition.class)));
+                () -> p.resolve(property("n2o.api.message.position"), MessagePosition.class)));
         actionContextData.setMessagePlacement(p.cast(submit.getMessagePlacement(),
-                p.resolve(property("n2o.api.message.placement"), MessagePlacement.class)));
+                () -> p.resolve(property("n2o.api.message.placement"), MessagePlacement.class)));
         actionContextData.setMessagesForm(submit.getMessageWidgetId());
         actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
         if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {

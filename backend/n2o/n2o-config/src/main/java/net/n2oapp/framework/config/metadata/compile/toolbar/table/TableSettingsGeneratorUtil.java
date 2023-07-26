@@ -30,11 +30,8 @@ public class TableSettingsGeneratorUtil {
     }
 
     public static N2oButton generateFilters(N2oToolbar toolbar, CompileProcessor p) {
-        String widgetId = toolbar.getTargetWidgetId();
-        if (widgetId == null) {
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            widgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
-        }
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        String widgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
         N2oButton filterButton = new N2oButton();
         fillButton(filterButton, toolbar.getIsGeneratedForSubMenu(), "filters", p);
         N2oCustomAction filterAction = new N2oCustomAction();
@@ -69,7 +66,7 @@ public class TableSettingsGeneratorUtil {
         N2oCustomAction wordWrapAction = new N2oCustomAction();
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        Map<String, String> payload = Collections.singletonMap("widgetId", widgetScope.getClientWidgetId());
+        Map<String, String> payload = Collections.singletonMap("id", widgetScope.getClientWidgetId());
 
         wordWrapButton.setSrc(p.resolve(property("n2o.api.generate.button.wordwrap.action.src"), String.class));
         wordWrapAction.setType(p.resolve(property("n2o.api.generate.button.wordwrap.action.type"), String.class));

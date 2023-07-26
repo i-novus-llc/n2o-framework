@@ -1,5 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.cell;
 
+import java.time.Duration;
+
 /**
  * Ячейка таблицы со списком для автотестирования
  */
@@ -15,7 +17,7 @@ public interface ListCell extends Cell {
      * @param index номер проверяемого баджа в ячейке
      * @param val ожидаемый текст баджа
      */
-    void shouldHaveText(int index, String val);
+    void shouldHaveText(int index, String val, Duration... duration);
 }
 
 

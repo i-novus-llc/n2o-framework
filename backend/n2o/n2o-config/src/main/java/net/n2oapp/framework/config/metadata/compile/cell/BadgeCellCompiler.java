@@ -41,19 +41,21 @@ public class BadgeCellCompiler extends AbstractCellCompiler<BadgeCell, N2oBadgeC
             cell.setText(p.resolveJS(source.getText()));
             cell.setTextFormat(source.getTextFormat());
         }
+
         if (source.getN2oSwitch() != null) {
             cell.setColor(compileSwitch(source.getN2oSwitch(), p));
         }
         else
             cell.setColor(p.resolveJS(source.getColor()));
+
         if (source.getFormat() != null)
             cell.setFormat(source.getFormat());
         if (source.getImageFieldId() != null) {
             cell.setImageFieldId(source.getImageFieldId());
-            cell.setImageShape(p.cast(source.getImageShape(), p.resolve(property("n2o.api.cell.badge.image_shape"), ShapeType.class)));
-            cell.setImagePosition(p.cast(source.getImagePosition(), p.resolve(property("n2o.api.cell.badge.image_position"), Position.class)));
+            cell.setImageShape(p.cast(source.getImageShape(), () -> p.resolve(property("n2o.api.cell.badge.image_shape"), ShapeType.class)));
+            cell.setImagePosition(p.cast(source.getImagePosition(), () -> p.resolve(property("n2o.api.cell.badge.image_position"), Position.class)));
         }
-        cell.setShape(p.cast(source.getShape(), p.resolve(property("n2o.api.cell.badge.shape"), ShapeType.class)));
+        cell.setShape(p.cast(source.getShape(), () -> p.resolve(property("n2o.api.cell.badge.shape"), ShapeType.class)));
         return cell;
     }
 }

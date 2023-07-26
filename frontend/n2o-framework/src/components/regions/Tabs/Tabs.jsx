@@ -5,7 +5,7 @@ import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 
-import { Group, RadioTypes } from '../../controls/Radio/Group'
+import { Group as TabsGroup } from '@i-novus/n2o-components/lib/inputs/RadioGroup/tabs/Group'
 
 import { TabContent } from './TabContent'
 
@@ -57,10 +57,10 @@ class Tabs extends React.Component {
     * установка активного таба
     * @param id
     */
-    handleChangeActive = (id) => {
+    handleChangeActive = (event) => {
         const { onChangeActive } = this.props
 
-        onChangeActive({}, id, this.defaultOpenedId)
+        onChangeActive({}, event?.target?.value, this.defaultOpenedId)
     };
 
     /**
@@ -136,13 +136,12 @@ class Tabs extends React.Component {
                             'n2o-nav-tabs_tabs-fixed': maxHeight,
                         })}
                     >
-                        <Group
+                        <TabsGroup
                             className={classNames('n2o-nav-tabs__tabs-list', {
                                 navClassName,
                             })}
                             options={tabNavItems}
                             inline
-                            type={RadioTypes.tabs}
                             onChange={this.handleChangeActive}
                             value={activeId}
                         />

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.run;
 
+import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
@@ -9,15 +10,25 @@ import net.n2oapp.framework.config.metadata.compile.query.TestEngineQueryTransfo
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
+import org.junit.jupiter.api.AfterEach;
+import org.openqa.selenium.UnexpectedAlertBehaviour;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
+import org.openqa.selenium.logging.Logs;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import java.util.Map;
+import java.util.Objects;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import static com.codeborne.selenide.Configuration.headless;
-import static com.codeborne.selenide.Configuration.timeout;
+import static com.codeborne.selenide.Configuration.*;
+import static org.openqa.selenium.remote.CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR;
 
 /**
  * Базовый класс для автотестов
@@ -32,18 +43,41 @@ public class AutoTestBase extends N2oTestBase {
     private TestDataProviderEngine provider;
 
     private N2oController n2oController;
+    protected Logs logs;
 
     public static void configureSelenide() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
         headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "true"));
-        timeout = Long.parseLong(System.getProperty("selenide.timeout", "9000"));
+        timeout = Long.parseLong(System.getProperty("selenide.timeout", "10000"));
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        ChromeOptions options = new ChromeOptions();
+        LoggingPreferences loggingPreferences = new LoggingPreferences();
+
+        loggingPreferences.enable(LogType.BROWSER, Level.ALL);
+
+        capabilities.setCapability("goog:loggingPrefs", loggingPreferences);
+        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+        capabilities.setCapability(UNHANDLED_PROMPT_BEHAVIOUR, UnexpectedAlertBehaviour.DISMISS);
+
+        browserCapabilities = capabilities;
     }
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
         n2oController.setUp(builder);
+    }
+
+    @AfterEach
+    void outputBrowserLog() {
+        if (Objects.isNull(logs))
+            return;
+
+        for (LogEntry log : logs.get(LogType.BROWSER))
+            if (log.getLevel() == Level.SEVERE)
+                System.out.println("BROWSER LOG:" + " " + log.getLevel() + " " + log.getMessage());
     }
 
     @Override
@@ -58,7 +92,9 @@ public class AutoTestBase extends N2oTestBase {
     }
 
     protected <T extends Page> T open(Class<T> clazz) {
-        return N2oSelenide.open(getBaseUrl(), clazz);
+        T open = N2oSelenide.open(getBaseUrl(), clazz);
+        logs = WebDriverRunner.getWebDriver().manage().logs();
+        return open;
     }
 
     protected <T extends Page> T open(Class<T> clazz, String pageUrl, Map<String, String> queryParams) {

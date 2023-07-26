@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oAbstractCha
 @Getter
 @Setter
 public class N2oChart extends N2oWidget {
-    private Integer width;
-    private Integer height;
+    private String width;
+    private String height;
     private N2oAbstractChart component;
 }

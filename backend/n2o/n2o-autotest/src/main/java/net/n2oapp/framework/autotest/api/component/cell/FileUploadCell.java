@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.cell;
 
 import java.io.File;
+import java.time.Duration;
 
 /**
  * Загрузка файла в ячейке для автотестирования
@@ -38,14 +39,14 @@ public interface FileUploadCell extends Cell {
      * @param index индекс проверяемого файла
      * @param fileName ожидаемое именя файла
      */
-    void uploadFileShouldHaveName(int index, String fileName);
+    void uploadFileShouldHaveName(int index, String fileName, Duration... duration);
 
     /**
      * Проверка того, что размер файла по индексу соответствует ожидаемому значению
      * @param index индекс проверяемого файла
      * @param fileSize ожидаемый размер файла
      */
-    void uploadFileShouldHaveSize(int index, String fileSize);
+    void uploadFileShouldHaveSize(int index, String fileSize, Duration... duration);
 
     /**
      * Проверка того, что ссылка на файл по индексу соответствует ожидаемому значению

@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.api.component.control;
 
 import net.n2oapp.framework.autotest.api.component.Component;
 
+import java.time.Duration;
+
 /**
  * Общий интерфейс для всех компонентов ввода для автотестирования
  */
@@ -25,5 +27,5 @@ public interface Control extends Component {
      * Проверка значения в поле
      * @param value ожидаемое значение
      */
-    void shouldHaveValue(String value);
+    void shouldHaveValue(String value, Duration... duration);
 }

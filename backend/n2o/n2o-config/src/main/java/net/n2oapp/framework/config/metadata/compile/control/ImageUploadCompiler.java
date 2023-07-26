@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.control.ImageUpload;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -25,23 +26,23 @@ public class ImageUploadCompiler extends BaseFileUploadCompiler<ImageUpload, N2o
     public StandardField<ImageUpload> compile(N2oImageUpload source, CompileContext<?, ?> context, CompileProcessor p) {
         ImageUpload imageUpload = new ImageUpload();
         imageUpload.setListType(p.cast(source.getListType(),
-                p.resolve(property("n2o.api.control.image_upload.list_type"), ImageUpload.ListType.class)));
+                () -> p.resolve(property("n2o.api.control.image_upload.list_type"), ImageUpload.ListType.class)));
         imageUpload.setCanLightbox(p.cast(source.getCanLightbox(),
-                p.resolve(property("n2o.api.control.image_upload.can_lightbox"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.control.image_upload.can_lightbox"), Boolean.class)));
         imageUpload.setCanDelete(p.cast(source.getCanDelete(),
-                p.resolve(property("n2o.api.control.image_upload.can_delete"), Boolean.class)));
-        imageUpload.setWidth(p.cast(source.getWidth(),
-                p.resolve(property("n2o.api.control.image_upload.width"), Integer.class)));
-        imageUpload.setHeight(p.cast(source.getHeight(),
-                p.resolve(property("n2o.api.control.image_upload.height"), Integer.class)));
+                () -> p.resolve(property("n2o.api.control.image_upload.can_delete"), Boolean.class)));
+        imageUpload.setWidth(prepareSizeAttribute(p.cast(source.getWidth(),
+                () -> p.resolve(property("n2o.api.control.image_upload.width"), String.class))));
+        imageUpload.setHeight(prepareSizeAttribute(p.cast(source.getHeight(),
+                () -> p.resolve(property("n2o.api.control.image_upload.height"), String.class))));
         imageUpload.setIcon(source.getIcon());
-        imageUpload.setIconSize(source.getIconSize());
+        imageUpload.setIconSize(prepareSizeAttribute(source.getIconSize()));
         imageUpload.setShowTooltip(p.cast(source.getShowTooltip(),
-                p.resolve(property("n2o.api.control.image_upload.show_tooltip"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.control.image_upload.show_tooltip"), Boolean.class)));
         imageUpload.setShape(p.cast(source.getShape(),
-                p.resolve(property("n2o.api.control.image_upload.shape"), ShapeType.class)));
+                () -> p.resolve(property("n2o.api.control.image_upload.shape"), ShapeType.class)));
         imageUpload.setShowName(p.cast(source.getShowName(),
-                p.resolve(property("n2o.api.control.image_upload.show_name"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.control.image_upload.show_name"), Boolean.class)));
         return compileFileUpload(imageUpload, source, context, p);
     }
 

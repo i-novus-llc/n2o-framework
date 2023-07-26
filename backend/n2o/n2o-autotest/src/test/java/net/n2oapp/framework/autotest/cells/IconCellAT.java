@@ -28,10 +28,10 @@ public class IconCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        setJsonPath("net/n2oapp/framework/autotest/cells");
+        setJsonPath("net/n2oapp/framework/autotest/cells/icon");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/icon/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/cells/icon/testTable.query.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -65,24 +65,24 @@ public class IconCellAT extends AutoTestBase {
         cell.hover();
         Tooltip tooltip = cell.tooltip();
         tooltip.shouldExists();
-        tooltip.shouldHaveText("minus");
+        tooltip.shouldHaveText(new String[]{"minus"});
 
         cell = rows.row(2).cell(0, IconCell.class);
         cell.hover();
         tooltip = cell.tooltip();
         tooltip.shouldExists();
-        tooltip.shouldHaveText("fax");
+        tooltip.shouldHaveText(new String[]{"fax"});
 
         cell = rows.row(1).cell(0, IconCell.class);
         cell.hover();
         tooltip = cell.tooltip();
         tooltip.shouldExists();
-        tooltip.shouldHaveText("plus");
+        tooltip.shouldHaveText(new String[]{"plus"});
 
         cell = rows.row(0).cell(0, IconCell.class);
         cell.hover();
         tooltip = cell.tooltip();
         tooltip.shouldExists();
-        tooltip.shouldHaveText("phone");
+        tooltip.shouldHaveText(new String[]{"phone"});
     }
 }

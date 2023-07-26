@@ -3,7 +3,10 @@ package net.n2oapp.framework.config.io.widget.v4;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ChildrenToggle;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPosition;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.io.ElementIOFactory;
@@ -36,12 +39,9 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
     public void io(Element e, N2oTable t, IOProcessor p) {
         super.io(e, t, p);
         p.attributeEnum(e, "selection", t::getSelection, t::setSelection, RowSelectionEnum.class);
-        p.attributeEnum(e, "table-size", t::getTableSize, t::setTableSize, Size.class);
         p.attribute(e, "width", t::getWidth, t::setWidth);
         p.attribute(e, "height", t::getHeight, t::setHeight);
         p.attributeBoolean(e, "text-wrap", t::getTextWrap, t::setTextWrap);
-        p.attributeBoolean(e, "checkboxes", t::getCheckboxes, t::setCheckboxes);
-        p.attributeBoolean(e, "check-on-select", t::getCheckOnSelect, t::setCheckOnSelect);
         p.anyChildren(e, "columns", t::getColumns, t::setColumns, columns(p));
         p.childAttributeEnum(e, "filters", "place", t::getFilterPosition, t::setFilterPosition, FilterPosition.class);
         p.childAttribute(e, "filters", "default-values-query-id", t::getFiltersDefaultValuesQueryId, t::setFiltersDefaultValuesQueryId);
@@ -68,7 +68,6 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPosition.class);
         p.anyChildren(e, "dependencies", c::getColumnVisibilities, c::setColumnVisibilities, p.oneOf(AbstractColumn.ColumnVisibility.class)
                 .add("visibility", AbstractColumn.ColumnVisibility.class, this::dependency));
-        p.attributeBoolean(e, "hide-on-blur", c::getHideOnBlur, c::setHideOnBlur);
         p.anyAttributes(e, c::getExtAttributes, c::setExtAttributes);
     }
 
@@ -101,6 +100,7 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attribute(e, "src", c::getSrc, c::setSrc);
         p.attribute(e, "class", c::getCssClass, c::setCssClass);
         p.attribute(e, "style", c::getStyle, c::setStyle);
+        p.attribute(e, "width", c::getWidth, c::setWidth);
         p.anyChildren(e, null, c::getChildren, c::setChildren, columns(p));
     }
 }

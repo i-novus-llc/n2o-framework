@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.Chart;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 
@@ -23,7 +24,7 @@ public class ChartCompiler extends BaseWidgetCompiler<Chart, N2oChart> {
     public Chart compile(N2oChart source, CompileContext<?, ?> context, CompileProcessor p) {
         Chart chart = new Chart();
         compileBaseWidget(chart, source, context, p);
-        N2oAbstractDatasource datasource = initDatasource(chart, source, p);
+        N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
 
@@ -32,9 +33,9 @@ public class ChartCompiler extends BaseWidgetCompiler<Chart, N2oChart> {
 
         chart.setComponent(p.compile(source.getComponent(), context, p));
         chart.getComponent().setSize(p.cast(source.getSize(),
-                p.resolve(property("n2o.api.widget.chart.size"), Integer.class)));
-        chart.getComponent().setWidth(source.getWidth());
-        chart.getComponent().setHeight(source.getHeight());
+                () -> p.resolve(property("n2o.api.widget.chart.size"), Integer.class)));
+        chart.getComponent().setWidth(prepareSizeAttribute(source.getWidth()));
+        chart.getComponent().setHeight(prepareSizeAttribute(source.getHeight()));
         return chart;
     }
 

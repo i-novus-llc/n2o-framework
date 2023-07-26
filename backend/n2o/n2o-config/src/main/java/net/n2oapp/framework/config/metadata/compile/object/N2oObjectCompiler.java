@@ -15,7 +15,6 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oInvocationVali
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.action.DefaultActions;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
@@ -50,7 +49,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiled.setModuleName(source.getModuleName());
         compiled.setServiceName(source.getServiceName());
 
-        compiled.setOperations(new StrictMap<>());
+        compiled.setOperations(new HashMap<>());
         compiled.setObjectFields(new ArrayList<>());
         compiled.setObjectFieldsMap(new HashMap<>());
         initObjectFields(source, compiled, p);
@@ -89,16 +88,13 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
 
     private void compileSwitch(ObjectSimpleField field, CompileProcessor p) {
         N2oSwitch n2oSwitch = field.getN2oSwitch();
-        if (Objects.isNull(n2oSwitch)) {
-            return;
-        }
+        if (Objects.isNull(n2oSwitch)) return;
+
         n2oSwitch.setValueFieldId(field.getId());
         Map<Object, String> resolvedCases = new HashMap<>();
-        if (Objects.nonNull(n2oSwitch.getCases())) {
-            for (String key : n2oSwitch.getCases().keySet()) {
+        if (Objects.nonNull(n2oSwitch.getCases()))
+            for (String key : n2oSwitch.getCases().keySet())
                 resolvedCases.put(p.resolve(key), n2oSwitch.getCases().get(key));
-            }
-        }
         n2oSwitch.setResolvedCases(resolvedCases);
     }
 
@@ -398,18 +394,14 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         CompiledObject.Operation compiledOperation = new CompiledObject.Operation();
         compiledOperation.setInParametersMap(prepareOperationInParameters(operation.getInFields(), compiled, p));
 
-        AbstractParameter[] outFields = operation.getOutFields();
-        if (outFields != null) {
-            Map<String, AbstractParameter> parametersMap = Arrays.stream(outFields).peek(f -> {
-                if (f instanceof ObjectSimpleField) {
-                    compileSwitch((ObjectSimpleField) f, p);
-                }
-            }).collect(Collectors.toMap(AbstractParameter::getId, Function.identity()));
-            compiledOperation.setOutParametersMap(parametersMap);
-        }
-        else {
-            compiledOperation.setOutParametersMap(Collections.emptyMap());
-        }
+        compiledOperation.setOutParametersMap(operation.getOutFields() != null ?
+                Arrays.stream(operation.getOutFields())
+                        .peek(f -> {
+                            if (f instanceof ObjectSimpleField)
+                                compileSwitch((ObjectSimpleField) f, p);
+                        }).collect(Collectors.toMap(AbstractParameter::getId, Function.identity())) :
+                Collections.emptyMap());
+
         compiledOperation.setFailOutParametersMap(operation.getFailOutFields() != null ?
                 Arrays.stream(operation.getFailOutFields()).collect(Collectors.toMap(ObjectSimpleField::getId, Function.identity())) :
                 Collections.emptyMap());
@@ -430,13 +422,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiledOperation.setId(operation.getId());
         compiledOperation.setDescription(operation.getDescription());
         compiledOperation.setName(operation.getName());
-        compiledOperation.setConfirm(operation.getConfirm());
-        compiledOperation.setConfirmationText(castDefault(operation.getConfirmationText(),
-                p.getMessage("n2o.confirm.text")));
-        compiledOperation.setBulkConfirmationText(castDefault(operation.getBulkConfirmationText(),
-                p.getMessage("n2o.confirm.group")));
-        compiledOperation.setSuccessText(castDefault(operation.getSuccessText(),
-                p.getMessage("n2o.success")));
+        compiledOperation.setSuccessText(castDefault(operation.getSuccessText(), () -> p.getMessage("n2o.success")));
         compiledOperation.setSuccessTitle(operation.getSuccessTitle());
         compiledOperation.setFailText(operation.getFailText());
         compiledOperation.setFailTitle(operation.getFailTitle());
@@ -444,10 +430,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiledOperation.setValidations(operation.getValidations());
         DefaultActions defaultOperations = DefaultActions.get(operation.getId());
         if (defaultOperations != null) {
-            compiledOperation.setFormSubmitLabel(castDefault(operation.getFormSubmitLabel(), defaultOperations.getFormSubmitLabel()));
             compiledOperation.setName(castDefault(operation.getName(), defaultOperations.getLabel()));
         }
-        compiledOperation.setFormSubmitLabel(operation.getFormSubmitLabel());
     }
 
     /**
@@ -465,9 +449,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             for (AbstractParameter parameter : parameters) {
                 prepareOperationInParameter(parameter, compiled.getObjectFieldsMap().get(parameter.getId()), p);
                 parameter.setRequired(castDefault(parameter.getRequired(), false));
-                if (parameter instanceof ObjectSimpleField) {
+                if (parameter instanceof ObjectSimpleField)
                     compileSwitch((ObjectSimpleField) parameter, p);
-                }
                 inFieldsMap.put(parameter.getId(), parameter);
             }
         return inFieldsMap;

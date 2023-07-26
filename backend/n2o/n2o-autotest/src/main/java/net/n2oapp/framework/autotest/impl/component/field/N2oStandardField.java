@@ -9,6 +9,8 @@ import net.n2oapp.framework.autotest.api.component.control.Control;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.impl.collection.N2oToolbar;
 
+import java.time.Duration;
+
 /**
  * Стандартное поле формы для автотестирования
  */
@@ -16,7 +18,7 @@ public class N2oStandardField extends N2oField implements StandardField {
 
     static final String CSS_SELECTOR = ".form-control, .n2o-input, .n2o-date-picker, .n2o-radio-group, " +
             ".n2o-checkbox-group, .n2o-file-uploader-control, .n2o-image-uploader-control, .n2o-code-editor, .n2o-html, .n2o-output-text, " +
-            ".n2o-output-list, .n2o-pill-filter, .n2o-rating-stars, .n2o-slider, .n2o-text-editor, .progress, .n2o-number-picker";
+            ".n2o-output-list, .n2o-pill-filter, .n2o-rating-stars, .n2o-slider, .n2o-text-editor, .progress, .n2o-number-picker, .n2o-select-tree";
 
     @Override
     public <T extends Control> T control(Class<T> componentClass) {
@@ -39,8 +41,8 @@ public class N2oStandardField extends N2oField implements StandardField {
     }
 
     @Override
-    public void shouldHaveLabelBy(Condition condition) {
-        element().$("label").shouldHave(condition);
+    public void shouldHaveLabelBy(Condition condition, Duration... duration) {
+        should(condition, element().$("label"), duration);
     }
 
     @Override
@@ -49,8 +51,8 @@ public class N2oStandardField extends N2oField implements StandardField {
     }
 
     @Override
-    public void shouldHaveValidationMessage(Condition condition) {
-        element().$(".n2o-validation-message").shouldHave(condition);
+    public void shouldHaveValidationMessage(Condition condition, Duration... duration) {
+        should(condition, element().$(".n2o-validation-message"), duration);
     }
 
     protected SelenideElement requiredLabel() {

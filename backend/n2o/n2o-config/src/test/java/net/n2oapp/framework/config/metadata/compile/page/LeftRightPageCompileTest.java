@@ -64,4 +64,13 @@ public class LeftRightPageCompileTest extends SourceCompileTestBase {
         assertThat(right.get(3).getContent().get(0), instanceOf(Form.class));
         assertThat(right.get(3).getContent().get(1), instanceOf(Table.class));
     }
+
+    @Test
+    void testWidth() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testLeftRightPage1.page.xml")
+                .get(new PageContext("testLeftRightPage1"));
+
+        assertThat(page.getWidth().getLeft(), is("200px"));
+        assertThat(page.getWidth().getRight(), is("300px"));
+    }
 }

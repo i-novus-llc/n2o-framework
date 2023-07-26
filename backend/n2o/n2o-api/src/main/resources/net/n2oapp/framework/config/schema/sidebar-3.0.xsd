@@ -34,17 +34,17 @@
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация боковой панели. По умолчанию Sidebar</xs:documentation>
+                <xs:documentation>React компонент боковой панели. По умолчанию Sidebar</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>css класс боковой панели</xs:documentation>
+                <xs:documentation>Класс компонента боковой панели</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль боковой панели</xs:documentation>
+                <xs:documentation>Стиль компонента боковой панели</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="datasource" type="xs:string">

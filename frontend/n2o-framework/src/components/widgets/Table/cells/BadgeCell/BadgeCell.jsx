@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 
-import Text from '../../../../snippets/Text/Text'
+import { Text } from '../../../../snippets/Text/Text'
 import { Badge } from '../../../../snippets/Badge/Badge'
 import { resolveBadgeProps } from '../../../../snippets/Badge/utils'
 import withTooltip from '../../withTooltip'

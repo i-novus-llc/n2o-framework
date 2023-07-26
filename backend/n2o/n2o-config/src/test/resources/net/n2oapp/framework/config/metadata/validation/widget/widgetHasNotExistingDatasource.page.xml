@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница для проверки не существующего источнинка данных у виджета">
+    <regions>
+        <form id="w1" datasource="ds2">
+        </form>
+    </regions>
+</page>
+

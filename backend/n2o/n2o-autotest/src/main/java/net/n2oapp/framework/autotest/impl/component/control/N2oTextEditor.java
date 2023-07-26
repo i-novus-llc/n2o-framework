@@ -4,6 +4,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.TextEditor;
 
+import java.time.Duration;
+
 /**
  * Компонент редактирования текста для автотестирования
  */
@@ -25,8 +27,8 @@ public class N2oTextEditor extends N2oControl implements TextEditor {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
-        element().shouldHave(Condition.text(value));
+    public void shouldHaveValue(String value, Duration... duration) {
+        should(Condition.text(value), duration);
     }
 
     protected SelenideElement editor() {

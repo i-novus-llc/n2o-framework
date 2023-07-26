@@ -79,6 +79,7 @@ public class CardsCompileTest extends SourceCompileTestBase {
         cards = (Cards) page.getRegions().get("single").get(0).getContent().get(1);
         assertThat(cards.getSrc(), is("CardsWidget"));
         assertThat(cards.getVerticalAlign(), is(Cards.Position.top));
+        assertThat(cards.getHeight(), is("300px"));
         assertThat(cards.getCards().size(), is(1));
 
         card = cards.getCards().get(0);

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+       object-id="test">
+    <list>
+        <test file="json/test.json"/>
+    </list>
+    <count>
+        <test file="json/test.json" operation="count"/>
+    </count>
+
+    <fields>
+        <field id="id" domain="integer">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        <field id="check1">
+            <select mapping="['check']"/>
+            <filters>
+                <eq filter-id="check1"/>
+            </filters>
+        </field>
+        <field id="check2">
+            <select mapping="['check']"/>
+            <filters>
+                <eq filter-id="check2"/>
+            </filters>
+        </field>
+        <field id="check3">
+            <select mapping="['check']"/>
+            <filters>
+                <eq filter-id="check3"/>
+            </filters>
+        </field>
+    </fields>
+</query>

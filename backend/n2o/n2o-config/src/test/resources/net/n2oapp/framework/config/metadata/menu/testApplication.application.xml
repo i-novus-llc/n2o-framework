@@ -14,6 +14,10 @@
                        image-shape="square">
                 <open-page page-id="testMenu" route="/logout"/>
             </menu-item>
+            <menu-item id="alert"
+                       name="Menu-item с алертом">
+                    <alert text="Алерт" color="success"/>
+            </menu-item>
             <dropdown-menu id="user"
                            name="Виктория"
                            image="/static/users/vika91.png"
@@ -35,6 +39,28 @@
                            name="Сообщения"
                            icon="fa fa-bell"/>
         </nav>
+        <extra-menu>
+            <menu-item name="Экстра-меню"
+                       src="Test"
+                       class="class"
+                       style="background:blue">
+                <a href="/profile" target="application"/>
+            </menu-item>
+            <dropdown-menu name="Дропдаун">
+                <menu-item name="Пункт меню 1"
+                           class="class"
+                           style="background:blue">
+                    <a href="/profile" target="application"/>
+                </menu-item>
+                <menu-item name="Пункт меню 2"
+                           class="text-center"
+                           style="background:red">
+                    <alert text="Алерт" color="success"/>
+                </menu-item>
+                <menu-item name="Пункт меню 3"
+                           class="text-center"
+                           style="background:red"/>
+            </dropdown-menu>
+        </extra-menu>
     </header>
-
 </application>

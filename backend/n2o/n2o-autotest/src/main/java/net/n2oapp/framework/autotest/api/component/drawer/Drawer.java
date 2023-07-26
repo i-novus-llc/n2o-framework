@@ -4,6 +4,8 @@ import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 
+import java.time.Duration;
+
 /**
  * Окно drawer для автотестирования
  */
@@ -25,7 +27,7 @@ public interface Drawer extends Component {
      * Проверяет соответствие заголовка окна
      * @param text ожидаемый текст заголовка
      */
-    void shouldHaveTitle(String text);
+    void shouldHaveTitle(String text, Duration... duration);
 
     /**
      * Проверка соответствия положения окна

@@ -9,6 +9,8 @@ import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 public class N2oModal extends N2oComponent implements Modal {
 
     private static final String MODAL_BODY = ".modal-body";
@@ -16,9 +18,8 @@ public class N2oModal extends N2oComponent implements Modal {
     private static final String MODAL_HEADER = ".modal-header";
 
     @Override
-    public void shouldHaveTitle(String text) {
-        element().$(".modal-header .modal-title, .white-space-pre-line")
-                .shouldHave(Condition.text(text));
+    public void shouldHaveTitle(String text, Duration... duration) {
+        should(Condition.text(text), element().$(".modal-header .modal-title, .white-space-pre-line"), duration);
     }
 
     @Override

@@ -4,6 +4,7 @@ import {
     fork,
     cancel,
     delay,
+    debounce,
 } from 'redux-saga/effects'
 import type { Task } from 'redux-saga'
 
@@ -39,6 +40,7 @@ import type { ChangePageAction, DataRequestAction, RemoveAction } from './Action
 import { submitSaga } from './sagas/submit'
 import { clear } from './Providers/Storage'
 import { ResetDatasourceAction } from './Actions'
+import { autoSubmit } from './sagas/autoSubmit'
 
 // Запуск запроса за данными при изменении мета-данных (фильтр, сортировка, страница)
 export function* runDataRequest({ payload }: ChangePageAction) {
@@ -128,4 +130,10 @@ export default (apiProvider: unknown) => [
     takeEvery(reset, function* resetModels({ payload: { id } }: ResetDatasourceAction) {
         yield put(clearModel({ prefixes: Object.values(ModelPrefix), key: id }))
     }),
+    debounce(400, [
+        updateModel,
+        appendFieldToArray,
+        removeFieldFromArray,
+        copyFieldArray,
+    ], autoSubmit),
 ]

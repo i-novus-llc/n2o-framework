@@ -39,14 +39,14 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
     public Form compile(N2oForm source, CompileContext<?, ?> context, CompileProcessor p) {
         Form form = new Form();
         compileBaseWidget(form, source, context, p);
-        N2oAbstractDatasource datasource = initDatasource(form, source, p);
+        N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
         Models models = p.getScope(Models.class);
-        SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), new SubModelsScope());
-        CopiedFieldScope copiedFieldScope = p.cast(p.getScope(CopiedFieldScope.class), new CopiedFieldScope());
+        SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), SubModelsScope::new);
+        CopiedFieldScope copiedFieldScope = p.cast(p.getScope(CopiedFieldScope.class), CopiedFieldScope::new);
         WidgetParamScope paramScope = new WidgetParamScope();
         ValidationScope validationScope = p.getScope(ValidationScope.class) == null ? new ValidationScope() : p.getScope(ValidationScope.class);
         form.getComponent().setPrompt(initPrompt(source, p));
@@ -67,7 +67,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
 
     private Boolean initPrompt(N2oForm source, CompileProcessor p) {
         return p.cast(source.getPrompt(),
-                p.resolve(property("n2o.api.widget.form.unsaved_data_prompt"), Boolean.class));
+                () -> p.resolve(property("n2o.api.widget.form.unsaved_data_prompt"), Boolean.class));
     }
 
     @Override

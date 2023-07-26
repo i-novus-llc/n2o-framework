@@ -14,7 +14,6 @@
             <menu-item name="${contacts}">
                 <open-page page-id="ProtoPage" route="/proto"/>
             </menu-item>
-            <!--<page page-id="ProtoTabs" route="/tabs"/>-->
             <!--<page page-id="ProtoLine" route="/line"/>-->
             <!--<page page-id="CustomFieldset" route="/custom/route/fieldset"/>-->
             <!--<sub-menu label="Кастомные страницы">-->
@@ -24,5 +23,5 @@
             <!--<page page-id="refbooks" route="/refbooks"/>-->
         </nav>
     </header>
-    <footer left-text="N2O ${n2o.version} © 2013-2022"/>
+    <footer left-text="N2O ${n2o.version} © 2013-2023"/>
 </application>

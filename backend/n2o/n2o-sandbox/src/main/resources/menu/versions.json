@@ -9,6 +9,22 @@
           "name": "Вложенные поля в <out> параметрах операции"
         },
         {
+          "templateId": "versions/7.25/parent_in_normalize",
+          "name": "Ключевое слово #parent в нормализации полей"
+        },
+        {
+          "templateId": "versions/7.25/actions_in_menu",
+          "name": "Действия в пунктах меню"
+        },
+        {
+          "templateId": "versions/7.25/page_toolbars_actions_passing",
+          "name": "Проброс действий и кнопок в открываемую страницу"
+        },
+        {
+          "templateId": "versions/7.25/unclickable_menu_item",
+          "name": "Некликабельное меню"
+        },
+        {
           "templateId": "versions/7.25/switch",
           "name": "Switch в поле"
         }
@@ -592,10 +608,6 @@
         {
           "templateId": "versions/7.12/close_with_clear",
           "name": "Очистка формы с закрытием"
-        },
-        {
-          "templateId": "versions/7.12/hide_on_blur_table",
-          "name": "Появление тулбара при наведении на строку в таблице"
         },
         {
           "templateId": "versions/7.12/image_cell",

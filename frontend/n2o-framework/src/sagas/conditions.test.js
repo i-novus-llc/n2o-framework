@@ -59,24 +59,24 @@ describe('Проверка саги toolbar', () => {
     it('Тестирование resolveConditions', () => {
         expect(
             resolveConditions(
+                { model: { test: 'test' } },
                 [
                     {
                         expression: 'test === \'test\'',
                         modelLink: 'model',
                     },
                 ],
-                { model: { test: 'test' } },
             ).resolve,
         ).toBe(true)
         expect(
             resolveConditions(
+                { model: { test: 'test' } },
                 [
                     {
                         expression: 'test === \'test\'',
                         modelLink: 'no_model',
                     },
                 ],
-                { model: { test: 'test' } },
             ).resolve,
         ).toBe(false)
     })

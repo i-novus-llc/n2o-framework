@@ -14,7 +14,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.exceptions.verification.NeverWantedButInvoked;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -46,17 +45,18 @@ public class TableFiltersValidationAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-
     }
 
-    //TODO передлать либо включить - расхождение в поведении 7.23 и 7.24
-    @Disabled
     @Test
     public void testView() {
-        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/test.query.xml"));
+        builder.packs(
+                new N2oApplicationPack(),
+                new N2oAllPagesPack(),
+                new N2oAllDataPack()
+        );
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/simple/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -71,6 +71,7 @@ public class TableFiltersValidationAT extends AutoTestBase {
         eq.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
 
         id.control(InputText.class).click();
+        id.control(InputText.class).clear();
         id.control(InputText.class).setValue("1");
         id.shouldHaveValidationMessage(Condition.empty);
         like.control(InputText.class).shouldExists();
@@ -84,6 +85,7 @@ public class TableFiltersValidationAT extends AutoTestBase {
         like.shouldHaveValidationMessage(Condition.empty);
 
         id.control(InputText.class).click();
+        id.control(InputText.class).clear();
         id.control(InputText.class).setValue("2");
         like.control(InputText.class).shouldBeDisabled();
         like.shouldHaveValidationMessage(Condition.empty);
@@ -93,7 +95,7 @@ public class TableFiltersValidationAT extends AutoTestBase {
         id.control(InputText.class).click();
         id.control(InputText.class).setValue("2");
         like.control(InputText.class).shouldBeDisabled();
-        like.shouldHaveValidationMessage(Condition.empty);
+        like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
         tableWidget.filters().toolbar().button("Найти").click();
         like.control(InputText.class).shouldBeDisabled();
         like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
@@ -105,10 +107,14 @@ public class TableFiltersValidationAT extends AutoTestBase {
 
     @Test
     public void testValidationFetch() {
-        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation");
+        builder.packs(
+                new N2oApplicationPack(),
+                new N2oAllPagesPack(),
+                new N2oAllDataPack()
+        );
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

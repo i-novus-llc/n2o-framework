@@ -40,6 +40,9 @@ public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu>, Badg
     private void menuItem(Element e, N2oSimpleMenu.MenuItem m, IOProcessor p) {
         p.attribute(e, "id", m::getId, m::setId);
         p.attribute(e, "name", m::getName, m::setName);
+        p.attribute(e, "src", m::getSrc, m::setSrc);
+        p.attribute(e, "class", m::getCssClass, m::setCssClass);
+        p.attribute(e, "style", m::getStyle, m::setStyle);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "image", m::getImage, m::setImage);

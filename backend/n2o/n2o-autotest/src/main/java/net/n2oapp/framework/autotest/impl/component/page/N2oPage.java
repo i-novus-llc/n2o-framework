@@ -81,8 +81,8 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     @Override
-    public void shouldHaveTitle(String title) {
-        element().$(".n2o-page__title").shouldHave(Condition.text(title));
+    public void shouldHaveTitle(String title, Duration... duration) {
+        should(Condition.text(title), element().$(".n2o-page__title"), duration);
     }
 
     @Override
@@ -172,20 +172,20 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Deprecated
         @Override
-        public void firstTitleShouldHaveText(String text) {
-            element().$(".breadcrumb-item").shouldHave(Condition.text(text));
+        public void firstTitleShouldHaveText(String text, Duration... duration) {
+            should(Condition.text(text), element().$(".breadcrumb-item"), duration);
         }
 
         @Deprecated
         @Override
-        public void lastTitleShouldHaveText(String title) {
-            crumbs().last().shouldHave(Condition.text(title));
+        public void lastTitleShouldHaveText(String title, Duration... duration) {
+            should(Condition.text(title), crumbs().last(), duration);
         }
 
         @Deprecated
         @Override
-        public void titleShouldHaveText(String title, Integer index) {
-            crumbs().get(index).shouldHave(Condition.text(title));
+        public void titleShouldHaveText(String title, Integer index, Duration... duration) {
+            should(Condition.text(title), crumbs().get(index), duration);
         }
 
         public N2oBreadcrumb(SelenideElement element) {
@@ -223,8 +223,8 @@ public class N2oPage extends N2oComponent implements Page {
             }
 
             @Override
-            public void shouldHaveLabel(String text) {
-                element().lastChild().shouldHave(Condition.text(text));
+            public void shouldHaveLabel(String text, Duration... duration) {
+                should(Condition.text(text), element().lastChild(), duration);
             }
 
             @Override
@@ -243,31 +243,25 @@ public class N2oPage extends N2oComponent implements Page {
 
         }
     }
-    public static class N2oDialog implements Dialog {
+    public static class N2oDialog extends N2oComponent implements Dialog {
 
-        private final SelenideElement element;
         public N2oDialog(SelenideElement element) {
-            this.element = element;
+            setElement(element);
         }
 
         @Override
-        public void shouldBeVisible() {
-            element.shouldBe(Condition.visible);
-        }
-
-        @Override
-        public void shouldHaveText(String text) {
-            element.$(".modal-body").shouldHave(Condition.text(text));
+        public void shouldHaveText(String text, Duration... duration) {
+            should(Condition.text(text), element().$(".modal-body"), duration);
         }
 
         @Override
         public StandardButton button(String label) {
-            return N2oSelenide.component(element.$$(".btn").findBy(Condition.text(label)), StandardButton.class);
+            return N2oSelenide.component(element().$$(".btn").findBy(Condition.text(label)), StandardButton.class);
         }
 
         @Override
         public void shouldBeClosed(long timeOut) {
-            SelenideElement modalTitle = element.$(".modal-header .modal-title");
+            SelenideElement modalTitle = element().$(".modal-header .modal-title");
 
             if (modalTitle.exists())
                 modalTitle.shouldNotBe(Condition.exist, Duration.ofMillis(timeOut));
@@ -275,30 +269,24 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void shouldHaveReversedButtons() {
-            element.$(".btn-group").shouldHave(Condition.cssClass("flex-row-reverse"));
+            element().$(".btn-group").shouldHave(Condition.cssClass("flex-row-reverse"));
         }
 
     }
-    public static class N2oPopover implements Popover {
+    public static class N2oPopover extends N2oComponent implements Popover {
 
-        private final SelenideElement element;
         public N2oPopover(SelenideElement element) {
-            this.element = element;
+            setElement(element);
         }
 
         @Override
-        public void shouldBeVisible() {
-            element.shouldBe(Condition.visible);
-        }
-
-        @Override
-        public void shouldHaveText(String text) {
-            popoverBody().shouldHave(Condition.text(text));
+        public void shouldHaveText(String text, Duration... duration) {
+            should(Condition.text(text), popoverBody(), duration);
         }
 
         @Override
         public Button button(String label) {
-            return N2oSelenide.component(element.shouldBe(Condition.exist).$$(".popover-body .btn").findBy(Condition.exactText(label)), StandardButton.class);
+            return N2oSelenide.component(element().shouldBe(Condition.exist).$$(".popover-body .btn").findBy(Condition.exactText(label)), StandardButton.class);
         }
 
         @Override
@@ -310,7 +298,7 @@ public class N2oPage extends N2oComponent implements Page {
         }
 
         private SelenideElement popoverBody() {
-            return element.$(".popover-body");
+            return element().$(".popover-body");
         }
 
     }

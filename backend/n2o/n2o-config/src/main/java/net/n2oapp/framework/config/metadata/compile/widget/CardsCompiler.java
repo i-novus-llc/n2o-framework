@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 
@@ -41,7 +42,7 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
     public Cards compile(N2oCards source, CompileContext<?, ?> context, CompileProcessor p) {
         Cards cards = new Cards();
         compileBaseWidget(cards, source, context, p);
-        N2oAbstractDatasource datasource = initDatasource(cards, source, p);
+        N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
@@ -50,9 +51,9 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         if (source.getContent() != null)
             cards.setCards(compileCols(source.getContent(), context, p, object, widgetScope, widgetActions));
         cards.setVerticalAlign(p.cast(source.getVerticalAlign(),
-                p.resolve(property("n2o.api.widget.cards.vertical_align"), Cards.Position.class)));
-        cards.setHeight(p.cast(source.getHeight(),
-                p.resolve(property("n2o.api.widget.cards.height"), String.class)));
+                () -> p.resolve(property("n2o.api.widget.cards.vertical_align"), Cards.Position.class)));
+        cards.setHeight(prepareSizeAttribute(p.cast(source.getHeight(),
+                () -> p.resolve(property("n2o.api.widget.cards.height"), String.class))));
         cards.setPaging(compilePaging(cards, source, p.resolve(property("n2o.api.widget.cards.size"), Integer.class), p));
         return cards;
     }

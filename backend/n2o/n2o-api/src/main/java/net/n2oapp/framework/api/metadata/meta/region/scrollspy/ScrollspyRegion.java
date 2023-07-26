@@ -25,7 +25,7 @@ public class ScrollspyRegion extends Region implements CompiledRegionItem {
     @JsonProperty
     private Boolean headlines;
     @JsonProperty
-    private Integer maxHeight;
+    private String maxHeight;
     @JsonProperty("content")
     private List<ScrollspyElement> menu;
 

@@ -60,7 +60,7 @@ public class SelectAT extends AutoTestBase {
 
         input.openPopup();
         DropDown dropdown = input.dropdown();
-        dropdown.shouldHaveOptions("One", "Two", "Three");
+        dropdown.shouldHaveOptions(new String[]{"One", "Two", "Three"});
         input.shouldBeEmpty();
         dropdown.selectItem(1);
         input.shouldSelected("Two");
@@ -96,7 +96,7 @@ public class SelectAT extends AutoTestBase {
         input.shouldBeEmpty();
         input.openPopup();
         DropDown dropdown = input.dropdown();
-        dropdown.shouldHaveOptions("One", "Two", "Three");
+        dropdown.shouldHaveOptions(new String[]{"One", "Two", "Three"});
         dropdown.selectMulti(0);
         dropdown.shouldBeChecked(0);
         input.shouldSelected("Объектов 1 шт");
@@ -121,7 +121,7 @@ public class SelectAT extends AutoTestBase {
         input.shouldBeEmpty();
         input.openPopup();
         DropDown dropdown = input.dropdown();
-        dropdown.shouldHaveOptions("One", "Two", "Three", "Four", "Five");
+        dropdown.shouldHaveOptions(new String[]{"One", "Two", "Three", "Four", "Five"});
         dropdown.selectMulti(0);
         dropdown.shouldBeChecked(0);
         input.shouldSelected("1 объект");
@@ -169,7 +169,7 @@ public class SelectAT extends AutoTestBase {
         input.shouldBeEmpty();
         input.openPopup();
         DropDown dropdown = input.dropdown();
-        dropdown.shouldHaveOptions("name1", "name2", "name3");
+        dropdown.shouldHaveOptions(new String[]{"name1", "name2", "name3"});
         input.openPopup();
         dropdown.item("name1").shouldHaveDescription("desc1");
         input.openPopup();
@@ -189,7 +189,7 @@ public class SelectAT extends AutoTestBase {
         input2.shouldBeEmpty();
         input2.openPopup();
         DropDown dropdown2 = input2.dropdown();
-        dropdown2.shouldHaveOptions("name1", "name2", "name3");
+        dropdown2.shouldHaveOptions(new String[]{"name1", "name2", "name3"});
         input2.openPopup();
         dropdown2.item("name1").shouldHaveDescription("desc1");
         input2.openPopup();

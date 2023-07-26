@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
@@ -43,15 +44,14 @@ public class CopyActionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-
-        setJsonPath("net/n2oapp/framework/autotest/action/copy");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/copy/test.query.xml"));
     }
 
     @Test
     public void testSimpleCopy() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/copy/simple/index.page.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/action/copy/simple");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/simple/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -77,7 +77,10 @@ public class CopyActionAT extends AutoTestBase {
 
     @Test
     public void testCopyFromModal() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal/index.page.xml"),
+        setJsonPath("net/n2oapp/framework/autotest/action/copy/modal");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal/modal.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -130,7 +133,10 @@ public class CopyActionAT extends AutoTestBase {
 
     @Test
     public void testMultiCopyFromModal() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_multi/index.page.xml"),
+        setJsonPath("net/n2oapp/framework/autotest/action/copy/modal_multi");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_multi/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_multi/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_multi/modal.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -147,8 +153,8 @@ public class CopyActionAT extends AutoTestBase {
         TableWidget table = modal.content(SimplePage.class).widget(TableWidget.class);
         StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
 
-        table.columns().rows().row(0).click();
-        table.columns().rows().row(2).click();
+        table.columns().rows().row(0).cell(0, CheckboxCell.class).setChecked(true);
+        table.columns().rows().row(2).cell(0, CheckboxCell.class).setChecked(true);
         saveBtn.click();
         modal.shouldNotExists();
 
@@ -165,8 +171,8 @@ public class CopyActionAT extends AutoTestBase {
         btn.click();
         modal = N2oSelenide.modal();
 
-        table.columns().rows().row(3).click();
-        table.columns().rows().row(0).click();
+        table.columns().rows().row(3).cell(0, CheckboxCell.class).setChecked(true);
+        table.columns().rows().row(0).cell(0, CheckboxCell.class).setChecked(true);
         saveBtn.click();
         modal.shouldNotExists();
 
@@ -179,15 +185,18 @@ public class CopyActionAT extends AutoTestBase {
         item1.fields().field("name").control(InputText.class).shouldHaveValue("test1");
         item2.fields().field("id").control(InputText.class).shouldHaveValue("3");
         item2.fields().field("name").control(InputText.class).shouldHaveValue("test3");
-        item3.fields().field("id").control(InputText.class).shouldHaveValue("1");
-        item3.fields().field("name").control(InputText.class).shouldHaveValue("test1");
-        item4.fields().field("id").control(InputText.class).shouldHaveValue("4");
-        item4.fields().field("name").control(InputText.class).shouldHaveValue("test4");
+        item4.fields().field("id").control(InputText.class).shouldHaveValue("1");
+        item4.fields().field("name").control(InputText.class).shouldHaveValue("test1");
+        item3.fields().field("id").control(InputText.class).shouldHaveValue("4");
+        item3.fields().field("name").control(InputText.class).shouldHaveValue("test4");
     }
 
     @Test
     public void testReplaceCopyFromModal() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_replace/index.page.xml"),
+        setJsonPath("net/n2oapp/framework/autotest/action/copy/modal_replace");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_replace/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_replace/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_replace/modal.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -230,7 +239,10 @@ public class CopyActionAT extends AutoTestBase {
      */
     @Test
     public void testCopyNestedFields() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/copy/nested_fields/index.page.xml"),
+        setJsonPath("net/n2oapp/framework/autotest/action/copy/nested_fields");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/nested_fields/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/nested_fields/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/nested_fields/head_add.page.xml"));
 
         StandardPage page = open(StandardPage.class);

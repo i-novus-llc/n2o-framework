@@ -14,7 +14,6 @@ import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
@@ -91,7 +90,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     }
 
     private static Map<String, AbstractField> initFieldsMap(List<AbstractField> fields, String id) {
-        Map<String, AbstractField> result = new StrictMap<>("Field '%s' in query '" + id + "' not found");
+        Map<String, AbstractField> result = new HashMap<>();
         for (AbstractField field : fields) {
             result.put(field.getAbsoluteId(), field);
             if (field instanceof QueryReferenceField)
@@ -117,7 +116,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                 if (filter.getFilterId().equals(preFilter.getFilterId())) {
                     filter.setParam(p.cast(preFilter.getParam(), filter.getParam()));
                     if (preFilter.getLink() != null && !preFilter.getLink().isLink()) {
-                        filter.setCompiledDefaultValue(p.cast(preFilter.getLink().getValue(), p.resolve(filter.getDefaultValue(), filter.getDomain())));
+                        filter.setCompiledDefaultValue(p.cast(preFilter.getLink().getValue(),
+                                () -> p.resolve(filter.getDefaultValue(), filter.getDomain())));
                     }
                 }
             }
@@ -125,7 +125,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     }
 
     private Map<String, Map.Entry<String, FilterType>> initInvertFiltersMap(N2oQuery source, Map<String, AbstractField> fieldsMap) {
-        Map<String, Map.Entry<String, FilterType>> invertFiltersMap = new StrictMap<>();
+        Map<String, Map.Entry<String, FilterType>> invertFiltersMap = new HashMap<>();
         fieldsMap.values().stream().filter(queryField -> source.isSearchAvailable(queryField.getId())).forEach(queryField -> {
             for (N2oQuery.Filter f : source.getFiltersList(queryField.getAbsoluteId())) {
                 invertFiltersMap.put(f.getFilterId(), new CompiledQuery.FilterEntry(queryField.getAbsoluteId(), f.getType()));
@@ -135,16 +135,16 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     }
 
     private Map<String, String> initParamToFilterIdMap(Map<String, N2oQuery.Filter> filterIdsMap, CompileProcessor p) {
-        Map<String, String> filterParams = new StrictMap<>();
+        Map<String, String> filterParams = new HashMap<>();
         for (N2oQuery.Filter filter : filterIdsMap.values()) {
-            String param = p.cast(filter.getParam(), RouteUtil.normalizeParam(filter.getFilterId()));
+            String param = p.cast(filter.getParam(), () -> RouteUtil.normalizeParam(filter.getFilterId()));
             filterParams.put(param, filter.getFilterId());
         }
         return filterParams;
     }
 
     private Map<String, String> initFilterIdToParamMap(Map<String, String> paramToFilterMap) {
-        Map<String, String> filterParams = new StrictMap<>();
+        Map<String, String> filterParams = new HashMap<>();
         for (Map.Entry<String, String> paramEntry : paramToFilterMap.entrySet()) {
             filterParams.put(paramEntry.getValue(), paramEntry.getKey());
         }
@@ -152,7 +152,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     }
 
     private Map<String, N2oQuery.Filter> initFilterFieldsMap(Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap) {
-        Map<String, N2oQuery.Filter> result = new StrictMap<>();
+        Map<String, N2oQuery.Filter> result = new HashMap<>();
         for (Map<FilterType, N2oQuery.Filter> filterMap : filtersMap.values()) {
             for (N2oQuery.Filter filter : filterMap.values()) {
                 result.put(filter.getFilterId(), filter);
@@ -174,13 +174,13 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                 if (selection.getInvocation() instanceof N2oRestDataProvider) {
                     N2oRestDataProvider invocation = (N2oRestDataProvider) selection.getInvocation();
                     invocation.setFiltersSeparator(p.cast(invocation.getFiltersSeparator(),
-                            p.resolve(property("n2o.config.rest.filters_separator"), String.class)));
+                            () -> p.resolve(property("n2o.config.rest.filters_separator"), String.class)));
                     invocation.setSelectSeparator(p.cast(invocation.getSelectSeparator(),
-                            p.resolve(property("n2o.config.rest.select_separator"), String.class)));
-                    invocation.setJoinSeparator(p.cast(invocation.getJoinSeparator(), p.resolve(property(
-                            "n2o.config.rest.join_separator"), String.class)));
+                            () -> p.resolve(property("n2o.config.rest.select_separator"), String.class)));
+                    invocation.setJoinSeparator(p.cast(invocation.getJoinSeparator(),
+                            () -> p.resolve(property("n2o.config.rest.join_separator"), String.class)));
                     invocation.setSortingSeparator(p.cast(invocation.getSortingSeparator(),
-                            p.resolve(property("n2o.config.rest.sorting_separator"), String.class)));
+                            () -> p.resolve(property("n2o.config.rest.sorting_separator"), String.class)));
 
                 }
             }
@@ -223,8 +223,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     private void initDefaultFilters(N2oQuery.Filter[] filters, CompileProcessor p) {
         if (filters != null) {
             for (N2oQuery.Filter filter : filters) {
-                filter.setFilterId(p.cast(filter.getFilterId(), RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType()));
-                filter.setParam(p.cast(filter.getParam(), RouteUtil.normalizeParam(filter.getFilterId())));
+                filter.setFilterId(p.cast(filter.getFilterId(), () -> RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType()));
+                filter.setParam(p.cast(filter.getParam(), () -> RouteUtil.normalizeParam(filter.getFilterId())));
                 if (filter.getText() != null)
                     filter.setText(filter.getText().trim());
                 if (filter.getMapping() == null)
@@ -239,10 +239,10 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             field.setIsSelected(castDefault(field.getIsSelected(), defaultSelected));
 
             if (field.getIsSelected()) {
-                field.setMapping(castDefault(field.getMapping(), spel(field.getId())));
+                field.setMapping(castDefault(field.getMapping(), () -> spel(field.getId())));
             }
             if (field instanceof QueryReferenceField) {
-                field.setMapping(castDefault(field.getMapping(), spel(field.getId())));
+                field.setMapping(castDefault(field.getMapping(), () -> spel(field.getId())));
                 initDefaultFields(Arrays.asList(((QueryReferenceField) field).getFields()), defaultSelected, defaultSorted, p);
             } else
                 initDefaultSimpleField(((QuerySimpleField) field), defaultSorted, p);
@@ -253,39 +253,33 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         field.setName(castDefault(field.getName(), field.getId()));
         field.setIsSorted(castDefault(field.getIsSorted(), !isBlank(field.getSortingExpression()), defaultSorted));
 
-        if (field.getIsSorted()) {
-            field.setSortingMapping(castDefault(field.getSortingMapping(), spel(field.getId() + "Direction")));
-        }
+        if (field.getIsSorted())
+            field.setSortingMapping(castDefault(field.getSortingMapping(), () -> spel(field.getId() + "Direction")));
         compileSwitch(field, p);
     }
 
     private void compileSwitch(QuerySimpleField field, CompileProcessor p) {
         N2oSwitch n2oSwitch = field.getN2oSwitch();
-        if (Objects.isNull(n2oSwitch)) {
-            return;
-        }
+        if (Objects.isNull(n2oSwitch)) return;
+
         field.getN2oSwitch().setValueFieldId(field.getId());
         Map<Object, String> resolvedCases = new HashMap<>();
-        if (Objects.nonNull(n2oSwitch.getCases())) {
-            for (String key : n2oSwitch.getCases().keySet()) {
+        if (Objects.nonNull(n2oSwitch.getCases()))
+            for (String key : n2oSwitch.getCases().keySet())
                 resolvedCases.put(p.resolve(key), n2oSwitch.getCases().get(key));
-            }
-        }
         n2oSwitch.setResolvedCases(resolvedCases);
     }
 
     private static List<QuerySimpleField> initSortingFields(List<QuerySimpleField> fields) {
         List<QuerySimpleField> result = new ArrayList<>();
-        for (QuerySimpleField field : fields) {
-            if (field.getIsSorted()) {
+        for (QuerySimpleField field : fields)
+            if (field.getIsSorted())
                 result.add(field);
-            }
-        }
         return result;
     }
 
     private static Map<String, QuerySimpleField> initSimpleFieldsMap(List<QuerySimpleField> fields, String id) {
-        Map<String, QuerySimpleField> result = new StrictMap<>("Field '%s' in query '" + id + "' not found");
+        Map<String, QuerySimpleField> result = new HashMap<>();
         for (QuerySimpleField field : fields) {
             result.put(field.getAbsoluteId(), field);
         }

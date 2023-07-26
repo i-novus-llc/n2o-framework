@@ -5,6 +5,8 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 /**
  * Компонент пагинации для автотестирования
  */
@@ -22,7 +24,7 @@ public class N2oPaging extends N2oComponent implements Paging {
 
     protected String prevButtonLocator = ".prev";
 
-    protected String paginationLocator = ".pagination-container";
+    protected String paginationContainer = ".pagination-container";
 
     protected String totalTextLocator = ".pagination__total__text";
 
@@ -31,8 +33,9 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void shouldHaveActivePage(String label) {
-        element().$(paginationLocator.concat(" ").concat(pageItemLocator).concat(".active.page-link .title")).shouldHave(Condition.text(label));
+    public void shouldHaveActivePage(String label, Duration... duration) {
+        SelenideElement e = element().$(paginationContainer.concat(" ").concat(pageItemLocator).concat(".active.page-link .title"));
+        should(Condition.text(label), e, duration);
     }
 
     @Override
@@ -84,8 +87,8 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void prevShouldHaveLabel(String label) {
-        prevButton().parent().shouldHave(Condition.text(label));
+    public void prevShouldHaveLabel(String label, Duration... duration) {
+        should(Condition.text(label), prevButton().parent(), duration);
     }
 
     @Override
@@ -109,8 +112,8 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void nextShouldHaveLabel(String label) {
-        nextButton().parent().shouldHave(Condition.text(label));
+    public void nextShouldHaveLabel(String label, Duration... duration) {
+        should(Condition.text(label), nextButton().parent(), duration);
     }
 
     @Override
@@ -160,8 +163,8 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void lastShouldHavePage(String label) {
-        lastPage().parent().shouldHave(Condition.text(label));
+    public void lastShouldHavePage(String label, Duration... duration) {
+        should(Condition.text(label), lastPage().parent(), duration);
     }
 
     @Override
@@ -218,20 +221,33 @@ public class N2oPaging extends N2oComponent implements Paging {
         countButton().click();
     }
 
+    @Override
+    public void shouldExists() {
+        element().$(paginationContainer).lastChild().shouldBe(Condition.exist);
+    }
+
+    @Override
+    public void shouldNotExists() {
+        if (element().$(paginationContainer).exists()) {
+            element().$(paginationContainer).lastChild().shouldNotHave(Condition.exist);
+        } else
+            element().$(paginationContainer).shouldNotBe(Condition.exist);
+    }
+
     protected SelenideElement pageNumberButton(String number) {
-        return element().$$(paginationLocator.concat(" ").concat(pageItemLocator)).findBy(Condition.text(number));
+        return element().$$(paginationContainer.concat(" ").concat(pageItemLocator)).findBy(Condition.text(number));
     }
 
     protected SelenideElement paginationInfo() {
-        return element().$(paginationLocator.concat(" ").concat(totalTextLocator));
+        return element().$(paginationContainer.concat(" ").concat(totalTextLocator));
     }
 
     protected SelenideElement prevButton() {
-        return element().$(paginationLocator.concat(" ").concat(prevButtonLocator));
+        return element().$(paginationContainer.concat(" ").concat(prevButtonLocator));
     }
 
     protected SelenideElement nextButton() {
-        return element().$(paginationLocator.concat(" ").concat(nextButtonLocator));
+        return element().$(paginationContainer.concat(" ").concat(nextButtonLocator));
     }
 
     protected SelenideElement firstPage() {

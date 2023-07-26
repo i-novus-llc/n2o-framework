@@ -92,7 +92,6 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(table.getHeight(), is("100px"));
         assertThat(table.getWidth(), is("200px"));
         assertThat(table.getTextWrap(), is(true));
-        assertThat(table.getTableSize(), is(Size.LG));
         assertThat(table.getChildren(), is(ChildrenToggle.EXPAND));
         assertThat(table.getSearchOnChange(), is(true));
         assertThat(table.getFiltersDatasource().getQueryId(), is("test"));
@@ -127,7 +126,6 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(table.getHeight(), is("100px"));
         assertThat(table.getWidth(), is("200px"));
         assertThat(table.getTextWrap(), is(true));
-        assertThat(table.getTableSize(), is(Size.LG));
         assertThat(table.getChildren(), is(ChildrenToggle.EXPAND));
         assertThat(table.getSearchOnChange(), is(true));
         assertThat(table.getDatasourceId(), is("ds"));

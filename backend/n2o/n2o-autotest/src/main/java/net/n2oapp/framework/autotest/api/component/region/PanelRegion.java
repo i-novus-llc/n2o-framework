@@ -3,6 +3,8 @@ package net.n2oapp.framework.autotest.api.component.region;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.Expandable;
 
+import java.time.Duration;
+
 /**
  * Регион в виде панели для автотестирования
  */
@@ -16,7 +18,7 @@ public interface PanelRegion extends Region, Expandable {
      * Проверка заголовка на соответствие
      * @param title ожидаемый заголовок
      */
-    void shouldHaveTitle(String title);
+    void shouldHaveTitle(String title, Duration... duration);
 
     /**
      * Проверка отсутствия заголовка
@@ -27,7 +29,7 @@ public interface PanelRegion extends Region, Expandable {
      * Проверка заголовка подвала
      * @param footer ожидаемый заголовок
      */
-    void shouldHaveFooterTitle(String footer);
+    void shouldHaveFooterTitle(String footer, Duration... duration);
 
     /**
      * Проверка наличия возможности скрыть регион

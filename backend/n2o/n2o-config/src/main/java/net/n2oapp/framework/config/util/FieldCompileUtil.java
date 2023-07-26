@@ -29,6 +29,7 @@ public class FieldCompileUtil {
                 if (Boolean.TRUE.equals(preFilter.getResetOnChange()) && isLink(preFilter.getValue())) {
                     N2oField.ResetDependency reset = new N2oField.ResetDependency();
                     reset.setOn(new String[]{unwrapLink(preFilter.getValue())});
+                    reset.setApplyOnInit(false);
                     dependencies.add(reset);
                 }
             }

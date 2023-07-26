@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="outer" query-id="testActionContext"/>
+    </datasources>
+    <toolbar>
+        <button id="test" datasource="outer">
+            <invoke operation-id="testOperation"/>
+        </button>
+    </toolbar>
+</page>

@@ -45,7 +45,7 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testImageCell.page.xml")
                 .get(new PageContext("testImageCell"));
         Table table = (Table) page.getWidget();
-        ImageCell cell = (ImageCell) table.getComponent().getCells().get(0);
+        ImageCell cell = (ImageCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("ImageCell"));
         assertThat(cell.getShape(), is(ShapeType.ROUNDED));
         assertThat(cell.getWidth(), is("20px"));
@@ -66,9 +66,12 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
 
         assertThat(cell.getAction(), instanceOf(LinkActionImpl.class));
 
-        cell = (ImageCell) table.getComponent().getCells().get(1);
+        cell = (ImageCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getWidth(), nullValue());
         assertThat(cell.getTextPosition(), is(N2oImageCell.Position.right));
         assertThat(cell.getShape(), is(ShapeType.SQUARE));
+
+        cell = (ImageCell) table.getComponent().getBody().getCells().get(2);
+        assertThat(cell.getWidth(), is("200px"));
     }
 }

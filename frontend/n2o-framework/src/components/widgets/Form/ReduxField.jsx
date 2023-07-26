@@ -1,25 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { compose, withProps } from 'recompose'
 import some from 'lodash/some'
 
 import withObserveDependency from '../../../core/dependencies/withObserveDependency'
-import { loadingSelector, touchedSelector } from '../../../ducks/form/selectors'
 import { Controller } from '../../core/FormProvider'
 
 import withFieldContainer from './fields/withFieldContainer'
 import StandardField from './fields/StandardField/StandardField'
 
+// FIXME временное решение для fieldDependency type fetch,
+//  вызывает _fetchData компонента, дергается в withObserveDependency
 const config = {
-    // FIXME Непонятно почему зависимость 'fetch' реализована тут, отдельно от всех остальных. Надо свести всё в единое место
     onChange({ dependency }, dependencyType) {
         if (!this.controlRef) { return }
-        const { _fetchData, size, labelFieldId } = this.controlRef.props
+        const { fetchData, size, labelFieldId } = this.controlRef.props
         const haveReRenderDependency = some(dependency, { type: dependencyType })
 
         if (haveReRenderDependency) {
-            _fetchData({
+            fetchData({
                 size,
                 [`sorting.${labelFieldId}`]: 'ASC',
             })
@@ -32,12 +30,7 @@ class ReduxField extends React.Component {
         super(props)
 
         this.setRef = this.setRef.bind(this)
-        this.Field = compose(
-            withProps(() => ({
-                setReRenderRef: props.setReRenderRef,
-            })),
-            withFieldContainer,
-        )(props.component)
+        this.Field = withFieldContainer(props.component)
     }
 
     setRef(el) {
@@ -80,16 +73,4 @@ ReduxField.propTypes = {
     setReRenderRef: PropTypes.func,
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const { form: formName, name: fieldName, modelPrefix } = ownProps
-
-    return ({
-        loading: loadingSelector(modelPrefix, formName, fieldName)(state),
-        touched: touchedSelector(modelPrefix, formName, fieldName)(state),
-    })
-}
-
-export default compose(
-    connect(mapStateToProps),
-    withObserveDependency(config),
-)(ReduxField)
+export default withObserveDependency(config)(ReduxField)

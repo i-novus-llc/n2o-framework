@@ -250,21 +250,6 @@
                 <xs:documentation>Заголовок сообщения в случае непредвиденной ошибки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="confirm" type="xs:boolean">
-            <xs:annotation>
-                <xs:documentation>Требуется ли подтверждение действия?</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="confirm-text" type="xs:string" default="Вы уверены, что хотите выполнить действие?">
-            <xs:annotation>
-                <xs:documentation>Текст подтверждения действия.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="submit-label" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Наименование кнопки отправки операции.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -681,7 +666,9 @@
 
     <xs:complexType name="switchDefinition">
         <xs:annotation>
-            <xs:documentation>Оператор для удобной работы с разными ожидаемыми значениями нормализации.</xs:documentation>
+            <xs:documentation>
+                Переключатель
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="case" type="caseDefinition"/>
@@ -691,11 +678,15 @@
 
     <xs:complexType name="caseDefinition">
         <xs:annotation>
-            <xs:documentation>Значение возвращаемое в случае совпадения полученного значения в результате нормализации со значением в value.</xs:documentation>
+            <xs:documentation>
+                Значение, возвращаемое в случае совпадения value со значением поля
+            </xs:documentation>
         </xs:annotation>
         <xs:attribute name="value" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Ожидаемое значение.</xs:documentation>
+                <xs:documentation>
+                    Значение, с которым сравнивается значение поля
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

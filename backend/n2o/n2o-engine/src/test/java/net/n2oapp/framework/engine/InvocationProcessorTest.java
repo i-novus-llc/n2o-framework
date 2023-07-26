@@ -463,6 +463,9 @@ public class InvocationProcessorTest {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
         invocation.setOperation(N2oTestDataProvider.Operation.echo);
 
+        ObjectSimpleField simpleField = new ObjectSimpleField();
+        simpleField.setId("root_field");
+
         //List
         ObjectListField listField = new ObjectListField();
         listField.setId("employees");
@@ -476,7 +479,7 @@ public class InvocationProcessorTest {
         //Inner simple2
         ObjectSimpleField simpleListChildField2 = new ObjectSimpleField();
         simpleListChildField2.setId("name");
-        simpleListChildField2.setNormalize("#this.toUpperCase()");
+        simpleListChildField2.setNormalize("#this.toUpperCase() + '_' + #parent['root_field']");
 
         //Inner simple3
         ObjectSimpleField simpleListChildField3 = new ObjectSimpleField();
@@ -512,11 +515,12 @@ public class InvocationProcessorTest {
         dataList.add(innerDataSet2);
 
         DataSet dataSet = new DataSet("employees", dataList);
+        dataSet.put("root_field", "root simple field");
 
-        DataSet result = invocationProcessor.invoke(invocation, dataSet, singletonList(listField),
+        DataSet result = invocationProcessor.invoke(invocation, dataSet, Arrays.asList(listField, simpleField),
                 Arrays.asList(simpleOutId, simpleOutName, simpleOutName2, simpleOutSize));
         assertThat(result.getInteger("id"), is(102));
-        assertThat(result.getString("name"), is("TEST2"));
+        assertThat(result.getString("name"), is("TEST2_root simple field"));
         assertThat(result.getString("name2"), is("test2"));
         assertThat(result.getInteger("processedListSize"), is(1));
     }

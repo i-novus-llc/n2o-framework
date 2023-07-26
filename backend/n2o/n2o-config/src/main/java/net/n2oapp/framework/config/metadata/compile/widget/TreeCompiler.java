@@ -34,7 +34,7 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
     public Tree compile(N2oTree source, CompileContext<?, ?> context, CompileProcessor p) {
         Tree tree = new Tree();
         compileBaseWidget(tree, source, context, p);
-        N2oAbstractDatasource datasource = initDatasource(tree, source, p);
+        N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
@@ -47,11 +47,11 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         tree.setIconFieldId(p.resolveJS(source.getIconFieldId()));
         tree.setImageFieldId(p.resolveJS(source.getImageFieldId()));
         tree.setMultiselect(p.cast(source.getMultiselect(),
-                p.resolve(property("n2o.api.widget.tree.multi_select"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.widget.tree.multi_select"), Boolean.class)));
         tree.setHasCheckboxes(p.cast(source.getCheckboxes(),
-                p.resolve(property("n2o.api.widget.tree.checkboxes"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.widget.tree.checkboxes"), Boolean.class)));
         tree.setAjax(p.cast(source.getAjax(),
-                p.resolve(property("n2o.api.widget.tree.ajax"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.widget.tree.ajax"), Boolean.class)));
         tree.setBadge(BadgeUtil.compileReferringBadge(source, PROPERTY_PREFIX, p));
         return tree;
     }

@@ -13,6 +13,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -29,10 +30,10 @@ public class FieldSetValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
         builder.validators(new FormValidator(), new FieldSetRowValidator(), new FieldSetColumnValidator(),
                 new SetFieldSetValidator(), new LineFieldSetValidator(),
                 new MultiFieldSetValidator(), new FieldValidator());
+        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
     }
 
     @Test
@@ -47,11 +48,10 @@ public class FieldSetValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testNonUniqueFieldIdWithDependencies() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testNonUniqueFieldIdWithDependencies.widget.xml"),
-                "Поле test1 встречается более одного раза"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testNonUniqueFieldIdWithDependencies.widget.xml"));
+        assertEquals("Поле 'test1' встречается более одного раза", exception.getMessage());
     }
 
     @Test
@@ -61,10 +61,54 @@ public class FieldSetValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testNonUniqueFieldIdWithDependenciesInMultiSet() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testNonUniqueFieldIdInMultiSet.widget.xml"),
-                "Поле test1 встречается более одного раза"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testNonUniqueFieldIdInMultiSet.widget.xml"));
+        assertEquals("Поле 'test1' встречается более одного раза", exception.getMessage());
+    }
+
+    @Test
+    void testInvalidColumnSize() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testInvalidColumnSize.widget.xml"));
+        assertEquals("Размер колонки филдсета виджета 'testInvalidColumnSize' должен иметь значение от 1 до 12", exception.getMessage());
+    }
+
+    @Test
+    void testColor() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testLineFieldSetBadgeColor.widget.xml"));
+        assertEquals("Филдсет <line> использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
+    }
+
+    @Test
+    void testEmptyMultiSet() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testEmptyMultiSet.widget.xml"));
+        assertEquals("Мультифилдсет  виджета 'testEmptyMultiSet' имеет пустое тело", exception.getMessage());
+    }
+
+    @Test
+    void testEmptyCol() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testEmptyCol.widget.xml"));
+        assertEquals("Для <сol> виджета 'testEmptyCol' необходимо задать поля, либо же атрибут 'size'", exception.getMessage());
+    }
+
+    @Test
+    void testEmptyColValid() {
+        validate("net/n2oapp/framework/config/metadata/validation/fieldset/testEmptyColValid.widget.xml");
+    }
+
+    @Test
+    void testEmptyRow() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testEmptyRow.widget.xml"));
+        assertEquals("Для <row> виджета 'testEmptyRow' необходимо задать поля", exception.getMessage());
     }
 }

@@ -3,6 +3,8 @@ package net.n2oapp.framework.autotest.api.component.header;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.autotest.api.component.Component;
 
+import java.time.Duration;
+
 /**
  * Кнопка меню для автотестирования
  */
@@ -29,7 +31,7 @@ public interface MenuItem extends Component {
      * Проверка метки на соответствие
      * @param text ожидаемое значение метки
      */
-    void shouldHaveLabel(String text);
+    void shouldHaveLabel(String text, Duration... duration);
 
     /**
      * Клик по элементу

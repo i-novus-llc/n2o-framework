@@ -25,13 +25,13 @@ public class TextCellCompiler extends AbstractCellCompiler<TextCell, N2oTextCell
         TextCell cell = new TextCell();
         build(cell, source, context, p, property("n2o.api.cell.text.src"));
         if (source.getClassSwitch() != null)
-            cell.setCssClass(p.cast(source.getCssClass(), compileSwitch(source.getClassSwitch(), p)));
+            cell.getElementAttributes().put("className", p.cast(source.getCssClass(), () -> compileSwitch(source.getClassSwitch(), p)));
         cell.setFormat(source.getFormat());
         cell.setSubTextFieldKey(source.getSubTextFieldKey());
         cell.setSubTextFormat(source.getSubTextFormat());
         cell.setIcon(source.getIcon());
         cell.setIconPosition(p.cast(source.getIconPosition(),
-                p.resolve(property("n2o.api.cell.text.icon_position"), Position.class)));
+                () -> p.resolve(property("n2o.api.cell.text.icon_position"), Position.class)));
         return cell;
     }
 }

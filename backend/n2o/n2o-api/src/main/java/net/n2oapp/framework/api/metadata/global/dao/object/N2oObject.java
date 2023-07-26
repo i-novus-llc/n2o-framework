@@ -9,12 +9,12 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Исходная модель объекта
@@ -48,11 +48,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
     public static class Operation implements Source, IdAware, ExtensionAttributesAware {
         private String id;
         private String name;
-        private String formSubmitLabel;
         private String note;
-        private String confirmationText;
-        private Boolean confirm;
-        private String bulkConfirmationText;
         private String successText;
         private String successTitle;
         private String failText;

@@ -10,6 +10,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -33,10 +34,9 @@ public class CustomActionValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testRefreshNonExistentDatasource() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/custom/testRefreshNonExistentDatasource.page.xml"),
-                "Атрибут \"refresh-datasources\" действия  ссылается на несуществующий источник данных 'ds1'"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/custom/testRefreshNonExistentDatasource.page.xml"));
+        assertEquals("Атрибут \"refresh-datasources\" действия  ссылается на несуществующий источник данных 'ds1'", exception.getMessage());
     }
 }

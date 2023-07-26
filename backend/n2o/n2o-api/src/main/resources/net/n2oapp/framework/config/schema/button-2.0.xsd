@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/button-2.0"
            xmlns:acn="http://n2oapp.net/framework/config/schema/action-2.0"
+           xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:complexType name="baseButtonDefinition" abstract="true">
@@ -23,7 +24,7 @@
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка кнопки.</xs:documentation>
+                        <xs:documentation>Иконка кнопки из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="type" type="textType" default="textAndIcon">
@@ -31,7 +32,7 @@
                         <xs:documentation>Кнопка с иконкой или без.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="color" type="colorDefinition">
+                <xs:attribute name="color" type="bs:buttonColorDefinition">
                     <xs:annotation>
                         <xs:documentation>Цвет кнопки.</xs:documentation>
                     </xs:annotation>
@@ -41,9 +42,9 @@
                         <xs:documentation>Значок кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="badge-color" type="xs:string">
+                <xs:attribute name="badge-color" type="bs:colorDefinition">
                     <xs:annotation>
-                        <xs:documentation>Цвет значка.</xs:documentation>
+                        <xs:documentation>Цвет значка. Возможно использование плейсхолдеров</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="badge-shape" type="shapeType" default="circle">
@@ -73,12 +74,12 @@
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>CSS класс кнопки.</xs:documentation>
+                        <xs:documentation>Класс компонента кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль кнопки.</xs:documentation>
+                        <xs:documentation>Стиль компонента кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="model" type="acn:clientModel">
@@ -106,7 +107,7 @@
                 </xs:attribute>
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Реализация кнопки (React компонент).</xs:documentation>
+                        <xs:documentation>React компонент кнопки</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="description" type="xs:string">
@@ -189,12 +190,12 @@
                         <xs:documentation>Текст кнопки отмены.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="confirm-ok-color" type="colorDefinition" default="primary">
+                <xs:attribute name="confirm-ok-color" type="bs:buttonColorDefinition" default="primary">
                     <xs:annotation>
                         <xs:documentation>Цвет кнопки подтверждения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="confirm-cancel-color" type="colorDefinition" default="secondary">
+                <xs:attribute name="confirm-cancel-color" type="bs:buttonColorDefinition" default="secondary">
                     <xs:annotation>
                         <xs:documentation>Цвет кнопки отмены.</xs:documentation>
                     </xs:annotation>
@@ -212,6 +213,7 @@
                             </xs:enumeration>
                             <xs:enumeration value="false">
                                 <xs:annotation>
+
                                     <xs:documentation>Кнопка доступна при пустом контексте.</xs:documentation>
                                 </xs:annotation>
                             </xs:enumeration>
@@ -306,27 +308,6 @@
             <xs:enumeration value="text"/>
             <xs:enumeration value="textAndIcon"/>
         </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="colorDefinition">
-        <xs:annotation>
-            <xs:documentation>Цвет кнопки.</xs:documentation>
-        </xs:annotation>
-        <xs:union memberTypes="xs:string">
-            <xs:simpleType>
-                <xs:restriction base="xs:string">
-                    <xs:enumeration value="primary"/>
-                    <xs:enumeration value="secondary"/>
-                    <xs:enumeration value="success"/>
-                    <xs:enumeration value="danger"/>
-                    <xs:enumeration value="warning"/>
-                    <xs:enumeration value="info"/>
-                    <xs:enumeration value="light"/>
-                    <xs:enumeration value="dark"/>
-                    <xs:enumeration value="link"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:union>
     </xs:simpleType>
 
     <xs:simpleType name="tooltipPositionType">

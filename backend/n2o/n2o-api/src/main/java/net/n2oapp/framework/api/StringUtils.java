@@ -2,13 +2,19 @@ package net.n2oapp.framework.api;
 
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.lang.Nullable;
+import org.springframework.validation.ValidationUtils;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceNullByEmpty;
 import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceOptional;
 
@@ -122,7 +128,7 @@ public abstract class StringUtils {
      * }
      *
      * @param text Текст
-     * @return
+     * @return true - окаймлена, false - не окаймлена
      */
     public static boolean isEscapedString(String text) {
         return text.startsWith("'") && text.endsWith("'");
@@ -335,21 +341,6 @@ public abstract class StringUtils {
     }
 
     /**
-     * Убирает переводы на новую строку, пробелы в начале и в конце
-     *
-     * @param str Строка
-     * @return Строка без начальных и конечныъх переводов на новую строку и пробелов
-     */
-    public static String simplify(String str) {
-        if (str == null || str.isEmpty())
-            return str;
-        String result = str.trim();
-        result = org.springframework.util.StringUtils.trimLeadingCharacter(result, '\n');
-        result = org.springframework.util.StringUtils.trimTrailingCharacter(result, '\n');
-        return result.trim();
-    }
-
-    /**
      * Проверка, что текст содержит шаблон поиска
      *
      * @param str Строка
@@ -376,5 +367,26 @@ public abstract class StringUtils {
             return str;
         int num = str.contains("'") ? 2 : 1;
         return str.substring(num, str.length() - num);
+    }
+
+
+    /**
+     * Преобразование атрибута размера к корректному формату.
+     * Если оно представлено числом, то значение + "px".
+     * Иначе строка в исходном виде.
+     * Примеры:
+     * {@code
+     * prepareSizeAttribute("100");    //"100px"
+     * prepareSizeAttribute("100.5");  //"100.5px"
+     * prepareSizeAttribute("150em");  //"150em"
+     * prepareSizeAttribute("200px");  //"200px"
+     * }
+     *
+     * @param value Значение
+     * @return Значение атрибута размера в корректном формате
+     */
+
+    public static String prepareSizeAttribute(String value) {
+        return NumberUtils.isCreatable(value) ? value.concat("px") : value;
     }
 }

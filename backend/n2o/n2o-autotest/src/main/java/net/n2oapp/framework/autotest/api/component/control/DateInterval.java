@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.api.component.control;
 
 import net.n2oapp.framework.autotest.api.component.PopupControl;
 
+import java.time.Duration;
+
 /**
  * Компонент ввода интервала дат для автотестирования
  */
@@ -33,13 +35,13 @@ public interface DateInterval extends Control, PopupControl {
      * Провека того, что в поле даты начала установлено соответствующее значение
      * @param value ожидаемая дата в формате день.месяц.год
      */
-    void beginShouldHaveValue(String value);
+    void beginShouldHaveValue(String value, Duration... duration);
 
     /**
      * Провека того, что в поле даты конца установлено соответствующее значение
      * @param value ожидаемая дата в формате день.месяц.год
      */
-    void endShouldHaveValue(String value);
+    void endShouldHaveValue(String value, Duration... duration);
 
     /**
      * Клик по иконке календаря в поле ввода для открытия календаря
@@ -98,25 +100,25 @@ public interface DateInterval extends Control, PopupControl {
      * Проверка текущего месяца в календаре начала
      * @param month ожидаемый текущий месяц
      */
-    void beginCurrentMonthShouldHaveValue(String month);
+    void beginCurrentMonthShouldHaveValue(String month, Duration... duration);
 
     /**
      * Проверка текущего месяца в календаре конца
      * @param month ожидаемый текущий месяц
      */
-    void endCurrentMonthShouldHaveValue(String month);
+    void endCurrentMonthShouldHaveValue(String month, Duration... duration);
 
     /**
      * Проверка текущего года в календаре начала
      * @param year ожидаемый текущий год
      */
-    void beginCurrentYearShouldHaveValue(String year);
+    void beginCurrentYearShouldHaveValue(String year, Duration... duration);
 
     /**
      * Проверка текущего года в календаре конца
      * @param year ожидаемый текущий год
      */
-    void endCurrentYearShouldHaveValue(String year);
+    void endCurrentYearShouldHaveValue(String year, Duration... duration);
 
     /**
      * Клик по кнопке для перехода к предыдущему месяцу в календаре начала

@@ -7,29 +7,16 @@ import { dataProviderResolver } from '../core/dataProviderResolver'
 // @ts-ignore ignore import error from js file
 import { resolveItem } from '../utils/propsResolver'
 import { IDataSourceModels } from '../core/datasource/const'
-import { IBadgeProps } from '../components/snippets/Badge/Badge'
+
+import { IItem } from './CommonMenuTypes'
 
 export type metaPropsType = {[key: string]: unknown}
-
-export interface IItem {
-    target: string
-    href: string
-    linkType: 'outer' | 'inner'
-    imageSrc?: string
-    icon?: string
-    title: string
-    imageShape?: string
-    badge?: IBadgeProps
-    items?: IItem[]
-    pathMapping?: metaPropsType
-    queryMapping?: metaPropsType
-}
 
 export const getFromSource = (
     itemProps: IItem,
     datasources: metaPropsType[],
-    datasource: string,
     models: IDataSourceModels,
+    datasource?: string,
 ) => {
     const props = { ...itemProps }
     const { href, pathMapping = {}, queryMapping = {} } = props

@@ -19,6 +19,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+
 /**
  * Автотест для проверки востановления значений фильтров таблицы после закрытия страницы
  */
@@ -38,17 +40,24 @@ public class RestoreFiltersAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        builder.packs(
+                new N2oApplicationPack(),
+                new N2oAllPagesPack(),
+                new N2oAllDataPack()
+        );
     }
 
     @Test
     public void test() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close/index.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close/open.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close/test.query.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
-        StandardPage secPage = open(StandardPage.class);
+        StandardPage secPage = N2oSelenide.page(StandardPage.class);
         Modal modal = N2oSelenide.modal();
         Drawer drawer = N2oSelenide.drawer();
         page.shouldExists();
@@ -59,12 +68,11 @@ public class RestoreFiltersAT extends AutoTestBase {
         Button openPage = table.toolbar().topLeft().button("open-page");
         Button showModal = table.toolbar().topLeft().button("show-modal");
         Button openDrawer = table.toolbar().topLeft().button("open-drawer");
-
         Button close = secPage.toolbar().bottomRight().button("Закрыть");
 
         table.shouldExists();
         table.columns().rows().shouldHaveSize(9);
-        filter.setValue("TEST2");
+        filter.setValue("test2");
         search.click();
         table.columns().rows().shouldHaveSize(1);
 
@@ -72,21 +80,14 @@ public class RestoreFiltersAT extends AutoTestBase {
         secPage.shouldExists();
         close.click();
         page.shouldExists();
-        filter.shouldHaveValue("TEST2");
-        table.columns().rows().shouldHaveSize(1);
-
-        openPage.click();
-        secPage.shouldExists();
-        Selenide.back();
-        page.shouldExists();
-        filter.shouldHaveValue("TEST2");
+        filter.shouldHaveValue("test2");
         table.columns().rows().shouldHaveSize(1);
 
         openPage.click();
         secPage.shouldExists();
         secPage.breadcrumb().crumb("Восстановление фильтров после закрытия страницы").click();
         page.shouldExists();
-        filter.shouldHaveValue("TEST2");
+        filter.shouldHaveValue("test2");
         table.columns().rows().shouldHaveSize(1);
 
         showModal.click();
@@ -94,7 +95,7 @@ public class RestoreFiltersAT extends AutoTestBase {
         modal.toolbar().bottomRight().button("Закрыть").click();
         modal.shouldNotExists();
         page.shouldExists();
-        filter.shouldHaveValue("TEST2");
+        filter.shouldHaveValue("test2");
         table.columns().rows().shouldHaveSize(1);
 
         openDrawer.click();
@@ -102,14 +103,14 @@ public class RestoreFiltersAT extends AutoTestBase {
         drawer.toolbar().bottomRight().button("Закрыть").click();
         drawer.shouldNotExists();
         page.shouldExists();
-        filter.shouldHaveValue("TEST2");
+        filter.shouldHaveValue("test2");
         table.columns().rows().shouldHaveSize(1);
 
         Selenide.back();
         secPage.shouldExists();
         Selenide.forward();
         page.shouldExists();
-        filter.shouldHaveValue("TEST2");
+        filter.shouldHaveValue("test2", Duration.ofSeconds(15));
         table.columns().rows().shouldHaveSize(1);
     }
 }

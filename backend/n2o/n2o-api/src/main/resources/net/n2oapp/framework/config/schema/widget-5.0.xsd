@@ -94,17 +94,17 @@
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация виджета (React компонент).</xs:documentation>
+                <xs:documentation>React компонент виджета</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>CSS класс, который будет добавлен к виджету.</xs:documentation>
+                <xs:documentation>Класс компонента виджета.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль виджета.</xs:documentation>
+                <xs:documentation>Стиль компонента виджета</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="name" type="xs:string">
@@ -117,7 +117,7 @@
         </xs:attribute>
         <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Иконка виджета.</xs:documentation>
+                <xs:documentation>Иконка виджета из https://fontawesome.com/v4.7/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="visible" type="xs:boolean">
@@ -148,7 +148,7 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="ds:standardDatasourceDefinition">
-                <xs:attribute name="id" use="prohibited"/>
+                <xs:attribute name="id"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -172,7 +172,7 @@
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка действия.</xs:documentation>
+                        <xs:documentation>Иконка действия из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="visible" type="xs:boolean">
@@ -298,36 +298,25 @@
                         <xs:documentation>Автоматическое выделение первой строки таблицы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="table-size" type="sizeEnum">
-                    <xs:annotation>
-                        <xs:documentation>Размер строк таблицы.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Максимальная ширина таблицы.
+                        <xs:documentation>
+                            Максимальная ширина таблицы.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Максимальная высота таблицы.</xs:documentation>
+                        <xs:documentation>
+                            Максимальная высота таблицы.
+                            Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="text-wrap" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Перенос текста в ячейке.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="checkboxes" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Наличие чекбоксов в первом столбце таблицы.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="check-on-select" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Срабатывание (включение/выключение) чекбокса при клике по строке.
-                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="children" default="collapse">
@@ -368,17 +357,12 @@
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация столбца таблицы (React компонент).</xs:documentation>
+                <xs:documentation>React компонент таблицы</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="text-field-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Поле выборки, отображаемое в ячейке в виде текста.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="hide-on-blur" type="xs:boolean" default="false">
-            <xs:annotation>
-                <xs:documentation>Скрытие ячейки при наведении на строку.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="tooltip-field-id" type="xs:string">
@@ -393,7 +377,10 @@
         </xs:attribute>
         <xs:attribute name="width" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Ширина столбца.</xs:documentation>
+                <xs:documentation>
+                    Ширина столбца.
+                    Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="resizable" type="xs:boolean" default="false">
@@ -416,7 +403,7 @@
         </xs:attribute>
         <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Иконка заголовка столбца.</xs:documentation>
+                <xs:documentation>Иконка заголовка столбца из https://fontawesome.com/v4.7/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="sorting-field-id" type="xs:string">
@@ -431,12 +418,12 @@
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Css класс заголовка столбца таблицы.</xs:documentation>
+                <xs:documentation>Класс компонента заголовка столбца таблицы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
+                <xs:documentation>Стиль компонента заголовка столбца таблицы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="alignment" type="alignmentType" default="left">
@@ -513,17 +500,17 @@
                 </xs:attribute>
                 <xs:attribute name="src" type="xs:string" default="TextTableHeader">
                     <xs:annotation>
-                        <xs:documentation>Реализация столбца таблицы (React компонент).</xs:documentation>
+                        <xs:documentation>React компонент столбца таблицы</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Css класс заголовка столбца таблицы.</xs:documentation>
+                        <xs:documentation>Класс компонента заголовка столбца таблицы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
+                        <xs:documentation>Стиль компонента заголовка столбца таблицы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="alignment" type="alignmentType" default="center">
@@ -704,14 +691,20 @@
                     <xs:element name="lines" type="chart:lineChartDefinition" minOccurs="0"/>
                     <xs:element name="pie" type="chart:pieChartDefinition" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="width" type="xs:integer">
+                <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина диаграммы.</xs:documentation>
+                        <xs:documentation>
+                            Ширина диаграммы.
+                            Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="height" type="xs:integer">
+                <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Высота диаграммы.</xs:documentation>
+                        <xs:documentation>
+                            Высота диаграммы.
+                            Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -804,7 +797,10 @@
                 </xs:sequence>
                 <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Высота календаря.</xs:documentation>
+                        <xs:documentation>
+                            Высота календаря.
+                            Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="default-date" type="xs:string">
@@ -979,14 +975,20 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="height" type="xs:integer">
+                <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Минимальная высота плитки.</xs:documentation>
+                        <xs:documentation>
+                            Минимальная высота плитки.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="width" type="xs:integer">
+                <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина плитки.</xs:documentation>
+                        <xs:documentation>
+                            Ширина плитки.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1029,12 +1031,12 @@
             <xs:extension base="blockDefinition">
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>CSS класс.</xs:documentation>
+                        <xs:documentation>Класс компонента блока.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль блока.</xs:documentation>
+                        <xs:documentation>Стиль компонента блока.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1082,7 +1084,10 @@
                 </xs:attribute>
                 <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Высота карточек.</xs:documentation>
+                        <xs:documentation>
+                            Высота карточек.
+                            Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1098,7 +1103,7 @@
         </xs:sequence>
         <xs:attribute name="size" type="xs:integer">
             <xs:annotation>
-                <xs:documentation>Ширина колонки по бутстрапу.</xs:documentation>
+                <xs:documentation>Ширина колонки согласно сетке bootstrap (1-12).</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -1108,16 +1113,19 @@
             <xs:element name="switch" type="switchDefinition" minOccurs="0"/>
             <xs:element name="click" type="clickDefinition" minOccurs="0"/>
         </xs:sequence>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>React компонент строки</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>
-                    Поле выборки, отвечающее за класс строки(таким образом можно задать цвет, стиль, фон строки).
-                </xs:documentation>
+                <xs:documentation>Класс компонента строки</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль.</xs:documentation>
+                <xs:documentation>Стиль компонента строки</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -1186,7 +1194,7 @@
     <xs:complexType name="paginationDefinition">
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация пагинации.</xs:documentation>
+                <xs:documentation>React компонент пагинации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="prev" type="xs:boolean" default="false">
@@ -1216,7 +1224,7 @@
         </xs:attribute>
         <xs:attribute name="prev-icon" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Иконка кнопки "Предыдущая страница".</xs:documentation>
+                <xs:documentation>Иконка кнопки "Предыдущая страница". Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="next-label" type="xs:string">
@@ -1226,17 +1234,17 @@
         </xs:attribute>
         <xs:attribute name="next-icon" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Иконка кнопки "Следующая страница".</xs:documentation>
+                <xs:documentation>Иконка кнопки "Следующая страница". Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>CSS класс, который будет добавлен к пагинации.</xs:documentation>
+                <xs:documentation>Класс компонента пагинации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль пагинации.</xs:documentation>
+                <xs:documentation>Стиль компонента пагинации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="place" type="placeEnum" default="bottomLeft">
@@ -1293,15 +1301,6 @@
             <xs:enumeration value="radio"/>
             <!--выбор с помощью чекбоксов в первом столбце-->
             <xs:enumeration value="checkbox"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="sizeEnum">
-        <xs:restriction base="xs:string">
-            <!--не задано-->
-            <xs:enumeration value="sm"/>
-            <!--по возрастанию-->
-            <xs:enumeration value="lg"/>
         </xs:restriction>
     </xs:simpleType>
 

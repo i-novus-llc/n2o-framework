@@ -31,15 +31,15 @@ public class OutputListCompiler extends StandardFieldCompiler<OutputList, N2oOut
     public StandardField<OutputList> compile(N2oOutputList source, CompileContext<?, ?> context, CompileProcessor p) {
         OutputList outputList = new OutputList();
         outputList.setLabelFieldId(p.cast(source.getLabelFieldId(),
-                p.resolve(property("n2o.api.control.output_list.label_field_id"), String.class)));
+                () -> p.resolve(property("n2o.api.control.output_list.label_field_id"), String.class)));
         outputList.setHrefFieldId(p.cast(source.getHrefFieldId(),
-                p.resolve(property("n2o.api.control.output_list.href_field_id"), String.class)));
+                () -> p.resolve(property("n2o.api.control.output_list.href_field_id"), String.class)));
         outputList.setTarget(p.cast(source.getTarget(),
-                p.resolve(property("n2o.api.control.output_list.target"), Target.class)));
+                () -> p.resolve(property("n2o.api.control.output_list.target"), Target.class)));
         outputList.setDirection(p.cast(source.getDirection(),
-                p.resolve(property("n2o.api.control.output_list.direction"), OutputList.Direction.class)));
+                () -> p.resolve(property("n2o.api.control.output_list.direction"), OutputList.Direction.class)));
         outputList.setSeparator(p.cast(source.getSeparator(),
-                p.resolve(property("n2o.api.control.output_list.separator"), String.class)));
+                () -> p.resolve(property("n2o.api.control.output_list.separator"), String.class)));
         return compileStandardField(outputList, source, context, p);
     }
 }

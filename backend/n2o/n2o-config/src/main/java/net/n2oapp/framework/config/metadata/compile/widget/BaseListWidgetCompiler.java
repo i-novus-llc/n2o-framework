@@ -33,18 +33,18 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
         Pagination pagination = new Pagination();
         pagination.setSize(source.getSize() != null ? source.getSize() : size);
         N2oPagination sourcePagination = source.getPagination() != null ? source.getPagination() : new N2oPagination();
-        pagination.setPrev(p.cast(sourcePagination.getPrev(), p.resolve(property("n2o.api.widget.list.paging.prev"), Boolean.class)));
-        pagination.setNext(p.cast(sourcePagination.getNext(), p.resolve(property("n2o.api.widget.list.paging.next"), Boolean.class)));
-        pagination.setShowLast(p.cast(sourcePagination.getShowLast(), p.resolve(property("n2o.api.widget.list.paging.show_last"), Boolean.class)));
+        pagination.setPrev(p.cast(sourcePagination.getPrev(), () -> p.resolve(property("n2o.api.widget.list.paging.prev"), Boolean.class)));
+        pagination.setNext(p.cast(sourcePagination.getNext(), () -> p.resolve(property("n2o.api.widget.list.paging.next"), Boolean.class)));
+        pagination.setShowLast(p.cast(sourcePagination.getShowLast(), () -> p.resolve(property("n2o.api.widget.list.paging.show_last"), Boolean.class)));
         pagination.setShowCount(p.cast(sourcePagination.getShowCount(), pagination.getShowLast() ? ShowCountType.ALWAYS : ShowCountType.NEVER));
         pagination.setSrc(sourcePagination.getSrc());
-        pagination.setPrevLabel(p.cast(sourcePagination.getPrevLabel(), p.resolve(property("n2o.api.widget.list.paging.prev_label"), String.class)));
-        pagination.setPrevIcon(p.cast(sourcePagination.getPrevIcon(), p.resolve(property("n2o.api.widget.list.paging.prev_icon"), String.class)));
-        pagination.setNextLabel(p.cast(sourcePagination.getNextLabel(), p.resolve(property("n2o.api.widget.list.paging.next_label"), String.class)));
-        pagination.setNextIcon(p.cast(sourcePagination.getNextIcon(), p.resolve(property("n2o.api.widget.list.paging.next_icon"), String.class)));
-        pagination.setClassName(p.cast(sourcePagination.getClassName(), p.resolve(property("n2o.api.widget.list.paging.className"), String.class)));
+        pagination.setPrevLabel(p.cast(sourcePagination.getPrevLabel(), () -> p.resolve(property("n2o.api.widget.list.paging.prev_label"), String.class)));
+        pagination.setPrevIcon(p.cast(sourcePagination.getPrevIcon(), () -> p.resolve(property("n2o.api.widget.list.paging.prev_icon"), String.class)));
+        pagination.setNextLabel(p.cast(sourcePagination.getNextLabel(), () -> p.resolve(property("n2o.api.widget.list.paging.next_label"), String.class)));
+        pagination.setNextIcon(p.cast(sourcePagination.getNextIcon(), () -> p.resolve(property("n2o.api.widget.list.paging.next_icon"), String.class)));
+        pagination.setClassName(p.cast(sourcePagination.getClassName(), () -> p.resolve(property("n2o.api.widget.list.paging.className"), String.class)));
         pagination.setStyle(StylesResolver.resolveStyles(sourcePagination.getStyle()));
-        pagination.setPlace(p.cast(sourcePagination.getPlace(), p.resolve(property("n2o.api.widget.list.paging.place"), Place.class)));
+        pagination.setPlace(p.cast(sourcePagination.getPlace(), () -> p.resolve(property("n2o.api.widget.list.paging.place"), Place.class)));
         return pagination;
     }
 

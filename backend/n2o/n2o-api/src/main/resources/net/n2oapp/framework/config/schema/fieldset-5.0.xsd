@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/fieldset-5.0"
            xmlns:ctr2="http://n2oapp.net/framework/config/schema/control-3.0"
+           xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:element name="set" type="setDefinition"/>
@@ -52,17 +53,17 @@
                 </xs:attribute>
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Реализация филдсета.</xs:documentation>
+                        <xs:documentation>React компонент филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Класс филдсета.</xs:documentation>
+                        <xs:documentation>Класс компонента филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль филдсета.</xs:documentation>
+                        <xs:documentation>Стиль компонента филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="label" type="xs:string">
@@ -85,9 +86,12 @@
                         <xs:documentation>Выравнивание лейблов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="field-label-width" type="xs:integer">
+                <xs:attribute name="field-label-width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина лейблов в пикселях.</xs:documentation>
+                        <xs:documentation>
+                            Ширина лейблов в пикселях.
+                            Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="visible" type="xs:string">
@@ -155,9 +159,9 @@
                         <xs:documentation>Значок филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="badge-color" type="xs:string">
+                <xs:attribute name="badge-color" type="bs:colorDefinition">
                     <xs:annotation>
-                        <xs:documentation>Цвет значка.</xs:documentation>
+                        <xs:documentation>Цвет значка. Возможно использование плейсхолдеров.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="badge-shape" type="shapeType" default="square">
@@ -273,12 +277,12 @@
                 </xs:sequence>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>CSS класс строки.</xs:documentation>
+                        <xs:documentation>Класс компонента строки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль строки.</xs:documentation>
+                        <xs:documentation>Стиль компонента строки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:anyAttribute>
@@ -299,19 +303,19 @@
                 <xs:sequence>
                     <xs:element name="row" type="rowDefinition" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="size" type="xs:string">
+                <xs:attribute name="size" type="xs:integer">
                     <xs:annotation>
-                        <xs:documentation>Ширина столбца</xs:documentation>
+                        <xs:documentation>Ширина столбца согласно сетке bootstrap (1-12).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Css класс столбца.</xs:documentation>
+                        <xs:documentation>Класс компонента столбца.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль столбца.</xs:documentation>
+                        <xs:documentation>Стиль компонента столбца.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="visible" type="xs:string">
@@ -366,5 +370,4 @@
             <xs:enumeration value="right"/>
         </xs:restriction>
     </xs:simpleType>
-
 </xs:schema>

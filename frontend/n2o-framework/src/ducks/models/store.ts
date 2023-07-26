@@ -30,9 +30,9 @@ const modelsSlice = createSlice({
     initialState,
     reducers: {
         SET: {
-            prepare(prefix: ModelPrefix, key: string, model?: object) {
+            prepare(prefix: ModelPrefix, key: string, model?: Record<string, unknown> | null, isDefault?: boolean) {
                 return ({
-                    payload: { prefix, key, model },
+                    payload: { prefix, key, model, isDefault },
                     meta: { prefix, key, model },
                 })
             },
@@ -95,7 +95,7 @@ const modelsSlice = createSlice({
         },
 
         MERGE: {
-            prepare(combine: unknown) {
+            prepare(combine: Record<ModelPrefix, Record<string, object | object[]>>) {
                 return ({
                     payload: { combine },
                 })

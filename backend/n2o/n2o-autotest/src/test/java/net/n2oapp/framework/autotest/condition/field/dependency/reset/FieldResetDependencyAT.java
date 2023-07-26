@@ -1,6 +1,8 @@
 package net.n2oapp.framework.autotest.condition.field.dependency.reset;
 
+import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.control.*;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -40,7 +42,7 @@ public class FieldResetDependencyAT extends AutoTestBase {
     }
 
     @Test
-    public void test() {
+    void test() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/reset/index.page.xml")
         );
@@ -77,7 +79,7 @@ public class FieldResetDependencyAT extends AutoTestBase {
         inputText.shouldHaveValue("test reset");
         datePicker.shouldHaveValue("02.02.2023");
         select.shouldSelected("2");
-        inputSelect.shouldSelectedMulti("2", "3");
+        inputSelect.shouldSelectedMulti(new String[]{"2", "3"});
         checkbox.shouldBeChecked();
         checkboxGroup.shouldBeChecked("test1");
         checkboxGroup.shouldBeChecked("test3");
@@ -87,7 +89,7 @@ public class FieldResetDependencyAT extends AutoTestBase {
         inputText.shouldHaveValue("test reset");
         datePicker.shouldHaveValue("02.02.2023");
         select.shouldSelected("2");
-        inputSelect.shouldSelectedMulti("2", "3");
+        inputSelect.shouldSelectedMulti(new String[]{"2", "3"});
         checkbox.shouldBeChecked();
         checkboxGroup.shouldBeChecked("test1");
         checkboxGroup.shouldBeChecked("test3");
@@ -103,9 +105,9 @@ public class FieldResetDependencyAT extends AutoTestBase {
     }
 
     @Test
-    public void testApplyOnInit() {
+    void testApplyOnInit() {
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/reset/apply_on_init/index.page.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/reset_on_init/index.page.xml")
         );
 
         SimplePage page = open(SimplePage.class);
@@ -122,5 +124,36 @@ public class FieldResetDependencyAT extends AutoTestBase {
         reset.clear();
         reset.setValue("test");
         initFalse.shouldBeEmpty();
+    }
+
+    @Test
+    void testApplyOnInitShowModal() {
+        setJsonPath("net/n2oapp/framework/autotest/condition/field/dependency/apply_on_init_modal");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/apply_on_init_modal/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/apply_on_init_modal/test.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/apply_on_init_modal/test.query.xml")
+        );
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        Modal modal = N2oSelenide.modal();
+        page.widget(FormWidget.class).toolbar().topLeft().button("Модальное окно").click();
+        modal.shouldExists();
+        InputText name = modal.content(SimplePage.class).widget(FormWidget.class).fields().field("name").control(InputText.class);
+        InputText price = modal.content(SimplePage.class).widget(FormWidget.class).fields().field("price").control(InputText.class);
+        InputText defaultValue = modal.content(SimplePage.class).widget(FormWidget.class).fields().field("defaultValue").control(InputText.class);
+        InputText initValue = modal.content(SimplePage.class).widget(FormWidget.class).fields().field("initValue").control(InputText.class);
+
+        name.shouldHaveValue("Audi");
+        price.shouldHaveValue("60000");
+        defaultValue.shouldHaveValue("default value");
+        initValue.shouldHaveValue("apply on init");
+
+        name.setValue("BMW");
+        price.shouldBeEmpty();
+        defaultValue.shouldHaveValue("on name");
+        initValue.shouldHaveValue(  "on name");
     }
 }

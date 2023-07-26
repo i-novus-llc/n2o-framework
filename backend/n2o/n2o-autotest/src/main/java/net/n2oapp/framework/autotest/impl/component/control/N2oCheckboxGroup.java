@@ -5,13 +5,15 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 
+import java.time.Duration;
+
 /**
  * Компонент группы чекбоксов для автотестирования
  */
 public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
 
     @Override
-    public void shouldHaveValue(String value) {
+    public void shouldHaveValue(String value, Duration... duration) {
         throw new UnsupportedOperationException();
     }
 
@@ -45,9 +47,8 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
     }
 
     @Override
-    public void shouldHaveOptions(String... labels) {
-        element().$$(".custom-control-label")
-                .shouldHave(CollectionCondition.exactTexts(labels));
+    public void shouldHaveOptions(String[] labels, Duration... duration) {
+        should(CollectionCondition.exactTexts(labels), element().$$(".custom-control-label"), duration);
     }
 
     @Override

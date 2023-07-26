@@ -42,12 +42,12 @@ public class IconCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testIconCell.page.xml")
                 .get(new PageContext("testIconCell"));
         Table table = (Table) page.getWidget();
-        IconCell cell = (IconCell) table.getComponent().getCells().get(0);
+        IconCell cell = (IconCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("IconCell"));
         assertThat(cell.getIcon(), is("icon"));
         assertThat(cell.getIconType(), is(IconType.icon));
 
-        cell = (IconCell) table.getComponent().getCells().get(1);
+        cell = (IconCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getSrc(), is("IconCell"));
         assertThat(cell.getIcon(), is("`type.id == 1 ? 'icon1' : type.id == 2 ? 'icon2' : 'icon3'`"));
         assertThat(cell.getIconType(), is(IconType.iconAndText));

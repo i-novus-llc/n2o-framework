@@ -1,5 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
+import java.time.Duration;
+
 /**
  * Компонент ввода текста для автотестирования
  */
@@ -50,5 +52,5 @@ public interface InputText extends Control {
      * Проверка соответствия единицы измерения
      * @param text ожидаемая единица измерения
      */
-    void shouldHaveMeasureText(String text);
+    void shouldHaveMeasureText(String text, Duration... duration);
 }

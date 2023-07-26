@@ -7,6 +7,8 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 
+import java.time.Duration;
+
 /**
  * Регион в виде панели для автотестирования
  */
@@ -17,8 +19,8 @@ public class N2oPanelRegion extends N2oRegion implements PanelRegion {
     }
 
     @Override
-    public void shouldHaveTitle(String title) {
-        header().shouldHave(Condition.text(title));
+    public void shouldHaveTitle(String title, Duration... duration) {
+        should(Condition.text(title), header(), duration);
     }
 
     @Override
@@ -27,8 +29,8 @@ public class N2oPanelRegion extends N2oRegion implements PanelRegion {
     }
 
     @Override
-    public void shouldHaveFooterTitle(String footer) {
-        element().$(".card-footer").shouldHave(Condition.text(footer));
+    public void shouldHaveFooterTitle(String footer, Duration... duration) {
+        should(Condition.text(footer), element().$(".card-footer"), duration);
     }
 
     @Override

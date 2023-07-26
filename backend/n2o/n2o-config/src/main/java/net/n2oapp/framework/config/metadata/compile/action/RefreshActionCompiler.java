@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oRefreshAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.action.N2oRefreshAction;
 import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshAction;
 import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshPayload;
 import org.springframework.stereotype.Component;
@@ -35,6 +35,6 @@ public class RefreshActionCompiler extends AbstractActionCompiler<RefreshAction,
     @Override
     protected void initDefaults(N2oRefreshAction source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
-        source.setDatasourceId(p.cast(source.getDatasourceId(), getLocalDatasourceId(p)));
+        source.setDatasourceId(p.cast(source.getDatasourceId(), () -> getLocalDatasourceId(p)));
     }
 }

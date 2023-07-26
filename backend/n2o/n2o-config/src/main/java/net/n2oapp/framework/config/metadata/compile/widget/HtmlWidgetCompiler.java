@@ -24,11 +24,11 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
     public HtmlWidget compile(N2oHtmlWidget source, CompileContext<?, ?> context, CompileProcessor p) {
         HtmlWidget widget = new HtmlWidget();
         compileBaseWidget(widget, source, context, p);
-        N2oAbstractDatasource datasource = initDatasource(widget, source, p);
+        N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
-        String html = p.cast(source.getHtml(), getContentByUri(source.getUrl()));
+        String html = p.cast(source.getHtml(), () -> getContentByUri(source.getUrl()));
         if (html != null) {
             if (hasLink(html))
                 html = html.replace("'", "\\\'");

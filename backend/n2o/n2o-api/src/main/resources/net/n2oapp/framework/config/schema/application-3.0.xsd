@@ -120,17 +120,17 @@
         </xs:sequence>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация заголовка. По умолчанию Header</xs:documentation>
+                <xs:documentation>React компонент заголовка. По умолчанию Header</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>css класс шапки</xs:documentation>
+                <xs:documentation>Класс компонента шапки</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль шапки</xs:documentation>
+                <xs:documentation>Стиль компонента шапки</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="visible" type="xs:boolean" default="true">
@@ -155,12 +155,12 @@
         </xs:attribute>
         <xs:attribute name="sidebar-icon" type="xs:string" >
             <xs:annotation>
-                <xs:documentation>Иконка открытия боковой панели, если не задана, значит кнопки не будет</xs:documentation>
+                <xs:documentation>Иконка открытия боковой панели, если не задана, значит кнопки не будет. Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="sidebar-toggled-icon" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Иконка скрытия боковой панели, если не задана, значит кнопки не будет</xs:documentation>
+                <xs:documentation>Иконка скрытия боковой панели, если не задана, значит кнопки не будет. Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>
@@ -173,17 +173,17 @@
     <xs:complexType name="footerDefinition">
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация подвала. По умолчанию DefaultFooter</xs:documentation>
+                <xs:documentation>React компонент подвала. По умолчанию DefaultFooter</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>css класс подвала</xs:documentation>
+                <xs:documentation>Класс компонента подвала</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль подвала</xs:documentation>
+                <xs:documentation>Стиль компонента подвала</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="right-text" type="xs:string">

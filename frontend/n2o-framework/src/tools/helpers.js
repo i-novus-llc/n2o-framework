@@ -2,10 +2,9 @@ import each from 'lodash/each'
 import isObject from 'lodash/isObject'
 import isArray from 'lodash/isArray'
 import isString from 'lodash/isString'
-import transform from 'lodash/transform'
-import isEqual from 'lodash/isEqual'
-import cloneDeepWith from 'lodash/cloneDeepWith'
 import map from 'lodash/map'
+import isNaN from 'lodash/isNaN'
+import isEmpty from 'lodash/isEmpty'
 
 function buildHTTPQuery(formData, numericPrefix, argSeparator) {
     let i = 0
@@ -122,60 +121,29 @@ function needLinked(query) {
 }
 
 /**
- * Возвращается widgetId на основе page и container
- * @param pageId
- * @param cntId
- * @returns {string}
- */
-export function getWidgetId(pageId, cntId) {
-    return `${pageId}.${cntId}`
-}
+ Бэкенд всегда присылает значения с единицами измерения
+ прим. xml width = '200' будет получено как string '200px'
+ Функция получения численных значений.
+ Используется в компонентах в которых необходимы доп вычисления,
+ либо работающими с integer only
+ **/
+export function mapToNumeric(params) {
+    if (isEmpty(params)) {
+        return {}
+    }
 
-/**
- * Проверка является ли объект Promise
- * @param obj
- * @returns {boolean}
- */
-export function isPromise(obj) {
-    return (
-        !!obj &&
-        (typeof obj === 'object' || typeof obj === 'function') &&
-        typeof obj.then === 'function'
-    )
-}
+    const newParams = { ...params }
 
-/**
- * Глубокое сравнение двух объектов
- * @param  {Object} object объект сравнания
- * @param  {Object} base   объект с чем сарвнивают
- * @return {Object}        возвращает новый объект с разницей
- */
-export function difference(object, base) {
-    const changes = (object, base) => transform(object, (result, value, key) => {
-        if (!isEqual(value, base[key])) {
-            result[key] = isObject(value) && isObject(base[key])
-                ? changes(value, base[key])
-                : value
+    const keys = Object.keys(newParams)
+
+    keys.forEach((key) => {
+        const value = newParams[key]
+        const parsed = parseFloat(value)
+
+        if (!isNaN(parsed)) {
+            newParams[key] = parsed
         }
     })
 
-    return changes(object, base)
-}
-
-/**
- * Глубокое удаление ключей
- * @param collection
- * @param excludeKeys
- * @returns {*}
- */
-export function omitDeep(collection, excludeKeys) {
-    function omitFn(value) {
-        if (value && typeof value === 'object') {
-            excludeKeys.forEach((key) => {
-                delete value[key]
-            })
-        }
-    }
-
-    return cloneDeepWith(collection, omitFn)
+    return newParams
 }

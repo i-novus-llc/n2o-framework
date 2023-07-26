@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Тест overlay окон">
+    <table query-id="test">
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="name"/>
+        </columns>
+        <toolbar>
+            <button label="Модалка с подтверждением">
+                <show-modal page-id="page" unsaved-data-prompt-on-close="true" route="/:id/modal">
+                    <path-param name="id" value="{id}"/>
+                </show-modal>
+            </button>
+            <button label="Модалка без подтверждения">
+                <show-modal page-id="page" route="/:id/modal2">
+                    <path-param name="id" value="{id}"/>
+                </show-modal>
+            </button>
+            <button label="Дровер с подтверждением">
+                <open-drawer page-id="page" unsaved-data-prompt-on-close="true" route="/:id/drawer">
+                    <path-param name="id" value="{id}"/>
+                </open-drawer>
+            </button>
+            <button label="Дровер без подтверждения">
+                <open-drawer page-id="page" route="/:id/drawer2">
+                    <path-param name="id" value="{id}"/>
+                </open-drawer>
+            </button>
+            <button label="OpenPage с подтверждением">
+                <open-page page-id="pageWithPrompt" route="/:id/open">
+                    <path-param name="id" value="{id}"/>
+                </open-page>
+            </button>
+            <button label="OpenPage без подтверждения">
+                <open-page page-id="page" route="/:id/open2">
+                    <path-param name="id" value="{id}"/>
+                </open-page>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>

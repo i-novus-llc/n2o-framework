@@ -53,7 +53,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
                 .get(new PageContext("testListWidgetCompile"));
         ListWidget listWidget = (ListWidget) page.getWidget();
-        assertThat(listWidget.getId(), is("testListWidgetCompile_main"));
+        assertThat(listWidget.getId(), is("testListWidgetCompile_w1"));
         assertThat(listWidget.getList().get("leftTop").getSrc(), is("TextCell"));
 
         assertThat(listWidget.getList().get("header").getSrc(), is("ProgressBarCell"));
@@ -70,7 +70,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
                 is(true));
 
         assertThat(listWidget.getList().get("rightBottom").getSrc(), is("IconCell"));
-        assertThat(listWidget.getList().get("rightBottom").getCssClass(), is("test"));
+        assertThat(listWidget.getList().get("rightBottom").getElementAttributes().get("className"), is("test"));
 
         assertThat(listWidget.getList().get("extra").getSrc(), is("ButtonsCell"));
         AbstractButton extra = ((ToolbarCell) listWidget.getList().get("extra")).getToolbar().get(0).getButtons().get(0);

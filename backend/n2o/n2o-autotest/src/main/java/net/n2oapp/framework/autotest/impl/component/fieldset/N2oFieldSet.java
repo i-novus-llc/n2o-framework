@@ -5,6 +5,8 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.fieldset.FieldSet;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 /**
  * Филдсет для автотестирования
  */
@@ -16,8 +18,8 @@ public abstract class N2oFieldSet extends N2oComponent implements FieldSet {
     }
 
     @Override
-    public void shouldHaveDescription(String description) {
-        description().shouldHave(Condition.text(description));
+    public void shouldHaveDescription(String description, Duration... duration) {
+        should(Condition.text(description), description(), duration);
     }
 
     @Override

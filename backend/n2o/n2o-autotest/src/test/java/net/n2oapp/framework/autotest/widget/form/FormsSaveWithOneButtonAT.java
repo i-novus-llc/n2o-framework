@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.widget.form;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
@@ -22,6 +23,7 @@ import org.junit.jupiter.api.Test;
  * Автотест сохранение нескольких форм одной кнопкой
  */
 public class FormsSaveWithOneButtonAT extends AutoTestBase {
+
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -36,7 +38,11 @@ public class FormsSaveWithOneButtonAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        builder.packs(
+                new N2oApplicationPack(),
+                new N2oAllPagesPack(),
+                new N2oAllDataPack()
+        );
         setJsonPath("net/n2oapp/framework/autotest/widget/form/save_with_one_button");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/save_with_one_button/index.page.xml"),
@@ -58,21 +64,27 @@ public class FormsSaveWithOneButtonAT extends AutoTestBase {
         StandardPage open = N2oSelenide.page(StandardPage.class);
         FormWidget mainForm = open.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
         mainForm.shouldExists();
-        mainForm.fields().field("Имя").control(InputText.class).click();
-        mainForm.fields().field("Имя").control(InputText.class).setValue("Александр");
-        mainForm.fields().field("Фамилия").control(InputText.class).click();
-        mainForm.fields().field("Фамилия").control(InputText.class).setValue("Цой");
+        StandardField name = mainForm.fields().field("Имя");
+        StandardField surname = mainForm.fields().field("Фамилия");
+        name.shouldExists();
+        name.control(InputText.class).click();
+        name.control(InputText.class).setValue("Александр");
+        surname.control(InputText.class).click();
+        surname.control(InputText.class).setValue("Цой");
         TabsRegion tabs = open.regions().region(1, TabsRegion.class);
         FormWidget addressForm = tabs.tab(0).content().widget(FormWidget.class);
+        StandardField address = addressForm.fields().field("Адрес");
         addressForm.shouldExists();
-        addressForm.fields().field("Адрес").control(InputText.class).click();
-        addressForm.fields().field("Адрес").control(InputText.class).setValue("г.Казань, ул.Качалова, д.75");
+        address.control(InputText.class).click();
+        address.control(InputText.class).setValue("г.Казань, ул.Качалова, д.75");
 
         tabs.tab(1).click();
         FormWidget orgForm = tabs.tab(1).content().widget(FormWidget.class);
         orgForm.shouldExists();
-        orgForm.fields().field("Название организации").control(InputText.class).click();
-        orgForm.fields().field("Название организации").control(InputText.class).setValue("Ай-новус");
+        StandardField org = orgForm.fields().field("Название организации");
+        org.shouldExists();
+        org.control(InputText.class).click();
+        org.control(InputText.class).setValue("Ай-новус");
 
         open.toolbar().bottomRight().button("Сохранить").click();
 
@@ -87,26 +99,27 @@ public class FormsSaveWithOneButtonAT extends AutoTestBase {
         updateButton.click();
         mainForm = open.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
         mainForm.shouldExists();
-        mainForm.fields().field("Имя").control(InputText.class).shouldHaveValue("Александр");
-        mainForm.fields().field("Имя").control(InputText.class).click();
-        mainForm.fields().field("Имя").control(InputText.class).setValue("Иван");
-        mainForm.fields().field("Фамилия").control(InputText.class).shouldHaveValue("Цой");
-        mainForm.fields().field("Фамилия").control(InputText.class).click();
-        mainForm.fields().field("Фамилия").control(InputText.class).setValue("Лебедев");
+        name.shouldExists();
+        name.control(InputText.class).shouldHaveValue("Александр");
+        name.control(InputText.class).click();
+        name.control(InputText.class).setValue("Иван");
+        surname.control(InputText.class).shouldHaveValue("Цой");
+        surname.control(InputText.class).click();
+        surname.control(InputText.class).setValue("Лебедев");
 
         tabs = open.regions().region(1, TabsRegion.class);
         addressForm = tabs.tab(0).content().widget(FormWidget.class);
         addressForm.shouldExists();
-        addressForm.fields().field("Адрес").control(InputText.class).shouldHaveValue("г.Казань, ул.Качалова, д.75");
-        addressForm.fields().field("Адрес").control(InputText.class).click();
-        addressForm.fields().field("Адрес").control(InputText.class).setValue("г.Казань, ул.Салимжанова, д.5");
+        address.control(InputText.class).shouldHaveValue("г.Казань, ул.Качалова, д.75");
+        address.control(InputText.class).click();
+        address.control(InputText.class).setValue("г.Казань, ул.Салимжанова, д.5");
 
         tabs.tab(1).click();
         orgForm = tabs.tab(1).content().widget(FormWidget.class);
         orgForm.shouldExists();
-        orgForm.fields().field("Название организации").control(InputText.class).shouldHaveValue("Ай-новус");
-        orgForm.fields().field("Название организации").control(InputText.class).click();
-        orgForm.fields().field("Название организации").control(InputText.class).setValue("КИР");
+        org.control(InputText.class).shouldHaveValue("Ай-новус");
+        org.control(InputText.class).click();
+        org.control(InputText.class).setValue("КИР");
 
         open.toolbar().bottomRight().button("Сохранить").click();
 

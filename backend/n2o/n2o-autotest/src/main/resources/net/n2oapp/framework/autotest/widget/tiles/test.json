@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "text": "text1",
+    "icon": "icon1",
+    "badge": "alert",
+    "image": "favicon.ico",
+    "progress": 50,
+    "rating": 4,
+    "checkbox": true
+  },
+  {
+    "id": 2,
+    "text": "text2",
+    "icon": "icon2",
+    "progress": 70,
+    "checkbox": false
+  }
+]

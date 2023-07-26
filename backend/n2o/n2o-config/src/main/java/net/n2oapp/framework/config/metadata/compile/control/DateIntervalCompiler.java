@@ -36,12 +36,12 @@ public class DateIntervalCompiler extends StandardFieldCompiler<DateInterval, N2
             throw new IllegalStateException("Wrong domain for control " + source.getId());
         dateInterval.setOutputFormat(domain.getJsFormat());
         dateInterval.setDateFormat(p.cast(source.getDateFormat(),
-                p.resolve(property("n2o.api.control.date_interval.date_format"), String.class)));
+                () -> p.resolve(property("n2o.api.control.date_interval.date_format"), String.class)));
         dateInterval.setTimeFormat(source.getTimeFormat());
         dateInterval.setMin(p.resolveJS(source.getMin()));
         dateInterval.setMax(p.resolveJS(source.getMax()));
         dateInterval.setUtc(p.cast(source.getUtc(),
-                p.resolve(property("n2o.api.control.date_interval.utc"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.control.date_interval.utc"), Boolean.class)));
         return compileStandardField(dateInterval, source, context, p);
     }
 

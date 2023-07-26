@@ -6,7 +6,6 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.ColumnFixedPosition;
 import net.n2oapp.framework.api.metadata.meta.control.Control;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
@@ -31,34 +30,25 @@ public class ColumnHeader implements IdAware, Compiled, JsonPropertiesAware {
     private String icon;
     @JsonProperty
     private String src;
-//    @JsonProperty
-    @Deprecated
-    private Boolean sortable;
     @JsonProperty
     private String sortingParam;
     @JsonProperty
     private Boolean resizable;
     @JsonProperty
-    private String width;
-    @JsonProperty
     private Object visible;
     @JsonProperty
     private ColumnFixedPosition fixed;
-    @JsonProperty
-    private Alignment alignment;
     @JsonProperty
     private Boolean filterable;
     @JsonProperty
     private Control filterControl;
     @JsonProperty
     private Boolean multiHeader;
-    @JsonProperty("className")
-    private String cssClass;
-    @JsonProperty
-    private Map<String, String> style;
     @JsonProperty
     private List<ColumnHeader> children;
     @JsonProperty
     private Map<ValidationType, List<Condition>> conditions = new HashMap<>();
+    @JsonProperty
+    private Map<String, Object> elementAttributes = new HashMap<>();
     private Map<String, Object> properties;
 }

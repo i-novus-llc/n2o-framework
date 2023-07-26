@@ -23,7 +23,7 @@ public class SetFieldSetCompiler extends AbstractFieldSetCompiler<SetFieldSet, N
     @Override
     public SetFieldSet compile(N2oSetFieldSet source, CompileContext<?, ?> context, CompileProcessor p) {
         SetFieldSet fieldSet = new SetFieldSet();
-        fieldSet.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.fieldset.set.src"), String.class)));
+        fieldSet.setSrc(p.cast(source.getSrc(), () -> p.resolve(property("n2o.api.fieldset.set.src"), String.class)));
         compileFieldSet(fieldSet, source, context, p);
         return fieldSet;
     }

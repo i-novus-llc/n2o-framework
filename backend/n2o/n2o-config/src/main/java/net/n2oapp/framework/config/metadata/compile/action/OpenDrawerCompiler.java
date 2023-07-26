@@ -10,6 +10,7 @@ import net.n2oapp.framework.config.metadata.compile.context.DrawerPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.convertPathToId;
 
@@ -42,20 +43,20 @@ public class OpenDrawerCompiler extends AbstractModalCompiler<OpenDrawer, N2oOpe
     protected void compilePayload(N2oOpenDrawer source, OpenDrawer drawer, PageContext pageContext, CompileProcessor p) {
         OpenDrawerPayload payload = drawer.getPayload();
         payload.setBackdrop(p.cast(source.getBackdrop(),
-                p.resolve(property("n2o.api.action.open_drawer.backdrop"), Boolean.class)));
-        payload.setWidth(p.cast(source.getWidth(),
-                p.resolve(property("n2o.api.action.open_drawer.width"), String.class)));
-        payload.setHeight(source.getHeight());
+                () -> p.resolve(property("n2o.api.action.open_drawer.backdrop"), Boolean.class)));
+        payload.setWidth(prepareSizeAttribute(p.cast(source.getWidth(),
+                () -> p.resolve(property("n2o.api.action.open_drawer.width"), String.class))));
+        payload.setHeight(prepareSizeAttribute(source.getHeight()));
         payload.setPlacement(p.cast(source.getPlacement(),
-                p.resolve(property("n2o.api.action.open_drawer.placement"), String.class)));
+                () -> p.resolve(property("n2o.api.action.open_drawer.placement"), String.class)));
         payload.setCloseOnBackdrop(p.cast(source.getCloseOnBackdrop(),
-                p.resolve(property("n2o.api.action.open_drawer.close_on_backdrop"), Boolean.class), true));
+                () -> p.resolve(property("n2o.api.action.open_drawer.close_on_backdrop"), Boolean.class), () -> true));
         payload.setClosable(p.cast(source.getClosable(),
-                p.resolve(property("n2o.api.action.open_drawer.closable"), Boolean.class), true));
+                () -> p.resolve(property("n2o.api.action.open_drawer.closable"), Boolean.class), () -> true));
         payload.setPrompt(pageContext.getUnsavedDataPromptOnClose());
         payload.setFixedFooter(p.cast(source.getFixedFooter(),
-                p.resolve(property("n2o.api.action.open_drawer.fixed_footer"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.action.open_drawer.fixed_footer"), Boolean.class)));
         payload.setCloseOnEscape(p.cast(source.getCloseOnEscape(),
-                p.resolve(property("n2o.api.action.open_drawer.close_on_escape"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.action.open_drawer.close_on_escape"), Boolean.class)));
     }
 }

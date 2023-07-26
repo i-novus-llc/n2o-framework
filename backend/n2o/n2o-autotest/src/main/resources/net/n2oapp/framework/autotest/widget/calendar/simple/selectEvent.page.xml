@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Просмотр события">
+    <datasources>
+        <datasource id="ds1" object-id="test" query-id="test">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+        </datasource>
+    </datasources>
+
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <input-text id="title" label="Название события"/>
+                <date-interval id="date" time-format="HH:mm:ss" label="Дата"/>
+                <radio-group id="resource" label="Ресурс" required="true">
+                    <options>
+                        <option id="1" name="Конференц зал"/>
+                        <option id="2" name="Переговорка"/>
+                    </options>
+                </radio-group>
+            </fields>
+            <toolbar place="topRight">
+                <button label="Удалить" color="danger">
+                    <invoke operation-id="delete" close-on-success="true"/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

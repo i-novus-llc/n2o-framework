@@ -7,7 +7,9 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
+import org.openqa.selenium.Keys;
 
+import java.time.Duration;
 import java.util.Arrays;
 
 /**
@@ -31,15 +33,16 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
-        input().shouldHave(Condition.value(value));
+    public void shouldHaveValue(String value, Duration... duration) {
+        should(Condition.value(value), input(), duration);
     }
 
     @Override
-    public void shouldSelectedMulti(String... values) {
-        if (values.length != 0)
-            selectedItems().shouldHave(CollectionCondition.size(values.length),
-                    CollectionCondition.textsInAnyOrder(values));
+    public void shouldSelectedMulti(String[] values, Duration... duration) {
+        if (values.length != 0) {
+            should(CollectionCondition.size(values.length), selectedItems(), duration);
+            should(CollectionCondition.textsInAnyOrder(values), selectedItems(), duration);
+        }
     }
 
     @Override
@@ -103,6 +106,11 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     public DropDown dropdown() {
         return N2oSelenide.component(element().parent()
                 .parent().$(".n2o-dropdown-control"), DropDown.class);
+    }
+
+    @Override
+    public void backspace() {
+        input().sendKeys(Keys.BACK_SPACE);
     }
 
     @Deprecated

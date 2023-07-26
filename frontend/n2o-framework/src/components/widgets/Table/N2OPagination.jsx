@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
-import isEqual from 'lodash/isEqual'
 
 import { Pagination } from '../../snippets/Pagination/Pagination'
 
@@ -13,44 +12,37 @@ import { Pagination } from '../../snippets/Pagination/Pagination'
  * @reactProps {number} activePage
  * @reactProps {function} onChangePage
  */
-export class N2OPagination extends Component {
-    componentDidUpdate(prevProps) {
-        const { datasource, setPage, activePage, count, size } = this.props
+export const N2OPagination = (props) => {
+    const {
+        datasource,
+        setPage,
+        showCount: propShowCount,
+        loading,
+        hasNext,
+        count,
+        visible = true,
+    } = props
 
-        if (
-            datasource &&
-            !isEqual(prevProps.datasource, datasource) &&
-            (isEmpty(datasource) && count > 0 && activePage > 1)
-        ) {
-            setPage(Math.ceil(count / size))
-        }
+    const showCount = propShowCount || !isEmpty(datasource)
+    const calculatedHasNext = count ? hasNext : (!loading && hasNext)
+
+    if (!visible) {
+        return null
     }
 
-    render() {
-        const {
-            datasource,
-            setPage,
-            showCount: propShowCount,
-            loading,
-            hasNext,
-            count,
-        } = this.props
-
-        const showCount = propShowCount || !isEmpty(datasource)
-        const calculatedHasNext = count ? hasNext : (!loading && hasNext)
-
-        return (
-            <Pagination
-                {...this.props}
-                onSelect={setPage}
-                showCount={showCount}
-                hasNext={calculatedHasNext}
-                loading={loading}
-                showSinglePage={false}
-            />
-        )
-    }
+    return (
+        <Pagination
+            {...props}
+            onSelect={setPage}
+            showCount={showCount}
+            hasNext={calculatedHasNext}
+            loading={loading}
+            showSinglePage={false}
+        />
+    )
 }
+
+N2OPagination.displayName = 'N2OPagination'
 
 N2OPagination.propTypes = {
     count: PropTypes.number,

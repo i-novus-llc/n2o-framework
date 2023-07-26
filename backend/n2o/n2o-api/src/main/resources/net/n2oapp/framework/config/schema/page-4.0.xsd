@@ -45,7 +45,7 @@
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация страницы.</xs:documentation>
+                <xs:documentation>React компонент страницы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="route" type="xs:string">
@@ -65,12 +65,12 @@
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>CSS класс страницы</xs:documentation>
+                <xs:documentation>Класс компонента страницы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль страницы</xs:documentation>
+                <xs:documentation>Стиль компонента страницы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="datasource" type="xs:string">
@@ -114,7 +114,7 @@
                 </xs:sequence>
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Реализация страницы</xs:documentation>
+                        <xs:documentation>React компонент страницы</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="name" type="xs:string">
@@ -153,12 +153,12 @@
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>CSS класс страницы</xs:documentation>
+                        <xs:documentation>Класс компонента страницы</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль страницы</xs:documentation>
+                        <xs:documentation>Стиль компонента страницы</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="model" type="ac:clientModel" default="resolve">
@@ -197,7 +197,10 @@
                 </xs:annotation>
                 <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина региона.</xs:documentation>
+                        <xs:documentation>
+                            Ширина региона.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -232,7 +235,10 @@
                 </xs:annotation>
                 <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина региона.</xs:documentation>
+                        <xs:documentation>
+                            Ширина региона.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="fixed" type="xs:boolean" default="false">
@@ -271,7 +277,7 @@
         </xs:annotation>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>CSS класс стилей.</xs:documentation>
+                <xs:documentation>Класс компонента</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="placeholder" type="xs:string">
@@ -284,7 +290,7 @@
                 <xs:documentation>Источник данных, в котором производится поиск.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="search-filter-id" type="xs:string">
+        <xs:attribute name="search-filter-id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор фильтра.</xs:documentation>
             </xs:annotation>
@@ -316,73 +322,13 @@
             <xs:documentation>Список действий над объектом.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="action" type="actionDefinition" maxOccurs="unbounded"/>
+            <xs:element name="action" type="ac:pageActionDefinition" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="generate" type="wgt:generateDefinition">
             <xs:annotation>
                 <xs:documentation>Генерация стандартных действий.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-    </xs:complexType>
-
-    <xs:complexType name="actionDefinition">
-        <xs:annotation>
-            <xs:documentation>Действие над страницей
-                (допускает использование нескольких обработчиков действий в теле)</xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ac:actions">
-                <xs:attribute name="id" type="xs:string" use="required">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="name" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Наименование.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="route" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>URL действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="icon" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Иконка действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="hotkey" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Горячая клавиша вызова.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="visible" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Видимость действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="enabled" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Доступность действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="model" type="ac:clientModel">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Контекст выполнения действия
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Источник данных для выполнения операции
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="datasourcesDefinition">

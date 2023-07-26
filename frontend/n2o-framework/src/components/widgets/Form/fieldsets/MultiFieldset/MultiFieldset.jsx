@@ -1,10 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
-import { compose } from 'recompose'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
 import PropTypes from 'prop-types'
 
-import { dataSourceErrors } from '../../../../../ducks/datasource/selectors'
 import evalExpression, {
     parseExpression,
 } from '../../../../../utils/evalExpression'
@@ -12,7 +8,6 @@ import { resolveExpression } from '../../utils'
 import propsResolver from '../../../../../utils/propsResolver'
 import HelpPopover from '../../fields/StandardField/HelpPopover'
 import { withFieldsetHeader } from '../withFieldsetHeader'
-import { isInitSelector } from '../../../../../ducks/form/selectors'
 import { useFieldArray } from '../../../../core/FormProvider'
 
 import MultiFieldsetItem from './MultiFieldsetItem'
@@ -28,8 +23,6 @@ function MultiFieldset({
     primaryKey = 'id',
     firstChildrenLabel,
     childrenLabel,
-    form,
-    isInit,
     ...props
 }) {
     const isEnabled = useMemo(() => resolveExpression(enabledExpression, activeModel), [activeModel, enabledExpression])
@@ -88,18 +81,6 @@ MultiFieldset.propTypes = {
     primaryKey: PropTypes.bool,
     firstChildrenLabel: PropTypes.string,
     childrenLabel: PropTypes.string,
-    form: PropTypes.string,
-    isInit: PropTypes.bool,
 }
 
-const mapStateToProps = createStructuredSelector({
-    isInit: (state, props) => isInitSelector(props.form, props.name)(state),
-    errors: (state, props) => dataSourceErrors(props.form, props.modelPrefix)(state),
-})
-
-export const enhance = compose(
-    connect(mapStateToProps),
-    withFieldsetHeader,
-)
-
-export default enhance(MultiFieldset)
+export default withFieldsetHeader(MultiFieldset)

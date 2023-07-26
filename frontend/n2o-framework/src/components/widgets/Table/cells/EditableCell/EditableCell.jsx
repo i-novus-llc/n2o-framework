@@ -9,7 +9,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import get from 'lodash/get'
 import set from 'lodash/set'
 
-import Text from '../../../../snippets/Text/Text'
+import { Text } from '../../../../snippets/Text/Text'
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
 import DefaultCell from '../DefaultCell'

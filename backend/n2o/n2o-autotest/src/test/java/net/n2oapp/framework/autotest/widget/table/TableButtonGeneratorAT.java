@@ -62,14 +62,16 @@ public class TableButtonGeneratorAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/data.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/data.object.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/data.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/data.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/exportModal.page.xml"));
     }
 
     @Test
     public void testFilters() {
+        table.columns().rows().shouldHaveSize(5);
         InputText inputName = table.filters().fields().field("Наименование").control(InputText.class);
         InputText inputRegion = table.filters().fields().field("Регион").control(InputText.class);
         Button search = table.filters().toolbar().button("Найти");
@@ -106,7 +108,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(1);
 
         toolbar.button(0, N2oStandardButton.class).click();
-//        inputName.shouldHaveValue("ТМК");
+        inputName.shouldHaveValue("ТМК");
         table.columns().rows().shouldHaveSize(1);
     }
 
@@ -117,6 +119,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
         table.columns().headers().header(2).shouldHaveTitle("Наименование");
         table.columns().headers().header(3).shouldHaveTitle("Регион");
+        table.paging().shouldExists();
 
         N2oDropdownButton button = toolbar.button(1, N2oDropdownButton.class);
         button.shouldBeCollapsed();
@@ -141,6 +144,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         table.columns().headers().header(0).shouldHaveTitle("Идентификатор");
         table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
         table.columns().headers().header(2).shouldHaveTitle("Регион");
+        table.paging().shouldExists();
 
         button.click();
         button.shouldBeExpanded();
@@ -155,6 +159,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         table.columns().headers().shouldHaveSize(2);
         table.columns().headers().header(0).shouldHaveTitle("Идентификатор ИПС");
         table.columns().headers().header(1).shouldHaveTitle("Регион");
+        table.paging().shouldExists();
 
         button.menuItem("Идентификатор ИПС").click();
         button.menuItem("Регион").click();
@@ -163,6 +168,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         button.menuItem("Наименование").shouldNotHaveIcon();
         button.menuItem("Регион").shouldNotHaveIcon();
         table.columns().headers().shouldHaveSize(0);
+        table.paging().shouldNotExists();
 
         button.menuItem("Наименование").click();
         button.menuItem("Наименование").shouldHaveIcon("fa-check");
@@ -213,6 +219,9 @@ public class TableButtonGeneratorAT extends AutoTestBase {
     @Test
     public void testResize() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator/resize");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/data.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/data.object.xml"));
         N2oDropdownButton resize = table.toolbar().topRight().button(3, N2oDropdownButton.class);
         table.columns().rows().shouldHaveSize(5);
         table.paging().lastShouldHavePage("12");
@@ -261,7 +270,6 @@ public class TableButtonGeneratorAT extends AutoTestBase {
 
     @Test
     public void exportCurrentPageTest() throws IOException {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/exportModal.page.xml"));
         table.shouldExists();
         table.paging().selectPage("2");
 
@@ -315,7 +323,6 @@ public class TableButtonGeneratorAT extends AutoTestBase {
 
     @Test
     public void exportAllTableTest() throws IOException {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/exportModal.page.xml"));
         StandardButton exportBtn = table.toolbar().topRight().button(5, StandardButton.class);
         exportBtn.shouldBeVisible();
 

@@ -13,6 +13,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -41,19 +42,33 @@ public class InvokeActionValidatorTest extends SourceValidationTestBase {
 
     @Test
     void testRefreshNonexistentWidget() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("/net/n2oapp/framework/config/metadata/validation/action/invoke/testInvokeActionValidationRefreshNonexistentWidget.page.xml"),
-                "Атрибут \"refresh-datasources\" действия referesh ссылается на несуществующий источник данных 'nonexistentWidget'"
-        );
+                () -> validate("/net/n2oapp/framework/config/metadata/validation/action/invoke/testInvokeActionValidationRefreshNonexistentWidget.page.xml"));
+        assertEquals("Атрибут \"refresh-datasources\" действия 'referesh' ссылается на несуществующий источник данных 'nonexistentWidget'", exception.getMessage());
     }
 
     @Test
     void testRefreshNonExistentDatasource() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/invoke/testRefreshNonExistentDatasource.page.xml"),
-                "Атрибут \"refresh-datasources\" действия refresh ссылается на несуществующий источник данных 'ds1'"
-        );
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/invoke/testRefreshNonExistentDatasource.page.xml"));
+        assertEquals("Атрибут \"refresh-datasources\" действия 'refresh' ссылается на несуществующий источник данных 'ds1'", exception.getMessage());
+    }
+
+    @Test
+    void testEmptyOperationId() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/invoke/testEmptyOperationId.page.xml"));
+        assertEquals("В действии <invoke> не указан идентификатор операции 'operation-id'", exception.getMessage());
+    }
+
+    @Test
+    void testObjectIdExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/invoke/testObjectIdExistence.page.xml"));
+        assertEquals("Действие <invoke operation-id='test'> ссылается на несуществующий объект 'test'", exception.getMessage());
     }
 }

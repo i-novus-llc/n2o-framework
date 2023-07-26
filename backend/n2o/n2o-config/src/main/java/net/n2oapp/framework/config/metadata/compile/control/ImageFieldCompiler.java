@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.control.ImageField;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -30,15 +31,15 @@ public class ImageFieldCompiler extends ActionFieldCompiler<ImageField, N2oImage
         ImageField imageField = new ImageField();
         initDefaults(source, context, p);
         compileField(imageField, source, context, p);
-        imageField.setData(p.cast(p.resolveJS(source.getData()), p.resolveJS(source.getUrl())));
+        imageField.setData(p.cast(p.resolveJS(source.getData()), () -> p.resolveJS(source.getUrl())));
         imageField.setTitle(p.resolveJS(source.getTitle()));
         imageField.setDescription(p.resolveJS(source.getDescription()));
         imageField.setTextPosition(p.cast(source.getTextPosition(),
-                p.resolve(property("n2o.api.control.image.text_position"), TextPosition.class)));
-        imageField.setWidth(p.cast(source.getWidth(),
-                p.resolve(property("n2o.api.control.image.width"), String.class)));
+                () -> p.resolve(property("n2o.api.control.image.text_position"), TextPosition.class)));
+        imageField.setWidth(prepareSizeAttribute(p.cast(source.getWidth(),
+                () -> p.resolve(property("n2o.api.control.image.width"), String.class))));
         imageField.setShape(p.cast(source.getShape(),
-                p.resolve(property("n2o.api.control.image.shape"), ShapeType.class)));
+                () -> p.resolve(property("n2o.api.control.image.shape"), ShapeType.class)));
         imageField.setStatuses(compileStatuses(source.getStatuses(), p));
         compileAction(source, imageField, context, p);
         return imageField;
@@ -54,7 +55,7 @@ public class ImageFieldCompiler extends ActionFieldCompiler<ImageField, N2oImage
             statusElement.setFieldId(e.getFieldId());
             statusElement.setIcon(p.resolveJS(e.getIcon()));
             statusElement.setPlace(p.cast(e.getPlace(),
-                    p.resolve(property("n2o.api.control.image.status.place"), ImageStatusElementPlace.class)));
+                    () -> p.resolve(property("n2o.api.control.image.status.place"), ImageStatusElementPlace.class)));
             statusElements[i++] = statusElement;
         }
         return statusElements;

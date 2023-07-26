@@ -37,7 +37,7 @@ public class LinkCellCompiler extends AbstractCellCompiler<LinkCell, N2oLinkCell
         }
 
         cell.setType(p.cast(source.getType(),
-                p.resolve(Placeholders.property("n2o.api.cell.link.type"), IconType.class)));
+                () -> p.resolve(Placeholders.property("n2o.api.cell.link.type"), IconType.class)));
         if (cell.getType() != IconType.text)
             cell.setIcon(p.resolveJS(source.getIcon()));
 

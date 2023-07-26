@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
@@ -62,11 +63,11 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     public D compile(S source, CompileContext<?, ?> context, CompileProcessor p) {
         D table = constructTable();
         compileBaseWidget(table, source, context, p);
-        N2oAbstractDatasource datasource = initDatasource(table, source, p);
+        N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.filter, p);
-        SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), new SubModelsScope());
+        SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), SubModelsScope::new);
         ValidationScope validationScope = p.getScope(ValidationScope.class) == null ? new ValidationScope() : p.getScope(ValidationScope.class);
         FiltersScope filtersScope = p.getScope(FiltersScope.class);
         TableFiltersScope tableFiltersScope = null;
@@ -80,15 +81,18 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);
         compileColumns(source, context, p, component, query, object, widgetScope, widgetActions,
                 subModelsScope, tableFiltersScope);
-        component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
-        component.setTableSize(source.getTableSize() != null ? source.getTableSize().name().toLowerCase() : null);
-        component.setWidth(source.getWidth());
-        component.setHeight(source.getHeight());
+        component.setWidth(prepareSizeAttribute(source.getWidth()));
+        component.setHeight(prepareSizeAttribute(source.getHeight()));
         component.setTextWrap(p.cast(source.getTextWrap(), p.resolve(property("n2o.api.widget.table.text_wrap"), Boolean.class)));
         if (source.getRows() != null) {
-            component.setRows(new Rows());
+            if (component.getBody().getRow() == null)
+                component.getBody().setRow(new TableWidgetComponent.BodyRow());
+            component.getBody().getRow().setSrc(source.getRows().getSrc());
+            if (source.getRows().getStyle() != null) {
+                component.getBody().getRow().getElementAttributes().put("style", p.resolveJS(source.getRows().getStyle()));
+            }
             if (source.getRows().getRowClass() != null) {
-                component.setRowClass(p.resolveJS(source.getRows().getRowClass()));
+                component.getBody().getRow().getElementAttributes().put("className", p.resolveJS(source.getRows().getRowClass()));
             } else {
                 if (source.getRows().getColor() != null) {
                     Map<Object, String> resolvedCases = new HashMap<>();
@@ -96,21 +100,16 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                         resolvedCases.put(p.resolve(key), source.getRows().getColor().getCases().get(key));
                     }
                     source.getRows().getColor().setResolvedCases(resolvedCases);
-                    component.setRowClass(buildSwitchExpression(source.getRows().getColor()));
+                    component.getBody().getRow().getElementAttributes().put("className", buildSwitchExpression(source.getRows().getColor()));
                 }
             }
-            component.setRowClick(compileRowClick(source, context, p, widgetScope, object, widgetActions));
+            component.getBody().getRow().setClick(compileRowClick(source, context, p, widgetScope, object, widgetActions));
         }
         table.setPaging(compilePaging(table, source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p));
         table.setChildren(p.cast(source.getChildren(),
-                p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggle.class))
+                () -> p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggle.class))
         );
-        component.setAutoCheckboxOnSelect(p.cast(source.getCheckOnSelect(), p.resolve(property("n2o.api.widget.table.check_on_select"), Boolean.class)));
-        component.setAutoSelect(p.cast(source.getAutoSelect(), p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
-
-        if (Boolean.TRUE.equals(p.cast(source.getCheckboxes(),
-                p.resolve(property("n2o.api.widget.table.checkboxes"), Boolean.class))))
-            component.setRowSelection(RowSelectionEnum.CHECKBOX);
+        component.setAutoSelect(p.cast(source.getAutoSelect(), () -> p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
 
         return table;
     }
@@ -136,26 +135,12 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                     sortings.put(RouteUtil.normalizeParam(p.cast(column.getSortingFieldId(), column.getTextFieldId())), column.getSortingDirection().toString().toUpperCase());
                 }
             }
-            component.setHeaders(headers);
-            component.setCells(cellsScope.getCells());
+            component.getHeader().setCells(headers);
+            component.getBody().setCells(cellsScope.getCells());
             if (isNotEmpty(sortings))
                 passSortingToDatasource(sortings, source, p);
 
-            RowSelectionEnum rowSelection = p.cast(source.getSelection(), p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class));
-            switch (rowSelection) {
-                case NONE:
-                    component.setHasSelect(false);
-                    component.setHasFocus(false);
-                    break;
-                case ACTIVE:
-                    component.setHasSelect(true);
-                    component.setHasFocus(true);
-                    break;
-                case RADIO:
-                case CHECKBOX:
-                    component.setRowSelection(rowSelection);
-                    break;
-            }
+            component.setRowSelection(p.cast(source.getSelection(), () -> p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class)));
         }
     }
 

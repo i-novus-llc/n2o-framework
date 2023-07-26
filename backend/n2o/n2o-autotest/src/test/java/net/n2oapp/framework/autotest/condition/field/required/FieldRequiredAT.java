@@ -45,8 +45,8 @@ public class FieldRequiredAT extends AutoTestBase {
     @Test
     public void defaultValue() {
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/simple_value/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/simple_value/myObject.object.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/simpleValue/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/simpleValue/myObject.object.xml")
         );
 
         SimplePage page = open(SimplePage.class);

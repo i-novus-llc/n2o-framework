@@ -1,10 +1,3 @@
-export enum Position {
-    Left = 'left',
-    Right = 'right'
-}
+import { Position, Shape } from '@i-novus/n2o-components/lib/display/Badge/enums'
 
-export enum Shape {
-    Square = 'square',
-    Rounded = 'rounded',
-    Circle = 'circle'
-}
+export { Position, Shape }

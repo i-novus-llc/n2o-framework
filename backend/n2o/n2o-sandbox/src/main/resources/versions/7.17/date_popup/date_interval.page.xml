@@ -3,7 +3,7 @@
              name="Проверка открытия pop-up при автофокусе на date-interval">
     <form auto-focus="true">
         <fields>
-            <date-interval id="date-interval" label="Дата" description="При открытии формы pop-up должен быть свернут"/>
+            <date-interval id="dateInterval" label="Дата" description="При открытии формы pop-up должен быть свернут"/>
         </fields>
     </form>
 </simple-page>

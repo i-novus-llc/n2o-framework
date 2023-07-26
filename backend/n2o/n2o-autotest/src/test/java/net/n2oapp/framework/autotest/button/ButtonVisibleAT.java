@@ -41,7 +41,7 @@ public class ButtonVisibleAT extends AutoTestBase {
 
     @Test
     public void testVisibleButton() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/visible/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/visible/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

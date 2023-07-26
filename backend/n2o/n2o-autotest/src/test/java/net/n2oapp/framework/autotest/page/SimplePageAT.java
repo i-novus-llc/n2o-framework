@@ -31,7 +31,7 @@ public class SimplePageAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/page/simplePage/index.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/page/simple_page/index.page.xml"));
     }
 
     @Test

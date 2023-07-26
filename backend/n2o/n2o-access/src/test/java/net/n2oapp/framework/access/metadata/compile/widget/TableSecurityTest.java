@@ -33,9 +33,9 @@ public class TableSecurityTest extends SourceCompileTestBase {
         Table table = (Table) compile("net/n2oapp/framework/access/metadata/tableColumnSecurity.widget.xml")
                 .get(new WidgetContext("tableColumnSecurity"));
 
-        assertThat(table.getComponent().getHeaders().size(), is(3));
+        assertThat(table.getComponent().getHeader().getCells().size(), is(3));
 
-        Security.SecurityObject securityObject = ((Security) table.getComponent().getHeaders().get(0).getProperties().get("security"))
+        Security.SecurityObject securityObject = ((Security) table.getComponent().getHeader().getCells().get(0).getProperties().get("security"))
                 .getSecurityMap().get("custom");
         assertThat(securityObject.getRoles().size(), is(1));
         assertTrue(securityObject.getRoles().contains("user"));
@@ -43,13 +43,13 @@ public class TableSecurityTest extends SourceCompileTestBase {
         assertThat(securityObject.getPermissions().size(), is(1));
         assertTrue(securityObject.getPermissions().contains("userName"));
 
-        securityObject = ((Security) table.getComponent().getHeaders().get(1).getProperties().get("security"))
+        securityObject = ((Security) table.getComponent().getHeader().getCells().get(1).getProperties().get("security"))
                 .getSecurityMap().get("custom");
         assertThat(securityObject.getUsernames().size(), is(1));
         assertTrue(securityObject.getUsernames().contains("userName"));
         assertThat(securityObject.getAuthenticated(), is(true));
 
-        securityObject = ((Security) table.getComponent().getHeaders().get(2).getProperties().get("security"))
+        securityObject = ((Security) table.getComponent().getHeader().getCells().get(2).getProperties().get("security"))
                 .getSecurityMap().get("custom");
         assertThat(securityObject.getDenied(), is(false));
         assertThat(securityObject.getPermitAll(), is(true));

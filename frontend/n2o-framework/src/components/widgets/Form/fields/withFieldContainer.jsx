@@ -1,33 +1,130 @@
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import {
-    compose,
-    pure,
-    withProps,
-    defaultProps,
-    withHandlers,
-    mapProps,
-    branch,
-} from 'recompose'
+import { useDispatch, useSelector } from 'react-redux'
 import isBoolean from 'lodash/isBoolean'
-import memoize from 'lodash/memoize'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import isNil from 'lodash/isNil'
+import { isEmpty } from 'lodash'
 
 import {
-    isDisabledSelector,
-    isInitSelector, isVisibleSelector,
-    messageSelector, requiredSelector,
+    makeFieldByName, messageSelector,
 } from '../../../../ducks/form/selectors'
 import { registerFieldExtra, unRegisterExtraField } from '../../../../ducks/form/store'
 import propsResolver from '../../../../utils/propsResolver'
 import { getModelByPrefixAndNameSelector } from '../../../../ducks/models/selectors'
+import { useFormContext } from '../../../core/FormProvider'
+import { setFieldSubmit } from '../../../../ducks/datasource/store'
 
-import withAutoSave from './withAutoSave'
+import { getValidationClass, modifyOn, replaceIndex, resolveControlIndexes } from './utils'
 
-const INDEX_PLACEHOLDER = 'index'
+const useReduxField = ({ name: fieldName, ...fieldProps }) => {
+    const dispatch = useDispatch()
+    const { formName } = useFormContext()
+    const field = useSelector(makeFieldByName(formName, fieldName))
+
+    useEffect(() => {
+        const { isInit } = field
+
+        if (!isInit) {
+            dispatch(registerFieldExtra(formName, fieldName, fieldProps))
+        }
+    }, [formName, fieldName, dispatch, field, fieldProps])
+
+    useEffect(() => () => {
+        dispatch(unRegisterExtraField(formName, fieldName))
+    }, [formName, fieldName, dispatch])
+
+    return field
+}
+
+const useModel = () => {
+    const { datasource, prefix } = useFormContext()
+
+    return useSelector(getModelByPrefixAndNameSelector(prefix, datasource)) || {}
+}
+const useValidation = (fieldName) => {
+    const { datasource, prefix } = useFormContext()
+
+    const message = useSelector(messageSelector(datasource, fieldName, prefix))
+
+    return {
+        message,
+        validationClass: getValidationClass(message),
+    }
+}
+
+const useParentIndex = (props) => {
+    const { parentIndex, parentName, model, subMenu, control, action, dependency } = props
+
+    const resolvedModel = useMemo(() => {
+        if (isNil(parentName)) {
+            return model
+        }
+
+        return {
+            ...get(model, parentName),
+            index: parentIndex,
+            ...model,
+        }
+    }, [model, parentIndex, parentName])
+    const resolvedProps = useMemo(() => {
+        if (isNil(parentIndex)) {
+            return props
+        }
+
+        return {
+            ...props,
+            control: control && resolveControlIndexes(control, parentIndex),
+            action: action && replaceIndex(action, parentIndex),
+            subMenu: subMenu && subMenu.map((option) => {
+                const { action } = option
+
+                if (action) {
+                    option.action = replaceIndex(action, parentIndex)
+                }
+
+                return option
+            }),
+            dependency: map(dependency, (dep) => {
+                const newDep = { ...dep }
+
+                if (newDep.on) {
+                    newDep.on = modifyOn(newDep.on, parentIndex)
+                }
+
+                return newDep
+            }),
+        }
+    }, [action, control, dependency, parentIndex, props, subMenu])
+
+    return {
+        ...resolvedProps,
+        model: resolvedModel,
+    }
+}
+
+const useResolvedProps = ({ input, meta, model, ...rest }) => useMemo(() => {
+    const pr = propsResolver(rest, model, ['toolbar', 'html', 'content', 'meta'])
+
+    return {
+        ...pr,
+        ...meta,
+        model,
+        ...input,
+    }
+}, [input, meta, model, rest])
+
+const useAutosave = (id, dataProvider) => {
+    const { datasource } = useFormContext()
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (datasource && !isEmpty(dataProvider)) {
+            dispatch(setFieldSubmit(datasource, id, dataProvider))
+        }
+    }, [dispatch, dataProvider, id, datasource])
+}
 
 /**
  * HOC обертка для полей, в которой содержится мэппинг свойств редакса и регистрация дополнительных свойств полей
@@ -35,123 +132,48 @@ const INDEX_PLACEHOLDER = 'index'
  * @returns {*}
  */
 export default (Field) => {
-    class FieldContainer extends React.Component {
-        constructor(props) {
-            super(props)
-            this.initIfNeeded(props)
-        }
+    const FieldContainer = (props) => {
+        const model = useModel()
+        const withIndex = useParentIndex({
+            ...props,
+            model,
+        })
+        const {
+            visible, disabled, enabled, multiSetDisabled,
+            parentIndex, validation, required, dependency,
+            name,
+        } = withIndex
+        // FIXME разобраться со всеми disabled/enabled, привести всё к единному виду
+        const disabledToRegister = isBoolean(enabled) && !disabled
+            ? !enabled
+            : disabled
+        const field = useReduxField({
+            name,
+            visible,
+            disabled: disabledToRegister && enabled === false,
+            visible_field: visible,
+            disabled_field: disabledToRegister,
+            parentIndex,
+            dependency,
+            required,
+            validation,
 
-        componentWillUnmount() {
-            const { unRegisterExtraField, form, name, modelPrefix } = this.props
+        })
+        const message = useValidation(name)
+        const resolved = useResolvedProps({
+            ...withIndex,
+            ...field,
+            disabled: multiSetDisabled || field.disabled,
+        })
 
-            unRegisterExtraField(modelPrefix, form, name)
-        }
+        useAutosave(resolved.id, resolved.dataProvider)
 
-        /**
-         * Регистрация дополнительных свойств поля
-         */
-        initIfNeeded(props) {
-            const {
-                form,
-                name,
-                isInit,
-                visibleToRegister,
-                disabledToRegister,
-                dependency,
-                requiredToRegister,
-                registerFieldExtra,
-                parentIndex,
-                validation,
-                enabled,
-                modelPrefix,
-            } = props
-
-            if (!isInit) {
-                registerFieldExtra(modelPrefix, form, name, {
-                    visible: visibleToRegister,
-                    visible_field: visibleToRegister,
-                    disabled: disabledToRegister && enabled === false,
-                    disabled_field: disabledToRegister,
-                    parentIndex,
-                    dependency: this.modifyDependency(dependency, parentIndex),
-                    required: requiredToRegister,
-                    validation,
-                })
-            }
-        }
-
-        modifyDependency = (dependency, parentIndex) => {
-            if (!isNil(parentIndex)) {
-                return map(dependency, (dep) => {
-                    const newDep = { ...dep }
-
-                    if (newDep.on) {
-                        newDep.on = this.modifyOn(newDep.on, parentIndex)
-                    }
-
-                    return newDep
-                })
-            }
-
-            return dependency
-        }
-
-        modifyOn = (on, parentIndex) => on.map(key => key.replace(INDEX_PLACEHOLDER, parentIndex))
-
-        replaceIndex = (obj, index) => JSON.parse(
-            JSON.stringify(obj).replaceAll(INDEX_PLACEHOLDER, index),
+        return (
+            <Field
+                {...resolved}
+                {...message}
+            />
         )
-
-        resolveControlIndexes = (control) => {
-            const { parentIndex } = this.props
-
-            if (control && control.dataProvider && !isNil(parentIndex)) {
-                const dataProvider = this.replaceIndex(control.dataProvider, parentIndex)
-
-                return {
-                    ...control,
-                    dataProvider,
-                }
-            }
-
-            return control
-        }
-
-        resolveActionIndexes = (action) => {
-            const { parentIndex } = this.props
-
-            if (action && !isNil(parentIndex)) {
-                return this.replaceIndex(action, parentIndex)
-            }
-
-            return action
-        }
-
-        render() {
-            const { mapProps } = this.props
-            const mappedProps = mapProps(this.props)
-            const { control, action, subMenu } = mappedProps
-
-            if (subMenu) {
-                mappedProps.subMenu = subMenu.map((option) => {
-                    const { action } = option
-
-                    if (action) {
-                        option.action = this.resolveActionIndexes(action)
-                    }
-
-                    return option
-                })
-            }
-
-            return (
-                <Field
-                    {...mappedProps}
-                    control={this.resolveControlIndexes(control)}
-                    action={this.resolveActionIndexes(action)}
-                />
-            )
-        }
     }
 
     FieldContainer.propTypes = {
@@ -161,104 +183,5 @@ export default (Field) => {
         parentIndex: PropTypes.number,
     }
 
-    const mapStateToProps = (state, ownProps) => {
-        const { form: formName, name: fieldName, modelPrefix, multiSetDisabled } = ownProps
-        const disabled = multiSetDisabled
-            ? multiSetDisabled || isDisabledSelector(formName, fieldName)(state)
-            : isDisabledSelector(modelPrefix, formName, fieldName)(state)
-
-        return {
-            isInit: isInitSelector(modelPrefix, formName, fieldName)(state),
-            visible: isVisibleSelector(modelPrefix, formName, fieldName)(state),
-            disabled,
-            required: requiredSelector(modelPrefix, formName, fieldName)(state),
-            message: messageSelector(formName, fieldName, modelPrefix)(state),
-            model: getModelByPrefixAndNameSelector(modelPrefix, formName)(state),
-        }
-    }
-
-    const mapDispatchToProps = dispatch => ({
-        dispatch,
-        registerFieldExtra: (prefix, form, name, initialState) => (
-            dispatch(registerFieldExtra(prefix, form, name, initialState))
-        ),
-        unRegisterExtraField: (prefix, form, name) => dispatch(unRegisterExtraField(prefix, form, name)),
-    })
-
-    return compose(
-        defaultProps({
-            disabled: false,
-            required: false,
-        }),
-        withHandlers({
-            getValidationState: () => (message) => {
-                if (!message) {
-                    return false
-                }
-
-                if (message.severity === 'success') {
-                    return 'is-valid'
-                }
-
-                if (message.severity === 'warning') {
-                    return 'has-warning'
-                }
-
-                return 'is-invalid'
-            },
-        }),
-        withHandlers({
-            mapProps: ({ getValidationState }) => memoize((props) => {
-                if (!props) {
-                    return false
-                }
-
-                const { input, message, meta, model, html, content, ...rest } = props
-                const pr = propsResolver(rest, model, ['toolbar'])
-
-                return {
-                    ...pr,
-                    ...meta,
-                    validationClass: getValidationState(message),
-                    message,
-                    html,
-                    content,
-                    model,
-                    ...input,
-                }
-            }),
-        }),
-        withProps(props => ({
-            visibleToRegister: props.visible,
-            requiredToRegister: props.required,
-            disabledToRegister:
-                isBoolean(props.enabled) && !props.disabled
-                    ? !props.enabled
-                    : props.disabled,
-        })),
-        connect(
-            mapStateToProps,
-            mapDispatchToProps,
-        ),
-        mapProps(({ model, parentIndex, parentName, ...props }) => ({
-            ...props,
-            parentIndex,
-            model: !isNil(parentName)
-                ? {
-                    ...get(model, parentName),
-                    index: parentIndex,
-                    ...model,
-                }
-                : model,
-        })),
-        branch(
-            ({ dataProvider, autoSubmit }) => !!autoSubmit || !!dataProvider,
-            withAutoSave,
-        ),
-        withProps(props => ({
-            ref: props.setReRenderRef,
-            disabled: props.disabled,
-        })),
-        pure,
-    )(FieldContainer)
+    return FieldContainer
 }

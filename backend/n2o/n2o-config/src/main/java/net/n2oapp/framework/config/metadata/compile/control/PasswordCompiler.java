@@ -33,7 +33,7 @@ public class PasswordCompiler extends StandardFieldCompiler<Password, N2oPasswor
         password.setPlaceholder(p.resolveJS(source.getPlaceholder()));
         password.setLength(source.getLength());
         password.setEye(p.cast(source.getEye(),
-                p.resolve(property("n2o.api.control.password.eye"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.control.password.eye"), Boolean.class)));
         return compileStandardField(password, source, context, p);
     }
 

@@ -20,12 +20,36 @@
     text-align: left;
 }
 
+.dropdown-toggle::after {
+    margin-left: 0.355em;
+}
+
 .n2o-dropdown-menu.dropdown-menu {
     padding: 0;
+
+    .dropright.btn-group > div {
+        width: 100%;
+    }
+
+    .dropright {
+        .dropdown-menu {
+            margin-left: 0;
+        }
+
+        .dropdown-toggle::after {
+            position: absolute;
+            right: 0.6rem;
+        }
+    }
 
     .btn {
         border: none;
         text-align: left;
+    }
+
+    .btn:focus,
+    .btn:active {
+        box-shadow: none !important;
     }
 }
 
@@ -43,8 +67,4 @@
     text-align: inherit;
     white-space: nowrap;
     border: 0;
-}
-
-.dropdown-toggle::after {
-    margin-left: 0.355em;
 }

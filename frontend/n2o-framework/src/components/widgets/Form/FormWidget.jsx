@@ -1,7 +1,7 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import values from 'lodash/values'
-import { useSelector, useStore } from 'react-redux'
+import { useDispatch, useSelector, useStore } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 
 import WidgetLayout from '../StandardWidget'
@@ -11,14 +11,23 @@ import { FactoryContext } from '../../../core/factory/context'
 import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { isDirtyForm } from '../../../ducks/form/selectors'
+import { setModel } from '../../../ducks/models/store'
 
 import { getFieldsKeys } from './utils'
 import Fieldsets from './fieldsets'
 import ReduxForm from './ReduxForm'
 
-export const Form = (props) => {
+export const Form = ({
+    id: formName,
+    disabled,
+    toolbar,
+    datasource = formName,
+    className,
+    style,
+    form,
+    loading,
+}) => {
     const { getState } = useStore()
-    const { id, disabled, toolbar, datasource, className, style, form, loading } = props
     const { resolveProps } = useContext(FactoryContext)
     const resolvedForm = useMemo(() => ({
         ...form,
@@ -27,20 +36,19 @@ export const Form = (props) => {
         ),
     }), [form, resolveProps])
     const { modelPrefix, fieldsets } = resolvedForm
-    const formName = datasource || id
     const datasourceModel = useSelector(
-        state => getModelByPrefixAndNameSelector(ModelPrefix.source, formName)(state)?.[0],
+        state => getModelByPrefixAndNameSelector(ModelPrefix.source, datasource)(state)?.[0],
     )
-    const resolveModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.active, formName))
-    const editModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.edit, formName))
+    const resolveModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.active, datasource))
+    const editModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.edit, datasource))
     // FIXME: Удалить костыль с добалением resolveModel если нет editModel, после удаления edit из редюсера models
     const activeModel = useMemo(() => (
         modelPrefix === ModelPrefix.edit ? (editModel || resolveModel) : resolveModel
     ), [editModel, modelPrefix, resolveModel])
     const initialValues = useMemo(() => {
         const state = getState()
-        const resolveModel = getModelByPrefixAndNameSelector(ModelPrefix.active, formName)(state)
-        const editModel = getModelByPrefixAndNameSelector(ModelPrefix.edit, formName)(state)
+        const resolveModel = getModelByPrefixAndNameSelector(ModelPrefix.active, datasource)(state)
+        const editModel = getModelByPrefixAndNameSelector(ModelPrefix.edit, datasource)(state)
         // FIXME: Удалить костыль с добалением resolveModel если нет editModel, после удаления edit из редюсера models
         const activeModel = modelPrefix === ModelPrefix.edit ? (editModel || resolveModel) : resolveModel
 
@@ -50,14 +58,23 @@ export const Form = (props) => {
         }
 
         return { ...activeModel, ...datasourceModel }
-    }, [datasourceModel, formName, getState, modelPrefix])
+    }, [datasourceModel, datasource, getState, modelPrefix])
     const fields = useMemo(() => getFieldsKeys(fieldsets), [fieldsets])
     const dirty = useSelector(isDirtyForm(formName))
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (modelPrefix === ModelPrefix.edit) {
+            dispatch(setModel(ModelPrefix.edit, datasource, initialValues, true))
+        }
+
+        dispatch(setModel(ModelPrefix.active, datasource, initialValues, true))
+    }, [dispatch, datasource, initialValues, modelPrefix])
 
     return (
         <WidgetLayout
             disabled={disabled}
-            widgetId={id}
+            widgetId={formName}
             toolbar={toolbar}
             className={className}
             style={style}
@@ -66,12 +83,12 @@ export const Form = (props) => {
             activeModel={activeModel}
         >
             <ReduxForm
-                form={formName}
+                name={formName}
+                datasource={datasource}
+                modelPrefix={modelPrefix}
                 dirty={dirty}
                 fields={fields}
                 {...resolvedForm}
-                activeModel={activeModel}
-                initialValues={initialValues}
             />
         </WidgetLayout>
     )

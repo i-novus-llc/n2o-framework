@@ -4,6 +4,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 
+import java.time.Duration;
+
 /**
  * Ячейка таблицы с изображением для автотестирования
  */
@@ -31,13 +33,13 @@ public interface ImageCell extends Cell {
      * Проверка заголовка ячейки на точное соответствие (без учета регистра) ожидаемому значению
      * @param title ожидаемый заголовок ячейки
      */
-    void shouldHaveTitle(String title);
+    void shouldHaveTitle(String title, Duration... duration);
 
     /**
      * Проверка описания ячейки на точное соответствие (без учета регистра) ожидаемому значению
      * @param description ожидаемое описание ячейки
      */
-    void shouldHaveDescription(String description);
+    void shouldHaveDescription(String description, Duration... duration);
 
     /**
      * Проверка позиции текста ячейки на соответствие ожидаемому значению
@@ -51,7 +53,7 @@ public interface ImageCell extends Cell {
      * @param index номер заголовка статуса
      * @param title ожидаемое значение заголовка статуса
      */
-    void shouldHaveStatus(ImageStatusElementPlace position, int index, String title);
+    void shouldHaveStatus(ImageStatusElementPlace position, int index, String title, Duration... duration);
 
     /**
      * Проверка иконки статуса на соответствие ожидаемому значению

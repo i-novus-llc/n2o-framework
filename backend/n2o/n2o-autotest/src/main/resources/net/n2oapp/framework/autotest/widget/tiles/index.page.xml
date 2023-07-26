@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <tiles query-id="test" width="200" height="250">
+        <content>
+            <block text-field-id="image">
+                <image/>
+            </block>
+            <block text-field-id="text">
+                <text/>
+            </block>
+            <block text-field-id="icon" tooltip-field-id="icon">
+                <icon type="iconAndText">
+                    <switch value-field-id="icon">
+                        <case value="icon1">fa fa-plus</case>
+                        <case value="icon2">fa fa-minus</case>
+                    </switch>
+                </icon>
+            </block>
+            <block text-field-id="badge">
+                <badge color="info"/>
+            </block>
+            <block text-field-id="progress">
+                <progress/>
+            </block>
+            <block text-field-id="rating">
+                <rating half="true" readonly="false"/>
+            </block>
+            <block text-field-id="checkbox">
+                <checkbox/>
+            </block>
+            <block text-field-id="action">
+                <toolbar>
+                    <button label="Open">
+                        <show-modal page-id="modal" master-param="id"/>
+                    </button>
+                </toolbar>
+            </block>
+        </content>
+    </tiles>
+</simple-page>

@@ -2,6 +2,9 @@
 <nav xmlns="http://n2oapp.net/framework/config/schema/menu-3.0">
     <menu-item id="notif"
                name="Уведомления"
+               src="StaticMenuItem"
+               class="class"
+               style="background-color: blue"
                datasource="ds1"
                icon="fa fa-bell"
                badge="2"
@@ -19,6 +22,10 @@
                badge-color="danger">
         <open-page page-id="index" route="/login"/>
     </menu-item>
+    <menu-item id="alert"
+               name="Menu-item с алертом">
+        <alert text="Алерт" color="success"/>
+    </menu-item>
     <dropdown-menu id="user"
                    name="Виктория"
                    image="/static/users/vika91.png"
@@ -32,6 +39,9 @@
             </menu-item>
         </dropdown-menu>
         <menu-item name="Профиль"
+                   src="StaticMenuItem"
+                   class="class"
+                   style="background-color: blue"
                    icon="fa fa-user">
             <a href="/profile" target="application"/>
         </menu-item>

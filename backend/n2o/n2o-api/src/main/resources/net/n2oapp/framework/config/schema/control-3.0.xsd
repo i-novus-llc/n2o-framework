@@ -5,6 +5,7 @@
            xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
            xmlns:btn="http://n2oapp.net/framework/config/schema/button-2.0"
+           xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
            xmlns:dmn="http://n2oapp.net/framework/config/schema/base/domain-base-1.0">
 
 
@@ -137,17 +138,17 @@
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация компонента</xs:documentation>
+                <xs:documentation>React компонент поля</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>CSS класс стилей</xs:documentation>
+                <xs:documentation>Класс компонента поля</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль поля</xs:documentation>
+                <xs:documentation>Стиль компонента поля</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="placeholder" type="xs:string">
@@ -624,22 +625,31 @@
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка по умолчанию в области загрузки.</xs:documentation>
+                        <xs:documentation>Иконка по умолчанию в области загрузки. Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="width" type="xs:integer">
+                <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина области загрузки.</xs:documentation>
+                        <xs:documentation>
+                            Ширина области загрузки.
+                            Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="height" type="xs:integer">
+                <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Высота области загрузки.</xs:documentation>
+                        <xs:documentation>
+                            Высота области загрузки.
+                            Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="icon-size" type="xs:integer">
+                <xs:attribute name="icon-size" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Размеры иконки (по умолчанию по размеру области загрузки).</xs:documentation>
+                        <xs:documentation>
+                            Размеры иконки (по умолчанию по размеру области загрузки).
+                            Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="show-tooltip" type="xs:boolean" default="true">
@@ -897,15 +907,15 @@
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль уведомления.</xs:documentation>
+                        <xs:documentation>Стиль компонента уведомления.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>CSS класс уведомления.</xs:documentation>
+                        <xs:documentation>Класс компонента уведомления.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="color" type="xs:string" default="secondary">
+                <xs:attribute name="color" type="bs:colorDefinition" default="secondary">
                     <xs:annotation>
                         <xs:documentation>Цвет уведомления.</xs:documentation>
                     </xs:annotation>
@@ -1035,9 +1045,9 @@
                         <xs:documentation>Отображение полосок на шкале прогресса.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="color" type="xs:string">
+                <xs:attribute name="color" type="bs:colorDefinition">
                     <xs:annotation>
-                        <xs:documentation>Цвет шкалы прогресса.</xs:documentation>
+                        <xs:documentation>Цвет шкалы прогресса. Возможно использование плейсхолдеров.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="bar-class" type="xs:string">
@@ -1117,7 +1127,10 @@
                 </xs:attribute>
                 <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина картинки.</xs:documentation>
+                        <xs:documentation>
+                            Ширина картинки.
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="action-id" type="xs:string">
@@ -1141,7 +1154,7 @@
         </xs:annotation>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация статуса.</xs:documentation>
+                <xs:documentation>React компонент статуса.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute type="xs:string" name="field-id" use="required">
@@ -1149,9 +1162,9 @@
                 <xs:documentation>Поле с данными для статуса.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute type="xs:string" name="icon">
+        <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Иконка статуса.</xs:documentation>
+                <xs:documentation>Иконка статуса из https://fontawesome.com/v4.7/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="place" default="topLeft">
@@ -1358,7 +1371,7 @@
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка.</xs:documentation>
+                        <xs:documentation>Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="type" type="iconType">
@@ -1425,7 +1438,7 @@
                         <xs:documentation>Идентификатор поля</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="color" type="xs:string">
+                <xs:attribute name="color" type="bs:colorDefinition">
                     <xs:annotation>
                         <xs:documentation>Цвет индикатора.</xs:documentation>
                     </xs:annotation>
@@ -1828,7 +1841,11 @@
         </xs:sequence>
         <xs:attribute name="value-field-id" type="xs:string" use="required"/>
         <xs:attribute name="label-field-id" type="xs:string" use="required"/>
-        <xs:attribute name="icon" type="xs:string" use="optional"/>
+        <xs:attribute name="icon" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true"/>
     </xs:complexType>
 
@@ -2205,5 +2222,4 @@
             <xs:enumeration value="rounded"/>
         </xs:restriction>
     </xs:simpleType>
-
 </xs:schema>

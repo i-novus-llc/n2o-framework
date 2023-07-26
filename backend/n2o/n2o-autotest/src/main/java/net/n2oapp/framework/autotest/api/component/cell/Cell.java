@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.api.component.cell;
 
 import net.n2oapp.framework.autotest.api.component.Component;
 
+import java.time.Duration;
+
 /**
  * Стандатная ячейка для автотестирования
  */
@@ -9,7 +11,7 @@ public interface Cell extends Component {
     /**
      * Проверка того, что ячейка пустая
      */
-    void shouldBeEmpty();
+    void shouldBeEmpty(Duration... duration);
 
     /**
      * Проверка того, что ячейка раскрываемая

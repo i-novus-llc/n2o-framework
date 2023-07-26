@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { pure, compose, getContext } from 'recompose'
+import { pure, compose } from 'recompose'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import get from 'lodash/get'
+import { isEmpty } from 'lodash'
 
 import Toolbar from '../buttons/Toolbar'
 import { Spinner } from '../snippets/Spinner/Spinner'
 import { dataSourceError } from '../../ducks/datasource/selectors'
-import { errorController } from '../errors/errorController'
 import { resolveToolbarText } from '../../utils/toolbarTextResolver'
+import { ErrorContainer } from '../../core/error/Container'
 
 import WidgetFilters from './WidgetFilters'
 
@@ -103,7 +103,6 @@ class StandardWidget extends React.Component {
             children,
             loading,
             error,
-            defaultErrorPages,
         } = this.props
 
         const classes = classNames([
@@ -112,8 +111,7 @@ class StandardWidget extends React.Component {
             { 'n2o-disabled': disabled },
         ])
 
-        const status = get(error, 'status', null)
-        const errorComponent = errorController(status, defaultErrorPages)
+        const errorComponent = isEmpty(error) ? null : <ErrorContainer error={error} />
 
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
@@ -209,7 +207,6 @@ StandardWidget.propTypes = {
     ]),
     children: PropTypes.node,
     loading: PropTypes.bool,
-    defaultErrorPages: PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -224,10 +221,5 @@ const mapStateToProps = createStructuredSelector({
 
 export default compose(
     pure,
-    getContext({
-        defaultErrorPages: PropTypes.arrayOf(
-            PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
-        ),
-    }),
     connect(mapStateToProps),
 )(StandardWidget)

@@ -7,7 +7,8 @@ import net.n2oapp.framework.autotest.api.collection.SearchResult;
 import net.n2oapp.framework.autotest.api.component.header.SearchBar;
 import net.n2oapp.framework.autotest.impl.collection.N2oSearchResult;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
-import org.openqa.selenium.Keys;
+
+import java.time.Duration;
 
 
 /**
@@ -26,8 +27,8 @@ public class N2oSearchBar extends N2oComponent implements SearchBar {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
-        input().shouldHave(Condition.value(value));
+    public void shouldHaveValue(String value, Duration... duration) {
+        should(Condition.value(value), input(), duration);
     }
 
     @Override

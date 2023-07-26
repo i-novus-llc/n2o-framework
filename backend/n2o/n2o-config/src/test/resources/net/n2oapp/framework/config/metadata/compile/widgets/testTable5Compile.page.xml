@@ -4,8 +4,8 @@
     </datasources>
 
     <regions>
-        <table fetch-on-init="false" checkboxes="true" check-on-select="true"
-               height="200px" width="400px" text-wrap="false">
+        <table fetch-on-init="false" selection="checkbox"
+               height="200" width="400" text-wrap="false">
             <datasource query-id="testTable5Compile" object-id="utBlank"/>
             <actions>
                 <action id="testAction">
@@ -34,7 +34,7 @@
                 </group>
             </toolbar>
             <columns>
-                <column text-field-id="id" hide-on-blur="true" src="MyTableHeader" class="my-table-header"
+                <column text-field-id="id" src="MyTableHeader" class="my-table-header"
                         style="color: red">
                     <text format="password" style="margin-left:10px">
                         <switch value-field-id="test">
@@ -55,7 +55,7 @@
                 <column id="id" text-field-id="textFieldId"/>
                 <column label="label" id="id" text-field-id="textFieldId"/>
             </columns>
-            <rows class="red"/>
+            <rows class="red" style="color:blue" src="TableRow"/>
             <filters place="left" datasource="filtersDs">
                 <input-text id="name" required="true"/>
             </filters>
@@ -64,7 +64,7 @@
                 <visibility datasource="filtersDs" model="filter">
                     name == 'test1'
                 </visibility>
-                <enabling datasource="filtersDs" model="filter">
+                <enabling model="filter">
                     name == 'test2'
                 </enabling>
             </dependencies>

@@ -14,12 +14,12 @@
         </xs:sequence>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>CSS класс меню</xs:documentation>
+                <xs:documentation>Класс компонента меню</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль меню</xs:documentation>
+                <xs:documentation>Стиль компонента меню</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="place" type="placeType">

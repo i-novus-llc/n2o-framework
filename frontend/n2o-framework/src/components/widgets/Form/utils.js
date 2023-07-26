@@ -1,4 +1,3 @@
-import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import reduce from 'lodash/reduce'
@@ -49,24 +48,6 @@ export function flatFields(obj, fields) {
     }
 
     return fields
-}
-
-/**
- * Запрашивает данные, если зависимое значение было изменено
- * @param prevState
- * @param state
- * @param ref
- */
-export function fetchIfChangeDependencyValue(prevState, state, ref) {
-    // eslint-disable-next-line no-underscore-dangle
-    if (!isEqual(prevState, state) && ref && ref.props._fetchData) {
-        const { _fetchData, size, labelFieldId } = ref.props
-
-        _fetchData({
-            size,
-            [`sorting.${labelFieldId}`]: 'ASC',
-        })
-    }
 }
 
 export const getFieldsKeys = (fieldsets) => {

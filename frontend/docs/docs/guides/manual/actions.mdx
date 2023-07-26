@@ -14,7 +14,6 @@ description: ""
 ### Действия в меню {#actions_in_menu}
 
 Одним из вариантов использования действия является задание его в меню `<menu-item>` структуры приложения.
-В таком случае можно использовать только [действия открытия страницы](#open_page_actions).
 
 ```xml title="Действие в меню приложения"
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
@@ -125,6 +124,41 @@ description: ""
 ### Отрытие окон {#open_window_actions}
 
 ### Открытие страниц {#open_page_actions}
+
+#### Проброс кнопок и действий в открываемые страницы {#open_page_toolbar_passing}
+
+Кнопки и действия на странице можно переопределять в открывающих страницах. Это удобно когда необходимо использовать
+одну и ту же страницу, отличающуюся только кнопками и действиями.
+
+```xml title="Проброс кнопок и действий в открываемые страницы"
+<show-modal page-id="personCard">
+    <actions>
+        <action id="saveAction">
+            <invoke operation-id="save"/>
+        </action>
+    </actions>
+    <toolbars>
+        <toolbar>
+            <!-- кнопка ссылается на прокидываемое действие saveAction -->
+            <button label="Сохранить" action-id="saveAction"/>
+        </toolbar>
+    </toolbars>
+</show-modal>
+
+<show-modal page-id="personCard">
+    <toolbars>
+        <toolbar>
+            <button label="Копировать">
+                <!-- действие использует прокидываемый источник ds1 -->
+                <copy copy-datasource="modal_ds" target-datasource="ds1"/>
+            </button>
+        </toolbar>
+    </toolbars>
+    <datasources>
+        <parent-datasource id="ds1"/>
+    </datasources>
+</show-modal>
+```
 
 ## Действие редактирования списка данных без обращения к серверу
 

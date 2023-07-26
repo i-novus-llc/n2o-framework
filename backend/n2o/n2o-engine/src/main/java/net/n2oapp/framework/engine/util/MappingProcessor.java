@@ -182,12 +182,30 @@ public class MappingProcessor {
     public static Object normalizeValue(Object value, String normalizer, DataSet allData,
                                         ExpressionParser parser,
                                         BeanFactory beanFactory) {
+        return normalizeValue(value, normalizer, allData, null, parser, beanFactory);
+    }
+
+    /**
+     * Нормализация значения по SpEL выражению
+     *
+     * @param value       Значение для нормализации
+     * @param normalizer  Нормализируещее выражение
+     * @param allData     Данные, используемые для нормализации
+     * @param parser      Парсер SpEL выражений
+     * @param beanFactory Фабрика бинов спринга
+     * @return Нормализированное значение
+     */
+    public static Object normalizeValue(Object value, String normalizer, DataSet allData,
+                                        DataSet parentData, ExpressionParser parser,
+                                        BeanFactory beanFactory) {
         if (normalizer == null)
             return value;
         StandardEvaluationContext context = new StandardEvaluationContext(value);
         context.setVariables(registeredFunctions);
         if (allData != null)
             context.setVariable("data", allData);
+        if (parentData != null)
+            context.setVariable("parent", parentData);
         if (beanFactory != null)
             context.setBeanResolver(new BeanFactoryResolver(beanFactory));
         try {

@@ -11,10 +11,10 @@ import {
     withContext,
     lifecycle,
     withHandlers,
-    getContext,
 } from 'recompose'
 import numeral from 'numeral'
 
+import { ErrorContainer } from '../../core/error/Container'
 import { Block } from '../snippets/Block/Block'
 import { State } from '../../ducks/State'
 import { DataSourceState } from '../../ducks/datasource/DataSource'
@@ -22,11 +22,8 @@ import {
     requestConfig as requestConfigAction,
     setReady as setReadyAction,
     registerLocales,
-    globalSelector,
-// @ts-ignore ignore import error from js file
 } from '../../ducks/global/store'
-// @ts-ignore ignore import error from js file
-import { errorController } from '../errors/errorController'
+import { globalSelector } from '../../ducks/global/selectors'
 import { FactoryLevels } from '../../core/factory/factoryLevels'
 import { FactoryContext } from '../../core/factory/context'
 
@@ -42,8 +39,7 @@ export interface IApplicationProps {
     menu: {
         datasources: Record<string, DataSourceState>
     }
-    error: Record<string, DataSourceState>
-    defaultErrorPages: React.ReactNode[]
+    error: Error
     render(): React.ReactNode
 }
 
@@ -54,7 +50,6 @@ function Application(props: IApplicationProps) {
         locale,
         loading,
         error,
-        defaultErrorPages,
         render,
     } = props
 
@@ -63,29 +58,22 @@ function Application(props: IApplicationProps) {
 
     numeral.locale(locale)
 
-    if (error) {
-        const { status } = error
-        const errorPage = errorController(status, defaultErrorPages)
-
-        return (
-            <>
-                <GlobalAlertsConnected />
-                {errorPage && React.createElement(errorPage)}
-            </>
-        )
-    }
-
     return (
         <>
-            {!ready && FactorySpinner
-                ? <FactorySpinner type="cover" loading={loading} />
-                : null }
+            <GlobalAlertsConnected />
+            <ErrorContainer error={error}>
+                <>
+                    {!ready && FactorySpinner
+                        ? <FactorySpinner type="cover" loading={loading} />
+                        : null }
 
-            {ready ? (
-                <Block disabled={loading}>
-                    {render()}
-                </Block>
-            ) : null}
+                    {ready ? (
+                        <Block disabled={loading}>
+                            {render()}
+                        </Block>
+                    ) : null}
+                </>
+            </ErrorContainer>
         </>
     )
 }
@@ -115,11 +103,6 @@ export default compose(
             configLocale: props.locale,
         }),
     ),
-    getContext({
-        defaultErrorPages: PropTypes.arrayOf(
-            PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
-        ),
-    }),
     withHandlers({
         // @ts-ignore нет смысла типизировать, будет переделано
         addCustomLocales: ({ i18n, customLocales }) => () => {

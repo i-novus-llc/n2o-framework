@@ -4,10 +4,10 @@ import classNames from 'classnames'
 interface INavItemImage {
     imageSrc?: string
     imageShape?: string
-    title: string
+    title?: string
 }
 
-export const NavItemImage = (props: INavItemImage) => {
+const NavItemImage = (props: INavItemImage) => {
     const {
         imageSrc,
         imageShape = 'square',
@@ -27,3 +27,5 @@ export const NavItemImage = (props: INavItemImage) => {
         />
     )
 }
+
+export { NavItemImage, NavItemImage as default }

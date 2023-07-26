@@ -4,6 +4,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 
+import java.time.Duration;
+
 /**
  * Компонент вывода однострочного текста для автотестирования
  */
@@ -26,8 +28,8 @@ public class N2oOutputText extends N2oControl implements OutputText {
     }
 
     @Override
-    public void shouldHaveValue(String value) {
-        element().shouldHave(Condition.text(value));
+    public void shouldHaveValue(String value, Duration... duration) {
+        should(Condition.text(value), duration);
     }
 
     @Override

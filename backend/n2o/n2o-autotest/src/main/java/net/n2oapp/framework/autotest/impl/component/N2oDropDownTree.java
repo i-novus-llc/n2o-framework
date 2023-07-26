@@ -4,7 +4,8 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
-import org.openqa.selenium.Keys;
+
+import java.time.Duration;
 
 public class N2oDropDownTree extends N2oComponent implements DropDownTree {
     private static final String CSS_SELECTORS = ".n2o-select-tree-tree-treenode-switcher-open, .n2o-select-tree-tree-treenode-switcher-close";
@@ -26,7 +27,12 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
 
     @Override
     public void setValue(String value) {
-        searchField().setValue(value);
+        searchField().sendKeys(value);
+    }
+
+    @Override
+    public void shouldHaveOption(String label) {
+        element().$$(CSS_SELECTORS).find(Condition.text(label)).shouldBe(Condition.exist);
     }
 
     @Override
@@ -35,7 +41,7 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
     }
 
     protected SelenideElement searchField() {
-        return element().$(".n2o-select-tree-search__field");
+        return element().parent().$(".n2o-select-tree-selection-search-input");
     }
 
     public class N2oDropDownTreeItem extends N2oComponent implements DropDownTreeItem {
@@ -46,11 +52,6 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
 
         public N2oDropDownTreeItem(SelenideElement element) {
             setElement(element);
-        }
-
-        @Override
-        public void shouldHaveOption(String label) {
-            element().$$(CSS_SELECTORS).find(Condition.text(label)).shouldBe(Condition.exist);
         }
 
         @Override
@@ -75,8 +76,8 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
             switcher().shouldHave(Condition.cssClass(String.format("%s_close", SWITCHER)));
         }
 
-        public void shouldHaveValue(String value) {
-            element().shouldHave(Condition.text(value));
+        public void shouldHaveValue(String value, Duration... duration) {
+            should(Condition.text(value), duration);
         }
 
         public void shouldBeSelected() {
@@ -92,7 +93,7 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
         }
 
         protected SelenideElement switcher() {
-            return element().parent().$(String.format(".%s", SWITCHER));
+            return element().$(String.format(".%s", SWITCHER));
         }
     }
 }

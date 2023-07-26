@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -129,11 +130,12 @@ public class StringUtilsTest {
     }
 
     @Test
-    void simplify() {
-        assert StringUtils.simplify("").equals("");
-        assert StringUtils.simplify("  abc  ").equals("abc");
-        assert StringUtils.simplify("\nabc\n").equals("abc");
-        assert StringUtils.simplify("  \n  abc  \n  ").equals("abc");
-        assert StringUtils.simplify("  \n  \n abc \n \n  ").equals("abc");
+    void testPrepareSizeAttribute() {
+        assertThat(prepareSizeAttribute("100"), is("100px"));
+        assertThat(prepareSizeAttribute("100px"), is("100px"));
+        assertThat(prepareSizeAttribute("100em"), is("100em"));
+        assertThat(prepareSizeAttribute("100.5"), is("100.5px"));
+        assertThat(prepareSizeAttribute(""), is(""));
+        assertThat(prepareSizeAttribute(null), nullValue());
     }
 }

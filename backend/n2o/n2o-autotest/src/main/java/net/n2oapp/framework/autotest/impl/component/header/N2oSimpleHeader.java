@@ -10,6 +10,8 @@ import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.impl.collection.N2oMenu;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 /**
  * Шапка(header) для автотестирования
  */
@@ -20,15 +22,17 @@ public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
     }
 
     @Override
-    public void shouldHaveBrandName(String brandName) {
-        brands().filterBy(Condition.not(Condition.cssClass("n2o-brand")))
-                .get(0)
-                .shouldHave(Condition.text(brandName));
+    public void shouldHaveBrandName(String brandName, Duration... duration) {
+        should(
+                Condition.text(brandName),
+                brands().filterBy(Condition.not(Condition.cssClass("n2o-brand"))).get(0),
+                duration
+        );
     }
 
     @Override
     public Menu nav() {
-        return N2oSelenide.collection(element().$$(".main-nav.navbar-nav >li"), N2oMenu.class);
+        return N2oSelenide.collection(element().$$(".main-nav.navbar-nav > li, .main-nav.navbar-nav .n2o-action-item"), N2oMenu.class);
     }
 
     @Override

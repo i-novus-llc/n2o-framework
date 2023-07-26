@@ -44,7 +44,7 @@ public class TextEditorCompiler extends StandardFieldCompiler<TextEditor, N2oTex
 
     private void compileToolbar(N2oTextEditor source, TextEditor compiled, CompileProcessor p) {
         String toolbarUrl = p.cast(source.getToolbarUrl(),
-                p.resolve(Placeholders.property("n2o.api.control.text_editor.toolbar_url"), String.class));
+                () -> p.resolve(Placeholders.property("n2o.api.control.text_editor.toolbar_url"), String.class));
         if (toolbarUrl == null) return;
         PathMatchingResourcePatternResolver r = new PathMatchingResourcePatternResolver();
         ObjectMapper mapper = new ObjectMapper();

@@ -27,7 +27,7 @@ public class CodeEditorCompiler extends StandardFieldCompiler<CodeEditor, N2oCod
         codeEditor.setLang(source.getLanguage());
         codeEditor.setAutocomplete(true);
         codeEditor.setMinLines(p.cast(source.getMinLines(),
-                p.resolve(property("n2o.api.control.code_editor.min_lines"), Integer.class)));
+                () -> p.resolve(property("n2o.api.control.code_editor.min_lines"), Integer.class)));
         codeEditor.setMaxLines(source.getMaxLines());
         return compileStandardField(codeEditor, source, context, p);
     }

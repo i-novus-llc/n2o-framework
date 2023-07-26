@@ -40,7 +40,7 @@ public class TextCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testTextCell.page.xml")
                 .get(new PageContext("testTextCell"));
         Table table = (Table) page.getWidget();
-        TextCell cell = (TextCell) table.getComponent().getCells().get(0);
+        TextCell cell = (TextCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("TextCell"));
         assertThat(cell.getFieldKey(), is("text"));
         assertThat(cell.getFormat(), is("0,0.00"));
@@ -50,13 +50,13 @@ public class TextCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getIcon(), is("icon"));
         assertThat(cell.getIconPosition(), is(Position.LEFT));
 
-        cell = (TextCell) table.getComponent().getCells().get(1);
+        cell = (TextCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getSrc(), is("TextCell"));
         assertThat(cell.getFieldKey(), is("text2"));
         assertThat(cell.getFormat(), is("0,0.00"));
         assertThat(cell.getSubTextFieldKey(), is("subtext2"));
         assertThat(cell.getSubTextFormat(), is("date DD.MM.YYYY"));
-        assertThat(cell.getCssClass(), is("`test2 == 1 ? 'a' : test2 == 2 ? 'b' : test2 == 3 ? 'c' : null`"));
+        assertThat(cell.getElementAttributes().get("className"), is("`test2 == 1 ? 'a' : test2 == 2 ? 'b' : test2 == 3 ? 'c' : null`"));
         assertThat(cell.getIconPosition(), is(Position.RIGHT));
     }
 }

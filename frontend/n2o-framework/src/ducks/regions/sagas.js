@@ -11,7 +11,7 @@ import isEmpty from 'lodash/isEmpty'
 
 import { metadataSuccess as METADATA_SUCCESS } from '../pages/store'
 import { makePageRoutesByIdSelector } from '../pages/selectors'
-import { rootPageSelector } from '../global/store'
+import { rootPageSelector } from '../global/selectors'
 import { modelsSelector } from '../models/selectors'
 import { authSelector } from '../user/selectors'
 import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
@@ -33,13 +33,15 @@ import { setActiveRegion, regionsSelector, setTabInvalid, registerRegion } from 
 import { MAP_URL } from './constants'
 import { getTabsRegions, checkTabErrors, activeTabHasErrors, tabsIncludesId, tabIncludeId } from './utils'
 
+/* FIXME требуется переосмысление Tabs, пока нет смысла типизировать */
+
 function* mapUrl(value) {
     const rootPageId = yield select(rootPageSelector)
     const routes = yield select(makePageRoutesByIdSelector(rootPageId))
 
     if (routes) {
         yield call(mapQueryToUrl, rootPageId, null, true)
-        yield call(lazyFetch, value.payload)
+        yield call(lazyFetch, value.payload || value)
     }
 }
 

@@ -1,10 +1,10 @@
 package net.n2oapp.framework.api.metadata.meta.toolbar;
 
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * Клиентская модель тулбара.
  *
  */
-public class Toolbar extends StrictMap<String, List<Group>> implements Compiled {
+public class Toolbar extends LinkedHashMap<String, List<Group>> implements Compiled {
     /**
      * Найти кнопку в тулбаре по идентификатору
      * @param id Идентификатор

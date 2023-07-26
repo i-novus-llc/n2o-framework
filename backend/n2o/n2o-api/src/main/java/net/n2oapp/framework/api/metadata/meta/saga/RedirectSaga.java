@@ -5,9 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -19,9 +20,9 @@ public class RedirectSaga implements Compiled {
     @JsonProperty
     private String path;
     @JsonProperty
-    private Map<String, BindLink> pathMapping = new StrictMap<>();
+    private Map<String, BindLink> pathMapping = new HashMap<>();
     @JsonProperty
-    private Map<String, BindLink> queryMapping = new StrictMap<>();
+    private Map<String, BindLink> queryMapping = new LinkedHashMap<>();
     @JsonProperty
     private Target target;
     /**

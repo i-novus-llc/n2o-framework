@@ -5,7 +5,7 @@
         <datasource id="ds1" query-id="data" size="5"/>
     </datasources>
     <regions>
-        <table datasource="ds1" checkboxes="true" selection="none">
+        <table datasource="ds1" selection="checkbox">
             <columns>
                 <column text-field-id="surname"/>
                 <column text-field-id="name"/>
@@ -76,7 +76,7 @@
                                 submit-operation-id="create"
                                 page-name="Карточка нового клиента">
                         <datasources>
-                            <datasource default-values-mode="defaults"/>
+                            <datasource id="main" default-values-mode="defaults"/>
                         </datasources>
                     </show-modal>
                 </button>

@@ -1,0 +1,104 @@
+.table-container {
+    overflow: auto;
+}
+
+.n2o-advanced-table .cell {
+    vertical-align: inherit;
+    padding: 0.3rem var(--padding-aside-cell);
+}
+
+.table-container[data-text-wrap="false"] .cell {
+    white-space: nowrap;
+}
+
+.n2o-advanced-table {
+    --padding-aside-cell: 0.3rem;
+    --padding-multiplier: 30px;
+
+    .checkbox-cell {
+        display: flex;
+    }
+
+    .table-row-presentation > td {
+        padding: 0;
+        border: none;
+    }
+
+    .table-row-presentation {
+        display: contents;
+
+        table > td,
+        tbody > td,
+        thead > td {
+            display: contents;
+        }
+    }
+
+    .cell[data-level] {
+        padding-left: attr(--data-level px);
+
+        &::before {
+            content: attr(--data-level);
+        }
+    }
+
+    .header {
+        .cell {
+            position: relative;
+
+            .resizeTrigger {
+                position: absolute;
+                user-select: none;
+                cursor: col-resize;
+                visibility: hidden;
+                top: 0;
+                right: 0;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 0 10px 10px 0;
+                border-color: transparent #263238 transparent transparent;
+
+                &::before {
+                    position: absolute;
+                    right: -10px;
+                    display: block;
+                    content: '';
+                    width: 30px;
+                    height: 30px;
+                    z-index: 1;
+                }
+            }
+        }
+
+        .cell[data-resizeble="true"]:hover {
+            .resizeTrigger {
+                visibility: visible;
+            }
+        }
+    }
+
+    .body {
+        .table-row {
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.075);
+            }
+
+            &[data-focused="true"] {
+                background-color: rgba(0, 0, 0, 0.075);
+            }
+
+            &[data-has-click="true"] {
+                cursor: pointer;
+            }
+
+            > .cell:first-of-type {
+                padding-left: calc(var(--deep-level) * var(--padding-multiplier) + var(--padding-aside-cell));
+            }
+        }
+    }
+
+    .cell-selection {
+        width: 30px;
+    }
+}

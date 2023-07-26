@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.api.component.region;
 
 import net.n2oapp.framework.autotest.api.component.Component;
 
+import java.time.Duration;
+
 /**
  * Регион с автоматически прокручиваемым меню
  */
@@ -25,13 +27,13 @@ public interface ScrollspyRegion extends Region {
      * Проверка соответствия заголовка у активного элемента
      * @param title ожидаемый заголовок
      */
-    void activeContentItemShouldHaveTitle(String title);
+    void activeContentItemShouldHaveTitle(String title, Duration... duration);
 
     /**
      * Проверка соответствия заголовка у активного элемента меню
      * @param title ожидаемый заголовок
      */
-    void activeMenuItemShouldHaveTitle(String title);
+    void activeMenuItemShouldHaveTitle(String title, Duration... duration);
 
     /**
      * Проверка соответствия позиции элемента меню
@@ -71,7 +73,7 @@ public interface ScrollspyRegion extends Region {
          * Проверка заголовка меню на соответствие
          * @param title ожидаемый заголовок меню
          */
-        void shouldHaveTitle(String title);
+        void shouldHaveTitle(String title, Duration... duration);
 
         /**
          * Возвращает элемент меню для автотестирования по номеру
@@ -122,7 +124,7 @@ public interface ScrollspyRegion extends Region {
          * Проверка текста
          * @param text ожидаемый текст
          */
-        void shouldHaveText(String text);
+        void shouldHaveText(String text, Duration... duration);
 
         /**
          * Клик по элементу

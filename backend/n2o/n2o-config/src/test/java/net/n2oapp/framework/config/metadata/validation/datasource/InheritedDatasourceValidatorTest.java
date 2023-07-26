@@ -14,6 +14,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -56,5 +57,24 @@ public class InheritedDatasourceValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/testComparingSourceDatasourceAndId.page.xml"),
                 "Атрибут 'source-datasource' источника данных 'ds1' совпадает с 'id'"
         );
+    }
+
+    @Test
+    void testFetchOnExistenceDatasource() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/inherited/testDependencyOnExistenceDatasource.page.xml"));
+        assertEquals("В зависимости источника данных 'ds1' не указан атрибут 'on'", exception.getMessage());
+    }
+
+    /**
+     * Проверяется, что атрибут on в зависимости источника ссылается на несуществующий источник данных
+     */
+    @Test
+    void testFetchOnNonExistentDatasource() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/inherited/testDependencyOnNonExistentDatasource.page.xml"));
+        assertEquals("Атрибут 'on' в зависимости источника данных 'ds1' ссылается на несуществующий источник данных 'ds3'", exception.getMessage());
     }
 }

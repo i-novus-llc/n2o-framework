@@ -4,7 +4,6 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.http.JvmProxyConfigurer;
 import lombok.SneakyThrows;
-import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.control.Text;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -78,7 +77,7 @@ public class SandboxMetadataRetrievalTest {
         wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
         wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
         wireMockServer.stubFor(get("/project/myProjectId/config.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        JSONObject config = new JSONObject(viewController.getConfig("myProjectId", null));
+        JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
 
         assertThat(config.getString("project"), is("myProjectId"));
 
@@ -111,10 +110,10 @@ public class SandboxMetadataRetrievalTest {
 
         assertThat(page.getBreadcrumb().get(0).getLabel(), is("Моя первая страница"));
 
-        assertThat(page.getDatasources().get("_main").getDependencies().size(), is(0));
-        assertThat(page.getDatasources().get("_main").getId(), is("_main"));
-        assertThat(page.getDatasources().get("_main").getPaging().getSize(), is(1));
-        assertThat(page.getDatasources().get("_main").getValidations().size(), is(0));
+        assertThat(page.getDatasources().get("_w1").getDependencies().size(), is(0));
+        assertThat(page.getDatasources().get("_w1").getId(), is("_w1"));
+        assertThat(page.getDatasources().get("_w1").getPaging().getSize(), is(1));
+        assertThat(page.getDatasources().get("_w1").getValidations().size(), is(0));
 
         assertThat(page.getPageProperty().getHtmlTitle(), is("Моя первая страница"));
 
@@ -124,8 +123,8 @@ public class SandboxMetadataRetrievalTest {
         assertThat(page.getRoutes().getList().get(0).getExact(), is(true));
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/"));
 
-        assertThat(((SimplePage) page).getWidget().getId(), is("_main"));
-        assertThat(((SimplePage) page).getWidget().getDatasource(), is("_main"));
+        assertThat(((SimplePage) page).getWidget().getId(), is("_w1"));
+        assertThat(((SimplePage) page).getWidget().getDatasource(), is("_w1"));
         assertThat(((SimplePage) page).getWidget().getSrc(), is("FormWidget"));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getAutoFocus(), is(false));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getModelPrefix(), is("resolve"));

@@ -3,13 +3,10 @@ package net.n2oapp.framework.config.register.route;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -186,7 +183,7 @@ public class RouteUtilTest {
 
     @Test
     void addQueryParams() {
-        Map<String, ModelLink> queryMapping = new StrictMap<>();
+        Map<String, ModelLink> queryMapping = new LinkedHashMap<>();
         ModelLink nameLink = new ModelLink(ReduxModel.resolve, "main", "name");
         nameLink.setParam("nameParam");
         queryMapping.put("name", nameLink);

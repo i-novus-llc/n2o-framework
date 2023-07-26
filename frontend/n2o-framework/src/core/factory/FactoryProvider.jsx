@@ -9,6 +9,8 @@ import values from 'lodash/values'
 import isEmpty from 'lodash/isEmpty'
 
 import { SecurityController } from '../auth/SecurityController'
+import { withErrorBoundary } from '../error/withErrorBoundary'
+import { ErrorBoundary } from '../error/Boundary'
 
 import factoryConfigShape from './factoryConfigShape'
 import { NotFoundFactory } from './NotFoundFactory'
@@ -43,17 +45,31 @@ export class FactoryProvider extends Component {
     checkSecurityAndRender(component = null, config, level) {
         const { securityBlackList } = this.props
 
-        if (isEmpty(config) || securityBlackList.includes(level)) { return component }
+        const configKey = JSON.stringify(config)
 
-        if (!this.componentCache.has(component, config)) {
-            this.componentCache.set(component, config, props => (
-                <SecurityController config={config}>
-                    {React.createElement(component, props)}
-                </SecurityController>
-            ))
+        if (this.componentCache.has(component, configKey)) {
+            return this.componentCache.get(component, configKey)
         }
 
-        return this.componentCache.get(component, config)
+        if (isEmpty(config) || securityBlackList.includes(level)) {
+            const WithErrorBoundary = withErrorBoundary(component)
+
+            this.componentCache.set(component, config, WithErrorBoundary)
+
+            return WithErrorBoundary
+        }
+
+        const WithSecurityController = props => (
+            <SecurityController config={config}>
+                <ErrorBoundary>
+                    {React.createElement(component, props)}
+                </ErrorBoundary>
+            </SecurityController>
+        )
+
+        this.componentCache.set(component, configKey, WithSecurityController)
+
+        return WithSecurityController
     }
 
     getComponent(src, level, security) {

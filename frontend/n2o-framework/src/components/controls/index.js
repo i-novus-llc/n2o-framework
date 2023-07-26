@@ -1,13 +1,14 @@
+import { DatePicker } from '@i-novus/n2o-components/lib/inputs/DatePicker/DatePicker'
+import { DateInterval } from '@i-novus/n2o-components/lib/inputs/DatePicker/DateInterval'
+
 import InputText from './InputText/InputText'
 import Checkbox from './Checkbox/CheckboxControl'
-import DatePicker from './DatePicker/DatePicker'
-import DateInterval from './DatePicker/DateInterval'
 // eslint-disable-next-line import/no-named-as-default
 import PasswordInput from './PasswordInput/PasswordInput'
-import CheckboxGroup from './CheckboxGroup/CheckboxGroupControl'
+import CheckboxGroup from './CheckboxGroup/CheckboxGroup'
 import CodeEditor from './CodeEditor/CodeEditor'
 import { Html } from './Html/Html'
-import InputMask from './InputMask/InputMask'
+import { InputMask } from './InputMask/InputMask'
 // eslint-disable-next-line import/no-named-as-default
 import InputNumber from './InputNumber/InputNumber'
 import InputSelectContainer from './InputSelect/InputSelectContainer'
@@ -15,9 +16,8 @@ import InputSelectContainer from './InputSelect/InputSelectContainer'
 import InputSelectTreeContainer from './InputSelectTree/InputSelectTreeContainer'
 import N2OSelectContainer from './N2OSelect/N2OSelectContainer'
 import TextEditor from './TextEditor/TextEditor'
-import RadioGroupControl from './RadioGroup/RadioGroupControl'
-import { SelectContainer } from './Select/SelectContainer'
-import OutputText from './Output/OutputText'
+import RadioGroup from './RadioGroup/RadioGroup'
+import { OutputText } from './Output/OutputText'
 import TextArea from './TextArea/TextArea'
 import InputHidden from './InputHidden/InputHidden'
 import ButtonUploader from './FileUploader/ButtonUploader'
@@ -35,7 +35,7 @@ import ProgressControl from './ProgressControl/ProgressControl'
 import ImageUploader from './ImageUploader/ImageUploader'
 import OutputList from './OutputList/OutputList'
 import { NumberPicker } from './NumberPicker/NumberPicker'
-import TimePicker from './TimePicker/TimePicker'
+import { TimePicker } from './TimePicker/TimePicker'
 
 export default {
     InputText,
@@ -53,8 +53,7 @@ export default {
     InputSelect: InputSelectContainer,
     InputSelectTree: InputSelectTreeContainer,
     N2OSelect: N2OSelectContainer,
-    RadioGroup: RadioGroupControl,
-    Select: SelectContainer,
+    RadioGroup,
     TextEditor,
     TextArea,
     InputHidden,

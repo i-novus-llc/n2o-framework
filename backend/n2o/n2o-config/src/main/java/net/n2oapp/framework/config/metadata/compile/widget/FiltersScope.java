@@ -1,14 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
-
 import lombok.Getter;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Информация по фильтрам
@@ -18,7 +13,7 @@ public class FiltersScope {
     /**
      * Фильтры собираемые во время компиляции
      */
-    private Map<String, List<Filter>> datasourceFilters = new StrictMap<>();
+    private Map<String, List<Filter>> datasourceFilters = new HashMap<>();
 
     public FiltersScope() {
     }

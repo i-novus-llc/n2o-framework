@@ -62,6 +62,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(0).getType(), is(ValidationType.reset));
         assertThat(field.getDependencies().get(0).getOn().get(0), is("someField"));
         assertThat(field.getDependencies().get(0).getExpression(), is("true"));
+        assertThat(field.getDependencies().get(0).getApplyOnInit(), is(false));
 
         InputSelect inputSelect = (InputSelect) field.getControl();
         assertThat(inputSelect.getSortFieldId(), is("sortName"));

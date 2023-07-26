@@ -7,6 +7,8 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarAgendaView;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+import java.time.Duration;
+
 /**
  * Вид отображения календаря 'Повестка дня' для автотестирования
  */
@@ -18,18 +20,18 @@ public class N2oCalendarAgendaView extends N2oComponent implements CalendarAgend
     }
 
     @Override
-    public void eventShouldHaveDate(int index, String date) {
-        dateCell(index).shouldHave(Condition.text(date));
+    public void eventShouldHaveDate(int index, String date, Duration... duration) {
+        should(Condition.text(date), dateCell(index), duration);
     }
 
     @Override
-    public void eventShouldHaveTime(int index, String time) {
-        timeCell(index).shouldHave(Condition.text(time));
+    public void eventShouldHaveTime(int index, String time, Duration... duration) {
+        should(Condition.text(time), timeCell(index), duration);
     }
 
     @Override
-    public void eventShouldHaveName(int index, String name) {
-        eventCell(index).shouldHave(Condition.text(name));
+    public void eventShouldHaveName(int index, String name, Duration... duration) {
+        should(Condition.text(name), eventCell(index), duration);
     }
 
     protected ElementsCollection rows() {

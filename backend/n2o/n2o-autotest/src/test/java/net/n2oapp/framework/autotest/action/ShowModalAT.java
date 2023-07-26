@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.action;
 
-import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.Button;
@@ -119,10 +118,10 @@ public class ShowModalAT extends AutoTestBase {
 
     @Test
     public void valueFromParent() {
-        setJsonPath("net/n2oapp/framework/autotest/action");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/modal/valueFromParent/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/modal/valueFromParent/test.page.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/action/modal/value_from_parent");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/modal/value_from_parent/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/modal/value_from_parent/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/modal/value_from_parent/test.page.xml"));
 
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -163,7 +162,7 @@ public class ShowModalAT extends AutoTestBase {
         InputSelect modalAddress = modalFields.field("Получение значения для спиского поля по default-value").control(InputSelect.class);
         modalAddress.shouldHaveValue("test300");
         InputSelect modalAddresses = modalFields.field("Получение значения для спиского поля с множественным выбором").control(InputSelect.class);
-        modalAddresses.shouldSelectedMulti("test200","test300");
+        modalAddresses.shouldSelectedMulti(new String[]{"test200","test300"});
 
         InputSelect addressByForm = modalFields.field("Получение значения для спиского поля из модели всей формы").control(InputSelect.class);
         addressByForm.shouldHaveValue("test400");
@@ -203,7 +202,6 @@ public class ShowModalAT extends AutoTestBase {
         inputText.shouldHaveValue("test");
         saveButton.shouldBeEnabled();
         modalPage.close();
-        Selenide.confirm();
         modalPage.shouldNotExists();
 
         // при повторном открытии модальной страницы кнопки в тулбаре должны быть заблокированы

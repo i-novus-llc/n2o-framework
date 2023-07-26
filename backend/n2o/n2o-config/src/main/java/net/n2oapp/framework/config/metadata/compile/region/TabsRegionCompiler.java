@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
@@ -37,15 +38,15 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         build(region, source, p);
         region.setItems(initItems(source, context, p));
         region.setAlwaysRefresh(p.cast(source.getAlwaysRefresh(),
-                p.resolve(property("n2o.api.region.tabs.always_refresh"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.region.tabs.always_refresh"), Boolean.class)));
         region.setLazy(p.cast(source.getLazy(),
-                p.resolve(property("n2o.api.region.tabs.lazy"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.region.tabs.lazy"), Boolean.class)));
         region.setScrollbar(p.cast(source.getScrollbar(),
-                p.resolve(property("n2o.api.region.tabs.scrollbar"), Boolean.class)));
-        region.setMaxHeight(p.cast(source.getMaxHeight(),
-                p.resolve(property("n2o.api.region.tabs.max_height"), String.class)));
+                () -> p.resolve(property("n2o.api.region.tabs.scrollbar"), Boolean.class)));
+        region.setMaxHeight(prepareSizeAttribute(p.cast(source.getMaxHeight(),
+                () -> p.resolve(property("n2o.api.region.tabs.max_height"), String.class))));
         region.setHideSingleTab(p.cast(source.getHideSingleTab(),
-                p.resolve(property("n2o.api.region.tabs.hide_single_tab"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.region.tabs.hide_single_tab"), Boolean.class)));
         region.setActiveTabFieldId(source.getActiveTabFieldId());
         region.setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
         compileRoute(source, region.getId(), "n2o.api.region.tabs.routable", p);

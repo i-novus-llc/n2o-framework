@@ -6,7 +6,7 @@ import moment from 'moment/moment'
 
 import { Alerts } from '../snippets/Alerts/Alerts'
 import { STORE_KEY_PATH, SUPPORTED_PLACEMENTS } from '../../ducks/alerts/constants'
-import { removeAlert, stopRemoving } from '../../ducks/alerts/store'
+import { removeAlert, stopRemovingAlert } from '../../ducks/alerts/store'
 
 const getTimestamp = (time) => {
     if (!time) {
@@ -64,7 +64,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
     onDismiss: (storeKey, alertId) => dispatch(removeAlert(storeKey, alertId)),
-    stopRemoving: (storeKey, alertId) => dispatch(stopRemoving(storeKey, alertId)),
+    stopRemoving: (storeKey, alertId) => dispatch(stopRemovingAlert(storeKey, alertId)),
 })
 
 export const GlobalAlertsConnected = connect(

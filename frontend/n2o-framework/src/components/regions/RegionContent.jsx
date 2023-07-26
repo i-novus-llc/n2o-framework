@@ -7,13 +7,7 @@ import get from 'lodash/get'
 import { Factory } from '../../core/factory/Factory'
 import { WIDGETS } from '../../core/factory/factoryLevels'
 
-function getFetchOnInit(metaFetchOnInit, lazy, active) {
-    if (!lazy || active) {
-        return metaFetchOnInit
-    }
-
-    return false
-}
+import { getFetchOnInit, getFetch } from './helpers'
 
 export function RegionContent({
     content,
@@ -43,6 +37,7 @@ export function RegionContent({
                 })
 
                 const fetchOnInit = getFetchOnInit(metaFetchOnInit, lazy, active)
+                const fetch = getFetch(lazy, active)
 
                 return (
                     <Factory
@@ -52,6 +47,7 @@ export function RegionContent({
                         {...meta}
                         className={className}
                         fetchOnInit={fetchOnInit}
+                        fetch={fetch}
                     />
                 )
             })}

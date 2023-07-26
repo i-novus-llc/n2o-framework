@@ -45,38 +45,38 @@ public class LinkCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testLinkCell.page.xml")
                 .get(new PageContext("testLinkCell"));
         Table table = (Table) page.getWidget();
-        LinkCell cell = (LinkCell) table.getComponent().getCells().get(0);
+        LinkCell cell = (LinkCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("LinkCell"));
         assertThat(cell.getId(), is("test1"));
         assertThat(cell.getIcon(), nullValue());
         assertThat(cell.getType(), is(IconType.text));
 
-        cell = (LinkCell) table.getComponent().getCells().get(1);
+        cell = (LinkCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getId(), is("test2"));
         assertThat(cell.getIcon(), nullValue());
         assertThat(cell.getType(), is(IconType.text));
 
-        cell = (LinkCell) table.getComponent().getCells().get(2);
+        cell = (LinkCell) table.getComponent().getBody().getCells().get(2);
         assertThat(cell.getId(), is("test3"));
         assertThat(cell.getIcon(), is("iconTest3"));
         assertThat(cell.getType(), is(IconType.icon));
 
-        cell = (LinkCell) table.getComponent().getCells().get(3);
+        cell = (LinkCell) table.getComponent().getBody().getCells().get(3);
         assertThat(cell.getId(), is("test4"));
         assertThat(cell.getIcon(), is("`id`"));
         assertThat(cell.getType(), is(IconType.iconAndText));
         assertThat(cell.getJsonProperties().get("codeVerified"), CoreMatchers.is("`emailSender.status=='send'`"));
 
-        cell = (LinkCell) table.getComponent().getCells().get(4);
+        cell = (LinkCell) table.getComponent().getBody().getCells().get(4);
         assertThat(cell.getId(), is("test5"));
         assertThat(cell.getAction(), nullValue());
         assertThat(cell.getUrl(), is("`'/test/'+uid`"));
         assertThat(cell.getTarget(), is(Target.newWindow));
 
-        cell = (LinkCell) table.getComponent().getCells().get(5);
+        cell = (LinkCell) table.getComponent().getBody().getCells().get(5);
         assertThat(cell.getId(), is("test6"));
 
-        cell = (LinkCell) table.getComponent().getCells().get(6);
+        cell = (LinkCell) table.getComponent().getBody().getCells().get(6);
         assertThat(cell.getId(), is("test7"));
         assertThat(cell.getAction(), instanceOf(LinkActionImpl.class));
     }

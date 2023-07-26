@@ -18,6 +18,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+
 
 /**
  * Автотест на события при изменении данных на странице
@@ -45,9 +47,10 @@ public class ChangeDataEventAT extends AutoTestBase {
     @Test
     public void test() {
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/change_data_event/index.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/change_data_event/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
+        page.alerts(Alert.Placement.top).alert(0).shouldNotExists(Duration.ofSeconds(1));
 
         RadioGroup radioGroup1 = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
                 .fields().field("При изменении состояния поля будет показано success сообщение").control(RadioGroup.class);
@@ -58,13 +61,15 @@ public class ChangeDataEventAT extends AutoTestBase {
         InputText text = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class)
                 .fields().field("test").control(InputText.class);
 
+
+        text.click();
+        text.setValue("test");
+        page.alerts(Alert.Placement.top).alert(0).shouldNotExists(Duration.ZERO);
+
         radioGroup1.check("two");
         page.alerts(Alert.Placement.top).alert(0).shouldHaveColor(Colors.SUCCESS);
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Событие при изменение ds1");
 
-        text.click();
-        text.setValue("test");
-        page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
         radioGroup2.check("two");
         page.alerts(Alert.Placement.top).alert(0).shouldHaveColor(Colors.INFO);
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Событие при изменение ds2");
