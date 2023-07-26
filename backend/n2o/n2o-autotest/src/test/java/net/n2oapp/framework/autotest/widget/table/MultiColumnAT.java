@@ -3,8 +3,8 @@ package net.n2oapp.framework.autotest.widget.table;
 import net.n2oapp.framework.autotest.api.collection.TableHeaders;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
-import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableSimpleHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableFilterHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableMultiHeader;
@@ -24,8 +24,6 @@ import org.junit.jupiter.api.Test;
  */
 public class MultiColumnAT extends AutoTestBase {
 
-    private RegionItems content;
-
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -38,54 +36,22 @@ public class MultiColumnAT extends AutoTestBase {
 
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        content = page.regions().region(0, SimpleRegion.class).content();
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/multi_column");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/test.query.xml"));
+
     }
 
     @Test
     public void testMultiColumn() {
-        TableWidget table = content.widget(0, TableWidget.class);
-        table.shouldExists();
-
-        TableWidget.Rows rows = table.columns().rows();
-        TableHeaders headers = table.columns().headers();
-        headers.shouldHaveSize(5);
-        rows.shouldHaveSize(4);
-
-        TableSimpleHeader header1 = headers.header(0);
-        TableSimpleHeader header2 = headers.header(1);
-        TableSimpleHeader header3 = headers.header(2);
-        TableSimpleHeader header4 = headers.header(3);
-        TableSimpleHeader header5 = headers.header(4);
-        // проверка порядка столбцов
-        // столбцы первого уровня
-        header1.shouldHaveTitle("ID");
-        header2.shouldHaveTitle("Info");
-        header2.shouldHaveStyle("color: red");
-        header3.shouldHaveTitle("Birthday");
-        // столбцы второго уровня
-        header4.shouldHaveTitle("FirstName");
-        header4.shouldHaveStyle("color: green");
-        header5.shouldHaveTitle("LastName");
-
-        // проверка, что все ячейки корректно заполнены
-        rows.row(0).cell(0).shouldHaveText("1");
-        rows.row(0).cell(1).shouldHaveText("John");
-        rows.row(0).cell(2).shouldHaveText("Smith");
-        rows.row(0).cell(3).shouldHaveText("2018.12.31");
-    }
-
-    @Test
-    public void testAdvancedMultiColumn() {
-        TableWidget table = content.widget(1, TableWidget.class);
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/multi_column/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/simple/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
         table.shouldExists();
 
         TableWidget.Rows rows = table.columns().rows();
@@ -132,5 +98,31 @@ public class MultiColumnAT extends AutoTestBase {
         header5.openFilterDropdown();
         header5.clickResetButton();
         rows.shouldHaveSize(4);
+    }
+
+    @Test
+    void testVisibilityDependencies() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/multi_column/visibility");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/visibility/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/visibility/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+        form.shouldExists();
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
+        table.shouldExists();
+
+        InputText inputText= form.fields().field("in1").control(InputText.class);
+        table.columns().headers().shouldHaveSize(2);
+        table.columns().headers().header(0).shouldHaveTitle("Полное имя");
+        table.columns().headers().header(1).shouldHaveTitle("Фамилия");
+        table.columns().rows().row(0).cell(0).shouldHaveText("Smith");
+
+        inputText.setValue("5");
+        table.columns().headers().shouldHaveSize(3);
+        table.columns().headers().header(0).shouldHaveTitle("Полное имя");
+        table.columns().headers().header(1).shouldHaveTitle("Имя");
+        table.columns().headers().header(2).shouldHaveTitle("Фамилия");
+        table.columns().rows().row(0).cell(0).shouldHaveText("John");
+
     }
 }
