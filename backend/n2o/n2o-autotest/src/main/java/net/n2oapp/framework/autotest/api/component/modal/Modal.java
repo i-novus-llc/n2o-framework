@@ -4,6 +4,8 @@ import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 
+import java.time.Duration;
+
 /**
  * Модальная страница для автотестирования
  */
@@ -25,7 +27,7 @@ public interface Modal extends Component {
      * Проверка заголовка на соответствие
      * @param text ожидаемый заголовок
      */
-    void shouldHaveTitle(String text);
+    void shouldHaveTitle(String text, Duration... duration);
 
     /**
      * Проверка отсутствия шапки
