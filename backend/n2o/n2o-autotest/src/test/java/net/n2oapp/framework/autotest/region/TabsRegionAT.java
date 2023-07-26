@@ -7,8 +7,10 @@ import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.*;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -35,11 +37,11 @@ public class TabsRegionAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
     }
 
     @Test
-    public void testTabsRegion() {
+    void testTabsRegion() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -76,7 +78,7 @@ public class TabsRegionAT extends AutoTestBase {
     }
 
     @Test
-    public void testContent() {
+    void testContent() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/nesting/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -120,7 +122,7 @@ public class TabsRegionAT extends AutoTestBase {
     }
 
     @Test
-    public void testFixedContent() {
+    void testFixedContent() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/fixed/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -142,7 +144,7 @@ public class TabsRegionAT extends AutoTestBase {
     }
 
     @Test
-    public void testVisible() {
+    void testVisible() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/visible/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -179,5 +181,34 @@ public class TabsRegionAT extends AutoTestBase {
         page.shouldExists();
         page.regions().region(1, TabsRegion.class).tab(0).shouldBeActive();
         page.regions().region(1, TabsRegion.class).tab(1).shouldNotBeActive();
+    }
+
+
+    @Test
+    void testSearchButtons() {
+        setJsonPath("net/n2oapp/framework/autotest/region/tabs/search_buttons");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/search_buttons/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/tabs/search_buttons/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        page.regions().region(0, TabsRegion.class).tab(0).shouldBeActive();
+        TableWidget table = page.regions().region(0, TabsRegion.class).tab(0).content().widget(TableWidget.class);
+        InputText filter = table.filters().fields().field("name").control(InputText.class);
+
+        filter.shouldHaveValue("2");
+        table.columns().rows().shouldHaveSize(1);
+        table.columns().rows().row(0).cell(1).shouldHaveText("test2");
+
+        filter.setValue("3");
+        table.filters().toolbar().button("Найти").click();
+        table.columns().rows().shouldHaveSize(1);
+        table.columns().rows().row(0).cell(1).shouldHaveText("test3");
+
+        table.filters().toolbar().button("Сбросить").click();
+        table.columns().rows().shouldHaveSize(4);
+
+        filter.setValue("1");
+        table.filters().toolbar().button("Найти").click();
+        table.columns().rows().shouldHaveSize(1);
     }
 }

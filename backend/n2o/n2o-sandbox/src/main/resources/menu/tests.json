@@ -262,6 +262,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/region/tabs/visible",
           "name": "TabsRegionAT. testVisible and testWidgetWithVisibleDepend"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/search_buttons",
+          "name": "TabsRegionAT. testSearchButtons"
         }
       ]
     },
