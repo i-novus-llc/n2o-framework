@@ -20,7 +20,7 @@ public interface Component extends Element {
     /**
      * Проверка отсутствия компонент на странице
      */
-    void shouldNotExists();
+    void shouldNotExists(Duration... duration);
 
     /**
      * Проверка видимости компонент на странице
