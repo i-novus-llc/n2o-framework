@@ -47,12 +47,12 @@ public class MasterDetailAT extends AutoTestBase {
 
     @Test
     public void testMasterDetail() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/master_detail");
+        setJsonPath("net/n2oapp/framework/autotest/widget/master_detail/simple");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/detail.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/open.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/simple/detail.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/simple/open.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/simple/test.query.xml")
         );
 
         SimplePage page = open(SimplePage.class);

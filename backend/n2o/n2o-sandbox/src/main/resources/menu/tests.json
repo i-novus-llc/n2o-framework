@@ -1,0 +1,1410 @@
+{
+  "name": "Примеры для автотестов",
+  "sections": [
+    {
+      "name": "Права доступа",
+      "templates": [
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/attributes/fields",
+          "name": "AccessFieldsAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/schema/header",
+          "name": "AccessHeaderAT"
+        }
+      ]
+    },
+    {
+      "name": "Приложение",
+      "templates": [
+        {
+          "templateId": "net/n2oapp/framework/autotest/simple",
+          "name": "SimpleHeaderAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/footer",
+          "name": "FooterAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/header",
+          "name": "SimpleHeaderAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/access",
+          "name": "MenuItemAccessAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/header/dropdown",
+          "name": "MenuAT. headerDropdownImage"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/header/icon",
+          "name": "MenuAT. headerMiIconAndBadge"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/header/icon_with_text",
+          "name": "MenuAT. headerMiIconTextAndBadge"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/header/image",
+          "name": "MenuAT. headerMiImageAndBadge"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/header/image_with_text",
+          "name": "MenuAT. headerMiImageTextAndBadge"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/sidebar/icon",
+          "name": "MenuAT. sidebarMiIconTextAndBadge"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/sidebar/image",
+          "name": "MenuAT. sidebarMiImageAndText"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/sidebar/image_with_badge",
+          "name": "MenuAT. sidebarMiImageTextAndBadge"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebar/simple",
+          "name": "SidebarAT. testSidebar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebar/fullsize",
+          "name": "SidebarAT. testFullsizeSidebar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebar/fixed",
+          "name": "SidebarAT. testFixedSidebar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebar/right",
+          "name": "SidebarAT. testRightSidebar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebar/overlay",
+          "name": "SidebarAT. testSidebarOverlay"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebar/default_micro",
+          "name": "SidebarAT. testSidebarDefaultMicro"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebar/default_mini",
+          "name": "SidebarAT. testSidebarDefaultMini"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebars/single_sidebar",
+          "name": "SidebarsAT. testSingleSidebar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebars/default_and_path",
+          "name": "SidebarsAT. testDefaultAndPathSidebar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebars/multi_sidebar",
+          "name": "SidebarsAT. testDynamicPathsSidebar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebars/all_regx_path",
+          "name": "SidebarsAT. testAllRegxPathSidebar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebars/overlapping_case",
+          "name": "SidebarsAT. testOverlappingPathsSidebar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebars/datasource",
+          "name": "SidebarsAT. testSidebarWithDatasource"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/breadcrumbs/common",
+          "name": "BreadcrumbsAT. breadcrumbsTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/breadcrumbs/open_page",
+          "name": "BreadcrumbsAT. testOpenPage"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/breadcrumbs/page",
+          "name": "BreadcrumbsAT. testPage"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/breadcrumbs/relative_links",
+          "name": "BreadcrumbsAT. testRelativeLinks"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/breadcrumbs/resolve",
+          "name": "BreadcrumbsAT. testResolve"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/search_bar",
+          "name": "SearchHeaderAT"
+        }
+      ]
+    },
+    {
+      "name": "Страница",
+      "templates": [
+        {
+          "templateId": "net/n2oapp/framework/autotest/page/searchable",
+          "name": "SearchableAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/page/simple_page",
+          "name": "SimplePageAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/page/title/simple",
+          "name": "PageTitleAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/page/title/params/path_params",
+          "name": "PageTitleLinkResolveAT. testPathParam"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/page/title/params/query_params",
+          "name": "PageTitleLinkResolveAT. testQueryParams"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/page/title/params/constant_value",
+          "name": "PageTitleLinkResolveAT. testConstantParams"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/page/top_left_right",
+          "name": "TopLeftRightPageAT"
+        }
+      ]
+    },
+    {
+      "name": "Регионы",
+      "templates": [
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/custom/nesting",
+          "name": "CustomRegionAT. testContent"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/custom/simple",
+          "name": "CustomRegionAT. testCustomRegion"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/line/nesting",
+          "name": "LineRegionAT. testContent"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/line/simple",
+          "name": "LineRegionAT. testLineRegion"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/panel/nesting",
+          "name": "PanelRegionAT. testContent"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/panel/simple",
+          "name": "PanelRegionAT. testPanelRegion"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/scrollspy/active",
+          "name": "ScrollspyRegionAT. testDefaultActiveElement"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/scrollspy/content",
+          "name": "ScrollspyRegionAT. testContent"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/scrollspy/group",
+          "name": "ScrollspyRegionAT. testGroup"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/scrollspy/scrollspy_in_tabs",
+          "name": "ScrollspyRegionAT. testScrollspyInTabs"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/scrollspy/simple",
+          "name": "ScrollspyRegionAT. testScrollspyRegion"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/scrollspy/tabs_in_scrollspy",
+          "name": "ScrollspyRegionAT. testTabsInScrollspy"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/active",
+          "name": "ActiveTabAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/fixed",
+          "name": "TabsRegionAT. testFixedContent"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/lazy",
+          "name": "TabsLazyInitAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/nesting",
+          "name": "TabsRegionAT. testContent"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/simple",
+          "name": "TabsRegionAT. testTabsRegion"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/visible",
+          "name": "TabsRegionAT. testVisible and testWidgetWithVisibleDepend"
+        }
+      ]
+    },
+    {
+      "name": "Виджеты",
+      "templates": [
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/calendar/without_resources",
+          "name": "CalendarWithoutResourcesAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/calendar/simple",
+          "name": "CalendarAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/cards/page1",
+          "name": "CardsAT. testCardsOne"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/cards/page2",
+          "name": "CardsAT. testCardsTwo"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/cards/style",
+          "name": "CardsBlockStyleAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/chart/area",
+          "name": "AreaChartAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/filter/button_click",
+          "name": "FormAsFilterAT. filterByButtonClick"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/filter/simple",
+          "name": "FormAsFilterAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/mode",
+          "name": "FormAT. testMode"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/save_with_one_button",
+          "name": "FormsSaveWithOneButtonAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/simple",
+          "name": "FormAT. testForm"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/submit",
+          "name": "FormSubmitAT. testSubmit"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/submit_modal",
+          "name": "FormSubmitAT. testModalSubmit"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/toolbar",
+          "name": "FormAT. testToolbar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/validation",
+          "name": "FormValidationAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/html/simple",
+          "name": "HtmlWidgetAT. testHtmlContent"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/html/html_from_src",
+          "name": "HtmlWidgetAT. testHtmlGetSrc"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/list",
+          "name": "ListAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/master_detail/simple",
+          "name": "MasterDetailAT. testMasterDetail"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/master_detail/pagination",
+          "name": "MasterDetailAT. paginationTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/checkboxes",
+          "name": "TableCheckboxesAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/fetch_on_init/simple",
+          "name": "FetchOnInitAT. test"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/fetch_on_init/tabs",
+          "name": "FetchOnInitAT. testOnTabs"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/fetch_on_visibility",
+          "name": "TableAT. fetchOnVisibilityTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filter_column",
+          "name": "FilterColumnAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/filters_datasource",
+          "name": "TableFilterDefaultValueAT. testFiltersDatasource"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/form_as_filter",
+          "name": "TableFilterDefaultValueAT. testFormAsFilter"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/priority",
+          "name": "TableFilterDefaultValueAT. testPriority"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/default_values_query_id",
+          "name": "TableFilterDefaultValueAT. testDefaultValuesQueryId"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/default_value",
+          "name": "TableFilterDefaultValueAT. testSimple"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters_validation/simple",
+          "name": "TableFiltersValidationAT. testView"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation",
+          "name": "TableFiltersValidationAT. testValidationFetch"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/multi_column",
+          "name": "MultiColumnAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/paging/simple",
+          "name": "PaginationAT. testTableSimplePaging"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/paging/simple_never",
+          "name": "PaginationAT. testShowCountNever"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/paging/infinite",
+          "name": "PaginationAT. testTableInfinitePaging"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/paging/infinite_by_request",
+          "name": "PaginationAT. testShowCountByRequest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/paging/prev_next_buttons",
+          "name": "PaginationAT. testPrevNextButtonsLabel"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/row_click",
+          "name": "TableAT. testRowClickEnabled"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/search_buttons",
+          "name": "TableAT. testFetchOnClear"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/selection/active",
+          "name": "TableSelectionAT. testActiveSelection"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/selection/checkbox",
+          "name": "TableSelectionAT. testCheckboxSelection"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/selection/none/elements_resolve",
+          "name": "TableSelectionAT. testSelectionNoneElementResolved"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/selection/none/simple",
+          "name": "TableSelectionAT. testNoneSelection"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/selection/radio",
+          "name": "TableSelectionAT. testRadioSelection"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/simple",
+          "name": "TableAT. testTable"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/sort_column",
+          "name": "TableAT. testSortOfColumn"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/toolbar/simple",
+          "name": "TableAT. testToolbar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/toolbar/access",
+          "name": "ToolbarColumnAccessAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur",
+          "name": "TableAT. testHideOnBlur"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/with_children",
+          "name": "TableWithChildrenAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/tiles",
+          "name": "TilesAT"
+        }
+      ]
+    },
+    {
+      "name": "Ячейки",
+      "templates": [
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/badge",
+          "name": "BadgeCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/checkbox",
+          "name": "CheckboxCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/fileupload/simple",
+          "name": "FileUploadCellAT. oneFileUploadTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/fileupload/multi",
+          "name": "FileUploadCellAT. multiFileUploadTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/icon",
+          "name": "IconCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/image/simple",
+          "name": "ImageCellAT. imageCellTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/image/status",
+          "name": "ImageCellAT. imageCellWithTitleTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/image/title",
+          "name": "ImageCellAT. imageCellWithStatusTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/link",
+          "name": "LinkCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/list",
+          "name": "ListCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/progress",
+          "name": "ProgressBarCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/rating",
+          "name": "RatingCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/switch",
+          "name": "SwitchCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/text",
+          "name": "TextCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/toolbar",
+          "name": "ToolbarCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/tooltip_list",
+          "name": "TooltipListCellAT"
+        }
+      ]
+    },
+    {
+      "name": "Филдсеты",
+      "templates": [
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/simple/common",
+          "name": "SimpleFieldSetAT. testFieldSet"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/simple/visible",
+          "name": "SimpleFieldSetAT. testVisible"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/simple/visible_in_filters",
+          "name": "SimpleFieldSetAT. testVisibilityConditionsInFilters"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/simple/enabled",
+          "name": "SimpleFieldSetAT. testEnabled"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/help",
+          "name": "HelpMessageAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/list/simple",
+          "name": "LineFieldSetAT. testLineFieldSet"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/list/visible",
+          "name": "LineFieldSetAT. testVisible"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/list/enabled",
+          "name": "LineFieldSetAT. testEnabled"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/add",
+          "name": "MultiFieldSetAT. testAdd"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/remove",
+          "name": "MultiFieldSetAT. testRemove"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/copy",
+          "name": "MultiFieldSetAT. testCopy"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/nested",
+          "name": "MultiFieldSetAT. testNestedMultiFieldSet"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/query_data",
+          "name": "MultiFieldSetAT. testQueryData"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/dependencies",
+          "name": "MultiFieldSetAT. testDependencies"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/visible",
+          "name": "MultiFieldSetAT. testVisible"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/enabled",
+          "name": "MultiFieldSetAT. testEnabled"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/modal_to_modal",
+          "name": "MultiFieldSetAT. testModalToModal"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/filtering",
+          "name": "MultiFieldSetAT. testFiltering"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/validation",
+          "name": "MultiFieldSetAT. testValidation"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/validation_when_clean",
+          "name": "MultiFieldSetAT. testValidationOnClear"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/create_many",
+          "name": "MultiFieldSetAT. testCreateMany"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/label_resolve",
+          "name": "MultiFieldSetAT. testLabelResolve"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/set_value",
+          "name": "MultiFieldSetAT. deleteItemWithSetValue"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/set_row_index",
+          "name": "MultiFieldSetAT. setRowIndexInFields"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/update_parent_index",
+          "name": "MultiFieldSetAT. checkUpdateParentIndex"
+        }
+      ]
+    },
+    {
+      "name": "Поля",
+      "templates": [
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/alert/simple",
+          "name": "AlertFieldAT. testSimpleAlert"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/alert/close_button_independence",
+          "name": "AlertFieldAT. testCloseButtonIndependence"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/auto_complete/simple",
+          "name": "AutoCompleteAT. testAutoComplete and testTags"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/auto_complete/pre_filters",
+          "name": "AutoCompleteAT. testPrefilters"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/checkbox",
+          "name": "CheckboxAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/checkbox_group/simple",
+          "name": "CheckboxGroupAT. testCheckboxGroup"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/checkbox_group/default_value",
+          "name": "CheckboxGroupAT. defaultValue"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/code_editor",
+          "name": "CodeEditorAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/date_interval",
+          "name": "DateIntervalAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/date_picker/simple",
+          "name": "DatePickerAT. testDatePicker and testDateTime"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/date_picker/default",
+          "name": "DatePickerAT. testDefaultValue"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/field_toolbar",
+          "name": "FieldToolbarAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/fileupload",
+          "name": "FileUploadAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/html/simple",
+          "name": "HtmlAT. testHtml"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/html/html_with_placeholder",
+          "name": "HtmlAT. testHtmlPlaceholder"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/image_field",
+          "name": "ImageFieldAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/image_upload",
+          "name": "ImageUploadAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/simple",
+          "name": "InputSelectAT. testSingle and testColorStatus"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/multi",
+          "name": "InputSelectAT. testMulti"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/checkboxes",
+          "name": "InputSelectAT. testCheckboxes"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/query",
+          "name": "InputSelectAT. testReadFromQuery"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param",
+          "name": "InputSelectAT. testPrefilterByPathParam"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param",
+          "name": "InputSelectAT. testPrefilterByQueryParam"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/throttle_delay",
+          "name": "InputSelectAT. testSearchMinLength"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent",
+          "name": "InputSelectAT. dropdownOptionsPermanent"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_text/simple",
+          "name": "InputTextAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_text/min_max",
+          "name": "InputTextAT. testArrowsDifIntervals"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/interval_field",
+          "name": "IntervalFieldAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/list/fetch_value",
+          "name": "ListFieldAT. testFetchValueDependencies"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/list/filter",
+          "name": "ListFieldAT. listFieldFiltrationTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/list/option_from_parent_ds",
+          "name": "ListFieldAT. testOptionFromParentDS"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/list/options_from_ds",
+          "name": "ListFieldAT. testOptionsFromDS"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/masked",
+          "name": "MaskedInputAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/money",
+          "name": "InputMoneyAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/number_picker",
+          "name": "NumberPickerAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/output_list",
+          "name": "OutputListAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/output_text/simple",
+          "name": "OutputTextAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/output_text/default",
+          "name": "OutputTextAT. testDefaultValue"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/password",
+          "name": "InputPasswordAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/progress",
+          "name": "ProgressAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/pills",
+          "name": "PillsAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/radio_group/simple",
+          "name": "RadioGroupAT. testRadioGroup"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/radio_group/default_value",
+          "name": "RadioGroupAT. defaultValue"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/rating",
+          "name": "RatingAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/request_data",
+          "name": "RequestDataAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select/simple",
+          "name": "SelectAT. testSelect"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select/query",
+          "name": "SelectAT. testReadFromQuery"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select/format",
+          "name": "SelectAT. testSelectFormat"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select/checkboxes",
+          "name": "SelectAT. testCheckboxesType"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select_tree/simple",
+          "name": "InputSelectTreeAT. inputSelectTreeTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select_tree/nodes",
+          "name": "InputSelectTreeAT. readFromQueryTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select_tree/throttle_delay",
+          "name": "InputSelectTreeAT. testSearchMinLength"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/slider",
+          "name": "SliderAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/status",
+          "name": "StatusAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/submit",
+          "name": "StandardFieldSubmitAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/text",
+          "name": "TextAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/text_editor",
+          "name": "TextEditorAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/textarea",
+          "name": "TextAreaAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/time_picker",
+          "name": "TimePickerAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/markdown/button",
+          "name": "MarkdownAT. buttonCompile"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/markdown/wordwrap_and_read_from_data",
+          "name": "MarkdownAT. wordwrapAndReadFromData"
+        }
+      ]
+    },
+    {
+      "name": "Данные",
+      "templates": [
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/app_datasource/simple",
+          "name": "AppDatasourceAT. testAppDS"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/app_datasource/source_datasource",
+          "name": "AppDatasourceAT. testSourceDatasource"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/browser_storage/local_storage",
+          "name": "BrowserStorageAT. testLocalStorage"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/browser_storage/session_storage",
+          "name": "BrowserStorageAT. testSessionStorage"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/browser_storage/submit",
+          "name": "BrowserStorageAT. testSubmit"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/browser_storage/invoke_local_storage",
+          "name": "BrowserStorageInvokeAT. testInvokeLocal"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/browser_storage/invoke_session_storage",
+          "name": "BrowserStorageInvokeAT. testInvokeSession"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/datasource/copy_depend",
+          "name": "DatasourceAT. testSimpleCopyDepend"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve",
+          "name": "DatasourceAT. testCopyDepend"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/datasource/form_as_filter",
+          "name": "DatasourceAT. testFormAsFilter"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button",
+          "name": "DatasourceAT. testSaveManyFormOneButton"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/datasource/submit",
+          "name": "DatasourceAT. testSubmit"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets",
+          "name": "DatasourceAT. testOneDSManyWidgets"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/datasource/validation_many_form",
+          "name": "DatasourceAT. testValidationManyForm"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/inherited_datasource/datasource",
+          "name": "InheritedDatasourceAT. testModelDatasource"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/inherited_datasource/fetch_submit_value",
+          "name": "InheritedDatasourceAT. testFetchAndSubmitValue"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/inherited_datasource/multi",
+          "name": "InheritedDatasourceAT. testModelMulti"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/inherited_datasource/resolve",
+          "name": "InheritedDatasourceAT. testModelResolve"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/inherited_datasource/simple",
+          "name": "InheritedDatasourceAT. testFetchData"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field",
+          "name": "InheritedDatasourceAT. testSourceFieldId"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field_fetch_value",
+          "name": "InheritedDatasourceAT. testFetchValueSourceFiledID"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/inherited_datasource/submit",
+          "name": "InheritedDatasourceAT. testSubmitTargetFiledID"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent",
+          "name": "ParentDatasourceAT. testFiltersByParent"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/parent_datasource/source_datasource",
+          "name": "ParentDatasourceAT. testSourceDatasource"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/model/field",
+          "name": "RefFieldModelAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/model/modal/from_filters",
+          "name": "RefModalAT. refParentModalFromFiltersTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/model/modal/from_form",
+          "name": "RefModalAT. refParentModalTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/query",
+          "name": "DynamicQueryAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/submodels/form_fields",
+          "name": "ResolveFormFieldSubModelsAT. resolveFormFiltersSubModels"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/submodels/one_more_form_fields",
+          "name": "ResolveFormFieldSubModelsAT. resolveTwoFormFiltersSubModels"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/submodels/table_filter",
+          "name": "ResolveTableFilterSubModelsAT"
+        }
+      ]
+    },
+    {
+      "name": "Сообщения",
+      "templates": [
+        {
+          "templateId": "net/n2oapp/framework/autotest/alert/simple",
+          "name": "AlertPositionAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/alert/operation",
+          "name": "SuccessAndFailAlertsAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/alert/stack",
+          "name": "AlertStackAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/alert/error/route_not_found",
+          "name": "ErrorDisplayAT. testRouteNotFoundException"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/alert/error/internal_server_error",
+          "name": "ErrorDisplayAT. testInternalServerError"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/alert/error/forbidden",
+          "name": "ErrorDisplayAT. testForbidden"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/alert/error/bad_gateway",
+          "name": "ErrorDisplayAT. testBadGateway"
+        }
+      ]
+    },
+    {
+      "name": "Баджи",
+      "templates": [
+        {
+          "templateId": "net/n2oapp/framework/autotest/badge/button",
+          "name": "BadgeAT. testButton"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/badge/cell",
+          "name": "BadgeAT. testCell"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/badge/fieldset",
+          "name": "BadgeAT. testLineFieldset"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/badge/menu",
+          "name": "BadgeAT. testMenu"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/badge/selectors",
+          "name": "BadgeAT. testSelects"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/badge/tree",
+          "name": "BadgeAT. testTree"
+        }
+      ]
+    },
+    {
+      "name": "Взаимодействие",
+      "templates": [
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/alert",
+          "name": "AlertActionAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/anchor",
+          "name": "AnchorActionAT. testAnchorAction"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/anchor_check_href",
+          "name": "AnchorActionAT. testHrefResolve"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/bulk_operation",
+          "name": "BulkOperationAT. bulkOperationTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/bulk_operation_string_ids",
+          "name": "BulkOperationAT. bulkOperationStringIdsTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/change_data_event/simple",
+          "name": "ChangeDataEventAT. test"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/change_data_event/if_else_and_show_modal",
+          "name": "ChangeDataEventAT. testIfElseAndShowModal"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/change_data_event/switch_case",
+          "name": "ChangeDataEventAT. testSwitchCase"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/clear/simple",
+          "name": "ClearActionAT. testClearInModal"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/clear/clear_model_in_table",
+          "name": "ClearActionAT. clearModelInTable"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/clear/clear_after_action",
+          "name": "ClearActionAT. clearAfterAction"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/close/clear",
+          "name": "CloseWithClearAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/close/refresh/drawer",
+          "name": "RefreshAfterCloseModalAT. testDrawer"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/close/refresh/modal",
+          "name": "RefreshAfterCloseModalAT. testModal"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/copy/field",
+          "name": "CopyFieldAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/copy/modal",
+          "name": "CopyActionAT. testCopyFromModal"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/copy/modal_multi",
+          "name": "CopyActionAT. testMultiCopyFromModal"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/copy/modal_replace",
+          "name": "CopyActionAT. testReplaceCopyFromModal"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/copy/nested_fields",
+          "name": "CopyActionAT. testCopyNestedFields"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/copy/simple",
+          "name": "CopyActionAT. testSimpleCopy"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/custom",
+          "name": "CustomActionsAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/data_back_from_modal",
+          "name": "DataBackFromModalAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/drawer/simple",
+          "name": "OpenDrawerAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/drawer/filters",
+          "name": "FiltersInDrawerAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/edit_list/crud_table",
+          "name": "EditListAT. testCRUD"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/edit_list/delete_many",
+          "name": "EditListAT. testCreateDeleteMany"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/if_else",
+          "name": "IfElseActionAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/invoke",
+          "name": "InvokeActionAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/modal/customize",
+          "name": "ShowModalAT. customizeModalTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/modal/scrollable",
+          "name": "ShowModalAT. scrollableModalTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/modal/value_from_parent",
+          "name": "ShowModalAT. valueFromParent"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/multi/simple",
+          "name": "MultiActionAT. testMulti"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/multi/action_after_fail",
+          "name": "MultiActionAT. testActionAfterFail"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/open_page/simple",
+          "name": "OpenPageAT. testFilterState"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/open_page/nested_routes",
+          "name": "OpenPageAT. testNestedRoutesWithPathParams"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page",
+          "name": "OpenPageAT. testResolveBreadcrumb"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page",
+          "name": "OpenPageAT. testResolveBreadcrumb OnStandardPage"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/open_page/target_window",
+          "name": "OpenPageAT. testTargetNewWindow"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/overlay_prompt",
+          "name": "OverlayPromptAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/refresh",
+          "name": "RefreshActionAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/set_value",
+          "name": "SetValueAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/switch_case/button",
+          "name": "SwitchCaseActionAT. testSwitchCaseInButton"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/switch_case/row_click",
+          "name": "SwitchCaseActionAT. testSwitchCaseInRowClick"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/confirm_type",
+          "name": "ButtonConfirmTypeAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/dialogs_buttons",
+          "name": "DialogsButtonsAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/enabled/simple",
+          "name": "ButtonEnabledAT. testEnabledButton"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/enabled/submenu",
+          "name": "ButtonEnabledAT. testEnabledSubMenu"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/path_binding",
+          "name": "ButtonBindingAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/visible/simple",
+          "name": "ButtonVisibleAT. testVisibleButton"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/visible/submenu",
+          "name": "ButtonVisibleAT. testVisibleSubMenu"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/websocket/common",
+          "name": "WebSocketAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/websocket/alert",
+          "name": "WebSocketNotificationAT"
+        }
+      ]
+    },
+    {
+      "name": "Условия и валидации",
+      "templates": [
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/button/visibility",
+          "name": "ButtonVisibilityAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/apply_on_init",
+          "name": "ApplyOnInitAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/enabling",
+          "name": "FieldEnablingAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/on_different_name_field",
+          "name": "DependsOnFieldAT. onDifferentNameField"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/on_field",
+          "name": "DependsOnFieldAT. onField"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/reset",
+          "name": "FieldResetDependencyAT. test"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/reset_on_init",
+          "name": "FieldResetDependencyAT. testApplyOnInit"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/visibility",
+          "name": "FieldVisibilityAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/enabled/by_dependency_on_modal",
+          "name": "FieldEnabledAT. enabledByDependencyOnModal"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/enabled/dynamic",
+          "name": "FieldEnabledAT. dynamicEnabled"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/required/expression",
+          "name": "FieldRequiredAT. expressionValue"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/required/simple_value",
+          "name": "FieldRequiredAT. defaultValue"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/visible",
+          "name": "FieldVisibleAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/fieldset/enabled/dynamic",
+          "name": "FieldsetEnabledAT. dynamicEnabledSet"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/fieldset/enabled/multiset_with_expression",
+          "name": "MultiFieldsetAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/fieldset/enabled/static",
+          "name": "FieldsetEnabledAT. staticEnabled"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/fieldset/visible",
+          "name": "FieldsetVisibleAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/widget/dependency/enabling",
+          "name": "WidgetEnablingAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/widget/dependency/visibility",
+          "name": "WidgetVisibilityAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/validation/dialog",
+          "name": "ValidationDialogAT. testDialog"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/validation/field/after_set_value",
+          "name": "FieldValidationAfterSetValueAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/validation/field/invisible",
+          "name": "InvisibleFieldValidationAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/validation/message/constraint",
+          "name": "ConstraintValidationMessageAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/validation/message/dynamic",
+          "name": "DynamicValidationMessageAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/validation/message/simple",
+          "name": "ValidationMessageAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/validation/resolve_dialog_title",
+          "name": "ValidationDialogAT. test"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/validation/tab",
+          "name": "ValidationTabMessageAT"
+        }
+      ]
+    }
+  ]
+}

@@ -43,11 +43,11 @@ public class FetchOnInitAT extends AutoTestBase {
 
     @Test
     public void test() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/fetch_on_init");
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/fetch_on_init/simple");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/form.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/table.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/simple/form.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/simple/table.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -78,11 +78,11 @@ public class FetchOnInitAT extends AutoTestBase {
 
     @Test
     public void testOnTabs() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/fetch_on_init");
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/fetch_on_init/tabs");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/tabs/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/form.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/table.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/tabs/form.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/tabs/table.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

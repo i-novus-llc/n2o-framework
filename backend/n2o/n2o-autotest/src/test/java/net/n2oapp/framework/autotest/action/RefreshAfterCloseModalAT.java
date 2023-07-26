@@ -40,15 +40,15 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal.page.xml"));
     }
 
     @Test
     public void testModal() {
         setJsonPath("net/n2oapp/framework/autotest/action/close/refresh/modal");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal/test.query.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal/test.object.xml"));
 
         StandardPage page = open(StandardPage.class);
@@ -116,7 +116,10 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
     @Test
     public void testDrawer() {
         setJsonPath("net/n2oapp/framework/autotest/action/close/refresh/drawer");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/drawer/test.query.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/drawer/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/drawer/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/drawer/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/drawer/test.object.xml"));
 
         StandardPage page = open(StandardPage.class);

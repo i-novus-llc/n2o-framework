@@ -39,8 +39,8 @@ public class AutoCompleteAT extends AutoTestBase {
     @Test
     public void testAutoComplete() {
         setJsonPath("net/n2oapp/framework/autotest/control/auto_complete");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
-                        new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/test.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/index.page.xml"),
+                        new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -68,9 +68,9 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testTags() {
-        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/test.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

@@ -42,14 +42,14 @@ public class RefModalAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        setJsonPath("net/n2oapp/framework/autotest/model/modal");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/model/modal/test.query.xml"));
     }
 
     @Test
     public void refParentModalTest() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_form/index.page.xml"),
+        setJsonPath("net/n2oapp/framework/autotest/model/modal/from_form");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_form/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_form/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_form/modal.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -93,7 +93,10 @@ public class RefModalAT extends AutoTestBase {
 
     @Test
     public void refParentModalFromFiltersTest() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_filters/index.page.xml"),
+        setJsonPath("net/n2oapp/framework/autotest/model/modal/from_filters");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_filters/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_filters/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_filters/filters.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();

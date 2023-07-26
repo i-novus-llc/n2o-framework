@@ -45,7 +45,7 @@ public class AppDatasourceAT extends AutoTestBase {
     public void testAppDS() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/app_datasource/simple");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/simple/side.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/simple/default.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/simple/page2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/simple/test.query.xml"));

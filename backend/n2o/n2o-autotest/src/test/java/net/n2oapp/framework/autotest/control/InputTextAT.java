@@ -33,13 +33,13 @@ public class InputTextAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_text/index.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_text/simple/index.page.xml"));
     }
 
     @Test
     public void testInputText() {
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_text/index.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_text/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         InputText input = page.widget(FormWidget.class).fields().field("InputText")
@@ -63,7 +63,7 @@ public class InputTextAT extends AutoTestBase {
     @Test
     public void testInputNumber() {
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_text/index.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_text/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -97,7 +97,7 @@ public class InputTextAT extends AutoTestBase {
     @Test
     public void testInputFloat() {
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_text/index.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_text/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
 
         page.shouldExists();
@@ -127,7 +127,7 @@ public class InputTextAT extends AutoTestBase {
     @Test
     public void testInputNumericPrecision() {
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_text/index.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_text/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

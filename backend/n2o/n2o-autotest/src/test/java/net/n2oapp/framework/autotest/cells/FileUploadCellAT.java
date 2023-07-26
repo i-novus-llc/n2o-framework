@@ -34,10 +34,6 @@ public class FileUploadCellAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
-        setJsonPath("net/n2oapp/framework/autotest/cells/fileupload");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/test.query.xml"));
     }
 
     @Override
@@ -50,7 +46,10 @@ public class FileUploadCellAT extends AutoTestBase {
 
     @Test
     public void oneFileUploadTest() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/simple/index.page.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/cells/fileupload/simple");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/simple/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/simple/index.page.xml"));
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
         TableWidget tableWidget = simplePage.widget(TableWidget.class);
@@ -71,7 +70,7 @@ public class FileUploadCellAT extends AutoTestBase {
         fileUpload.shouldHaveSize(0);
 
         // загрузка нормального файла
-        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json");
+        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/fileupload/test1.json");
         fileUpload.shouldHaveSize(1);
         fileUpload.uploadFileShouldHaveLink(0, "http://localhost:" + port + "/files/test1.json");
         fileUpload.uploadFileShouldHaveName(0, "test1.json");
@@ -83,7 +82,10 @@ public class FileUploadCellAT extends AutoTestBase {
 
     // убрали аннатоцию тест, потому что у selenide есть баг с загрузкой нескольких файлов и тест конфликтует с FileUploadAT
     public void multiFileUploadTest() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/multi/index.page.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/cells/fileupload/multi");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/multi/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/multi/index.page.xml"));
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
         TableWidget tableWidget = simplePage.widget(TableWidget.class);
@@ -94,8 +96,8 @@ public class FileUploadCellAT extends AutoTestBase {
         fileStoreController.clearFileStore();
 
         // загрузка нормального файла
-        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json",
-                "net/n2oapp/framework/autotest/control/test2.json");
+        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/fileupload/test1.json",
+                "net/n2oapp/framework/autotest/control/fileupload/test2.json");
         fileUpload.shouldHaveSize(2);
         fileUpload.uploadFileShouldHaveLink(0, "http://localhost:" + port + "/files/test1.json");
         fileUpload.uploadFileShouldHaveName(0, "test1.json");

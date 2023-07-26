@@ -44,15 +44,15 @@ public class TableSelectionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/selection");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/modal.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/test.query.xml"));
     }
 
     @Test
     public void testActiveSelection() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/active/index.page.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/selection/active");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/active/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/active/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/active/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -77,7 +77,11 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testNoneSelection() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/index.page.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/selection/none/simple");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/simple/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/simple/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -96,7 +100,11 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testRadioSelection() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/radio/index.page.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/selection/radio");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/radio/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/radio/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/radio/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -136,7 +144,11 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testCheckboxSelection() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/checkbox/index.page.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/selection/checkbox");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/checkbox/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/checkbox/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/checkbox/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
