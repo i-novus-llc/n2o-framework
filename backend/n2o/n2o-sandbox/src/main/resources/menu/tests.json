@@ -413,8 +413,12 @@
           "name": "FilterModelAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/widget/table/multi_column",
-          "name": "MultiColumnAT"
+          "templateId": "net/n2oapp/framework/autotest/widget/table/multi_column/simple",
+          "name": "MultiColumnAT. testMultiColumn"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/multi_column/visibility",
+          "name": "MultiColumnAT. testVisibilityDependencies"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/paging/simple",
