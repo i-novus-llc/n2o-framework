@@ -15,12 +15,13 @@ import { Required } from './Required'
  * @param {string} style - дополнительный dom стиль
  * @param {string} help - подсказка
  * @param {object} props - остальные пропсы
+ * @param {boolean} needStub - нужна ли заглушка в ввиде label
  * @example
  * <Label value='Телефон'/ required={true} />
  */
 
-const Label = ({ id, value, required, className, style, help }) => {
-    if (!value) {
+const Label = ({ id, value, required, className, style, help, needStub = false }) => {
+    if (!value && !needStub) {
         return null
     }
 
@@ -57,6 +58,7 @@ Label.propTypes = {
     id: PropTypes.string,
     help: PropTypes.string,
     style: PropTypes.object,
+    needStub: PropTypes.bool,
 }
 
 Label.defaultProps = {
