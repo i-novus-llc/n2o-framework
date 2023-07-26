@@ -56,8 +56,8 @@ public class TableFiltersValidationAT extends AutoTestBase {
         );
         setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/simple/test.query.xml")
         );
 
         SimplePage page = open(SimplePage.class);
@@ -115,10 +115,10 @@ public class TableFiltersValidationAT extends AutoTestBase {
                 new N2oAllPagesPack(),
                 new N2oAllDataPack()
         );
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation");
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation/test.query.xml")
         );
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

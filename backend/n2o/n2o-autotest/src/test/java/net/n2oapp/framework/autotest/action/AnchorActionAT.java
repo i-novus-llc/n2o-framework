@@ -69,10 +69,10 @@ public class AnchorActionAT extends AutoTestBase {
      */
     @Test
     public void testHrefResolve() {
-        setJsonPath("net/n2oapp/framework/autotest/action/anchor/check_href");
+        setJsonPath("net/n2oapp/framework/autotest/action/anchor_check_href");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/anchor/check_href/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/anchor/check_href/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/anchor_check_href/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/anchor_check_href/test.query.xml"));
 
         StandardPage page = open(StandardPage.class);
         page.shouldExists();

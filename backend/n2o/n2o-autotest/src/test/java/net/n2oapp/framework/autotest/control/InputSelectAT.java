@@ -259,12 +259,12 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     public void testPrefilterByQueryParam() {
-        setJsonPath("net/n2oapp/framework/autotest/control/input_select/prefilter");
+        setJsonPath("net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/modalForm.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/gender.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param/modalForm.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param/gender.query.xml")
         );
 
         SimplePage page = open(SimplePage.class);
@@ -293,12 +293,12 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     public void testPrefilterByPathParam() {
-        setJsonPath("net/n2oapp/framework/autotest/control/input_select/prefilter");
+        setJsonPath("net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/modalForm.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/gender.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param/modalForm.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param/gender.query.xml")
         );
 
         SimplePage page = open(SimplePage.class);

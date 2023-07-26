@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create">
+            <invocation>
+                <java method="create">
+                    <spring bean="dialogServiceForAT"/>
+                    <arguments>
+                        <argument type="primitive"/>
+                        <argument type="primitive"/>
+                    </arguments>
+                </java>
+            </invocation>
+            <in>
+                <field id="name" param="name"/>
+                <field id="age" param="age"/>
+            </in>
+            <fail-out>
+                <field id="errorMessage" mapping="#this.getMessage()"/>
+            </fail-out>
+            <validations white-list="nameCheck,ageCheck"/>
+        </operation>
+    </operations>
+
+    <validations>
+        <dialog id="nameCheck" server-moment="after-fail-operation"
+                result="!(#this[errorMessage].contains('Empty name'))"
+                title="Вы не заполнили имя."
+                message="Заполнить его значением по умолчанию?">
+            <toolbar>
+                <button label="Yes">
+                    <invoke operation-id="create">
+                        <header-param name="name" value="default"/>
+                    </invoke>
+                </button>
+                <button label="Close">
+                    <close/>
+                </button>
+            </toolbar>
+        </dialog>
+        <dialog id="ageCheck" server-moment="after-fail-operation"
+                result="!(#this[errorMessage].contains('Empty age'))"
+                title="Вы не заполнили возраст."
+                message="Заполнить его значением по умолчанию?">
+            <toolbar>
+                <button label="Yes">
+                    <invoke operation-id="create">
+                        <header-param name="age" value="0"/>
+                    </invoke>
+                </button>
+                <button label="Close">
+                    <close/>
+                </button>
+            </toolbar>
+        </dialog>
+    </validations>
+</object>

@@ -40,9 +40,9 @@ public class PaginationAT extends AutoTestBase {
 
     @Test
     public void testTableSimplePaging() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/test.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/simple/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -109,9 +109,9 @@ public class PaginationAT extends AutoTestBase {
 
     @Test
     public void testShowCountNever() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging");
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging/simple_never");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/simple_never/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/simple_never/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -305,9 +305,9 @@ public class PaginationAT extends AutoTestBase {
 
     @Test
     public void testPrevNextButtonsLabel() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging/");
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging/prev_next_buttons");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/prev_next_buttons/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/prev_next_buttons/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

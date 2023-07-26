@@ -34,6 +34,7 @@ public class SimpleTest {
     @Test
     public void n2o() {
         TestLeftRightPage page = N2oSelenide.open("http://localhost:" + port + "/test.html", TestLeftRightPage.class);
+        page.shouldExists();
         page.left().region(0, TestRegion.class).content().widget(TestWidget.class).textShouldBe("Left Region 0 Widget 0");
         page.left().region(0, TestRegion.class).content().widget(1, TestWidget.class).textShouldBe("Left Region 0 Widget 1");
         page.left().region(1, TestRegion.class).content().widget(TestWidget.class).textShouldBe("Left Region 1 Widget 0");
@@ -43,6 +44,7 @@ public class SimpleTest {
     @Test
     public void selenide() {
         TestPageObject page = Selenide.open("http://localhost:" + port + "/test.html", TestPageObject.class);
+        page.getLeftWidget0().shouldExists();
         page.getLeftWidget0().textShouldBe("Left Region 0 Widget 0");
         page.getLeftWidget1().textShouldBe("Left Region 0 Widget 1");
         page.getRightWidget0().textShouldBe("Right Region 0 Widget 0");

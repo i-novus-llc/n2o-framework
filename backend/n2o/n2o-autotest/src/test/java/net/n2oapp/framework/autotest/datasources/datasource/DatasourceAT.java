@@ -141,10 +141,10 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testOneDSManyWidgets() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources");
+        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/test.query.xml")
         );
 
         StandardPage page = open(StandardPage.class);
@@ -287,9 +287,9 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testSimpleCopyDepend() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources");
+        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/copy_depend");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -312,9 +312,9 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testCopyDepend() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/resolve/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

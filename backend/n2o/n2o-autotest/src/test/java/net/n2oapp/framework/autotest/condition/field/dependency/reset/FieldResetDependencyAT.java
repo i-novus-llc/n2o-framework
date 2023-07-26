@@ -105,7 +105,7 @@ public class FieldResetDependencyAT extends AutoTestBase {
     @Test
     public void testApplyOnInit() {
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/reset/apply_on_init/index.page.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/reset_on_init/index.page.xml")
         );
 
         SimplePage page = open(SimplePage.class);

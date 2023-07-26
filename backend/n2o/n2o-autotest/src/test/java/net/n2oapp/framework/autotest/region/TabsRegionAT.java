@@ -40,7 +40,7 @@ public class TabsRegionAT extends AutoTestBase {
 
     @Test
     public void testTabsRegion() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
