@@ -311,6 +311,7 @@
                         maxOccurs="unbounded"/>
             <xs:element name="list" type="operationOutParameterReferenceDefinition" minOccurs="0"
                         maxOccurs="unbounded"/>
+            <xs:element name="switch" type="switchDefinition"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -318,6 +319,9 @@
         <xs:annotation>
             <xs:documentation>Исходящий простой параметр операции.</xs:documentation>
         </xs:annotation>
+        <xs:sequence>
+            <xs:element name="switch" type="switchDefinition"/>
+        </xs:sequence>
         <xs:attribute name="id" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор поля.</xs:documentation>
@@ -398,6 +402,9 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="fieldDefinition">
+                <xs:sequence>
+                    <xs:element name="switch" type="switchDefinition"/>
+                </xs:sequence>
                 <xs:attribute name="param" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Параметр содержащий url.</xs:documentation>
@@ -656,4 +663,37 @@
             <xs:enumeration value="after-success-operation"/>
         </xs:restriction>
     </xs:simpleType>
+
+    <xs:complexType name="switchDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Переключатель
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="case" type="caseDefinition"/>
+            <xs:element name="default" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Вариант по умолчанию
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="caseDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Вариант переключения
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="value" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    Значение, с которым сравнивается значение поля
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
 </xs:schema>

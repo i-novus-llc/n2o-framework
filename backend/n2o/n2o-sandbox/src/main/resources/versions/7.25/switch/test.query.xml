@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list>
+        <test file="test.json"/>
+    </list>
+
+    <fields>
+        <field id="id"/>
+        <field id="name"/>
+        <field id="status"/>
+        <field id="color" mapping="['status']">
+            <switch>
+                <case value="New">success</case>
+                <case value="In Progress">warning</case>
+                <case value="Blocked">danger</case>
+                <default>info</default>
+            </switch>
+        </field>
+    </fields>
+</query>

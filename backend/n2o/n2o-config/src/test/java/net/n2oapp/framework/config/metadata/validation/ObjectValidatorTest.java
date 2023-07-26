@@ -42,7 +42,7 @@ public class ObjectValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkForUniqueOperations.object.xml"));
-        assertEquals("Действие 'create' встречается более чем один раз в объекте 'checkForUniqueOperations'", exception.getMessage());
+        assertEquals("Операция 'create' встречается более чем один раз в объекте 'checkForUniqueOperations'", exception.getMessage());
     }
 
     @Test
@@ -165,5 +165,29 @@ public class ObjectValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkOperationIdExistence.page.xml"));
         assertEquals("В одной из операций объекта 'checkOperationIdExistence' не указан 'id'", exception.getMessage());
+    }
+
+    @Test
+    void checkSwitchWithoutCases() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkSwitchWithoutCases.object.xml"));
+        assertEquals("В элементе '<switch>' поля 'name' отсутствует '<case>'", exception.getMessage());
+    }
+
+    @Test
+    void checkSwitchWithEmptyValueInCases() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkSwitchWithEmptyValueInCases.object.xml"));
+        assertEquals("В '<case>' элемента '<switch>' поля 'name' атрибут 'value' пустой", exception.getMessage());
+    }
+
+    @Test
+    void checkSwitchWithEmptyCase() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkSwitchWithEmptyCase.object.xml"));
+        assertEquals("В '<case>' элемента '<switch>' поля 'name' отсутствует тело", exception.getMessage());
     }
 }

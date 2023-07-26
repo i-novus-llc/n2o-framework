@@ -24,6 +24,7 @@ import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryListField;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
@@ -38,6 +39,7 @@ import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.engine.util.ArgumentsInvocationUtil.mapToArgs;
@@ -470,7 +472,22 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         fields.forEach(field -> mapField(field, resultDataSet, entry));
         fields.forEach(field -> normalizeField(field, resultDataSet, parentData));
         fields.forEach(field -> processInnerFields(field, resultDataSet, resultDataSet));
+        fields.stream()
+                .filter(
+                        field -> field instanceof QuerySimpleField && nonNull(((QuerySimpleField) field).getN2oSwitch()))
+                .forEach(
+                        field -> applySwitch(resultDataSet, (QuerySimpleField) field)
+                );
         return resultDataSet;
+    }
+
+    private void applySwitch(DataSet resultDataSet, QuerySimpleField field) {
+        String valueFieldId = field.getN2oSwitch().getValueFieldId();
+        String expression = ScriptProcessor.buildSwitchExpression(field.getN2oSwitch())
+                .replaceAll("`", "")
+                .replaceAll(valueFieldId, String.format("#this.get('%s')", valueFieldId));
+        Object resultSwitch = normalizeValue(resultDataSet, expression, null, parser, applicationContext);
+        resultDataSet.replace(valueFieldId, resultSwitch);
     }
 
     private void mapField(AbstractField field, DataSet target, Object entry) {

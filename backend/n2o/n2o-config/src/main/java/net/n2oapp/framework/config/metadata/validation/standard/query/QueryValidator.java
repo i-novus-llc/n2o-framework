@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.InvocationScope;
@@ -19,6 +21,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 /**
  * Валидатор выборки
  */
@@ -27,17 +32,18 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
 
     @Override
     public void validate(N2oQuery n2oQuery, SourceProcessor p) {
-        if (n2oQuery.getObjectId() != null)
+        if (nonNull(n2oQuery.getObjectId()))
             checkForExistsObject(n2oQuery.getId(), n2oQuery.getObjectId(), p);
-        if (n2oQuery.getFields() != null) {
+        if (nonNull(n2oQuery.getFields())) {
             p.safeStreamOf(n2oQuery.getFields()).forEach(field -> checkFieldIdExistence(field, n2oQuery.getId(), p));
             checkForUniqueFields(n2oQuery.getFields(), n2oQuery.getId(), p);
         }
-        if (n2oQuery.getFilters() != null) {
+        if (nonNull(n2oQuery.getFilters())) {
             checkForUniqueFilterFields(n2oQuery.getFilters(), n2oQuery.getId());
             checkForExistsFiltersInSelections(n2oQuery);
         }
         checkInvocations(n2oQuery, p);
+        checkSwitchCase(n2oQuery.getFields());
     }
 
     /**
@@ -86,7 +92,7 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
     private void checkForUniqueFilterFields(N2oQuery.Filter[] filters, String queryId) {
         Set<String> filterFields = new HashSet<>();
         for (N2oQuery.Filter filter : filters) {
-            if (filter.getFilterId() != null && !filterFields.add(filter.getFilterId())) {
+            if (nonNull(filter.getFilterId()) && !filterFields.add(filter.getFilterId())) {
                 throw new N2oMetadataValidationException(String.format("Фильтр %s в выборке %s повторяется",
                         ValidationUtils.getIdOrEmptyString(filter.getFilterId()),
                         ValidationUtils.getIdOrEmptyString(queryId)));
@@ -107,9 +113,9 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
     }
 
     private void checkFiltersExistInSelectionType(N2oQuery.Selection[] selections, Set<String> filterFields, String selectionType, String queryId) {
-        if (selections != null) {
+        if (nonNull(selections)) {
             for (N2oQuery.Selection s : selections) {
-                if (s.getFilters() != null) {
+                if (nonNull(s.getFilters())) {
                     for (String filter : s.getFilters()) {
                         if (!filterFields.contains(filter))
                             throw new N2oMetadataValidationException(String.format("<%s> ссылается на несуществующий фильтр %s в выборке %s",
@@ -129,11 +135,11 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
      * @param p     Процессор исходных метаданных
      */
     private void checkInvocations(N2oQuery query, SourceProcessor p) {
-        if (query.getLists() != null)
+        if (nonNull(query.getLists()))
             validateInvocations(query.getLists(), query.getId(), p);
-        if (query.getCounts() != null)
+        if (nonNull(query.getCounts()))
             validateInvocations(query.getCounts(), query.getId(), p);
-        if (query.getUniques() != null)
+        if (nonNull(query.getUniques()))
             validateInvocations(query.getUniques(), query.getId(), p);
     }
 
@@ -152,6 +158,23 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
                 .forEach(invocation -> p.validate(invocation, invocationScope));
     }
 
+    private void checkSwitchCase(AbstractField[] fields) {
+        if (isNull(fields))
+            return;
+        for (AbstractField field : fields) {
+            if (field instanceof QueryReferenceField)
+                checkSwitchCase(((QueryReferenceField)field).getFields());
+            if (field instanceof QuerySimpleField && nonNull(((QuerySimpleField) field).getN2oSwitch())) {
+                N2oSwitch n2oSwitch = ((QuerySimpleField) field).getN2oSwitch();
+                if (n2oSwitch.getCases().isEmpty())
+                    throw new N2oMetadataValidationException(String.format("В элементе '<switch>' поля '%s' отсутствует '<case>'", field.getId()));
+                if (n2oSwitch.getCases().containsKey(""))
+                    throw new N2oMetadataValidationException(String.format("В '<case>' элемента '<switch>' поля '%s' атрибут 'value' пустой", field.getId()));
+                if (n2oSwitch.getCases().containsValue(""))
+                    throw new N2oMetadataValidationException(String.format("В '<case>' элемента '<switch>' поля '%s' отсутствует тело", field.getId()));
+            }
+        }
+    }
 
     @Override
     public Class<? extends Source> getSourceClass() {

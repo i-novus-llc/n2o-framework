@@ -195,6 +195,7 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseFieldDefinition">
+                <xs:element name="switch" type="switchDefinition"/>
                 <xs:attribute name="name" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
@@ -404,5 +405,38 @@
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="switchDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Переключатель
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="case" type="caseDefinition"/>
+            <xs:element name="default" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Вариант по умолчанию
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="caseDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Вариант переключения
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="value" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    Значение, с которым сравнивается значение поля
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 </xs:schema>

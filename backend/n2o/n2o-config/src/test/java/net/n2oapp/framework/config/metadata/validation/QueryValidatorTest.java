@@ -68,4 +68,28 @@ public class QueryValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkFieldIdExistence.page.xml"));
         assertEquals( "Одно из полей выборки 'checkFieldIdExistence' не имеет 'id'", exception.getMessage());
     }
+
+    @Test
+    void checkSwitchWithoutCases() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkSwitchWithoutCases.query.xml"));
+        assertEquals("В элементе '<switch>' поля 'name' отсутствует '<case>'", exception.getMessage());
+    }
+
+    @Test
+    void checkSwitchWithEmptyValueInCases() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkSwitchWithEmptyValueInCases.query.xml"));
+        assertEquals("В '<case>' элемента '<switch>' поля 'name' атрибут 'value' пустой", exception.getMessage());
+    }
+
+    @Test
+    void checkSwitchWithEmptyCase() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkSwitchWithEmptyCase.query.xml"));
+        assertEquals("В '<case>' элемента '<switch>' поля 'name' отсутствует тело", exception.getMessage());
+    }
 }

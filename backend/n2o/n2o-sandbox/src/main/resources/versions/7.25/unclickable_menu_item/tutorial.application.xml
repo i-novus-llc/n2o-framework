@@ -3,18 +3,18 @@
              welcome-page-id="index">
     <header title="Хедер">
         <nav>
-            <menu-item name="Некликабельный menu-item"/>
+            <menu-item name="Некликабельное меню"/>
             <dropdown-menu name="Вложенное меню">
                 <menu-item>
                     <open-page page-id="menu1" label="Первая страница"/>
                 </menu-item>
-                <menu-item name="Некликабельный menu-item"/>
+                <menu-item name="Некликабельное меню"/>
             </dropdown-menu>
         </nav>
         <extra-menu>
-            <menu-item name="Некликабельный menu-item"/>
+            <menu-item name="Некликабельное меню"/>
             <dropdown-menu name="Вложенное меню">
-                <menu-item name="Некликабельный menu-item"/>
+                <menu-item name="Некликабельное меню"/>
                 <menu-item name="Выход"
                            style="display: flex; justify-content: center"
                            icon="fa fa-user">

@@ -22,7 +22,11 @@
         },
         {
           "templateId": "versions/7.25/unclickable_menu_item",
-          "name": "Некликабельный menu-item"
+          "name": "Некликабельное меню"
+        },
+        {
+          "templateId": "versions/7.25/switch",
+          "name": "Switch в поле"
         }
       ]
     },

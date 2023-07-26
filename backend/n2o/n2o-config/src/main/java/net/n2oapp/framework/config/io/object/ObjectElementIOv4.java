@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleFie
 import net.n2oapp.framework.api.metadata.global.dao.validation.*;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
+import net.n2oapp.framework.config.io.cell.v2.SwitchIO;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
 import net.n2oapp.framework.config.io.toolbar.v2.ToolbarIOv2;
 import org.jdom2.Element;
@@ -109,6 +110,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
+        p.child(e, null, "switch", t::getN2oSwitch, t::setN2oSwitch, new SwitchIO());
     }
 
     private void inField(Element e, ObjectSimpleField t, IOProcessor p) {
@@ -116,6 +118,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
         p.attribute(e, "param", t::getParam, t::setParam);
         p.attribute(e, "validation-fail-key", t::getValidationFailKey, t::setValidationFailKey);
+        p.child(e, null, "switch", t::getN2oSwitch, t::setN2oSwitch, new SwitchIO());
     }
 
     private void inReference(Element e, ObjectReferenceField t, IOProcessor p) {

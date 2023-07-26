@@ -204,11 +204,54 @@ n2o.api.query.field.is_selected = true
 n2o.api.query.field.is_sorted = false
 ```
 
+**Тело**
+
+&lt;switch&gt; - [Переключатель](#switch) <br/>
+
 **Пример**
 
 ```xml
-<field id="myName" mapping="['name']" default-value="user" normalize="#this.toUpperCase()"/>
+<field id="myName" mapping="['name']" default-value="user" normalize="#this.toUpperCase()">
+    <switch>...</switch>
+</field>
 ```
+
+#### &lt;switch&gt; {#switch}
+
+Переключатель
+
+**Пример**
+
+```xml
+<switch>
+    <case value="1">Мужской</case>
+    <case value="2">Женский</case>
+    <default>Неопределенный</default>
+</switch>
+```
+
+#### &lt;case&gt; {#case}
+
+Вариант переключения
+
+**Атрибуты**
+
+|Наименование |Тип    |Описание                                       |
+|-------------|-------|-----------------------------------------------|
+|value        |Строка |Значение, с которым сравнивается значение поля |
+
+**Тело**
+
+Значение, возвращаемое в случае совпадения value со значением поля
+
+#### &lt;default&gt; {#default}
+
+Вариант по умолчанию
+
+**Тело**
+
+Значение, которое будет выбрано при несовпадении ни одного из value со значением поля
+
 
 ### &lt;reference&gt; {#reference}
 

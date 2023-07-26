@@ -22,28 +22,28 @@ N2O поддерживает провайдеры SQL, REST, GraphQl, Spring Bea
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
 <object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
-  name="Мой объект">
-  <fields>
-    <!-- Поля объекта -->
-    <field id="id"/>
-    <field id="name"/>
-    <field id="birthday"/>
-    <list id="docs">...</list>
-    ...
-  </fields>
-  <operations>
-    <!-- Операции объекта -->
-    <operation id="create">...</operation>
-    <operation id="update">...</operation>
-    <operation id="delete">...</operation>
-    ...
-  </operations>
-  <validations>
-    <!-- Валидации объекта -->
-    <constraint id="uniqueName">...</constraint>
-    <condition id="dateInPast">...</condition>
-    ...
-  </validations>
+        name="Мой объект">
+    <fields>
+        <!-- Поля объекта -->
+        <field id="id"/>
+        <field id="name"/>
+        <field id="birthday"/>
+        <list id="docs">...</list>
+        ...
+    </fields>
+    <operations>
+        <!-- Операции объекта -->
+        <operation id="create">...</operation>
+        <operation id="update">...</operation>
+        <operation id="delete">...</operation>
+        ...
+    </operations>
+    <validations>
+        <!-- Валидации объекта -->
+        <constraint id="uniqueName">...</constraint>
+        <condition id="dateInPast">...</condition>
+        ...
+    </validations>
 </object>
 ```
 
@@ -56,23 +56,23 @@ N2O поддерживает провайдеры SQL, REST, GraphQl, Spring Bea
 
 ```xml title="Операция объекта"
 <operation id="create">
-  <invocation>
-    ... <!--Провайдер данных-->
-  </invocation>
-  <in>
-      <!--Входные данные-->
-      <field id="name"/>
-      <field id="birthday"/>
-  </in>
-  <out>
-      <!--Выходные данные-->
+    <invocation>
+        ... <!--Провайдер данных-->
+    </invocation>
+    <in>
+        <!--Входные данные-->
+        <field id="name"/>
+        <field id="birthday"/>
+    </in>
+    <out>
+        <!--Выходные данные-->
       <field id="id"/>
-  </out>
-  <fail-out>
-      <!--Выходные данные в случае ошибки операции-->
-      <field id="message" mapping="#this.getMessage()"/>
-  </fail-out>
-  <validations>...</validations><!--Валидации операций-->
+    </out>
+    <fail-out>
+        <!--Выходные данные в случае ошибки операции-->
+        <field id="message" mapping="#this.getMessage()"/>
+    </fail-out>
+    <validations>...</validations><!--Валидации операций-->
 </operation>
 ```
 
@@ -88,11 +88,11 @@ N2O поддерживает провайдеры SQL, REST, GraphQl, Spring Bea
 
 ```xml
 <validations>
-  <condition id="dateInPast"
-             on="birthday"
-             message="Дата рождения не может быть в будущем">
-    birthday <= today()
-  </condition>
+    <condition id="dateInPast"
+               on="birthday"
+               message="Дата рождения не может быть в будущем">
+        birthday <= today()
+    </condition>
 </validations>
 ```
 
@@ -106,22 +106,22 @@ N2O поддерживает провайдеры SQL, REST, GraphQl, Spring Bea
 
 ```xml
 <validations>
-  <constraint id="uniqueName"
-              message="Имя {name} уже существует"
-              result="cnt == 0">
-    <invocation>
-      ... <!-- Провайдер данных -->
-    </invocation>
-    <in>
-      <!--Входные данные-->
-      <field id="id"/>
-      <field id="name"/>
-    </in>
-    <out>
-      <!--Выходные данные-->
-      <field id="cnt"/>
-    </out>
-  </constraint>
+    <constraint id="uniqueName"
+                message="Имя {name} уже существует"
+                result="cnt == 0">
+        <invocation>
+            ... <!-- Провайдер данных -->
+        </invocation>
+        <in>
+            <!--Входные данные-->
+            <field id="id"/>
+            <field id="name"/>
+        </in>
+        <out>
+            <!--Выходные данные-->
+            <field id="cnt"/>
+        </out>
+    </constraint>
 </validations>
 ```
 
@@ -141,16 +141,16 @@ N2O поддерживает провайдеры SQL, REST, GraphQl, Spring Bea
 ```xml title="Структура выборки"
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-5.0"
-  object-id="myObject">
-  <list>...</list> <!--Постраничное получение записей-->
-  <count>...</count> <!--Получение общего количества записей-->
-  <unique>...</unique> <!--Получение уникальной записи-->
-  <filters>...</filters>
-  <fields>
-    <!-- Поля выборки -->
-    <field id="firstName"> ... </field>
-    <field id="lastName"> ... </field>
-  </fields>
+       object-id="myObject">
+    <list>...</list> <!--Постраничное получение записей-->
+    <count>...</count> <!--Получение общего количества записей-->
+    <unique>...</unique> <!--Получение уникальной записи-->
+    <filters>...</filters>
+    <fields>
+        <!-- Поля выборки -->
+        <field id="firstName"> ... </field>
+        <field id="lastName"> ... </field>
+    </fields>
 </query>
 ```
 
@@ -301,7 +301,7 @@ query MyQuery {
 Атрибут `sorting-expression` также может использоваться для подстановки вместо плейсхолдера `sorting` провайдера данных.
 ```xml title="Задание шаблона order by команды sql запроса"
 <list>
-  <sql>SELECT t.name FROM mytable t ORDER BY :sorting</sql>
+    <sql>SELECT t.name FROM mytable t ORDER BY :sorting</sql>
 </list>
 ```
 В результате получится запрос вида `SELECT t.name FROM mytable t ORDER BY name :direction`
@@ -332,10 +332,10 @@ __*Типы фильтраций*__
 
 ```xml title="Задание фильтров в выборке"
 <filters>
-  <!-- Фильтр по "eq" -->
-  <eq field-id="gender.id" filter-id="gender.id">...</eq>
-  <!-- Фильтр по "in" -->
-  <in field-id="gender.id" filter-id="genders*.id">...</in>
+    <!-- Фильтр по "eq" -->
+    <eq field-id="gender.id" filter-id="gender.id">...</eq>
+    <!-- Фильтр по "in" -->
+    <in field-id="gender.id" filter-id="genders*.id">...</in>
 </filters>
 ```
 
@@ -370,14 +370,14 @@ __*Типы фильтраций*__
 
 ```xml title="Задание выражения фильтрации"
 <filters>
-  <eq field-id="id" filter-id="id">t.id = :id</eq>
+    <eq field-id="id" filter-id="id">t.id = :id</eq>
 </filters>
 ```
 
 Также тело фильтра может быть использовано для подстановки вместо плейсхолдера `filters` провайдера
 ```xml title="Задание шаблона where команды sql запроса"
 <list>
-  <sql>SELECT t.name FROM mytable t WHERE :filters</sql>
+    <sql>SELECT t.name FROM mytable t WHERE :filters</sql>
 </list>
 ```
 
@@ -406,10 +406,10 @@ __*Типы фильтраций*__
 
 ```xml title="Получение всех записей test провайдера"
 <query>
-  <list>
-    <test file="test.json" operation="findAll"/>
-  </list>
-  ...
+    <list>
+        <test file="test.json" operation="findAll"/>
+    </list>
+    ...
 </query>
 ```
 :::note
@@ -419,10 +419,10 @@ __*Типы фильтраций*__
 Для получения одной записи необходимо указать операцию `findOne`.
 ```xml title="Получение одной записи test провайдера"
 <query>
-  <unique>
-    <test file="test.json" operation="findOne"/>
-  </unique>
-  ...
+    <unique>
+        <test file="test.json" operation="findOne"/>
+    </unique>
+    ...
 </query>
 ```
 
@@ -435,20 +435,20 @@ __*Типы фильтраций*__
 В случае, если данные для полей выборки находятся не в корне json объекта, например, вложены в объект "data"
 ```json
 [
-    {
-      "data": {
-        "id": 1,
-        "name": "test1"
-      }
-    },
-    ...
+  {
+    "data": {
+      "id": 1,
+      "name": "test1"
+    }
+  },
+  ...
 ]
 ```
 можно задать атрибут `result-mapping`, чтобы маппинг полей был более простым.
 ```xml
-  <unique result-mapping="['data']">
+<unique result-mapping="['data']">
     <test file="test.json" operation="findOne"/>
-  </unique>
+</unique>
 ```
 :::
 
@@ -459,7 +459,7 @@ __*Типы фильтраций*__
 Это можно сделать с помощью операции `count`.
 ```xml title="Получение количества записей в тестовом провайдере"
 <count>
-  <test file="test.json" operation="count"/>
+    <test file="test.json" operation="count"/>
 </count>
 ```
 
@@ -474,11 +474,11 @@ __*Типы фильтраций*__
 маппинг полей будет таким
 ```xml {5,8} title="Маппинг полей тестового провайдера"
 <query>
-  ...
-  <fields>
-    <field id="id" mapping="['id']"/> <!-- 1 -->
-    <field id="name" mapping="['name']"/> <!-- Foo -->
-  </fields>
+    ...
+    <fields>
+        <field id="id" mapping="['id']"/> <!-- 1 -->
+        <field id="name" mapping="['name']"/> <!-- Foo -->
+    </fields>
 </query>
 ```
 
@@ -486,11 +486,11 @@ __*Типы фильтраций*__
 Если идентификатор поля совпадает со свойством в json объекте, то маппинг можно не задавать
 ```xml
 <query>
-  ...
-  <fields>
-    <field id="id"/> <!-- 1 -->
-    <field id="name"/> <!-- Foo -->
-  </fields>
+    ...
+    <fields>
+        <field id="id"/> <!-- 1 -->
+        <field id="name"/> <!-- Foo -->
+    </fields>
 </query>
 ```
 :::
@@ -503,16 +503,16 @@ __*Типы фильтраций*__
 
 ```xml {4,5} title="Фильтрация данных тестового провайдера"
 <query>
-  ...
-  <filters>
-    <eq field-id="id" filter-id="idEq"/>
-    <like field-id="name" filter-id="nameLike"/>
-  </filters>
+    ...
+    <filters>
+        <eq field-id="id" filter-id="idEq"/>
+        <like field-id="name" filter-id="nameLike"/>
+    </filters>
 
-  <fields>
-    <field id="id"/>
-    <field id="name"/>
-  </fields>
+    <fields>
+        <field id="id"/>
+        <field id="name"/>
+    </fields>
 </query>
 ```
 
@@ -523,11 +523,11 @@ __*Типы фильтраций*__
 
 ```xml {4,5} title="Сортировка данных тестового провайдера"
 <query>
-  ...
-  <fields>
-    <field id="id" sorting="true"/>
-    <field id="name" sorting="true"/>
-  </fields>
+    ...
+    <fields>
+        <field id="id" sorting="true"/>
+        <field id="name" sorting="true"/>
+    </fields>
 </query>
 ```
 
@@ -536,18 +536,18 @@ __*Типы фильтраций*__
 Для добавления данных в json файл необходимо указать тип операции `create`.
 ```xml {4} title="Операции над данными тестового провайдера"
 <operation id="create">
-  <invocation>
-    <test file="test.json"
-          operation="create"
-          primary-key-type="integer"
-          primary-key="id"/>
-  </invocation>
-  <in>
-    <field id="name" mapping="['name']"/>
-  </in>
-  <out>
-    <field id="id" mapping="['id']"/>
-  </out>
+    <invocation>
+        <test file="test.json"
+              operation="create"
+              primary-key-type="integer"
+              primary-key="id"/>
+    </invocation>
+    <in>
+        <field id="name" mapping="['name']"/>
+    </in>
+    <out>
+        <field id="id" mapping="['id']"/>
+    </out>
 </operation>
 ```
 Если `primary-key-type` равен `integer` для поля `id` будет сгенерировано число, следующее за максимальным из существующих в json файле.
@@ -596,8 +596,8 @@ SELECT * FROM mytable
 
 ```xml
 <dependency>
-  <groupId>org.springframework.boot</groupId>
-  <artifactId>spring-boot-starter-jdbc</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-jdbc</artifactId>
 </dependency>
 ```
 
@@ -606,9 +606,9 @@ SELECT * FROM mytable
 
 ```xml
 <dependency>
-  <groupId>org.postgresql</groupId>
-  <artifactId>postgresql</artifactId>
-  <scope>runtime</scope>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <scope>runtime</scope>
 </dependency>
 ```
 
@@ -626,14 +626,14 @@ spring.datasource.password=postgres
 Для получения списка записей достаточно написать SELECT запрос.
 ```xml
 <list>
-  <sql>SELECT * FROM mytable t</sql>
+    <sql>SELECT * FROM mytable t</sql>
 </list>
 ```
 Для получения одной записи по идентификатору, можно добавить WHERE блок с плейсхолдером.
 Плейсхолдеры задаются через ведущее двоеточие `:something`.
 ```xml
 <unique filters="idEq">
-  <sql>SELECT * FROM mytable t WHERE t.id = :idEq</sql>
+    <sql>SELECT * FROM mytable t WHERE t.id = :idEq</sql>
 </unique>
 ```
 
@@ -657,14 +657,14 @@ SELECT t.id as id, t.name as name FROM mytable t
 Для пагинации записей SQL запроса следует использовать плейсхолдеры `:limit` и `:offset`.
 ```xml title="Пагинация записей SQL запроса"
 <list>
-  <sql>SELECT * FROM mytable LIMIT :limit OFFSET :offset</sql>
+    <sql>SELECT * FROM mytable LIMIT :limit OFFSET :offset</sql>
 </list>
 ```
 
 Чтобы получить общее количество записей можно использовать другой запрос к БД с функцией агрегации.
 ```xml title="Получение количества записей SQL запроса"
 <count count-mapping="[0]['cnt']">
-  <sql>SELECT count(*) as cnt FROM mytable</sql>
+    <sql>SELECT count(*) as cnt FROM mytable</sql>
 </count>
 ```
 В атрибуте `count-mapping` указывается выражение для получения числа записей.
@@ -685,29 +685,29 @@ SELECT t.id as id, t.name as name FROM mytable t
 и ссылку на поле, к которому относится фильтр `field-id`.
 ```xml {5} title="Фильтрация SQL запроса"
 <fields>
-  <field id="id"/>
+    <field id="id"/>
 </fields>
 <filters>
-  <eq field-id="id" filter-id="idEq"/> <!-- Плейсхолдер :idEq -->
+    <eq field-id="id" filter-id="idEq"/> <!-- Плейсхолдер :idEq -->
 </filters>
 ```
 В этом случае будет доступен `PreparedStatement` плейсхолдер `:idEq` равный значению `filter-id`.
 Если плейсхолдер нужно переименовать, можно использовать маппинг.
 ```xml {7} title="Маппинг плейсхолдера фильтрации SQL запроса"
 <fields>
-  <field id="gender.id"/>
+    <field id="gender.id"/>
 </fields>
 <filters>
-  <eq field-id="gender.id"
-      filter-id="gender.id"
-      mapping="['gender_id']"/> <!-- Плейсхолдер :gender_id -->
+    <eq field-id="gender.id"
+        filter-id="gender.id"
+        mapping="['gender_id']"/> <!-- Плейсхолдер :gender_id -->
 </filters>
 ```
 
 Можно добавить специальный плейсхолдер `:filters`, чтобы шаблонизировать фильтрацию выборки.
 ```xml
 <list filters-separator=" and ">
-  <sql>SELECT * FROM mytable t WHERE :filters</sql>
+    <sql>SELECT * FROM mytable t WHERE :filters</sql>
 </list>
 ```
 Разделителем между разными фильтрами обычно должен быть ` and `, поэтому необходимо задать его атрибутом `filters-separator`.
@@ -716,9 +716,9 @@ SELECT t.id as id, t.name as name FROM mytable t
 если значение фильтра не будет `null`.
 ```xml {4}
 <filters>
-  <like field-id="name"
-        filter-id="nameLike"
-        filter-expression="t.name like '%'||:nameLike</like>"/>
+    <like field-id="name"
+          filter-id="nameLike"
+          filter-expression="t.name like '%'||:nameLike</like>"/>
 </filters>
 ```
 при наличии значения в `nameLike` итоговый запрос будет
@@ -775,16 +775,16 @@ SELECT * FROM mytable ORDER BY name asc
 Для выполнения операций над данными нужно записать соответствующий SQL запрос.
 ```xml title="Выполнение операции SQL провайдером"
 <operation id="create">
-  <invocation>
-    <sql>INSERT INTO mytable (first_name, last_name) VALUES (:first_name, :last_name)</sql>
-  </invocation>
-  <in>
-    <field id="firstName" mapping="['first_name']"/>
-    <field id="lastName" mapping="['last_name']"/>
-  </in>
-  <out>
-    <field id="id" mapping="[0]"/>
-  </out>
+    <invocation>
+        <sql>INSERT INTO mytable (first_name, last_name) VALUES (:first_name, :last_name)</sql>
+    </invocation>
+    <in>
+        <field id="firstName" mapping="['first_name']"/>
+        <field id="lastName" mapping="['last_name']"/>
+    </in>
+    <out>
+        <field id="id" mapping="[0]"/>
+    </out>
 </operation>
 ```
 Результатом `INSERT` запроса будет массив значений, добавленных в таблицу.
@@ -796,11 +796,11 @@ SELECT * FROM mytable ORDER BY name asc
 
 ```xml title="Получение данных об ошибке SQL"
 <operation id="create" fail-message="Не удалось создать запись по причине {error}">
-  ...
-  <out-fail>
-    <field id="sql" mapping="query"/> <!-- Исходный запрос -->
-    <field id="error" mapping="message"/> <!-- Сообщение об ошибке -->
-  </out-fail>
+    ...
+    <out-fail>
+        <field id="sql" mapping="query"/> <!-- Исходный запрос -->
+        <field id="error" mapping="message"/> <!-- Сообщение об ошибке -->
+    </out-fail>
 </operation>
 ```
 
@@ -848,7 +848,7 @@ RestTemplate restTemplate() {
 Для получения списка записей обычно нужно выполнить `GET` запрос к сервису получения данных.
 ```xml title="Получение списка записей REST запроса"
 <list result-mapping="['content']">
-  <rest>/mystore/goods</rest>
+    <rest>/mystore/goods</rest>
 </list>
 ```
 В атрибуте `result-mapping` нужно указать путь к списку объектов в ответе сервиса
@@ -867,7 +867,7 @@ RestTemplate restTemplate() {
 Плейсхолдеры задаются в фигурных скобках `{something}`.
 ```xml title="Получение одной записи REST запроса"
 <unique filters="idEq">
-  <rest>/mystore/goods/{idEq}</rest>
+    <rest>/mystore/goods/{idEq}</rest>
 </unique>
 ```
 
@@ -876,13 +876,13 @@ RestTemplate restTemplate() {
 Для пагинации записей REST запроса следует использовать плейсхолдеры `{limit}` и `{offset}`.
 ```xml title="Пагинация записей REST запроса через offset"
 <list>
-  <rest>/mystore/goods?limit={limit}&amp;offset={offset}</rest>
+    <rest>/mystore/goods?limit={limit}&amp;offset={offset}</rest>
 </list>
 ```
 В качестве альтернативы `{offset}` можно использовать плейсхолдер `{page}`.
 ```xml title="Пагинация записей REST запроса через page"
 <list>
-  <rest>/mystore/goods?size={limit}&amp;page={page}</rest>
+    <rest>/mystore/goods?size={limit}&amp;page={page}</rest>
 </list>
 ```
 
@@ -898,7 +898,7 @@ n2o.engine.pageStartsWith0=false
 если REST сервис возвращает общее количество записей вместе со списком записей одной страницы.
 ```xml title="Получение количества записей REST запроса"
 <list result-mapping="['content']" count-mapping="['totalElements']">
-  <rest>/mystore/goods?size={limit}&amp;page={page}</rest>
+    <rest>/mystore/goods?size={limit}&amp;page={page}</rest>
 </list>
 ```
 В атрибуте `count-mapping` указывается путь к свойству, содержащему общее количество записей списка.
@@ -951,7 +951,7 @@ n2o.engine.pageStartsWith0=false
 Можно добавить специальный плейсхолдер `{filters}` в REST запрос, чтобы шаблонизировать фильтрацию выборки.
 ```xml
 <list filters-separator="&amp;">
-  <rest>/mystore/goods?{filters}</rest>
+    <rest>/mystore/goods?{filters}</rest>
 </list>
 ```
 Разделителем между разными фильтрами в параметрах запроса будет `&`, поэтому необходимо задать его атрибутом `filters-separator`.
@@ -1024,16 +1024,16 @@ GET /mystore/goods?sort=name,asc
 Для выполнения операций над данными нужно записать соответствующий REST запрос и http метод.
 ```xml title="Выполнение операции REST"
 <operation id="create">
-  <invocation>
-    <rest method="POST">/mystore/goods</rest>
-  </invocation>
-  <in>
-    <field id="name" mapping="['name']"/>
-    <field id="price" mapping="['price']"/>
-  </in>
-  <out>
-    <field id="id" mapping="['id']"/>
-  </out>
+    <invocation>
+        <rest method="POST">/mystore/goods</rest>
+    </invocation>
+    <in>
+        <field id="name" mapping="['name']"/>
+        <field id="price" mapping="['price']"/>
+    </in>
+    <out>
+        <field id="id" mapping="['id']"/>
+    </out>
 </operation>
 ```
 Входные параметры запроса будут собраны в `DataSet` объект, который будет сереализован в json и передан в теле запроса, если http метод `POST` или `PUT`.
@@ -1047,11 +1047,11 @@ GET /mystore/goods?sort=name,asc
 
 ```xml title="Получение данных об ошибке REST"
 <operation id="create" fail-message="Не удалось создать запись по причине {error}">
-  ...
-  <out-fail>
-    <field id="sql" mapping="query"/> <!-- Исходный запрос -->
-    <field id="error" mapping="message"/> <!-- Сообщение об ошибке -->
-  </out-fail>
+    ...
+    <out-fail>
+        <field id="sql" mapping="query"/> <!-- Исходный запрос -->
+        <field id="error" mapping="message"/> <!-- Сообщение об ошибке -->
+    </out-fail>
 </operation>
 ```
 #### Пример
@@ -1129,9 +1129,9 @@ RestTemplate restTemplate() {
 {
   "data": {
     "goods": [
-        { "id": 1, "name": "Товар 1"},
-        { "id": 1, "name": "Товар 2"},
-        ...
+      {"id": 1, "name": "Товар 1"},
+      {"id": 1, "name": "Товар 2"},
+      ...
     ]
   }
 }
@@ -1158,27 +1158,27 @@ RestTemplate restTemplate() {
 Для пагинации записей GraphQL запроса следует использовать плейсхолдеры `$$size` и `$$offset`.
 ```xml title="Пагинация записей GraphQL запроса через offset"
 <list>
-  <graphql>
-      query myQuery() {
-          goods(first: $$size, offset: $$offset) {
-              id
-              name
-          }
-      }
-  </graphql>
+    <graphql>
+        query myQuery() {
+            goods(first: $$size, offset: $$offset) {
+                id
+                name
+            }
+        }
+    </graphql>
 </list>
 ```
 В качестве альтернативы `$$offset` можно использовать плейсхолдер `$$page`.
 ```xml title="Пагинация записей GraphQL запроса через page"
 <list>
-  <graphql>
-      query myQuery() {
-          goods(size: $$size, page: $$page) {
-              id
-              name
-          }
-      }
-  </graphql>
+    <graphql>
+        query myQuery() {
+            goods(size: $$size, page: $$page) {
+                id
+                name
+            }
+        }
+    </graphql>
 </list>
 ```
 
@@ -1212,12 +1212,12 @@ n2o.engine.pageStartsWith0=false
 {
   "data": {
     "goods": [
-        { "id": 1, "name": "Товар 1"},
-        { "id": 1, "name": "Товар 2"},
-        ...
+      {"id": 1, "name": "Товар 1"},
+      {"id": 1, "name": "Товар 2"},
+      ...
     ],
     "aggregateGoods": {
-        "count": 100
+      "count": 100
     }
   }
 }
@@ -1260,14 +1260,14 @@ n2o.engine.pageStartsWith0=false
 Можно добавить специальный плейсхолдер `$$filters` в GraphQL запрос, чтобы шаблонизировать фильтрацию выборки.
 ```xml
 <list>
-  <graphql filter-separator=", ">
-      query myQuery() {
-          goods(filter: { $$filters }) {
-              id
-              name
-          }
-      }
-  </graphql>
+    <graphql filter-separator=", ">
+        query myQuery() {
+            goods(filter: { $$filters }) {
+                id
+                name
+            }
+        }
+    </graphql>
 </list>
 ```
 Разделителем между разными фильтрами в параметрах запроса будет `, `, поэтому необходимо задать его атрибутом `filters-separator`.
@@ -1305,12 +1305,12 @@ query myQuery() {
 Сортировка записей в GraphQL сервисах обычно задается в атрибутах методов.
 ```xml
 <graphql>
-  query myQuery() {
-      goods(order: { $$nameDir: name } ) {
-          id
-          name
-      }
-  }
+    query myQuery() {
+        goods(order: { $$nameDir: name } ) {
+            id
+            name
+        }
+    }
 </graphql>
 ```
 В поле, поддерживающее сортировку, необходимо добавить атрибут `sorting`
@@ -1336,12 +1336,12 @@ n2o.engine.query.desc-expression=desc
 Можно добавить специальный плейсхолдер `$$sorting`, чтобы шаблонизировать выражение сортировки.
 ```xml
 <graphql>
-  query myQuery() {
-      goods(order: { $$sorting } ) {
-          id
-          name
-      }
-  }
+    query myQuery() {
+        goods(order: { $$sorting } ) {
+            id
+            name
+        }
+    }
 </graphql>
 ```
 Плейсхолдер `$$sorting` будет заменен на значения из атрибутов `sorting-expression` в полях выборки,
@@ -1355,10 +1355,10 @@ n2o.engine.query.desc-expression=desc
 при наличии сортировки `asc` по полю `name` итоговый запрос будет
 ```js
 query myQuery() {
-  goods(order: { asc: name } ) {
-      id
-      name
-  }
+    goods(order: { asc: name } ) {
+        id
+        name
+    }
 }
 ```
 для сортировки по `desc` аналогично.
@@ -1372,23 +1372,23 @@ query myQuery() {
 Для выполнения операций над данными нужно задать GraphQL запрос мутации данных.
 ```xml title="Выполнение мутации GraphQL"
 <operation id="create">
-  <invocation>
-    <graphql>
-        mutation MyMutation {
-            addGood(input: { name: $$name }) {
-                good {
-                    id
+    <invocation>
+        <graphql>
+            mutation MyMutation {
+                addGood(input: { name: $$name }) {
+                    good {
+                        id
+                    }
                 }
             }
-        }
-    </graphql>
-  </invocation>
-  <in>
-    <field id="name" mapping="['name']"/>
-  </in>
-  <out>
-    <field id="id" mapping="['data.addGood.good[0].id']"/>
-  </out>
+        </graphql>
+    </invocation>
+    <in>
+        <field id="name" mapping="['name']"/>
+    </in>
+    <out>
+        <field id="id" mapping="['data.addGood.good[0].id']"/>
+    </out>
 </operation>
 ```
 
@@ -1451,41 +1451,42 @@ public class MyGraphQlOperationExceptionHandler implements OperationExceptionHan
 
 ```xml title="Получение списка записей Java провайдером"
 <query>
-  <list>
-    <java
-      class="com.example.MyService"
-      method="getList">
-      <arguments>
-        <argument
-          type="criteria"
-          class="com.example.MyCriteria"/>
-      </arguments>
-      <spring/>
-    </java>
-  </list>
-  <fields>
-    <field id="name" sorting="true"/>
-  </fields>
+    <list>
+        <java
+            class="com.example.MyService"
+            method="getList">
+            <arguments>
+                <argument
+                    type="criteria"
+                    class="com.example.MyCriteria"/>
+            </arguments>
+            <spring/>
+        </java>
+    </list>
+
+    <fields>
+        <field id="name" sorting="true"/>
+    </fields>
 </query>
 ```
 
 ```xml title="Выполнение операции Java провайдером"
 <operation id="create">
-  <invocation>
-    <java class="com.example.MyService"
-          method="create">
-      <arguments>
-        <argument
-          type="entity"
-          class="com.example.MyEntity"/>
-      </arguments>
-      <spring/>
-    </java>
-  </invocation>
-  <in>
-    <field id="firstName" mapping="[0].firstName"/>
-    <field id="lastName" mapping="[0].lastName"/>
-  </in>
+    <invocation>
+        <java class="com.example.MyService"
+              method="create">
+            <arguments>
+                <argument
+                    type="entity"
+                    class="com.example.MyEntity"/>
+            </arguments>
+            <spring/>
+        </java>
+    </invocation>
+    <in>
+        <field id="firstName" mapping="[0].firstName"/>
+        <field id="lastName" mapping="[0].lastName"/>
+    </in>
 </operation>
 ```
 
@@ -1604,13 +1605,13 @@ MongoDB провайдер выполняет запросы к MongoDB базе
 
 ```xml title="Выполнение операции MongoDB провайдером"
 <operation id="create">
-  <invocation>
-    <mongodb collection-name="person" operation="insertOne"/>
-  </invocation>
-  <in>
-    <field id="firstName"/>
-    <field id="lastName"/>
-  </in>
+    <invocation>
+        <mongodb collection-name="person" operation="insertOne"/>
+    </invocation>
+    <in>
+        <field id="firstName"/>
+        <field id="lastName"/>
+    </in>
 </operation>
 ```
 
@@ -1650,21 +1651,21 @@ integer[]
 
 ```xml title="Тип integer в поле выборки"
 <query>
-  ...
-  <fields>
-    <field id="gender.id" domain="integer">
-      ...
-    </field>
-  </fields>
+    ...
+    <fields>
+        <field id="gender.id" domain="integer">
+        ...
+        </field>
+    </fields>
 </query>
 ```
 
 ```xml title="Тип integer в параметрах операции"
 <operation>
-  ...
-  <in>
-    <field id="gender.id" domain="integer"/>
-  </in>
+    ...
+    <in>
+        <field id="gender.id" domain="integer"/>
+    </in>
 </operation>
 ```
 
@@ -1695,7 +1696,7 @@ integer[]
 
 ```xml
 <input-select id="gender">
-  ... <!-- Содержит id и name -->
+    ... <!-- Содержит id и name -->
 </input-select>
 ```
 
@@ -1703,10 +1704,10 @@ integer[]
 
 ```json
 {
-    "gender": {
-      "id" : 1,
-      "name" : "Мужской"
-    }
+  "gender": {
+    "id" : 1,
+    "name" : "Мужской"
+  }
 }
 ```
 
@@ -1732,7 +1733,7 @@ integer[]
 
 ```xml
 <date-interval id="period">
-  ... <!-- Содержит begin и end -->
+    ... <!-- Содержит begin и end -->
 </date-interval>
 ```
 
@@ -1740,10 +1741,10 @@ integer[]
 
 ```json
 {
-    "period": {
-      "begin" : "01.01.2018 00:00",
-      "end" : "31.12.2018 00:00"
-    }
+  "period": {
+    "begin" : "01.01.2018 00:00",
+    "end" : "31.12.2018 00:00"
+  }
 }
 ```
 
@@ -1771,7 +1772,7 @@ integer[]
 
 ```xml
 <select id="regions" type="multi">
-  ...<!-- Содержит несколько регионов -->
+    ...<!-- Содержит несколько регионов -->
 </select>
 ```
 
@@ -1779,16 +1780,16 @@ integer[]
 
 ```json
 {
-    "regions": [
-      {
-        "id" : 1,
-        "name" : "Адыгея"
-      },
-      {
-        "id" : 16,
-        "name" : "Татарстан"
-      }
-    ]
+  "regions": [
+    {
+      "id" : 1,
+      "name" : "Адыгея"
+    },
+    {
+      "id" : 16,
+      "name" : "Татарстан"
+    }
+  ]
 }
 ```
 
@@ -1806,6 +1807,44 @@ integer[]
     <field id="id"/><!-- [1,16] -->
 </list>
 ```
+
+## Порядок вызова операций полей {#field_operation_order}
+
+Для полей доступны различные варианты преобразования:
+- [значение по умолчанию](#default)
+- [маппинг](#mapping)
+- [нормализация](#normalize)
+- [switch переключатель](#switch)
+
+Все эти операции являются опциональными и позволяют менять значение поля под свои нужды.
+Например, преобразовывать сложную вложенную структуру объекта в простое значение.
+Или задавать полю различные значения в зависимости от некоторого условия.
+
+Описание и функционал каждой из этих операций будет представлен далее, а пока поговорим про порядок их выполнения.
+Поле может быть как входящим, так и исходящим, и с учетом этого будет различаться порядок вызова операций.
+
+Ко входящим полям относятся:
+- фильтры выборки
+- &lt;in&gt; поля операции объекта
+
+В таком случае цепочка начинается с установки значения по умолчанию и завершается маппингом.
+
+`default` -> `normalize` -> `switch` -> `mapping`
+
+:::note
+Стоит отметить, что для фильтров нет возможности использовать `switch`
+:::
+
+К исходящим полям относятся:
+- поля выборки
+- &lt;out&gt; поля операции объекта
+
+В этом случае, наоборот, маппинг является начальной операцией
+
+`mapping` -> `default` -> `normalize` -> `switch`
+
+
+## Значение по умолчанию {#default}
 
 ## Маппинг данных в провайдерах {#mapping}
 
@@ -1828,29 +1867,29 @@ Java провайдеры в качестве альтернативы могу�
 
 ```xml title="Маппинг фильтров в sql провайдере"
 <query>
-  <list>
-    <sql>SELECT t.first_name, t.gender_id FROM mytable t WHERE :filters</sql>
-  </list>
+    <list>
+        <sql>SELECT t.first_name, t.gender_id FROM mytable t WHERE :filters</sql>
+    </list>
 
-  <filters>
-  <!-- Маппинг определяет ключ "first_name" в который будет скопировано значение фильтра "firstName" -->
-    <like field-id="firstName" filter-id="firstName" mapping="['first_name']">
-          t.first_name like '%'||:first_name||'%'
-    </like>
-  <!-- Маппинг определяет ключ "gender_id" в который будет скопирован id фильтра "gender" -->
-    <eq field-id="gender.id" filter-id="gender.id" mapping="['gender_id']">
-          t.gender_id = :gender_id
-    </eq>
-  <!-- Маппинг определяет ключ "genders" в который будет скопированы список id из фильтра "genders" -->
-    <in field-id="gender.id" filter-id="genders*.id" mapping="['genders']">
-          t.gender_id in (:genders)
-    </in>
-  </filters>
+    <filters>
+        <!-- Маппинг определяет ключ "first_name" в который будет скопировано значение фильтра "firstName" -->
+        <like field-id="firstName" filter-id="firstName" mapping="['first_name']">
+            t.first_name like '%'||:first_name||'%'
+        </like>
+        <!-- Маппинг определяет ключ "gender_id" в который будет скопирован id фильтра "gender" -->
+        <eq field-id="gender.id" filter-id="gender.id" mapping="['gender_id']">
+            t.gender_id = :gender_id
+        </eq>
+        <!-- Маппинг определяет ключ "genders" в который будет скопированы список id из фильтра "genders" -->
+        <in field-id="gender.id" filter-id="genders*.id" mapping="['genders']">
+            t.gender_id in (:genders)
+        </in>
+    </filters>
 
-  <fields>
-    <field id="firstName"/>
-    <field id="gender.id"/>
-  </fields>
+    <fields>
+        <field id="firstName"/>
+        <field id="gender.id"/>
+    </fields>
 </query>
 ```
 
@@ -1858,29 +1897,29 @@ Java провайдеры в качестве альтернативы могу�
 
 ```xml title="Маппинг фильтров в rest провайдере"
 <query>
-  <list>
-    <rest>/api/myentity/items?{filters}</rest>
-  </list>
+    <list>
+        <rest>/api/myentity/items?{filters}</rest>
+    </list>
 
-  <filters>
-  <!-- Маппинг определяет ключ "gender_id" в который будет скопирован id фильтра "gender" -->
-    <eq field-id="gender.id" filter-id="gender.id" mapping="['gender_id']">
-          gender_id={gender_id}
-    </eq>
-  <!-- Маппинг определяет ключ "genders" в который будет скопированы список id из фильтра "genders" -->
-    <in field-id="gender.id" filter-id="genders*.id" mapping="['genders']">
-          gender_id_in={genders}
-    </in>
-  <!-- Маппинг определяет ключ "first_name" в который будет скопировано значение фильтра "firstName" -->
-    <like field-id="firstName" filter-id="firstName" mapping="['first_name']">
-          first_name_like={first_name}
-    </like>
-  </filters>
+    <filters>
+        <!-- Маппинг определяет ключ "gender_id" в который будет скопирован id фильтра "gender" -->
+        <eq field-id="gender.id" filter-id="gender.id" mapping="['gender_id']">
+            gender_id={gender_id}
+        </eq>
+        <!-- Маппинг определяет ключ "genders" в который будет скопированы список id из фильтра "genders" -->
+        <in field-id="gender.id" filter-id="genders*.id" mapping="['genders']">
+            gender_id_in={genders}
+        </in>
+        <!-- Маппинг определяет ключ "first_name" в который будет скопировано значение фильтра "firstName" -->
+        <like field-id="firstName" filter-id="firstName" mapping="['first_name']">
+            first_name_like={first_name}
+        </like>
+    </filters>
 
-  <fields>
-    <field id="firstName"/>
-    <field id="gender.id"/>
-  </fields>
+    <fields>
+        <field id="firstName"/>
+        <field id="gender.id"/>
+    </fields>
 </query>
 ```
 
@@ -1888,39 +1927,39 @@ Java провайдеры в качестве альтернативы могу�
 
 ```xml title="Маппинг фильтров в graphql провайдере"
 <query>
-  <list>
-    <graphql filter-separator=", and:">
-      query posts(filter: $$filters) {
-        score
-        completed
-      }
-    </graphql>
+    <list>
+        <graphql filter-separator=", and:">
+            query posts(filter: $$filters) {
+                score
+                completed
+            }
+        </graphql>
    </list>
 
-  <filters>
-    <eq field-id="score" filter-id="score">{ score: {gt: $$score} }</eq>
-    <eq field-id="completed" filter-id="completed">{ completed: $$completed }</eq>
-        ...
-  </filters>
+    <filters>
+        <eq field-id="score" filter-id="score">{ score: {gt: $$score} }</eq>
+        <eq field-id="completed" filter-id="completed">{ completed: $$completed }</eq>
+            ...
+    </filters>
 
-  <fields>
-    <field id="score" mapping="['score']"/>
-    <field id="completed" mapping="['completed']"/>
-       ...
-  </fields>
+    <fields>
+        <field id="score" mapping="['score']"/>
+        <field id="completed" mapping="['completed']"/>
+            ...
+    </fields>
 </query>
 ```
 
 ```xml title="Маппинг сортировки в mongodb провайдере"
 <query>
-  <list>
-    <mongodb collection-name="user" operation="find"/>
-  </list>
-  <fields>
-      <!-- Маппинг определяет ключ "sortUserAge" в который будет скопировано значение фильтра поля "userAge" -->
-      <field id="userAge" domain="integer"
-             sorting-mapping="['sortUserAge']" sorting-expression="age :sortUserAge"/>
-  </fields>
+    <list>
+        <mongodb collection-name="user" operation="find"/>
+    </list>
+    <fields>
+        <!-- Маппинг определяет ключ "sortUserAge" в который будет скопировано значение фильтра поля "userAge" -->
+        <field id="userAge" domain="integer"
+               sorting-mapping="['sortUserAge']" sorting-expression="age :sortUserAge"/>
+    </fields>
 </query>
 ```
 
@@ -1930,25 +1969,25 @@ Java провайдеры в качестве альтернативы могу�
 
 ```xml title="Маппинг входных параметров в sql провайдере"
 <operation>
-  <invocation>
-    <sql>INSERT INTO mytable (first_name, gender_id) VALUES (:first_name, :gender_id)</sql>
-  </invocation>
-  <in>
-    <field id="name" mapping="['first_name']"/>
-    <field id="gender.id" mapping="['gender_id']"/>
-  </in>
+    <invocation>
+        <sql>INSERT INTO mytable (first_name, gender_id) VALUES (:first_name, :gender_id)</sql>
+    </invocation>
+    <in>
+        <field id="name" mapping="['first_name']"/>
+        <field id="gender.id" mapping="['gender_id']"/>
+    </in>
 </operation>
 ```
 
 ```xml title="Маппинг входных параметров в graphql провайдере"
 <operation>
-  <invocation>
-    <graphql>mutation { create(score: $$user_score, completed: $$is_completed) {id score completed}</graphql>
-  </invocation>
-  <in>
-    <field id="score" mapping="['user_score']"/>
-    <field id="completed" mapping="['is_completed']"/>
-  </in>
+    <invocation>
+        <graphql>mutation { create(score: $$user_score, completed: $$is_completed) {id score completed}</graphql>
+    </invocation>
+    <in>
+        <field id="score" mapping="['user_score']"/>
+        <field id="completed" mapping="['is_completed']"/>
+    </in>
 </operation>
 ```
 
@@ -1960,20 +1999,20 @@ POST /api/myentity
 
 ```json title="Тело запроса"
 {
-    "firstName" : "John",
-    "genderId" : 1
+  "firstName" : "John",
+  "genderId" : 1
 }
 ```
 
 ```xml title="Маппинг входных параметров в rest провайдере"
 <operation>
-  <invocation>
-    <rest method="post">/api/myentity</rest>
-  </invocation>
-  <in>
-    <field id="name" mapping="['firstName']"/>
-    <field id="gender.id" mapping="['genderId']"/>
-  </in>
+    <invocation>
+        <rest method="post">/api/myentity</rest>
+    </invocation>
+    <in>
+        <field id="name" mapping="['firstName']"/>
+        <field id="gender.id" mapping="['genderId']"/>
+    </in>
 </operation>
 ```
 
@@ -1999,9 +2038,9 @@ __*Типы аргументов java провайдера*__
 package com.example;
 
 class Calculator {
-  public static Long sum(Long a, Long b) {
-    return a + b;
-  }
+    public static Long sum(Long a, Long b) {
+        return a + b;
+    }
 }
 ```
 
@@ -2009,18 +2048,18 @@ class Calculator {
 
 ```xml title="Маппинг примитивов в java провайдере"
 <operation>
-  <invocation>
-    <java class="com.example.Calculator" method="sum">
-      <arguments>
-        <argument type="primitive" name="arg1"/>
-        <argument type="primitive" name="arg2"/>
-      </arguments>
-    </java>
-  </invocation>
-  <in>
-    <field id="a" mapping="['arg1']"/>
-    <field id="b" mapping="['arg2']"/>
-  </in>
+    <invocation>
+        <java class="com.example.Calculator" method="sum">
+            <arguments>
+                <argument type="primitive" name="arg1"/>
+                <argument type="primitive" name="arg2"/>
+            </arguments>
+        </java>
+    </invocation>
+    <in>
+        <field id="a" mapping="['arg1']"/>
+        <field id="b" mapping="['arg2']"/>
+    </in>
 </operation>
 ```
 
@@ -2035,15 +2074,15 @@ class Calculator {
 ```java title="Метод java класса с аргументом - сущностью"
 @Service
 class MyService {
-  public Long create(MyEntity entity)  { ... }
+    public Long create(MyEntity entity)  { ... }
 }
 ```
 
 ```java title="java"
 class MyEntity {
-  private String name;
-  private String surname;
-  //getters and setters
+    private String name;
+    private String surname;
+    //getters and setters
 }
 ```
 
@@ -2051,18 +2090,18 @@ class MyEntity {
 
 ```xml title="Маппинг сущности в java провайдере"
 <operation>
-  <invocation>
-    <java class="com.example.MyService" method="create">
-      <arguments>
-        <argument type="entity" class="com.example.MyEntity"/>
-      </arguments>
-      <spring/>
-    </java>
-  </invocation>
-  <in>
-    <field id="firstName" mapping="[0].name"/>
-    <field id="lastName" mapping="[0].surname"/>
-  </in>
+    <invocation>
+        <java class="com.example.MyService" method="create">
+            <arguments>
+                <argument type="entity" class="com.example.MyEntity"/>
+            </arguments>
+            <spring/>
+        </java>
+    </invocation>
+    <in>
+        <field id="firstName" mapping="[0].name"/>
+        <field id="lastName" mapping="[0].surname"/>
+    </in>
 </operation>
 ```
 
@@ -2083,15 +2122,15 @@ N2O поддерживает несколько базовых классов к
 ```java title="Метод java класса с аргументом - критерием"
 @Service
 class MyService {
-  public List<MyEntity> getList(MyCriteria criteria)  { ... }
+    public List<MyEntity> getList(MyCriteria criteria)  { ... }
 }
 ```
 
 ```java
 class MyCriteria extends Criteria {
-  private Date birtdayBefore;
-  private Date birtdayAfter;
-  //getters and setters
+    private Date birtdayBefore;
+    private Date birtdayAfter;
+    //getters and setters
 }
 ```
 
@@ -2101,27 +2140,27 @@ class MyCriteria extends Criteria {
 
 ```xml title="Задание фильтров в java провайдере"
 <query>
-  <list>
-    <java
-      class="com.example.MyService"
-      method="getList">
-      <arguments>
-        <argument
-          type="criteria"
-          class="com.example.MyCriteria"/>
-      </arguments>
-      <spring/>
-    </java>
-  </list>
+    <list>
+        <java
+            class="com.example.MyService"
+            method="getList">
+            <arguments>
+                <argument
+                    type="criteria"
+                    class="com.example.MyCriteria"/>
+            </arguments>
+            <spring/>
+        </java>
+    </list>
 
-  <filters>
-    <more field-id="birthday" filter-id="birthdays.begin" mapping="[0].birthdayAfter"/>
-    <less field-id="birthday" filter-id="birthdays.end" mapping="[0].birthdayBefore"/>
-  </filters>
+    <filters>
+        <more field-id="birthday" filter-id="birthdays.begin" mapping="[0].birthdayAfter"/>
+        <less field-id="birthday" filter-id="birthdays.end" mapping="[0].birthdayBefore"/>
+    </filters>
 
-  <fields>
-    <field id="birthday" sorting="true"/>
-  </fields>
+    <fields>
+        <field id="birthday" sorting="true"/>
+    </fields>
 </query>
 ```
 
@@ -2137,16 +2176,17 @@ SELECT name as fname, surname as lname FROM mytable
 
 ```xml title="Маппинг результатов выборки sql провайдера"
 <query>
-  <list>
-    <sql>SELECT name as fname, surname as lname FROM mytable</sql>
-  </list>
-  <count>
-    <sql>SELECT count(*) FROM mytable</sql>
-  </count>
-  <fields>
-    <field id="firstName" mapping="['fname']"/>
-    <field id="lastName" mapping="['lname']"/>
-  </fields>
+    <list>
+        <sql>SELECT name as fname, surname as lname FROM mytable</sql>
+    </list>
+    <count>
+        <sql>SELECT count(*) FROM mytable</sql>
+    </count>
+
+    <fields>
+        <field id="firstName" mapping="['fname']"/>
+        <field id="lastName" mapping="['lname']"/>
+    </fields>
 </query>
 ```
 
@@ -2158,19 +2198,19 @@ query persons() {name age}
 
 ```xml title="Маппинг результатов выборки sql провайдера"
 <query>
-  <list result-mapping="['data.persons']">
-    <graphql>
-      query persons() {
-        name
-        age
-      }
-    </graphql>
-  </list>
+    <list result-mapping="['data.persons']">
+        <graphql>
+            query persons() {
+                name
+                age
+            }
+        </graphql>
+    </list>
 
-  <fields>
-    <field id="personName" mapping="['name']"/>
-    <field id="personAge" mapping="['age']"/>
-  </fields>
+    <fields>
+        <field id="personName" mapping="['name']"/>
+        <field id="personAge" mapping="['age']"/>
+    </fields>
 </query>
 ```
 
@@ -2183,10 +2223,10 @@ GET /api/myentity/items
 ```json title="Ответ rest сервиса"
 {
   "data" : [
-      {
-        "name" : "John",
-        "surname" : "Doe"
-      },
+    {
+      "name" : "John",
+      "surname" : "Doe"
+    },
       ...
   ],
   "cnt" : 123
@@ -2195,15 +2235,16 @@ GET /api/myentity/items
 
 ```xml title="Маппинг результатов выборки из rest провайдера"
 <query>
-  <list>
-    <rest
-      result-mapping="data"
-      count-mapping="cnt">/api/myentity/items</rest>
-  </list>
-  <fields>
-    <field id="firstName" mapping="['name']"/>
-    <field id="lastName" mapping="['surname']"/>
-  </fields>
+    <list>
+        <rest
+            result-mapping="data"
+            count-mapping="cnt">/api/myentity/items</rest>
+    </list>
+
+    <fields>
+        <field id="firstName" mapping="['name']"/>
+        <field id="lastName" mapping="['surname']"/>
+    </fields>
 </query>
 ```
 
@@ -2212,46 +2253,47 @@ GET /api/myentity/items
 ```java title="Метод java класса, возвращающий Spring Data Page"
 @Repository
 interface MyRepository extends JpaRepository<MyEntity, Long> {
-  Page<MyEntity> findAll();
+    Page<MyEntity> findAll();
 }
 ```
 
 ```java
 class MyEntity {
-  private String name;
-  private String surname;
-  //getters and setters
+    private String name;
+    private String surname;
+    //getters and setters
 }
 ```
 
 ```xml title="Маппинг результатов выборки в java провайдере"
 <query>
-  <list
-    result-mapping="content"
-    count-mapping="totalElements">
-    <java
-      class="com.example.MyRepository"
-      method="findAll">
-      <spring/>
-    </java>
-  </list>
-  <fields>
-    <field id="firstName" mapping="['name']"/>
-    <field id="lastName" mapping="['surname']"/>
-  </fields>
+    <list
+        result-mapping="content"
+        count-mapping="totalElements">
+        <java
+            class="com.example.MyRepository"
+            method="findAll">
+            <spring/>
+        </java>
+    </list>
+
+    <fields>
+        <field id="firstName" mapping="['name']"/>
+        <field id="lastName" mapping="['surname']"/>
+    </fields>
 </query>
 ```
 
 ```xml title="Маппинг результатов выборки в mongodb провайдере"
 <query>
-  <list>
-    <mongodb collection-name="user" operation="find"/>
-  </list>
-  <fields>
-      <!-- маппинг определяет из какого поля результатов выборки из бд взять значение для userAge -->
-      <field id="userAge" mapping="['age']" select-expression="age"
-                domain="integer"/>
-  </fields>
+    <list>
+        <mongodb collection-name="user" operation="find"/>
+    </list>
+    <fields>
+        <!-- маппинг определяет из какого поля результатов выборки из бд взять значение для userAge -->
+        <field id="userAge" mapping="['age']" select-expression="age"
+               domain="integer"/>
+    </fields>
 </query>
 ```
 
@@ -2306,12 +2348,12 @@ class MyEntity {
 
 ```xml title="Получение результата выполнения sql провайдера"
 <operation>
-  <invocation>
-    <sql>INSERT INTO mytable (first_name, gender_id) VALUES (:first_name, :gender_id)</sql>
-  </invocation>
-  <out>
-    <field id="id" mapping="[0]"/>
-  </out>
+    <invocation>
+        <sql>INSERT INTO mytable (first_name, gender_id) VALUES (:first_name, :gender_id)</sql>
+    </invocation>
+    <out>
+        <field id="id" mapping="[0]"/>
+    </out>
 </operation>
 ```
 
@@ -2332,12 +2374,12 @@ POST /api/myentity
 
 ```xml title="Получение результата выполнения rest провайдера"
 <operation>
-  <invocation>
-    <rest method="post">/api/myentity</rest>
-  </invocation>
-  <out>
-    <field id="id" mapping="['result']"/>
-  </out>
+    <invocation>
+        <rest method="post">/api/myentity</rest>
+    </invocation>
+    <out>
+        <field id="id" mapping="['result']"/>
+    </out>
 </operation>
 ```
 
@@ -2369,11 +2411,10 @@ POST /api/myentity
 Для этого в объекте есть специальный атрибут `entity-class` и список полей `<fields>`:
 
 ```xml title="Определение entity класса в объекте"
-<object
-  entity-class="com.example.MyEntity">
-  <fields>
-    ...<!--Маппинг полей Entity-->
-  </fields>
+<object entity-class="com.example.MyEntity">
+    <fields>
+        ...<!--Маппинг полей Entity-->
+    </fields>
 </object>
 ```
 
@@ -2388,22 +2429,22 @@ POST /api/myentity
 ```java title="Класс сущности с простыми полями"
 @Entity
 class MyEntity {
-  @Id
-  @Column
-  private Long id;
-  @Column
-  private Date birtDate;
-  //getters and setters
+    @Id
+    @Column
+    private Long id;
+    @Column
+    private Date birtDate;
+    //getters and setters
 }
 ```
 
 ```xml title="Маппинг простых полей"
 <object entity-class="com.example.MyEntity">
-  <fields>
-    <!-- Простые поля -->
-    <field id="id" domain="long" mapping="['id']"/>
-    <field id="birthday" domain="date" mapping="['birthDate']"/>
-  </fields>
+    <fields>
+        <!-- Простые поля -->
+        <field id="id" domain="long" mapping="['id']"/>
+        <field id="birthday" domain="date" mapping="['birthDate']"/>
+    </fields>
 </object>
 ```
 
@@ -2414,30 +2455,30 @@ class MyEntity {
 ```java title="Класс сущности с @ManyToOne и @OneToOne"
 @Entity
 class MyEntity {
-  @ManyToOne
-  private Gender gender;
-  @OneToOne
-  private Address addr;
-  //getters and setters
+    @ManyToOne
+    private Gender gender;
+    @OneToOne
+    private Address addr;
+    //getters and setters
 }
 ```
 
 ```xml title="Маппинг полей с @OneToOne"
 <fields>
-  <reference id="address"
-    mapping="['addr']">
-    <!-- Вложенные поля -->
-    <field id="home" domain="string"/>
-    <field id="work" domain="string"/>
-  </reference>
+    <reference id="address"
+               mapping="['addr']">
+        <!-- Вложенные поля -->
+        <field id="home" domain="string"/>
+        <field id="work" domain="string"/>
+    </reference>
 </fields>
 ```
 
 ```xml title="Вариант с определением полей во внешнем файле"
 <fields>
-  <reference id="address"
-    mapping="['addr']"
-    object-id="address"/> <!-- Ссылка на объект address.object.xml -->
+    <reference id="address"
+               mapping="['addr']"
+               object-id="address"/> <!-- Ссылка на объект address.object.xml -->
 </fields>
 ```
 
@@ -2446,8 +2487,8 @@ class MyEntity {
 <object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
         entity-class="org.example.Address">
     <fields>
-      <field id="home" domain="string"/>
-      <field id="work" domain="string"/>
+        <field id="home" domain="string"/>
+        <field id="work" domain="string"/>
     </fields>
 </object>
 ```
@@ -2463,10 +2504,10 @@ class MyEntity {
 
 ```xml title="Маппинг полей с @ManyToOne"
 <fields>
-  <reference id="sex"
-    mapping="['gender']"
-    required="true"
-    object-id="gender"/>
+    <reference id="sex"
+               mapping="['gender']"
+               required="true"
+               object-id="gender"/>
 </fields>
 ```
 
@@ -2486,25 +2527,25 @@ __*Типы множественности*__
 ```java title="Класс сущности с множественными полями"
 @Entity
 class MyEntity {
-  @OneToMany
-  private Set<Status> statuses;
-  @ManyToMany
-  private List<Address> addrs;
-  //getters and setters
+    @OneToMany
+    private Set<Status> statuses;
+    @ManyToMany
+    private List<Address> addrs;
+    //getters and setters
 }
 ```
 
 ```xml title="Маппинг полей с @OneToMany и @ManyToMany"
 <fields>
-  <set id="statuses"
-    mapping="['statuses']">
-    <!--Вложенные поля-->
-    <field id="id" domain="integer"/>
-    <field id="name" domain="string"/>
-  </set>
-  <list id="addresses"
-    mapping="['addrs']"
-    object-id="address"/><!--Ссылка на объект-->
+    <set id="statuses"
+         mapping="['statuses']">
+        <!--Вложенные поля-->
+        <field id="id" domain="integer"/>
+        <field id="name" domain="string"/>
+    </set>
+    <list id="addresses"
+          mapping="['addrs']"
+          object-id="address"/><!--Ссылка на объект-->
 </fields>
 ```
 
@@ -2517,44 +2558,44 @@ class MyEntity {
 ```java
 @Service
 class MyService {
-  MyEntity create(MyEntity entity) { ... }
+    MyEntity create(MyEntity entity) { ... }
 }
 ```
 
 ```xml title="Использование полей объекта в операции"
 <object entity-class="com.example.Employee">
-  <!-- Маппинг и структура полей сущности -->
-  <fields>
-    <field id="name" mapping="['name']" normalize="..."/>
-    <reference id="org" mapping="['organization']" object-id="org"/>
-    <list id="departments" entity-class="com.example.Department">
-      <field id="id"/>
-      <field id="name"/>
-    </list>
-  </fields>
+    <!-- Маппинг и структура полей сущности -->
+    <fields>
+        <field id="name" mapping="['name']" normalize="..."/>
+        <reference id="org" mapping="['organization']" object-id="org"/>
+        <list id="departments" entity-class="com.example.Department">
+            <field id="id"/>
+            <field id="name"/>
+        </list>
+    </fields>
 
-  <operations>
-    <operation>
-      <invocation>
-        <java method="create">
-          <arguments>
-            <argument type="entity"/>
-          </arguments>
-          <spring/>
-        </java>
-      </invocation>
-      <in>
-        <!-- Перечисление только нужных полей -->
-        <!-- Не нужно задавать ни структуру, ни атрибуты -->
-        <field id="name"/>
-        <reference id="org"/>
-        <list id="departments"/>
-      </in>
-      <out>
-        <field id="id"/>
-      </out>
-    </operation>
-  </operations>
+    <operations>
+        <operation>
+            <invocation>
+                <java method="create">
+                    <arguments>
+                        <argument type="entity"/>
+                    </arguments>
+                    <spring/>
+                </java>
+            </invocation>
+            <in>
+                <!-- Перечисление только нужных полей -->
+                <!-- Не нужно задавать ни структуру, ни атрибуты -->
+                <field id="name"/>
+                <reference id="org"/>
+                <list id="departments"/>
+            </in>
+            <out>
+                <field id="id"/>
+            </out>
+        </operation>
+    </operations>
 </object>
 ```
 
@@ -2569,7 +2610,7 @@ class MyService {
 
 ```xml title="Нормализация поля выборки"
 <fields>
-  <field id="title" normalize="#this.toUpperCase()"/>
+    <field id="title" normalize="#this.toUpperCase()"/>
 </fields>
 ```
 
@@ -2607,11 +2648,11 @@ class MyService {
 
 ```xml title="Использование ключевого слова #parent"
 <fields>
-     <field id="name"/>
-     <reference id="org" mapping="['organization']">
+    <field id="name"/>
+    <reference id="org" mapping="['organization']">
         <field id="id" mapping="['code']"/>
         <field id="fullName" mapping="['title']" normalize="#this + '_' + #parent['name']"/>
-     </reference>
+    </reference>
 </fields>
 ```
 
@@ -2857,7 +2898,7 @@ public static String shorten(String text) {
 
 ```xml title="Алиас функции нормализации"
 <fields>
-  <field id="description" normalize="#shortenTo40(#this)"/>
+    <field id="description" normalize="#shortenTo40(#this)"/>
 </fields>
 ```
 
@@ -2887,10 +2928,10 @@ n2o.engine.normalizer.packages=net.n2oapp, org.mypackage1, org.mypackage2
 
 ```json title="Ответ провайдера данных"
 {
-    "organization": {
-        "code": 2,
-        "title": "org2"
-    }
+  "organization": {
+    "code": 2,
+    "title": "org2"
+  }
 }
 ```
 
@@ -2899,10 +2940,10 @@ n2o.engine.normalizer.packages=net.n2oapp, org.mypackage1, org.mypackage2
 
 ```json title="Результат преобразования функцией normalizeOrganization"
 {
-    "organization": {
-        "codeStr": "2",
-        "upperCaseTitle": "ORG2"
-    }
+  "organization": {
+    "codeStr": "2",
+    "upperCaseTitle": "ORG2"
+  }
 }
 ```
 
@@ -2911,7 +2952,7 @@ n2o.engine.normalizer.packages=net.n2oapp, org.mypackage1, org.mypackage2
 ```xml title="Порядок обработки сложных полей"
 <fields>
     <reference id="mainOrg" mapping="['organization']"
-                   normalize="#normalizeOrganization(#this)">
+               normalize="#normalizeOrganization(#this)">
         <!-- после маппинга и нормализации родительского поля аналогичные действия производятся и для дочерних полей -->
         <field id="orgCode" mapping="['codeStr']" normalize="'code: ' + #this"/>
         <field id="orgTitle" mapping="['upperCaseTitle']" normalize="'title: ' + #this"/>
@@ -2921,9 +2962,45 @@ n2o.engine.normalizer.packages=net.n2oapp, org.mypackage1, org.mypackage2
 
 ```json title="Результат, полученный после обработки всеми нормализаторами"
 {
-    "organization": {
-        "codeStr": "code: 2",
-        "upperCaseTitle": "title: ORG2"
-    }
+  "organization": {
+    "codeStr": "code: 2",
+    "upperCaseTitle": "title: ORG2"
+  }
 }
 ```
+
+## Переключатель switch {#switch}
+
+Иногда возникает необходимость соотнести значение из одного набора со значением из другого.
+Например, по статусу события вывести цвет, который будет использоваться для отображения.
+Сделать это можно с помощью нормализации или даже маппинга.
+
+
+```xml title="Вычисление цвета по статусу с помощью нормализации"
+<field id="color" mapping="['status']
+       normalize="#this.equals('New') ? 'success' : #this.equals('In Progress') ? 'warning' : 'info'"/>
+```
+
+Но чем больше будет вариантов для соотнесения, тем более сложным и плохо поддерживаемым будет итоговое выражение.
+
+И здесь на помощь приходит конструкция `switch`, которая достаточно естественным образом решает подобные случаи.
+
+
+```xml title="Вычисление цвета по статусу с помощью конструкции switch"
+<field id="color" mapping="['status']">
+    <switch>
+        <case value="New">success</case>
+        <case value="In Progress">warning</case>
+        <case value="Blocked">danger</case>
+        <default>info</default>
+    </switch>
+</field>
+```
+
+Обратите внимание, что в элементе `<switch>` не нужно указывать ни `value`, ни `value-field-id`, типичные для этой конструкции.
+В качестве значения, с которым будут сравниваться варианты `<case>`, мы рассматриваем значение текущего поля, получившееся
+после предыдущих этапов обработки (маппинг, нормализация и т.д.).
+
+В данном случае конструкция `<switch>` является хорошей альтернативой нормализации,
+но они также могут работать и в связке друг с другом.
+
