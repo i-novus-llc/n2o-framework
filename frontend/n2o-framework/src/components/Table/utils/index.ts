@@ -18,12 +18,21 @@ export const excludeItems = <T>(originalArray: T[], excludeArray: T[]): T[] => {
     return resultArray
 }
 
-export const getAllValuesByKey = <
+export function getAllValuesByKey <
+    T extends object,
+    KeyToIterate extends keyof T,
+    KeyToExtract extends keyof T,
+>(data: T[], options: { keyToIterate?: KeyToIterate, keyToExtract: KeyToExtract }): Array<T[KeyToExtract]>
+export function getAllValuesByKey <
+    T extends object,
+    KeyToIterate extends keyof T,
+>(data: T[], options: { keyToIterate?: KeyToIterate }): T[]
+export function getAllValuesByKey <
     T extends object,
     KeyToIterate extends keyof T,
     KeyToExtract extends keyof T,
 // eslint-disable-next-line max-len
->(data: T[], options: { keyToIterate?: KeyToIterate, keyToExtract?: KeyToExtract }): KeyToExtract extends string ? Array<T[KeyToExtract]> : T[] => {
+>(data: T[], options: { keyToIterate?: KeyToIterate, keyToExtract?: KeyToExtract }) {
     const result: any = []
     const stack: T[] = [...data]
 
@@ -46,7 +55,7 @@ export const getAllValuesByKey = <
         }
 
         if (extractValue !== undefined && extractValue !== null) {
-            result.push(extractValue)
+            result.unshift(extractValue)
         }
 
         if (!keyToIterate) {
