@@ -27,8 +27,7 @@
 <toolbar place="topLeft">
     <button label="Сохранить" datasource="fl" color="info" icon="fa fa-save">
         <invoke operation-id="create" object-id="test" redirect-url="/patient/:id/card" redirect-target="application">
-            <!-- <form-param id="snils" value="{snils}" datasource="fl"/> -->
-                <form-param name="id" value="{id}"/>
+                <form-param id="id" value="{id}"/>
         </invoke>
     </button>
      <button label="Отменить" icon="fa fa-close">
