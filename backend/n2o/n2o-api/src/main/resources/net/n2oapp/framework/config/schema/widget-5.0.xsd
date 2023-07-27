@@ -205,7 +205,7 @@
                 <xs:sequence>
                     <xs:element name="content" type="contentDefinition" minOccurs="0">
                         <xs:annotation>
-                            <xs:documentation>Столбцы списка.</xs:documentation>
+                            <xs:documentation>Содержимое списка.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="pagination" type="paginationDefinition">

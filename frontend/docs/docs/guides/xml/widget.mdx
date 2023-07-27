@@ -59,11 +59,11 @@ n2o.api.widget.form.size=1
 ```
 
 **Тело**<br/>
-`<fields>` - [Поля формы](../xml/field)<br/>
-`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
-`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
-`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
-`<actions>` - [Встроенные действия](#widget_actions)
+&lt;fields&gt; - [Поля формы](../xml/field)<br/>
+&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
+&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия](#widget_actions)
 
 **Пример**
 ```xml
@@ -88,14 +88,14 @@ n2o.api.widget.form.size=1
 |height|Строка|Высота графика. Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
 
 **Тело**<br/>
-`<areas>` - [Диаграмма-область](../xml/chart#areas)<br/>
-`<bars>` - [Гистограмма](../xml/chart#bars)<br/>
-`<lines>` - [Линейный график](../xml/chart#lines)<br/>
-`<pie>` - [Круговая диаграмма](../xml/chart#pie)<br/>
-`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
-`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
-`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
-`<actions>` - [Встроенные действия](#widget_actions)
+&lt;areas&gt; - [Диаграмма-область](../xml/chart#areas)<br/>
+&lt;bars&gt; - [Гистограмма](../xml/chart#bars)<br/>
+&lt;lines&gt; - [Линейный график](../xml/chart#lines)<br/>
+&lt;pie&gt; - [Круговая диаграмма](../xml/chart#pie)<br/>
+&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
+&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия](#widget_actions)
 
 **Пример**
 ```xml
@@ -112,7 +112,7 @@ n2o.api.widget.form.size=1
 HTML виджет. Виджет, отображающий HTML содержимое.
 
 **Тело**<br/>
-`<content>` - [Контент для отображения html](#html_content)
+&lt;content&gt; - [Контент для отображения html](#html_content)
 
 #### &lt;content&gt; {#html_content}
 
@@ -183,14 +183,14 @@ n2o.api.widget.calendar.time_slot_count=2
 ```
 
 **Тело**<br/>
-`<resources>` - [Ресурсы календаря](#calendar_resources)<br/>
-`<action-on-select-slot>` - [Действие на добавление события в календаре html](#action-on-select-slot)<br/>
-`<action-on-select-event>` - [Действие на клик по событию](#action-on-select-event)<br/>
-`<formats>` - [Форматы дат и времени](#calendar_formats)
-`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
-`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
-`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
-`<actions>` - [Встроенные действия](#widget_actions)
+&lt;resources&gt; - [Ресурсы календаря](#calendar_resources)<br/>
+&lt;action-on-select-slot&gt; - [Действие на добавление события в календаре html](#action-on-select-slot)<br/>
+&lt;action-on-select-event&gt; - [Действие на клик по событию](#action-on-select-event)<br/>
+&lt;formats&gt; - [Форматы дат и времени](#calendar_formats)
+&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
+&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия](#widget_actions)
 
 **Пример**
 ```xml
@@ -218,7 +218,7 @@ n2o.api.widget.calendar.time_slot_count=2
 |value-field-id|Строка |Поле выборки, отвечающее за маппинг ресурсов
 
 **Тело**<br/>
-`<resource>` - [Ресурс календаря](#calendar_resource)
+&lt;resource&gt; - [Ресурс календаря](#calendar_resource)
 
 **Пример**
 ```xml
@@ -258,7 +258,7 @@ n2o.api.widget.calendar.time_slot_count=2
 Форматы дат и времени.<br/>
 
 **Тело**<br/>
-`<format>` - [Формат дат и времени](#calendar_format)
+&lt;format&gt; - [Формат дат и времени](#calendar_format)
 
 ##### &lt;format&gt; {#calendar_format}
 
@@ -337,14 +337,14 @@ n2o.api.widget.table.checkboxes=false
 ```
 
 **Тело**<br/>
-`<columns>` - [Столбцы таблицы](#table_columns)<br/>
-`<rows>` - [Настройки строк таблицы](#table_rows)<br/>
-`<filters>` - [Фильтры таблицы](#filters)<br/>
-`<pagination>` - [Пагинация таблицы](#pagination)<br/>
-`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
-`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
-`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
-`<actions>` - [Встроенные действия](#widget_actions)
+&lt;columns&gt; - [Столбцы таблицы](#table_columns)<br/>
+&lt;rows&gt; - [Настройки строк таблицы](#table_rows)<br/>
+&lt;filters&gt; - [Фильтры таблицы](#filters)<br/>
+&lt;pagination&gt; - [Пагинация таблицы](#pagination)<br/>
+&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
+&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия](#widget_actions)
 
 **Пример**
 ```xml
@@ -366,9 +366,9 @@ n2o.api.widget.table.checkboxes=false
 Столбцы таблицы.
 
 **Тело**<br/>
-`<column>` - [Столбец таблицы](#table_column)<br/>
-`<filter-column>` - [Фильтруемый столбец таблицы](#filter-column)<br/>
-`<multi-column>` - [Многоуровневый столбец таблицы](#multi-column)
+&lt;column&gt; - [Столбец таблицы](#table_column)<br/>
+&lt;filter-column&gt; - [Фильтруемый столбец таблицы](#filter-column)<br/>
+&lt;multi-column&gt; - [Многоуровневый столбец таблицы](#multi-column)
 
 **Пример**
 ```xml
@@ -417,7 +417,7 @@ n2o.api.widget.table.column.resizable=false
 
 **Тело**<br/>
 Ссылка на [Ячейку](../xml/cell)<br/>
-`<dependencies>` - [Зависимости столбца](#column_dependencies)
+&lt;dependencies&gt; - [Зависимости столбца](#column_dependencies)
 
 **Пример**
 ```xml
@@ -436,7 +436,7 @@ n2o.api.widget.table.column.resizable=false
 Зависимости столбца.
 
 **Тело**<br/>
-`<visibility>` - [Условие видимости столбца](#column_visibility)
+&lt;visibility&gt; - [Условие видимости столбца](#column_visibility)
 
 **Пример**
 ```xml
@@ -507,8 +507,8 @@ n2o.api.widget.table.column.resizable=false
 ```
 
 **Тело**<br/>
-`<cell>` - [Ячейка столбца](../xml/cell)<br/>
-`<filter>` - [Фильтр столбца](#filter)
+&lt;cell&gt; - [Ячейка столбца](../xml/cell#cell)<br/>
+&lt;filter&gt; - [Фильтр столбца](#filter)
 
 **Пример**
 ```xml
@@ -557,9 +557,9 @@ n2o.api.widget.column.multi.alignment=center
 ```
 
 **Тело**<br/>
-`<column>` - [Столбец таблицы](#table_column)<br/>
-`<filter-column>` - [Фильтруемый столбец таблицы](#filter-column)<br/>
-`<multi-column>` - [Многоуровневый столбец таблицы](#multi-column)
+&lt;column&gt; - [Столбец таблицы](#table_column)<br/>
+&lt;filter-column&gt; - [Фильтруемый столбец таблицы](#filter-column)<br/>
+&lt;multi-column&gt; - [Многоуровневый столбец таблицы](#multi-column)
 
 **Пример**
 ```xml
@@ -581,8 +581,8 @@ n2o.api.widget.column.multi.alignment=center
 |style       |CSS свойство|Стиль компонента строки            |
 
 **Тело**<br/>
-`<switch>` - [Переключатель](../xml/base#switch_in_base)<br/>
-`<click>` - [Клик по строке](../xml/base#click)
+&lt;switch&gt; - [Переключатель](../xml/base#switch_in_base)<br/>
+&lt;click&gt; - [Клик по строке](../xml/base#click)
 
 **Примеры**
 ```xml
@@ -608,7 +608,8 @@ n2o.api.widget.column.multi.alignment=center
 |datasource             |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных для виджета              |                     |
 
 **Тело**<br/>
-Список [филдсетов](../xml/fieldset) или [полей](../xml/field)
+Список [филдсетов](../xml/fieldset)<br/>
+Список [полей](../xml/field)
 
 **Пример**
 ```xml
@@ -670,11 +671,11 @@ n2o.api.widget.tree.checkboxes=false
 ```
 
 **Тело**<br/>
-`<pagination>` - [Пагинация таблицы](#pagination)<br/>
-`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
-`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
-`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
-`<actions>` - [Встроенные действия](#widget_actions)
+&lt;pagination&gt; - [Пагинация таблицы](#pagination)<br/>
+&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
+&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия](#widget_actions)
 
 **Пример**
 ```xml
@@ -692,7 +693,6 @@ n2o.api.widget.tree.checkboxes=false
 ### &lt;list&gt;
 Виджет Список.
 
-
 **Настройки**
 ```yaml
 #Количество записей в списке (число)
@@ -700,13 +700,13 @@ n2o.api.widget.list.size=5
 ```
 
 **Тело**<br/>
-`<content>` - [Столбцы списка](#list_content)<br/>
-`<rows>` - [Настройки строк списка](#list_rows)<br/>
-`<pagination>` - [Пагинация](#pagination)<br/>
-`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
-`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
-`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
-`<actions>` - [Встроенные действия](#widget_actions)
+&lt;content&gt; - [Содержимое списка](#list_content)<br/>
+&lt;rows&gt; - [Настройки строк списка](#list_rows)<br/>
+&lt;pagination&gt; - [Пагинация](#pagination)<br/>
+&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
+&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия](#widget_actions)
 
 **Пример**
 ```xml
@@ -721,29 +721,38 @@ n2o.api.widget.list.size=5
 
 
 #### &lt;content&gt; {#list_content}
-Содержимое элемента списка.
+Содержимое списка.
 
 **Тело**<br/>
-Поле выборки, отображаемое в строке списка в виде текста. [Ячейка](../xml/cell)<br/>
-`<left-top>` <br/>
-`<left-bottom>`<br/>
-`<header>`<br/>
-`<body>`<br/>
-`<sub-header>`<br/>
-`<right-top>` <br/>
-`<right-bottom>`<br/>
-`<extra>`
+&lt;left-top&gt;<br/>
+&lt;left-bottom&gt;<br/>
+&lt;header&gt;<br/>
+&lt;body&gt;<br/>
+&lt;sub-header&gt;<br/>
+&lt;right-top&gt;<br/>
+&lt;right-bottom&gt;<br/>
+&lt;extra&gt;
+
+**Атрибуты**
+
+|Наименование  |Тип   |Описание                                                |Значение по умолчанию|
+|--------------|------|--------------------------------------------------------|---------------------|
+|text-field-id |Строка|Поле выборки, отображаемое в строке списка в виде текста|                     |
+
+**Тело**<br/>
+[Ячейка](../xml/cell)
 
 **Пример**
 ```xml
  <content>
-    <left-top id="leftTop">
-        <image class="list-image"/>
+    <left-top text-field-id="image">
+        <image width="50px"/>
     </left-top>
  </content>
 ```
 
 #### &lt;rows&gt; {#list_rows}
+Настройки строк списка.
 
 **Тело**<br/>
 &lt;click&gt; - [Клик по строке](../xml/base#click)
@@ -796,12 +805,12 @@ n2o.api.widget.tiles.size=10
 ```
 
 **Тело**<br/>
-`<content>` - [Содержимое виджета](#tiles_content)<br/>
-`<pagination>` - [Пагинация плиток](#pagination)<br/>
-`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
-`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
-`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
-`<actions>` - [Встроенные действия](#widget_actions)
+&lt;content&gt; - [Содержимое виджета Плитки](#tiles_content)<br/>
+&lt;pagination&gt; - [Пагинация плиток](#pagination)<br/>
+&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
+&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия](#widget_actions)
 
 **Пример**
 ```xml
@@ -814,10 +823,10 @@ n2o.api.widget.tiles.size=10
 <Sandbox projectId="uxcomponents_tiles_tiles" />
 
 #### &lt;content&gt; {#tiles_content}
-Содержимое виджета: список блоков (карточек).
+Содержимое виджета Плитки.
 
 **Тело**<br/>
-`<block>` - [Список блоков](#block).
+&lt;block&gt; - [Список блоков](#block).
 
 **Пример**
 ```xml
@@ -841,7 +850,7 @@ n2o.api.widget.tiles.size=10
 |style           |CSS свойство|Стиль компонента блока                            |                     |
 
 **Тело**<br/>
-Ссылка на [Ячейку](../xml/cell).
+[Ячейка](../xml/cell).
 
 **Пример**
 ```xml
@@ -873,12 +882,12 @@ n2o.api.widget.cards.height=
 ```
 
 **Тело**<br/>
-`<content>` - [Список колонок (карточек)](#cards_content)<br/>
-`<pagination>` - [Пагинация карточек](#pagination)<br/>
-`<dependencies>` - [Зависимости виджета](#widget_dependencies)<br/>
-`<datasource>` - [Встроенный источник данных виджета](#widget_datasource)<br/>
-`<toolbar>` - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
-`<actions>` - [Встроенные действия](#widget_actions)
+&lt;content&gt; - [Список колонок (карточек)](#cards_content)<br/>
+&lt;pagination&gt; - [Пагинация карточек](#pagination)<br/>
+&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
+&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия](#widget_actions)
 
 **Пример**
 ```xml
@@ -892,7 +901,7 @@ n2o.api.widget.cards.height=
 Содержимое виджета: список колонок (карточек).
 
 **Тело**<br/>
-`<col>` - [Колонка](#col)
+&lt;col&gt; - [Колонка](#col)
 
 #### &lt;col&gt; {#col}
 Колонка.
@@ -904,7 +913,7 @@ n2o.api.widget.cards.height=
 |size        |Число |Ширина колонки согласно сетке bootstrap (1-12).|
 
 **Тело**<br/>
-`<block>` - [Блок](#cards_block).
+&lt;block&gt; - [Блок](#cards_block).
 
 **Пример**
 ```xml
@@ -932,7 +941,7 @@ n2o.api.widget.cards.height=
 |tooltip-field-id|Строка      |Поле выборки, отображаемое при наведении на ячейку|                     |
 
 **Тело**<br/>
-Ссылка на [Ячейку](../xml/cell).
+[Ячейка](../xml/cell).
 
 <Sandbox height={420} projectId="uxcomponents_cards_card_single_line" />
 
@@ -944,14 +953,8 @@ n2o.api.widget.cards.height=
 Зависимости виджета.
 
 **Тело**<br/>
-`<visibility>` - Условие видимости<br/>
-`<enabling>` - Условие доступности
-
-### &lt;visibility&gt;
-Ссылка на [Условие видимости](../xml/button#visibility)
-
-### &lt;enabling&gt;
-Ссылка на [Условие доступности](../xml/button#enabling)
+&lt;visibility&gt; - [Условие видимости](../xml/button#visibility)<br/>
+&lt;enabling&gt; - [Условие доступности](../xml/button#enabling)
 
 ## Встроенный источник данных {#widget_datasource}
 
@@ -987,9 +990,9 @@ n2o.api.widget.toolbar.place=topLeft
 ```
 
 **Тело**<br/>
-`<button>` - [Кнопка](../xml/button#button_in_button)<br/>
-`<sub-menu>` - [Кнопка с выпадающим меню](../xml/button#sub_menu_widget)<br/>
-`<group>` - [Группа кнопок](#group)<br/>
+&lt;button&gt; - [Кнопка](../xml/button#button_in_button)<br/>
+&lt;sub-menu&gt; - [Кнопка с выпадающим меню](../xml/button#sub_menu_widget)<br/>
+&lt;group&gt; - [Группа кнопок](#group)<br/>
 
 **Пример**
 ```xml
@@ -1011,8 +1014,8 @@ n2o.api.widget.toolbar.place=topLeft
 | generate | Строка | Генерация стандартных кнопок
 
 **Тело**<br/>
-`<button>` - [Кнопка](../xml/button#button_in_button)<br/>
-`<sub-menu>` - [Кнопка с выпадающим меню](../xml/button#sub_menu_widget)
+&lt;button&gt; - [Кнопка](../xml/button#button_in_button)<br/>
+&lt;sub-menu&gt; - [Кнопка с выпадающим меню](../xml/button#sub_menu_widget)
 
 **Пример**
 ```xml
@@ -1041,7 +1044,7 @@ n2o.api.widget.toolbar.place=topLeft
 |generate    |crud saveAndClose close|Генерация стандартных действий
 
 **Тело**<br/>
-`<action>` - Список [действий над виджетом](#action)
+&lt;action&gt; - Список [действий над виджетом](#action)
 
 **Пример**
 ```xml

@@ -617,9 +617,8 @@ n2o.api.control.code_editor.min_lines=5
 
 <Sandbox height={100} projectId="uxcomponents_output_fields_text" />
 
-**Тело**
-
-Текст с плейсхолдерами
+**Тело**<br/>
+Текст с плейсхолдерами.
 
 ### &lt;html&gt;
 
@@ -632,9 +631,8 @@ n2o.api.control.code_editor.min_lines=5
 <html><![CDATA[<h3 class='class1' style='color:red;'>Hello, {name}!</h3>]]></html>
 ```
 
-**Тело**
-
-HTML разметка с плейсхолдерами
+**Тело**<br/>
+HTML разметка с плейсхолдерами.
 
 ### &lt;code&gt;
 
@@ -673,9 +671,8 @@ n2o.api.control.code.hide_buttons=false
 
 <Sandbox height={250} projectId="uxcomponents_output_fields_code_viewer" />
 
-**Тело**
-
-Программный код
+**Тело**<br/>
+Программный код.
 
 ### &lt;rating&gt;
 
@@ -1010,9 +1007,9 @@ n2o.api.control.button.badge.image_shape=circle
 ```
 
 **Тело**<br/>
-`<default-value>`<br/>
-`<options>`<br/>
-`<filters>`
+&lt;default-value&gt; - [Значение по умолчанию спискового компонента](#default-value)<br/>
+&lt;options&gt; - [Список вариантов для выбора](#options)<br/>
+&lt;filters&gt; - [Предустановленные фильтры выборки спискового компонента](#filters_in_field)
 
 #### &lt;default-value&gt;
 
@@ -1049,6 +1046,8 @@ n2o.api.control.button.badge.image_shape=circle
   </options>
 </select>
 ```
+**Тело**<br/>
+&lt;option&gt; - [Вариант выбора](#option)<br/>
 
 ##### &lt;option&gt;
 
@@ -1071,11 +1070,9 @@ n2o.api.control.button.badge.image_shape=circle
 ```
 
 #### &lt;filters&gt; {#filters_in_field}
+Предустановленные фильтры выборки спискового компонента.
 
-Предустановленные фильтры выборки спискового компонента
-
-**Тело**
-
+**Тело**<br/>
 [Предустановленные фильтры](../xml/base#filters)
 
 **Пример**
@@ -1234,8 +1231,7 @@ n2o.api.control.auto_complete.max_tag_text_length=10
 n2o.api.control.auto_complete.value_field_id=name
 ```
 
-**Тело**
-
+**Тело**<br/>
 [Предустановленные фильтры](../xml/base#filters)
 
 **Пример**
@@ -1366,16 +1362,14 @@ n2o.api.control.date_interval.utc=false
 
 Компонент начала интервала
 
-**Тело**
-
+**Тело**<br/>
 [Поле ввода](#Input_fields)
 
 #### &lt;end&gt;
 
 Компонент конца интервала
 
-**Тело**
-
+**Тело**<br/>
 [Поле ввода](#Input_fields)
 
 **Пример**
@@ -1428,9 +1422,8 @@ n2o.api.control.dependency.apply_on_init=true
 
 Условие доступности
 
-**Тело**
-
-Java Script выражение
+**Тело**<br/>
+Java Script выражение.
 
 **Пример**
 
@@ -1457,9 +1450,8 @@ Java Script выражение
 n2o.api.control.visibility.reset=false
 ```
 
-**Тело**
-
-Java Script выражение
+**Тело**<br/>
+Java Script выражение.
 
 **Пример**
 
@@ -1474,9 +1466,8 @@ Java Script выражение
 
 Сброс значения
 
-**Тело**
-
-Java Script выражение
+**Тело**<br/>
+Java Script выражение.
 
 **Пример**
 
@@ -1499,9 +1490,8 @@ Java Script выражение
 |value-field-id|Строка|Поле выборки, значение которого будет проставлено в модель поля ввода|Вся модель            |
 |size          |Число |Количество возвращаемых записей                                      |                      |
 
-**Тело**
-
-[Список префильтров](../xml/base#filters)
+**Тело**<br/>
+[Предустановленные фильтры](../xml/base#filters)
 
 **Пример**
 
@@ -1535,9 +1525,8 @@ Java Script выражение
 
 Условие установки значений
 
-**Тело**
-
-Java Script тело функции
+**Тело**<br/>
+Java Script тело функции.
 
 **Пример**
 
@@ -1555,9 +1544,8 @@ Java Script тело функции
 
 Условие обязательности заполнения
 
-**Тело**
-
-Java Script выражение
+**Тело**<br/>
+Java Script выражение.
 
 **Пример**
 
@@ -1568,15 +1556,13 @@ Java Script выражение
 </dependencies>
 ```
 
+**Тело**<br/>
+Java Script выражение.
 
-**Тело**
-
-Java Script выражение
 
 ## Валидации компонента
 
 ### &lt;validations&gt;
-
 
 **Атрибуты**
 
@@ -1592,8 +1578,7 @@ Java Script выражение
 </validations>
 ```
 
-**Тело**
-
+**Тело**<br/>
 [Список валидаций](../xml/object#validations3)
 
 ## Действие обновления компонента

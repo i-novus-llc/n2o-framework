@@ -24,7 +24,6 @@ n2o.api.page.show_title=false
 ## Виды страниц {#pages}
 
 ### &lt;simple-page&gt; {#simple-page}
-
 Страница с единственным виджетом.
 
 **Атрибуты**
@@ -39,6 +38,9 @@ n2o.api.page.show_title=false
 |show-title  |true false                          |Показывать заголовок страницы?                                |false                                 |
 |model       |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
+**Тело**<br/>
+[Виджет](../xml/widget) <br/>
+&lt;breadcrumbs&gt; - [Хлебные крошки](#breadcrumbs)
 
 **Пример**
 
@@ -53,12 +55,7 @@ n2o.api.page.show_title=false
 
 <Sandbox height={300} projectId="uxcomponents_pages_simple_page" />
 
-**Тело**
-
-[Виджет](../xml/widget), Список [хлебных крошек](#breadcrumbs)
-
 ### &lt;page&gt;
-
 Страница с регионами.
 
 **Атрибуты**
@@ -75,10 +72,13 @@ n2o.api.page.show_title=false
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
 |model       |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
-**Тело**
-
-Список [регионов](../xml/region), Список [источников данных](../xml/datasource#datasources), Список [действий](#actions),
-Список [хлебных крошек](#breadcrumbs), [Меню](#toolbar) управляющих кнопок страницы, Список [событий](#events)
+**Тело**<br/>
+&lt;regions&gt; - [Регионы страницы](#regions)<br/>
+&lt;datasources&gt; - [Источники данных страницы](#datasources)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок страницы](#toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия страницы](#actions)<br/>
+&lt;breadcrumbs&gt; - [Хлебные крошки](#breadcrumbs)<br/>
+&lt;events&gt; - [События страницы](#events)
 
 **Пример**
 
@@ -96,6 +96,12 @@ n2o.api.page.show_title=false
 ```
 
 <Sandbox height={300} projectId="uxcomponents_pages_simple_regions" />
+
+#### &lt;regions&gt;
+Регионы страницы.
+
+**Тело**<br/>
+Список элементов [регионов](../xml/region)
 
 ### &lt;left-right-page&gt; {#left-right-page}
 
@@ -115,10 +121,14 @@ n2o.api.page.show_title=false
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
 |model       |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
-**Тело**
-
-Регионы [left и right](#left-right-region), Список [источников данных](../xml/datasource#datasources), Список [действий](#actions), Список [хлебных крошек](#breadcrumbs),
-[Меню](#toolbar) управляющих кнопок страницы, Список [событий](#events)
+**Тело**<br/>
+&lt;left&gt; - [Регион слева](#left)<br/>
+&lt;right&gt; - [Регион справа](#right)<br/>
+&lt;datasources&gt; - [Источники данных страницы](#datasources)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок страницы](#toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия страницы](#actions)<br/>
+&lt;breadcrumbs&gt; - [Хлебные крошки](#breadcrumbs)<br/>
+&lt;events&gt; - [События страницы](#events)
 
 **Пример**
 
@@ -136,7 +146,9 @@ n2o.api.page.show_title=false
 
 <Sandbox height={300} projectId="uxcomponents_pages_left_right_regions" />
 
-#### Регионы &lt;left&gt; &lt;right&gt; {#left-right-region}
+#### &lt;left&gt;
+#### &lt;right&gt;
+Регионы для left-right-page.
 
 **Атрибуты**
 
@@ -144,9 +156,8 @@ n2o.api.page.show_title=false
 |------------|------|--------------|---------------------|
 |width       |Строка|Ширина региона. Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
 
-**Тело**
-
-Список [регионов](../xml/region)
+**Тело**<br/>
+Список [регионов](../xml/region)<br/>
 Список [виджетов](../xml/widget)
 
 **Пример**
@@ -181,10 +192,15 @@ n2o.api.page.show_title=false
 n2o.api.page.top_left_right.scroll_top_button=false
 ```
 
-**Тело**
-
-Регионы [top, left и right](#top-left-right-region), Список [источников данных](../xml/datasource#datasources), Список [действий](#actions), Список [хлебных крошек](#breadcrumbs),
-[Меню](#toolbar) управляющих кнопок страницы, Список [событий](#events)
+**Тело**<br/>
+&lt;top&gt; - [Регион сверху](#top)<br/>
+&lt;left&gt; - [Регион слева](#left)<br/>
+&lt;right&gt; - [Регион справа](#right)<br/>
+&lt;datasources&gt; - [Источники данных страницы](#datasources)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок страницы](#toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия страницы](#actions)<br/>
+&lt;breadcrumbs&gt; - [Хлебные крошки](#breadcrumbs)<br/>
+&lt;events&gt; - [События страницы](#events)
 
 **Пример**
 
@@ -203,7 +219,10 @@ n2o.api.page.top_left_right.scroll_top_button=false
 
 <Sandbox height={420} projectId="uxcomponents_pages_three_regions" />
 
-#### Регионы &lt;top&gt; &lt;left&gt; &lt;right&gt; {#top-left-right-region}
+#### &lt;top&gt;
+#### &lt;left&gt;
+#### &lt;right&gt;
+Регионы для top-left-right-page.
 
 **Атрибуты**
 
@@ -219,6 +238,10 @@ n2o.api.page.top_left_right.scroll_top_button=false
 n2o.api.page.top_left_right.region.fixed=false
 ```
 
+**Тело**<br/>
+Список [регионов](../xml/region)<br/>
+Список [виджетов](../xml/widget)
+
 **Пример**
 
 ```xml
@@ -227,14 +250,7 @@ n2o.api.page.top_left_right.region.fixed=false
 <right fixed="true" width="60%" offset="100">...</right>
 ```
 
-**Тело**
-
-Список [регионов](../xml/region)
-Список [виджетов](../xml/widget)
-
-
 ### &lt;searchable-page&gt; {#searchable-page}
-
 Страница с поисковой строкой.
 
 **Атрибуты**
@@ -259,12 +275,14 @@ n2o.api.page.searchable.trigger=CHANGE
 n2o.api.page.searchable.throttle-delay=1000
 ```
 
-**Тело**
-
-[Поисковая строка](#search-bar), Список [регионов](../xml/region),
-Список [источников данных](../xml/datasource#datasources), Список [действий](#actions),
-Список [хлебных крошек](#breadcrumbs),
-[Меню](#toolbar) управляющих кнопок страницы, Список [событий](#events)
+**Тело**<br/>
+&lt;search-bar&gt; - [Поисковая строка](#search-bar)<br/>
+&lt;regions&gt; - [Регионы страницы](#regions)<br/>
+&lt;datasources&gt; - [Источники данных страницы](#datasources)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок страницы](#toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия страницы](#actions)<br/>
+&lt;breadcrumbs&gt; - [Хлебные крошки](#breadcrumbs)<br/>
+&lt;events&gt; - [События страницы](#events)
 
 **Пример**
 
@@ -301,11 +319,12 @@ n2o.api.page.searchable.throttle-delay=1000
 <search-bar button-label="Искать" datasource="main" search-filter-id="name"/>
 ```
 
-## Встроенный источник данных
+## Источники данных страницы {#datasources}
 
-### &lt;datasource&gt;
+### &lt;datasources&gt;
 
-Ссылка на [Источник данных](../xml/datasource#datasources)
+**Тело**<br/>
+[Источники данных](../xml/datasource#datasources)
 
 
 ## Меню управляющих кнопок {#toolbar}
@@ -335,14 +354,16 @@ n2o.api.page.toolbar.place=bottomRight
 ## Встроенные действия {#actions}
 
 ### &lt;actions&gt;
-
-Действия на странице.
+Список действий над объектом.
 
 **Атрибуты**
 
-|Наименование|Тип                |Описание                      |Значение по умолчанию|
-|------------|-------------------|------------------------------|---------------------|
+|Наименование|Тип              |Описание                      |Значение по умолчанию|
+|------------|-----------------|------------------------------|---------------------|
 |generate    |crud submit close|Генерация стандартных действий|                     |
+
+**Тело**<br/>
+&lt;action&gt; - [Действие страницы](#action)
 
 **Пример**
 
@@ -355,8 +376,7 @@ n2o.api.page.toolbar.place=bottomRight
 ```
 
 #### &lt;action&gt; {#action}
-
-Действие на странице.
+Действие страницы.
 
 **Атрибуты**
 
@@ -372,8 +392,7 @@ n2o.api.page.toolbar.place=bottomRight
 |model       |resolve edit filter multi datasource     |Модель, на которой выполнится действие                   |resolve                                                                                                         |
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных для выполнения действия   |                                                                                                        |
 
-**Тело**
-
+**Тело**<br/>
 [Обработчики действий](../xml/action)
 
 **Пример**
@@ -400,10 +419,12 @@ n2o.api.page.toolbar.place=bottomRight
 n2o.api.page.breadcrumbs=true
 ```
 
-**Тело**
+**Тело**<br/>
+&lt;crumb&gt; - [Хлебная крошка](#crumb)<br/>
 
-[Крошка](#crumb) (При отсутствии дочерних элементов хлебные крошки страницы будут построены в режиме по умолчанию)
-
+:::note
+При отсутствии дочерних элементов хлебные крошки страницы будут построены в режиме по умолчанию
+:::
 **Пример**
 
 ```xml
@@ -414,9 +435,8 @@ n2o.api.page.breadcrumbs=true
 </breadcrumbs>
 ```
 
-#### &lt;crumb&gt; {#crumb}
-
-Хлебная крошка
+#### &lt;crumb&gt;
+Хлебная крошка.
 
 **Атрибуты**
 
@@ -434,7 +454,6 @@ n2o.api.page.breadcrumbs=true
 ## События страницы {#events}
 
 ### &lt;events&gt;
-
 События, отслеживаемые на странице.
 
 **Пример**
@@ -447,7 +466,7 @@ n2o.api.page.breadcrumbs=true
 ```
 
 **Тело**<br/>
-[Событие изменения модели данных](../xml/page#on_change_event)
+&lt;on-change&gt; - [Событие изменения модели данных](#on_change_event)
 
 #### &lt;on-change&gt; {#on_change_event}
 
@@ -469,8 +488,7 @@ n2o.api.page.breadcrumbs=true
 n2o.api.page.event.on_change.type=OnChange
 ```
 
-**Тело**
-
+**Тело**<br/>
 [Обработчики действий](../xml/action)
 
 **Пример**

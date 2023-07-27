@@ -4,8 +4,6 @@ description: ""
 ---
 import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
-## Структура приложения (&lt;application&gt;) {#Application}
-
 **Тип метаданных**
 
 `application`
@@ -15,6 +13,8 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 ```
 http://n2oapp.net/framework/config/schema/application-3.0
 ```
+
+## &lt;application&gt;
 
 **Атрибуты**
 
@@ -32,6 +32,13 @@ n2o.application.navigation_layout=fullSizeHeader
 n2o.application.navigation_layout_fixed=false
 ```
 
+**Тело**<br/>
+&lt;datasources&gt; - [Источники данных](../xml/datasource#datasources)<br/>
+&lt;events&gt; - [События](#events)<br/>
+&lt;header&gt; - [Шапка](#header)<br/>
+&lt;sidebars&gt; - [Боковые панели](#sidebars)<br/>
+&lt;footer&gt; - [Подвал](#footer)
+
 **Пример**
 
 ```xml
@@ -46,15 +53,11 @@ n2o.application.navigation_layout_fixed=false
 </application>
 ```
 
-**Тело**
+### &lt;events&gt;
+События.
 
-[Источники данных](../xml/datasource#datasources),
-[События](../xml/application#events),
-[Шапка(header)](../xml/application#header),
-[Боковые панели](../xml/application#sidebars),
-[Подвал(footer)](../xml/application#footer)
-
-### События (&lt;events&gt;) {#events}
+**Тело**<br/>
+&lt;stomp-event&gt; - [Событие, приходящее через STOMP протокол](#stomp-event)
 
 **Пример**
 
@@ -67,12 +70,8 @@ n2o.application.navigation_layout_fixed=false
 </application>
 ```
 
-**Тело**
-
-[Событие, приходящее через STOMP протокол](../xml/application#stomp-event)
-
-
-### Событие, приходящее через STOMP протокол (&lt;stomp-event&gt;) {#stomp-event}
+### &lt;stomp-event&gt;
+Событие, приходящее через STOMP протокол.
 
 **Атрибуты**
 
@@ -80,6 +79,9 @@ n2o.application.navigation_layout_fixed=false
 |-------------|---------------|---------------------------------------------------------------------|---------------------|
 |id           |Строка         |Идентификатор события                                                |                     |
 |destination  |Строка         |Место назначения                                                     |                     |
+
+**Тело**<br/>
+&lt;alert&gt; - [Действие уведомления](../xml/action#alert)
 
 **Пример**
 
@@ -94,12 +96,8 @@ n2o.application.navigation_layout_fixed=false
 </application>
 ```
 
-**Тело**
-
-[Действие оповещения](../xml/action#alert)
-
-
-### Шапка (&lt;header&gt;) {#header}
+### &lt;header&gt;
+Шапка.
 
 **Атрибуты**
 
@@ -115,9 +113,10 @@ n2o.application.navigation_layout_fixed=false
 |sidebar-icon         |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Иконка открытия боковой панели, если не задана, значит кнопки не будет|           |
 |sidebar-toggled-icon |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Иконка скрытия боковой панели, если не задана, значит кнопки не будет |           |
 
-**Тело**
-
-Основное меню, дополнительное меню, строка поиска
+**Тело**<br/>
+&lt;nav&gt; - [Основное меню](#nav)<br/>
+&lt;extra-menu&gt; - [Дополнительное меню](#extra-menu)<br/>
+&lt;search&gt; - [Панель поиска](#search)
 
 **Пример**
 
@@ -134,7 +133,11 @@ n2o.application.navigation_layout_fixed=false
 
 <Sandbox height={300} projectId="uxcomponents_menu_header_on_top" showHeader />
 
-### Боковые панели (&lt;sidebars&gt;) {#sidebars}
+### &lt;sidebars&gt;
+Боковые панели.
+
+**Тело**<br/>
+&lt;sidebar&gt; - [Боковая панель](#sidebar)<br/>
 
 **Пример**
 
@@ -147,9 +150,8 @@ n2o.application.navigation_layout_fixed=false
 </application>
 ```
 
-[Стандартная боковая панель](../xml/application#sidebar)
-
-#### Боковая панель (&lt;sidebar&gt;) {#sidebar}
+####  &lt;sidebar&gt;
+Боковая панель.
 
 **Атрибуты**
 
@@ -174,9 +176,6 @@ n2o.application.navigation_layout_fixed=false
 |toggle-on-hover |true false    |Открывается ли панель по hover                   |false               |
 |overlay         |true false    |Перекрывает ли боковая панель контент страницы   |true                |
 
-
-
-
 **Настройки**
 ```yaml
 #Сторона появления
@@ -189,11 +188,9 @@ n2o.api.sidebar.overlay=false
 n2o.api.sidebar.size=1
 ```
 
-
-**Тело**
-
-[Стандартный источник данных](../xml/datasource#datasource) <br/>
-[Навигационная панель](../xml/application#navigation)
+**Тело**<br/>
+&lt;datasource&gt; - [Стандартный источник данных](../xml/datasource#datasource) <br/>
+Список элементов [навигационной панели](#navigation)
 
 **Пример**
 
@@ -212,7 +209,8 @@ n2o.api.sidebar.size=1
 
 <Sandbox height={450} projectId="uxcomponents_menu_sidebar_simple" showHeader />
 
-### Подвал (&lt;footer&gt;) {#footer}
+### &lt;footer&gt;
+Подвал.
 
 **Атрибуты**
 
@@ -234,10 +232,10 @@ n2o.api.sidebar.size=1
 </application>
 ```
 
-
 ## Навигационная панель {#navigation}
 
 ### &lt;nav&gt;
+Основное меню.
 
 **Атрибуты**
 
@@ -246,8 +244,7 @@ n2o.api.sidebar.size=1
 |src         |Строка         |React компонент меню            |                     |
 |ref-id      |Ссылка         |Ссылка на родительский файл меню|                     |
 
-**Тело**
-
+**Тело**<br/>
 Список элементов [меню](../xml/menu)
 
 **Пример**
@@ -261,6 +258,7 @@ n2o.api.sidebar.size=1
 ```
 
 ### &lt;extra-menu&gt;
+Дополнительное меню.
 
 **Атрибуты**
 
@@ -269,9 +267,8 @@ n2o.api.sidebar.size=1
 |src         |Строка         |React компонент шапки           |                     |
 |ref-id      |Ссылка         |Ссылка на родительский файл меню|                     |
 
-**Тело**
-
-Список элементов [меню](#Menu)
+**Тело**<br/>
+Список элементов [меню](../xml/menu)
 
 **Пример**
 
@@ -284,8 +281,7 @@ n2o.api.sidebar.size=1
 ```
 
 ### &lt;search&gt;
-
-Панель поиска
+Панель поиска.
 
 **Атрибуты**
 
