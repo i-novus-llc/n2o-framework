@@ -12,7 +12,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 http://n2oapp.net/framework/config/schema/cell-3.0
 ```
 
-### Общие свойства {#General_properties}
+### Базовые свойства {#General_properties}
 
 **Атрибуты**
 
@@ -43,9 +43,8 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 n2o.api.cell.text.icon_position=left
 ```
 
-**Тело**
-
-[Переключатель](#switch_in_base)
+**Тело**<br/>
+&lt;switch&gt; - [Переключатель](#switch)
 
 :::note
 
@@ -82,9 +81,7 @@ n2o.api.cell.text.icon_position=left
 n2o.api.cell.link.type=text
 ```
 
-
-**Тело**
-
+**Тело**<br/>
 [Обработчики действий](../xml/action)
 
 **Пример**
@@ -121,9 +118,8 @@ n2o.api.cell.link.type=text
 n2o.api.cell.icon.type=icon
 ```
 
-**Тело**
-
-[Переключатель цвета](#switch_in_base)
+**Тело**<br/>
+&lt;switch&gt; - [Переключатель](#switch)
 
 **Пример**
 
@@ -160,8 +156,7 @@ n2o.api.cell.icon.type=icon
 |enabled     |true false                                                                              |Доступность чекбокса                                        |Если есть действие, то `true`, иначе `false`|
 |action-id   |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions) |Ссылка на действие, которое выполнится при клике по чекбоксу|                                            |
 
-**Тело**
-
+**Тело**<br/>
 [Обработчики действий](../xml/action)
 
 **Пример**
@@ -240,10 +235,9 @@ n2o.api.cell.image.shape=square
 n2o.api.cell.image.text_position=right
 ```
 
-**Тело**
-
-[Обработчики действий](../xml/action)<br/>
-[Список статусов](#statuses)
+**Тело**<br/>
+&lt;action&gt; - [Список действий](#action)<br/>
+&lt;statuses&gt; - [Список статусов](#statuses)
 
 **Пример**
 
@@ -256,22 +250,22 @@ n2o.api.cell.image.text_position=right
             ...
        <status/>
     </statuses>
-    <actions>
-        <invoke operation-id="update"/>
+    <action>
         <open-page page-id="profile"/>
-    </actions>
+    </action>
 </image>
 ```
 
 <Sandbox height={250} projectId="uxcomponents_cells_image" />
 
 
-### &lt;statuses&gt; {#statuses}
-
+#### &lt;statuses&gt;
 Список статусов.
 
-#### &lt;status&gt; {#status}
+**Тело**<br/>
+&lt;status&gt; - [Элемент статуса](#status)
 
+##### &lt;status&gt;
 Элемент статуса.
 
 **Атрибуты**
@@ -300,6 +294,11 @@ n2o.api.cell.image.status_place=topLeft
 />
 ```
 
+#### &lt;action&gt;
+Действие ячейки.
+
+**Тело**<br/>
+[Обработчики действий](../xml/action)
 
 ### &lt;file-upload&gt; {#file-upload-cell}
 
@@ -356,7 +355,6 @@ n2o.api.cell.file_upload.show_size=true
 
 
 ### &lt;edit&gt; {#edit}
-
 Редактирование значения.
 
 **Атрибуты**
@@ -376,9 +374,12 @@ n2o.api.cell.edit.type=inline
 n2o.api.cell.edit.enabled=true
 ```
 
-**Тело**
-
-[Поле ввода](#Input_fields), [Обработчики действий](../xml/action)
+**Тело**<br/>
+&lt;input-text&gt; - [Компонент ввода однострочного текста или чисел](../xml/field#input-text)<br/>
+&lt;input-select&gt; - [Компонент ввода текста с выбором из выпадающего списка](../xml/field#input-select)<br/>
+&lt;date-time&gt; - [Компонент ввода даты и времени](../xml/field#date-time)<br/>
+&lt;field&gt; - [Произвольный React компонент](../xml/field#field)<br/>
+&lt;action&gt; - [Список действий](#action)
 
 **Пример**
 
@@ -388,63 +389,14 @@ n2o.api.cell.edit.enabled=true
 </edit>
 ```
 
-### &lt;toolbar&gt; {#toolbar}
-
+### &lt;toolbar&gt;
 Ячейка с кнопками.
 
-**Атрибуты**
-
-|Наименование|Тип   |Описание                                                                                                                |Значение по умолчанию|
-|------------|------|------------------------------------------------------------------------------------------------------------------------|---------------------|
-|generate    |Строка|Генерация стандартных действий. Возможные значения: update, delete. Можно писать несколько идентификаторов через запятую|                     |
+[Меню управляющих кнопок](../xml/widget#widget_toolbar)
 
 **Пример**
-
-```xml
-<toolbar>
-  <button>...</button>
-  <button>...</button>
-  <button>...</button>
-</toolbar>
-```
 
 <Sandbox height={250} projectId="uxcomponents_cells_toolbar" />
-
-#### &lt;button&gt; {#button}
-
-Кнопка ячейки.
-
-**Атрибуты**
-
-|Наименование|Тип                                                                                    |Описание                                                            |Значение по умолчанию    |
-|------------|---------------------------------------------------------------------------------------|--------------------------------------------------------------------|-------------------------|
-|label       |Строка                                                                                 |Подпись кнопки                                                      |Вычисляется из action-id |
-|icon        |[Класс иконки](https://fontawesome.com/v4.7/icons/)                                    |Иконка кнопки                                                       |Вычисляется из action-id |
-|action-id   |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions)|Ссылка на действие виджета, которое выполнятся при нажатии на кнопку|                         |
-|class       |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples)            |Класс компонента кнопки                                             |                         |
-
-**Тело**
-
-[Обработчики действий](../xml/action)
-
-**Пример**
-
-```xml
-<toolbar>
-  <button action-id="create"/>
-</toolbar>
-```
-
-```xml
-<toolbar>
-  <button label="Изменить" icon="fa-pencil">
-    <open-page page-id="personCard" action-id="update"/>
-  </button>
-  <button label="Удалить" icon="fa-trash">
-    <invoke operation-id="delete"/>
-  </button>
-</toolbar>
-```
 
 ### &lt;badge&gt; {#badge}
 
@@ -475,9 +427,8 @@ n2o.api.cell.badge.image_position=left
 n2o.api.cell.badge.image_shape=circle
 ```
 
-**Тело**
-
-[Переключатель цвета](#switch_in_base)
+**Тело**<br/>
+&lt;switch&gt; - [Переключатель](#switch)
 
 **Пример**
 
@@ -505,9 +456,8 @@ n2o.api.cell.badge.image_shape=circle
 |color         |primary secondary success danger warning info light dark                                                       |Цвет элементов. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)           |                     |
 |label-field-id|Вложенное поле столбца|Отображаемое поле в объекте, если столбец - массив объектов. Если отсутствует, то столбец является массивом строк.|                     |
 
-**Тело**
-
-[Переключатель цвета](#switch_in_base)
+**Тело**<br/>
+&lt;switch&gt; - [Переключатель](#switch)
 
 **Пример**
 
@@ -544,8 +494,7 @@ n2o.api.cell.rating.max=5
 n2o.api.cell.rating.readonly=true
 ```
 
-**Тело**
-
+**Тело**<br/>
 [Обработчики действий](../xml/action)
 
 **Пример**
@@ -595,8 +544,7 @@ n2o.api.cell.tooltip_list.dashed_label=true
 
 <Sandbox height={200} projectId="uxcomponents_cells_list_in_tooltip" />
 
-### &lt;switch&gt; {#switch}
-
+### &lt;switch&gt;
 Переключатель ячеек.
 
 **Атрибуты**
@@ -604,6 +552,10 @@ n2o.api.cell.tooltip_list.dashed_label=true
 |Наименование  |Тип                    |Описание                                                       |Значение по умолчанию|
 |--------------|-----------------------|---------------------------------------------------------------|---------------------|
 |value-field-id|Ссылка на значение поля|Значение, в зависимости от которого будет выбираться тип ячейки|                     |
+
+**Тело**<br/>
+&lt;case&gt; - [Вариант переключения](#case)<br/>
+&lt;default&gt; - [Ячейка по умолчанию](#default)
 
 **Пример**
 
@@ -623,8 +575,7 @@ n2o.api.cell.tooltip_list.dashed_label=true
 
 <Sandbox height={250} projectId="uxcomponents_cells_switch" />
 
-#### &lt;case&gt; {#case}
-
+#### &lt;case&gt;
 Вариант переключения.
 
 **Атрибуты**
@@ -633,16 +584,15 @@ n2o.api.cell.tooltip_list.dashed_label=true
 |------------|------|-------------------------------------------------|---------------------|
 |value       |Строка|Значение, с которым сравнивается `value-field-id`|                     |
 
-**Тело**
-
+**Тело**<br/>
+[Ячейка](#General_properties)<br/>
 Тип ячейки, который будет выбран, в случае верного условия.
 
-#### &lt;default&gt; {#default}
-
+#### &lt;default&gt;
 Ячейка по умолчанию.
 
-**Тело**
-
+**Тело**<br/>
+[Ячейка](#General_properties)<br/>
 Тип ячейки, которая будет выбрана, если ни один из вариантов case не был выбран ранее.
 
 ### &lt;cell&gt; {#cell}

@@ -22,9 +22,12 @@ http://n2oapp.net/framework/config/schema/region-3.0
 |class        |CSS класс       |Класс компонента региона|
 |style        |CSS свойство    |Стиль компонента региона|
 
-### &lt;region&gt; {#region}
+### &lt;region&gt;
+Простой регион.
 
-Простой регион
+**Тело**<br/>
+Список [регионов](#) <br/>
+Список [виджетов](../xml/widget)
 
 **Пример**
 
@@ -36,14 +39,8 @@ http://n2oapp.net/framework/config/schema/region-3.0
 </region>
 ```
 
-**Тело**
-
-Список [регионов](#) <br/>
-Список [виджетов](../xml/widget)
-
-### &lt;line&gt; {#line}
-
-Регион с горизонтальным делителем
+### &lt;line&gt;
+Регион с горизонтальным делителем.
 
 **Атрибуты**
 
@@ -63,8 +60,7 @@ n2o.api.region.line.has_separator = true
 #Исходное раскрытие региона
 n2o.api.region.line.expand = true
 ```
-**Тело**
-
+**Тело**<br/>
 Список [регионов](#) <br/>
 Список [виджетов](../xml/widget)
 
@@ -80,9 +76,8 @@ n2o.api.region.line.expand = true
 
 <Sandbox height={300} projectId="uxcomponents_regions_line" />
 
-### &lt;panel&gt; {#panel}
-
-Регион в виде панели
+### &lt;panel&gt;
+Регион в виде панели.
 
 **Атрибуты**
 
@@ -110,8 +105,7 @@ n2o.api.region.panel.open = true
 n2o.api.region.panel.routable = true
 ```
 
-**Тело**
-
+**Тело**<br/>
 Список [регионов](#) <br/>
 Список [виджетов](../xml/widget)
 
@@ -127,9 +121,8 @@ n2o.api.region.panel.routable = true
 
 <Sandbox height={200} projectId="uxcomponents_regions_panel" />
 
-### &lt;tabs&gt; {#tabs}
-
-Регион в виде вкладок
+### &lt;tabs&gt;
+Регион в виде вкладок.
 
 **Атрибуты**
 
@@ -161,8 +154,7 @@ n2o.api.region.tabs.scrollbar = false
 n2o.api.region.tabs.routable = true
 ```
 
-**Тело**
-
+**Тело**<br/>
 &lt;tab&gt; - Список [вкладок](#tab)
 
 **Пример**
@@ -180,9 +172,8 @@ n2o.api.region.tabs.routable = true
 
 <Sandbox height={300} projectId="uxcomponents_regions_tabs" />
 
-#### &lt;tab&gt; {#tab}
-
-Вкладка
+#### &lt;tab&gt;
+Вкладка.
 
 **Атрибуты**
 
@@ -191,8 +182,7 @@ n2o.api.region.tabs.routable = true
 |id           |Строка |Идентификатор вкладки |
 |name         |Строка |Наименование вкладки  |
 
-**Тело**
-
+**Тело**<br/>
 Список [регионов](#) <br/>
 Список [виджетов](../xml/widget)
 
@@ -206,9 +196,8 @@ n2o.api.region.tabs.routable = true
 </tab>
 ```
 
-### &lt;scrollspy&gt; {#scrollspy}
-
-Регион с отслеживанием прокрутки
+### &lt;scrollspy&gt;
+Регион с отслеживанием прокрутки.
 
 **Атрибуты**
 
@@ -232,8 +221,7 @@ n2o.api.region.scrollspy.headlines = false
 n2o.api.region.scrollspy.routable = true
 ```
 
-**Тело**
-
+**Тело**<br/>
 &lt;menu-item&gt; - Список [элементов меню](#scrollspy_menu-item) <br/>
 &lt;sub-menu&gt; - Список [вложенных меню](#scrollspy_sub-menu) <br/>
 &lt;group&gt; - Список [групп](#scrollspy_group)
@@ -256,8 +244,7 @@ n2o.api.region.scrollspy.routable = true
 ```
 
 #### &lt;menu-item&gt; {#scrollspy_menu-item}
-
-Элемент меню
+Элемент меню.
 
 **Атрибуты**
 
@@ -266,8 +253,7 @@ n2o.api.region.scrollspy.routable = true
 |id           |Строка |Идентификатор элемента меню |
 |title        |Строка |Заголовок элемента меню     |
 
-**Тело**
-
+**Тело**<br/>
 Список [регионов](#) <br/>
 Список [виджетов](../xml/widget)
 
@@ -281,8 +267,7 @@ n2o.api.region.scrollspy.routable = true
 ```
 
 #### &lt;sub-menu&gt; {#scrollspy_sub-menu}
-
-Вложенное меню
+Вложенное меню.
 
 **Атрибуты**
 
@@ -291,8 +276,7 @@ n2o.api.region.scrollspy.routable = true
 |id           |Строка |Идентификатор вложенного меню |
 |title        |Строка |Заголовок вложенного меню     |
 
-**Тело**
-
+**Тело**<br/>
 &lt;menu-item&gt; - Список [элементов меню](#scrollspy_menu-item) <br/>
 &lt;sub-menu&gt; - Список [вложенных меню](#scrollspy_sub-menu)
 
@@ -310,8 +294,7 @@ n2o.api.region.scrollspy.routable = true
 ```
 
 #### &lt;group&gt; {#scrollspy_group}
-
-Группа
+Группа меню.
 
 **Атрибуты**
 
@@ -327,8 +310,7 @@ n2o.api.region.scrollspy.routable = true
 n2o.api.region.scrollspy.group.headline = false
 ```
 
-**Тело**
-
+**Тело**<br/>
 &lt;menu-item&gt; - Список [элементов меню](#scrollspy_menu-item) <br/>
 &lt;sub-menu&gt; - Список [вложенных меню](#scrollspy_sub-menu)
 

@@ -179,7 +179,7 @@
         <xs:complexContent>
             <xs:extension base="basePageDefinition">
                 <xs:annotation>
-                    <xs:documentation>Страница c двумя регионами.</xs:documentation>
+                    <xs:documentation>Страница с двумя регионами.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
                     <xs:element name="left" type="leftRightRegionsDefinition"/>
@@ -262,7 +262,7 @@
         <xs:complexContent>
             <xs:extension base="standardPageDefinition">
                 <xs:annotation>
-                    <xs:documentation>Страница c поисковой строкой.</xs:documentation>
+                    <xs:documentation>Страница с поисковой строкой.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
                     <xs:element name="search-bar" type="searchBarDefinition"/>
