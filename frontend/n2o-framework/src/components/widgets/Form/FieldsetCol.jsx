@@ -34,11 +34,13 @@ function FieldsetColComponent({
 }) {
     if (!colVisible) { return null }
 
+    const { security, size, className, style, fields, fieldsets } = col
+
     return (
-        <SecurityController config={col.security}>
-            <Col xs={col.size || defaultCol} key={colId} className={col.className}>
-                {col.fields &&
-                    col.fields.map((field, i) => {
+        <SecurityController config={security}>
+            <Col xs={size || defaultCol} key={colId} className={className} style={style}>
+                {fields &&
+                    fields.map((field, i) => {
                         const autoFocus = field.id && autoFocusId && field.id === autoFocusId
                         const key = `field${i}`
                         const name = parentName ? `${parentName}.${field.id}` : field.id
@@ -65,8 +67,8 @@ function FieldsetColComponent({
                             />
                         )
                     })}
-                {col.fieldsets &&
-                    col.fieldsets.map((fieldset, i) => {
+                {fieldsets &&
+                    fieldsets.map((fieldset, i) => {
                         const { name: fieldsetName, ...rest } = fieldset
                         const key = `set${i}`
                         const name = parentName ? `${parentName}.${fieldsetName}` : fieldsetName
