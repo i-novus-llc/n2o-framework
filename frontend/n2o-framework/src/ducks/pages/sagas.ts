@@ -110,7 +110,7 @@ export function* getMetadata(apiProvider: unknown, action: MetadataRequest) {
             status: number | null
         }
 
-        if (err && err.status) {
+        if (err?.status) {
             yield put(setStatus(pageId, err.status))
         }
 
@@ -128,7 +128,7 @@ export function* getMetadata(apiProvider: unknown, action: MetadataRequest) {
                     closeButton: false,
                     severity: 'danger',
                 },
-                err.json && err.json.meta ? err.json.meta : {},
+                err?.json?.meta || {},
             ),
         )
     } finally {

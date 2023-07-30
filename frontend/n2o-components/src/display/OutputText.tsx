@@ -20,7 +20,7 @@ type TextProps = {
     format?: string,
     isOpen?: boolean,
     preLine?: boolean,
-    showFullText?: MouseEventHandler<HTMLAnchorElement>,
+    showFullText?: MouseEventHandler<HTMLButtonElement>,
     t(key: string): string,
     value: string
 }
@@ -39,10 +39,9 @@ const RenderComponents: RenderComponentsMap = {
         <div className="text">
             <Text text={value} format={format} preLine={preLine} />
             {expandable && (
-                // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                <a href="#" onClick={showFullText} className="details-label">
+                <button type="button" onClick={showFullText} className="details-label link-button">
                     {isOpen ? t('hide') : t('details')}
-                </a>
+                </button>
             )}
         </div>
     ),
@@ -61,10 +60,9 @@ const RenderComponents: RenderComponentsMap = {
             <div className="text">
                 <Text text={value} format={format} preLine={preLine} />
                 {expandable && (
-                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                    <a href="#" onClick={showFullText} className="details-label">
+                    <button type="button" onClick={showFullText} className="details-label link-button">
                         {isOpen ? t('hide') : t('details')}
-                    </a>
+                    </button>
                 )}
             </div>
         </>
@@ -97,7 +95,7 @@ export const OutputText = memo(({
     const ref = useRef<HTMLDivElement>(null)
     const RenderComponent = RenderComponents[type]
 
-    const showFullText: MouseEventHandler<HTMLAnchorElement> = (e) => {
+    const showFullText: MouseEventHandler<HTMLButtonElement> = (e) => {
         e.preventDefault()
         setIsOpen(isOpen => !isOpen)
     }

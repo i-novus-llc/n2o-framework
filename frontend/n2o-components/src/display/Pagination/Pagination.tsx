@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { withTranslation } from 'react-i18next'
 
 import { PaginationButton } from './PaginationButton'
-import { ButtonType, Direction, GetControlButtonArgs, GetLabelArgs, PaginationProps, RenderBodyPagingArgs } from './types'
+import { ButtonType, Direction, GetControlButtonArgs, GetLabelArgs, Layout, PaginationProps, RenderBodyPagingArgs } from './types'
 
 const getLabel = ({ direction, icon, label, additionalClass }: GetLabelArgs) => {
     if (icon && label) {
@@ -124,33 +124,31 @@ const renderBodyPaging = ({ activePage, maxPages, onSelect, totalPages }: Render
 * />
 */
 
-const PaginationComponent = (props: PaginationProps) => {
-    const {
-        layout = 'separated',
-        activePage = 1,
-        count = 1,
-        size = 1,
-        maxPages = 5,
-        first = false,
-        last = false,
-        prev = false,
-        next = false,
-        showCount = true,
-        showSinglePage = false,
-        onSelect = () => {},
-        className,
-        prevIcon = 'fa fa-angle-left',
-        prevLabel = null,
-        nextIcon = 'fa fa-angle-right',
-        nextLabel = null,
-        firstIcon = 'fa fa-angle-double-left',
-        firstLabel = null,
-        lastIcon = 'fa fa-angle-double-right',
-        lastLabel = null,
-        style = { display: 'flex', alignItems: 'baseline' },
-        t = () => {},
-    } = props
-
+const PaginationComponent = ({
+    layout = Layout.separated,
+    activePage = 1,
+    count = 1,
+    size = 1,
+    maxPages = 5,
+    first = false,
+    last = false,
+    prev = false,
+    next = false,
+    showCount = true,
+    showSinglePage = false,
+    onSelect = () => {},
+    className,
+    prevIcon = 'fa fa-angle-left',
+    prevLabel = '',
+    nextIcon = 'fa fa-angle-right',
+    nextLabel = '',
+    firstIcon = 'fa fa-angle-double-left',
+    firstLabel = '',
+    lastIcon = 'fa fa-angle-double-right',
+    lastLabel = '',
+    style = { display: 'flex', alignItems: 'baseline' },
+    t = (str: string) => '',
+}: PaginationProps) => {
     const pages = Math.ceil(count / size) || 1
     const lastPage = Math.ceil(count / size)
 

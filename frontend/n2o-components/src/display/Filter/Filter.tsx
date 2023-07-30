@@ -6,23 +6,21 @@ import classNames from 'classnames'
 import { Buttons, ButtonsProps } from './Buttons'
 
 interface FilterProps extends ButtonsProps {
+    children: ReactNode,
     hideButtons?: boolean
-    children: ReactNode
 }
 
-export function Filter(props: FilterProps) {
-    const {
-        className,
-        style,
-        visible,
-        hideButtons,
-        searchLabel,
-        resetLabel,
-        children,
-        onSearch,
-        onReset,
-    } = props
-
+export function Filter({
+    className,
+    style,
+    visible,
+    hideButtons,
+    searchLabel,
+    resetLabel,
+    children,
+    onSearch,
+    onReset,
+}: FilterProps) {
     return visible ? (
         <div className={classNames('n2o-filter', className)} style={style}>
             {children}

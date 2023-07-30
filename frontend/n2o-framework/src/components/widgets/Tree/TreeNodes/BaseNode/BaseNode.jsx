@@ -38,7 +38,7 @@ function BaseNode({
                 has(data, imageFieldId) && (
                     <div className={`${prefixCls}-image-tree-wrapper`}>
                         <img
-                            alt="not found"
+                            alt={data[labelFieldId]}
                             key={`tree_img_${data[valueFieldId]}`}
                             src={data[imageFieldId]}
                         />

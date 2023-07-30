@@ -7,11 +7,6 @@
     word-wrap: break-word;
     max-width: 100%;
 
-    &--disabled {
-        pointer-events: none;
-        opacity: 0.4;
-    }
-
     .rdw-editor-toolbar {
         border: none;
         border-bottom: $text-editor-border;
@@ -20,4 +15,9 @@
     .n2o-text-editor {
         padding: 0 10px;
     }
+}
+
+.n2o-text-editor-wrapper--disabled {
+    pointer-events: none;
+    opacity: 0.4;
 }

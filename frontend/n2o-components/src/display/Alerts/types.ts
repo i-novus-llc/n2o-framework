@@ -3,10 +3,10 @@ import { ReactNode, SyntheticEvent } from 'react'
 import { TBaseProps } from '../../types'
 
 export enum Severity {
-    info = 'info',
     danger = 'danger',
-    warning = 'warning',
-    success = 'success'
+    info = 'info',
+    success = 'success',
+    warning = 'warning'
 }
 
 export enum AnimationDirection {
@@ -15,44 +15,53 @@ export enum AnimationDirection {
 }
 
 export type AlertProps = TBaseProps & {
-    title?: string; // Заголовок алерта
-    text?: string; // Текст алерта
-    severity?: Severity; // Цвет алерта
-    stacktrace?: string | string[] | null; // Подробности, находятся под текстом, показываются (скрываются) по клику на выделенный текст
-    closeButton?: boolean; // Флаг показа кнопки закрытия
-    animate?: boolean; // Флаг включения всплытия с анимацией
+    // Флаг показа кнопки закрытия
+    animate?: boolean;
+    // Подробности, находятся под текстом, показываются (скрываются) по клику на выделенный текст
+    closeButton?: boolean;
+    href?: string;
+    // Флаг включения всплытия с анимацией
     loader?: boolean;
-    href?: string; // Переход -> href по клику на alert
-    timestamp?: number; // Временная точка отправки уведомления на клиент
+    onDismiss?(): void;
+    // Временная точка отправки уведомления на клиент
     placement?: string;
-    onDismiss?(): void; // Callback на закрытие
+    // Текст алерта
+    severity?: Severity;
+    // Цвет алерта
+    stacktrace?: string | string[] | null;
+    // Callback на закрытие
     stopRemoving?(): void;
     t?(arg: string): string;
+    // Заголовок алерта
+    text?: string;
+    // Переход -> href по клику на alert
+    timestamp?: number;
+    title?: string;
 }
 
 type DefaultAlertOwnProps = {
-    stacktraceVisible?: boolean;
-    isField: boolean;
     animationDirection: AnimationDirection;
-    togglingStacktrace(): void;
+    isField: boolean;
     onClose?(): void;
+    stacktraceVisible?: boolean;
+    togglingStacktrace(): void;
 }
 
 export type DefaultAlertProps = DefaultAlertOwnProps & Omit<AlertProps, 'visible' | 'loader' | 'placement' | 'stopRemoving'>
 
 type AlertSectionOwnProps = {
-    textClassName?: string;
     isSimple?: boolean;
-    text?: AlertProps['text'] | null;
-    style?: AlertProps['style'] | null;
     onClick?(e: SyntheticEvent): void;
+    style?: AlertProps['style'] | null;
+    text?: AlertProps['text'] | null;
+    textClassName?: string;
 }
 
 export type AlertSectionProps = AlertSectionOwnProps & Pick<DefaultAlertProps, 'timestamp'|'closeButton'|'stacktrace'|'stacktraceVisible'|'t'>
 
 type AlertWrapperOwnProps = {
-    severity: string,
-    children: ReactNode
+    children: ReactNode,
+    severity: string
 }
 
 export type AlertWrapperProps = AlertWrapperOwnProps& Pick<DefaultAlertProps, 'className' | 'animate' | 'stacktrace' | 'href' | 'style' | 'animationDirection'>

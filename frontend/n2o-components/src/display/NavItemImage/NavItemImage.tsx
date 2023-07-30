@@ -4,8 +4,8 @@ import classNames from 'classnames'
 import { TBaseProps } from '../../types'
 
 type Props = TBaseProps & {
-    imageSrc?: string,
     imageShape?: string,
+    imageSrc?: string,
     title: string,
 }
 

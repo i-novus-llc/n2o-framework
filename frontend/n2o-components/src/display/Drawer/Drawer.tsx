@@ -6,44 +6,56 @@ import { IPlacement } from 'rc-drawer/lib/IDrawerPropTypes'
 import { TBaseProps } from '../../types'
 
 type Props = TBaseProps & {
-    closeOnBackdrop: boolean; // Включение закрытия по клику на маску(backdrop)
-    closable: boolean; // Включение кнопки закрытия
-    closeOnEscape: boolean; // Разрешить/запретить закрытие Drawer по клавише Esc
-    placement?: IPlacement; // Позиция компонента
-    backdrop: boolean; // Включение маски(backdrop)
-    animation: boolean; // Включение анимации
-    width?: string | number; // Ширина компонента
-    height?: string | number; // Высота компонента
-    title?: string | ReactNode; // Заголовок компонента
-    footer?: string | ReactNode; // Нижняя часть компонента
-    children?: ReactNode; // Основная часть компонента
-    fixedFooter: boolean; // Флаг фиксирования футера
-    level: string | string[]; // Сдвиг элемента или группы элементов при открытии (level={'all'} для сдвига всех эл-в)
-    onClose(): void; // Функция закрытия по клику
-    onHandleClick(): void; // Функция закрытия по клику на крестик
+    // Включение маски(backdrop)
+    animation: boolean;
+    // Позиция компонента
+    backdrop: boolean;
+    // Нижняя часть компонента
+    children?: ReactNode;
+    // Включение закрытия по клику на маску(backdrop)
+    closable: boolean;
+    closeOnBackdrop: boolean;
+    // Включение кнопки закрытия
+    closeOnEscape: boolean;
+    // Основная часть компонента
+    fixedFooter: boolean;
+    // Заголовок компонента
+    footer?: string | ReactNode;
+    // Ширина компонента
+    height?: string | number;
+    // Флаг фиксирования футера
+    level: string | string[];
+    // Сдвиг элемента или группы элементов при открытии (level={'all'} для сдвига всех эл-в)
+    onClose(): void;
+    // Функция закрытия по клику
+    onHandleClick(): void;
+    // Разрешить/запретить закрытие Drawer по клавише Esc
+    placement?: IPlacement;
+    // Высота компонента
+    title?: string | ReactNode;
+    // Включение анимации
+    width?: string | number; // Функция закрытия по клику на крестик
 }
 
-export function Drawer(props: Props) {
-    const {
-        className,
-        closeOnBackdrop,
-        visible,
-        placement,
-        onClose,
-        onHandleClick,
-        backdrop,
-        level,
-        animation,
-        width,
-        height,
-        title,
-        footer,
-        fixedFooter,
-        children,
-        closeOnEscape,
-        closable,
-    } = props
-
+export function Drawer({
+    className,
+    closeOnBackdrop,
+    visible,
+    placement,
+    onClose,
+    onHandleClick,
+    backdrop,
+    level,
+    animation,
+    width,
+    height,
+    title,
+    footer,
+    fixedFooter,
+    children,
+    closeOnEscape,
+    closable,
+}: Props) {
     const [paddingBottom, setPaddingBottom] = useState(0)
     const footerRef = useRef<HTMLDivElement>(null)
 

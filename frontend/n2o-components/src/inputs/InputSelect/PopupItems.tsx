@@ -242,8 +242,7 @@ export function PopupItems({
     const renderImage = (item: TOption, imageFieldId: Props['imageFieldId']) => {
         const image = get(item, imageFieldId)
 
-        // eslint-disable-next-line jsx-a11y/alt-text
-        return image && <img src={image} />
+        return image && <img src={image} alt={item.label} />
     }
     const renderCheckbox = (item: TOption, selected: Props['selected']) => (
         <Checkbox

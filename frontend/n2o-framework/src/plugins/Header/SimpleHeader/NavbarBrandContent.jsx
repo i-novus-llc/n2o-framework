@@ -8,10 +8,10 @@ import PropTypes from 'prop-types'
 export const NavbarBrandContent = ({ brandImage }) => {
     const img =
     brandImage && typeof brandImage === 'string' ? (
-        // eslint-disable-next-line jsx-a11y/alt-text
         <img
             src={brandImage}
             className="n2o-brand__image d-inline-block align-top"
+            alt="brand"
         />
     ) : (
         brandImage

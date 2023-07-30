@@ -21,13 +21,13 @@ public class N2oImageCell extends N2oCell implements ImageCell {
 
     @Override
     public void shouldHaveWidth(int width) {
-        img().parent().shouldHave(Condition.attributeMatching(
+        img().parent().parent().shouldHave(Condition.attributeMatching(
                 "style", String.format(".*max-width: %dpx;.*", width)));
     }
 
     @Override
     public void shouldHaveShape(ShapeType shape) {
-        SelenideElement imageContainer = img().parent();
+        SelenideElement imageContainer = img().parent().parent();
         switch (shape) {
             case CIRCLE:
                 imageContainer.shouldHave(Condition.cssClass("circle"));

@@ -35,7 +35,7 @@ export const makePageByIdSelector = (pageId: string) => createSelector(
  */
 export const makePageLoadingByIdSelector = (pageId: string) => createSelector(
     makePageByIdSelector(pageId),
-    pageState => pageState && pageState.loading,
+    pageState => pageState?.loading,
 )
 
 /**
@@ -45,7 +45,7 @@ export const makePageLoadingByIdSelector = (pageId: string) => createSelector(
  */
 export const makePageErrorByIdSelector = (pageId: string) => createSelector(
     makePageByIdSelector(pageId),
-    pageState => pageState && pageState.error,
+    pageState => pageState?.error,
 )
 
 /**
@@ -55,7 +55,7 @@ export const makePageErrorByIdSelector = (pageId: string) => createSelector(
  */
 export const makePageDisabledByIdSelector = (pageId: string) => createSelector(
     makePageByIdSelector(pageId),
-    pageState => pageState && pageState.disabled,
+    pageState => pageState?.disabled,
 )
 
 /**
@@ -65,7 +65,7 @@ export const makePageDisabledByIdSelector = (pageId: string) => createSelector(
  */
 export const makePageStatusByIdSelected = (pageId: string) => createSelector(
     makePageByIdSelector(pageId),
-    pageState => pageState && pageState.status,
+    pageState => pageState?.status,
 )
 
 /**
@@ -75,7 +75,7 @@ export const makePageStatusByIdSelected = (pageId: string) => createSelector(
  */
 export const makePageSpinnerByIdSelected = (pageId: string) => createSelector(
     makePageByIdSelector(pageId),
-    pageState => pageState && pageState.spinner,
+    pageState => pageState?.spinner,
 )
 
 /**
@@ -85,7 +85,7 @@ export const makePageSpinnerByIdSelected = (pageId: string) => createSelector(
  */
 export const makePageMetadataByIdSelector = (pageId: string) => createSelector(
     makePageByIdSelector(pageId),
-    pageState => pageState && pageState.metadata,
+    pageState => pageState?.metadata,
 )
 
 /**
@@ -95,7 +95,7 @@ export const makePageMetadataByIdSelector = (pageId: string) => createSelector(
  */
 export const makePageRoutesByIdSelector = (pageId: string) => createSelector(
     makePageMetadataByIdSelector(pageId),
-    pageState => pageState && pageState.routes,
+    pageState => pageState?.routes,
 )
 
 /**
@@ -105,7 +105,7 @@ export const makePageRoutesByIdSelector = (pageId: string) => createSelector(
  */
 export const makePageToolbarByIdSelector = (pageId: string) => createSelector(
     makePageMetadataByIdSelector(pageId),
-    pageState => pageState && pageState.toolbar,
+    pageState => pageState?.toolbar,
 )
 
 /**
@@ -115,5 +115,5 @@ export const makePageToolbarByIdSelector = (pageId: string) => createSelector(
  */
 export const makePageTitleByIdSelector = (pageId: string) => createSelector(
     makePageMetadataByIdSelector(pageId),
-    pageState => pageState && pageState.page && pageState.page.title,
+    pageState => pageState?.page?.title,
 )

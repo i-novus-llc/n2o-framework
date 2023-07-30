@@ -50,7 +50,7 @@ export function* addAlertSideEffect(config: IConfig, action: Add | AddMulti) {
 }
 
 export function getTimeout(alert: IAlert, config: IConfig) {
-    return alert.timeout || (config.timeout && config.timeout[alert.severity])
+    return alert.timeout || (config.timeout?.[alert.severity])
 }
 
 export default (config: IConfig) => [takeEvery([addAlert, addMultiAlerts], addAlertSideEffect, config)]

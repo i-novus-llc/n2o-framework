@@ -1,8 +1,8 @@
 import React from 'react'
 
 type Props = {
-    title: string,
     description: string,
+    title: string
 }
 
 export function ImageInfo({ title, description }: Props) {

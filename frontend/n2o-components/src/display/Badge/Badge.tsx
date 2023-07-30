@@ -64,7 +64,7 @@ export const Badge = React.memo((props: Props) => {
             {image && (
                 <img
                     src={image}
-                    alt="not found"
+                    alt="badge"
                     className={badgeImageClassNames}
                 />
             )}

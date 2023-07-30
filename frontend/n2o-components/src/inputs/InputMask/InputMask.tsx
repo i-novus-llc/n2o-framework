@@ -221,8 +221,8 @@ class InputMaskComponent extends React.Component<InputMaskProps, InputMaskState>
             placeholderChar = '_',
             placeholder,
             className,
-            autoFocus,
             disabled,
+            autoFocus,
             keepCharPositions,
         } = this.props
         const { guide, value } = this.state
@@ -239,6 +239,7 @@ class InputMaskComponent extends React.Component<InputMaskProps, InputMaskState>
                 placeholderChar={placeholderChar}
                 placeholder={placeholder}
                 guide={guide}
+                autoFocus={autoFocus}
                 mask={mask || this.mask}
                 value={value}
                 onBlur={this.onBlur}
@@ -249,8 +250,6 @@ class InputMaskComponent extends React.Component<InputMaskProps, InputMaskState>
                     <input
                         ref={(input: HTMLInputElement) => ref(input)}
                         {...props}
-                        /* eslint-disable-next-line jsx-a11y/no-autofocus */
-                        autoFocus={autoFocus}
                     />
                 )}
             />

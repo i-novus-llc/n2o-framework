@@ -61,15 +61,13 @@ class CollapsedCell extends React.Component {
                         </React.Fragment>
                     ))}
                     {isButtonNeeded && (
-
-                        // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                        <a
-                            href="#"
+                        <button
+                            type="button"
                             onClick={this.changeVisibility}
-                            className="collapsed-cell-control"
+                            className="collapsed-cell-control link-button"
                         >
                             {buttonTitle}
-                        </a>
+                        </button>
                     )}
                 </>
             )
