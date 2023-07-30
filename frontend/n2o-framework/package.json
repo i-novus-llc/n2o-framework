@@ -60,6 +60,7 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/runtime-corejs2": "^7.0.0",
     "@fontsource/exo-2": "^4.3.0",
+    "@i-novus/n2o-components": "^1.0.0",
     "@popperjs/core": "^2.2.1",
     "@reduxjs/toolkit": "^1.5.1",
     "assets-webpack-plugin": "3.5.1",
