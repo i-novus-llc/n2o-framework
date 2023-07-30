@@ -4,9 +4,9 @@ import classNames from 'classnames'
 import { TBaseProps } from '../types'
 
 type Props = TBaseProps & {
-    text: string,
     icon: string,
     iconDirection: string,
+    text: string
 }
 
 export function Status({

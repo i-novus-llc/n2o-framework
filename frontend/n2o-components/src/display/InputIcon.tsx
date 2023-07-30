@@ -4,9 +4,9 @@ import classNames from 'classnames'
 import { TBaseProps } from '../types'
 
 type Props = TBaseProps & {
-    hoverable: boolean,
-    clickable: boolean,
     children: ReactNode,
+    clickable: boolean,
+    hoverable: boolean,
     onClick(): void,
 }
 

@@ -40,7 +40,7 @@ export const visiblePartPopup = (
                 !isNil(item[imageFieldId]) && (
                     <div className={`${prefixCls}-image-tree-wrapper`}>
                         <img
-                            alt="not found"
+                            alt={item[labelFieldId] || 'img'}
                             key={uniqueId('tree_img_')}
                             src={item[imageFieldId]}
                         />

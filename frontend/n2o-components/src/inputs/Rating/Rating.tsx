@@ -105,7 +105,6 @@ export class Rating extends Component<RatingProps, RatingState> {
                     }}
                     checked={eq(0, value)}
                 />
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label
                     className={classNames('rating__label', {
                         'rating__label--no-pointer': readonly,
@@ -125,7 +124,6 @@ export class Rating extends Component<RatingProps, RatingState> {
 
         return (
             <>
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label
                     className={classNames('rating__label', {
                         'rating__label--half': !isInteger(index),

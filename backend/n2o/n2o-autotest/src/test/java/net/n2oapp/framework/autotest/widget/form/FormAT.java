@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
  * Автотест для виджета Форма
  */
 public class FormAT extends AutoTestBase {
+
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -37,13 +38,19 @@ public class FormAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        builder.packs(
+                new N2oApplicationPack(),
+                new N2oAllPagesPack(),
+                new N2oAllDataPack()
+        );
     }
 
     @Test
     public void testForm() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/simple/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/form/simple/testForm.object.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/form/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/form/simple/testForm.object.xml")
+        );
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -56,6 +63,9 @@ public class FormAT extends AutoTestBase {
         surname.control(InputText.class).setValue("test");
 
         StandardField name = form.fields().field("Имя");
+        name.control(InputText.class).click();
+        surname.control(InputText.class).click();
+
         name.shouldBeRequired();
         name.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
 
@@ -73,7 +83,10 @@ public class FormAT extends AutoTestBase {
 
     @Test
     public void testToolbar() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/toolbar/index.page.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/form/toolbar/index.page.xml")
+        );
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -108,8 +121,11 @@ public class FormAT extends AutoTestBase {
     @Test
     public void testMode() {
         setJsonPath("net/n2oapp/framework/autotest/widget/form/mode");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/test.query.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/test.query.xml")
+        );
+
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

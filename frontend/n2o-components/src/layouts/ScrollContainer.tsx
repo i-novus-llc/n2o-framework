@@ -6,13 +6,13 @@ import { TBaseProps } from '../types'
 type State = Partial<{
     clientHeight: number,
     clientWidth: number,
-    scrollHeight: number,
-    scrollWidth: number,
-    scrollTop: number,
-    scrollLeft: number,
-    top: number,
     left: number,
+    scrollHeight: number,
+    scrollLeft: number,
     scrollTo(): void,
+    scrollTop: number,
+    scrollWidth: number,
+    top: number
 }>
 
 const DEFAULT_STATE: State = {

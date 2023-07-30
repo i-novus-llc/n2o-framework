@@ -39,9 +39,12 @@ export const Day = ({
                 current,
                 'other-month': otherMonth,
             })}
-            onMouseDown={onClick}
         >
-            {day.format('D')}
+            <span
+                onMouseDown={onClick}
+            >
+                {day.format('D')}
+            </span>
         </td>
     )
 }

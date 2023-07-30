@@ -6,38 +6,41 @@ import classNames from 'classnames'
 import { TBaseProps } from '../../types'
 
 type Props = TBaseProps & {
-    title: string | Element, // заголовок PopoverConfirm
+    // конфиг кнопки подтверждения
+    cancel: { color: string, label: string}, // заголовок PopoverConfirm
     children: string | Element,
-    ok: { label: string, color: string, }, // конфиг кнопки подтверждения
-    cancel: { label: string, color: string}, // конфиг кнопки отмены
-    reverseButtons: boolean,
     isOpen: boolean,
-    text: string, // текст сообщения
-    target: string, // target element id popover
-    onDeny(): void,
-    onConfirm(): void,
+    ok: { color: string, label: string },
     onCancel(): void,
+    onConfirm(): void,
+    // target element id popover
+    onDeny(): void,
+    // конфиг кнопки отмены
+    reverseButtons: boolean,
+    // текст сообщения
+    target: string,
+    text: string,
+    title: string | Element
 }
 /**
 * @example
 * <PopoverConfirm title="are you sure?" okLabel="ok" cancelLabel="no" />
 */
 
-export function PopoverConfirm(props: Props) {
+export function PopoverConfirm({
+    className,
+    title,
+    text,
+    ok,
+    cancel,
+    target,
+    onDeny,
+    onConfirm,
+    isOpen,
+    reverseButtons = false,
+    ...rest
+}: Props) {
     const { t } = useTranslation()
-    const {
-        className,
-        title,
-        text,
-        ok,
-        cancel,
-        target,
-        onDeny,
-        onConfirm,
-        isOpen,
-        reverseButtons = false,
-        ...rest
-    } = props
 
     const { label: okLabel = t('confirm'), color: okColor = 'primary' } = ok || {}
     const { label: cancelLabel = t('deny'), color: cancelColor } = cancel || {}

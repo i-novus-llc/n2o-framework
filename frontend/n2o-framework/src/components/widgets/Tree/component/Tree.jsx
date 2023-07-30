@@ -267,33 +267,31 @@ class Tree extends Component {
                     className="hotkey"
                     keyMap={{ events: values(KEY_CODES) }}
                     handlers={{ events: this.onCustomActions }}
+                    tabindex={0}
                 >
-                    {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
-                    <div tabIndex={0}>
-                        <TreeBase
-                            openAnimation={animationTree}
-                            ref={this.treeRef}
-                            treeData={this.createTree({
-                                datasource,
-                                ...nodeProps,
-                                searchKeys,
-                                searchValue,
-                            })}
-                            expandedKeys={expandedKeys}
-                            selectedKeys={selectedKeys}
-                            checkedKeys={checkedKeys}
-                            onCheck={this.onCheck}
-                            onSelect={singleDoubleClickFilter(this.onSelect, null, 200)}
-                            onDoubleClick={this.onDoubleClickHandler}
-                            multiple={multiselect}
-                            onDragEnter={this.onDragEnter}
-                            checkable={checkable}
-                            switcherIcon={this.renderSwitcherIcon}
-                            onExpand={this.onExpand}
-                            autoExpandParent={autoExpandParent}
-                            {...treeOtherProps}
-                        />
-                    </div>
+                    <TreeBase
+                        openAnimation={animationTree}
+                        ref={this.treeRef}
+                        treeData={this.createTree({
+                            datasource,
+                            ...nodeProps,
+                            searchKeys,
+                            searchValue,
+                        })}
+                        expandedKeys={expandedKeys}
+                        selectedKeys={selectedKeys}
+                        checkedKeys={checkedKeys}
+                        onCheck={this.onCheck}
+                        onSelect={singleDoubleClickFilter(this.onSelect, null, 200)}
+                        onDoubleClick={this.onDoubleClickHandler}
+                        multiple={multiselect}
+                        onDragEnter={this.onDragEnter}
+                        checkable={checkable}
+                        switcherIcon={this.renderSwitcherIcon}
+                        onExpand={this.onExpand}
+                        autoExpandParent={autoExpandParent}
+                        {...treeOtherProps}
+                    />
                 </HotKeys>
             </div>
         )

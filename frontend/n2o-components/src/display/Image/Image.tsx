@@ -6,29 +6,29 @@ import { TBaseProps } from '../../types'
 import { ImageInfo } from './ImageInfo'
 
 enum TextPosition {
-    top = 'top',
-    left = 'left',
     bottom = 'bottom',
-    right = 'right'
+    left = 'left',
+    right = 'right',
+    top = 'top'
 }
 
 enum Shape {
-    square = 'square',
     circle = 'circle',
-    rounded = 'rounded'
+    rounded = 'rounded',
+    square = 'square'
 }
 
 type Props = TBaseProps & {
-    id: string,
-    height: number,
-    src: string,
-    title: string,
     description: string,
-    width: string,
-    textPosition: TextPosition,
-    shape: Shape,
-    style: object,
+    height: number,
+    id: string,
     onClick(): void,
+    shape: Shape,
+    src: string,
+    style: object,
+    textPosition: TextPosition,
+    title: string,
+    width: string
 }
 
 export function Image({
@@ -67,14 +67,16 @@ export function Image({
                     })}
                     style={{ ...style, ...propsStyle }}
                 >
-                    {/* eslint-disable-next-line jsx-a11y/img-redundant-alt,jsx-a11y/no-noninteractive-element-interactions */}
-                    <img
-                        className="n2o-image__image"
-                        src={src}
+                    <div
                         onClick={onClick}
-                        alt="image error"
-                        style={imageStyle}
-                    />
+                    >
+                        <img
+                            className="n2o-image__image"
+                            src={src}
+                            alt="img"
+                            style={imageStyle}
+                        />
+                    </div>
                 </section>
                 {hasInfo && <ImageInfo title={title} description={description} />}
             </div>

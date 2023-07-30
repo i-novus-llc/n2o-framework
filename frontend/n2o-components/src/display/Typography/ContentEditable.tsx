@@ -5,8 +5,8 @@ import { TBaseProps } from '../../types'
 import { moveCursorToEnd } from './utils'
 
 type Props = TBaseProps & {
-    editable: boolean,
     children: ReactNode,
+    editable: boolean,
     onChange(event: SyntheticEvent): void,
 }
 

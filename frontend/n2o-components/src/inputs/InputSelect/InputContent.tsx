@@ -241,7 +241,6 @@ export function InputContent({
                         className={cn('form-control n2o-inp', {
                             'n2o-inp--multi': multiSelect,
                         })}
-                        /* eslint-disable-next-line jsx-a11y/no-autofocus */
                         autoFocus={autoFocus}
                     />
                 </>
@@ -259,7 +258,6 @@ export function InputContent({
                     onBlur={onBlur}
                     type="text"
                     className="form-control n2o-inp"
-                    /* eslint-disable-next-line jsx-a11y/no-autofocus */
                     autoFocus={autoFocus}
                     autoComplete="nope"
                 />

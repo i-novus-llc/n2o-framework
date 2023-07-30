@@ -20,20 +20,18 @@ type CodeEditorProps = TBaseProps & TBaseInputProps<string> & {
     minLines?: number,
 }
 
-export const CodeEditor = (props: CodeEditorProps) => {
-    const {
-        disabled,
-        name,
-        visible,
-        lang = 'javascript',
-        value,
-        minLines = 5,
-        maxLines = 100,
-        autocomplete,
-        className,
-        onChange,
-    } = props
-
+export const CodeEditor = ({
+    disabled,
+    name,
+    visible,
+    lang = 'javascript',
+    value,
+    minLines = 5,
+    maxLines = 100,
+    autocomplete,
+    className,
+    onChange,
+}: CodeEditorProps) => {
     if (!visible) {
         return null
     }

@@ -2,10 +2,8 @@ import React, { useState } from 'react'
 import classNames from 'classnames'
 import { Button } from 'reactstrap'
 
-import { TBaseInputProps, TBaseProps } from '../../types'
-
 import '../../styles/controls/InputPassword.scss'
-
+import { TBaseInputProps, TBaseProps } from '../../types'
 import { Input } from '../Input'
 
 type InputPasswordProps = TBaseProps & TBaseInputProps<string> & {

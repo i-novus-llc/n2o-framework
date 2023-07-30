@@ -2,8 +2,8 @@ import React from 'react'
 import cn from 'classnames'
 
 export interface Props<TTag = HTMLDivElement> extends React.HTMLProps<TTag> {
+    disabled?: boolean,
     tag?: keyof React.ReactHTML
-    disabled?: boolean
 }
 
 // TODO сюда можно вынести повторяющуюся логику (visible, disable и тд)

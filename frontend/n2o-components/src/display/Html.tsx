@@ -4,8 +4,8 @@ import classNames from 'classnames'
 import { TBaseProps } from '../types'
 
 type Props = TBaseProps & {
-    id: string,
     html: string,
+    id: string
 }
 
 // eslint-disable-next-line react/no-danger

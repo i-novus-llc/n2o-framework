@@ -4,18 +4,20 @@ import classNames from 'classnames'
 import { RenderBodyPagingArgs } from './types'
 
 type Props = {
-    tabIndex: number,
+    // функция клика по кнопке пагинации
+    active?: boolean,
+    // текущая страница
+    disabled?: boolean,
     eventKey: RenderBodyPagingArgs['activePage'],
-    label: string | number | ReactNode | null, // текст внутри кнопки пагинации
-    onSelect(eventKey: RenderBodyPagingArgs['activePage'], event: MouseEvent<HTMLElement>): void, // функция клика по кнопке пагинации
-    active?: boolean, // текущая страница
-    disabled?: boolean, // флаг неактивноти кнопки пагинации
-    noBorder?: boolean, // флаг включения/выключения бордера
+    label: string | number | ReactNode | null,
+    // флаг неактивноти кнопки пагинации
+    noBorder?: boolean,
+    // текст внутри кнопки пагинации
+    onSelect(eventKey: RenderBodyPagingArgs['activePage'], event: MouseEvent<HTMLElement>): void,
+    tabIndex: number // флаг включения/выключения бордера
 }
 
-export const PaginationButton = (props: Props) => {
-    const { disabled, onSelect, eventKey, label, active, noBorder, tabIndex } = props
-
+export const PaginationButton = ({ disabled, onSelect, eventKey, label, active, noBorder, tabIndex }: Props) => {
     const handleClick = (e: MouseEvent<HTMLElement>) => {
         e.preventDefault()
 
@@ -29,19 +31,17 @@ export const PaginationButton = (props: Props) => {
     }
 
     return (
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
         <li
             className={classNames('page-item', { active, disabled })}
-            onClick={handleClick}
         >
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid,jsx-a11y/control-has-associated-label */}
-            <a
-                className={classNames('page-link', noBorder ? 'no-border' : '')}
-                href="#"
+            <button
+                type="button"
+                onClick={handleClick}
+                className={classNames('page-link link-button', noBorder ? 'no-border' : '')}
                 tabIndex={tabIndex}
             >
                 { label }
-            </a>
+            </button>
         </li>
     )
 }

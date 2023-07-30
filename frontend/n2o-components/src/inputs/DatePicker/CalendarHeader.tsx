@@ -26,10 +26,9 @@ export class CalendarHeader extends React.Component<CalendarHeaderProps> {
         if (type === CalendarType.BY_DAYS) {
             return (
                 <>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a
-                        className="n2o-calendar-header-month-title capitalize"
-                        href="#"
+                    <button
+                        type="button"
+                        className="n2o-calendar-header-month-title capitalize link-button"
                         onClick={(e) => {
                             e.preventDefault()
                             const { changeCalendarType } = this.props
@@ -38,13 +37,12 @@ export class CalendarHeader extends React.Component<CalendarHeaderProps> {
                         }}
                     >
                         {withLocale(displayesMonth, locale).format('MMMM')}
-                    </a>
+                    </button>
 
           &nbsp;
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a
-                        className="n2o-calendar-header-year-title"
-                        href="#"
+                    <button
+                        type="button"
+                        className="n2o-calendar-header-year-title link-button"
                         onClick={(e) => {
                             e.preventDefault()
                             const { changeCalendarType } = this.props
@@ -53,7 +51,7 @@ export class CalendarHeader extends React.Component<CalendarHeaderProps> {
                         }}
                     >
                         {displayesMonth.format('YYYY')}
-                    </a>
+                    </button>
                 </>
             )
         }
@@ -66,30 +64,30 @@ export class CalendarHeader extends React.Component<CalendarHeaderProps> {
             const decadeStart = parseInt(String(+displayesMonth.format('YYYY') / 10), 10) * 10
 
             return (
-                // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                <a
-                    href="#"
+                <button
+                    type="button"
+                    className="link-button"
                     onClick={(e) => {
                         e.preventDefault()
                     }}
                 >
                     {`${decadeStart}-${decadeStart + 9}`}
-                </a>
+                </button>
             )
         }
         if (type === CalendarType.TIME_PICKER) {
             const { t } = this.props
 
             return (
-                // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                <a
-                    href="#"
+                <button
+                    type="button"
+                    className="link-button"
                     onClick={(e) => {
                         e.preventDefault()
                     }}
                 >
                     {t('chooseTime')}
-                </a>
+                </button>
             )
         }
 

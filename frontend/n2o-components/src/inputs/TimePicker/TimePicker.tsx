@@ -14,11 +14,9 @@ import { Row, Col } from 'reactstrap'
 import { Manager, Reference, Popper } from 'react-popper'
 import scrollIntoView from 'scroll-into-view-if-needed'
 
-import { InputIcon } from '../../display/InputIcon'
-import { TBaseInputProps, TBaseProps } from '../../types'
-
 import '../../styles/controls/TimePicker.scss'
-
+import { TBaseInputProps, TBaseProps } from '../../types'
+import { InputIcon } from '../../display/InputIcon'
 import { InputText } from '../InputText'
 
 const HOURS = 'hours'
@@ -51,7 +49,7 @@ const reference: Record<Mode, Record<string, string | number>> = {
 
 const toTime = (value: number, noZero?: boolean) => (value < 10 && !noZero ? `0${value}` : value)
 
-const handlePrevent: MouseEventHandler<HTMLAnchorElement> = (e) => {
+const handlePrevent: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault()
 }
 
@@ -216,7 +214,7 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
         this.setState(state => ({ ...state, open: !state.open }))
     }
 
-    handleChangeValue = (mode: Mode, value: number): MouseEventHandler<HTMLAnchorElement> => (e) => {
+    handleChangeValue = (mode: Mode, value: number): MouseEventHandler<HTMLButtonElement> => (e) => {
         const {
             [HOURS]: hours,
             [MINUTES]: minutes,
@@ -267,11 +265,10 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
         const { [mode]: modeValue } = this.state
 
         return map(countersArray, (val, index) => (
-            // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            <a
+            <button
+                type="button"
                 key={index}
                 ref={index === modeValue ? this[`${mode}Ref` as keyof TimePicker] : null}
-                href="#"
                 className={cn('dropdown-item n2o-time-picker__panel__item', {
                     active: index === modeValue,
                 })}
@@ -279,7 +276,7 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
                 onClick={handlePrevent}
             >
                 {toTime(index, noZero)}
-            </a>
+            </button>
         ))
     }
 

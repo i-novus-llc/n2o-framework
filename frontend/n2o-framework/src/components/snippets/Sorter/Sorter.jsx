@@ -65,14 +65,13 @@ export class Sorter extends React.Component {
         })
 
         return (
-            // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            <a href="#" title={title} tabIndex={-1} onClick={this.handleClick}>
+            <button type="button" className="link-button" title={title} tabIndex={-1} onClick={this.handleClick}>
                 {children}
                 {' '}
                 {iconClass && (
                     <i className={classNames('n2o-sorting-icon', iconClass)} aria-hidden="true" />
                 )}
-            </a>
+            </button>
         )
     }
 }

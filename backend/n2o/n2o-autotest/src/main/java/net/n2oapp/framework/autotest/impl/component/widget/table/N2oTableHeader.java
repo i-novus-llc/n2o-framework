@@ -11,6 +11,7 @@ import java.time.Duration;
  * Заголовки столбцов таблицы для автотестирования
  */
 public abstract class N2oTableHeader extends N2oComponent implements TableHeader {
+
     @Override
     public void shouldHaveTitle(String title, Duration... duration) {
         should(Condition.text(title), duration);
@@ -27,7 +28,7 @@ public abstract class N2oTableHeader extends N2oComponent implements TableHeader
         if (elm.exists())
             elm.click();
         else
-            element().$("a").should(Condition.exist).click();
+            element().$("button").should(Condition.exist).click();
     }
 
     @Override

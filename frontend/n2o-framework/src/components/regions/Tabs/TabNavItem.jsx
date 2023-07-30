@@ -33,16 +33,15 @@ export class TabNavItem extends React.Component {
 
         return (
             <li style={style} className="nav-item">
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a
+                <button
+                    type="button"
                     onClick={this.handleClick}
-                    className={classNames('nav-link', { active, disabled })}
-                    href="#"
+                    className={classNames('nav-link link-button', { active, disabled })}
                 >
                     {icon && <span className={icon} />}
                     {' '}
                     {title}
-                </a>
+                </button>
             </li>
         )
     }

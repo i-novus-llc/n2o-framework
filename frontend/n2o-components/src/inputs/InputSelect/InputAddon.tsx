@@ -22,8 +22,8 @@ export function InputAddon({ item, iconFieldId, imageFieldId, setRef }: Props) {
     return item[iconFieldId as keyof TOption] || item[imageFieldId as keyof TOption] ? (
         <span className="selected-item selected-item--single" ref={setRef}>
             {iconFieldId && item[iconFieldId as keyof TOption] && <i className={item[iconFieldId as keyof TOption]} />}
-            {/* eslint-disable-next-line jsx-a11y/alt-text */}
-            {imageFieldId && item[imageFieldId as keyof TOption] && <img src={item[imageFieldId as keyof TOption]} />}
+            {imageFieldId &&
+            item[imageFieldId as keyof TOption] && <img src={item[imageFieldId as keyof TOption]} alt={item.label} />}
         </span>
     ) : null
 }

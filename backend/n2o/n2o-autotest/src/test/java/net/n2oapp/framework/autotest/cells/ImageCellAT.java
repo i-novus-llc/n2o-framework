@@ -35,15 +35,22 @@ public class ImageCellAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
-                new N2oCellsPack(), new N2oAllDataPack());
+        builder.packs(
+                new N2oPagesPack(),
+                new N2oApplicationPack(),
+                new N2oWidgetsPack(),
+                new N2oCellsPack(),
+                new N2oAllDataPack()
+        );
     }
 
     @Test
     public void imageCellTest() {
         setJsonPath("net/n2oapp/framework/autotest/cells/image/simple");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image/simple/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/image/simple/testTable.query.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/cells/image/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/image/simple/testTable.query.xml")
+        );
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
@@ -60,8 +67,10 @@ public class ImageCellAT extends AutoTestBase {
     @Test
     public void imageCellWithTitleTest() {
         setJsonPath("net/n2oapp/framework/autotest/cells/image/title");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image/title/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/image/title/test.query.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/cells/image/title/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/image/title/test.query.xml")
+        );
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
@@ -86,8 +95,10 @@ public class ImageCellAT extends AutoTestBase {
     @Test
     public void imageCellWithStatusTest() {
         setJsonPath("net/n2oapp/framework/autotest/cells/image/status");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image/status/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/image/status/test.query.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/cells/image/status/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/image/status/test.query.xml")
+        );
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();

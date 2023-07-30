@@ -75,6 +75,7 @@ export const useSecurityController = (securityConfig) => {
         if (!isEmpty(config)) {
             checkPermissions(config)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user, params, config])
 
     useEffect(() => {

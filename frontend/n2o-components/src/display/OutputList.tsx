@@ -16,9 +16,7 @@ type OutputListProps = TBaseProps & TBaseInputProps<Array<Record<string, unknown
     target?: string
 }
 
-export const OutputList = (props: OutputListProps) => {
-    const { value = [], className, direction = 'column', ...rest } = props
-
+export const OutputList = ({ value = [], className, direction = 'column', ...rest }: OutputListProps) => {
     const directionClassName = `n2o-output-list--${direction}`
 
     return (

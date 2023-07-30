@@ -122,7 +122,7 @@ class ImageUploaderItem extends React.Component {
                                 'n2o-image-uploader--img--shape-circle': shapeCircle,
                             })}
                             src={imgSrc}
-                            alt={!shapeCircle ? 'upload error' : ''}
+                            alt={file.name}
                             style={omit(customUploaderSize, 'height')}
                         />
                     </a>
@@ -166,7 +166,7 @@ class ImageUploaderItem extends React.Component {
                         <img
                             className="n2o-image-uploader__modal--image"
                             src={imgSrc}
-                            alt="upload error"
+                            alt="modal"
                         />
                     </div>
                 </Modal>

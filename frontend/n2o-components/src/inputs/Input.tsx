@@ -145,7 +145,6 @@ export class Input extends React.Component<Props> {
                 name={name}
                 type={type}
                 disabled={disabled}
-                /* eslint-disable-next-line jsx-a11y/no-autofocus */
                 autoFocus={autoFocus}
                 value={value}
                 onPaste={onPaste}

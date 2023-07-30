@@ -6,9 +6,10 @@ import { TBaseProps } from '../types'
 import { parseFormatter } from '../utils/parseFormatter'
 
 type Props = TBaseProps & {
-    text: string,
-    format: string, // формат времени
-    preLine: boolean, // флаг переноса текста
+    format: string,
+    // формат времени
+    preLine: boolean,
+    text: string // флаг переноса текста
 }
 
 export function Text({ text, format, preLine, className, ...rest }: Props) {

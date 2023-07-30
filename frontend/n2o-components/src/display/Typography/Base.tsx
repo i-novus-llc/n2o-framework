@@ -59,20 +59,29 @@ const MainTag = ({ tag, color, className, ...props }: MainTagProps) => createEle
 })
 
 type Props = TBaseProps & Partial<{
-    code: boolean, // Флаг отображения в виде кода
-    del: boolean,
-    mark: boolean, // Марк
-    strong: boolean, // Жирный текст
-    underline: boolean, // Подчеркивание текста
-    small: boolean, // Флаг отображения текста маленьким
-    text: string, // Текст
-    color: string, // Цвет
-    tag: string,
-    format: string,
-    copyable: boolean, // Редактируемое поле
-    editable: boolean, // Возможность копировать
+    // Возможность копировать
     children: ReactNode,
-    onChange(textContext: string | null): void, // Callback на изменение
+    code: boolean,
+    // Текст
+    color: string,
+    copyable: boolean,
+    // Флаг отображения в виде кода
+    del: boolean,
+    // Редактируемое поле
+    editable: boolean,
+    format: string,
+    mark: boolean,
+    onChange(textContext: string | null): void,
+    // Подчеркивание текста
+    small: boolean,
+    // Марк
+    strong: boolean,
+    // Цвет
+    tag: string,
+    // Флаг отображения текста маленьким
+    text: string,
+    // Жирный текст
+    underline: boolean // Callback на изменение
 }>
 
 type State = {
@@ -145,20 +154,18 @@ export class Base extends Component<Props, State> {
         const copiableFragment = (
             <span style={ICON_STYLE}>
                 <CopyToClipboard text={text || ''}>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a href="#" className="pl-2" onClick={this.copyLinkClick}>
+                    <button type="button" className="pl-2 link-button" onClick={this.copyLinkClick}>
                         <i className={copyIcon} />
-                    </a>
+                    </button>
                 </CopyToClipboard>
             </span>
         )
 
         const editableFragment = edit ? null : (
             <span style={ICON_STYLE}>
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a href="#" className="pl-2" onClick={this.editLinkClick}>
+                <button type="button" className="pl-2 link-button" onClick={this.editLinkClick}>
                     <i className="fa fa-pencil" />
-                </a>
+                </button>
             </span>
         )
 

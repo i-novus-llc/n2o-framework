@@ -75,6 +75,8 @@
     "yoda": ["off"],
     // Запрет <a href="#"> или <a href="javascript:void(0)">
     "jsx-a11y/anchor-is-valid": ["error", {"aspects": ["invalidHref"]}],
+    // Теперь при совпаднии значений htmlFor у элемента и id у инпута не будет ошибки 
+    "jsx-a11y/label-has-associated-control": ["error", {"required": {"some": ["nesting", "id"]}}],
     // Выключаем, чтоб можно было использовать await в циклах
     "no-await-in-loop": ["off"],
     // Выключаем, чтоб можно было использовать setState в componentDidUpdate
@@ -110,6 +112,8 @@
     "jsx-a11y/click-events-have-key-events": "off",
     // Теперь можно вешать обработчики на статические элементы, а не только на кнопки, чекбоксы, поля и прочее
     "jsx-a11y/no-static-element-interactions": "off",
+    // Теперь в input можно передавать autoFocus
+    "jsx-a11y/no-autofocus": "off",
     // off правил. иначе падает ошибка: Definition for rule was not found
     "react/jsx-curly-newline": "off", // TODO ["error", { "multiline": "require", "singleline": "forbid" }]
     "react/state-in-constructor": "off",
