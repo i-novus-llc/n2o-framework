@@ -128,6 +128,15 @@ export type RowContainerProps = {
 
 export type RowResolverProps = Omit<RowContainerProps, | 'hasSelect'>
 
+export type DataRowProps = {
+    selection: RowContainerProps['selection']
+    data: RowContainerProps['data']
+    onClick?(data: RowContainerProps['data']): void
+    onSelection?(data: RowContainerProps['data']): void
+    style: Record<string, any>
+    [x: string]: any
+}
+
 export type HeaderFilterProps = {
     id: string
 } & Required<Pick<HeaderCell, 'filterControl'>>
