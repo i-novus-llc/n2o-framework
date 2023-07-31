@@ -149,12 +149,17 @@ function* switchTab(action) {
 
             /* list of visible tabs of the region */
             const passedEntities = get(visibleEntity, regionId, [])
+            const { href } = window.location
+            /* every passed ids are outside the current url */
+            const outsideOfUrl = passedEntities.every(id => !href.includes(id))
 
             if (passedEntities.includes(active)) {
                 const currentRegion = get(state, `regions.${regionId}`)
                 const { datasource, activeTabFieldId } = currentRegion
 
-                yield mapUrl(active)
+                if (outsideOfUrl) {
+                    yield mapUrl(active)
+                }
 
                 if (datasource && activeTabFieldId) {
                     yield put(updateModel(ModelPrefix.active, datasource, activeTabFieldId, active))
