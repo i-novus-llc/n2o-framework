@@ -23,81 +23,209 @@ http://n2oapp.net/framework/config/schema/cell-3.0
 |style       |CSS свойство   |Стиль компонента ячейки|                                                                                  |
 |visible     |true false     |Видимость ячейки       |                                                                                  |
 
-### &lt;text&gt; {#text}
 
-Текст со стилем или без.
+
+
+
+
+
+
+### &lt;badge&gt; {#badge}
+
+Ячейка со значком.
 
 **Атрибуты**
 
-|Наименование    |Тип       |Описание                                |Значение по умолчанию|
-|----------------|----------|----------------------------------------|---------------------|
-|format          |Строка    |Формат текста                           |                     |
-|subtext-field-id|Строка    |Идентификатор поля второго уровня текста|                     |
-|subtext-format  |Строка    |Формат второго уровня текста            |                     |
-|icon            |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Иконка                                  |                     |
-|icon-position   |left right|Позиция иконки                          |left                 |
+|Наименование   |Тип                     |Описание                                      |Значение по умолчанию|
+|---------------|------------------------|----------------------------------------------|---------------------|
+|position       |right left              |Расположение                                  |                     |
+|text           |Строка                  |Текст вне значка                              |                     |
+|color          |primary secondary success danger warning info light dark               |Цвет значка. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)|         |
+|format         |Строка                  |Формат текста в значке                        |                     |
+|text-format    |Строка                  |Формат текста вне значка                      |                     |
+|shape          |square circle rounded   |Форма значка                                  |square               |
+|image-field-id |Строка                  |Поле выборки, отвечающее за картинку в значке |                     |
+|image-position |right left              |Позиция картинки в значке                     |left                 |
+|image-shape    |square circle rounded   |Форма картинки в значке                       |circle               |
 
 **Настройки**
 ```yaml
-#значение по умолчанию для позиции иконки у TextCell
-n2o.api.cell.text.icon_position=left
+#Форма значка BadgeCell
+n2o.api.cell.badge.shape=square
+#Позиция картинки в значке BadgeCell
+n2o.api.cell.badge.image_position=left
+#Форма картинки в значке BadgeCell
+n2o.api.cell.badge.image_shape=circle
 ```
 
 **Тело**<br/>
-&lt;switch&gt; - [Переключатель](#switch)
-
-:::note
-
-Сам текст берется из значения *text-field-id* в родительском элементе.
-
-:::
+&lt;switch&gt; - [Переключатель](../xml/base#switch_in_base)
 
 **Пример**
-
 ```xml
-<text class="font-weight-bold" style="color:red;"/> <!--Жирный шрифт-->
+<badge text="{status}" position="right">
+  <switch>
+       <case value="1">success</case>
+       <case value="2">danger</case>
+       <default>info</default>
+  </switch>
+</badge>
+```
+<Sandbox height={230} projectId="uxcomponents_cells_badge" />
+
+
+
+
+
+
+
+
+### &lt;cell&gt; {#cell}
+
+Настраиваемая ячейка.
+
+**Пример**
+```xml
+<cell src="MyCell"
+  ext:prop1="value1"
+  ext:prop2="value2">
+</cell>
 ```
 
-<Sandbox height={200} projectId="uxcomponents_cells_text" />
 
-### &lt;link&gt; {#link_cell}
 
-Ссылка.
+
+
+### &lt;checkbox&gt; {#checkbox}
+
+Чекбокс.
+
+:::note
+Значение true или false берется из значения *text-field-id*.
+:::
 
 **Атрибуты**
 
-|Наименование|Тип                                                                                     |Описание                                                   |Значение по умолчанию|
-|------------|----------------------------------------------------------------------------------------|-----------------------------------------------------------|---------------------|
-|url         |Строка                                                                                  |Адрес URL открываемой страницы                             |                     |
-|target      |self newWindow application                                                              |Сценарий открытия ссылки                                   |                     |
-|action-id   |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions) |Действие виджета, которое будет вызвано при клике по ссылке|                     |
-|icon        |[Класс иконки](https://fontawesome.com/v4.7/icons/)                                     |Иконка ссылки                                              |                     |
-|type        |text icon iconAndText                                                                   |Текст с иконкой или без                                    |text                 |
-
-
-**Настройки**
-```yaml
-#Текст с иконкой или без
-n2o.api.cell.link.type=text
-```
+|Наименование|Тип                                                                                     |Описание                                                    |Значение по умолчанию                       |
+|------------|----------------------------------------------------------------------------------------|------------------------------------------------------------|--------------------------------------------|
+|enabled     |true false                                                                              |Доступность чекбокса                                        |Если есть действие, то `true`, иначе `false`|
+|action-id   |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions) |Ссылка на действие, которое выполнится при клике по чекбоксу|                                            |
 
 **Тело**<br/>
 [Обработчики действий](../xml/action)
 
 **Пример**
-
 ```xml
-<link action-id="update"/>
+<checkbox action-id="update"/>
 ```
 
 ```xml
-<link>
+<checkbox>
   <invoke operation-id="update"/>
-  <open-page page-id="personCard"/>
-</link>
+</checkbox>
+```
+<Sandbox height={250} projectId="uxcomponents_cells_checkbox" />
+
+
+
+
+
+
+### &lt;edit&gt; {#edit}
+Редактирование значения.
+
+**Атрибуты**
+
+|Наименование|Тип                                                                                    |Описание                                                                    |Значение по умолчанию|
+|------------|---------------------------------------------------------------------------------------|----------------------------------------------------------------------------|---------------------|
+|action-id   |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions)|Ссылка на действие виджета, которое выполнятся при завершении редактирования|                     |
+|type        |inline popup                                                                           |Расположение                                                                |inline               |
+|format      |Строка                                                                                 |Формат текста                                                               |                     |
+|enabled     |true false                                                                             |Условие доступности                                                         |true                 |
+
+**Настройки**
+```yaml
+#Расположение
+n2o.api.cell.edit.type=inline
+#Доступность для редактирования
+n2o.api.cell.edit.enabled=true
 ```
 
-<Sandbox height={220} projectId="uxcomponents_cells_link" />
+**Тело**<br/>
+&lt;input-text&gt; - [Компонент ввода однострочного текста или чисел](../xml/field#input-text)<br/>
+&lt;input-select&gt; - [Компонент ввода текста с выбором из выпадающего списка](../xml/field#input-select)<br/>
+&lt;date-time&gt; - [Компонент ввода даты и времени](../xml/field#date-time)<br/>
+&lt;field&gt; - [Произвольный React компонент](../xml/field#field)<br/>
+&lt;action&gt; - [Список действий](#action)
+
+**Пример**
+
+```xml
+<edit action-id="create,update" type="popup">
+  <date-time id="birthday"/>
+</edit>
+```
+
+
+
+
+
+### &lt;file-upload&gt; {#file-upload-cell}
+
+Загрузка файлов.
+
+**Атрибуты**
+
+|Наименование    |Тип                                                               |Описание                                                |Значение по умолчанию|
+|----------------|------------------------------------------------------------------|--------------------------------------------------------|---------------------|
+|label           |Строка                                                            |Универсальный заголовок поля                            |                     |
+|multi           |true false                                                        |Поддержка загрузки нескольких файлов                    |false                |
+|ajax            |true false                                                        |Поддержка загрузки через ajax запрос                    |true                 |
+|upload-url      |Строка                                                            |URL загрузки файла                                      |                     |
+|delete-url      |Строка                                                            |URL удаления файла                                      |                     |
+|value-field-id  |Строка                                                            |Поле выборки, содержащее идентификатор файла            |id                   |
+|label-field-id  |Строка                                                            |Поле выборки, содержащее наименование файла             |name                 |
+|message-field-id|Строка                                                            |Поле выборки, содержащее сообщение файла                |message              |
+|url-field-id    |Строка                                                            |Поле выборки, содержащее URL скачивания файла           |url                  |
+|request-param   |Строка                                                            |Наименование поля в запросе miltipart form data         |file                 |
+|show-size       |true false                                                        |Отображение размера файла                               |true                 |
+|accept          |Строка                                                            |Доступные расширения файлов (через запятую)             |                     |
+|delete-icon     |[Класс иконки](https://fontawesome.com/v4.7/icons/)               |Иконка удаления файлов                                  |                     |
+|upload-icon     |[Класс иконки](https://fontawesome.com/v4.7/icons/)               |Иконка загрузки файлов                                  |                     |
+
+**Настройки**
+```yaml
+#Поддержка загрузки нескольких файлов
+n2o.api.cell.file_upload.multi=false
+#Поддержка загрузки через ajax запрос
+n2o.api.cell.file_upload.ajax=true
+#Поле выборки, содержащее идентификатор файла по умолчанию для file-upload
+n2o.api.cell.file_upload.value_field_id=id
+#Поле выборки, содержащее наименование файла по умолчанию для file-upload
+n2o.api.cell.file_upload.label_field_id=name
+#Поле выборки, содержащее URL скачивания файла по умолчанию для file-upload
+n2o.api.cell.file_upload.url_field_id=url
+#Поле выборки, содержащее сообщение файла по умолчанию для file-upload
+n2o.api.cell.file_upload.message_field_id=message
+#Наименование поля в запросе miltipart form data
+n2o.api.cell.file_upload.request_param=file
+#Отображение размера файла по умолчанию для file-upload
+n2o.api.cell.file_upload.show_size=true
+```
+
+**Пример**
+
+```xml
+<file-upload label="Загрузить файл"
+             upload-url="/files/upload"
+             delete-url="/files/delete"
+             accept=".img,.png"/>
+```
+
+
+
+
+
 
 ### &lt;icon&gt; {#icon}
 
@@ -119,7 +247,7 @@ n2o.api.cell.icon.type=icon
 ```
 
 **Тело**<br/>
-&lt;switch&gt; - [Переключатель](#switch)
+&lt;switch&gt; - [Переключатель](../xml/base#switch_in_base)
 
 **Пример**
 
@@ -139,75 +267,9 @@ n2o.api.cell.icon.type=icon
 
 <Sandbox height={250} projectId="uxcomponents_cells_icon" />
 
-### &lt;checkbox&gt; {#checkbox}
-
-Чекбокс.
-
-:::note
-
-Значение true или false берется из значения *text-field-id*.
-
-:::
-
-**Атрибуты**
-
-|Наименование|Тип                                                                                     |Описание                                                    |Значение по умолчанию                       |
-|------------|----------------------------------------------------------------------------------------|------------------------------------------------------------|--------------------------------------------|
-|enabled     |true false                                                                              |Доступность чекбокса                                        |Если есть действие, то `true`, иначе `false`|
-|action-id   |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions) |Ссылка на действие, которое выполнится при клике по чекбоксу|                                            |
-
-**Тело**<br/>
-[Обработчики действий](../xml/action)
-
-**Пример**
-
-```xml
-<checkbox action-id="update"/>
-```
-
-```xml
-<checkbox>
-  <invoke operation-id="update"/>
-</checkbox>
-```
-
-<Sandbox height={250} projectId="uxcomponents_cells_checkbox" />
-
-### &lt;progress&gt; {#progress}
-
-Индикатор прогресса.
-
-**Атрибуты**
-
-|Наименование|Тип                                                                            |Описание                   |Значение по умолчанию|
-|------------|-------------------------------------------------------------------------------|---------------------------|---------------------|
-|class       |[CSS класс](https://getbootstrap.com/docs/4.0/components/progress/#backgrounds)|Класс компонента индикатора|                     |
-|active      |true false                                                                     |С анимацией загрузки?      |false                |
-|size        |large normal small                                                             |Размер индикатора прогресса|normal               |
-|striped     |true false                                                                     |С полосками?               |false                |
-|color       |primary secondary success danger warning info light dark                       |Цвет индикатора. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)             |                     |
 
 
-**Настройки**
-```yaml
-# С анимацией загрузки
-n2o.api.cell.progress.active=false
-# С анимацией загрузки
-n2o.api.cell.progress.size=normal
-# С полосками
-n2o.api.cell.progress.striped=false
-```
 
-**Пример**
-
-```xml
-<progress
-  value="50"
-  class="bg-success"
-  size="small"/>
-```
-
-<Sandbox height={200} projectId="uxcomponents_cells_progress" />
 
 ### &lt;image&gt; {#image}
 
@@ -297,152 +359,52 @@ n2o.api.cell.image.status_place=topLeft
 #### &lt;action&gt;
 Действие ячейки.
 
+`**Тело**<br/>
+[Обработчики действий](../xml/action)`
+
+
+
+
+
+### &lt;link&gt; {#link_cell}
+
+Ссылка.
+
+**Атрибуты**
+
+|Наименование|Тип                                                                                     |Описание                                                   |Значение по умолчанию|
+|------------|----------------------------------------------------------------------------------------|-----------------------------------------------------------|---------------------|
+|url         |Строка                                                                                  |Адрес URL открываемой страницы                             |                     |
+|target      |self newWindow application                                                              |Сценарий открытия ссылки                                   |                     |
+|action-id   |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions) |Действие виджета, которое будет вызвано при клике по ссылке|                     |
+|icon        |[Класс иконки](https://fontawesome.com/v4.7/icons/)                                     |Иконка ссылки                                              |                     |
+|type        |text icon iconAndText                                                                   |Текст с иконкой или без                                    |text                 |
+
+
+**Настройки**
+```yaml
+#Текст с иконкой или без
+n2o.api.cell.link.type=text
+```
+
 **Тело**<br/>
 [Обработчики действий](../xml/action)
 
-### &lt;file-upload&gt; {#file-upload-cell}
-
-Загрузка файлов.
-
-**Атрибуты**
-
-|Наименование    |Тип                                                               |Описание                                                |Значение по умолчанию|
-|----------------|------------------------------------------------------------------|--------------------------------------------------------|---------------------|
-|label           |Строка                                                            |Универсальный заголовок поля                            |                     |
-|multi           |true false                                                        |Поддержка загрузки нескольких файлов                    |false                |
-|ajax            |true false                                                        |Поддержка загрузки через ajax запрос                    |true                 |
-|upload-url      |Строка                                                            |URL загрузки файла                                      |                     |
-|delete-url      |Строка                                                            |URL удаления файла                                      |                     |
-|value-field-id  |Строка                                                            |Поле выборки, содержащее идентификатор файла            |id                   |
-|label-field-id  |Строка                                                            |Поле выборки, содержащее наименование файла             |name                 |
-|message-field-id|Строка                                                            |Поле выборки, содержащее сообщение файла                |message              |
-|url-field-id    |Строка                                                            |Поле выборки, содержащее URL скачивания файла           |url                  |
-|request-param   |Строка                                                            |Наименование поля в запросе miltipart form data         |file                 |
-|show-size       |true false                                                        |Отображение размера файла                               |true                 |
-|accept          |Строка                                                            |Доступные расширения файлов (через запятую)             |                     |
-|delete-icon     |[Класс иконки](https://fontawesome.com/v4.7/icons/)               |Иконка удаления файлов                                  |                     |
-|upload-icon     |[Класс иконки](https://fontawesome.com/v4.7/icons/)               |Иконка загрузки файлов                                  |                     |
-
-**Настройки**
-```yaml
-#Поддержка загрузки нескольких файлов
-n2o.api.cell.file_upload.multi=false
-#Поддержка загрузки через ajax запрос
-n2o.api.cell.file_upload.ajax=true
-#Поле выборки, содержащее идентификатор файла по умолчанию для file-upload
-n2o.api.cell.file_upload.value_field_id=id
-#Поле выборки, содержащее наименование файла по умолчанию для file-upload
-n2o.api.cell.file_upload.label_field_id=name
-#Поле выборки, содержащее URL скачивания файла по умолчанию для file-upload
-n2o.api.cell.file_upload.url_field_id=url
-#Поле выборки, содержащее сообщение файла по умолчанию для file-upload
-n2o.api.cell.file_upload.message_field_id=message
-#Наименование поля в запросе miltipart form data
-n2o.api.cell.file_upload.request_param=file
-#Отображение размера файла по умолчанию для file-upload
-n2o.api.cell.file_upload.show_size=true
-```
-
 **Пример**
 
 ```xml
-<file-upload label="Загрузить файл"
-             upload-url="/files/upload"
-             delete-url="/files/delete"
-             accept=".img,.png"/>
+<link action-id="update"/>
 ```
-
-
-
-### &lt;edit&gt; {#edit}
-Редактирование значения.
-
-**Атрибуты**
-
-|Наименование|Тип                                                                                    |Описание                                                                    |Значение по умолчанию|
-|------------|---------------------------------------------------------------------------------------|----------------------------------------------------------------------------|---------------------|
-|action-id   |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions)|Ссылка на действие виджета, которое выполнятся при завершении редактирования|                     |
-|type        |inline popup                                                                           |Расположение                                                                |inline               |
-|format      |Строка                                                                                 |Формат текста                                                               |                     |
-|enabled     |true false                                                                             |Условие доступности                                                         |true                 |
-
-**Настройки**
-```yaml
-#Расположение
-n2o.api.cell.edit.type=inline
-#Доступность для редактирования
-n2o.api.cell.edit.enabled=true
-```
-
-**Тело**<br/>
-&lt;input-text&gt; - [Компонент ввода однострочного текста или чисел](../xml/field#input-text)<br/>
-&lt;input-select&gt; - [Компонент ввода текста с выбором из выпадающего списка](../xml/field#input-select)<br/>
-&lt;date-time&gt; - [Компонент ввода даты и времени](../xml/field#date-time)<br/>
-&lt;field&gt; - [Произвольный React компонент](../xml/field#field)<br/>
-&lt;action&gt; - [Список действий](#action)
-
-**Пример**
 
 ```xml
-<edit action-id="create,update" type="popup">
-  <date-time id="birthday"/>
-</edit>
+<link>
+  <invoke operation-id="update"/>
+  <open-page page-id="personCard"/>
+</link>
 ```
 
-### &lt;toolbar&gt;
-Ячейка с кнопками.
+<Sandbox height={220} projectId="uxcomponents_cells_link" />
 
-[Меню управляющих кнопок](../xml/widget#widget_toolbar)
-
-**Пример**
-
-<Sandbox height={250} projectId="uxcomponents_cells_toolbar" />
-
-### &lt;badge&gt; {#badge}
-
-Ячейка со значком.
-
-**Атрибуты**
-
-|Наименование   |Тип                     |Описание                                      |Значение по умолчанию|
-|---------------|------------------------|----------------------------------------------|---------------------|
-|position       |right left              |Расположение                                  |                     |
-|text           |Строка                  |Текст вне значка                              |                     |
-|color          |primary secondary success danger warning info light dark               |Цвет значка. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)|         |
-|format         |Строка                  |Формат текста в значке                        |                     |
-|text-format    |Строка                  |Формат текста вне значка                      |                     |
-|shape          |square circle rounded   |Форма значка                                  |square               |
-|image-field-id |Строка                  |Поле выборки, отвечающее за картинку в значке |                     |
-|image-position |right left              |Позиция картинки в значке                     |left                 |
-|image-shape    |square circle rounded   |Форма картинки в значке                       |circle               |
-
-
-**Настройки**
-```yaml
-#Форма значка BadgeCell
-n2o.api.cell.badge.shape=square
-#Позиция картинки в значке BadgeCell
-n2o.api.cell.badge.image_position=left
-#Форма картинки в значке BadgeCell
-n2o.api.cell.badge.image_shape=circle
-```
-
-**Тело**<br/>
-&lt;switch&gt; - [Переключатель](#switch)
-
-**Пример**
-
-```xml
-<badge text="{status}" position="right">
-  <switch>
-       <case value="1">success</case>
-       <case value="2">danger</case>
-       <default>info</default>
-  </switch>
-</badge>
-```
-
-<Sandbox height={230} projectId="uxcomponents_cells_badge" />
 
 ### &lt;list&gt; {#list}
 
@@ -457,15 +419,56 @@ n2o.api.cell.badge.image_shape=circle
 |label-field-id|Вложенное поле столбца|Отображаемое поле в объекте, если столбец - массив объектов. Если отсутствует, то столбец является массивом строк.|                     |
 
 **Тело**<br/>
-&lt;switch&gt; - [Переключатель](#switch)
+&lt;switch&gt; - [Переключатель](../xml/base#switch_in_base)
+
+**Пример**
+```xml
+<list color="secondary" size="3"/>
+```
+<Sandbox height={200} projectId="uxcomponents_cells_list" />
+
+
+
+### &lt;progress&gt; {#progress}
+
+Индикатор прогресса.
+
+**Атрибуты**
+
+|Наименование|Тип                                                                            |Описание                   |Значение по умолчанию|
+|------------|-------------------------------------------------------------------------------|---------------------------|---------------------|
+|class       |[CSS класс](https://getbootstrap.com/docs/4.0/components/progress/#backgrounds)|Класс компонента индикатора|                     |
+|active      |true false                                                                     |С анимацией загрузки?      |false                |
+|size        |large normal small                                                             |Размер индикатора прогресса|normal               |
+|striped     |true false                                                                     |С полосками?               |false                |
+|color       |primary secondary success danger warning info light dark                       |Цвет индикатора. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)             |                     |
+
+
+**Настройки**
+```yaml
+# С анимацией загрузки
+n2o.api.cell.progress.active=false
+# С анимацией загрузки
+n2o.api.cell.progress.size=normal
+# С полосками
+n2o.api.cell.progress.striped=false
+```
 
 **Пример**
 
 ```xml
-<list color="secondary" size="3"/>
+<progress
+  value="50"
+  class="bg-success"
+  size="small"/>
 ```
 
-<Sandbox height={200} projectId="uxcomponents_cells_list" />
+<Sandbox height={200} projectId="uxcomponents_cells_progress" />
+
+
+
+
+
 
 ### &lt;rating&gt; {#rating}
 
@@ -512,37 +515,8 @@ n2o.api.cell.rating.readonly=true
 
 <Sandbox height={200} projectId="uxcomponents_cells_rating" />
 
-### &lt;tooltip-list&gt; {#tooltip-list}
 
-Ячейка с тултипом и раскрывающимся текстовым списком.
-Раскрывающийся список появляется при количестве элементов больше одного.
-Иначе ячейка будет пустой или отображать единственное значение.
 
-**Атрибуты**
-
-|Наименование|Тип        |Описание                                                                                                                                                                                                 |Значение по умолчанию|
-|------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
-|label       |Строка     |Универсальный заголовок поля. Нужно использовать либо универсальный заголовок, либо 2 вида заголовков (label-few, label-many) при разном числе элементов. Если не задать ни один, то ячейка будет пустой.|                     |
-|label-few   |Строка     |Заголовок поля при нескольких элементах                                                                                                                                                                  |                     |
-|label-many  |Строка     |Заголовок поля при большом числе элементов                                                                                                                                                               |                     |
-|dashed-label|true false |Подчеркивание заголовка пунктиром                                                                                                                                                                        |true                 |
-|trigger     |click hover|Действие, при котором раскрывается список                                                                                                                                                                |hover                |
-
-**Настройка**
-```yaml
-#триггер по умолчанию для ListTextCell
-n2o.api.cell.tooltip_list.trigger=hover
-#подчеркивание заголовка пунктиром по умолчанию для ListTextCell
-n2o.api.cell.tooltip_list.dashed_label=true
-```
-**Пример**
-
-```xml
-<tooltip-list label="Объектов {size} шт"/>
-<tooltip-list label-few="{size} объекта" label-many="{size} объектов"/>
-```
-
-<Sandbox height={200} projectId="uxcomponents_cells_list_in_tooltip" />
 
 ### &lt;switch&gt;
 Переключатель ячеек.
@@ -595,14 +569,87 @@ n2o.api.cell.tooltip_list.dashed_label=true
 [Ячейка](#General_properties)<br/>
 Тип ячейки, которая будет выбрана, если ни один из вариантов case не был выбран ранее.
 
-### &lt;cell&gt; {#cell}
 
-Настраиваемая ячейка.
 
+
+### &lt;text&gt; {#text}
+
+Текст со стилем или без.
+
+**Атрибуты**
+
+|Наименование    |Тип       |Описание                                |Значение по умолчанию|
+|----------------|----------|----------------------------------------|---------------------|
+|format          |Строка    |Формат текста                           |                     |
+|subtext-field-id|Строка    |Идентификатор поля второго уровня текста|                     |
+|subtext-format  |Строка    |Формат второго уровня текста            |                     |
+|icon            |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Иконка                                  |                     |
+|icon-position   |left right|Позиция иконки                          |left                 |
+
+**Настройки**
+```yaml
+#значение по умолчанию для позиции иконки у TextCell
+n2o.api.cell.text.icon_position=left
+```
+
+**Тело**<br/>
+&lt;switch&gt; - [Переключатель](../xml/base#switch_in_base)
+
+:::note
+Сам текст берется из значения *text-field-id* в родительском элементе.
+:::
 **Пример**
 ```xml
-<cell src="MyCell"
-  ext:prop1="value1"
-  ext:prop2="value2">
-</cell>
+<text class="font-weight-bold" style="color:red;"/> <!--Жирный шрифт-->
 ```
+<Sandbox height={200} projectId="uxcomponents_cells_text" />
+
+
+
+
+
+### &lt;toolbar&gt;
+Ячейка с кнопками.
+
+[Меню управляющих кнопок](../xml/widget#widget_toolbar)
+
+**Пример**
+
+<Sandbox height={250} projectId="uxcomponents_cells_toolbar" />
+
+
+
+
+
+### &lt;tooltip-list&gt; {#tooltip-list}
+
+Ячейка с тултипом и раскрывающимся текстовым списком.
+Раскрывающийся список появляется при количестве элементов больше одного.
+Иначе ячейка будет пустой или отображать единственное значение.
+
+**Атрибуты**
+
+|Наименование|Тип        |Описание                                                                                                                                                                                                 |Значение по умолчанию|
+|------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
+|label       |Строка     |Универсальный заголовок поля. Нужно использовать либо универсальный заголовок, либо 2 вида заголовков (label-few, label-many) при разном числе элементов. Если не задать ни один, то ячейка будет пустой.|                     |
+|label-few   |Строка     |Заголовок поля при нескольких элементах                                                                                                                                                                  |                     |
+|label-many  |Строка     |Заголовок поля при большом числе элементов                                                                                                                                                               |                     |
+|dashed-label|true false |Подчеркивание заголовка пунктиром                                                                                                                                                                        |true                 |
+|trigger     |click hover|Действие, при котором раскрывается список                                                                                                                                                                |hover                |
+
+**Настройка**
+```yaml
+#триггер по умолчанию для ListTextCell
+n2o.api.cell.tooltip_list.trigger=hover
+#подчеркивание заголовка пунктиром по умолчанию для ListTextCell
+n2o.api.cell.tooltip_list.dashed_label=true
+```
+**Пример**
+
+```xml
+<tooltip-list label="Объектов {size} шт"/>
+<tooltip-list label-few="{size} объекта" label-many="{size} объектов"/>
+```
+
+<Sandbox height={200} projectId="uxcomponents_cells_list_in_tooltip" />
+
