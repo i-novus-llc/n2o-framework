@@ -57,164 +57,276 @@ n2o.api.control.no_label_block=false
 |default-value|Строка|Значение по умолчанию простого компонента|                     |
 
 
-### &lt;input-text&gt;
+### &lt;alert&gt;
 
-Компонент ввода однострочного текста или чисел
-
-**Атрибуты**
-
-|Наименование|Тип                                  |Описание                                                                                                                              |Значение по умолчанию                                          |
-|------------|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-|domain      |string integer numeric byte short|Тип данных                                                                                                                            |                                                               |
-|precision   |Число                                |Максимальная длина дробной части (используется только для domain="numeric")                                                           |8                                                              |
-|length      |Число                                |Максимальное количество символов в тексте (используется только для domain="string")                                                   |                                                               |
-|max         |Число                                |Максимальное допустимое число (используется только для числовых domain)                                                               |                                                               |
-|min         |Число                                |Минимальное допустимое число (используется только для числовых domain)                                                                |                                                               |
-|step        |Строка                               |Шаг инкремента / декремента чисел (используется только для числовых domain). Если step="0", то кнопки "вверх вниз" будут отсутствовать|Для domain целых чисел step="1", для domain numeric step="0.01"|
-|measure     |Строка                               |Единица измерения                                                                                                                     |                                                               |
-
-**Настройки**
-```yaml
-# Максимальная длина дробной части
-n2o.api.control.input.text.precision=8
-```
-
-**Пример**
-
-```xml
-<input-text id="name" length="10" domain="string"/>
-```
-
-<Sandbox height={100} projectId="uxcomponents_fields_input" />
-
-### &lt;input-money&gt;
-
-Компонент ввода денежных единиц
+Компонент вывода оповещения
 
 **Атрибуты**
 
-|Наименование       |Тип              |Описание                                    |Значение по умолчанию|
-|-------------------|-----------------|--------------------------------------------|---------------------|
-|suffix             |Строка           |Суффикс                                     |                     |
-|prefix             |Строка           |Префикс                                     |                     |
-|thousands-separator|Строка           |Знак, отделяющий группу из трех разрядов    |                     |
-|decimal-separator  |Строка           |Знак, отделяющий дробную часть              |                     |
-|integer-limit      |Число            |Ограничение по количеству знаков целой части|                     |
-|fraction-formatting|off manual auto  |Форматирование дробной части                |off                  |
+|Наименование|Тип                                                      |Описание                                    |Значение по умолчанию|
+|------------|---------------------------------------------------------|--------------------------------------------|---------------------|
+|title       |Строка                                                   |Текст заголовка уведомления                 |                     |
+|text        |Строка                                                   |Текст уведомления                           |                     |
+|class       |CSS класс                                                |Класс компонента уведомления                |                     |
+|style       |CSS свойство                                             |Стиль компонента уведомления                |                     |
+|color       |primary secondary success danger warning info light dark |Цвет отображения уведомления                |secondary            |
+|href        |Строка                                                   |Ссылка для перехода при клике по уведомлению|                     |
+|close-button|true false                                               |Наличие кнопки закрытия уведомления         |false                |
 
 **Настройки**
 ```yaml
-# Форматирование дробной части
-n2o.api.control.input.money.fraction_formatting=off
-#префикс по умолчанию для input-money
-n2o.api.control.input_money.prefix=
-#суффикс по умолчанию для input-money
-n2o.api.control.input_money.suffix=
+# Цвет уведомления
+n2o.api.control.alert.color=secondary
+# Наличие кнопки закрытия уведомления
+n2o.api.control.alert.close_button=false
 ```
+
 **Пример**
-
 ```xml
-<input-money id="money" prefix="$" thousands-separator=" "
-    decimal-separator="," integer-limit="100" fraction-formatting="manual">
-</input-money>
+<alert title="title" text="text" style="width:90%" class="css-on-field"
+           close-button="true" color="info"
+           href="http://example.org"/>
 ```
+<Sandbox height={150} projectId="uxcomponents_alerts_simple" />
 
-<Sandbox height={100} projectId="uxcomponents_fields_input_money" />
 
-### &lt;password&gt;
 
-Компонент ввода пароля
+
+
+### &lt;button&gt;
+[Кнопка](../xml/button)
+
+
+
+
+
+
+### &lt;checkbox&gt;
+
+Компонент ввода флажок
 
 **Атрибуты**
 
-|Наименование|Тип       |Описание                                   |Значение по умолчанию|
-|------------|----------|-------------------------------------------|---------------------|
-|eye         |true false|Отображать кнопку "Показать пароль" или нет|true                 |
-|length      |Число     |Максимальная длина текста элемента         |                     |
+|Наименование |Тип        |Описание                            |Значение по умолчанию |
+|-------------|-----------|------------------------------------|----------------------|
+|unchecked    |null false |Значение при не выбранном состоянии |null                  |
 
 **Настройки**
 ```yaml
-# Отображать кнопку "Показать пароль" или нет
-n2o.api.control.password.eye=true
+# Значение при не выбранном состоянии
+n2o.api.control.checkbox.unchecked=null
 ```
+
 **Пример**
-
 ```xml
-<password id="password" eye="true"/>
+<checkbox id="vip" unchecked="false"/>
 ```
+<Sandbox height={150} projectId="uxcomponents_checkbox_simple"/>
 
-<Sandbox height={100} projectId="uxcomponents_fields_password" />
 
-### &lt;output-text&gt;
 
-Компонент вывода однострочного текста
+
+
+
+
+### &lt;code&gt;
+
+Компонент для просмотра программного кода с подсветкой синтаксиса
 
 **Атрибуты**
 
-|Наименование|Тип             |Описание                               |Значение по умолчанию|
-|------------|----------------|---------------------------------------|---------------------|
-|icon        |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Иконка                    |
-|type        |icon iconAndText|Иконка с текстом или без               |                     |
-|format      |Строка          |Формат выводимого текста               |                     |
-|position    |left right      |Расположение иконки относительно текста|left                 |
+|Наименование        |Тип                               |Описание                                          |Значение по умолчанию|
+|--------------------|----------------------------------|--------------------------------------------------|---------------------|
+|language            |sql xml javascript groovy java    |Язык кода                                         |                     |
+|theme               |light dark                        |Цвет фона                                         |light                |
+|show-line-numbers   |true false                        |Отображение нумерации строк                       |true                 |
+|starting-line-number|Число                             |Значение, с которого будет производиться нумерация|1                    |
+|hide-buttons        |true false                        |Скрытие кнопок                                    |false                |
 
 **Настройки**
 ```yaml
-# Расположение иконки относительно текста
-n2o.api.control.output_text.position=left
-# Три точки в конце, когда текст уходит за рамки строки
-n2o.api.control.output_text.ellipsis=false
-# true/false - вставить в конце строки "Подробнее"
-# Число - через сколько строк будет "Подробнее"
-n2o.api.control.output_text.expandable=false
+# Цвет фона
+n2o.api.control.code.theme=light
+# Отображение нумерации строк
+n2o.api.control.code.show_line_numbers=true
+# Значение, с которого будет производиться нумерация
+n2o.api.control.code.starting_line_number=1
+# Скрытие кнопок
+n2o.api.control.code.hide_buttons=false
 ```
+
+**Тело**<br/>
+Программный код.
 
 **Пример**
-
 ```xml
-<output-text id="text" icon="fa fa-plus" position="right"
-             type="iconAndText" format="number 0,0.00"/>
+<code show-line-number="true" starting-line-number="1" theme="light" language="java">
+    if (a == b)
+        return true;
+</code>
 ```
+<Sandbox height={250} projectId="uxcomponents_output_fields_code_viewer" />
 
-<Sandbox height={120} projectId="uxcomponents_output_fields_output_text" />
 
-### &lt;output-list&gt;
 
-Компонент вывода многострочного текста.
-В случае, если в данных приходит ссылка, текст будет отображаться как ссылка.
+
+
+### &lt;code-editor&gt;
+
+Компонент редактирования кода
 
 **Атрибуты**
 
-|Наименование  |Тип                       |Описание                                                   |Значение по умолчанию|
-|--------------|--------------------------|-----------------------------------------------------------|---------------------|
-|label-field-id|Строка                    |Поле выборки, содержащее значение элемента                 |name                 |
-|href-field-id |Строка                    |Поле выборки, содержащее ссылку элемента                   |href                 |
-|target        |newWindow self application|Способ открытия ссылок                                     |newWindow            |
-|separator     |Строка                    |Разделитель между элементами                               |пробел               |
-|direction     |row column                |Направление отображения элементов (в строку или в столбец).|column               |
+|Наименование|Тип                                |Описание                        |Значение по умолчанию|
+|------------|-----------------------------------|--------------------------------|---------------------|
+|language    |sql xml html javascript groovy java|Язык кода                       |                     |
+|min-lines   |Число                              |Минимальное число видимых строк |5                    |
+|max-lines   |Число                              |Максимальное число видимых строк|                     |
 
 **Настройки**
 ```yaml
-# Поле выборки, содержащее значение элемента
-n2o.api.control.output_list.label_field_id=name
-# Поле выборки, содержащее ссылку элемента
-n2o.api.control.output_list.href_field_id=href
-# Способ открытия ссылок
-n2o.api.control.output_list.target=newWindow
-# Разделитель между элементами
-n2o.api.control.output_list.direction=column
-# Направление отображения элементов (в строку или в столбец)
-n2o.api.control.output_list.separator=' '
+# Минимальное число видимых строк
+n2o.api.control.code_editor.min_lines=5
 ```
 
 **Пример**
-
 ```xml
-<output-list id="list" label-field-id="label" href-field-id="link"
-             target="application" direction="row" separator=","/>
+<code-editor id="editor" language="java"/>
+```
+<Sandbox height={200} projectId="uxcomponents_fields_code_editor" />
+
+
+
+
+
+
+
+### &lt;date-time&gt;
+
+Компонент ввода даты и времени
+
+**Атрибуты**
+
+|Наименование|Тип                  |Описание                              |Значение по умолчанию|
+|------------|---------------------|--------------------------------------|---------------------|
+|date-format |DD.MM.YYYY DD/MM/YYYY|Формат отображения даты               |DD.MM.YYYY           |
+|time-format |HH:mm HH:mm:ss       |Формат отображения времени            |                     |
+|min         |Строка               |Минимальная дата возможная для выбора |                     |
+|max         |Строка               |Максимальная дата возможная для выбора|                     |
+|utc         |true false           |Время в UTC                           |false                |
+
+**Настройки**
+```yaml
+# Формат отображения даты
+n2o.api.control.date_time.date_format=DD.MM.YYYY
+# Всемирное координированное время
+n2o.api.control.date_time.utc=false
+# Тип данных
+n2o.api.control.date_time.domain=date
 ```
 
-<Sandbox height={300} projectId="uxcomponents_output_fields_output_list" />
+**Пример**
+```xml
+<date-time id="date" date-format="DD.MM.YYYY" min="2018-01-01T08:00:00Z" utc="true"/>
+```
+<Sandbox height={400} projectId="uxcomponents_date_time_date_time" />
+
+
+
+### &lt;field&gt;
+
+Произвольный React компонент.
+
+**Атрибуты**
+
+|Наименование|Тип            |Описание             |Значение по умолчанию|
+|------------|---------------|---------------------|---------------------|
+|src         |Строка         |React компонент      |                     |
+
+**Пример**
+```xml
+<field src="MyControl"
+       ext:prop1="value1"
+       ext:prop2="value2"/>
+```
+
+
+
+
+
+
+### &lt;file-upload&gt;
+
+Компонент загрузки файлов
+
+**Атрибуты**
+
+|Наименование    |Тип           |Описание                                       |Значение по умолчанию|
+|----------------|--------------|-----------------------------------------------|---------------------|
+|multi           |true false    |Поддержка загрузки нескольких файлов           |false                |
+|ajax            |true false    |Поддержка загрузки через ajax запрос           |true                 |
+|upload-url      |Строка        |URL загрузки файла                             |                     |
+|delete-url      |Строка        |URL удаления файла                             |                     |
+|value-field-id  |Ссылка на поле|Поле выборки, содержащее идентификатор файла   |                     |
+|label-field-id  |Ссылка на поле|Поле выборки, содержащее наименование файла    |                     |
+|message-field-id|Ссылка на поле|Поле выборки, содержащее сообщение файла       |                     |
+|url-field-id    |Ссылка на поле|Поле выборки, содержащее URL скачивания файла  |                     |
+|request-param   |Строка        |Наименование поля в запросе miltipart form data|                     |
+|show-size       |true false    |Отображение размера файла                      |true                 |
+|accept          |Строка        |Доступные расширения файлов (через запятую)    |                     |
+
+**Пример**
+```xml
+<file-upload id="file" label="Загрузить файл"
+             class="custom-class" multi="true"
+             ajax="true" upload-url="/n2o/data"
+             delete-url="/files/delete/{file.id}"
+             value-field-id="hash"
+             label-field-id="filename"
+             url-field-id="url" show-size="true"
+             accept=".img,.png"/>
+```
+<Sandbox height={150} projectId="uxcomponents_fields_file_upload" />
+
+
+
+
+
+### &lt;hidden&gt;
+
+Скрытое поле, в основном используется для вычисления различных значений, которые не надо показывать пользователю.
+
+**Атрибуты**
+
+Наследует базовые свойства простых компонентов.
+
+**Пример**
+```xml
+<hidden id="sum" default-value="1">
+    <dependencies>
+        <set-value on="f1,f2">(function(){return parseInt(f1) + parseInt(f2)})();</set-value>
+    </dependencies>
+</hidden>
+```
+
+
+
+
+### &lt;html&gt;
+
+Компонент вывода html
+
+**Тело**<br/>
+HTML разметка с плейсхолдерами.
+
+**Пример**
+
+Текст внутри html поддерживает плейсхолдеры данных, где `name` - поле формы.
+```
+<html><![CDATA[<h3 class='class1' style='color:red;'>Hello, {name}!</h3>]]></html>
+```
+
+
 
 ### &lt;image&gt;
 
@@ -243,8 +355,12 @@ n2o.api.field.image.text_position=right
 n2o.api.field.image.width=
 ```
 
-**Пример**
+**Тело**<br/>
+&lt;actions&gt; - [Список действий](#actions)<br/>
+&lt;statuses&gt; - [Список статусов](#statuses)
 
+
+**Пример**
 ```xml
 <image url="/myimage.png" title="Заголовок" description="Подзаголовок">
     <statuses>
@@ -258,15 +374,27 @@ n2o.api.field.image.width=
     </actions>
 </image>
 ```
-
 <Sandbox height={200} projectId="uxcomponents_image_image" />
 
-#### &lt;statuses&gt;
 
+#### &lt;actions&gt;
+
+Список действий.
+
+**Тело**<br/>
+[Обработчики действий](../xml/action)
+
+
+
+#### &lt;statuses&gt;
 Список статусов.
 
-##### &lt;status&gt;
+**Тело**<br/>
+&lt;status&gt; - [Элемент статуса](#image_status)<br/>
 
+
+
+##### &lt;status&gt; {#image_status}
 Элемент статуса.
 
 **Атрибуты**
@@ -280,192 +408,19 @@ n2o.api.field.image.width=
 
 
 **Пример**
-
 ```xml
-<status
-field-id="status"
-icon="{icon}"
-place="topLeft"
-/>
+<statuses>
+    <status
+        field-id="status"
+        icon="{icon}"
+        place="topLeft"
+        />
+</statuses>
 ```
 
-### &lt;masked-input&gt;
 
-Компонент ввода текста с маской
 
-**Атрибуты**
 
-|Наименование |Тип       |Описание                            |Значение по умолчанию|
-|-------------|----------|------------------------------------|---------------------|
-|mask         |Строка    |Маска текста                        |                     |
-|measure      |Строка    |Единица измерения                   |                     |
-|clear-on-blur|true false|Стирать ли значение при уходе с поля|true                 |
-
-**Настройки**
-```yaml
-# Стирать ли значение при уходе с поля
-n2o.api.control.masked_input.clear_on_blur=true
-```
-
-**Пример**
-
-```xml
-<masked-input id="phone" mask="+7 (999) 999-99-99"/>
-```
-
-<Sandbox height={100} projectId="uxcomponents_fields_masked_input" />
-
-### &lt;number-picker&gt;
-
-Компонент выбора числа из диапазона
-
-**Атрибуты**
-
-|Наименование|Тип  |Описание              |Значение по умолчанию|
-|------------|-----|----------------------|---------------------|
-|min         |Число|Минимальное значение  |0                    |
-|max         |Число|Максимальное значение |100                  |
-|step        |Число|Шаг изменения значения|1                    |
-
-**Настройки**
-```yaml
-# Минимальное значение
-n2o.api.control.number_picker.min=0
-# Максимальное значение
-n2o.api.control.number_picker.max=100
-# Шаг изменения значения
-n2o.api.control.number_picker.step=1
-```
-
-**Пример**
-
-```xml
-<number-picker id="count" min="2" max="10"/>
-```
-
-<Sandbox height={220} projectId="uxcomponents_fields_number_picker" />
-
-### &lt;checkbox&gt;
-
-Компонент ввода флажок
-
-**Атрибуты**
-
-|Наименование |Тип        |Описание                            |Значение по умолчанию |
-|-------------|-----------|------------------------------------|----------------------|
-|unchecked    |null false |Значение при не выбранном состоянии |null                  |
-
-**Настройки**
-```yaml
-# Значение при не выбранном состоянии
-n2o.api.control.checkbox.unchecked=null
-```
-
-**Пример**
-
-```xml
-<checkbox id="vip" unchecked="false"/>
-```
-
-<Sandbox height={150} projectId="uxcomponents_checkbox_simple" />
-
-### &lt;date-time&gt;
-
-Компонент ввода даты и времени
-
-**Атрибуты**
-
-|Наименование|Тип                  |Описание                              |Значение по умолчанию|
-|------------|---------------------|--------------------------------------|---------------------|
-|date-format |DD.MM.YYYY DD/MM/YYYY|Формат отображения даты               |DD.MM.YYYY           |
-|time-format |HH:mm HH:mm:ss       |Формат отображения времени            |                     |
-|min         |Строка               |Минимальная дата возможная для выбора |                     |
-|max         |Строка               |Максимальная дата возможная для выбора|                     |
-|utc         |true false           |Время в UTC                           |false                |
-
-**Настройки**
-```yaml
-# Формат отображения даты
-n2o.api.control.date_time.date_format=DD.MM.YYYY
-# Всемирное координированное время
-n2o.api.control.date_time.utc=false
-# Тип данных
-n2o.api.control.date_time.domain=date
-```
-
-**Пример**
-
-```xml
-<date-time id="date" date-format="DD.MM.YYYY" min="2018-01-01T08:00:00Z" utc="true"/>
-```
-
-<Sandbox height={400} projectId="uxcomponents_date_time_date_time" />
-
-### &lt;time-picker&gt;
-
-Компонент ввода времени
-
-**Атрибуты**
-
-|Наименование |Тип                                                         |Описание                                                             |Значение по умолчанию|
-|-------------|------------------------------------------------------------|---------------------------------------------------------------------|---------------------|
-|prefix       |Строка                                                      |Префикс                                                              |                     |
-|mode         |"hours,minutes,seconds"; "hours,minutes"; "hours"; "minutes"|Режим отображения списка выбора                                      |hours,minutes,seconds|
-|time-format  |Строка                                                      |Формат времени                                                       |HH:mm:ss             |
-|format       |digit symbols                                               |Формат отображения времени, digit ("00:00:00") или symbols ("15 мин")|symbols              |
-|default-value|Время                                                       |Значение по умолчанию                                                |                     |
-
-**Настройки**
-```yaml
-# Режим отображения списка выбора
-n2o.api.control.time_picker.mode=hours,minutes,seconds
-# Формат времени
-n2o.api.control.time_picker.time_format=HH:mm:ss
-# Формат отображения времени
-n2o.api.control.time_picker.format=symbols
-```
-**Пример**
-
-```xml
-<time-picker id="test1" prefix="from: " format="digit" mode="hours,minutes" time-format="hh:mm"/>
-```
-
-<Sandbox height={400} projectId="uxcomponents_date_time_time" />
-
-### &lt;file-upload&gt;
-
-Компонент загрузки файлов
-
-**Атрибуты**
-
-|Наименование    |Тип           |Описание                                       |Значение по умолчанию|
-|----------------|--------------|-----------------------------------------------|---------------------|
-|multi           |true false    |Поддержка загрузки нескольких файлов           |false                |
-|ajax            |true false    |Поддержка загрузки через ajax запрос           |true                 |
-|upload-url      |Строка        |URL загрузки файла                             |                     |
-|delete-url      |Строка        |URL удаления файла                             |                     |
-|value-field-id  |Ссылка на поле|Поле выборки, содержащее идентификатор файла   |                     |
-|label-field-id  |Ссылка на поле|Поле выборки, содержащее наименование файла    |                     |
-|message-field-id|Ссылка на поле|Поле выборки, содержащее сообщение файла       |                     |
-|url-field-id    |Ссылка на поле|Поле выборки, содержащее URL скачивания файла  |                     |
-|request-param   |Строка        |Наименование поля в запросе miltipart form data|                     |
-|show-size       |true false    |Отображение размера файла                      |true                 |
-|accept          |Строка        |Доступные расширения файлов (через запятую)    |                     |
-
-**Пример**
-
-```xml
-<file-upload id="file" label="Загрузить файл"
-             class="custom-class" multi="true"
-             ajax="true" upload-url="/n2o/data"
-             delete-url="/files/delete/{file.id}"
-             value-field-id="hash"
-             label-field-id="filename"
-             url-field-id="url" show-size="true"
-             accept=".img,.png"/>
-```
-
-<Sandbox height={150} projectId="uxcomponents_fields_file_upload" />
 
 ### &lt;image-upload&gt;
 
@@ -518,7 +473,6 @@ n2o.api.control.image_upload.height=
 ```
 
 **Пример**
-
 ```xml
 <image-upload id="icon" label="Загрузить изображение"
              list-type="card" can-lightbox="true"
@@ -531,366 +485,77 @@ n2o.api.control.image_upload.height=
              url-field-id="url" show-size="true"
              accept=".img,.png"/>
 ```
-
 <Sandbox height={500} projectId="uxcomponents_image_image_upload" />
 
-### &lt;text-area&gt;
 
-Компонент ввода многострочного текста
 
-**Атрибуты**
 
-|Наименование|Тип  |Описание                                 |Значение по умолчанию|
-|------------|-----|-----------------------------------------|---------------------|
-|min-rows    |Число|Минимальная высота поля в строках текста |                     |
-|max-rows    |Число|Максимальная высота поля в строках текста|                     |
+### &lt;input-money&gt;
 
-**Пример**
-
-```xml
-<text-area id="comment" max-rows="10" placeholder="Введите свой комментарий"/>
-```
-
-<Sandbox height={200} projectId="uxcomponents_fields_text_area" />
-
-### &lt;text-editor&gt;
-
-Компонент редактирования текста
+Компонент ввода денежных единиц
 
 **Атрибуты**
 
-|Наименование|Тип   |Описание                          |Значение по умолчанию|
-|------------|------|----------------------------------|---------------------|
-|toolbar-url |Строка|Путь до файла конфигурации тулбара|                     |
-
-**Пример**
-
-```xml
-<text-editor id="editor" toolbar-url="META-INF/resources/toolbar.json"/>
-```
-
-<Sandbox height={200} projectId="uxcomponents_fields_text_editor" />
-
-### &lt;code-editor&gt;
-
-Компонент редактирования кода
-
-**Атрибуты**
-
-|Наименование|Тип                                |Описание                        |Значение по умолчанию|
-|------------|-----------------------------------|--------------------------------|---------------------|
-|language    |sql xml html javascript groovy java|Язык кода                       |                     |
-|min-lines   |Число                              |Минимальное число видимых строк |5                    |
-|max-lines   |Число                              |Максимальное число видимых строк|                     |
+|Наименование       |Тип              |Описание                                    |Значение по умолчанию|
+|-------------------|-----------------|--------------------------------------------|---------------------|
+|suffix             |Строка           |Суффикс                                     |                     |
+|prefix             |Строка           |Префикс                                     |                     |
+|thousands-separator|Строка           |Знак, отделяющий группу из трех разрядов    |                     |
+|decimal-separator  |Строка           |Знак, отделяющий дробную часть              |                     |
+|integer-limit      |Число            |Ограничение по количеству знаков целой части|                     |
+|fraction-formatting|off manual auto  |Форматирование дробной части                |off                  |
 
 **Настройки**
 ```yaml
-# Минимальное число видимых строк
-n2o.api.control.code_editor.min_lines=5
+# Форматирование дробной части
+n2o.api.control.input.money.fraction_formatting=off
+#префикс по умолчанию для input-money
+n2o.api.control.input_money.prefix=
+#суффикс по умолчанию для input-money
+n2o.api.control.input_money.suffix=
 ```
-
 **Пример**
-
 ```xml
-<code-editor id="editor" language="java"/>
+<input-money id="money" prefix="$" thousands-separator=" "
+    decimal-separator="," integer-limit="100" fraction-formatting="manual">
+</input-money>
 ```
+<Sandbox height={100} projectId="uxcomponents_fields_input_money" />
 
-<Sandbox height={200} projectId="uxcomponents_fields_code_editor" />
 
-### &lt;text&gt;
 
-Компонент текста
+
+
+### &lt;input-text&gt;
+
+Компонент ввода однострочного текста или чисел
 
 **Атрибуты**
 
-|Наименование|Тип   |Описание     |Значение по умолчанию|
-|------------|------|-------------|---------------------|
-|format      |Строка|Формат текста|                     |
-
-**Пример**
-
-```xml
-<text>Привет, {username}</text>
-
-<text format="number 0,0">${sum}</text>
-```
-
-<Sandbox height={100} projectId="uxcomponents_output_fields_text" />
-
-**Тело**<br/>
-Текст с плейсхолдерами.
-
-### &lt;html&gt;
-
-Компонент вывода html
-
-**Пример**
-
-Текст внутри html поддерживает плейсхолдеры данных, где `name` - поле формы
-```
-<html><![CDATA[<h3 class='class1' style='color:red;'>Hello, {name}!</h3>]]></html>
-```
-
-**Тело**<br/>
-HTML разметка с плейсхолдерами.
-
-### &lt;code&gt;
-
-Компонент для просмотра программного кода с подсветкой синтаксиса
-
-**Атрибуты**
-
-|Наименование        |Тип                               |Описание                                          |Значение по умолчанию|
-|--------------------|----------------------------------|--------------------------------------------------|---------------------|
-|language            |sql xml javascript groovy java    |Язык кода                                         |                     |
-|theme               |light dark                        |Цвет фона                                         |light                |
-|show-line-numbers   |true false                        |Отображение нумерации строк                       |true                 |
-|starting-line-number|Число                             |Значение, с которого будет производиться нумерация|1                    |
-|hide-buttons        |true false                        |Скрытие кнопок                                    |false                |
+|Наименование|Тип                                  |Описание                                                                                                                              |Значение по умолчанию                                          |
+|------------|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+|domain      |string integer numeric byte short|Тип данных                                                                                                                            |                                                               |
+|precision   |Число                                |Максимальная длина дробной части (используется только для domain="numeric")                                                           |8                                                              |
+|length      |Число                                |Максимальное количество символов в тексте (используется только для domain="string")                                                   |                                                               |
+|max         |Число                                |Максимальное допустимое число (используется только для числовых domain)                                                               |                                                               |
+|min         |Число                                |Минимальное допустимое число (используется только для числовых domain)                                                                |                                                               |
+|step        |Строка                               |Шаг инкремента / декремента чисел (используется только для числовых domain). Если step="0", то кнопки "вверх вниз" будут отсутствовать|Для domain целых чисел step="1", для domain numeric step="0.01"|
+|measure     |Строка                               |Единица измерения                                                                                                                     |                                                               |
 
 **Настройки**
 ```yaml
-# Цвет фона
-n2o.api.control.code.theme=light
-# Отображение нумерации строк
-n2o.api.control.code.show_line_numbers=true
-# Значение, с которого будет производиться нумерация
-n2o.api.control.code.starting_line_number=1
-# Скрытие кнопок
-n2o.api.control.code.hide_buttons=false
+# Максимальная длина дробной части
+n2o.api.control.input.text.precision=8
 ```
 
 **Пример**
 
 ```xml
-<code show-line-number="true" starting-line-number="1" theme="light" language="java">
-    if (a == b)
-        return true;
-</code>
+<input-text id="name" length="10" domain="string"/>
 ```
 
-<Sandbox height={250} projectId="uxcomponents_output_fields_code_viewer" />
+<Sandbox height={100} projectId="uxcomponents_fields_input" />
 
-**Тело**<br/>
-Программный код.
-
-### &lt;rating&gt;
-
-Компонент рейтинг
-
-**Атрибуты**
-
-|Наименование|Тип       |Описание                                       |Значение по умолчанию|
-|------------|----------|-----------------------------------------------|---------------------|
-|max         |integer   |Рейтинг по шкале от 1 до max                   |5                    |
-|half        |true false|Можно ставить оценку с половиной (например 3.5)|false                |
-|show-tooltip|true false|                                               |                     |
-
-**Настройки**
-```yaml
-# Рейтинг по шкале от 1 до max
-n2o.api.control.rating.max=5
-# Можно ставить оценку с половиной
-n2o.api.control.rating.half=false
-```
-
-**Пример**
-
-```xml
- <rating max="5" show-tooltip="false" half="false"/>
-```
-
-<Sandbox height={100} projectId="uxcomponents_rating_rating" />
-
-### &lt;field&gt;
-
-Произвольный React компонент.
-
-**Атрибуты**
-
-|Наименование|Тип            |Описание             |Значение по умолчанию|
-|------------|---------------|---------------------|---------------------|
-|src         |Строка         |React компонент      |                     |
-
-**Пример**
-
-```xml
-<field src="MyControl"
-       ext:prop1="value1"
-       ext:prop2="value2"/>
-```
-
-### &lt;search-buttons&gt;
-
-На открываемой странице будут добавлены кнопки "Найти" и "Сбросить".
-Кнопка "Найти" будет выполнять фильтрацию записей согласно указанным условиям.
-Кнопка "Сбросить" сбрасывает действие всех фильтров.
-
-**Атрибуты**
-
-|Наименование  |Тип       |Описание                               |Значение по умолчанию|
-|--------------|----------|---------------------------------------|---------------------|
-|search-label  |Строка    |Лейбл кнопки поиска                    |                     |
-|reset-label   |Строка    |Лейбл кнопки сброса                    |                     |
-|clear-ignore  |Строка    |Поля, игнорируемые при сбросе фильтров |                     |
-|fetch-on-clear|true false|Запуск обновления модели после сброса  |true                 |
-|no-label      |true false|Не отображать заголовок                |true                 |
-
-**Настройки**
-```yaml
-# Запуск обновления модели после сброса
-n2o.api.control.search_buttons.fetch_on_clear=true
-```
-
-**Пример**
-
-```xml
-<search-buttons id="search" clear-ignore="name,surname"/>
-```
-
-### &lt;slider&gt;
-
-Компонент ползунок
-
-**Атрибуты**
-
-|Наименование|Тип         |Описание                          |Значение по умолчанию|
-|------------|------------|----------------------------------|---------------------|
-|mode        |single range|Одиночный ползунок / мульти-режим |single               |
-|vertical    |true false  |Вертикальное расположение элемента|false                |
-|measure     |Строка      |Единица измерения                 |                     |
-|min         |Число       |Минимальное значение              |                     |
-|max         |Число       |Максимальное значение             |                     |
-|step        |Число       |Шаг приращения                    |1                    |
-
-**Настройки**
-```yaml
-# Включает подсказку
-n2o.api.control.slider.tooltip=true
-# Одиночный ползунок / мульти-режим
-n2o.api.control.slider.mode=single
-# Вертикальное расположение элемента
-n2o.api.control.slider.vertical=false
-# Шаг приращения
-n2o.api.control.slider.step=1
-```
-
-**Пример**
-
-```xml
-<slider id="percent" measure="%" min="0" max="100" step="5"/>
-```
-
-<Sandbox height={100} projectId="uxcomponents_slider_slider" />
-
-### &lt;alert&gt;
-
-Компонент вывода оповещения
-
-**Атрибуты**
-
-|Наименование|Тип                                                      |Описание                                    |Значение по умолчанию|
-|------------|---------------------------------------------------------|--------------------------------------------|---------------------|
-|title       |Строка                                                   |Текст заголовка уведомления                 |                     |
-|text        |Строка                                                   |Текст уведомления                           |                     |
-|class       |CSS класс                                                |Класс компонента уведомления                |                     |
-|style       |CSS свойство                                             |Стиль компонента уведомления                |                     |
-|color       |primary secondary success danger warning info light dark |Цвет отображения уведомления                |secondary            |
-|href        |Строка                                                   |Ссылка для перехода при клике по уведомлению|                     |
-|close-button|true false                                               |Наличие кнопки закрытия уведомления         |false                |
-
-**Настройки**
-```yaml
-# Цвет уведомления
-n2o.api.control.alert.color=secondary
-# Наличие кнопки закрытия уведомления
-n2o.api.control.alert.close_button=false
-```
-
-**Пример**
-
-```xml
-<alert title="title" text="text" style="width:90%" class="css-on-field"
-           close-button="true" color="info"
-           href="http://example.org"/>
-```
-
-<Sandbox height={150} projectId="uxcomponents_alerts_simple" />
-
-### &lt;progress&gt;
-
-Компонент отображения прогресса
-
-**Атрибуты**
-
-|Наименование|Тип       |Описание                                           |Значение по умолчанию|
-|------------|----------|---------------------------------------------------|---------------------|
-|max         |Число     |Максимальное значение                              |                     |
-|bar-text    |Строка    |Описание шкалы прогресса                           |                     |
-|animated    |true false|Включает анимацию. При включении отображает полоски|false                |
-|striped     |true false|Отображение полосок на шкале прогресса             |false                |
-|color       |primary secondary success danger warning info light dark|Цвет шкалы прогресса. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры) |     |
-|bar-class   |Строка    |Класс шкалы прогресса                              |                     |
-
-**Настройки**
-```yaml
-# Включает анимацию. При включении отображает полоски
-n2o.api.control.progress.animated=false
-# Отображение полосок на шкале прогресса
-n2o.api.control.progress.striped=false
-```
-
-**Пример**
-
-```xml
-<progress id="progress" max="100" color="info"/>
-```
-
-<Sandbox height={100} projectId="uxcomponents_progress_progress" />
-
-### &lt;status&gt;
-
-Компонент отображения статуса
-
-**Атрибуты**
-
-|Наименование |Тип       |Описание           |Значение по умолчанию|
-|-------------|----------|-------------------|---------------------|
-|color        |primary secondary success danger warning info light dark|Цвет индикатора|
-|text         |Строка    |Текст статуса      |                     |
-|text-position|left right|Расположение текста|right                |
-
-**Настройки**
-```yaml
-# Расположение текста
-n2o.api.control.status.text_position=right
-```
-
-**Пример**
-
-```xml
-<status id="status" color="success" text="Задача выполнена"/>
-```
-
-<Sandbox height={150} projectId="uxcomponents_fields_status" />
-
-### &lt;hidden&gt;
-
-Скрытое поле, в основном используется для вычисления различных значений, которые не надо показывать пользователю.
-
-**Атрибуты**
-
-Наследует базовые свойства простых компонентов.
-
-**Пример**
-
-```xml
-<hidden id="sum" default-value="1">
-    <dependencies>
-        <set-value on="f1,f2">(function(){return parseInt(f1) + parseInt(f2)})();</set-value>
-    </dependencies>
-</hidden>
-```
 
 ### &lt;markdown&gt;
 
@@ -959,8 +624,423 @@ n2o.api.control.status.text_position=right
 </markdown>
 ```
 
-### &lt;button&gt;
-[Кнопка](../xml/button)
+
+
+### &lt;masked-input&gt;
+
+Компонент ввода текста с маской
+
+**Атрибуты**
+
+|Наименование |Тип       |Описание                            |Значение по умолчанию|
+|-------------|----------|------------------------------------|---------------------|
+|mask         |Строка    |Маска текста                        |                     |
+|measure      |Строка    |Единица измерения                   |                     |
+|clear-on-blur|true false|Стирать ли значение при уходе с поля|true                 |
+
+**Настройки**
+```yaml
+# Стирать ли значение при уходе с поля
+n2o.api.control.masked_input.clear_on_blur=true
+```
+
+**Пример**
+```xml
+<masked-input id="phone" mask="+7 (999) 999-99-99"/>
+```
+<Sandbox height={100} projectId="uxcomponents_fields_masked_input" />
+
+
+
+
+
+### &lt;number-picker&gt;
+
+Компонент выбора числа из диапазона
+
+**Атрибуты**
+
+|Наименование|Тип  |Описание              |Значение по умолчанию|
+|------------|-----|----------------------|---------------------|
+|min         |Число|Минимальное значение  |0                    |
+|max         |Число|Максимальное значение |100                  |
+|step        |Число|Шаг изменения значения|1                    |
+
+**Настройки**
+```yaml
+# Минимальное значение
+n2o.api.control.number_picker.min=0
+# Максимальное значение
+n2o.api.control.number_picker.max=100
+# Шаг изменения значения
+n2o.api.control.number_picker.step=1
+```
+
+**Пример**
+```xml
+<number-picker id="count" min="2" max="10"/>
+```
+<Sandbox height={220} projectId="uxcomponents_fields_number_picker" />
+
+
+
+
+
+
+
+
+
+### &lt;output-list&gt;
+
+Компонент вывода многострочного текста.
+В случае, если в данных приходит ссылка, текст будет отображаться как ссылка.
+
+**Атрибуты**
+
+|Наименование  |Тип                       |Описание                                                   |Значение по умолчанию|
+|--------------|--------------------------|-----------------------------------------------------------|---------------------|
+|label-field-id|Строка                    |Поле выборки, содержащее значение элемента                 |name                 |
+|href-field-id |Строка                    |Поле выборки, содержащее ссылку элемента                   |href                 |
+|target        |newWindow self application|Способ открытия ссылок                                     |newWindow            |
+|separator     |Строка                    |Разделитель между элементами                               |пробел               |
+|direction     |row column                |Направление отображения элементов (в строку или в столбец).|column               |
+
+**Настройки**
+```yaml
+# Поле выборки, содержащее значение элемента
+n2o.api.control.output_list.label_field_id=name
+# Поле выборки, содержащее ссылку элемента
+n2o.api.control.output_list.href_field_id=href
+# Способ открытия ссылок
+n2o.api.control.output_list.target=newWindow
+# Разделитель между элементами
+n2o.api.control.output_list.direction=column
+# Направление отображения элементов (в строку или в столбец)
+n2o.api.control.output_list.separator=' '
+```
+
+**Пример**
+```xml
+<output-list id="list" label-field-id="label" href-field-id="link"
+             target="application" direction="row" separator=","/>
+```
+<Sandbox height={300} projectId="uxcomponents_output_fields_output_list" />
+
+
+
+
+
+
+
+
+### &lt;output-text&gt;
+
+Компонент вывода однострочного текста
+
+**Атрибуты**
+
+|Наименование|Тип             |Описание                               |Значение по умолчанию|
+|------------|----------------|---------------------------------------|---------------------|
+|icon        |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Иконка                    |
+|type        |icon iconAndText|Иконка с текстом или без               |                     |
+|format      |Строка          |Формат выводимого текста               |                     |
+|position    |left right      |Расположение иконки относительно текста|left                 |
+
+**Настройки**
+```yaml
+# Расположение иконки относительно текста
+n2o.api.control.output_text.position=left
+# Три точки в конце, когда текст уходит за рамки строки
+n2o.api.control.output_text.ellipsis=false
+# true/false - вставить в конце строки "Подробнее"
+# Число - через сколько строк будет "Подробнее"
+n2o.api.control.output_text.expandable=false
+```
+
+**Пример**
+```xml
+<output-text id="text" icon="fa fa-plus" position="right"
+             type="iconAndText" format="number 0,0.00"/>
+```
+<Sandbox height={120} projectId="uxcomponents_output_fields_output_text" />
+
+
+
+
+
+### &lt;password&gt;
+
+Компонент ввода пароля
+
+**Атрибуты**
+
+|Наименование|Тип       |Описание                                   |Значение по умолчанию|
+|------------|----------|-------------------------------------------|---------------------|
+|eye         |true false|Отображать кнопку "Показать пароль" или нет|true                 |
+|length      |Число     |Максимальная длина текста элемента         |                     |
+
+**Настройки**
+```yaml
+# Отображать кнопку "Показать пароль" или нет
+n2o.api.control.password.eye=true
+```
+**Пример**
+```xml
+<password id="password" eye="true"/>
+```
+<Sandbox height={100} projectId="uxcomponents_fields_password" />
+
+
+
+
+### &lt;progress&gt;
+
+Компонент отображения прогресса
+
+**Атрибуты**
+
+|Наименование|Тип       |Описание                                           |Значение по умолчанию|
+|------------|----------|---------------------------------------------------|---------------------|
+|max         |Число     |Максимальное значение                              |                     |
+|bar-text    |Строка    |Описание шкалы прогресса                           |                     |
+|animated    |true false|Включает анимацию. При включении отображает полоски|false                |
+|striped     |true false|Отображение полосок на шкале прогресса             |false                |
+|color       |primary secondary success danger warning info light dark|Цвет шкалы прогресса. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры) |     |
+|bar-class   |Строка    |Класс шкалы прогресса                              |                     |
+
+**Настройки**
+```yaml
+# Включает анимацию. При включении отображает полоски
+n2o.api.control.progress.animated=false
+# Отображение полосок на шкале прогресса
+n2o.api.control.progress.striped=false
+```
+
+**Пример**
+```xml
+<progress id="progress" max="100" color="info"/>
+```
+<Sandbox height={100} projectId="uxcomponents_progress_progress" />
+
+
+
+
+### &lt;rating&gt;
+
+Компонент рейтинг
+
+**Атрибуты**
+
+|Наименование|Тип       |Описание                                       |Значение по умолчанию|
+|------------|----------|-----------------------------------------------|---------------------|
+|max         |integer   |Рейтинг по шкале от 1 до max                   |5                    |
+|half        |true false|Можно ставить оценку с половиной (например 3.5)|false                |
+|show-tooltip|true false|                                               |                     |
+
+**Настройки**
+```yaml
+# Рейтинг по шкале от 1 до max
+n2o.api.control.rating.max=5
+# Можно ставить оценку с половиной
+n2o.api.control.rating.half=false
+```
+
+**Пример**
+
+```xml
+ <rating max="5" show-tooltip="false" half="false"/>
+```
+
+<Sandbox height={100} projectId="uxcomponents_rating_rating" />
+
+### &lt;search-buttons&gt;
+
+На открываемой странице будут добавлены кнопки "Найти" и "Сбросить".
+Кнопка "Найти" будет выполнять фильтрацию записей согласно указанным условиям.
+Кнопка "Сбросить" сбрасывает действие всех фильтров.
+
+**Атрибуты**
+
+|Наименование  |Тип       |Описание                               |Значение по умолчанию|
+|--------------|----------|---------------------------------------|---------------------|
+|search-label  |Строка    |Лейбл кнопки поиска                    |                     |
+|reset-label   |Строка    |Лейбл кнопки сброса                    |                     |
+|clear-ignore  |Строка    |Поля, игнорируемые при сбросе фильтров |                     |
+|fetch-on-clear|true false|Запуск обновления модели после сброса  |true                 |
+|no-label      |true false|Не отображать заголовок                |true                 |
+
+**Настройки**
+```yaml
+# Запуск обновления модели после сброса
+n2o.api.control.search_buttons.fetch_on_clear=true
+```
+
+**Пример**
+
+```xml
+<search-buttons id="search" clear-ignore="name,surname"/>
+```
+
+### &lt;slider&gt;
+
+Компонент ползунок
+
+**Атрибуты**
+
+|Наименование|Тип         |Описание                          |Значение по умолчанию|
+|------------|------------|----------------------------------|---------------------|
+|mode        |single range|Одиночный ползунок / мульти-режим |single               |
+|vertical    |true false  |Вертикальное расположение элемента|false                |
+|measure     |Строка      |Единица измерения                 |                     |
+|min         |Число       |Минимальное значение              |                     |
+|max         |Число       |Максимальное значение             |                     |
+|step        |Число       |Шаг приращения                    |1                    |
+
+**Настройки**
+```yaml
+# Включает подсказку
+n2o.api.control.slider.tooltip=true
+# Одиночный ползунок / мульти-режим
+n2o.api.control.slider.mode=single
+# Вертикальное расположение элемента
+n2o.api.control.slider.vertical=false
+# Шаг приращения
+n2o.api.control.slider.step=1
+```
+
+**Пример**
+
+```xml
+<slider id="percent" measure="%" min="0" max="100" step="5"/>
+```
+
+<Sandbox height={100} projectId="uxcomponents_slider_slider" />
+
+### &lt;status&gt;
+
+Компонент отображения статуса
+
+**Атрибуты**
+
+|Наименование |Тип       |Описание           |Значение по умолчанию|
+|-------------|----------|-------------------|---------------------|
+|color        |primary secondary success danger warning info light dark|Цвет индикатора|
+|text         |Строка    |Текст статуса      |                     |
+|text-position|left right|Расположение текста|right                |
+
+**Настройки**
+```yaml
+# Расположение текста
+n2o.api.control.status.text_position=right
+```
+
+**Пример**
+```xml
+<status id="status" color="success" text="Задача выполнена"/>
+```
+<Sandbox height={150} projectId="uxcomponents_fields_status" />
+
+
+
+
+
+
+### &lt;text&gt;
+
+Компонент текста
+
+**Атрибуты**
+
+|Наименование|Тип   |Описание     |Значение по умолчанию|
+|------------|------|-------------|---------------------|
+|format      |Строка|Формат текста|                     |
+
+**Тело**<br/>
+Текст с плейсхолдерами.
+
+**Пример**
+```xml
+<text>Привет, {username}</text>
+
+<text format="number 0,0">${sum}</text>
+```
+<Sandbox height={100} projectId="uxcomponents_output_fields_text" />
+
+
+
+
+### &lt;text-area&gt;
+
+Компонент ввода многострочного текста
+
+**Атрибуты**
+
+|Наименование|Тип  |Описание                                 |Значение по умолчанию|
+|------------|-----|-----------------------------------------|---------------------|
+|min-rows    |Число|Минимальная высота поля в строках текста |                     |
+|max-rows    |Число|Максимальная высота поля в строках текста|                     |
+
+**Пример**
+```xml
+<text-area id="comment" max-rows="10" placeholder="Введите свой комментарий"/>
+```
+<Sandbox height={200} projectId="uxcomponents_fields_text_area" />
+
+
+
+
+### &lt;text-editor&gt;
+
+Компонент редактирования текста
+
+**Атрибуты**
+
+|Наименование|Тип   |Описание                          |Значение по умолчанию|
+|------------|------|----------------------------------|---------------------|
+|toolbar-url |Строка|Путь до файла конфигурации тулбара|                     |
+
+**Пример**
+```xml
+<text-editor id="editor" toolbar-url="META-INF/resources/toolbar.json"/>
+```
+<Sandbox height={200} projectId="uxcomponents_fields_text_editor" />
+
+
+
+
+
+### &lt;time-picker&gt;
+
+Компонент ввода времени
+
+**Атрибуты**
+
+|Наименование |Тип                                                         |Описание                                                             |Значение по умолчанию|
+|-------------|------------------------------------------------------------|---------------------------------------------------------------------|---------------------|
+|prefix       |Строка                                                      |Префикс                                                              |                     |
+|mode         |"hours,minutes,seconds"; "hours,minutes"; "hours"; "minutes"|Режим отображения списка выбора                                      |hours,minutes,seconds|
+|time-format  |Строка                                                      |Формат времени                                                       |HH:mm:ss             |
+|format       |digit symbols                                               |Формат отображения времени, digit ("00:00:00") или symbols ("15 мин")|symbols              |
+|default-value|Время                                                       |Значение по умолчанию                                                |                     |
+
+**Настройки**
+```yaml
+# Режим отображения списка выбора
+n2o.api.control.time_picker.mode=hours,minutes,seconds
+# Формат времени
+n2o.api.control.time_picker.time_format=HH:mm:ss
+# Формат отображения времени
+n2o.api.control.time_picker.format=symbols
+```
+**Пример**
+```xml
+<time-picker id="test1" prefix="from: " format="digit" mode="hours,minutes" time-format="hh:mm"/>
+```
+<Sandbox height={400} projectId="uxcomponents_date_time_time" />
+
+
+
+
 
 ## Списковые компоненты {#List_components}
 
@@ -1085,38 +1165,77 @@ n2o.api.control.button.badge.image_shape=circle
 </select>
 ```
 
-### &lt;select&gt;
 
-Компонент выбора из выпадающего списка
+
+### &lt;auto-complete&gt;
+
+Компонент ввода текста с автоподбором
 
 **Атрибуты**
 
-|Наименование        |Тип              | Описание | Значение по умолчанию|
-|--------------------|-----------------|-----------------|---------------------|
-|type                |single checkboxes|Тип выбора в выпадающем списке | single
-|cleanable           |true false       |Опция очистки компонента                                                                                                                                                                                                                                                           |true                 |
-|select-format       |Строка           |Универсальный заголовок поля. Все варианты select-format будут работать только когда тип checkboxes. Нужно использовать либо универсальный заголовок, либо 3 вида заголовков при разном числе элементов. Если не задать ни один, то число выбранных элементов не будет отображаться|                     |
-|select-format-one   |Строка           |Заголовок поля при одном элементе                                                                                                                                                                                                                                                  |                     |
-|select-format-few   |Строка           |Заголовок поля при нескольких элементах                                                                                                                                                                                                                                            |                     |
-|select-format-many  |Строка           |Заголовок поля при большом числе элементов                                                                                                                                                                                                                                         |                     |
-|description-field-id|Строка           |Идентификатор поля для отображения дополнительной информации в опциях выпадающего списка                                                                                                                                                                                           |                     |
+|Наименование       |Тип       |Описание                                                               |Значение по умолчанию|
+|-------------------|----------|-----------------------------------------------------------------------|---------------------|
+|query-id           |Строка    |Идентификатор запроса за данными для автоподбора                       |                     |
+|datasource         |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, из которого будут браться варианты для выбора |    |
+|value-field-id     |Строка    |Идентификатор поля выборки, отвечающего за идентификатор варианта выбора. |name                 |
+|label-field-id     |Строка    |Идентификатор поля выборки, отвечающего за отображение варианта выбора |Значение `value-field-id`, иначе name |
+|search-filter-id   |Строка    |Идентификатор фильтра, отвечающего за поиск вариантов выбора при вводе |name                 |
+|tags               |true false|Отображение выбранных элементов тегами                                 |false                |
+|max-tag-text-length|Число     |Максимальная длина текста элемента                                     |10                   |
 
+**Тело**<br/>
+[Предустановленные фильтры](../xml/base#filters)
 
 **Настройки**
 ```yaml
-# Компонент выбора из выпадающего списка
-n2o.api.control.select.type=single
-# Опция очистки компонента
-n2o.api.control.select.cleanable=true
+# Отображение выбранных элементов тегами
+n2o.api.control.auto_complete.tags=false
+# Максимальная длина текста элемента
+n2o.api.control.auto_complete.max_tag_text_length=10
+# Идентификатор поля выборки, отвечающего за идентификатор варианта выбора.
+n2o.api.control.auto_complete.value_field_id=name
 ```
 
 **Пример**
-
 ```xml
-<select id="gender" label="Пол" query-id="genders" cleanable="false" />
+<auto-complete query-id="labels" value-field-id="surname"
+               search-filter-id="surnameLike" tags="true"/>
+```
+<Sandbox height={230} projectId="uxcomponents_fields_autocomplete" />
+
+
+
+
+
+### &lt;checkbox-group&gt;
+
+Компонент группы чекбоксов
+
+**Атрибуты**
+
+|Наименование|Тип         |Описание                             |Значение по умолчанию|
+|------------|------------|-------------------------------------|---------------------|
+|inline      |true false  |Отображение элементов на одной строке|false                |
+|type        |default btn |Тип:<br/>default - в виде чекбоксов<br/>btn - в виде обычных кнопок |default              |
+
+**Настройки**
+```yaml
+# Отображение элементов на одной строке
+n2o.api.control.checkbox_group.inline=false
+# Тип
+n2o.api.control.checkbox_group.type=default
 ```
 
-<Sandbox height={300} projectId="uxcomponents_select_select" />
+**Пример**
+```xml
+<checkbox-group id="gender" inline="false" type="default"/>
+```
+<Sandbox height={200} projectId="uxcomponents_checkbox_group" />
+
+
+
+
+
 
 ### &lt;input-select&gt;
 
@@ -1148,12 +1267,13 @@ n2o.api.control.input_select.search_min_length=0
 ```
 
 **Пример**
-
 ```xml
 <input-select id="gender" label="Пол" query-id="genders" type="single"/>
 ```
-
 <Sandbox height={300} projectId="uxcomponents_select_input_select" />
+
+
+
 
 ### &lt;input-select-tree&gt;
 
@@ -1196,52 +1316,15 @@ n2o.api.control.input_select_tree.search_min_length=0
 ```
 
 **Пример**
-
 ```xml
 <input-select-tree id="address" label="Адрес" checkboxes="true" checking-strategy="child"
                    parent-field-id="parent_id" label-field-id="name" value-field-id="id"
                    query-id="address" has-children-field-id="hasChildren" search-filter-id="name"/>
 ```
-
 <Sandbox height={400} projectId="uxcomponents_select_tree_tree" />
 
-### &lt;auto-complete&gt;
 
-Компонент ввода текста с автоподбором
 
-**Атрибуты**
-
-|Наименование       |Тип       |Описание                                                               |Значение по умолчанию|
-|-------------------|----------|-----------------------------------------------------------------------|---------------------|
-|query-id           |Строка    |Идентификатор запроса за данными для автоподбора                       |                     |
-|datasource         |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, из которого будут браться варианты для выбора |    |
-|value-field-id     |Строка    |Идентификатор поля выборки, отвечающего за идентификатор варианта выбора. |name                 |
-|label-field-id     |Строка    |Идентификатор поля выборки, отвечающего за отображение варианта выбора |Значение `value-field-id`, иначе name |
-|search-filter-id   |Строка    |Идентификатор фильтра, отвечающего за поиск вариантов выбора при вводе |name                 |
-|tags               |true false|Отображение выбранных элементов тегами                                 |false                |
-|max-tag-text-length|Число     |Максимальная длина текста элемента                                     |10                   |
-
-**Настройки**
-```yaml
-# Отображение выбранных элементов тегами
-n2o.api.control.auto_complete.tags=false
-# Максимальная длина текста элемента
-n2o.api.control.auto_complete.max_tag_text_length=10
-# Идентификатор поля выборки, отвечающего за идентификатор варианта выбора.
-n2o.api.control.auto_complete.value_field_id=name
-```
-
-**Тело**<br/>
-[Предустановленные фильтры](../xml/base#filters)
-
-**Пример**
-
-```xml
-<auto-complete query-id="labels" value-field-id="surname"
-               search-filter-id="surnameLike" tags="true"/>
-```
-
-<Sandbox height={230} projectId="uxcomponents_fields_autocomplete" />
 
 ### &lt;radio-group&gt;
 
@@ -1265,40 +1348,49 @@ n2o.api.control.radio_group.type=default
 ```
 
 **Пример**
-
 ```xml
 <radio-group id="gender" inline="false" type="default"/>
 ```
-
 <Sandbox height={200} projectId="uxcomponents_radio_group_column" />
 
-### &lt;checkbox-group&gt;
 
-Компонент группы чекбоксов
+
+### &lt;select&gt;
+
+Компонент выбора из выпадающего списка
 
 **Атрибуты**
 
-|Наименование|Тип         |Описание                             |Значение по умолчанию|
-|------------|------------|-------------------------------------|---------------------|
-|inline      |true false  |Отображение элементов на одной строке|false                |
-|type        |default btn |Тип:<br/>default - в виде чекбоксов<br/>btn - в виде обычных кнопок |default              |
+|Наименование        |Тип              | Описание | Значение по умолчанию|
+|--------------------|-----------------|-----------------|---------------------|
+|type                |single checkboxes|Тип выбора в выпадающем списке | single
+|cleanable           |true false       |Опция очистки компонента                                                                                                                                                                                                                                                           |true                 |
+|select-format       |Строка           |Универсальный заголовок поля. Все варианты select-format будут работать только когда тип checkboxes. Нужно использовать либо универсальный заголовок, либо 3 вида заголовков при разном числе элементов. Если не задать ни один, то число выбранных элементов не будет отображаться|                     |
+|select-format-one   |Строка           |Заголовок поля при одном элементе                                                                                                                                                                                                                                                  |                     |
+|select-format-few   |Строка           |Заголовок поля при нескольких элементах                                                                                                                                                                                                                                            |                     |
+|select-format-many  |Строка           |Заголовок поля при большом числе элементов                                                                                                                                                                                                                                         |                     |
+|description-field-id|Строка           |Идентификатор поля для отображения дополнительной информации в опциях выпадающего списка                                                                                                                                                                                           |                     |
+
 
 **Настройки**
 ```yaml
-# Отображение элементов на одной строке
-n2o.api.control.checkbox_group.inline=false
-# Тип
-n2o.api.control.checkbox_group.type=default
-
+# Компонент выбора из выпадающего списка
+n2o.api.control.select.type=single
+# Опция очистки компонента
+n2o.api.control.select.cleanable=true
 ```
 
 **Пример**
-
 ```xml
-<checkbox-group id="gender" inline="false" type="default"/>
+<select id="gender" label="Пол" query-id="genders" cleanable="false" />
 ```
+<Sandbox height={300} projectId="uxcomponents_select_select" />
 
-<Sandbox height={200} projectId="uxcomponents_checkbox_group" />
+
+
+
+
+
 
 ## Интервальные компоненты {#Interval_components}
 
@@ -1358,6 +1450,10 @@ n2o.api.control.date_interval.utc=false
 
 Компонент интервала
 
+**Тело**<br/>
+&lt;begin&gt; - [Компонент начала интервала](#begin)<br/>
+&lt;end&gt; - [Компонент конца интервала](#end)
+
 #### &lt;begin&gt;
 
 Компонент начала интервала
@@ -1397,18 +1493,31 @@ n2o.api.control.date_interval.utc=false
 |------------|------|--------------------------------------------|----------------------|
 |on          |Строка|Поля, от которых зависит условие зависимости|Вычисляется по условию|
 |apply-on-init|true false|Срабатывает ли при инициализации виджета |true
+
+:::note
+Атрибут `on` необходимо указывать, чтобы зависимость срабатывала каждый раз при изменении указанных полей, а не только при инициализации.
+:::
+
 **Настройки**
 ```yaml
 # Срабатывает ли при инициализации виджета
 n2o.api.control.dependency.apply_on_init=true
 ```
 
-:::note
-Атрибут `on` необходимо указывать, чтобы зависимость срабатывала каждый раз при изменении указанных полей, а не только при инициализации
-:::
+
+
+
+**Тело**<br/>
+&lt;enabling&gt; - [Условие доступности](#enabling)<br/>
+&lt;fetch&gt; - [Обновление модели компонента при изменении зависимых полей](#fetch)<br/>
+&lt;fetch-value&gt; - [Обновление модели поля ввода](#fetch-value)<br/>
+&lt;requiring&gt; - [Условие обязательности заполнения](#requiring)<br/>
+&lt;reset&gt; - [Сброс значения](#reset)<br/>
+&lt;set-value&gt; - [Условие установки значений](#set-value)<br/>
+&lt;visibility&gt; - [Условие видимости](#visibility)
+
 
 **Пример**
-
 ```xml
 <input-text id="name">
   <dependencies>
@@ -1426,13 +1535,116 @@ n2o.api.control.dependency.apply_on_init=true
 Java Script выражение.
 
 **Пример**
-
 ```xml
 <dependencies>
   <enabling on="type">type.id == 1</enabling>
   <!-- Поле доступно, если type.id равен 1 -->
 </dependencies>
 ```
+
+
+
+### &lt;fetch&gt;
+
+Обновление модели компонента при изменении зависимых полей.<br/>
+
+Нужен для списковых компонентов с открытым списком (`<radio-group>`, `<checkbox-group>`),
+у которых есть фильтры от других полей.
+
+**Пример**
+```xml
+<dependencies>
+  <fetch on="type"/>
+  <!-- При изменении поля type будет выполнен запрос данных и списковый компонент отобразит обновленные варианты -->
+</dependencies>
+```
+
+
+
+
+### &lt;fetch-value&gt;
+
+Обновление модели поля ввода
+
+**Атрибуты**
+
+|Наименование  |Тип   |Описание                                                             |Значение по умолчанию |
+|--------------|------|---------------------------------------------------------------------|----------------------|
+|query-id      |Строка|Запрос данных                                                 |                      |
+|value-field-id|Строка|Поле выборки, значение которого будет проставлено в модель поля ввода|Вся модель            |
+|size          |Число |Количество возвращаемых записей                                      |                      |
+
+**Тело**<br/>
+[Предустановленные фильтры](../xml/base#filters)
+
+**Пример**
+```xml
+<dependencies>
+  <fetch-value on="type" query-id="queryId" value-field-id="name" size="10">
+      <filters>
+          ...
+      </filters>
+  </fetch-value>
+  <!-- При изменении поля type будет выполнен запрос данных и значение name будет проставлено в текущее поле -->
+</dependencies>
+```
+
+
+
+### &lt;requiring&gt;
+
+Условие обязательности заполнения
+
+**Тело**<br/>
+Java Script выражение.
+
+**Пример**
+```xml
+<dependencies>
+  <requiring on="type">type.id == 1</requiring>
+  <!-- Поле обязательно для заполнения, если type.id равен 1 -->
+</dependencies>
+```
+
+
+
+
+### &lt;reset&gt;
+
+Сброс значения
+
+**Тело**<br/>
+Java Script выражение.
+
+**Пример**
+```xml
+<dependencies>
+  <reset on="type">type.id == 1</reset>
+  <!-- Сбросить значение, если type.id равен 1 -->
+</dependencies>
+```
+
+
+
+### &lt;set-value&gt;
+
+Условие установки значений
+
+**Тело**<br/>
+Java Script тело функции.
+
+**Пример**
+```xml
+<dependencies>
+  <set-value on="type">
+    if (type.id == 1)
+      return "Test";
+  </set-value>
+  <!-- Поле заполнится значением "Test", если type.id равен 1 -->
+</dependencies>
+```
+
+
 
 ### &lt;visibility&gt;
 
@@ -1454,7 +1666,6 @@ n2o.api.control.visibility.reset=false
 Java Script выражение.
 
 **Пример**
-
 ```xml
 <dependencies>
   <visibility on="type" reset="true">type.id == 1</visibility>
@@ -1462,102 +1673,8 @@ Java Script выражение.
 </dependencies>
 ```
 
-### &lt;reset&gt;
 
-Сброс значения
 
-**Тело**<br/>
-Java Script выражение.
-
-**Пример**
-
-```xml
-<dependencies>
-  <reset on="type">type.id == 1</reset>
-  <!-- Сбросить значение, если type.id равен 1 -->
-</dependencies>
-```
-
-### &lt;fetch-value&gt;
-
-Обновление модели поля ввода
-
-**Атрибуты**
-
-|Наименование  |Тип   |Описание                                                             |Значение по умолчанию |
-|--------------|------|---------------------------------------------------------------------|----------------------|
-|query-id      |Строка|Запрос данных                                                 |                      |
-|value-field-id|Строка|Поле выборки, значение которого будет проставлено в модель поля ввода|Вся модель            |
-|size          |Число |Количество возвращаемых записей                                      |                      |
-
-**Тело**<br/>
-[Предустановленные фильтры](../xml/base#filters)
-
-**Пример**
-
-```xml
-<dependencies>
-  <fetch-value on="type" query-id="queryId" value-field-id="name" size="10">
-      <filters>
-          ...
-      </filters>
-  </fetch-value>
-  <!-- При изменении поля type будет выполнен запрос данных и значение name будет проставлено в текущее поле -->
-</dependencies>
-```
-
-### &lt;fetch&gt; {#fetch}
-
-Обновление модели компонента при изменении зависимых полей.
-Нужен для списковых компонентов с открытым списком (radio-group, checkbox-group),
-у которых есть фильтры от других полей
-
-**Пример**
-
-```xml
-<dependencies>
-  <fetch on="type"/>
-  <!-- При изменении поля type будет выполнен запрос данных и списковый компонент отобразит обновленные варианты -->
-</dependencies>
-```
-
-### &lt;set-value&gt;
-
-Условие установки значений
-
-**Тело**<br/>
-Java Script тело функции.
-
-**Пример**
-
-```xml
-<dependencies>
-  <set-value on="type">
-    if (type.id == 1)
-      return "Test";
-  </set-value>
-  <!-- Поле заполнится значением "Test", если type.id равен 1 -->
-</dependencies>
-```
-
-### &lt;requiring&gt;
-
-Условие обязательности заполнения
-
-**Тело**<br/>
-Java Script выражение.
-
-**Пример**
-
-```xml
-<dependencies>
-  <requiring on="type">type.id == 1</requiring>
-  <!-- Поле обязательно для заполнения, если type.id равен 1 -->
-</dependencies>
-```
-
-**Тело**<br/>
-Java Script выражение.
 
 
 ## Валидации компонента

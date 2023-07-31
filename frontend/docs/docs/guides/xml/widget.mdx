@@ -40,106 +40,7 @@ n2o.api.widget.auto_focus=false
 ```
 
 ## Простые виджеты {#simple_widgets}
-### &lt;form&gt;
-Виджет Форма.
 
-**Атрибуты**
-
-|Наименование       |Тип                 |Описание                                                                                                                                                                                                                                     |Значение по умолчанию|
-|-------------------|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
-|mode               |one-model two-models|Режим работы формы. Возможные значения: one-model - одна модель редактируется и отправляется. two-models - 2х модельный режим (при первой загрузке данные копируются в модель resolve и edit. При редактировании формы меняется модель edit.)|one-model            |
-|unsaved-data-prompt|true false          |Показать предупреждение о наличии несохраненных данных.                                                                                                                                                                                      |false                |
-
-**Настройки**
-```yaml
-#Показать предупреждение о наличии несохраненных данных в форме
-n2o.api.widget.form.unsaved_data_prompt=false
-#Количество записей в форме (число)
-n2o.api.widget.form.size=1
-```
-
-**Тело**<br/>
-&lt;fields&gt; - [Поля формы](../xml/field)<br/>
-&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
-&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
-&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
-&lt;actions&gt; - [Встроенные действия](#widget_actions)
-
-**Пример**
-```xml
-<?xml version='1.0' encoding='UTF-8'?>
-<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
-  name="Моя форма"
-  object-id="myObject">
-  <fields>...</fields>
-  <toolbar>...</toolbar>
-</form>
-```
-<Sandbox height={350} projectId="uxcomponents_form_form"/>
-
-### &lt;chart&gt;
-Виджет График.
-
-**Атрибуты**
-
-|Наименование|Тип  |Описание|
-|------------|-----|--------|
-|width|Строка|Ширина графика. Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
-|height|Строка|Высота графика. Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
-
-**Тело**<br/>
-&lt;areas&gt; - [Диаграмма-область](../xml/chart#areas)<br/>
-&lt;bars&gt; - [Гистограмма](../xml/chart#bars)<br/>
-&lt;lines&gt; - [Линейный график](../xml/chart#lines)<br/>
-&lt;pie&gt; - [Круговая диаграмма](../xml/chart#pie)<br/>
-&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
-&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
-&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
-&lt;actions&gt; - [Встроенные действия](#widget_actions)
-
-**Пример**
-```xml
-<chart width="600px" height="400px" datasource="ds1">
-    <areas>
-        <area>...</area>
-    </areas>
-</chart>
-```
-<Sandbox height={350} projectId="uxcomponents_charts_areas" />
-
-### &lt;html&gt;
-
-HTML виджет. Виджет, отображающий HTML содержимое.
-
-**Тело**<br/>
-&lt;content&gt; - [Контент для отображения html](#html_content)
-
-#### &lt;content&gt; {#html_content}
-
-Контент для отображения html.
-
-**Атрибуты**
-
-|Наименование|Тип   |Описание               |
-|------------|------|-----------------------|
-|url         |Строка|URL адрес HTML страницы. Если не задан, необходимо задать содержимое в теле.
-
-**Пример**
-```xml
-<html>
-    <content url="index.html"/>
-</html>
-```
-**Пример**
-```xml
-<html>
-    <content>
-        <![CDATA[
-            <div class='test'><p>Hello</p></div>
-        ]]>
-    </content>
-</html>
-```
 
 ### &lt;calendar&gt;
 
@@ -276,6 +177,106 @@ n2o.api.widget.calendar.time_slot_count=2
 <format id="dayFormat" value="dd"/>
 ```
 
+### &lt;chart&gt;
+Виджет График.
+
+**Атрибуты**
+
+|Наименование|Тип  |Описание|
+|------------|-----|--------|
+|width|Строка|Ширина графика. Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
+|height|Строка|Высота графика. Доступные единицы измерения: `px`. При указании числа оно будет приведено к `px`
+
+**Тело**<br/>
+&lt;areas&gt; - [Диаграмма-область](../xml/chart#areas)<br/>
+&lt;bars&gt; - [Гистограмма](../xml/chart#bars)<br/>
+&lt;lines&gt; - [Линейный график](../xml/chart#lines)<br/>
+&lt;pie&gt; - [Круговая диаграмма](../xml/chart#pie)<br/>
+&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
+&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия](#widget_actions)
+
+**Пример**
+```xml
+<chart width="600px" height="400px" datasource="ds1">
+    <areas>
+        <area>...</area>
+    </areas>
+</chart>
+```
+<Sandbox height={350} projectId="uxcomponents_charts_areas" />
+
+### &lt;form&gt;
+Виджет Форма.
+
+**Атрибуты**
+
+|Наименование       |Тип                 |Описание                                                                                                                                                                                                                                     |Значение по умолчанию|
+|-------------------|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
+|mode               |one-model two-models|Режим работы формы. Возможные значения: one-model - одна модель редактируется и отправляется. two-models - 2х модельный режим (при первой загрузке данные копируются в модель resolve и edit. При редактировании формы меняется модель edit.)|one-model            |
+|unsaved-data-prompt|true false          |Показать предупреждение о наличии несохраненных данных.                                                                                                                                                                                      |false                |
+
+**Настройки**
+```yaml
+#Показать предупреждение о наличии несохраненных данных в форме
+n2o.api.widget.form.unsaved_data_prompt=false
+#Количество записей в форме (число)
+n2o.api.widget.form.size=1
+```
+
+**Тело**<br/>
+&lt;fields&gt; - [Поля формы](../xml/field)<br/>
+&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
+&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия](#widget_actions)
+
+**Пример**
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+  name="Моя форма"
+  object-id="myObject">
+  <fields>...</fields>
+  <toolbar>...</toolbar>
+</form>
+```
+<Sandbox height={350} projectId="uxcomponents_form_form"/>
+
+### &lt;html&gt;
+
+HTML виджет. Виджет, отображающий HTML содержимое.
+
+**Тело**<br/>
+&lt;content&gt; - [Контент для отображения html](#html_content)
+
+#### &lt;content&gt; {#html_content}
+
+Контент для отображения html.
+
+**Атрибуты**
+
+|Наименование|Тип   |Описание               |
+|------------|------|-----------------------|
+|url         |Строка|URL адрес HTML страницы. Если не задан, необходимо задать содержимое в теле.
+
+**Пример**
+```xml
+<html>
+    <content url="index.html"/>
+</html>
+```
+**Пример**
+```xml
+<html>
+    <content>
+        <![CDATA[
+            <div class='test'><p>Hello</p></div>
+        ]]>
+    </content>
+</html>
+```
 
 ### &lt;widget&gt;
 Настраиваемый виджет.
@@ -299,6 +300,177 @@ n2o.api.widget.calendar.time_slot_count=2
 ```
 
 ## Списковые виджеты {#list_widgets}
+
+
+
+### &lt;cards&gt;
+Виджет Карточки.
+
+**Атрибуты**
+
+|Наименование  |Тип              |Описание                                     |Значение по умолчанию|
+|--------------|-----------------|---------------------------------------------|---------------------|
+|id            |Строка           |Идентификатор виджета                        |                     |
+|vertical-align|center top bottom|Выравнивание по вертикали содержимого колонок|top                  |
+|height        |Строка           |Высота карточек. Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
+
+**Настройки**
+```yaml
+#значение по умолчанию для пагинации карточек
+n2o.api.widget.cards.size=10
+#значение по умолчанию для выравнивания карточек (top/center/bottom)
+n2o.api.widget.cards.vertical_align=top
+#значение по умолчанию для высоты карточек
+n2o.api.widget.cards.height=
+```
+
+**Тело**<br/>
+&lt;content&gt; - [Список колонок (карточек)](#cards_content)<br/>
+&lt;pagination&gt; - [Пагинация карточек](#pagination)<br/>
+&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
+&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия](#widget_actions)
+
+**Пример**
+```xml
+<cards id="cards_id" vertical-align="center" height="400px">
+  <content>...</content>
+  <pagination>...</pagination>
+</tiles>
+```
+
+#### &lt;content&gt; {#cards_content}
+Содержимое виджета: список колонок (карточек).
+
+**Тело**<br/>
+&lt;col&gt; - [Колонка](#col)
+
+#### &lt;col&gt; {#col}
+Колонка.
+
+**Атрибуты**
+
+|Наименование|Тип   |Описание                   |
+|------------|------|---------------------------|
+|size        |Число |Ширина колонки согласно сетке bootstrap (1-12).|
+
+**Тело**<br/>
+&lt;block&gt; - [Блок](#cards_block).
+
+**Пример**
+```xml
+<content>
+  <col>
+    <block>...</block>
+    <block>...</block>
+  </col>
+  <col>
+    <block>...</block>
+  </col>
+</content>
+```
+
+
+#### &lt;block&gt; {#cards_block}
+Блок.
+
+**Атрибуты**
+
+|Наименование    |Тип         |Описание                                          |Значение по умолчанию|
+|----------------|------------|--------------------------------------------------|---------------------|
+|id              |Строка      |Идентификатор ресурса                             |                     |
+|text-field-id   |Строка      |Поле выборки, отображаемое в блоке                |                     |
+|tooltip-field-id|Строка      |Поле выборки, отображаемое при наведении на ячейку|                     |
+
+**Тело**<br/>
+[Ячейка](../xml/cell).
+
+<Sandbox height={420} projectId="uxcomponents_cards_card_single_line" />
+
+
+### &lt;list&gt;
+Виджет Список.
+
+**Настройки**
+```yaml
+#Количество записей в списке (число)
+n2o.api.widget.list.size=5
+```
+
+**Тело**<br/>
+&lt;content&gt; - [Содержимое списка](#list_content)<br/>
+&lt;rows&gt; - [Настройки строк списка](#list_rows)<br/>
+&lt;pagination&gt; - [Пагинация](#pagination)<br/>
+&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
+&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия](#widget_actions)
+
+**Пример**
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<list name="Мой список"
+      datasource="myList">
+  <content>...</content>
+  <pagination>...</pagination>
+</list>
+```
+<Sandbox height={300} projectId="uxcomponents_list_list" />
+
+
+#### &lt;content&gt; {#list_content}
+Содержимое списка.
+
+**Тело**<br/>
+&lt;left-top&gt;<br/>
+&lt;left-bottom&gt;<br/>
+&lt;header&gt;<br/>
+&lt;body&gt;<br/>
+&lt;sub-header&gt;<br/>
+&lt;right-top&gt;<br/>
+&lt;right-bottom&gt;<br/>
+&lt;extra&gt;
+
+**Атрибуты**
+
+|Наименование  |Тип   |Описание                                                |Значение по умолчанию|
+|--------------|------|--------------------------------------------------------|---------------------|
+|text-field-id |Строка|Поле выборки, отображаемое в строке списка в виде текста|                     |
+
+**Тело**<br/>
+[Ячейка](../xml/cell)
+
+**Пример**
+```xml
+ <content>
+    <left-top text-field-id="image">
+        <image width="50px"/>
+    </left-top>
+ </content>
+```
+
+#### &lt;rows&gt; {#list_rows}
+Настройки строк списка.
+
+**Тело**<br/>
+&lt;click&gt; - [Клик по строке](../xml/base#click)
+
+**Пример**
+```xml
+ <list>
+     <content>
+        <left-top id="leftTop">
+            <image class="list-image"/>
+        </left-top>
+     </content>
+     <rows>
+        <click>...</click>
+     </rows>
+     <pagination>...</pagination>
+ </list>
+```
+
 
 ### &lt;table&gt;
 Виджет Таблица.
@@ -622,157 +794,6 @@ n2o.api.widget.column.multi.alignment=center
 </filters>
 ```
 
-### &lt;tree&gt;
-Виджет Дерево.
-
-**Атрибуты**
-
-|Наименование         |Тип                    |Описание                            |Значение по умолчанию|
-|---------------------|-----------------------|------------------------------------|---------------------|
-|parent-field-id      |Ссылка на поле выборки |Родительский узел дерева            |                     |
-|value-field-id       |Ссылка на поле выборки |Идентификатор узла дерева           |                     |
-|label-field-id       |Ссылка на поле выборки |Наименование узла дерева            |                     |
-|icon-field-id        |Ссылка на поле выборки |Иконка узла дерева                  |                     |
-|has-children-field-id|Ссылка на поле выборки |Наличие дочерних элементов          |                     |
-|badge-field-id       |Ссылка на поле выборки |Значок узла дерева                  |                     |
-|badge-color-field-id |Ссылка на поле выборки |Цвет значка узла дерева             |                     |
-|badge-position       |left right             |Позиция значка                      |right                |
-|badge-shape          |rounded circle square  |Форма значка                        |square               |
-|badge-image-field-id |Ссылка на поле выборки |Картинка в значке                   |                     |
-|badge-image-position |left right             |Позиция картинки в значке           |left                 |
-|badge-image-shape    |rounded circle square  |Форма картинки в значке             |circle               |
-|image-field-id       |Ссылка на поле выборки |Изображение узла дерева             |                     |
-|multi-select         |true false             |Режим множественного выбора         |true                 |
-|checkboxes           |true false             |Выбор в режиме чекбокс              |false                |
-|ajax                 |true false             |Поддержка загрузки через ajax запрос|false                |
-
-:::note
-Записи должны ссылаться "сами на себя" (parent-field-id), образуя древовидную структуру.
-:::
-
-**Настройки**
-```yaml
-#Позиция значка в widget <tree>
-n2o.api.widget.tree.badge.position=right
-#Форма значка в widget <tree>
-n2o.api.widget.tree.badge.shape=square
-#Позиция картинки в значке в widget <tree>
-n2o.api.widget.tree.badge.image_position=left
-#Форма картинки в значке в widget <tree>
-n2o.api.widget.tree.badge.image_shape=circle
-#Количество записей в дереве за один запрос (число)
-n2o.api.widget.tree.size=200
-#Поддержка загрузки через ajax запрос
-n2o.api.widget.tree.ajax=false
-#Режим множественного выбора
-n2o.api.widget.tree.multi_select=false
-#Выбор в режиме чекбокс
-n2o.api.widget.tree.checkboxes=false
-```
-
-**Тело**<br/>
-&lt;pagination&gt; - [Пагинация таблицы](#pagination)<br/>
-&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
-&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
-&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
-&lt;actions&gt; - [Встроенные действия](#widget_actions)
-
-**Пример**
-```xml
-<?xml version='1.0' encoding='UTF-8'?>
-<tree xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
-    name="Моё дерево"
-    parent-field-id="parentId"
-    label-field-id="name"
-    datasource="ds1">
-</tree>
-```
-
-<Sandbox height={300} projectId="uxcomponents_tree_tree" />
-
-### &lt;list&gt;
-Виджет Список.
-
-**Настройки**
-```yaml
-#Количество записей в списке (число)
-n2o.api.widget.list.size=5
-```
-
-**Тело**<br/>
-&lt;content&gt; - [Содержимое списка](#list_content)<br/>
-&lt;rows&gt; - [Настройки строк списка](#list_rows)<br/>
-&lt;pagination&gt; - [Пагинация](#pagination)<br/>
-&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
-&lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
-&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
-&lt;actions&gt; - [Встроенные действия](#widget_actions)
-
-**Пример**
-```xml
-<?xml version='1.0' encoding='UTF-8'?>
-<list name="Мой список"
-      datasource="myList">
-  <content>...</content>
-  <pagination>...</pagination>
-</list>
-```
-<Sandbox height={300} projectId="uxcomponents_list_list" />
-
-
-#### &lt;content&gt; {#list_content}
-Содержимое списка.
-
-**Тело**<br/>
-&lt;left-top&gt;<br/>
-&lt;left-bottom&gt;<br/>
-&lt;header&gt;<br/>
-&lt;body&gt;<br/>
-&lt;sub-header&gt;<br/>
-&lt;right-top&gt;<br/>
-&lt;right-bottom&gt;<br/>
-&lt;extra&gt;
-
-**Атрибуты**
-
-|Наименование  |Тип   |Описание                                                |Значение по умолчанию|
-|--------------|------|--------------------------------------------------------|---------------------|
-|text-field-id |Строка|Поле выборки, отображаемое в строке списка в виде текста|                     |
-
-**Тело**<br/>
-[Ячейка](../xml/cell)
-
-**Пример**
-```xml
- <content>
-    <left-top text-field-id="image">
-        <image width="50px"/>
-    </left-top>
- </content>
-```
-
-#### &lt;rows&gt; {#list_rows}
-Настройки строк списка.
-
-**Тело**<br/>
-&lt;click&gt; - [Клик по строке](../xml/base#click)
-
-**Пример**
-```xml
- <list>
-     <content>
-        <left-top id="leftTop">
-            <image class="list-image"/>
-        </left-top>
-     </content>
-     <rows>
-        <click>...</click>
-     </rows>
-     <pagination>...</pagination>
- </list>
-```
-
-
 ### &lt;tiles&gt;
 Виджет Плитки.
 
@@ -859,31 +880,56 @@ n2o.api.widget.tiles.size=10
 </block>
 ```
 
-
-### &lt;cards&gt;
-Виджет Карточки.
+### &lt;tree&gt;
+Виджет Дерево.
 
 **Атрибуты**
 
-|Наименование  |Тип              |Описание                                     |Значение по умолчанию|
-|--------------|-----------------|---------------------------------------------|---------------------|
-|id            |Строка           |Идентификатор виджета                        |                     |
-|vertical-align|center top bottom|Выравнивание по вертикали содержимого колонок|top                  |
-|height        |Строка           |Высота карточек. Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
+|Наименование         |Тип                    |Описание                            |Значение по умолчанию|
+|---------------------|-----------------------|------------------------------------|---------------------|
+|parent-field-id      |Ссылка на поле выборки |Родительский узел дерева            |                     |
+|value-field-id       |Ссылка на поле выборки |Идентификатор узла дерева           |                     |
+|label-field-id       |Ссылка на поле выборки |Наименование узла дерева            |                     |
+|icon-field-id        |Ссылка на поле выборки |Иконка узла дерева                  |                     |
+|has-children-field-id|Ссылка на поле выборки |Наличие дочерних элементов          |                     |
+|badge-field-id       |Ссылка на поле выборки |Значок узла дерева                  |                     |
+|badge-color-field-id |Ссылка на поле выборки |Цвет значка узла дерева             |                     |
+|badge-position       |left right             |Позиция значка                      |right                |
+|badge-shape          |rounded circle square  |Форма значка                        |square               |
+|badge-image-field-id |Ссылка на поле выборки |Картинка в значке                   |                     |
+|badge-image-position |left right             |Позиция картинки в значке           |left                 |
+|badge-image-shape    |rounded circle square  |Форма картинки в значке             |circle               |
+|image-field-id       |Ссылка на поле выборки |Изображение узла дерева             |                     |
+|multi-select         |true false             |Режим множественного выбора         |true                 |
+|checkboxes           |true false             |Выбор в режиме чекбокс              |false                |
+|ajax                 |true false             |Поддержка загрузки через ajax запрос|false                |
+
+:::note
+Записи должны ссылаться "сами на себя" (parent-field-id), образуя древовидную структуру.
+:::
 
 **Настройки**
 ```yaml
-#значение по умолчанию для пагинации карточек
-n2o.api.widget.cards.size=10
-#значение по умолчанию для выравнивания карточек (top/center/bottom)
-n2o.api.widget.cards.vertical_align=top
-#значение по умолчанию для высоты карточек
-n2o.api.widget.cards.height=
+#Позиция значка в widget <tree>
+n2o.api.widget.tree.badge.position=right
+#Форма значка в widget <tree>
+n2o.api.widget.tree.badge.shape=square
+#Позиция картинки в значке в widget <tree>
+n2o.api.widget.tree.badge.image_position=left
+#Форма картинки в значке в widget <tree>
+n2o.api.widget.tree.badge.image_shape=circle
+#Количество записей в дереве за один запрос (число)
+n2o.api.widget.tree.size=200
+#Поддержка загрузки через ajax запрос
+n2o.api.widget.tree.ajax=false
+#Режим множественного выбора
+n2o.api.widget.tree.multi_select=false
+#Выбор в режиме чекбокс
+n2o.api.widget.tree.checkboxes=false
 ```
 
 **Тело**<br/>
-&lt;content&gt; - [Список колонок (карточек)](#cards_content)<br/>
-&lt;pagination&gt; - [Пагинация карточек](#pagination)<br/>
+&lt;pagination&gt; - [Пагинация таблицы](#pagination)<br/>
 &lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
 &lt;datasource&gt; - [Встроенный источник данных виджета](#widget_datasource)<br/>
 &lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
@@ -891,59 +937,16 @@ n2o.api.widget.cards.height=
 
 **Пример**
 ```xml
-<cards id="cards_id" vertical-align="center" height="400px">
-  <content>...</content>
-  <pagination>...</pagination>
-</tiles>
+<?xml version='1.0' encoding='UTF-8'?>
+<tree xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+    name="Моё дерево"
+    parent-field-id="parentId"
+    label-field-id="name"
+    datasource="ds1">
+</tree>
 ```
 
-#### &lt;content&gt; {#cards_content}
-Содержимое виджета: список колонок (карточек).
-
-**Тело**<br/>
-&lt;col&gt; - [Колонка](#col)
-
-#### &lt;col&gt; {#col}
-Колонка.
-
-**Атрибуты**
-
-|Наименование|Тип   |Описание                   |
-|------------|------|---------------------------|
-|size        |Число |Ширина колонки согласно сетке bootstrap (1-12).|
-
-**Тело**<br/>
-&lt;block&gt; - [Блок](#cards_block).
-
-**Пример**
-```xml
-<content>
-  <col>
-    <block>...</block>
-    <block>...</block>
-  </col>
-  <col>
-    <block>...</block>
-  </col>
-</content>
-```
-
-
-#### &lt;block&gt; {#cards_block}
-Блок.
-
-**Атрибуты**
-
-|Наименование    |Тип         |Описание                                          |Значение по умолчанию|
-|----------------|------------|--------------------------------------------------|---------------------|
-|id              |Строка      |Идентификатор ресурса                             |                     |
-|text-field-id   |Строка      |Поле выборки, отображаемое в блоке                |                     |
-|tooltip-field-id|Строка      |Поле выборки, отображаемое при наведении на ячейку|                     |
-
-**Тело**<br/>
-[Ячейка](../xml/cell).
-
-<Sandbox height={420} projectId="uxcomponents_cards_card_single_line" />
+<Sandbox height={300} projectId="uxcomponents_tree_tree" />
 
 
 ## Зависимости виджета {#widget_dependencies}
