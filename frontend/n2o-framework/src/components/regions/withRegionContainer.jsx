@@ -46,8 +46,8 @@ const createRegionContainer = config => (WrappedComponent) => {
                     active,
                     resolveModel,
                     activeTabFieldId,
-                    query,
                     content,
+                    query = {},
                     datasource = null,
                     open = true,
                     tabs = [],
@@ -66,11 +66,15 @@ const createRegionContainer = config => (WrappedComponent) => {
                         }
                     }
 
+                    if (active) {
+                        return active
+                    }
+
                     const [first = {}] = tabs
+                    const [queryParam] = Object.values(query) || null
 
-                    return activeEntity || active || query[id] || getFirstContentId(content) || first.id
+                    return queryParam || activeEntity || getFirstContentId(content) || first.id
                 }
-
                 const currentActiveEntity = getCurrentActiveEntity()
 
                 dispatch(registerRegion(id, {
