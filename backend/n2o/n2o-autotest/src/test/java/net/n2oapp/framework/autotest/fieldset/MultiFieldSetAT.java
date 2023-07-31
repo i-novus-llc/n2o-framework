@@ -253,6 +253,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
     @Test
     public void testQueryData() {
+        setJsonPath("net/n2oapp/framework/autotest/fieldset/multiset/query_data");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/query_data/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/query_data/test.query.xml"));
 

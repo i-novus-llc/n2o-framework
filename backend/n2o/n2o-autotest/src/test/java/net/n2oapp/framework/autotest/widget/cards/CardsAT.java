@@ -46,8 +46,10 @@ public class CardsAT extends AutoTestBase {
 
     @Test
     public void testCardsOne(){
+        setJsonPath("net/n2oapp/framework/autotest/widget/cards/page1/");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page1/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page1/modal.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page1/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page1/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("CardsWidget1");
@@ -107,7 +109,9 @@ public class CardsAT extends AutoTestBase {
 
     @Test
     public void testCardsTwo(){
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page2/index.page.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/cards/page2");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page2/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page2/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("CardsWidget2");
@@ -182,6 +186,7 @@ public class CardsAT extends AutoTestBase {
 
     @Test
     public void testPaging() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/cards/paging");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/paging/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/cards/paging/test.query.xml"));
         StandardPage page = open(StandardPage.class);

@@ -1,848 +1,859 @@
 {
-  "name": "Тесты",
+  "name": "Примеры для автотестов",
   "sections": [
     {
-      "name": "7.20",
+      "name": "Права доступа",
       "templates": [
         {
-          "templateId": "cases/7.20/menu_with_icon_and_badge_in_header",
-          "name": "Меню с иконкой и баджем в хедере"
+          "templateId": "net/n2oapp/framework/autotest/access/attributes/fields",
+          "name": "AccessFieldsAT"
         },
         {
-          "templateId": "cases/7.20/menu_with_icon_text_and_badge_in_header",
-          "name": "Меню с иконкой, текстом и баджем в хедере"
-        },
-        {
-          "templateId": "cases/7.20/menu_with_picture_and_badge_in_header",
-          "name": "Меню с картинкой и баджем в хедере"
-        },
-        {
-          "templateId": "cases/7.20/menu_with_picture_text_and_badge_in_header",
-          "name": "Меню с картинкой, текстом и баджем в хедере"
-        },
-        {
-          "templateId": "cases/7.20/dropdown_menu_with_picture_in_header",
-          "name": "Подменю с картинкой в хедере"
-        },
-        {
-          "templateId": "cases/7.20/menu_with_icon_text_and_badge_in_sidebar",
-          "name": "Меню с иконкой, текстом и баджем в сайдбаре"
-        },
-        {
-          "templateId": "cases/7.20/menu_with_picture_and_text_in_sidebar",
-          "name": "Меню с картинкой и текстом в сайдбаре"
-        },
-        {
-          "templateId": "cases/7.20/menu_with_picture_text_and_badge_in_sidebar",
-          "name": "Меню с картинкой, текстом и баджем в сайдбаре"
-        },
-        {
-          "templateId": "cases/7.20/highlighting_invalid_fields",
-          "name": "Подсветка невалидных полей в неактивных вкладках"
-        },
-        {
-          "templateId": "cases/7.20/cards_block_style",
-          "name": "Стили для блоков карточек"
+          "templateId": "net/n2oapp/framework/autotest/access/schema/header",
+          "name": "AccessHeaderAT"
         }
       ]
     },
     {
-      "name": "7.19",
+      "name": "Приложение",
       "templates": [
         {
-          "templateId": "cases/7.19/datasource",
-          "name": "Datasource"
+          "templateId": "net/n2oapp/framework/autotest/application/footer",
+          "name": "FooterAT"
         },
         {
-          "templateId": "cases/7.19/dialog_title",
-          "name": "Заголовок диалога"
+          "templateId": "net/n2oapp/framework/autotest/application/header",
+          "name": "SimpleHeaderAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/header/dropdown",
+          "name": "MenuAT. headerDropdownMiImage"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/header/icon",
+          "name": "MenuAT. headerMiIconAndBadgeTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/header/icon_with_text",
+          "name": "MenuAT. headerMiIconTextAndBadge"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/header/image",
+          "name": "MenuAT. headerMiImageAndBadge"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/header/image_with_text",
+          "name": "MenuAT. headerMiImageTextAndBadge"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/sidebar/icon",
+          "name": "MenuAT. sidebarMiIconTextAndBadge"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/sidebar/image",
+          "name": "MenuAT. sidebarMiImageAndText"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/sidebar/image_with_badge",
+          "name": "MenuAT. sidebarMiImageTextAndBadge"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebar/simple",
+          "name": "SidebarAT. testSidebar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebar/fullsize",
+          "name": "SidebarAT. testFullsizeSidebar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebar/fixed",
+          "name": "SidebarAT. testFixedSidebar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebar/right",
+          "name": "SidebarAT. testRightSidebar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebar/overlay",
+          "name": "SidebarAT. testSidebarOverlay"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebar/default_micro",
+          "name": "SidebarAT. testSidebarDefaultMicro"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/application/sidebar/default_mini",
+          "name": "SidebarAT. testSidebarDefaultMini"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/breadcrumbs",
+          "name": "BreadcrumbsAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/searchBar",
+          "name": "SearchHeaderAT"
         }
       ]
     },
     {
-      "name": "7.18",
+      "name": "Страница",
       "templates": [
         {
-          "templateId": "cases/7.18/file_upload_cell",
-          "name": "Ячейка загрузки файлов"
+          "templateId": "net/n2oapp/framework/autotest/page/simple_page",
+          "name": "SimplePageAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/page/title/simple",
+          "name": "PageTitleAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/page/title/params/path_params",
+          "name": "PageTitleLinkResolveAT. testPathParam"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/page/title/params/query_params",
+          "name": "PageTitleLinkResolveAT. testQueryParams"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/page/top_left_right",
+          "name": "TopLeftRightPageAT"
         }
       ]
     },
     {
-      "name": "7.17",
+      "name": "Регионы",
       "templates": [
         {
-          "templateId": "cases/7.17/tiles_style",
-          "name": "Стили для блоков плиток"
+          "templateId": "net/n2oapp/framework/autotest/region/custom/nesting",
+          "name": "CustomRegionAT. testContent"
         },
         {
-          "name": "При автофокусе на date-time и date-interval открывается pop-up",
-          "templateId": "cases/7.17/date_popup"
+          "templateId": "net/n2oapp/framework/autotest/region/custom/simple",
+          "name": "CustomRegionAT. testCustomRegion"
         },
         {
-          "name": "Радиогруппа в виде табов",
-          "templateId": "cases/7.17/radiogroup_tabs"
+          "templateId": "net/n2oapp/framework/autotest/region/line/nesting",
+          "name": "LineRegionAT. testContent"
         },
         {
-          "templateId": "cases/7.17/pagination_attributes_variability",
-          "name": "Расширенные возможности пагинации"
+          "templateId": "net/n2oapp/framework/autotest/region/line/simple",
+          "name": "LineRegionAT. testLineRegion"
         },
         {
-          "templateId": "cases/7.17/pagination_layouts",
-          "name": "Варианты представления пагинации"
+          "templateId": "net/n2oapp/framework/autotest/region/panel/nesting",
+          "name": "PanelRegionAT. testContent"
         },
         {
-          "templateId": "cases/7.17/simple_application",
-          "name": "Навигация, заданная в application.xml"
+          "templateId": "net/n2oapp/framework/autotest/region/panel/simple",
+          "name": "PanelRegionAT. testPanelRegion"
         },
         {
-          "templateId": "cases/7.17/multi_set_first_children_label",
-          "name": "Заголовок первого элемента мультисета"
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/fixed",
+          "name": "TabsRegionAT. testFixedContent"
         },
         {
-          "name": "Проброс значений обратно из модального окна",
-          "templateId": "cases/7.17/data_back_from_modal"
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/nesting",
+          "name": "TabsRegionAT. testContent"
         },
         {
-          "templateId": "cases/7.17/alert_position",
-          "name": "Позиция сообщения об ошибке/успехе"
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/simple",
+          "name": "TabsRegionAT. testTabsRegion"
         },
         {
-          "templateId": "cases/7.17/form_validations",
-          "name": "Валидация форм страницы"
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/visible",
+          "name": "TabsRegionAT. testVisible and testWidgetWithVisibleDepend"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/lazy",
+          "name": "TabsLazyInitAT. testLazyInit"
         }
       ]
     },
     {
-      "name": "7.16",
+      "name": "Виджеты",
       "templates": [
         {
-          "templateId": "cases/7.16/auto_complete_prefilter",
-          "name": "Префильтры в AutoComplete"
+          "templateId": "net/n2oapp/framework/autotest/widget/calendar/without_resources",
+          "name": "CalendarWithoutResourcesAT"
         },
         {
-          "templateId": "cases/7.16/table_filters_default_values",
-          "name": "Значения по умолчанию для фильтров таблицы"
+          "templateId": "net/n2oapp/framework/autotest/widget/calendar/simple",
+          "name": "CalendarAT"
         },
         {
-          "templateId": "cases/7.16/invoke_object",
-          "name": "Ссылка на объект в invoke"
+          "templateId": "net/n2oapp/framework/autotest/widget/cards/page1",
+          "name": "CardsAT. testCardsOne"
         },
         {
-          "templateId": "cases/7.16/submit_widget",
-          "name": "Ссылка на виджет в submit"
+          "templateId": "net/n2oapp/framework/autotest/widget/cards/page2",
+          "name": "CardsAT. testCardsTwo"
         },
         {
-          "templateId": "cases/7.16/fieldset_dynamic_label",
-          "name": "Динамический заголовок филдсетов"
+          "templateId": "net/n2oapp/framework/autotest/widget/cards/paging",
+          "name": "CardsAT. testPaging"
         },
         {
-          "templateId": "cases/7.16/datetime_placeholder",
-          "name": "Подсказка в компоненте ввода даты"
+          "templateId": "net/n2oapp/framework/autotest/widget/cards/style",
+          "name": "CardsBlockStyleAT"
         },
         {
-          "templateId": "cases/7.16/page_regions_style",
-          "name": "Стили в регионах и страницах"
+          "templateId": "net/n2oapp/framework/autotest/widget/chart/area",
+          "name": "AreaChartAT"
         },
         {
-          "templateId": "cases/7.16/page_breadcrumb_title",
-          "name": "Разный заголовок страницы и бредкрампа"
+          "templateId": "net/n2oapp/framework/autotest/widget/form/filter",
+          "name": "FormAsFilterAT"
         },
         {
-          "templateId": "cases/7.16/refresh_after_close",
-          "name": "Обновление виджета после закрытия модального окна"
+          "templateId": "net/n2oapp/framework/autotest/widget/form/simple",
+          "name": "FormAT. testForm"
         },
         {
-          "templateId": "cases/7.16/fieldset_description",
-          "name": "Подзаголовки в филдсетах"
+          "templateId": "net/n2oapp/framework/autotest/widget/form/mode",
+          "name": "FormAT. testMode"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/toolbar",
+          "name": "FormAT. testToolbar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/save_with_one_button",
+          "name": "FormsSaveWithOneButtonAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/submit",
+          "name": "FormSubmitAT. testSubmit"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/submit_modal",
+          "name": "FormSubmitAT. testModalSubmit"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/validation",
+          "name": "FormValidationAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/list/simple",
+          "name": "ListAT . testList"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/list/paging",
+          "name": "ListAT . testPaging"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/master_detail",
+          "name": "MasterDetailAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/checkboxes",
+          "name": "TableCheckboxesAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filter_column",
+          "name": "FilterColumnAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/form_as_filter",
+          "name": "TableFilterDefaultValueAT. testFormAsFilter"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/priority",
+          "name": "TableFilterDefaultValueAT. testPriority"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/default_values_query_id",
+          "name": "TableFilterDefaultValueAT. testDefaultValuesQueryId"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/default_value",
+          "name": "TableFilterDefaultValueAT. testSimple"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation",
+          "name": "TableFiltersValidationAT. testValidationFetch"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/multi_column",
+          "name": "MultiColumnAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/row_click",
+          "name": "TableAT. testRowClickEnabled"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/simple",
+          "name": "TableAT. testTable"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/toolbar/simple",
+          "name": "TableAT. testToolbar"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur",
+          "name": "TableAT. testHideOnBlur"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/paging",
+          "name": "TableAT. testPaging"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/selection/active",
+          "name": "TableSelectionAT. testActiveSelection"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/selection/checkbox",
+          "name": "TableSelectionAT. testCheckboxSelection"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/selection/none",
+          "name": "TableSelectionAT. testNoneSelection"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/selection/radio",
+          "name": "TableSelectionAT. testRadioSelection"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/with_children",
+          "name": "TableWithChildrenAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/tiles/simple",
+          "name": "TilesAT .testTiles"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/tiles/paging",
+          "name": "TilesAT .testPaging"
         }
       ]
     },
     {
-      "name": "7.15",
+      "name": "Ячейки",
       "templates": [
         {
-          "templateId": "cases/7.15/refresh_action",
-          "name": "Действие обновления данных виджета"
+          "templateId": "net/n2oapp/framework/autotest/cells/badge",
+          "name": "BadgeCellAT"
         },
         {
-          "templateId": "cases/7.15/dependencies_short_form",
-          "name": "Короткий способ задания зависимостей"
+          "templateId": "net/n2oapp/framework/autotest/cells/checkbox",
+          "name": "CheckboxCellAT"
         },
         {
-          "templateId": "cases/7.15/nesting_object_fields_for_map_provider",
-          "name": "Вложенные поля в объекте на примере TestProvider"
+          "templateId": "net/n2oapp/framework/autotest/cells/fileupload/simple",
+          "name": "FileUploadCellAT. oneFileUploadTest"
         },
         {
-          "templateId": "cases/7.15/nesting_object_fields_for_args_provider",
-          "name": "Вложенные поля в объекте на примере JavaProvider"
+          "templateId": "net/n2oapp/framework/autotest/cells/fileupload/multi",
+          "name": "FileUploadCellAT. multiFileUploadTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/icon",
+          "name": "IconCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/image/simple",
+          "name": "ImageCellAT. imageCellTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/image/status",
+          "name": "ImageCellAT. imageCellWithTitleTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/image/title",
+          "name": "ImageCellAT. imageCellWithStatusTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/link",
+          "name": "LinkCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/list",
+          "name": "ListCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/progress",
+          "name": "ProgressBarCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/rating",
+          "name": "RatingCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/switch",
+          "name": "SwitchCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/text",
+          "name": "TextCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/toolbar",
+          "name": "ToolbarCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/tooltip_list",
+          "name": "TooltipListCellAT"
         }
       ]
     },
     {
-      "name": "7.14",
+      "name": "Филдсеты",
       "templates": [
         {
-          "templateId": "cases/7.14/resolve_submodels_on_form",
-          "name": "Разрешение submodels в полях формы"
+          "templateId": "net/n2oapp/framework/autotest/fieldset/simple/common",
+          "name": "SimpleFieldSetAT. testFieldSet"
         },
         {
-          "templateId": "cases/7.14/resolve_submodels_on_table",
-          "name": "Разрешение submodels в фильтрах таблицы"
+          "templateId": "net/n2oapp/framework/autotest/fieldset/simple/visible",
+          "name": "SimpleFieldSetAT. testVisible"
         },
         {
-          "templateId": "cases/7.14/print_action",
-          "name": "Действие Печать"
+          "templateId": "net/n2oapp/framework/autotest/fieldset/simple/enabled",
+          "name": "SimpleFieldSetAT. testEnabled"
         },
         {
-          "templateId": "cases/7.14/chart_y_restrictions",
-          "name": "Ограничение оси Y графиков"
+          "templateId": "net/n2oapp/framework/autotest/fieldset/list/simple",
+          "name": "LineFieldSetAT. testLineFieldSet"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/list/visible",
+          "name": "LineFieldSetAT. testVisible"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/list/enabled",
+          "name": "LineFieldSetAT. testEnabled"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/add",
+          "name": "MultiFieldSetAT. testAdd"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/remove",
+          "name": "MultiFieldSetAT. testRemove"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/copy",
+          "name": "MultiFieldSetAT. testCopy"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/nested",
+          "name": "MultiFieldSetAT. testNestedMultiFieldSet"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/query_data",
+          "name": "MultiFieldSetAT. testQueryData"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/dependencies",
+          "name": "MultiFieldSetAT. testDependencies"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/visible",
+          "name": "MultiFieldSetAT. testVisible"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/enabled",
+          "name": "MultiFieldSetAT. testEnabled"
         }
       ]
     },
     {
-      "name": "7.13",
+      "name": "Поля",
       "templates": [
         {
-          "templateId": "cases/7.13/sized_table",
-          "name": "Таблица с регулируемой высотой/шириной"
+          "templateId": "net/n2oapp/framework/autotest/control/auto_complete/simple",
+          "name": "AutoCompleteAT. testAutoComplete and testTags"
         },
         {
-          "templateId": "cases/7.13/dialog_after_fail_operation",
-          "name": "Диалог после выполнения операции с ошибкой"
+          "templateId": "net/n2oapp/framework/autotest/control/auto_complete/preFilters",
+          "name": "AutoCompleteAT. testPrefilters"
         },
         {
-          "templateId": "cases/7.13/dialog_before_operation",
-          "name": "Диалог перед выполнением операции с вызовом invocation"
+          "templateId": "net/n2oapp/framework/autotest/control/checkbox",
+          "name": "CheckboxAT"
         },
         {
-          "templateId": "cases/7.13/dialog_before_operation_without_invocation",
-          "name": "Диалог перед выполнением операции без вызова invocation"
+          "templateId": "net/n2oapp/framework/autotest/control/checkbox_group",
+          "name": "CheckboxGroupAT"
         },
         {
-          "templateId": "cases/7.13/table_header_style",
-          "name": "Стили для заголовков таблицы"
+          "templateId": "net/n2oapp/framework/autotest/control/code_editor",
+          "name": "CodeEditorAT"
         },
         {
-          "templateId": "cases/7.13/input_text_numeric_precision",
-          "name": "Ограничение длины дробной части в поле ввода чисел"
+          "templateId": "net/n2oapp/framework/autotest/control/date_interval",
+          "name": "DateIntervalAT"
         },
         {
-          "templateId": "cases/7.13/clear_masked_input",
-          "name": "Возможность не сбрасывать не полностью введенное значение в masked-input"
+          "templateId": "net/n2oapp/framework/autotest/control/date_picker/simple",
+          "name": "DatePickerAT. testDatePicker and testDateTime"
         },
         {
-          "templateId": "cases/7.13/editable_rating_cell",
-          "name": "Редактируемая ячейка-рейтинг"
+          "templateId": "net/n2oapp/framework/autotest/control/date_picker/default",
+          "name": "DatePickerAT. testDefaultValue"
         },
         {
-          "templateId": "cases/7.13/image_cell_status",
-          "name": "Статус у ячейки и поля с картинкой"
+          "templateId": "net/n2oapp/framework/autotest/control/field_toolbar",
+          "name": "FieldToolbarAT"
         },
         {
-          "templateId": "cases/7.13/fetch_value",
-          "name": "unique и list запросы в fetch-value"
+          "templateId": "net/n2oapp/framework/autotest/control/fileupload",
+          "name": "FileUploadAT"
         },
         {
-          "templateId": "cases/7.13/ref_modal",
-          "name": "Прокидывание модели на форму в модальное окно или drawer"
+          "templateId": "net/n2oapp/framework/autotest/control/html",
+          "name": "HtmlAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/image_field",
+          "name": "ImageFieldAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/image_upload",
+          "name": "ImageUploadAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/simple",
+          "name": "InputSelectAT. testSingle and testColorStatus"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/multi",
+          "name": "InputSelectAT. testMulti"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/checkboxes",
+          "name": "InputSelectAT. testCheckboxes"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/query",
+          "name": "InputSelectAT. testReadFromQuery"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param",
+          "name": "InputSelectAT. testPrefilterByPathParam"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param",
+          "name": "InputSelectAT. testPrefilterByQueryParam"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_text",
+          "name": "InputTextAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/interval_field",
+          "name": "IntervalFieldAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/list/filter",
+          "name": "ListFieldAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/masked",
+          "name": "MaskedInputAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/money",
+          "name": "InputMoneyAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/number_picker",
+          "name": "NumberPickerAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/output_list",
+          "name": "OutputListAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/output_text/simple",
+          "name": "OutputTextAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/output_text/default",
+          "name": "OutputTextAT. testDefaultValue"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/password",
+          "name": "InputPasswordAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/pills",
+          "name": "PillsAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/progress",
+          "name": "ProgressAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/radio_group",
+          "name": "RadioGroupAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/rating",
+          "name": "RatingAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select/simple",
+          "name": "SelectAT. testSelect"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select/query",
+          "name": "SelectAT. testReadFromQuery"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select/format",
+          "name": "SelectAT. testSelectFormat"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select/checkboxes",
+          "name": "SelectAT. testCheckboxesType"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select_tree/simple",
+          "name": "InputSelectTreeAT. inputSelectTreeTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select_tree/nodes",
+          "name": "InputSelectTreeAT. readFromQueryTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/slider",
+          "name": "SliderAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/status",
+          "name": "StatusAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/submit",
+          "name": "StandardFieldSubmitAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/text",
+          "name": "TextAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/text_editor",
+          "name": "TextEditorAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/textarea",
+          "name": "TextAreaAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/time_picker",
+          "name": "TimePickerAT"
         }
       ]
     },
     {
-      "name": "7.12",
+      "name": "Данные",
       "templates": [
         {
-          "templateId": "cases/7.12/number_picker",
-          "name": "Поле ввода числа из диапазона"
+          "templateId": "net/n2oapp/framework/autotest/model/field",
+          "name": "RefFieldModelAT"
         },
         {
-          "templateId": "cases/7.12/image_field",
-          "name": "Поле вывода изображения"
+          "templateId": "net/n2oapp/framework/autotest/model/modal/from_form",
+          "name": "RefModalAT .refParentModalTest"
         },
         {
-          "templateId": "cases/7.12/fixed_tabs",
-          "name": "Вкладки с фиксированной высотой содержимого"
+          "templateId": "net/n2oapp/framework/autotest/model/modal/from_filters",
+          "name": "RefModalAT .refParentModalFromFiltersTest"
         },
         {
-          "templateId": "cases/7.12/drawer_fixed_footer",
-          "name": "Фиксированный футер в Drawer"
+          "templateId": "net/n2oapp/framework/autotest/submodels/form_fields",
+          "name": "ResolveFormFieldSubModelsAT"
         },
         {
-          "templateId": "cases/7.12/line_region_new_attr",
-          "name": "Новые атрибуты региона с горизонтальным делителем"
-        },
-        {
-          "templateId": "cases/7.12/close_with_clear",
-          "name": "Очистка формы с закрытием"
-        },
-        {
-          "templateId": "cases/7.12/hide_on_blur_table",
-          "name": "Появление тулбара при наведении на строку в таблице"
-        },
-        {
-          "templateId": "cases/7.12/image_cell",
-          "name": "Название и описание у ячейки с картинкой"
-        },
-        {
-          "templateId": "cases/7.12/cards",
-          "name": "Виджет Карточки"
-        },
-        {
-          "templateId": "cases/7.12/enable_on_empty_model_button",
-          "name": "Доступность кнопки при пустой модели"
-        },
-        {
-          "templateId": "cases/7.12/modal_customize",
-          "name": "Модальное окно с настраиваемыми фоном и хедером"
-        },
-        {
-          "templateId": "cases/7.12/bulk_operation",
-          "name": "Bulk операции"
-        },
-        {
-          "templateId": "cases/7.12/time_picker",
-          "name": "Поле ввода времени"
-        },
-        {
-          "templateId": "cases/7.12/search_header",
-          "name": "Поиск в хедере"
+          "templateId": "net/n2oapp/framework/autotest/submodels/table_filter",
+          "name": "ResolveTableFilterSubModelsAT"
         }
       ]
     },
     {
-      "name": "7.11",
+      "name": "Сообщения",
       "templates": [
         {
-          "templateId": "cases/7.11/toggle_icon",
-          "name": "Скрытие иконки раскрытия подменю"
-        },
-        {
-          "templateId": "cases/7.11/custom_region_advanced",
-          "name": "Простой регион с несколькими виджетами и регионами"
-        },
-        {
-          "templateId": "cases/7.11/tabs_region_advanced",
-          "name": "Регион в виде вкладок (усложненный)"
-        },
-        {
-          "templateId": "cases/7.11/panel_region_advanced",
-          "name": "Регион в виде панелей (усложненный)"
-        },
-        {
-          "templateId": "cases/7.11/line_region_advanced",
-          "name": "Регион с горизонтальным делителем (усложненный)"
-        },
-        {
-          "templateId": "cases/7.11/overlay_prompt",
-          "name": "Подтверждение закрытия в overlay окне"
-        },
-        {
-          "templateId": "cases/7.11/refresh_toolbar_cell",
-          "name": "Динамическое обновление ячеек таблицы"
-        },
-        {
-          "templateId": "cases/7.11/internationalization",
-          "name": "Мультиязычность"
+          "templateId": "net/n2oapp/framework/autotest/alert",
+          "name": "AlertPositionAT"
         }
       ]
     },
     {
-      "name": "7.10",
+      "name": "Взаимодействие",
       "templates": [
         {
-          "templateId": "cases/7.10/params_passing",
-          "name": "Передача path-param и query-param между страницами"
+          "templateId": "net/n2oapp/framework/autotest/action/bulk_operation",
+          "name": "BulkOperationAT. bulkOperationTest"
         },
         {
-          "templateId": "cases/7.10/invoke_delete_put",
-          "name": "Использование методов POST, PUT, DELETE в invoke"
+          "templateId": "net/n2oapp/framework/autotest/action/bulk_operation_string_ids",
+          "name": "BulkOperationAT. bulkOperationStringIdsTest"
         },
         {
-          "templateId": "cases/7.10/save_multiform",
-          "name": "Сохранение нескольких форм одновременно"
+          "templateId": "net/n2oapp/framework/autotest/action/close/clear",
+          "name": "CloseWithClearAT"
         },
         {
-          "templateId": "cases/7.10/image_upload",
-          "name": "Компонент загрузки изображения с превью"
+          "templateId": "net/n2oapp/framework/autotest/action/close/refresh/drawer",
+          "name": "RefreshAfterCloseModalAT. testDrawer"
         },
         {
-          "templateId": "cases/7.10/parameters_of_all_kinds",
-          "name": "Использование параметров разного типа"
+          "templateId": "net/n2oapp/framework/autotest/action/close/refresh/modal",
+          "name": "RefreshAfterCloseModalAT. testModal"
         },
         {
-          "templateId": "cases/7.10/simple_page_width",
-          "name": "Шаблон страницы для небольших форм"
+          "templateId": "net/n2oapp/framework/autotest/action/copy/modal",
+          "name": "CopyActionAT. testCopyFromModal"
         },
         {
-          "templateId": "cases/7.10/pagination",
-          "name": "Пагинация в списковых виджетах"
+          "templateId": "net/n2oapp/framework/autotest/action/copy/modal_multi",
+          "name": "CopyActionAT. testMultiCopyFromModal"
         },
         {
-          "templateId": "cases/7.10/tiles",
-          "name": "Виджет Плитки"
+          "templateId": "net/n2oapp/framework/autotest/action/copy/modal_replace",
+          "name": "CopyActionAT. testReplaceCopyFromModal"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/copy/simple",
+          "name": "CopyActionAT. testSimpleCopy"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/data_back_from_modal",
+          "name": "DataBackFromModalAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/drawer",
+          "name": "OpenDrawerAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/invoke/form_param",
+          "name": "InvokeActionAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/modal/customize",
+          "name": "ShowModalAT. customizeModalTest and buttonsEnablingInModalTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/modal/scrollable",
+          "name": "ShowModalAT. scrollableModalTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/modal/value_from_parent",
+          "name": "ShowModalAT. valueFromParent"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/open_page/simple",
+          "name": "OpenPageAT. testFilterState"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page",
+          "name": "OpenPageAT. testResolveBreadcrumb"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page",
+          "name": "OpenPageAT. testResolveBreadcrumbOnStandardPage"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/overlay_prompt",
+          "name": "OverlayPromptAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/refresh",
+          "name": "RefreshActionAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/set_value",
+          "name": "SetValueAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/confirm_type",
+          "name": "ButtonConfirmTypeAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/enabled/",
+          "name": "ButtonEnabledAT. testEnabled"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/enabled_dependency",
+          "name": "ButtonEnabledAT. testEnabledDependency"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/path_binding",
+          "name": "ButtonBindingAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/visible",
+          "name": "ButtonVisibleAT"
         }
       ]
     },
     {
-      "name": "7.9",
+      "name": "Условия и валидации",
       "templates": [
         {
-          "templateId": "cases/7.9/open_page_routes",
-          "name": "Корректные переходы между open page"
+          "templateId": "net/n2oapp/framework/autotest/condition/depends_on",
+          "name": "DependsOnFieldAT. onDifferentNameField"
         },
         {
-          "templateId": "cases/7.9/modal_scrollable",
-          "name": "Модальное окно с фиксированной высотой"
+          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/visibility",
+          "name": "FieldVisibilityAT"
         },
         {
-          "templateId": "cases/7.9/output_list",
-          "name": "Многострочный вывод текста"
-        }
-      ]
-    },
-    {
-      "name": "7.8",
-      "templates": [
-        {
-          "templateId": "cases/7.8/button_enabled_message",
-          "name": "Подсказка на кнопке по условию недоступности"
-        },
-        {
-          "templateId": "cases/7.8/fieldset_enabled",
-          "name": "Блокирование всех полей филдсета по атрибуту enabled"
-        },
-        {
-          "templateId": "cases/7.8/form_submit",
-          "name": "Автоматическое сохранение формы"
-        },
-        {
-          "templateId": "cases/7.8/calendar",
-          "name": "Виджет Календарь"
-        },
-        {
-          "templateId": "cases/7.8/one_to_many",
-          "name": "Один ко многим"
-        },
-        {
-          "templateId": "cases/7.8/mongodb_one_to_many",
-          "name": "MongoDb один ко многим"
-        },
-        {
-          "templateId": "cases/7.8/mongodb_one_to_many_second",
-          "name": "MongoDb один ко многим с редиректом"
-        }
-      ]
-    },
-    {
-      "name": "7.7",
-      "templates": [
-        {
-          "templateId": "cases/7.7/switch_cell",
-          "name": "Переключаемые ячейки"
-        },
-        {
-          "templateId": "cases/7.7/show_modal_advanced_search",
-          "name": "Расширенный поиск через модальное окно"
-        },
-        {
-          "templateId": "cases/7.7/show_modal_multi_adding",
-          "name": "Мульти добавление через модальное окно"
-        },
-        {
-          "templateId": "cases/7.7/show_modal_advanced_input",
-          "name": "Расширенный ввод через модальное окно"
-        },
-        {
-          "templateId": "cases/7.7/tlr_page_example",
-          "name": "Страница с формой статуса, списком и 3х колоночной формой"
-        },
-        {
-          "templateId": "cases/7.7/adding_radio_selection_object",
-          "name": "Добавление объекта с радио выбором"
-        },
-        {
-          "templateId": "cases/7.7/drawer_page_example",
-          "name": "Перевод статуса в Drawer странице"
-        },
-        {
-          "templateId": "cases/7.7/field_submit",
-          "name": "Автоматическое сохранение полей"
-        },
-        {
-          "templateId": "cases/7.7/range_field",
-          "name": "Поле интервал"
-        },
-        {
-          "templateId": "cases/7.7/list_field_description",
-          "name": "Отображение дополнительной информации в опциях списковых компонентов"
-        },
-        {
-          "templateId": "cases/7.7/input_select_tree_max_tag_text_length",
-          "name": "Установка максимальной длины выбранных элементов в виджете дерево"
-        },
-        {
-          "templateId": "cases/7.7/set_value",
-          "name": "Вычисление, копирование и очистка значений полей"
-        },
-        {
-          "templateId": "cases/7.7/select_status_field_id",
-          "name": "Статус в списковых компонентах"
-        },
-        {
-          "templateId": "cases/7.7/select_enabled_field_id",
-          "name": "Блокирование варианта выбора в выпадающем списках"
-        }
-      ]
-    },
-    {
-      "name": "7.6",
-      "templates": [
-        {
-          "templateId": "cases/7.6/form_params",
-          "name": "Передача параметров"
-        },
-        {
-          "templateId": "cases/7.6/drawer",
-          "name": "Drawer"
-        },
-        {
-          "templateId": "cases/7.6/text_cell_second_level",
-          "name": "Второй уровень текста в TextCell"
-        },
-        {
-          "templateId": "cases/7.6/status_cell",
-          "name": "Ячейка-статус"
-        },
-        {
-          "templateId": "cases/7.6/restore_tabs_by_url",
-          "name": "Восстановление вкладок Tabs по url"
-        },
-        {
-          "templateId": "cases/7.6/filter_column",
-          "name": "Фильтры в столбцах таблицы"
-        },
-        {
-          "templateId": "cases/7.6/multi_column",
-          "name": "Многоуровневые столбцы таблицы"
-        },
-        {
-          "templateId": "cases/7.6/table_selection",
-          "name": "Варианты выбора записей таблицы"
-        },
-        {
-          "templateId": "cases/7.6/copy_widget_data",
-          "name": "Копирование данных из одного виджета в другой"
-        },
-        {
-          "templateId": "cases/7.6/copy_modal_widget_data",
-          "name": "Копирование данных из виджета модального окна"
-        },
-        {
-          "templateId": "cases/7.6/input_measure",
-          "name": "Единицы измерения у input компонентов"
-        },
-        {
-          "templateId": "cases/7.6/tooltip_list_cell",
-          "name": "Ячейка с тултипом и раскрывающимся текстовым списком"
-        },
-        {
-          "templateId": "cases/7.6/rounded_button",
-          "name": "Круглые кнопки"
-        },
-        {
-          "templateId": "cases/7.6/status_field",
-          "name": "Поле статус"
-        },
-        {
-          "templateId": "cases/7.6/progress_control",
-          "name": "Шкала прогресса"
-        },
-        {
-          "templateId": "cases/7.6/icon_cell_tooltip",
-          "name": "Подсказка у IconCell"
-        },
-        {
-          "templateId": "cases/7.6/select_counter_format",
-          "name": "Отображение счетчика выбранных элементов в Select"
-        },
-        {
-          "templateId": "cases/7.6/multi_fieldset",
-          "name": "Филдсет с динамическим числом полей"
-        }
-      ]
-    },
-    {
-      "name": "7.5",
-      "templates": [
-        {
-          "templateId": "cases/7.5/case58",
-          "name": "Воспроизводится потеря параметров при переходе между страницами"
-        },
-        {
-          "templateId": "cases/7.5/case64",
-          "name": "Управление параметрами фильтров"
-        },
-        {
-          "templateId": "cases/7.5/case65",
-          "name": "Ленивая загрузка вкладок"
-        },
-        {
-          "templateId": "cases/7.5/href_access",
-          "name": "Доступ к ссылкам"
-        },
-        {
-          "templateId": "cases/7.5/code_viewer",
-          "name": "Компонент Code"
-        },
-        {
-          "templateId": "cases/7.5/rating_cell",
-          "name": "Ячейка-рейтинг"
-        },
-        {
-          "templateId": "cases/7.5/alert_field",
-          "name": "Поле вывода оповещения"
-        },
-        {
-          "templateId": "cases/7.5/optimistic_query",
-          "name": "Режим optimistic запросов на сервер"
-        },
-        {
-          "templateId": "cases/7.5/area_chart",
-          "name": "Диаграмма-область"
-        },
-        {
-          "templateId": "cases/7.5/bar_chart",
-          "name": "Гистограмма"
-        },
-        {
-          "templateId": "cases/7.5/line_chart",
-          "name": "Линейный график"
-        },
-        {
-          "templateId": "cases/7.5/pie_chart",
-          "name": "Круговая диаграмма"
-        },
-        {
-          "templateId": "cases/7.5/button_field",
-          "name": "Кнопки в fields"
-        },
-        {
-          "templateId": "cases/7.5/panel_region",
-          "name": "Настройки региона Панель"
-        }
-      ]
-    },
-    {
-      "name": "7.4",
-      "templates": [
-        {
-          "templateId": "cases/7.4/case53",
-          "name": "Пример работы валидаций в модальном окне"
-        },
-        {
-          "templateId": "cases/7.4/case54",
-          "name": "Таблица для проверки строгости фильтров"
-        },
-        {
-          "templateId": "cases/7.4/case55",
-          "name": "Тестирование fetch-value на форме"
-        },
-        {
-          "templateId": "cases/7.4/case56",
-          "name": "Тестирование Фильтров"
-        },
-        {
-          "templateId": "cases/7.4/case57",
-          "name": "Кейс проверки фильтрации виджетов с одной query на одной странице"
-        },
-        {
-          "templateId": "cases/7.4/access_tab",
-          "name": "Скрытие вкладок, если нет доступа к виджету"
-        }
-      ]
-    },
-    {
-      "name": "7.3",
-      "templates": [
-        {
-          "templateId": "cases/7.3/case6",
-          "name": "Стили для строк в таблице"
-        },
-        {
-          "templateId": "cases/7.3/case52",
-          "name": "Фильтрация input-select по array фильтру"
-        }
-      ]
-    },
-    {
-      "name": "7.2",
-      "templates": [
-        {
-          "templateId": "cases/7.2/case47",
-          "name": "Предупреждение о несохраненных данных"
-        },
-        {
-          "templateId": "cases/7.2/case48",
-          "name": "Виджет Дерево"
-        },
-        {
-          "templateId": "cases/7.2/case49",
-          "name": "Сокращенный URL"
-        },
-        {
-          "templateId": "cases/7.2/case50",
-          "name": "Редактируемые ячейки"
-        },
-        {
-          "templateId": "cases/7.2/case51",
-          "name": "Добавление confirm в menu-item"
-        }
-      ]
-    },
-    {
-      "name": "7.1",
-      "templates": [
-        {
-          "templateId": "cases/7.1/case40",
-          "name": "Скрытие виджета по условию"
-        },
-        {
-          "templateId": "cases/7.1/case41",
-          "name": "Клик по row и контекстные кнопки"
-        },
-        {
-          "templateId": "cases/7.1/case43",
-          "name": "Разрешение ссылок в названии страницы"
-        },
-        {
-          "templateId": "cases/7.1/case44",
-          "name": "Обновление виджетов после invoke"
-        },
-        {
-          "templateId": "cases/7.1/case45",
-          "name": "Валидация невидимых полей"
-        },
-        {
-          "templateId": "cases/7.1/case46",
-          "name": "Блокирование виджета/страницы при invoke"
-        }
-      ]
-    },
-    {
-      "name": "7.0",
-      "templates": [
-        {
-          "templateId": "cases/7.0/case1",
-          "name": "Значения по умолчанию"
-        },
-        {
-          "templateId": "cases/7.0/case3",
-          "name": "Префильтрация модальных окон"
-        },
-        {
-          "templateId": "cases/7.0/case4",
-          "name": "Скрытие кнопки dropdown при скрытии последнего подменю"
-        },
-        {
-          "templateId": "cases/7.0/case8",
-          "name": "Сортировка по sorting-field-id"
-        },
-        {
-          "templateId": "cases/7.0/case10",
-          "name": "Тест валидаций"
-        },
-        {
-          "templateId": "cases/7.0/case11",
-          "name": "Фильтрация списковых полей"
-        },
-        {
-          "templateId": "cases/7.0/case12",
-          "name": "Форма как фильтры таблицы"
-        },
-        {
-          "templateId": "cases/7.0/case13",
-          "name": "Условия на кнопках формы"
-        },
-        {
-          "templateId": "cases/7.0/case14",
-          "name": "Стиль поля текста"
-        },
-        {
-          "templateId": "cases/7.0/case15",
-          "name": "Значки в ячейках таблицы"
-        },
-        {
-          "templateId": "cases/7.0/case16",
-          "name": "Зависимости полей"
-        },
-        {
-          "templateId": "cases/7.0/case19",
-          "name": "Скрытие филдсетов"
-        },
-        {
-          "templateId": "cases/7.0/case20",
-          "name": "Тулбар в ячейках таблицы"
-        },
-        {
-          "templateId": "cases/7.0/case21",
-          "name": "Форма с двумя моделями, загруженная через выборку"
-        },
-        {
-          "templateId": "cases/7.0/case22",
-          "name": "Ссылки в ячейках"
+          "templateId": "net/n2oapp/framework/autotest/control/condition/enabled",
+          "name": "FieldEnabledAT. testEnabled"
         },
         {
-          "templateId": "cases/7.0/case24",
-          "name": "Тестирование динамических страниц"
+          "templateId": "net/n2oapp/framework/autotest/condition/enabled/form_fields",
+          "name": "FieldEnabledAT. testFormFieldsEnabled"
         },
         {
-          "templateId": "cases/7.0/case25",
-          "name": "Десериализация LocalDateTime"
+          "templateId": "net/n2oapp/framework/autotest/condition/field/enabled/static",
+          "name": "FieldEnabledAT. testStaticEnabled"
         },
         {
-          "templateId": "cases/7.0/case26",
-          "name": "Зависимости на кнопках от master виджета"
+          "templateId": "net/n2oapp/framework/autotest/condition/field/enabled/dynamic",
+          "name": "FieldEnabledAT. testDynamicEnabled"
         },
         {
-          "templateId": "cases/7.0/case27",
-          "name": "Редирект с изменением значения"
+          "templateId": "net/n2oapp/framework/autotest/condition/field/required",
+          "name": "FieldRequiredAT"
         },
         {
-          "templateId": "cases/7.0/case28",
-          "name": "Обновление формы кнопкой"
+          "templateId": "net/n2oapp/framework/autotest/control/condition/visible/index.page.xml",
+          "name": "FieldVisibleAT .testVisible"
         },
         {
-          "templateId": "cases/7.0/case30",
-          "name": "Кнопки поиска в таблице"
+          "templateId": "net/n2oapp/framework/autotest/condition/visible/form_fields",
+          "name": "FieldVisibleAT .testFormFieldsVisible"
         },
         {
-          "templateId": "cases/7.0/case32",
-          "name": "Зависимости на Page Actions"
+          "templateId": "net/n2oapp/framework/autotest/condition/visible/dynamic",
+          "name": "FieldVisibleAT .testDynamicVisible"
         },
         {
-          "templateId": "cases/7.0/case33",
-          "name": "Восстановление списковых фильтров после F5"
+          "templateId": "net/n2oapp/framework/autotest/validation/dialog",
+          "name": "ValidationDialogAT. testDialog"
         },
         {
-          "templateId": "cases/7.0/case34",
-          "name": "Функции значений по умолчанию"
+          "templateId": "net/n2oapp/framework/autotest/validation/field/after_set_value",
+          "name": "FieldValidationAfterSetValueAT"
         },
         {
-          "templateId": "cases/7.0/case35",
-          "name": "Динамические свойства в полях"
+          "templateId": "net/n2oapp/framework/autotest/validation/field/invisible",
+          "name": "InvisibleFieldValidationAT"
         },
         {
-          "templateId": "cases/7.0/case36",
-          "name": "Ячейка чекбокс"
+          "templateId": "net/n2oapp/framework/autotest/validation/message/constraint",
+          "name": "ConstraintValidationMessageAT"
         },
         {
-          "templateId": "cases/7.0/case38",
-          "name": "Инлайн валидации на фильтрах"
+          "templateId": "net/n2oapp/framework/autotest/validation/message/simple",
+          "name": "ValidationMessageAT"
         },
         {
-          "templateId": "cases/7.0/case39",
-          "name": "Компонент дерево"
+          "templateId": "net/n2oapp/framework/autotest/validation/tab",
+          "name": "ValidationTabMessageAT"
         }
       ]
     }

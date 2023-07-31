@@ -44,8 +44,8 @@ public class FormAT extends AutoTestBase {
 
     @Test
     public void testForm() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/form/testForm.object.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/form/simple/testForm.object.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -105,6 +105,7 @@ public class FormAT extends AutoTestBase {
 
     @Test
     public void testMode() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/form/mode");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/test.query.xml"));
         StandardPage page = open(StandardPage.class);

@@ -36,13 +36,13 @@ public class MenuAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oActionsPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/testMenu.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/application/menu/index.page.xml"));
     }
 
     @Test
-    public void headerMenuItemWithIconAndBadgeTest() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/icon/app.application.xml"));
+    public void headerMiIconAndBadgeTest() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/icon/testMenu.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/icon/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/icon/app.application.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -63,8 +63,10 @@ public class MenuAT extends AutoTestBase {
     }
 
     @Test
-    public void headerMenuItemWithIconTextAndBadge() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/icon/with_text/app.application.xml"));
+    public void headerMiIconTextAndBadge() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/icon_with_text/testMenu.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/icon_with_text/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/icon_with_text/app.application.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -87,8 +89,10 @@ public class MenuAT extends AutoTestBase {
 
     @Disabled //todo убрать аннотацию после решения NNO-7186
     @Test
-    public void headerMenuItemWithImageAndBadge() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/image/app.application.xml"));
+    public void headerMiImageAndBadge() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/image/testMenu.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/image/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/image/app.application.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -110,8 +114,11 @@ public class MenuAT extends AutoTestBase {
     }
 
     @Test
-    public void headerMenuItemWithImageTextAndBadge() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/image/with_text/app.application.xml"));
+    public void headerMiImageTextAndBadge() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/image_with_text/testMenu.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/image_with_text/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/image_with_text/app.application.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -134,8 +141,10 @@ public class MenuAT extends AutoTestBase {
     }
 
     @Test
-    public void headerDropdownMenuItemWithImage() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/dropdown/app.application.xml"));
+    public void headerDropdownMiImage() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/dropdown/testMenu.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/dropdown/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/dropdown/app.application.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -163,8 +172,10 @@ public class MenuAT extends AutoTestBase {
     }
 
     @Test
-    public void sidebarMenuItemWithIconTextAndBadge() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/icon/app.application.xml"));
+    public void sidebarMiIconTextAndBadge() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/icon/testMenu.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/icon/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/icon/app.application.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -194,8 +205,10 @@ public class MenuAT extends AutoTestBase {
     }
 
     @Test
-    public void sidebarMenuItemWithImageAndText() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/image/app.application.xml"));
+    public void sidebarMiImageAndText() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/image/testMenu.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/image/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/image/app.application.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -223,8 +236,10 @@ public class MenuAT extends AutoTestBase {
     }
 
     @Test
-    public void sidebarMenuItemWithImageTextAndBadge() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/image/with_badge/app.application.xml"));
+    public void sidebarMiImageTextAndBadge() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/image_with_badge/testMenu.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/image_with_badge/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/image_with_badge/app.application.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

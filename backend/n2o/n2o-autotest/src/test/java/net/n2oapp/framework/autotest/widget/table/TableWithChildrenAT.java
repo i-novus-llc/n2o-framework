@@ -33,7 +33,7 @@ public class TableWithChildrenAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/with_children");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/test.query.xml"),

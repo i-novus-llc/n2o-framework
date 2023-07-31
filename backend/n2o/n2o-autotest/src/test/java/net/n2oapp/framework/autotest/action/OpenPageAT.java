@@ -42,6 +42,7 @@ public class OpenPageAT extends AutoTestBase {
 
     @Test
     public void testFilterState() {
+        setJsonPath("net/n2oapp/framework/autotest/action/open_page/simple");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/simple/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/simple/open.page.xml"));
@@ -91,10 +92,11 @@ public class OpenPageAT extends AutoTestBase {
 
     @Test
     public void testResolveBreadcrumb() {
+        setJsonPath("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/widget.widget.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/page.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page/widget.widget.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page/page.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -111,10 +113,11 @@ public class OpenPageAT extends AutoTestBase {
 
     @Test
     public void testResolveBreadcrumbOnStandardPage() {
+        setJsonPath("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/widget.widget.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/page.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page/widget.widget.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page/page.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

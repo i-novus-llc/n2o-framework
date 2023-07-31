@@ -40,8 +40,8 @@ public class ValidationMessageAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/validation/message/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/validation/message/test.object.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/validation/message/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/validation/message/simple/test.object.xml"));
     }
 
     @Test

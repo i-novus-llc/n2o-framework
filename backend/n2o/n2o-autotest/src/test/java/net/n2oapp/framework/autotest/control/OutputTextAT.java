@@ -29,7 +29,7 @@ public class OutputTextAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/output_text/index.page.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/output_text/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
 
         page = open(SimplePage.class);

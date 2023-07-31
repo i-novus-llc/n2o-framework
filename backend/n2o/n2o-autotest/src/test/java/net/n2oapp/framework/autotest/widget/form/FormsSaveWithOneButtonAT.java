@@ -42,6 +42,7 @@ public class FormsSaveWithOneButtonAT extends AutoTestBase {
 
     @Test
     public void testForm() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/form/save_with_one_button");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/save_with_one_button/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/save_with_one_button/test.object.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/save_with_one_button/test.query.xml"),

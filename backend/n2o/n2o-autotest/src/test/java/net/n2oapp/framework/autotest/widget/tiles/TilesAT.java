@@ -46,9 +46,10 @@ public class TilesAT extends AutoTestBase {
 
     @Test
     public void testTiles() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/modal.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/test.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/tiles/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/simple/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/simple/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         TilesWidget tiles = page.widget(TilesWidget.class);
@@ -89,6 +90,7 @@ public class TilesAT extends AutoTestBase {
 
     @Test
     public void testPaging() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/tiles/paging");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/paging/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/paging/test.query.xml"));
         StandardPage page = open(StandardPage.class);
