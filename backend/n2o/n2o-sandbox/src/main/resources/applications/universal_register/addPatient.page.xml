@@ -47,18 +47,18 @@
                 <alert text="Отсутсвует запись с указанными данными" visible="{isEmptyPatient}" color="primary"/>
             <row>
                 <col size="5">
-                   <input-text id="fl.surname" label="Фамилия" required="{!id}" enabled="{!id}"/>
+                   <input-text id="surname" label="Фамилия" required="{!id}" enabled="{!id}"/>
                 </col>
                 <col size="5">
-                    <input-text id="fl.name" label="Имя" required="{!id}" enabled="{!id}"/> 
+                    <input-text id="name" label="Имя" required="{!id}" enabled="{!id}"/>
                 </col>
             </row>
              <row>
                 <col size="5">
-                   <input-text id="fl.middlename" label="Отчество" enabled="{!id}"/>
+                   <input-text id="middlename" label="Отчество" enabled="{!id}"/>
                 </col>
                 <col size="3">
-                    <date-time id="fl.birthday" label="Дата рождения" required="{!id}" enabled="{!id}"/> 
+                    <date-time id="birthday" label="Дата рождения" required="{!id}" enabled="{!id}"/>
                 </col>
             </row>
         </fields>
