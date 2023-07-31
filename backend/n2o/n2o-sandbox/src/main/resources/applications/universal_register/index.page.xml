@@ -79,10 +79,11 @@
                                     </set-value>
                                     <clear model="resolve"/>
                                     <dependencies>
-                                        <!-- <visibility datasource="filtersDs" model="resolve">
-                                            Object.keys(this).some(key => key !== 'fil' &amp;&amp; this[key]) 
-                                            !_.isEmpty(this) || !_.every(this, v => v === '' || _.isNil(v))
-                                        </visibility> -->
+                                        <visibility on="fil">
+                                            if (Object.keys(this.fil).filter(key => this.fil[key] &amp;&amp; (key !== 'gender' || this.fil['gender'].id !== 0))
+                                            .length > 0)
+                                            return true
+                                        </visibility>
                                     </dependencies>
                                 </button>
                             <!-- </col> -->
