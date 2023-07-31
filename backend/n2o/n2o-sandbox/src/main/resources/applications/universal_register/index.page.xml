@@ -56,7 +56,7 @@
                     </col>
                     <col size="4">
                         <row>
-                            <col size="2">
+                            <col style="maxWidth: min-content">
                                 <button id="search"  label="Найти" icon="fa fa-search" color="primary" no-label-block="false">
                                     <copy source-model="edit" target-model="resolve" source-field-id="fil"/>
                                     <set-value source-model="resolve" source-field-id="gender" 
@@ -108,7 +108,7 @@
                         <col size="4">
                             <row>                           
                                 <col size="2">
-                                    <radio-group id="fil.gender" no-label="true" inline="true" style="padding-top:20px">
+                                    <radio-group id="fil.gender" no-label="true" inline="true" style="padding-top:7px">
                                         <options>
                                             <option id="0" name="Любой"/>
                                             <option id="1" name="Мужской"/>
