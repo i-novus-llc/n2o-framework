@@ -7,6 +7,7 @@ import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.query.TestEngineQueryTransformer;
 import net.n2oapp.framework.config.test.N2oTestBase;
+import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,10 +24,12 @@ import static com.codeborne.selenide.Configuration.headless;
  */
 @SpringBootTest(classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ExtendWith(SpringExtension.class)
 public class AutoTestBase extends N2oTestBase {
     @LocalServerPort
     protected int port;
+
+    @Autowired
+    private TestDataProviderEngine provider;
 
     private N2oController n2oController;
 
@@ -67,6 +70,10 @@ public class AutoTestBase extends N2oTestBase {
 
     protected void setUserInfo(Map<String, Object> user) {
         n2oController.addConfigProperty("user", user);
+    }
+
+    protected void setJsonPath(String classpath) {
+        provider.setClasspathResourcePath(classpath);
     }
 
     @Autowired

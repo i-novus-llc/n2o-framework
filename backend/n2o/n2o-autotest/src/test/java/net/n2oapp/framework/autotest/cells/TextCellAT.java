@@ -26,7 +26,7 @@ public class TextCellAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
+        setJsonPath("net/n2oapp/framework/autotest/cells/text");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/text/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/text/test.query.xml"));

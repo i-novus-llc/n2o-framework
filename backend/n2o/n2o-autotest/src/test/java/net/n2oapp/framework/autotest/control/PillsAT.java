@@ -27,7 +27,7 @@ public class PillsAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
+        setJsonPath("net/n2oapp/framework/autotest/control/pills");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/pills/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/pills/pills.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));

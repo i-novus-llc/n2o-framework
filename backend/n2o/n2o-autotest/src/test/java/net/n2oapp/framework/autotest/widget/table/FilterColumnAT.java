@@ -33,7 +33,7 @@ public class FilterColumnAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filter_column");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/table.widget.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/test.query.xml"),

@@ -28,7 +28,7 @@ public class ProgressAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
+        setJsonPath("net/n2oapp/framework/autotest/control/progress");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/progress/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/progress/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));

@@ -37,7 +37,7 @@ public class CustomRegionAT extends AutoTestBase {
 
     @Test
     public void testCustomRegion() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/custom/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/custom/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

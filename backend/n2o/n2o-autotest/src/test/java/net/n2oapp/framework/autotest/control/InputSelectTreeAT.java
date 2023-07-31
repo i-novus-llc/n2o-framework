@@ -72,6 +72,7 @@ public class InputSelectTreeAT extends AutoTestBase {
 
     @Test
     public void readFromQueryTest() {
+        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/nodes");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/nodes/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/nodes/test.query.xml"));
         SimplePage page = open(SimplePage.class);

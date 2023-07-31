@@ -43,14 +43,16 @@ public class RefModalAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/model/modal/test.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Test
     public void refParentModalTest() {
+        setJsonPath("net/n2oapp/framework/autotest/model/modal/from_form");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_form/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_form/modal.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_form/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/model/modal/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         // передача параметров в модельное окно из формы
@@ -90,8 +92,11 @@ public class RefModalAT extends AutoTestBase {
 
     @Test
     public void refParentModalFromFiltersTest() {
+        setJsonPath("net/n2oapp/framework/autotest/model/modal/from_filters");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_filters/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_filters/filters.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_filters/filters.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_filters/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         // передача параметров в модельное окно из фильтров таблицы

@@ -49,7 +49,10 @@ public class CopyActionAT extends AutoTestBase {
 
     @Test
     public void testSimpleCopy() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/copy/simple/index.page.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/action/copy/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/copy/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/simple/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -75,8 +78,11 @@ public class CopyActionAT extends AutoTestBase {
 
     @Test
     public void testCopyFromModal() {
+        setJsonPath("net/n2oapp/framework/autotest/action/copy/modal");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal/modal.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -115,8 +121,11 @@ public class CopyActionAT extends AutoTestBase {
 
     @Test
     public void testMultiCopyFromModal() {
+        setJsonPath("net/n2oapp/framework/autotest/action/copy/modal_multi");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_multi/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_multi/modal.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_multi/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_multi/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -172,8 +181,11 @@ public class CopyActionAT extends AutoTestBase {
 
     @Test
     public void testReplaceCopyFromModal() {
+        setJsonPath("net/n2oapp/framework/autotest/action/copy/modal_replace");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_replace/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_replace/modal.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_replace/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_replace/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
