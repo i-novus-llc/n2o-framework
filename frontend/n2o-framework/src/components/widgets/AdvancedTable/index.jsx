@@ -2,6 +2,8 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import { defaultTo } from 'lodash'
 import { useSelector } from 'react-redux'
 import omit from 'lodash/omit'
+import set from 'lodash/set'
+import get from 'lodash/get'
 import { compose } from 'recompose'
 
 import { N2OPagination } from '../Table/N2OPagination'
@@ -55,9 +57,19 @@ const AdvancedTableContainer = (props) => {
     }), [table.header.cells, table.body.cells, resolveProps])
     const resolvedCells = useResolveCellsVisible(cells, columnsState)
 
-    const tableConfig = useMemo(() => (
-        omit(table, ['autoSelect', 'autoFocus', 'textWrap', 'header.cells', 'body.cells'])
-    ), [table])
+    const tableConfig = useMemo(() => {
+        const config = omit(table, ['autoSelect', 'autoFocus', 'textWrap', 'header.cells', 'body.cells'])
+        const hasCustomRow = Boolean(get(config, 'body.row.src'))
+
+        if (hasCustomRow) {
+            set(config, 'body.row.component', resolveProps(get(config, 'body.row.src')))
+
+            return omit(config, 'body.row.src')
+        }
+
+        return config
+    }, [resolveProps, table])
+
     const paginationVisible = useMemo(() => Object.values(columnsState).some(column => column.visible), [columnsState])
     const hasSecurityAccess = useCheckAccess(tableConfig.body?.row?.security)
 
