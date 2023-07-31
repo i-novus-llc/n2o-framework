@@ -108,7 +108,7 @@
                         <col size="4">
                             <row>                           
                                 <col size="2">
-                                    <radio-group id="fil.gender" no-label="true" inline="true" style="padding-top:20px">
+                                    <radio-group id="fil.gender" no-label="true" inline="true" style="padding-top:7px">
                                         <options>
                                             <option id="0" name="Любой"/>
                                             <option id="1" name="Мужской"/>
