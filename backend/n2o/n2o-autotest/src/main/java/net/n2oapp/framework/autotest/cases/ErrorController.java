@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.run;
+package net.n2oapp.framework.autotest.cases;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import org.springframework.http.HttpStatus;
