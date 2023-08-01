@@ -1389,8 +1389,12 @@
           "name": "ConstraintValidationMessageAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/validation/message/dynamic",
-          "name": "DynamicValidationMessageAT"
+          "templateId": "net/n2oapp/framework/autotest/validation/message/dynamic/condition",
+          "name": "DynamicValidationMessageAT. testCondition"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/validation/message/dynamic/constraint",
+          "name": "DynamicValidationMessageAT. testConstraint"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/validation/message/simple",
