@@ -25,10 +25,13 @@ export function FilterButtonsField(props: FilterButtonsFieldProps) {
         fetchOnClear = true,
         model = {},
     } = props
-    const { search, reset }: { search(): void, reset(fetchOnClear: boolean): void } = useContext(WidgetFilterContext)
+    const { search, reset }: {
+        search(): void, reset(fetchOnClear: boolean, forceFetch: boolean): void
+    } = useContext(WidgetFilterContext)
+
     const clearDisabled = isEmptyModel(model)
     const onReset = useCallback(() => {
-        reset(fetchOnClear)
+        reset(fetchOnClear, fetchOnClear)
     }, [fetchOnClear, reset])
 
     return (
