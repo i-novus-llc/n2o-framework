@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 
 import { isEmptyModel } from '../../../../../utils/isEmptyModel'
 import { Buttons, ButtonsProps } from '../../../../snippets/Filter/Buttons'
@@ -26,6 +26,9 @@ export function FilterButtonsField(props: FilterButtonsFieldProps) {
     } = props
     const { filter, reset } = useContext(WidgetFiltersContext)
     const clearDisabled = isEmptyModel(model)
+    const onReset = useCallback(() => {
+        reset(fetchOnClear, fetchOnClear)
+    }, [fetchOnClear, reset])
 
     return (
         <Buttons
@@ -36,7 +39,7 @@ export function FilterButtonsField(props: FilterButtonsFieldProps) {
             searchLabel={searchLabel}
             resetLabel={resetLabel}
             onSearch={filter}
-            onReset={() => reset(fetchOnClear)}
+            onReset={onReset}
         />
     )
 }
