@@ -32,12 +32,12 @@ public class CopyFieldAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/copy/field/index.page.xml"));
     }
 
     @Test
     public void testCopyField() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/field/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Копирование значения поля");

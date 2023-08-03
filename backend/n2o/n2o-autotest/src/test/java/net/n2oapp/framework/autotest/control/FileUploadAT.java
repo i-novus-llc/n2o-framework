@@ -56,7 +56,7 @@ public class FileUploadAT extends AutoTestBase {
     public void wrongRestTest() {
         FileUploadControl fileUpload = getFields().field("FileUpload1").control(FileUploadControl.class);
         fileUpload.shouldBeEnabled();
-        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json");
+        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/fileupload/test1.json");
         fileUpload.uploadFilesShouldBe(1);
         fileUpload.uploadFileNameShouldBe(0, "test1.json");
 //        fileUpload.uploadFileSizeShouldBe(0, "91 Б");//работает по разному на разных ОС, windows "105 Б", linux "91 Б"
@@ -70,7 +70,7 @@ public class FileUploadAT extends AutoTestBase {
         fileUpload.shouldBeEnabled();
         fileStoreController.clearFileStore();
 
-        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json");
+        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/fileupload/test1.json");
         fileUpload.uploadFilesShouldBe(1);
 
         fileUpload.uploadFileShouldHaveLink(0, "http://localhost:" + port + "/files/test1.json");
@@ -97,8 +97,8 @@ public class FileUploadAT extends AutoTestBase {
         fileUpload.shouldBeEnabled();
         fileStoreController.clearFileStore();
 
-        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json",
-                "net/n2oapp/framework/autotest/control/test2.json");
+        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/fileupload/test1.json",
+                "net/n2oapp/framework/autotest/control/fileupload/test2.json");
         fileUpload.uploadFilesShouldBe(2);
 
         fileUpload.uploadFileShouldHaveLink(0, "http://localhost:" + port + "/files/test1.json");

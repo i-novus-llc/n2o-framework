@@ -128,8 +128,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     protected String richKey(String key) {
-        if (pathOnDisk != null) return pathOnDisk + "/" + key;
         if (classpathResourcePath != null) return classpathResourcePath + "/" + key;
+        if (pathOnDisk != null) return pathOnDisk + "/" + key;
         return key;
     }
 

@@ -27,10 +27,10 @@ public class CheckboxCellAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
+        setJsonPath("net/n2oapp/framework/autotest/cells/checkbox");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/checkbox/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/cells/checkbox/testTable.query.xml"));
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();

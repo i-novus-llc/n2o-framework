@@ -40,7 +40,7 @@ public class HtmlAT extends AutoTestBase {
 
     @Test
     public void testHtml() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/html/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/html/simple/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -58,6 +58,7 @@ public class HtmlAT extends AutoTestBase {
 
     @Test
     public void testHtmlPlaceholder() {
+        setJsonPath("net/n2oapp/framework/autotest/control/html/html_with_placeholder");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/html/html_with_placeholder/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/html/html_with_placeholder/test.query.xml"));
 

@@ -1,8 +1,8 @@
 {
-  "docusaurusUrl": "/",
-  "sandboxUrl": "https://sandbox.n2oapp.net",
-  "n2oSandboxUrl": "https://7-23.n2oapp.net/sandbox",
-  "n2oVersionUrl": "https://next.n2oapp.net/sandbox/n2o/version",
-  "next": "https://n2o.i-novus.ru",
-  "n2oVersion": "7.23.51-SNAPSHOT"
+    "sandboxUrl": "https://sandbox.n2oapp.net",
+    "n2oSandboxUrl": "https://7-23.n2oapp.net/sandbox",
+    "n2oVersionUrl": "https://next.n2oapp.net/sandbox/n2o/version",
+    "n2oVersion": "7.23.80-SNAPSHOT",
+    "next": "https://n2o.i-novus.ru",
+    "docusaurusUrl": "/"
 }

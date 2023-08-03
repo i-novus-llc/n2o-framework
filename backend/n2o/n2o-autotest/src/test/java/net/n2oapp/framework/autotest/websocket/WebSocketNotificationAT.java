@@ -54,6 +54,7 @@ public class WebSocketNotificationAT extends AutoTestBase {
         wsController.setPipeline(N2oPipelineSupport.readPipeline(environment));
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oActionsPack());
+        setJsonPath("net/n2oapp/framework/autotest/websocket/alert");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/websocket/alert/test.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/websocket/alert/index.page.xml"),
