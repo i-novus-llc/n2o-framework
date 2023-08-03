@@ -39,7 +39,7 @@ public class FieldEnabledAT extends AutoTestBase {
 
     @Test
     public void testEnabled() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/condition/enabled/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/condition/enabled/field/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

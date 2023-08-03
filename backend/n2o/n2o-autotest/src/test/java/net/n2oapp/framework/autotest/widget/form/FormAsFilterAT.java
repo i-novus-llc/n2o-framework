@@ -39,9 +39,10 @@ public class FormAsFilterAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/form/filter/simple");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/simple/test.query.xml"));
     }
 
     @Test
@@ -132,6 +133,7 @@ public class FormAsFilterAT extends AutoTestBase {
 
     @Test
     public void filterByButtonClick() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/form/filter/button_click");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/button_click/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/button_click/test.query.xml"));
 

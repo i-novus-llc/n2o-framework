@@ -45,9 +45,10 @@ public class ListAT extends AutoTestBase {
 
     @Test
     public void testList() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/list/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/list/form.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/list/testList.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/list/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/list/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/list/simple/form.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/list/simple/testList.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -73,6 +74,7 @@ public class ListAT extends AutoTestBase {
 
     @Test
     public void testPaging() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/list/paging");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/list/paging/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/list/paging/testListPaging.query.xml"));
         StandardPage page = open(StandardPage.class);

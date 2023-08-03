@@ -39,7 +39,7 @@ public class HtmlWidgetAT extends AutoTestBase {
 
     @Test
     public void testHtmlContent() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/html/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/html/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -52,7 +52,7 @@ public class HtmlWidgetAT extends AutoTestBase {
 
     @Test
     public void testHtmlGetSrc() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/html/htmlFromSrc/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/html/html_from_src/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

@@ -42,6 +42,7 @@ public class MultiActionAT extends AutoTestBase {
 
     @Test
     public void testMulti() {
+        setJsonPath("net/n2oapp/framework/autotest/action/multi");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/multi/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/multi/page.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/multi/test.query.xml"));

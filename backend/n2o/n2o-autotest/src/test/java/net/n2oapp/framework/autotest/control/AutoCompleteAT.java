@@ -38,7 +38,7 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testAutoComplete() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -62,7 +62,7 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testTags() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -90,6 +90,7 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testPrefilters() {
+        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete/pre_filters");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/pre_filters/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/pre_filters/test.query.xml"));
         SimplePage page = open(SimplePage.class);

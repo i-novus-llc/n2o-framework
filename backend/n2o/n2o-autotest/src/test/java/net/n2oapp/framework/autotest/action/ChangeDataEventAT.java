@@ -45,7 +45,7 @@ public class ChangeDataEventAT extends AutoTestBase {
     @Test
     public void test() {
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/change_data_event/index.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/change_data_event/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

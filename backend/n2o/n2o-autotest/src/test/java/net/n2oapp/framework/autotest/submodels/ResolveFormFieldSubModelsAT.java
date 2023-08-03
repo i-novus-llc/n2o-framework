@@ -45,6 +45,7 @@ public class ResolveFormFieldSubModelsAT extends AutoTestBase {
 
     @Test
     public void resolveTableFiltersSubModels() {
+        setJsonPath("net/n2oapp/framework/autotest/submodels/form_fields");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/submodels/form_fields/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/submodels/form_fields/new_page.page.xml"),
@@ -71,6 +72,7 @@ public class ResolveFormFieldSubModelsAT extends AutoTestBase {
 
     @Test
     public void resolveTwoFormFiltersSubModels() {
+        setJsonPath("net/n2oapp/framework/autotest/submodels/one_more_form_fields");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/submodels/one_more_form_fields/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/submodels/one_more_form_fields/test.page.xml"),

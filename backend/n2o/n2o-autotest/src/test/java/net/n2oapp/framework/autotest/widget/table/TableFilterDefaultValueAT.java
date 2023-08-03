@@ -37,13 +37,14 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/test.query.xml"));
     }
 
     @Test
     public void testSimple() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default_value/index.page.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/default_value");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default_value/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default_value/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -70,8 +71,11 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
     @Test
     public void testDefaultValuesQueryId() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default_values_query_id/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/default_values_query_id");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default_values_query_id/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default_values_query_id/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default_values_query_id/default.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -98,8 +102,11 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
     @Test
     public void testPriority() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/priority/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/priority");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/priority/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/priority/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/priority/default.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -126,8 +133,10 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
     @Test
     public void testFormAsFilter() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/form_as_filter/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/form_as_filter/test.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/form_as_filter");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/form_as_filter/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/form_as_filter/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -151,8 +160,11 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
     @Test
     public void testFiltersDatasource() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/filters_datasource/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/filters_datasource");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/filters_datasource/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/filters_datasource/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/filters_datasource/default.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

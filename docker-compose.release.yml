@@ -1,0 +1,18 @@
+version: "3.6"
+
+services:
+  n2o-sandbox:
+    image: "${DOCKER_REGISTRY}/n2o/n2o-sandbox:${TAG}"
+    ports:
+      - "${PORT_SANDBOX}:8080"
+    environment:
+      - N2O_SANDBOX_URL=https://sandbox.n2oapp.net
+      - N2O_ENGINE_MONGODB_CONNECTION_URL=${MONGODB_CONNECTION_URL}
+      - SPRING_PROFILES_ACTIVE=test
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+      placement:
+        constraints:
+          - node.role == worker

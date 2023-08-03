@@ -38,10 +38,11 @@ public class OpenDrawerAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/action/drawer/simple");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/drawer/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/drawer/drawer.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/drawer/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/drawer/simple/drawer.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/drawer/simple/test.query.xml"));
     }
 
     @Test

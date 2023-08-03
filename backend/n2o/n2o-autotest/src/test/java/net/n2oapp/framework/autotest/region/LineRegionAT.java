@@ -35,7 +35,7 @@ public class LineRegionAT extends AutoTestBase {
 
     @Test
     public void testLineRegion() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/line/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/line/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
