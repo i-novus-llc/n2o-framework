@@ -1,6 +1,6 @@
 {
   "name": "n2o-framework",
-  "version": "7.24.0",
+  "version": "7.25.1",
   "description": "N2O React",
   "homepage": "https://n2oapp.net/",
   "engines": {
@@ -60,6 +60,7 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/runtime-corejs2": "^7.0.0",
     "@fontsource/exo-2": "^4.3.0",
+    "@i-novus/n2o-components": "7.25.0",
     "@popperjs/core": "^2.2.1",
     "@reduxjs/toolkit": "^1.5.1",
     "assets-webpack-plugin": "3.5.1",
@@ -160,7 +161,6 @@
     "@babel/plugin-syntax-import-meta": "^7.0.0",
     "@babel/plugin-transform-modules-commonjs": "^7.5.0",
     "@babel/plugin-transform-runtime": "^7.5.5",
-    "babel-plugin-typescript-to-proptypes": "^2.1.0",
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.17.12",
@@ -181,6 +181,7 @@
     "babel-jest": "^28.1.1",
     "babel-loader": "^8.2.2",
     "babel-plugin-require-context-hook": "^1.0.0",
+    "babel-plugin-typescript-to-proptypes": "^2.1.0",
     "chai": "^4.2.0",
     "core-js": "^3.15.1",
     "css-loader": "^0.28.9",
