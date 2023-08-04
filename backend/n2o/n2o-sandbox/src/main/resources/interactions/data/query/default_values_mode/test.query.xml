@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list>
+        <test operation="findAll" file="test.json"/>
+    </list>
+    <fields>
+        <field id="id"/>
+        <field id="name"/>
+        <field id="surname"/>
+        <field id="org"/>
+        <field id="org2"/>
+        <field id="notExistJson"/>
+    </fields>
+</query>

@@ -2,7 +2,6 @@ package net.n2oapp.framework.ui.controller;
 
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.context.ContextProcessor;
-import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.rest.GetDataResponse;
@@ -10,7 +9,6 @@ import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -25,7 +23,7 @@ import net.n2oapp.framework.engine.data.N2oQueryProcessor;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.engine.modules.stack.SpringDataProcessingStack;
-import net.n2oapp.framework.ui.controller.query.CopyValuesController;
+import net.n2oapp.framework.ui.controller.query.MergeValuesController;
 import net.n2oapp.properties.OverrideProperties;
 import net.n2oapp.properties.reader.PropertiesReader;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,8 +39,9 @@ import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class CopyValuesControllerTest {
+public class MergeValuesControllerTest {
 
     private N2oApplicationBuilder builder;
 
@@ -86,23 +85,23 @@ public class CopyValuesControllerTest {
     private ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> createPipelineForQuery() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
                 "net/n2oapp/framework/ui/controller/testDefaults.query.xml",
-                "net/n2oapp/framework/ui/controller/testCopy.query.xml",
-                "net/n2oapp/framework/ui/controller/testCopy.page.xml"
+                "net/n2oapp/framework/ui/controller/testMerge.query.xml",
+                "net/n2oapp/framework/ui/controller/testMerge.page.xml"
         );
-        pipeline.get(new PageContext("testCopy"));
+        pipeline.get(new PageContext("testMerge"));
         return pipeline;
     }
 
     @Test
-    void testCopyValues() {
+    void testMergeValues() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipelineForQuery();
         Map<String, String[]> params = new HashMap<>();
         params.put("id", new String[]{"1"});
-        GetDataResponse response = testQuery("/testCopy/main", pipeline, params);
+        GetDataResponse response = testQuery("/testMerge/main", pipeline, params);
         assertThat(response.getList().size(), is(1));
         assertThat(response.getList().get(0).get("id"), is(1L));
+        assertNull(response.getList().get(0).get("name"));
         assertThat(response.getList().get(0).get("surname"), is("testSurname1"));
-        assertThat(response.getList().get(0).get("org.name"), is("org1"));
     }
 
     private GetDataResponse testQuery(String path,
@@ -123,7 +122,7 @@ public class CopyValuesControllerTest {
         Mockito.doNothing().when(subModelsProcessor);
         DataProcessingStack dataProcessingStack = Mockito.mock(SpringDataProcessingStack.class);
 
-        CopyValuesController copyValuesController = new CopyValuesController(dataProcessingStack, queryProcessor,
+        MergeValuesController copyValuesController = new MergeValuesController(dataProcessingStack, queryProcessor,
                 subModelsProcessor, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("CopyValuesController", copyValuesController);

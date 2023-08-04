@@ -61,7 +61,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
                 validationScope));
         addParamRoutes(paramScope, context, p);
         compileToolbarAndAction(form, source, context, p, widgetScope, widgetActions, object, validationScope);
-        form.getComponent().setModelPrefix(FormMode.TWO_MODELS.equals(source.getMode()) ? "edit" : "resolve");
+        form.getComponent().setModelPrefix(FormMode.TWO_MODELS.equals(source.getFormMode()) ? "edit" : "resolve");
         return form;
     }
 

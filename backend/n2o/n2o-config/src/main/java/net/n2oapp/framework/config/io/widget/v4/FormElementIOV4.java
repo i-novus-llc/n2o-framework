@@ -25,7 +25,7 @@ public class FormElementIOV4 extends WidgetElementIOv4<N2oForm> {
     public void io(Element e, N2oForm f, IOProcessor p) {
         super.io(e, f, p);
         p.attributeBoolean(e, "unsaved-data-prompt", f::getPrompt, f::setPrompt);
-        p.attributeEnum(e, "mode", f::getMode, f::setMode, FormMode.class);
+        p.attributeEnum(e, "mode", f::getFormMode, f::setFormMode, FormMode.class);
         p.attribute(e, "default-values-query-id", f::getDefaultValuesQueryId, f::setDefaultValuesQueryId);
         p.anyChildren(e, "fields", f::getItems, f::setItems, p.anyOf(SourceComponent.class), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
         p.child(e, null, "submit", f::getSubmit, f::setSubmit, Submit.class, this::submit);

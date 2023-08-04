@@ -38,7 +38,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String route;
     private Target target;
     @Deprecated
-    private UploadType upload;
+    private DefaultValuesMode mode;
     @Deprecated
     private String masterFieldId;
     @Deprecated
@@ -97,24 +97,24 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
 
     @Deprecated // при удалении убрать, N2oStandardDatasourceMerger, а также его вызов в PageCompiler
     public void adaptV1() {
-        if (getUpload() != null || getDetailFieldId() != null || getPreFilters() != null) {
+        if (getMode() != null || getDetailFieldId() != null || getPreFilters() != null) {
             N2oStandardDatasource datasource = new N2oStandardDatasource();
 
-            if (getUpload() != null) {
-                switch (getUpload()) {
+            if (getMode() != null) {
+                switch (getMode()) {
                     case query:
                         datasource.setDefaultValuesMode(DefaultValuesMode.query);
                         break;
                     case defaults:
                         datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
                         break;
-                    case copy:
+                    case merge:
                         datasource.setDefaultValuesMode(DefaultValuesMode.merge);
                         break;
                 }
             }
 
-            if (getDetailFieldId() != null && !UploadType.defaults.equals(getUpload())) {
+            if (getDetailFieldId() != null && !DefaultValuesMode.defaults.equals(getMode())) {
                 N2oPreFilter filter = new N2oPreFilter();
                 filter.setFieldId(getDetailFieldId());
                 filter.setType(FilterType.eq);

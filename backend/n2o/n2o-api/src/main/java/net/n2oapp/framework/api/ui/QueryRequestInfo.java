@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.ui;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
-import net.n2oapp.framework.api.metadata.action.UploadType;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 
 /**
@@ -13,8 +13,8 @@ public class QueryRequestInfo extends RequestInfo {
     private CompiledQuery query;
     private N2oPreparedCriteria criteria;
     private DataSet data;
-    @Deprecated
-    private UploadType upload;
+
+    private DefaultValuesMode mode;
     private int size;
 
     public CompiledQuery getQuery() {
@@ -50,12 +50,12 @@ public class QueryRequestInfo extends RequestInfo {
         this.size = size;
     }
 
-    public UploadType getUpload() {
-        return upload;
+    public DefaultValuesMode getMode() {
+        return mode;
     }
 
-    public void setUpload(UploadType upload) {
-        this.upload = upload;
+    public void setMode(DefaultValuesMode mode) {
+        this.mode = mode;
     }
 
     public QueryRequestInfo copy() {
@@ -63,7 +63,7 @@ public class QueryRequestInfo extends RequestInfo {
         queryRequestInfo.setUser(getUser());
         if (getData() != null)
             queryRequestInfo.setData(new DataSet(getData()));
-        queryRequestInfo.setUpload(getUpload());
+        queryRequestInfo.setMode(getMode());
         queryRequestInfo.setSize(getSize());
         queryRequestInfo.setQuery(getQuery());
         queryRequestInfo.setCriteria(getCriteria());

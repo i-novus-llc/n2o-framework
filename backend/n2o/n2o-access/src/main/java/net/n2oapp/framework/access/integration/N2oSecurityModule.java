@@ -7,7 +7,7 @@ import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityFilters;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
-import net.n2oapp.framework.api.metadata.action.UploadType;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.processing.DataProcessing;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
@@ -43,7 +43,7 @@ public class N2oSecurityModule implements DataProcessing {
 
     @Override
     public void processQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
-        if (requestInfo.getUpload().equals(UploadType.query)) {
+        if (requestInfo.getMode().equals(DefaultValuesMode.query)) {
             Security security = getSecurityObject(requestInfo.getQuery());
             if (security != null) {
                 securityProvider.checkAccess(security, requestInfo.getUser());
@@ -57,9 +57,9 @@ public class N2oSecurityModule implements DataProcessing {
 
     @Override
     public void processQueryResult(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, CollectionPage<DataSet> page) {
-        if (requestInfo.getUpload().equals(UploadType.query)
+        if (requestInfo.getMode().equals(DefaultValuesMode.query)
                 && requestInfo.getSize() == 1
-                && UploadType.query.equals(requestInfo.getUpload())) {
+                && DefaultValuesMode.query.equals(requestInfo.getMode())) {
             DataSet data = page.getCollection().iterator().next();
             securityProvider.checkAccess(getSecurityObject(requestInfo.getQuery()), requestInfo.getUser());
             securityProvider.checkRestrictions(data, getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser());

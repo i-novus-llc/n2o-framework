@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Режимы подстановки значений по умолчанию 'default-values-mode'">
+    <regions>
+        <tabs>
+            <tab id="tab1" name="default-values-mode='query'">
+                <form id="form1">
+                    <datasource default-values-mode="query" query-id="test"/>
+                    <fields>
+                        <alert color="info" text="Данные берутся из запроса. Значения по умолчанию перетираются"/>
+                        <input-text id="name"/>
+                        <input-text id="surname" default-value="test"/>
+                        <input-text id="org" copied="true" default-value="test"/>
+                        <input-text id="org2" copied="false" default-value="test"/>
+                        <input-text id="notExistJson"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab id="tab2" name="default-values-mode='defaults'">
+                <form id="form2">
+                    <datasource default-values-mode="defaults" query-id="test"/>
+                    <fields>
+                        <alert color="info" text="Данные берутся только из значений по умолчанию"/>
+                        <input-text id="name"/>
+                        <input-text id="surname" default-value="test"/>
+                        <input-text id="org" copied="true" default-value="test"/>
+                        <input-text id="org2" copied="false" default-value="test"/>
+                        <input-text id="notExistJson"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab id="tab3" name="default-values-mode='merge'">
+                <form id="form3">
+                    <datasource default-values-mode="merge" query-id="test"/>
+                    <fields>
+                        <alert color="info"
+                               text="Данные заполняются путем слияния значений из запроса и значений по умолчанию (в пользу значений из запроса). При copied='false' данные поля берутся из умолчания."/>
+                        <input-text id="name"/>
+                        <input-text id="surname" default-value="test"/>
+                        <input-text id="org" copied="true" default-value="test"/>
+                        <input-text id="org2" copied="false" default-value="test"/>
+                        <input-text id="notExistJson"/>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
+    </regions>
+</page>
