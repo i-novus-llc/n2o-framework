@@ -12,7 +12,7 @@
                         <input-text id="surname" default-value="test"/>
                         <input-text id="org" copied="true" default-value="test"/>
                         <input-text id="org2" copied="false" default-value="test"/>
-                        <input-text id="notExistJson"/>
+                        <input-text id="notExistJson" default-value="test"/>
                     </fields>
                 </form>
             </tab>
@@ -25,7 +25,7 @@
                         <input-text id="surname" default-value="test"/>
                         <input-text id="org" copied="true" default-value="test"/>
                         <input-text id="org2" copied="false" default-value="test"/>
-                        <input-text id="notExistJson"/>
+                        <input-text id="notExistJson" default-value="test"/>
                     </fields>
                 </form>
             </tab>
@@ -39,7 +39,7 @@
                         <input-text id="surname" default-value="test"/>
                         <input-text id="org" copied="true" default-value="test"/>
                         <input-text id="org2" copied="false" default-value="test"/>
-                        <input-text id="notExistJson"/>
+                        <input-text id="notExistJson" default-value="test"/>
                     </fields>
                 </form>
             </tab>
