@@ -1,6 +1,5 @@
 package net.n2oapp.framework.api.metadata.meta.widget.table;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -60,6 +59,7 @@ public class TableWidgetComponent extends WidgetComponent {
         private String src;
         @JsonProperty
         private RowClick click;
+        private RowOverlay overlay;
         @JsonProperty
         private Map<String, String> elementAttributes = new HashMap<>();
         private Map<String, Object> properties;

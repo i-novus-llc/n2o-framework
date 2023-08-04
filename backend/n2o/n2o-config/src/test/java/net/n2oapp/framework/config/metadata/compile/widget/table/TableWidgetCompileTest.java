@@ -164,6 +164,13 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
+    void testRowOverlay() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5RowOverlayCompile.widget.xml").get(new WidgetContext("testTable5RowOverlayCompile"));
+        assertThat(table.getComponent().getBody().getRow().getOverlay().getClassName(), is("top"));
+        assertThat(table.getComponent().getBody().getRow().getOverlay().getToolbar(), notNullValue());
+    }
+
+    @Test
     void testSortableColumns() {
         Table table = (Table) ((SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.page.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml").get(new PageContext("testTable4SortableCompile"))).getWidget();
         assertThat(table.getId(), is("testTable4SortableCompile_w1"));

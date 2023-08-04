@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import net.n2oapp.framework.config.io.cell.v2.SwitchIO;
 import net.n2oapp.framework.config.io.common.ActionsAwareIO;
+import net.n2oapp.framework.config.io.toolbar.v2.ToolbarIOv2;
 import org.jdom2.Element;
 
 /**
@@ -26,6 +27,7 @@ public abstract class AbstractListWidgetElementIOv5<T extends N2oAbstractListWid
         p.attribute(e, "style", r::getStyle, r::setStyle);
         p.child(e, null, "click", r::getRowClick, r::setRowClick, N2oRowClick::new, this::rowClick);
         p.child(e, null, "switch", r::getColor, r::setColor, new SwitchIO());
+        p.child(e, null, "overlay", r::getRowOverlay, r::setRowOverlay, N2oRowOverlay::new, this::rowOverlay);
     }
 
     private void pagination(Element e, N2oPagination page, IOProcessor p) {
@@ -47,5 +49,10 @@ public abstract class AbstractListWidgetElementIOv5<T extends N2oAbstractListWid
         ActionsAwareIO.action(e, m, null, ActionIOv2.NAMESPACE, p);
         p.attribute(e, "enabled", m::getEnabled, m::setEnabled);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
+    }
+
+    private void rowOverlay(Element e, N2oRowOverlay m, IOProcessor p) {
+        p.attribute(e, "class", m::getClassName, m::setClassName);
+        p.child(e, null, "toolbar", m::getToolbar, m::setToolbar, new ToolbarIOv2());
     }
 }
