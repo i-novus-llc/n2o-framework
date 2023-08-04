@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
-import net.n2oapp.framework.api.metadata.action.UploadType;
 import net.n2oapp.framework.api.metadata.aware.*;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
@@ -63,7 +62,7 @@ public abstract class N2oWidget extends N2oMetadata
      */
     private Boolean autoFocus;
     @Deprecated
-    private UploadType upload;
+    private DefaultValuesMode mode;
     @Deprecated
     private String dependsOn;
     @N2oAttribute("Иконка")
@@ -98,7 +97,7 @@ public abstract class N2oWidget extends N2oMetadata
     public void adapterV4() {
         if (getQueryId() != null || getDefaultValuesQueryId() != null || getPreFilters() != null ||
                 getObjectId() != null ||
-                getUpload() != null || getDependsOn() != null) {
+                getMode() != null || getDependsOn() != null) {
             N2oStandardDatasource datasource = new N2oStandardDatasource();
             setDatasource(datasource);
             datasource.setQueryId(getQueryId());
@@ -106,12 +105,12 @@ public abstract class N2oWidget extends N2oMetadata
             datasource.setFilters(getPreFilters());
             datasource.setRoute(getRoute());
 
-            if (getUpload() != null) {
-                switch (getUpload()) {
+            if (getMode() != null) {
+                switch (getMode()) {
                     case query:
                         datasource.setDefaultValuesMode(DefaultValuesMode.query);
                         break;
-                    case copy:
+                    case merge:
                         datasource.setDefaultValuesMode(DefaultValuesMode.merge);
                         break;
                     case defaults:

@@ -73,7 +73,7 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         N2oForm form = merge("net/n2oapp/framework/config/metadata/merge/widget/parentFormMerger.widget.xml",
                 "net/n2oapp/framework/config/metadata/merge/widget/childFormMerger.widget.xml")
                 .get("parentFormMerger", N2oForm.class);
-        assertThat(form.getMode(), is(FormMode.TWO_MODELS));
+        assertThat(form.getFormMode(), is(FormMode.TWO_MODELS));
         assertThat(form.getPrompt(), is(true));
         assertThat(form.getDefaultValuesQueryId(), is("defQueryId"));
 

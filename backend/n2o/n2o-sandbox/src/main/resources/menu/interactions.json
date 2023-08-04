@@ -37,6 +37,10 @@
           "name": "Выборка данных. Уникальность"
         },
         {
+          "templateId": "interactions/data/query/default_values_mode",
+          "name": "Режимы подстановки значений по умолчанию 'default-values-mode'"
+        },
+        {
           "templateId": "interactions/data/binding/simple",
           "name": "Связывание данных. Простое поле"
         },

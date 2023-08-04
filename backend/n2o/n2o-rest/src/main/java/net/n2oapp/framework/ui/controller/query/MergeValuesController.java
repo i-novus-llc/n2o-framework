@@ -21,12 +21,12 @@ import java.util.Set;
  * Контроллер получения данных для копирования
  */
 @Controller
-public class CopyValuesController extends DefaultValuesController {
-    public CopyValuesController(DataProcessingStack dataProcessingStack,
-                                QueryProcessor queryProcessor,
-                                SubModelsProcessor subModelsProcessor,
-                                AlertMessageBuilder messageBuilder,
-                                MetadataEnvironment environment) {
+public class MergeValuesController extends DefaultValuesController {
+    public MergeValuesController(DataProcessingStack dataProcessingStack,
+                                 QueryProcessor queryProcessor,
+                                 SubModelsProcessor subModelsProcessor,
+                                 AlertMessageBuilder messageBuilder,
+                                 MetadataEnvironment environment) {
         super(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder, environment);
     }
 
@@ -66,6 +66,6 @@ public class CopyValuesController extends DefaultValuesController {
 
     @Override
     public ControllerType getControllerType() {
-        return ControllerType.copy;
+        return ControllerType.merge;
     }
 }

@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.action.UploadType;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
@@ -207,7 +207,7 @@ public abstract class AbstractController {
         requestInfo.setUser(user);
         requestInfo.setQuery(query);
         requestInfo.setData(data);
-        requestInfo.setUpload(queryCtx.getUpload() != null ? queryCtx.getUpload() : UploadType.query);
+        requestInfo.setMode(queryCtx.getMode() != null ? queryCtx.getMode() : DefaultValuesMode.query);
         requestInfo.setCriteria(prepareCriteria(requestInfo.getQuery(), data, queryCtx));
         requestInfo.setMessagesForm(queryCtx.getMessagesForm());
         requestInfo.setSize(requestInfo.getCriteria().getSize());
