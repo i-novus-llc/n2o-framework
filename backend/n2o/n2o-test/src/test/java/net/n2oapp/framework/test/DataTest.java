@@ -32,6 +32,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = "spring.main.allow-bean-definition-overriding=true")
 public class DataTest {
+
     @LocalServerPort
     private int port;
 

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -14,10 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.timeout;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * User: Belyaev Gleb
@@ -32,12 +30,10 @@ public class WatchDirTest
 
     private static String getTestFolder()
     {
-        StringBuilder customTestPath = new StringBuilder();
-        customTestPath.append(System.getProperty("user.home"));
-        customTestPath.append(File.separator);
-        customTestPath.append(WatchDirTest.class.getSimpleName());
-        customTestPath.append(File.separator);
-        return customTestPath.toString();
+        return System.getProperty("user.home") +
+                File.separator +
+                WatchDirTest.class.getSimpleName() +
+                File.separator;
     }
 
 //    @Before
@@ -78,7 +74,7 @@ public class WatchDirTest
 
         FileUtils.touch(new File(path.toString()));
         verify(listener, timeout(100).atLeast(1)).fileCreated(eq(path));
-        verify(listener, timeout(100).never()).fileModified(eq(path));
+        verify(listener, after(100).never()).fileModified(eq(path));
 
         watchDir.stop();
     }
@@ -135,7 +131,7 @@ public class WatchDirTest
     void testRestartMonitoring() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
-        verify(listener, timeout(100).never()).fileCreated(eq(path));
+        verify(listener, after(100).never()).fileCreated(eq(path));
 
         reset(listener);
         watchDir.start();
@@ -147,7 +143,7 @@ public class WatchDirTest
         watchDir.stop();
 
         FileUtils.touch(new File(path.toString()));
-        verify(listener, timeout(100).never()).fileCreated(eq(path));
+        verify(listener, after(100).never()).fileCreated(eq(path));
     }
 
     /**
@@ -200,7 +196,7 @@ public class WatchDirTest
 
         FileUtils.touch(new File(path.toString()));
         verify(listener, timeout(100).atLeast(1)).fileCreated(eq(path));
-        verify(listener, timeout(100).never()).fileModified(eq(path));
+        verify(listener, after(100).never()).fileModified(eq(path));
 
         watchDir.stop();
     }
@@ -218,12 +214,12 @@ public class WatchDirTest
 
         watchDir.start();
 
-        FileUtils.write(new File(path.toString()), "test");
+        FileUtils.write(new File(path.toString()), "test", Charset.defaultCharset());
         Thread.sleep(100);
         verify(listener, timeout(100).atLeast(1)).fileModified(eq(path));
 
         reset(listener);
-        FileUtils.write(new File(path.toString()), "test2");
+        FileUtils.write(new File(path.toString()), "test2", Charset.defaultCharset());
         verify(listener, timeout(100).atLeast(1)).fileModified(eq(path));
 
         watchDir.stop();
@@ -256,7 +252,7 @@ public class WatchDirTest
     void testStartMonitoring() throws Exception
     {
         FileUtils.touch(new File(path.toString()));
-        verify(listener, timeout(100).never()).fileCreated(any(Path.class));
+        verify(listener, after(100).never()).fileCreated(any(Path.class));
 
         watchDir.start();
 
@@ -282,7 +278,7 @@ public class WatchDirTest
         watchDir.stop();
 
         FileUtils.forceDelete(new File(path.toString()));
-        verify(listener, timeout(100).never()).fileModified(any(Path.class));
+        verify(listener, after(100).never()).fileModified(any(Path.class));
     }
 
     @Test
@@ -293,10 +289,10 @@ public class WatchDirTest
         Path path3 = Paths.get(TEST_DIR);
 
         assertEquals(path1, path2);
-        assertTrue(path1.equals(path2));
+        assertEquals(path1, path2);
 
         assertNotEquals(path1, path3);
-        assertFalse(path1.equals(path3));
+        assertNotEquals(path1, path3);
     }
 
     @Test

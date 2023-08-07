@@ -26,7 +26,7 @@
 
     <fields>
         <field id="id" domain="integer" name="№"/>
-        <field id="name" domain="string" name="Наименование" sorting="true" sorting-mapping="['nameDir']" select-expression="name :nameDir"/>
+        <field id="name" domain="string" name="Наименование" sorting="true" sorting-mapping="['nameDir']" sorting-expression="name :nameDir"/>
         <field id="price" domain="long" name="Цена" sorting="true" sorting-mapping="['priceDir']" sorting-expression="price :priceDir"/>
     </fields>
 </query>

@@ -7,17 +7,14 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.mockito.Matchers.eq;
 
 import static net.n2oapp.watchdir.WatchDirTestUtil.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.timeout;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * @author iryabov
@@ -53,13 +50,13 @@ public class WatchDirSkipTest {
         watchDir.start();
         watchDir.skipOn(TEST_FILE);
         FileUtils.touch(new File(TEST_FILE));
-        verify(listener, timeout(200).never()).fileCreated(eq(Paths.get(TEST_FILE)));
-        FileUtils.write(new File(TEST_FILE), "test");
-        verify(listener, timeout(200).never()).fileModified(eq(Paths.get(TEST_FILE)));
+        verify(listener, after(200).never()).fileCreated(eq(Paths.get(TEST_FILE)));
+        FileUtils.write(new File(TEST_FILE), "test", Charset.defaultCharset());
+        verify(listener, after(200).never()).fileModified(eq(Paths.get(TEST_FILE)));
         watchDir.takeOn(TEST_FILE);
         FileUtils.touch(new File(TEST2_FILE));
         verify(listener, timeout(200).atLeast(1)).fileCreated(eq(Paths.get(TEST2_FILE)));
-        FileUtils.write(new File(TEST_FILE), "test2");
+        FileUtils.write(new File(TEST_FILE), "test2", Charset.defaultCharset());
         verify(listener, timeout(200).atLeast(1)).fileModified(eq(Paths.get(TEST_FILE)));
         watchDir.stop();
     }
@@ -79,7 +76,7 @@ public class WatchDirSkipTest {
             watchDir.skipOn(baseExcludeDir);
             watchDir.start();
             FileUtils.touch(excludeFile.toFile());
-            verify(listener, timeout(200).never()).fileCreated(eq(excludeFile));
+            verify(listener, after(200).never()).fileCreated(eq(excludeFile));
             verify(listener, never()).fileModified(eq(excludeFile));
             verify(listener, never()).fileModified(eq(Paths.get(excludeDir)));
         } finally {
