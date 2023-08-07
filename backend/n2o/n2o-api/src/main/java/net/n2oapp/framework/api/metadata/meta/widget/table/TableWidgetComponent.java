@@ -59,6 +59,7 @@ public class TableWidgetComponent extends WidgetComponent {
         private String src;
         @JsonProperty
         private RowClick click;
+        @JsonProperty
         private RowOverlay overlay;
         @JsonProperty
         private Map<String, String> elementAttributes = new HashMap<>();
