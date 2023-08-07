@@ -103,7 +103,7 @@ public class PageBinderTest extends SourceCompileTestBase {
                 data.put("name", "Joe");
             }
             return null;
-        }).when(subModelsProcessor).executeSubModels(anyListOf(SubModelQuery.class), anyObject());
+        }).when(subModelsProcessor).executeSubModels(anyList(), any());
 
         PageContext context = new PageContext("testPageBinders", "/page/:id_param/view");
         context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModel.resolve, "page_master")));
@@ -153,7 +153,7 @@ public class PageBinderTest extends SourceCompileTestBase {
                 data.put(subModelQueries.get(0).getSubModel() + ".name", "test" + data.get(subModelQueries.get(0).getSubModel() + ".id"));
             }
             return null;
-        }).when(subModelsProcessor).executeSubModels(anyListOf(SubModelQuery.class), anyObject());
+        }).when(subModelsProcessor).executeSubModels(anyList(), any());
 
         DataSet data = new DataSet();
         List<String> ids = new ArrayList<>();

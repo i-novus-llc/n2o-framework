@@ -17,8 +17,9 @@ public class BaseRegister<S, V> extends BiDirectionalMapRegister<S, V> implement
     protected Scanner<S> scanner;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
-        Assert.notNull(extractor);
+    public void afterPropertiesSet() {
+        //Todo: добавить сообщение при ошибке
+        Assert.notNull(extractor, "Extractor must not be null!");
         if (scanner != null) {
             addAll(extractor.extractMap(scanner.scan()));
         }

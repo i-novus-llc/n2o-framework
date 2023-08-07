@@ -18,7 +18,8 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-@SpringBootTest(properties = {"n2o.config.register.store-type=jdbc", "n2o.config.register.jdbc.create-table=true",
+@SpringBootTest(properties = {"n2o.config.register.store-type=jdbc",
+        "n2o.config.register.jdbc.create-table=true",
         "n2o.config.register.jdbc.table-name=route_repository",
         "spring.datasource.driver-class-name=org.h2.Driver",
         "spring.datasource.url=jdbc:h2:mem:test",

@@ -46,7 +46,6 @@ public class ModalAT extends AutoTestBase {
     }
 
     @Test
-
     public void modalTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

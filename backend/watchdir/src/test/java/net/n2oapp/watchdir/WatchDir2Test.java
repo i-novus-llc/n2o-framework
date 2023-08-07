@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -14,12 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.timeout;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * @author iryabov
@@ -97,7 +93,7 @@ public class WatchDir2Test {
 
         watchDir.start();
 
-        FileUtils.write(new File(path.toString()), "test");
+        FileUtils.write(new File(path.toString()), "test", Charset.defaultCharset());
         verify(listener, timeout(200).atLeast(1)).fileModified(eq(path));
         verify(listener, never()).fileCreated(any(Path.class));
         verify(listener, never()).fileDeleted(any(Path.class));
@@ -163,7 +159,7 @@ public class WatchDir2Test {
         reset(listener);
         watchDir.start();
         FileUtils.forceDelete(new File(dir));
-        verify(listener, timeout(200).never()).fileCreated(any(Path.class));
+        verify(listener, after(200).never()).fileCreated(any(Path.class));
         verify(listener, never()).fileModified(any(Path.class));
         verify(listener, timeout(200).atLeast(1)).fileDeleted(eq(Paths.get(dir)));
         watchDir.stop();
@@ -174,8 +170,8 @@ public class WatchDir2Test {
     void testCreateChangeDelete() throws Exception {
         watchDir.start();
         FileUtils.touch(new File(path.toString()));
-        FileUtils.write(new File(path.toString()), "test");
-        FileUtils.write(new File(path.toString()), "test2");
+        FileUtils.write(new File(path.toString()), "test", Charset.defaultCharset());
+        FileUtils.write(new File(path.toString()), "test2", Charset.defaultCharset());
         FileUtils.forceDelete(new File(path.toString()));
         verify(listener, timeout(200).atLeast(1)).fileCreated(eq(path));
         verify(listener, atLeast(1)).fileDeleted(eq(path));
