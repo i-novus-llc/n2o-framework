@@ -56,7 +56,9 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
                             areAllRowsSelected={areAllRowsSelected}
                         />
 
-                        {errorComponent || (
+                        {errorComponent ? (
+                            <Table.Cell colSpan={cells.body.length}>{errorComponent}</Table.Cell>
+                        ) : (
                             <TableBody
                                 hasSecurityAccess={hasSecurityAccess}
                                 focusedRowValue={focusedRowValue}
