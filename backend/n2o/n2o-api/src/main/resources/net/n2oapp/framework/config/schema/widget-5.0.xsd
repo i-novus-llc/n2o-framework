@@ -8,7 +8,6 @@
            xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-5.0"
            xmlns:chart="http://n2oapp.net/framework/config/schema/n2o-chart-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
 >
 
     <xs:element name="table" type="tableReferenceDefinition"/>
@@ -1202,7 +1201,7 @@
         </xs:sequence>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Класс компонента виджета</xs:documentation>
+                <xs:documentation>Класс компонента строки таблицы при наведении мышкой</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

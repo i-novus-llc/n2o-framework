@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 
 /**
- * Исходная модель "Тулбар на строках таблицы"
+ * Исходная модель "Поведение при наведении на строку"
  */
 @Getter
 @Setter

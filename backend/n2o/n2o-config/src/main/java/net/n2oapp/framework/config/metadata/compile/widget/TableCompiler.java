@@ -20,6 +20,7 @@ import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.table.*;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -98,7 +99,8 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                 }
             }
             component.getBody().getRow().setClick(compileRowClick(source, context, p, widgetScope, object, widgetActions));
-            component.getBody().getRow().setOverlay(compileRowOverlay(source, context, p, widgetScope, object));
+            PageIndexScope pageIndexScope = new PageIndexScope(source.getId());
+            component.getBody().getRow().setOverlay(compileRowOverlay(source, context, p, widgetScope, object, pageIndexScope));
 
         }
         table.setPaging(compilePaging(table, source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p));
@@ -200,11 +202,11 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     }
 
     /**
-     * Компиляция тулбара на строках таблицы.
+     * Компиляция поведения при наведении на строку
      */
     protected RowOverlay compileRowOverlay(N2oAbstractListWidget source, CompileContext<?, ?> context,
                                            CompileProcessor p, WidgetScope widgetScope,
-                                           CompiledObject object) {
+                                           CompiledObject object, PageIndexScope indexScope) {
         if (source.getRows() == null || source.getRows().getRowOverlay() == null)
             return null;
 
@@ -213,7 +215,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         N2oRowOverlay rowOverlay = source.getRows().getRowOverlay();
         overlay.setClassName(rowOverlay.getClassName());
         if (rowOverlay.getToolbar() != null)
-            overlay.setToolbar(p.compile(rowOverlay.getToolbar(), context, widgetScope));
+            overlay.setToolbar(p.compile(rowOverlay.getToolbar(), context, widgetScope, indexScope));
         return overlay;
     }
 

@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 
 /**
- * Клиентская модель "Тулбар на строках таблицы"
+ * Клиентская модель "Поведение при наведении на строку"
  */
 @Getter
 @Setter

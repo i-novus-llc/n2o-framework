@@ -3,7 +3,11 @@
        object-id="utBlank">
     <rows>
         <overlay class="top">
-            <toolbar></toolbar>
+            <toolbar>
+                <button id="id1">
+                    <a href="/test" target="application"/>
+                </button>
+            </toolbar>
         </overlay>
     </rows>
 </table>
