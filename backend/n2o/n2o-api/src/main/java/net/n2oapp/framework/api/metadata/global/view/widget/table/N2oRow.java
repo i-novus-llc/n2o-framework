@@ -15,6 +15,7 @@ public class N2oRow implements Source, NamespaceUriAware {
     @N2oAttribute("Цвет")
     private N2oSwitch color;
     private N2oRowClick rowClick;
+    private N2oRowOverlay rowOverlay;
     @N2oAttribute("Css класс")
     private String rowClass;
     @N2oAttribute("Стиль")
