@@ -18,7 +18,7 @@
 
     <xs:complexType name="accessPointListDefinition">
         <xs:annotation>
-            <xs:documentation>Права доступа в привелегии или роли</xs:documentation>
+            <xs:documentation>Права доступа в привилегии или роли</xs:documentation>
         </xs:annotation>
         <xs:sequence minOccurs="1">
             <xs:element name="object-access" type="ap:objectAccessDef" minOccurs="0" maxOccurs="unbounded"/>
@@ -29,12 +29,12 @@
         </xs:sequence>
         <xs:attribute name="id" use="required" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Идентификатор привелегии или роли</xs:documentation>
+                <xs:documentation>Идентификатор привилегии или роли</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="name" use="optional" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Название привелегии или роли</xs:documentation>
+                <xs:documentation>Название привилегии или роли</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

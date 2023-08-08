@@ -1157,7 +1157,7 @@
                 <xs:documentation>React компонент статуса.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute type="xs:string" name="field-id" use="required">
+        <xs:attribute name="field-id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Поле с данными для статуса.</xs:documentation>
             </xs:annotation>
@@ -1813,17 +1813,6 @@
         </xs:restriction>
     </xs:simpleType>
 
-
-    <xs:complexType name="thenSetValue">
-        <xs:sequence>
-            <xs:element name="value">
-                <xs:complexType>
-                    <xs:attribute name="field-id" use="required"/>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-
     <xs:complexType name="defaultModelDefinition">
         <xs:sequence>
             <xs:element name="value" minOccurs="1">
@@ -1833,34 +1822,6 @@
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="nodeDefinition">
-        <xs:sequence>
-            <xs:element name="node" type="nodeDefinition"/>
-        </xs:sequence>
-        <xs:attribute name="value-field-id" type="xs:string" use="required"/>
-        <xs:attribute name="label-field-id" type="xs:string" use="required"/>
-        <xs:attribute name="icon" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true"/>
-    </xs:complexType>
-
-    <xs:complexType name="controlPreFilterDefinition">
-        <xs:annotation>
-            <xs:documentation source="https://wiki.i-novus.ru/display/N2O/N2O.Documentation.Dependency"/>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="value" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-        <xs:attribute name="field-id" type="xs:string" use="required"/>
-        <xs:attribute name="ref" type="xs:string" use="optional"/>
-        <xs:attribute name="value" type="xs:string" use="optional"/>
-        <xs:attribute name="type" type="searchTypeEnumeration" use="optional"/>
-        <xs:attribute name="required" type="xs:boolean" use="optional"/>
     </xs:complexType>
 
     <xs:simpleType name="searchTypeEnumeration">

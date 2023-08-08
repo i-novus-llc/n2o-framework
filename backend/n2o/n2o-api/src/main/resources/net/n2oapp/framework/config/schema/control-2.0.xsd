@@ -1641,9 +1641,6 @@
     <xs:complexType name="inputSelectTreeDefinition">
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
-                <xs:sequence>
-                    <xs:element name="default-model" type="defaultModelDefinition" minOccurs="0"/>
-                </xs:sequence>
                 <xs:attribute name="parent-field-id" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Идентификатор родительского поля.</xs:documentation>
@@ -1709,38 +1706,6 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-
-    <xs:complexType name="defaultModelDefinition">
-        <xs:sequence>
-            <xs:element name="value" minOccurs="1">
-                <xs:complexType>
-                    <xs:attribute name="field-id" use="required"/>
-                    <xs:attribute name="domain" use="optional" type="dmn:domainType"/>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-
-    <!--    <xs:complexType name="groupingNodesDefinition">
-            <xs:complexContent>
-                <xs:extension base="ctrv1:controlListQueryDefinition">
-                    <xs:sequence>
-                        <xs:sequence>
-                            <xs:element name="pre-filters" maxOccurs="1" minOccurs="0">
-                                <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element name="pre-filter" type="controlPreFilterDefinition" minOccurs="1"
-                                                    maxOccurs="unbounded"/>
-                                    </xs:sequence>
-                                </xs:complexType>
-                            </xs:element>
-                        </xs:sequence>
-                        <xs:element name="node" type="nodeDefinition" minOccurs="1"/>
-                    </xs:sequence>
-                    <xs:attribute name="search-field-id" type="xs:string" use="optional"/>
-                </xs:extension>
-            </xs:complexContent>
-        </xs:complexType>-->
 
     <xs:complexType name="nodeDefinition">
         <xs:sequence>
