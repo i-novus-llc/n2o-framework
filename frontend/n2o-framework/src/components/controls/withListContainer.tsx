@@ -24,7 +24,7 @@ type Props = {
     onOpen(valueObj?: object): void, // callback на открытие попапа
     onInput(value: string | number): void, // callback при вводе в инпут
     onScrollEnd(): void, // callback при прокрутке скролла popup
-    fetchData(params: object, concat: boolean): void,
+    fetchData(params: object, concat: boolean, cacheReset: boolean): void,
 }
 
 type WrappedComponentProps = Omit<Props, 'data' | 'quickSearchParam' | 'searchMinLength' | 'throttleDelay' | 'onOpen' |'onInput' | 'onScrollEnd'>&{
@@ -55,8 +55,9 @@ export function withListContainer(WrappedComponent: FC<WrappedComponentProps>) {
          * Совершает вызов апи с параметрами
          * @param optionalParams {object} - дополнительные параметра запроса
          * @param concat {boolean} - флаг добавления новых данных к текущим
+         * @param cacheReset {boolean} - флаг принудительного сбрасывания cache в withFetchData
          */
-        const callApiWithParams = (optionalParams = {}, concat = false) => {
+        const callApiWithParams = (optionalParams = {}, concat = false, cacheReset = false) => {
             const sortId = sortFieldId || valueFieldId || labelFieldId
 
             const params = {
@@ -66,7 +67,7 @@ export function withListContainer(WrappedComponent: FC<WrappedComponentProps>) {
                 ...optionalParams,
             }
 
-            fetchData(params, concat)
+            fetchData(params, concat, cacheReset)
         }
         /**
          * Обрабатывает серверный поиск
