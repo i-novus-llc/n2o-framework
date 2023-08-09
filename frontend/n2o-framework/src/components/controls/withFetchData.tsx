@@ -192,10 +192,11 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
          * Взять данные с сервера с помощью dataProvider
          * @param dataProvider
          * @param extraParams
+         * @param cacheReset
          * @returns {Promise<void>}
          * @private
          */
-        fetchDataProvider(dataProvider: object, extraParams = {}) {
+        fetchDataProvider(dataProvider: object, extraParams = {}, cacheReset = false) {
             const { store } = this.context
             const { abortController } = this.state
 
@@ -209,13 +210,15 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                 headersParams,
             } = dataProviderResolver(store.getState(), dataProvider)
 
-            const cached = this.findResponseInCache({
+            const params = {
                 basePath,
                 queryParams,
                 extraParams,
-            })
+            }
 
-            if (cached) {
+            const cached = this.findResponseInCache(params)
+
+            if (cached && !cacheReset) {
                 return cached
             }
 
@@ -246,7 +249,13 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
             size,
             page,
             paging,
-        }: {list: Props['data'], count: Paging['count'], size: Paging['size'], page: Paging['page'], paging: Paging}, merge = false) {
+        }: {
+            list: Props['data'],
+            count: Paging['count'],
+            size: Paging['size'],
+            page: Paging['page'],
+            paging: Paging },
+        merge = false) {
             const { valueFieldId } = this.props
             const { data } = this.state
             const { count: pagingCount, size: pagingSize, page: pagingPage } = paging || {}
@@ -266,10 +275,11 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
          * Получает данные с сервера
          * @param extraParams - параметры запроса
          * @param merge - флаг объединения данных
+         * @param cacheReset - флаг принудительного сбрасывания cache
          * @returns {Promise<void>}
          * @private
          */
-        async fetchData(extraParams = {}, merge = false) {
+        async fetchData(extraParams = {}, merge = false, cacheReset = false) {
             const { dataProvider, fetchError, datasource } = this.props
             const { data } = this.state
 
@@ -292,6 +302,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                 const response = await this.fetchDataProvider(
                     dataProvider,
                     extraParams,
+                    cacheReset,
                 )
 
                 if (has(response, 'message')) { this.addAlertMessage(response.message) }

@@ -51,7 +51,7 @@ type Props = {
     descriptionFieldId?: string,
     disabledValues: [],
     enabledFieldId?: string,
-    fetchData(arg: object, concat?: boolean): void,
+    fetchData(arg: object, concat?: boolean, cacheReset?: boolean): void,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     filterValue?: any,
     format?: string,
