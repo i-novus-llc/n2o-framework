@@ -1,5 +1,5 @@
 // TODO пока тут оставил, в будущем, наверно, вся meta переедет вместе с типами
-import { Meta } from '../ducks/Action'
+import { Meta as N2OMeta } from '../ducks/Action'
 import { LinkTarget } from '../constants/linkTarget'
 
 export enum MetaType {
@@ -11,25 +11,25 @@ export enum MetaType {
     ValidationMessages = 'messages'
 }
 
-export interface IMeta {
-    [MetaType.Refresh]?: IRefreshMeta
-    [MetaType.Redirect]?: IRedirectMeta
-    [MetaType.Alert]?: IAlertMeta
+export interface Meta {
+    [MetaType.Refresh]?: RefreshMeta
+    [MetaType.Redirect]?: RedirectMeta
+    [MetaType.Alert]?: AlertMeta
     [MetaType.Clear]?: unknown
-    [MetaType.UserDialog]?: IUserDialogMeta
-    [MetaType.ValidationMessages]?: IValidationMessagesMeta
+    [MetaType.UserDialog]?: UserDialogMeta
+    [MetaType.ValidationMessages]?: ValidationMessagesMeta
 }
 
-export interface IActionMeta extends Meta {
-    fail?: IMeta
-    success?: IMeta
+export interface ActionMeta extends N2OMeta {
+    fail?: Meta
+    success?: Meta
 }
 
-export interface IRefreshMeta {
+export interface RefreshMeta {
     datasources: string[]
 }
 
-export interface IRedirectMeta {
+export interface RedirectMeta {
     path: string
     target: LinkTarget
     // TODO сюда тоже закинуть тип IMapping
@@ -37,14 +37,14 @@ export interface IRedirectMeta {
     queryMapping?: Record<string, unknown>
 }
 
-export interface IAlertMeta {
+export interface AlertMeta {
     alert: {
         messages: unknown
         stacked: unknown
     }
 }
 
-export interface IUserDialogMeta {
+export interface UserDialogMeta {
     // TODO тут тип пропсов PageDialog должен быть
     dialog: {
         title: string
@@ -54,7 +54,7 @@ export interface IUserDialogMeta {
     }
 }
 
-export interface IValidationFieldMessage {
+export interface ValidationFieldMessage {
     id: string | number
     field: string
     placement: string
@@ -64,7 +64,7 @@ export interface IValidationFieldMessage {
     timeout?: number
 }
 
-export interface IValidationMessagesMeta {
+export interface ValidationMessagesMeta {
     form: string
-    fields: Record<string, IValidationFieldMessage>
+    fields: Record<string, ValidationFieldMessage>
 }

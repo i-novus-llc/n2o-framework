@@ -5,40 +5,40 @@ import { useDispatch, useSelector, useStore } from 'react-redux'
 import { ModelPrefix } from '../../../../core/datasource/const'
 import { updateModel } from '../../../../ducks/models/store'
 import { handleBlur, handleFocus, register, remove } from '../../../../ducks/form/store'
-import { TGetValues, TSetBlur, TSetFocus, TSetValue } from '../types'
+import { GetValues, SetBlur, SetFocus, SetValue } from '../types'
 import { getModelFieldByPath } from '../../../../ducks/models/selectors'
-import { ValidationsKey } from '../../../../core/validation/IValidation'
+import { ValidationsKey } from '../../../../core/validation/types'
 import { makeFormByName } from '../../../../ducks/form/selectors'
 import { State } from '../../../../ducks/State'
 
-type TMethods = {
-    setValue: TSetValue
-    setFocus: TSetFocus
-    setBlur: TSetBlur
+type Methods = {
+    setValue: SetValue
+    setFocus: SetFocus
+    setBlur: SetBlur
 }
 
-type TFormContext = {
-    getValues: TGetValues
+type FormContextType = {
+    getValues: GetValues
     formName: string
     prefix: ModelPrefix
     datasource: string
-} & TMethods
+} & Methods
 
-type TFormProvider = {
+type FormProviderType = {
     formName: string,
     datasource: string,
     prefix: ModelPrefix,
     validationKey?: ValidationsKey,
 }
 
-const FormContext = createContext<TFormContext | null>(null)
+const FormContext = createContext<FormContextType | null>(null)
 
-const FormProvider: FC<TFormProvider> = ({ children, formName, datasource, prefix, validationKey }) => {
+const FormProvider: FC<FormProviderType> = ({ children, formName, datasource, prefix, validationKey }) => {
     const dispatch = useDispatch()
     const isInitForm = useSelector((state: State) => Boolean(makeFormByName(formName)(state).isInit))
     const { getState } = useStore()
 
-    const getValues = useCallback<TGetValues>((fieldName) => {
+    const getValues = useCallback<GetValues>((fieldName) => {
         const state = getState()
         const models = getModelFieldByPath(`${prefix}.${datasource}`)(state)
 
@@ -49,7 +49,7 @@ const FormProvider: FC<TFormProvider> = ({ children, formName, datasource, prefi
         return get(models, fieldName)
     }, [getState, datasource, prefix])
 
-    const methods = useMemo<TMethods>(() => ({
+    const methods = useMemo<Methods>(() => ({
         setValue: (fieldName, value) => {
             dispatch(updateModel(prefix, datasource, fieldName, value))
         },

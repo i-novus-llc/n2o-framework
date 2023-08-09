@@ -1,6 +1,6 @@
 import { Action } from '../Action'
 
-import { IMetadata } from './Pages'
+import { Metadata } from './Pages'
 
 export type MetadataRequestPayload = {
     pageId: string
@@ -11,7 +11,7 @@ export type MetadataRequestPayload = {
 
 export type MetadataSuccessPayload = {
     pageId: string
-    json: IMetadata
+    json: Metadata
 }
 
 export type MetadataFailPayload = {

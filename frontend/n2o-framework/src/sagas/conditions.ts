@@ -45,13 +45,13 @@ const REMOVE_TO_ADD_ACTIONS_NAMES_DICT = {
 }
 
 type ContextType = Record<string, Record<string, unknown>> | Array<Record<string, unknown>>
-export interface ICondition {
+export interface Condition {
     expression: string
     modelLink: string
     message?: string
 }
 
-type Conditions = ICondition[]
+type Conditions = Condition[]
 type ConditionsByName = Record<string, Conditions>
 type EntityMeta = { conditions: ConditionsByName, key: string, buttonId: string }
 type Entity = Record<string, EntityMeta[]>
@@ -115,13 +115,13 @@ function* callConditionHandlers(entities: Record<string, unknown>, prefix: strin
  * @param action
  */
 
-interface IWatchModelPayload {
+interface WatchModelPayload {
     prefix: string
     prefixes: string
     key: string
 }
 
-function* watchModel(entities: EntitiesType, action: { payload: IWatchModelPayload }) {
+function* watchModel(entities: EntitiesType, action: { payload: WatchModelPayload }) {
     const { prefix, prefixes, key } = action.payload
     const groupTypes = keys(entities)
 
@@ -141,13 +141,13 @@ function* watchModel(entities: EntitiesType, action: { payload: IWatchModelPaylo
     }
 }
 
-interface IWatchCombineModelsPayload {
+interface WatchCombineModelsPayload {
     combine: Record<string, unknown>
 }
 
 function* watchCombineModels(
     entities: EntitiesType,
-    { payload: { combine } }: { payload: IWatchCombineModelsPayload },
+    { payload: { combine } }: { payload: WatchCombineModelsPayload },
 ) {
     const groupTypes = keys(entities)
     const [prefix] = keys(combine)
@@ -160,12 +160,12 @@ function* watchCombineModels(
     }
 }
 
-interface IWatchRemovePayload {
+interface WatchRemovePayload {
     key: string
     buttonId: string
 }
 
-function watchRemove(entities: EntitiesType, action: { type: string, payload: IWatchRemovePayload }) {
+function watchRemove(entities: EntitiesType, action: { type: string, payload: WatchRemovePayload }) {
     const { type, payload } = action
 
     const conditions = entities[REMOVE_TO_ADD_ACTIONS_NAMES_DICT[type]]
@@ -211,11 +211,11 @@ function* conditionWatchers() {
  * @return
  */
 
-interface IWatchRegisterPayload {
+interface WatchRegisterPayload {
     conditions: ConditionsByName
 }
 
-function* watchRegister(entities: EntitiesType, { type, payload }: {type: string, payload: IWatchRegisterPayload}) {
+function* watchRegister(entities: EntitiesType, { type, payload }: {type: string, payload: WatchRegisterPayload}) {
     const { conditions } = payload
 
     if (conditions && !isEmpty(conditions)) {
@@ -233,11 +233,11 @@ function* watchRegister(entities: EntitiesType, { type, payload }: {type: string
  * @return {any}
  */
 
-interface IPrepareEntityPayload {
+interface PrepareEntityPayload {
     conditions: ConditionsByName
 }
 
-export function prepareEntity(entities: EntitiesType, payload: IPrepareEntityPayload, type: string) {
+export function prepareEntity(entities: EntitiesType, payload: PrepareEntityPayload, type: string) {
     const { conditions } = payload
     const linksBuffer: string[] = []
 

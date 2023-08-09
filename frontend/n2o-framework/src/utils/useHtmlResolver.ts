@@ -1,10 +1,10 @@
 import isEmpty from 'lodash/isEmpty'
 
-import { IModel } from '../components/widgets/Form/fields/MarkdownField/helpers'
+import { Model } from '../components/widgets/Form/fields/MarkdownField/helpers'
 
 import evalExpression, { parseExpression } from './evalExpression'
 
-export const useHtmlResolver = (html: string, model: IModel) => {
+export const useHtmlResolver = (html: string, model: Model) => {
     if (!html) {
         return null
     }

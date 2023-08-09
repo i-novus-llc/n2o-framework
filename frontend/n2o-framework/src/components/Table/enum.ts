@@ -1,4 +1,4 @@
-export const enum ActionType {
+export const enum Action {
     SelectSingleRow = 'SelectSingleRow',
     SelectRow = 'SelectRow',
     DeselectRow = 'DeselectRow',
@@ -9,7 +9,7 @@ export const enum ActionType {
     RowClick = 'RowClick',
 }
 
-export const enum SelectionType {
+export const enum Selection {
     Checkbox = 'checkbox',
     Radio = 'radio',
     None = 'none',

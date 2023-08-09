@@ -1,15 +1,15 @@
 import { get } from 'lodash'
 
 import { INDEX_REGEXP } from './const'
-import type { IValidation, IValidationResult } from './IValidation'
+import type { Validation, ValidationResult } from './types'
 import { filterByFields, isMulti, keyToRegexp } from './utils'
 import { validateField, hasError as checkErrors } from './validateField'
 
 const validateSimple = async (
-    allMessages: Record<string, IValidationResult[]>,
+    allMessages: Record<string, ValidationResult[]>,
     model: object,
     field: string,
-    validationList: IValidation[],
+    validationList: Validation[],
 ): Promise<void> => {
     const messages = await validateField(
         field as keyof (typeof model),
@@ -23,10 +23,10 @@ const validateSimple = async (
 }
 
 const validateMulti = async (
-    allMessages: Record<string, IValidationResult[]>,
+    allMessages: Record<string, ValidationResult[]>,
     model: object,
     validationKey: string,
-    validationList: IValidation[],
+    validationList: Validation[],
 ): Promise<void> => {
     const fieldArrayName: string = validationKey.split(INDEX_REGEXP)?.[0]
     const arrayFieldValue: object[] = get(model, fieldArrayName, [])
@@ -44,10 +44,10 @@ const validateMulti = async (
 }
 
 const validateMultiByFields = async (
-    allMessages: Record<string, IValidationResult[]>,
+    allMessages: Record<string, ValidationResult[]>,
     model: object,
     validationKey: string,
-    validationList: IValidation[],
+    validationList: Validation[],
     fields: string[],
 ): Promise<void> => {
     const findIndexRegexp = keyToRegexp(validationKey)
@@ -70,11 +70,11 @@ const validateMultiByFields = async (
 
 export const validateModel = async (
     model: object,
-    validations: Record<string, IValidation[]>,
+    validations: Record<string, Validation[]>,
     fields?: string[],
-): Promise<Record<string, IValidationResult[]>> => {
+): Promise<Record<string, ValidationResult[]>> => {
     let entries = Object.entries(validations)
-    const allMessages: Record<string, IValidationResult[]> = {}
+    const allMessages: Record<string, ValidationResult[]> = {}
 
     if (fields?.length) {
         entries = entries.filter(([key]) => filterByFields(key, fields))
@@ -110,5 +110,5 @@ export const validateModel = async (
 }
 
 export const hasError = (
-    messages: Record<string, IValidationResult[]>,
+    messages: Record<string, ValidationResult[]>,
 ): boolean => Object.values(messages).some(checkErrors)

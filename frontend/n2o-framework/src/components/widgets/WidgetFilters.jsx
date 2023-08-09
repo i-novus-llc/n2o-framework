@@ -14,7 +14,7 @@ import { ModelPrefix } from '../../core/datasource/const'
 import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { setModel } from '../../ducks/models/store'
 import { failValidate, reset } from '../../ducks/datasource/store'
-import { ValidationsKey } from '../../core/validation/IValidation'
+import { ValidationsKey } from '../../core/validation/types'
 import { dataSourceErrors } from '../../ducks/datasource/selectors'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 

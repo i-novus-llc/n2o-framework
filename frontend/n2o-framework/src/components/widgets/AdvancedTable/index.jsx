@@ -14,7 +14,7 @@ import { FactoryContext } from '../../../core/factory/context'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { getContainerColumns } from '../../../ducks/columns/selectors'
-import { SelectionType, TableActions, TableContainer } from '../../Table'
+import { Selection, TableActions, TableContainer } from '../../Table'
 import { useCheckAccess } from '../../../core/auth/SecurityController'
 import { withSecurityList } from '../../../core/auth/withSecurity'
 import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
@@ -132,7 +132,7 @@ const AdvancedTableContainer = (props) => {
             }
         }
     }, [setActiveModel, setMultiModel, unsetMultiModel])
-    const isNeedSetResolveModel = table.rowSelection !== SelectionType.None && defaultTo(table.autoSelect, true)
+    const isNeedSetResolveModel = table.rowSelection !== Selection.None && defaultTo(table.autoSelect, true)
 
     useEffect(() => {
         if (isNeedSetResolveModel && datasourceModel) {

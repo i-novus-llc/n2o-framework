@@ -3,17 +3,17 @@ import classNames from 'classnames'
 
 import { NavItemImage } from '../../../../../components/snippets/NavItemImage/NavItemImage'
 import { Badge } from '../../../../../components/snippets/Badge/Badge'
-import { IItem } from '../../../../CommonMenuTypes'
+import { Item } from '../../../../CommonMenuTypes'
 import { Icon, Title, getCurrentTitle } from '../../../utils'
 
-export interface IItemContent extends IItem {
+export interface ItemContent extends Item {
     sidebarOpen: boolean
     isStaticView: boolean
     showContent: boolean
     isMiniView: boolean
 }
 
-export function LinkBody(props: IItemContent) {
+export function LinkBody(props: ItemContent) {
     const { icon, title, src, sidebarOpen, imageSrc, imageShape, badge, isStaticView, showContent, isMiniView } = props
 
     const currentTitle = getCurrentTitle(isMiniView, icon, title, imageSrc)

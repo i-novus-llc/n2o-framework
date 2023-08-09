@@ -2,58 +2,58 @@ import React from 'react'
 
 import { Action } from '../Action'
 
-import { IRegisterButtonProps } from './Toolbar'
+import { RegisterButtonProps } from './Toolbar'
 
-export interface IToolbarCommon {
+export interface ToolbarCommon {
     key: string
     buttonId: string
 }
 
-export interface IChangeButtonVisibilityPayload extends IToolbarCommon {
+export interface ChangeButtonVisibilityPayload extends ToolbarCommon {
     visible: boolean
 }
 
-export interface IChangeButtonTitlePayload extends IToolbarCommon {
+export interface ChangeButtonTitlePayload extends ToolbarCommon {
     title: string
 }
 
-export interface IChangeButtonCountPayload extends IToolbarCommon {
+export interface ChangeButtonCountPayload extends ToolbarCommon {
     count: number
 }
 
-export interface IChangeButtonSizePayload extends IToolbarCommon {
+export interface ChangeButtonSizePayload extends ToolbarCommon {
     size: string
 }
 
-export interface IChangeButtonColorPayload extends IToolbarCommon {
+export interface ChangeButtonColorPayload extends ToolbarCommon {
     color: string
 }
 
-export interface IChangeButtonHintPayload extends IToolbarCommon {
+export interface ChangeButtonHintPayload extends ToolbarCommon {
     hint: string
 }
 
-export interface IChangeButtonMessagePayload extends IToolbarCommon {
+export interface ChangeButtonMessagePayload extends ToolbarCommon {
     message: string
 }
 
-export interface IChangeButtonIconPayload extends IToolbarCommon {
+export interface ChangeButtonIconPayload extends ToolbarCommon {
     icon: string
 }
 
-export interface IChangeButtonClassPayload extends IToolbarCommon {
+export interface ChangeButtonClassPayload extends ToolbarCommon {
     className: string
 }
 
-export interface IChangeButtonStylePayload extends IToolbarCommon {
+export interface ChangeButtonStylePayload extends ToolbarCommon {
     style: React.CSSProperties
 }
 
-export interface IChangeButtonStyleDisabledPayload extends IToolbarCommon {
+export interface ChangeButtonStyleDisabledPayload extends ToolbarCommon {
     disabled: boolean
 }
 
-export interface IPrintPayload {
+export interface PrintPayload {
     url: string
     pathMapping: string
     queryMapping: string
@@ -66,17 +66,17 @@ export interface IPrintPayload {
     base64: boolean
 }
 
-export type ChangeButtonVisibility = Action<string, IChangeButtonVisibilityPayload>
-export type ChangeButtonTitle = Action<string, IChangeButtonTitlePayload>
-export type ChangeButtonCount = Action<string, IChangeButtonCountPayload>
-export type ChangeButtonSize = Action<string, IChangeButtonSizePayload>
-export type ChangeButtonColor = Action<string, IChangeButtonColorPayload>
-export type ChangeButtonHint = Action<string, IChangeButtonHintPayload>
-export type ChangeButtonMessage = Action<string, IChangeButtonMessagePayload>
-export type ChangeButtonIcon = Action<string, IChangeButtonIconPayload>
-export type ChangeButtonClass = Action<string, IChangeButtonClassPayload>
-export type ChangeButtonStyle = Action<string, IChangeButtonStylePayload>
-export type ChangeButtonDisabled = Action<string, IChangeButtonStyleDisabledPayload>
-export type ToggleButtonParam = Action<string, IToolbarCommon>
-export type RegisterButton = Action<string, IRegisterButtonProps & IToolbarCommon>
-export type Print = Action<string, IPrintPayload>
+export type ChangeButtonVisibility = Action<string, ChangeButtonVisibilityPayload>
+export type ChangeButtonTitle = Action<string, ChangeButtonTitlePayload>
+export type ChangeButtonCount = Action<string, ChangeButtonCountPayload>
+export type ChangeButtonSize = Action<string, ChangeButtonSizePayload>
+export type ChangeButtonColor = Action<string, ChangeButtonColorPayload>
+export type ChangeButtonHint = Action<string, ChangeButtonHintPayload>
+export type ChangeButtonMessage = Action<string, ChangeButtonMessagePayload>
+export type ChangeButtonIcon = Action<string, ChangeButtonIconPayload>
+export type ChangeButtonClass = Action<string, ChangeButtonClassPayload>
+export type ChangeButtonStyle = Action<string, ChangeButtonStylePayload>
+export type ChangeButtonDisabled = Action<string, ChangeButtonStyleDisabledPayload>
+export type ToggleButtonParam = Action<string, ToolbarCommon>
+export type RegisterButton = Action<string, RegisterButtonProps & ToolbarCommon>
+export type Print = Action<string, PrintPayload>

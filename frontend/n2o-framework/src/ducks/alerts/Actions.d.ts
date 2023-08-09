@@ -1,31 +1,31 @@
 import { Action } from '../Action'
 
-import { KeyType } from './constants'
-import { IAlert } from './Alerts'
+import { Key } from './constants'
+import { Alert } from './Alerts'
 
 type AlertPayload = {
-    key: KeyType
-    alert: IAlert
-    alerts?: IAlert[]
+    key: Key
+    alert: Alert
+    alerts?: Alert[]
 }
 
 type AlertsPayload = {
-    key: KeyType
-    alert?: IAlert
-    alerts: IAlert[]
+    key: Key
+    alert?: Alert
+    alerts: Alert[]
 }
 
 type RemovePayload = {
-    key: KeyType
+    key: Key
     id: string
 }
 
 type RemoveAllPayload = {
-    key: KeyType
+    key: Key
 }
 
 type StopRemovingPayload = {
-    key: KeyType
+    key: Key
     id: string
 }
 

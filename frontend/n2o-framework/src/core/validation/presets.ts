@@ -14,8 +14,8 @@ import evalExpression from '../../utils/evalExpression'
 import { defaultApiProvider, FETCH_VALIDATE } from '../api'
 import { isEmptyModel } from '../../utils/isEmptyModel'
 
-import type { IValidateFunction } from './IValidation'
-import { ValidationTypes } from './IValidation'
+import type { ValidateFunction } from './types'
+import { ValidationTypes } from './types'
 
 /**
  * Валидация того, что email
@@ -125,7 +125,7 @@ export function maxLength<
     return typeof value === 'string' && value.length < options.max
 }
 
-export const presets: Record<ValidationTypes, IValidateFunction> = {
+export const presets: Record<ValidationTypes, ValidateFunction> = {
     [ValidationTypes.condition]: condition,
     [ValidationTypes.email]: email,
     [ValidationTypes.required]: required,

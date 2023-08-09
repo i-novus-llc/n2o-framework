@@ -2,27 +2,27 @@ import { metaPropsType } from '../../plugins/utils'
 
 export type ModelLinkType = string
 export type ModelType = metaPropsType
-export type IDependency = { condition: string, on: ModelLinkType }
+export type Dependency = { condition: string, on: ModelLinkType }
 
-export interface IModel {
+export interface Model {
     model: ModelType
-    config: IDependency
+    config: Dependency
 }
 
-export type OptionsType = IModel[]
+export type OptionsType = Model[]
 
-export interface IDependencies {
-    visible?: IDependency[]
-    fetch?: IDependency[]
-    enabled?: IDependency[]
+export interface Dependencies {
+    visible?: Dependency[]
+    fetch?: Dependency[]
+    enabled?: Dependency[]
 }
 
 export type PossibleDependencies = 'fetch' | 'visible' | 'enabled'
 
-export interface IWidgetDependencies {
-    dependency?: IDependencies
+export interface WidgetDependencies {
+    dependency?: Dependencies
     parents?: string[]
     widgetId?: string
 }
 
-export type IWidgetsDependencies = Record<string, IWidgetDependencies>
+export type WidgetsDependencies = Record<string, WidgetDependencies>

@@ -2,25 +2,25 @@ import { useMemo } from 'react'
 
 import { getAllValuesByKey } from '../../../Table/utils'
 
-type TCell = {
+type Cell = {
     [x: string]: unknown
     id: string
     visible?: boolean
 }
 
-type THeaderCell = {
+type HeaderCell = {
     [x: string]: unknown
     id?: string
     visible?: boolean
-    children?: THeaderCell[]
+    children?: HeaderCell[]
 }
 
-type TColumnState = Record<string, {
+type ColumnState = Record<string, {
     [x: string]: unknown
     visible?: boolean
 }>
 
-const filterVisibleNestedFields = (data: THeaderCell[], columnsState: TColumnState): THeaderCell[] => {
+const filterVisibleNestedFields = (data: HeaderCell[], columnsState: ColumnState): HeaderCell[] => {
     const filterByVisible = (id: string) => {
         const cellState = columnsState[id]
 
@@ -31,8 +31,8 @@ const filterVisibleNestedFields = (data: THeaderCell[], columnsState: TColumnSta
         return true
     }
 
-    const resolveVisibility = (data: THeaderCell[]): THeaderCell[] => (
-        data.reduce<THeaderCell[]>((filteredArray, item) => {
+    const resolveVisibility = (data: HeaderCell[]): HeaderCell[] => (
+        data.reduce<HeaderCell[]>((filteredArray, item) => {
             const { children } = item
             const hasChildren = children?.length
 
@@ -58,7 +58,7 @@ const filterVisibleNestedFields = (data: THeaderCell[], columnsState: TColumnSta
 }
 
 // eslint-disable-next-line max-len
-export const useResolveCellsVisible = <Cell extends TCell, HeaderCell extends THeaderCell>(cells: { body: Cell[], header: HeaderCell[] }, columnsState: TColumnState) => (
+export const useResolveCellsVisible = <TCell extends Cell, THeaderCell extends HeaderCell>(cells: { body: TCell[], header: THeaderCell[] }, columnsState: ColumnState) => (
     useMemo(() => {
         const header = filterVisibleNestedFields(cells.header, columnsState)
         const visibleHeaderCells = new Set(getAllValuesByKey(header, { keyToIterate: 'children', keyToExtract: 'id' }))

@@ -42,7 +42,7 @@ import {
 } from './store'
 import { flowDefaultModels } from './sagas/defaultModels'
 import { MetadataRequest, Reset } from './Actions'
-import { IMetadata, IPage } from './Pages'
+import { Metadata, Page } from './Pages'
 
 function* setDefaultModels(models: DefaultModels, pageId: string) {
     yield race([
@@ -83,7 +83,7 @@ export function* getMetadata(apiProvider: unknown, action: MetadataRequest) {
             url += search
         }
 
-        const metadata: IMetadata = yield call(
+        const metadata: Metadata = yield call(
             fetchSaga,
             FETCH_PAGE_METADATA,
             { pageUrl: url, headers: resolveProvider.headersParams },
@@ -146,8 +146,8 @@ let prevModels: DefaultModels
 
 export function* watchEvents() {
     const models: DefaultModels = yield select(modelsSelector)
-    const pagesMap: IPage[] = yield select(pagesSelector)
-    const pagesList: IPage[] = Object.values(pagesMap)
+    const pagesMap: Page[] = yield select(pagesSelector)
+    const pagesList: Page[] = Object.values(pagesMap)
 
     for (const { metadata } of pagesList) {
         const { events } = metadata

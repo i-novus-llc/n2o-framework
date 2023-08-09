@@ -8,12 +8,12 @@ type ColType = { fields: FieldType[] }
 type RowType = { cols: ColType[] }
 type Fieldset = { rows: RowType[] }
 type Fieldsets = Fieldset[]
-interface IReplaceOptions {
+interface ReplaceOptions {
     replaced: string
     replace: string
 }
 
-function queryMapper(queryMapping: QueryMapping, replaceOptions: IReplaceOptions) {
+function queryMapper(queryMapping: QueryMapping, replaceOptions: ReplaceOptions) {
     const mapped: QueryMapping = { ...queryMapping }
     const queryMappingKeys: string[] = Object.keys(mapped)
 
@@ -31,7 +31,7 @@ function queryMapper(queryMapping: QueryMapping, replaceOptions: IReplaceOptions
     return mapped
 }
 
-function fieldsMapper(fields: FieldType[], replaceOptions: IReplaceOptions) {
+function fieldsMapper(fields: FieldType[], replaceOptions: ReplaceOptions) {
     return fields?.map((field) => {
         const { control } = field
 
@@ -61,7 +61,7 @@ function fieldsMapper(fields: FieldType[], replaceOptions: IReplaceOptions) {
 /* Костыль в WidgetFilters идет вглубь филдов и заменяет link для DataProvider */
 export function modelLinkMapper(
     fieldsets: Fieldsets,
-    replaceOptions: IReplaceOptions = {
+    replaceOptions: ReplaceOptions = {
         replaced: 'filter',
         replace: 'edit',
     },

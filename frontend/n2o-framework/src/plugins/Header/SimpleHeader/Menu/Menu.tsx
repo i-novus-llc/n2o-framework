@@ -2,17 +2,17 @@ import React from 'react'
 import isEmpty from 'lodash/isEmpty'
 
 import { metaPropsType } from '../../../utils'
-import { IItem } from '../../../CommonMenuTypes'
+import { Item as ItemProps } from '../../../CommonMenuTypes'
 
-import { Item } from './Item'
+import { Item as ItemComponent } from './Item'
 
-interface IProps {
-    items: IItem[]
+interface Props {
+    items: ItemProps[]
     datasources?: metaPropsType[]
     pathname: string
 }
 
-export function Menu(props: IProps) {
+export function Menu(props: Props) {
     const { pathname, datasources = [], items = [] } = props
 
     if (isEmpty(items)) {
@@ -20,7 +20,7 @@ export function Menu(props: IProps) {
     }
 
     return items.map(item => (
-        <Item
+        <ItemComponent
             {...item}
             pathname={pathname}
             datasources={datasources}

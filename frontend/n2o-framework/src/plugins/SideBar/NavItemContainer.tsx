@@ -3,14 +3,14 @@ import classNames from 'classnames'
 
 import { getFromSource, metaPropsType } from '../utils'
 import { ITEM_SRC } from '../constants'
-import { IItem, IFactoryComponent } from '../CommonMenuTypes'
-import { IDataSourceModels } from '../../core/datasource/const'
+import { Item, FactoryComponent } from '../CommonMenuTypes'
+import { DataSourceModels } from '../../core/datasource/const'
 import { FactoryContext } from '../../core/factory/context'
 import { FactoryLevels } from '../../core/factory/factoryLevels'
 
-interface ISidebarItemContainer {
+interface SidebarItemContainer {
     className?: string
-    itemProps: IItem
+    itemProps: Item
     activeId: string
     sidebarOpen: boolean
     showContent: boolean
@@ -18,11 +18,11 @@ interface ISidebarItemContainer {
     isStaticView: boolean
     datasources: metaPropsType[]
     datasource: string
-    models: IDataSourceModels
+    models: DataSourceModels
     level?: number
 }
 
-export function NavItemContainer(props: ISidebarItemContainer) {
+export function NavItemContainer(props: SidebarItemContainer) {
     const {
         className,
         itemProps,
@@ -40,7 +40,7 @@ export function NavItemContainer(props: ISidebarItemContainer) {
     const { src } = item
 
     const { getComponent } = useContext(FactoryContext)
-    const FactoryComponent: IFactoryComponent = getComponent(src, FactoryLevels.SIDEBAR_ITEM)
+    const FactoryComponent: FactoryComponent = getComponent(src, FactoryLevels.SIDEBAR_ITEM)
 
     if (!FactoryComponent) {
         return null

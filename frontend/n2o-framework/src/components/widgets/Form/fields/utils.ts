@@ -1,6 +1,6 @@
-import { IValidationResult } from '../../../../core/validation/IValidation'
+import { ValidationResult } from '../../../../core/validation/types'
 
-export function getValidationClass(message: IValidationResult): string | false {
+export function getValidationClass(message: ValidationResult): string | false {
     if (!message) {
         return false
     }

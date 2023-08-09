@@ -30,7 +30,7 @@ import { FactoryContext } from '../../core/factory/context'
 // @ts-ignore ignore import error from js file
 import { GlobalAlertsConnected } from './GlobalAlerts'
 
-export interface IApplicationProps {
+export interface ApplicationProps {
     i18n: i18n
     ready: boolean
     loading: boolean
@@ -44,7 +44,7 @@ export interface IApplicationProps {
 }
 
 /* data sources register on the app layer are executing in the meta.js sagas */
-function Application(props: IApplicationProps) {
+function Application(props: ApplicationProps) {
     const {
         ready,
         locale,
@@ -98,7 +98,7 @@ export default compose(
             getFromConfig: PropTypes.func,
             configLocale: PropTypes.string,
         },
-        (props: IApplicationProps) => ({
+        (props: ApplicationProps) => ({
             getFromConfig: (key: string) => get(props, key),
             configLocale: props.locale,
         }),

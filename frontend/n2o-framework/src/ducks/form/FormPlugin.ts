@@ -1,5 +1,5 @@
 import { ModelPrefix } from '../../core/datasource/const'
-import { ValidationsKey } from '../../core/validation/IValidation'
+import { ValidationsKey } from '../../core/validation/types'
 
 export const getDefaultState = () => ({
     datasource: null,

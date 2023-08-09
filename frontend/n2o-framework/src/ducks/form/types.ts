@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { ValidationsKey } from '../../core/validation/IValidation'
+import { ValidationsKey } from '../../core/validation/types'
 import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
 
 export type Field = {

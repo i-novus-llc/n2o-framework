@@ -4,7 +4,7 @@ import set from 'lodash/set'
 import { SET_WIDGET_METADATA } from '../widgets/constants'
 
 import PageResolver from './PageResolver'
-import { IMetadata, State } from './Pages'
+import { Metadata, State } from './Pages'
 import { MetadataFail, MetadataRequest, MetadataSuccess, Reset, SetPageLoading, SetStatus } from './Actions'
 
 export const initialState: State = {}
@@ -145,7 +145,7 @@ const pageSlice = createSlice({
                 pageId,
                 widgetId,
                 metadata,
-            }: { pageId: string, widgetId: string, metadata: IMetadata } = action.payload
+            }: { pageId: string, widgetId: string, metadata: Metadata } = action.payload
 
             if (!state[pageId]) {
                 state[pageId] = PageResolver.defaultState

@@ -3,18 +3,18 @@ import omit from 'lodash/omit'
 
 import { defaultMarkdownFieldMappers } from './MappedComponents'
 import {
-    IMarkdownFieldMappers,
-    IMappedComponentExtraProps,
-    IReactMarkdownProps,
+    MarkdownFieldMappers,
+    MappedComponentExtraProps,
+    ReactMarkdownProps,
     resolveExpressions,
 } from './helpers'
 
 export function markdownFieldMapper(
-    markdownFieldMappers: IMarkdownFieldMappers,
-    extraMapperProps: IMappedComponentExtraProps,
-): IMarkdownFieldMappers {
+    markdownFieldMappers: MarkdownFieldMappers,
+    extraMapperProps: MappedComponentExtraProps,
+): MarkdownFieldMappers {
     /* локальные и контекстные компоненты-мапперы markdown тэгов */
-    const mappers: IMarkdownFieldMappers = {
+    const mappers: MarkdownFieldMappers = {
         ...defaultMarkdownFieldMappers,
         ...markdownFieldMappers,
     }
@@ -29,7 +29,7 @@ export function markdownFieldMapper(
             return
         }
 
-        function extendedMapper(reactMarkdownProps: IReactMarkdownProps): JSX.Element {
+        function extendedMapper(reactMarkdownProps: ReactMarkdownProps): JSX.Element {
             const { id } = reactMarkdownProps
             const { actions, dispatch, model } = extraMapperProps
             const action = actions[id]

@@ -7,7 +7,7 @@ import { appendFieldToArray, copyFieldArray, removeFieldFromArray } from '../../
 
 import { useFormContext } from './useFormContext'
 
-type TUseFieldArray<T> = {
+type UseFieldArray<T> = {
     name: string
     defaultValue?: T[]
     primaryKey?: string
@@ -16,7 +16,7 @@ type TUseFieldArray<T> = {
 const isEqualArrayLength = (current: unknown[], prev: unknown[]) => current.length === prev.length
 
 // TODO: добавить уникальный id на каждый эллемент
-export const useFieldArray = <T>({ defaultValue = [], name: fieldName, primaryKey }: TUseFieldArray<T>) => {
+export const useFieldArray = <T>({ defaultValue = [], name: fieldName, primaryKey }: UseFieldArray<T>) => {
     const { datasource, prefix } = useFormContext()
     const dispatch = useDispatch()
     /**

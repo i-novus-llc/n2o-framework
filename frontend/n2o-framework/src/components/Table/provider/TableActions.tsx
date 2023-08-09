@@ -5,7 +5,7 @@ import { createContext, useContext } from 'use-context-selector'
 import { useOnActionMethod } from '../../widgets/hooks/useOnActionMethod'
 import { TableActions } from '../enum'
 
-type TTableActionContextValue = {
+type TableActionContextValue = {
     toggleExpandRow(rowValue: string, isOpen: boolean): void
     selectRows(rowValues: string[]): void
     deselectRows(rowValues: string[]): void
@@ -14,20 +14,20 @@ type TTableActionContextValue = {
     onDispatchRowAction(rowClickAction: Record<string, any>, model: any): void
 }
 
-const tableActionsContext = createContext<TTableActionContextValue | null>(null)
+const tableActionsContext = createContext<TableActionContextValue | null>(null)
 
-type TTableActionsProviderProps = {
+type TableActionsProviderProps = {
     actionListener(action: TableActions, payload: any): void
     widgetId: string
 }
 
-export const TableActionsProvider: FC<TTableActionsProviderProps> = ({
+export const TableActionsProvider: FC<TableActionsProviderProps> = ({
     actionListener,
     children,
     widgetId,
 }) => {
     const onRowClickAction = useOnActionMethod(widgetId)
-    const methods = useMemo<TTableActionContextValue>(() => ({
+    const methods = useMemo<TableActionContextValue>(() => ({
         toggleExpandRow(rowValue, isOpen) {
             actionListener(TableActions.toggleExpandRow, { rowValue, isOpen })
         },

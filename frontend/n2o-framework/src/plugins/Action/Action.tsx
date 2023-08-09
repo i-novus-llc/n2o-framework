@@ -5,10 +5,10 @@ import classNames from 'classnames'
 import { ExtendedTooltipComponent } from '../../components/snippets/Tooltip/TooltipHOC'
 import { LinkBody as SidebarItem } from '../SideBar/Menu/NavItems/Links/LinkBody'
 import { LinkBody as HeaderItem } from '../Header/SimpleHeader/Menu/NavItems/Links/LinkBody'
-import { IItem } from '../CommonMenuTypes'
+import { Item } from '../CommonMenuTypes'
 
-interface IAction {
-    item: IItem,
+interface ActionProps {
+    item: Item,
     className: string
     isStaticView: boolean
     sidebarOpen: boolean
@@ -17,7 +17,7 @@ interface IAction {
     from: 'HEADER' | 'SIDEBAR'
 }
 
-export function Action(props: IAction) {
+export function Action(props: ActionProps) {
     const {
         item,
         className,

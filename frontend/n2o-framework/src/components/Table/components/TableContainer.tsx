@@ -2,7 +2,7 @@ import React, { useMemo, VFC } from 'react'
 
 import { TableWidgetContainerProps } from '../types/props'
 import { TableActionsProvider } from '../provider/TableActions'
-import { SelectionType } from '../enum'
+import { Selection } from '../enum'
 import { getAllValuesByKey } from '../utils'
 import { TableRefProps } from '../provider/TableRefProps'
 
@@ -27,7 +27,7 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
     } = props
     const { width, height, rowSelection, body, header } = tableConfig
     const areAllRowsSelected = useMemo(() => {
-        if (rowSelection === SelectionType.Checkbox && data.length) {
+        if (rowSelection === Selection.Checkbox && data.length) {
             const allRowsId = getAllValuesByKey(data, { keyToIterate: 'children', keyToExtract: 'id' })
 
             return allRowsId.every(id => selectedRows.includes(id))

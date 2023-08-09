@@ -1,10 +1,10 @@
 import { ICondition } from '../../sagas/conditions'
 
-interface IConditions {
+interface Conditions {
     visible?: ICondition[]
 }
 
-export interface IColumn {
+export interface Column {
     isInit: boolean
     visible: boolean
     disabled: boolean
@@ -12,8 +12,8 @@ export interface IColumn {
     key: string
     columnId: string
     label?: string
-    conditions?: IConditions
+    conditions?: Conditions
 }
 
-export type Columns = Record<string, IColumn>
+export type Columns = Record<string, Column>
 export type State = Record<string, Columns>

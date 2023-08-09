@@ -1,4 +1,4 @@
-import { Severity } from './IValidation'
+import { Severity } from './types'
 
 /**
  * @enum VALIDATION_SEVERITY_PRIORITY Приоритет сообщений валидации по типу

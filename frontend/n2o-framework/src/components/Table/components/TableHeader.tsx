@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react'
 
-import { SelectionType } from '../enum'
+import { Selection } from '../enum'
 import { TableHeaderProps } from '../types/props'
 import { parseHeaderRows } from '../utils/parseHeaderRows'
 
@@ -20,12 +20,12 @@ export const TableHeader = memo<TableHeaderProps>(({
         <Table.Header>
             {rows.map(columns => (
                 <Table.Row>
-                    {selection === SelectionType.Checkbox ? (
+                    {selection === Selection.Checkbox ? (
                         <Table.HeaderCell key={selection} className="cell-selection">
                             <CheckboxHeaderCell areAllRowsSelected={areAllRowsSelected} />
                         </Table.HeaderCell>
                     ) : null}
-                    {selection === SelectionType.Radio ? (
+                    {selection === Selection.Radio ? (
                         <Table.HeaderCell key={selection} />
                     ) : null}
                     {columns.map(cell => (

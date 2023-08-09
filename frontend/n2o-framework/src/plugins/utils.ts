@@ -6,16 +6,16 @@ import merge from 'lodash/merge'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 // @ts-ignore ignore import error from js file
 import { resolveItem } from '../utils/propsResolver'
-import { IDataSourceModels } from '../core/datasource/const'
+import { DataSourceModels } from '../core/datasource/const'
 
-import { IItem } from './CommonMenuTypes'
+import { Item } from './CommonMenuTypes'
 
 export type metaPropsType = {[key: string]: unknown}
 
 export const getFromSource = (
-    itemProps: IItem,
+    itemProps: Item,
     datasources: metaPropsType[],
-    models: IDataSourceModels,
+    models: DataSourceModels,
     datasource?: string,
 ) => {
     const props = { ...itemProps }

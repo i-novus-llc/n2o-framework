@@ -3,7 +3,7 @@ import { ButtonDropdownProps } from 'reactstrap'
 
 import { Action } from '../ducks/Action'
 import { Props } from '../components/snippets/Badge/Badge'
-import { IDataSourceModels } from '../core/datasource/const'
+import { DataSourceModels } from '../core/datasource/const'
 
 import { metaPropsType } from './utils'
 
@@ -14,7 +14,7 @@ export type StaticMenuItemScrType = 'StaticMenuItem'
 
 export type SrcTypes = ActionMenuItemSrcType | DropdownMenuItemSrcType | LinkMenuItemSrcType | StaticMenuItemScrType
 
-export interface ICommon {
+export interface Common {
     title?: string
     className?: string
     icon?: string
@@ -26,7 +26,7 @@ export interface ICommon {
     showContent?: boolean
     isMiniView?: boolean
 }
-export interface IItem extends ICommon {
+export interface Item extends Common {
     id: string
     src: SrcTypes
     href: string
@@ -37,7 +37,7 @@ export interface IItem extends ICommon {
     pathMapping?: metaPropsType[]
     queryMapping?: metaPropsType[]
     action?: Action
-    items: IItem[]
+    items: Item[]
     pathname: string
     badge?: Props
     linkType: 'outer' | 'inner'
@@ -45,9 +45,9 @@ export interface IItem extends ICommon {
     activeId?: string
 }
 
-export type IFactoryComponent = React.FunctionComponent<IContextItem> | void
+export type FactoryComponent = React.FunctionComponent<ContextItem> | void
 
-export interface IContextItemCommon {
+export interface ContextItemCommon {
     active: boolean
     activeId?: string
     from: 'HEADER' | 'SIDEBAR'
@@ -60,9 +60,9 @@ export interface IContextItemCommon {
     isMiniView?: boolean
     datasource?: string
     datasources?: metaPropsType[]
-    models?: IDataSourceModels
+    models?: DataSourceModels
     level?: number
 }
-export interface IContextItem extends IContextItemCommon {
-    item: IItem
+export interface ContextItem extends ContextItemCommon {
+    item: Item
 }

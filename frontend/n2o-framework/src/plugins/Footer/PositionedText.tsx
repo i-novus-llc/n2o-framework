@@ -3,12 +3,12 @@ import React from 'react'
 
 import { withNewlines } from './helpers'
 
-interface IPositionedText {
+interface PositionedTextProps {
     text?: string | null
     position: 'left' | 'right'
 }
 
-export function PositionedText(props: IPositionedText) {
+export function PositionedText(props: PositionedTextProps) {
     const { text, position } = props
 
     if (!text) {

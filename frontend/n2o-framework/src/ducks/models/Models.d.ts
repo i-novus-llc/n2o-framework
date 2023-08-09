@@ -1,5 +1,5 @@
 import type { ModelPrefix } from '../../core/datasource/const'
-import { IMappingParam } from '../datasource/Provider'
+import { MappingParam } from '../datasource/Provider'
 
 export type State<TModel extends object = object, TFilter extends object = TModel> = {
     [ModelPrefix.source]: Record<string, TModel[]>
@@ -9,4 +9,4 @@ export type State<TModel extends object = object, TFilter extends object = TMode
     [ModelPrefix.filter]: Record<string, Partial<TFilter>>
 }
 
-export type DefaultModels = Record<string, IMappingParam>
+export type DefaultModels = Record<string, MappingParam>

@@ -10,9 +10,9 @@ import isEmpty from 'lodash/isEmpty'
 import each from 'lodash/each'
 import isObject from 'lodash/isObject'
 
-import { Location, IRoutes } from './types'
+import { Location, Routes } from './types'
 
-export function* mappingUrlToRedux(routes: IRoutes) {
+export function* mappingUrlToRedux(routes: Routes) {
     const location: Location = yield select(getLocation)
 
     if (routes) {
@@ -23,7 +23,7 @@ export function* mappingUrlToRedux(routes: IRoutes) {
     }
 }
 
-export function* pathMapping(location: Location, routes: IRoutes) {
+export function* pathMapping(location: Location, routes: Routes) {
     const parsedPath = head(
         compact(map(routes.list, route => matchPath(location.pathname, route))),
     )
@@ -40,7 +40,7 @@ export function* pathMapping(location: Location, routes: IRoutes) {
     }
 }
 
-export function* queryMapping(location: Location, routes: IRoutes) {
+export function* queryMapping(location: Location, routes: Routes) {
     const parsedQuery: Record<string, unknown> = queryString.parse(location.search)
 
     if (!isEmpty(parsedQuery)) {

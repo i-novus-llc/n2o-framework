@@ -8,13 +8,13 @@ import {
 import classNames from 'classnames'
 
 import { LinkBody } from '../Links/LinkBody'
-import { IDropdown } from '../../Item'
-import { IFactoryComponent } from '../../../../../CommonMenuTypes'
+import { Dropdown as DropdownProps } from '../../Item'
+import { FactoryComponent } from '../../../../../CommonMenuTypes'
 import { ITEM_SRC } from '../../../../../constants'
 import { FactoryContext } from '../../../../../../core/factory/context'
 import { FactoryLevels } from '../../../../../../core/factory/factoryLevels'
 
-export function Dropdown(props: IDropdown) {
+export function Dropdown(props: DropdownProps) {
     const [isOpen, setOpen] = useState(false)
 
     const toggle = useCallback(() => setOpen(!isOpen), [isOpen])
@@ -77,7 +77,7 @@ export function Dropdown(props: IDropdown) {
                         )
                     }
 
-                    const FactoryComponent: IFactoryComponent = getComponent(src, FactoryLevels.HEADER_ITEMS)
+                    const FactoryComponent: FactoryComponent = getComponent(src, FactoryLevels.HEADER_ITEMS)
 
                     if (!FactoryComponent) {
                         return null

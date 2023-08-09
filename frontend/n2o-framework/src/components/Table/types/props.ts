@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, VFC } from 'react'
 
-import { SelectionType, TableActions } from '../enum'
+import { Selection, TableActions } from '../enum'
 import { SortDirection } from '../../../core/datasource/const'
 
 import { Data, DataItem, ExpandedRows, SelectedRows } from './general'
@@ -26,7 +26,7 @@ export type TableWidgetContainerProps = {
     tableConfig: {
         width?: string
         height?: string
-        rowSelection: SelectionType
+        rowSelection: Selection
         header: {
             row?: Row
         }
@@ -42,7 +42,7 @@ export type TableProps = {
     rowRenderFieldKey: string
     selectedKey: string
     treeDataKey: string
-    selection: SelectionType
+    selection: Selection
     tableId: string
     headerCell: HeaderCell[]
     bodyCell: Cell[]
@@ -65,7 +65,7 @@ export type TableBodyProps ={
 }
 
 export type TableHeaderProps = {
-    selection: SelectionType
+    selection: Selection
     areAllRowsSelected?: boolean
     cells: TableProps['headerCell']
     row: TableProps['headerRow']
@@ -89,7 +89,7 @@ export type TableHeaderCellProps = {
 export type SelectionCellProps = {
     rowValue: string
     isSelectedRow: boolean
-    selection: SelectionType
+    selection: Selection
     model: DataItem
     isTreeExpanded: boolean
     hasExpandedButton: boolean
@@ -105,7 +105,7 @@ export type CustomCellComponentProps = {
     isTreeExpanded: boolean
     hasExpandedButton: boolean
     rowValue: any
-    selection?: SelectionType
+    selection?: Selection
 }
 
 export type ExpandButtonProps = {
