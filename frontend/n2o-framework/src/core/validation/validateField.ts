@@ -2,14 +2,14 @@ import evalExpression, { parseExpression } from '../../utils/evalExpression'
 
 import { presets } from './presets'
 import { VALIDATION_SEVERITY_PRIORITY as SEVERITY_PRIORITY } from './const'
-import type { IValidation, IValidationResult } from './IValidation'
-import { Severity } from './IValidation'
+import type { Validation, ValidationResult } from './types'
+import { Severity } from './types'
 
 export async function validateField<
     TData extends object = object,
     TKey extends keyof TData = keyof TData
->(field: TKey, model: TData, validationList: IValidation[]): Promise<IValidationResult[]> {
-    const errors: IValidationResult[] = []
+>(field: TKey, model: TData, validationList: Validation[]): Promise<ValidationResult[]> {
+    const errors: ValidationResult[] = []
 
     const validations = validationList.filter((validation) => {
         if (typeof presets[validation.type] !== 'function') {
@@ -54,6 +54,6 @@ export async function validateField<
     return errors.sort((first, second) => SEVERITY_PRIORITY[first.severity] - SEVERITY_PRIORITY[second.severity])
 }
 
-export const hasError = (messages: IValidationResult[]): boolean => messages.some(message => (
+export const hasError = (messages: ValidationResult[]): boolean => messages.some(message => (
     message.severity === Severity.danger || message.severity === Severity.warning
 ))

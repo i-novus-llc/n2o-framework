@@ -1,20 +1,20 @@
 import React from 'react'
 
 import { OUTER_LINK_TYPE } from '../../../../constants'
-import { IItem } from '../../../../CommonMenuTypes'
+import { Item } from '../../../../CommonMenuTypes'
 
 import { OuterLink } from './OuterLink'
 import { InnerLink } from './InnerLink'
 
-interface ILink {
-    item: IItem
+interface LinkProps {
+    item: Item
     sidebarOpen: boolean
     isMiniView: boolean
     isStaticView: boolean
     showContent: boolean
 }
 
-export function Link(props: ILink) {
+export function Link(props: LinkProps) {
     const { item, sidebarOpen, isMiniView, isStaticView, showContent } = props
     const { linkType, href } = item
 

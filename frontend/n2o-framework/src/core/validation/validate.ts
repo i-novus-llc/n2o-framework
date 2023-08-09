@@ -10,7 +10,7 @@ import type { State as GlobalState } from '../../ducks/State'
 import { ModelPrefix } from '../datasource/const'
 
 import { hasError, validateModel } from './validateModel'
-import { ValidationsKey } from './IValidation'
+import { ValidationsKey } from './types'
 
 /**
  * Валидация datasource по стейту

@@ -7,7 +7,7 @@ import { makeWidgetsByPageIdSelector } from '../widgets/selectors'
 import { dataRequest } from '../datasource/store'
 import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
 import { makeFormByName } from '../form/selectors'
-import { IRoutes } from '../pages/sagas/types'
+import { Routes } from '../pages/sagas/types'
 import { State as WidgetsState } from '../widgets/Widgets'
 import { Form } from '../form/types'
 
@@ -20,13 +20,13 @@ import {
     insertDrawer,
 } from './store'
 
-interface IRefresh {
+interface Refresh {
     datasources: string[]
 }
 
-interface IMeta {
+interface Meta {
     onClose: {
-        refresh: IRefresh
+        refresh: Refresh
     }
     modalsToClose: number
 }
@@ -66,16 +66,16 @@ export function* checkPrompt(action: { payload: { name: string, prompt: boolean 
     }
 }
 
-export function* closeOverlays({ meta }: { meta: IMeta }) {
+export function* closeOverlays({ meta }: { meta: Meta }) {
     if (meta.modalsToClose) {
         yield put(destroyOverlays(meta.modalsToClose))
     }
 }
 
 function* onCloseEffects() {
-    const onCloseHandlers: Record<string, { refresh: IRefresh, [key: string]: unknown }> = {}
+    const onCloseHandlers: Record<string, { refresh: Refresh, [key: string]: unknown }> = {}
 
-    function* getClose({ meta, payload }: { meta: IMeta, payload: { name: string } }) {
+    function* getClose({ meta, payload }: { meta: Meta, payload: { name: string } }) {
         const { name } = payload
 
         if (get(meta, 'onClose')) {
@@ -108,7 +108,7 @@ function* onCloseEffects() {
 }
 
 export function* resetQuerySaga(pageId: string) {
-    const routes: IRoutes = yield select(makePageRoutesByIdSelector(pageId))
+    const routes: Routes = yield select(makePageRoutesByIdSelector(pageId))
 
     if (routes) {
         const resetQuery: Record<string, undefined> = {}

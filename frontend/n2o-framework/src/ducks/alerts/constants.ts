@@ -7,7 +7,7 @@ export const ALLOWED_ALERTS_QUANTITY = 3
 export const CLOSE_BUTTON_PATH = 'closeButton'
 export const DEFAULT_CLOSE_BUTTON = true
 
-export enum KeyType {
+export enum Key {
     TOP_LEFT = 'topLeft',
     TOP = 'top',
     TOP_RIGHT = 'topRight',
@@ -16,7 +16,7 @@ export enum KeyType {
     BOTTOM_RIGHT = 'bottomRight',
 }
 
-export enum SeverityType {
+export enum Severity {
     INFO = 'info',
     ERROR = 'error',
     WARNING = 'warning',

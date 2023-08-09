@@ -43,12 +43,12 @@ import fetchSaga from './fetch'
 
 // TODO перенести инвок в datassource
 
-interface IValidate {
+interface Validate {
     dispatch: Dispatch
     validate: string[]
 }
 
-export function* validate({ dispatch, validate }: IValidate) {
+export function* validate({ dispatch, validate }: Validate) {
     if (!validate?.length) { return true }
 
     const state: State = yield select()
@@ -171,14 +171,14 @@ function* enable(pageId: string, widgets: string[], buttons: ButtonContainer, bu
  * вызов экшена
  */
 
-interface IHandleInvokePayload {
+interface HandleInvokePayload {
     datasource: string
     model: ModelPrefix
     dataProvider: { submitForm?: boolean, optimistic?: boolean }
     pageId: string
 }
 
-interface IHandleInvokeMeta {
+interface HandleInvokeMeta {
     success: metaPropsType
     fail: metaPropsType
 }
@@ -186,7 +186,7 @@ interface IHandleInvokeMeta {
 // eslint-disable-next-line complexity
 export function* handleInvoke(
     apiProvider: unknown,
-    action: { payload: IHandleInvokePayload, meta: IHandleInvokeMeta },
+    action: { payload: HandleInvokePayload, meta: HandleInvokeMeta },
 ) {
     const {
         datasource,

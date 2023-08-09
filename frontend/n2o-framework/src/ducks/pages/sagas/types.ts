@@ -1,6 +1,6 @@
 import { Action } from 'redux'
 
-import { IMappingParam } from '../../datasource/Provider'
+import { MappingParam } from '../../datasource/Provider'
 
 export interface Location {
     pathname: string
@@ -8,28 +8,28 @@ export interface Location {
 }
 
 // В connected-react-router кривой тип экшена
-export interface ILocationChangeAction {
+export interface LocationChangeAction {
     type: string
     payload: {
         location: Location
     }
 }
 
-export interface IRoute {
+export interface Route {
     exact?: boolean
     isOtherPage?: boolean
     path: string
 }
 
 // TODO наверно, надо будет куда то в root типы метаданных закинуть
-export type IRoutes = {
-    list: IRoute[]
+export type Routes = {
+    list: Route[]
     queryMapping: Record<string, {
         get: Action
-        set: IMappingParam
+        set: MappingParam
     }>
     pathMapping: Record<string, {
         get: Action
-        set: IMappingParam
+        set: MappingParam
     }>
 }

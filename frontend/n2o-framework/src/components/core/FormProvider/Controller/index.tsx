@@ -3,25 +3,25 @@ import { ChangeEvent, useCallback, VFC } from 'react'
 import { useFormContext } from '../hooks/useFormContext'
 import { useWatch } from '../hooks/useWatch'
 
-type THTMLOnEvent = (event: ChangeEvent<HTMLFormElement>) => void
+type HTMLOnEvent = (event: ChangeEvent<HTMLFormElement>) => void
 
-type TController = {
+type ControllerType = {
     name: string,
     render(args: {
         field: {
-            onChange: THTMLOnEvent,
-            onBlur: THTMLOnEvent,
-            onFocus: THTMLOnEvent,
+            onChange: HTMLOnEvent,
+            onBlur: HTMLOnEvent,
+            onFocus: HTMLOnEvent,
             value: unknown
         }
     }): JSX.Element
 }
 
-export const Controller: VFC<TController> = ({ render, name }) => {
+export const Controller: VFC<ControllerType> = ({ render, name }) => {
     const { setValue, setFocus, setBlur } = useFormContext()
     const fieldValue = useWatch({ name })
 
-    const onChange = useCallback<THTMLOnEvent>((event: ChangeEvent<HTMLFormElement>) => {
+    const onChange = useCallback<HTMLOnEvent>((event: ChangeEvent<HTMLFormElement>) => {
         let value
 
         if (event?.target) {
@@ -33,11 +33,11 @@ export const Controller: VFC<TController> = ({ render, name }) => {
         setValue(name, value)
     }, [name, setValue])
 
-    const onBlur = useCallback<THTMLOnEvent>(() => {
+    const onBlur = useCallback<HTMLOnEvent>(() => {
         setBlur(name)
     }, [name, setBlur])
 
-    const onFocus = useCallback<THTMLOnEvent>(() => {
+    const onFocus = useCallback<HTMLOnEvent>(() => {
         setFocus(name)
     }, [name, setFocus])
 

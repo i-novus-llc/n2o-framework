@@ -28,14 +28,14 @@ export const getCurrentTitle = (isMiniView?: boolean, icon?: string, title?: str
  * @returns {*}
  */
 
-interface IIcon {
+interface IconProps {
     icon?: string
     title: string
     src: string
     sidebarOpen?: boolean
     hasSubItems?: boolean
 }
-export const Icon = ({ icon, title, src, sidebarOpen, hasSubItems }: IIcon): JSX.Element | null => {
+export const Icon = ({ icon, title, src, sidebarOpen, hasSubItems }: IconProps): JSX.Element | null => {
     if (!icon) {
         return null
     }
@@ -55,12 +55,12 @@ export const Icon = ({ icon, title, src, sidebarOpen, hasSubItems }: IIcon): JSX
     )
 }
 
-interface ITitle {
+interface TitleProps {
     title: string | null
     className: string
 }
 
-export const Title = ({ title, className }: ITitle) => {
+export const Title = ({ title, className }: TitleProps) => {
     if (!title) {
         return null
     }

@@ -1,13 +1,13 @@
 import React from 'react'
 import classNames from 'classnames'
 
-interface INavItemImage {
+interface NavItemImageProps {
     imageSrc?: string
     imageShape?: string
     title?: string
 }
 
-const NavItemImage = (props: INavItemImage) => {
+const NavItemImage = (props: NavItemImageProps) => {
     const {
         imageSrc,
         imageShape = 'square',

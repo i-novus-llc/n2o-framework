@@ -6,33 +6,33 @@ import evalExpression from '../../../../../utils/evalExpression'
 
 type modelValue = unknown
 
-export interface IModel {
+export interface Model {
     [key: string]: modelValue
 }
 
-export interface IActions {
+export interface Actions {
     [actionId: string]: Action
 }
 
-export type IMarkdownFieldMappers = Record<string, React.FunctionComponent<IReactMarkdownExtendedProps>>
+export type MarkdownFieldMappers = Record<string, React.FunctionComponent<ReactMarkdownExtendedProps>>
 
-export interface IReactMarkdownProps {
+export interface ReactMarkdownProps {
     id: string,
     text: string,
     visible: boolean,
     enable: boolean,
 }
 
-export interface IMappedComponentExtraProps {
-    actions: IActions,
+export interface MappedComponentExtraProps {
+    actions: Actions,
     dispatch: Dispatch,
-    model: IModel,
+    model: Model,
     fieldDisabled: boolean,
 }
 
-export type IReactMarkdownExtendedProps =
-    IReactMarkdownProps &
-    IMappedComponentExtraProps &
+export type ReactMarkdownExtendedProps =
+    ReactMarkdownProps &
+    MappedComponentExtraProps &
     Partial<{
         onClick(): void,
         disabled: boolean,

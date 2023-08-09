@@ -2,10 +2,10 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { LinkBody } from '../NavItems/Links/LinkBody'
-import { IItem } from '../../../CommonMenuTypes'
+import { Item } from '../../../CommonMenuTypes'
 
-interface IStaticMenuItem {
-    item: IItem
+interface StaticMenuItemProps {
+    item: Item
     sidebarOpen: boolean
     isStaticView: boolean
     showContent: boolean
@@ -13,7 +13,7 @@ interface IStaticMenuItem {
     className: string
 }
 
-export function StaticMenuItem(props: IStaticMenuItem) {
+export function StaticMenuItem(props: StaticMenuItemProps) {
     const { item, className, sidebarOpen, isStaticView, showContent, isMiniView } = props
 
     return (

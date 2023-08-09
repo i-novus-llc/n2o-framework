@@ -4,18 +4,18 @@ import take from 'lodash/take'
 import { addAlert, addMultiAlerts, removeAlert } from './store'
 import { alertsByKeySelector } from './selectors'
 import { ALLOWED_ALERTS_QUANTITY } from './constants'
-import { IAlert, IConfig } from './Alerts'
+import { Alert, Config } from './Alerts'
 import { Add, AddMulti } from './Actions'
 
-function getStopped(alertsByKey: IAlert[], targetId: string) {
+function getStopped(alertsByKey: Alert[], targetId: string) {
     const alertProps = alertsByKey?.find(({ id }) => id === targetId)
 
     return alertProps ? alertProps.stopped : true
 }
 
-export function* removeAlertSideEffect(action: Add | AddMulti, alert: IAlert, timeout: number) {
+export function* removeAlertSideEffect(action: Add | AddMulti, alert: Alert, timeout: number) {
     yield delay(timeout)
-    const alertsByKey: IAlert[] = yield select(alertsByKeySelector(action.payload.key))
+    const alertsByKey: Alert[] = yield select(alertsByKeySelector(action.payload.key))
 
     const wasStopped = getStopped(alertsByKey, alert.id)
 
@@ -24,13 +24,13 @@ export function* removeAlertSideEffect(action: Add | AddMulti, alert: IAlert, ti
     }
 }
 
-export function* addAlertSideEffect(config: IConfig, action: Add | AddMulti) {
+export function* addAlertSideEffect(config: Config, action: Add | AddMulti) {
     try {
         const { alerts: incomingAlerts, alert: incomingAlert } = action.payload
         /* FIXME массив генераторов removeAlertSideEffect */
         let effects: unknown[] = []
 
-        const alerts: IAlert[] = incomingAlert
+        const alerts: Alert[] = incomingAlert
             ? take([incomingAlert], ALLOWED_ALERTS_QUANTITY)
             : take(incomingAlerts, ALLOWED_ALERTS_QUANTITY)
 
@@ -49,8 +49,8 @@ export function* addAlertSideEffect(config: IConfig, action: Add | AddMulti) {
     }
 }
 
-export function getTimeout(alert: IAlert, config: IConfig) {
+export function getTimeout(alert: Alert, config: Config) {
     return alert.timeout || (config.timeout?.[alert.severity])
 }
 
-export default (config: IConfig) => [takeEvery([addAlert, addMultiAlerts], addAlertSideEffect, config)]
+export default (config: Config) => [takeEvery([addAlert, addMultiAlerts], addAlertSideEffect, config)]

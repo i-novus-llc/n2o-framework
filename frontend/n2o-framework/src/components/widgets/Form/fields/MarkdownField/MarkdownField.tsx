@@ -10,21 +10,21 @@ import PropTypes from 'prop-types'
 import { useHtmlResolver } from '../../../../../utils/useHtmlResolver'
 
 import { markdownFieldMapper } from './markdownFieldMapper'
-import { IMarkdownFieldMappers, IActions, IModel } from './helpers'
+import { MarkdownFieldMappers, Actions, Model } from './helpers'
 
-interface IMarkdownField {
+interface MarkdownField {
     visible: boolean
     content: string
     action?: AnyAction
-    model: IModel
+    model: Model
     disabled: boolean
-    markdownFieldMappers: IMarkdownFieldMappers
-    actions: IActions,
+    markdownFieldMappers: MarkdownFieldMappers
+    actions: Actions,
     dispatch: Dispatch,
     className: string
 }
 
-export function MarkdownFieldBody(props: IMarkdownField): ReactElement | null {
+export function MarkdownFieldBody(props: MarkdownField): ReactElement | null {
     const {
         visible,
         content,

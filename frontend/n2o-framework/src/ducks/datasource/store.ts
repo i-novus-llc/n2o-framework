@@ -3,9 +3,9 @@ import { isEmpty, omit } from 'lodash'
 import merge from 'deepmerge'
 
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
-import { IMeta } from '../../sagas/types'
-import { ValidationsKey } from '../../core/validation/IValidation'
-import { Meta } from '../Action'
+import { Meta } from '../../sagas/types'
+import { ValidationsKey } from '../../core/validation/types'
+import { Meta as N2OMeta } from '../Action'
 import { removeFieldFromArray } from '../models/store'
 import { RemoveFieldFromArrayAction } from '../models/Actions'
 
@@ -29,7 +29,7 @@ import type {
 } from './Actions'
 import type { DataSourceState } from './DataSource'
 import { DataSource } from './DataSource'
-import type { IProvider, QueryResult } from './Provider'
+import type { Provider, QueryResult } from './Provider'
 import { ProviderType } from './Provider'
 
 const initialState: Record<string, DataSourceState> = {}
@@ -119,7 +119,7 @@ const datasource = createSlice({
         },
 
         dataRequest: {
-            prepare(id: string, options: Partial<{ size: number, page: number }> = {}, meta: Meta = {}) {
+            prepare(id: string, options: Partial<{ size: number, page: number }> = {}, meta: N2OMeta = {}) {
                 return ({
                     payload: { id, options },
                     meta,
@@ -319,7 +319,7 @@ const datasource = createSlice({
         },
 
         setFieldSubmit: {
-            prepare(id: string, field: string, provider: IProvider) {
+            prepare(id: string, field: string, provider: Provider) {
                 return ({
                     payload: { id, field, provider },
                 })
@@ -336,7 +336,7 @@ const datasource = createSlice({
         },
         // eslint-disable-next-line @typescript-eslint/naming-convention
         DATA_REQUEST: {
-            prepare(datasource: string, options = {}, meta: Meta = {}) {
+            prepare(datasource: string, options = {}, meta: N2OMeta = {}) {
                 return ({
                     payload: { datasource, options },
                     meta,
@@ -360,7 +360,7 @@ const datasource = createSlice({
         },
 
         submitSuccess: {
-            prepare(meta?: IMeta) {
+            prepare(meta?: Meta) {
                 return ({
                     payload: {},
                     meta,
@@ -372,7 +372,7 @@ const datasource = createSlice({
         },
 
         submitFail: {
-            prepare(error: unknown, meta?: IMeta) {
+            prepare(error: unknown, meta?: Meta) {
                 return ({
                     payload: error,
                     meta,

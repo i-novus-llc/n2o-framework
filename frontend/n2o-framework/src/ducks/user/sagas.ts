@@ -14,7 +14,7 @@ import { USER_LOGIN, USER_LOGOUT } from './constants'
 const DEFAULT_AUTH_URL = '/login'
 
 /* FIXME Типизация authProvider */
-interface IConfig { authProvider(): Promise<boolean>, authUrl?: string }
+interface Config { authProvider(): Promise<boolean>, authUrl?: string }
 
 function* redirectOnUnauthorized(authUrl: string & Location) {
     const isUrlExternal = /(https?:\/\/\S+)|(www\.\S+)/g.test(authUrl)
@@ -26,7 +26,7 @@ function* redirectOnUnauthorized(authUrl: string & Location) {
     }
 }
 
-export function* resolveAuth({ authProvider, authUrl = DEFAULT_AUTH_URL }: IConfig, { type, payload }: Action) {
+export function* resolveAuth({ authProvider, authUrl = DEFAULT_AUTH_URL }: Config, { type, payload }: Action) {
     const configAuthUrl: string = yield select(getAuthUrl)
 
     switch (type) {
@@ -72,12 +72,12 @@ export function* callErrorContinue() {
     yield put(fetchErrorContinue())
 }
 
-export default (config: IConfig) => {
+export default (config: Config) => {
     if (!config.authProvider) { return [takeEvery(FETCH_ERROR, callErrorContinue)] }
 
     return [
         // @ts-ignore проблема с типизацией saga
-        takeEvery((action: { meta?: { auth: IConfig } }) => action?.meta && action.meta.auth, resolveAuth, config),
+        takeEvery((action: { meta?: { auth: Config } }) => action?.meta && action.meta.auth, resolveAuth, config),
         takeEvery(FETCH_ERROR, resolveAuth, config),
     ]
 }

@@ -1,16 +1,16 @@
-import { IDataSourceModels, ModelPrefix } from '../../../core/datasource/const'
+import { DataSourceModels, ModelPrefix } from '../../../core/datasource/const'
 
 /* a label type equal to null is required during expression parsing */
-export interface ICrumb {
+export interface Crumb {
     label: string | null
     path?: string
 }
 
-export type breadcrumb = ICrumb[]
+export type breadcrumb = Crumb[]
 
-export interface IBreadcrumbContainer {
+export interface BreadcrumbContainer {
     breadcrumb: breadcrumb
-    models: IDataSourceModels,
+    models: DataSourceModels,
     modelPrefix?: ModelPrefix
     datasource: string
 }

@@ -6,14 +6,14 @@ import { ElementVisibility, WindowType } from '../../components/core/WindowType'
 import { resolveText } from './helpers'
 import { PositionedText } from './PositionedText'
 
-interface IFooter {
+interface FooterProps {
     textRight?: string
     textLeft?: string
     className?: string
     style?: CSSProperties
 }
 
-function Footer(props: IFooter) {
+function Footer(props: FooterProps) {
     const { textRight, textLeft, className, style } = props
     const { N2O_ELEMENT_VISIBILITY = {} as ElementVisibility } = window as WindowType
 

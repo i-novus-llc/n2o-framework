@@ -1,4 +1,4 @@
-export interface IOverlayProps {
+export interface OverlayProps {
     pageId: string
     pageUrl: string
     pathMapping: {
@@ -13,12 +13,12 @@ export interface IOverlayProps {
     mode?: boolean
 }
 
-export interface IOverlay {
+export interface Overlay {
     visible: boolean
     name: string
     mode: 'modal' | 'drawer' | 'dialog'
-    props?: IOverlay
+    props?: Overlay
     showPrompt?: boolean
 }
 
-export type State = IOverlay[]
+export type State = Overlay[]

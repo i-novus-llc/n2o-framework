@@ -3,21 +3,21 @@ import { NavLink } from 'react-router-dom'
 
 import { id as generateId } from '../../../../../utils/id'
 import { ExtendedTooltipComponent } from '../../../../../components/snippets/Tooltip/TooltipHOC'
-import { IItem } from '../../../../CommonMenuTypes'
+import { Item } from '../../../../CommonMenuTypes'
 
 import { LinkBody } from './LinkBody'
 
-interface IInnerLink {
+interface InnerLinkProps {
     href: string
     title?: string
     isMiniView: boolean
     sidebarOpen: boolean
     isStaticView: boolean
     showContent: boolean
-    item: IItem
+    item: Item
 }
 
-export function InnerLink(props: IInnerLink) {
+export function InnerLink(props: InnerLinkProps) {
     const {
         href,
         title,

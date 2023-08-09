@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
 import { FormProvider } from '../../core/FormProvider'
 import { ModelPrefix } from '../../../core/datasource/const'
-import { ValidationsKey } from '../../../core/validation/IValidation'
+import { ValidationsKey } from '../../../core/validation/types'
 
 // @ts-ignore ignore import error from js file
 import ReduxField from './ReduxField'
@@ -23,7 +23,7 @@ import Fieldset from './Fieldset'
  * @constructor
  */
 
-type TReduxFormProps = {
+type ReduxFormProps = {
     name: string
     datasource: string
     modelPrefix: ModelPrefix
@@ -37,7 +37,7 @@ type TReduxFormProps = {
     validationKey: ValidationsKey
 }
 
-const ReduxForm: FC<TReduxFormProps> & { Field: JSX.Element } = (props) => {
+const ReduxForm: FC<ReduxFormProps> & { Field: JSX.Element } = (props) => {
     const { t } = useTranslation()
     const {
         name: formName,

@@ -2,9 +2,9 @@ import React from 'react'
 
 import { Select } from './Select'
 import { ExtraPage } from './ExtraPage'
-import { PAGE_LINK_CLASS, IPages } from './constants'
+import { PAGE_LINK_CLASS, Pages as PagesProps } from './constants'
 
-export function Pages(props: IPages) {
+export function Pages(props: PagesProps) {
     const {
         pages,
         activePage,

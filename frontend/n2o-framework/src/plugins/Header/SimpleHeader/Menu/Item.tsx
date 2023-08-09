@@ -2,10 +2,10 @@ import React from 'react'
 import { ButtonDropdownProps } from 'reactstrap'
 
 import NavItemContainer from '../NavItemContainer'
-import { IItem, ICommon, IContextItemCommon } from '../../../CommonMenuTypes'
+import { Item as ItemProps, Common, ContextItemCommon } from '../../../CommonMenuTypes'
 
-export interface IDropdown extends ICommon {
-    items: IItem[]
+export interface Dropdown extends Common {
+    items: ItemProps[]
     nested?: boolean
     direction?: ButtonDropdownProps['direction']
     recursiveClose?: boolean
@@ -14,11 +14,11 @@ export interface IDropdown extends ICommon {
     from?: 'HEADER' | 'SIDEBAR'
 }
 
-export interface IDropdownContextItem extends IContextItemCommon {
-    item: IDropdown
+export interface DropdownContextItem extends ContextItemCommon {
+    item: Dropdown
 }
 
-export function Item(props: IItem) {
+export function Item(props: ItemProps) {
     const { href, id, pathname, datasource, datasources } = props
     const active = href ? pathname.includes(href) : false
 

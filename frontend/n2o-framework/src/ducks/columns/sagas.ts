@@ -6,14 +6,14 @@ import { resolveConditions } from '../../sagas/conditions'
 import { State } from '../State'
 
 import { changeColumnVisibility } from './store'
-import { IColumn } from './Columns'
+import { Column } from './Columns'
 
 /**
  * Resolve columns conditions
  * @param column
  * @return
  */
-export function* resolveColumn(column: IColumn) {
+export function* resolveColumn(column: Column) {
     const state: State = yield select()
 
     if (!column.conditions) {

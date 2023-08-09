@@ -5,7 +5,7 @@ import { NavItemImage } from '../../../../../components/snippets/NavItemImage/Na
 import { ExtendedTooltipComponent } from '../../../../../components/snippets/Tooltip/TooltipHOC'
 import { Icon } from '../../../utils'
 
-interface IDropdownWrapper {
+interface DropdownWrapperProps {
     sidebarOpen: boolean
     title?: string
     children?: JSX.Element
@@ -18,7 +18,7 @@ interface IDropdownWrapper {
     imageShape?: string
 }
 
-export function DropdownWrapper(props: IDropdownWrapper) {
+export function DropdownWrapper(props: DropdownWrapperProps) {
     const {
         sidebarOpen,
         title,

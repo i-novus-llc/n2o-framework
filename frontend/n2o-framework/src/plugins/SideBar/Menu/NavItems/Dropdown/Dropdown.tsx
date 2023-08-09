@@ -5,26 +5,26 @@ import classNames from 'classnames'
 
 import { id as generateId } from '../../../../../utils/id'
 import { NavItemContainer } from '../../../NavItemContainer'
-import { IItem } from '../../../../CommonMenuTypes'
+import { Item } from '../../../../CommonMenuTypes'
 import { metaPropsType } from '../../../../utils'
-import { IDataSourceModels } from '../../../../../core/datasource/const'
+import { DataSourceModels } from '../../../../../core/datasource/const'
 
 import { DropdownWrapper } from './DropdownWrapper'
 
-interface IDropdown {
-    item: IItem
+interface DropdownProps {
+    item: Item
     sidebarOpen: boolean
     showContent: boolean
     isMiniView: boolean
     datasources: metaPropsType[]
     datasource: string
-    models: IDataSourceModels
+    models: DataSourceModels
     activeId: string
     level: number
     isStaticView: boolean
 }
 
-export function Dropdown(props: IDropdown) {
+export function Dropdown(props: DropdownProps) {
     const {
         item,
         sidebarOpen,

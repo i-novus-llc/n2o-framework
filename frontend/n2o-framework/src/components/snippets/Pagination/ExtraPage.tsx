@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { Select } from './Select'
-import { PAGE_LINK_CLASS, IExtraPage } from './constants'
+import { PAGE_LINK_CLASS, ExtraPage as ExtraPageProps } from './constants'
 
 function Ellipsis({ visible }: { visible: boolean }) {
     if (!visible) {
@@ -12,7 +12,7 @@ function Ellipsis({ visible }: { visible: boolean }) {
     return <span className="ellipsis d-flex align-items-md-end">...</span>
 }
 
-export function ExtraPage(props: IExtraPage) {
+export function ExtraPage(props: ExtraPageProps) {
     const { visible, page, onSelect, ellipsis, showLast, hasNext, disabled = false, canSelect = true } = props
 
     if (!visible) {

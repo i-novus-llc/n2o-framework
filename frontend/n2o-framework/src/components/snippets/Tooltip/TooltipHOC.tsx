@@ -5,7 +5,7 @@ import { Config, usePopperTooltip } from 'react-popper-tooltip'
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
 
-interface ITooltipHocProps extends Config {
+interface TooltipHocProps extends Config {
     hint?: string | number | React.Component | null
     trigger?: 'click' | 'double-click' | 'right-click' | 'hover' | 'focus',
     /**
@@ -22,7 +22,7 @@ interface ITooltipHocProps extends Config {
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function TooltipHOC<TProps extends ITooltipHocProps>(Component: Function): ComponentType<TProps> {
+export function TooltipHOC<TProps extends TooltipHocProps>(Component: Function): ComponentType<TProps> {
     return function WithTooltip(props: TProps) {
         const { getComponent } = useContext(FactoryContext)
         const FactoryTooltip = getComponent('Tooltip', FactoryLevels.SNIPPETS)
@@ -75,7 +75,7 @@ export function TooltipHOC<TProps extends ITooltipHocProps>(Component: Function)
     }
 }
 
-interface IExpandableProps {
+interface ExpandableProps {
     Component?: ComponentType,
     children?: React.ReactChildren
 }
@@ -86,7 +86,7 @@ function Expandable({
     Component,
     children,
     ...props
-}: IExpandableProps): expandable {
+}: ExpandableProps): expandable {
     if (children) {
         return children
     }

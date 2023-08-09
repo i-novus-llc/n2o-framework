@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-extraneous-class */
 import type { DataSourceDependency, SortDirection } from '../../core/datasource/const'
 import { ModelPrefix } from '../../core/datasource/const'
-import { ValidationsKey, IValidation, IValidationResult } from '../../core/validation/IValidation'
+import { ValidationsKey, Validation, ValidationResult } from '../../core/validation/types'
 
-import type { IProvider, ISubmit, Paging } from './Provider'
+import type { Provider, ISubmit, Paging } from './Provider'
 
 export type State = Record<string, DataSourceState>
 
 export interface DataSourceState {
-    provider?: IProvider
-    [ValidationsKey.Validations]: Record<string, IValidation[]>
-    [ValidationsKey.FilterValidations]: Record<string, IValidation[]>
+    provider?: Provider
+    [ValidationsKey.Validations]: Record<string, Validation[]>
+    [ValidationsKey.FilterValidations]: Record<string, Validation[]>
     components: string[]
     dependencies: DataSourceDependency[]
     paging: Paging
@@ -18,12 +18,12 @@ export interface DataSourceState {
     loading: boolean
     sorting: Partial<Record<string, SortDirection>>
     submit?: ISubmit
-    fieldsSubmit: Record<string, IProvider>
+    fieldsSubmit: Record<string, Provider>
     pageId?: string
     // TODO: rename to "messages"
     errors: Record<
     ModelPrefix,
-    Partial<Record<string, IValidationResult[]>>
+    Partial<Record<string, ValidationResult[]>>
     >
     error?: object
 }

@@ -27,15 +27,15 @@ import { State } from '../ducks/State'
 
 import { getWidgetDependency } from './widgetDependency/getWidgetDependency'
 import { resolveDependency } from './widgetDependency/resolve'
-import { IDependency, IWidgetDependencies } from './widgetDependency/WidgetTypes'
+import { Dependency, WidgetDependencies } from './widgetDependency/WidgetTypes'
 
-let widgetsDependencies: IWidgetDependencies = {}
+let widgetsDependencies: WidgetDependencies = {}
 
-interface IRegisterDependencyPayload {
+interface RegisterDependencyPayload {
     widgetId: string
-    dependency: IDependency
+    dependency: Dependency
 }
-export function* registerDependency({ payload, type }: { payload: IRegisterDependencyPayload, type: string }) {
+export function* registerDependency({ payload, type }: { payload: RegisterDependencyPayload, type: string }) {
     const { widgetId, dependency } = payload
     const state: State = yield select()
 
@@ -70,7 +70,7 @@ export function* resolveWidgetDependency(
     type: string,
     prevState: State,
     state: State,
-    widgetsDependencies: IWidgetDependencies,
+    widgetsDependencies: WidgetDependencies,
 ) {
     const dependenciesKeys = sortBy(keys(widgetsDependencies), item => DEPENDENCY_ORDER.indexOf(item))
 

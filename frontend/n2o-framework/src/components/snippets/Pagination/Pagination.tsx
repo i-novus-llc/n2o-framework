@@ -8,13 +8,13 @@ import {
     TOTAL_TITLE,
     PAGE_LINK_CLASS,
     COUNT_NEVER,
-    IPagination,
+    Pagination as PaginationProps,
 } from './constants'
 import { usePagination, getTotalPages } from './usePagination'
 import { Pages } from './Pages'
 import { getTotalVisibility } from './helpers'
 
-export function Pagination(props: IPagination) {
+export function Pagination(props: PaginationProps) {
     const {
         className,
         showCount,

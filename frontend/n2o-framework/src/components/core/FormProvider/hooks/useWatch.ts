@@ -5,12 +5,12 @@ import { State } from '../../../../ducks/State'
 
 import { useFormContext } from './useFormContext'
 
-type TUseWatch<T> = {
+type UseWatch<T> = {
     name?: string
     defaultValue?: T
 }
 
-export const useWatch = <T = unknown>({ defaultValue, name: fieldName }: TUseWatch<T>) => {
+export const useWatch = <T = unknown>({ defaultValue, name: fieldName }: UseWatch<T>) => {
     const { datasource, prefix } = useFormContext()
 
     return useSelector<State, T>((state: State) => {

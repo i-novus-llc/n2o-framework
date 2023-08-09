@@ -56,7 +56,7 @@ export type DataSourceDependency = (
     | DataSourceDependencyValidate
 )
 
-export interface IDataSourceModels {
+export interface DataSourceModels {
     datasource: object[],
     edit: object,
     filter: object,

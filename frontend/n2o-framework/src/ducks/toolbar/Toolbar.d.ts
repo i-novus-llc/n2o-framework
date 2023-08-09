@@ -1,19 +1,19 @@
 import React from 'react'
 
-import { ICondition } from '../../sagas/conditions'
+import { Condition } from '../../sagas/conditions'
 
-export interface IConditions {
-    enabled: ICondition[]
-    visible: ICondition[]
+export interface Conditions {
+    enabled: Condition[]
+    visible: Condition[]
 }
 
-export interface IRegisterButtonProps {
+export interface RegisterButtonProps {
     count: number | null
     resolveEnabled: boolean
     visible: boolean
     disabled: boolean
     containerKey: string
-    conditions: IConditions
+    conditions: Conditions
     hintPosition: string
 }
 
@@ -28,7 +28,7 @@ export type IButton = {
     disabled: boolean
     loading: boolean
     error: string | null
-    conditions?: IConditions
+    conditions?: Conditions
     key: string
     buttonId: string
     count?: number

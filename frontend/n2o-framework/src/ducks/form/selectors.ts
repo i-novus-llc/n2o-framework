@@ -4,7 +4,7 @@ import get from 'lodash/get'
 import { State } from '../State'
 import { dataSourceFieldError } from '../datasource/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
-import { IValidationResult } from '../../core/validation/IValidation'
+import { ValidationResult } from '../../core/validation/types'
 
 import { getDefaultField } from './FormPlugin'
 
@@ -84,7 +84,7 @@ export const isDirtyForm = (formName: string) => createSelector(
 
 export const messageSelector = (datasourceId: string, fieldName: string, modelPrefix: ModelPrefix) => createSelector(
     dataSourceFieldError(datasourceId, modelPrefix, fieldName),
-    (errors: IValidationResult[] | undefined) => (errors?.[0]),
+    (errors: ValidationResult[] | undefined) => (errors?.[0]),
 )
 
 export const dependencySelector = (formName: string, fieldName: string) => createSelector(

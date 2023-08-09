@@ -19,25 +19,25 @@ export enum ValidationsKey {
     FilterValidations = 'filterValidations'
 }
 
-export interface IExtraValidationConfig {
+export interface ExtraValidationConfig {
     expression: string
     min: number
     max: number
 }
 
-export interface IValidation extends IExtraValidationConfig {
+export interface Validation extends ExtraValidationConfig {
     severity: Severity
     text: string
     type: ValidationTypes
     enablingConditions: string[]
 }
 
-export interface IValidationResult {
+export interface ValidationResult {
     severity: Severity
     text: string
 }
 
-export type IValidateFunction = <
+export type ValidateFunction = <
     TData extends object = object,
     TKey extends keyof TData = keyof TData
-> (key: TKey, values: TData, config: IExtraValidationConfig) => boolean | Promise<boolean>
+> (key: TKey, values: TData, config: ExtraValidationConfig) => boolean | Promise<boolean>
