@@ -1,0 +1,13 @@
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <region>
+            <form>
+                <toolbar>
+                    <button id="b1">
+                        <invoke operation-id="create"/>
+                    </button>
+                </toolbar>
+            </form>
+        </region>
+    </regions>
+</page>

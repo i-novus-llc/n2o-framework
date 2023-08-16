@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
@@ -28,15 +27,12 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Проверка компиляции invoke-action
@@ -52,11 +48,16 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllPagesPack(), new N2oAllDataPack());
+        builder.packs(
+                new N2oAllPagesPack(),
+                new N2oAllDataPack()
+        );
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContext.query.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContext.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContext.object.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/empty.object.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/empty.object.xml")
+        );
     }
 
     @Test
@@ -82,7 +83,6 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(menuItem0action.getPayload().getModel(), is(ReduxModel.resolve));
         assertThat(menuItem0action.getPayload().getDatasource(), is("w_w1"));
         assertThat(menuItem0action.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("w_w1"));
-//        assertThat(menuItem0action.getOptions().getMeta().getSuccess().getModalsToClose(), is(1));
         ClientDataProvider dataProvider = menuItem0action.getPayload().getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
         assertThat(dataProvider.getUrl(), is("n2o/data/w/test1"));
@@ -131,7 +131,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     @Test
     void refreshOnSucces() {
         ModalPageContext context = new ModalPageContext("testRegisterActionContext", "/");
-        List<String> dataSources = Arrays.asList("ds1");
+        List<String> dataSources = List.of("ds1");
         context.setRefreshClientDataSourceIds(dataSources);
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContext.page.xml")
                 .get(context);
@@ -142,7 +142,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
 
     @Test
     void validations() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContext.page.xml")
+        compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContext.page.xml")
                 .get(new PageContext("testRegisterActionContext", "/"));
         ActionContext context = (ActionContext) route("/:test", CompiledObject.class);
         assertThat(context, notNullValue());
@@ -151,7 +151,8 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(context.getValidations().get(0), instanceOf(MandatoryValidation.class));
         assertThat(context.getValidations().get(1), instanceOf(ConditionValidation.class));
         assertThat(context.getValidations().get(2), instanceOf(ConstraintValidation.class));
-        page = compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContextForPageAction.page.xml")
+
+        compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContextForPageAction.page.xml")
                 .get(new PageContext("testRegisterActionContextForPageAction", "/route"));
         context = (ActionContext) route("/route/test", CompiledObject.class);
         assertThat(context, notNullValue());
@@ -267,26 +268,42 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
 
     @Test
     void emptyRouteValidationTest() {
-        assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyRoute.page.xml")
+        assertOnException(
+                () -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyRoute.page.xml")
                         .get(new PageContext("emptyRoute"), null),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("path-param \"main_id\" not used in route")));
+                e -> assertThat(e.getMessage(), is("path-param 'main_id' not used in route"))
+        );
     }
 
     @Test
     void emptyPathValidationTest() {
-        assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyPath.page.xml")
+        assertOnException(
+                () -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyPath.page.xml")
                         .get(new PageContext("emptyPath"), null),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("path-param \"/:main_id\" for route \"main_id\" not set")));
+                e -> assertThat(e.getMessage(), is("path-param '/:main_id' for route 'main_id' not set"))
+        );
+    }
+
+    @Test
+    void emptyObjectIdTest() {
+        assertOnException(
+                () -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyObjectId.page.xml")
+                        .get(new PageContext("emptyObjectId"), null),
+                N2oException.class,
+                e -> assertThat(e.getMessage(), is("В действии <invoke> не указан идентификатор объекта 'object-id' для операции 'create'"))
+        );
     }
 
     @Test
     void multiplyPathValidationTest() {
-        assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/multiplyPath.page.xml")
+        assertOnException(
+                () -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/multiplyPath.page.xml")
                         .get(new PageContext("multiplyPath"), null),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("route \"/:main_id\" not contains path-param \"t_id\"")));
+                e -> assertThat(e.getMessage(), is("route '/:main_id' not contains path-param 't_id'"))
+        );
     }
 
     @Test
@@ -339,10 +356,11 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
 
     @Test
     void checkOperationIdExistence() {
-        N2oException exception = assertThrows(
-                N2oException.class,
+        assertOnException(
                 () -> compile("net/n2oapp/framework/config/metadata/compile/action/testCheckOperationIdExistence.page.xml")
-                        .get(new PageContext("testCheckOperationIdExistence")));
-        assertEquals("Действие <invoke> ссылается на несуществующую операцию 'operation-id = testOperation' объекта 'testActionContext'", exception.getMessage());
+                        .get(new PageContext("testCheckOperationIdExistence")),
+                N2oException.class,
+                e -> assertThat(e.getMessage(), is("Действие <invoke> ссылается на несуществующую операцию 'operation-id = testOperation' объекта 'testActionContext'"))
+        );
     }
 }
