@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
@@ -17,11 +16,12 @@ import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 import java.util.*;
 
 /**
- * Исходная модель объекта
+ * Исходная модель объекта, описывающий object.xml файл
  */
 @Getter
 @Setter
 public class N2oObject extends N2oMetadata implements NameAware {
+
     private String name;
     private String tableName;
     private String entityClass;
@@ -46,6 +46,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
     @Getter
     @Setter
     public static class Operation implements Source, IdAware, ExtensionAttributesAware {
+
         private String id;
         private String name;
         private String note;
@@ -54,31 +55,33 @@ public class N2oObject extends N2oMetadata implements NameAware {
         private String failText;
         private String failTitle;
         private String description;
-
         private N2oInvocation invocation;
         private AbstractParameter[] inFields;
         private AbstractParameter[] outFields;
         private ObjectSimpleField[] failOutFields;
-
         private Validations validations;
         @ExtAttributesSerializer
         private Map<N2oNamespace, Map<String, String>> extAttributes;
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o)
+                return true;
+            if (Objects.isNull(o) || getClass() != o.getClass())
+                return false;
+
             return Objects.equals(id, ((Operation) o).id);
         }
 
         @Override
         public int hashCode() {
-            return id != null ? id.hashCode() : 0;
+            return Objects.nonNull(id) ? id.hashCode() : 0;
         }
 
         @Getter
         @Setter
         public static class Validations implements Source {
+
             private String[] whiteList;
             private String[] blackList;
             private Validation[] refValidations;

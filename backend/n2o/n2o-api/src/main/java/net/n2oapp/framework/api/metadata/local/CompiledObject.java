@@ -12,12 +12,16 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleFie
 
 import java.util.*;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 /**
- * Скомпилированный объект
+ * Скомпилированный объект, описыващий object.xml файл
  */
 @Getter
 @Setter
 public class CompiledObject implements Compiled, IdAware {
+
     public static final String VALIDATION_RESULT_PARAM = "validation";
 
     private String id;
@@ -45,8 +49,10 @@ public class CompiledObject implements Compiled, IdAware {
     }
 
     public void addValidation(Validation v) {
-        if (validations == null) validations = new ArrayList<>();
-        if (validationsMap == null) validationsMap = new HashMap<>();
+        if (isNull(validations))
+            validations = new ArrayList<>();
+        if (isNull(validationsMap))
+            validationsMap = new HashMap<>();
 
         validationsMap.put(v.getId(), v);
         validations.add(v);
@@ -55,6 +61,7 @@ public class CompiledObject implements Compiled, IdAware {
     @Getter
     @Setter
     public static class Operation extends N2oObject.Operation implements Compiled, PropertiesAware {
+
         private Map<String, Object> properties;
         private Map<String, AbstractParameter> inParametersMap;
         private Map<String, AbstractParameter> outParametersMap;
@@ -64,7 +71,7 @@ public class CompiledObject implements Compiled, IdAware {
         private Map<String, Validation> whiteListValidationsMap;
 
         public Map<String, Validation> getWhiteListValidationsMap() {
-            return whiteListValidationsMap != null ? whiteListValidationsMap : Collections.emptyMap();
+            return nonNull(whiteListValidationsMap) ? whiteListValidationsMap : Collections.emptyMap();
         }
 
         public void setWhiteListValidationsMap(Map<String, Validation> whiteListValidationsMap) {
@@ -72,11 +79,11 @@ public class CompiledObject implements Compiled, IdAware {
         }
 
         public boolean isValidationEnable() {
-            return getValidationList() != null && !getValidationList().isEmpty();
+            return nonNull(getValidationList()) && !getValidationList().isEmpty();
         }
 
         public Map<String, Validation> getValidationsMap() {
-            return validationsMap != null ? validationsMap : Collections.emptyMap();
+            return nonNull(validationsMap) ? validationsMap : Collections.emptyMap();
         }
     }
 }
