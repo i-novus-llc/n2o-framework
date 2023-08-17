@@ -42,6 +42,12 @@ public class TableValidator implements SourceValidator<N2oTable>, SourceClassAwa
         }
 
         p.safeStreamOf(source.getFilters()).forEach(item -> p.validate(item, widgetScope));
+
+        if (nonNull(source.getRows()) && nonNull(source.getRows().getRowOverlay())
+                && nonNull(source.getRows().getRowOverlay().getToolbar())
+                && source.getRows().getRowOverlay().getToolbar().getGenerate() == null
+                && source.getRows().getRowOverlay().getToolbar().getItems() == null)
+            throw new N2oMetadataValidationException("Не заданы кнопки в <overlay><toolbar>");
     }
 
     /**
