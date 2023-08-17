@@ -172,7 +172,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     void testRowOverlay() {
        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5RowOverlayCompile.widget.xml").get(new WidgetContext("testTable5RowOverlayCompile"));
         assertThat(table.getComponent().getBody().getRow().getOverlay().getClassName(), is("top"));
-        LinkAction linkAction = (LinkAction) table.getComponent().getBody().getRow().getOverlay().getToolbar().getButton("id1").getAction();
+        LinkAction linkAction = (LinkAction) table.getComponent().getBody().getRow().getOverlay().getToolbar().get(0).getButtons().get(0).getAction();
         assertThat(linkAction.getUrl(), is("/test"));
         assertThat(linkAction.getTarget(), is(Target.application));
         assertThat(linkAction.getPathMapping().size(), is(0));
