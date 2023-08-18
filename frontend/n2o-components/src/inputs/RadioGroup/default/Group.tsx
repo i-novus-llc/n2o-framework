@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC } from 'react'
+import React, { ChangeEvent, FC, KeyboardEvent } from 'react'
 import classNames from 'classnames'
 import toString from 'lodash/toString'
 import isNil from 'lodash/isNil'
@@ -13,6 +13,7 @@ export type Props = TBaseProps & Omit<TBaseInputProps<string | number>, 'onChang
     groupClassName?: string,
     inline: boolean,
     onChange(event: ChangeEvent<HTMLInputElement>): void,
+    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
     options: Array<TOption<string | number>>
 }
 
@@ -26,6 +27,7 @@ export function Group({
     options,
     name,
     onChange,
+    onKeyDown,
     enabledFieldId,
     inline,
     InputComponent: PropInputComponent,
@@ -45,6 +47,7 @@ export function Group({
                 disabled={isDisabled}
                 checked={toString(radio.value) === toString(value)}
                 onChange={onChange}
+                onKeyDown={onKeyDown}
             />
         )
     })

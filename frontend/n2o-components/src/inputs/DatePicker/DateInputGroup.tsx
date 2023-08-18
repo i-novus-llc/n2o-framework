@@ -1,4 +1,4 @@
-import React, { FocusEventHandler, forwardRef } from 'react'
+import React, { FocusEventHandler, KeyboardEvent, forwardRef } from 'react'
 import { Moment } from 'moment/moment'
 
 import { TBaseInputProps, TBaseProps } from '../../types'
@@ -15,7 +15,8 @@ type DateInputGroupProps = TBaseProps & Omit<TBaseInputProps<Value>, 'onBlur' | 
     min?: string,
     onBlur?(value: Moment | null, name: string): void,
     onFocus?: FocusEventHandler<HTMLInputElement>,
-    onInputChange?: OnInputChangeHandler
+    onInputChange?: OnInputChangeHandler,
+    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
     openOnFocus: boolean,
     outputFormat: string,
     setControlRef(el?: unknown): void,
@@ -33,6 +34,7 @@ export const DateInputGroup = forwardRef<HTMLDivElement, DateInputGroupProps>(({
     setVisibility,
     onFocus = () => {},
     onBlur = () => {},
+    onKeyDown = () => {},
     autoFocus = false,
     openOnFocus = false,
     setControlRef,
@@ -63,6 +65,7 @@ export const DateInputGroup = forwardRef<HTMLDivElement, DateInputGroupProps>(({
                         setVisibility={setVisibility}
                         onFocus={onFocus}
                         onBlur={onBlur}
+                        onKeyDown={onKeyDown}
                         setControlRef={setControlRef}
                         autoFocus={autoFocus}
                         openOnFocus={openOnFocus}

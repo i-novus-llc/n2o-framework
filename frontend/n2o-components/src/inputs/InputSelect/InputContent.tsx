@@ -54,6 +54,7 @@ export type Props = {
     onClick(): void,
     onFocus(): void,
     onInputChange(arg: string): void,
+    onKeyDown?(evt: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>): void,
     onRemoveItem(item: TOption, index?: number | null): void,
     onSelect(arg?: TOption | Props['value']): void,
     openPopUp(arg: boolean): void,
@@ -91,6 +92,7 @@ export function InputContent({
     disabledValues,
     options,
     onClick,
+    onKeyDown,
     isExpanded,
     autoFocus,
     setRef,
@@ -104,6 +106,10 @@ export function InputContent({
      * @private
      */
     const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        if (onKeyDown) {
+            onKeyDown(e)
+        }
+
         if (
             e.key === 'Backspace' &&
             selected.length &&
