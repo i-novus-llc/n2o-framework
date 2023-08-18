@@ -1,4 +1,4 @@
-import React, { useCallback, ReactNode, useMemo, useRef, useState } from 'react'
+import React, { useCallback, ReactNode, useMemo, useRef, useState, KeyboardEvent } from 'react'
 import TreeSelect from 'rc-tree-select'
 import difference from 'lodash/difference'
 import filterF from 'lodash/filter'
@@ -87,6 +87,7 @@ function InputSelectTree({
     onSearch,
     onSelect,
     onChange,
+    onKeyDown,
     hasCheckboxes,
     filter,
     multiSelect,
@@ -310,6 +311,7 @@ function InputSelectTree({
                 onChange={handleChange}
                 onSelect={handleSelect}
                 onSearch={handleSearch}
+                onKeyDown={onKeyDown}
                 onTreeExpand={onTreeExpand}
                 showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
                 getPopupContainer={getPopupContainer}
@@ -432,6 +434,7 @@ type Props = {
      */
     onClose(): void,
     onFocus(): void,
+    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
     /**
      * Callback на поиск
      */

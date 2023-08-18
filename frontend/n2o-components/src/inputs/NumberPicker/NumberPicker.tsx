@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { KeyboardEvent, useEffect, useState } from 'react'
 import classNames from 'classnames'
 import isNull from 'lodash/isNull'
 
@@ -14,7 +14,8 @@ import '../../styles/controls/NumberPicker.scss'
 type NumberPickerProps = TBaseProps & TBaseInputProps<TInputNumberValue> & {
     max?: number
     min?: number
-    step?: number
+    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
+    step?: number,
     value: TInputNumberValue
 }
 
@@ -28,6 +29,7 @@ export const NumberPicker = ({
     style,
     disabled,
     onChange,
+    onKeyDown,
 }: NumberPickerProps) => {
     const [isFocused, setFocus] = useState(false)
     const isDecreaseBtnDisabled = disabled || (!isNull(value) && min >= value)
@@ -75,6 +77,7 @@ export const NumberPicker = ({
                     max={max}
                     step={step}
                     onChange={onChange}
+                    onKeyDown={onKeyDown}
                     showButtons={false}
                     disabled={disabled}
                     onBlur={onBlur}

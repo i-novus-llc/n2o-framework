@@ -152,6 +152,12 @@ export class InputNumberComponent extends React.Component<InputNumberProps, Inpu
         const downKeyCode = 40
         let type
 
+        const { onKeyDown } = this.props
+
+        if (onKeyDown) {
+            onKeyDown(e)
+        }
+
         if (e.keyCode === upKeyCode) {
             type = 'up'
         }
