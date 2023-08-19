@@ -24,6 +24,7 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
         selectedRows,
         actionListener,
         errorComponent,
+        EmptyContent,
     } = props
     const { width, height, rowSelection, body, header } = tableConfig
     const areAllRowsSelected = useMemo(() => {
@@ -73,6 +74,10 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
                                 data={data}
                             />
                         )}
+
+                        {!errorComponent && EmptyContent && data.length === 0 ? (
+                            <Table.Cell colSpan={cells.body.length}>{EmptyContent}</Table.Cell>
+                        ) : null}
                     </Table>
                 </div>
             </TableActionsProvider>
