@@ -24,6 +24,10 @@ import { useResolveCellsVisible } from './hooks/useResolveCellsVisible'
 import { useRegisterColumns } from './hooks/useRegisterColumns'
 import { useTableActionReactions } from './hooks/useTableActionReactions'
 
+const EmptyComponent = () => (
+    <div className="d-flex justify-content-center text-muted">Нет данных для отображения</div>
+)
+
 const AdvancedTableContainer = (props) => {
     const {
         id, disabled, toolbar, datasource, className, setPage, loading, fetchData,
@@ -170,6 +174,7 @@ const AdvancedTableContainer = (props) => {
                     selectedRows={selectedRows}
                     expandedRows={expandedRows}
                     focusedRowValue={focusedRowValue}
+                    EmptyContent={<EmptyComponent />}
                 />
             ) : null}
         </WidgetLayout>
