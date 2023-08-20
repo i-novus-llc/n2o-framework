@@ -1,29 +1,28 @@
-import React, { MouseEventHandler } from 'react'
+import React, { KeyboardEvent, MouseEvent, MouseEventHandler } from 'react'
 import { ButtonGroup, Button } from 'reactstrap'
 import { useTranslation } from 'react-i18next'
 
 import { TBaseProps } from '../../types'
 
 export interface ButtonsProps extends Omit<TBaseProps, 'disabled'> {
+    clearDisabled?: boolean,
+    onReset: MouseEventHandler<HTMLButtonElement> | undefined,
+    onSearch?(e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLInputElement>): void,
+    resetLabel?: string,
+    searchDisabled?: boolean,
     searchLabel?: string
-    resetLabel?: string
-    searchDisabled?: boolean
-    clearDisabled?: boolean
-    onSearch: MouseEventHandler<HTMLButtonElement> | undefined
-    onReset: MouseEventHandler<HTMLButtonElement> | undefined
 }
 
-export function Buttons(props: ButtonsProps) {
-    const {
-        className,
-        visible = true,
-        searchLabel,
-        resetLabel,
-        searchDisabled,
-        clearDisabled,
-        onSearch,
-        onReset,
-    } = props
+export function Buttons({
+    className,
+    visible = true,
+    searchLabel,
+    resetLabel,
+    searchDisabled,
+    clearDisabled,
+    onSearch,
+    onReset,
+}: ButtonsProps) {
     const { t } = useTranslation()
 
     return visible ? (
