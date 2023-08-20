@@ -1,3 +1,5 @@
+import { KeyboardEvent } from 'react'
+
 import { TBaseInputProps, TBaseProps } from '../../types'
 
 export type InputNumberProps = TBaseProps & TBaseInputProps<TInputNumberValue> & {
@@ -5,6 +7,7 @@ export type InputNumberProps = TBaseProps & TBaseInputProps<TInputNumberValue> &
     min?: number,
     mode?: InputMode,
     onBlur?(value: TInputNumberValue): void,
+    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
     precision?: number,
     showButtons?: boolean,
     step?: string | number

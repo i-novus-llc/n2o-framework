@@ -1,4 +1,4 @@
-import React, { createRef } from 'react'
+import React, { KeyboardEvent, createRef } from 'react'
 import classNames from 'classnames'
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap'
 import onClickOutside from 'react-onclickoutside'
@@ -572,6 +572,7 @@ export class InputSelect extends React.Component<Props, State> {
             popupAutoSize,
             maxTagTextLength,
             onDismiss,
+            onKeyDown,
             page,
             size,
             count,
@@ -624,6 +625,7 @@ export class InputSelect extends React.Component<Props, State> {
                                 setRef={this.setInputRef}
                                 onFocus={this.onFocus}
                                 onBlur={this.onInputBlur}
+                                onKeyDown={onKeyDown}
                                 value={input}
                                 disabled={disabled}
                                 disabledValues={disabledValues}
@@ -834,6 +836,7 @@ type Props = {
     onClose(): void,
     onDismiss(arg: string): void,
     onInput(input: State['input']): void,
+    onKeyDown?(evt: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>): void,
     /**
      * Callback на поиск
      */

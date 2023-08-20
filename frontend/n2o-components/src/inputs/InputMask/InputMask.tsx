@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, ChangeEventHandler } from 'react'
+import React, { SyntheticEvent, ChangeEventHandler, KeyboardEvent } from 'react'
 import MaskedInput from 'react-text-mask'
 import cn from 'classnames'
 import isEqual from 'lodash/isEqual'
@@ -21,6 +21,7 @@ type InputMaskProps = TBaseProps & Omit<TBaseInputProps<string>, 'onBlur'> & {
     mask?: MaskType
     onBlur?(value: string): void,
     onChange?(value: string): void,
+    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
     placeholder?: string,
     // символ, который будет на месте незаполненного символа маски
     placeholderChar?: string,
@@ -224,6 +225,7 @@ class InputMaskComponent extends React.Component<InputMaskProps, InputMaskState>
             autoFocus,
             disabled,
             keepCharPositions,
+            onKeyDown,
         } = this.props
         const { guide, value } = this.state
         const mask = this.preset(preset)
@@ -253,6 +255,7 @@ class InputMaskComponent extends React.Component<InputMaskProps, InputMaskState>
                         autoFocus={autoFocus}
                     />
                 )}
+                onKeyDown={onKeyDown}
             />
         )
     }
@@ -268,6 +271,7 @@ class InputMaskComponent extends React.Component<InputMaskProps, InputMaskState>
         mask: '',
         presetConfig: {},
         onBlur: () => {},
+        onKeyDown: () => {},
         disabled: false,
     } as InputMaskProps
 }

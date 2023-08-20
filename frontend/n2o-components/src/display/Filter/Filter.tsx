@@ -1,31 +1,42 @@
-import React, { ReactNode } from 'react'
+import React, { KeyboardEvent, ReactNode, useCallback } from 'react'
 import classNames from 'classnames'
 
-// TODO выпилить в следующих версиях, Buttons тут абсолютно не нужен, т.к. есть более функциональный FilterButtonsField
+import { EventHandlersContext } from '../../inputs/eventHandlersContext'
 
+// TODO выпилить в следующих версиях, Buttons тут абсолютно не нужен, т.к. есть более функциональный FilterButtonsField
 import { Buttons, ButtonsProps } from './Buttons'
 
 interface FilterProps extends ButtonsProps {
+    children: ReactNode,
     hideButtons?: boolean
-    children: ReactNode
 }
 
-export function Filter(props: FilterProps) {
-    const {
-        className,
-        style,
-        visible,
-        hideButtons,
-        searchLabel,
-        resetLabel,
-        children,
-        onSearch,
-        onReset,
-    } = props
+export function Filter({
+    className,
+    style,
+    visible,
+    hideButtons,
+    searchLabel,
+    resetLabel,
+    children,
+    onSearch,
+    onReset,
+}: FilterProps) {
+    const { Provider } = EventHandlersContext
+
+    const onKeyDown = useCallback((evt: KeyboardEvent<HTMLInputElement>) => {
+        if (onSearch && evt.key === 'Enter' && evt.ctrlKey) {
+            evt.stopPropagation()
+
+            onSearch(evt)
+        }
+    }, [onSearch])
 
     return visible ? (
         <div className={classNames('n2o-filter', className)} style={style}>
-            {children}
+            <Provider value={{ onKeyDown }}>
+                {children}
+            </Provider>
 
             <Buttons
                 visible={!hideButtons}

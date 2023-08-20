@@ -1,4 +1,4 @@
-import React, { ElementType, FocusEventHandler } from 'react'
+import React, { ElementType, FocusEventHandler, KeyboardEvent } from 'react'
 import { findDOMNode } from 'react-dom'
 import every from 'lodash/every'
 import isUndefined from 'lodash/isUndefined'
@@ -34,6 +34,7 @@ type DateTimeControlProps = TBaseProps & Omit<TBaseInputProps<DatePickerValue>, 
     onBlur?(value: string | null | Array<string | null>): void,
     onChange?(value: string | null | Array<string | null>): void,
     onFocus?: FocusEventHandler,
+    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
     openOnFocus?: boolean,
     outputFormat?: string,
     popupPlacement?: PopperPlacement,
@@ -420,6 +421,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
             strategy = 'absolute',
             max,
             min,
+            onKeyDown,
         } = this.props
 
         const { inputs, isPopUpVisible } = this.state
@@ -449,6 +451,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
                                     setVisibility={this.setVisibility}
                                     onFocus={this.onFocus}
                                     onBlur={this.onInputBlur}
+                                    onKeyDown={onKeyDown}
                                     autoFocus={autoFocus}
                                     openOnFocus={openOnFocus}
                                     outputFormat={outputFormat}

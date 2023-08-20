@@ -1,4 +1,4 @@
-import React, { FocusEvent, RefObject, createRef } from 'react'
+import React, { FocusEvent, KeyboardEvent, RefObject, createRef } from 'react'
 import onClickOutside from 'react-onclickoutside'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
@@ -492,6 +492,7 @@ class SelectComponent extends React.Component<Props, State> {
             hasSearch,
             cleanable,
             style,
+            onKeyDown,
         } = this.props
         const inputSelectStyle = { width: '100%', ...style }
 
@@ -507,7 +508,7 @@ class SelectComponent extends React.Component<Props, State> {
                 onBlur={this.handleOnBlur}
                 ref={this.n2oSelectRef}
             >
-                <Button innerRef={this.setControlRef} onClick={this.handleButtonClick}>
+                <Button innerRef={this.setControlRef} onClick={this.handleButtonClick} onKeyDown={onKeyDown}>
                     <InputSelectGroup
                         className={className}
                         isExpanded={isExpanded}
@@ -591,6 +592,7 @@ class SelectComponent extends React.Component<Props, State> {
         onInput() {},
         onClose() {},
         onBlur() {},
+        onKeyDown() {},
     } as Props
 }
 
@@ -659,6 +661,7 @@ type Props = {
      * Callback при вводе в инпут
      */
     onInput(input: string): void,
+    onKeyDown?(evt: KeyboardEvent<HTMLButtonElement>): void,
     /**
      * Callback на поиск
      */
