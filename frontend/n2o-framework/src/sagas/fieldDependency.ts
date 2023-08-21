@@ -34,7 +34,7 @@ import {
     updateModel,
 } from '../ducks/models/store'
 import { getModelByPrefixAndNameSelector } from '../ducks/models/selectors'
-import { ValidationsKey } from '../core/validation/IValidation'
+import { ValidationsKey } from '../core/validation/types'
 import { addAlert } from '../ducks/alerts/store'
 import { GLOBAL_KEY } from '../ducks/alerts/constants'
 import { ModelPrefix } from '../core/datasource/const'
@@ -45,7 +45,7 @@ import fetchSaga from './fetch'
 
 const FetchValueCache = new Map()
 
-interface IModifyDependency {
+interface ModifyDependency {
     type?: string
     expression?: string
     applyOnInit?: boolean
@@ -54,27 +54,27 @@ interface IModifyDependency {
     valueFieldId?: string
 }
 
-interface IModifyField {
-    dependency: IModifyDependency[]
+interface ModifyField {
+    dependency: ModifyDependency[]
 }
 
-interface IModifyForm {
+interface ModifyForm {
     formName: string
     datasource: string
     modelPrefix: ModelPrefix
-    fields: IModifyField[]
+    fields: ModifyField[]
 }
 
-interface IModifyField {
+interface ModifyField {
     parentIndex: string | number
     required?: boolean
 }
 
 export function* fetchValue(
     values: Record<string, unknown>,
-    { formName, datasource, modelPrefix }: IModifyForm,
+    { formName, datasource, modelPrefix }: ModifyForm,
     field: string,
-    { dataProvider, valueFieldId = '' }: IModifyDependency,
+    { dataProvider, valueFieldId = '' }: ModifyDependency,
 ) {
     const fetchValueKey = `${formName}.${field}`
 
@@ -132,11 +132,11 @@ export function* fetchValue(
 }
 
 export function* modify(
-    form: IModifyForm,
+    form: ModifyForm,
     values: Record<string, unknown>,
     fieldName: string,
-    field: IModifyField,
-    dependency: IModifyDependency = {},
+    field: ModifyField,
+    dependency: ModifyDependency = {},
 ) {
     const { formName, datasource, modelPrefix } = form
     const { type, expression } = dependency
@@ -224,14 +224,14 @@ export function* modify(
     }
 }
 
-interface IShouldBeResolved {
-    dependency: IModifyDependency
+interface ShouldBeResolved {
+    dependency: ModifyDependency
     actionType: string
     actionField: string
     currentField: string
 }
 
-const shouldBeResolved = ({ dependency, actionType, actionField, currentField }: IShouldBeResolved) => {
+const shouldBeResolved = ({ dependency, actionType, actionField, currentField }: ShouldBeResolved) => {
     const { applyOnInit, on } = dependency
     const isChangeAction = [
         updateModel.type,
@@ -263,7 +263,7 @@ const shouldBeResolved = ({ dependency, actionType, actionField, currentField }:
 }
 
 export function* checkAndModify(
-    form: IModifyForm,
+    form: ModifyForm,
     values: Record<string, unknown>,
     fieldName: string,
     actionType: string,
@@ -284,7 +284,7 @@ export function* checkAndModify(
     }
 }
 
-interface IResolveOnUpdateModel {
+interface ResolveOnUpdateModel {
     type: string
     meta: {
         key: string
@@ -296,13 +296,13 @@ interface IResolveOnUpdateModel {
     }
 }
 
-export function* resolveOnUpdateModel({ type, meta, payload }: IResolveOnUpdateModel) {
+export function* resolveOnUpdateModel({ type, meta, payload }: ResolveOnUpdateModel) {
     yield delay(16)
 
     const { key: datasource, field, prefix } = meta
 
     const formValue: Record<string, unknown> = yield select(getModelByPrefixAndNameSelector(prefix, datasource))
-    const forms: IModifyForm[] = yield select(makeFormsByModel(datasource, prefix))
+    const forms: ModifyForm[] = yield select(makeFormsByModel(datasource, prefix))
 
     for (const form of forms) {
         const fieldName = type === registerFieldExtra.type ? payload.fieldName : field
@@ -321,17 +321,17 @@ export function* resolveOnUpdateModel({ type, meta, payload }: IResolveOnUpdateM
     }
 }
 
-interface IResolveOnItitPayload {
+interface ResolveOnItitPayload {
     formName: string
     fieldName: string
 }
 
-export function* resolveOnInit({ type, payload }: { type: string, payload: IResolveOnItitPayload }) {
+export function* resolveOnInit({ type, payload }: { type: string, payload: ResolveOnItitPayload }) {
     yield delay(16)
 
     const { formName, fieldName } = payload
 
-    const form: IModifyForm = yield select(makeFormByName(formName))
+    const form: ModifyForm = yield select(makeFormByName(formName))
     const formValue: Record<string, unknown> =
         yield select(getModelByPrefixAndNameSelector(form.modelPrefix, form.datasource))
 
@@ -348,14 +348,14 @@ export function* resolveOnInit({ type, payload }: { type: string, payload: IReso
     )
 }
 
-interface IResolveOnSetModelPayload {
+interface ResolveOnSetModelPayload {
     prefix: ModelPrefix
     key: string
     model: Record<string, unknown>
     isDefault: boolean
 }
 
-function* resolveOnSetModel({ payload, meta }: { payload: IResolveOnSetModelPayload, meta: { prevState: State } }) {
+function* resolveOnSetModel({ payload, meta }: { payload: ResolveOnSetModelPayload, meta: { prevState: State } }) {
     const { prefix, key: datasource, model, isDefault } = payload
 
     if (prefix === ModelPrefix.source || prefix === ModelPrefix.selected || !model) {
@@ -363,7 +363,7 @@ function* resolveOnSetModel({ payload, meta }: { payload: IResolveOnSetModelPayl
     }
 
     const { prevState } = meta
-    const forms: IModifyForm[] = yield select(makeFormsByModel(datasource, prefix))
+    const forms: ModifyForm[] = yield select(makeFormsByModel(datasource, prefix))
     const prevModel = getModelByPrefixAndNameSelector(prefix, datasource)(prevState || {})
 
     for (const form of forms) {

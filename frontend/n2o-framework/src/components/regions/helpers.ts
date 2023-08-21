@@ -1,11 +1,11 @@
 import { FETCH_TYPE } from '../../core/widget/const'
 
-interface IContentItem {
+interface ContentItem {
     id: string,
     group?: contentType
 }
 
-type contentType = IContentItem[]
+type contentType = ContentItem[]
 
 export function getFirstContentId(content: contentType = []): string | void {
     if (!content.length) {

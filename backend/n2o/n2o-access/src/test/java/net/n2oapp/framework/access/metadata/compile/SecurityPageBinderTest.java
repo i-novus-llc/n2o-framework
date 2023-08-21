@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.eq;
 
 public class SecurityPageBinderTest extends SourceCompileTestBase {
 
@@ -45,8 +45,8 @@ public class SecurityPageBinderTest extends SourceCompileTestBase {
 
     @Test
     void hasAuthenticationTest() {
-        when(permissionApi.hasAuthentication(anyObject())).thenReturn(true);
-        when(permissionApi.hasRole(anyObject(), eq("admin"))).thenReturn(true);
+        when(permissionApi.hasAuthentication(any())).thenReturn(true);
+        when(permissionApi.hasRole(any(), eq("admin"))).thenReturn(true);
 
         compile("net/n2oapp/framework/access/metadata/schema/testSecurityPageBinder.access.xml",
                 "net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.page.xml")
@@ -70,7 +70,7 @@ public class SecurityPageBinderTest extends SourceCompileTestBase {
 
     @Test
     void accessDeniedExceptionTest() {
-        when(permissionApi.hasAuthentication(anyObject())).thenReturn(true);
+        when(permissionApi.hasAuthentication(any())).thenReturn(true);
 
         try {
             compile("net/n2oapp/framework/access/metadata/schema/testSecurityPageBinder.access.xml",

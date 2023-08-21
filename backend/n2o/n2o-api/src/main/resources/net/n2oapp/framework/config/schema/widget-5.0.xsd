@@ -1392,41 +1392,6 @@
         </xs:attribute>
     </xs:complexType>
 
-    <xs:complexType name="calendarFormatDefinition">
-        <xs:annotation>
-            <xs:documentation>Формат даты и времени календаря.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="id" use="required">
-            <xs:simpleType>
-                <xs:annotation>
-                    <xs:documentation>Тип формата.</xs:documentation>
-                </xs:annotation>
-                <xs:restriction base="xs:string">
-                    <xs:enumeration value="dateFormat"/>
-                    <xs:enumeration value="dayFormat"/>
-                    <xs:enumeration value="weekdayFormat"/>
-                    <xs:enumeration value="timeGutterFormat"/>
-                    <xs:enumeration value="monthHeaderFormat"/>
-                    <xs:enumeration value="dayRangeHeaderFormat"/>
-                    <xs:enumeration value="dayHeaderFormat"/>
-                    <xs:enumeration value="agendaHeaderFormat"/>
-                    <xs:enumeration value="selectRangeFormat"/>
-                    <xs:enumeration value="agendaDateFormat"/>
-                    <xs:enumeration value="agendaTimeFormat"/>
-                    <xs:enumeration value="agendaTimeRangeFormat"/>
-                    <xs:enumeration value="eventTimeRangeFormat"/>
-                    <xs:enumeration value="eventTimeRangeStartFormat"/>
-                    <xs:enumeration value="eventTimeRangeEndFormat"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:attribute>
-        <xs:attribute name="value" use="required">
-            <xs:annotation>
-                <xs:documentation>Значение формата.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
     <xs:simpleType name="calendarViewType">
         <xs:annotation>
             <xs:documentation>Вид календаря.</xs:documentation>

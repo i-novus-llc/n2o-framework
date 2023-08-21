@@ -1,6 +1,6 @@
 package net.n2oapp.framework.ui.controller;
 
-import net.n2oapp.framework.api.metadata.action.UploadType;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.rest.*;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
@@ -25,8 +25,8 @@ public class N2oControllerFactory extends BaseMetadataFactory implements Control
 
     @Override
     public GetDataResponse execute(QueryRequestInfo request, QueryResponseInfo response) {
-        UploadType formModel = request.getUpload() != null ? request.getUpload() : UploadType.query;
-        BiPredicate<ControllerTypeAware, UploadType> predicate = (controller, uploadType) -> formModel.name().equals(controller.getControllerType().name());
+        DefaultValuesMode formModel = request.getMode() != null ? request.getMode() : DefaultValuesMode.query;
+        BiPredicate<ControllerTypeAware, DefaultValuesMode> predicate = (controller, uploadType) -> formModel.name().equals(controller.getControllerType().name());
         GetController controller = (GetController) produce(predicate, formModel);
         return controller.execute(request, response);
     }

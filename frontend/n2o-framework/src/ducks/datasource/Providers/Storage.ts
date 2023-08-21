@@ -2,7 +2,7 @@ import { select } from 'redux-saga/effects'
 import { isNil } from 'lodash'
 
 import { dataSourceByIdSelector, dataSourceProviderSelector } from '../selectors'
-import type { IProvider, QueryOptions, StorageProvider, StorageSubmit } from '../Provider'
+import type { Provider, QueryOptions, StorageProvider, StorageSubmit } from '../Provider'
 import { ProviderType, StorageType } from '../Provider'
 import type { DataSourceState } from '../DataSource'
 import { getModelByPrefixAndNameSelector } from '../../models/selectors'
@@ -86,7 +86,7 @@ export function* clear({ meta }: {
 
     if (!id) { return }
 
-    const provider: IProvider | void = yield select(dataSourceProviderSelector(id))
+    const provider: Provider | void = yield select(dataSourceProviderSelector(id))
 
     if (!provider || provider.type !== ProviderType.storage) {
         return

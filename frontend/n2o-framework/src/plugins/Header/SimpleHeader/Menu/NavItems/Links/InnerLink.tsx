@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { NavItem } from 'reactstrap'
 import classNames from 'classnames'
 
-export interface ILink {
+export interface Link {
     children: ReactChildren | JSX.Element
     className?: string,
     active?: boolean,
@@ -12,7 +12,7 @@ export interface ILink {
     style?: React.CSSProperties
 }
 
-export function InnerLink(props: ILink) {
+export function InnerLink(props: Link) {
     const { children, className, active, href, target, style } = props
 
     return (

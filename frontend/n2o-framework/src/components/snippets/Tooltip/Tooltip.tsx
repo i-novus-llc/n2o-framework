@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { PropsGetterArgs } from 'react-popper-tooltip/dist/types'
 import 'react-popper-tooltip/dist/styles.css'
 
-export interface ITooltipProps {
+export interface TooltipProps {
     hint?: string | number | React.Component
     className?: string
     getArrowProps(args?: PropsGetterArgs): {
@@ -25,7 +25,7 @@ export function Tooltip({
     getTooltipProps,
     getArrowProps,
     theme = 'dark',
-}: ITooltipProps): JSX.Element {
+}: TooltipProps): JSX.Element {
     return (
         <div
             ref={setTooltipRef}

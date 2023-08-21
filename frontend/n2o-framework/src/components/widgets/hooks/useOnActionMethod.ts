@@ -10,18 +10,18 @@ import evalExpression from '../../../utils/evalExpression'
 // @ts-ignore - отсутствуют типы
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
 
-type TAction = Record<string, any> | undefined
+type Action = Record<string, any> | undefined
 
-type TActionFunc = (model: any, action?: TAction) => void
-type TFuncWithRequiredAction = (model: any, action: TAction) => void
-type TResolvedFunc<T extends TAction> = T extends undefined ? TActionFunc : TFuncWithRequiredAction
+type ActionFunc = (model: any, action?: Action) => void
+type FuncWithRequiredAction = (model: any, action: Action) => void
+type ResolvedFunc<T extends Action> = T extends undefined ? ActionFunc : FuncWithRequiredAction
 
 export const useOnActionMethod = <Action extends Record<string, any>>(modelsId: string, action?: Action) => {
     const store = useStore()
     const dispatch = useDispatch()
 
     return (
-        useCallback<TResolvedFunc<Action>>((model, providedClickAction = action) => {
+        useCallback<ResolvedFunc<Action>>((model, providedClickAction = action) => {
             if (!providedClickAction) {
                 return
             }

@@ -5,8 +5,6 @@ import net.n2oapp.framework.boot.sql.jdbc.RoutingDataSourceAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.EmbeddedDataSourceConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -23,8 +21,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Import({
 //        MessageSourceAutoConfiguration.class,
 //        JndiDataSourceAutoConfiguration.class,
-        EmbeddedDataSourceConfiguration.class,
-        DataSourceAutoConfiguration.class,
+//        EmbeddedDataSourceConfiguration.class,
+//        DataSourceAutoConfiguration.class,
 //        JdbcTemplateAutoConfiguration.class,
 //        TransactionAutoConfiguration.class,
         DispatcherServletAutoConfiguration.class,

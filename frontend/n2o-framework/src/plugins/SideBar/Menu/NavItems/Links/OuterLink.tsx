@@ -2,21 +2,21 @@ import React from 'react'
 
 import { id as generateId } from '../../../../../utils/id'
 import { ExtendedTooltipComponent } from '../../../../../components/snippets/Tooltip/TooltipHOC'
-import { IItem } from '../../../../CommonMenuTypes'
+import { Item } from '../../../../CommonMenuTypes'
 
 import { LinkBody } from './LinkBody'
 
-interface IOuterLink {
+interface OuterLinkProps {
     href: string
     title?: string
     isStaticView: boolean
     showContent: boolean
     sidebarOpen: boolean
     isMiniView: boolean
-    item: IItem
+    item: Item
 }
 
-export function OuterLink(props: IOuterLink) {
+export function OuterLink(props: OuterLinkProps) {
     const { href, title, isStaticView, showContent, sidebarOpen, isMiniView, item } = props
     const id = generateId()
 

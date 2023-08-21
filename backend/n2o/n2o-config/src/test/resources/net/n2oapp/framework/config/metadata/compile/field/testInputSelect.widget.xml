@@ -14,11 +14,6 @@
                 </contains>
             </pre-filters>
             <default-value id="1" name="test" isTest="true"/>
-            <!--<default-model>-->
-                <!--<value field-id="id" domain="integer">1</value>-->
-                <!--<value field-id="name" domain="string">test</value>-->
-                <!--<value field-id="isTest" domain="boolean">true</value>-->
-            <!--</default-model>-->
         </input-select>
     </fields>
 </form>

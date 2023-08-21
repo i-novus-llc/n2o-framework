@@ -1,30 +1,30 @@
-interface IVisibleDependency {
+interface VisibleDependency {
     on: string
     condition: string
 }
 
-export interface IContent {
+export interface Content {
     src: string
     id: string
     name: string
     datasource?: string
     fetchOnVisibility?: boolean
     fetchOnInit?: boolean
-    content?: IContent[]
+    content?: Content[]
     visible?: boolean
     dependency?: {
-        visible?: IVisibleDependency[]
+        visible?: VisibleDependency[]
     }
     activeEntity?: string
     lazy?: boolean
-    tabs?: ITab[]
+    tabs?: Tab[]
 }
 
-export interface ITab {
+export interface Tab {
     id: string
     label: string
     opened: boolean
-    content: IContent[]
+    content: Content[]
     invalid?: boolean
     security?: {
         object: {
@@ -34,17 +34,17 @@ export interface ITab {
     }
 }
 
-export interface IRegion {
+export interface Region {
     regionId: string | null
     activeEntity: string | boolean | null
     isInit: boolean
     panels: Array<Record<string, unknown>>
     datasource: string | null
     lazy?: boolean
-    tabs: ITab[]
+    tabs: Tab[]
     alwaysRefresh?: boolean
 }
 
 export type State = {
-    [regionId: string]: IRegion
+    [regionId: string]: Region
 }

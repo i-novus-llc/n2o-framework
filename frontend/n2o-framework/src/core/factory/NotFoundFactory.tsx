@@ -1,12 +1,12 @@
 import React from 'react'
 import { Alert } from 'reactstrap'
 
-interface INotFoundFactory {
+interface NotFoundFactoryProps {
     src: string
     level: string
 }
 
-export function NotFoundFactory(props: INotFoundFactory) {
+export function NotFoundFactory(props: NotFoundFactoryProps) {
     const { src, level } = props
 
     /* eslint-disable react/jsx-one-expression-per-line */

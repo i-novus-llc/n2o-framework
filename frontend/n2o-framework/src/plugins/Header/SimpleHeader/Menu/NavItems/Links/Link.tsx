@@ -2,19 +2,19 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { LinkTarget } from '../../../../../../constants/linkTarget'
-import { IItem } from '../../../../../CommonMenuTypes'
+import { Item } from '../../../../../CommonMenuTypes'
 
 import { OuterLink } from './OuterLink'
 import { LinkBody } from './LinkBody'
 import { InnerLink } from './InnerLink'
 
-interface ILink {
+interface LinkProps {
     active: boolean
     className?: string
-    item: IItem
+    item: Item
 }
 
-export function Link(props: ILink) {
+export function Link(props: LinkProps) {
     const {
         active,
         className: linkClassName,

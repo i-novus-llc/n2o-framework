@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -105,7 +106,7 @@ public class WatchDirRecursiveOnStartTest {
         assertTrue(new File(SUB2_DIR).mkdir());
         watchDir.start();
         FileUtils.touch(new File(SUB2_FILE1));
-        FileUtils.write(new File(SUB2_FILE1), "test");
+        FileUtils.write(new File(SUB2_FILE1), "test", Charset.defaultCharset());
 
         verify(listener, timeout(200).atLeast(1)).fileCreated(eq(Paths.get(SUB2_FILE1)));
         verify(listener, never()).fileModified(eq(Paths.get(SUB2_DIR)));
@@ -135,7 +136,7 @@ public class WatchDirRecursiveOnStartTest {
         assertTrue(new File(SUB2_DIR).delete());
         
         //при удалении папки, сначала удаляются файлы внутри неё, поэтому регистрируется событие изменения
-        verify(listener, timeout(200).never()).fileModified(eq(Paths.get(SUB2_DIR)));
+        verify(listener, after(200).never()).fileModified(eq(Paths.get(SUB2_DIR)));
         verify(listener, atLeast(1)).fileDeleted(eq(Paths.get(SUB2_DIR)));
         verify(listener, never()).fileModified(eq(Paths.get(SUB_DIR)));
         watchDir.stop();
@@ -157,7 +158,7 @@ public class WatchDirRecursiveOnStartTest {
         watchDir.start();
         FileUtils.forceDelete(new File(SUB2_DIR));
         
-        verify(listener, timeout(200).never()).fileModified(eq(Paths.get(SUB_DIR)));
+        verify(listener, after(200).never()).fileModified(eq(Paths.get(SUB_DIR)));
         verify(listener, timeout(200).atLeast(1)).fileDeleted(eq(Paths.get(SUB2_DIR)));
         watchDir.stop();
     }

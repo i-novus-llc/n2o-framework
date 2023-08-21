@@ -6,9 +6,9 @@ import { disableWidget, enableWidget, hideWidget, showWidget } from '../../ducks
 import propsResolver from '../../utils/propsResolver'
 import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
 
-import { IModel, OptionsType } from './WidgetTypes'
+import { Model, OptionsType } from './WidgetTypes'
 
-export const reduceFunction = (isTrue: boolean, { model, config }: IModel) => isTrue && propsResolver(`\`${config?.condition}\``, model)
+export const reduceFunction = (isTrue: boolean, { model, config }: Model) => isTrue && propsResolver(`\`${config?.condition}\``, model)
 
 /**
  * Резолв видимости

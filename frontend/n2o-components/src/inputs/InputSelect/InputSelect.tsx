@@ -1,4 +1,4 @@
-import React, { createRef } from 'react'
+import React, { KeyboardEvent, createRef } from 'react'
 import classNames from 'classnames'
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap'
 import onClickOutside from 'react-onclickoutside'
@@ -80,6 +80,7 @@ export class InputSelect extends React.Component<Props, State> {
             activeValueId: null,
             isPopupFocused: false,
             popUpMaxHeight: DEFAULT_POPUP_HEIGHT,
+            prevModel: {},
             options,
             input,
         }
@@ -298,20 +299,52 @@ export class InputSelect extends React.Component<Props, State> {
      * @private
      */
     setIsExpanded = (isExpanded: Props['isExpanded']) => {
-        const { disabled, onToggle } = this.props
+        const { disabled, onToggle, caching } = this.props
+        const { prevModel } = this.state
 
         if (!isExpanded || disabled) {
             return null
         }
 
-        this.setState({
-            isExpanded,
-            inputFocus: isExpanded,
-        }, () => {
-            const { page, fetchData, value = [] } = this.props
+        this.setState({ isExpanded, inputFocus: isExpanded }, () => {
+            const { page, fetchData, value = [], model = {} } = this.props
 
-            if (!value || !value.length || page === 1) {
-                fetchData()
+            if (isEmpty(value) || page === 1) {
+                const updatedModel = !isEqual(model, prevModel)
+                /*
+                   Кейс с префильтром,
+                   InputSelect подгружает и кэширует данные + параметры запроса в PopupList (onScroll).
+                   При этом, с закешированными данными и параметрами, может получить модель префильтрации.
+                   В таком случае нужно ресетнуть cache и page для актуального запроса.
+                   Если модель не поменялась, данные вновь берутся из cache.
+                */
+                const cacheReset = !isEmpty(model) && updatedModel
+
+                if (updatedModel) {
+                    this.setState({ prevModel: model })
+                }
+
+                const getCurrentPage = (cacheReset: boolean, caching?: boolean, page?: number) => {
+                    if (cacheReset) {
+                        return 1
+                    }
+
+                    if (caching && page) {
+                        return page
+                    }
+
+                    return 1
+                }
+
+                const currentPage = getCurrentPage(cacheReset, caching, page)
+                /*
+                   Concat данных, если передан caching + подгружено несколько pages через onScroll,
+                   иначе при очередном открытии InputSelect будет получена конкретная часть list последнего page из cache.
+                   Во время префильтрации, ненужно мержить данные из cache
+                */
+                const concat = cacheReset ? false : caching || false
+
+                fetchData({ page: currentPage }, concat, cacheReset)
             }
         })
 
@@ -572,6 +605,7 @@ export class InputSelect extends React.Component<Props, State> {
             popupAutoSize,
             maxTagTextLength,
             onDismiss,
+            onKeyDown,
             page,
             size,
             count,
@@ -624,6 +658,7 @@ export class InputSelect extends React.Component<Props, State> {
                                 setRef={this.setInputRef}
                                 onFocus={this.onFocus}
                                 onBlur={this.onInputBlur}
+                                onKeyDown={onKeyDown}
                                 value={input}
                                 disabled={disabled}
                                 disabledValues={disabledValues}
@@ -747,6 +782,7 @@ export class InputSelect extends React.Component<Props, State> {
         onBlur() {},
         onDismiss() {},
         setFilter() {},
+        model: {},
     } as Props
 }
 
@@ -761,6 +797,11 @@ type Props = {
      * Данные для badge
      */
     badge?: BadgeType,
+    /**
+     * Флаг кэширования запросов,
+     * если false лист при открытии селекта всегда запрашиватся заного т.е. с page = 1
+     */
+    caching?: boolean,
     className: string,
     /**
      * Флаг закрытия попапа при выборе
@@ -779,7 +820,7 @@ type Props = {
     disabledValues: [],
     enabledFieldId: string,
     expandPopUp: boolean,
-    fetchData(): void,
+    fetchData(extraParams: { page: number }, concat: boolean, cacheReset: boolean): void,
     /**
      * Варианты фильтрации
      */
@@ -817,6 +858,7 @@ type Props = {
      * Максимальная длина текста в тэге, до усечения
      */
     maxTagTextLength?: number,
+    model: Record<string, unknown>,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     models?: any,
     /**
@@ -834,6 +876,7 @@ type Props = {
     onClose(): void,
     onDismiss(arg: string): void,
     onInput(input: State['input']): void,
+    onKeyDown?(evt: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>): void,
     /**
      * Callback на поиск
      */
@@ -887,6 +930,7 @@ type Props = {
 
 type State = {
     activeValueId?: string | null,
+    caching?: boolean,
     input?: string,
     inputFocus?: boolean,
     isExpanded?: boolean,
@@ -894,6 +938,7 @@ type State = {
     isPopupFocused?: boolean,
     options?: Props['options'],
     popUpMaxHeight?: number,
+    prevModel?: Record<string, unknown>,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value?: any[]
 }

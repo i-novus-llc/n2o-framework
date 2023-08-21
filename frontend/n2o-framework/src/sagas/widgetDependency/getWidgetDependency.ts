@@ -1,12 +1,12 @@
 import map from 'lodash/map'
 
 import { sortDependency } from './sortDependency'
-import { IDependencies, IWidgetsDependencies } from './WidgetTypes'
+import { Dependencies, WidgetsDependencies } from './WidgetTypes'
 
 export function getWidgetDependency(
-    widgetsDependencies: IWidgetsDependencies,
+    widgetsDependencies: WidgetsDependencies,
     widgetId: string,
-    dependency: IDependencies,
+    dependency: Dependencies,
 ) {
     if (dependency) {
         const parents: string[] = []

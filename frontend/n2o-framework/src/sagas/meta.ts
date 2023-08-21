@@ -21,10 +21,10 @@ import { removeAllModel } from '../ducks/models/store'
 import { register } from '../ducks/datasource/store'
 import { requestConfigSuccess } from '../ducks/global/store'
 import { State } from '../ducks/State'
-import { IAlert } from '../ducks/alerts/Alerts'
+import { Alert } from '../ducks/alerts/Alerts'
 
-type MessagesType = IAlert[]
-const mapMessage = (message: IAlert) => ({ ...message, id: message?.id || id() })
+type MessagesType = Alert[]
+const mapMessage = (message: Alert) => ({ ...message, id: message?.id || id() })
 
 type AccType = Record<PLACEMENT, MessagesType> | Record<string, MessagesType>
 const separateMessagesByPlacement = (
@@ -39,7 +39,7 @@ const separateMessagesByPlacement = (
     return acc
 }, {})
 
-interface IAlertEffect {
+interface AlertEffect {
     meta: {
         alert: {
             messages: MessagesType
@@ -53,7 +53,7 @@ interface IAlertEffect {
     { payload: { key: 'key', alerts: [...] }, type: 'type'}
     alertEffect - обрабатывает alert.meta server responses
     маппит id и выполняет redux action */
-export function* alertEffect(action: IAlertEffect) {
+export function* alertEffect(action: AlertEffect) {
     // FIXME костыльная задержка для автотестов, которые смотрят на алерт инвока как на то что последующее инвоку обновление виджета было выполнено
     yield delay(300)
     try {
@@ -90,13 +90,13 @@ export function* alertEffect(action: IAlertEffect) {
     }
 }
 
-interface IClearOnSuccessEffect {
+interface ClearOnSuccessEffect {
     meta: {
         clear?: string
     }
 }
 
-export function* clearOnSuccessEffect(action: IClearOnSuccessEffect) {
+export function* clearOnSuccessEffect(action: ClearOnSuccessEffect) {
     const { meta } = action
     const datasourceId = get(meta, 'clear', null)
 
@@ -105,21 +105,21 @@ export function* clearOnSuccessEffect(action: IClearOnSuccessEffect) {
     yield put(removeAllModel(datasourceId))
 }
 
-interface IRedirect {
+interface Redirect {
     path: string
     pathMapping: Record<string, unknown>
     queryMapping: Record<string, unknown>
     target: string
 }
-interface IRedirectEffect {
+interface RedirectEffect {
     meta: {
         clear?: string,
         modalsToClose?: number
-        redirect: IRedirect
+        redirect: Redirect
     }
 }
 
-export function* redirectEffect(action: IRedirectEffect) {
+export function* redirectEffect(action: RedirectEffect) {
     try {
         const { path, pathMapping, queryMapping, target } = action.meta.redirect
 
@@ -146,7 +146,7 @@ export function* redirectEffect(action: IRedirectEffect) {
     }
 }
 
-interface IUserDialogEffect {
+interface UserDialogEffect {
     dialog: {
         title: string
         description: string
@@ -154,7 +154,7 @@ interface IUserDialogEffect {
     }
 }
 
-export function* userDialogEffect({ meta }: { meta: IUserDialogEffect }) {
+export function* userDialogEffect({ meta }: { meta: UserDialogEffect }) {
     const { title, description, toolbar, ...rest } = meta.dialog
 
     yield put(
@@ -167,13 +167,13 @@ export function* userDialogEffect({ meta }: { meta: IUserDialogEffect }) {
     )
 }
 
-interface IClearEffect {
+interface ClearEffect {
     meta: {
         clear: string
-        redirect: IRedirect
+        redirect: Redirect
     }
 }
-export function* clearEffect(action: IClearEffect) {
+export function* clearEffect(action: ClearEffect) {
     const { meta } = action
 
     const redirect = get(meta, 'redirect', null)
@@ -185,14 +185,14 @@ export function* clearEffect(action: IClearEffect) {
     yield clearOnSuccessEffect(action)
 }
 
-interface IDataSourcesRegister {
+interface DataSourcesRegister {
     payload: {
         menu: {
             datasources: string[]
         }
     }
 }
-function* dataSourcesRegister(action: IDataSourcesRegister) {
+function* dataSourcesRegister(action: DataSourcesRegister) {
     const datasources = get(action, 'payload.menu.datasources')
 
     if (isEmpty(datasources)) {

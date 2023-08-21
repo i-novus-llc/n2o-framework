@@ -1,10 +1,10 @@
 import { Action } from '../Action'
 
-import { IRegion } from './Regions'
+import { Region } from './Regions'
 
 export type RegisterRegionPayload = {
     regionId: string
-    regionState: IRegion
+    regionState: Region
 }
 
 export type SetActiveRegionEntityPayload = {

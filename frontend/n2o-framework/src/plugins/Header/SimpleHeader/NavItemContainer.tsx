@@ -5,20 +5,20 @@ import { ButtonDropdownProps } from 'reactstrap'
 // @ts-ignore ignore import error from js file
 import { WithDataSource } from '../../../core/datasource/WithDataSource'
 import { getFromSource, metaPropsType } from '../../utils'
-import { IDataSourceModels } from '../../../core/datasource/const'
+import { DataSourceModels } from '../../../core/datasource/const'
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
-import { IItem, IFactoryComponent } from '../../CommonMenuTypes'
+import { Item, FactoryComponent } from '../../CommonMenuTypes'
 
-interface INavItemContainer {
-    itemProps: IItem
+interface NavItemContainerProps {
+    itemProps: Item
     active: boolean
     datasources: metaPropsType[]
-    models: IDataSourceModels
+    models: DataSourceModels
     direction: ButtonDropdownProps['direction']
 }
 
-const NavItemContainer = (props: INavItemContainer) => {
+const NavItemContainer = (props: NavItemContainerProps) => {
     const { itemProps, active, datasources, models, direction } = props
     const datasource = get(itemProps, 'datasource')
 
@@ -26,7 +26,7 @@ const NavItemContainer = (props: INavItemContainer) => {
     const { src } = item
 
     const { getComponent } = useContext(FactoryContext)
-    const FactoryComponent: IFactoryComponent = getComponent(src, FactoryLevels.HEADER_ITEMS)
+    const FactoryComponent: FactoryComponent = getComponent(src, FactoryLevels.HEADER_ITEMS)
 
     if (!FactoryComponent) {
         return null

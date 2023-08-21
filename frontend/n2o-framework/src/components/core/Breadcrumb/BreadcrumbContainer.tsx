@@ -4,14 +4,14 @@ import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
 import { useModel } from '../hooks/useModel'
 
-import { IBreadcrumbContainer } from './const'
+import { BreadcrumbContainer as BreadcrumbContainerProps } from './const'
 import { breadcrumbResolver } from './breadcrumbResolver'
 
 export function BreadcrumbContainer({
     modelPrefix,
     datasource,
     breadcrumb = [],
-}: IBreadcrumbContainer): JSX.Element | null {
+}: BreadcrumbContainerProps): JSX.Element | null {
     const { getComponent } = useContext(FactoryContext)
     const FactoryBreadcrumb = getComponent('DefaultBreadcrumb', FactoryLevels.BREADCRUMBS)
     const model = useModel(datasource, modelPrefix)

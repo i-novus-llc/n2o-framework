@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 
-import { ICrumb } from './const'
+import { Crumb as CrumbProps } from './const'
 
 export function Crumb({
     label,
     path,
-}: ICrumb): ReactElement | null {
+}: CrumbProps): ReactElement | null {
     if (!label) {
         return null
     }

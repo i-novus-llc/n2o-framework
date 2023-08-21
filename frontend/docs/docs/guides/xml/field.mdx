@@ -15,9 +15,9 @@ http://n2oapp.net/framework/config/schema/control-3.0
 
 **Атрибуты**
 
-|Наименование  |Тип               |Описание                                                  |Значение по умолчанию                                                                                |
-|--------------|------------------|----------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-|id            |Строка            |Идентификатор поля                                        |                                                                                                     |
+|Наименование  |Тип               |Описание                                                  |Значение по умолчанию                                                                                |Обязательность
+|--------------|------------------|----------------------------------------------------------|-----------------------------------------------------------------------------------------------------|----------------
+|id            |Строка            |Идентификатор поля                                        |                                                                                                     |!
 |help          |Строка            |Подсказка по полю                                         |                                                                                                     |
 |label         |Строка            |Заголовок поля                                            |Из наименования соответствующего поля выборки виджета                                                |
 |label-class   |Строка            |Класс для заголовка поля                                  |                                                                                                     |
@@ -31,7 +31,7 @@ http://n2oapp.net/framework/config/schema/control-3.0
 |visible       |true false        |Видимость поля. Поддерживаются плейсхолдеры условия.      |true                                                                                                 |
 |enabled       |true false        |Доступность поля. Поддерживаются плейсхолдеры условия.    |true                                                                                                 |
 |description   |Строка            |Описание поля                                             |                                                                                                     |
-|copied        |true false        |Копируется ли это поле при upload="copy"                  |false                                                                                                |
+|copied        |true false        |Копируется ли это поле при default-values-mode="merge"    |true                                                                                                |
 |depends-on    |Строка            |Зависимость от полей                                      |                                                                                                     |
 |param         |Строка            |Параметр в URL для значение по умолчанию                  |                                                                                                     |
 |ref-model     |resolve edit filter multi datasource |Модель, в которой будет инициализация значения |resolve                                                                                      |
@@ -91,13 +91,8 @@ n2o.api.control.alert.close_button=false
 
 
 
-
-
 ### &lt;button&gt;
 [Кнопка](../xml/button)
-
-
-
 
 
 
@@ -122,10 +117,6 @@ n2o.api.control.checkbox.unchecked=null
 <checkbox id="vip" unchecked="false"/>
 ```
 <Sandbox height={150} projectId="uxcomponents_checkbox_simple"/>
-
-
-
-
 
 
 
@@ -169,8 +160,6 @@ n2o.api.control.code.hide_buttons=false
 
 
 
-
-
 ### &lt;code-editor&gt;
 
 Компонент редактирования кода
@@ -194,10 +183,6 @@ n2o.api.control.code_editor.min_lines=5
 <code-editor id="editor" language="java"/>
 ```
 <Sandbox height={200} projectId="uxcomponents_fields_code_editor" />
-
-
-
-
 
 
 
@@ -234,24 +219,40 @@ n2o.api.control.date_time.domain=date
 
 
 ### &lt;field&gt;
-
 Произвольный React компонент.
+
+**Тело**<br/>
+&lt;controls&gt; - [Список произвольных полей](#controls)
+
+
+
+#### &lt;controls&gt;
+Список произвольных полей.
+
+**Тело**<br/>
+&lt;control&gt; - [Произвольное поле](#control)
+
+
+
+#### &lt;control&gt;
+Произвольное поле.
 
 **Атрибуты**
 
-|Наименование|Тип            |Описание             |Значение по умолчанию|
-|------------|---------------|---------------------|---------------------|
-|src         |Строка         |React компонент      |                     |
+|Наименование|Тип    |Описание             |Значение по умолчанию|Обязательность
+|------------|-------|---------------------|---------------------|--------------
+|id          |Строка |Идентификатор поля   |                     |!
+|src         |Строка |React компонент поля |                     |
+
 
 **Пример**
 ```xml
-<field src="MyControl"
-       ext:prop1="value1"
-       ext:prop2="value2"/>
+<field src="MyControl">
+    <controls>
+        <control id="id1"></control>
+    </controls>
+</field>
 ```
-
-
-
 
 
 
@@ -290,8 +291,6 @@ n2o.api.control.date_time.domain=date
 
 
 
-
-
 ### &lt;hidden&gt;
 
 Скрытое поле, в основном используется для вычисления различных значений, которые не надо показывать пользователю.
@@ -308,7 +307,6 @@ n2o.api.control.date_time.domain=date
     </dependencies>
 </hidden>
 ```
-
 
 
 
@@ -377,6 +375,7 @@ n2o.api.field.image.width=
 <Sandbox height={200} projectId="uxcomponents_image_image" />
 
 
+
 #### &lt;actions&gt;
 
 Список действий.
@@ -399,10 +398,10 @@ n2o.api.field.image.width=
 
 **Атрибуты**
 
-|Наименование|Тип                                       |Описание                  |Значение по умолчанию|
-|------------|------------------------------------------|--------------------------|---------------------|
+|Наименование|Тип                                       |Описание                  |Значение по умолчанию|Обязательность
+|------------|------------------------------------------|--------------------------|---------------------|--------------
 |src         |Строка                                    |React компонент статуса   |Status               |
-|field-id    |Строка                                    |Поле с данными для статуса|                     |
+|field-id    |Строка                                    |Поле с данными для статуса|                     |!
 |icon        |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Иконка статуса   |                     |
 |place       |topLeft topRight bottomLeft bottomRight   |Расположение статуса      |topLeft              |
 
@@ -417,8 +416,6 @@ n2o.api.field.image.width=
         />
 </statuses>
 ```
-
-
 
 
 
@@ -489,7 +486,6 @@ n2o.api.control.image_upload.height=
 
 
 
-
 ### &lt;input-money&gt;
 
 Компонент ввода денежных единиц
@@ -524,23 +520,21 @@ n2o.api.control.input_money.suffix=
 
 
 
-
-
 ### &lt;input-text&gt;
 
 Компонент ввода однострочного текста или чисел
 
 **Атрибуты**
 
-|Наименование|Тип                                  |Описание                                                                                                                              |Значение по умолчанию                                          |
-|------------|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-|domain      |string integer numeric byte short|Тип данных                                                                                                                            |                                                               |
-|precision   |Число                                |Максимальная длина дробной части (используется только для domain="numeric")                                                           |8                                                              |
-|length      |Число                                |Максимальное количество символов в тексте (используется только для domain="string")                                                   |                                                               |
-|max         |Число                                |Максимальное допустимое число (используется только для числовых domain)                                                               |                                                               |
-|min         |Число                                |Минимальное допустимое число (используется только для числовых domain)                                                                |                                                               |
-|step        |Строка                               |Шаг инкремента / декремента чисел (используется только для числовых domain). Если step="0", то кнопки "вверх вниз" будут отсутствовать|Для domain целых чисел step="1", для domain numeric step="0.01"|
-|measure     |Строка                               |Единица измерения                                                                                                                     |                                                               |
+|Наименование|Тип                                        |Описание                                                                                                                              |Значение по умолчанию                                          |
+|------------|-------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+|domain      |[Тип данных](../xml/base#Data_types_domain)|Тип данных                                                                                                                            |                                                               |
+|precision   |Число                                      |Максимальная длина дробной части (используется только для domain="numeric")                                                           |8                                                              |
+|length      |Число                                      |Максимальное количество символов в тексте (используется только для domain="string")                                                   |                                                               |
+|max         |Число                                      |Максимальное допустимое число (используется только для числовых domain)                                                               |                                                               |
+|min         |Число                                      |Минимальное допустимое число (используется только для числовых domain)                                                                |                                                               |
+|step        |Строка                                     |Шаг инкремента / декремента чисел (используется только для числовых domain). Если step="0", то кнопки "вверх вниз" будут отсутствовать|Для domain целых чисел step="1", для domain numeric step="0.01"|
+|measure     |Строка                                     |Единица измерения                                                                                                                     |                                                               |
 
 **Настройки**
 ```yaml
@@ -549,12 +543,12 @@ n2o.api.control.input.text.precision=8
 ```
 
 **Пример**
-
 ```xml
 <input-text id="name" length="10" domain="string"/>
 ```
 
 <Sandbox height={100} projectId="uxcomponents_fields_input" />
+
 
 
 ### &lt;markdown&gt;
@@ -632,9 +626,9 @@ n2o.api.control.input.text.precision=8
 
 **Атрибуты**
 
-|Наименование |Тип       |Описание                            |Значение по умолчанию|
-|-------------|----------|------------------------------------|---------------------|
-|mask         |Строка    |Маска текста                        |                     |
+|Наименование |Тип       |Описание                            |Значение по умолчанию|Обязательность
+|-------------|----------|------------------------------------|---------------------|----------------
+|mask         |Строка    |Маска текста                        |                     |!
 |measure      |Строка    |Единица измерения                   |                     |
 |clear-on-blur|true false|Стирать ли значение при уходе с поля|true                 |
 
@@ -649,8 +643,6 @@ n2o.api.control.masked_input.clear_on_blur=true
 <masked-input id="phone" mask="+7 (999) 999-99-99"/>
 ```
 <Sandbox height={100} projectId="uxcomponents_fields_masked_input" />
-
-
 
 
 
@@ -681,12 +673,6 @@ n2o.api.control.number_picker.step=1
 <number-picker id="count" min="2" max="10"/>
 ```
 <Sandbox height={220} projectId="uxcomponents_fields_number_picker" />
-
-
-
-
-
-
 
 
 
@@ -728,11 +714,6 @@ n2o.api.control.output_list.separator=' '
 
 
 
-
-
-
-
-
 ### &lt;output-text&gt;
 
 Компонент вывода однострочного текста
@@ -766,8 +747,6 @@ n2o.api.control.output_text.expandable=false
 
 
 
-
-
 ### &lt;password&gt;
 
 Компонент ввода пароля
@@ -792,16 +771,15 @@ n2o.api.control.password.eye=true
 
 
 
-
 ### &lt;progress&gt;
 
 Компонент отображения прогресса
 
 **Атрибуты**
 
-|Наименование|Тип       |Описание                                           |Значение по умолчанию|
-|------------|----------|---------------------------------------------------|---------------------|
-|max         |Число     |Максимальное значение                              |                     |
+|Наименование|Тип       |Описание                                           |Значение по умолчанию|Обязательность
+|------------|----------|---------------------------------------------------|---------------------|-------------
+|max         |Число     |Максимальное значение                              |                     |!
 |bar-text    |Строка    |Описание шкалы прогресса                           |                     |
 |animated    |true false|Включает анимацию. При включении отображает полоски|false                |
 |striped     |true false|Отображение полосок на шкале прогресса             |false                |
@@ -821,7 +799,6 @@ n2o.api.control.progress.striped=false
 <progress id="progress" max="100" color="info"/>
 ```
 <Sandbox height={100} projectId="uxcomponents_progress_progress" />
-
 
 
 
@@ -853,6 +830,8 @@ n2o.api.control.rating.half=false
 
 <Sandbox height={100} projectId="uxcomponents_rating_rating" />
 
+
+
 ### &lt;search-buttons&gt;
 
 На открываемой странице будут добавлены кнопки "Найти" и "Сбросить".
@@ -880,6 +859,8 @@ n2o.api.control.search_buttons.fetch_on_clear=true
 ```xml
 <search-buttons id="search" clear-ignore="name,surname"/>
 ```
+
+
 
 ### &lt;slider&gt;
 
@@ -916,16 +897,18 @@ n2o.api.control.slider.step=1
 
 <Sandbox height={100} projectId="uxcomponents_slider_slider" />
 
+
+
 ### &lt;status&gt;
 
 Компонент отображения статуса
 
 **Атрибуты**
 
-|Наименование |Тип       |Описание           |Значение по умолчанию|
-|-------------|----------|-------------------|---------------------|
+|Наименование |Тип       |Описание           |Значение по умолчанию|Обязательность
+|-------------|----------|-------------------|---------------------|--------------
 |color        |primary secondary success danger warning info light dark|Цвет индикатора|
-|text         |Строка    |Текст статуса      |                     |
+|text         |Строка    |Текст статуса      |                     |!
 |text-position|left right|Расположение текста|right                |
 
 **Настройки**
@@ -939,9 +922,6 @@ n2o.api.control.status.text_position=right
 <status id="status" color="success" text="Задача выполнена"/>
 ```
 <Sandbox height={150} projectId="uxcomponents_fields_status" />
-
-
-
 
 
 
@@ -968,7 +948,6 @@ n2o.api.control.status.text_position=right
 
 
 
-
 ### &lt;text-area&gt;
 
 Компонент ввода многострочного текста
@@ -988,7 +967,6 @@ n2o.api.control.status.text_position=right
 
 
 
-
 ### &lt;text-editor&gt;
 
 Компонент редактирования текста
@@ -1004,8 +982,6 @@ n2o.api.control.status.text_position=right
 <text-editor id="editor" toolbar-url="META-INF/resources/toolbar.json"/>
 ```
 <Sandbox height={200} projectId="uxcomponents_fields_text_editor" />
-
-
 
 
 
@@ -1037,8 +1013,6 @@ n2o.api.control.time_picker.format=symbols
 <time-picker id="test1" prefix="from: " format="digit" mode="hours,minutes" time-format="hh:mm"/>
 ```
 <Sandbox height={400} projectId="uxcomponents_date_time_time" />
-
-
 
 
 
@@ -1091,6 +1065,8 @@ n2o.api.control.button.badge.image_shape=circle
 &lt;options&gt; - [Список вариантов для выбора](#options)<br/>
 &lt;filters&gt; - [Предустановленные фильтры выборки спискового компонента](#filters_in_field)
 
+
+
 #### &lt;default-value&gt;
 
 Значение по умолчанию спискового компонента
@@ -1113,6 +1089,8 @@ n2o.api.control.button.badge.image_shape=circle
 </select>
 ```
 
+
+
 #### &lt;options&gt;
 
 Список вариантов для выбора
@@ -1128,6 +1106,8 @@ n2o.api.control.button.badge.image_shape=circle
 ```
 **Тело**<br/>
 &lt;option&gt; - [Вариант выбора](#option)<br/>
+
+
 
 ##### &lt;option&gt;
 
@@ -1148,6 +1128,8 @@ n2o.api.control.button.badge.image_shape=circle
   <option id="2" name="Женский"/>
 </options>
 ```
+
+
 
 #### &lt;filters&gt; {#filters_in_field}
 Предустановленные фильтры выборки спискового компонента.
@@ -1205,8 +1187,6 @@ n2o.api.control.auto_complete.value_field_id=name
 
 
 
-
-
 ### &lt;checkbox-group&gt;
 
 Компонент группы чекбоксов
@@ -1231,9 +1211,6 @@ n2o.api.control.checkbox_group.type=default
 <checkbox-group id="gender" inline="false" type="default"/>
 ```
 <Sandbox height={200} projectId="uxcomponents_checkbox_group" />
-
-
-
 
 
 
@@ -1274,16 +1251,15 @@ n2o.api.control.input_select.search_min_length=0
 
 
 
-
 ### &lt;input-select-tree&gt;
 
-Компонент ввода с выбором в выпадающем списке в виде дерева
+Компонент ввода с выбором в выпадающем списке в виде дерева.
 
 **Атрибуты**
 
-|Наименование         |Тип               |Описание                                                                          |Значение по умолчанию|
-|---------------------|------------------|----------------------------------------------------------------------------------|---------------------|
-|parent-field-id      |Строка            |Идентификатор родительского поля                                                  |                     |
+|Наименование         |Тип               |Описание                                                                          |Значение по умолчанию|Обязательность
+|---------------------|------------------|----------------------------------------------------------------------------------|---------------------|--------------
+|parent-field-id      |Строка            |Идентификатор родительского поля                                                  |                     |!
 |has-children-field-id|Строка            |Наличие дочерних элементов.                                                       |                     |
 |master-field-id      |Строка            |Идентификатор master поля                                                         |                     |
 |detail-field-id      |Строка            |Идентификатор detail поля                                                         |                     |
@@ -1322,7 +1298,6 @@ n2o.api.control.input_select_tree.search_min_length=0
                    query-id="address" has-children-field-id="hasChildren" search-filter-id="name"/>
 ```
 <Sandbox height={400} projectId="uxcomponents_select_tree_tree" />
-
 
 
 
@@ -1388,13 +1363,11 @@ n2o.api.control.select.cleanable=true
 
 
 
-
-
-
-
 ## Интервальные компоненты {#Interval_components}
 
 Базовые свойства интервальных компонентов
+
+
 
 #### &lt;default-value&gt;
 
@@ -1415,6 +1388,8 @@ n2o.api.control.select.cleanable=true
   <default-value begin="01.01.2019" end="31.12.2019"/>
 </date-interval>
 ```
+
+
 
 ### &lt;date-interval&gt;
 
@@ -1446,6 +1421,8 @@ n2o.api.control.date_interval.utc=false
 
 <Sandbox height={400} projectId="uxcomponents_date_time_date_interval" />
 
+
+
 ### &lt;interval-field&gt;
 
 Компонент интервала
@@ -1454,12 +1431,16 @@ n2o.api.control.date_interval.utc=false
 &lt;begin&gt; - [Компонент начала интервала](#begin)<br/>
 &lt;end&gt; - [Компонент конца интервала](#end)
 
+
+
 #### &lt;begin&gt;
 
 Компонент начала интервала
 
 **Тело**<br/>
 [Поле ввода](#Input_fields)
+
+
 
 #### &lt;end&gt;
 
@@ -1504,9 +1485,6 @@ n2o.api.control.date_interval.utc=false
 n2o.api.control.dependency.apply_on_init=true
 ```
 
-
-
-
 **Тело**<br/>
 &lt;enabling&gt; - [Условие доступности](#enabling)<br/>
 &lt;fetch&gt; - [Обновление модели компонента при изменении зависимых полей](#fetch)<br/>
@@ -1516,7 +1494,6 @@ n2o.api.control.dependency.apply_on_init=true
 &lt;set-value&gt; - [Условие установки значений](#set-value)<br/>
 &lt;visibility&gt; - [Условие видимости](#visibility)
 
-
 **Пример**
 ```xml
 <input-text id="name">
@@ -1525,6 +1502,7 @@ n2o.api.control.dependency.apply_on_init=true
   </dependencies>
 </input-text>
 ```
+
 
 
 ### &lt;enabling&gt;
@@ -1561,16 +1539,15 @@ Java Script выражение.
 
 
 
-
 ### &lt;fetch-value&gt;
 
 Обновление модели поля ввода
 
 **Атрибуты**
 
-|Наименование  |Тип   |Описание                                                             |Значение по умолчанию |
-|--------------|------|---------------------------------------------------------------------|----------------------|
-|query-id      |Строка|Запрос данных                                                 |                      |
+|Наименование  |Тип   |Описание                                                             |Значение по умолчанию |Обязательность
+|--------------|------|---------------------------------------------------------------------|----------------------|--------------
+|query-id      |Строка|Идентификатор выборки                                                |                      |!
 |value-field-id|Строка|Поле выборки, значение которого будет проставлено в модель поля ввода|Вся модель            |
 |size          |Число |Количество возвращаемых записей                                      |                      |
 
@@ -1605,7 +1582,6 @@ Java Script выражение.
   <!-- Поле обязательно для заполнения, если type.id равен 1 -->
 </dependencies>
 ```
-
 
 
 
@@ -1675,8 +1651,6 @@ Java Script выражение.
 
 
 
-
-
 ## Валидации компонента
 
 ### &lt;validations&gt;
@@ -1698,11 +1672,15 @@ Java Script выражение.
 **Тело**<br/>
 [Список валидаций](../xml/object#validations3)
 
+
+
 ## Действие обновления компонента
 
 ### &lt;submit&gt;
 
 [Действие обновления компонента](#fetch)
+
+
 
 ## Меню управляющих кнопок
 

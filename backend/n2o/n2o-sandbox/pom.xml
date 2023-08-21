@@ -13,10 +13,6 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <properties>
-        <mockito.version>3.8.0</mockito.version>
-    </properties>
-
     <dependencies>
 
         <dependency>

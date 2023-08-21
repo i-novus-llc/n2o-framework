@@ -9,8 +9,8 @@ import { setModel } from '../../models/store'
 import { generateErrorMeta } from '../../../utils/generateErrorMeta'
 import { id as generateId } from '../../../utils/id'
 import { ModelPrefix } from '../../../core/datasource/const'
-import { IMeta, IValidationFieldMessage } from '../../../sagas/types'
-import { ValidationsKey } from '../../../core/validation/IValidation'
+import { Meta, ValidationFieldMessage } from '../../../sagas/types'
+import { ValidationsKey } from '../../../core/validation/types'
 import { dataSourceByIdSelector } from '../selectors'
 import {
     failValidate,
@@ -19,7 +19,7 @@ import {
     startValidate,
     setAdditionalInfo,
 } from '../store'
-import type { IProvider, QueryResult, Query } from '../Provider'
+import type { Provider, QueryResult, Query } from '../Provider'
 import { ProviderType } from '../Provider'
 import { query as serviceQuery } from '../Providers/Service'
 import { query as storageQuery } from '../Providers/Storage'
@@ -30,14 +30,14 @@ import type { DataSourceState } from '../DataSource'
 import { validate } from './validate'
 
 function getQuery<
-    TProvider extends IProvider,
+    TProvider extends Provider,
     TProviderType extends ProviderType = TProvider['type']
 >(provider: TProviderType): Query<TProvider> {
     switch (provider) {
         case undefined:
-        case ProviderType.service: { return serviceQuery as unknown as Query<IProvider> }
-        case ProviderType.storage: { return storageQuery as unknown as Query<IProvider> }
-        case ProviderType.inherited: { return inheritedQuery as unknown as Query<IProvider> }
+        case ProviderType.service: { return serviceQuery as unknown as Query<Provider> }
+        case ProviderType.storage: { return storageQuery as unknown as Query<Provider> }
+        case ProviderType.inherited: { return inheritedQuery as unknown as Query<Provider> }
         default: { return () => { throw new Error(`hasn't implementation for provider type: "${provider}`) } }
     }
 }
@@ -86,11 +86,11 @@ export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknow
         // @ts-ignore Проблема с типизацией
         yield put(resolveRequest(id, response))
     } catch (error) {
-        const err = error as { message: string, stack: string, json?: { meta: IMeta} }
+        const err = error as { message: string, stack: string, json?: { meta: Meta} }
         const errorMeta = err?.json?.meta || {}
 
         if (errorMeta.messages) {
-            const fields: Record<string, IValidationFieldMessage[]> = {}
+            const fields: Record<string, ValidationFieldMessage[]> = {}
 
             for (const [fieldName, error] of Object.entries(errorMeta.messages.fields)) {
                 fields[fieldName] = Array.isArray(error) ? error : [error]

@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.metadata.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
@@ -18,7 +18,7 @@ import java.util.Set;
 @Setter
 public class QueryContext extends BaseCompileContext<CompiledQuery, N2oQuery> {
     private List<Filter> filters;
-    private UploadType upload;
+    private DefaultValuesMode mode;
     private List<Validation> validations;
     private String messagesForm;
     private Integer querySize;

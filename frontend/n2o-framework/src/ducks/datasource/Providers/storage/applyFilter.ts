@@ -5,7 +5,7 @@ import get from 'lodash/get'
 import evalExpression, { parseExpression } from '../../../../utils/evalExpression'
 import { getModelFieldByPath } from '../../../models/selectors'
 import { State } from '../../../State'
-import { IFilter, FilterType } from '../../Provider'
+import { Filter, FilterType } from '../../Provider'
 
 function equal(valueFromItem: unknown, valueFromFilter: unknown) {
     return isEqual(valueFromItem, valueFromFilter)
@@ -15,7 +15,7 @@ const FilterFn: Record<FilterType, typeof equal> = {
     [FilterType.Equal]: equal,
 }
 
-export function resolveValueByFilter({ value, link }: IFilter, state: State): unknown {
+export function resolveValueByFilter({ value, link }: Filter, state: State): unknown {
     if (!link) {
         return value
     }
@@ -26,13 +26,13 @@ export function resolveValueByFilter({ value, link }: IFilter, state: State): un
     return expression ? evalExpression(expression, modelByLink) : modelByLink
 }
 
-export function applyFilter<TData>(state: State, list: TData[], filters?: IFilter[]) {
+export function applyFilter<TData>(state: State, list: TData[], filters?: Filter[]) {
     if (isEmpty(filters)) {
         return list
     }
 
     return list
-        .filter(item => (filters as IFilter[])
+        .filter(item => (filters as Filter[])
             .every((filter) => {
                 const { type, fieldId } = filter
 

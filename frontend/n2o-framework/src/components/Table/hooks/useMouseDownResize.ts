@@ -1,11 +1,11 @@
 import { MouseEvent as HtmlElementMouseEvent, MutableRefObject, RefObject, useCallback } from 'react'
 
-type TResizableElement<T> = RefObject<T> | MutableRefObject<T | undefined>
+type ResizableElement<T> = RefObject<T> | MutableRefObject<T | undefined>
 
 /**
  * Функция принимает HTMlElement и возвращает функцию, что будет менять размер переданного элемента
  */
-export const useMouseDownResize = <T extends HTMLElement>(resizableElement: TResizableElement<T>) => (
+export const useMouseDownResize = <T extends HTMLElement>(resizableElement: ResizableElement<T>) => (
     useCallback((event: HtmlElementMouseEvent) => {
         const cell = resizableElement.current
 

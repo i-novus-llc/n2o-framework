@@ -1,11 +1,11 @@
 import type { ModelPrefix, SortDirection } from '../../core/datasource/const'
-import type { IValidationResult } from '../../core/validation/IValidation'
-import { IActionMeta } from '../../sagas/types'
-import { ValidationsKey } from '../../core/validation/IValidation'
+import type { ValidationResult } from '../../core/validation/types'
+import { ActionMeta } from '../../sagas/types'
+import { ValidationsKey } from '../../core/validation/types'
 import { Action, Meta } from '../Action'
 
 import type { DataSourceState } from './DataSource'
-import type { IProvider, ISubmit, QueryResult } from './Provider'
+import type { Provider, ISubmit, QueryResult } from './Provider'
 
 export interface DatasourcePayload {
     id: string
@@ -86,16 +86,16 @@ export type StartValidateAction = DatasourceAction<{
 export type FailValidateAction = DatasourceAction<{
     id: string
     prefix: ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter
-    fields: Record<string, IValidationResult[]>
+    fields: Record<string, ValidationResult[]>
 }, { touched: boolean }>
 
 export type SetFieldSubmitAction = DatasourceAction<{
     id: string
     field: string
-    provider: IProvider
+    provider: Provider
 }>
 
 export type SubmitAction = DatasourceAction<{
     id: string
     provider?: ISubmit
-}, IActionMeta>
+}, ActionMeta>

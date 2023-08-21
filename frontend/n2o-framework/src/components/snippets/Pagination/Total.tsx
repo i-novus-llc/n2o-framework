@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { Select } from './Select'
-import { ITotal } from './constants'
+import { Total as TotalProps } from './constants'
 
-export function Total(props: ITotal) {
+export function Total(props: TotalProps) {
     const { total, title, className, onClick, visible } = props
 
     if (!visible) {

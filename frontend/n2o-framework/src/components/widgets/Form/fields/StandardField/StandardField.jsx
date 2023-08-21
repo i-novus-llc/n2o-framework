@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import omit from 'lodash/omit'
 
+import { EventHandlersContext } from '@i-novus/n2o-components/lib/inputs/eventHandlersContext'
+
 import Toolbar from '../../../../buttons/Toolbar'
 import { Spinner } from '../../../../snippets/Spinner/Spinner'
 
@@ -47,6 +49,8 @@ import { FieldActionsPropTypes } from './FieldPropTypes'
  *             style={display: 'inline-block'}/>
  */
 class StandardField extends React.Component {
+    static contextType = EventHandlersContext
+
     render() {
         const {
             id,
@@ -151,6 +155,7 @@ class StandardField extends React.Component {
                                 visible={visible}
                                 autoFocus={autoFocus}
                                 value={value}
+                                {...this.context}
                                 onBlur={onBlur}
                                 onFocus={onFocus}
                                 onChange={onChange}

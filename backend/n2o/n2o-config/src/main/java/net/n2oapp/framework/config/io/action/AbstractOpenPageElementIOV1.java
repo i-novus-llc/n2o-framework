@@ -3,12 +3,12 @@ package net.n2oapp.framework.config.io.action;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
-import net.n2oapp.framework.api.metadata.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 
@@ -26,7 +26,7 @@ public abstract class AbstractOpenPageElementIOV1<T extends N2oAbstractPageActio
         p.attribute(e, "submit-label", op::getSubmitLabel, op::setSubmitLabel);
         p.attributeEnum(e, "submit-model", op::getSubmitModel, op::setSubmitModel, ReduxModel.class);
         p.attribute(e, "object-id", op::getObjectId, op::setObjectId);
-        p.attributeEnum(e, "upload", op::getUpload, op::setUpload, UploadType.class);
+        p.attributeEnum(e, "upload", op::getMode, op::setMode, DefaultValuesMode.class);
         p.attribute(e, "master-field-id", op::getMasterFieldId, op::setMasterFieldId);
         p.attribute(e, "detail-field-id", op::getDetailFieldId, op::setDetailFieldId);
         p.attribute(e, "master-param", op::getMasterParam, op::setMasterParam);

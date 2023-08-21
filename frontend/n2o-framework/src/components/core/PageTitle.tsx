@@ -6,7 +6,7 @@ import { ModelPrefix } from '../../core/datasource/const'
 import { useModel } from './hooks/useModel'
 import { textResolver } from './textResolver'
 
-interface IPageTitle {
+interface PageTitleProps {
     title?: string,
     htmlTitle?: string,
     className?: string,
@@ -23,7 +23,7 @@ export function PageTitle({
     className,
     datasource,
     titleLayout = true,
-}: IPageTitle) {
+}: PageTitleProps) {
     const model = useModel(datasource, modelPrefix)
 
     if (title) {

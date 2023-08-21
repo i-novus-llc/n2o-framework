@@ -2,7 +2,7 @@ import React, { useMemo, VFC } from 'react'
 
 import { TableWidgetContainerProps } from '../types/props'
 import { TableActionsProvider } from '../provider/TableActions'
-import { SelectionType } from '../enum'
+import { Selection } from '../enum'
 import { getAllValuesByKey } from '../utils'
 import { TableRefProps } from '../provider/TableRefProps'
 
@@ -24,10 +24,11 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
         selectedRows,
         actionListener,
         errorComponent,
+        EmptyContent,
     } = props
     const { width, height, rowSelection, body, header } = tableConfig
     const areAllRowsSelected = useMemo(() => {
-        if (rowSelection === SelectionType.Checkbox && data.length) {
+        if (rowSelection === Selection.Checkbox && data.length) {
             const allRowsId = getAllValuesByKey(data, { keyToIterate: 'children', keyToExtract: 'id' })
 
             return allRowsId.every(id => selectedRows.includes(id))
@@ -56,7 +57,9 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
                             areAllRowsSelected={areAllRowsSelected}
                         />
 
-                        {errorComponent || (
+                        {errorComponent ? (
+                            <Table.Cell colSpan={cells.body.length}>{errorComponent}</Table.Cell>
+                        ) : (
                             <TableBody
                                 hasSecurityAccess={hasSecurityAccess}
                                 focusedRowValue={focusedRowValue}
@@ -71,6 +74,10 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
                                 data={data}
                             />
                         )}
+
+                        {!errorComponent && EmptyContent && data.length === 0 ? (
+                            <Table.Cell colSpan={cells.body.length}>{EmptyContent}</Table.Cell>
+                        ) : null}
                     </Table>
                 </div>
             </TableActionsProvider>

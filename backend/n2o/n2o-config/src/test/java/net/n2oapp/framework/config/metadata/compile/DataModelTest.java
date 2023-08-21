@@ -15,8 +15,8 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 
@@ -63,7 +63,7 @@ public class DataModelTest {
             if (data.get("id").equals(123))
                 data.put("name", "Joe");
             return null;
-        }).when(p).executeSubModels(anyListOf(SubModelQuery.class), anyObject());
+        }).when(p).executeSubModels(anyList(), any());
 
         DataModel model = new DataModel();
         ModelLink link = new ModelLink(ReduxModel.resolve, "widget", "id");

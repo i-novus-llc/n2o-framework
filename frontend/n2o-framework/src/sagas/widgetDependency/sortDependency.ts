@@ -3,9 +3,9 @@ import isEmpty from 'lodash/isEmpty'
 
 import { metaPropsType } from '../../plugins/utils'
 
-import { IDependencies } from './WidgetTypes'
+import { Dependencies } from './WidgetTypes'
 
-export const sortDependency = (dependency: IDependencies) => {
+export const sortDependency = (dependency: Dependencies) => {
     const tmpFetch: metaPropsType = {}
     let newDependency: metaPropsType = {}
 

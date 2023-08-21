@@ -33,7 +33,7 @@ public class TestCacheWriter implements CacheWriter {
 
     @Override
     public void write(Element element) throws CacheException {
-        System.out.println("writer write:" + element.getValue());
+        System.out.println("writer write:" + element.getObjectValue());
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TestCacheWriter implements CacheWriter {
 
     @Override
     public void delete(CacheEntry entry) throws CacheException {
-        System.out.println("writer delete:" + entry.getElement().getValue());
+        System.out.println("writer delete:" + entry.getElement().getObjectValue());
     }
 
     @Override

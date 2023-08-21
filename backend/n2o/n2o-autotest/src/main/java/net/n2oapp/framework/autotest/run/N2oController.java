@@ -30,7 +30,7 @@ import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.ExportController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
-import net.n2oapp.framework.ui.controller.query.CopyValuesController;
+import net.n2oapp.framework.ui.controller.query.MergeValuesController;
 import net.n2oapp.framework.ui.controller.query.QueryController;
 import net.n2oapp.framework.ui.controller.query.SimpleDefaultValuesController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -184,7 +184,7 @@ public class N2oController {
                 subModelsProcessor, messageBuilder, environment, messagesConstructor));
         beans.put("operationController", new OperationController(dataProcessingStack,
                 operationProcessor, messageBuilder, environment, messagesConstructor));
-        beans.put("copyValuesController", new CopyValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
+        beans.put("mergeValuesController", new MergeValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
                 messageBuilder, environment));
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,
                 subModelsProcessor, messageBuilder, environment));

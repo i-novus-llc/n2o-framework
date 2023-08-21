@@ -13,7 +13,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
-import net.n2oapp.framework.api.metadata.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
@@ -252,7 +251,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         queryContext.setValidations(validations);
         queryContext.setFilters(filters);
         if (source.getDefaultValuesMode() != null)
-            queryContext.setUpload(UploadType.values()[source.getDefaultValuesMode().ordinal()]);
+            queryContext.setMode(source.getDefaultValuesMode());
         queryContext.setMessagesForm(compiled.getId());
         SubModelsScope subModelsScope = p.getScope(SubModelsScope.class);
         if (subModelsScope != null) {

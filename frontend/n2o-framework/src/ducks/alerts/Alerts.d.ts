@@ -1,9 +1,9 @@
-import { KeyType, SeverityType, PLACEMENT } from './constants'
+import { Key, Severity, PLACEMENT } from './constants'
 
-export interface IAlert {
+export interface Alert {
     id: string
     title?: string
-    severity: SeverityType
+    severity: Severity
     text?: string
     timeout?: number
     closeButton: boolean
@@ -12,7 +12,7 @@ export interface IAlert {
     modelLink?: string
 }
 
-export interface IConfig {
+export interface Config {
     timeout: {
         error: number
         info: number
@@ -21,4 +21,4 @@ export interface IConfig {
     }
 }
 
-export type State = Partial<Record<KeyType, IAlert[]>>
+export type State = Partial<Record<Key, Alert[]>>

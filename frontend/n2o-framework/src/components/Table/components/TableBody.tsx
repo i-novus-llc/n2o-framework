@@ -1,7 +1,7 @@
 import React, { createContext, useMemo, VFC } from 'react'
 
 import { TableBodyProps } from '../types/props'
-import { SelectionType } from '../enum'
+import { Selection } from '../enum'
 
 import { SelectionCell } from './selection'
 import { Rows } from './Rows'
@@ -11,7 +11,7 @@ export const rowPropsContext = createContext(null)
 
 export const TableBody: VFC<TableBodyProps> = (props) => {
     const { cells, selection, row, ...otherProps } = props
-    const needSelectionComponent = selection === SelectionType.Radio || selection === SelectionType.Checkbox
+    const needSelectionComponent = selection === Selection.Radio || selection === Selection.Checkbox
     const resolvedCells = useMemo(() => {
         if (needSelectionComponent) {
             const selectionCellConfig = {

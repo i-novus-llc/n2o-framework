@@ -1,13 +1,13 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.action.UploadType;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public enum DefaultActions {
-    create(false, false, true, "n2o.create", true, "fa fa-plus", "n2o.save", "n2o.page.creating", UploadType.defaults),
-    update(true, true, "n2o.update", true, "fa fa-pencil", "n2o.save", "n2o.page.updating", UploadType.query),
+    create(false, false, true, "n2o.create", true, "fa fa-plus", "n2o.save", "n2o.page.creating", DefaultValuesMode.defaults),
+    update(true, true, "n2o.update", true, "fa fa-pencil", "n2o.save", "n2o.page.updating", DefaultValuesMode.query),
     delete(true, false, "n2o.delete", false, "fa fa-trash");
 
     private static final Map<String, DefaultActions> actionsByNameMap = new HashMap<>();
@@ -25,10 +25,10 @@ public enum DefaultActions {
     private String icon;
     private String formSubmitLabel;
     private String pageName;
-    private UploadType upload;
+    private DefaultValuesMode mode;
 
     DefaultActions(boolean context, boolean defaultAction, String label, boolean modal,
-                   String icon, String formSubmitLabel, String pageName, UploadType upload) {
+                   String icon, String formSubmitLabel, String pageName, DefaultValuesMode upload) {
         this.context = context;
         this.defaultAction = defaultAction;
         this.label = label;
@@ -36,11 +36,11 @@ public enum DefaultActions {
         this.icon = icon;
         this.formSubmitLabel = formSubmitLabel;
         this.pageName = pageName;
-        this.upload = upload;
+        this.mode = upload;
     }
 
     DefaultActions(boolean context, boolean defaultAction, boolean primary, String label, boolean modal,
-                   String icon, String formSubmitLabel, String pageName, UploadType upload) {
+                   String icon, String formSubmitLabel, String pageName, DefaultValuesMode upload) {
         this.context = context;
         this.defaultAction = defaultAction;
         this.primary = primary;
@@ -49,7 +49,7 @@ public enum DefaultActions {
         this.icon = icon;
         this.formSubmitLabel = formSubmitLabel;
         this.pageName = pageName;
-        this.upload = upload;
+        this.mode = upload;
     }
 
     DefaultActions(boolean context, boolean defaultAction, String label, boolean modal, String icon) {
@@ -96,7 +96,7 @@ public enum DefaultActions {
         return primary;
     }
 
-    public UploadType getUpload() {
-        return upload;
+    public DefaultValuesMode getMode() {
+        return mode;
     }
 }

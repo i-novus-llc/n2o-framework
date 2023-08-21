@@ -4,7 +4,7 @@ import { modelsSelector } from '../models/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
 import type { State as GlobalState } from '../State'
 import type { State as ModelsState } from '../models/Models'
-import { ValidationsKey } from '../../core/validation/IValidation'
+import { ValidationsKey } from '../../core/validation/types'
 import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 export const dataSourcesSelector = (state: GlobalState) => state.datasource

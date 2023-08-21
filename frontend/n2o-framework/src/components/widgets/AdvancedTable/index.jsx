@@ -14,7 +14,7 @@ import { FactoryContext } from '../../../core/factory/context'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { getContainerColumns } from '../../../ducks/columns/selectors'
-import { SelectionType, TableActions, TableContainer } from '../../Table'
+import { Selection, TableActions, TableContainer } from '../../Table'
 import { useCheckAccess } from '../../../core/auth/SecurityController'
 import { withSecurityList } from '../../../core/auth/withSecurity'
 import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
@@ -23,6 +23,10 @@ import { useExpandAllRows } from './hooks/useExpandAllRows'
 import { useResolveCellsVisible } from './hooks/useResolveCellsVisible'
 import { useRegisterColumns } from './hooks/useRegisterColumns'
 import { useTableActionReactions } from './hooks/useTableActionReactions'
+
+const EmptyComponent = () => (
+    <div className="d-flex justify-content-center text-muted">Нет данных для отображения</div>
+)
 
 const AdvancedTableContainer = (props) => {
     const {
@@ -132,7 +136,7 @@ const AdvancedTableContainer = (props) => {
             }
         }
     }, [setActiveModel, setMultiModel, unsetMultiModel])
-    const isNeedSetResolveModel = table.rowSelection !== SelectionType.None && defaultTo(table.autoSelect, true)
+    const isNeedSetResolveModel = table.rowSelection !== Selection.None && defaultTo(table.autoSelect, true)
 
     useEffect(() => {
         if (isNeedSetResolveModel && datasourceModel) {
@@ -170,6 +174,7 @@ const AdvancedTableContainer = (props) => {
                     selectedRows={selectedRows}
                     expandedRows={expandedRows}
                     focusedRowValue={focusedRowValue}
+                    EmptyContent={<EmptyComponent />}
                 />
             ) : null}
         </WidgetLayout>
