@@ -4,6 +4,7 @@ import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
 
 export type Field = {
     isInit: boolean
+    isActive: boolean
     visible: boolean
     visible_field: boolean
     visible_set: boolean
