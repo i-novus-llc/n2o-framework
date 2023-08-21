@@ -1,6 +1,7 @@
 import React, {
     ChangeEventHandler,
     FocusEventHandler,
+    KeyboardEvent,
     KeyboardEventHandler,
     MouseEventHandler,
 } from 'react'
@@ -27,6 +28,7 @@ type DateInputProps = TBaseProps & Omit<TBaseInputProps<Moment | null>, 'onFocus
     onClick?: MouseEventHandler<HTMLInputElement>,
     onFocus?: FocusEventHandler<HTMLInputElement>,
     onInputChange?: OnInputChangeHandler,
+    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
     openOnFocus: boolean,
     outputFormat: string,
     setControlRef(el: MaskedInput): void,
@@ -147,6 +149,12 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
         const cursorPos = Number(target.selectionStart)
         const keyCode = Number(e.keyCode)
         const deletedChar = Number(getDeletedSymbol(value, cursorPos)) || 0
+
+        const { onKeyDown } = this.props
+
+        if (onKeyDown) {
+            onKeyDown(e)
+        }
 
         if (keyCode === 8 && cursorPos !== 0 && !isNaN(deletedChar)) {
             e.preventDefault()

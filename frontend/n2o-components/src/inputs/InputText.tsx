@@ -1,4 +1,4 @@
-import React, { Component, ChangeEvent, createRef, Ref, RefObject, ReactNode } from 'react'
+import React, { Component, ChangeEvent, createRef, Ref, RefObject, ReactNode, KeyboardEvent } from 'react'
 import classNames from 'classnames'
 import isFunction from 'lodash/isFunction'
 
@@ -14,7 +14,7 @@ type InputTextProps = TBaseProps & TBaseInputProps<string> & {
     inputRef?: Ref<HTMLInputElement>,
     length?: number,
     onClick?(): void,
-    onKeyDown?(): void,
+    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
     onPaste?(): void,
     prefix?: ReactNode,
     readOnly?: boolean,

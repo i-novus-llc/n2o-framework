@@ -19,6 +19,7 @@ export type TableWidgetContainerProps = {
     selectedRows: SelectedRows
     actionListener(action: TableActions, payload: any): void
     errorComponent?: VFC
+    EmptyContent?: VFC
     cells: {
         body: Cell[]
         header: HeaderCell[]

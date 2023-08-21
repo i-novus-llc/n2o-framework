@@ -1,4 +1,4 @@
-import React, { Component, MouseEventHandler, RefObject } from 'react'
+import React, { Component, KeyboardEvent, MouseEventHandler, RefObject } from 'react'
 import { findDOMNode } from 'react-dom'
 import moment, { Moment } from 'moment/moment'
 import includes from 'lodash/includes'
@@ -63,6 +63,7 @@ type TimePickerProps = Pick<TBaseProps, 'disabled'> & TBaseInputProps<string> & 
     mode?: Mode[],
     noZero?: boolean,
     onChange(value: string): void,
+    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
     placeholder?: string,
     prefix?: string,
     timeFormat?: string
@@ -281,7 +282,7 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
     }
 
     render() {
-        const { placeholder, disabled } = this.props
+        const { placeholder, disabled, onKeyDown } = this.props
         const { open } = this.state
         const timeConfig = this.getTimeConfig()
         const readyValue = this.getValue()
@@ -312,6 +313,7 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
                                 disabled={disabled}
                                 value={readyValue}
                                 onClick={this.handleToggle}
+                                onKeyDown={onKeyDown}
                             />
                         )}
                     </Reference>
