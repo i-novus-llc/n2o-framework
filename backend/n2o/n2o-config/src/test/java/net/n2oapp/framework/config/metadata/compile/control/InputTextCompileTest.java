@@ -26,6 +26,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * Тестирование компиляции компонента ввода текста
  */
 public class InputTextCompileTest extends SourceCompileTestBase {
+
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -35,7 +36,12 @@ public class InputTextCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsV2IOPack());
+        builder.packs(
+                new N2oPagesPack(),
+                new N2oWidgetsPack(),
+                new N2oFieldSetsPack(),
+                new N2oControlsV2IOPack()
+        );
         builder.compilers(new InputTextCompiler());
     }
 
@@ -48,11 +54,11 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         List<FieldSet.Row> rows = form.getComponent().getFieldsets().get(0).getRows();
 
         assertThat(field.getNoLabelBlock(), is(false));
-        assertThat(field.getStyle(), nullValue());
+        assertThat(field.getStyle().size(), is(2));
+        assertThat(field.getStyle().get("pageBreakBefore"), is("avoid"));
+        assertThat(field.getStyle().get("paddingTop"), is("0"));
         InputText inputText = (InputText) ((StandardField) field).getControl();
-        assertThat(inputText.getStyle().size(), is(2));
-        assertThat(inputText.getStyle().get("pageBreakBefore"), is("avoid"));
-        assertThat(inputText.getStyle().get("paddingTop"), is("0"));
+        assertThat(inputText.getStyle(), nullValue());
         assertThat(inputText.getSrc(), is("InputText"));
         assertThat(inputText.getMeasure(), is("cm"));
         assertThat(inputText.getPlaceholder(), is("Введите текст"));
