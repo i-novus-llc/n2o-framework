@@ -9,9 +9,13 @@ import net.n2oapp.framework.api.data.validation.*;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import java.util.*;
+
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 /**
  * Валидатор данных
@@ -32,10 +36,12 @@ public class Validator implements Iterable<Validation> {
 
 
     public List<FailInfo> validate() {
-        if (validationList == null) return Collections.emptyList();
+        if (isNull(validationList))
+            return Collections.emptyList();
         for (Validation v : validationList) {
             handleValidation(v, fails);
         }
+
         return fails;
     }
 
@@ -55,9 +61,9 @@ public class Validator implements Iterable<Validation> {
                     validateField(v, fails);
                 }
                 dataSet.remove("index");
+                v.setFieldId(commonFieldId);
                 v.setMessage(commonMessage);
                 v.setMessageTitle(commonMessageTitle);
-                v.setFieldId(commonFieldId);
             } else {
                 validateField(v, fails);
             }
@@ -65,7 +71,7 @@ public class Validator implements Iterable<Validation> {
     }
 
     private String replaceIndex(String text, int i) {
-        return text == null ? null : text.replaceAll("\\[index]", "[" + i + "]");
+        return isNull(text) ? null : text.replaceAll("\\[index]", "[" + i + "]");
     }
 
     private void validateField(Validation v, List<FailInfo> fails) {
@@ -76,10 +82,14 @@ public class Validator implements Iterable<Validation> {
             failInfo.setValidationClass(v.getClass().getSimpleName());
             failInfo.setSeverity(v.getSeverity());
             failInfo.setFieldId(v.isForField() ? v.getFieldId() : null);
-            failInfo.setMessage(message);
+            failInfo.setMessage(StringUtils.resolveLinks(v.getMessage(), dataSet));
             failInfo.setMessageTitle(StringUtils.resolveLinks(v.getMessageTitle(), dataSet));
-            if (v instanceof ValidationDialog)
-                failInfo.setDialog(((ValidationDialog) v).getDialog());
+            if (v instanceof ValidationDialog) {
+                N2oDialog dialog = ((ValidationDialog) v).getDialog();
+                dialog.setTitle(failInfo.getMessageTitle());
+                dialog.setDescription(failInfo.getMessage());
+                failInfo.setDialog(dialog);
+            }
             fails.add(failInfo);
             afterFail(v);
         }, domainProcessor);
@@ -91,7 +101,7 @@ public class Validator implements Iterable<Validation> {
     }
 
     private boolean isMultiSet(String fieldId) {
-        return fieldId != null && fieldId.contains("[index]");
+        return nonNull(fieldId) && fieldId.contains("[index]");
     }
 
     private void afterFail(Validation v) {
@@ -116,7 +126,7 @@ public class Validator implements Iterable<Validation> {
     }
 
     private boolean checkSide(Validation validation) {
-        return validation.getSide() == null || validation.getSide().contains("server");
+        return isNull(validation.getSide()) || validation.getSide().contains("server");
     }
 
     private boolean checkAfterDanger(Validation validation) {
@@ -129,9 +139,9 @@ public class Validator implements Iterable<Validation> {
     private boolean checkRequiredConstraint(Validation validation) {
         if (validation instanceof ConstraintValidation) {
             ConstraintValidation v = (ConstraintValidation) validation;
-            if (v.getInParametersList() != null) {
+            if (nonNull(v.getInParametersList())) {
                 for (AbstractParameter inParam : v.getInParametersList()) {
-                    if (inParam.getRequired() != null
+                    if (nonNull(inParam.getRequired())
                             && inParam.getRequired()
                             && v.getRequiredFields().contains(inParam.getId())
                             && !dataSet.containsKey(inParam.getId())) {
@@ -152,9 +162,9 @@ public class Validator implements Iterable<Validation> {
     }
 
     private boolean checkEnabled(Validation v) {
-        if (v.getEnabled() != null)
+        if (nonNull(v.getEnabled()))
             return v.getEnabled();
-        if (v.getEnablingConditions() != null) {
+        if (nonNull(v.getEnablingConditions())) {
             for (String enablingCondition : v.getEnablingConditions()) {
                 if (!ScriptProcessor.evalForBoolean(enablingCondition, dataSet))
                     return false;
@@ -164,7 +174,7 @@ public class Validator implements Iterable<Validation> {
     }
 
     private boolean checkMoment(Validation validation) {
-        return validation.getMoment() == null || moment == null || moment == validation.getMoment();
+        return isNull(validation.getMoment()) || isNull(moment) || moment == validation.getMoment();
     }
 
     public static Builder newBuilder() {
@@ -183,35 +193,41 @@ public class Validator implements Iterable<Validation> {
 
         public Builder addMoment(N2oValidation.ServerMoment moment) {
             Validator.this.moment = moment;
+
             return this;
         }
 
         public Builder addValidations(List<Validation> validations) {
-            if (validations == null) return this;
-            if (validationList == null)
+            if (isNull(validations))
+                return this;
+            if (isNull(validationList))
                 validationList = new ArrayList<>();
-
             Validator.this.validationList.addAll(validations);
+
             return this;
         }
 
         public Builder addDataSet(DataSet dataSet) {
             Validator.this.dataSet = dataSet;
+
             return this;
         }
 
         public Builder addInvocationProcessor(InvocationProcessor processor) {
             Validator.this.serviceProvider = processor;
+
             return this;
         }
 
         public Builder addDomainProcessor(DomainProcessor processor) {
             Validator.this.domainProcessor = processor;
+
             return this;
         }
 
         public Validator build() {
             sort();
+
             return Validator.this;
         }
 
@@ -230,7 +246,8 @@ public class Validator implements Iterable<Validation> {
          * Success - Widget - Constraint
          */
         private void sort() {
-            if (validationList == null) return;
+            if (validationList == null)
+                return;
             Comparator<Validation> comparator = Comparator
                     .comparing(Validation::getSeverity)
                     .reversed()
@@ -249,7 +266,7 @@ public class Validator implements Iterable<Validation> {
                         } else
                             return 1;
                     });
-            Collections.sort(validationList, comparator);
+            validationList.sort(comparator);
         }
     }
 }
