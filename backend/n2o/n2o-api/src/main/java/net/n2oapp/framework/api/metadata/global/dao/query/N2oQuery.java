@@ -19,6 +19,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
@@ -28,6 +29,7 @@ import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 @Getter
 @Setter
 public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttributesAware {
+
     protected AbstractField[] fields;
     private String name;
     private String objectId;
@@ -52,7 +54,7 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
     public QuerySimpleField getSimpleFieldByAbsoluteId(@NonNull String absoluteId) {
         if (isEmpty(fields))
             return null;
-        if (fields[0].getAbsoluteId() == null)
+        if (isNull(fields[0].getAbsoluteId()))
             initAbsoluteIds();
 
         return getSimpleFields().stream().filter(f -> absoluteId.equals(f.getAbsoluteId())).findFirst().orElse(null);
@@ -76,11 +78,12 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
     public List<QuerySimpleField> getSimpleFields() {
         List<QuerySimpleField> result = new ArrayList<>();
         collectSimpleFields(fields, result);
+
         return result;
     }
 
     private void collectSimpleFields(AbstractField[] fields, List<QuerySimpleField> simpleFields) {
-        if (fields == null)
+        if (isNull(fields))
             return;
         for (AbstractField field : fields) {
             if (field instanceof QueryReferenceField)
@@ -90,30 +93,47 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         }
     }
 
+    /**
+     * Проверка наличия хотя бы одного фильтра с соответствующим идентификатором поля
+     *
+     * @param fieldId идентификатор поля
+     * @return true - существует хотя бы один фильтр, false - соответствующих фильтров нет, либо в выборке нет фильтров
+     */
     public boolean isSearchAvailable(String fieldId) {
-        if (filters == null)
+        if (isNull(filters))
             return false;
+
         return Arrays.stream(filters).anyMatch(filter -> fieldId.equals(filter.getFieldId()));
     }
 
     public Filter[] getFiltersList(String fieldId) {
-        if (filters == null)
+        if (isNull(filters))
             return new Filter[0];
-        if (filtersMap == null) {
+        if (isNull(filtersMap)) {
             Map<String, List<Filter>> filtersListMap = new HashMap<>();
             for (Filter filter : filters) {
                 filtersListMap.putIfAbsent(filter.getFieldId(), new ArrayList<>());
                 filtersListMap.get(filter.getFieldId()).add(filter);
             }
-            setFiltersMap(filtersListMap.keySet().stream()
-                    .collect(Collectors.toMap(Function.identity(), k -> filtersListMap.get(k).toArray(new Filter[0]))));
+            setFiltersMap(
+                    filtersListMap.keySet()
+                            .stream()
+                            .collect(
+                                    Collectors.toMap(
+                                            Function.identity(),
+                                            k -> filtersListMap.get(k).toArray(new Filter[0])
+                                    )
+                            )
+            );
         }
+
         return filtersMap.getOrDefault(fieldId, new Filter[0]);
     }
 
     @Getter
     @Setter
     public static class Filter implements Source, Compiled {
+
         private String text;
         private String defaultValue;
         private Object compiledDefaultValue;
@@ -159,12 +179,12 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
 
         public Filter() {
         }
-
     }
 
     @Getter
     @Setter
     public static class Selection implements Source, Compiled {
+
         private String[] filters;
         private String resultMapping;
         private String resultNormalize;
@@ -191,10 +211,10 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
     }
 
     public void adapterV4() {
-        if (fields != null) {
+        if (nonNull(fields)) {
             List<Filter> filters = new ArrayList<>();
             for (AbstractField field : fields) {
-                if (((QuerySimpleField) field).getFilterList() != null) {
+                if (nonNull(((QuerySimpleField) field).getFilterList())) {
                     for (Filter filter : ((QuerySimpleField) field).getFilterList()) {
                         filter.setFieldId(field.getId());
                         filters.add(filter);
