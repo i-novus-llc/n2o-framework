@@ -59,6 +59,7 @@ function InputContent({
     disabledValues,
     options,
     onClick,
+    onKeyDown,
     isExpanded,
     autoFocus,
     setRef,
@@ -72,6 +73,10 @@ function InputContent({
      * @private
      */
     const handleKeyDown = (e) => {
+        if (onKeyDown) {
+            onKeyDown(e)
+        }
+
         if (
             e.key === 'Backspace' &&
             selected.length &&
@@ -248,6 +253,7 @@ InputContent.propTypes = {
     clearSelected: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
+    onKeyDown: PropTypes.func,
     multiSelect: PropTypes.bool,
     collapseSelected: PropTypes.bool,
     lengthToGroup: PropTypes.number,

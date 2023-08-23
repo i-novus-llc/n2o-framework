@@ -573,6 +573,7 @@ class InputSelect extends React.Component {
             popupAutoSize,
             maxTagTextLength,
             onDismiss,
+            onKeyDown,
             filter,
         } = this.props
         const {
@@ -623,6 +624,7 @@ class InputSelect extends React.Component {
                                 setRef={this.setInputRef}
                                 onFocus={this.onFocus}
                                 onBlur={this.onInputBlur}
+                                onKeyDown={onKeyDown}
                                 loading={loading}
                                 value={input}
                                 disabled={disabled}
@@ -776,6 +778,7 @@ InputSelect.propTypes = {
      * Callback на переключение
      */
     onToggle: PropTypes.func,
+    onKeyDown: PropTypes.func,
     onInput: PropTypes.func,
     /**
      * Callback на изменение
@@ -888,6 +891,7 @@ InputSelect.defaultProps = {
     onChange() {},
     onScrollEnd() {},
     onBlur() {},
+    onKeyDown() {},
 }
 
 export { InputSelect }

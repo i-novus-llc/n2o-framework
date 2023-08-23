@@ -81,6 +81,7 @@ class RadioGroupControl extends Component {
             disabled,
             visible,
             style,
+            onKeyDown,
         } = this.props
         const { groupName, options } = this.state
 
@@ -92,6 +93,7 @@ class RadioGroupControl extends Component {
             <Group
                 value={value?.[valueFieldId]}
                 onChange={this.changeHandler}
+                onKeyDown={onKeyDown}
                 disabled={disabled}
                 visible={visible}
                 enabledFieldId={enabledFieldId}
@@ -107,6 +109,7 @@ class RadioGroupControl extends Component {
 }
 
 RadioGroupControl.propTypes = {
+    onKeyDown: PropTypes.func,
     data: PropTypes.array,
     valueFieldId: PropTypes.string,
     labelFieldId: PropTypes.string,
@@ -131,6 +134,7 @@ RadioGroupControl.defaultProps = {
     visible: true,
     type: RadioTypes.input,
     onChange: () => {},
+    onKeyDown: () => {},
     isLoading: false,
 }
 

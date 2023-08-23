@@ -209,6 +209,7 @@ class InputMask extends React.Component {
           autoFocus,
           disabled,
           keepCharPositions,
+          onKeyDown,
       } = this.props
       const { guide, value } = this.state
       const mask = this.preset(preset)
@@ -229,6 +230,7 @@ class InputMask extends React.Component {
               onBlur={this.onBlur}
               onChange={this.onChange}
               onFocus={this.onFocus}
+              onKeyDown={onKeyDown}
               keepCharPositions={keepCharPositions}
               render={(ref, props) => (
                   <input
@@ -254,6 +256,7 @@ InputMask.defaultProps = {
     mask: '',
     presetConfig: {},
     onBlur: () => {},
+    onKeyDown: () => {},
     disabled: false,
 }
 
@@ -314,6 +317,7 @@ InputMask.propTypes = {
      * Callback на потерю фокуса
      */
     onBlur: PropTypes.func,
+    onKeyDown: PropTypes.func,
     disabled: PropTypes.bool,
     autoFocus: PropTypes.bool,
 }
