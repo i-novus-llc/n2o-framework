@@ -193,6 +193,12 @@ export class InputNumber extends React.Component {
         const downKeyCode = 40
         let type
 
+        const { onKeyDown } = this.props
+
+        if (onKeyDown) {
+            onKeyDown(e)
+        }
+
         if (e.keyCode === upKeyCode) {
             type = 'up'
         }
@@ -283,6 +289,7 @@ InputNumber.defaultProps = {
     onChange: () => {},
     onBlur: () => {},
     onFocus: () => {},
+    onKeyDown: () => {},
     mode: inputMode.DEFAULT,
 }
 
@@ -325,6 +332,7 @@ InputNumber.propTypes = {
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
+    onKeyDown: PropTypes.func,
     /**
      * Класс
      */

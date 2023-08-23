@@ -98,6 +98,7 @@ function InputSelectTree(props) {
         onSearch,
         onSelect,
         onChange,
+        onKeyDown,
         hasCheckboxes,
         filter,
         multiSelect,
@@ -316,6 +317,7 @@ function InputSelectTree(props) {
                 onChange={handleChange}
                 onSelect={handleSelect}
                 onSearch={handleSearch}
+                onKeyDown={onKeyDown}
                 onTreeExpand={onTreeExpand}
                 showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
                 getPopupContainer={getPopupContainer}
@@ -371,6 +373,7 @@ InputSelectTree.defaultProps = {
     onOpen: () => {},
     onFocus: () => {},
     onBlur: () => {},
+    onKeyDown: () => {},
     t: () => {},
 }
 
@@ -379,6 +382,7 @@ InputSelectTree.propTypes = {
     onSelect: PropTypes.func,
     onToggle: PropTypes.func,
     onFocus: PropTypes.func,
+    onKeyDown: PropTypes.func,
     onBlur: PropTypes.func,
     className: PropTypes.string,
     searchPlaceholder: PropTypes.string,
