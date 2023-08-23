@@ -25,6 +25,7 @@ export function InputRadio({
     checked,
     disabled,
     onChange,
+    onKeyDown,
     type,
     name,
     value,
@@ -43,6 +44,7 @@ export function InputRadio({
                 type="radio"
                 checked={checked}
                 onChange={onChange}
+                onKeyDown={onKeyDown}
                 id={elementId}
                 name={name}
                 value={value}
@@ -69,6 +71,7 @@ InputRadio.propTypes = {
     checked: PropTypes.bool,
     invalid: PropTypes.bool,
     onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
     disabled: PropTypes.bool,
     tooltip: PropTypes.string,
     label: PropTypes.node,

@@ -131,6 +131,12 @@ class DateInput extends React.Component {
         const keyCode = Number(e.keyCode)
         const deletedChar = +this.getDeletedSymbol(cursorPos)
 
+        const { onKeyDown } = this.props
+
+        if (onKeyDown) {
+            onKeyDown(e)
+        }
+
         if (keyCode === 8 && cursorPos !== 0 && !isNaN(deletedChar)) {
             e.preventDefault()
 
@@ -217,6 +223,7 @@ DateInput.defaultProps = {
     autoFocus: false,
     onFocus: () => {},
     onBlur: () => {},
+    onKeyDown: () => {},
     openOnFocus: false,
 }
 
@@ -227,6 +234,7 @@ DateInput.propTypes = {
     onInputChange: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
+    onKeyDown: PropTypes.func,
     dateFormat: PropTypes.string,
     defaultTime: PropTypes.string,
     placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

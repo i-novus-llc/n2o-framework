@@ -258,7 +258,7 @@ export class TimePickerControl extends Component {
   };
 
   render() {
-      const { placeholder, disabled } = this.props
+      const { placeholder, disabled, onKeyDown } = this.props
       const { open } = this.state
       const timeConfig = this.getTimeConfig()
       const readyValue = this.getValue()
@@ -289,6 +289,7 @@ export class TimePickerControl extends Component {
                               disabled={disabled}
                               value={readyValue}
                               onClick={this.handleToggle}
+                              onKeyDown={onKeyDown}
                           />
                       )}
                   </Reference>
@@ -376,6 +377,7 @@ TimePickerControl.propTypes = {
    * onChange
    */
     onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
     /**
    * Локализация
    */
@@ -400,6 +402,7 @@ TimePickerControl.defaultProps = {
     timeFormat: 'HH:mm:ss',
     locale: 'ru',
     onChange: () => {},
+    onKeyDown: () => {},
 }
 
 export default TimePickerControl

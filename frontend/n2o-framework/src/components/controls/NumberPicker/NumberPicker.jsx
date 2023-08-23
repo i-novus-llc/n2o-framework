@@ -60,6 +60,7 @@ export function NumberPicker(props) {
         style,
         disabled,
         onChange,
+        onKeyDown,
     } = props
     const [isFocused, setFocus] = useState(false)
     // Не ставим крайние значения, пока поле в фокусе
@@ -101,6 +102,7 @@ export function NumberPicker(props) {
                     max={max}
                     step={step}
                     onChange={onChange}
+                    onKeyDown={onKeyDown}
                     showButtons={false}
                     disabled={disabled}
                     onBlur={onBlur}
@@ -126,6 +128,7 @@ NumberPicker.defaultProps = {
     step: 1,
     disabled: false,
     onChange: () => {},
+    onKeyDown: () => {},
 }
 
 NumberPicker.PropTypes = {
@@ -161,6 +164,7 @@ NumberPicker.PropTypes = {
      * Callback на изменение
      */
     onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
 }
 
 export default NumberPicker
