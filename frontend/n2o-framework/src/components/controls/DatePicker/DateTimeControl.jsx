@@ -410,6 +410,7 @@ class DateTimeControl extends React.Component {
             popupPlacement,
             outputFormat,
             strategy,
+            onKeyDown,
         } = this.props
 
         const { inputs, isPopUpVisible } = this.state
@@ -441,6 +442,7 @@ class DateTimeControl extends React.Component {
                                     setWidth={this.setWidth}
                                     onFocus={this.onFocus}
                                     onBlur={this.onInputBlur}
+                                    onKeyDown={onKeyDown}
                                     autoFocus={autoFocus}
                                     openOnFocus={openOnFocus}
                                     outputFormat={outputFormat}
@@ -481,6 +483,7 @@ DateTimeControl.defaultProps = {
     onFocus: () => {},
     onBlur: () => {},
     onChange: () => {},
+    onKeyDown: () => {},
     dateDivider: ' ',
     dateFormat: 'DD.MM.YYYY',
     outputFormat: 'DD.MM.YYYY HH:mm:ss',
@@ -493,6 +496,7 @@ DateTimeControl.defaultProps = {
 DateTimeControl.propTypes = {
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
+    onKeyDown: PropTypes.func,
     type: PropTypes.oneOf([ControlType.DATE_INTERVAL, ControlType.DATE_PICKER]),
     defaultTime: PropTypes.string,
     value: PropTypes.oneOfType([

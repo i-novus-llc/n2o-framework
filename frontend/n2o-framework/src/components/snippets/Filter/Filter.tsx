@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { KeyboardEvent, useCallback } from 'react'
 import classNames from 'classnames'
+
+import { EventHandlersContext } from '../../controls/eventHandlersContext'
 
 // TODO выпилить в следующих версиях, FilterButtons тут абсолютно не нужен, т.к. есть более функциональный FilterButtonsField
 
@@ -24,9 +26,21 @@ export function Filter(props: FilterProps) {
         onReset,
     } = props
 
+    const { Provider } = EventHandlersContext
+
+    const onKeyDown = useCallback((evt: KeyboardEvent<HTMLInputElement>) => {
+        if (onSearch && evt.key === 'Enter' && evt.ctrlKey) {
+            evt.stopPropagation()
+
+            onSearch(evt)
+        }
+    }, [onSearch])
+
     return visible ? (
         <div className={classNames('n2o-filter', className)} style={style}>
-            {children}
+            <Provider value={{ onKeyDown }}>
+                {children}
+            </Provider>
 
             <FilterButtons
                 visible={!hideButtons}

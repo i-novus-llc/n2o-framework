@@ -30,6 +30,7 @@ class DateInputGroup extends React.Component {
             setVisibility,
             onFocus,
             onBlur,
+            onKeyDown,
             autoFocus,
             openOnFocus,
             setControlRef,
@@ -53,6 +54,7 @@ class DateInputGroup extends React.Component {
                         setVisibility={setVisibility}
                         onFocus={onFocus}
                         onBlur={onBlur}
+                        onKeyDown={onKeyDown}
                         setControlRef={setControlRef}
                         autoFocus={autoFocus}
                         openOnFocus={openOnFocus}
@@ -97,6 +99,7 @@ DateInputGroup.propTypes = {
     setVisibility: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
+    onKeyDown: PropTypes.func,
     autoFocus: PropTypes.bool,
     openOnFocus: PropTypes.bool,
     min: PropTypes.oneOfType([
@@ -116,6 +119,7 @@ DateInput.defaultProps = {
     openOnFocus: false,
     onFocus: () => {},
     onBlur: () => {},
+    onKeyDown: () => {},
 }
 
 export default DateInputGroup
