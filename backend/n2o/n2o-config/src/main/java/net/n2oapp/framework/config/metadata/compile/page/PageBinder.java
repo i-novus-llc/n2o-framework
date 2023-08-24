@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.*;
@@ -11,10 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Базовое связывание данных на странице
@@ -40,6 +38,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                         .filter(param -> page.getRoutes().getQueryMapping().get(param).getOnSet() instanceof ModelLink)
                         .forEach(param -> {
                             ModelLink modelLink = (ModelLink) page.getRoutes().getQueryMapping().get(param).getOnSet();
+                            removeDuplicateModels(page, modelLink);
                             page.getModels().add(modelLink.getModel(), modelLink.getDatasource(), modelLink.getFieldId(), modelLink);
                         });
             }
@@ -89,12 +88,25 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         return page;
     }
 
+    private void removeDuplicateModels(D page, ModelLink modelLink) {
+        String modelLinkValue = StringUtils.unwrapJs((String) modelLink.getValue());
+        if (Objects.isNull(modelLinkValue))
+            return;
+        String modelId = modelLink.getBindLink().split("\\.")[1] + "." + modelLinkValue.split("\\.")[0];
+        ModelLink link = page.getModels().get(modelId);
+        if (link != null && link.getValue() instanceof DefaultValues) {
+            DefaultValues defaultValues = (DefaultValues) link.getValue();
+            defaultValues.getValues().remove(modelLinkValue.split("\\.")[1]);
+            page.getModels().remove(modelId);
+        }
+    }
+
     /**
      * Добавление значений фильтров таблицы из выборки в модели
      *
-     * @param models Модели
+     * @param models  Модели
      * @param widgets Виджеты
-     * @param p Процессор связывания
+     * @param p       Процессор связывания
      */
     private void collectFiltersToModels(Models models, List<Widget<?>> widgets, BindProcessor p) {
         if (widgets != null)
