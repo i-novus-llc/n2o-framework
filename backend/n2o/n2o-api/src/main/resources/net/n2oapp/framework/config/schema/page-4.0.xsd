@@ -324,11 +324,6 @@
         <xs:sequence>
             <xs:element name="action" type="ac:pageActionDefinition" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute name="generate" type="wgt:generateDefinition">
-            <xs:annotation>
-                <xs:documentation>Генерация стандартных действий.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="datasourcesDefinition">

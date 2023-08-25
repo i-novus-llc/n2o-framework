@@ -15,7 +15,11 @@ import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProvi
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
-import net.n2oapp.framework.config.util.StylesResolver;
+
+import java.util.Objects;
+
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 
 /**
@@ -25,15 +29,14 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
 
     protected StandardField<D> compileStandardField(D control, S source, CompileContext<?, ?> context, CompileProcessor p) {
         initDefaults(source, context, p);
-        StandardField<D> field = new StandardField<>();
-        if (control.getSrc() == null)
+        if (isNull(control.getSrc()))
             control.setSrc(source.getSrc());
         source.setSrc(null);
         source.setCopied(p.cast(source.getCopied(), true));
+        StandardField<D> field = new StandardField<>();
         compileField(field, source, context, p);
         field.setControl(control);
         field.setClassName(null); //для StandardField className должен попасть в control, а не field
-        field.setStyle(null); //для StandardField style должен попасть в control, а не field
         initValidations(source, field, context, p);
         compileFilters(source, p);
         compileCopied(source, p);
@@ -41,30 +44,34 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         control.setProperties(field.getProperties());
         field.setProperties(null); //для StandardField properties должны попасть в control, а не field
         field.setDataProvider(initDataProvider(source, context, p));
+
         return field;
     }
 
     protected void compileControl(D control, S source, CompileProcessor p, StandardField<D> field, CompileContext<?, ?> context) {
-        control.setSrc(p.cast(control.getSrc(), () -> p.resolve(Placeholders.property(getControlSrcProperty()), String.class)));
-        if (control.getSrc() == null)
+        String src = p.cast(
+                control.getSrc(),
+                () -> p.resolve(Placeholders.property(getControlSrcProperty()), String.class)
+        );
+        if (isNull(src))
             throw new N2oException("control src is required");
+        control.setSrc(src);
         control.setId(source.getId());
         control.setPlaceholder(p.resolveJS(source.getPlaceholder()));
         control.setClassName(p.resolveJS(source.getCssClass()));
-        control.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compileDefaultValues(field, source, context, p);
     }
 
     @Override
     protected String initLabel(S source, CompileProcessor p) {
-        if (!Boolean.TRUE.equals(source.getNoLabel())) {
+        if (!Objects.equals(Boolean.TRUE, source.getNoLabel())) {
             String label = super.initLabel(source, p);
 
             FieldSetScope scope = p.getScope(FieldSetScope.class);
-            if (label == null && scope != null) {
+            if (isNull(label) && nonNull(scope)) {
                 label = scope.get(source.getId());
             }
-            if (label == null)
+            if (isNull(label))
                 label = source.getId();
             return label;
         } else
@@ -77,22 +84,25 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
     protected abstract String getControlSrcProperty();
 
     private ClientDataProvider initDataProvider(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (source.getSubmit() == null)
+        if (isNull(source.getSubmit()))
             return null;
-        N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromSubmit(source.getSubmit(), source.getId(),
-                p.getScope(CompiledObject.class), p);
+        N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromSubmit(
+                source.getSubmit(),
+                source.getId(),
+                p.getScope(CompiledObject.class),
+                p
+        );
         dataProvider.setSubmitForm(false);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null) {
+        if (nonNull(widgetScope)) {
             dataProvider.getActionContextData().setParentWidgetId(widgetScope.getClientWidgetId());
             dataProvider.getActionContextData().setMessagesForm(widgetScope.getClientWidgetId());
         }
-
         ClientDataProvider clientDataProvider = ClientDataProviderUtil.compile(dataProvider, context, p);
-
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
-        if (parentRouteScope != null)
+        if (nonNull(parentRouteScope))
             clientDataProvider.getPathMapping().putAll(parentRouteScope.getPathMapping());
+
         return clientDataProvider;
     }
 }

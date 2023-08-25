@@ -52,11 +52,6 @@
                     <xs:sequence>
                         <xs:element name="action" type="actionDefinition" maxOccurs="unbounded"/>
                     </xs:sequence>
-                    <xs:attribute name="generate" type="generateDefinition">
-                        <xs:annotation>
-                            <xs:documentation>Генерация стандартных действий.</xs:documentation>
-                        </xs:annotation>
-                    </xs:attribute>
                 </xs:complexType>
             </xs:element>
             <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
@@ -251,6 +246,38 @@
         </xs:complexContent>
     </xs:complexType>
 
+   <xs:complexType name="tableToolbarDefinition">
+       <xs:annotation>
+           <xs:documentation>Меню управляющих кнопок таблицы.</xs:documentation>
+       </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="tool:toolbarDefinition">
+                <xs:sequence>
+                    <xs:element name="group" type="tableGroupDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+                <xs:attribute name="generate" type="tableGenerateDefinition">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Генерация стандартных кнопок.
+                            Можно указать несколько значений через запятую.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="tableGroupDefinition">
+        <xs:annotation>
+            <xs:documentation>Группа кнопок.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="generate" type="tableGenerateDefinition">
+            <xs:annotation>
+                <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:complexType name="tableReferenceDefinition">
         <xs:complexContent>
             <xs:extension base="widgetDefinition">
@@ -258,6 +285,7 @@
                     <xs:documentation>Виджет таблица.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
+                    <xs:element name="toolbar" type="tableToolbarDefinition" minOccurs="0"/>
                     <xs:element name="columns" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>Столбцы таблицы.</xs:documentation>
@@ -1341,14 +1369,24 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="generateDefinition">
+    <xs:simpleType name="tableGenerateDefinition">
         <xs:annotation>
             <xs:documentation>Варианты генерации стандартных действий.</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="crud"/>
-            <xs:enumeration value="saveAndClose"/>
+            <xs:enumeration value="create"/>
+            <xs:enumeration value="update"/>
+            <xs:enumeration value="delete"/>
             <xs:enumeration value="close"/>
+            <xs:enumeration value="submit"/>
+            <xs:enumeration value="tableSettings"/>
+            <xs:enumeration value="refresh"/>
+            <xs:enumeration value="columns"/>
+            <xs:enumeration value="filters"/>
+            <xs:enumeration value="resize"/>
+            <xs:enumeration value="export"/>
+            <xs:enumeration value="word-wrap"/>
         </xs:restriction>
     </xs:simpleType>
 

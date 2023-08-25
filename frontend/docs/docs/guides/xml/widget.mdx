@@ -1017,8 +1017,12 @@ n2o.api.widget.tree.checkboxes=false
 |------------|--------------------------------------------------------------|---------------------------------------------------------------------------|----------------------------|
 |class       |CSS класс                                                     |Класс компонента меню                                                      |                            |
 |style       |CSS свойство                                                  |Стиль компонента меню                                                      |                            |
-|place       |topLeft topRight bottomLeft bottomRight topCenter bottomCenter|Место расположения меню  |topLeft                     |
-|generate    |crud tableSettings refresh resize word-wrap export columns filters submit close|Генерация стандартных действий. Можно писать несколько идентификаторов через запятую.
+|place       |topLeft topRight bottomLeft bottomRight topCenter bottomCenter|Место расположения меню                                                    |topLeft                     |
+|generate    |crud create update delete close submit                        |Генерация стандартных кнопок. Можно указать несколько значений через запятую
+
+:::note
+Для виджета Таблица атрибут `generate` может иметь дополнительные значения: `tableSettings`, `refresh`, `columns`, `filters`, `resize`, `export`, `word-wrap`.
+:::
 
 **Настройки**
 ```yaml
@@ -1048,7 +1052,11 @@ n2o.api.widget.toolbar.place=topLeft
 
 |Наименование|Тип|Описание
 |------------|---|--------
-| generate | Строка | Генерация стандартных кнопок
+| generate | crud create update delete close submit | Генерация стандартных кнопок. Можно указать несколько значений через запятую
+
+:::note
+Для виджета Таблица атрибут `generate` может иметь дополнительные значения: `tableSettings`, `refresh`, `columns`, `filters`, `resize`, `export`, `word-wrap`.
+:::
 
 **Тело**<br/>
 &lt;button&gt; - [Кнопка](../xml/button#button_in_button)<br/>
@@ -1074,18 +1082,12 @@ n2o.api.widget.toolbar.place=topLeft
 Действия не видимы сами по себе, но на них можно ссылаться, например, из [кнопок](../xml/button).
 :::
 
-**Атрибуты**
-
-|Наименование|Тип                |Описание                      |
-|------------|-------------------|------------------------------|
-|generate    |crud saveAndClose close|Генерация стандартных действий
-
 **Тело**<br/>
 &lt;action&gt; - Список [действий над виджетом](#action)
 
 **Пример**
 ```xml
-<actions generate="crud">
+<actions>
   <action>...</action>
   <action>...</action>
   <action>...</action>

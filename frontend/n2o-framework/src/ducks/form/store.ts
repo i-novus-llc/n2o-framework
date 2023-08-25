@@ -279,9 +279,12 @@ const formSlice = createSlice({
 
             reducer(state, action: BlurFieldAction) {
                 const { formName, fieldName } = action.payload
+                const field = state[formName]?.fields[fieldName]
 
-                set(state, [formName, 'fields', fieldName, 'touched'], true)
-                set(state, [formName, 'fields', fieldName, 'isActive'], false)
+                if (field) {
+                    field.touched = true
+                    field.isActive = false
+                }
             },
         },
 
@@ -297,7 +300,11 @@ const formSlice = createSlice({
             reducer(state, action: FocusFieldAction) {
                 const { formName, fieldName } = action.payload
 
-                set(state, [formName, 'fields', fieldName, 'isActive'], true)
+                const field = state[formName]?.fields[fieldName]
+
+                if (field) {
+                    field.isActive = true
+                }
             },
         },
 
@@ -313,11 +320,19 @@ const formSlice = createSlice({
                 const { fields, formName } = action.payload
 
                 if (Array.isArray(fields)) {
-                    fields.forEach((field) => {
-                        set(state, [formName, 'fields', field, 'touched'], true)
+                    fields.forEach((fieldName) => {
+                        const field = state[formName]?.fields[fieldName]
+
+                        if (field) {
+                            field.touched = true
+                        }
                     })
                 } else {
-                    set(state, [formName, 'fields', fields, 'touched'], true)
+                    const field = state[formName]?.fields[fields]
+
+                    if (field) {
+                        field.touched = true
+                    }
                 }
             },
         },

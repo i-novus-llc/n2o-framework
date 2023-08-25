@@ -30,4 +30,18 @@
             </xs:simpleType>
         </xs:union>
     </xs:simpleType>
+
+    <xs:simpleType name="generateDefinition">
+        <xs:annotation>
+            <xs:documentation>Варианты генерации стандартных действий.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="crud"/>
+            <xs:enumeration value="create"/>
+            <xs:enumeration value="update"/>
+            <xs:enumeration value="delete"/>
+            <xs:enumeration value="close"/>
+            <xs:enumeration value="submit"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

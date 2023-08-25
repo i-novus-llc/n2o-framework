@@ -19,7 +19,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 public abstract class N2oBasePage extends N2oPage implements ActionBarAware, ToolbarsAware, DatasourceIdAware {
     private String datasourceId;
     private ActionBar[] actions;
-    private GenerateType actionGenerate;
     @N2oAttribute("Список меню с кнопками")
     private N2oToolbar[] toolbars;
     private N2oAbstractDatasource[] datasources;

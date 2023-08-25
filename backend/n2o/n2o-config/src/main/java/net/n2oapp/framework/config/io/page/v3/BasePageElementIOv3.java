@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.io.page.v3;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
-import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -34,7 +33,6 @@ public abstract class BasePageElementIOv3<T extends N2oBasePage> implements Name
         p.attribute(e, "modal-size", m::getModalSize, m::setModalSize);
         p.attributeBoolean(e, "show-title", m::getShowTitle, m::setShowTitle);
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionBar::new, this::action);
-        p.childAttributeEnum(e, "actions", "generate", m::getActionGenerate, m::setActionGenerate, GenerateType.class);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIO());
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }

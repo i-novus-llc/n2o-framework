@@ -33,7 +33,6 @@ public class N2oWidgetMerger<T extends N2oWidget> implements BaseSourceMerger<T>
         setIfNotNull(source::setMasterFieldId, override::getMasterFieldId);
         setIfNotNull(source::setDetailFieldId, override::getDetailFieldId);
         setIfNotNull(source::setVisible, override::getVisible);
-        setIfNotNull(source::setActionGenerate, override::getActionGenerate);
         addIfNotNull(source, override, N2oWidget::setPreFilters, N2oWidget::getPreFilters);
         addIfNotNull(source, override, N2oWidget::setActions, N2oWidget::getActions);
         addIfNotNull(source, override, N2oWidget::setToolbars, N2oWidget::getToolbars);
