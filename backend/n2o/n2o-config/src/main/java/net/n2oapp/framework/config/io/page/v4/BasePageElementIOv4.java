@@ -28,7 +28,6 @@ public abstract class BasePageElementIOv4<T extends N2oBasePage> extends Abstrac
         super.io(e, m, p);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionBar::new, this::action);
-        p.childAttributeEnum(e, "actions", "generate", m::getActionGenerate, m::setActionGenerate, GenerateType.class);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIOv2());
         p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources, p.anyOf(N2oAbstractDatasource.class), DatasourceIOv1.NAMESPACE);
         p.anyChildren(e, "events", m::getEvents, m::setEvents, p.anyOf(N2oAbstractEvent.class), AbstractEventIO.NAMESPACE);

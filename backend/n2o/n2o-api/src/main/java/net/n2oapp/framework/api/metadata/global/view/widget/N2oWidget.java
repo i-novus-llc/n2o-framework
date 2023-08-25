@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
-import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibilityDependency;
@@ -76,7 +75,6 @@ public abstract class N2oWidget extends N2oMetadata
     @Deprecated
     private N2oPreFilter[] preFilters;
     private ActionBar[] actions;
-    private GenerateType actionGenerate;
     @N2oAttribute("Список меню управляющих кнопок")
     private N2oToolbar[] toolbars;
     @ExtAttributesSerializer
