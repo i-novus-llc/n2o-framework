@@ -754,7 +754,8 @@ n2o.api.widget.column.multi.alignment=center
 
 **Тело**<br/>
 &lt;switch&gt; - [Переключатель](../xml/base#switch_in_base)<br/>
-&lt;click&gt; - [Клик по строке](../xml/base#click)
+&lt;click&gt; - [Клик по строке](../xml/base#click)<br/>
+&lt;overlay&gt; - [Наведение на строку](#overlay)
 
 **Примеры**
 ```xml
@@ -765,8 +766,41 @@ n2o.api.widget.column.multi.alignment=center
     <switch value-field-id="type">
         ...
     </switch>
+    <click>
+        ...
+    </click>
+    <overlay>
+        ...
+    </overlay>
 </rows>
 ```
+
+
+##### &lt;overlay&gt;
+Наведение на строку.
+
+**Атрибуты**
+
+|Наименование    |Тип         |Описание                       |
+|----------------|------------|-------------------------------|
+|class           |CSS класс   |Класс компонента строки таблицы|
+
+**Тело**<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)
+
+**Пример**
+```xml
+<overlay class="top">
+    <toolbar>
+        <button label="Кнопка"/>
+        <sub-menu label="Меню">
+            <menu-item label="Кнопка1"/>
+            <menu-item label="Кнопка2"/>
+        </sub-menu>
+    </toolbar>
+</overlay>
+```
+
 
 #### &lt;filters&gt;
 Фильтры таблицы.
