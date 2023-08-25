@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 
 /**
@@ -53,6 +55,18 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                     .forEach(datasource -> p.validate(datasource, actionDatasourceScope));
         }
         checkDatasourceInParam(source, p);
+        checkEmptyToolbar(source);
+    }
+
+    private static void checkEmptyToolbar(N2oAbstractPageAction source) {
+        N2oToolbar[] toolbars = source.getToolbars();
+        if (nonNull(toolbars))
+            for (N2oToolbar toolbar : toolbars) {
+                if (toolbar.getItems() == null && toolbar.getGenerate() == null)
+                    throw new N2oMetadataValidationException(
+                            String.format("Не заданы элементы или атрибут 'generate' в тулбаре действия открытия страницы %s",
+                                    ValidationUtils.getIdOrEmptyString(source.getPageId())));
+            }
     }
 
     /**
