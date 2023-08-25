@@ -58,8 +58,8 @@ public class TableValidatorTest extends SourceValidationTestBase {
     void testOverlayToolbar() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testToolbar.widget.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testOverlayToolbar.widget.xml")
         );
-        assertEquals("Не заданы кнопки в <overlay><toolbar>", exception.getMessage());
+        assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре в <overlay> таблицы 'testOverlayToolbar'", exception.getMessage());
     }
 }

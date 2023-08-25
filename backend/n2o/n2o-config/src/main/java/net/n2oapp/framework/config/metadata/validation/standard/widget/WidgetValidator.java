@@ -74,6 +74,18 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         checkDependencies(source);
         p.safeStreamOf(source.getActions()).flatMap(actionBar -> p.safeStreamOf(actionBar.getN2oActions()))
                 .forEach(action -> p.validate(action, componentScope));
+
+        checkEmptyToolbar(source);
+    }
+
+    private static void checkEmptyToolbar(N2oWidget source) {
+        if (nonNull(source.getToolbars()))
+            for (N2oToolbar toolbar : source.getToolbars()) {
+                if (toolbar.getItems() == null && toolbar.getGenerate() == null)
+                    throw new N2oMetadataValidationException(
+                            String.format("Не заданы элементы или атрибут 'generate' в тулбаре виджета '%s'",
+                                    source.getId()));
+            }
     }
 
     private void checkDependencies(N2oWidget source) {

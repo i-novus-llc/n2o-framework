@@ -78,4 +78,13 @@ public class PageValidatorTest extends SourceValidationTestBase {
     void testWidgetDatasourceWithId() {
         validate("net/n2oapp/framework/config/metadata/validation/page/testWidgetDatasourceWithId.page.xml");
     }
+
+    @Test
+    void testEmptyToolbar() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testEmptyToolbar.page.xml")
+        );
+        assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре страницы", exception.getMessage());
+    }
 }

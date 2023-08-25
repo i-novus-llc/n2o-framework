@@ -19,6 +19,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.table.*;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
@@ -217,7 +218,9 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         overlay.setClassName(rowOverlay.getClassName());
         if (rowOverlay.getToolbar() != null) {
             Toolbar toolbar = p.compile(rowOverlay.getToolbar(), context, widgetScope, indexScope);
-            overlay.setToolbar(toolbar.values().iterator().next());
+            Iterator<List<Group>> iterator = toolbar.values().iterator();
+            if (iterator.hasNext())
+                overlay.setToolbar(iterator.next());
         }
         return overlay;
     }

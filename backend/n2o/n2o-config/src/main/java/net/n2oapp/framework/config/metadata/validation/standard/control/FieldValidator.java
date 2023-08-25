@@ -51,6 +51,15 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
         if (source.getToolbar() != null)
             p.safeStreamOf(source.getToolbar().getItems()).forEach(p::validate);
 
+        checkEmptyToolbar(source);
+    }
+
+    private static void checkEmptyToolbar(N2oField source) {
+        if (source.getToolbar() != null
+                && source.getToolbar().getItems() == null)
+            throw new N2oMetadataValidationException(
+                    String.format("Не заданы элементы или атрибут 'generate' в тулбаре поля %s",
+                            ValidationUtils.getIdOrEmptyString(source.getId())));
     }
 
     /**
