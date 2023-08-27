@@ -14,6 +14,7 @@ import find from 'lodash/find'
 
 import evalExpression, { parseExpression } from '../../../utils/evalExpression'
 import { id } from '../../../utils/id'
+import { removeFieldMessage } from '../../../ducks/form/store'
 
 import { deleteFile, everyIsValid, post } from './utils'
 
@@ -80,6 +81,16 @@ const FileUploaderControl = (WrappedComponent) => {
                     : this.mapFiles(value || [])
 
                 const hasUpdate = !every(newFiles, file => some(stateFiles, file))
+
+                if (!isEmpty(newFiles)) {
+                    const { dependency = [] } = this.props
+
+                    if (dependency.some((dep = {}) => dep.type === 'required')) {
+                        const { dispatch, form, id } = this.props
+
+                        dispatch(removeFieldMessage(form, id))
+                    }
+                }
 
                 if (hasUpdate) {
                     this.setState({ files: newFiles })
@@ -690,6 +701,10 @@ const FileUploaderControl = (WrappedComponent) => {
         model: PropTypes.object,
         fieldKey: PropTypes.string,
         t: PropTypes.func,
+        dependency: PropTypes.object,
+        dispatch: PropTypes.func,
+        form: PropTypes.string,
+        id: PropTypes.string,
     }
 
     return ReturnedComponent
