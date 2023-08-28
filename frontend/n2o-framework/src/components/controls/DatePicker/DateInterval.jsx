@@ -31,7 +31,7 @@ function DateInterval({
     onBlur,
     ...rest
 }) {
-    const newValue = defaults(value, defaultValue)
+    const newValue = defaults({ ...value }, defaultValue)
 
     const handleChange = (data) => {
         onChange({
