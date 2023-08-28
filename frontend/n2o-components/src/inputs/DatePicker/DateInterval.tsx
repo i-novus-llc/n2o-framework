@@ -48,7 +48,7 @@ export const DateInterval = ({
     defaultTime,
     ...rest
 }: DateIntervalProps) => {
-    const newValue = defaults(value, defaultValue)
+    const newValue = defaults({ ...value }, defaultValue)
 
     const handleChange = (data: [string | null, string | null]) => {
         onChange({
