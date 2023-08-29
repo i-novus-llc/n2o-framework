@@ -245,9 +245,9 @@
                         </xs:annotation>
                     </xs:element>
                 </xs:sequence>
-                <xs:attribute name="generate" type="xs:string">
+                <xs:attribute name="generate" type="bs:generateDefinition">
                     <xs:annotation>
-                        <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
+                        <xs:documentation>Генерация стандартных кнопок. Можно указать несколько значений через запятую</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="show-toggle-icon" type="xs:boolean" default="true">

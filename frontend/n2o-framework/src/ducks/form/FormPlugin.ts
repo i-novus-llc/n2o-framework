@@ -24,4 +24,5 @@ export const getDefaultField = () => ({
     required: false,
     loading: false,
     touched: false,
+    isActive: false,
 })
