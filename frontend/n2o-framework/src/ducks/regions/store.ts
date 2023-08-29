@@ -9,20 +9,7 @@ import { State as StoreState } from '../State'
 import RegionResolver from './RegionResolver'
 import { MAP_URL } from './constants'
 import { State } from './Regions'
-import { RegisterRegion, SetActiveRegionEntity, SetTabInvalid } from './Actions'
-
-/**
- * Дефолтный стейт
- * FIXME set active стреляет раньше регистрации
- */
-const defaultState = {
-    regionId: null,
-    activeEntity: null,
-    isInit: false,
-    panels: [],
-    datasource: null,
-    tabs: [],
-}
+import { RegisterRegion, SetActiveRegionEntity, SetTabInvalid, UnregisterRegion } from './Actions'
 
 /**
  * Начальный стейт
@@ -45,6 +32,19 @@ const regionsSlice = createSlice({
                 state[regionId] = regionState
             },
         },
+        UNREGISTER_REGION: {
+            prepare(regionId) {
+                return ({
+                    payload: { regionId },
+                })
+            },
+
+            reducer(state, action: UnregisterRegion) {
+                const { regionId } = action.payload
+
+                delete state[regionId]
+            },
+        },
 
         SET_ACTIVE_REGION_ENTITY: {
             prepare(regionId, activeEntity) {
@@ -56,11 +56,9 @@ const regionsSlice = createSlice({
             reducer(state, action: SetActiveRegionEntity) {
                 const { regionId, activeEntity } = action.payload
 
-                if (!state[regionId]) {
-                    state[regionId] = defaultState
+                if (state[regionId]) {
+                    state[regionId].activeEntity = RegionResolver.transformedEntity(activeEntity)
                 }
-
-                state[regionId].activeEntity = RegionResolver.transformedEntity(activeEntity)
             },
         },
 
@@ -93,6 +91,7 @@ export default regionsSlice.reducer
 
 export const {
     REGISTER_REGION: registerRegion,
+    UNREGISTER_REGION: unregisterRegion,
     SET_ACTIVE_REGION_ENTITY: setActiveRegion,
     SET_TAB_INVALID: setTabInvalid,
 } = regionsSlice.actions
