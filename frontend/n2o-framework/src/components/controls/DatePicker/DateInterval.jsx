@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
+import defaults from 'lodash/defaults'
 import { getContext } from 'recompose'
 
 import DateTimeControl from './DateTimeControl'
@@ -32,10 +33,7 @@ function DateInterval({
     config,
     ...rest
 }) {
-    const newValue = useMemo(() => ({
-        ...defaultValue,
-        ...value,
-    }), [value, defaultValue])
+    const newValue = defaults({ ...value }, defaultValue)
 
     const handleChange = (data) => {
         onChange({
