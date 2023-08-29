@@ -241,6 +241,10 @@ const shouldBeResolved = ({
         return true
     }
 
+    if (actionType === actionTypes.INITIALIZE && !applyOnInit) {
+        return false
+    }
+
     // apply on change
     /*
      * условие 2 нужно чтобы стрелть событиями когда обновлённое поле это объект,
@@ -249,6 +253,7 @@ const shouldBeResolved = ({
      * из-за этого условия стреляют лишние зависимости: on=['field.count']
      * FIXME: Переделать на реальное сравнение изменения вложенных полей
      */
+
     return isChangeAction && on?.some(dependencyField => (
         dependencyField === actionField || // full equality
         dependencyField.startsWith(`${actionField}.`) || // fieldName: "field", on: "field.id"
@@ -289,6 +294,7 @@ export function* resolveDependency({ type, meta, payload }) {
      * зависимость отрабатывает раньше чем redux form изменяет поля с пред. данными
      * если delay будет безусловный, в полях при обработке начнется мерцание.
      */
+
     if (Array.isArray(payload)) {
         yield delay(16)
     }
