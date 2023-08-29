@@ -19,5 +19,6 @@ export type SetTabInvalidPayload = {
 }
 
 export type RegisterRegion = Action<string, RegisterRegionPayload>
+export type UnregisterRegion = Action<string, { regionId: string }>
 export type SetActiveRegionEntity = Action<string, SetActiveRegionEntityPayload>
 export type SetTabInvalid = Action<string, SetTabInvalidPayload>
