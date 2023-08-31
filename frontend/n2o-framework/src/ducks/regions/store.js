@@ -42,7 +42,19 @@ const regionsSlice = createSlice({
                 state[regionId] = regionState
             },
         },
+        UNREGISTER_REGION: {
+            prepare(regionId) {
+                return ({
+                    payload: { regionId },
+                })
+            },
 
+            reducer(state, action) {
+                const { regionId } = action.payload
+
+                delete state[regionId]
+            },
+        },
         SET_ACTIVE_REGION_ENTITY: {
 
             /**
@@ -66,11 +78,9 @@ const regionsSlice = createSlice({
             reducer(state, action) {
                 const { regionId, activeEntity } = action.payload
 
-                if (!state[regionId]) {
-                    state[regionId] = {}
+                if (state[regionId]) {
+                    state[regionId].activeEntity = RegionResolver.transformedEntity(activeEntity)
                 }
-
-                state[regionId].activeEntity = RegionResolver.transformedEntity(activeEntity)
             },
         },
         SET_TAB_INVALID: {
@@ -103,6 +113,7 @@ export default regionsSlice.reducer
 // Actions
 export const {
     REGISTER_REGION: registerRegion,
+    UNREGISTER_REGION: unregisterRegion,
     SET_ACTIVE_REGION_ENTITY: setActiveRegion,
     SET_TAB_INVALID: setTabInvalid,
 } = regionsSlice.actions
