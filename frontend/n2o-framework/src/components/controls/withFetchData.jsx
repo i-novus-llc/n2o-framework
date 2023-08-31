@@ -144,10 +144,11 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
          * Взять данные с сервера с помощью dataProvider
          * @param dataProvider
          * @param extraParams
+         * @param cacheReset
          * @returns {Promise<void>}
          * @private
          */
-        async fetchDataProvider(dataProvider, extraParams = {}) {
+        async fetchDataProvider(dataProvider, extraParams = {}, cacheReset = false) {
             const { store } = this.context
             const { abortController } = this.state
 
@@ -161,13 +162,15 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
                 headersParams,
             } = dataProviderResolver(store.getState(), dataProvider)
 
-            const cached = this.findResponseInCache({
+            const params = {
                 basePath,
                 queryParams,
                 extraParams,
-            })
+            }
 
-            if (cached) {
+            const cached = this.findResponseInCache(params)
+
+            if (cached && !cacheReset) {
                 return cached
             }
 
@@ -195,6 +198,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
          * @param count
          * @param size
          * @param page
+         * @param paging
          * @param merge
          * @private
          */
@@ -218,10 +222,11 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
          * Получает данные с сервера
          * @param extraParams - параметры запроса
          * @param merge - флаг объединения данных
+         * @param cacheReset - флаг принудительного сбрасывания cache
          * @returns {Promise<void>}
          * @private
          */
-        async fetchData(extraParams = {}, merge = false) {
+        async fetchData(extraParams = {}, merge = false, cacheReset = false) {
             const { dataProvider, fetchError, datasource } = this.props
             const { data } = this.state
 
@@ -243,6 +248,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
                 const response = await this.fetchDataProvider(
                     dataProvider,
                     extraParams,
+                    cacheReset,
                 )
 
                 if (has(response, 'message')) { this.addAlertMessage(response.message) }
