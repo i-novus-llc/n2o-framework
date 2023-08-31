@@ -10,6 +10,7 @@ import {
     mapUrl,
     makeRegionIsInitSelector,
     makeRegionActiveEntitySelector,
+    unregisterRegion,
 } from '../../ducks/regions/store'
 
 import { getFirstContentId } from './helpers'
@@ -100,6 +101,11 @@ const createRegionContainer = config => (WrappedComponent) => {
                 const { initIfNeeded } = this.props
 
                 initIfNeeded()
+            },
+            componentWillUnmount() {
+                const { dispatch, id } = this.props
+
+                dispatch(unregisterRegion(id))
             },
         }),
     )
