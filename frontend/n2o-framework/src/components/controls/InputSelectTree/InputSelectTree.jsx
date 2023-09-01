@@ -257,10 +257,8 @@ function InputSelectTree(props) {
         if (visible) {
             onFocus()
         }
-        // onToggle(visible)
-        // setDropdownExpanded(visible)
 
-        if (visible && !data.length) {
+        if (visible) {
             onOpen()
         } else {
             onClose()
