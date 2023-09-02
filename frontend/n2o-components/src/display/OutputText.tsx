@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import { TBaseProps } from '../types'
 
-import { Icon } from './Icon/Icon'
+import { Icon } from './Icon'
 import { Text } from './Typography/Text'
 
 import '../styles/components/OutputText.scss'
