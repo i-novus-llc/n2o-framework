@@ -14,7 +14,7 @@ import { DropdownItem } from 'reactstrap'
 import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view-if-needed'
 
-import { Icon } from '../../display/Icon/Icon'
+import { Icon } from '../../display/Icon'
 import { StatusText } from '../../display/StatusText/StatusText'
 import { Badge } from '../../display/Badge/Badge'
 import { isBadgeLeftPosition, isBadgeRightPosition, resolveBadgeProps } from '../../display/Badge/utils'
