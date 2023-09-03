@@ -13,10 +13,10 @@ export function CheckboxControl(props: Props) {
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = (event.nativeEvent.target as HTMLInputElement).checked
-        const defaultUnchecked = propsDefaultUnchecked === false ? false : null
+        const defaultUnchecked = propsDefaultUnchecked && null
 
         if (propsOnChange) {
-            propsOnChange(!value ? defaultUnchecked : value)
+            propsOnChange(value || defaultUnchecked)
         }
     }
 
