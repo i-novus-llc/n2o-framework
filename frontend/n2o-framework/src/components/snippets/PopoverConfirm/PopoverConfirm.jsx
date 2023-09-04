@@ -1,3 +1,1 @@
-import { PopoverConfirm } from '@i-novus/n2o-components/lib/display/PopoverConfirm/PopoverConfirm'
-
-export { PopoverConfirm, PopoverConfirm as default }
+export { PopoverConfirm, PopoverConfirm as default } from '@i-novus/n2o-components/lib/display/PopoverConfirm'

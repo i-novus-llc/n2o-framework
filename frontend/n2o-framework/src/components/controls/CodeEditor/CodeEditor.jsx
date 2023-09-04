@@ -1,3 +1,1 @@
-import { CodeEditor } from '@i-novus/n2o-components/lib/inputs/CodeEditor/CodeEditor'
-
-export { CodeEditor as default }
+export { CodeEditor as default } from '@i-novus/n2o-components/lib/inputs/CodeEditor'
