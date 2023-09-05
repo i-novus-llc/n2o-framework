@@ -5,6 +5,12 @@
     max-width: max-content;
 }
 
+.buttons-toolbar {
+    .btn-group {
+        margin-right: 0.5rem;
+    }
+}
+
 .modal-footer {
     .btn-toolbar {
         .btn-group,
@@ -19,11 +25,5 @@
         .btn::before {
             color: transparent;
         }
-    }
-}
-
-.buttons-toolbar {
-    .btn-group > :last-child {
-        margin-right: 0.5rem;
     }
 }
