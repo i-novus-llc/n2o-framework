@@ -12,7 +12,7 @@ import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import last from 'lodash/last'
 import omit from 'lodash/omit'
-import { reset } from 'redux-form'
+import { reset, change } from 'redux-form'
 
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { PREFIXES } from '../models/constants'
@@ -306,7 +306,24 @@ export function* clearForm(action) {
      * поставил задержку, чтобы форма могла сначала принять в себя пустую модель, а потом уже ресетнуть всю мета инфу в себе
 */
     yield delay(50)
-    yield put(reset(action.payload.key))
+    const formName = action.payload.key
+
+    yield put(reset(formName))
+
+    const state = yield select()
+    const formValues = get(state, `form.${formName}.values`)
+
+    /* FIXME: почему то redux form reset срабатывает частично
+        и оставляет некоторые поля заполненными в redux form values.
+         Из за этого -> расхождение с model которая чиститься корректно,
+          а в филде остаются неактуальные данные */
+    if (!isEmpty(formValues)) {
+        const fieldNames = Object.keys(formValues)
+
+        for (const field of fieldNames) {
+            yield put(change(formName, field, null))
+        }
+    }
 }
 
 export function* clearOnDisable(action) {

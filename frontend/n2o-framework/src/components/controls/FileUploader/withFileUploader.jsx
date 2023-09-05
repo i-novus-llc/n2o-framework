@@ -72,7 +72,7 @@ const FileUploaderControl = (WrappedComponent) => {
             const { files: stateFiles } = this.state
 
             if (!isEqual(prevProps.value, value)) {
-                if (value === '') {
+                if (!value) {
                     this.setState({ files: [] })
                 }
 
