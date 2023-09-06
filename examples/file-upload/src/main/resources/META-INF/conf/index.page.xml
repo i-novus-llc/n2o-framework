@@ -4,10 +4,10 @@
     <table>
         <datasource query-id="files"/>
         <toolbar>
-            <button id="add" label="Добавить файл" icon="fa fa-plus" model="filter">
+            <button id="add" label="Добавить файл" icon="fa fa-plus" disable-on-empty-model="false">
                 <show-modal page-id="uploadFile" submit-operation-id="submit"/>
             </button>
-            <button id="delete" label="Удалить" icon="icon-remove" type="text">
+            <button id="delete" label="Удалить" icon="fa fa-trash" type="text">
                 <invoke operation-id="delete"/>
             </button>
         </toolbar>
