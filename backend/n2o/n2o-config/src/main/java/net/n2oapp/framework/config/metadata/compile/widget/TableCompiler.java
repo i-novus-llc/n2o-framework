@@ -3,10 +3,13 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oSearchButtons;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ChildrenToggle;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPosition;
@@ -61,6 +64,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     @Override
     public D compile(S source, CompileContext<?, ?> context, CompileProcessor p) {
         D table = constructTable();
+
         compileBaseWidget(table, source, context, p);
         N2oAbstractDatasource datasource = initDatasource(table, source, p);
         CompiledQuery query = getQuery(datasource, p);
@@ -93,7 +97,9 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                 if (source.getRows().getColor() != null) {
                     Map<Object, String> resolvedCases = new HashMap<>();
                     for (String key : source.getRows().getColor().getCases().keySet()) {
-                        resolvedCases.put(p.resolve(key), source.getRows().getColor().getCases().get(key));
+                        resolvedCases.put(
+                                p.resolve(key), source.getRows().getColor().getCases().get(key)
+                        );
                     }
                     source.getRows().getColor().setResolvedCases(resolvedCases);
                     component.setRowClass(buildSwitchExpression(source.getRows().getColor()));
@@ -128,10 +134,16 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
             Map<String, String> sortings = new HashMap<>();
             IndexScope columnIndex = new IndexScope();
             CellsScope cellsScope = new CellsScope(new ArrayList<>());
+
             for (AbstractColumn column : source.getColumns()) {
-                headers.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, scopes));
+                headers.add(
+                        p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, scopes)
+                );
                 if (column.getSortingDirection() != null) {
-                    sortings.put(RouteUtil.normalizeParam(p.cast(column.getSortingFieldId(), column.getTextFieldId())), column.getSortingDirection().toString().toUpperCase());
+                    sortings.put(
+                            RouteUtil.normalizeParam(p.cast(column.getSortingFieldId(), column.getTextFieldId())),
+                            column.getSortingDirection().toString().toUpperCase()
+                    );
                 }
             }
             component.setHeaders(headers);
@@ -158,10 +170,13 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     }
 
     private void passSortingToDatasource(Map<String, String> sortings, N2oTable source, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        String sourceDatasourceId = pageScope.getWidgetIdSourceDatasourceMap().get(source.getId());
-        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-        dataSourcesScope.get(sourceDatasourceId).setSorting(sortings);
+        String sourceDatasourceId = p.getScope(PageScope.class)
+                .getWidgetIdSourceDatasourceMap()
+                .get(source.getId());
+
+        p.getScope(DataSourcesScope.class)
+                .get(sourceDatasourceId)
+                .setSorting(sortings);
     }
 
     private void initFilter(Table compiled, N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
@@ -174,12 +189,20 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         AbstractTable.Filter filter = new AbstractTable.Filter();
         filter.setFilterFieldsets(fieldSets);
         filter.setFilterButtonId("filter");
-        filter.setBlackResetList(new ArrayList<>(Arrays.stream(source.getFilters())
-                .filter(f -> f instanceof N2oSearchButtons && ((N2oSearchButtons) f).getClearIgnore() != null)
-                .flatMap(f -> Arrays.stream(((N2oSearchButtons) f).getClearIgnore().split(",")))
-                .map(String::trim)
-                .collect(Collectors.toSet())
-        ));
+        List<N2oSearchButtons> searchButtons = new ArrayList<>();
+        findSearchButton(
+                source.getFilters(),
+                searchButtons
+        );
+        filter.setBlackResetList(
+                new ArrayList<>(
+                        searchButtons.stream()
+                                .filter(f -> f.getClearIgnore() != null)
+                                .flatMap(f -> Arrays.stream(f.getClearIgnore().split(",")))
+                                .map(String::trim)
+                                .collect(Collectors.toSet())
+                )
+        );
         filter.setFilterPlace(p.cast(source.getFilterPosition(), FilterPosition.TOP));
         boolean hasSearchButtons = fieldSets.stream()
                 .flatMap(fs -> fs.getRows() != null ? fs.getRows().stream() : Stream.empty())
@@ -193,6 +216,20 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
             filter.setHideButtons(true);
         initInlineFiltersDatasource(compiled, source, p);
         compiled.setFilter(filter);
+    }
+
+    private void findSearchButton(SourceComponent[] filters, List<N2oSearchButtons> searchButtons) {
+        if (filters == null)
+            return;
+        for (SourceComponent f : filters) {
+            if (f instanceof N2oSearchButtons) {
+                searchButtons.add((N2oSearchButtons) f);
+            } else if (f instanceof N2oFieldsetRow) {
+                findSearchButton(((N2oFieldsetRow) f).getItems(), searchButtons);
+            } else if (f instanceof N2oFieldsetColumn) {
+                findSearchButton(((N2oFieldsetColumn) f).getItems(), searchButtons);
+            }
+        }
     }
 
     /**
