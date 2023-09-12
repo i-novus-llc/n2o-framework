@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
