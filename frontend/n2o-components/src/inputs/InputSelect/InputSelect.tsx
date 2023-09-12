@@ -407,7 +407,6 @@ export class InputSelect extends React.Component<Props, State> {
             options,
             onSelect,
             onChange,
-            onBlur,
         } = this.props
 
         const selectCallback = () => {
@@ -426,11 +425,14 @@ export class InputSelect extends React.Component<Props, State> {
             }),
             () => {
                 selectCallback()
-                onBlur(this.getValue())
 
                 if (this.inputRef) {
                     this.inputRef.current.focus()
                 }
+
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (this.textAreaRef as any).focus()
+                this.setInputFocus(true)
             },
         )
 
@@ -461,8 +463,10 @@ export class InputSelect extends React.Component<Props, State> {
             if (isExpanded) {
                 this.clearSearchField()
             }
-            this.clearSelected()
-            this.setInputFocus(false)
+            this.clearSelected();
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (this.textAreaRef as any).focus()
+            this.setInputFocus(true)
         }
     }
 
@@ -653,7 +657,7 @@ export class InputSelect extends React.Component<Props, State> {
                             inputFocus={inputFocus}
                             onClearClick={this.handleElementClear}
                             disabled={disabled}
-                            className={`${className} ${isExpanded ? 'focus' : ''}`}
+                            className={`${className} ${(isExpanded || inputFocus) ? 'focus' : ''}`}
                             onClick={this.onInputSelectGroupClick}
                         >
                             <InputContent
