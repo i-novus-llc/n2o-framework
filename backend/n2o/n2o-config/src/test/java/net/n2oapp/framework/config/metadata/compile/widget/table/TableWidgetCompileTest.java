@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
@@ -50,6 +49,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * Тестирование компиляции виджета Таблица
  */
 public class TableWidgetCompileTest extends SourceCompileTestBase {
+
     @Override
     @Before
     public void setUp() throws Exception {
@@ -59,13 +59,23 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oRegionsPack(), new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack(), new N2oActionsPack());
+        builder.packs(
+                new N2oPagesPack(),
+                new N2oWidgetsPack(),
+                new N2oRegionsPack(),
+                new N2oAllDataPack(),
+                new N2oFieldSetsPack(),
+                new N2oControlsPack(),
+                new N2oCellsPack(),
+                new N2oActionsPack()
+        );
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable5Compile.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
+        );
     }
 
     @Test
@@ -515,6 +525,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(header.getAlignment(), is(Alignment.LEFT));
         assertThat(cell.getId(), is("sub33"));
         assertThat(cell.getContentAlignment(), is(Alignment.RIGHT));
+    }
+
+    @Test
+    public void testBlackResetList() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testBlackResetList.widget.xml")
+                .get(new WidgetContext("testBlackResetList"));
+
+        assertThat(table.getFilter().getBlackResetList().get(0), is("urgently"));
     }
 
 }
