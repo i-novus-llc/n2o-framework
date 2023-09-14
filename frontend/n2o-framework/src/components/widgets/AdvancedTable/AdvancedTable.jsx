@@ -288,26 +288,30 @@ class AdvancedTable extends Component {
         return checked
     }
 
-    getModelsFromData = (data) => {
+    getModelsFromData = (data = []) => {
         const dataStorage = []
-        const getChildren = children => map(children, (model) => {
-            let array = [...children]
 
-            if (model.children) {
-                array = [...array, getChildren(model.children)]
+        const getChildren = (children) => {
+            const expandedChildren = [...children]
+
+            for (const item of children) {
+                if (item.children) {
+                    expandedChildren.push(getChildren(item.children))
+                }
             }
 
-            return array
-        })
+            return expandedChildren
+        }
 
-        map(data, (item) => {
+        for (const item of data) {
             if (item.children) {
                 const children = getChildren(item.children)
 
                 dataStorage.push(...flattenDeep(children))
             }
+
             dataStorage.push(item)
-        })
+        }
 
         return dataStorage
     }
