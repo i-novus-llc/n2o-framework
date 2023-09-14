@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.region;
 
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
@@ -20,7 +21,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест использования активных вкладок в модели данных
  */
-public class ActiveTabAT extends AutoTestBase {
+public class TabsActiveAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -36,6 +37,44 @@ public class ActiveTabAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
+    }
+    @Test
+    public void testParams() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/region/tabs/active_params/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/tabs/active_params/tab.page.xml")
+        );
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        StandardButton button = page.toolbar().topLeft().button("tab2");
+        button.shouldExists();
+        button.click();
+
+        TabsRegion tabs = page.regions().region(0, TabsRegion.class);
+        tabs.shouldHaveSize(3);
+        tabs.tab(1).shouldHaveName("Два");
+        tabs.tab(1).shouldBeActive();
+
+        page.breadcrumb().crumb(0).click();
+
+        button = page.toolbar().topLeft().button("tab3");
+        button.shouldExists();
+        button.click();
+
+        tabs = page.regions().region(0, TabsRegion.class);
+        tabs.tab(2).shouldHaveName("Три");
+        tabs.tab(2).shouldBeActive();
+
+        page.breadcrumb().crumb(0).click();
+
+        Selenide.back();
+        page.shouldExists();
+
+        tabs = page.regions().region(0, TabsRegion.class);
+        tabs.shouldExists();
+        tabs.tab(2).shouldHaveName("Три");
+        tabs.tab(2).shouldBeActive();
     }
 
     @Test
