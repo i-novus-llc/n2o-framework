@@ -3,3 +3,20 @@
         display: inline-block;
     }
 }
+
+.n2o-markdown-button.n2o-markdown-link {
+    min-height: auto;
+    padding: 0;
+    border: none;
+}
+
+.n2o-markdown-button.n2o-markdown-link:hover {
+    background-color: transparent;
+    color: #d81b60;
+}
+
+.n2o-markdown-button.n2o-markdown-link:active,
+.n2o-markdown-button.n2o-markdown-link:focus {
+    box-shadow: none !important;
+    background-color: transparent !important;
+}
