@@ -3,8 +3,12 @@ package net.n2oapp.framework.ui.controller;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.rest.ExportResponse;
 
+import net.n2oapp.framework.ui.controller.export.ExportController;
+import net.n2oapp.framework.ui.controller.export.format.CsvFileGenerator;
+import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 import org.junit.jupiter.api.Test;
 
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +18,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 public class ExportControllerTest {
+
+    private final FileGeneratorFactory factory = new FileGeneratorFactory(List.of(new CsvFileGenerator()));
 
     @Test
     void test() {
@@ -38,7 +44,7 @@ public class ExportControllerTest {
         list.add(body2);
         list.add(body3);
 
-        ExportController exportController = new ExportController(null, null, null);
+        ExportController exportController = new ExportController(null, factory);
         ExportResponse export = exportController.export(list, "csv", "UTF-8");
 
         String act = new String(export.getFile(), StandardCharsets.UTF_8);
@@ -52,5 +58,16 @@ public class ExportControllerTest {
         assertThat(export.getContentType(), is("text/csv"));
         assertThat(export.getContentDisposition(), is("attachment;filename=export.csv"));
         assertThat(export.getContentLength(), is(exp.getBytes(StandardCharsets.UTF_8).length));
+
+        export = exportController.export(list, "csv", "Cp1251");
+
+        Charset cp1251 = Charset.forName("cp1251");
+        act = new String(export.getFile(), cp1251);
+
+        assertThat(act, is(exp));
+        assertThat(export.getCharacterEncoding(), is("Cp1251"));
+        assertThat(export.getContentType(), is("text/csv"));
+        assertThat(export.getContentDisposition(), is("attachment;filename=export.csv"));
+        assertThat(export.getContentLength(), is(exp.getBytes(cp1251).length));
     }
 }
