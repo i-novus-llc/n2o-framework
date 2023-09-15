@@ -3,7 +3,7 @@
     <columns>
         <column text-field-id="test">
             <icon src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
-                  icon="icon" type="iconAndText" position="right" text="text">
+                  icon="icon" position="right" text="text">
                 <switch value-field-id="field">
                     <case value="1">icon1</case>
                     <case value="2">icon2</case>

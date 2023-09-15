@@ -14,7 +14,7 @@
                     <text class="font-weight-bold"/>
                 </block>
                 <block text-field-id="link">
-                    <link type="iconAndText" icon="fa fa-desktop" target="newWindow" url="{link}"/>
+                    <link icon="fa fa-desktop" target="newWindow" url="{link}"/>
                 </block>
             </col>
             <col size="7">

@@ -13,13 +13,13 @@
                 <column text-field-id="name"/>
                 <column>
                     <toolbar>
-                        <button icon="fa fa-pencil" type="icon">
+                        <button icon="fa fa-pencil">
                             <show-modal page-id="modal" route="/update"/>
                         </button>
                     </toolbar>
                 </column>
                 <column>
-                    <link icon="fa fa-pencil" type="icon">
+                    <link icon="fa fa-pencil">
                         <show-modal page-id="modal" route="/update"/>
                     </link>
                 </column>

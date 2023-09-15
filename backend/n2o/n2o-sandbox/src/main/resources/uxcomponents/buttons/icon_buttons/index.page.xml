@@ -4,8 +4,8 @@
     <form>
         <toolbar>
             <button label="Найти" icon="fa fa-search" color="primary"/>
-            <button label="Скачать файл" icon="fa fa-download" type="icon"/>
-            <button label="Открыть ссылку" icon="fa fa-link" type="icon"/>
+            <button description="Скачать файл" icon="fa fa-download"/>
+            <button description="Открыть ссылку" icon="fa fa-link"/>
         </toolbar>
     </form>
 </simple-page>

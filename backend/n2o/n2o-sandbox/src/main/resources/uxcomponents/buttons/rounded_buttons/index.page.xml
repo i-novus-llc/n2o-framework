@@ -3,13 +3,13 @@
              name="Скругленные кнопки">
     <form>
         <toolbar>
-            <button label="Добавить" icon="fa fa-plus" type="icon" color="primary" class="btn-sm" rounded="true"/>
-            <button label="Удалить" icon="fa fa-minus" type="icon" color="primary" class="btn-sm" rounded="true"/>
-            <button label="Добавить" icon="fa fa-plus" type="icon" color="primary" class="btn-md" rounded="true"/>
-            <button label="Удалить" icon="fa fa-minus" type="icon" color="primary" class="btn-md" rounded="true"/>
-            <button label="Избранное" icon="fa fa-star" type="icon" color="primary" class="btn-lg" rounded="true"/>
-            <button label="Добавить" icon="fa fa-plus" type="icon" color="primary" class="btn-lg" rounded="true"/>
-            <button label="Удалить" icon="fa fa-minus" type="icon" color="primary" class="btn-lg" rounded="true"/>
+            <button description="Добавить" icon="fa fa-plus" color="primary" class="btn-sm" rounded="true"/>
+            <button description="Удалить" icon="fa fa-minus" color="primary" class="btn-sm" rounded="true"/>
+            <button description="Добавить" icon="fa fa-plus" color="primary" class="btn-md" rounded="true"/>
+            <button description="Удалить" icon="fa fa-minus" color="primary" class="btn-md" rounded="true"/>
+            <button description="Избранное" icon="fa fa-star" color="primary" class="btn-lg" rounded="true"/>
+            <button description="Добавить" icon="fa fa-plus" color="primary" class="btn-lg" rounded="true"/>
+            <button description="Удалить" icon="fa fa-minus" color="primary" class="btn-lg" rounded="true"/>
             <button label="Сохранить" color="primary" rounded="true"/>
             <button label="Отмена" rounded="true"/>
         </toolbar>

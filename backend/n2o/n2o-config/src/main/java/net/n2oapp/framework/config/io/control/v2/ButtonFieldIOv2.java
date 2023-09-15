@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.io.control.v2;
 
 import net.n2oapp.framework.api.metadata.control.N2oButtonField;
-import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
 import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOAware;
@@ -27,7 +26,6 @@ public class ButtonFieldIOv2 extends FieldIOv2<N2oButtonField> implements Contro
         p.attribute(e, "color", m::getColor, m::setColor);
         p.attribute(e, "tooltip-position", m::getTooltipPosition, m::setTooltipPosition);
 
-        p.attributeEnum(e, "type", m::getType, m::setType, LabelType.class);
     }
 
     @Override

@@ -6,7 +6,7 @@
                 <icon icon="icon"/>
             </column>
             <column text-field-id="test2" tooltip-field-id="tooltipId">
-                <icon text="text" position="right" type="iconAndText">
+                <icon text="text" position="right">
                     <switch value-field-id="type.id">
                         <case value="1">icon1</case>
                         <case value="2">icon2</case>

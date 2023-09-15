@@ -3,7 +3,6 @@ package net.n2oapp.framework.api.metadata.control;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Button;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
@@ -15,7 +14,6 @@ import net.n2oapp.framework.api.metadata.meta.badge.Position;
 public class N2oButtonField extends N2oActionField implements Button, BadgeAware {
 
     private String icon;
-    private LabelType type;
     private String badge;
     private String badgeColor;
     private Position badgePosition;

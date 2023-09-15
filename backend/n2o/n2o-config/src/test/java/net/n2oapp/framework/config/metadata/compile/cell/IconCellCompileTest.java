@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
 import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.meta.cell.IconCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -45,12 +44,10 @@ public class IconCellCompileTest extends SourceCompileTestBase {
         IconCell cell = (IconCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("IconCell"));
         assertThat(cell.getIcon(), is("icon"));
-        assertThat(cell.getIconType(), is(IconType.icon));
 
         cell = (IconCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getSrc(), is("IconCell"));
         assertThat(cell.getIcon(), is("`type.id == 1 ? 'icon1' : type.id == 2 ? 'icon2' : 'icon3'`"));
-        assertThat(cell.getIconType(), is(IconType.iconAndText));
         assertThat(cell.getText(), is("text"));
         assertThat(cell.getPosition(), is(Position.RIGHT));
         assertThat(cell.getTooltipFieldId(), is("tooltipId"));

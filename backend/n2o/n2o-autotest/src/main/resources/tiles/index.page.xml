@@ -9,7 +9,7 @@
                 <text/>
             </block>
             <block text-field-id="icon" tooltip-field-id="icon">
-                <icon type="iconAndText">
+                <icon>
                     <switch value-field-id="icon">
                         <case value="icon1">fa fa-plus</case>
                         <case value="icon2">fa fa-minus</case>

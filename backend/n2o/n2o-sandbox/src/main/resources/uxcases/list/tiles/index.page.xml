@@ -17,7 +17,7 @@
                 <text class="font-weight-light" />
             </block>
             <block text-field-id="link">
-                <link type="iconAndText" icon="fa fa-desktop" url="{link}" target="self"/>
+                <link icon="fa fa-desktop" url="{link}" target="self"/>
             </block>
             <block>
                 <toolbar>
