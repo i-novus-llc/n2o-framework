@@ -1414,7 +1414,7 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/validation/dialog",
-          "name": "ValidationDialogAT. testDialog"
+          "name": "DialogValidationAT. testDialog"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/validation/field/after_set_value",
@@ -1438,7 +1438,7 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/validation/resolve_dialog_title",
-          "name": "ValidationDialogAT. test"
+          "name": "DialogValidationAT. test"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/validation/tab",

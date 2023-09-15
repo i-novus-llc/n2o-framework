@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для диалога подтверждения действия
  */
-public class ValidationDialogAT extends AutoTestBase {
+public class DialogValidationAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {

@@ -84,8 +84,8 @@ public class Validator implements Iterable<Validation> {
             failInfo.setFieldId(v.isForField() ? v.getFieldId() : null);
             failInfo.setMessage(StringUtils.resolveLinks(v.getMessage(), dataSet));
             failInfo.setMessageTitle(StringUtils.resolveLinks(v.getMessageTitle(), dataSet));
-            if (v instanceof ValidationDialog) {
-                N2oDialog dialog = ((ValidationDialog) v).getDialog();
+            if (v instanceof DialogValidation) {
+                N2oDialog dialog = ((DialogValidation) v).getDialog();
                 dialog.setTitle(failInfo.getMessageTitle());
                 dialog.setDescription(failInfo.getMessage());
                 failInfo.setDialog(dialog);

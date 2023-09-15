@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.object.validation;
 
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.data.validation.ValidationDialog;
+import net.n2oapp.framework.api.data.validation.DialogValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.action.N2oCloseAction;
 import net.n2oapp.framework.api.metadata.action.N2oInvokeAction;
@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тестирование компиляции валидации с диалогом выбора
  */
-public class ValidationDialogCompileTest extends SourceCompileTestBase {
+public class DialogValidationCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -56,19 +56,19 @@ public class ValidationDialogCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.afterFailOperation));
         assertThat(validations.get(0).getMessage(), is("message {age}"));
 
-        N2oTestDataProvider invocation = (N2oTestDataProvider) ((ValidationDialog) validations.get(0)).getInvocation();
+        N2oTestDataProvider invocation = (N2oTestDataProvider) ((DialogValidation) validations.get(0)).getInvocation();
         assertThat(invocation.getOperation(), is(N2oTestDataProvider.Operation.create));
         assertThat(invocation.getFile(), is("test.json"));
 
-        List<AbstractParameter> inParametersList = ((ValidationDialog) validations.get(0)).getInParametersList();
+        List<AbstractParameter> inParametersList = ((DialogValidation) validations.get(0)).getInParametersList();
         assertThat(inParametersList.size(), is(3));
-        List<AbstractParameter> outParametersList = ((ValidationDialog) validations.get(0)).getOutParametersList();
+        List<AbstractParameter> outParametersList = ((DialogValidation) validations.get(0)).getOutParametersList();
         assertThat(outParametersList.size(), is(2));
         assertThat(outParametersList.get(0).getId(), is("name"));
         assertThat(outParametersList.get(1).getId(), is("validation"));
         assertThat(outParametersList.get(1).getMapping(), is("name=='test'"));
 
-        N2oDialog dialog = ((ValidationDialog) validations.get(0)).getDialog();
+        N2oDialog dialog = ((DialogValidation) validations.get(0)).getDialog();
         assertThat(dialog.getId(), is("dialog1"));
         assertThat(dialog.getTitle(), is("title"));
         assertThat(dialog.getDescription(), is("`'message '+age`"));
@@ -83,7 +83,7 @@ public class ValidationDialogCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(1).getId(), is("dialog2"));
         assertThat(validations.get(1).getSeverity(), is(SeverityType.danger));
         assertThat(validations.get(1).getMoment(), is(N2oValidation.ServerMoment.afterSuccessOperation));
-        outParametersList = ((ValidationDialog) validations.get(1)).getOutParametersList();
+        outParametersList = ((DialogValidation) validations.get(1)).getOutParametersList();
         assertThat(outParametersList.size(), is(1));
         assertThat(outParametersList.get(0).getId(), is("validation"));
         assertThat(outParametersList.get(0).getMapping(), nullValue());
