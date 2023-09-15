@@ -10,5 +10,5 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class N2oMandatory extends N2oValidation {
+public class N2oMandatoryValidation extends N2oValidation {
 }

@@ -495,8 +495,7 @@ public class ValidationProcessorTest {
         Validation condition3 = conditionValidation("date", "date",
                 SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "oneMoreId === null && date === '"
                         + new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT).format(new Date(0)) + "'");
-        ((ConditionValidation) condition3).setExpressionOn("date,oneMoreId");
-
+        ((ConditionValidation) condition3).setExpressionOn(new String[]{"date", "oneMoreId"});
         CompiledObject.Operation operation = new CompiledObject.Operation();
 
         operation.setValidationList(Arrays.asList(condition1, condition2, condition3));

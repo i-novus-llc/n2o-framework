@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class ValidationDialog extends InvocationValidation {
+public class DialogValidation extends InvocationValidation {
     private N2oDialog dialog;
 
     @Override

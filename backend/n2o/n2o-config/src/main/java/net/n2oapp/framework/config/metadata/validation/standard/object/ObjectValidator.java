@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oInvocationValidation;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatory;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatoryValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
@@ -66,7 +66,7 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                 p.checkIdExistence(validation,
                         String.format("В одной из валидаций объекта %s не указан параметр 'id'",
                                 getIdOrEmptyString(object.getId())));
-                if (validation instanceof N2oMandatory && isNull(validation.getFieldId()))
+                if (validation instanceof N2oMandatoryValidation && isNull(validation.getFieldId()))
                     throw new N2oMetadataValidationException(
                             String.format("В <mandatory> валидации %s объекта %s необходимо указать атрибут 'field-id'",
                                     getIdOrEmptyString(validation.getId()),

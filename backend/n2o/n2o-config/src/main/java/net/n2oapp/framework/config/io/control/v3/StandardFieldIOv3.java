@@ -11,10 +11,10 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocati
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConstraint;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatory;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConstraintValidation;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatoryValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidationCondition;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConditionValidation;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
@@ -42,12 +42,12 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
     private void inlineValidations(Element e, N2oField.Validations t, IOProcessor p) {
         p.attributeArray(e, "white-list", ",", t::getWhiteList, t::setWhiteList);
         p.anyChildren(e, null, t::getInlineValidations, t::setInlineValidations, p.oneOf(N2oValidation.class)
-                .add("constraint", N2oConstraint.class, this::constraint)
-                .add("condition", N2oValidationCondition.class, this::condition)
-                .add("mandatory", N2oMandatory.class, this::mandatory));
+                .add("constraint", N2oConstraintValidation.class, this::constraint)
+                .add("condition", N2oConditionValidation.class, this::condition)
+                .add("mandatory", N2oMandatoryValidation.class, this::mandatory));
     }
 
-    private void constraint(Element e, N2oConstraint t, IOProcessor p) {
+    private void constraint(Element e, N2oConstraintValidation t, IOProcessor p) {
         validation(e, t, p);
         p.attribute(e, "result", t::getResult, t::setResult);
         p.childAttributeEnum(e, "result", "mapper", t::getMapper, t::setMapper, MapperType.class);
@@ -62,14 +62,14 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
         p.anyChild(e, "invocation", t::getN2oInvocation, t::setN2oInvocation, p.anyOf(N2oInvocation.class), dataProviderNamespace);
     }
 
-    private void condition(Element e, N2oValidationCondition t, IOProcessor p) {
+    private void condition(Element e, N2oConditionValidation t, IOProcessor p) {
         validation(e, t, p);
         p.text(e, t::getExpression, t::setExpression);
-        p.attribute(e, "on", t::getExpressionOn, t::setExpressionOn);
+        p.attributeArray(e, "on", ",", t::getExpressionOn, t::setExpressionOn);
         p.attribute(e, "src", t::getSrc, t::setSrc);
     }
 
-    private void mandatory(Element e, N2oMandatory t, IOProcessor p) {
+    private void mandatory(Element e, N2oMandatoryValidation t, IOProcessor p) {
         validation(e, t, p);
     }
 

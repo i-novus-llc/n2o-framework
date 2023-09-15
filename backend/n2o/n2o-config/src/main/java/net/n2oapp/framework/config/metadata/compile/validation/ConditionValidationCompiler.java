@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidationCondition;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConditionValidation;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import org.springframework.stereotype.Component;
 
@@ -15,15 +15,15 @@ import static net.n2oapp.framework.config.util.FileSystemUtil.getContentByUri;
  * Компиляция валидации условия значений полей
  */
 @Component
-public class ConditionValidationCompiler extends BaseValidationCompiler<ConditionValidation, N2oValidationCondition> {
+public class ConditionValidationCompiler extends BaseValidationCompiler<ConditionValidation, N2oConditionValidation> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
-        return N2oValidationCondition.class;
+        return N2oConditionValidation.class;
     }
 
     @Override
-    public ConditionValidation compile(N2oValidationCondition source, CompileContext<?, ?> context, CompileProcessor p) {
+    public ConditionValidation compile(N2oConditionValidation source, CompileContext<?, ?> context, CompileProcessor p) {
         ConditionValidation validation = new ConditionValidation();
         compileValidation(validation, source, p);
         validation.setSeverity(p.cast(source.getSeverity(), SeverityType.danger));

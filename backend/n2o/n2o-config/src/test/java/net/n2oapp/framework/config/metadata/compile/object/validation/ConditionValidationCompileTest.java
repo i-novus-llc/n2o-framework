@@ -48,7 +48,7 @@ public class ConditionValidationCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(0).getEnabled(), is(false));
         assertThat(validations.get(0).getSide(), is("client,server"));
         assertThat(validations.get(0).getFieldId(), is("field1"));
-        assertThat(((ConditionValidation) validations.get(0)).getExpressionOn(), is("field1"));
+        assertThat(((ConditionValidation) validations.get(0)).getExpressionOn()[0], is("field1"));
         assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("field1 == 'test'"));
 
         assertThat(validations.get(1).getId(), is("con2"));
