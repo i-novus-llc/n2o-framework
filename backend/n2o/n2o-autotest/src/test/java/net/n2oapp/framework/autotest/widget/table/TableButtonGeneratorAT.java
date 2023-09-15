@@ -1,11 +1,13 @@
 package net.n2oapp.framework.autotest.widget.table;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
+import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -284,13 +286,15 @@ public class TableButtonGeneratorAT extends AutoTestBase {
 
         FormWidget form = modalPage.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
 
-        InputText format = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Формат").control(InputText.class);
+        Select format = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Формат").control(Select.class);
+        format.openPopup();
+        format.dropdown().selectItemBy(Condition.text("CSV"));
         format.shouldHaveValue("CSV");
-        format.shouldBeDisabled();
 
-        InputText charset = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Кодировка").control(InputText.class);
+        Select charset = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Кодировка").control(Select.class);
+        charset.openPopup();
+        charset.dropdown().selectItemBy(Condition.text("UTF-8"));
         charset.shouldHaveValue("UTF-8");
-        charset.shouldBeDisabled();
 
         RadioGroup radioGroup = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Текущая страница").control(RadioGroup.class);
         radioGroup.check("Текущая страница");
@@ -334,13 +338,15 @@ public class TableButtonGeneratorAT extends AutoTestBase {
 
         FormWidget form = modalPage.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
 
-        InputText format = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Формат").control(InputText.class);
+        Select format = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Формат").control(Select.class);
+        format.openPopup();
+        format.dropdown().selectItemBy(Condition.text("CSV"));
         format.shouldHaveValue("CSV");
-        format.shouldBeDisabled();
 
-        InputText charset = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Кодировка").control(InputText.class);
+        Select charset = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Кодировка").control(Select.class);
+        charset.openPopup();
+        charset.dropdown().selectItemBy(Condition.text("UTF-8"));
         charset.shouldHaveValue("UTF-8");
-        charset.shouldBeDisabled();
 
         RadioGroup radioGroup = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Текущая страница").control(RadioGroup.class);
         radioGroup.shouldBeChecked("Загрузить все (но не более 1000 записей)");
