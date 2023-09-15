@@ -368,12 +368,13 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             throw new N2oException("Normalized result is not a collection");
         }
 
+        List<String> ignoreFields = criteria.getIgnoreFields();
         List<DataSet> content = result.stream()
                 .map(obj -> mapFields(obj, query.getDisplayFields(), null))
+                .peek(dataSet -> removeIgnoredFields(dataSet, ignoreFields))
                 .collect(Collectors.toList());
 
         CollectionPage<DataSet> collectionPage;
-
 
         if (Boolean.FALSE.equals(criteria.getWithCount())) {
             Boolean hasNext = getNext(content, criteria, selection, query);
@@ -392,6 +393,16 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         }
         collectionPage.setAdditionalInfo(additionalInfo);
         return collectionPage;
+    }
+
+    /**
+     * Удаление игнорируемых полей
+     *
+     * @param content      - строка результата
+     * @param ignoreFields - список имен игнорируемых полей
+     */
+    private void removeIgnoredFields(DataSet content, List<String> ignoreFields) {
+        ignoreFields.forEach(content::remove);
     }
 
     private N2oQuery.Selection chooseSelection(N2oQuery.Selection[] selections, Set<String> filterFields, String queryId) {

@@ -3,7 +3,7 @@ package net.n2oapp.framework.test.servlet;
 import lombok.SneakyThrows;
 import net.n2oapp.framework.api.rest.ExportResponse;
 import net.n2oapp.framework.api.rest.GetDataResponse;
-import net.n2oapp.framework.ui.controller.ExportController;
+import net.n2oapp.framework.ui.controller.export.ExportController;
 import net.n2oapp.framework.ui.servlet.table.ExportServlet;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
