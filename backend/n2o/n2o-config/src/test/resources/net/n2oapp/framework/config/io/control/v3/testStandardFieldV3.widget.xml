@@ -13,7 +13,6 @@
 
             <toolbar>
                 <button id="testId"
-                        type="textAndIcon"
                         label="label"
                         class="class"
                         icon="icon"

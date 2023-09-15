@@ -7,15 +7,15 @@
             <button id="add" label="Добавить файл" icon="fa fa-plus" disable-on-empty-model="false">
                 <show-modal page-id="uploadFile" submit-operation-id="submit"/>
             </button>
-            <button id="delete" label="Удалить" icon="fa fa-trash" type="text">
+            <button id="delete" label="Удалить" icon="fa fa-trash">
                 <invoke operation-id="delete"/>
             </button>
         </toolbar>
         <columns>
             <column text-field-id="id" label="ID"/>
             <column text-field-id="fileName" label="Имя файла"/>
-            <column text-field-id="url" label="Скачать файл">
-                <link type="icon" icon="fa fa-file" url="files/{url}" target="newWindow"/>
+            <column label="Скачать файл">
+                <link icon="fa fa-file" url="files/{url}" target="newWindow"/>
             </column>
         </columns>
     </table>

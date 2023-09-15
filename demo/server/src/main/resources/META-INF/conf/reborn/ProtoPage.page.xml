@@ -198,13 +198,13 @@
                             </toolbars>
                         </show-modal>
                     </button>
-                    <button id="delete" label="${delete}" description="${delete}" icon="fa fa-trash" type="text"
+                    <button id="delete" label="${delete}" description="${delete}" icon="fa fa-trash"
                             confirm-text="${client.delete.confirm}" confirm="true">
                         <invoke operation-id="delete" route="/clients/delete"/>
                     </button>
                 </toolbar>
                 <toolbar place="topRight">
-                    <button id="update2" type="icon" color="light" label="${update}" icon="fa fa-edit"
+                    <button id="update2" color="light" label="${update}" icon="fa fa-edit"
                             visible="{name != 'Мария'}"
                             description="${button.update2.description}">
                         <open-page page-id="ProtoClient"

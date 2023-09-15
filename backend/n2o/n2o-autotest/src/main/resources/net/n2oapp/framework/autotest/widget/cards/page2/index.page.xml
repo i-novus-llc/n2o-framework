@@ -15,7 +15,7 @@
 
             <col size="2">
                 <block text-field-id="icon" tooltip-field-id="icon">
-                    <icon type="iconAndText">
+                    <icon>
                         <switch value-field-id="icon">
                             <case value="ship">fa fa-ship</case>
                             <case value="bicycle">fa fa-bicycle</case>

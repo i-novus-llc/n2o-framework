@@ -8,7 +8,7 @@
                         <badge color="info"/>
                     </case>
                     <case value="2">
-                        <icon icon="fa fa-plus" type="iconAndText"/>
+                        <icon icon="fa fa-plus"/>
                     </case>
                     <case value="3">
                         <checkbox/>

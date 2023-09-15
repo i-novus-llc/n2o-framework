@@ -9,17 +9,16 @@ import { Text } from '../../../../snippets/Text/Text'
 import Icon from '../../../../snippets/Icon/Icon'
 import withTooltip from '../../withTooltip'
 
-import { iconCellTypes, textPlaceTypes } from './cellTypes'
+import { textPlaceTypes } from './cellTypes'
 
 /**
  * Ячейка таблицы с иконкой
  * @reactProps {string} id - id ячейки
  * @reactProps {object} model - модель строки
  * @reactProps {string} icon - класс иконки
- * @reactProps {string} type - тип ячейки
  * @reactProps {string} textPlace - расположение текста
  */
-function IconCell({ id, model, visible, icon, type, textPlace }) {
+function IconCell({ id, model, visible, icon, textPlace }) {
     const text = get(model, id)
 
     return (
@@ -33,7 +32,7 @@ function IconCell({ id, model, visible, icon, type, textPlace }) {
                 })}
             >
                 {icon && <Icon name={icon} />}
-                {type === iconCellTypes.ICONANDTEXT && (
+                {text && (
                     <div className="n2o-cell-text">
                         <Text text={text} />
                     </div>
@@ -45,33 +44,28 @@ function IconCell({ id, model, visible, icon, type, textPlace }) {
 
 IconCell.propTypes = {
     /**
-   * ID ячейки
-   */
+     * ID ячейки
+     */
     id: PropTypes.string.isRequired,
     /**
-   * Модель данных
-   */
+     * Модель данных
+     */
     model: PropTypes.object.isRequired,
     /**
-   * Иконка
-   */
+     * Иконка
+     */
     icon: PropTypes.string.isRequired,
     /**
-   * Тип ячейки
-   */
-    type: PropTypes.oneOf(Object.values(iconCellTypes)),
-    /**
-   * Местоположение текста
-   */
+     * Местоположение текста
+     */
     textPlace: PropTypes.oneOf(Object.values(textPlaceTypes)),
     /**
-   * Флаг видимости
-   */
+     * Флаг видимости
+     */
     visible: PropTypes.bool,
 }
 
 IconCell.defaultProps = {
-    type: iconCellTypes.ICONANDTEXT,
     textPlace: textPlaceTypes.RIGHT,
     visible: true,
 }
