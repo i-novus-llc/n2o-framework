@@ -282,6 +282,8 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(download.getPayload().getAttributes().get("baseURL"), is("/n2o/export"));
         assertThat(download.getPayload().getAttributes().get("configDatasource"), is("exportModal_exportModalDs"));
         assertThat(download.getPayload().getAttributes().get("exportDatasource"), is("export_ds1"));
+        assertThat(download.getPayload().getAttributes().get("widgetId"), is("export_w1"));
+        assertThat(download.getPayload().getAttributes().get("allLimit"), is("1000"));
 
         AbstractButton closeBtn = modalPage.getToolbar().getButton("export_exportModal_mi1");
         assertThat(closeBtn.getLabel(), is("Закрыть"));

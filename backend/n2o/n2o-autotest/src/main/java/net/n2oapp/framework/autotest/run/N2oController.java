@@ -26,8 +26,10 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
+import net.n2oapp.framework.ui.controller.export.format.CsvFileGenerator;
+import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 import net.n2oapp.framework.ui.controller.DataController;
-import net.n2oapp.framework.ui.controller.ExportController;
+import net.n2oapp.framework.ui.controller.export.ExportController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
 import net.n2oapp.framework.ui.controller.query.CopyValuesController;
@@ -126,28 +128,29 @@ public class N2oController {
 
     @GetMapping({"/n2o/export/**", "/n2o/export/", "/n2o/export"})
     public ResponseEntity<byte[]> export(HttpServletRequest request) {
-            DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
-            ExportController exportController = new ExportController(builder.getEnvironment(), dataController);
+        FileGeneratorFactory fileGeneratorFactory = new FileGeneratorFactory(List.of(new CsvFileGenerator()));
+        DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
+        ExportController exportController = new ExportController(dataController, fileGeneratorFactory);
 
-            String url = request.getParameter("url");
-            String format = request.getParameter("format");
-            String charset = request.getParameter("charset");
+        String url = request.getParameter("url");
+        String format = request.getParameter("format");
+        String charset = request.getParameter("charset");
 
-            String dataPrefix = "/n2o/data";
-            String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
+        String dataPrefix = "/n2o/data";
+        String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
 
-            GetDataResponse dataResponse = exportController.getData(
-                    path,
-                    RouteUtil.parseQueryParams(RouteUtil.parseQuery(url)),
-                    null);
-            ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset);
+        GetDataResponse dataResponse = exportController.getData(
+                path,
+                RouteUtil.parseQueryParams(RouteUtil.parseQuery(url)),
+                null);
+        ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset);
 
-            return ResponseEntity.status(exportResponse.getStatus())
-                    .contentLength(exportResponse.getContentLength())
-                    .header(HttpHeaders.CONTENT_TYPE, exportResponse.getContentType())
-                    .header(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition())
-                    .header(HttpHeaders.CONTENT_ENCODING, exportResponse.getCharacterEncoding())
-                    .body(exportResponse.getFile());
+        return ResponseEntity.status(exportResponse.getStatus())
+                .contentLength(exportResponse.getContentLength())
+                .header(HttpHeaders.CONTENT_TYPE, exportResponse.getContentType())
+                .header(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition())
+                .header(HttpHeaders.CONTENT_ENCODING, exportResponse.getCharacterEncoding())
+                .body(exportResponse.getFile());
     }
 
     @ExceptionHandler(N2oException.class)

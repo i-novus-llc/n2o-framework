@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.mvc.n2o.N2oServlet;
-import net.n2oapp.framework.ui.controller.ExportController;
+import net.n2oapp.framework.ui.controller.export.ExportController;
 import org.springframework.http.HttpHeaders;
 
 import javax.servlet.ServletException;

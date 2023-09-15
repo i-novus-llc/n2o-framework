@@ -42,8 +42,10 @@ import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.templates.TemplateModel;
+import net.n2oapp.framework.ui.controller.export.format.CsvFileGenerator;
+import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 import net.n2oapp.framework.ui.controller.DataController;
-import net.n2oapp.framework.ui.controller.ExportController;
+import net.n2oapp.framework.ui.controller.export.ExportController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
 import net.n2oapp.framework.ui.controller.query.CopyValuesController;
@@ -212,7 +214,8 @@ public class ViewController {
             getMenu(builder);
 
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
-            ExportController exportController = new ExportController(builder.getEnvironment(), dataController);
+            FileGeneratorFactory fileGeneratorFactory = new FileGeneratorFactory(List.of(new CsvFileGenerator()));
+            ExportController exportController = new ExportController(dataController, fileGeneratorFactory);
 
             String url = request.getParameter("url");
             String format = request.getParameter("format");

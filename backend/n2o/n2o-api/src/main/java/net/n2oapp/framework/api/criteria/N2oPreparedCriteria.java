@@ -16,6 +16,7 @@ public class N2oPreparedCriteria extends Criteria {
     private List<Restriction> restrictions;
     private Map<String, Object> additionalFields;
     private Map<String, Object> attributes;
+    private List<String> ignoreFields;
 
     public N2oPreparedCriteria() {
     }
@@ -100,5 +101,19 @@ public class N2oPreparedCriteria extends Criteria {
         if (attributes == null)
             return null;
         return attributes.get(attribute);
+    }
+
+    /**
+     * @return список игнорируемых полей, либо null
+     */
+    public List<String> getIgnoreFields() {
+         if (ignoreFields == null)
+             return List.of();
+
+        return ignoreFields;
+    }
+
+    public void setIgnoreFields(List<String> ignoreFields) {
+        this.ignoreFields = ignoreFields;
     }
 }
