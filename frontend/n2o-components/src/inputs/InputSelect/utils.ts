@@ -59,7 +59,7 @@ const getNextNotDisabledId = (
 
 const getIdByDistance = (
     data: TOption[],
-    currentId: string,
+    currentId: string | number,
     distance: number,
     valueFieldId: string,
     selected: TOption[],
@@ -102,7 +102,7 @@ export const getFirstNotDisabledId = (
 
 export const getNextId = (
     data: TOption[],
-    currentId: string,
+    currentId: string | number,
     valueFieldId: string,
     selected: TOption[],
     disabled: Array<string | number>,
@@ -110,7 +110,7 @@ export const getNextId = (
 
 export const getPrevId = (
     data: TOption[],
-    currentId: string,
+    currentId: string | number,
     valueFieldId: string,
     selected: TOption[],
     disabled: Array<string | number>,
