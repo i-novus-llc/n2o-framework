@@ -610,6 +610,7 @@ export class InputSelect extends React.Component<Props, State> {
             size,
             count,
             filter,
+            sortFieldId,
         } = this.props
         const {
             value: stateValue,
@@ -620,9 +621,10 @@ export class InputSelect extends React.Component<Props, State> {
             options,
             popUpMaxHeight,
         } = this.state
-
         const inputSelectStyle = { width: '100%', cursor: 'text', ...style }
-        const needAddFilter = !isEmpty(filter) && !find(stateValue, item => item[labelFieldId] === input)
+
+        const sorting = !isEmpty(sortFieldId) && !isEmpty(input)
+        const needAddFilter = (!isEmpty(filter) || sorting) && !find(stateValue, item => item[labelFieldId] === input)
 
         const popUpStyle = { maxHeight: `${popUpMaxHeight}${MEASURE}` }
 

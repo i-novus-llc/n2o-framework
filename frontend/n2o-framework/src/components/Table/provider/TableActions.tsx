@@ -2,7 +2,6 @@
 import React, { FC, useMemo } from 'react'
 import { createContext, useContext } from 'use-context-selector'
 
-import { useOnActionMethod } from '../../widgets/hooks/useOnActionMethod'
 import { TableActions } from '../enum'
 
 type TableActionContextValue = {
@@ -11,22 +10,19 @@ type TableActionContextValue = {
     deselectRows(rowValues: string[]): void
     selectSingleRow(rowValue: string): void
     setFocusOnRow(rowValue: string | null, model?: any): void
-    onDispatchRowAction(rowClickAction: Record<string, any>, model: any): void
+    onRowClick(model: any): void
 }
 
 const tableActionsContext = createContext<TableActionContextValue | null>(null)
 
 type TableActionsProviderProps = {
     actionListener(action: TableActions, payload: any): void
-    widgetId: string
 }
 
 export const TableActionsProvider: FC<TableActionsProviderProps> = ({
     actionListener,
     children,
-    widgetId,
 }) => {
-    const onRowClickAction = useOnActionMethod(widgetId)
     const methods = useMemo<TableActionContextValue>(() => ({
         toggleExpandRow(rowValue, isOpen) {
             actionListener(TableActions.toggleExpandRow, { rowValue, isOpen })
@@ -43,10 +39,10 @@ export const TableActionsProvider: FC<TableActionsProviderProps> = ({
         setFocusOnRow(rowValue, model) {
             actionListener(TableActions.setFocusOnRow, { rowValue, model })
         },
-        onDispatchRowAction(rowClickAction, model) {
-            onRowClickAction(model, rowClickAction)
+        onRowClick(model) {
+            actionListener(TableActions.onRowClick, { model })
         },
-    }), [actionListener, onRowClickAction])
+    }), [actionListener])
 
     return (
         <tableActionsContext.Provider value={{ ...methods }}>

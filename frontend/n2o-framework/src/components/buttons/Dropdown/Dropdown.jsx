@@ -94,24 +94,31 @@ class DropdownButton extends React.Component {
                                     'd-block': opened,
                                 })}
                             >
-                                {map(subMenu, ({ src, component, ...rest }) => (component ? (
-                                    React.createElement(
-                                        component,
-                                        { ...rest, entityKey, onClick: this.toggle },
+                                {map(subMenu, ({ src, component, ...btnProps }) => (
+                                    component ? (
+                                        React.createElement(
+                                            component,
+                                            {
+                                                ...btnProps,
+                                                actionCallback: rest.actionCallback,
+                                                entityKey,
+                                                onClick: this.toggle,
+                                            },
+                                        )
+                                    ) : (
+                                        <Factory
+                                            key={btnProps.id}
+                                            {...btnProps}
+                                            entityKey={entityKey}
+                                            level={BUTTONS}
+                                            src={src}
+                                            onClick={this.onClick}
+                                            className={classNames('dropdown-item dropdown-item-btn', btnProps.className)}
+                                            tag="div"
+                                            nested
+                                        />
                                     )
-                                ) : (
-                                    <Factory
-                                        key={rest.id}
-                                        {...rest}
-                                        entityKey={entityKey}
-                                        level={BUTTONS}
-                                        src={src}
-                                        onClick={this.onClick}
-                                        className={classNames('dropdown-item dropdown-item-btn', rest.className)}
-                                        tag="div"
-                                        nested
-                                    />
-                                )))}
+                                ))}
                             </div>
                         )}
                     </Popper>

@@ -40,7 +40,7 @@ public class CrudPage {
     }
 
     public void tableCellShouldHaveText(int row, int col, String text) {
-        table().columns().rows().row(row).cell(col).textShouldHave(text);
+        table().columns().rows().row(row).cell(col).shouldHaveText(text);
     }
 
     public void shouldBeDialog(String title) {
@@ -48,7 +48,7 @@ public class CrudPage {
     }
 
     public void acceptDialog(String title) {
-        simplePage.dialog(title).click("Да");
+        simplePage.dialog(title).button("Да").click();
     }
 
     public void tableAlertColorShouldBe(Colors colors) {

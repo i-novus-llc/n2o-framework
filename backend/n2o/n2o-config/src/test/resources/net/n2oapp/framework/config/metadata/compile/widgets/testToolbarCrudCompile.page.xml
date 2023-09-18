@@ -12,10 +12,10 @@
             </action>
         </actions>
         <toolbar place="topLeft" generate="crud">
-            <button action-id="action1" type="icon"/>
+            <button action-id="action1" icon="fa fa-plus"/>
         </toolbar>
         <toolbar place="bottomLeft">
-            <button action-id="action2" type="icon" confirm="true"/>
+            <button action-id="action2" icon="fa fa-plus" confirm="true"/>
         </toolbar>
     </form>
 </simple-page>

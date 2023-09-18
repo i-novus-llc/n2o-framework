@@ -3,7 +3,7 @@
         <fields>
             <output-text id="output1" label="Output1" default-value="123.456" format="number 0.00"/>
             <output-text id="output2" label="Output2" default-value="test" icon="fa fa-plus"/>
-            <output-text id="output3" label="Output3" default-value="test" icon="fa fa-plus" type="icon"/>
+            <output-text id="output3" label="Output3" icon="fa fa-plus"/>
         </fields>
     </form>
 </simple-page>

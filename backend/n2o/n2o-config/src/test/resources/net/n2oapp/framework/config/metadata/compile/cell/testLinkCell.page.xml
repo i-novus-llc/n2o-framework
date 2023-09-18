@@ -6,25 +6,22 @@
             <action id="update"/>
         </actions>
         <columns>
-            <column text-field-id="test1">
+            <column text-field-id="test0">
                 <link/>
             </column>
+            <column text-field-id="test1">
+                <link icon="iconTest"/>
+            </column>
             <column text-field-id="test2">
-                <link icon="iconTest2"/>
+                <link icon="{id}" test:codeVerified="{emailSender.status=='send'}"/>
             </column>
             <column text-field-id="test3">
-                <link icon="iconTest3" type="icon"/>
-            </column>
-            <column text-field-id="test4">
-                <link icon="{id}" type="iconAndText" test:codeVerified="{emailSender.status=='send'}"/>
-            </column>
-            <column text-field-id="test5">
                 <link url="/test/{uid}" target="newWindow"/>
             </column>
-            <column text-field-id="test6">
+            <column text-field-id="test4">
                 <link action-id="update"/>
             </column>
-            <column text-field-id="test7">
+            <column text-field-id="test5">
                 <link>
                     <close/>
                 </link>
