@@ -43,7 +43,7 @@ export type BadgeType = {
 }
 
 type Props = {
-    activeValueId?: string | null,
+    activeValueId?: string | number | null,
     autocomplete?: boolean,
     badge?: BadgeType,
     children?: React.ReactNode,
