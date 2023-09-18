@@ -202,13 +202,11 @@ class SelectComponent extends React.Component<Props, State> {
 
         if (isExpanded === newIsExpanded) { return }
 
-        const onOpen = fetchData({ page: 1 })
-
         this.setState(
             {
                 isExpanded: newIsExpanded,
             },
-            newIsExpanded ? onOpen : onClose,
+            newIsExpanded ? fetchData({ page: 1 }) : onClose,
         )
     }
 

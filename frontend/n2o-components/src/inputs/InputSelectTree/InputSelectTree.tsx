@@ -13,7 +13,7 @@ import { withTranslation } from 'react-i18next'
 import onClickOutsideHOC from 'react-onclickoutside'
 
 import { Filter, TOption } from '../InputSelect/types'
-import { Icon } from '../../display/Icon/Icon'
+import { Icon } from '../../display/Icon'
 import { InlineSpinner } from '../../layouts/Spinner/InlineSpinner'
 import { Checkbox } from '../Checkbox/Checkbox'
 

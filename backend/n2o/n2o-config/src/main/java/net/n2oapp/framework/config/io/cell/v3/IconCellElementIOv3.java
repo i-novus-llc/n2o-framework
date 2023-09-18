@@ -1,9 +1,8 @@
 package net.n2oapp.framework.config.io.cell.v3;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oIconCell;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.config.io.cell.v2.SwitchIO;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,6 @@ public class IconCellElementIOv3 extends AbstractCellElementIOv3<N2oIconCell> {
         super.io(e, c, p);
         p.attribute(e, "text", c::getText, c::setText);
         p.attribute(e, "icon", c::getIcon, c::setIcon);
-        p.attributeEnum(e, "type", c::getIconType, c::setIconType, IconType.class);
         p.attributeEnum(e, "position", c::getPosition, c::setPosition, Position.class);
         p.child(e, null, "switch", c::getIconSwitch, c::setIconSwitch, new SwitchIO());
     }

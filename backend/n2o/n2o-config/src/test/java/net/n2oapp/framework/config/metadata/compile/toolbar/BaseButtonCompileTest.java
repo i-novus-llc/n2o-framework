@@ -45,7 +45,7 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
 
         AbstractButton btn = page.getToolbar().getButton("btn1");
         assertThat(btn.getLabel(), is("delete"));
-        assertThat(btn.getIcon(), is("fa fa-trash"));
+        assertThat(btn.getIcon(), is(nullValue()));
         assertThat(btn.getColor(), is("danger"));
         assertThat(btn.getHintPosition(), is("right"));
         assertThat(btn.getClassName(), is("Button"));
@@ -56,7 +56,7 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(((InvokeAction) btn.getAction()).getPayload().getDatasource(), is("testButton_table"));
 
         btn = page.getToolbar().getButton("btn2");
-        assertThat(btn.getLabel(), is("edit"));
+        assertThat(btn.getLabel(), is(nullValue()));
         assertThat(btn.getDatasource(), is(nullValue()));
         assertThat(btn.getIcon(), is("fa fa-pencil"));
 

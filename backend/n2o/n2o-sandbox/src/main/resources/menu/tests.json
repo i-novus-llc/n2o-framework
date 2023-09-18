@@ -237,7 +237,11 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/region/tabs/active",
-          "name": "ActiveTabAT"
+          "name": "TabsActiveAT. testTabsRegion"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/active_params",
+          "name": "TabsActiveAT. testParams"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/region/tabs/fixed",

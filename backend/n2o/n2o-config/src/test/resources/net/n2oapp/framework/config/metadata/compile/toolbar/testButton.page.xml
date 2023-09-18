@@ -12,11 +12,11 @@
     </regions>
 
     <toolbar>
-        <button id="btn1" label="delete" badge="{badge}" badge-color="{color}" color="danger" icon="fa fa-trash" type="text"
+        <button id="btn1" label="delete" badge="{badge}" badge-color="{color}" color="danger"
                 datasource="table" tooltip-position="right" class="Button" style="color:red;" description="hint">
             <invoke operation-id="delete"/>
         </button>
-        <button id="btn2" label="edit" icon="fa fa-pencil" type="icon"/>
+        <button id="btn2" icon="fa fa-pencil"/>
         <button id="btn3" label="load" icon="fa fa-download"/>
         <button id="btn4" description="{description}">
         </button>

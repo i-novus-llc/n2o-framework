@@ -3,13 +3,13 @@
     <table query-id="test">
         <columns>
             <column id="c1" label="Text" text-field-id="name">
-                <link icon="{icon}" url="/{url}"/>
+                <link url="/{url}"/>
             </column>
             <column id="c2" label="Text and icon" text-field-id="name">
-                <link icon="{icon}" type="iconAndText" url="/{url}"/>
+                <link icon="{icon}" url="/{url}"/>
             </column>
-            <column id="c3" label="Icon" text-field-id="name">
-                <link icon="{icon}" type="icon"  url="/{url}"/>
+            <column id="c3" label="Icon">
+                <link icon="{icon}" url="/{url}"/>
             </column>
         </columns>
     </table>

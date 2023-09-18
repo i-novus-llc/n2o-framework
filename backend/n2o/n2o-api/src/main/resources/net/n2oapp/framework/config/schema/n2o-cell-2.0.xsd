@@ -150,11 +150,6 @@
                         <xs:documentation>Иконка ссылки из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="type" type="linkIconType" default="text">
-                    <xs:annotation>
-                        <xs:documentation>Текст с иконкой или без.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -206,11 +201,6 @@
                 <xs:attribute name="icon" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Класс иконки из https://fontawesome.com/v4.7/icons/</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="type" type="iconType" use="optional" default="icon">
-                    <xs:annotation>
-                        <xs:documentation>С текстом или без.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="position" type="positionType" use="optional">
@@ -722,27 +712,6 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="click"/>
             <xs:enumeration value="hover"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="iconType">
-        <xs:annotation>
-            <xs:documentation>Иконка с текстом или без.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="icon"/>
-            <xs:enumeration value="iconAndText"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="linkIconType">
-        <xs:annotation>
-            <xs:documentation>Иконка с текстом или без.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="text"/>
-            <xs:enumeration value="icon"/>
-            <xs:enumeration value="iconAndText"/>
         </xs:restriction>
     </xs:simpleType>
 

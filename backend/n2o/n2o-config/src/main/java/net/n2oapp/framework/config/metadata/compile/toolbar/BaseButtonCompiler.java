@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
@@ -38,18 +37,8 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
                                CompileContext<?, ?> context, CompileProcessor p) {
         button.setId(source.getId());
         button.setProperties(p.mapAttributes(source));
-        switch (source.getType()) {
-            case ICON:
-                button.setIcon(source.getIcon());
-            case TEXT:
-                button.setLabel(p.resolveJS(source.getLabel()));
-                break;
-            case TEXT_AND_ICON: {
-                button.setIcon(source.getIcon());
-                button.setLabel(p.resolveJS(source.getLabel()));
-            }
-            break;
-        }
+        button.setIcon(source.getIcon());
+        button.setLabel(p.resolveJS(source.getLabel()));
         button.setDatasource(DatasourceUtil.getClientDatasourceId(source.getDatasourceId(), p));
         button.setClassName(source.getCssClass());
         button.setStyle(StylesResolver.resolveStyles(source.getStyle()));
@@ -67,10 +56,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
      */
     private void initHint(N2oAbstractButton source, AbstractButton button, CompileProcessor p) {
         String hint;
-        if (LabelType.ICON.equals(source.getType()))
-            hint = p.cast(source.getDescription(), source.getLabel());
-        else
-            hint = source.getDescription();
+        hint = source.getDescription();
 
         if (hint != null) {
             button.setHint(p.resolveJS(hint.trim()));
@@ -104,7 +90,6 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
 
         if (p.resolve(property("n2o.api.button.generate-label"), Boolean.class))
             source.setLabel(p.cast(source.getLabel(), source.getId()));
-        source.setType(initType(source));
         source.setTooltipPosition(initTooltipPosition(source, p));
         source.setColor(initColor(source, p));
 
@@ -118,14 +103,6 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         return (source instanceof N2oButton)
                 ? p.resolve(property("n2o.api.button.tooltip_position"), String.class)
                 : p.resolve(property("n2o.api.menuitem.tooltip_position"), String.class);
-    }
-
-    private LabelType initType(S source) {
-        if (source.getIcon() != null && source.getLabel() != null)
-            return LabelType.TEXT_AND_ICON;
-        if (source.getIcon() != null)
-            return LabelType.ICON;
-        return LabelType.TEXT;
     }
 
     protected void compileCondition(N2oAbstractButton source, AbstractButton button, CompileProcessor p, ComponentScope componentScope) {

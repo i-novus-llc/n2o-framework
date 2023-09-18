@@ -6,7 +6,11 @@ import mappingProps from '../Simple/mappingProps'
 export const withPerformAction = compose(
     withActionButton({
         onClick: (e, props) => {
-            const { action, onClick, dispatch } = props
+            const { action, onClick, dispatch, actionCallback } = props
+
+            if (actionCallback) {
+                actionCallback()
+            }
 
             if (action) {
                 dispatch(action)

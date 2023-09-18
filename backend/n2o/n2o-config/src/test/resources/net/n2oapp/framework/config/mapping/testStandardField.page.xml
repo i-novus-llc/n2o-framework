@@ -18,7 +18,7 @@
                 </input-text>
                 <input-text id="test2">
                     <toolbar>
-                        <button id="btn1" class="class" icon="icon" type="textAndIcon"
+                        <button id="btn1" class="class" icon="icon"
                                 label="Button" style="color:red" model="filter">
                             <invoke operation-id="update"/>
                         </button>

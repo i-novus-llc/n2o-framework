@@ -1,9 +1,7 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { defaultTo } from 'lodash'
 import { useSelector } from 'react-redux'
 import omit from 'lodash/omit'
-import set from 'lodash/set'
-import get from 'lodash/get'
 import { compose } from 'recompose'
 
 import { N2OPagination } from '../Table/N2OPagination'
@@ -18,6 +16,8 @@ import { Selection, TableActions, TableContainer } from '../../Table'
 import { useCheckAccess } from '../../../core/auth/SecurityController'
 import { withSecurityList } from '../../../core/auth/withSecurity'
 import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
+import { ToolbarOverlay } from '../../Table/provider/ToolbarOverlay'
+import { useOnActionMethod } from '../hooks/useOnActionMethod'
 
 import { useExpandAllRows } from './hooks/useExpandAllRows'
 import { useResolveCellsVisible } from './hooks/useResolveCellsVisible'
@@ -34,6 +34,7 @@ const AdvancedTableContainer = (props) => {
         style, paging, filter, table, size, count, page, sorting, children, hasNext, isInit,
         setResolve,
     } = props
+    const tableContainerElem = useRef(null)
     const [expandedRows, setExpandedRows] = useState([])
     const columnsState = useSelector(getContainerColumns(id))
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
@@ -63,15 +64,8 @@ const AdvancedTableContainer = (props) => {
 
     const tableConfig = useMemo(() => {
         const config = omit(table, ['autoSelect', 'autoFocus', 'textWrap', 'header.cells', 'body.cells'])
-        const hasCustomRow = Boolean(get(config, 'body.row.src'))
 
-        if (hasCustomRow) {
-            set(config, 'body.row.component', resolveProps(get(config, 'body.row.src')))
-
-            return omit(config, 'body.row.src')
-        }
-
-        return config
+        return resolveProps(config)
     }, [resolveProps, table])
 
     const paginationVisible = useMemo(() => Object.values(columnsState).some(column => column.visible), [columnsState])
@@ -94,6 +88,7 @@ const AdvancedTableContainer = (props) => {
     }
 
     const { setActiveModel, setMultiModel, unsetMultiModel } = useTableActionReactions(datasource)
+    const onRowClickAction = useOnActionMethod(id, tableConfig?.body?.row?.click)
     const actionListener = useCallback((action, payload) => {
         switch (action) {
             case TableActions.toggleExpandRow: {
@@ -131,11 +126,21 @@ const AdvancedTableContainer = (props) => {
 
                 break
             }
+
+            case TableActions.onRowClick: {
+                onRowClickAction(payload.model)
+
+                break
+            }
+
             default: {
                 break
             }
         }
-    }, [setActiveModel, setMultiModel, unsetMultiModel])
+    }, [onRowClickAction, setActiveModel, setMultiModel, unsetMultiModel])
+    const onClickToolbarActionButton = useCallback((model) => {
+        setActiveModel(model)
+    }, [setActiveModel])
     const isNeedSetResolveModel = table.rowSelection !== Selection.None && defaultTo(table.autoSelect, true)
 
     useEffect(() => {
@@ -148,36 +153,43 @@ const AdvancedTableContainer = (props) => {
     useExpandAllRows(setExpandedRows, children, datasourceModel)
 
     return (
-        <WidgetLayout
-            disabled={disabled}
-            widgetId={id}
-            datasource={datasource}
-            toolbar={toolbar}
-            filter={resolvedFilter}
-            className={className}
-            style={style}
-            fetchData={fetchData}
-            loading={loading}
-            {...pagination}
+        <ToolbarOverlay
+            onClickActionButton={onClickToolbarActionButton}
+            refContainerElem={tableContainerElem}
+            overlay={tableConfig.body?.row?.overlay}
         >
-            {isInit ? (
-                <TableContainer
-                    actionListener={actionListener}
-                    hasSecurityAccess={hasSecurityAccess}
-                    childrenToggleState={children}
-                    sorting={sorting}
-                    data={datasourceModel}
-                    cells={resolvedCells}
-                    tableConfig={tableConfig}
-                    id={id}
-                    isTextWrap={table.textWrap}
-                    selectedRows={selectedRows}
-                    expandedRows={expandedRows}
-                    focusedRowValue={focusedRowValue}
-                    EmptyContent={<EmptyComponent />}
-                />
-            ) : null}
-        </WidgetLayout>
+            <WidgetLayout
+                disabled={disabled}
+                widgetId={id}
+                datasource={datasource}
+                toolbar={toolbar}
+                filter={resolvedFilter}
+                className={className}
+                style={style}
+                fetchData={fetchData}
+                loading={loading}
+                {...pagination}
+            >
+                {isInit ? (
+                    <TableContainer
+                        refContainerElem={tableContainerElem}
+                        actionListener={actionListener}
+                        hasSecurityAccess={hasSecurityAccess}
+                        childrenToggleState={children}
+                        sorting={sorting}
+                        data={datasourceModel}
+                        cells={resolvedCells}
+                        tableConfig={tableConfig}
+                        id={id}
+                        isTextWrap={table.textWrap}
+                        selectedRows={selectedRows}
+                        expandedRows={expandedRows}
+                        focusedRowValue={focusedRowValue}
+                        EmptyContent={<EmptyComponent />}
+                    />
+                ) : null}
+            </WidgetLayout>
+        </ToolbarOverlay>
     )
 }
 

@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.aware.ActionsAware;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
-import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 
 public interface Button extends DatasourceIdAware, ModelAware, ActionsAware, IdAware {
     
@@ -49,10 +48,6 @@ public interface Button extends DatasourceIdAware, ModelAware, ActionsAware, IdA
     String getConfirmCancelColor();
 
     void setConfirmCancelColor(String confirmCancelColor);
-
-    LabelType getType();
-
-    void setType(LabelType type);
 
     String getColor();
 

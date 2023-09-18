@@ -3,7 +3,7 @@
     <table query-id="testTable">
         <columns>
             <column text-field-id="icon" tooltip-field-id="tooltip">
-                <icon type="iconAndText">
+                <icon>
                     <switch value-field-id="icon">
                         <case value="fa fa-phone">fa fa-phone</case>
                         <case value="fa fa-plus">fa fa-plus</case>

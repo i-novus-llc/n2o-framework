@@ -27,11 +27,6 @@
                         <xs:documentation>Иконка кнопки из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="type" type="textType" default="textAndIcon">
-                    <xs:annotation>
-                        <xs:documentation>Кнопка с иконкой или без.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="color" type="bs:buttonColorDefinition">
                     <xs:annotation>
                         <xs:documentation>Цвет кнопки.</xs:documentation>
@@ -256,17 +251,6 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="resolve"/>
             <xs:enumeration value="filter"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="textType">
-        <xs:annotation>
-            <xs:documentation>Заголовок с иконкой или без.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="icon"/>
-            <xs:enumeration value="text"/>
-            <xs:enumeration value="textAndIcon"/>
         </xs:restriction>
     </xs:simpleType>
 

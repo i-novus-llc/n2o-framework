@@ -80,6 +80,7 @@ public class TableSettingsGeneratorUtil {
     public static N2oButton generateExport(N2oToolbar toolbar, CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String datasourceId = widgetScope == null ? null : widgetScope.getDatasourceId();
+        String widgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
 
         String configDatasource = DatasourceUtil.getClientDatasourceId(
                 "exportModalDs",
@@ -98,7 +99,9 @@ public class TableSettingsGeneratorUtil {
         Map<String, String> payload = new HashMap<>();
         payload.put("baseURL", "/n2o/export");
         payload.put("exportDatasource", exportDatasource);
+        payload.put("widgetId", widgetId);
         payload.put("configDatasource", configDatasource);
+        payload.put("allLimit", p.resolve(property("n2o.api.generate.button.export.all_limit"), String.class));
         downloadAction.setPayload(payload);
         downloadAction.setType("n2o/api/utils/export");
         downloadBtn.setActions(new N2oAction[]{downloadAction});

@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
@@ -50,10 +49,8 @@ public class ToolbarCompileDynamicTest extends SourceCompileTestBase {
         N2oToolbar toolbar = new N2oToolbar();
         N2oButton deleteButton = new N2oButton();
         N2oButton addButton = new N2oButton();
-        deleteButton.setType(LabelType.ICON);
         deleteButton.setIcon("fa fa-pencil");
         deleteButton.setColor("danger");
-        addButton.setType(LabelType.ICON);
         addButton.setIcon("fa fa-pencil");
         addButton.setColor("primary");
 
@@ -78,10 +75,8 @@ public class ToolbarCompileDynamicTest extends SourceCompileTestBase {
         N2oToolbar toolbar = new N2oToolbar();
         N2oButton deleteButton = new N2oButton();
         N2oButton addButton = new N2oButton();
-        deleteButton.setType(LabelType.ICON);
         deleteButton.setIcon("fa fa-pencil");
         deleteButton.setColor("danger");
-        addButton.setType(LabelType.ICON);
         addButton.setIcon("fa fa-pencil");
         addButton.setColor("primary");
 

@@ -1,13 +1,12 @@
 import React from 'react'
-import sinon from 'sinon'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
-import { Link, HashRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 
 import FactoryProvider from '../../../../../core/factory/FactoryProvider'
 import createFactoryConfig from '../../../../../core/factory/createFactoryConfig'
 
-import LinkCell, { LinkCell as LinkComponent } from './LinkCell'
+import LinkCell from './LinkCell'
 import meta from './LinkCell.meta'
 
 const setupLinkCell = (propsOverride) => {

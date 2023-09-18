@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, VFC } from 'react'
+import { FC, RefObject, VFC } from 'react'
 
 import { Selection, TableActions } from '../enum'
 import { SortDirection } from '../../../core/datasource/const'
@@ -8,7 +8,7 @@ import { Data, DataItem, ExpandedRows, SelectedRows } from './general'
 import { Row } from './row'
 import { Cell, HeaderCell } from './cell'
 
-export type TableWidgetContainerProps = {
+export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
     hasSecurityAccess: boolean
     sorting: Record<string, SortDirection>
     data: Data
@@ -20,10 +20,12 @@ export type TableWidgetContainerProps = {
     actionListener(action: TableActions, payload: any): void
     errorComponent?: VFC
     EmptyContent?: VFC
+    refContainerElem?: RefObject<T>
     cells: {
         body: Cell[]
         header: HeaderCell[]
     }
+    toolbar?: unknown
     tableConfig: {
         width?: string
         height?: string

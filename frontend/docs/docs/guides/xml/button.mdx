@@ -17,7 +17,6 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |id                   |Строка                                                                     |Идентификатор кнопки            |Вычисляется из `action-id`|
 |label                |Строка                                                                     |Заголовок кнопки                |                          |
 |icon                 |[Класс иконки](https://fontawesome.com/v4.7/icons/)                        |Иконка                          |                          |
-|type                 |text icon iconAndText                                                      |Кнопка с иконкой или без        |iconAndText               |
 |src                  |Строка                                                                     |React компонент кнопки          |                          |
 |class                |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples)|Класс компонента кнопки         |                          |
 |style                |CSS свойство                                                               |Стиль компонента кнопки         |                          |
@@ -103,8 +102,7 @@ n2o.api.button.confirm.reverse_buttons=false
 ```xml
 <button
   label="Добавить в реестр"
-  icon="fa-plus"
-  type="icon">
+  icon="fa fa-plus">
     <submit datasource="ds1"/>
     <invoke operation-id="save"/>
     <open-page page-id="register"/>

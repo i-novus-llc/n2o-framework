@@ -55,6 +55,7 @@ import static org.hamcrest.Matchers.nullValue;
  * Тестирование компиляции виджета Таблица
  */
 public class TableWidgetCompileTest extends SourceCompileTestBase {
+
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -64,13 +65,23 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oRegionsPack(), new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack(), new N2oActionsPack());
+        builder.packs(
+                new N2oPagesPack(),
+                new N2oWidgetsPack(),
+                new N2oRegionsPack(),
+                new N2oAllDataPack(),
+                new N2oFieldSetsPack(),
+                new N2oControlsPack(),
+                new N2oCellsPack(),
+                new N2oActionsPack()
+        );
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable5Compile.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
+        );
     }
 
     @Test
@@ -95,7 +106,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getHeader().getCells().get(0).getSrc(), is("MyTableHeader"));
         assertThat(table.getComponent().getHeader().getCells().get(0).getElementAttributes().get("className"), is("my-table-header"));
         assertThat(table.getComponent().getHeader().getCells().get(0).getElementAttributes().get("style"), notNullValue());
-        assertThat(((Map<String, String>)table.getComponent().getHeader().getCells().get(0).getElementAttributes().get("style")).get("color"), is("red"));
+        assertThat(((Map<String, String>) table.getComponent().getHeader().getCells().get(0).getElementAttributes().get("style")).get("color"), is("red"));
 
         assertThat(table.getComponent().getHeader().getCells().get(1).getSrc(), is("TextTableHeader"));
         assertThat(table.getComponent().getHeader().getCells().get(1).getElementAttributes().get("className"), is(nullValue()));
@@ -339,7 +350,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(0).getSrc(), is("MyTableHeader"));
         assertThat(headers.get(0).getElementAttributes().get("className"), is("my-table-header"));
         assertThat(headers.get(0).getElementAttributes().get("style"), notNullValue());
-        assertThat(((Map<String, String>)headers.get(0).getElementAttributes().get("style")).get("color"), is("red"));
+        assertThat(((Map<String, String>) headers.get(0).getElementAttributes().get("style")).get("color"), is("red"));
         assertThat(headers.get(1).getId(), is("test4"));
         assertThat(headers.get(1).getMultiHeader(), is(nullValue()));
         assertThat(headers.get(1).getChildren(), nullValue());
@@ -432,19 +443,19 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(header.getSrc(), is("MyTableHeader"));
         assertThat(header.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
         assertThat(header.getElementAttributes().get("className"), is("my-table-header"));
-        assertThat(((Map<String, String>)header.getElementAttributes().get("style")).get("color"), is("red"));
+        assertThat(((Map<String, String>) header.getElementAttributes().get("style")).get("color"), is("red"));
 
         header = table.getComponent().getHeader().getCells().get(1);
         assertThat(header.getSrc(), is("MyFilterHeader"));
         assertThat(header.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
         assertThat(header.getElementAttributes().get("className"), is("my-filter-header"));
-        assertThat(((Map<String, String>)header.getElementAttributes().get("style")).get("color"), is("green"));
+        assertThat(((Map<String, String>) header.getElementAttributes().get("style")).get("color"), is("green"));
 
         header = table.getComponent().getHeader().getCells().get(2);
         assertThat(header.getSrc(), is("MyMultiHeader"));
         assertThat(header.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
         assertThat(header.getElementAttributes().get("className"), is("my-multi-header"));
-        assertThat(((Map<String, String>)header.getElementAttributes().get("style")).get("color"), is("blue"));
+        assertThat(((Map<String, String>) header.getElementAttributes().get("style")).get("color"), is("blue"));
         assertThat(header.getLabel(), is("Multi"));
     }
 
@@ -529,6 +540,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(header.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
         assertThat(cell.getId(), is("sub33"));
         assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
+    }
+
+    @Test
+    void testBlackResetList() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testBlackResetList.widget.xml")
+                .get(new WidgetContext("testBlackResetList"));
+
+        assertThat(table.getFilter().getBlackResetList().get(0), is("urgently"));
     }
 
 }
