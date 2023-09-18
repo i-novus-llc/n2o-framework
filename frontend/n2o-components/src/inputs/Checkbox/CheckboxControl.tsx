@@ -16,7 +16,7 @@ export function CheckboxControl(props: Props) {
         const defaultUnchecked = propsDefaultUnchecked && null
 
         if (propsOnChange) {
-            propsOnChange(value || defaultUnchecked)
+            propsOnChange(typeof value === 'boolean' ? value : defaultUnchecked)
         }
     }
 
