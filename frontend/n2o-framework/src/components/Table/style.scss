@@ -113,7 +113,7 @@
         right: 0;
         top: 0;
         padding: 8px;
-        background-color: rgba(0, 0, 0, 0.075);
+        background-color: #ececec;
     }
 
     .toolbar-container::after {
@@ -125,7 +125,7 @@
         height: 0;
         border-style: solid;
         border-width: 0 20px 20px 0;
-        border-color: transparent rgba(0, 0, 0, 0.075) transparent transparent;
+        border-color: transparent #ececec transparent transparent;
         transform: translateX(-100%);
     }
 }
