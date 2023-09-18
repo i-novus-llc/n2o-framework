@@ -13,13 +13,17 @@
                         <options>
                             <option id="csv" name="CSV"/>
                         </options>
+                        <default-value id="csv" name="CSV"/>
                     </select>
+
                     <select id="charset" label="Кодировка">
                         <options>
                             <option id="utf8" name="UTF-8"/>
                             <option id="cp1251" name="Cp1251"/>
                         </options>
+                        <default-value id="utf8" name="UTF-8"/>
                     </select>
+
                     <radio-group id="type" no-label="true">
                         <options>
                             <option id="all" name="Загрузить все (но не более 1000 записей)"/>
