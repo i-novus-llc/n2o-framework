@@ -2,6 +2,8 @@ import { useMemo } from 'react'
 
 import { getAllValuesByKey } from '../../../Table/utils'
 
+import { ColumnState } from './useColumnsState'
+
 type Cell = {
     [x: string]: unknown
     id: string
@@ -15,14 +17,9 @@ type HeaderCell = {
     children?: HeaderCell[]
 }
 
-type ColumnState = Record<string, {
-    [x: string]: unknown
-    visible?: boolean
-}>
-
 const filterVisibleNestedFields = (data: HeaderCell[], columnsState: ColumnState): HeaderCell[] => {
     const filterByVisible = (id: string) => {
-        const cellState = columnsState[id]
+        const cellState = columnsState.find(column => column.columnId === id)
 
         if (cellState) {
             return cellState?.visible

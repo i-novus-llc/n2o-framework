@@ -931,7 +931,7 @@ type Props = {
 }
 
 type State = {
-    activeValueId?: string | null,
+    activeValueId?: string | number | null,
     caching?: boolean,
     input?: string,
     inputFocus?: boolean,
