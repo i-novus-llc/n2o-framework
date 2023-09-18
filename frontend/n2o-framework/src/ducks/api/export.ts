@@ -65,20 +65,20 @@ function createExportUrl(
 ) {
     const { pathname } = window.location
 
-    const escapedUrl = escapeUrl(resolvedURL)
     const path = pathname.slice(0, -1)
-
-    let exportURL = `${path}${baseURL}?format=${format}&charset=${charset}&url=${escapedUrl}`
+    const exportURL = `${path}${baseURL}?format=${format}&charset=${charset}&url=`
 
     if (!ignored.length) {
-        return exportURL
+        return `${exportURL}${escapeUrl(resolvedURL)}`
     }
+
+    let url = resolvedURL
 
     for (const ignore of ignored) {
-        exportURL += `&${IGNORE}=${ignore}`
+        url += `&${IGNORE}=${ignore}`
     }
 
-    return exportURL
+    return `${exportURL}${escapeUrl(url)}`
 }
 
 interface ExportConfig {
