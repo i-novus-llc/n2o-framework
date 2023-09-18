@@ -297,7 +297,7 @@ export function PopupItems({
 }
 
 type Props = {
-    activeValueId?: string | null,
+    activeValueId?: string | number | null,
     autocomplete: boolean,
     badge?: BadgeType,
     descriptionFieldId: string,

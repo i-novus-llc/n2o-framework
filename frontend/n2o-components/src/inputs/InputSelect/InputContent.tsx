@@ -37,7 +37,7 @@ import { TOption } from './types'
  */
 
 export type Props = {
-    activeValueId: string,
+    activeValueId: string | number,
     autoFocus: boolean,
     clearSelected(): void,
     closePopUp(arg: boolean): void,
@@ -61,7 +61,7 @@ export type Props = {
     options: TOption[],
     placeholder: string,
     selected: Props['options'],
-    setActiveValueId(id: string | null): void,
+    setActiveValueId(id: string | number | null): void,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setRef(arg: any): (arg2: any) => void,
     tags: boolean,
@@ -100,6 +100,20 @@ export function InputContent({
     mode,
     maxTagTextLength,
 }: Props) {
+    const setOnlyElementFound = () => {
+        if (mode !== 'autocomplete' && !multiSelect && options.length === 1) {
+            const active: TOption = options[0]
+            const currentActive = selected[0] || {}
+            const { id } = active
+            const { id: currentId } = currentActive
+
+            if (currentId !== id) {
+                onSelect(active)
+                setActiveValueId(id)
+            }
+        }
+    }
+
     /**
      * Обработчик изменения инпута при нажатии на клавишу
      * @param e - событие изменения
@@ -192,6 +206,8 @@ export function InputContent({
                 onSelect(findEquals)
                 setActiveValueId(null)
             }
+
+            setOnlyElementFound()
         } else if (e.key === 'Escape') {
             closePopUp(false)
         }
