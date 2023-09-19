@@ -67,6 +67,19 @@ function InputContent({
     mode,
     maxTagTextLength,
 }) {
+    const setOnlyElementFound = () => {
+        if (mode !== 'autocomplete' && !multiSelect && options.length === 1) {
+            const active = options[0]
+            const currentActive = selected[0] || {}
+            const { id } = active
+            const { id: currentId } = currentActive
+
+            if (currentId !== id) {
+                onSelect(active)
+                setActiveValueId(id)
+            }
+        }
+    }
     /**
      * Обработчик изменения инпута при нажатии на клавишу
      * @param e - событие изменения
@@ -159,6 +172,8 @@ function InputContent({
                 onSelect(findEquals)
                 setActiveValueId(null)
             }
+
+            setOnlyElementFound()
         } else if (e.key === 'Escape') {
             closePopUp(false)
         }
