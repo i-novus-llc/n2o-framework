@@ -1,15 +1,20 @@
 import classNames from 'classnames'
-import React, { VFC } from 'react'
+import React, { VFC, SyntheticEvent } from 'react'
 
 import { ExpandButtonProps } from '../types/props'
-import { useTableActions } from '../provider/TableActions'
+import { useTableActions } from '..'
 
 export const ExpandButton: VFC<ExpandButtonProps> = ({ rowValue, isTreeExpanded }) => {
     const { toggleExpandRow } = useTableActions()
 
+    const onClick = (event: SyntheticEvent) => {
+        event.stopPropagation()
+        toggleExpandRow(rowValue, !isTreeExpanded)
+    }
+
     return (
         <span
-            onClick={() => toggleExpandRow(rowValue, !isTreeExpanded)}
+            onClick={onClick}
             className="n2o-advanced-table-expand"
         >
             <i
