@@ -485,6 +485,10 @@
           "name": "TableAT. testToolbar"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/row_overlay",
+          "name": "TableAT. testOverlay"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/toolbar/access",
           "name": "ToolbarColumnAccessAT"
         },
