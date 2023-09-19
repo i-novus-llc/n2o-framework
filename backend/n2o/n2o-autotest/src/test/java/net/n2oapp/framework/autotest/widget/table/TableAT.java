@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
+import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
@@ -17,6 +18,7 @@ import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -156,6 +158,42 @@ public class TableAT extends AutoTestBase {
         modal.close();
     }
 
+    @Test
+    public void testOverlay() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/row_overlay");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_overlay/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_overlay/test.query.xml")
+        );
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget table = page.widget(TableWidget.class);
+        TableWidget.Rows rows = table.columns().rows();
+
+        table.shouldExists();
+        rows.shouldHaveSize(4);
+
+        rows.row(0).hover();
+        Toolbar toolbar = page.overlay().toolbar();
+        toolbar.shouldHaveSize(3);
+
+        StandardButton button = toolbar.button("Кнопка");
+        button.shouldExists();
+        button.click();
+        page.alerts(Alert.Placement.topLeft).alert(0).shouldHaveTitle("Уведомление по кнопке");
+
+        DropdownButton dropdownButton = toolbar.dropdown();
+        dropdownButton.shouldExists();
+        dropdownButton.shouldHaveItems(1);
+        dropdownButton.click();
+
+        dropdownButton.menuItem("Кнопка1").shouldExists();
+        dropdownButton.menuItem("Кнопка1").click();
+        page.alerts(Alert.Placement.topRight).alert(0).shouldHaveTitle("Уведомление по menu-item");
+
+    }
     @Test
     public void testToolbar() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/simple");
