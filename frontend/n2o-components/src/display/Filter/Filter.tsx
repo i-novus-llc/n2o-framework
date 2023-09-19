@@ -25,8 +25,9 @@ export function Filter({
     const { Provider } = EventHandlersContext
 
     const onKeyDown = useCallback((evt: KeyboardEvent<HTMLInputElement>) => {
-        if (onSearch && evt.key === 'Enter' && evt.ctrlKey) {
+        if (onSearch && evt.key === 'Enter') {
             evt.stopPropagation()
+            evt.preventDefault()
 
             onSearch(evt)
         }
