@@ -2,6 +2,15 @@
   "name": "Версии",
   "sections": [
     {
+      "name": "7.26",
+      "templates": [
+        {
+          "templateId": "versions/7.26/toolbar_in_row_overlay",
+          "name": "Тулбар в выделенной строке таблицы"
+        }
+      ]
+    },
+    {
       "name": "7.25",
       "templates": [
         {
