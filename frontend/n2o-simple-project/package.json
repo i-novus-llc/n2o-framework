@@ -4,8 +4,8 @@
   "private": true,
   "homepage": ".",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "craco start",
+    "build": "craco build",
     "eject": "react-scripts eject",
     "clean": "rimraf ./build/ && rimraf ./node_modules/"
   },
@@ -14,10 +14,12 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.9.2",
-    "react-scripts": "^3.1.1",
+    "react-scripts": "4.0.1",
+    "@craco/craco": "^6.4.5",
     "rimraf": "^3.0.2"
   },
   "peerDependencies": {
+    "@craco/craco": "*",
     "react": "*",
     "react-dom": "*"
   },
