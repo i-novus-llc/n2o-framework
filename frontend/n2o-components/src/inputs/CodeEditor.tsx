@@ -24,13 +24,13 @@ export const CodeEditor = ({
     disabled,
     name,
     visible,
-    lang = 'javascript',
     value,
-    minLines = 5,
-    maxLines = 100,
     autocomplete,
     className,
     onChange,
+    minLines = 5,
+    maxLines = 100,
+    lang = 'javascript',
 }: CodeEditorProps) => {
     if (!visible) {
         return null
@@ -41,6 +41,7 @@ export const CodeEditor = ({
             className={cx('n2o-code-editor', className)}
         >
             <AceEditor
+                style={{ resize: 'horizontal' }}
                 mode={lang}
                 theme="tomorrow"
                 name={name}
