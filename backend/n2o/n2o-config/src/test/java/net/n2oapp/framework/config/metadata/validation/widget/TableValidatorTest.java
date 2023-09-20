@@ -53,4 +53,13 @@ public class TableValidatorTest extends SourceValidationTestBase {
         );
         assertEquals("Таблица 'testDuplicateColumnTextFieldId' содержит повторяющиеся значения text-field-id=\"c1\" в <column>", exception.getMessage());
     }
+
+    @Test
+    void testOverlayToolbar() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testOverlayToolbar.widget.xml")
+        );
+        assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре в <overlay> таблицы 'testOverlayToolbar'", exception.getMessage());
+    }
 }

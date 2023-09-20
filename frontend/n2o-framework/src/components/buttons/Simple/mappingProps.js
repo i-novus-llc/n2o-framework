@@ -23,5 +23,6 @@ export default function mappingProps(props) {
         hintPosition: props.placement,
         entityKey: props.entityKey,
         datasource: props.datasource,
+        actionCallback: props.actionCallback,
     }
 }

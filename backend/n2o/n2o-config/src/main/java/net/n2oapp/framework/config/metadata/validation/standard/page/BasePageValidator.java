@@ -24,6 +24,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.config.metadata.validation.standard.PageValidationUtil.fillDatasourceIdsScopeByInlineDatasource;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 
@@ -80,6 +81,16 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
 
         p.safeStreamOf(datasources).forEach(datasource -> p.validate(datasource, pageScope, datasourceIdsScope));
         p.safeStreamOf(page.getEvents()).forEach(event -> p.validate(event, pageScope, datasourceIdsScope, dataSourcesScope, actionBarScope));
+
+        checkEmptyToolbar(toolbars);
+    }
+
+    private static void checkEmptyToolbar(N2oToolbar[] toolbars) {
+        if (nonNull(toolbars))
+            for (N2oToolbar toolbar : toolbars) {
+                if (toolbar.getItems() == null && toolbar.getGenerate() == null)
+                    throw new N2oMetadataValidationException("Не заданы элементы или атрибут 'generate' в тулбаре страницы");
+                }
     }
 
     private void checkDuplicateWidgetIdsInDatasources(List<N2oWidget> widgets, DatasourceIdsScope datasourceIdsScope) {

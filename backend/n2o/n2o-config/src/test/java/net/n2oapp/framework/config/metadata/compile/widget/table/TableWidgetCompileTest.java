@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
@@ -13,6 +14,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Dependency;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.cell.AbstractCell;
 import net.n2oapp.framework.api.metadata.meta.cell.BadgeCell;
 import net.n2oapp.framework.api.metadata.meta.cell.Cell;
@@ -43,8 +45,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 /**
  * Тестирование компиляции виджета Таблица
@@ -172,6 +177,17 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(rowClicks.get(6).getBody().getRow().getClick().getEnablingCondition(), is("true"));
         assertThat(rowClicks.get(7).getBody().getRow().getClick().getEnablingCondition(), is("1==1"));
         assertThat(rowClicks.get(8).getBody().getRow().getClick().getAction(), notNullValue());
+    }
+
+    @Test
+    void testRowOverlay() {
+       Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5RowOverlayCompile.widget.xml").get(new WidgetContext("testTable5RowOverlayCompile"));
+        assertThat(table.getComponent().getBody().getRow().getOverlay().getClassName(), is("top"));
+        LinkAction linkAction = (LinkAction) table.getComponent().getBody().getRow().getOverlay().getToolbar().get(0).getButtons().get(0).getAction();
+        assertThat(linkAction.getUrl(), is("/test"));
+        assertThat(linkAction.getTarget(), is(Target.application));
+        assertThat(linkAction.getPathMapping().size(), is(0));
+        assertThat(linkAction.getQueryMapping().size(), is(0));
     }
 
     @Test

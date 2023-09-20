@@ -39,9 +39,14 @@ public interface Page extends Component {
     PageToolbar toolbar();
 
     /**
-     * @return Компонент шлебные крошки для автотестирования
+     * @return Компонент хлебные крошки для автотестирования
      */
     Breadcrumb breadcrumb();
+
+    /**
+     * @return Компонент оверлей для автотестирования
+     */
+    Overlay overlay();
 
     /**
      * Возвращает компонент диалог, заголовок которого совпадает с ожидаемым
@@ -133,6 +138,16 @@ public interface Page extends Component {
          * @return Панель кнопок в правой нижней части страницы
          */
         Toolbar bottomRight();
+    }
+
+    /**
+     * Оверлей для автотестирования
+     */
+    interface Overlay extends Component {
+        /**
+         * @return Панель кнопок оверлея
+         */
+        Toolbar toolbar();
     }
 
     /**

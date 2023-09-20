@@ -1140,6 +1140,7 @@
         <xs:sequence>
             <xs:element name="switch" type="switchDefinition" minOccurs="0"/>
             <xs:element name="click" type="clickDefinition" minOccurs="0"/>
+            <xs:element name="overlay" type="overlayDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
@@ -1217,6 +1218,20 @@
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
             </xs:annotation>
         </xs:anyAttribute>
+    </xs:complexType>
+
+    <xs:complexType name="overlayDefinition">
+        <xs:annotation>
+            <xs:documentation>Наведение на строку</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="toolbar" type="tool:toolbarDefinition"/>
+        </xs:sequence>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Класс компонента строки таблицы при наведении мышкой</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="paginationDefinition">

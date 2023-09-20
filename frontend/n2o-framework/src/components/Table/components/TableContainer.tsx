@@ -10,9 +10,8 @@ import { TableHeader } from './TableHeader'
 import { TableBody } from './TableBody'
 import Table from './basic'
 
-export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
+export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = (props) => {
     const {
-        id,
         tableConfig,
         data,
         sorting,
@@ -25,6 +24,7 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
         actionListener,
         errorComponent,
         EmptyContent,
+        refContainerElem,
     } = props
     const { width, height, rowSelection, body, header } = tableConfig
     const areAllRowsSelected = useMemo(() => {
@@ -39,11 +39,9 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
 
     return (
         <TableRefProps value={props}>
-            <TableActionsProvider
-                actionListener={actionListener}
-                widgetId={id}
-            >
+            <TableActionsProvider actionListener={actionListener}>
                 <div
+                    ref={refContainerElem}
                     data-text-wrap={isTextWrap}
                     className="table-container"
                     style={{ width, height }}

@@ -80,11 +80,9 @@
 
     .body {
         .table-row {
+            &[data-overlay-hovered="true"],
+            &[data-focused="true"],
             &:hover {
-                background-color: rgba(0, 0, 0, 0.075);
-            }
-
-            &[data-focused="true"] {
                 background-color: rgba(0, 0, 0, 0.075);
             }
 
@@ -100,5 +98,34 @@
 
     .cell-selection {
         width: 30px;
+    }
+}
+
+.table-row-overlay {
+    display: flex;
+    position: absolute;
+    justify-content: flex-end;
+    height: 0;
+
+    .toolbar-container {
+        display: flex;
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 8px;
+        background-color: #ececec;
+    }
+
+    .toolbar-container::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 20px 20px 0;
+        border-color: transparent #ececec transparent transparent;
+        transform: translateX(-100%);
     }
 }

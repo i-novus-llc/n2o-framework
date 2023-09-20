@@ -10,19 +10,17 @@ import evalExpression from '../../../utils/evalExpression'
 // @ts-ignore - отсутствуют типы
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
 
-type Action = Record<string, any> | undefined
+type ActionFunc = (model: any) => void
 
-type ActionFunc = (model: any, action?: Action) => void
-type FuncWithRequiredAction = (model: any, action: Action) => void
-type ResolvedFunc<T extends Action> = T extends undefined ? ActionFunc : FuncWithRequiredAction
-
-export const useOnActionMethod = <Action extends Record<string, any>>(modelsId: string, action?: Action) => {
+export const useOnActionMethod = <Action extends Record<string, any>>(modelsId: string, config?: Action) => {
     const store = useStore()
     const dispatch = useDispatch()
 
     return (
-        useCallback<ResolvedFunc<Action>>((model, providedClickAction = action) => {
-            if (!providedClickAction) {
+        useCallback<ActionFunc>((model) => {
+            if (!config) {
+                console.warn('Config - second argument, not passed')
+
                 return
             }
 
@@ -33,7 +31,7 @@ export const useOnActionMethod = <Action extends Record<string, any>>(modelsId: 
                 pathMapping,
                 queryMapping,
                 target,
-            } = providedClickAction
+            } = config
 
             const allowRowClick = (
                 enablingCondition
@@ -71,6 +69,6 @@ export const useOnActionMethod = <Action extends Record<string, any>>(modelsId: 
                     window.location = compiledUrl
                 }
             }
-        }, [action, dispatch, modelsId, store])
+        }, [config, dispatch, modelsId, store])
     )
 }

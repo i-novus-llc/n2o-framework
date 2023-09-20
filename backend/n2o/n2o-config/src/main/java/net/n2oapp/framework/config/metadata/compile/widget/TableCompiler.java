@@ -11,10 +11,8 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ChildrenToggle;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPosition;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidget;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -22,12 +20,12 @@ import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
-import net.n2oapp.framework.api.metadata.meta.widget.table.AbstractTable;
-import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
-import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
-import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
+import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
+import net.n2oapp.framework.api.metadata.meta.widget.table.*;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -129,6 +127,9 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                 }
             }
             component.getBody().getRow().setClick(compileRowClick(source, context, p, widgetScope, object, widgetActions));
+            PageIndexScope pageIndexScope = new PageIndexScope(source.getId());
+            component.getBody().getRow().setOverlay(compileRowOverlay(source, context, p, widgetScope, object, pageIndexScope));
+
         }
         table.setPaging(
                 compilePaging(table, source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p)
@@ -263,5 +264,27 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         }
         compiled.setFiltersDatasourceId(getClientDatasourceId(datasourceId, p));
     }
-}
 
+    /**
+     * Компиляция поведения при наведении на строку
+     */
+    protected RowOverlay compileRowOverlay(N2oAbstractListWidget source, CompileContext<?, ?> context,
+                                           CompileProcessor p, WidgetScope widgetScope,
+                                           CompiledObject object, PageIndexScope indexScope) {
+        if (source.getRows() == null || source.getRows().getRowOverlay() == null)
+            return null;
+
+        RowOverlay overlay = new RowOverlay();
+
+        N2oRowOverlay rowOverlay = source.getRows().getRowOverlay();
+        overlay.setClassName(rowOverlay.getClassName());
+        if (rowOverlay.getToolbar() != null) {
+            Toolbar toolbar = p.compile(rowOverlay.getToolbar(), context, widgetScope, indexScope);
+            Iterator<List<Group>> iterator = toolbar.values().iterator();
+            if (iterator.hasNext())
+                overlay.setToolbar(iterator.next());
+        }
+        return overlay;
+    }
+
+}
