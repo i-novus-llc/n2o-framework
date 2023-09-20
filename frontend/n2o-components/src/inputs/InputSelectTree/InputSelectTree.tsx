@@ -98,7 +98,7 @@ function InputSelectTree({
     className,
     showCheckedStrategy,
     maxTagTextLength,
-    disabled,
+    disabled = false,
 }: Props) {
     const treeExpandedKeys = useRef([])
     const [searchValue, setSearchValue] = useState('');
@@ -298,7 +298,7 @@ function InputSelectTree({
                 value={setValue(value)}
                 onDropdownVisibleChange={handleDropdownVisibleChange}
                 switcherIcon={renderSwitcherIcon}
-                suffixIcon={<Icon name="fa fa-chevron-down" />}
+                suffixIcon={<Icon name="fa fa-chevron-down" visible={!disabled} />}
                 multiple={multiSelect}
                 treeCheckable={hasCheckboxes && <Checkbox inline />}
                 treeData={treeData}
