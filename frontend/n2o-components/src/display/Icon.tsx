@@ -4,11 +4,12 @@ import classNames from 'classnames'
 import { TBaseProps } from '../types'
 
 type Props = TBaseProps & {
-    bordered?: boolean;
-    circular?: boolean;
-    name?: string;
-    onClick?: MouseEventHandler<HTMLElement>;
-    spin?: boolean;
+    bordered?: boolean
+    circular?: boolean
+    name?: string
+    onClick?: MouseEventHandler<HTMLElement>
+    spin?: boolean
+    visible?: boolean
 }
 
 export function Icon({
@@ -20,7 +21,12 @@ export function Icon({
     bordered = false,
     style,
     onClick = () => {},
+    visible = true,
 }: Props) {
+    if (!visible) {
+        return null
+    }
+
     const iconClass = classNames({
         'n2o-icon': true,
         [name]: name,
