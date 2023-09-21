@@ -232,7 +232,7 @@ const widgetSlice = createSlice({
         /**
          * Установить перенос текста в таблице
          */
-        TOGGLE_WORD_WRAP: {
+        toggleTableWordWrap: {
 
             // eslint-disable-next-line sonarjs/no-identical-functions
             prepare(widgetId) {
@@ -243,8 +243,14 @@ const widgetSlice = createSlice({
 
             reducer(state, action: Toggle) {
                 const { payload } = action
-                const { widgetId } = payload
-                const { table } = state[widgetId]
+
+                const { id } = payload
+
+                if (!id) {
+                    return
+                }
+
+                const { table } = state[id]
 
                 if (!table) {
                     return
@@ -252,7 +258,7 @@ const widgetSlice = createSlice({
 
                 const { textWrap } = table
 
-                set(state, `${widgetId}.table.textWrap`, !textWrap)
+                set(state, `${id}.table.textWrap`, !textWrap)
             },
         },
     },
@@ -272,7 +278,7 @@ export const {
     TOGGLE_FILTER_VISIBILITY: toggleWidgetFilters,
     REMOVE: removeWidget,
     SET_ACTIVE: setActive,
-    TOGGLE_WORD_WRAP: toggleWidgetsWordWrap,
+    toggleTableWordWrap,
 } = widgetSlice.actions
 
 export const alertAddWidget = createAction(ALERT_ADD, (widgetId: string, alertKey: string) => ({
