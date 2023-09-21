@@ -14,6 +14,7 @@ export type ResolvePayload = {
 
 export type TogglePayload = {
     widgetId: string
+    id?: string
 }
 
 export type ChangeFilterVisibilityPayload = {
