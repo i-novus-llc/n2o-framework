@@ -129,7 +129,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         CustomAction download = ((CustomAction) downloadBtn.getAction());
         assertThat(download.getType(), is("n2o/api/utils/export"));
         assertThat(download.getPayload().getAttributes().get("baseURL"), is("/n2o/export"));
-        assertThat(download.getPayload().getAttributes().get("configDatasource"), is("exportModal_exportModalDs"));
+        assertThat(download.getPayload().getAttributes().get("configDatasource"), is("table_settings_exportModal_exportModalDs"));
         assertThat(download.getPayload().getAttributes().get("exportDatasource"), is("table_settings_ds1"));
 
         AbstractButton closeBtn = modalPage.getToolbar().getButton("table_settings_exportModal_mi1");
@@ -280,7 +280,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         CustomAction download = ((CustomAction) downloadBtn.getAction());
         assertThat(download.getType(), is("n2o/api/utils/export"));
         assertThat(download.getPayload().getAttributes().get("baseURL"), is("/n2o/export"));
-        assertThat(download.getPayload().getAttributes().get("configDatasource"), is("exportModal_exportModalDs"));
+        assertThat(download.getPayload().getAttributes().get("configDatasource"), is("export_exportModal_exportModalDs"));
         assertThat(download.getPayload().getAttributes().get("exportDatasource"), is("export_ds1"));
         assertThat(download.getPayload().getAttributes().get("widgetId"), is("export_w1"));
         assertThat(download.getPayload().getAttributes().get("allLimit"), is("1000"));
