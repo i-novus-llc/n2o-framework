@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Модель региона 2.0
@@ -34,7 +35,7 @@ public abstract class N2oRegion extends N2oComponent implements SourceMetadata, 
 
     @Override
     public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
-        if (content != null) {
+        if (Objects.nonNull(content)) {
             for (SourceComponent component : content) {
                 if (component instanceof RegionItem)
                     ((RegionItem) component).collectWidgets(result, ids, getAlias());

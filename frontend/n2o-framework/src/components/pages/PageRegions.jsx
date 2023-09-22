@@ -14,7 +14,7 @@ import Factory from '../../core/factory/Factory'
  * @return {*}
  * @constructor
  */
-function PageRegions({ id, regions, width }) {
+function PageRegions({ id, regions, width, routable }) {
     return map(regions, (place, key) => (
         <div key={key} className={`n2o-page__${key}`} style={{ width: width[key] }}>
             {map(place, (region, index) => (
@@ -23,6 +23,7 @@ function PageRegions({ id, regions, width }) {
                     level={REGIONS}
                     {...region}
                     pageId={id}
+                    routable={routable}
                 />
             ))}
         </div>

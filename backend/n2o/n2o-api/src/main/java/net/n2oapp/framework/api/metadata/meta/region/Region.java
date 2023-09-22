@@ -20,6 +20,8 @@ public abstract class Region extends Component implements CompiledRegionItem, Sr
     private String id;
     @JsonProperty
     private List<CompiledRegionItem> content;
+    @JsonProperty
+    private String activeParam;
 
     @Override
     public void collectWidgets(List<Widget<?>> compiledWidgets) {

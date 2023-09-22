@@ -1,31 +1,61 @@
 import { FETCH_TYPE } from '../../core/widget/const'
+import { ServiceInfo } from '../../ducks/regions/Actions'
+import { State as WidgetsState } from '../../ducks/widgets/Widgets'
+import { State as RegionsState } from '../../ducks/regions/Regions'
 
-interface ContentItem {
-    id: string,
-    group?: contentType
+interface Service {
+    serviceInfo: ServiceInfo,
+    widgetsState: WidgetsState,
+    regionsState: RegionsState,
 }
 
-type contentType = ContentItem[]
+export const getFirstVisibleTab = (service: Service) => {
+    const { serviceInfo, widgetsState, regionsState } = service
+    const tabsIds = Object.keys(serviceInfo)
 
-export function getFirstContentId(content: contentType = []): string | void {
-    if (!content.length) {
-        return undefined
-    }
+    return tabsIds.find((id) => {
+        const { widgets } = serviceInfo[id]
 
-    const [first] = content
-
-    const { group } = first
-
-    if (group) {
-        return getFirstContentId(group)
-    }
-
-    const { id } = first
-
-    return id
+        return widgets.some(id => widgetsState[id]?.visible || regionsState[id])
+    })
 }
 
-export function getFetchOnInit(metaFetchOnInit: boolean, lazy: boolean, active: boolean) {
+export const setFirstVisibleTab = (
+    service: Service,
+    changeActiveEntity: (id: string) => void,
+    activeTabFieldId?: string | undefined,
+    setResolve?: (model: Record<string, unknown>) => void | undefined,
+    model?: Record<string, unknown>,
+) => {
+    const firstVisibleTab = getFirstVisibleTab(service)
+
+    if (firstVisibleTab) {
+        changeActiveEntity(firstVisibleTab)
+
+        if (setResolve && activeTabFieldId && model) {
+            setResolve({ ...model, [activeTabFieldId]: firstVisibleTab })
+        }
+    }
+}
+
+export const checkTabVisibility = (service: Service, tabId?: string) => {
+    if (!tabId) {
+        return false
+    }
+
+    const { serviceInfo, widgetsState, regionsState } = service
+    const { widgets } = serviceInfo[tabId]
+
+    return widgets.some(id => widgetsState[id]?.visible || regionsState[id])
+}
+
+export const getTabReduxMeta = (regionsState: RegionsState, regionId: string, tabId: string) => {
+    const { tabs } = regionsState[regionId]
+
+    return tabs.find(({ id }) => id === tabId)
+}
+
+export function getFetchOnInit(metaFetchOnInit: boolean, lazy: boolean, active: string) {
     if (!lazy || active) {
         return metaFetchOnInit
     }
@@ -33,7 +63,7 @@ export function getFetchOnInit(metaFetchOnInit: boolean, lazy: boolean, active: 
     return false
 }
 
-export function getFetch(lazy: boolean, active: boolean) {
+export function getFetch(lazy: boolean, active: string) {
     if (!lazy) {
         return FETCH_TYPE.always
     }

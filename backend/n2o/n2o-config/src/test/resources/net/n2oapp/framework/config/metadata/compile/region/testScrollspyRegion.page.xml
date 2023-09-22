@@ -10,7 +10,8 @@
                 placement="right"
                 title="regionTitle"
                 headlines="true"
-                max-height="700"/>
+                max-height="700"
+                active-param="param"/>
         <scrollspy/>
     </regions>
 </page>
