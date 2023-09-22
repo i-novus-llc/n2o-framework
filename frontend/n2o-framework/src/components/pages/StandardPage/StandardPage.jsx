@@ -12,11 +12,11 @@ import PageRegions from '../PageRegions'
  * @return {*}
  * @constructor
  */
-function StandardPage({ id, regions, ...rest }) {
+function StandardPage({ id, regions, routable, ...rest }) {
     return (
         <DefaultPage {...rest}>
             <div className="n2o-page n2o-page__single-layout">
-                <PageRegions id={id} regions={regions} />
+                <PageRegions id={id} regions={regions} routable={routable} />
             </div>
         </DefaultPage>
     )

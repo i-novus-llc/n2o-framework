@@ -13,11 +13,9 @@ import { RegionContent } from '../RegionContent'
  * @reactProps {string} pageId - идентификатор страницы
  */
 
-const NoneRegion = ({ content, className, style, pageId, disabled }) => (
+const NoneRegion = ({ content, className, style, pageId, disabled, parent }) => (
     <div className={classNames('n2o-none-region', className, { 'n2o-disabled': disabled })} style={style}>
-        {map(content, (item, i) => (
-            <RegionContent key={`${i}-${item.id}`} content={[item]} pageId={pageId} />
-        ))}
+        {map(content, (item, i) => <RegionContent key={`${i}-${item.id}`} content={[item]} pageId={pageId} parent={parent} />)}
     </div>
 )
 

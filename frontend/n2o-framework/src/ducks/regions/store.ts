@@ -7,13 +7,22 @@ import createActionHelper from '../../actions/createActionHelper'
 import { State as StoreState } from '../State'
 
 import RegionResolver from './RegionResolver'
-import { MAP_URL } from './constants'
 import { State } from './Regions'
-import { RegisterRegion, SetActiveRegionEntity, SetTabInvalid, UnregisterRegion } from './Actions'
+import { RegisterRegion, SetActiveRegionEntity, SetTabInvalid, UnregisterRegion, SetRegionServiceInfo } from './Actions'
 
 /**
  * Начальный стейт
  */
+const defaultState = {
+    regionId: null,
+    activeEntity: null,
+    isInit: false,
+    panels: [],
+    datasource: null,
+    tabs: [],
+    serviceInfo: {},
+}
+
 const initialState: State = {}
 const regionsSlice = createSlice({
     name: 'n2o/regions',
@@ -62,6 +71,24 @@ const regionsSlice = createSlice({
             },
         },
 
+        SET_REGION_SERVICE_INFO: {
+            prepare(regionId, serviceInfo) {
+                return ({
+                    payload: { regionId, serviceInfo },
+                })
+            },
+
+            reducer(state, action: SetRegionServiceInfo) {
+                const { regionId, serviceInfo } = action.payload
+
+                if (!state[regionId]) {
+                    state[regionId] = defaultState
+                }
+
+                state[regionId].serviceInfo = serviceInfo
+            },
+        },
+
         SET_TAB_INVALID: {
             prepare(regionId, tabId, invalid) {
                 return ({
@@ -94,8 +121,10 @@ export const {
     UNREGISTER_REGION: unregisterRegion,
     SET_ACTIVE_REGION_ENTITY: setActiveRegion,
     SET_TAB_INVALID: setTabInvalid,
+    SET_REGION_SERVICE_INFO: setRegionServiceInfo,
 } = regionsSlice.actions
 
+export const MAP_URL = 'n2o/regions/MAP_URL'
 export const mapUrl = (value: string) => createActionHelper(MAP_URL)(value)
 
 /**

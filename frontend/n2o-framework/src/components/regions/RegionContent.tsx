@@ -3,35 +3,59 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import map from 'lodash/map'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 
+// @ts-ignore ignore import error from js file
 import { Factory } from '../../core/factory/Factory'
 import { WIDGETS } from '../../core/factory/factoryLevels'
+import { ContentMeta } from '../../ducks/regions/Regions'
 
 import { getFetchOnInit, getFetch } from './helpers'
 
-export function RegionContent({
-    content,
-    tabSubContentClass,
-    pageId,
-    className,
-    active,
-    lazy = false,
-}) {
+interface Props {
+    content: ContentMeta[]
+    tabSubContentClass: string
+    pageId: string
+    className?: string
+    active: string
+    lazy: boolean
+    regionId: string
+    parent?: string | null
+    tabId: string
+}
+
+export function RegionContent(props: Props) {
+    const {
+        content,
+        tabSubContentClass,
+        pageId,
+        className,
+        active,
+        regionId,
+        tabId,
+        parent = null,
+        lazy = false,
+    } = props
+
     const mapClassNames = {
         TabsRegion: tabSubContentClass,
     }
 
+    if (isEmpty(content)) {
+        return null
+    }
+
     return (
         <div className={className}>
-            {map(content, (meta = {}, index) => {
+            {map(content, (meta: ContentMeta, index) => {
                 const { src, fetchOnInit: metaFetchOnInit } = meta
 
-                const getClassName = (meta, path) => get(meta, path) || ''
+                const getClassName = (meta: ContentMeta | { TabsRegion: string }, path: string) => get(meta, path) || ''
 
                 const regionClassName = getClassName(mapClassNames, src)
                 const metaClassName = getClassName(meta, 'className')
 
-                const className = classNames({
+                const className = classNames('nested-content', {
                     [regionClassName]: regionClassName,
                     [metaClassName]: metaClassName,
                 })
@@ -43,11 +67,12 @@ export function RegionContent({
                     <Factory
                         level={WIDGETS}
                         key={index}
-                        pageId={pageId}
                         {...meta}
+                        pageId={pageId}
                         className={className}
                         fetchOnInit={fetchOnInit}
                         fetch={fetch}
+                        parent={parent || { regionId, tabId }}
                     />
                 )
             })}

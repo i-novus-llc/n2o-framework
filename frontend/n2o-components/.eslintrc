@@ -75,7 +75,7 @@
     "yoda": ["off"],
     // Запрет <a href="#"> или <a href="javascript:void(0)">
     "jsx-a11y/anchor-is-valid": ["error", {"aspects": ["invalidHref"]}],
-    // Теперь при совпаднии значений htmlFor у элемента и id у инпута не будет ошибки 
+    // Теперь при совпаднии значений htmlFor у элемента и id у инпута не будет ошибки
     "jsx-a11y/label-has-associated-control": ["error", {"required": {"some": ["nesting", "id"]}}],
     // Выключаем, чтоб можно было использовать await в циклах
     "no-await-in-loop": ["off"],
@@ -165,7 +165,7 @@
     // if(true) { return true } else { return false }
     "sonarjs/prefer-single-boolean-return": "error",
     // Выкидываем предупреждения, если ключи в типах не в алфавитном порядке
-    "typescript-sort-keys/interface": "warn",
+    "typescript-sort-keys/interface": "off",
     "typescript-sort-keys/string-enum": "warn"
   },
   "overrides": [

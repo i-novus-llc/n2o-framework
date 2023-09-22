@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
@@ -21,6 +23,13 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
  */
 @Component
 public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRegion> {
+
+    private static final String ALWAYS_REFRESH = "n2o.api.region.tabs.always_refresh";
+    private static final String LAZY = "n2o.api.region.tabs.lazy";
+    private static final String SCROLLBAR = "n2o.api.region.tabs.scrollbar";
+    private static final String MAX_HEIGHT = "n2o.api.region.tabs.max_height";
+    private static final String HIDE_SINGLE_TAB = "n2o.api.region.tabs.hide_single_tab";
+    private static final String ROUTABLE = "n2o.api.region.tabs.routable";
 
     @Override
     protected String getSrcProperty() {
@@ -37,19 +46,26 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         TabsRegion region = new TabsRegion();
         build(region, source, p);
         region.setItems(initItems(source, context, p));
-        region.setAlwaysRefresh(p.cast(source.getAlwaysRefresh(),
-                () -> p.resolve(property("n2o.api.region.tabs.always_refresh"), Boolean.class)));
-        region.setLazy(p.cast(source.getLazy(),
-                () -> p.resolve(property("n2o.api.region.tabs.lazy"), Boolean.class)));
-        region.setScrollbar(p.cast(source.getScrollbar(),
-                () -> p.resolve(property("n2o.api.region.tabs.scrollbar"), Boolean.class)));
-        region.setMaxHeight(prepareSizeAttribute(p.cast(source.getMaxHeight(),
-                () -> p.resolve(property("n2o.api.region.tabs.max_height"), String.class))));
-        region.setHideSingleTab(p.cast(source.getHideSingleTab(),
-                () -> p.resolve(property("n2o.api.region.tabs.hide_single_tab"), Boolean.class)));
+        region.setAlwaysRefresh(
+                p.cast(source.getAlwaysRefresh(), () -> p.resolve(property(ALWAYS_REFRESH), Boolean.class))
+        );
+        region.setLazy(
+                p.cast(source.getLazy(), () -> p.resolve(property(LAZY), Boolean.class))
+        );
+        region.setScrollbar(
+                p.cast(source.getScrollbar(), () -> p.resolve(property(SCROLLBAR), Boolean.class))
+        );
+        region.setMaxHeight(prepareSizeAttribute(
+                p.cast(source.getMaxHeight(), () -> p.resolve(property(MAX_HEIGHT), String.class)))
+        );
+        region.setHideSingleTab(
+                p.cast(source.getHideSingleTab(), () -> p.resolve(property(HIDE_SINGLE_TAB), Boolean.class))
+        );
         region.setActiveTabFieldId(source.getActiveTabFieldId());
         region.setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
-        compileRoute(source, region.getId(), "n2o.api.region.tabs.routable", p);
+        region.setActiveParam(source.getActiveParam());
+        compileRoute(source, region.getId(), ROUTABLE, p);
+
         return region;
     }
 
@@ -57,13 +73,14 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     protected String createId(CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         String regionName = getDefaultId(pageScope, "tabs");
+
         return createId(regionName, p);
     }
 
 
     protected List<TabsRegion.Tab> initItems(N2oTabsRegion source, PageContext context, CompileProcessor p) {
         List<TabsRegion.Tab> items = new ArrayList<>();
-        if (source.getTabs() != null)
+        if (nonNull(source.getTabs()))
             for (N2oTabsRegion.Tab t : source.getTabs()) {
                 TabsRegion.Tab tab = new TabsRegion.Tab();
                 tab.setId(createTabId(t.getId(), source.getAlias(), p));
@@ -74,6 +91,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
                 tab.setOpened(items.isEmpty());
                 items.add(tab);
             }
+
         return items;
     }
 
@@ -83,18 +101,19 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         String id = p.cast(regionId, createId(regionName, p));
 
         //проверяем id на уникальность
-        if (pageScope != null) {
-            if (pageScope.getTabIds() == null)
+        if (nonNull(pageScope)) {
+            if (isNull(pageScope.getTabIds()))
                 pageScope.setTabIds(new HashSet<>());
             else if (pageScope.getTabIds().contains(id))
                 throw new N2oException(String.format("Вкладка с идентификатором '%s' уже существует", id));
             pageScope.getTabIds().add(id);
         }
+
         return id;
     }
 
     private String getDefaultId(PageScope scope, String id) {
-        return (scope == null || "_".equals(scope.getPageId())) ?
+        return (isNull(scope) || "_".equals(scope.getPageId())) ?
                 id :
                 scope.getPageId().concat("_").concat(id);
     }

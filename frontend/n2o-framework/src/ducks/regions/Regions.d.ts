@@ -1,37 +1,41 @@
-interface VisibleDependency {
+import { Tab } from '@i-novus/n2o-components/lib/display/Tabs/Tabs'
+
+import { ServiceInfo } from './Actions'
+
+interface IVisibleDependency {
     on: string
     condition: string
 }
 
-export interface Content {
-    src: string
+export interface TabMeta {
+    content: ContentMeta[]
+    disabled: boolean
+    icon?: string
     id: string
-    name: string
-    datasource?: string
-    fetchOnVisibility?: boolean
-    fetchOnInit?: boolean
-    content?: Content[]
-    visible?: boolean
-    dependency?: {
-        visible?: VisibleDependency[]
-    }
-    activeEntity?: string
-    lazy?: boolean
-    tabs?: Tab[]
-}
-
-export interface Tab {
-    id: string
+    invalid?: boolean
     label: string
     opened: boolean
-    content: Content[]
-    invalid?: boolean
-    security?: {
-        object: {
-            permissions: string[]
-            roles: string[]
-        }
-    }
+    visible?: boolean
+    tooltip?: string
+    className?: string
+}
+
+export interface ContentMeta {
+    alwaysRefresh: boolean
+    children?: boolean
+    className?: string
+    content?: ContentMeta[]
+    hideSingleTab: boolean
+    id: string
+    lazy?: boolean
+    pageId: string
+    scrollbar: boolean
+    src: string
+    fetchOnInit: boolean
+    tabs?: Tab[]
+    visible?: boolean
+    datasource: string,
+    form?: {fieldsets: string[]},
 }
 
 export interface Region {
@@ -41,8 +45,13 @@ export interface Region {
     panels: Array<Record<string, unknown>>
     datasource: string | null
     lazy?: boolean
-    tabs: Tab[]
+    tabs: TabMeta[]
     alwaysRefresh?: boolean
+    serviceInfo: ServiceInfo
+    parent?: {
+        regionId: string
+        tabId: string
+    }
 }
 
 export type State = {

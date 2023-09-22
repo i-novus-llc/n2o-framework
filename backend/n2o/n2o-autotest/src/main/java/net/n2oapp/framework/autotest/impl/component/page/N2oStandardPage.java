@@ -9,6 +9,6 @@ import static net.n2oapp.framework.autotest.N2oSelenide.collection;
 public class N2oStandardPage extends N2oPage implements StandardPage {
     @Override
     public Regions regions() {
-        return collection(element().$$("div.n2o-page__single > div"), N2oRegions.class);
+        return collection(element().$$("div.n2o-page__single > div, div.n2o-page__single > section"), N2oRegions.class);
     }
 }
