@@ -81,9 +81,12 @@
     .body {
         .table-row {
             &[data-overlay-hovered="true"],
-            &[data-focused="true"],
+            &[data-focused="true"] {
+                background-color: #ececec;
+            }
+
             &:hover {
-                background-color: rgba(0, 0, 0, 0.075);
+                background-color: #f9f9f9;
             }
 
             &[data-has-click="true"] {
@@ -113,7 +116,7 @@
         right: 0;
         top: 0;
         padding: 8px;
-        background-color: #ececec;
+        background-color: #f9f9f9;
     }
 
     .toolbar-container::after {
@@ -125,7 +128,7 @@
         height: 0;
         border-style: solid;
         border-width: 0 20px 20px 0;
-        border-color: transparent #ececec transparent transparent;
+        border-color: transparent #f9f9f9 transparent transparent;
         transform: translateX(-100%);
     }
 }
