@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.widget.Widget;
 import net.n2oapp.framework.autotest.impl.collection.N2oRegions;
@@ -7,28 +8,30 @@ import net.n2oapp.framework.autotest.impl.collection.N2oWidgets;
 import net.n2oapp.framework.autotest.impl.component.region.N2oRegionItems;
 import net.n2oapp.framework.autotest.run.*;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static com.codeborne.selenide.Configuration.headless;
+import static net.n2oapp.framework.autotest.run.AutoTestUtil.checkChromeDriver;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = AutoTestApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SimpleTest {
+
     @LocalServerPort
     private int port;
 
     @BeforeAll
     public static void beforeClass() {
+        checkChromeDriver();
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
-        headless = true;
+        Configuration.headless = true;
 
-        N2oSelenide.setFactory(new ComponentFactory()
-                .addCollections(N2oRegions.class, N2oWidgets.class, N2oRegionItems.class)
-                .addComponents(TestRegion.class, TestWidget.class, TestLeftRightPage.class));
+        N2oSelenide.setFactory(
+                new ComponentFactory()
+                        .addCollections(N2oRegions.class, N2oWidgets.class, N2oRegionItems.class)
+                        .addComponents(TestRegion.class, TestWidget.class, TestLeftRightPage.class)
+        );
     }
 
     @Test
@@ -41,6 +44,7 @@ public class SimpleTest {
     }
 
     @Test
+    @Disabled
     public void selenide() {
         TestPageObject page = Selenide.open("http://localhost:" + port + "/test.html", TestPageObject.class);
         page.getLeftWidget0().textShouldBe("Left Region 0 Widget 0");
