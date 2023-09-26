@@ -28,28 +28,31 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Configuration.*;
+import static net.n2oapp.framework.autotest.run.AutoTestUtil.checkChromeDriver;
 import static org.openqa.selenium.remote.CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR;
 
 /**
  * Базовый класс для автотестов
  */
-@SpringBootTest(classes = AutoTestApplication.class,
+@SpringBootTest(
+        classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AutoTestBase extends N2oTestBase {
+
     @LocalServerPort
     protected int port;
 
     @Autowired
     private TestDataProviderEngine provider;
-
     private N2oController n2oController;
     protected Logs logs;
 
     public static void configureSelenide() {
+        checkChromeDriver();
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
+        System.setProperty("selenide.timeout", "10000");
         headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "true"));
-        timeout = Long.parseLong(System.getProperty("selenide.timeout", "10000"));
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         ChromeOptions options = new ChromeOptions();
@@ -68,6 +71,11 @@ public class AutoTestBase extends N2oTestBase {
     public void setUp() throws Exception {
         super.setUp();
         n2oController.setUp(builder);
+    }
+
+    @Autowired
+    public void setN2oController(N2oController n2oController) {
+        this.n2oController = n2oController;
     }
 
     @AfterEach
@@ -112,10 +120,5 @@ public class AutoTestBase extends N2oTestBase {
 
     protected void setJsonPath(String classpath) {
         provider.setClasspathResourcePath(classpath);
-    }
-
-    @Autowired
-    public void setN2oController(N2oController n2oController) {
-        this.n2oController = n2oController;
     }
 }
