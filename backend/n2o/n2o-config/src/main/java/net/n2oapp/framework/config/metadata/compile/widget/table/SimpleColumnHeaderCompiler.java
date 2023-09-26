@@ -62,7 +62,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
 
         compileBaseProperties(source, header, p);
         header.setId(source.getId());
-        header.setIcon(source.getLabelIcon());
+        header.setIcon(source.getIcon());
         header.setResizable(p.cast(source.getResizable(),
                 p.resolve(property("n2o.api.widget.table.column.resizable"), Boolean.class)));
         header.getElementAttributes().put("width", prepareSizeAttribute(source.getWidth()));
@@ -102,8 +102,8 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
     }
 
     private String initLabel(T source, CompiledQuery query) {
-        if (source.getLabelName() != null)
-            return source.getLabelName();
+        if (source.getLabel() != null)
+            return source.getLabel();
         if (query != null && query.getSimpleFieldsMap().containsKey(source.getTextFieldId()))
             return query.getSimpleFieldsMap().get(source.getTextFieldId()).getName();
         return source.getId();
