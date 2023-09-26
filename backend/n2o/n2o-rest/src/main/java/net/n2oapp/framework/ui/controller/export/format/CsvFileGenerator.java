@@ -79,10 +79,9 @@ public class CsvFileGenerator implements FileGenerator {
             int i = 0;
             for (String key : keys) {
                 Object value = str.get(key);
-                if (value instanceof List)
-                    csvStr[i] = str.getList(key).toString();
-                else
-                    csvStr[i] = str.get(key).toString();
+                if (value != null) {
+                    csvStr[i] = value.toString();
+                }
                 i++;
             }
 
