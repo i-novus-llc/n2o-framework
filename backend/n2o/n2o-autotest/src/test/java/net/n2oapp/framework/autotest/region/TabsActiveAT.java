@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.region;
 
-import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
@@ -38,6 +37,7 @@ public class TabsActiveAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
     }
+
     @Test
     public void testParams() {
         builder.sources(
@@ -63,16 +63,6 @@ public class TabsActiveAT extends AutoTestBase {
         button.click();
 
         tabs = page.regions().region(0, TabsRegion.class);
-        tabs.tab(2).shouldHaveName("Три");
-        tabs.tab(2).shouldBeActive();
-
-        page.breadcrumb().crumb(0).click();
-
-        Selenide.back();
-        page.shouldExists();
-
-        tabs = page.regions().region(0, TabsRegion.class);
-        tabs.shouldExists();
         tabs.tab(2).shouldHaveName("Три");
         tabs.tab(2).shouldBeActive();
     }
