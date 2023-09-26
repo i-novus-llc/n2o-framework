@@ -28,6 +28,11 @@ public interface InputSelect extends Control, PopupControl {
     void setMultiValue(String... values);
 
     /**
+     * Нажатие кнопки 'enter'
+     */
+    void pressEnter();
+
+    /**
      * Очистка поля ввода с помощью иконки
      */
     void clearUsingIcon();

@@ -397,4 +397,22 @@ public class InputSelectAT extends AutoTestBase {
         inputSelect.openPopup();
         dropdown.shouldHaveOptions(new String[]{"Новая", "Средняя", "Старая"});
     }
+
+    @Test
+    void inputUsingEnter() {
+        setJsonPath("net/n2oapp/framework/autotest/control/input_select/input_using_enter");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/input_using_enter/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/input_using_enter/data.query.xml")
+        );
+
+        SimplePage page = open(SimplePage.class);
+
+        FormWidget formWidget = page.widget(FormWidget.class);
+        InputSelect inputSelect = formWidget.fieldsets().fieldset(0, SimpleFieldSet.class).fields().field("Ввод с выпадающим списком").control(InputSelect.class);
+        inputSelect.click();
+        inputSelect.pressEnter();
+        formWidget.toolbar().topLeft().button("unselect").click();
+        inputSelect.shouldHaveValue("111");
+    }
 }
