@@ -41,7 +41,7 @@ export const CodeEditor = ({
             className={cx('n2o-code-editor', className)}
         >
             <AceEditor
-                style={{ resize: 'horizontal' }}
+                style={{ resize: 'both' }}
                 mode={lang}
                 theme="tomorrow"
                 name={name}
