@@ -46,9 +46,10 @@ function getIgnored(columns: Columns, widget: Widget): string[] {
     const widgetColumns = get(widget, 'table.header.cells', [])
 
     for (const { id } of widgetColumns) {
-        const visible = get(columns, `${id}.visible`)
+        const column = columns[id] || {}
+        const { visible } = column
 
-        if (!columns[id] || !visible) {
+        if (!columns[id] || visible === false) {
             ignored.push(id)
         }
     }
