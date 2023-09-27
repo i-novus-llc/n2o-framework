@@ -61,12 +61,12 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
                 validationScope));
         addParamRoutes(paramScope, context, p);
         compileToolbarAndAction(form, source, context, p, widgetScope, widgetActions, object, validationScope);
-        form.getComponent().setModelPrefix(FormMode.TWO_MODELS.equals(source.getFormMode()) ? "edit" : "resolve");
+        form.getComponent().setModelPrefix(FormMode.TWO_MODELS.equals(source.getMode()) ? "edit" : "resolve");
         return form;
     }
 
     private Boolean initPrompt(N2oForm source, CompileProcessor p) {
-        return p.cast(source.getPrompt(),
+        return p.cast(source.getUnsavedDataPrompt(),
                 () -> p.resolve(property("n2o.api.widget.form.unsaved_data_prompt"), Boolean.class));
     }
 
