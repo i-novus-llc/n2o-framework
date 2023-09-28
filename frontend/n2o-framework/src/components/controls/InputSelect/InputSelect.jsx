@@ -410,7 +410,6 @@ class InputSelect extends React.Component {
             options,
             onSelect,
             onChange,
-            onBlur,
         } = this.props
 
         const selectCallback = () => {
@@ -430,11 +429,13 @@ class InputSelect extends React.Component {
             }),
             () => {
                 selectCallback()
-                onBlur(this.getValue())
 
                 if (this.inputRef) {
                     this.inputRef.focus()
                 }
+
+                this.textAreaRef.focus()
+                this.setInputFocus(true)
             },
         )
 
@@ -466,7 +467,8 @@ class InputSelect extends React.Component {
                 this.clearSearchField()
             }
             this.clearSelected()
-            this.setInputFocus(false)
+            this.textAreaRef.focus()
+            this.setInputFocus(true)
         }
     }
 
@@ -653,7 +655,7 @@ class InputSelect extends React.Component {
                             inputFocus={inputFocus}
                             onClearClick={this.handleElementClear}
                             disabled={disabled}
-                            className={`${className} ${isExpanded ? 'focus' : ''}`}
+                            className={`${className} ${(isExpanded || inputFocus) ? 'focus' : ''}`}
                             onClick={this.onInputSelectGroupClick}
                         >
                             <InputContent
