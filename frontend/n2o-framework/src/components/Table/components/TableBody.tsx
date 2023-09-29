@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, VFC } from 'react'
+import React, { useMemo, VFC } from 'react'
 
 import { TableBodyProps } from '../types/props'
 import { Selection } from '../enum'
@@ -6,8 +6,6 @@ import { Selection } from '../enum'
 import { SelectionCell } from './selection'
 import { Rows } from './Rows'
 import Table from './basic'
-
-export const rowPropsContext = createContext(null)
 
 export const TableBody: VFC<TableBodyProps> = (props) => {
     const { cells, selection, row, ...otherProps } = props
