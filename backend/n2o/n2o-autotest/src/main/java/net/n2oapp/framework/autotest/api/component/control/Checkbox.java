@@ -20,4 +20,6 @@ public interface Checkbox extends Control {
      * Проверка того, что чекбокс выбран
      */
     void shouldBeChecked();
+
+    void shouldNotBeChecked();
 }
