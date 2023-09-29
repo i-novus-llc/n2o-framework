@@ -132,6 +132,8 @@ function InputSelectTree({
                     title: item.formattedTitle || visiblePartPopup(item, popupProps),
                     ...(ajax && { isLeaf: !item[hasChildrenFieldId as keyof TOption] }),
                     children: [],
+                    /* игнорирование встроенного параметра из rc-tree-select, иконку отрисовывает visiblePartPopup */
+                    icon: null,
                 },
             }),
             {},
