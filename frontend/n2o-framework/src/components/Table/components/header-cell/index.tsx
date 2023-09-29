@@ -38,10 +38,11 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = (props) => {
             ref={cellRef}
             colSpan={colSpan}
             rowSpan={rowSpan}
+            {...otherElementAttributes}
         >
             <div className="n2o-advanced-table-header-cell-content">
                 {icon && <Icon name={icon} />}
-                <Component {...otherCellProps} {...otherElementAttributes} sorting={sortingDirection} />
+                <Component {...otherCellProps} sorting={sortingDirection} />
                 {filterControl ? (
                     <HeaderFilter
                         id={id}
