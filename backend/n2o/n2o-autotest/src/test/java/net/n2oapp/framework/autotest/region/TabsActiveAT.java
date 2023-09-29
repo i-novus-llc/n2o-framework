@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
  * Автотест использования активных вкладок в модели данных
  */
 public class TabsActiveAT extends AutoTestBase {
+
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -63,6 +64,7 @@ public class TabsActiveAT extends AutoTestBase {
         button.click();
 
         tabs = page.regions().region(0, TabsRegion.class);
+        tabs.shouldHaveSize(3);
         tabs.tab(2).shouldHaveName("Три");
         tabs.tab(2).shouldBeActive();
     }
