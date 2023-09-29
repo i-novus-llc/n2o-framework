@@ -693,7 +693,11 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/checkbox",
-          "name": "CheckboxAT"
+          "name": "CheckboxAT. testCheckbox"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/checkbox/testUnchecked",
+          "name": "CheckboxAT. testUnchecked"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/checkbox_group/simple",
