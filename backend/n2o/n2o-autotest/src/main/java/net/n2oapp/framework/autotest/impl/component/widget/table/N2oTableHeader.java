@@ -47,10 +47,7 @@ public abstract class N2oTableHeader extends N2oComponent implements TableHeader
 
     @Override
     public void shouldHaveStyle(String style) {
-        SelenideElement elm = element().$(".n2o-advanced-table-header-title");
-        if (!elm.exists())
-            elm = element().$("div.n2o-advanced-table-header-cel");
-        elm.shouldHave(Condition.attributeMatching("style", String.format(".*%s.*", style)));
+        element().shouldHave(Condition.attributeMatching("style", String.format(".*%s.*", style)));
     }
 
     @Override
