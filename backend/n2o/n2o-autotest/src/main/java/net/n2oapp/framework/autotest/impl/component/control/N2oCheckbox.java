@@ -37,4 +37,9 @@ public class N2oCheckbox extends N2oControl implements Checkbox {
     public void shouldBeChecked() {
         element().shouldBe(Condition.checked);
     }
+
+    @Override
+    public void shouldNotBeChecked() {
+        element().shouldNotBe(Condition.checked);
+    }
 }
