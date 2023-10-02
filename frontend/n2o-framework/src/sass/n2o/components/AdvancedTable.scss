@@ -50,6 +50,12 @@
     }
 }
 
+@for $i from 2 through 10 {
+    .n2o-advanced-table-row-level-#{$i} > td:first-of-type {
+        padding-left: calc(1rem * #{$i});
+    }
+}
+
 .n2o-advanced-table-row-hover {
     background-color: rgba(0, 0, 0, 0.075);
 }
