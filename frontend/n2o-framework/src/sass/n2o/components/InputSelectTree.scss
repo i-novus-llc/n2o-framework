@@ -39,7 +39,7 @@
 }
 
 .n2o-input-select-tree__search-clear-icon:hover {
-    background-color: #dce3e7;
+    background-color: $gray-100;
 }
 
 .n2o-input-select-tree__clear-icon {
@@ -48,4 +48,19 @@
 
 .n2o-input-select-tree__search-clear-icon.custom-clear {
     right: 34px;
+}
+
+.n2o-select-tree.n2o-select-tree-disabled {
+    background-color: $gray-100;
+}
+
+.n2o-select-tree-content-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.n2o-select-tree-tree-title {
+    i {
+        font-size: 14px;
+    }
 }
