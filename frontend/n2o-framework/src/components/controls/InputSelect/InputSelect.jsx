@@ -575,6 +575,7 @@ class InputSelect extends React.Component {
             onDismiss,
             onKeyDown,
             filter,
+            sortFieldId,
         } = this.props
         const {
             value: stateValue,
@@ -585,7 +586,6 @@ class InputSelect extends React.Component {
             options,
             isInputSelected,
             popUpMaxHeight,
-            sortFieldId,
         } = this.state
 
         const inputSelectStyle = { width: '100%', cursor: 'text', ...style }
