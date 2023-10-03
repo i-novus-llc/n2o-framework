@@ -2649,9 +2649,8 @@ class MyService {
 ```xml title="Использование ключевого слова #parent"
 <fields>
     <field id="name"/>
-    <reference id="org" mapping="['organization']">
-        <field id="id" mapping="['code']"/>
-        <field id="fullName" mapping="['title']" normalize="#this + '_' + #parent['name']"/>
+    <reference id="org">
+        <field id="fullName" normalize="#parent['name'] + '_' + #this"/>
     </reference>
 </fields>
 ```
@@ -2977,8 +2976,8 @@ n2o.engine.normalizer.packages=net.n2oapp, org.mypackage1, org.mypackage2
 
 
 ```xml title="Вычисление цвета по статусу с помощью нормализации"
-<field id="color" mapping="['status']
-       normalize="#this.equals('New') ? 'success' : #this.equals('In Progress') ? 'warning' : 'info'"/>
+<field id="color" mapping="['status']"
+       normalize="#this == 'New' ? 'success' : #this == 'In Progress' ? 'warning' : 'info'"/>
 ```
 
 Но чем больше будет вариантов для соотнесения, тем более сложным и плохо поддерживаемым будет итоговое выражение.
