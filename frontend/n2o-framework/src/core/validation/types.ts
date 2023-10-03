@@ -30,6 +30,7 @@ export interface Validation extends ExtraValidationConfig {
     text: string
     type: ValidationTypes
     enablingConditions: string[]
+    on: string[]
 }
 
 export interface ValidationResult {
