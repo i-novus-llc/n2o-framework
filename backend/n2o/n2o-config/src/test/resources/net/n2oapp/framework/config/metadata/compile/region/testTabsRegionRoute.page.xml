@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <tabs>
+            <tab>
+                <form/>
+            </tab>
+            <tab id="tab2">
+                <form/>
+            </tab>
+            <tab>
+                <form/>
+            </tab>
+        </tabs>
+        <tabs active-param="param1" always-refresh="true" lazy="false" hide-single-tab="true"
+              max-height="300px" scrollbar="true" datasource="ds" active-tab-field-id="activeTab"/>
+        <tabs id="tabId" active-param="param2" max-height="500"/>
+    </regions>
+</page>
