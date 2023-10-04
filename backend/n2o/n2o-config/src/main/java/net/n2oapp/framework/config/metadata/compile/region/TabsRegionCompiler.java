@@ -1,20 +1,23 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.util.DatasourceUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
-import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
+import static net.n2oapp.framework.api.StringUtils.*;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
@@ -80,7 +83,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
 
     protected List<TabsRegion.Tab> initItems(N2oTabsRegion source, PageContext context, CompileProcessor p) {
         List<TabsRegion.Tab> items = new ArrayList<>();
-        if (nonNull(source.getTabs()))
+        if (source.getTabs() != null)
             for (N2oTabsRegion.Tab t : source.getTabs()) {
                 TabsRegion.Tab tab = new TabsRegion.Tab();
                 tab.setId(createTabId(t.getId(), source.getAlias(), p));
@@ -89,10 +92,37 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
                 tab.setContent(initContent(t.getContent(), context, p, t));
                 // opened only first tab
                 tab.setOpened(items.isEmpty());
+                if (t.getDatasource() == null)
+                    t.setDatasource(source.getDatasourceId());
+                tab.setDatasource(DatasourceUtil.getClientDatasourceId(t.getDatasource(), p));
+                compileLinkConditions(t, tab, p);
                 items.add(tab);
             }
 
         return items;
+    }
+
+    private void compileLinkConditions(N2oTabsRegion.Tab source, TabsRegion.Tab tab, CompileProcessor p) {
+        String clientDatasource = getClientDatasourceId(source.getDatasource(), p);
+        if (isLink(source.getVisible()))
+            compileLink(tab, clientDatasource, ValidationType.visible, source.getVisible(), ReduxModel.resolve);
+        else
+            tab.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+
+        if (isLink(source.getEnabled()))
+            compileLink(tab, clientDatasource, ValidationType.enabled, source.getEnabled(), ReduxModel.resolve);
+        else
+            tab.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+    }
+
+    private void compileLink(TabsRegion.Tab tab, String clientDatasource, ValidationType type,
+                             String linkCondition, ReduxModel model) {
+        if (clientDatasource == null)
+            throw new N2oException(String.format("Для вкладки '%s' не может быть реализовано условие visible/enabled, т.к. не задан datasource", tab.getLabel()));
+        Condition condition = new Condition();
+        condition.setExpression(unwrapLink(linkCondition));
+        condition.setModelLink(new ModelLink(model, clientDatasource).getBindLink());
+        tab.getConditions().put(type, List.of(condition));
     }
 
     private String createTabId(String regionId, String alias, CompileProcessor p) {
@@ -101,8 +131,8 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         String id = p.cast(regionId, createId(regionName, p));
 
         //проверяем id на уникальность
-        if (nonNull(pageScope)) {
-            if (isNull(pageScope.getTabIds()))
+        if (pageScope != null) {
+            if (pageScope.getTabIds() == null)
                 pageScope.setTabIds(new HashSet<>());
             else if (pageScope.getTabIds().contains(id))
                 throw new N2oException(String.format("Вкладка с идентификатором '%s' уже существует", id));
@@ -113,7 +143,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     }
 
     private String getDefaultId(PageScope scope, String id) {
-        return (isNull(scope) || "_".equals(scope.getPageId())) ?
+        return (scope == null || "_".equals(scope.getPageId())) ?
                 id :
                 scope.getPageId().concat("_").concat(id);
     }

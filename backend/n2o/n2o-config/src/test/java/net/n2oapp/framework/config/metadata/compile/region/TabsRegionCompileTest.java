@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.meta.action.SetActiveRegionEntityPayload;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.CompiledRegionItem;
@@ -47,50 +48,21 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testTabsRegion.page.xml")
                 .get(new PageContext("testTabsRegion"));
 
-        TabsRegion tabs = (TabsRegion) page.getRegions().get("single").get(0);
-        assertThat(tabs.getSrc(), is("TabsRegion"));
-        assertThat(tabs.getAlwaysRefresh(), is(false));
-        assertThat(tabs.getLazy(), is(true));
-        assertThat(tabs.getHideSingleTab(), is(false));
-        assertThat(tabs.getMaxHeight(), is(nullValue()));
-        assertThat(tabs.getScrollbar(), is(false));
-        List<TabsRegion.Tab> items = tabs.getItems();
-        assertThat(items.size(), is(3));
-        assertThat(items.get(0).getId(), is("testTabsRegion_tab1"));
-        assertThat(items.get(0).getOpened(), is(true));
-        assertThat(items.get(1).getId(), is("tab2"));
-        assertThat(items.get(1).getOpened(), is(false));
-        assertThat(items.get(2).getId(), is("testTabsRegion_tab3"));
-        assertThat(items.get(2).getOpened(), is(false));
-
-        tabs = (TabsRegion) page.getRegions().get("single").get(1);
-        assertThat(tabs.getAlwaysRefresh(), is(true));
-        assertThat(tabs.getLazy(), is(false));
-        assertThat(tabs.getHideSingleTab(), is(true));
-        assertThat(tabs.getScrollbar(), is(true));
-        assertThat(tabs.getMaxHeight(), is("300px"));
-        assertThat(tabs.getDatasource(), is("testTabsRegion_ds"));
-        assertThat(tabs.getActiveTabFieldId(), is("activeTab"));
-        assertThat(tabs.getActiveParam(), is("param1"));
-
-        tabs = (TabsRegion) page.getRegions().get("single").get(2);
-        assertThat(tabs.getMaxHeight(), is("500px"));
-    }
-
-    @Test
-    void testNesting() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testTabsRegionNesting.page.xml")
-                .get(new PageContext("testTabsRegionNesting"));
-
         assertThat(page.getRegions().size(), is(1));
         List<Region> regions = page.getRegions().get("single");
         assertThat(regions.size(), is(3));
 
         // TABS1
-        assertThat(regions.get(0), instanceOf(TabsRegion.class));
-        assertThat(regions.get(0).getId(), is("testTabsRegionNesting_tabs0"));
-        assertThat(regions.get(0).getSrc(), is("TabsRegion"));
-        List<TabsRegion.Tab> items = ((TabsRegion) regions.get(0)).getItems();
+        TabsRegion tabsRegion = (TabsRegion) regions.get(0);
+        assertThat(tabsRegion, instanceOf(TabsRegion.class));
+        assertThat(tabsRegion.getId(), is("testTabsRegion_tabs0"));
+        assertThat(tabsRegion.getSrc(), is("TabsRegion"));
+        assertThat(tabsRegion.getAlwaysRefresh(), is(false));
+        assertThat(tabsRegion.getLazy(), is(true));
+        assertThat(tabsRegion.getHideSingleTab(), is(false));
+        assertThat(tabsRegion.getMaxHeight(), is(nullValue()));
+        assertThat(tabsRegion.getScrollbar(), is(false));
+        List<TabsRegion.Tab> items = ((TabsRegion) tabsRegion).getItems();
         assertThat(items.size(), is(1));
         // tab1
         assertThat(items.get(0), instanceOf(TabsRegion.Tab.class));
@@ -99,57 +71,71 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(content.size(), is(3));
         // tab1 form
         assertThat(content.get(0), instanceOf(Form.class));
-        assertThat(((Form) content.get(0)).getId(), is("testTabsRegionNesting_tab1"));
+        assertThat(((Form) content.get(0)).getId(), is("testTabsRegion_tab1"));
         assertThat(((Form) content.get(0)).getName(), is("form1"));
         // tab1 tabs
         assertThat(content.get(1), instanceOf(TabsRegion.class));
         List<TabsRegion.Tab> tabsItems = ((TabsRegion) content.get(1)).getItems();
         assertThat(tabsItems.size(), is(1));
         // tab1 tabs tab2
-        assertThat(tabsItems.get(0), instanceOf(TabsRegion.Tab.class));
-        assertThat(tabsItems.get(0).getLabel(), is("Tab2"));
+        TabsRegion.Tab tab2 = tabsItems.get(0);
+        assertThat(tab2, instanceOf(TabsRegion.Tab.class));
+        assertThat(tab2.getLabel(), is("Tab2"));
+        assertThat(tab2.getDatasource(), is("testTabsRegion_ds1"));
+        assertThat(tab2.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("id!=1"));
+        assertThat(tab2.getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['testTabsRegion_ds1']"));
+        assertThat(tab2.getConditions().get(ValidationType.visible).get(0).getExpression(), is("id!=1"));
+        assertThat(tab2.getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['testTabsRegion_ds1']"));
         // tab1 tabs tab2 form
-        assertThat(tabsItems.get(0).getContent().size(), is(1));
-        assertThat(tabsItems.get(0).getContent().get(0), instanceOf(Form.class));
-        assertThat(((Form) tabsItems.get(0).getContent().get(0)).getId(), is("testTabsRegionNesting_tab2"));
-        assertThat(((Form) tabsItems.get(0).getContent().get(0)).getName(), is("form2"));
+        assertThat(tab2.getContent().size(), is(1));
+        assertThat(tab2.getContent().get(0), instanceOf(Form.class));
+        assertThat(((Form) tab2.getContent().get(0)).getId(), is("testTabsRegion_tab2"));
+        assertThat(((Form) tab2.getContent().get(0)).getName(), is("form2"));
 
         // TABS2
         TabsRegion region = (TabsRegion) regions.get(1);
-        assertThat(region.getId(), is("testTabsRegionNesting_tabs4"));
+        assertThat(region.getId(), is("testTabsRegion_tabs4"));
+        assertThat(region.getAlwaysRefresh(), is(true));
+        assertThat(region.getLazy(), is(false));
+        assertThat(region.getHideSingleTab(), is(true));
+        assertThat(region.getScrollbar(), is(true));
+        assertThat(region.getMaxHeight(), is("300px"));
+        assertThat(region.getDatasource(), is("testTabsRegion_ds"));
+        assertThat(region.getActiveTabFieldId(), is("activeTab"));
+        assertThat(region.getActiveParam(), is("param1"));
         assertThat(region.getItems().size(), is(1));
-        assertThat(region.getItems().get(0).getId(), is("testTabsRegionNesting_tab5"));
+        assertThat(region.getItems().get(0).getId(), is("testTabsRegion_tab5"));
         content = region.getItems().get(0).getContent();
         assertThat(content.size(), is(2));
         assertThat(content.get(0), instanceOf(Table.class));
-        assertThat(((Table) content.get(0)).getId(), is("testTabsRegionNesting_tab4"));
+        assertThat(((Table) content.get(0)).getId(), is("testTabsRegion_tab4"));
         assertThat(((Table) content.get(0)).getName(), is("table1"));
         assertThat(content.get(1), instanceOf(Table.class));
-        assertThat(((Table) content.get(1)).getId(), is("testTabsRegionNesting_tab5"));
+        assertThat(((Table) content.get(1)).getId(), is("testTabsRegion_tab5"));
         assertThat(((Table) content.get(1)).getName(), is("table2"));
 
         // TABS3
         region = (TabsRegion) regions.get(2);
-        assertThat(region.getId(), is("testTabsRegionNesting_tabs6"));
+        assertThat(region.getId(), is("testTabsRegion_tabs6"));
         assertThat(region.getItems().size(), is(1));
-        assertThat(region.getItems().get(0).getId(), is("testTabsRegionNesting_tab7"));
+        assertThat(region.getItems().get(0).getId(), is("testTabsRegion_tab7"));
         assertThat(region.getItems().get(0).getContent(), nullValue());
     }
 
     @Test
     void testTabsRegionRoute() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testTabsRegion.page.xml")
-                .get(new PageContext("testTabsRegion"));
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testTabsRegionRoute.page.xml")
+                .get(new PageContext("testTabsRegionRoute"));
 
         Map<String, PageRoutes.Query> queryMapping = page.getRoutes().getQueryMapping();
-        assertThat(queryMapping.containsKey("testTabsRegion_tabs0"), is(true));
-        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("testTabsRegion_tabs0").getOnGet().getPayload()).getRegionId(), is("testTabsRegion_tabs0"));
-        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("testTabsRegion_tabs0").getOnGet().getPayload()).getActiveEntity(), is(":testTabsRegion_tabs0"));
-        assertThat(queryMapping.get("testTabsRegion_tabs0").getOnSet().getBindLink(), is("regions.testTabsRegion_tabs0.activeEntity"));
+        assertThat(queryMapping.containsKey("testTabsRegion_tabs0"), is(false));
+        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("testTabsRegionRoute_tabs0").getOnGet().getPayload()).getRegionId(), is("testTabsRegionRoute_tabs0"));
+        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("testTabsRegionRoute_tabs0").getOnGet().getPayload()).getActiveEntity(), is(":testTabsRegionRoute_tabs0"));
+        assertThat(queryMapping.get("testTabsRegionRoute_tabs0").getOnSet().getBindLink(), is("regions.testTabsRegionRoute_tabs0.activeEntity"));
         assertThat(queryMapping.containsKey("param1"), is(true));
-        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param1").getOnGet().getPayload()).getRegionId(), is("testTabsRegion_tabs4"));
+        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param1").getOnGet().getPayload()).getRegionId(), is("testTabsRegionRoute_tabs4"));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param1").getOnGet().getPayload()).getActiveEntity(), is(":param1"));
-        assertThat(queryMapping.get("param1").getOnSet().getBindLink(), is("regions.testTabsRegion_tabs4.activeEntity"));
+        assertThat(queryMapping.get("param1").getOnSet().getBindLink(), is("regions.testTabsRegionRoute_tabs4.activeEntity"));
         assertThat(queryMapping.containsKey("param2"), is(true));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param2").getOnGet().getPayload()).getRegionId(), is("tabId"));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param2").getOnGet().getPayload()).getActiveEntity(), is(":param2"));

@@ -12,14 +12,11 @@ import net.n2oapp.framework.config.metadata.validation.standard.menu.SimpleMenuV
 import net.n2oapp.framework.config.metadata.validation.standard.button.ButtonValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.button.SubMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.cell.*;
-import net.n2oapp.framework.config.metadata.validation.standard.control.*;
 import net.n2oapp.framework.config.metadata.validation.standard.datasource.ApplicationDatasourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.datasource.InheritedDatasourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.datasource.StandardDatasourceValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.event.OnChangeEventValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.*;
 import net.n2oapp.framework.config.metadata.validation.standard.invocation.JavaDataProviderValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.menu.SimpleMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.object.ObjectValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.*;
 import net.n2oapp.framework.config.metadata.validation.standard.query.QueryValidator;

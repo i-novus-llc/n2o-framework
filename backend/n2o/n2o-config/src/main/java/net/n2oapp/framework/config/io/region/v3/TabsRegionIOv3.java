@@ -32,6 +32,9 @@ public class TabsRegionIOv3 extends AbstractRegionIOv3<N2oTabsRegion> {
     private void tabs(Element e, N2oTabsRegion.Tab t, IOProcessor p) {
         p.attribute(e, "id", t::getId, t::setId);
         p.attribute(e, "name", t::getName, t::setName);
+        p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
+        p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
+        p.attribute(e, "visible", t::getVisible, t::setVisible);
         p.anyChildren(e, null, t::getContent, t::setContent, p.anyOf(SourceComponent.class),
                 WidgetIOv5.NAMESPACE, RegionIOv3.NAMESPACE);
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
