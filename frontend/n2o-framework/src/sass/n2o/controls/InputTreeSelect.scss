@@ -31,6 +31,19 @@
     }
 }
 
+.n2o-select-tree-tree-treenode-checkbox-indeterminate {
+    .custom-control-label::before {
+        color: $custom-checkbox-indicator-indeterminate-bg;
+        background-color: $checkbox-background-color-checked;
+        border-color: $checkbox-border-color-checked;
+    }
+
+    .custom-control-label::after {
+        background-image: $custom-checkbox-indicator-icon-indeterminate;
+        left: -1.2rem;
+    }
+}
+
 .n2o-select-tree-container {
     width: 100%;
     min-height: calc(2.25rem + 2px);
