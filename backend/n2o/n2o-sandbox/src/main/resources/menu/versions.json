@@ -7,6 +7,10 @@
         {
           "templateId": "versions/7.26/toolbar_in_row_overlay",
           "name": "Тулбар в выделенной строке таблицы"
+        },
+        {
+          "templateId": "versions/7.26/validation_condition",
+          "name": "Валидация зависимых полей"
         }
       ]
     },
