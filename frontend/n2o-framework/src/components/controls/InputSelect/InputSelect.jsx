@@ -73,6 +73,7 @@ class InputSelect extends React.Component {
             activeValueId: null,
             isPopupFocused: false,
             popUpMaxHeight: DEFAULT_POPUP_HEIGHT,
+            prevModel: {},
             options,
             input,
         }
@@ -292,20 +293,52 @@ class InputSelect extends React.Component {
      * @private
      */
     setIsExpanded = (isExpanded) => {
-        const { disabled, onToggle, onOpen } = this.props
+        const { disabled, onToggle, caching } = this.props
+        const { prevModel } = this.state
 
         if (!isExpanded || disabled) {
             return null
         }
 
-        this.setState({
-            isExpanded,
-            inputFocus: isExpanded,
-        }, () => {
-            const { page, data = [] } = this.props
+        this.setState({ isExpanded, inputFocus: isExpanded }, () => {
+            const { page, _fetchData, value = [], model = {} } = this.props
 
-            if (!data.length || page === 1) {
-                onOpen()
+            if (isEmpty(value) || page === 1 || !caching) {
+                const updatedModel = !isEqual(model, prevModel)
+                /*
+                   Кейс с префильтром,
+                   InputSelect подгружает и кэширует данные + параметры запроса в PopupList (onScroll).
+                   При этом, с закешированными данными и параметрами, может получить модель префильтрации.
+                   В таком случае нужно ресетнуть cache и page для актуального запроса.
+                   Если модель не поменялась, данные вновь берутся из cache.
+                */
+                const cacheReset = !isEmpty(model) && updatedModel
+
+                if (updatedModel) {
+                    this.setState({ prevModel: model })
+                }
+
+                const getCurrentPage = (cacheReset, caching, page) => {
+                    if (cacheReset) {
+                        return 1
+                    }
+
+                    if (caching && page) {
+                        return page
+                    }
+
+                    return 1
+                }
+
+                const currentPage = getCurrentPage(cacheReset, caching, page)
+                /*
+                   Concat данных, если передан caching + подгружено несколько pages через onScroll,
+                   иначе при очередном открытии InputSelect будет получена конкретная часть list последнего page из cache.
+                   Во время префильтрации, ненужно мержить данные из cache
+                */
+                const concat = cacheReset ? false : caching || false
+
+                _fetchData({ page: currentPage }, concat, cacheReset)
             }
         })
 
@@ -759,6 +792,13 @@ InputSelect.propTypes = {
      * Данные для badge
      */
     badge: PropTypes.object,
+    /**
+     * Флаг кэширования запросов,
+     * если false лист при открытии селекта всегда запрашиватся заного т.е. с page = 1
+     */
+    caching: PropTypes.bool,
+    _fetchData: PropTypes.func,
+    model: PropTypes.object,
     /**
      * Ключ сортировки в данных
      */
