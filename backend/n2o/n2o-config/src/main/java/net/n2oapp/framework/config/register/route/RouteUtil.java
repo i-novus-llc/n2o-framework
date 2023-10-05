@@ -137,6 +137,8 @@ public abstract class RouteUtil {
         String[] params = url.split("&");
         for (String param : params) {
             String[] paramValue = param.split("=");
+            if (paramValue.length != 2)
+                continue;
             result.putIfAbsent(paramValue[0], new ArrayList<>());
             result.get(paramValue[0]).add(paramValue[1]);
         }
