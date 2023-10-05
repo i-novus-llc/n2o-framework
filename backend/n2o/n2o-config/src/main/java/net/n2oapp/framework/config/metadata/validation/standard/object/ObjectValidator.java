@@ -7,10 +7,10 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oDialogValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oInvocationValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatoryValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidationDialog;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -75,7 +75,7 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                 if (validation instanceof N2oInvocationValidation) {
                     invocationScope.setValidationId(validation.getId());
                     p.validate(((N2oInvocationValidation) validation).getN2oInvocation(), invocationScope);
-                    if (validation instanceof N2oValidationDialog)
+                    if (validation instanceof N2oDialogValidation)
                         validateDialog(validation, String.format(" объекта %s",
                                 getIdOrEmptyString(object.getId())));
                 }
@@ -83,9 +83,9 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
     }
 
     private static void validateDialog(N2oValidation validation, String message) {
-        if (((N2oValidationDialog) validation).getToolbar() != null
-            && ((N2oValidationDialog) validation).getToolbar().getGenerate() == null
-            && ((N2oValidationDialog) validation).getToolbar().getItems() == null)
+        if (((N2oDialogValidation) validation).getToolbar() != null
+            && ((N2oDialogValidation) validation).getToolbar().getGenerate() == null
+            && ((N2oDialogValidation) validation).getToolbar().getItems() == null)
         throw new N2oMetadataValidationException("Не заданы элементы или атрибут 'generate' в тулбаре валидации <dialog>" + message);
     }
 
@@ -146,7 +146,7 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                         if (validation instanceof N2oInvocationValidation) {
                             invocationScope.setValidationId(validation.getId());
                             p.validate(((N2oInvocationValidation) validation).getN2oInvocation(), invocationScope);
-                            if (validation instanceof N2oValidationDialog)
+                            if (validation instanceof N2oDialogValidation)
                                 validateDialog(validation, String.format(" в операции %s объекта %s",
                                         getIdOrEmptyString(operation.getId()),
                                         getIdOrEmptyString(object.getId())));

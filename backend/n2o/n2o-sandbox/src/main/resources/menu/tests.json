@@ -1459,6 +1459,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/validation/tab",
           "name": "ValidationTabMessageAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/validation/condition",
+          "name": "ConditionValidationAT"
         }
       ]
     }
