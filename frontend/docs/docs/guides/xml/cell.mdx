@@ -237,14 +237,7 @@ n2o.api.cell.file_upload.show_size=true
 |------------|-----------------------------------------|-------------------|-------------------------------------|
 |text        |Строка                                   |Текст иконки       |Берётся из значения в `text-field-id`|
 |icon        |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Класс иконки|                                  |
-|type        |icon iconAndText                         |С текстом или без  |icon                                 |
 |position    |right left                               |Расположение текста|                                     |
-
-**Настройки**
-```yaml
-#С текстом или без
-n2o.api.cell.icon.type=icon
-```
 
 **Тело**<br/>
 &lt;switch&gt; - [Переключатель](../xml/base#switch_in_base)
@@ -252,7 +245,7 @@ n2o.api.cell.icon.type=icon
 **Пример**
 
 ```xml
-<icon class="fa-pencil" type="iconAndText"/>
+<icon class="fa-pencil"/>
 ```
 
 ```xml
@@ -378,14 +371,6 @@ n2o.api.cell.image.status_place=topLeft
 |target      |self newWindow application                                                              |Сценарий открытия ссылки                                   |                     |
 |action-id   |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions) |Действие виджета, которое будет вызвано при клике по ссылке|                     |
 |icon        |[Класс иконки](https://fontawesome.com/v4.7/icons/)                                     |Иконка ссылки                                              |                     |
-|type        |text icon iconAndText                                                                   |Текст с иконкой или без                                    |text                 |
-
-
-**Настройки**
-```yaml
-#Текст с иконкой или без
-n2o.api.cell.link.type=text
-```
 
 **Тело**<br/>
 [Обработчики действий](../xml/action)

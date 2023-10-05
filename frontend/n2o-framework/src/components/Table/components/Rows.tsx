@@ -61,3 +61,5 @@ export const Rows: VFC<RowsProps> = (props) => {
         </>
     )
 }
+
+Rows.displayName = 'Rows'

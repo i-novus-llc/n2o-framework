@@ -153,6 +153,14 @@ public abstract class AbstractController {
             criteria.setSortings(getSortings(data, queryCtx.getSortingMap()));
             prepareRestrictions(query, criteria, queryCtx, data);
         }
+
+        Object ignore = data.get("ignore");
+        if (ignore != null) {
+            criteria.setIgnoreFields(ignore instanceof List ?
+                    (List<String>) data.getList("ignore") :
+                    List.of(ignore.toString()));
+        }
+
         return criteria;
     }
 

@@ -12,7 +12,7 @@ import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.mvc.cache.ClientCacheTemplate;
 import net.n2oapp.framework.mvc.cache.LifetimeClientCacheTemplate;
 import net.n2oapp.framework.ui.controller.DataController;
-import net.n2oapp.framework.ui.controller.ExportController;
+import net.n2oapp.framework.ui.controller.export.ExportController;
 import net.n2oapp.framework.ui.servlet.AppConfigJsonWriter;
 import net.n2oapp.framework.ui.servlet.AppConfigServlet;
 import net.n2oapp.framework.ui.servlet.ExposedResourceBundleMessageSource;

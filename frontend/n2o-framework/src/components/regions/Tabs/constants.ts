@@ -1,2 +1,2 @@
-/* Возможные ключи вложенного контента в регионах */
-export const NESTED_META_KEYS = ['content', 'tabs', 'group']
+export const INVALID_TEXT = 'Содержит невалидные поля'
+export const INVALID_TAB_REDUX_KEY = 'invalid'

@@ -190,4 +190,22 @@ public class ObjectValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkSwitchWithEmptyCase.object.xml"));
         assertEquals("В '<case>' элемента '<switch>' поля 'name' отсутствует тело", exception.getMessage());
     }
+
+    @Test
+    void testValidationDialogEmptyToolbar() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/validation/testValidationDialogEmptyToolbar.object.xml")
+        );
+        assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре валидации <dialog> объекта 'testValidationDialogEmptyToolbar'", exception.getMessage());
+    }
+
+    @Test
+    void testValidationDialogEmptyToolbarInOperation() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/validation/testValidationDialogEmptyToolbarInOperation.object.xml")
+        );
+        assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре валидации <dialog> в операции 'id1' объекта 'testValidationDialogEmptyToolbarInOperation'", exception.getMessage());
+    }
 }

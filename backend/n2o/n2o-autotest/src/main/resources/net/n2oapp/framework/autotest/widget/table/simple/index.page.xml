@@ -13,7 +13,7 @@
                 </column>
                 <column text-field-id="name" label="Имя" width="50px" style="color: red"/>
                 <column text-field-id="surname" label="Фамилия" icon="fa fa-plus" class="font-italic">
-                    <icon type="iconAndText" icon="fa fa-plus"/>
+                    <icon icon="fa fa-plus"/>
                 </column>
                 <column text-field-id="birthday" label="Дата рождения" sorting-direction="asc"/>
             </columns>

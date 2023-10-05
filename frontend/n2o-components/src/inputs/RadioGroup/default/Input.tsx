@@ -17,12 +17,14 @@ export type Props = {
     onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
     tooltip?: string,
     value: string | number
+    visible?: boolean
 }
 
 export function InputRadio({
     label,
     checked,
     disabled,
+    visible,
     onChange,
     onKeyDown,
     name,
@@ -34,6 +36,10 @@ export function InputRadio({
 }: Props) {
     const [id] = useState(uniqueId('n2o-radio-'))
     const [target] = useState(uniqueId('n2o-radio-'))
+
+    if (visible === false) {
+        return null
+    }
 
     return (
         <div className="n2o-radio-input-wrapper">

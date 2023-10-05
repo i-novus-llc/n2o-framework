@@ -5,6 +5,7 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nonnull;
@@ -15,7 +16,7 @@ import java.time.Duration;
  */
 public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
-    private static final String SCROLL_BAR = "tab-content_no-scrollbar";
+    private static final String SCROLL_BAR = "scrollable";
 
     @Override
     public TabItem tab(int index) {
@@ -34,12 +35,12 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
     @Override
     public void shouldHaveScrollbar() {
-        getTabsContent().shouldNotHave(Condition.cssClass(SCROLL_BAR));
+        getTabsContent().shouldHave(Condition.cssClass(SCROLL_BAR));
     }
 
     @Override
     public void shouldNotHaveScrollbar() {
-        getTabsContent().shouldHave(Condition.cssClass(SCROLL_BAR));
+        getTabsContent().shouldNotHave(Condition.cssClass(SCROLL_BAR));
     }
 
     @Override
@@ -55,12 +56,12 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
         @Override
         public RegionItems content() {
-            SelenideElement elm = element().parent().parent().parent().parent().$$(".tab-pane")
+            SelenideElement elm = element().parent().parent().parent().$$(".tabs__content--single")
                     .findBy(Condition.cssClass("active"));
 
-            ElementsCollection nestingElements = elm.$$(".tab-pane.active .tab-pane.active > div > div");
-            ElementsCollection firstLevelElements = elm.$$(".tab-pane.active > div > div")
-                    .filter(new Condition("shouldBeFirstLevelElement") {
+            ElementsCollection nestingElements = elm.$$(".tabs__content--single.active .tabs__content--single.active > div > .nested-content");
+            ElementsCollection firstLevelElements = elm.$$(".tabs__content--single.active > div > .nested-content")
+                .filter(new Condition("shouldBeFirstLevelElement") {
                         @Nonnull
                         @Override
                         public CheckResult check(Driver driver, WebElement element) {
@@ -108,20 +109,20 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
         @Override
         public void scrollUp() {
-            Selenide.executeJavaScript("document.querySelector('.tab-content_fixed').scrollTop = 0");
+            Selenide.executeJavaScript("document.querySelector('.tabs__content').scrollTop = 0");
         }
 
         @Override
         public void scrollDown() {
-            Selenide.executeJavaScript("document.querySelector('.tab-content_fixed').scrollTop = document.querySelector('.tab-content_fixed').scrollHeight");
+            Selenide.executeJavaScript("document.querySelector('.tabs__content').scrollTop = document.querySelector('.tabs__content').scrollHeight");
         }
     }
 
     protected SelenideElement getTabsContent() {
-        return element().$(".tab-content");
+        return element().$(".tabs__content");
     }
 
     protected ElementsCollection navItem() {
-        return element().$$(".n2o-tabs-nav-item");
+        return element().$$(".tabs-nav-item");
     }
 }

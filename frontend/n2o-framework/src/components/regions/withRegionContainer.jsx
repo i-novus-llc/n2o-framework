@@ -1,110 +1,190 @@
-import React from 'react'
-import { compose, lifecycle, withHandlers } from 'recompose'
+import React, { useEffect, useLayoutEffect } from 'react'
+import { compose, lifecycle } from 'recompose'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 
+import { WithDataSource } from '../../core/widget/WithDataSource'
 import {
+    makeRegionActiveEntitySelector,
+    makeRegionIsInitSelector,
+    mapUrl,
     registerRegion,
     setActiveRegion,
-    mapUrl,
-    makeRegionIsInitSelector,
-    makeRegionActiveEntitySelector,
+    unregisterRegion,
 } from '../../ducks/regions/store'
 
-import { getFirstContentId } from './helpers'
+import { setFirstVisibleTab, checkTabVisibility, getFirstVisibleTab } from './helpers'
 
-const createRegionContainer = config => (WrappedComponent) => {
+export const createRegionContainer = config => (WrappedComponent) => {
     const { listKey } = config
-
-    const RegionContainer = props => <WrappedComponent {...props} />
 
     const mapStateToProps = createStructuredSelector({
         isInit: (state, props) => makeRegionIsInitSelector(props.id)(state),
         activeEntity: (state, props) => makeRegionActiveEntitySelector(props.id)(state),
         resolveModel: state => get(state, 'models.resolve', {}),
         query: state => get(state, 'router.location.query', {}),
+        serviceInfo: (state, props) => get(state, `regions.${props.id}.serviceInfo`, {}),
+        widgetsState: state => get(state, 'widgets', {}),
+        regionsState: state => get(state, 'regions', {}),
     })
 
     const mapDispatchToProps = dispatch => ({
         dispatch,
     })
 
+    const RegionContainer = (props) => {
+        const {
+            id: regionId,
+            activeEntity,
+            activeTabFieldId,
+            query,
+            dispatch,
+            lazy,
+            alwaysRefresh,
+            widgetsState,
+            serviceInfo,
+            regionsState,
+            activeParam,
+            setResolve,
+            tabs,
+            active,
+            resolveModel = {},
+            datasource = null,
+            routable = true,
+            parent = null,
+        } = props
+
+        const service = { serviceInfo, widgetsState, regionsState }
+        const isModelDependency = activeTabFieldId && datasource
+        const prepared = !isEmpty(tabs) || !isEmpty(serviceInfo) || !isEmpty(widgetsState)
+
+        const changeActiveEntity = (value) => {
+            dispatch(setActiveRegion(regionId, value))
+            dispatch(mapUrl(value))
+        }
+
+        const register = () => {
+            dispatch(registerRegion(regionId, {
+                regionId,
+                activeEntity: activeEntity || active,
+                isInit: true,
+                lazy,
+                alwaysRefresh,
+                [listKey]: get(props, listKey, []),
+                datasource,
+                activeTabFieldId,
+                parent,
+            }))
+        }
+
+        useLayoutEffect(() => {
+            register()
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [])
+
+        /** Эффект автовыбора активной вкладки TabsRegion **/
+        useEffect(() => {
+            if (!prepared || !routable) {
+                return
+            }
+
+            const delay = setTimeout(() => {
+                if (isModelDependency) {
+                    const model = resolveModel[datasource]
+
+                    /** Автовыбор первой видимой вкладки + setResolve если model не существует (initial) **/
+                    if (isEmpty(model) || model[activeTabFieldId] === undefined) {
+                        setFirstVisibleTab(service, changeActiveEntity, activeTabFieldId, setResolve, model)
+
+                        return
+                    }
+
+                    const activeFromResolve = model[activeTabFieldId]
+
+                    if (!serviceInfo[activeFromResolve]) {
+                        changeActiveEntity(activeFromResolve)
+
+                        return
+                    }
+
+                    const visible = checkTabVisibility(service, activeFromResolve)
+
+                    /* TODO пересмотреть обоюдную зависимость, active из resolve model + setModel из табов.
+                        текущая реализация:
+                        если в tabs существует activeTabFieldId из model
+                        (прим. tabs: { tab1, tab2 }, model: { activeTabFieldId: tab1 }),
+                        но tab1 невидим -> срабатывает auto switch (setModel) на первый видимый (tab2),
+                        иначе происходит игнорирование (прим. tabs: { tab1, tab2 }, model: { activeTabFieldId: tab15 }),
+                        https://next.test.n2oapp.net/sandbox/view/k0FMU/ */
+                    if (!visible) {
+                        setFirstVisibleTab(service, changeActiveEntity, activeTabFieldId, setResolve, model)
+
+                        return
+                    }
+
+                    /** active из resolve model **/
+                    changeActiveEntity(activeFromResolve)
+
+                    return
+                }
+
+                /** activeParam влияет на отображение имени региона в url **/
+                const activeFromQuery = query[regionId] || query[activeParam]
+                const visible = checkTabVisibility(service, activeFromQuery)
+
+                if (!activeFromQuery || !visible) {
+                    /** active отсутствует в query (initial),
+                     либо active получен, но таб невидим,
+                     active становится первая видимая вкладка **/
+
+                    setFirstVisibleTab(service, changeActiveEntity)
+
+                    return
+                }
+
+                changeActiveEntity(activeFromQuery)
+            }, 0)
+
+            // eslint-disable-next-line consistent-return
+            return () => {
+                clearTimeout(delay)
+            }
+
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [widgetsState, resolveModel])
+
+        /** Эффект автовыбора активной вкладки TabsRegion **/
+        useEffect(() => {
+            if (!prepared || activeEntity || routable) {
+                return
+            }
+
+            const firstVisibleTab = getFirstVisibleTab(service)
+
+            dispatch(setActiveRegion(regionId, firstVisibleTab))
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [widgetsState])
+
+        return <WrappedComponent {...props} changeActiveEntity={changeActiveEntity} />
+    }
+
     const enhance = compose(
         connect(
             mapStateToProps,
             mapDispatchToProps,
         ),
-        withHandlers({
-            initIfNeeded: props => () => {
-                const {
-                    dispatch,
-                    id,
-                    activeEntity,
-                    lazy,
-                    alwaysRefresh,
-                    active,
-                    resolveModel,
-                    activeTabFieldId,
-                    content,
-                    query = {},
-                    datasource = null,
-                    open = true,
-                    tabs = [],
-                } = props
-
-                const getCurrentActiveEntity = () => {
-                    if (!open) {
-                        return undefined
-                    }
-
-                    if (datasource && activeTabFieldId) {
-                        const activeFromResolve = get(resolveModel, `${datasource}.${activeTabFieldId}`, null)
-
-                        if (activeFromResolve) {
-                            return activeFromResolve
-                        }
-                    }
-
-                    if (active) {
-                        return active
-                    }
-
-                    const [first = {}] = tabs
-                    const [queryParam] = Object.values(query) || null
-
-                    return queryParam || activeEntity || getFirstContentId(content) || first.id
-                }
-                const currentActiveEntity = getCurrentActiveEntity()
-
-                dispatch(registerRegion(id, {
-                    regionId: id,
-                    activeEntity: currentActiveEntity,
-                    isInit: true,
-                    lazy,
-                    alwaysRefresh,
-                    [listKey]: get(props, listKey, []),
-                    datasource,
-                    activeTabFieldId,
-                }))
-            },
-            changeActiveEntity: props => (value) => {
-                const { dispatch, id } = props
-
-                dispatch(setActiveRegion(id, value))
-                dispatch(mapUrl(value))
-            },
-        }),
         lifecycle({
-            componentDidMount() {
-                const { initIfNeeded } = this.props
+            componentWillUnmount() {
+                const { dispatch, id } = this.props
 
-                initIfNeeded()
+                dispatch(unregisterRegion(id))
             },
         }),
     )
 
-    return enhance(RegionContainer)
+    return enhance(WithDataSource(RegionContainer))
 }
 
 export default createRegionContainer

@@ -118,4 +118,13 @@ public class FieldValidatorTest extends SourceValidationTestBase {
         assertEquals("Для компиляции поля 'name' виджета 'main' необходимо указать объект источника данных ", exception.getMessage());
     }
 
+    @Test
+    void testEmptyToolbar() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/testEmptyToolbar.page.xml")
+        );
+        assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре поля 'name'", exception.getMessage());
+    }
+
 }

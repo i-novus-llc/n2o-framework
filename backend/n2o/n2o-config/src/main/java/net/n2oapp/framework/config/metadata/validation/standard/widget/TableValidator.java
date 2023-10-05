@@ -42,6 +42,18 @@ public class TableValidator implements SourceValidator<N2oTable>, SourceClassAwa
         }
 
         p.safeStreamOf(source.getFilters()).forEach(item -> p.validate(item, widgetScope));
+
+        checkEmptyToolbar(source);
+    }
+
+    private static void checkEmptyToolbar(N2oTable source) {
+        if (nonNull(source.getRows()) && nonNull(source.getRows().getRowOverlay())
+                && nonNull(source.getRows().getRowOverlay().getToolbar())
+                && source.getRows().getRowOverlay().getToolbar().getGenerate() == null
+                && source.getRows().getRowOverlay().getToolbar().getItems() == null)
+            throw new N2oMetadataValidationException(
+                    String.format("Не заданы элементы или атрибут 'generate' в тулбаре в <overlay> таблицы %s",
+                            ValidationUtils.getIdOrEmptyString(source.getId())));
     }
 
     /**

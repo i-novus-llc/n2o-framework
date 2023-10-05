@@ -58,6 +58,7 @@ public class ScrollspyRegionCompileTest extends SourceCompileTestBase {
         assertThat(region.getPlacement(), is("right"));
         assertThat(region.getHeadlines(), is(true));
         assertThat(region.getMaxHeight(), is("700px"));
+        assertThat(region.getActiveParam(), is("param"));
 
         region = ((ScrollspyRegion) regions.get(1));
         assertThat(region.getId(), is("scrollspy1"));

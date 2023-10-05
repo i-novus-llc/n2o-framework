@@ -31,7 +31,8 @@ public class CheckboxCellAT extends AutoTestBase {
         setJsonPath("net/n2oapp/framework/autotest/cells/checkbox");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/checkbox/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/checkbox/testTable.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/cells/checkbox/testTable.query.xml")
+        );
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
@@ -54,12 +55,11 @@ public class CheckboxCellAT extends AutoTestBase {
         rows.row(0).cell(col, CheckboxCell.class).shouldBeChecked();
         rows.row(1).cell(col, CheckboxCell.class).shouldBeUnchecked();
         rows.row(2).cell(col, CheckboxCell.class).shouldBeUnchecked();
+        rows.row(2).cell(col, CheckboxCell.class).shouldBeDisabled();
         rows.row(0).cell(col, CheckboxCell.class).setChecked(false);
         rows.row(1).cell(col, CheckboxCell.class).setChecked(true);
-        rows.row(2).cell(col, CheckboxCell.class).setChecked(true);
         rows.row(0).cell(col, CheckboxCell.class).shouldBeUnchecked();
         rows.row(1).cell(col, CheckboxCell.class).shouldBeChecked();
-        rows.row(2).cell(col, CheckboxCell.class).shouldBeUnchecked();
     }
 
 }

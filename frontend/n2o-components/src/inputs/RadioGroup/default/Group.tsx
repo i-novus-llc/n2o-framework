@@ -9,7 +9,7 @@ import { InputRadio, Props as InputProps } from './Input'
 
 export type Props = TBaseProps & Omit<TBaseInputProps<string | number>, 'onChange'> & {
     InputComponent?: FC<InputProps>,
-    enabledFieldId: string,
+    enabledFieldId?: string,
     groupClassName?: string,
     inline: boolean,
     onChange(event: ChangeEvent<HTMLInputElement>): void,
@@ -62,12 +62,12 @@ export function Group({
     return (
         <>
             {visible && (
-                <div
+                <section
                     className={className}
                     style={style}
                 >
                     {renderedOptions}
-                </div>
+                </section>
             )}
         </>
     )

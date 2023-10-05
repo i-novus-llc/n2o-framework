@@ -19,7 +19,9 @@ public class GreetingPage {
     public void sendName(String name) {
         FormWidget formWidget = simplePage.widget(FormWidget.class);
         InputText inputText = formWidget.fields().field("Имя").control(InputText.class);
-        inputText.val(name);
+        inputText.click();
+        inputText.clear();
+        inputText.setValue(name);
         formWidget.toolbar().bottomLeft().button("Отправить").click();
     }
 

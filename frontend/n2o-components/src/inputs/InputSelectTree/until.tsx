@@ -6,7 +6,7 @@ import isNil from 'lodash/isNil'
 import { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select'
 
 import { BadgeType } from '../InputSelect/PopupList'
-import { Icon } from '../../display/Icon/Icon'
+import { Icon } from '../../display/Icon'
 import { Badge } from '../../display/Badge/Badge'
 import { isBadgeLeftPosition, isBadgeRightPosition, resolveBadgeProps } from '../../display/Badge/utils'
 import { Shape } from '../../display/Badge/enums'

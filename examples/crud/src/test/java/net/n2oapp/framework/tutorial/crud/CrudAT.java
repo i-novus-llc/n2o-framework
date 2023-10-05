@@ -46,7 +46,9 @@ public class CrudAT {
     public void checkCreate() {
         CreatePage createPage = crudPage.create();
         createPage.shouldHaveTitle("test - Создание");
-        createPage.name().val("Иван");
+        createPage.name().click();
+        createPage.name().clear();
+        createPage.name().setValue("Иван");
         createPage.save();
         crudPage.shouldDialogClosed("test - Создание", 4000);
         crudPage.tableCellShouldHaveText(0,0,"5");
@@ -58,7 +60,9 @@ public class CrudAT {
     public void checkUpdate() {
         CreatePage createPage = crudPage.update();
         createPage.shouldHaveTitle("test - Изменение");
-        createPage.name().val("Артем");
+        createPage.name().click();
+        createPage.name().clear();
+        createPage.name().setValue("Артем");
         createPage.save();
         crudPage.shouldDialogClosed("test - Изменение", 4000);
         crudPage.tableCellShouldHaveText(0,0,"5");

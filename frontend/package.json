@@ -2,8 +2,8 @@
   "name": "n2o-frontend",
   "private": true,
   "version": "1.0.0",
-  "engines" : {
-    "node" : "^16.0.0"
+  "engines": {
+    "node": "^16.0.0"
   },
   "workspaces": [
     "n2o-framework",
@@ -20,9 +20,10 @@
     "version:patch": "yarn workspace n2o-framework version --patch --no-git-tag-version && yarn workspace @i-novus/n2o-components version --patch --no-git-tag-version",
     "version:minor": "yarn workspace n2o-framework version --minor --no-git-tag-version && yarn workspace @i-novus/n2o-components version --minor --no-git-tag-version",
     "version:major": "yarn workspace n2o-framework version --major --no-git-tag-version && yarn workspace @i-novus/n2o-components version --major --no-git-tag-version",
-    "compile:watch": "concurrently --kill-others \"yarn run compile:lib:watch\" \"yarn run compile:dist:watch\"",
+    "compile:watch": "concurrently --kill-others \"yarn run compile:lib:watch\" \"yarn run compile:dist:watch\" \"yarn run compile:n2o-componets-lib:watch\"",
     "compile:dist:watch": "yarn workspace n2o-framework run compile:dist:watch",
     "compile:lib:watch": "yarn workspace n2o-framework run compile:lib:watch",
+    "compile:n2o-componets-lib:watch": "yarn workspace @i-novus/n2o-components compile:lib:watch",
     "start:demo": "yarn workspace n2o-demo-client run start",
     "start:simple": "yarn workspace n2o-simple-project run start",
     "lint": "yarn workspace n2o-framework run lint",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@jsdevtools/npm-publish": "^1.4.3",
+    "@types/react-dom": "^18.2.7",
     "concurrently": "^3.5.1",
     "cross-env": "^5.2.0",
     "rimraf": "^3.0.2",

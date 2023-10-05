@@ -10,7 +10,7 @@
                 <image url="{img}" width="100px"/>
             </column>
             <column text-field-id="name" label="Наименование(+ иконка)">
-                <icon icon="fa fa-plus" type="iconAndText"/>
+                <icon icon="fa fa-plus"/>
             </column>
             <column text-field-id="url" label="Ссылка">
                 <link target="newWindow" url="{url}"/>

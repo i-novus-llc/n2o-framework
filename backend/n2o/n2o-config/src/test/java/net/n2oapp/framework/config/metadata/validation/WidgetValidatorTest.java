@@ -144,4 +144,13 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
         );
         assertEquals("Виджет 'w1' использует внутренний источник и ссылку на источник данных одновременно", exception.getMessage());
     }
+
+    @Test
+    void testEmptyToolbar() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testEmptyToolbar.page.xml")
+        );
+        assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре виджета 'test'", exception.getMessage());
+    }
 }

@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
-import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
 import net.n2oapp.framework.api.metadata.meta.badge.Position;
@@ -24,8 +23,6 @@ public abstract class N2oAbstractButton extends N2oComponent implements GroupIte
     private String label;
     @N2oAttribute("Иконка")
     private String icon;
-    @N2oAttribute("Тип заголовка")
-    private LabelType type;
     @N2oAttribute("Текст значка")
     private String badge;
     @N2oAttribute("Цвет значка")

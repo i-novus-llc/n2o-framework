@@ -237,7 +237,11 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/region/tabs/active",
-          "name": "ActiveTabAT"
+          "name": "TabsActiveAT. testTabsRegion"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/active_params",
+          "name": "TabsActiveAT. testParams"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/region/tabs/fixed",
@@ -481,6 +485,10 @@
           "name": "TableAT. testToolbar"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/row_overlay",
+          "name": "TableAT. testOverlay"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/toolbar/access",
           "name": "ToolbarColumnAccessAT"
         },
@@ -693,7 +701,11 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/checkbox",
-          "name": "CheckboxAT"
+          "name": "CheckboxAT. testCheckbox"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/checkbox/testUnchecked",
+          "name": "CheckboxAT. testUnchecked"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/checkbox_group/simple",
@@ -774,6 +786,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent",
           "name": "InputSelectAT. dropdownOptionsPermanent"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/inputUsingEnter",
+          "name": "InputSelectAT. inputUsingEnter"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/input_text/simple",

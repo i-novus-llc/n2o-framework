@@ -29,6 +29,7 @@ import withOverlayMethods from './withOverlayMethods'
  *             pageId={pageId}
  *  />
  */
+
 function ModalPage(props) {
     const {
         entityKey,
@@ -97,6 +98,7 @@ function ModalPage(props) {
                         pageId={pageId}
                         pageMapping={pageMapping}
                         entityKey={entityKey}
+                        routable={false}
                         needMetadata
                     />
                 ) : src ? (

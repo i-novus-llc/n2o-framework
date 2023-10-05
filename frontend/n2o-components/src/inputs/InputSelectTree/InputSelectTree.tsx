@@ -13,7 +13,7 @@ import { withTranslation } from 'react-i18next'
 import onClickOutsideHOC from 'react-onclickoutside'
 
 import { Filter, TOption } from '../InputSelect/types'
-import { Icon } from '../../display/Icon/Icon'
+import { Icon } from '../../display/Icon'
 import { InlineSpinner } from '../../layouts/Spinner/InlineSpinner'
 import { Checkbox } from '../Checkbox/Checkbox'
 
@@ -98,7 +98,7 @@ function InputSelectTree({
     className,
     showCheckedStrategy,
     maxTagTextLength,
-    disabled,
+    disabled = false,
 }: Props) {
     const treeExpandedKeys = useRef([])
     const [searchValue, setSearchValue] = useState('');
@@ -132,6 +132,8 @@ function InputSelectTree({
                     title: item.formattedTitle || visiblePartPopup(item, popupProps),
                     ...(ajax && { isLeaf: !item[hasChildrenFieldId as keyof TOption] }),
                     children: [],
+                    /* игнорирование встроенного параметра из rc-tree-select, иконку отрисовывает visiblePartPopup */
+                    icon: null,
                 },
             }),
             {},
@@ -298,7 +300,7 @@ function InputSelectTree({
                 value={setValue(value)}
                 onDropdownVisibleChange={handleDropdownVisibleChange}
                 switcherIcon={renderSwitcherIcon}
-                suffixIcon={<Icon name="fa fa-chevron-down" />}
+                suffixIcon={<Icon name="fa fa-chevron-down" visible={!disabled} />}
                 multiple={multiSelect}
                 treeCheckable={hasCheckboxes && <Checkbox inline />}
                 treeData={treeData}

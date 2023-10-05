@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oButtonField;
-import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -15,9 +14,7 @@ import net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil;
 import net.n2oapp.framework.config.util.DatasourceUtil;
 import org.springframework.stereotype.Component;
 
-import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.compileValidate;
-import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.initDatasource;
-import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.initValidate;
+import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.*;
 
 
 /**
@@ -51,15 +48,8 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
     protected void initItem(ButtonField button, N2oButtonField source,
                             CompileContext<?, ?> context, CompileProcessor p) {
         button.setProperties(p.mapAttributes(source));
-        if (source.getType() != null && source.getType() == LabelType.ICON) {
-            button.setLabel(null);
-            button.setIcon(source.getIcon());
-        } else if (source.getType() != null && source.getType() == LabelType.TEXT) {
-            button.setLabel(p.resolveJS(source.getLabel()));
-        } else {
-            button.setIcon(source.getIcon());
-            button.setLabel(p.resolveJS(source.getLabel()));
-        }
+        button.setIcon(source.getIcon());
+        button.setLabel(p.resolveJS(source.getLabel()));
         CompiledObject.Operation operation = null;
         Action action = compileAction(source, button, context, p);
 
@@ -73,10 +63,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         }
 
         String hint;
-        if (LabelType.ICON.equals(source.getType()))
-            hint = p.cast(source.getDescription(), source.getLabel());
-        else
-            hint = source.getDescription();
+        hint = source.getDescription();
         if (hint != null) {
             button.setHint(p.resolveJS(hint.trim()));
             button.setHintPosition(source.getTooltipPosition());

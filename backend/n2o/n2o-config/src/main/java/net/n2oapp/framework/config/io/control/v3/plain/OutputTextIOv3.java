@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.io.control.v3.plain;
 
 import net.n2oapp.framework.api.metadata.control.plain.N2oOutputText;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import org.jdom2.Element;
@@ -18,7 +17,6 @@ public class OutputTextIOv3 extends PlainFieldIOv3<N2oOutputText> {
         super.io(e, m, p);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "format", m::getFormat, m::setFormat);
-        p.attributeEnum(e, "type", m::getType, m::setType, IconType.class);
         p.attributeEnum(e, "position", m::getIconPosition, m::setIconPosition, Position.class);
     }
 

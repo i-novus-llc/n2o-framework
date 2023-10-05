@@ -19,9 +19,11 @@ export type TBaseInputProps<TValue> = {
 }
 
 export type TOption<TValue> = {
-    className?: string,
-    disabled?: boolean,
-    id: string | number,
-    label: string,
+    className?: string
+    disabled?: boolean
+    id: string | number
+    label: string | JSX.Element
+    tooltip?: string
+    visible?: boolean
     value: TValue
 }

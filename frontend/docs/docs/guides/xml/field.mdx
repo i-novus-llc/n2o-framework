@@ -553,35 +553,50 @@ n2o.api.control.input.text.precision=8
 
 ### &lt;markdown&gt;
 
-Компонент, который позволяет задавать текст согласно markdown разметки, а отображать его в виде html. <br/>
+Компонент, который позволяет задавать текст согласно markdown разметки и отображать его в виде html. <br/>
 Текст внутри markdown поддерживает:
 - Плейсхолдеры данных, где `name` - поле формы
-```
+```xml
 <markdown> Text {name} </markdown>
 ```
 Значение данных также может содержать markdown текст
-```
+```xml
 <markdown>{mymarkdown}</markdown>
 ```
 - Жирный, курсив и моноширинный шрифты
+- Ненумерованные списки
 - Ссылки абсолютные и относительные
 - Автоматические url ссылки (https://www.markdownguide.org/extended-syntax/#automatic-url-linking)
-- Ссылки вызывающие действие (открытие модального окна, drawer и любые другие), где в круглых скобках задается id действия
-```
-<markdown actions="openNewPage">
-^[link](openNewPage)
+```xml
+<markdown>
+    [relative_link](/example) \n
+    [absolute_link](http://example.com) \n
+    http://example.com
 </markdown>
 ```
-- Ненумерованные списки
-- Переход на новую строку через двойной пробел "  "
 - Переход на новую строку через тэг &lt;br&gt;
+- Переход на новую строку через двойной пробел "  "
+- Переход на новую строку через \n
+```xml
+<markdown>
+    <![CDATA[
+    Первая строка <br>
+    Вторая строка
+    ]]>
+</markdown>
 ```
-Первая строка <br> Вторая строка
+```xml
+<markdown>
+    Вторая строка \n
+    Третья строка
+    Четвертая строка
+</markdown>
 ```
 - Внутри текста можно использовать тэг `<n2o-button>`, чей id равен id выполняемого действия
 ```
 <n2o-button id="openNewPage" />
 ```
+С помощью `class="n2o-markdown-link"` можно сделать кнопку в виде ссылки
 
 **Атрибуты**
 
@@ -594,7 +609,6 @@ n2o.api.control.input.text.precision=8
 
 ```xml
 <markdown>
-    <![CDATA[
     Text attributes _italic_, **bold**, `monospace`.
 
     Paragraphs are separated
@@ -613,8 +627,6 @@ n2o.api.control.input.text.precision=8
          - broccoli
 
     A [link](http://example.com).
-
-    ]]>
 </markdown>
 ```
 
@@ -723,7 +735,6 @@ n2o.api.control.output_list.separator=' '
 |Наименование|Тип             |Описание                               |Значение по умолчанию|
 |------------|----------------|---------------------------------------|---------------------|
 |icon        |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Иконка                    |
-|type        |icon iconAndText|Иконка с текстом или без               |                     |
 |format      |Строка          |Формат выводимого текста               |                     |
 |position    |left right      |Расположение иконки относительно текста|left                 |
 
@@ -740,8 +751,7 @@ n2o.api.control.output_text.expandable=false
 
 **Пример**
 ```xml
-<output-text id="text" icon="fa fa-plus" position="right"
-             type="iconAndText" format="number 0,0.00"/>
+<output-text id="text" icon="fa fa-plus" position="right" format="number 0,0.00"/>
 ```
 <Sandbox height={120} projectId="uxcomponents_output_fields_output_text" />
 

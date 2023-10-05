@@ -61,7 +61,7 @@ public abstract class N2oWidget extends N2oMetadata
      */
     private Boolean autoFocus;
     @Deprecated
-    private DefaultValuesMode mode;
+    private DefaultValuesMode upload;
     @Deprecated
     private String dependsOn;
     @N2oAttribute("Иконка")
@@ -95,7 +95,7 @@ public abstract class N2oWidget extends N2oMetadata
     public void adapterV4() {
         if (getQueryId() != null || getDefaultValuesQueryId() != null || getPreFilters() != null ||
                 getObjectId() != null ||
-                getMode() != null || getDependsOn() != null) {
+                this.getUpload() != null || getDependsOn() != null) {
             N2oStandardDatasource datasource = new N2oStandardDatasource();
             setDatasource(datasource);
             datasource.setQueryId(getQueryId());
@@ -103,8 +103,8 @@ public abstract class N2oWidget extends N2oMetadata
             datasource.setFilters(getPreFilters());
             datasource.setRoute(getRoute());
 
-            if (getMode() != null) {
-                switch (getMode()) {
+            if (this.getUpload() != null) {
+                switch (this.getUpload()) {
                     case query:
                         datasource.setDefaultValuesMode(DefaultValuesMode.query);
                         break;

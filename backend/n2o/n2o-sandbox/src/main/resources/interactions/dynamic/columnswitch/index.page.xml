@@ -12,7 +12,7 @@
                         <badge color="info"/>
                     </case>
                     <case value="type2">
-                        <icon icon="fa fa-plus" type="iconAndText"/>
+                        <icon icon="fa fa-plus"/>
                     </case>
                     <default>
                         <text/>

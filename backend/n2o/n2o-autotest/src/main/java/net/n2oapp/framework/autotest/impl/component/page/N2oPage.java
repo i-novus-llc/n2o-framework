@@ -54,6 +54,10 @@ public class N2oPage extends N2oComponent implements Page {
         return new N2oBreadcrumb(element().$(".breadcrumb"));
     }
 
+    @Override
+    public Overlay overlay() {
+        return new N2oOverlay(element().$(".table-row-overlay"));
+    }
 
     @Override
     public Dialog dialog(String title) {
@@ -162,6 +166,17 @@ public class N2oPage extends N2oComponent implements Page {
         }
 
     }
+
+    public class N2oOverlay extends N2oComponent implements Overlay{
+        private static final String TOOLBAR = ".toolbar-container .btn";
+        public Toolbar toolbar() {
+            return N2oSelenide.collection(element().$$(TOOLBAR), Toolbar.class);
+        }
+        public N2oOverlay(SelenideElement element) {
+            setElement(element);
+        }
+    }
+
     public class N2oBreadcrumb extends N2oComponent implements Breadcrumb {
 
         @Deprecated

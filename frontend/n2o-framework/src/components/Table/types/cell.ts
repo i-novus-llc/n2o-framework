@@ -15,7 +15,7 @@ export type Cell = {
 export type HeaderCell = {
     disabled?: boolean
     visible?: boolean
-    conditions?: object
+    conditions?: Record<string, any>
     label: string
     multiHeader?: boolean;
     id: string

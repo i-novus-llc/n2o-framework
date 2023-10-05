@@ -309,7 +309,7 @@ export class InputSelect extends React.Component<Props, State> {
         this.setState({ isExpanded, inputFocus: isExpanded }, () => {
             const { page, fetchData, value = [], model = {} } = this.props
 
-            if (isEmpty(value) || page === 1) {
+            if (isEmpty(value) || page === 1 || !caching) {
                 const updatedModel = !isEqual(model, prevModel)
                 /*
                    Кейс с префильтром,
@@ -407,7 +407,6 @@ export class InputSelect extends React.Component<Props, State> {
             options,
             onSelect,
             onChange,
-            onBlur,
         } = this.props
 
         const selectCallback = () => {
@@ -426,11 +425,14 @@ export class InputSelect extends React.Component<Props, State> {
             }),
             () => {
                 selectCallback()
-                onBlur(this.getValue())
 
                 if (this.inputRef) {
                     this.inputRef.current.focus()
                 }
+
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (this.textAreaRef as any).focus()
+                this.setInputFocus(true)
             },
         )
 
@@ -461,8 +463,10 @@ export class InputSelect extends React.Component<Props, State> {
             if (isExpanded) {
                 this.clearSearchField()
             }
-            this.clearSelected()
-            this.setInputFocus(false)
+            this.clearSelected();
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (this.textAreaRef as any).focus()
+            this.setInputFocus(true)
         }
     }
 
@@ -610,6 +614,7 @@ export class InputSelect extends React.Component<Props, State> {
             size,
             count,
             filter,
+            sortFieldId,
         } = this.props
         const {
             value: stateValue,
@@ -620,9 +625,10 @@ export class InputSelect extends React.Component<Props, State> {
             options,
             popUpMaxHeight,
         } = this.state
-
         const inputSelectStyle = { width: '100%', cursor: 'text', ...style }
-        const needAddFilter = !isEmpty(filter) && !find(stateValue, item => item[labelFieldId] === input)
+
+        const sorting = !isEmpty(sortFieldId) && !isEmpty(input)
+        const needAddFilter = (!isEmpty(filter) || sorting) && !find(stateValue, item => item[labelFieldId] === input)
 
         const popUpStyle = { maxHeight: `${popUpMaxHeight}${MEASURE}` }
 
@@ -651,7 +657,7 @@ export class InputSelect extends React.Component<Props, State> {
                             inputFocus={inputFocus}
                             onClearClick={this.handleElementClear}
                             disabled={disabled}
-                            className={`${className} ${isExpanded ? 'focus' : ''}`}
+                            className={`${className} ${(isExpanded || inputFocus) ? 'focus' : ''}`}
                             onClick={this.onInputSelectGroupClick}
                         >
                             <InputContent
@@ -929,7 +935,7 @@ type Props = {
 }
 
 type State = {
-    activeValueId?: string | null,
+    activeValueId?: string | number | null,
     caching?: boolean,
     input?: string,
     inputFocus?: boolean,

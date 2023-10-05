@@ -33,6 +33,11 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
+    public void pressEnter() {
+        input().pressEnter();
+    }
+
+    @Override
     public void shouldHaveValue(String value, Duration... duration) {
         should(Condition.value(value), input(), duration);
     }

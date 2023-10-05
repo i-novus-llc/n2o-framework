@@ -9,7 +9,6 @@ const textPlaceTypes = {
 
 const iconCellTypes = {
     ICON: 'icon',
-    ICONANDTEXT: 'iconAndText',
 }
 
 export { iconCellTypes, textPlaceTypes }

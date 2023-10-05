@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.io.control.v3;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.control.N2oButtonField;
-import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import net.n2oapp.framework.config.io.common.BadgeAwareIO;
@@ -32,7 +31,6 @@ public class ButtonFieldIOv3 extends ActionFieldIOv3<N2oButtonField> implements 
         p.attribute(e, "color", m::getColor, m::setColor);
         p.attribute(e, "tooltip-position", m::getTooltipPosition, m::setTooltipPosition);
         p.attributeBoolean(e, "rounded", m::getRounded, m::setRounded);
-        p.attributeEnum(e, "type", m::getType, m::setType, LabelType.class);
     }
 
     @Override

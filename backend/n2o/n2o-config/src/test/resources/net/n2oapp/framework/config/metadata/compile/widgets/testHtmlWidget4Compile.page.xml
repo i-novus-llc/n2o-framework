@@ -8,7 +8,7 @@
     <regions>
         <html>
             <toolbar place="topLeft">
-                <button icon="icon" label="label" action-id="testAction" class="className" type="iconAndText"/>
+                <button icon="icon" label="label" action-id="testAction" class="className"/>
                 <sub-menu>
                     <menu-item action-id="testAction2"/>
                 </sub-menu>

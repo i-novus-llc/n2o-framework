@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
-import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -40,7 +39,7 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
         p.attribute(e, "object-id", m::getObjectId, m::setObjectId);
         p.attributeBoolean(e, "fetch-on-init", m::getFetchOnInit, m::setFetchOnInit);
         p.attributeInteger(e, "size", m::getSize, m::setSize);
-        p.attributeEnum(e, "upload", m::getMode, m::setMode, DefaultValuesMode.class);
+        p.attributeEnum(e, "upload", m::getUpload, m::setUpload, DefaultValuesMode.class);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attributeBoolean(e, "auto-focus", m::getAutoFocus, m::setAutoFocus);
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionBar::new, this::action);

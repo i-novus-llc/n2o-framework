@@ -1291,11 +1291,6 @@
                         <xs:documentation>Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="type" type="iconType">
-                    <xs:annotation>
-                        <xs:documentation>Иконка с текстом или без.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="position" type="positionType" default="left">
                     <xs:annotation>
                         <xs:documentation>Расположение иконки относительно текста.</xs:documentation>
@@ -1404,13 +1399,6 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="left"/>
             <xs:enumeration value="right"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="iconType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="icon"/>
-            <xs:enumeration value="iconAndText"/>
         </xs:restriction>
     </xs:simpleType>
 

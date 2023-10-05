@@ -50,6 +50,8 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     public Breadcrumb breadcrumb() {
         return null;
     }
+    @Override
+    public Overlay overlay() { return null; }
 
     @Override
     public Dialog dialog(String title) {

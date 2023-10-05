@@ -34,9 +34,9 @@ public abstract class AbstractColumn implements IdAware, Source, ExtensionAttrib
     @N2oAttribute("Ширина")
     private String width;
     @N2oAttribute("Имя")
-    private String labelName;
+    private String label;
     @N2oAttribute("Иконка")
-    private String labelIcon;
+    private String icon;
     @N2oAttribute("Условие видимости")
     private String visible;
     @N2oAttribute("Возможность изменения ширины")

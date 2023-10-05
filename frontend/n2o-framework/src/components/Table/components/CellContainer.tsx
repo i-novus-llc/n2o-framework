@@ -19,16 +19,17 @@ export const CellContainer = memo<CellContainerProps>((props) => {
     const resolvedProps = useMemo(() => propsResolver(otherProps, otherProps.model, ['toolbar', 'security', 'model']), [otherProps])
 
     return (
-        <Table.Cell>
-            {cellIndex === 0 && hasExpandedButton && (
-                <ExpandButton
-                    rowValue={rowValue}
-                    isTreeExpanded={isTreeExpanded}
-                />
-            )}
-            <CellComponent rowValue={rowValue} {...resolvedProps} />
+        <Table.Cell className={otherProps.id === 'selectionCell' ? 'cell-selection' : ''}>
+            <div className="cell-content">
+                {cellIndex === 0 && hasExpandedButton && (
+                    <ExpandButton
+                        rowValue={rowValue}
+                        isTreeExpanded={isTreeExpanded}
+                    />
+                )}
+                <CellComponent rowValue={rowValue} {...resolvedProps} />
+            </div>
         </Table.Cell>
-
     )
 })
 

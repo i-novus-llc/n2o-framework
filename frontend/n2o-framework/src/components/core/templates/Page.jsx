@@ -40,6 +40,7 @@ export function Page({
         />
     )
     const footer = !isEmpty(footerProps) && (<Factory {...footerProps} />)
+
     const header = !isEmpty(headerProps) && (
         <Factory
             toggleSidebar={toggleSidebar}

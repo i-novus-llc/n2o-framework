@@ -27,7 +27,7 @@
                     <invoke operation-id="testId" route="route" src="src"
                             redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
                 </button>
-                <sub-menu generate="update2" class="testClass" icon="testIcon" label="testLabel" type="icon">
+                <sub-menu generate="update2" class="testClass" icon="testIcon">
                     <menu-item icon="icon" label="label" class="class" action-id="actionId" visible="true"/>
                 </sub-menu>
             </toolbar>
@@ -85,6 +85,15 @@
             <invoke operation-id="op1"/>
             <invoke operation-id="op2"/>
         </click>
+        <overlay class="top">
+            <toolbar>
+                <button label="Кнопка"/>
+                <sub-menu label="Меню">
+                    <menu-item label="Кнопка1"/>
+                    <menu-item label="Кнопка2"/>
+                </sub-menu>
+            </toolbar>
+        </overlay>
     </rows>
     <pagination src="test" next="false" prev="false" show-count="by-request"  prev-label="prev"
                 prev-icon="fa fa-angle-left" next-label="next" next-icon="fa fa-angle-right"
@@ -103,10 +112,10 @@
         </action>
     </actions>
     <toolbar place="bottomLeft">
-        <button action-id="test1" datasource="ds1" class="test" icon="test" label="test" type="icon" tooltip-position="bottom">
+        <button action-id="test1" datasource="ds1" class="test" icon="test" tooltip-position="bottom">
             <close src="test"/>
         </button>
-        <button action-id="test2" class="test" icon="test" label="test" type="icon">
+        <button action-id="test2" class="test" icon="test">
             <close src="test"/>
         </button>
         <sub-menu>
@@ -115,7 +124,7 @@
             <menu-item action-id="test3" icon="test" label="test" class="test"/>
         </sub-menu>
         <group>
-            <button action-id="test3" class="test" icon="test" label="test" type="icon" datasource="ds1">
+            <button action-id="test3" class="test" icon="test" datasource="ds1">
                 <close src="test"/>
             </button>
             <sub-menu show-toggle-icon="true">
@@ -131,14 +140,14 @@
         </group>
     </toolbar>
      <toolbar place="topLeft">
-         <button action-id="test1" class="test" icon="test" label="test" type="icon"
+         <button action-id="test1" class="test" icon="test"
                  confirm-type="popover" datasource="ds1">
              <close src="test"/>
              <dependencies>
                  <visibility datasource="ds1" model="datasource">type==1</visibility>
              </dependencies>
          </button>
-         <button action-id="test2" class="test" icon="test" label="test" type="icon">
+         <button action-id="test2" class="test" icon="test">
              <close src="test"/>
          </button>
          <sub-menu>
@@ -147,7 +156,7 @@
              <menu-item action-id="test3" icon="test" label="test" class="test"/>
          </sub-menu>
          <group>
-             <button action-id="test1" class="test" icon="test" label="test" type="icon">
+             <button action-id="test1" class="test" icon="test">
                  <dependencies>
                      <enabling model="filter" datasource="test">condition1</enabling>
                      <visibility model="filter" datasource="test">condition2</visibility>

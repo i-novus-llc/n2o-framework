@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.region;
 
+import net.n2oapp.framework.autotest.api.collection.Regions;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
@@ -72,6 +73,8 @@ public class TabsLazyInitAT extends AutoTestBase {
         widget.fields().field("7").control(OutputText.class).shouldHaveValue("seven");
         widget.fields().field("8").control(OutputText.class).shouldHaveValue("eight");
 
+        Regions regions = page.regions();
+        page.regions().shouldHaveSize(5);
         TabsRegion tabs = page.regions().region(1, TabsRegion.class);
         tabs.shouldHaveSize(2);
         tabs.tab(0).shouldHaveName("tab1");

@@ -45,6 +45,7 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         List<Region> regions = page.getRegions().get("single");
         assertThat(regions.size(), is(2));
 
+        assertThat(regions.get(0).getActiveParam(), is("param"));
         assertThat(((PanelRegion) regions.get(0)).getCollapsible(), is(false));
         assertThat(((PanelRegion) regions.get(0)).getFooterTitle(), is("footer"));
         assertThat(((PanelRegion) regions.get(0)).getIcon(), is("fa fa-plus"));

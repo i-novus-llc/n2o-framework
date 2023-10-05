@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.global.view.widget;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 
 /**
@@ -15,6 +16,7 @@ public enum FormMode implements IdAware {
     }
 
     @Override
+    @JsonValue
     public String getId() {
         return id;
     }

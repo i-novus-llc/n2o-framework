@@ -1,9 +1,49 @@
 .n2o-tabs-region {
-    display: none;
+    .tabs__content {
+        padding: 15px;
+    }
+
+    .tabs__content.scrollable {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .tabs__content.scrollable.scroll-hidden {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    .tabs__content.scrollable.scroll-hidden::-webkit-scrollbar {
+        display: none;
+    }
 }
 
-.n2o-tabs-region.visible {
-    display: inline;
-    position: relative;
-    height: 100%;
+.n2o-tab-content__container {
+    display: flex;
+    width: 100%;
+
+    &.fixed {
+        overflow: hidden;
+    }
+}
+
+.tab-content {
+    padding: 15px;
+}
+
+.tab-sub-content {
+    border-bottom: $tabs-border;
+
+    .tab-content {
+        border-left: $tabs-border;
+        border-right: $tabs-border;
+    }
+}
+
+.n2o-nav-tabs-container {
+    margin-bottom: 2px;
+
+    .tab-pane.tab-pane-fixed {
+        overflow-x: hidden !important;
+    }
 }

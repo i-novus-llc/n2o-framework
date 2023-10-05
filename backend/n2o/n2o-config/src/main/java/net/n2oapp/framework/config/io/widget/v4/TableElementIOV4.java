@@ -59,8 +59,8 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attribute(e, "text-field-id", c::getTextFieldId, c::setTextFieldId);
         p.attribute(e, "tooltip-field-id", c::getTooltipFieldId, c::setTooltipFieldId);
         p.attribute(e, "visible", c::getVisible, c::setVisible);
-        p.attribute(e, "label", c::getLabelName, c::setLabelName);
-        p.attribute(e, "icon", c::getLabelIcon, c::setLabelIcon);
+        p.attribute(e, "label", c::getLabel, c::setLabel);
+        p.attribute(e, "icon", c::getIcon, c::setIcon);
         p.attribute(e, "sorting-field-id", c::getSortingFieldId, c::setSortingFieldId);
         p.attributeEnum(e, "sorting-direction", c::getSortingDirection, c::setSortingDirection, SortingDirection.class);
         p.attribute(e, "width", c::getWidth, c::setWidth);
@@ -96,7 +96,7 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
     }
 
     private void multiColumn(Element e, N2oMultiColumn c, IOProcessor p) {
-        p.attribute(e, "label", c::getLabelName, c::setLabelName);
+        p.attribute(e, "label", c::getLabel, c::setLabel);
         p.attribute(e, "src", c::getSrc, c::setSrc);
         p.attribute(e, "class", c::getCssClass, c::setCssClass);
         p.attribute(e, "style", c::getStyle, c::setStyle);

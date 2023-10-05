@@ -3,7 +3,7 @@ import React, { ChangeEvent } from 'react'
 import { Checkbox, Props as CheckboxProps } from './Checkbox'
 
 type Props = CheckboxProps & {
-    defaultUnchecked: boolean | null,
+    defaultUnchecked: string,
 }
 
 export function CheckboxControl(props: Props) {
@@ -12,12 +12,21 @@ export function CheckboxControl(props: Props) {
         onChange: propsOnChange } = props
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = (event.nativeEvent.target as HTMLInputElement).checked
-        const defaultUnchecked = propsDefaultUnchecked === false ? false : null
+        let defaultUnchecked
 
-        if (propsOnChange) {
-            propsOnChange(!value ? defaultUnchecked : value)
+        switch (propsDefaultUnchecked) {
+            case 'null':
+                defaultUnchecked = null
+
+                break
+
+            case 'false':
+            default:
+                defaultUnchecked = false
         }
+        const value = (event.nativeEvent.target as HTMLInputElement).checked
+
+        propsOnChange?.(value || defaultUnchecked)
     }
 
     return (

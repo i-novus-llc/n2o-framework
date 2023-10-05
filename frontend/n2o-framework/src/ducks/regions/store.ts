@@ -7,13 +7,11 @@ import createActionHelper from '../../actions/createActionHelper'
 import { State as StoreState } from '../State'
 
 import RegionResolver from './RegionResolver'
-import { MAP_URL } from './constants'
 import { State } from './Regions'
-import { RegisterRegion, SetActiveRegionEntity, SetTabInvalid } from './Actions'
+import { RegisterRegion, SetActiveRegionEntity, SetTabInvalid, UnregisterRegion, SetRegionServiceInfo } from './Actions'
 
 /**
- * Дефолтный стейт
- * FIXME set active стреляет раньше регистрации
+ * Начальный стейт
  */
 const defaultState = {
     regionId: null,
@@ -22,11 +20,9 @@ const defaultState = {
     panels: [],
     datasource: null,
     tabs: [],
+    serviceInfo: {},
 }
 
-/**
- * Начальный стейт
- */
 const initialState: State = {}
 const regionsSlice = createSlice({
     name: 'n2o/regions',
@@ -45,6 +41,19 @@ const regionsSlice = createSlice({
                 state[regionId] = regionState
             },
         },
+        UNREGISTER_REGION: {
+            prepare(regionId) {
+                return ({
+                    payload: { regionId },
+                })
+            },
+
+            reducer(state, action: UnregisterRegion) {
+                const { regionId } = action.payload
+
+                delete state[regionId]
+            },
+        },
 
         SET_ACTIVE_REGION_ENTITY: {
             prepare(regionId, activeEntity) {
@@ -56,11 +65,27 @@ const regionsSlice = createSlice({
             reducer(state, action: SetActiveRegionEntity) {
                 const { regionId, activeEntity } = action.payload
 
+                if (state[regionId]) {
+                    state[regionId].activeEntity = RegionResolver.transformedEntity(activeEntity)
+                }
+            },
+        },
+
+        SET_REGION_SERVICE_INFO: {
+            prepare(regionId, serviceInfo) {
+                return ({
+                    payload: { regionId, serviceInfo },
+                })
+            },
+
+            reducer(state, action: SetRegionServiceInfo) {
+                const { regionId, serviceInfo } = action.payload
+
                 if (!state[regionId]) {
                     state[regionId] = defaultState
                 }
 
-                state[regionId].activeEntity = RegionResolver.transformedEntity(activeEntity)
+                state[regionId].serviceInfo = serviceInfo
             },
         },
 
@@ -93,10 +118,13 @@ export default regionsSlice.reducer
 
 export const {
     REGISTER_REGION: registerRegion,
+    UNREGISTER_REGION: unregisterRegion,
     SET_ACTIVE_REGION_ENTITY: setActiveRegion,
     SET_TAB_INVALID: setTabInvalid,
+    SET_REGION_SERVICE_INFO: setRegionServiceInfo,
 } = regionsSlice.actions
 
+export const MAP_URL = 'n2o/regions/MAP_URL'
 export const mapUrl = (value: string) => createActionHelper(MAP_URL)(value)
 
 /**
