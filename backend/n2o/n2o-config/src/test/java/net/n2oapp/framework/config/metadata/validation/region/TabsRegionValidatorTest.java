@@ -52,6 +52,6 @@ public class TabsRegionValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/testTabDatasourceExistence.page.xml")
         );
-        assertEquals("Вкладка 'tab1' ссылает на несуществующий источник данных 'test'", exception.getMessage());
+        assertEquals("Вкладка 'tab1' ссылается на несуществующий источник данных 'test'", exception.getMessage());
     }
 }

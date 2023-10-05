@@ -343,7 +343,8 @@
                 <xs:attribute name="datasource">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор источника данных
+                            Идентификатор источника данных.
+                            По умолчанию: идентификатор источника данных региона
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.util.DatasourceUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -94,7 +93,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
                 tab.setOpened(items.isEmpty());
                 if (t.getDatasource() == null)
                     t.setDatasource(source.getDatasourceId());
-                tab.setDatasource(DatasourceUtil.getClientDatasourceId(t.getDatasource(), p));
+                tab.setDatasource(getClientDatasourceId(t.getDatasource(), p));
                 compileLinkConditions(t, tab, p);
                 items.add(tab);
             }
@@ -103,25 +102,25 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     }
 
     private void compileLinkConditions(N2oTabsRegion.Tab source, TabsRegion.Tab tab, CompileProcessor p) {
-        String clientDatasource = getClientDatasourceId(source.getDatasource(), p);
         if (isLink(source.getVisible()))
-            compileLink(tab, clientDatasource, ValidationType.visible, source.getVisible(), ReduxModel.resolve);
+            compileLink(tab, ValidationType.visible, source.getVisible(), ReduxModel.resolve);
         else
             tab.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
 
         if (isLink(source.getEnabled()))
-            compileLink(tab, clientDatasource, ValidationType.enabled, source.getEnabled(), ReduxModel.resolve);
+            compileLink(tab, ValidationType.enabled, source.getEnabled(), ReduxModel.resolve);
         else
             tab.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
     }
 
-    private void compileLink(TabsRegion.Tab tab, String clientDatasource, ValidationType type,
-                             String linkCondition, ReduxModel model) {
-        if (clientDatasource == null)
-            throw new N2oException(String.format("Для вкладки '%s' не может быть реализовано условие visible/enabled, т.к. не задан datasource", tab.getLabel()));
+    private void compileLink(TabsRegion.Tab tab, ValidationType type, String linkCondition, ReduxModel model) {
+        if (tab.getDatasource() == null)
+            throw new N2oException(
+                    String.format("Для вкладки '%s' не может быть реализовано условие visible/enabled, т.к. не задан datasource",
+                            tab.getLabel()));
         Condition condition = new Condition();
         condition.setExpression(unwrapLink(linkCondition));
-        condition.setModelLink(new ModelLink(model, clientDatasource).getBindLink());
+        condition.setModelLink(new ModelLink(model, tab.getDatasource()).getBindLink());
         tab.getConditions().put(type, List.of(condition));
     }
 

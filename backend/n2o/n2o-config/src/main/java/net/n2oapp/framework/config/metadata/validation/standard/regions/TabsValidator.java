@@ -37,7 +37,7 @@ public class TabsValidator implements SourceValidator<N2oTabsRegion>, SourceClas
         if (source.getDatasource() != null)
             ValidationUtils.checkDatasourceExistence(source.getDatasource(), p.getScope(DatasourceIdsScope.class),
                     String.format(
-                            "Вкладка %s ссылает на несуществующий источник данных %s",
+                            "Вкладка %s ссылается на несуществующий источник данных %s",
                             getIdOrEmptyString(source.getName()),
                             getIdOrEmptyString(source.getDatasource())
                     )
