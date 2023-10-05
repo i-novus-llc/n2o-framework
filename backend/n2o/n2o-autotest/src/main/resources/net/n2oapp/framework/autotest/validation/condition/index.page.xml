@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Автотест на валидацию зависимых полей">
+    <form>
+        <fields>
+            <row>
+                <input-text id="name" label="conditionInput"/>
+                <checkbox id="test1" label="1"/>
+                <checkbox id="test2" label="2"/>
+            </row>
+
+            <input-text id="input" label="testInput">
+                <validations>
+                    <condition id="checkName"
+                               message="Обязательно если test"
+                               on="name"
+                    >
+                        if (input || name != "test")
+                            return true
+                    </condition>
+                    <condition id="checkTest1"
+                               message="Обязательно если выбран чекбокс 1"
+                               on="test1"
+                    >
+                        return test1 ? !_.isEmpty(input) : true
+                    </condition>
+                    <condition id="checkTest2"
+                               message="Обязательно если выбран чекбокс 2"
+                               on="test1"
+                    >
+                        return test2 ? !_.isEmpty(input) : true
+                    </condition>
+                </validations>
+            </input-text>
+        </fields>
+        <toolbar place="bottomLeft">
+            <button label="validate" validate="true" enabled="true"/>
+        </toolbar>
+    </form>
+</simple-page>
