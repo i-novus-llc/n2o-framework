@@ -309,7 +309,7 @@ export class InputSelect extends React.Component<Props, State> {
         this.setState({ isExpanded, inputFocus: isExpanded }, () => {
             const { page, fetchData, value = [], model = {} } = this.props
 
-            if (isEmpty(value) || page === 1) {
+            if (isEmpty(value) || page === 1 || !caching) {
                 const updatedModel = !isEqual(model, prevModel)
                 /*
                    Кейс с префильтром,
