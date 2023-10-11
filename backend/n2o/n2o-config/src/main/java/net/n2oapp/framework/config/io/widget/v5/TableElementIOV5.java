@@ -44,11 +44,15 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.attribute(e, "height", t::getHeight, t::setHeight);
         p.attributeBoolean(e, "text-wrap", t::getTextWrap, t::setTextWrap);
         p.anyChildren(e, "columns", t::getColumns, t::setColumns, columns(p));
-        p.childAttributeEnum(e, "filters", "place", t::getFilterPosition, t::setFilterPosition, FilterPosition.class);
-        p.childAttribute(e, "filters", "datasource", t::getFiltersDatasourceId, t::setFiltersDatasourceId);
-        p.childAttributeBoolean(e, "filters", "search-on-change", t::getSearchOnChange, t::setSearchOnChange);
-        p.anyChildren(e, "filters", t::getFilters, t::setFilters, p.anyOf(SourceComponent.class), FieldsetIOv5.NAMESPACE, ControlIOv3.NAMESPACE);
+        p.child(e, null, "filters", t::getFilters, t::setFilters, N2oTable.N2oTableFilters::new, this::filters);
         p.attributeEnum(e, "children", t::getChildren, t::setChildren, ChildrenToggle.class);
+    }
+
+    private void filters(Element e, N2oTable.N2oTableFilters f, IOProcessor p) {
+        p.attributeEnum(e, "place", f::getPlace, f::setPlace, FilterPosition.class);
+        p.attributeBoolean(e, "search-on-change", f::getSearchOnChange, f::setSearchOnChange);
+        p.attribute(e, "datasource", f::getDatasourceId, f::setDatasourceId);
+        p.anyChildren(e,null, f::getItems, f::setItems, p.anyOf(SourceComponent.class), FieldsetIOv5.NAMESPACE, ControlIOv3.NAMESPACE);
     }
 
     private void abstractColumn(Element e, AbstractColumn c, IOProcessor p) {
