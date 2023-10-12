@@ -98,6 +98,7 @@ function InputSelectTree({
     className,
     showCheckedStrategy,
     maxTagTextLength,
+    maxTagCount,
     disabled = false,
 }: Props) {
     const treeExpandedKeys = useRef([])
@@ -292,6 +293,12 @@ function InputSelectTree({
         />
     )
 
+    const maxTagPlaceholder = useCallback((options = []) => {
+        if (maxTagCount) { return `+ ${options.length}` }
+
+        return `Выбрано: ${options.length}`
+    }, [maxTagCount])
+
     return (
         <div className={classNames(
             'n2o-select-tree-container',
@@ -314,6 +321,8 @@ function InputSelectTree({
                 treeNodeFilterProp={labelFieldId}
                 treeNodeLabelProp={labelFieldId}
                 maxTagTextLength={maxTagTextLength}
+                maxTagCount={maxTagCount}
+                maxTagPlaceholder={maxTagPlaceholder}
                 clearIcon={clearIcon} // иконка очищения всего инпута
                 removeIcon={isEmpty(value) ? null : clearIcon} // иконка очищения итема
                 onChange={handleChange}
@@ -372,7 +381,7 @@ InputSelectTree.defaultProps = {
     onBlur: () => {},
     onInput: () => {},
     t: () => {},
-} as Props
+} as Partial<Props>
 
 type Props = {
     /**
@@ -426,6 +435,7 @@ type Props = {
      * Количество символов выбранных элементов в chechbox режиме
      */
     maxTagTextLength: number,
+    maxTagCount: number,
     /**
      * Мульти выбор значений
      */
