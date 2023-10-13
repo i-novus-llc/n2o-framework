@@ -26,7 +26,6 @@ import { N2OSelectInput } from './SelectInput'
  * @reactProps {string} statusFieldId - поле для статуса
  * @reactProps {object} badge - данные для баджа
  * @reactProps {boolean} disabled - флаг неактивности
- * @reactProps {array} disabledValues - неактивные данные
  * @reactProps {string} enabledFieldId - поле для активности
  * @reactProps {string} filter - варианты фильтрации
  * @reactProps {string} value - текущее значение
@@ -476,7 +475,6 @@ class SelectComponent extends React.Component<Props, State> {
             labelFieldId,
             iconFieldId,
             disabled,
-            disabledValues,
             enabledFieldId,
             imageFieldId,
             statusFieldId,
@@ -552,7 +550,6 @@ class SelectComponent extends React.Component<Props, State> {
                             page={page}
                             isExpanded={isExpanded}
                             selected={selected}
-                            disabledValues={disabledValues}
                             groupFieldId={groupFieldId}
                             hasCheckboxes={hasCheckboxes}
                             onRemoveItem={this.removeSelectedItem}
@@ -572,7 +569,6 @@ class SelectComponent extends React.Component<Props, State> {
         iconFieldId: 'icon',
         loading: false,
         disabled: false,
-        disabledValues: [],
         resetOnBlur: false,
         searchByTap: false,
         hasSearch: false,
@@ -607,10 +603,6 @@ type Props = {
      * Флаг активности
      */
     disabled: boolean,
-    /**
-     * Неактивные данные
-     */
-    disabledValues: [],
     /**
      * Ключ enabled в данных
      */

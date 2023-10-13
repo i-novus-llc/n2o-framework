@@ -57,10 +57,21 @@
             .dropdown-item {
                 padding: $input-select-item-padding;
 
+                &:focus {
+                    color: inherit;
+                    background-color: inherit;
+                }
+
+                &:hover,
                 &.active,
                 &:active {
                     color: #1c2429;
                     background-color: $gray-100;
+                }
+
+                &.selected {
+                    color: #1c2429;
+                    background-color: $gray-300 !important;
                 }
             }
         }

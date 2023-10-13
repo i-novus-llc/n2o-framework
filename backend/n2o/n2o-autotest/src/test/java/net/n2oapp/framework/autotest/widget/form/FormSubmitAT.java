@@ -25,6 +25,8 @@ import org.junit.jupiter.api.Test;
  */
 public class FormSubmitAT extends AutoTestBase {
 
+    private static final int DELAY = 600;
+    
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -49,7 +51,6 @@ public class FormSubmitAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit/test.object.xml"));
-        final int DELAY = 600;
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -151,7 +152,7 @@ public class FormSubmitAT extends AutoTestBase {
         // меняем имя и ждем отправки значения
         name.click();
         name.setValue("test123");
-        Selenide.sleep(500);
+        Selenide.sleep(DELAY);
         modalForm.toolbar().bottomRight().button("Закрыть").click();
 
         row.cell(1).shouldHaveText("test123");
@@ -164,7 +165,7 @@ public class FormSubmitAT extends AutoTestBase {
         // меняем возраст и ждем отправки значения
         age.click();
         age.setValue("99");
-        Selenide.sleep(500);
+        Selenide.sleep(DELAY);
         modalForm.toolbar().bottomRight().button("Закрыть").click();
 
         row.cell(1).shouldHaveText("test123");
