@@ -130,6 +130,7 @@ public class BrowserStorageAT extends AutoTestBase {
         select.click();
         inputDef.shouldBeEmpty();
 
+        Selenide.sleep(500);
         Selenide.refresh();
 
         page.shouldExists();

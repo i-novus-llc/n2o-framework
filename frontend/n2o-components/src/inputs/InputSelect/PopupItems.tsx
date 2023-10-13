@@ -1,13 +1,6 @@
 import React, { MouseEvent, useCallback } from 'react'
 import isNil from 'lodash/isNil'
 import isUndefined from 'lodash/isUndefined'
-import some from 'lodash/some'
-import keys from 'lodash/keys'
-import values from 'lodash/values'
-import map from 'lodash/map'
-import forEach from 'lodash/forEach'
-import toString from 'lodash/toString'
-import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import cx from 'classnames'
 import { DropdownItem } from 'reactstrap'
@@ -25,11 +18,11 @@ import { Props as InputContentProps } from './InputContent'
 import {
     groupData,
     inArray,
-    isDisabled,
 } from './utils'
 import { UNKNOWN_GROUP_FIELD_ID } from './constants'
 import { BadgeType } from './PopupList'
 import { Ref, TOption } from './types'
+import { PopupIcon, PopupImage } from './snippets'
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -64,7 +57,6 @@ export function PopupItems({
     descriptionFieldId,
     statusFieldId,
     enabledFieldId,
-    disabledValues,
     selected,
     groupFieldId,
     hasCheckboxes,
@@ -129,27 +121,6 @@ export function PopupItems({
         return text
     }
 
-    const isSelectedItem = (selected: Props['selected'], item: TOption) => {
-        const valuesToString = (object: object) => {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const acc: any = {}
-
-            const objectKeys = keys(object)
-            const objectValues = values(object)
-
-            forEach(objectKeys, (key, index) => {
-                acc[key] = toString(objectValues[index])
-            })
-
-            return acc
-        }
-
-        const itemToCompare = valuesToString(item)
-        const selectedToCompare = map(selected, selectedItem => valuesToString(selectedItem))
-
-        return some(selectedToCompare, selectedItem => isEqual(selectedItem, itemToCompare))
-    }
-
     const getDisabled = (item: TOption) => {
         const enabledField = get(item, enabledFieldId)
 
@@ -157,15 +128,7 @@ export function PopupItems({
             return !enabledField
         }
 
-        if (isSelectedItem(selected, item) && !hasCheckboxes) {
-            return true
-        }
-
-        return !hasCheckboxes && isDisabled(
-            autocomplete ? get(item, valueFieldId) : item,
-            selected,
-            disabledValues,
-        )
+        return false
     }
 
     const onMouseOver = (item: TOption) => {
@@ -189,6 +152,7 @@ export function PopupItems({
         const shouldRenderBadge = badgeFieldId && badgePosition && badge
 
         const disabled = getDisabled(item)
+        const isSelected = inArray(selected, item)
 
         return (
             <div ref={popUpItemRef}>
@@ -196,6 +160,7 @@ export function PopupItems({
                     ref={handleRef}
                     className={cx('n2o-eclipse-content', {
                         active: activeValueId === get(item, valueFieldId) && !disabled,
+                        'selected': isSelected && !hasCheckboxes,
                         'n2o-eclipse-content__with-status': withStatus(item),
                     })}
                     onMouseOver={() => onMouseOver(item)}
@@ -206,11 +171,19 @@ export function PopupItems({
                     title={displayTitle(item)}
                     toggle={false}
                 >
-                    {iconFieldId && renderIcon(item, iconFieldId)}
-                    {imageFieldId && renderImage(item, imageFieldId)}
+                    <PopupIcon item={item} iconFieldId={iconFieldId} />
+                    <PopupImage item={item} imageFieldId={imageFieldId} />
                     {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {shouldRenderBadge && isBadgeLeftPosition(badgePosition) && <Badge key="badge-left" {...resolveBadgeProps(badge, item as any)} shape={badge?.shape || Shape.Square} />}
-                    {hasCheckboxes ? renderCheckbox(item, selected) : renderLabel(item)}
+                    {hasCheckboxes ? (
+                        <Checkbox
+                            value={isSelected}
+                            label={displayTitle(item)}
+                            inline
+                            tabIndex={-1}
+                        />
+                        ) : renderLabel(item)
+                    }
                     {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {shouldRenderBadge && isBadgeRightPosition(badgePosition) && <Badge key="badge-right" {...resolveBadgeProps(badge, item as any)} shape={badge?.shape || Shape.Square} />}
                     {descriptionFieldId && !isUndefined(get(item, descriptionFieldId)) && (
@@ -233,26 +206,6 @@ export function PopupItems({
         )
     }
 
-    const renderIcon = (item: TOption, iconFieldId: Props['iconFieldId']) => {
-        const iconName = get(item, iconFieldId)
-
-        return iconName && <Icon name={iconName} />
-    }
-
-    const renderImage = (item: TOption, imageFieldId: Props['imageFieldId']) => {
-        const image = get(item, imageFieldId)
-
-        // eslint-disable-next-line jsx-a11y/alt-text
-        return image && <img src={image} />
-    }
-    const renderCheckbox = (item: TOption, selected: Props['selected']) => (
-        <Checkbox
-            value={inArray(selected, item)}
-            label={displayTitle(item)}
-            inline
-            tabIndex={-1}
-        />
-    )
     const renderLabel = (item: TOption) => (
         <span className="n2o-input-select__label text-cropped">{displayTitle(item)}</span>
     )
@@ -301,7 +254,6 @@ type Props = {
     autocomplete: boolean,
     badge?: BadgeType,
     descriptionFieldId: string,
-    disabledValues: InputContentProps['disabledValues'],
     enabledFieldId: string,
     format?: string,
     groupFieldId: string,
@@ -328,7 +280,6 @@ PopupItems.defaultProps = {
     onSelect: () => {},
     onRemoveItem: () => {},
     options: [],
-    disabledValues: [],
     selected: [],
     autocomplete: false,
     hasCheckboxes: false,

@@ -19,6 +19,7 @@ public class InputSelectIOv3 extends ListFieldIOv3<N2oInputSelect> implements Ba
         p.attributeEnum(e, "type", m::getType, m::setType, ListType.class);
         p.attributeBoolean(e, "reset-on-blur", m::getResetOnBlur, m::setResetOnBlur);
         p.attribute(e, "description-field-id", m::getDescriptionFieldId, m::setDescriptionFieldId);
+        p.attributeInteger(e, "max-tag-count", m::getMaxTagCount, m::setMaxTagCount);
         p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
         p.attributeInteger(e, "throttle-delay", m::getThrottleDelay, m::setThrottleDelay);
         p.attributeInteger(e, "search-min-length", m::getSearchMinLength, m::setSearchMinLength);

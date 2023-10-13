@@ -607,6 +607,7 @@ export class InputSelect extends React.Component<Props, State> {
             alerts,
             autoFocus,
             popupAutoSize,
+            maxTagCount,
             maxTagTextLength,
             onDismiss,
             onKeyDown,
@@ -680,12 +681,12 @@ export class InputSelect extends React.Component<Props, State> {
                                 setActiveValueId={this.setActiveValueId}
                                 selected={stateValue}
                                 labelFieldId={labelFieldId}
-                                clearSelected={this.clearSelected}
                                 multiSelect={multiSelect}
                                 onClick={this.handleClick}
                                 onSelect={this.handleItemSelect}
                                 autoFocus={autoFocus}
                                 maxTagTextLength={maxTagTextLength}
+                                maxTagCount={maxTagCount}
                             />
                         </InputSelectGroup>
                     </DropdownToggle>
@@ -728,7 +729,6 @@ export class InputSelect extends React.Component<Props, State> {
                                 this.handleItemSelect(item)
                             }}
                             selected={stateValue}
-                            disabledValues={disabledValues}
                             groupFieldId={groupFieldId}
                             enabledFieldId={enabledFieldId}
                             hasCheckboxes={hasCheckboxes}
@@ -864,6 +864,7 @@ type Props = {
      * Максимальная длина текста в тэге, до усечения
      */
     maxTagTextLength?: number,
+    maxTagCount?: number,
     model: Record<string, unknown>,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     models?: any,

@@ -13,6 +13,7 @@ public class N2oInputSelect extends N2oListField {
     private ListType type;
     private Boolean resetOnBlur;
     private String descriptionFieldId;
+    private Integer maxTagCount;
     private Integer maxTagTextLength;
     private Integer throttleDelay;
     private Integer searchMinLength;
