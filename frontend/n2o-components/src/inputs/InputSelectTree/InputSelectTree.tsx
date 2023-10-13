@@ -294,9 +294,9 @@ function InputSelectTree({
     )
 
     const maxTagPlaceholder = useCallback((options = []) => {
-        if (maxTagCount) { return `+ ${options.length}` }
+        if (maxTagCount) { return `+ ${options.length}...` }
 
-        return `Выбрано: ${options.length}`
+        return `${t('selected')}: ${options.length}`
     }, [maxTagCount])
 
     return (

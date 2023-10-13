@@ -112,12 +112,12 @@ public class N2oDropDown extends N2oComponent implements DropDown {
 
         @Override
         public void shouldBeSelected() {
-            element().shouldHave(Condition.cssClass("disabled"));
+            element().shouldHave(Condition.cssClass("selected"));
         }
 
         @Override
         public void shouldNotBeSelected() {
-            element().shouldNotHave(Condition.cssClass("disabled"));
+            element().shouldNotHave(Condition.cssClass("selected"));
         }
 
         @Override
