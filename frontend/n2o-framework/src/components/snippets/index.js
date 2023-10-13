@@ -6,7 +6,6 @@ import { Title } from './Typography/Title/Title'
 import { Text } from './Typography/Text/Text'
 import { Paragraph } from './Typography/Paragraph/Paragraph'
 import { Spinner } from './Spinner/Spinner'
-import { PopoverConfirm } from './PopoverConfirm/PopoverConfirm'
 import SearchBarContainer from './SearchBar/SearchBarContainer'
 import { Drawer } from './Drawer/Drawer'
 import { StatusText } from './StatusText/StatusText'
@@ -26,7 +25,6 @@ export default {
     Title,
     Paragraph,
     Spinner,
-    PopoverConfirm,
     SearchBar: SearchBarContainer,
     Drawer,
     StatusText,
