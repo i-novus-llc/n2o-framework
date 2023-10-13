@@ -7,8 +7,18 @@
     padding: 0.3rem var(--padding-aside-cell);
 }
 
+.table-container[data-text-wrap="false"] table {
+    table-layout: fixed;
+}
+
 .table-container[data-text-wrap="false"] .cell {
     white-space: nowrap;
+}
+
+.table-container[data-text-wrap="false"] .cell * {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .n2o-advanced-table {
