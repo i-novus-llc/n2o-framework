@@ -1,14 +1,10 @@
-import React from 'react'
+import React, { useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import { PopoverConfirm } from '../snippets/PopoverConfirm/PopoverConfirm'
-import ModalDialog from '../actions/ModalDialog/ModalDialog'
 import { TooltipHOC } from '../snippets/Tooltip/TooltipHOC'
-
-const ConfirmMode = {
-    POPOVER: 'popover',
-    MODAL: 'modal',
-}
+import { FactoryContext } from '../../core/factory/context'
+import { OVERLAYS } from '../../core/factory/factoryLevels'
+import { ConfirmMode } from '../overlays/Confirm'
 
 function ActionButtonBody({
     Component,
@@ -18,17 +14,31 @@ function ActionButtonBody({
     componentVisible,
     onClick,
     id,
-    confirmMode,
-    isOpen,
-    onConfirm,
-    onDeny,
-    confirmProps,
-    confirmTarget,
-    confirmVisible,
-    close,
+    confirm,
 }) {
+    const { getComponent } = useContext(FactoryContext)
+    const { ConfirmDialog, ConfirmPopover } = useMemo(() => ({
+        ConfirmDialog: getComponent('ConfirmDialog', OVERLAYS),
+        ConfirmPopover: getComponent('ConfirmPopover', OVERLAYS),
+    }), [getComponent])
+
+    const confirmComponent = useMemo(() => {
+        if (!confirm) { return null }
+
+        const { mode } = confirm
+
+        if (mode === ConfirmMode.MODAL) {
+            return <ConfirmDialog {...confirm} />
+        }
+        if (mode === ConfirmMode.POPOVER) {
+            return <ConfirmPopover {...confirm} />
+        }
+
+        return null
+    }, [ConfirmDialog, ConfirmPopover, confirm])
+
     return (
-        <div>
+        <>
             <Component
                 {...componentProps}
                 url={url}
@@ -37,33 +47,8 @@ function ActionButtonBody({
                 onClick={onClick}
                 id={id}
             />
-            {
-                confirmMode === ConfirmMode.POPOVER
-                    ? (
-                        <PopoverConfirm
-                            {...confirmProps}
-                            isOpen={isOpen}
-                            onConfirm={onConfirm}
-                            onDeny={onDeny}
-                            target={confirmTarget}
-                        />
-                    )
-                    : null
-            }
-            {
-                confirmMode === ConfirmMode.MODAL
-                    ? (
-                        <ModalDialog
-                            {...confirmProps}
-                            visible={confirmVisible}
-                            onConfirm={onConfirm}
-                            onDeny={onDeny}
-                            close={close}
-                        />
-                    )
-                    : null
-            }
-        </div>
+            {confirmComponent}
+        </>
     )
 }
 
@@ -75,13 +60,7 @@ ActionButtonBody.propTypes = {
     componentVisible: PropTypes.bool,
     onClick: PropTypes.func,
     id: PropTypes.string,
-    confirmMode: PropTypes.string,
-    isOpen: PropTypes.bool,
-    onConfirm: PropTypes.func,
-    onDeny: PropTypes.func,
-    confirmProps: PropTypes.object,
-    confirmTarget: PropTypes.string,
-    confirmVisible: PropTypes.func,
+    confirm: PropTypes.object,
     close: PropTypes.func,
 }
 
