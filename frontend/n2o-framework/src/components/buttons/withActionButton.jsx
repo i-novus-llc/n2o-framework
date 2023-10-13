@@ -34,24 +34,22 @@ import { ActionButton } from './ActionButton'
  */
 export default function withActionButton(options = {}) {
     const { onClick } = options
-    const shouldConfirm = !options.noConfirm
 
     return (WrappedComponent) => {
         class ButtonContainer extends React.Component {
             constructor(props) {
                 super(props)
                 this.generatedTooltipId = getID()
-                this.generatedButtonId = props.uid || getID()
 
                 this.state = {
-                    confirmVisible: false,
-                    permittedUrl: props.url,
+                    id: props.uid || getID(),
+                    confirm: null,
+                    event: null,
+                    url: props.url,
                 }
             }
 
             isConfirm = false
-
-            lastEvent = null
 
             componentWillUnmount() {
                 const { removeButton, entityKey, id } = this.props
@@ -80,36 +78,37 @@ export default function withActionButton(options = {}) {
             }
 
             mapConfirmProps = () => {
-                const { confirm } = this.props
+                const { confirm: confirmJSON } = this.props
 
-                if (confirm) {
-                    const { store } = this.context
-                    const state = store.getState()
-                    const { modelLink, text, condition } = confirm
-                    const model = get(state, modelLink)
+                if (isEmpty(confirmJSON)) { return null }
 
-                    const resolvedText = linkResolver(state, { link: modelLink, value: text })
+                const { store } = this.context
+                const state = store.getState()
+                const { modelLink, text, condition, ...confirm } = confirmJSON
+                const model = get(state, modelLink)
 
-                    const getResolvedCondition = (condition) => {
-                        if (isObject(condition) && isEmpty(condition)) {
-                            return true
-                        }
+                const resolvedText = linkResolver(state, { link: modelLink, value: text })
 
-                        if (typeof condition === 'boolean') {
-                            return condition
-                        }
-
-                        return evalExpression(parseExpression(condition), model)
+                const getResolvedCondition = (condition) => {
+                    if (isObject(condition) && isEmpty(condition)) {
+                        return true
                     }
 
-                    return {
-                        ...confirm,
-                        text: resolvedText,
-                        resolvedConditions: getResolvedCondition(condition),
+                    if (typeof condition === 'boolean') {
+                        return condition
                     }
+
+                    return evalExpression(parseExpression(condition), model)
                 }
 
-                return null
+                if (!getResolvedCondition(condition)) {
+                    return null
+                }
+
+                return {
+                    ...confirm,
+                    text: resolvedText,
+                }
             }
 
             /**
@@ -144,74 +143,51 @@ export default function withActionButton(options = {}) {
                 return valid
             }
 
-            handleClick = async (e) => {
-                e.persist()
+            onClickHandler = async (event) => {
+                event.persist()
 
                 const valid = await this.validationFields()
 
-                const { confirm, url } = this.props
-                const { store } = this.context
-                const state = store.getState()
-
-                if (!onClick || !valid) {
+                if (!valid) {
+                    event.preventDefault()
                     this.setState({
-                        permittedUrl: null,
+                        url: null,
                     })
 
                     return
                 }
 
-                this.setState({
-                    permittedUrl: url,
-                })
+                const confirm = this.mapConfirmProps()
 
-                const resolvedConfirmProps = this.mapConfirmProps(confirm) || {}
-                const { resolvedConditions } = resolvedConfirmProps
+                if (!confirm) {
+                    const { store } = this.context
+                    const state = store.getState()
 
-                if (confirm && !this.isConfirm && shouldConfirm && resolvedConditions) {
-                    this.lastEvent = e
-                    this.lastEvent.preventDefault()
-                    this.handleOpenConfirmModal()
-                } else {
-                    this.isConfirm = false
-                    onClick(
-                        this.lastEvent || e,
-                        {
-                            ...omit(this.props, [
-                                'isInit',
-                                'initialProps',
-                                'registerButton',
-                                'uid',
-                            ]),
-                            isConfirm: this.isConfirm,
-                        },
-                        state,
-                    )
-                    this.lastEvent = null
+                    onClick(event, this.props, state)
+
+                    return
                 }
+
+                event.preventDefault()
+                this.setState({ confirm, event })
             }
 
-            handleConfirm = (e) => {
-                this.isConfirm = true
-                this.handleCloseConfirmModal(e, () => {
-                    this.handleClick(e)
-                })
+            onConfirm = () => {
+                const { event } = this.state
+                const { store } = this.context
+                const { url } = this.props
+                const state = store.getState()
+
+                this.setState({ confirm: null, event: null, url })
+                onClick(event, this.props, state)
             }
 
-            handleOpenConfirmModal = (cb) => {
-                this.setState({ confirmVisible: true }, cb)
-            }
-
-            handleCloseConfirmModal = (e, cb) => {
-                // eslint-disable-next-line no-return-assign
-                const defaultCb = () => (this.lastEvent = null)
-
-                this.setState({ confirmVisible: false }, cb || defaultCb)
+            onDeny = () => {
+                this.setState({ confirm: null, event: null })
             }
 
             render() {
                 const {
-                    confirm,
                     hint,
                     message,
                     visible,
@@ -220,10 +196,6 @@ export default function withActionButton(options = {}) {
                     disabledFromState,
                     hintPosition,
                 } = this.props
-
-                const { confirmVisible, permittedUrl } = this.state
-
-                const confirmMode = get(confirm, 'mode')
 
                 const currentVisible = !isNil(visible)
                     ? visible
@@ -235,7 +207,13 @@ export default function withActionButton(options = {}) {
 
                 const currentMessage = currentDisabled ? message || hint : hint
 
-                const resolvedConfirmProps = this.mapConfirmProps(confirm)
+                const { confirm: confirmState, url, id } = this.state
+                const confirm = confirmState ? {
+                    ...confirmState,
+                    onDeny: this.onDeny,
+                    onConfirm: this.onConfirm,
+                    target: id,
+                } : null
 
                 return (
                     <ActionButton
@@ -248,19 +226,12 @@ export default function withActionButton(options = {}) {
                                 'registerButton',
                                 'uid',
                             ]) }}
-                        url={permittedUrl}
+                        url={url}
                         componentDisabled={currentDisabled}
                         componentVisible={currentVisible}
-                        onClick={this.handleClick}
-                        id={this.generatedButtonId}
-                        confirmMode={confirmMode}
-                        isOpen={confirmVisible}
-                        onConfirm={this.handleConfirm}
-                        onDeny={this.handleCloseConfirmModal}
-                        confirmProps={{ ...resolvedConfirmProps }}
-                        confirmTarget={this.generatedButtonId}
-                        confirmVisible={confirmVisible}
-                        close={this.handleCloseConfirmModal}
+                        onClick={this.onClickHandler}
+                        id={id}
+                        confirm={confirm}
                         hint={currentMessage}
                         placement={hintPosition}
                     />
