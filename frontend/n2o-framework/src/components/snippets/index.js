@@ -15,6 +15,7 @@ import { Status } from './Status/Status'
 import { Badge } from './Badge/Badge'
 import { Html } from './Html/Html'
 import { Tooltip } from './Tooltip/Tooltip'
+import { Pagination } from './Pagination/Pagination'
 
 export default {
     Alert,
@@ -34,4 +35,5 @@ export default {
     Badge,
     Html,
     Tooltip,
+    Pagination,
 }
