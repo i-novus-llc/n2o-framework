@@ -1,6 +1,5 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { ReactNode, useCallback, useMemo } from 'react'
 import classNames from 'classnames'
-import map from 'lodash/map'
 import split from 'lodash/split'
 import { useTranslation } from 'react-i18next'
 
@@ -8,14 +7,24 @@ import { Props as InputContentProps } from './InputContent'
 import { TOption } from './types'
 
 const SelectedItem = ({ id, title, callback, maxTagTextLength, disabled }: SelectedItemProps) => {
-    const callbackWrapper = useCallback((event) => {
+    const onClear = useCallback((event) => {
         event.stopPropagation()
-        callback(event)
+        callback?.(event)
     }, [callback])
     const truncatedTitle = `${split(title, '', maxTagTextLength).join('')}...`
     const tagTitle = maxTagTextLength && title.length > maxTagTextLength
         ? truncatedTitle
         : title
+    const button = callback ? (
+        <button
+            type="button"
+            className="close"
+            onClick={onClear}
+            disabled={disabled}
+        >
+            <i className="fa fa-times fa-1" />
+        </button>
+    ) : null
 
     return (
         <span
@@ -26,20 +35,13 @@ const SelectedItem = ({ id, title, callback, maxTagTextLength, disabled }: Selec
             title={title}
         >
             <span className="n2o-eclipse-content">{tagTitle}</span>
-            <button
-                type="button"
-                className="close"
-                onClick={callbackWrapper}
-                disabled={disabled}
-            >
-                <i className="fa fa-times fa-1" />
-            </button>
+            {button}
         </span>
     )
 }
 
 type SelectedItemProps = {
-    callback(arg: Event): void,
+    callback?(arg: Event): void,
     disabled: boolean,
     id: string | number,
     maxTagTextLength: number,
@@ -72,52 +74,66 @@ type ItemWrapperProps = Pick<InputElementsProps, 'onRemoveItem' | 'maxTagTextLen
  * @reactProps {string} labelFieldId - значение ключа label в данных
  * @reactProps {array} selected - список выбранных элементов
  * @reactProps {function} onRemoveItem - callback при нажатии на удаление элемента из выбранных при мульти выборе
- * @reactProps {function} onDeleteAll - callback удаление всех выбранных элементов при мульти выборе
- * @reactProps {boolean} collapseSelected - флаг сжатия выбранных элементов
- * @reactProps {number} lengthToGroup - от скольки элементов сжимать выбранные элементы
+ * @reactProps {number} [maxTagCount] - от скольки элементов сжимать выбранные элементы
  * @reactProps {number} maxTagTextLength - максимальная длина текста в тэге, до усечения
  */
 
 type InputElementsProps = Pick<InputContentProps,
-'selected' | 'labelFieldId' | 'onRemoveItem' | 'collapseSelected' | 'lengthToGroup' | 'maxTagTextLength' | 'disabled'> &
-{onDeleteAll: InputContentProps['clearSelected']}
+'selected' | 'labelFieldId' | 'onRemoveItem' | 'maxTagTextLength' | 'maxTagCount' | 'disabled'>
+
+
+const getTitle = (item: TOption, labelFieldId: InputElementsProps['labelFieldId']) => {
+    if (typeof item === 'string') {
+        return item
+    }
+
+    return item[labelFieldId as keyof TOption] || ''
+}
 
 export function InputElements({
     onRemoveItem,
     selected,
     labelFieldId,
     disabled,
-    collapseSelected,
-    lengthToGroup,
-    onDeleteAll,
     maxTagTextLength,
+    maxTagCount,
 }: InputElementsProps) {
     const { t } = useTranslation()
 
-    if (collapseSelected && selected.length > lengthToGroup) {
-        const id = selected.length
-        const title = `${t('selected')} ${selected.length}`
+    if (!selected?.length) { return null }
 
-        return (
-            <SelectedItem
-                id={id}
-                title={title}
-                callback={onDeleteAll}
-                maxTagTextLength={maxTagTextLength}
-                disabled={disabled}
-            />
-        )
-    }
+    let list = selected
+    let rest: ReactNode = null
 
-    const getTitle = (item: TOption, labelFieldId: InputElementsProps['labelFieldId']) => {
-        if (typeof item === 'string') {
-            return item
+    if (typeof maxTagCount === 'number') {
+        if (maxTagCount === 0) {
+            const id = selected.length
+            const title = `${t('selected')}: ${selected.length}`
+
+            
+            list = []
+            rest = (
+                <SelectedItem
+                    id={id}
+                    title={title}
+                    maxTagTextLength={maxTagTextLength}
+                    disabled={disabled}
+                />
+            )
+        } else if (selected.length > maxTagCount) {
+            list = list.slice(0, maxTagCount)
+            rest = (
+                <SelectedItem
+                    id={selected.length}
+                    title={`+ ${selected.length - maxTagCount}...`}
+                    maxTagTextLength={maxTagTextLength}
+                    disabled={disabled}
+                />
+            )
         }
-
-        return item[labelFieldId as keyof TOption] || ''
     }
 
-    const list = map(selected, (item, index) => {
+    const tags = list.map((item, index) => {
         const title = getTitle(item, labelFieldId)
         const id = item.id || index
 
@@ -134,5 +150,5 @@ export function InputElements({
         )
     })
 
-    return <>{list}</>
+    return <>{tags}{rest}</>
 }

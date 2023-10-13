@@ -35,8 +35,7 @@ import listContainer from '../listContainer'
  * @reactProps {boolean} closePopupOnSelect - флаг закрытия попапа при выборе
  * @reactProps {boolean} hasCheckboxes - флаг наличия чекбоксов
  * @reactProps {string} format - формат
- * @reactProps {boolean} collapseSelected - флаг сжатия выбранных элементов
- * @reactProps {number} lengthToGroup - от скольки элементов сжимать выбранные элементы
+ * @reactProps {number} [maxTagCount] - от скольки элементов сжимать выбранные элементы
  * @reactProps {function} fetchData
  * @reactProps {function} onSearch
  * @reactProps {boolean} openOnFocus
@@ -133,14 +132,6 @@ class InputSelectContainer extends React.Component<Props, State> {
          * Флаг наличия чекбоксов в селекте
          */
         hasCheckboxes: false,
-        /**
-         * Флаг сжатия выбранных элементов
-         */
-        collapseSelected: true,
-        /**
-         * От скольки элементов сжимать выбранные элементы
-         */
-        lengthToGroup: 3,
         // eslint-disable-next-line react/default-props-match-prop-types
         expandPopUp: true,
         /**
@@ -171,7 +162,7 @@ class InputSelectContainer extends React.Component<Props, State> {
         onClose: () => {},
         fetchData: () => {},
         onSearch: () => {},
-    } as Props
+    } as Partial<Props>
 }
 
 type Props = {
@@ -200,8 +191,7 @@ type Props = {
     closePopupOnSelect: boolean,
     hasCheckboxes: boolean,
     format?: string,
-    collapseSelected: boolean,
-    lengthToGroup: number,
+    maxTagCount: number,
     fetchData(): void,
     onSearch(): void,
     autoFocus: boolean,

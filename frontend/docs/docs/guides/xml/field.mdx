@@ -1144,7 +1144,8 @@ n2o.api.control.select.cleanable=true
 |type                |single multi checkboxes  |Тип выбора в выпадающем списке                                                          |single               |
 |reset-on-blur       |true false               |Стирание значения при потере фокуса                                                     |true                 |
 |description-field-id|Строка                   |Идентификатор поля для отображения дополнительной информации в опциях выпадающего списка|                     |
-|max-tag-text-length |Число                    |Максимальная длина текста элемента                                                      |10                   |
+|max-tag-count       |Число                    |Максимальное количество элементов в поле (для режима с множественным выбором)           |                     |
+|max-tag-text-length |Число                    |Максимальная длина текста элемента (для режима с множественным выбором)                 |10                   |
 |throttle-delay      |Число                    |Задержка перед поиском. Указывается в миллисекундах                                     |300                  |
 |search-min-length   |Число                    |Минимальное число символов для начала поиска                                            |0                    |
 |value-field-id      |Строка                   |Поле, отвечающее за идентификатор варианта выбора                                       |id                   |
@@ -1154,7 +1155,7 @@ n2o.api.control.select.cleanable=true
 ```yaml
 # Стирание значения при потере фокуса
 n2o.api.control.input_select.reset_on_blur=true
-# Максимальная длина текста элемента
+# Максимальная длина текста элемента (для режима с множественным выбором)
 n2o.api.control.input_select.max_tag_text_length=10
 # Задержка перед поиском в мс
 n2o.api.control.input_select.throttle_delay=300
@@ -1186,8 +1187,8 @@ n2o.api.control.input_select.search_min_length=0
 |ajax                 |true false        |Поддержка загрузки через ajax запрос                                              |false                |
 |checkboxes           |true false        |Отображение чекбоксов в элементах дерева. Переводит InputSelectTree в мульти режим|false                |
 |checking-strategy    |child parent all  |Стратегия выбора данных из дерева                                                 |all                  |
-|max-tag-count        |Число             |Максимальное количество элементов в поле                                          |                     |
-|max-tag-text-length  |Число             |Максимальная длина текста элемента (в режиме чекбоксов)                           |10                   |
+|max-tag-count        |Число             |Максимальное количество элементов в поле (для режима с множественным выбором)     |                     |
+|max-tag-text-length  |Число             |Максимальная длина текста элемента (для режима с множественным выбором)           |10                   |
 |size                 |Число             |Количество узлов(включая дочерние) выводимых деревом                              |200                  |
 |throttle-delay       |Число             |Задержка перед поиском. Указывается в миллисекундах                               |300                  |
 |search-min-length    |Число             |Минимальное число символов для начала поиска                                      |0                    |
@@ -1200,7 +1201,7 @@ n2o.api.control.input_select_tree.ajax=false
 n2o.api.control.input_select_tree.checkboxes=false
 # Стратегия выбора данных из дерева
 n2o.api.control.input_select_tree.checking_strategy=all
-# Максимальная длина текста элемента (в режиме чекбоксов)
+# Максимальная длина текста элемента (для режима с множественным выбором)
 n2o.api.control.input_select_tree.max_tag_text_length=10
 # Количество узлов(включая дочерние) выводимых деревом
 n2o.api.control.input_select_tree.size=200

@@ -38,8 +38,6 @@ import propsResolver from '../../../utils/propsResolver'
  * @reactProps {boolean} closePopupOnSelect - флаг закрытия попапа при выборе
  * @reactProps {boolean} hasCheckboxes - флаг наличия чекбоксов
  * @reactProps {string} format - формат
- * @reactProps {boolean} collapseSelected - флаг сжатия выбранных элементов
- * @reactProps {number} lengthToGroup - от скольки элементов сжимать выбранные элементы
  */
 
 type State = {

@@ -49,7 +49,6 @@ type Props = {
     children?: React.ReactNode,
     count?: number,
     descriptionFieldId?: string,
-    disabledValues: [],
     enabledFieldId?: string,
     fetchData(arg: object, concat?: boolean, cacheReset?: boolean): void,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
