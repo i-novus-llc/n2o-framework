@@ -122,7 +122,6 @@ public class RefreshToolbarCellAT extends AutoTestBase {
 
         Modal modal = N2oSelenide.modal();
         modal.shouldExists();
-        modal.shouldHaveTitle("update");
 
         StandardField field = modal.content(SimplePage.class).widget(FormWidget.class).fields().field("name");
         field.control(InputText.class).click();

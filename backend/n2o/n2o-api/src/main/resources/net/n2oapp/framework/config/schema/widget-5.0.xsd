@@ -102,14 +102,6 @@
                 <xs:documentation>Стиль компонента виджета</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="name" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Наименование виджета. По умолчанию равно элементу name выборки,
-                    на основе которой построен компонент.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Иконка виджета из https://fontawesome.com/v4.7/icons/</xs:documentation>

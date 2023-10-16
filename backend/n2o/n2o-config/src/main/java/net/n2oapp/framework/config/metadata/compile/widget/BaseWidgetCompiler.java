@@ -60,7 +60,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setClassName(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
-        compiled.setName(p.cast(source.getName(), source.getId()));
         compiled.setSrc(initSrc(source, p));
         compiled.setIcon(source.getIcon());
         compiled.setFetchOnInit(p.cast(source.getFetchOnInit(), true));

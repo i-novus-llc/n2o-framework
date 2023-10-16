@@ -54,7 +54,6 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
                 .get("parentWidgetForm", N2oForm.class);
         assertThat(widget, notNullValue());
         assertThat(widget.getDependsOn(), is("child"));
-        assertThat(widget.getName(), is("Child"));
         assertThat(widget.getQueryId(), is("parent"));
         assertThat(widget.getObjectId(), is("parent"));
         assertThat(widget.getPreFilters().length, is(2));

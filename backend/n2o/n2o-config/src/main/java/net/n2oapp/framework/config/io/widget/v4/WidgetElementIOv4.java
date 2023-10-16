@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.io.widget.v4;
 
-
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
@@ -19,6 +18,7 @@ import org.jdom2.Namespace;
  * Чтение\запись виджета  версии 4.0
  */
 public abstract class WidgetElementIOv4<T extends N2oWidget> implements NamespaceIO<T>, WidgetIOv4 {
+
     private Namespace actionDefaultNamespace = ActionIOv1.NAMESPACE;
 
     @Override
@@ -32,7 +32,6 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
         p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "class", m::getCssClass, m::setCssClass);
         p.attribute(e, "style", m::getStyle, m::setStyle);
-        p.attribute(e, "name", m::getName, m::setName);
         p.attribute(e, "route", m::getRoute, m::setRoute);
         p.attribute(e, "visible", m::getVisible, m::setVisible);
         p.attribute(e, "query-id", m::getQueryId, m::setQueryId);
