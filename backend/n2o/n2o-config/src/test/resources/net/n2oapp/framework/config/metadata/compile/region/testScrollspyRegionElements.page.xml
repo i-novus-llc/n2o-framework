@@ -8,34 +8,34 @@
                     <tab id="tab1"/>
                     <tab id="tab2"/>
                 </tabs>
-                <form name="form1"/>
+                <form id="form1"/>
             </menu-item>
             <menu-item title="Second item title in the list">
-                <table name="table1"/>
-                <form name="form2"/>
+                <table id="table1"/>
+                <form id="form2"/>
             </menu-item>
             <sub-menu title="Third item title in the list">
                 <menu-item id="mi2" title="Title1">
-                    <table name="table2"/>
-                    <form name="form3"/>
+                    <table id="table2"/>
+                    <form id="form3"/>
                 </menu-item>
                 <menu-item title="Title2">
-                    <form name="form4"/>
+                    <form id="form4"/>
                 </menu-item>
                 <sub-menu title="Title3">
                     <menu-item id="mi3" title="Title4">
-                        <form name="form5"/>
+                        <form id="form5"/>
                     </menu-item>
                 </sub-menu>
             </sub-menu>
             <group title="group" headline="true">
                 <menu-item id="GroupItem" title="Item in group">
-                    <table name="table3"/>
-                    <form name="form6"/>
+                    <table id="table3"/>
+                    <form id="form6"/>
                 </menu-item>
                 <sub-menu title="Sub-menu in group">
                     <menu-item id="mi4" title="Title5">
-                        <form name="form7"/>
+                        <form id="form7"/>
                     </menu-item>
                 </sub-menu>
             </group>

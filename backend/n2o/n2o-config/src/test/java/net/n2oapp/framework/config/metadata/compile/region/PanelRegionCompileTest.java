@@ -24,6 +24,7 @@ import static org.hamcrest.Matchers.*;
  * Тестирование компиляции региона в виде панелей
  */
 public class PanelRegionCompileTest extends SourceCompileTestBase {
+
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -33,7 +34,11 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack());
+        builder.packs(
+                new N2oPagesPack(),
+                new N2oRegionsPack(),
+                new N2oWidgetsPack()
+        );
     }
 
     @Test
@@ -79,7 +84,6 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         // panel form1
         assertThat(content.get(0), instanceOf(Form.class));
         assertThat(((Form) content.get(0)).getId(), is("testPanelRegionNesting_panel1"));
-        assertThat(((Form) content.get(0)).getName(), is("form1"));
         // panel panel
         assertThat(content.get(1), instanceOf(PanelRegion.class));
         assertThat(((PanelRegion) content.get(1)).getId(), is("panel1"));
@@ -90,7 +94,6 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         // panel panel form2
         assertThat(panel1Content.get(0), instanceOf(Form.class));
         assertThat(((Form) panel1Content.get(0)).getId(), is("testPanelRegionNesting_panel2"));
-        assertThat(((Form) panel1Content.get(0)).getName(), is("form2"));
         // panel panel panel
         assertThat(panel1Content.get(1), instanceOf(PanelRegion.class));
         assertThat(((PanelRegion) panel1Content.get(1)).getId(), is("panel2"));
@@ -99,11 +102,9 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         // panel panel panel form3
         assertThat(panel2Content.get(0), instanceOf(Form.class));
         assertThat(((Form) panel2Content.get(0)).getId(), is("testPanelRegionNesting_panel3"));
-        assertThat(((Form) panel2Content.get(0)).getName(), is("form3"));
         // panel form4
         assertThat(content.get(2), instanceOf(Form.class));
         assertThat(((Form) content.get(2)).getId(), is("testPanelRegionNesting_panel4"));
-        assertThat(((Form) content.get(2)).getName(), is("form4"));
 
         // PANEL2
         assertThat(regions.get(1), instanceOf(PanelRegion.class));
@@ -114,11 +115,9 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         // panel table1
         assertThat(content.get(0), instanceOf(Table.class));
         assertThat(((Table) content.get(0)).getId(), is("testPanelRegionNesting_panel5"));
-        assertThat(((Table) content.get(0)).getName(), is("table1"));
         // panel table2
         assertThat(content.get(1), instanceOf(Table.class));
         assertThat(((Table) content.get(1)).getId(), is("testPanelRegionNesting_panel6"));
-        assertThat(((Table) content.get(1)).getName(), is("table2"));
 
         // PANEL3
         assertThat(regions.get(2), instanceOf(PanelRegion.class));

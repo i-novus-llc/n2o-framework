@@ -45,7 +45,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
     @Override
     public SimplePage compile(N2oSimplePage source, PageContext context, CompileProcessor p) {
         SimplePage page = new SimplePage();
-        String pageName = p.cast(context.getPageName(), source.getName(), source.getWidget().getName());
+        String pageName = p.cast(context.getPageName(), source.getName());
         page.setPageProperty(initPageName(source, pageName, context, p));
         compileBaseProperties(source, page, context, p);
 

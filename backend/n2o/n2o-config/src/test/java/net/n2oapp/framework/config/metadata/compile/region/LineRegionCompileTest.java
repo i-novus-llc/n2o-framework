@@ -24,6 +24,7 @@ import static org.hamcrest.Matchers.*;
  * Тестирование компиляции региона с горизонтальным делителем
  */
 public class LineRegionCompileTest extends SourceCompileTestBase {
+
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -33,7 +34,11 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack());
+        builder.packs(
+                new N2oPagesPack(),
+                new N2oRegionsPack(),
+                new N2oWidgetsPack()
+        );
     }
 
     @Test
@@ -81,7 +86,6 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         // line form1
         assertThat(content.get(0), instanceOf(Form.class));
         assertThat(((Form) content.get(0)).getId(), is("testLineRegionNesting_line1"));
-        assertThat(((Form) content.get(0)).getName(), is("form1"));
         // line line
         assertThat(content.get(1), instanceOf(LineRegion.class));
         assertThat(((LineRegion) content.get(1)).getId(), is("line1"));
@@ -92,7 +96,6 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         // line line form2
         assertThat(line1Content.get(0), instanceOf(Form.class));
         assertThat(((Form) line1Content.get(0)).getId(), is("testLineRegionNesting_line2"));
-        assertThat(((Form) line1Content.get(0)).getName(), is("form2"));
         // line line line
         assertThat(line1Content.get(1), instanceOf(LineRegion.class));
         assertThat(((LineRegion) line1Content.get(1)).getId(), is("line2"));
@@ -101,11 +104,9 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         // line line line form3
         assertThat(line2Content.get(0), instanceOf(Form.class));
         assertThat(((Form) line2Content.get(0)).getId(), is("testLineRegionNesting_line3"));
-        assertThat(((Form) line2Content.get(0)).getName(), is("form3"));
         // line form4
         assertThat(content.get(2), instanceOf(Form.class));
         assertThat(((Form) content.get(2)).getId(), is("testLineRegionNesting_line4"));
-        assertThat(((Form) content.get(2)).getName(), is("form4"));
 
         // LINE2
         assertThat(regions.get(1), instanceOf(LineRegion.class));
@@ -115,11 +116,9 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         // line table1
         assertThat(content.get(0), instanceOf(Table.class));
         assertThat(((Table) content.get(0)).getId(), is("testLineRegionNesting_line5"));
-        assertThat(((Table) content.get(0)).getName(), is("table1"));
         // line table2
         assertThat(content.get(1), instanceOf(Table.class));
         assertThat(((Table) content.get(1)).getId(), is("testLineRegionNesting_line6"));
-        assertThat(((Table) content.get(1)).getName(), is("table2"));
 
         // LINE 3
         assertThat(regions.get(2), instanceOf(LineRegion.class));

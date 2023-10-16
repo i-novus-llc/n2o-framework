@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
        xmlns:ctr="http://n2oapp.net/framework/config/schema/control-2.0"
-       name="Моя таблица" query-id="stub" src="testSrc"
+       query-id="stub" src="testSrc"
        object-id="stub" icon="testIcon" class="testClass" route="testRoute" selection="radio" master-param="uid"
        width="300px" height="300px" text-wrap="false" children="expand">
     <columns>
