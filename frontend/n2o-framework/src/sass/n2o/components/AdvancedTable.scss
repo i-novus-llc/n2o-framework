@@ -50,9 +50,9 @@
     }
 }
 
-@for $i from 2 through 10 {
+@for $i from 1 through 10 {
     .n2o-advanced-table-row-level-#{$i} > td:first-of-type {
-        padding-left: calc(1rem * #{$i});
+        padding-left: calc(1.5rem * #{$i});
     }
 }
 
