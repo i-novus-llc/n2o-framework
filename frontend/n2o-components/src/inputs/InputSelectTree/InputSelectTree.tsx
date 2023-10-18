@@ -48,13 +48,39 @@ const getMultiValue = (options: Props['options'], value: Props['value'], valueFi
  * @param valueFieldId
  * @returns {*}
  */
-const getItemByValue = (options: Props['options'], value: Props['value'], multiSelect: Props['multiSelect'], valueFieldId: Props['valueFieldId']) => {
+const getItemByValue = (
+    options: Props['options'],
+    value: Props['value'],
+    multiSelect: Props['multiSelect'],
+    valueFieldId: Props['valueFieldId']
+) => {
     if (!value) { return null }
     if (!multiSelect) {
         return getSingleValue(options, value, valueFieldId)
     }
 
     return getMultiValue(options, value, valueFieldId)
+}
+
+function getId<
+    TValue extends Record<string, unknown>,
+    FieldId extends keyof TValue
+>(value: TValue, valueFieldId: FieldId) {
+    const numberValue = Number(value[valueFieldId])
+
+    return isNaN(numberValue) ? value[valueFieldId] : numberValue
+}
+
+function mapValue2RC<
+    TValue extends Record<string, unknown>,
+    FieldId extends keyof TValue
+>(value: void | TValue | TValue[], valueFieldId: FieldId) {
+    if (!value) { return [] }
+    if (isArray(value)) {
+        return value.map((v) => getId(v, valueFieldId))
+    }
+
+    return getId(value, valueFieldId)
 }
 
 /**
@@ -85,7 +111,6 @@ function InputSelectTree({
     hasChildrenFieldId,
     options,
     onSearch,
-    onSelect,
     onChange,
     onKeyDown,
     hasCheckboxes,
@@ -193,26 +218,7 @@ function InputSelectTree({
         return true
     }, [filter, labelFieldId])
 
-    /**
-     * Функция для обратного преобразования value n2o в формат rcTreeSelect
-     * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
-     * @param value
-     * @returns {*}
-     */
-    const setValue = (value: Props['value']) => {
-        if (!value) { return [] }
-        if (isArray(value)) {
-            return map(value, (v) => {
-                const numberValue = Number(v[valueFieldId])
-
-                return isNaN(numberValue) ? v[valueFieldId] : numberValue
-            })
-        }
-
-        const numberValue = Number(value[valueFieldId])
-
-        return isNaN(numberValue) ? value[valueFieldId] : numberValue
-    }
+    const rcValue = useMemo(() => mapValue2RC(value, valueFieldId), [value, valueFieldId])
 
     /**
      * Функция для переопределения onChange
@@ -221,18 +227,7 @@ function InputSelectTree({
     const handleChange = useCallback((value: Props['value']) => {
         onChange(getItemByValue(options, value, multiSelect, valueFieldId))
         onBlur(getItemByValue(options, value, multiSelect, valueFieldId))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [options, multiSelect, onChange, valueFieldId])
-
-    /**
-     * Функция для переопределения onSelect
-     * @param value
-     */
-    const handleSelect = useCallback((value: Props['value']) => {
-        onSelect(getItemByValue(options, value, multiSelect, valueFieldId))
-        onBlur()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [options, multiSelect, onSelect, valueFieldId])
 
     /**
      * Функция для переопределения onSearch
@@ -258,10 +253,7 @@ function InputSelectTree({
         if (visible) {
             onFocus()
         }
-        // onToggle(visible)
-        // setDropdownExpanded(visible)
-
-        if (visible && !options.length) {
+        if (visible) {
             fetchData()
         } else {
             onClose()
@@ -310,7 +302,7 @@ function InputSelectTree({
         >
             <TreeSelect
                 allowClear={!isEmpty(value)}
-                value={setValue(value)}
+                value={rcValue}
                 onDropdownVisibleChange={handleDropdownVisibleChange}
                 switcherIcon={renderSwitcherIcon}
                 suffixIcon={<Icon name="fa fa-chevron-down" visible={!disabled} />}
@@ -326,7 +318,6 @@ function InputSelectTree({
                 clearIcon={clearIcon} // иконка очищения всего инпута
                 removeIcon={isEmpty(value) ? null : clearIcon} // иконка очищения итема
                 onChange={handleChange}
-                onSelect={handleSelect}
                 onSearch={handleSearch}
                 onKeyDown={onKeyDown}
                 onTreeExpand={onTreeExpand}
@@ -373,7 +364,6 @@ InputSelectTree.defaultProps = {
     showSearch: true,
     maxTagTextLength: 10,
     onSearch: () => {},
-    onSelect: () => {},
     onChange: () => {},
     onClose: () => {},
     onToggle: () => {},
@@ -457,7 +447,6 @@ type Props = {
      * Callback на поиск
      */
     onSearch(arg: Props['value']): void,
-    onSelect(arg: Props['value']): void,
     onToggle(arg: boolean): void,
     /**
      * Данные для построения дерева
