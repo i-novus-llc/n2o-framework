@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
@@ -165,8 +166,11 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                         p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, scopes)
                 );
                 if (column.getSortingDirection() != null) {
-                    sortings.put(
-                            RouteUtil.normalizeParam(p.cast(column.getSortingFieldId(), column.getTextFieldId())),
+                    String fieldId = p.cast(column.getSortingFieldId(), column.getTextFieldId());
+                    if (fieldId == null)
+                        throw new N2oException(String.format("В колонке <column> c id=%s задан атрибут 'sorting-direction', но не указано поле сортировки. Задайте 'sorting-field-id' или 'text-field-id'",
+                                column.getId()));
+                    sortings.put(RouteUtil.normalizeParam(fieldId),
                             column.getSortingDirection().toString().toUpperCase()
                     );
                 }

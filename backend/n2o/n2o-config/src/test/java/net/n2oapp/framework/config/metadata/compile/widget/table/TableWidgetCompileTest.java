@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget.table;
 
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
@@ -31,6 +32,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -38,6 +40,7 @@ import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -548,6 +551,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 .get(new WidgetContext("testBlackResetList"));
 
         assertThat(table.getFilter().getBlackResetList().get(0), is("urgently"));
+    }
+
+    @Test
+    void testSortingFieldId() {
+        N2oException exception = Assertions.assertThrows(N2oException.class,
+                () -> compile("net/n2oapp/framework/config/metadata/compile/widgets/testSortingFieldId.widget.xml")
+                        .get(new WidgetContext("testSortingFieldId")));
+        Assertions.assertEquals("В колонке <column> c id=name задан атрибут 'sorting-direction', но не указано поле сортировки. Задайте 'sorting-field-id' или 'text-field-id'", exception.getMessage());
     }
 
 }
