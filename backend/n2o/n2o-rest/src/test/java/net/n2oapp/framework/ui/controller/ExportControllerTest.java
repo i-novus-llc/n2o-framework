@@ -56,7 +56,7 @@ public class ExportControllerTest {
         assertThat(act, is(exp));
         assertThat(export.getCharacterEncoding(), is("UTF-8"));
         assertThat(export.getContentType(), is("text/csv"));
-        assertThat(export.getContentDisposition(), is("attachment;filename=export.csv"));
+        assertThat(export.getContentDisposition().matches("attachment;filename=export_data_\\d{13}\\.csv"), is(true));
         assertThat(export.getContentLength(), is(exp.getBytes(StandardCharsets.UTF_8).length));
 
         export = exportController.export(list, "csv", "Cp1251");
@@ -67,7 +67,7 @@ public class ExportControllerTest {
         assertThat(act, is(exp));
         assertThat(export.getCharacterEncoding(), is("Cp1251"));
         assertThat(export.getContentType(), is("text/csv"));
-        assertThat(export.getContentDisposition(), is("attachment;filename=export.csv"));
+        assertThat(export.getContentDisposition().matches("attachment;filename=export_data_\\d{13}\\.csv"), is(true));
         assertThat(export.getContentLength(), is(exp.getBytes(cp1251).length));
     }
 }

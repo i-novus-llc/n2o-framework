@@ -12,6 +12,7 @@ import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
 import org.apache.catalina.util.ParameterMap;
+import org.hamcrest.core.Is;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -120,7 +121,7 @@ public class SandboxExportTest {
         assertThat(response.getStatusCodeValue(), is(200));
         assertThat(response.getBody(), is(expectedBody.getBytes(StandardCharsets.UTF_8)));
         HttpHeaders headers = response.getHeaders();
-        assertThat(headers.getContentDisposition().toString(), is("attachment; filename=\"export.csv\""));
+        assertThat(headers.getContentDisposition().toString().matches("attachment; filename=\"export_data_\\d{13}\\.csv\""), Is.is(true));
 
         Optional<MediaType> contentType = Optional.ofNullable(headers.getContentType());
         assertTrue(contentType.isPresent());
