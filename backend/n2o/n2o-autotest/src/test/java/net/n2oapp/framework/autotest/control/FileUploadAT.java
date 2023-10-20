@@ -1,7 +1,11 @@
 package net.n2oapp.framework.autotest.control;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.control.FileUploadControl;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -37,23 +41,28 @@ public class FileUploadAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
-        simplePage = open(SimplePage.class);
-        simplePage.shouldExists();
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
-                new N2oControlsPack(), new N2oControlsV2IOPack(), new N2oQueriesPack());
+        builder.packs(new N2oPagesPack(),
+                new N2oApplicationPack(),
+                new N2oWidgetsPack(),
+                new N2oFieldSetsPack(),
+                new N2oControlsPack(),
+                new N2oControlsV2IOPack(),
+                new N2oActionsPack(),
+                new N2oAllDataPack());
         builder.ios(new TestDataProviderIOv1());
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/fileupload/index.page.xml"));
     }
 
     @Test
-    public void wrongRestTest() {
+    void wrongRestTest() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/fileupload/index.page.xml"));
+
+        simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
         FileUploadControl fileUpload = getFields().field("FileUpload1").control(FileUploadControl.class);
         fileUpload.shouldBeEnabled();
         fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json");
@@ -65,7 +74,11 @@ public class FileUploadAT extends AutoTestBase {
     }
 
     @Test
-    public void oneFileUploadTest() {
+    void oneFileUploadTest() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/fileupload/index.page.xml"));
+
+        simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
         FileUploadControl fileUpload = getFields().field("FileUpload2").control(FileUploadControl.class);
         fileUpload.shouldBeEnabled();
         fileStoreController.clearFileStore();
@@ -92,7 +105,11 @@ public class FileUploadAT extends AutoTestBase {
     }
 
     // убрали аннатоцию тест, потому что у selenide есть баг с загрузкой нескольких файлов и тест конфликтует с FileUploadCellAT
-    public void serialTwoFileUploadTest() {
+    void serialTwoFileUploadTest() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/fileupload/index.page.xml"));
+
+        simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
         FileUploadControl fileUpload = getFields().field("FileUpload3").control(FileUploadControl.class);
         fileUpload.shouldBeEnabled();
         fileStoreController.clearFileStore();
@@ -115,8 +132,38 @@ public class FileUploadAT extends AutoTestBase {
         assertThat(fileStoreController.getFileStore().size(), is(0));
     }
 
+    @Test
+    void fileUploaderCleanable() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/fileupload/cleanable/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/fileupload/cleanable/test.object.xml")
+        );
+
+        simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+        FileUploadControl fileUpload = getFields().field("Загрузка файлов").control(FileUploadControl.class);
+        fileUpload.shouldBeEnabled();
+        fileStoreController.clearFileStore();
+        assertThat(fileStoreController.getFileStore().size(), is(0));
+
+        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json");
+        fileUpload.shouldHaveUploadFiles(1);
+        fileUpload.uploadFileShouldHaveName(0, "test1.json");
+        assertThat(fileStoreController.getFileStore().size(), is(1));
+
+        Toolbar toolbar = simplePage.widget(FormWidget.class).toolbar().bottomRight();
+
+        toolbar.button("Очистить").click();
+        fileUpload.shouldHaveUploadFiles(0);
+
+        InputText inputText = simplePage.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields().field("Обязательное поле").control(InputText.class);
+        inputText.setValue("Любой текст");
+        inputText.shouldHaveValue("Любой текст");
+        toolbar.button("Отправить").click();
+        getFields().field("Загрузка файлов").shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+    }
+
     private Fields getFields() {
         return simplePage.widget(FormWidget.class).fields();
     }
-
 }

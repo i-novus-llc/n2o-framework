@@ -737,7 +737,15 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/fileupload",
-          "name": "FileUploadAT"
+          "name": "FileUploadAT. wrongRestTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/fileupload",
+          "name": "FileUploadAT. oneFileUploadTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/fileupload/cleanable",
+          "name": "FileUploadAT. fileUploaderCleanable"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/html/simple",

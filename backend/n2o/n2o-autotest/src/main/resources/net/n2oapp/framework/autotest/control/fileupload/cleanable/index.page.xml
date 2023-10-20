@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Проверка визуального удаления загружаемых файлов при очистки модели">
+    <form name="Форма c валидацией" object-id="test">
+        <fields>
+            <row>
+                <input-text id="field1" label="Обязательное поле" required="true"/>
+                <file-upload label="Загрузка файлов"
+                             required="true"
+                             accept=".json"
+                             id="fileUpload3" multi="true"
+                             label-field-id="fileName" value-field-id="id" url-field-id="url"
+                             upload-url="/files"
+                             delete-url="/files"
+                />
+            </row>
+        </fields>
+        <toolbar place="bottomRight">
+            <button label="Очистить" validate="false" disable-on-empty-model="false">
+                <clear model="resolve"/>
+            </button>
+            <button color="primary" disable-on-empty-model="false"
+                    label="Отправить"
+                    validate="true"
+                    description="Проверить валидацию">
+            </button>
+        </toolbar>
+    </form>
+</simple-page>
