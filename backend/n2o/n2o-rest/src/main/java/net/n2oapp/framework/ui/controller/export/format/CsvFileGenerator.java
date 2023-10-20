@@ -61,6 +61,8 @@ public class CsvFileGenerator implements FileGenerator {
     }
 
     private List<String[]> resolveToCsvFormat(List<DataSet> data) {
+        if (data.isEmpty())
+            return new ArrayList<>();
         Set<String> keys = data.get(0).flatKeySet();
         int columnCount = keys.size();
         String[] headers = new String[columnCount];
