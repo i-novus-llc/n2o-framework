@@ -36,7 +36,7 @@ public class InputSelectTreeAT extends AutoTestBase {
     }
 
     @Test
-    public void inputSelectTreeTest() {
+    void inputSelectTreeTest() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -72,7 +72,7 @@ public class InputSelectTreeAT extends AutoTestBase {
     }
 
     @Test
-    public void readFromQueryTest() {
+    void readFromQueryTest() {
         setJsonPath("net/n2oapp/framework/autotest/control/select_tree/nodes");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/nodes/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/nodes/test.query.xml"));
@@ -102,7 +102,7 @@ public class InputSelectTreeAT extends AutoTestBase {
     }
 
     @Test
-    public void testSearchMinLength() {
+    void testSearchMinLength() {
         setJsonPath("net/n2oapp/framework/autotest/control/select_tree/throttle_delay");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/throttle_delay/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/throttle_delay/test.query.xml"));
@@ -128,5 +128,54 @@ public class InputSelectTreeAT extends AutoTestBase {
         inputSelectTree.openPopup();
         dropdown.setValue("audi");
         dropdown.shouldHaveItems(1);
+    }
+
+    @Test
+    void testMaxTagsCount() {
+        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/max_count");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/max_count/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/max_count/test.query.xml"));
+
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        InputSelectTree inputSelectTree1 = simplePage.widget(FormWidget.class)
+                .fields().field("one").control(InputSelectTree.class);
+        InputSelectTree inputSelectTree2 = simplePage.widget(FormWidget.class)
+                .fields().field("few").control(InputSelectTree.class);
+        InputSelectTree inputSelectTree3 = simplePage.widget(FormWidget.class)
+                .fields().field("unlimited").control(InputSelectTree.class);
+
+        inputSelectTree1.click();
+        inputSelectTree1.selectOption(0);
+        inputSelectTree1.shouldSelectedMulti(new String[]{"Выбрано: 1"});
+        inputSelectTree1.selectOption(1);
+        inputSelectTree1.selectOption(2);
+        inputSelectTree1.shouldSelectedMulti(new String[]{"Выбрано: 3"});
+        inputSelectTree1.click();
+
+        inputSelectTree2.click();
+        inputSelectTree2.expandParentOptions(2);
+        inputSelectTree2.selectOption(8);
+        inputSelectTree2.selectOption(9);
+        inputSelectTree2.shouldSelectedMulti(new String[]{"Александр ...", "Иван Алекс..."});
+        inputSelectTree2.selectOption(7);
+        inputSelectTree2.shouldSelectedMulti(new String[]{"Александр ...", "Иван Алекс...", "Александр ..."});
+        inputSelectTree2.selectOption(6);
+        inputSelectTree2.shouldSelectedMulti(new String[]{"Александр ...", "Александр ...", "Александр ...", "+ 1..."});
+        inputSelectTree2.selectOption(10);
+        inputSelectTree2.selectOption(11);
+        inputSelectTree2.shouldSelectedMulti(new String[]{"Александр ...", "Александр ...", "Александр ...", "+ 3..."});
+        inputSelectTree2.click();
+
+        inputSelectTree3.click();
+        inputSelectTree3.expandParentOptions(2);
+        inputSelectTree3.selectOption(8);
+        inputSelectTree3.selectOption(9);
+        inputSelectTree3.selectOption(10);
+        inputSelectTree3.selectOption(11);
+        inputSelectTree3.selectOption(6);
+        inputSelectTree3.selectOption(7);
+        inputSelectTree3.shouldSelectedMultiSize(6);
     }
 }

@@ -415,4 +415,48 @@ public class InputSelectAT extends AutoTestBase {
         formWidget.toolbar().topLeft().button("unselect").click();
         inputSelect.shouldHaveValue("111");
     }
+
+    @Test
+    void testMaxTagsCount() {
+        setJsonPath("net/n2oapp/framework/autotest/control/input_select/max_count");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/max_count/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/max_count/test.query.xml"));
+
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        InputSelect inputSelectUnlCheck = simplePage.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class)
+                .fields().field("checkboxes").control(InputSelect.class);
+        InputSelect inputSelectUnlMulti = simplePage.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class)
+                .fields().field("multi").control(InputSelect.class);
+        InputSelect inputSelectSingleCheck = simplePage.widget(FormWidget.class).fieldsets().fieldset(1, SimpleFieldSet.class)
+                .fields().field("checkboxes").control(InputSelect.class);
+        InputSelect inputSelectSingleMulti = simplePage.widget(FormWidget.class).fieldsets().fieldset(1, SimpleFieldSet.class)
+                .fields().field("multi").control(InputSelect.class);
+        InputSelect inputSelectFewCheck = simplePage.widget(FormWidget.class).fieldsets().fieldset(2, SimpleFieldSet.class)
+                .fields().field("checkboxes").control(InputSelect.class);
+        InputSelect inputSelectFewMulti = simplePage.widget(FormWidget.class).fieldsets().fieldset(2, SimpleFieldSet.class)
+                .fields().field("multi").control(InputSelect.class);
+
+
+        inputSelectUnlCheck.click();
+        inputSelectUnlCheck.dropdown().selectMulti(2, 3, 4, 5, 6, 7, 8, 9);
+        inputSelectUnlCheck.shouldSelectedMultiSize(8);
+        inputSelectUnlCheck.click();
+        inputSelectUnlMulti.click();
+        inputSelectUnlMulti.dropdown().selectMulti(2, 3, 4, 5, 6, 7, 8, 9);
+        inputSelectUnlMulti.shouldSelectedMultiSize(8);
+        inputSelectUnlMulti.click();
+
+
+        inputSelectSingleCheck.shouldSelectedMultiSize(1);
+        inputSelectSingleCheck.shouldSelectedMulti(new String[]{"Выбрано: 8"});
+        inputSelectSingleMulti.shouldSelectedMultiSize(1);
+        inputSelectSingleCheck.shouldSelectedMulti(new String[]{"Выбрано: 8"});
+
+        inputSelectFewCheck.shouldSelectedMultiSize(4);
+        inputSelectFewCheck.shouldSelectedMulti(new String[]{"test3", "test4", "test5", "+ 5..."});
+        inputSelectFewMulti.shouldSelectedMultiSize(4);
+        inputSelectFewCheck.shouldSelectedMulti(new String[]{"test3", "test4", "test5", "+ 5..."});
+    }
 }

@@ -55,6 +55,12 @@ public interface InputSelect extends Control, PopupControl {
     void shouldSelectedMulti(String[] values, Duration... duration);
 
     /**
+     * Проверка количества выбранных опций с ожидаемыми значениями
+     */
+    void shouldSelectedMultiSize(int size);
+
+
+    /**
      * @return выпадающий список для автотестирования
      */
     DropDown dropdown();
