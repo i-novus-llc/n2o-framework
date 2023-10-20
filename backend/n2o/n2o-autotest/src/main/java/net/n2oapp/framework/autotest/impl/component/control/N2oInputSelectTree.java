@@ -47,6 +47,20 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
         input().setValue(value);
     }
 
+
+    @Override
+    public void shouldSelectedMulti(String[] values, Duration... duration) {
+        if (values.length != 0) {
+            should(CollectionCondition.size(values.length), selectedItems(), duration);
+            should(CollectionCondition.textsInAnyOrder(values), selectedItems(), duration);
+        }
+    }
+
+    @Override
+    public void shouldSelectedMultiSize(int size) {
+        selectedItems().shouldHave(CollectionCondition.size(size));
+    }
+
     @Override
     public void clearSearchField() {
         input().clear();
@@ -150,5 +164,9 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     private boolean isOpened() {
         return element().has(Condition.cssClass(".n2o-select-tree-open"));
+    }
+
+    protected ElementsCollection selectedItems() {
+        return element().$$(".n2o-select-tree-selection-item");
     }
 }
