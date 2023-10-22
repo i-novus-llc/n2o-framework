@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.action;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
@@ -16,6 +17,7 @@ public abstract class N2oAbstractMetaAction extends N2oAbstractAction {
     private String redirectUrl;
     private Target redirectTarget;
     private Boolean refreshOnSuccess;
+    @JsonProperty("refreshDatasources")
     private String[] refreshDatasourceIds;
 
     @Deprecated

@@ -35,13 +35,14 @@ public class TableValidator implements SourceValidator<N2oTable>, SourceClassAwa
             Arrays.stream(source.getRows().getRowClick().getActions()).forEach(item -> p.validate(item, widgetScope));
 
         if (nonNull(source.getColumns())) {
-            checkUniqueIds(source.getColumns(), AbstractColumn:: getId, source.getId(), "id");
+            checkUniqueIds(source.getColumns(), AbstractColumn::getId, source.getId(), "id");
             checkUniqueIds(source.getColumns(), AbstractColumn::getTextFieldId, source.getId(), "text-field-id");
             Arrays.stream(source.getColumns())
                     .forEach(col -> p.validate(col, widgetScope));
         }
 
-        p.safeStreamOf(source.getFilters()).forEach(item -> p.validate(item, widgetScope));
+        if (source.getFilters() != null)
+            p.safeStreamOf(source.getFilters().getItems()).forEach(item -> p.validate(item, widgetScope));
 
         checkEmptyToolbar(source);
     }

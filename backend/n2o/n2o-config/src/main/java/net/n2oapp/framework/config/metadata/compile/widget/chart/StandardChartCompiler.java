@@ -15,8 +15,8 @@ public abstract class StandardChartCompiler<D extends StandardChartWidgetCompone
 
     protected D compileStandardChart(D chart, S source, CompileProcessor p) {
         ChartAxis xAxis = new ChartAxis();
-        xAxis.setFieldId(source.getXAxisFieldId());
-        xAxis.setPosition((p.cast(source.getXAxisPosition(),
+        xAxis.setFieldId(source.getXFieldId());
+        xAxis.setPosition((p.cast(source.getXPosition(),
                 () -> p.resolve(property("n2o.api.widget.chart.axis.x_position")),
                 () -> N2oStandardChart.XAxisPosition.class))
                 .toString());
@@ -25,8 +25,8 @@ public abstract class StandardChartCompiler<D extends StandardChartWidgetCompone
         chart.setXAxis(xAxis);
 
         ChartAxis yAxis = new ChartAxis();
-        yAxis.setFieldId(source.getYAxisFieldId());
-        yAxis.setPosition((p.cast(source.getYAxisPosition(),
+        yAxis.setFieldId(source.getYFieldId());
+        yAxis.setPosition((p.cast(source.getYPosition(),
                 () -> p.resolve(property("n2o.api.widget.chart.axis.y_position")),
                 () -> N2oStandardChart.YAxisPosition.class))
                 .toString());
@@ -37,7 +37,7 @@ public abstract class StandardChartCompiler<D extends StandardChartWidgetCompone
         chart.setYAxis(yAxis);
 
         ChartGrid grid = new ChartGrid();
-        grid.setStrokeDashArray(source.getGridStrokeDashArray());
+        grid.setStrokeDashArray(source.getGridStrokeDasharray());
         grid.setHorizontal(p.cast(source.getGridHorizontal(),
                 () -> p.resolve(property("n2o.api.widget.chart.grid.horizontal"), Boolean.class)));
         grid.setVertical(p.cast(source.getGridVertical(),

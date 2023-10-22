@@ -6,13 +6,13 @@ import find from 'lodash/find'
 import isArray from 'lodash/isArray'
 import isEmpty from 'lodash/isEmpty'
 import keys from 'lodash/keys'
-import map from 'lodash/map'
 import some from 'lodash/some'
+import isNaN from 'lodash/isNaN'
 import classNames from 'classnames'
 import { withTranslation } from 'react-i18next'
 import onClickOutsideHOC from 'react-onclickoutside'
 
-import { Filter, TOption } from '../InputSelect/types'
+import { TOption } from '../InputSelect/types'
 import { Icon } from '../../display/Icon'
 import { InlineSpinner } from '../../layouts/Spinner/InlineSpinner'
 import { Checkbox } from '../Checkbox/Checkbox'
@@ -47,7 +47,12 @@ const getMultiValue = (options: Props['options'], value: Props['value'], valueFi
  * @param valueFieldId
  * @returns {*}
  */
-const getItemByValue = (options: Props['options'], value: Props['value'], multiSelect: Props['multiSelect'], valueFieldId: Props['valueFieldId']) => {
+const getItemByValue = (
+    options: Props['options'],
+    value: Props['value'],
+    multiSelect: Props['multiSelect'],
+    valueFieldId: Props['valueFieldId']
+) => {
     if (!value) { return null }
     if (!multiSelect) {
         return getSingleValue(options, value, valueFieldId)
@@ -56,17 +61,27 @@ const getItemByValue = (options: Props['options'], value: Props['value'], multiS
     return getMultiValue(options, value, valueFieldId)
 }
 
-/**
- * @reactProps {function} onBlur
- * @reactProps {string} placeholder
- * @reactProps {function} setTreeExpandedKeys
- * @reactProps {array} treeExpandedKeys
- * @reactProps {node} children
- * @returns {*}
- * @constructor
- * @param props
- */
-// TODO переделать в класс
+function getId<
+    TValue extends Record<string, unknown>,
+    FieldId extends keyof TValue
+>(value: TValue, valueFieldId: FieldId) {
+    const numberValue = Number(value[valueFieldId])
+
+    return isNaN(numberValue) ? value[valueFieldId] : numberValue
+}
+
+function mapValue2RC<
+    TValue extends Record<string, unknown>,
+    FieldId extends keyof TValue
+>(value: void | TValue | TValue[], valueFieldId: FieldId) {
+    if (!value) { return [] }
+    if (isArray(value)) {
+        return value.map((v) => getId(v, valueFieldId))
+    }
+
+    return getId(value, valueFieldId)
+}
+
 function InputSelectTree({
     t,
     fetchData,
@@ -85,11 +100,9 @@ function InputSelectTree({
     hasChildrenFieldId,
     options,
     onSearch,
-    onSelect,
     onChange,
     onKeyDown,
     hasCheckboxes,
-    filter,
     multiSelect,
     children,
     onClose,
@@ -98,9 +111,10 @@ function InputSelectTree({
     className,
     showCheckedStrategy,
     maxTagTextLength,
+    maxTagCount,
     disabled = false,
 }: Props) {
-    const treeExpandedKeys = useRef([])
+    const treeExpandedKeys = useRef<Array<string | number>>([])
     const [searchValue, setSearchValue] = useState('');
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -143,8 +157,7 @@ function InputSelectTree({
         keys(itemsByID).forEach((key) => {
             if (
                 itemsByID[key][parentFieldId] &&
-                itemsByID[itemsByID[key][parentFieldId]] &&
-                itemsByID[itemsByID[key][parentFieldId]].children
+                itemsByID[itemsByID[key][parentFieldId]]
             ) {
                 itemsByID[itemsByID[key][parentFieldId]].children.push({
                     ...itemsByID[key],
@@ -170,42 +183,9 @@ function InputSelectTree({
         parentFieldId, valueFieldId,
     ])
 
-    /**
-     * Функция для поиска.
-     * При поиске вызов функции происходит для каждого элемента дерева.
-     * @param input
-     * @param node
-     * @returns {*}
-     */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handlerFilter = useCallback((input: string, node: any) => {
-        const mode = ['includes', 'startsWith', 'endsWith']
+    const handlerFilter = useCallback(() => (true), [])
 
-        if (mode.includes(filter)) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            return (String.prototype[filter as any] as any).call(
-                node.props[labelFieldId].toLowerCase(),
-                input.toLowerCase(),
-            )
-        }
-
-        return true
-    }, [filter, labelFieldId])
-
-    /**
-     * Функция для обратного преобразования value n2o в формат rcTreeSelect
-     * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
-     * @param value
-     * @returns {*}
-     */
-    const setValue = (value: Props['value']) => {
-        if (!value) { return [] }
-        if (isArray(value)) {
-            return map(value, v => v[valueFieldId])
-        }
-
-        return value[valueFieldId]
-    }
+    const rcValue = useMemo(() => mapValue2RC(value, valueFieldId), [value, valueFieldId])
 
     /**
      * Функция для переопределения onChange
@@ -214,18 +194,7 @@ function InputSelectTree({
     const handleChange = useCallback((value: Props['value']) => {
         onChange(getItemByValue(options, value, multiSelect, valueFieldId))
         onBlur(getItemByValue(options, value, multiSelect, valueFieldId))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [options, multiSelect, onChange, valueFieldId])
-
-    /**
-     * Функция для переопределения onSelect
-     * @param value
-     */
-    const handleSelect = useCallback((value: Props['value']) => {
-        onSelect(getItemByValue(options, value, multiSelect, valueFieldId))
-        onBlur()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [options, multiSelect, onSelect, valueFieldId])
 
     /**
      * Функция для переопределения onSearch
@@ -251,10 +220,7 @@ function InputSelectTree({
         if (visible) {
             onFocus()
         }
-        // onToggle(visible)
-        // setDropdownExpanded(visible)
-
-        if (visible && !options.length) {
+        if (visible) {
             fetchData()
         } else {
             onClose()
@@ -286,6 +252,12 @@ function InputSelectTree({
         />
     )
 
+    const maxTagPlaceholder = useCallback((options = []) => {
+        if (maxTagCount) { return `+ ${options.length}...` }
+
+        return `${t('selected')}: ${options.length}`
+    }, [maxTagCount])
+
     return (
         <div className={classNames(
             'n2o-select-tree-container',
@@ -297,7 +269,7 @@ function InputSelectTree({
         >
             <TreeSelect
                 allowClear={!isEmpty(value)}
-                value={setValue(value)}
+                value={rcValue}
                 onDropdownVisibleChange={handleDropdownVisibleChange}
                 switcherIcon={renderSwitcherIcon}
                 suffixIcon={<Icon name="fa fa-chevron-down" visible={!disabled} />}
@@ -308,10 +280,11 @@ function InputSelectTree({
                 treeNodeFilterProp={labelFieldId}
                 treeNodeLabelProp={labelFieldId}
                 maxTagTextLength={maxTagTextLength}
+                maxTagCount={maxTagCount}
+                maxTagPlaceholder={maxTagPlaceholder}
                 clearIcon={clearIcon} // иконка очищения всего инпута
                 removeIcon={isEmpty(value) ? null : clearIcon} // иконка очищения итема
                 onChange={handleChange}
-                onSelect={handleSelect}
                 onSearch={handleSearch}
                 onKeyDown={onKeyDown}
                 onTreeExpand={onTreeExpand}
@@ -321,7 +294,7 @@ function InputSelectTree({
                 placeholder={searchValue ? null : placeholder}
                 disabled={disabled}
                 searchValue={searchValue}
-                showSearch={!multiSelect}
+                showSearch={true}
                 listHeight={400}
                 prefixCls="n2o-select-tree"
             >
@@ -346,7 +319,6 @@ InputSelectTree.defaultProps = {
     },
     imageFieldId: 'image',
     sortFieldId: 'name',
-    filter: 'startsWith',
     hasCheckboxes: false,
     multiSelect: false,
     options: [],
@@ -358,7 +330,6 @@ InputSelectTree.defaultProps = {
     showSearch: true,
     maxTagTextLength: 10,
     onSearch: () => {},
-    onSelect: () => {},
     onChange: () => {},
     onClose: () => {},
     onToggle: () => {},
@@ -366,7 +337,7 @@ InputSelectTree.defaultProps = {
     onBlur: () => {},
     onInput: () => {},
     t: () => {},
-} as Props
+} as Partial<Props>
 
 type Props = {
     /**
@@ -388,10 +359,6 @@ type Props = {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fetchData?: any,
-    /**
-     * Варианты фильтрации
-     */
-    filter: Filter,
     /**
      * Флаг для показа чекбоксов в элементах дерева. Переводит InputSelectTree в мульти режим
      */
@@ -420,6 +387,7 @@ type Props = {
      * Количество символов выбранных элементов в chechbox режиме
      */
     maxTagTextLength: number,
+    maxTagCount: number,
     /**
      * Мульти выбор значений
      */
@@ -441,7 +409,6 @@ type Props = {
      * Callback на поиск
      */
     onSearch(arg: Props['value']): void,
-    onSelect(arg: Props['value']): void,
     onToggle(arg: boolean): void,
     /**
      * Данные для построения дерева

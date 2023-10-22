@@ -10,15 +10,15 @@ import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLegendIconType;
 @Getter
 @Setter
 public class N2oStandardChart extends N2oAbstractChart {
-    private String xAxisFieldId;
-    private XAxisPosition xAxisPosition;
+    private String xFieldId;
+    private XAxisPosition xPosition;
     private Boolean xHasLabel;
-    private String yAxisFieldId;
-    private YAxisPosition yAxisPosition;
+    private String yFieldId;
+    private YAxisPosition yPosition;
     private Boolean yHasLabel;
     private Integer yMin;
     private Integer yMax;
-    private String gridStrokeDashArray;
+    private String gridStrokeDasharray;
     private Boolean gridHorizontal;
     private Boolean gridVertical;
     private String tooltipSeparator;

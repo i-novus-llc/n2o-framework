@@ -15,7 +15,7 @@ import java.util.Map;
 public class ExportController {
 
     private static final String FILES_DIRECTORY_NAME = System.getProperty("java.io.tmpdir");
-    private static final String FILE_NAME = "export";
+    private static final String FILE_NAME = "export_data";
     private static final String CONTENT_TYPE = "text/";
     private static final String CONTENT_DISPOSITION_FORMAT = "attachment;filename=%s";
     private final DataController dataController;
@@ -31,8 +31,8 @@ public class ExportController {
             response.setStatus(500);
 
         response.setFile(fileBytes);
-        response.setContentType(CONTENT_TYPE + format.toLowerCase());
-        response.setContentDisposition(String.format(CONTENT_DISPOSITION_FORMAT, FILE_NAME + "." + format.toLowerCase()));
+        response.setContentType(CONTENT_TYPE + lowerFormat);
+        response.setContentDisposition(String.format(CONTENT_DISPOSITION_FORMAT, getFileName(lowerFormat)));
         response.setCharacterEncoding(charset);
         response.setContentLength(fileBytes == null ? 0 : fileBytes.length);
 
@@ -41,5 +41,9 @@ public class ExportController {
 
     public GetDataResponse getData(String path, Map<String, String[]> parameters, UserContext user) {
         return dataController.getData(path, parameters, user);
+    }
+
+    private String getFileName(String fileFormat) {
+        return FILE_NAME + "_" + System.currentTimeMillis() + "." + fileFormat;
     }
 }

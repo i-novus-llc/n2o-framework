@@ -62,10 +62,6 @@ export type Props = {
    */
     closePopupOnSelect: boolean,
     /**
-   * Флаг сжатия выбранных элементов
-   */
-    collapseSelected?: boolean,
-    /**
    * Данные для построения дерева
    */
     data: TOption[],
@@ -114,7 +110,7 @@ export type Props = {
     /**
    * От скольки элементов сжимать выбранные элементы
    */
-    lengthToGroup?: number,
+    maxTagCount?: number,
     /**
    * Флаг анимации загрузки
    */

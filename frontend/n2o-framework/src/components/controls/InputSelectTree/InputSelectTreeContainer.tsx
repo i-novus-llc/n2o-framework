@@ -1,17 +1,13 @@
-import React, { Component } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import unionWith from 'lodash/unionWith'
-import map from 'lodash/map'
-import omit from 'lodash/omit'
 import isArray from 'lodash/isArray'
 
 import { Props, defaultProps } from '@i-novus/n2o-components/lib/inputs/InputSelectTree/allProps'
 import { InputSelectTreeComponent } from '@i-novus/n2o-components/lib/inputs/InputSelectTree/InputSelectTree'
 
 import listContainer from '../listContainer'
-// @ts-ignore import from js file
-import propsResolver from '../../../utils/propsResolver'
 
 /**
  * Контейнер для {@link InputSelect}
@@ -38,65 +34,41 @@ import propsResolver from '../../../utils/propsResolver'
  * @reactProps {boolean} closePopupOnSelect - флаг закрытия попапа при выборе
  * @reactProps {boolean} hasCheckboxes - флаг наличия чекбоксов
  * @reactProps {string} format - формат
- * @reactProps {boolean} collapseSelected - флаг сжатия выбранных элементов
- * @reactProps {number} lengthToGroup - от скольки элементов сжимать выбранные элементы
  */
+function InputSelectTreeContainer(props: Props) {
+    const { options, value, ajax } = props
+    const [unionOptions, setOptions] = useState(options)
+    const optionsWithValues = useMemo(() => {
+        if (!value) { return options }
 
-type State = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    options: any[]
-}
+        if (isEmpty(options)) {
+            const values = isArray(value) ? value : [value]
 
-class InputSelectTreeContainer extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props)
-        this.state = {
-            options: overrideOptions(props.options, props.value),
-        }
-    }
-
-    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-        if (nextProps.options !== prevState.options && nextProps.ajax) {
-            return { options: unionWith(nextProps.options, prevState.options, isEqual) }
+            return values as typeof options
         }
 
-        return { options: nextProps.options }
-    }
+        return options
+    }, [value, options])
 
-    render() {
-        const { options } = this.state
-        const { loading, format } = this.props
-
-        let formattedOptions = [...options]
-
-        if (format) {
-            formattedOptions = options
-                .map(option => ({ ...option, formattedTitle: propsResolver({ format }, option).format }))
+    useEffect(() => {
+        if (!isEqual(optionsWithValues, unionOptions)) {
+            if (ajax) {
+                setOptions(unionWith(optionsWithValues, unionOptions, isEqual))
+            } else {
+                setOptions(optionsWithValues)
+            }
         }
+    }, [optionsWithValues, ajax, unionOptions])
 
-        return (
-            <InputSelectTreeComponent
-                {...this.props}
-                options={formattedOptions}
-                loading={loading}
-            />
-        )
-    }
-
-    static defaultProps = defaultProps
+    return (
+        <InputSelectTreeComponent
+            {...props}
+            options={unionOptions}
+        />
+    )
 }
 
-const overrideOptions = (options: Props['options'], value: Props['value']) => {
-    const newValue = isArray(value) ? value : [value]
-
-    if (isEmpty(options) && !isEmpty(value)) {
-        return map(newValue, val => ({
-            ...omit(val, ['hasChildren']),
-        }))
-    }
-
-    return options
-}
+InputSelectTreeContainer.defaultProps = defaultProps
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default listContainer(InputSelectTreeContainer as any)

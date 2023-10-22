@@ -51,6 +51,11 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
+    public void shouldSelectedMultiSize(int size) {
+        selectedItems().shouldHave(CollectionCondition.size(size));
+    }
+
+    @Override
     public void clearUsingIcon() {
         element().$(".n2o-input-clear").hover().shouldBe(Condition.visible).click();
     }

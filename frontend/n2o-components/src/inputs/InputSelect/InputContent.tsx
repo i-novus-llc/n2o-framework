@@ -19,10 +19,8 @@ import { TOption } from './types'
  * @reactProps {array} selected - список выбранных элементов
  * @reactProps {string} labelFieldId - значение ключа label в данных
  * @reactProps {string} valueFieldId
- * @reactProps {function} clearSelected - callback удаление всех выбранных элементов при мульти выборе
  * @reactProps {boolean} multiSelect - фдаг мульти выбора
- * @reactProps {boolean} collapseSelected - флаг сжатия выбранных элементов
- * @reactProps {number} lengthToGroup - от скольки элементов сжимать выбранные элементы
+ * @reactProps {number} [maxTagCount] - от скольки элементов сжимать выбранные элементы
  * @reactProps {number} maxTagTextLength - максимальная длина текста в тэге, до усечения
  * @reactProps {function} onInputChange - callback при изменение инпута
  * @reactProps {function} openPopUp - открытие попапа
@@ -39,14 +37,12 @@ import { TOption } from './types'
 export type Props = {
     activeValueId: string | number,
     autoFocus: boolean,
-    clearSelected(): void,
     closePopUp(arg: boolean): void,
-    collapseSelected: boolean,
     disabled: boolean,
     disabledValues: Array<Props['value']>,
     isExpanded: boolean,
     labelFieldId: string,
-    lengthToGroup: number,
+    maxTagCount: number,
     maxTagTextLength: number,
     mode: string,
     multiSelect: boolean,
@@ -80,10 +76,7 @@ export function InputContent({
     selected,
     labelFieldId,
     valueFieldId,
-    clearSelected,
     multiSelect,
-    collapseSelected,
-    lengthToGroup,
     onInputChange,
     openPopUp,
     closePopUp,
@@ -99,6 +92,7 @@ export function InputContent({
     tags,
     mode,
     maxTagTextLength,
+    maxTagCount,
 }: Props) {
     const setOnlyElementFound = () => {
         if (mode !== 'autocomplete' && !multiSelect && options.length === 1) {
@@ -243,11 +237,9 @@ export function InputContent({
                         selected={selected}
                         labelFieldId={labelFieldId}
                         onRemoveItem={onRemoveItem}
-                        onDeleteAll={clearSelected}
                         disabled={disabled}
-                        collapseSelected={collapseSelected}
-                        lengthToGroup={lengthToGroup}
                         maxTagTextLength={maxTagTextLength}
+                        maxTagCount={maxTagCount}
                     />
                     <textarea
                         onKeyDown={handleKeyDown}
@@ -291,6 +283,5 @@ export function InputContent({
 InputContent.defaultProps = {
     multiSelect: false,
     disabled: false,
-    collapseSelected: true,
     autoFocus: false,
 } as Props

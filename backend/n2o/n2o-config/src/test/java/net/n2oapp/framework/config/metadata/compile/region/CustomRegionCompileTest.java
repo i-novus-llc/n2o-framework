@@ -24,6 +24,7 @@ import static org.hamcrest.Matchers.is;
  * Тестирование компиляции кастомного региона
  */
 public class CustomRegionCompileTest extends SourceCompileTestBase {
+
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -33,7 +34,11 @@ public class CustomRegionCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack());
+        builder.packs(
+                new N2oPagesPack(),
+                new N2oRegionsPack(),
+                new N2oWidgetsPack()
+        );
     }
 
 
@@ -55,11 +60,9 @@ public class CustomRegionCompileTest extends SourceCompileTestBase {
         // region form1
         assertThat(content.get(0), instanceOf(Form.class));
         assertThat(((Form) content.get(0)).getId(), is("testCustomRegionNesting_w1"));
-        assertThat(((Form) content.get(0)).getName(), is("form1"));
         // region form2
         assertThat(content.get(1), instanceOf(Form.class));
         assertThat(((Form) content.get(1)).getId(), is("testCustomRegionNesting_w2"));
-        assertThat(((Form) content.get(1)).getName(), is("form2"));
 
         // REGION2
         assertThat(regions.get(1), instanceOf(CustomRegion.class));
@@ -70,7 +73,6 @@ public class CustomRegionCompileTest extends SourceCompileTestBase {
         // region form3
         assertThat(content.get(0), instanceOf(Form.class));
         assertThat(((Form) content.get(0)).getId(), is("testCustomRegionNesting_w3"));
-        assertThat(((Form) content.get(0)).getName(), is("form3"));
 
         //region region
         assertThat(content.get(1), instanceOf(CustomRegion.class));
@@ -81,12 +83,10 @@ public class CustomRegionCompileTest extends SourceCompileTestBase {
         // region region form4
         assertThat(regionContent.get(0), instanceOf(Form.class));
         assertThat(((Form) regionContent.get(0)).getId(), is("testCustomRegionNesting_w4"));
-        assertThat(((Form) regionContent.get(0)).getName(), is("form4"));
 
         // region form5
         assertThat(content.get(2), instanceOf(Form.class));
         assertThat(((Form) content.get(2)).getId(), is("testCustomRegionNesting_w5"));
-        assertThat(((Form) content.get(2)).getName(), is("form5"));
 
         // REGION3
         assertThat(regions.get(2), instanceOf(CustomRegion.class));
@@ -97,10 +97,8 @@ public class CustomRegionCompileTest extends SourceCompileTestBase {
         // region form6
         assertThat(content.get(0), instanceOf(Form.class));
         assertThat(((Form) content.get(0)).getId(), is("testCustomRegionNesting_w6"));
-        assertThat(((Form) content.get(0)).getName(), is("form6"));
         // region form7
         assertThat(content.get(1), instanceOf(Form.class));
         assertThat(((Form) content.get(1)).getId(), is("testCustomRegionNesting_w7"));
-        assertThat(((Form) content.get(1)).getName(), is("form7"));
     }
 }

@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
  */
 @Getter
 @Setter
-public abstract class N2oDatasource extends N2oAbstractDatasource implements NamespaceUriAware{
+public abstract class N2oDatasource extends N2oAbstractDatasource implements NamespaceUriAware {
 
     private Dependency[] dependencies;
 

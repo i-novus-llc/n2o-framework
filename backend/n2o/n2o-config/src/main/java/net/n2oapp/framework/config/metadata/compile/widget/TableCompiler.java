@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
@@ -165,8 +166,11 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                         p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, scopes)
                 );
                 if (column.getSortingDirection() != null) {
-                    sortings.put(
-                            RouteUtil.normalizeParam(p.cast(column.getSortingFieldId(), column.getTextFieldId())),
+                    String fieldId = p.cast(column.getSortingFieldId(), column.getTextFieldId());
+                    if (fieldId == null)
+                        throw new N2oException(String.format("В колонке <column> c id=%s задан атрибут 'sorting-direction', но не указано поле сортировки. Задайте 'sorting-field-id' или 'text-field-id'",
+                                column.getId()));
+                    sortings.put(RouteUtil.normalizeParam(fieldId),
                             column.getSortingDirection().toString().toUpperCase()
                     );
                 }
@@ -193,7 +197,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     private void initFilter(Table compiled, N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
                             WidgetScope widgetScope, CompiledQuery widgetQuery, CompiledObject object,
                             Object... scopes) {
-        List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope,
+        List<FieldSet> fieldSets = initFieldSets(source.getFilters() == null ? null : source.getFilters().getItems(), context, p, widgetScope,
                 widgetQuery, object, scopes);
         if (fieldSets.isEmpty())
             return;
@@ -202,7 +206,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         filter.setFilterButtonId("filter");
         List<N2oSearchButtons> searchButtons = new ArrayList<>();
         findSearchButton(
-                source.getFilters(),
+                source.getFilters().getItems(),
                 searchButtons
         );
         filter.setBlackResetList(
@@ -214,15 +218,15 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                                 .collect(Collectors.toSet())
                 )
         );
-        filter.setFilterPlace(p.cast(source.getFilterPosition(), FilterPosition.TOP));
+        filter.setFilterPlace(p.cast(source.getFilters().getPlace(), FilterPosition.TOP));
         boolean hasSearchButtons = fieldSets.stream()
                 .flatMap(fs -> fs.getRows() != null ? fs.getRows().stream() : Stream.empty())
                 .flatMap(r -> r.getCols() != null ? r.getCols().stream() : Stream.empty())
                 .flatMap(c -> c.getFields() != null ? c.getFields().stream() : Stream.empty())
-                .filter(f -> f instanceof StandardField)
+                .filter(StandardField.class::isInstance)
                 .map(f -> ((StandardField<?>) f).getControl())
-                .anyMatch(c -> c instanceof SearchButtons);
-        filter.setSearchOnChange(source.getSearchOnChange());
+                .anyMatch(SearchButtons.class::isInstance);
+        filter.setSearchOnChange(source.getFilters().getSearchOnChange());
         if (hasSearchButtons || (filter.getSearchOnChange() != null && filter.getSearchOnChange())) {
             filter.setHideButtons(true);
         }
@@ -248,15 +252,15 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
      * Инициализация встроенного источника данных
      */
     protected void initInlineFiltersDatasource(Table compiled, N2oTable source, CompileProcessor p) {
-        if (source.getFiltersDatasourceId() == null && source.getFiltersDatasource() == null)
+        if (source.getFilters() == null || source.getFilters().getDatasourceId() == null && source.getFilters().getDatasource() == null)
             return;
-        String datasourceId = source.getFiltersDatasourceId();
+        String datasourceId = source.getFilters().getDatasourceId();
         if (datasourceId == null) {
             datasourceId = source.getId() + "_filter";
-            N2oStandardDatasource datasource = source.getFiltersDatasource();
-            source.setFiltersDatasource(null);
+            N2oStandardDatasource datasource = source.getFilters().getDatasource();
+            source.getFilters().setDatasource(null);
             datasource.setId(datasourceId);
-            source.setFiltersDatasourceId(datasourceId);
+            source.getFilters().setDatasourceId(datasourceId);
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             if (dataSourcesScope != null) {
                 dataSourcesScope.put(datasourceId, datasource);

@@ -35,6 +35,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * Проверка получения динамического объекта, запроса, виджета и страницы
  */
 public class DynamicMetadataCompileTest extends SourceCompileTestBase {
+
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -80,7 +81,6 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
         SimplePage dynamicPage = (SimplePage) routeAndGet("/test/route/123/update", Page.class);
         assertThat(dynamicPage.getId(), is("test_route_update"));
         assertThat(dynamicPage.getWidget(), instanceOf(Form.class));
-        assertThat(dynamicPage.getWidget().getName(), is("Dummy"));
         assertThat((((Form) dynamicPage.getWidget()).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
         assertThat(((StandardField) ((Form) dynamicPage.getWidget()).getComponent().getFieldsets().get(0)
@@ -90,7 +90,6 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
         dynamicPage = (SimplePage) routeAndGet("/test/route/second/123/update", Page.class);
         assertThat(dynamicPage.getId(), is("test_route_second_123_update"));
         assertThat(dynamicPage.getWidget(), instanceOf(Form.class));
-        assertThat(dynamicPage.getWidget().getName(), is("123"));
         assertThat((((Form) dynamicPage.getWidget()).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
         assertThat(((StandardField) ((Form) dynamicPage.getWidget()).getComponent().getFieldsets().get(0)

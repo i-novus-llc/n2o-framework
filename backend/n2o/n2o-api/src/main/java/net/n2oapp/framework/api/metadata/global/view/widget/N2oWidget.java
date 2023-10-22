@@ -35,8 +35,8 @@ import java.util.Map;
 public abstract class N2oWidget extends N2oMetadata
         implements SourceComponent, ExtensionAttributesAware, PreFiltersAware, RegionItem,
         DatasourceIdAware, ActionBarAware, ToolbarsAware {
+
     private String src;
-    private String name;
     @Deprecated
     private String route;
     @Deprecated

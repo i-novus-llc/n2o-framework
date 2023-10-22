@@ -1617,9 +1617,14 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="max-tag-count" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Максимальное количество элементов в поле (для режима с множественным выбором).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="max-tag-text-length" type="xs:integer" default="10">
                     <xs:annotation>
-                        <xs:documentation>Максимальная длина текста элемента</xs:documentation>
+                        <xs:documentation>Максимальная длина текста элемента (для режима с множественным выбором).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1664,12 +1669,12 @@
                 </xs:attribute>
                 <xs:attribute name="max-tag-count" type="xs:integer">
                     <xs:annotation>
-                        <xs:documentation>Максимальное количество элементов в поле.</xs:documentation>
+                        <xs:documentation>Максимальное количество элементов в поле (для режима с множественным выбором).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="max-tag-text-length" type="xs:integer" default="10">
                     <xs:annotation>
-                        <xs:documentation>Максимальная длина текста элемента (в режиме чекбоксов).</xs:documentation>
+                        <xs:documentation>Максимальная длина текста элемента (для режима с множественным выбором).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
