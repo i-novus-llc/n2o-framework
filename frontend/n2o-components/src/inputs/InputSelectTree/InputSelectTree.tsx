@@ -6,14 +6,13 @@ import find from 'lodash/find'
 import isArray from 'lodash/isArray'
 import isEmpty from 'lodash/isEmpty'
 import keys from 'lodash/keys'
-import map from 'lodash/map'
 import some from 'lodash/some'
 import isNaN from 'lodash/isNaN'
 import classNames from 'classnames'
 import { withTranslation } from 'react-i18next'
 import onClickOutsideHOC from 'react-onclickoutside'
 
-import { Filter, TOption } from '../InputSelect/types'
+import { TOption } from '../InputSelect/types'
 import { Icon } from '../../display/Icon'
 import { InlineSpinner } from '../../layouts/Spinner/InlineSpinner'
 import { Checkbox } from '../Checkbox/Checkbox'
@@ -83,16 +82,6 @@ function mapValue2RC<
     return getId(value, valueFieldId)
 }
 
-/**
- * @reactProps {function} onBlur
- * @reactProps {string} placeholder
- * @reactProps {function} setTreeExpandedKeys
- * @reactProps {array} treeExpandedKeys
- * @reactProps {node} children
- * @returns {*}
- * @constructor
- * @param props
- */
 function InputSelectTree({
     t,
     fetchData,
@@ -114,7 +103,6 @@ function InputSelectTree({
     onChange,
     onKeyDown,
     hasCheckboxes,
-    filter,
     multiSelect,
     children,
     onClose,
@@ -126,7 +114,7 @@ function InputSelectTree({
     maxTagCount,
     disabled = false,
 }: Props) {
-    const treeExpandedKeys = useRef([])
+    const treeExpandedKeys = useRef<Array<string | number>>([])
     const [searchValue, setSearchValue] = useState('');
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -169,8 +157,7 @@ function InputSelectTree({
         keys(itemsByID).forEach((key) => {
             if (
                 itemsByID[key][parentFieldId] &&
-                itemsByID[itemsByID[key][parentFieldId]] &&
-                itemsByID[itemsByID[key][parentFieldId]].children
+                itemsByID[itemsByID[key][parentFieldId]]
             ) {
                 itemsByID[itemsByID[key][parentFieldId]].children.push({
                     ...itemsByID[key],
@@ -196,27 +183,7 @@ function InputSelectTree({
         parentFieldId, valueFieldId,
     ])
 
-    /**
-     * Функция для поиска.
-     * При поиске вызов функции происходит для каждого элемента дерева.
-     * @param input
-     * @param node
-     * @returns {*}
-     */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handlerFilter = useCallback((input: string, node: any) => {
-        const mode = ['includes', 'startsWith', 'endsWith']
-
-        if (mode.includes(filter)) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            return (String.prototype[filter as any] as any).call(
-                node.props[labelFieldId].toLowerCase(),
-                input.toLowerCase(),
-            )
-        }
-
-        return true
-    }, [filter, labelFieldId])
+    const handlerFilter = useCallback(() => (true), [])
 
     const rcValue = useMemo(() => mapValue2RC(value, valueFieldId), [value, valueFieldId])
 
@@ -327,7 +294,7 @@ function InputSelectTree({
                 placeholder={searchValue ? null : placeholder}
                 disabled={disabled}
                 searchValue={searchValue}
-                showSearch={!multiSelect}
+                showSearch={true}
                 listHeight={400}
                 prefixCls="n2o-select-tree"
             >
@@ -352,7 +319,6 @@ InputSelectTree.defaultProps = {
     },
     imageFieldId: 'image',
     sortFieldId: 'name',
-    filter: 'startsWith',
     hasCheckboxes: false,
     multiSelect: false,
     options: [],
@@ -393,10 +359,6 @@ type Props = {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fetchData?: any,
-    /**
-     * Варианты фильтрации
-     */
-    filter: Filter,
     /**
      * Флаг для показа чекбоксов в элементах дерева. Переводит InputSelectTree в мульти режим
      */
