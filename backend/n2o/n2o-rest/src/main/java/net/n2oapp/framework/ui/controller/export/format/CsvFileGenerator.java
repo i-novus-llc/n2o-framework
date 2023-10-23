@@ -33,8 +33,8 @@ public class CsvFileGenerator implements FileGenerator {
             FileWriter fileWriter = new FileWriter(fullFileName, Charset.forName(charset));
             CSVWriter writer = new CSVWriter(
                     fileWriter, CSV_SEPARATOR,
-                    ICSVWriter.DEFAULT_QUOTE_CHARACTER,
-                    ICSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    '\'',
+                    '\'',
                     ICSVWriter.DEFAULT_LINE_END
             );
 
