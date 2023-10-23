@@ -8,6 +8,7 @@ import isEmpty from 'lodash/isEmpty'
 import keys from 'lodash/keys'
 import map from 'lodash/map'
 import some from 'lodash/some'
+import isNaN from 'lodash/isNaN'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { compose, setDisplayName } from 'recompose'
@@ -74,7 +75,7 @@ const getItemByValue = (data, value, multiSelect, valueFieldId) => {
  * @constructor
  * @param props
  */
-// TODO переделать в класс
+
 function InputSelectTree(props) {
     const {
         t,
@@ -212,10 +213,16 @@ function InputSelectTree(props) {
     const setValue = (value) => {
         if (!value) { return [] }
         if (isArray(value)) {
-            return map(value, v => v[valueFieldId])
+            return map(value, (v) => {
+                const numberValue = Number(v[valueFieldId])
+
+                return isNaN(numberValue) ? v[valueFieldId] : numberValue
+            })
         }
 
-        return value[valueFieldId]
+        const numberValue = Number(value[valueFieldId])
+
+        return isNaN(numberValue) ? value[valueFieldId] : numberValue
     }
 
     /**
