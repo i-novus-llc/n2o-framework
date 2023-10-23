@@ -23,6 +23,7 @@ export interface ExtraValidationConfig {
     expression: string
     min: number
     max: number
+    signal?: AbortSignal
 }
 
 export interface Validation extends ExtraValidationConfig {
