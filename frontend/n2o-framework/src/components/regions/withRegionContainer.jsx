@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect } from 'react'
 import { compose, lifecycle } from 'recompose'
-import { connect } from 'react-redux'
+import { connect, useStore } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
@@ -15,7 +15,7 @@ import {
     unregisterRegion,
 } from '../../ducks/regions/store'
 
-import { setFirstVisibleTab, checkTabVisibility, getFirstVisibleTab } from './helpers'
+import { setFirstAvailableTab, checkTabAvailability, getFirstAvailableTab, getTabMetaById } from './helpers'
 
 export const createRegionContainer = config => (WrappedComponent) => {
     const { listKey } = config
@@ -56,7 +56,9 @@ export const createRegionContainer = config => (WrappedComponent) => {
             parent = null,
         } = props
 
-        const service = { serviceInfo, widgetsState, regionsState }
+        const { getState } = useStore()
+
+        const service = { serviceInfo, widgetsState, regionsState, tabs }
         const isModelDependency = activeTabFieldId && datasource
         const prepared = !isEmpty(tabs) || !isEmpty(serviceInfo) || !isEmpty(widgetsState)
 
@@ -91,12 +93,21 @@ export const createRegionContainer = config => (WrappedComponent) => {
             }
 
             const delay = setTimeout(() => {
+                const state = getState()
+
                 if (isModelDependency) {
                     const model = resolveModel[datasource]
 
                     /** Автовыбор первой видимой вкладки + setResolve если model не существует (initial) **/
                     if (isEmpty(model) || model[activeTabFieldId] === undefined) {
-                        setFirstVisibleTab(service, changeActiveEntity, activeTabFieldId, setResolve, model)
+                        setFirstAvailableTab(
+                            service,
+                            changeActiveEntity,
+                            state,
+                            activeTabFieldId,
+                            setResolve,
+                            model,
+                        )
 
                         return
                     }
@@ -109,7 +120,8 @@ export const createRegionContainer = config => (WrappedComponent) => {
                         return
                     }
 
-                    const visible = checkTabVisibility(service, activeFromResolve)
+                    const tab = getTabMetaById(activeFromResolve, tabs)
+                    const visible = checkTabAvailability(service, tab, state)
 
                     /* TODO пересмотреть обоюдную зависимость, active из resolve model + setModel из табов.
                         текущая реализация:
@@ -119,7 +131,14 @@ export const createRegionContainer = config => (WrappedComponent) => {
                         иначе происходит игнорирование (прим. tabs: { tab1, tab2 }, model: { activeTabFieldId: tab15 }),
                         https://next.test.n2oapp.net/sandbox/view/k0FMU/ */
                     if (!visible) {
-                        setFirstVisibleTab(service, changeActiveEntity, activeTabFieldId, setResolve, model)
+                        setFirstAvailableTab(
+                            service,
+                            changeActiveEntity,
+                            state,
+                            activeTabFieldId,
+                            setResolve,
+                            model,
+                        )
 
                         return
                     }
@@ -132,14 +151,16 @@ export const createRegionContainer = config => (WrappedComponent) => {
 
                 /** activeParam влияет на отображение имени региона в url **/
                 const activeFromQuery = query[regionId] || query[activeParam]
-                const visible = checkTabVisibility(service, activeFromQuery)
+                const tab = getTabMetaById(activeFromQuery, tabs)
+
+                const visible = checkTabAvailability(service, tab, state)
 
                 if (!activeFromQuery || !visible) {
                     /** active отсутствует в query (initial),
                      либо active получен, но таб невидим,
                      active становится первая видимая вкладка **/
 
-                    setFirstVisibleTab(service, changeActiveEntity)
+                    setFirstAvailableTab(service, changeActiveEntity, state)
 
                     return
                 }
@@ -161,13 +182,14 @@ export const createRegionContainer = config => (WrappedComponent) => {
                 return
             }
 
-            const firstVisibleTab = getFirstVisibleTab(service)
+            const state = getState()
+            const firstVisibleTab = getFirstAvailableTab(state, service)
 
             dispatch(setActiveRegion(regionId, firstVisibleTab))
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [widgetsState])
 
-        return <WrappedComponent {...props} changeActiveEntity={changeActiveEntity} />
+        return <WrappedComponent {...props} changeActiveEntity={changeActiveEntity} tabs={tabs} />
     }
 
     const enhance = compose(

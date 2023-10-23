@@ -8,7 +8,8 @@ import { RegionContent } from '../RegionContent'
 import { TabMeta, State as RegionsState } from '../../../ducks/regions/Regions'
 import { ServiceInfo } from '../../../ducks/regions/Actions'
 import { State as WidgetsState } from '../../../ducks/widgets/Widgets'
-import { checkTabVisibility, getTabReduxMeta } from '../helpers'
+import { checkTabAvailability, getTabReduxMeta, VISIBLE, ENABLED } from '../helpers'
+import { State } from '../../../ducks/State'
 
 import { INVALID_TAB_REDUX_KEY, INVALID_TEXT } from './constants'
 
@@ -22,8 +23,7 @@ interface RegionParams {
     tabSubContentClass: string
     regionId: string
 }
-
-const mapping = (tab: TabMeta, regionParams: RegionParams) => {
+const mapping = (tab: TabMeta, regionParams: RegionParams, state: State) => {
     const { content: metaContent, id: tabId } = tab
     const { serviceInfo, regionId } = regionParams
 
@@ -38,7 +38,9 @@ const mapping = (tab: TabMeta, regionParams: RegionParams) => {
         regionsState,
     }
 
-    const visible = checkTabVisibility(service, tabId)
+    const visible = checkTabAvailability(service, tab, state, VISIBLE)
+    const enabled = checkTabAvailability(service, tab, state, ENABLED)
+
     const content = [<RegionContent tabId={tabId} content={metaContent} {...omit(regionParams, ['serviceInfo', 'widgetsState'])} />]
     const tabReduxMeta = getTabReduxMeta(regionsState, regionId, tabId)
     const invalid = get(tabReduxMeta, INVALID_TAB_REDUX_KEY, false)
@@ -47,6 +49,7 @@ const mapping = (tab: TabMeta, regionParams: RegionParams) => {
         ...tab,
         content,
         visible,
+        disabled: !enabled,
         className: classNames({ invalid }),
         tooltip: invalid && INVALID_TEXT,
     }
@@ -56,4 +59,5 @@ const mapping = (tab: TabMeta, regionParams: RegionParams) => {
 export const create = (
     tabsMeta: TabMeta[],
     regionParams: RegionParams,
-) => tabsMeta.map(tab => mapping(tab, regionParams))
+    state: State,
+) => tabsMeta.map(tab => mapping(tab, regionParams, state))
