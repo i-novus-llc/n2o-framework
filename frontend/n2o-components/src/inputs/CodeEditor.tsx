@@ -42,6 +42,7 @@ export const CodeEditor = ({
         >
             <AceEditor
                 style={{ resize: 'vertical' }}
+                className="n2o-ace-editor"
                 mode={lang}
                 theme="tomorrow"
                 name={name}
