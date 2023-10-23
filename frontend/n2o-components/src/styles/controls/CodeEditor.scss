@@ -1,8 +1,13 @@
 .n2o-code-editor {
     display: flex;
     border: 1px solid #d1d1d1;
+    width: 100%;
 
     .ace_print-margin {
         display: none;
+    }
+
+    .n2o-ace-editor {
+        width: 100% !important;
     }
 }
