@@ -12,7 +12,6 @@ import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
 import org.apache.catalina.util.ParameterMap;
-import org.hamcrest.core.Is;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -34,10 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -80,11 +76,11 @@ public class SandboxExportTest {
     @SneakyThrows
     @Test
     public void export() {
-        String expectedBody = "id;name\n" +
-                "1;test1\n" +
-                "2;test2\n" +
-                "3;test3\n" +
-                "4;test4\n";
+        String expectedBody = "\"\"\"id\"\"\";\"\"\"name\"\"\"\n" +
+                "1;\"\"\"test1\"\"\"\n" +
+                "2;\"\"\"test2\"\"\"\n" +
+                "3;\"\"\"test3\"\"\"\n" +
+                "4;\"\"\"test4\"\"\"\n";
 
         request.setRequestURI("/sandbox/view/myProjectId/n2o/export/_w1");
         request.setParameters(new ParameterMap<>(Map.of(
@@ -99,29 +95,29 @@ public class SandboxExportTest {
         wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
         wireMockServer.stubFor(get("/project/myProjectId/test.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody(
                 "[\n" +
-                "  {\n" +
-                "    \"id\": 1,\n" +
-                "    \"name\": \"test1\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 2,\n" +
-                "    \"name\": \"test2\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 3,\n" +
-                "    \"name\": \"test3\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 4,\n" +
-                "    \"name\": \"test4\"\n" +
-                "  }\n" +
-                "]")));
+                        "  {\n" +
+                        "    \"id\": 1,\n" +
+                        "    \"name\": \"test1\"\n" +
+                        "  },\n" +
+                        "  {\n" +
+                        "    \"id\": 2,\n" +
+                        "    \"name\": \"test2\"\n" +
+                        "  },\n" +
+                        "  {\n" +
+                        "    \"id\": 3,\n" +
+                        "    \"name\": \"test3\"\n" +
+                        "  },\n" +
+                        "  {\n" +
+                        "    \"id\": 4,\n" +
+                        "    \"name\": \"test4\"\n" +
+                        "  }\n" +
+                        "]")));
 
         ResponseEntity<byte[]> response = viewController.export("myProjectId", request);
         assertThat(response.getStatusCodeValue(), is(200));
         assertThat(response.getBody(), is(expectedBody.getBytes(StandardCharsets.UTF_8)));
         HttpHeaders headers = response.getHeaders();
-        assertThat(headers.getContentDisposition().toString().matches("attachment; filename=\"export_data_\\d{13}\\.csv\""), Is.is(true));
+        assertThat(headers.getContentDisposition().toString().matches("attachment; filename=\"export_data_\\d{13}\\.csv\""), is(true));
 
         Optional<MediaType> contentType = Optional.ofNullable(headers.getContentType());
         assertTrue(contentType.isPresent());

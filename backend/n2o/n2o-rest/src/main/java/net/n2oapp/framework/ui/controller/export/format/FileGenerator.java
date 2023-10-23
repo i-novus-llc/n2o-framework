@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface FileGenerator {
 
-    byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data);
+    byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data, List<String> headers);
 
     String getFormat();
 }

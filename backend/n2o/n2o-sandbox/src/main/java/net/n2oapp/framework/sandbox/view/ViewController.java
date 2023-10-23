@@ -215,7 +215,7 @@ public class ViewController {
 
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
             FileGeneratorFactory fileGeneratorFactory = new FileGeneratorFactory(List.of(new CsvFileGenerator()));
-            ExportController exportController = new ExportController(dataController, fileGeneratorFactory);
+            ExportController exportController = new ExportController(builder.getEnvironment(), dataController, fileGeneratorFactory);
 
             String url = request.getParameter("url");
             String format = request.getParameter("format");
@@ -223,12 +223,11 @@ public class ViewController {
 
             String dataPrefix = "/n2o/data";
             String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
+            Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(url));
 
-            GetDataResponse dataResponse = exportController.getData(
-                    path,
-                    RouteUtil.parseQueryParams(RouteUtil.parseQuery(url)),
-                    new UserContext(sandboxContext));
-            ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset);
+            GetDataResponse dataResponse = exportController.getData(path, params, new UserContext(sandboxContext));
+            Map<String, String> headers = exportController.getHeaders(path, params);
+            ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset, headers);
 
             return ResponseEntity.status(exportResponse.getStatus())
                     .contentLength(exportResponse.getContentLength())
