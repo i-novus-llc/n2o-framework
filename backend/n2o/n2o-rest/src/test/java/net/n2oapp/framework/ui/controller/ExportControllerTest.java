@@ -52,10 +52,10 @@ public class ExportControllerTest extends DataControllerTestBase {
         ExportResponse export = exportController.export(list, "csv", "UTF-8", headers);
 
         String act = new String(export.getFile(), StandardCharsets.UTF_8);
-        String exp = "\"\"\"Идентификатор\"\"\";\"\"\"Наименование\"\"\";\"\"\"Список\"\"\"\n" +
-                "1;\"\"\"test1\"\"\";[1, 2, 3]\n" +
-                "2;\"\"\"test2\"\"\";[1, 2, 3]\n" +
-                "3;\"\"\"test3\"\"\";[1, 2, 3]\n";
+        String exp = "\"Идентификатор\";\"Наименование\";\"Список\"\n" +
+                "1;\"test1\";[1, 2, 3]\n" +
+                "2;\"test2\";[1, 2, 3]\n" +
+                "3;\"test3\";[1, 2, 3]\n";
 
         assertThat(act, is(exp));
         assertThat(export.getCharacterEncoding(), is("UTF-8"));

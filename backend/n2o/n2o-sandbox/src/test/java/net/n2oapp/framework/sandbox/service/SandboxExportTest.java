@@ -76,11 +76,11 @@ public class SandboxExportTest {
     @SneakyThrows
     @Test
     public void export() {
-        String expectedBody = "\"\"\"id\"\"\";\"\"\"name\"\"\"\n" +
-                "1;\"\"\"test1\"\"\"\n" +
-                "2;\"\"\"test2\"\"\"\n" +
-                "3;\"\"\"test3\"\"\"\n" +
-                "4;\"\"\"test4\"\"\"\n";
+        String expectedBody = "\"id\";\"name\"\n" +
+                "1;\"test1\"\n" +
+                "2;\"test2\"\n" +
+                "3;\"test3\"\n" +
+                "4;\"test4\"\n";
 
         request.setRequestURI("/sandbox/view/myProjectId/n2o/export/_w1");
         request.setParameters(new ParameterMap<>(Map.of(
