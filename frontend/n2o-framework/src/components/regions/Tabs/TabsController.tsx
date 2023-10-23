@@ -1,4 +1,5 @@
 import React, { ComponentType, CSSProperties } from 'react'
+import { useStore } from 'react-redux'
 import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 
@@ -40,7 +41,10 @@ interface Tabs extends Props {
 }
 
 export function TabsController<TProps extends Tabs>(Component: ComponentType<TProps>): ComponentType<TProps> {
-    return (props: TProps) => {
+    function Wrapper(props: TProps) {
+        const { getState } = useStore()
+        const state = getState()
+
         const {
             tabs: tabsMeta, id: regionId, pageId, activeEntity: active,
             lazy, serviceInfo, widgetsState, regionsState,
@@ -57,7 +61,8 @@ export function TabsController<TProps extends Tabs>(Component: ComponentType<TPr
             regionsState,
             tabSubContentClass: 'tab-sub-content',
         }
-        const tabs = create(tabsMeta, regionParams)
+
+        const tabs = create(tabsMeta, regionParams, state)
 
         if (isEmpty(tabs)) {
             return null
@@ -77,4 +82,6 @@ export function TabsController<TProps extends Tabs>(Component: ComponentType<TPr
             />
         )
     }
+
+    return Wrapper
 }

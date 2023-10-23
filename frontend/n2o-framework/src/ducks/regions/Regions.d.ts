@@ -2,20 +2,26 @@ import { Tab } from '@i-novus/n2o-components/lib/display/Tabs/Tabs'
 
 import { ServiceInfo } from './Actions'
 
-interface IVisibleDependency {
-    on: string
-    condition: string
+interface ConditionParams {
+    expression: string
+    modelLink: string
+}
+
+interface Condition {
+    enabled?: ConditionParams[]
+    visible?: ConditionParams[]
 }
 
 export interface TabMeta {
     content: ContentMeta[]
-    disabled: boolean
+    enabled?: boolean
+    visible?: boolean
+    conditions?: Condition
     icon?: string
     id: string
     invalid?: boolean
     label: string
     opened: boolean
-    visible?: boolean
     tooltip?: string
     className?: string
 }
