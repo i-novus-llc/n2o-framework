@@ -6,14 +6,14 @@ import { ElementVisibility, WindowType } from '../../components/core/WindowType'
 import { resolveText } from './helpers'
 import { PositionedText } from './PositionedText'
 
-interface FooterProps {
+interface Props {
     textRight?: string
     textLeft?: string
     className?: string
     style?: CSSProperties
 }
 
-function Footer(props: FooterProps) {
+function Footer(props: Props) {
     const { textRight, textLeft, className, style } = props
     const { N2O_ELEMENT_VISIBILITY = {} as ElementVisibility } = window as WindowType
 
@@ -24,7 +24,7 @@ function Footer(props: FooterProps) {
     }
 
     return (
-        <footer className={classNames('n2o-footer bg-dark py-2', className)} style={currentStyle}>
+        <footer className={classNames('n2o-footer py-2', className)} style={currentStyle}>
             <div className="container-fluid text-white d-flex">
                 <PositionedText text={resolveText(textLeft)} position="left" />
                 <PositionedText text={resolveText(textRight)} position="right" />
