@@ -4,7 +4,6 @@ package net.n2oapp.framework.config.io.widget.v5;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
-import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oEnablingDependency;
@@ -21,6 +20,7 @@ import org.jdom2.Namespace;
  * Чтение\запись виджета версии 5.0
  */
 public abstract class WidgetElementIOv5<T extends N2oWidget> implements NamespaceIO<T>, WidgetIOv5 {
+
     private Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
 
     @Override
@@ -30,7 +30,6 @@ public abstract class WidgetElementIOv5<T extends N2oWidget> implements Namespac
         p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "class", m::getCssClass, m::setCssClass);
         p.attribute(e, "style", m::getStyle, m::setStyle);
-        p.attribute(e, "name", m::getName, m::setName);
         p.attribute(e, "visible", m::getVisible, m::setVisible);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.attributeBoolean(e, "fetch-on-init", m::getFetchOnInit, m::setFetchOnInit);

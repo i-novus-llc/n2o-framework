@@ -63,7 +63,6 @@ public class N2oTabsRegion extends N2oRegion implements RegionItem, RoutableRegi
             Tab[] tabs = new Tab[widgets.length];
             for (int i = 0; i < widgets.length; i++) {
                 Tab tab = new Tab();
-                tab.setName(widgets[i].getName());
                 tab.setContent(new SourceComponent[]{widgets[i]});
                 tabs[i] = tab;
             }

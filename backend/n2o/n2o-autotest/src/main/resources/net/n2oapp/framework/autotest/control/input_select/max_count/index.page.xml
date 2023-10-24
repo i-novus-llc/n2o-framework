@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Автотест на проверку max-tag-count у input-select">
+    <form>
+        <fields>
+            <set label="unlimited">
+                <row>
+                    <input-select id="checkboxes"
+                        query-id="test"
+                        type="checkboxes"
+                    />
+                    <input-select id="multi"
+                        query-id="test"
+                        type="multi"
+                    />
+                </row>
+            </set>
+            <set label="single">
+                <row>
+                    <input-select id="checkboxes"
+                        query-id="test"
+                        type="checkboxes"
+                        max-tag-count="0"
+                    />
+                    <input-select id="multi"
+                        query-id="test"
+                        type="multi"
+                        max-tag-count="0"
+                    />
+                </row>
+            </set>
+            <set label="few">
+                <row>
+                    <input-select id="checkboxes"
+                        query-id="test"
+                        type="checkboxes"
+                        max-tag-count="3"
+                    />
+                    <input-select id="multi"
+                        query-id="test"
+                        type="multi"
+                        max-tag-count="3"
+                    />
+                </row>
+            </set>
+        </fields>
+    </form>
+</simple-page>

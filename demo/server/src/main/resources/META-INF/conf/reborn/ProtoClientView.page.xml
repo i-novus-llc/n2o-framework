@@ -1,9 +1,11 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <form query-id="ProtoClient" name="${client.view}">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="${client.view}">
+    <form query-id="ProtoClient">
         <fields>
             <row>
-                <input-text label="${surname}" id="surname" required="true" placeholder="Введите значение" enabled="false"/>
-                <input-text label="${name}" id="name" required="true"  enabled="false"/>
+                <input-text label="${surname}" id="surname" required="true" placeholder="Введите значение"
+                            enabled="false"/>
+                <input-text label="${name}" id="name" required="true" enabled="false"/>
                 <input-text label="${patronymic}" id="patrName" default-value="Тест" enabled="false"/>
             </row>
             <line>

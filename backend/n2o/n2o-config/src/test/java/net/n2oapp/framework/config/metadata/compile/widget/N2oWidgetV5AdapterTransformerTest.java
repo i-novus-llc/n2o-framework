@@ -66,6 +66,6 @@ public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
                 .merge().transform().get("testTableTransformer", N2oTable.class);
         assertThat(table.getDatasource().getQueryId(), is("test"));
         assertThat(table.getDatasource().getObjectId(), is("test"));
-        assertThat(table.getFiltersDatasource().getQueryId(), is("test"));
+        assertThat(table.getFilters().getDatasource().getQueryId(), is("test"));
     }
 }

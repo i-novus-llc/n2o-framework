@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.action;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterType;
@@ -81,6 +82,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private Target redirectTargetAfterSubmit;
     @Deprecated
     private Boolean refreshAfterSubmit;
+    @JsonProperty("refreshDatasources")
     private String[] refreshDatasourceIds;
     //on resolve
     private String labelFieldId;

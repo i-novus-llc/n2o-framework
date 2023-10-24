@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  * Тестирование компиляции региона в виде вкладок
  */
 public class TabsRegionCompileTest extends SourceCompileTestBase {
+
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -40,7 +41,11 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack());
+        builder.packs(
+                new N2oPagesPack(),
+                new N2oRegionsPack(),
+                new N2oWidgetsPack()
+        );
     }
 
     @Test
@@ -72,7 +77,6 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         // tab1 form
         assertThat(content.get(0), instanceOf(Form.class));
         assertThat(((Form) content.get(0)).getId(), is("testTabsRegion_tab1"));
-        assertThat(((Form) content.get(0)).getName(), is("form1"));
         // tab1 tabs
         assertThat(content.get(1), instanceOf(TabsRegion.class));
         List<TabsRegion.Tab> tabsItems = ((TabsRegion) content.get(1)).getItems();
@@ -87,10 +91,9 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(tab2.getConditions().get(ValidationType.visible).get(0).getExpression(), is("id!=1"));
         assertThat(tab2.getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['testTabsRegion_ds1']"));
         // tab1 tabs tab2 form
-        assertThat(tab2.getContent().size(), is(1));
-        assertThat(tab2.getContent().get(0), instanceOf(Form.class));
-        assertThat(((Form) tab2.getContent().get(0)).getId(), is("testTabsRegion_tab2"));
-        assertThat(((Form) tab2.getContent().get(0)).getName(), is("form2"));
+        assertThat(tabsItems.get(0).getContent().size(), is(1));
+        assertThat(tabsItems.get(0).getContent().get(0), instanceOf(Form.class));
+        assertThat(((Form) tabsItems.get(0).getContent().get(0)).getId(), is("testTabsRegion_tab2"));
 
         // TABS2
         TabsRegion region = (TabsRegion) regions.get(1);
@@ -109,10 +112,8 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(content.size(), is(2));
         assertThat(content.get(0), instanceOf(Table.class));
         assertThat(((Table) content.get(0)).getId(), is("testTabsRegion_tab4"));
-        assertThat(((Table) content.get(0)).getName(), is("table1"));
         assertThat(content.get(1), instanceOf(Table.class));
         assertThat(((Table) content.get(1)).getId(), is("testTabsRegion_tab5"));
-        assertThat(((Table) content.get(1)).getName(), is("table2"));
 
         // TABS3
         region = (TabsRegion) regions.get(2);

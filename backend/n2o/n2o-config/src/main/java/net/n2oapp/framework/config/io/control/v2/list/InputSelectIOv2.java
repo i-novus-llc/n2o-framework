@@ -15,6 +15,7 @@ public class InputSelectIOv2 extends ListFieldIOv2<N2oInputSelect> {
         p.attributeEnum(e, "type", m::getType, m::setType, ListType.class);
         p.attributeBoolean(e, "reset-on-blur", m::getResetOnBlur, m::setResetOnBlur);
         p.attribute(e, "description-field-id", m::getDescriptionFieldId, m::setDescriptionFieldId);
+        p.attributeInteger(e, "max-tag-count", m::getMaxTagCount, m::setMaxTagCount);
         p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
     }
 

@@ -6,11 +6,11 @@ import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.ui.N2oAlertMessagesConstructor;
-import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 import net.n2oapp.framework.ui.controller.DataController;
-import net.n2oapp.framework.ui.controller.export.ExportController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.SetController;
+import net.n2oapp.framework.ui.controller.export.ExportController;
+import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 import net.n2oapp.framework.ui.controller.query.GetController;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -53,8 +53,9 @@ public class N2oRestConfiguration {
     }
 
     @Bean
-    public ExportController exportController(DataController dataController, FileGeneratorFactory fileGeneratorFactory) {
-        return new ExportController(dataController, fileGeneratorFactory);
+    public ExportController exportController(MetadataEnvironment environment, DataController dataController,
+                                             FileGeneratorFactory fileGeneratorFactory) {
+        return new ExportController(environment, dataController, fileGeneratorFactory);
     }
 
     @Bean

@@ -1,4 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <form name="${person.name}"/>
+    <form>
+        <fields>
+            <input-text id="text" label="${person.name}"/>
+        </fields>
+    </form>
 </simple-page>

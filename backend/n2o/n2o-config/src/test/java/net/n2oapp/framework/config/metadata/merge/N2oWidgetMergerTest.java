@@ -54,7 +54,6 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
                 .get("parentWidgetForm", N2oForm.class);
         assertThat(widget, notNullValue());
         assertThat(widget.getDependsOn(), is("child"));
-        assertThat(widget.getName(), is("Child"));
         assertThat(widget.getQueryId(), is("parent"));
         assertThat(widget.getObjectId(), is("parent"));
         assertThat(widget.getPreFilters().length, is(2));
@@ -93,16 +92,16 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(table.getWidth(), is("200px"));
         assertThat(table.getTextWrap(), is(true));
         assertThat(table.getChildren(), is(ChildrenToggle.EXPAND));
-        assertThat(table.getSearchOnChange(), is(true));
-        assertThat(table.getFiltersDatasource().getQueryId(), is("test"));
-        assertThat(table.getFilterPosition(), is(FilterPosition.LEFT));
+        assertThat(table.getFilters().getSearchOnChange(), is(true));
+        assertThat(table.getFilters().getDatasource().getQueryId(), is("test"));
+        assertThat(table.getFilters().getPlace(), is(FilterPosition.LEFT));
 
         AbstractColumn[] columns = table.getColumns();
         assertThat(columns.length, is(2));
         assertThat(columns[0].getTextFieldId(), is("test2"));
         assertThat(columns[1].getTextFieldId(), is("test1"));
 
-        SourceComponent[] filters = table.getFilters();
+        SourceComponent[] filters = table.getFilters().getItems();
         assertThat(columns.length, is(2));
         assertThat(((N2oInputSelect) filters[0]).getId(), is("test2"));
         assertThat(((N2oInputText) filters[1]).getId(), is("test1"));
@@ -127,17 +126,17 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(table.getWidth(), is("200px"));
         assertThat(table.getTextWrap(), is(true));
         assertThat(table.getChildren(), is(ChildrenToggle.EXPAND));
-        assertThat(table.getSearchOnChange(), is(true));
+        assertThat(table.getFilters().getSearchOnChange(), is(true));
         assertThat(table.getDatasourceId(), is("ds"));
-        assertThat(table.getFiltersDatasourceId(), is("ds_filter"));
-        assertThat(table.getFilterPosition(), is(FilterPosition.LEFT));
+        assertThat(table.getFilters().getDatasourceId(), is("ds_filter"));
+        assertThat(table.getFilters().getPlace(), is(FilterPosition.LEFT));
 
         AbstractColumn[] columns = table.getColumns();
         assertThat(columns.length, is(2));
         assertThat(columns[0].getTextFieldId(), is("test2"));
         assertThat(columns[1].getTextFieldId(), is("test1"));
 
-        SourceComponent[] filters = table.getFilters();
+        SourceComponent[] filters = table.getFilters().getItems();
         assertThat(columns.length, is(2));
         assertThat(((N2oInputSelect) filters[0]).getId(), is("test2"));
         assertThat(((N2oInputText) filters[1]).getId(), is("test1"));

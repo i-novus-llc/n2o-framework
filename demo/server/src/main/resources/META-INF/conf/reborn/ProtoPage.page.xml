@@ -11,7 +11,7 @@
                 <eq field-id="individualId" value="{id}" datasource="clientsDs" required="true"/>
             </filters>
         </datasource>
-        <datasource id="clientCard" query-id="ProtoClient" >
+        <datasource id="clientCard" query-id="ProtoClient">
             <dependencies>
                 <fetch on="clientsDs"/>
             </dependencies>
@@ -43,7 +43,7 @@
     </toolbar>
     <left width="60%">
         <panel place="left" collapsible="false" title="${clients.title}">
-            <table id="clients" datasource="clientsDs" name="${clients.table.name}" selection="checkbox"
+            <table id="clients" datasource="clientsDs" selection="checkbox"
                    route="/">
                 <actions>
                     <action id="update_birthday">
@@ -245,7 +245,7 @@
     </left>
     <right>
         <panel place="right" title="${contacts}">
-            <list datasource="contacts" name="contacts">
+            <list datasource="contacts">
                 <dependencies>
                     <visibility datasource="clientsDs" model="resolve">name != 'Мария'</visibility>
                 </dependencies>

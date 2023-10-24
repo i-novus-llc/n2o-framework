@@ -1,9 +1,11 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.N2oComponent;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
@@ -13,25 +15,30 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 @Setter
 @N2oComponent
 public class N2oTable extends N2oAbstractTable {
-    @N2oAttribute("Позиция фильтров")
-    private FilterPosition filterPosition;
-    @N2oAttribute("Список фильтров")
-    private SourceComponent[] filters;
-    private String filtersDatasourceId;
-    private N2oStandardDatasource filtersDatasource;
-    @Deprecated
-    private String filtersDefaultValuesQueryId;
-    private Boolean searchOnChange;
+    private N2oTableFilters filters;
     @N2oAttribute("Тип отображения дочерних строк таблицы")
     private ChildrenToggle children;
+
+    @Getter
+    @Setter
+    public static class N2oTableFilters implements Source {
+        private FilterPosition place;
+        private Boolean searchOnChange;
+        private SourceComponent[] items;
+        private String datasourceId;
+        @JsonIgnore
+        private N2oStandardDatasource datasource;
+        @Deprecated
+        private String defaultValuesQueryId;
+    }
 
     @Deprecated
     public void adapterV4() {
         super.adapterV4();
-        if (getFiltersDefaultValuesQueryId() != null) {
+        if (getFilters() != null && getFilters().getDefaultValuesQueryId() != null) {
             N2oStandardDatasource datasource = new N2oStandardDatasource();
-            setFiltersDatasource(datasource);
-            datasource.setQueryId(getFiltersDefaultValuesQueryId());
+            getFilters().setDatasource(datasource);
+            datasource.setQueryId(getFilters().getDefaultValuesQueryId());
             datasource.setDefaultValuesMode(DefaultValuesMode.merge);
         }
     }

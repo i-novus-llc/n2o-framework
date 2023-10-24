@@ -16,15 +16,15 @@ public abstract class StandardChartIOv4<T extends N2oStandardChart> extends Abst
     @Override
     public void io(Element e, T c, IOProcessor p) {
         super.io(e, c, p);
-        p.attribute(e, "x-field-id", c::getXAxisFieldId, c::setXAxisFieldId);
-        p.attributeEnum(e, "x-position", c::getXAxisPosition, c::setXAxisPosition, N2oStandardChart.XAxisPosition.class);
+        p.attribute(e, "x-field-id", c::getXFieldId, c::setXFieldId);
+        p.attributeEnum(e, "x-position", c::getXPosition, c::setXPosition, N2oStandardChart.XAxisPosition.class);
         p.attributeBoolean(e, "x-has-label", c::getXHasLabel, c::setXHasLabel);
-        p.attribute(e, "y-field-id", c::getYAxisFieldId, c::setYAxisFieldId);
-        p.attributeEnum(e, "y-position", c::getYAxisPosition, c::setYAxisPosition, N2oStandardChart.YAxisPosition.class);
+        p.attribute(e, "y-field-id", c::getYFieldId, c::setYFieldId);
+        p.attributeEnum(e, "y-position", c::getYPosition, c::setYPosition, N2oStandardChart.YAxisPosition.class);
         p.attributeBoolean(e, "y-has-label", c::getYHasLabel, c::setYHasLabel);
         p.attributeInteger(e, "y-min", c::getYMin, c::setYMin);
         p.attributeInteger(e, "y-max", c::getYMax, c::setYMax);
-        p.attribute(e, "grid-stroke-dasharray", c::getGridStrokeDashArray, c::setGridStrokeDashArray);
+        p.attribute(e, "grid-stroke-dasharray", c::getGridStrokeDasharray, c::setGridStrokeDasharray);
         p.attributeBoolean(e, "grid-horizontal", c::getGridHorizontal, c::setGridHorizontal);
         p.attributeBoolean(e, "grid-vertical", c::getGridVertical, c::setGridVertical);
         p.attribute(e, "tooltip-separator", c::getTooltipSeparator, c::setTooltipSeparator);

@@ -18,13 +18,17 @@ public class N2oTableMerger extends N2oWidgetMerger<N2oTable> {
         setIfNotNull(source::setWidth, override::getWidth);
         setIfNotNull(source::setHeight, override::getHeight);
         setIfNotNull(source::setTextWrap, override::getTextWrap);
-        setIfNotNull(source::setFilterPosition, override::getFilterPosition);
-        setIfNotNull(source::setFiltersDatasourceId, override::getFiltersDatasourceId);
-        setIfNotNull(source::setFiltersDatasource, override::getFiltersDatasource);
-        setIfNotNull(source::setSearchOnChange, override::getSearchOnChange);
+        if (override.getFilters() != null) {
+            if (source.getFilters() == null)
+                source.setFilters(new N2oTable.N2oTableFilters());
+            setIfNotNull(source.getFilters()::setPlace, override.getFilters()::getPlace);
+            setIfNotNull(source.getFilters()::setDatasourceId, override.getFilters()::getDatasourceId);
+            setIfNotNull(source.getFilters()::setDatasource, override.getFilters()::getDatasource);
+            setIfNotNull(source.getFilters()::setSearchOnChange, override.getFilters()::getSearchOnChange);
+            addIfNotNull(source.getFilters(), override.getFilters(), N2oTable.N2oTableFilters::setItems, N2oTable.N2oTableFilters::getItems);
+        }
         setIfNotNull(source::setChildren, override::getChildren);
         addIfNotNull(source, override, N2oTable::setColumns, N2oTable::getColumns);
-        addIfNotNull(source, override, N2oTable::setFilters, N2oTable::getFilters);
         return source;
     }
 

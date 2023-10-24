@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshAction;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -262,6 +263,10 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(((ShowModal) button.getAction()).getPayload().getPageUrl(), Matchers.is("/export/exportModal"));
         assertThat(button.getHint(), is("Экспортировать"));
         assertThat(button.getIcon(), is("fa fa-share-square-o"));
+        assertThat(button.getConditions().size(), is(1));
+        assertThat(button.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("this.length > 0"));
+        assertThat(button.getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.datasource['export_ds1']"));
+        assertThat(button.getConditions().get(ValidationType.enabled).get(0).getMessage(), is("Недоступно при пустых данных"));
 
         PageContext modalPageContext = (PageContext) route("/export/exportModal", Page.class);
         assertThat(modalPageContext.getParentDatasourceIdsMap().size(), is(1));

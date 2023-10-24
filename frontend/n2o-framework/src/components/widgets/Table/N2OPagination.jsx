@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 
-import { Pagination } from '../../snippets/Pagination/Pagination'
+import { FactoryContext } from '../../../core/factory/context'
+import { SNIPPETS } from '../../../core/factory/factoryLevels'
 
 /**
  * Компонент табличной пейджинации. По `widgetId` автоматически определяет все свойства для `Paging`
@@ -22,13 +23,15 @@ export const N2OPagination = (props) => {
         count,
         visible = true,
     } = props
-
+    const { getComponent } = useContext(FactoryContext)
     const showCount = propShowCount || !isEmpty(datasource)
     const calculatedHasNext = count ? hasNext : (!loading && hasNext)
 
     if (!visible) {
         return null
     }
+
+    const Pagination = getComponent('Pagination', SNIPPETS)
 
     return (
         <Pagination

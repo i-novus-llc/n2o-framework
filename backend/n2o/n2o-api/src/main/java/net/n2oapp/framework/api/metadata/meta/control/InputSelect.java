@@ -19,6 +19,8 @@ public class InputSelect extends ListControl {
     @JsonProperty
     private String descriptionFieldId;
     @JsonProperty
+    private Integer maxTagCount;
+    @JsonProperty
     private Integer maxTagTextLength;
     @JsonProperty
     private Integer throttleDelay;

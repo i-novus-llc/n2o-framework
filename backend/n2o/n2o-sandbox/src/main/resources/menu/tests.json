@@ -737,7 +737,15 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/fileupload",
-          "name": "FileUploadAT"
+          "name": "FileUploadAT. wrongRestTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/fileupload",
+          "name": "FileUploadAT. oneFileUploadTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/fileupload/cleanable",
+          "name": "FileUploadAT. fileUploaderCleanable"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/html/simple",
@@ -790,6 +798,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/control/input_select/inputUsingEnter",
           "name": "InputSelectAT. inputUsingEnter"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/max_count",
+          "name": "InputSelectAT. testMaxTagsCount"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/input_text/simple",
@@ -898,6 +910,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/control/select_tree/throttle_delay",
           "name": "InputSelectTreeAT. testSearchMinLength"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select_tree/max_count",
+          "name": "InputSelectTreeAT. testMaxTagsCount"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/slider",

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
-       name="Моя таблица" src="testSrc" datasource="ds1"
+       src="testSrc" datasource="ds1"
        icon="testIcon" class="testClass" selection="radio" visible="true"
        width="300px" height="300px" text-wrap="false" children="expand"
        auto-select="false" fetch-on-init="false">

@@ -98,6 +98,7 @@ public class TableSettingsGeneratorUtil {
         downloadBtn.setLabel("Загрузить");
         downloadBtn.setIcon("fa fa-download");
         downloadBtn.setColor("primary");
+
         N2oCustomAction downloadAction = new N2oCustomAction();
         Map<String, String> payload = new HashMap<>();
         payload.put("baseURL", exportUrl);
@@ -127,6 +128,12 @@ public class TableSettingsGeneratorUtil {
         fillButton(exportButton, toolbar.getIsGeneratedForSubMenu(), "export", p);
         exportButton.setActions(new N2oShowModal[]{showModalAction});
         exportButton.setModel(ReduxModel.filter);
+        N2oButton.EnablingDependency dependency = new N2oButton.EnablingDependency();
+        dependency.setMessage("Недоступно при пустых данных");
+        dependency.setValue("this.length > 0");
+        dependency.setDatasource(datasourceId);
+        dependency.setModel(ReduxModel.datasource);
+        exportButton.setDependencies(new N2oButton.Dependency[]{dependency});
 
         return exportButton;
     }

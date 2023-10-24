@@ -16,6 +16,7 @@ import static org.hamcrest.Matchers.is;
  * Тестирование компиляции виджета Диаграмма
  */
 public class ChartWidgetCompileTest extends SourceCompileTestBase {
+
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -25,7 +26,13 @@ public class ChartWidgetCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oChartsPack(), new N2oAllDataPack());
+        builder.packs(
+                new N2oPagesPack(),
+                new N2oRegionsPack(),
+                new N2oWidgetsPack(),
+                new N2oChartsPack(),
+                new N2oAllDataPack()
+        );
     }
 
     @Test
@@ -34,11 +41,9 @@ public class ChartWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testChartCompile"));
         Chart chart = (Chart) page.getWidget();
         assertThat(chart.getSrc(), is("ChartWidget"));
-        assertThat(chart.getName(), is("testChart"));
         assertThat(chart.getComponent().getWidth(), is("600px"));
         assertThat(chart.getComponent().getHeight(), is("400px"));
         assertThat(chart.getComponent().getSize(), is(20));
-        assertThat(chart.getName(), is("testChart"));
         assertThat(chart.getIcon(), is("icon"));
         assertThat(chart.getStyle().size(), is(1));
         assertThat(chart.getStyle().get("color"), is("red"));

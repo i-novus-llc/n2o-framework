@@ -12,8 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
+import java.util.Map;
 
 public class ExportServlet extends N2oServlet {
 
@@ -34,12 +34,12 @@ public class ExportServlet extends N2oServlet {
         String charset = req.getParameter("charset");
         String url = req.getParameter("url");
 
-        GetDataResponse result = controller.getData(
-                getPath(url, "/n2o/data"),
-                RouteUtil.parseQueryParams(RouteUtil.parseQuery(url)),
-                (UserContext) req.getAttribute(USER));
+        String path = getPath(url, "/n2o/data");
+        Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(url));
 
-        ExportResponse exportResponse = controller.export(result.getList(), format, charset);
+        GetDataResponse result = controller.getData(path, params, (UserContext) req.getAttribute(USER));
+        Map<String, String> headers = controller.getHeaders(path, params);
+        ExportResponse exportResponse = controller.export(result.getList(), format, charset, headers);
 
         resp.setStatus(exportResponse.getStatus());
         resp.setContentType(exportResponse.getContentType());

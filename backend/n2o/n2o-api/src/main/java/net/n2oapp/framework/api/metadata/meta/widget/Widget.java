@@ -19,8 +19,6 @@ public abstract class Widget<T extends WidgetComponent> extends Component implem
     @JsonProperty
     private String id;
     @JsonProperty
-    private String name;
-    @JsonProperty
     private String icon;
     //need for access transformer
     private String objectId;

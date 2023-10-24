@@ -35,6 +35,17 @@ public interface InputSelectTree extends Control, PopupControl {
     void setFilter(String value);
 
     /**
+     * Проверка наличия выбранных опций с ожидаемыми значениями
+     * @param values список ожидаемых значений
+     */
+    void shouldSelectedMulti(String[] values, Duration... duration);
+
+    /**
+     * Проверка количества выбранных опций с ожидаемыми значениями
+     */
+    void shouldSelectedMultiSize(int size);
+
+    /**
      * Очищение поля поиска
      */
     void clearSearchField();
