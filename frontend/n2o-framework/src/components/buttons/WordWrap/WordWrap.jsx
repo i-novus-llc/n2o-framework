@@ -5,16 +5,27 @@ import classNames from 'classnames'
 
 import StandardButton from '../StandardButton/StandardButton'
 
+function getIcon(nested, icon, textWrap) {
+    if (!nested) {
+        return icon
+    }
+
+    if (textWrap) {
+        return 'fa fa-check word-wrap-btn__check'
+    }
+
+    return null
+}
+
 export function WordWrap(props) {
-    const { className } = props
+    const { className, nested, icon } = props
     const id = get(props, 'action.payload.id')
 
     const { getState } = useStore()
     const state = getState()
 
     const textWrap = get(state, `widgets.${id}.table.textWrap`)
+    const currentIcon = getIcon(nested, icon, textWrap)
 
-    const icon = textWrap ? 'fa fa-check word-wrap-btn__check' : null
-
-    return <StandardButton {...props} className={classNames(className, 'word-wrap-btn')} icon={icon} />
+    return <StandardButton {...props} className={classNames(className, 'word-wrap-btn')} icon={currentIcon} />
 }
