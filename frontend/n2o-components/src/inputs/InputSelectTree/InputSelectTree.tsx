@@ -51,7 +51,7 @@ const getItemByValue = (
     options: Props['options'],
     value: Props['value'],
     multiSelect: Props['multiSelect'],
-    valueFieldId: Props['valueFieldId']
+    valueFieldId: Props['valueFieldId'],
 ) => {
     if (!value) { return null }
     if (!multiSelect) {
@@ -76,7 +76,7 @@ function mapValue2RC<
 >(value: void | TValue | TValue[], valueFieldId: FieldId) {
     if (!value) { return [] }
     if (isArray(value)) {
-        return value.map((v) => getId(v, valueFieldId))
+        return value.map(v => getId(v, valueFieldId))
     }
 
     return getId(value, valueFieldId)
@@ -183,7 +183,7 @@ function InputSelectTree({
         parentFieldId, valueFieldId,
     ])
 
-    const handlerFilter = useCallback(() => (true), [])
+    const handlerFilter = useCallback(() => true, [])
 
     const rcValue = useMemo(() => mapValue2RC(value, valueFieldId), [value, valueFieldId])
 
@@ -294,7 +294,7 @@ function InputSelectTree({
                 placeholder={searchValue ? null : placeholder}
                 disabled={disabled}
                 searchValue={searchValue}
-                showSearch={true}
+                showSearch
                 listHeight={400}
                 prefixCls="n2o-select-tree"
             >
