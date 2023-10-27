@@ -30,6 +30,7 @@ type Props = {
     datasource: string,
     datasourceModel: [],
     caching: boolean,
+    fetch: string,
     size: number,
     valueFieldId: string,
     sortFieldId: string,
@@ -48,7 +49,6 @@ type State = {
     count: number,
     size: Props['size'],
     page: number,
-    fetch: string,
     abortController?: AbortController | null
 }
 
@@ -88,7 +88,6 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                 count: 0,
                 size: props.size,
                 page: 1,
-                fetch: props.caching ? 'lazy' : 'always',
             }
 
             this.fetchData = this.fetchData.bind(this)
@@ -356,19 +355,21 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
     const mapStateToProps = (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         state: any,
-        { datasource }: { datasource: string },
+        { datasource, caching }: { datasource: string, caching: boolean },
     ) => ({
         datasourceModel: getModelByPrefixAndNameSelector(ModelPrefix.source, datasource)(state),
         widget: false,
+        fetch: caching ? 'lazy' : 'always',
     })
 
     const mapDispatchToProps = (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         dispatch: (arg: any) => void,
         ownProps: {
-            form: number | string,
-            labelFieldId: number | string,
+            form: number | string
+            labelFieldId: number | string
             datasource: string
+            caching: boolean
         },
     ) => ({
         addAlert: (message: string) => dispatch(addAlert(`${ownProps.form}.${ownProps.labelFieldId}`, message)),
@@ -376,14 +377,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
         fetchError: (error: Error) => dispatch(fetchError(FETCH_CONTROL_VALUE, {}, error)),
     })
 
-    return connect(
-        mapStateToProps,
-        mapDispatchToProps,
-        null,
-        {
-            pure: false,
-        },
-    )(WithDataSource(WithFetchData))
+    return connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(WithDataSource(WithFetchData))
 }
 
 export default withFetchData
