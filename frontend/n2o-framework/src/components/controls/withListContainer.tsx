@@ -27,7 +27,7 @@ type Props = {
     fetchData(params: object, concat: boolean, cacheReset: boolean): void,
 }
 
-type WrappedComponentProps = Omit<Props, 'data' | 'quickSearchParam' | 'searchMinLength' | 'throttleDelay' | 'onOpen' |'onInput' | 'onScrollEnd'>&{
+type WrappedComponentProps = Omit<Props, 'data' | 'quickSearchParam' | 'throttleDelay' | 'onOpen' |'onInput' | 'onScrollEnd'>&{
     onSearch(value: string): void,
 }
 
@@ -100,6 +100,7 @@ export function withListContainer(WrappedComponent: FC<WrappedComponentProps>) {
                 page={page}
                 fetchData={callApiWithParams}
                 onSearch={handleSearch}
+                searchMinLength={searchMinLength}
             />
         )
     }
