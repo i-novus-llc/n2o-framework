@@ -116,6 +116,16 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         public void scrollDown() {
             Selenide.executeJavaScript("document.querySelector('.tabs__content').scrollTop = document.querySelector('.tabs__content').scrollHeight");
         }
+
+        @Override
+        public void shouldBeEnabled() {
+            element().shouldNotHave(Condition.cssClass("disabled"));
+        }
+
+        @Override
+        public void shouldBeDisabled() {
+            element().shouldHave(Condition.cssClass("disabled"));
+        }
     }
 
     protected SelenideElement getTabsContent() {

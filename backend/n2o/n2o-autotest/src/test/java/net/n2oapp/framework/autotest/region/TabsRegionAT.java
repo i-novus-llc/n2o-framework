@@ -145,8 +145,8 @@ public class TabsRegionAT extends AutoTestBase {
     }
 
     @Test
-    void testVisible() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/visible/index.page.xml"));
+    void testVisibleByWidget() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/visible_by_widget/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -177,7 +177,7 @@ public class TabsRegionAT extends AutoTestBase {
 
     @Test
     public void testWidgetWithVisibleDepend() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/visible/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/visible_by_widget/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         page.regions().region(1, TabsRegion.class).tab(0).shouldBeActive();
@@ -211,5 +211,93 @@ public class TabsRegionAT extends AutoTestBase {
         filter.setValue("1");
         table.filters().toolbar().button("Найти").click();
         table.columns().rows().shouldHaveSize(1);
+    }
+
+    @Test
+    void testVisible() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/visible/index.page.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        RadioGroup radio = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields()
+                .field("Вкладки").control(RadioGroup.class);
+
+        TabsRegion tabs = page.regions().region(1, TabsRegion.class);
+        tabs.shouldHaveSize(1);
+        TabsRegion.TabItem tab1 = tabs.tab(Condition.text("Первая"));
+        tab1.shouldBeVisible();
+        tab1.shouldBeActive();
+        TabsRegion.TabItem tab2 = tabs.tab(Condition.text("Вторая"));
+        tab2.shouldBeHidden();
+        TabsRegion.TabItem tab3 = tabs.tab(Condition.text("Третья"));
+        tab3.shouldBeHidden();
+        TabsRegion.TabItem tab4 = tabs.tab(Condition.text("Четвертая"));
+        tab4.shouldBeHidden();
+
+        radio.check("Первая");
+        tab1.shouldBeVisible();
+        tab1.shouldBeActive();
+        tab2.shouldBeVisible();
+        tab3.shouldBeHidden();
+        tab4.shouldBeHidden();
+        tab2.click();
+        tab2.shouldBeActive();
+        tab1.shouldNotBeActive();
+
+        radio.check("Вторая");
+        tab1.shouldBeVisible();
+        tab1.shouldBeActive();
+        tab2.shouldBeHidden();
+        tab3.shouldBeHidden();
+        tab4.shouldBeVisible();
+    }
+
+    @Test
+    void testEnabled() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/enabled/index.page.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        RadioGroup radio = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields()
+                .field("Вкладки").control(RadioGroup.class);
+
+        TabsRegion tabs = page.regions().region(1, TabsRegion.class);
+        tabs.shouldHaveSize(4);
+        TabsRegion.TabItem tab1 = tabs.tab(Condition.text("Первая"));
+        tab1.shouldBeActive();
+        tab1.shouldBeEnabled();
+        TabsRegion.TabItem tab2 = tabs.tab(Condition.text("Вторая"));
+        tab2.shouldBeDisabled();
+        TabsRegion.TabItem tab3 = tabs.tab(Condition.text("Третья"));
+        tab3.shouldBeDisabled();
+        TabsRegion.TabItem tab4 = tabs.tab(Condition.text("Четвертая"));
+        tab4.shouldBeDisabled();
+
+        tab2.click();
+        tab1.shouldBeActive();
+        tab3.click();
+        tab1.shouldBeActive();
+        tab4.click();
+        tab1.shouldBeActive();
+
+        radio.check("Первая");
+        tab1.shouldBeActive();
+        tab2.shouldBeEnabled();
+        tab3.shouldBeDisabled();
+        tab4.shouldBeDisabled();
+        tab2.click();
+        tab2.shouldBeActive();
+        tab1.shouldNotBeActive();
+
+        radio.check("Вторая");
+        tab1.shouldBeEnabled();
+        tab1.shouldBeActive();
+        tab2.shouldBeDisabled();
+        tab3.shouldBeDisabled();
+        tab4.shouldBeEnabled();
+        tab4.click();
+        tab4.shouldBeActive();
     }
 }
