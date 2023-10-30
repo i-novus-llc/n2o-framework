@@ -112,6 +112,7 @@ function InputSelectTree({
     showCheckedStrategy,
     maxTagTextLength,
     maxTagCount,
+    searchMinLength,
     disabled = false,
 }: Props) {
     const treeExpandedKeys = useRef<Array<string | number>>([])
@@ -183,7 +184,16 @@ function InputSelectTree({
         parentFieldId, valueFieldId,
     ])
 
-    const handlerFilter = useCallback(() => true, [])
+    const handlerFilter = useCallback((input: string, node) => {
+        if (searchMinLength && input.length < searchMinLength) {
+            return true
+        }
+
+        return String.prototype.includes.call(
+            node.props[labelFieldId].toLowerCase(),
+            input.toLowerCase(),
+        )
+    }, [labelFieldId])
 
     const rcValue = useMemo(() => mapValue2RC(value, valueFieldId), [value, valueFieldId])
 
@@ -433,6 +443,10 @@ type Props = {
      * Значение ключа value в данных
      */
     valueFieldId: string
+    /**
+     * Минимальное кол-во символов до фильтрации
+     */
+    searchMinLength?: number
 }
 
 export { TreeNode, InputSelectTree }

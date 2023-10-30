@@ -2,10 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import unionWith from 'lodash/unionWith'
-import isArray from 'lodash/isArray'
 
 import { Props, defaultProps } from '@i-novus/n2o-components/lib/inputs/InputSelectTree/allProps'
 import { InputSelectTreeComponent } from '@i-novus/n2o-components/lib/inputs/InputSelectTree/InputSelectTree'
+import { TOption } from '@i-novus/n2o-components/lib/inputs/InputSelect/types'
 
 import listContainer from '../listContainer'
 
@@ -35,19 +35,39 @@ import listContainer from '../listContainer'
  * @reactProps {boolean} hasCheckboxes - флаг наличия чекбоксов
  * @reactProps {string} format - формат
  */
+
+function optionsHasValue(options: TOption[], selectedValueId: string) {
+    if (!options.length) {
+        return false
+    }
+
+    return options.some(({ id }) => id === selectedValueId)
+}
+
 function InputSelectTreeContainer(props: Props) {
-    const { options, value, ajax } = props
+    const { options, ajax, value, valueFieldId } = props
     const [unionOptions, setOptions] = useState(options)
+
     const optionsWithValues = useMemo(() => {
-        if (!value) { return options }
+        if (isEmpty(value)) { return options }
+
+        const values = Array.isArray(value) ? value : [value]
 
         if (isEmpty(options)) {
-            const values = isArray(value) ? value : [value]
-
             return values as typeof options
         }
 
-        return options
+        const newOptions = [...options]
+
+        for (const selectedValue of values) {
+            const selectedValueId = selectedValue[valueFieldId]
+
+            if (!optionsHasValue(options, selectedValueId)) {
+                newOptions.push(selectedValue)
+            }
+        }
+
+        return newOptions
     }, [value, options])
 
     useEffect(() => {
