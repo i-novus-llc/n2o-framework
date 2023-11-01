@@ -18,7 +18,7 @@
         </button>
         <button id="btn2" icon="fa fa-pencil"/>
         <button id="btn3" label="load" icon="fa fa-download"/>
-        <button id="btn4" description="{description}">
-        </button>
+        <button id="btn4" description="{description}"/>
+        <button id="btn6" model="datasource"/>
     </toolbar>
 </page>

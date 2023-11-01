@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -69,6 +70,9 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
 
         btn = t.getToolbar().getButton("btn5");
         assertThat(btn.getDatasource(), is("testButton_table"));
+
+        btn = page.getToolbar().getButton("btn6");
+        assertThat(btn.getModel(), is(ReduxModel.datasource));
     }
 
     @Test
