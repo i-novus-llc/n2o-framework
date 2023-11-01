@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Компиляция кнопки с выпадающим меню
@@ -66,6 +67,10 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
         if (source.getMenuItems() != null) {
             button.setSubMenu(Stream.of(source.getMenuItems())
                     .map(mi -> {
+                        if (mi.getDatasourceId() == null)
+                            mi.setDatasourceId(source.getDatasourceId());
+                        if (mi.getModel() == null)
+                            mi.setModel(source.getModel());
                         PerformButton menuItem = p.compile(mi, context, p, idx);
                         menuItem.setColor(null);
                         return menuItem;
