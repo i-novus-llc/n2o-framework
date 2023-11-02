@@ -495,7 +495,7 @@
             <xs:extension base="validationDefinition">
                 <xs:attribute name="on" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Поля, от которых зависит условие валидации.</xs:documentation>
+                        <xs:documentation>Список полей (через запятую), от которых зависит условие валидации.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="src" type="xs:string">

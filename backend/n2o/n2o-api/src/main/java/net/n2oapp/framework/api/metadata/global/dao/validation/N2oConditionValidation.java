@@ -8,8 +8,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class N2oValidationCondition extends N2oValidation {
+public class N2oConditionValidation extends N2oValidation {
     private String expression;
-    private String expressionOn;
+    private String[] expressionOn;
     private String src;
 }

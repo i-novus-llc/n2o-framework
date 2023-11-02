@@ -43,10 +43,10 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
                 .add("list", ObjectListField.class, this::inReference)
                 .add("set", ObjectSetField.class, this::inReference));
         p.anyChildren(e, "validations", t::getN2oValidations, t::setN2oValidations, p.oneOf(N2oValidation.class)
-                .add("constraint", N2oConstraint.class, this::constraint)
-                .add("condition", N2oValidationCondition.class, this::condition)
-                .add("mandatory", N2oMandatory.class, this::mandatory)
-                .add("dialog", N2oValidationDialog.class, this::dialog));
+                .add("constraint", N2oConstraintValidation.class, this::constraint)
+                .add("condition", N2oConditionValidation.class, this::condition)
+                .add("mandatory", N2oMandatoryValidation.class, this::mandatory)
+                .add("dialog", N2oDialogValidation.class, this::dialog));
         p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
     }
 
@@ -85,10 +85,10 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attributeArray(e, "black-list", ",", t::getBlackList, t::setBlackList);
         p.attributeArray(e, "white-list", ",", t::getWhiteList, t::setWhiteList);
         p.anyChildren(e, null, t::getInlineValidations, t::setInlineValidations, p.oneOf(N2oValidation.class)
-                .add("constraint", N2oConstraint.class, this::constraint)
-                .add("condition", N2oValidationCondition.class, this::condition)
-                .add("mandatory", N2oMandatory.class, this::mandatory)
-                .add("dialog", N2oValidationDialog.class, this::dialog));
+                .add("constraint", N2oConstraintValidation.class, this::constraint)
+                .add("condition", N2oConditionValidation.class, this::condition)
+                .add("mandatory", N2oMandatoryValidation.class, this::mandatory)
+                .add("dialog", N2oDialogValidation.class, this::dialog));
     }
 
     private void abstractParameter(Element e, AbstractParameter t, IOProcessor p) {
@@ -167,23 +167,23 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
             p.childAttribute(e, "invocation", "result-mapping", t.getN2oInvocation()::getResultMapping, t.getN2oInvocation()::setResultMapping);
     }
 
-    private void constraint(Element e, N2oConstraint t, IOProcessor p) {
+    private void constraint(Element e, N2oConstraintValidation t, IOProcessor p) {
         invocationValidation(e, t, p);
         p.attribute(e, "result", t::getResult, t::setResult);
     }
 
-    private void condition(Element e, N2oValidationCondition t, IOProcessor p) {
+    private void condition(Element e, N2oConditionValidation t, IOProcessor p) {
         validation(e, t, p);
         p.text(e, t::getExpression, t::setExpression);
-        p.attribute(e, "on", t::getExpressionOn, t::setExpressionOn);
+        p.attributeArray(e, "on", ",", t::getExpressionOn, t::setExpressionOn);
         p.attribute(e, "src", t::getSrc, t::setSrc);
     }
 
-    private void mandatory(Element e, N2oMandatory t, IOProcessor p) {
+    private void mandatory(Element e, N2oMandatoryValidation t, IOProcessor p) {
         validation(e, t, p);
     }
 
-    private void dialog(Element e, N2oValidationDialog t, IOProcessor p) {
+    private void dialog(Element e, N2oDialogValidation t, IOProcessor p) {
         invocationValidation(e, t, p);
         p.attribute(e, "result", t::getResult, t::setResult);
         p.attribute(e, "size", t::getSize, t::setSize);

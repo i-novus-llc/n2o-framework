@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import org.apache.commons.lang3.ArrayUtils;
 
 import javax.script.ScriptException;
 import java.util.Arrays;
@@ -26,7 +27,8 @@ import java.util.stream.Collectors;
 public class ConditionValidation extends Validation {
     @JsonProperty
     private String expression;
-    private String expressionOn;
+    @JsonProperty("on")
+    private String[] expressionOn;
 
     public ConditionValidation(ConditionValidation validation) {
         super(validation);
@@ -40,11 +42,9 @@ public class ConditionValidation extends Validation {
     }
 
     private Set<String> getExpressionsOn() {
-        if (expressionOn == null || expressionOn.length() <= 0)
+        if (ArrayUtils.isEmpty(expressionOn))
             return Collections.emptySet();
-        return Arrays.stream(expressionOn.split(","))
-                .map(String::trim)
-                .collect(Collectors.toSet());
+        return Arrays.stream(expressionOn).collect(Collectors.toSet());
     }
 
     private DataSet getCopiedDataSet (DataSet dataSet, DomainProcessor domainProcessor) {

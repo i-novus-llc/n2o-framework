@@ -10,11 +10,13 @@ const validateSimple = async (
     model: object,
     field: string,
     validationList: Validation[],
+    signal?: AbortSignal,
 ): Promise<void> => {
     const messages = await validateField(
         field as keyof (typeof model),
         model,
         validationList || [],
+        signal,
     )
 
     if (messages.length) {
@@ -27,6 +29,7 @@ const validateMulti = async (
     model: object,
     validationKey: string,
     validationList: Validation[],
+    signal?: AbortSignal,
 ): Promise<void> => {
     const fieldArrayName: string = validationKey.split(INDEX_REGEXP)?.[0]
     const arrayFieldValue: object[] = get(model, fieldArrayName, [])
@@ -39,6 +42,7 @@ const validateMulti = async (
             { ...model, index },
             fieldName,
             validationList,
+            signal,
         )
     }
 }
@@ -49,6 +53,7 @@ const validateMultiByFields = async (
     validationKey: string,
     validationList: Validation[],
     fields: string[],
+    signal?: AbortSignal,
 ): Promise<void> => {
     const findIndexRegexp = keyToRegexp(validationKey)
 
@@ -63,6 +68,7 @@ const validateMultiByFields = async (
                 { ...model, index },
                 field,
                 validationList,
+                signal,
             )
         }
     }
@@ -72,6 +78,7 @@ export const validateModel = async (
     model: object,
     validations: Record<string, Validation[]>,
     fields?: string[],
+    signal?: AbortSignal,
 ): Promise<Record<string, ValidationResult[]>> => {
     let entries = Object.entries(validations)
     const allMessages: Record<string, ValidationResult[]> = {}
@@ -90,6 +97,7 @@ export const validateModel = async (
                     validationKey,
                     validationList,
                     fields,
+                    signal,
                 )
             } else {
                 // Валидация конерктных строк мультисета
@@ -98,11 +106,12 @@ export const validateModel = async (
                     model,
                     validationKey,
                     validationList,
+                    signal,
                 )
             }
         } else {
             // Валидация простого поля
-            await validateSimple(allMessages, model, validationKey, validationList)
+            await validateSimple(allMessages, model, validationKey, validationList, signal)
         }
     }
 

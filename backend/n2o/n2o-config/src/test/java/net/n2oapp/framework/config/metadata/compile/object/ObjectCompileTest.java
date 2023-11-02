@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.object;
 
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
-import net.n2oapp.framework.api.data.validation.ValidationDialog;
+import net.n2oapp.framework.api.data.validation.DialogValidation;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
@@ -91,7 +91,7 @@ public class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(all.getValidationsMap().get("val1"), instanceOf(ConstraintValidation.class));
         assertThat(all.getValidationsMap().get("v1"), instanceOf(ConditionValidation.class));
         assertThat(all.getValidationsMap().get("v2"), instanceOf(ConstraintValidation.class));
-        assertThat(all.getValidationsMap().get("v3"), instanceOf(ValidationDialog.class));
+        assertThat(all.getValidationsMap().get("v3"), instanceOf(DialogValidation.class));
 
         CompiledObject.Operation black = object.getOperations().get("black");
         assertThat(black.getValidationList().size(), is(2));
@@ -125,7 +125,7 @@ public class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(v2Provider.getArguments()[2].getType(), is(Argument.Type.PRIMITIVE));
 
         N2oJavaDataProvider v3Provider =
-                (N2oJavaDataProvider) ((ValidationDialog) all.getValidationsMap().get("v3")).getInvocation();
+                (N2oJavaDataProvider) ((DialogValidation) all.getValidationsMap().get("v3")).getInvocation();
         assertThat(v3Provider.getClassName(), is("TestService"));
         assertThat(v3Provider.getArguments()[0].getName(), is("arg1"));
         assertThat(v3Provider.getArguments()[0].getClassName(), is("TestEntity"));
