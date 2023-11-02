@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -84,5 +85,11 @@ public class SubMenuCompileTest extends SourceCompileTestBase {
         condition = subMenu.getConditions().get(ValidationType.visible).get(0);
         assertThat(condition.getExpression(), is("name != null"));
         assertThat(condition.getModelLink(), is("models.resolve['testSubMenu_table']"));
+
+        subMenu = (Submenu) toolbar.getButton("testSubMenu_mi5");
+        assertThat(subMenu.getSubMenu().get(0).getModel(), is(ReduxModel.datasource));
+        assertThat(subMenu.getSubMenu().get(0).getDatasource(), is("testSubMenu_table"));
+        assertThat(subMenu.getSubMenu().get(1).getModel(), is(ReduxModel.resolve));
+        assertThat(subMenu.getSubMenu().get(1).getDatasource(), is("testSubMenu_ds"));
     }
 }

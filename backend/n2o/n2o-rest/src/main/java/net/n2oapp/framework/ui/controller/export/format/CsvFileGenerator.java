@@ -12,9 +12,9 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.UnaryOperator;
 
 @NoArgsConstructor
 @Component
@@ -24,7 +24,7 @@ public class CsvFileGenerator implements FileGenerator {
     private final String FILE_FORMAT = "csv";
 
     @Override
-    public byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data) {
+    public byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data, List<String> headers) {
         byte[] fileBytes = null;
 
         try {
@@ -33,13 +33,13 @@ public class CsvFileGenerator implements FileGenerator {
             FileWriter fileWriter = new FileWriter(fullFileName, Charset.forName(charset));
             CSVWriter writer = new CSVWriter(
                     fileWriter, CSV_SEPARATOR,
-                    ICSVWriter.NO_QUOTE_CHARACTER,
-                    ICSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    '\'',
+                    '\'',
                     ICSVWriter.DEFAULT_LINE_END
             );
 
-            List<String[]> csvData = resolveToCsvFormat(data);
-            writer.writeAll(csvData);
+            List<String[]> csvData = resolveToCsvFormat(data, headers);
+            writer.writeAll(csvData, false);
 
             writer.close();
 
@@ -60,30 +60,27 @@ public class CsvFileGenerator implements FileGenerator {
         this.CSV_SEPARATOR = separator;
     }
 
-    private List<String[]> resolveToCsvFormat(List<DataSet> data) {
+    private List<String[]> resolveToCsvFormat(List<DataSet> data, List<String> headers) {
         if (data.isEmpty())
             return new ArrayList<>();
+
         Set<String> keys = data.get(0).flatKeySet();
         int columnCount = keys.size();
-        String[] headers = new String[columnCount];
-
-        Iterator<String> keysIterator = keys.iterator();
-
-        for (int i = 0; i < columnCount; i++) {
-            headers[i] = keysIterator.next();
-        }
-
         List<String[]> csvData = new ArrayList<>();
-        csvData.add(headers);
+
+        UnaryOperator<String> quoteWrapper = s -> "\"".concat(s).concat("\"");
+        headers.replaceAll(quoteWrapper);
+        csvData.add(headers.toArray(new String[0]));
 
         for (DataSet str : data) {
             String[] csvStr = new String[columnCount];
             int i = 0;
             for (String key : keys) {
                 Object value = str.get(key);
-                if (value != null) {
-                    csvStr[i] = value.toString();
-                }
+                if (value != null)
+                    csvStr[i] = value instanceof String ?
+                            quoteWrapper.apply((String) value):
+                            value.toString();
                 i++;
             }
 

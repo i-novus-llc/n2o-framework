@@ -59,7 +59,7 @@ public class ExportServletTest {
         doReturn("/n2o/data/_main?main_minPrice=5000&page=1&size=10&sorting.name=DESC").when(request).getParameter("url");
 
         doReturn(getDataResponse).when(exportController).getData(eq("/_main"), anyMap(), any());
-        doReturn(exportResponse).when(exportController).export(any(), any(), any());
+        doReturn(exportResponse).when(exportController).export(any(), any(), any(), anyMap());
 
         doReturn(200).when(exportResponse).getStatus();
         doReturn("text/csv").when(exportResponse).getContentType();

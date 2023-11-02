@@ -35,7 +35,8 @@ import java.nio.charset.StandardCharsets;
 import static com.codeborne.selenide.DownloadOptions.using;
 import static com.codeborne.selenide.FileDownloadMode.FOLDER;
 import static com.codeborne.selenide.files.FileFilters.withExtension;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class TableButtonGeneratorAT extends AutoTestBase {
 
@@ -314,11 +315,12 @@ public class TableButtonGeneratorAT extends AutoTestBase {
             fileReader.read(chars);
 
             String actual = new String(chars);
-            String expected = "id;id_ips;name;region\n" +
-                    "6;ey88ee-asd52a-89trd;РМИС ХМАО-ЮГРЫ;Ханты-Мансийский автономный округ - Югра\n" +
-                    "7;oi44ew-asd52a-54eqw;РС ЕГИСЗ Тюменской области;Тюменская область\n" +
-                    "8;ey88ee-mu67da-54eqw;РМИАС Республика Башкортостан;Республика Башкортостан\n" +
-                    "9;ey88ee-56fhha-8hhjaf;Промед Республики Хокасия;Республика Хокасия";
+            String expected = "\"Идентификатор\";\"Идентификатор ИПС\";\"Наименование\";\"Регион\"\n" +
+                    "6;\"ey88ee-asd52a-89trd\";\"РМИС ХМАО-ЮГРЫ\";\"Ханты-Мансийский автономный округ - Югра\"\n" +
+                    "7;\"oi44ew-asd52a-54eqw\";\"РС ЕГИСЗ Тюменской области\";\"Тюменская область\"\n" +
+                    "8;\"ey88ee-mu67da-54eqw\";\"РМИАС Республика Башкортостан\";\"Республика Башкортостан\"\n" +
+                    "9;\"ey88ee-56fhha-8hhjaf\";\"Промед Республики Хокасия\";\"Республика Хокасия\"\n" +
+                    "10;\"asfa43-asd52a-asd4qd\";\"РИСЗ Республика Корелия\";\"Республика Корелия\"";
             assertTrue(actual.contains(expected), "Экспортированное значение таблицы не соответствует ожидаемому");
         } catch (IOException e) {
             fail();
@@ -365,11 +367,17 @@ public class TableButtonGeneratorAT extends AutoTestBase {
             fileReader.read(chars);
 
             String actual = new String(chars);
-            String expected = "id;id_ips;name;region\n" +
-                    "1;ey88ee-rugh34-asd4;РМИС Республика Адыгея(СТП);Республика Адыгея\n" +
-                    "2;ey88ee-ruqah34-54eqw;РМИС Республика Татарстан(тестовая для ПСИ);Республика Татарстан\n" +
-                    "3;ey88ea-ruaah34-54eqw;ТМК;\n" +
-                    "4;ey88ee-asd52a-54eqw;МИС +МЕД;Республика Адыгея";
+            String expected = "\"Идентификатор\";\"Идентификатор ИПС\";\"Наименование\";\"Регион\"\n" +
+                    "1;\"ey88ee-rugh34-asd4\";\"РМИС Республика Адыгея(СТП)\";\"Республика Адыгея\"\n" +
+                    "2;\"ey88ee-ruqah34-54eqw\";\"РМИС Республика Татарстан(тестовая для ПСИ)\";\"Республика Татарстан\"\n" +
+                    "3;\"ey88ea-ruaah34-54eqw\";\"ТМК\";\"\"\n" +
+                    "4;\"ey88ee-asd52a-54eqw\";\"МИС +МЕД\";\"Республика Адыгея\"\n" +
+                    "5;\"ey88fe-asd52a-54eqb\";\"РМИС Комстромской области\";\"Комстромская область\"\n" +
+                    "6;\"ey88ee-asd52a-89trd\";\"РМИС ХМАО-ЮГРЫ\";\"Ханты-Мансийский автономный округ - Югра\"\n" +
+                    "7;\"oi44ew-asd52a-54eqw\";\"РС ЕГИСЗ Тюменской области\";\"Тюменская область\"\n" +
+                    "8;\"ey88ee-mu67da-54eqw\";\"РМИАС Республика Башкортостан\";\"Республика Башкортостан\"\n" +
+                    "9;\"ey88ee-56fhha-8hhjaf\";\"Промед Республики Хокасия\";\"Республика Хокасия\"\n" +
+                    "10;\"asfa43-asd52a-asd4qd\";\"РИСЗ Республика Корелия\";\"Республика Корелия\"";
             assertTrue(actual.contains(expected), "Экспортированное значение таблицы не соответствует ожидаемому");
         } catch (IOException e) {
             fail();

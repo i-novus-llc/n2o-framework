@@ -43,6 +43,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         button.setClassName(source.getCssClass());
         button.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         button.setColor(source.getColor());
+        button.setModel(source.getModel());
         button.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
         initHint(source, button, p);
     }

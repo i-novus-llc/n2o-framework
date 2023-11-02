@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Component;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -49,6 +50,8 @@ public abstract class AbstractButton extends Component implements IdAware {
     private Badge badge;
     @JsonProperty
     private String datasource;
+    @JsonProperty
+    private ReduxModel model;
     /**
      * Список источников данных, которые нужно валидировать
      */
