@@ -33,7 +33,7 @@ const TextAreaComponent = ({
             placeholder={placeholder}
             minRows={rows}
             maxRows={max}
-            value={value}
+            value={value === null ? '' : value}
             onChange={onChange}
             {...omit(rest, 'id')}
         />
