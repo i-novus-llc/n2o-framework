@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatoryValidation;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
+
 /**
  * Компиляция валидации обязательности заполнения поля
  */
@@ -23,7 +25,7 @@ public class MandatoryValidationCompiler extends BaseValidationCompiler<Mandator
     public MandatoryValidation compile(N2oMandatoryValidation source, CompileContext<?, ?> context, CompileProcessor p) {
         MandatoryValidation validation = new MandatoryValidation();
         compileValidation(validation, source, p);
-        validation.setSeverity(p.cast(source.getSeverity(), SeverityType.danger));
+        validation.setSeverity(castDefault(source.getSeverity(), SeverityType.danger));
         return validation;
     }
 }

@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.chart.PieChart;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция круговой диаграммы
@@ -23,18 +24,18 @@ public class PieChartCompiler extends AbstractChartCompiler<PieChart, N2oPieChar
         chart.setType(ChartType.pie);
         chart.getComponent().setCenterX(source.getCenterX());
         chart.getComponent().setCenterY(source.getCenterY());
-        chart.getComponent().setInnerRadius(p.cast(source.getInnerRadius(),
+        chart.getComponent().setInnerRadius(castDefault(source.getInnerRadius(),
                 () -> p.resolve(property("n2o.api.widget.chart.pie.inner_radius"), Integer.class)));
         chart.getComponent().setOuterRadius(source.getOuterRadius());
-        chart.getComponent().setStartAngle(p.cast(source.getStartAngle(),
+        chart.getComponent().setStartAngle(castDefault(source.getStartAngle(),
                 () -> p.resolve(property("n2o.api.widget.chart.pie.start_angle"), Integer.class)));
-        chart.getComponent().setEndAngle(p.cast(source.getEndAngle(),
+        chart.getComponent().setEndAngle(castDefault(source.getEndAngle(),
                 () -> p.resolve(property("n2o.api.widget.chart.pie.end_angle"), Integer.class)));
         chart.getComponent().setNameFieldId(source.getNameFieldId());
         chart.getComponent().setValueFieldId(source.getValueFieldId());
         chart.getComponent().setTooltipFieldId(source.getTooltipFieldId());
         chart.getComponent().setColor(source.getColor());
-        chart.getComponent().setHasLabel(p.cast(source.getHasLabel(),
+        chart.getComponent().setHasLabel(castDefault(source.getHasLabel(),
                 () -> p.resolve(property("n2o.api.widget.chart.pie.has_label"), Boolean.class)));
         return chart;
     }

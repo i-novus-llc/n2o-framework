@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oBrowserS
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция источника, хранящего данные в браузере
@@ -33,8 +34,8 @@ public class BrowserStorageDatasourceCompiler extends BaseDatasourceCompiler<N2o
 
     private BrowserStorageDatasource.Provider initProvider(N2oBrowserStorageDatasource source, CompileProcessor p) {
         BrowserStorageDatasource.Provider provider = new BrowserStorageDatasource.Provider();
-        provider.setKey(p.cast(source.getKey(), source.getId()));
-        provider.setStorage(p.cast(source.getStorageType(),
+        provider.setKey(castDefault(source.getKey(), source.getId()));
+        provider.setStorage(castDefault(source.getStorageType(),
                 () -> p.resolve(property("n2o.api.datasource.browser.storage_type"), BrowserStorageType.class)));
         return provider;
     }
@@ -43,11 +44,11 @@ public class BrowserStorageDatasourceCompiler extends BaseDatasourceCompiler<N2o
         if (source.getSubmit() == null)
             return null;
         BrowserStorageDatasource.Submit submit = new BrowserStorageDatasource.Submit();
-        submit.setKey(p.cast(source.getSubmit().getKey(), source.getKey(), source.getId()));
-        submit.setAuto(p.cast(source.getSubmit().getAuto(),
+        submit.setKey(castDefault(source.getSubmit().getKey(), source.getKey(), source.getId()));
+        submit.setAuto(castDefault(source.getSubmit().getAuto(),
                 () -> p.resolve(property("n2o.api.datasource.browser.submit.auto"), Boolean.class)));
-        submit.setModel(p.cast(source.getSubmit().getModel(), ReduxModel.resolve));
-        submit.setStorage(p.cast(source.getSubmit().getStorageType(), source.getStorageType(), BrowserStorageType.sessionStorage));
+        submit.setModel(castDefault(source.getSubmit().getModel(), ReduxModel.resolve));
+        submit.setStorage(castDefault(source.getSubmit().getStorageType(), source.getStorageType(), BrowserStorageType.sessionStorage));
         return submit;
     }
 }

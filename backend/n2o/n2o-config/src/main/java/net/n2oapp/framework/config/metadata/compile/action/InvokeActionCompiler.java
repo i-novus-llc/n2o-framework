@@ -29,6 +29,7 @@ import java.util.List;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
@@ -88,23 +89,23 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
 
     protected void initDefaults(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
-        source.setRoute(p.cast(source.getRoute(), "/" + source.getId()));
+        source.setRoute(castDefault(source.getRoute(), "/" + source.getId()));
         initSubmitMessageDefaults(source, p);
         source.setOptimistic(
-                p.cast(source.getOptimistic(),
+                castDefault(source.getOptimistic(),
                         () -> p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class))
         );
-        source.setSubmitAll(p.cast(source.getSubmitAll(), true));
+        source.setSubmitAll(castDefault(source.getSubmitAll(), true));
         source.setMethod(
-                p.cast(source.getMethod(),
+                castDefault(source.getMethod(),
                         () -> p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class))
         );
-        source.setClearOnSuccess(p.cast(source.getClearOnSuccess(), false));
+        source.setClearOnSuccess(castDefault(source.getClearOnSuccess(), false));
     }
 
     private void initSubmitMessageDefaults(N2oInvokeAction source, CompileProcessor p) {
-        source.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), true));
-        source.setMessageOnFail(p.cast(source.getMessageOnFail(), true));
+        source.setMessageOnSuccess(castDefault(source.getMessageOnSuccess(), true));
+        source.setMessageOnFail(castDefault(source.getMessageOnFail(), true));
     }
 
     private String getMessageWidgetId(InvokeAction compiled, CompileContext<?, ?> context, boolean closeOnSuccess) {

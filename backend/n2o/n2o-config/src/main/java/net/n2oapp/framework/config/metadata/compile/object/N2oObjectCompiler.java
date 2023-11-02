@@ -110,7 +110,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             return;
 
         N2oObject refObject = p.getSource(refField.getReferenceObjectId(), N2oObject.class);
-        refField.setEntityClass(p.cast(refField.getEntityClass(), refObject.getEntityClass()));
+        refField.setEntityClass(castDefault(refField.getEntityClass(), refObject.getEntityClass()));
 
         if (isNotEmpty(refField.getFields())) {
             if (isNotEmpty(refObject.getObjectFields())) {

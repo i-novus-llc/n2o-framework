@@ -13,6 +13,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция редактируемой ячейки таблицы
@@ -41,13 +42,13 @@ public class EditCellCompiler extends AbstractCellCompiler<EditCell, N2oEditCell
             AbstractColumn column = null;
             if (columnScope != null)
                 column = columnScope.unwrap(AbstractColumn.class);
-            cell.setEditFieldId(p.cast(control.getId(), column != null ? column.getTextFieldId() : null));
+            cell.setEditFieldId(castDefault(control.getId(), column != null ? column.getTextFieldId() : null));
         }
 
         cell.setFormat(source.getFormat());
-        cell.setEditType(p.cast(source.getEditType(),
+        cell.setEditType(castDefault(source.getEditType(),
                 () -> p.resolve(property("n2o.api.cell.edit.type"), EditType.class)));
-        cell.setEnabled(p.cast(p.resolveJS(source.getEnabled(), Boolean.class),
+        cell.setEnabled(castDefault(p.resolveJS(source.getEnabled(), Boolean.class),
                 () -> p.resolve(property("n2o.api.cell.edit.enabled"), Boolean.class)));
         return cell;
     }

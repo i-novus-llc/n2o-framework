@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 @Component
 public class RadioGroupCompiler extends ListControlCompiler<RadioGroup, N2oRadioGroup> {
@@ -27,10 +28,10 @@ public class RadioGroupCompiler extends ListControlCompiler<RadioGroup, N2oRadio
     @Override
     public StandardField<RadioGroup> compile(N2oRadioGroup source, CompileContext<?, ?> context, CompileProcessor p) {
         RadioGroup radioGroup = new RadioGroup();
-        radioGroup.setInline(p.cast(source.getInline(), source.getType() == RadioGroupType.TABS ?
+        radioGroup.setInline(castDefault(source.getInline(), source.getType() == RadioGroupType.TABS ?
                 () -> p.resolve(property("n2o.api.control.radio_group.tabs_inline"), Boolean.class) :
                 () -> p.resolve(property("n2o.api.control.radio_group.inline"), Boolean.class)));
-        radioGroup.setType(p.cast(source.getType(),
+        radioGroup.setType(castDefault(source.getType(),
                 () -> p.resolve(property("n2o.api.control.radio_group.type"), RadioGroupType.class)));
         StandardField<RadioGroup> result = compileListControl(radioGroup, source, context, p);
         return compileFetchDependencies(result, source, p);

@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 
 /**
@@ -31,7 +32,7 @@ public class OutputTextCompiler extends StandardFieldCompiler<OutputText, N2oOut
     @Override
     public StandardField<OutputText> compile(N2oOutputText source, CompileContext<?, ?> context, CompileProcessor p) {
         OutputText outputText = new OutputText();
-        outputText.setPosition(p.cast(source.getIconPosition(),
+        outputText.setPosition(castDefault(source.getIconPosition(),
                 () -> p.resolve(property("n2o.api.control.output_text.position"), Position.class)));
         outputText.setEllipsis(p.resolve(property("n2o.api.control.output_text.ellipsis"), Boolean.class));
         outputText.setExpandable(p.resolve(property("n2o.api.control.output_text.expandable"), Object.class));

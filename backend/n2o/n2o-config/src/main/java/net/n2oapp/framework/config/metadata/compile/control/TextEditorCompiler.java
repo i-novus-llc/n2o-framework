@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
+
 
 /**
  * Компиляция компонента редактирования текста
@@ -43,7 +45,7 @@ public class TextEditorCompiler extends StandardFieldCompiler<TextEditor, N2oTex
     }
 
     private void compileToolbar(N2oTextEditor source, TextEditor compiled, CompileProcessor p) {
-        String toolbarUrl = p.cast(source.getToolbarUrl(),
+        String toolbarUrl = castDefault(source.getToolbarUrl(),
                 () -> p.resolve(Placeholders.property("n2o.api.control.text_editor.toolbar_url"), String.class));
         if (toolbarUrl == null) return;
         PathMatchingResourcePatternResolver r = new PathMatchingResourcePatternResolver();

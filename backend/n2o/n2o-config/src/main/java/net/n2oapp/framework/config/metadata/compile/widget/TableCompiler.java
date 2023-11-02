@@ -39,6 +39,7 @@ import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
@@ -73,7 +74,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                 source.getDatasourceId(),
                 ReduxModel.filter, p
         );
-        SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), SubModelsScope::new);
+        SubModelsScope subModelsScope = castDefault(p.getScope(SubModelsScope.class), SubModelsScope::new);
         ValidationScope validationScope = p.getScope(ValidationScope.class) == null ? new ValidationScope() : p.getScope(ValidationScope.class);
         FiltersScope filtersScope = p.getScope(FiltersScope.class);
         TableFiltersScope tableFiltersScope = null;
@@ -100,7 +101,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         component.setWidth(prepareSizeAttribute(source.getWidth()));
         component.setHeight(prepareSizeAttribute(source.getHeight()));
         component.setTextWrap(
-                p.cast(source.getTextWrap(), p.resolve(property("n2o.api.widget.table.text_wrap"), Boolean.class))
+                castDefault(source.getTextWrap(), p.resolve(property("n2o.api.widget.table.text_wrap"), Boolean.class))
         );
         if (source.getRows() != null) {
             if (component.getBody().getRow() == null) {
@@ -136,10 +137,10 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                 compilePaging(table, source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p)
         );
         table.setChildren(
-                p.cast(source.getChildren(), () -> p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggle.class))
+                castDefault(source.getChildren(), () -> p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggle.class))
         );
         component.setAutoSelect(
-                p.cast(source.getAutoSelect(), () -> p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class))
+                castDefault(source.getAutoSelect(), () -> p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class))
         );
 
         return table;
@@ -166,7 +167,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                         p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, scopes)
                 );
                 if (column.getSortingDirection() != null) {
-                    String fieldId = p.cast(column.getSortingFieldId(), column.getTextFieldId());
+                    String fieldId = castDefault(column.getSortingFieldId(), column.getTextFieldId());
                     if (fieldId == null)
                         throw new N2oException(String.format("В колонке <column> c id=%s задан атрибут 'sorting-direction', но не указано поле сортировки. Задайте 'sorting-field-id' или 'text-field-id'",
                                 column.getId()));
@@ -180,7 +181,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
             if (isNotEmpty(sortings)) {
                 passSortingToDatasource(sortings, source, p);
             }
-            component.setRowSelection(p.cast(source.getSelection(), () -> p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class)));
+            component.setRowSelection(castDefault(source.getSelection(), () -> p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class)));
         }
     }
 
@@ -218,7 +219,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                                 .collect(Collectors.toSet())
                 )
         );
-        filter.setFilterPlace(p.cast(source.getFilters().getPlace(), FilterPosition.TOP));
+        filter.setFilterPlace(castDefault(source.getFilters().getPlace(), FilterPosition.TOP));
         boolean hasSearchButtons = fieldSets.stream()
                 .flatMap(fs -> fs.getRows() != null ? fs.getRows().stream() : Stream.empty())
                 .flatMap(r -> r.getCols() != null ? r.getCols().stream() : Stream.empty())

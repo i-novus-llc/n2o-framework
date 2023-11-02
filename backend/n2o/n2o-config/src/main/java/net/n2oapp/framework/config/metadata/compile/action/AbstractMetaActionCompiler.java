@@ -16,6 +16,7 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
 import java.util.Arrays;
 
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
 
@@ -27,10 +28,10 @@ public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2o
     @Override
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
-        source.setDoubleCloseOnSuccess(p.cast(source.getDoubleCloseOnSuccess(), false));
-        source.setCloseOnSuccess(source.getDoubleCloseOnSuccess() || p.cast(source.getCloseOnSuccess(), false));
-        source.setCloseOnFail(p.cast(source.getCloseOnFail(), false));
-        source.setRefreshOnSuccess(p.cast(source.getRefreshOnSuccess(), true));
+        source.setDoubleCloseOnSuccess(castDefault(source.getDoubleCloseOnSuccess(), false));
+        source.setCloseOnSuccess(source.getDoubleCloseOnSuccess() || castDefault(source.getCloseOnSuccess(), false));
+        source.setCloseOnFail(castDefault(source.getCloseOnFail(), false));
+        source.setRefreshOnSuccess(castDefault(source.getRefreshOnSuccess(), true));
         source.setRefreshDatasourceIds(initRefreshDatasources(source, p));
     }
 

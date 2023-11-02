@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -38,7 +39,7 @@ public class DialogCompiler implements BaseSourceCompiler<Dialog, N2oDialog, Dia
         Dialog dialog = new Dialog();
         dialog.setTitle(source.getTitle());
         dialog.setDescription(source.getDescription());
-        dialog.setSize(p.cast(source.getSize(), () -> p.resolve(property("n2o.api.dialog.size"), String.class)));
+        dialog.setSize(castDefault(source.getSize(), () -> p.resolve(property("n2o.api.dialog.size"), String.class)));
         String datasourceId = getClientDatasourceId(context.getParentSourceDatasourceId(), context.getParentPageId(), p);
         dialog.setModelLink(new ModelLink(ReduxModel.resolve, datasourceId).getBindLink());
         CompiledObject object = p.getCompiled(new ObjectContext(context.getObjectId()));

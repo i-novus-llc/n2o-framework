@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -54,16 +55,16 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     @Override
     protected void initDefaults(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
-        source.setMode(p.cast(source.getMode(), CopyMode.merge));
-        source.setSourceModel(p.cast(source.getSourceModel(), ReduxModel.resolve));
-        source.setSourceDatasourceId(p.cast(source.getSourceDatasourceId(), () -> getLocalDatasourceId(p)));
-        source.setTargetModel(p.cast(source.getTargetModel(), ReduxModel.resolve));
-        source.setTargetDatasourceId(p.cast(source.getTargetDatasourceId(), source.getSourceDatasourceId()));
+        source.setMode(castDefault(source.getMode(), CopyMode.merge));
+        source.setSourceModel(castDefault(source.getSourceModel(), ReduxModel.resolve));
+        source.setSourceDatasourceId(castDefault(source.getSourceDatasourceId(), () -> getLocalDatasourceId(p)));
+        source.setTargetModel(castDefault(source.getTargetModel(), ReduxModel.resolve));
+        source.setTargetDatasourceId(castDefault(source.getTargetDatasourceId(), source.getSourceDatasourceId()));
     }
 
     private MetaSaga compileMeta(N2oCopyAction source, CompileProcessor p) {
         MetaSaga meta = new MetaSaga();
-        boolean closeOnSuccess = p.cast(source.getCloseOnSuccess(),
+        boolean closeOnSuccess = castDefault(source.getCloseOnSuccess(),
                 () -> p.resolve(property("n2o.api.action.copy.close_on_success"), Boolean.class));
         meta.setModalsToClose(closeOnSuccess ? 1 : 0);
         return meta;

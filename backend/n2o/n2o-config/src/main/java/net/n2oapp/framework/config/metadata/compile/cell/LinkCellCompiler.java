@@ -10,6 +10,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция ячейки иконка
@@ -31,7 +32,7 @@ public class LinkCellCompiler extends AbstractCellCompiler<LinkCell, N2oLinkCell
         } else {
             cell.setUrl(p.resolveJS(source.getUrl()));
             Target defaultTarget = RouteUtil.isApplicationUrl(source.getUrl()) ? Target.application : Target.self;
-            cell.setTarget(p.cast(source.getTarget(), defaultTarget));
+            cell.setTarget(castDefault(source.getTarget(), defaultTarget));
         }
 
             cell.setIcon(p.resolveJS(source.getIcon()));

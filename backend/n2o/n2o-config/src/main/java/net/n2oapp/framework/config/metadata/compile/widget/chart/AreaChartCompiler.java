@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartType;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция компонента диаграммы-области
@@ -28,11 +29,11 @@ public class AreaChartCompiler extends StandardChartCompiler<AreaChart, N2oAreaC
             AreaChartItem component = new AreaChartItem();
             component.setFieldId(item.getFieldId());
             component.setLabel(item.getLabel());
-            component.setLineType(p.cast(item.getLineType(),
+            component.setLineType(castDefault(item.getLineType(),
                     () -> p.resolve(property("n2o.api.widget.chart.area.line_type"), ChartLineType.class)));
             component.setColor(item.getColor());
             component.setStrokeColor(item.getStrokeColor());
-            component.setHasLabel(p.cast(item.getHasLabel(),
+            component.setHasLabel(castDefault(item.getHasLabel(),
                     () -> p.resolve(property("n2o.api.widget.chart.area.has_label"), Boolean.class)));
             chart.addItem(component);
         }

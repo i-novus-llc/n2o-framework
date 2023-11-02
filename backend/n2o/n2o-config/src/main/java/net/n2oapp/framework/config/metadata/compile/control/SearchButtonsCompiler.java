@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 
 /**
@@ -28,9 +29,9 @@ public class SearchButtonsCompiler extends StandardFieldCompiler<SearchButtons, 
 
         field.setResetLabel(source.getResetLabel());
         field.setSearchLabel(source.getSearchLabel());
-        field.setFetchOnClear(p.cast(source.getFetchOnClear(), () -> p.resolve(
+        field.setFetchOnClear(castDefault(source.getFetchOnClear(), () -> p.resolve(
                 property("n2o.api.control.search_buttons.fetch_on_clear"), Boolean.class)));
-        source.setNoLabel(p.cast(source.getNoLabel(), () -> p.resolve(
+        source.setNoLabel(castDefault(source.getNoLabel(), () -> p.resolve(
                 property("n2o.api.control.search_buttons.no_label"), Boolean.class)));
 
         return compileStandardField(field, source, context, p);

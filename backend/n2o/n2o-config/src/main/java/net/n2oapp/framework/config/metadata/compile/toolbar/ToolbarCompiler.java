@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция тулбара
@@ -40,7 +41,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         ToolbarPlaceScope toolbarPlaceScope = p.getScope(ToolbarPlaceScope.class);
         String defaultPlace = toolbarPlaceScope != null ? toolbarPlaceScope.getPlace() :
                 p.resolve(property("n2o.api.widget.toolbar.place"), String.class);
-        String place = p.cast(source.getPlace(), defaultPlace);
+        String place = castDefault(source.getPlace(), defaultPlace);
 
         List<Group> groups = new ArrayList<>();
         initGroups(source, context, p, groups, place);

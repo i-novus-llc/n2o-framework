@@ -9,6 +9,7 @@ import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция поля для вывода уведомления
@@ -25,9 +26,9 @@ public class AlertFieldCompiler extends FieldCompiler<AlertField, N2oAlertField>
         alert.setTitle(p.resolveJS(source.getTitle()));
         alert.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         alert.setClassName(source.getCssClass());
-        alert.setCloseButton(p.cast(source.getCloseButton(),
+        alert.setCloseButton(castDefault(source.getCloseButton(),
                 () -> p.resolve(property("n2o.api.control.alert.close_button"), Boolean.class)));
-        alert.setColor(p.cast(source.getColor(),
+        alert.setColor(castDefault(source.getColor(),
                 () -> p.resolve(property("n2o.api.control.alert.color"), String.class)));
         alert.setHref(p.resolveJS(source.getHref()));
         compileField(alert, source, context, p);

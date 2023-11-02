@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartType;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция компонента гистограммы
@@ -28,7 +29,7 @@ public class BarChartCompiler extends StandardChartCompiler<BarChart, N2oBarChar
             component.setFieldId(item.getFieldId());
             component.setLabel(item.getLabel());
             component.setColor(item.getColor());
-            component.setHasLabel(p.cast(item.getHasLabel(),
+            component.setHasLabel(castDefault(item.getHasLabel(),
                     () -> p.resolve(property("n2o.api.widget.chart.bar.has_label"), Boolean.class)));
             chart.addItem(component);
         }

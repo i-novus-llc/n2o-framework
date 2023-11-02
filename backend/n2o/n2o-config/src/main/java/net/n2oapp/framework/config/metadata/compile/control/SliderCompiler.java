@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция ползунка
@@ -25,20 +26,20 @@ public class SliderCompiler extends ListControlCompiler<Slider, N2oSlider>{
     public StandardField<Slider> compile(N2oSlider source, CompileContext<?, ?> context, CompileProcessor p) {
         Slider slider = new Slider();
 
-        N2oSlider.Mode mode = p.cast(source.getMode(),
+        N2oSlider.Mode mode = castDefault(source.getMode(),
                 () -> p.resolve(property("n2o.api.control.slider.mode"), N2oSlider.Mode.class));
         slider.setMultiple(N2oSlider.Mode.range.equals(mode));
-        boolean isVertical = Boolean.TRUE.equals((p.cast(source.getVertical(),
+        boolean isVertical = Boolean.TRUE.equals((castDefault(source.getVertical(),
                 () -> p.resolve(property("n2o.api.control.slider.vertical"), Boolean.class))));
         slider.setVertical(isVertical);
 
         slider.setShowTooltip(p.resolve(Placeholders.property("n2o.api.control.slider.tooltip"), Boolean.class));
         slider.setTooltipPlacement(isVertical ? "left" : "top");
-        slider.setTooltipFormatter("${this}" + p.cast(source.getMeasure(), ""));
+        slider.setTooltipFormatter("${this}" + castDefault(source.getMeasure(), ""));
 
         slider.setMin(source.getMin());
         slider.setMax(source.getMax());
-        slider.setStep(p.cast(source.getStep(),
+        slider.setStep(castDefault(source.getStep(),
                 () -> p.resolve(Placeholders.property("n2o.api.control.slider.step"), Integer.class)));
         return compileListControl(slider, source, context, p);
     }

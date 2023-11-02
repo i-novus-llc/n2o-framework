@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConditionValid
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.FileSystemUtil.getContentByUri;
 
 /**
@@ -26,8 +27,8 @@ public class ConditionValidationCompiler extends BaseValidationCompiler<Conditio
     public ConditionValidation compile(N2oConditionValidation source, CompileContext<?, ?> context, CompileProcessor p) {
         ConditionValidation validation = new ConditionValidation();
         compileValidation(validation, source, p);
-        validation.setSeverity(p.cast(source.getSeverity(), SeverityType.danger));
-        validation.setExpression(ScriptProcessor.resolveFunction(p.cast(source.getExpression(), () -> getContentByUri(source.getSrc()))));
+        validation.setSeverity(castDefault(source.getSeverity(), SeverityType.danger));
+        validation.setExpression(ScriptProcessor.resolveFunction(castDefault(source.getExpression(), () -> getContentByUri(source.getSrc()))));
         validation.setExpressionOn(source.getExpressionOn());
         return validation;
     }

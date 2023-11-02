@@ -21,6 +21,7 @@ import java.util.List;
 
 import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 
 /**
@@ -48,12 +49,12 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
         MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(tiles, source, context, p, widgetScope, widgetActions, object, null);
 
-        tiles.setColsSm(p.cast(source.getColsSm(), p.resolve(property("n2o.api.widget.tiles.colsSm"), Integer.class)));
-        tiles.setColsMd(p.cast(source.getColsMd(), p.resolve(property("n2o.api.widget.tiles.colsMd"), Integer.class)));
-        tiles.setColsLg(p.cast(source.getColsLg(), p.resolve(property("n2o.api.widget.tiles.colsLg"), Integer.class)));
-        tiles.setHeight(prepareSizeAttribute(p.cast(source.getHeight(),
+        tiles.setColsSm(castDefault(source.getColsSm(), p.resolve(property("n2o.api.widget.tiles.colsSm"), Integer.class)));
+        tiles.setColsMd(castDefault(source.getColsMd(), p.resolve(property("n2o.api.widget.tiles.colsMd"), Integer.class)));
+        tiles.setColsLg(castDefault(source.getColsLg(), p.resolve(property("n2o.api.widget.tiles.colsLg"), Integer.class)));
+        tiles.setHeight(prepareSizeAttribute(castDefault(source.getHeight(),
                 () -> p.resolve(property("n2o.api.widget.tiles.height"), String.class))));
-        tiles.setWidth(prepareSizeAttribute(p.cast(source.getWidth(),
+        tiles.setWidth(prepareSizeAttribute(castDefault(source.getWidth(),
                 () -> p.resolve(property("n2o.api.widget.tiles.width"), String.class))));
 
         List<Tiles.Tile> tls = new ArrayList<>(source.getContent().length);
@@ -67,7 +68,7 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
     private Tiles.Tile compileBlock(N2oBlock source, CompileContext<?, ?> context, CompileProcessor p,
                                     Object... scopes) {
         Tiles.Tile tile = new Tiles.Tile();
-        source.setId(p.cast(source.getId(), source.getTextFieldId()));
+        source.setId(castDefault(source.getId(), source.getTextFieldId()));
         tile.setId(source.getId());
         tile.setClassName(source.getCssClass());
         tile.setStyle(StylesResolver.resolveStyles(source.getStyle()));

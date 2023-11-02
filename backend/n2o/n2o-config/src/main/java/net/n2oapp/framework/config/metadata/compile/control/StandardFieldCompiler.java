@@ -20,6 +20,7 @@ import java.util.Objects;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 
 /**
@@ -32,7 +33,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         if (isNull(control.getSrc()))
             control.setSrc(source.getSrc());
         source.setSrc(null);
-        source.setCopied(p.cast(source.getCopied(), true));
+        source.setCopied(castDefault(source.getCopied(), true));
         StandardField<D> field = new StandardField<>();
         compileField(field, source, context, p);
         field.setControl(control);
@@ -49,7 +50,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
     }
 
     protected void compileControl(D control, S source, CompileProcessor p, StandardField<D> field, CompileContext<?, ?> context) {
-        String src = p.cast(
+        String src = castDefault(
                 control.getSrc(),
                 () -> p.resolve(Placeholders.property(getControlSrcProperty()), String.class)
         );

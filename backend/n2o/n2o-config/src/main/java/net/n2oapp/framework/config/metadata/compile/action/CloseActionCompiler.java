@@ -19,6 +19,7 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Сборка действия закрытия страницы
@@ -41,7 +42,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
             CloseActionPayload payload = new CloseActionPayload();
             if (context instanceof ModalPageContext) {
                 payload.setPageId(((PageContext) context).getClientPageId());
-                payload.setPrompt(p.cast(source.getPrompt(), () -> ((PageContext) context).getUnsavedDataPromptOnClose(),() -> true));
+                payload.setPrompt(castDefault(source.getPrompt(), () -> ((PageContext) context).getUnsavedDataPromptOnClose(),() -> true));
             } else {
                 payload.setPageId(((DialogContext) context).getParentPageId());
             }
@@ -54,7 +55,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
                 anchor.setTarget(source.getRedirectTarget());
             } else if (context instanceof PageContext) {
                 String backRoute = ((PageContext) context).getParentRoute();
-                anchor.setHref(p.cast(backRoute, "/"));
+                anchor.setHref(castDefault(backRoute, "/"));
                 anchor.setTarget(Target.application);
             } else {
                 anchor.setHref("/");
@@ -68,7 +69,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
 
     private MetaSaga initMeta(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
         MetaSaga meta = new MetaSaga();
-        boolean refresh = p.cast(source.getRefresh(),
+        boolean refresh = castDefault(source.getRefresh(),
                 () -> p.resolve(property("n2o.api.action.close.refresh_on_close"), Boolean.class));
         boolean redirect = source.getRedirectUrl() != null;
         if (!redirect && (context instanceof ModalPageContext))

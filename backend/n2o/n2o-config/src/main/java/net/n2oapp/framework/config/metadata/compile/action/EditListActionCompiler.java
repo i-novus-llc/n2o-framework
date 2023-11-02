@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.action.editlist.EditListActionPayl
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -40,16 +41,16 @@ public class EditListActionCompiler extends AbstractActionCompiler<EditListActio
     @Override
     protected void initDefaults(N2oEditListAction source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
-        source.setPrimaryKey(p.cast(source.getPrimaryKey(),
+        source.setPrimaryKey(castDefault(source.getPrimaryKey(),
                 () -> p.resolve(property("n2o.api.action.edit_list.primary_key"), String.class)));
-        source.setItemDatasourceId(p.cast(source.getItemDatasourceId(), () -> getLocalDatasourceId(p)));
+        source.setItemDatasourceId(castDefault(source.getItemDatasourceId(), () -> getLocalDatasourceId(p)));
         if (source.getItemDatasourceId() == null) {
             throw new N2oException("Item datasource is undefined for edit-list action");
         }
 
-        source.setItemModel(p.cast(source.getItemModel(), () -> getModelFromComponentScope(p)));
-        source.setDatasourceId(p.cast(source.getDatasourceId(), source.getItemDatasourceId()));
-        source.setModel(p.cast(source.getModel(), source.getItemModel()));
+        source.setItemModel(castDefault(source.getItemModel(), () -> getModelFromComponentScope(p)));
+        source.setDatasourceId(castDefault(source.getDatasourceId(), source.getItemDatasourceId()));
+        source.setModel(castDefault(source.getModel(), source.getItemModel()));
     }
 
     private EditListActionPayload.EditInfo constructEditInfo(String datasourceId, ReduxModel model, String fieldId, CompileProcessor p) {

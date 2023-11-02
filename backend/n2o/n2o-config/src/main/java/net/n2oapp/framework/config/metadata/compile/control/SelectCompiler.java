@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 
 /**
@@ -31,10 +32,10 @@ public class SelectCompiler extends ListControlCompiler<Select, N2oSelect> {
     @Override
     public StandardField<Select> compile(N2oSelect source, CompileContext<?, ?> context, CompileProcessor p) {
         Select control = new Select();
-        control.setType(p.cast(source.getType(),
+        control.setType(castDefault(source.getType(),
                 () -> p.resolve(property("n2o.api.control.select.type"), ListType.class)));
         control.setClosePopupOnSelect(!ListType.CHECKBOXES.equals(control.getType()));
-        control.setCleanable(p.cast(source.getCleanable(),
+        control.setCleanable(castDefault(source.getCleanable(),
                 () -> p.resolve(property("n2o.api.control.select.cleanable"), Boolean.class)));
         control.setSelectFormat(source.getSelectFormat());
         control.setSelectFormatOne(source.getSelectFormatOne());

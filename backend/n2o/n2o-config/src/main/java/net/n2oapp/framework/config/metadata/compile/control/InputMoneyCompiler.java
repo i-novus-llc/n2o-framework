@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция компонента input-money
@@ -29,9 +30,9 @@ public class InputMoneyCompiler extends StandardFieldCompiler<InputMoney, N2oInp
     @Override
     public StandardField<InputMoney> compile(N2oInputMoney source, CompileContext<?, ?> context, CompileProcessor p) {
         InputMoney inputMoney = new InputMoney();
-        inputMoney.setPrefix(p.cast(p.resolveJS(source.getPrefix()),
+        inputMoney.setPrefix(castDefault(p.resolveJS(source.getPrefix()),
                 () -> p.resolve(property("n2o.api.control.input_money.prefix"), String.class), () -> ""));
-        inputMoney.setSuffix(p.cast(p.resolveJS(source.getSuffix()),
+        inputMoney.setSuffix(castDefault(p.resolveJS(source.getSuffix()),
                 () -> p.resolve(property("n2o.api.control.input_money.suffix"), String.class), () -> ""));
         inputMoney.setThousandsSeparatorSymbol(source.getThousandsSeparator());
         inputMoney.setDecimalSymbol(source.getDecimalSeparator());
@@ -41,7 +42,7 @@ public class InputMoneyCompiler extends StandardFieldCompiler<InputMoney, N2oInp
     }
 
     private void compileDecimalMode(InputMoney inputMoney, N2oInputMoney source, CompileProcessor p) {
-        FractionFormatting fractionFormatting =  p.cast(source.getFractionFormatting(),
+        FractionFormatting fractionFormatting =  castDefault(source.getFractionFormatting(),
                 () -> p.resolve(property("n2o.api.control.input_money.fraction_formatting"), FractionFormatting.class));
         switch (fractionFormatting) {
             case manual: {

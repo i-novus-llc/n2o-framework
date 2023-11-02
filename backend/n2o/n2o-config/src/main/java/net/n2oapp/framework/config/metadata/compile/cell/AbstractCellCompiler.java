@@ -13,12 +13,11 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor;
-import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initActions;
 import static net.n2oapp.framework.config.util.StylesResolver.resolveStylesToString;
 
@@ -42,7 +41,7 @@ public abstract class AbstractCellCompiler<D extends AbstractCell, S extends N2o
                     compiled.getElementAttributes().put("alignment", column.getContentAlignment().getId());
             }
         }
-        compiled.setSrc(p.cast(source.getSrc(), () -> p.resolve(defaultSrc, String.class)));
+        compiled.setSrc(castDefault(source.getSrc(), () -> p.resolve(defaultSrc, String.class)));
         if (source.getCssClass() != null)
             compiled.getElementAttributes().put("className", p.resolveJS(source.getCssClass()));
         if (source.getStyle() != null)

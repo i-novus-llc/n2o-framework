@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 
@@ -38,7 +39,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
     public LinkAction compile(N2oAnchor source, CompileContext<?, ?> context, CompileProcessor p) {
         initDefaults(source, context, p);
         LinkActionImpl linkAction = new LinkActionImpl();
-        source.setSrc(p.cast(source.getSrc(),
+        source.setSrc(castDefault(source.getSrc(),
                 () -> p.resolve(Placeholders.property("n2o.api.action.link.src"), String.class)));
         linkAction.setType(p.resolve(property("n2o.api.action.link.type"), String.class));
 
@@ -56,7 +57,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
             }
         }
         initUrl(linkAction, path, source, routeScope, p);
-        Target target = p.cast(source.getTarget(), Target.self);
+        Target target = castDefault(source.getTarget(), Target.self);
         linkAction.setTarget(target);
         PageRoutes pageRoutes = p.getScope(PageRoutes.class);
         if (pageRoutes != null && Target.application.equals(source.getTarget())) {
@@ -72,8 +73,8 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         String resolvedPath = p.resolveJS(path);
         linkAction.setUrl(resolvedPath);
         if (StringUtils.isJs(resolvedPath)) {
-            String datasourceId = p.cast(source.getDatasourceId(), () -> getLocalDatasourceId(p));
-            ReduxModel reduxModel = p.cast(source.getModel(), () -> getLocalModel(p));
+            String datasourceId = castDefault(source.getDatasourceId(), () -> getLocalDatasourceId(p));
+            ReduxModel reduxModel = castDefault(source.getModel(), () -> getLocalModel(p));
             if (datasourceId == null) {
                 throw new N2oException("Datasource not found for action <a> with linked href " + source.getHref());
             }

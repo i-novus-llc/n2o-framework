@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция компонента вывода многострочного текста
@@ -30,15 +31,15 @@ public class OutputListCompiler extends StandardFieldCompiler<OutputList, N2oOut
     @Override
     public StandardField<OutputList> compile(N2oOutputList source, CompileContext<?, ?> context, CompileProcessor p) {
         OutputList outputList = new OutputList();
-        outputList.setLabelFieldId(p.cast(source.getLabelFieldId(),
+        outputList.setLabelFieldId(castDefault(source.getLabelFieldId(),
                 () -> p.resolve(property("n2o.api.control.output_list.label_field_id"), String.class)));
-        outputList.setHrefFieldId(p.cast(source.getHrefFieldId(),
+        outputList.setHrefFieldId(castDefault(source.getHrefFieldId(),
                 () -> p.resolve(property("n2o.api.control.output_list.href_field_id"), String.class)));
-        outputList.setTarget(p.cast(source.getTarget(),
+        outputList.setTarget(castDefault(source.getTarget(),
                 () -> p.resolve(property("n2o.api.control.output_list.target"), Target.class)));
-        outputList.setDirection(p.cast(source.getDirection(),
+        outputList.setDirection(castDefault(source.getDirection(),
                 () -> p.resolve(property("n2o.api.control.output_list.direction"), OutputList.Direction.class)));
-        outputList.setSeparator(p.cast(source.getSeparator(),
+        outputList.setSeparator(castDefault(source.getSeparator(),
                 () -> p.resolve(property("n2o.api.control.output_list.separator"), String.class)));
         return compileStandardField(outputList, source, context, p);
     }

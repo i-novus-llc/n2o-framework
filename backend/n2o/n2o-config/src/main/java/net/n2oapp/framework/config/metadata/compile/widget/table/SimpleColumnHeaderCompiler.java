@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -45,11 +46,11 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         IndexScope idx = p.getScope(IndexScope.class);
         int indexNumber = idx.get();
 
-        source.setId(p.cast(source.getId(), source.getTextFieldId(), "cell" + indexNumber));
-        source.setSortingFieldId(p.cast(source.getSortingFieldId(), source.getTextFieldId()));
-        source.setAlignment(p.cast(source.getAlignment(),
+        source.setId(castDefault(source.getId(), source.getTextFieldId(), "cell" + indexNumber));
+        source.setSortingFieldId(castDefault(source.getSortingFieldId(), source.getTextFieldId()));
+        source.setAlignment(castDefault(source.getAlignment(),
                 () -> p.resolve(property("n2o.api.widget.column.alignment"), Alignment.class)));
-        source.setContentAlignment(p.cast(source.getContentAlignment(), source.getAlignment()));
+        source.setContentAlignment(castDefault(source.getContentAlignment(), source.getAlignment()));
 
         N2oCell cell = source.getCell();
         if (cell == null) {
@@ -63,10 +64,10 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         compileBaseProperties(source, header, p);
         header.setId(source.getId());
         header.setIcon(source.getIcon());
-        header.setResizable(p.cast(source.getResizable(),
+        header.setResizable(castDefault(source.getResizable(),
                 p.resolve(property("n2o.api.widget.table.column.resizable"), Boolean.class)));
         header.getElementAttributes().put("width", prepareSizeAttribute(source.getWidth()));
-        header.setResizable(p.cast(source.getResizable(),
+        header.setResizable(castDefault(source.getResizable(),
                 () -> p.resolve(property("n2o.api.widget.table.column.resizable"), Boolean.class)));
         header.setFixed(source.getFixed());
         if (source.getAlignment() != null)
@@ -75,8 +76,8 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (source.getColumnVisibilities() != null) {
             for (AbstractColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
-                String datasourceId = getClientDatasourceId(p.cast(visibility.getDatasourceId(), widgetScope.getDatasourceId()), p);
-                ReduxModel refModel = p.cast(visibility.getModel(), ReduxModel.filter);
+                String datasourceId = getClientDatasourceId(castDefault(visibility.getDatasourceId(), widgetScope.getDatasourceId()), p);
+                ReduxModel refModel = castDefault(visibility.getModel(), ReduxModel.filter);
                 Condition condition = new Condition();
                 condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
                 condition.setModelLink(new ModelLink(refModel, datasourceId).getBindLink());

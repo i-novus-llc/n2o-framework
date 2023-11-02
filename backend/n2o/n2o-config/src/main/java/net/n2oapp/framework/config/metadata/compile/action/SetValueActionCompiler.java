@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -37,17 +38,17 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
         String sourceDatasourceId = source.getSourceDatasourceId() == null ? defaultDatasource :
                 getClientDatasourceId(source.getSourceDatasourceId(), p);
         SetValueActionPayload.ClientModel sourceModel = new SetValueActionPayload.ClientModel(sourceDatasourceId,
-                p.cast(source.getSourceModel(), model.getId()));
+                castDefault(source.getSourceModel(), model.getId()));
         String targetDatasourceId = source.getTargetDatasourceId() == null ? defaultDatasource :
                 getClientDatasourceId(source.getTargetDatasourceId(), p);
         SetValueActionPayload.ClientModel targetModel = new SetValueActionPayload.ClientModel(targetDatasourceId,
-                p.cast(source.getTargetModel(), model.getId()));
+                castDefault(source.getTargetModel(), model.getId()));
         targetModel.setField(source.getTo());
         setValueAction.getPayload().setSource(sourceModel);
         setValueAction.getPayload().setTarget(targetModel);
 
         setValueAction.getPayload().setSourceMapper(ScriptProcessor.resolveFunction(source.getExpression()));
-        setValueAction.getPayload().setMode(p.cast(source.getMergeMode(), MergeMode.replace));
+        setValueAction.getPayload().setMode(castDefault(source.getMergeMode(), MergeMode.replace));
 
         return setValueAction;
     }

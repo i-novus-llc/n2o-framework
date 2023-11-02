@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.StringUtils.hasLink;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 import static net.n2oapp.framework.config.util.FileSystemUtil.getContentByUri;
 
@@ -28,7 +29,7 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
-        String html = p.cast(source.getHtml(), () -> getContentByUri(source.getUrl()));
+        String html = castDefault(source.getHtml(), () -> getContentByUri(source.getUrl()));
         if (html != null) {
             if (hasLink(html))
                 html = html.replace("'", "\\\'");

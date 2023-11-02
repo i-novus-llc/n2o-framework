@@ -34,6 +34,7 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNullElseGet;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
 /**
@@ -52,10 +53,10 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
      * @param p       Процессор сборки
      */
     protected void compileBaseProperties(S source, C page, PageContext context, CompileProcessor p) {
-        page.setId(p.cast(context.getClientPageId(), () -> RouteUtil.convertPathToId(initPageRoute(source, context, p))));
+        page.setId(castDefault(context.getClientPageId(), () -> RouteUtil.convertPathToId(initPageRoute(source, context, p))));
         Models models = new Models();
         page.setModels(models);
-        page.getPageProperty().setModel(p.cast(source.getModel(), ReduxModel.resolve));
+        page.getPageProperty().setModel(castDefault(source.getModel(), ReduxModel.resolve));
     }
 
     /**
@@ -67,7 +68,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
      * @return Маршрут
      */
     protected String initPageRoute(N2oPage source, PageContext context, CompileProcessor p) {
-        return normalize(p.cast(context.getRoute((N2oCompileProcessor) p), source.getRoute(), normalize(source.getId())));
+        return normalize(castDefault(context.getRoute((N2oCompileProcessor) p), source.getRoute(), normalize(source.getId())));
     }
 
     /**
@@ -107,7 +108,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         boolean needCreation = source.getHasBreadcrumbs() || p.resolve(property("n2o.api.page.breadcrumbs"), Boolean.class);
         if (needCreation) {
             if (source.getBreadcrumbs() == null)
-                return initBreadcrumbByContext(pageName, context, p);
+                return initBreadcrumbByContext(pageName, context);
 
             BreadcrumbList breadcrumbs = new BreadcrumbList();
             for (N2oBreadcrumb sourceCrumb : source.getBreadcrumbs()) {
@@ -141,10 +142,9 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
      *
      * @param pageName Наименование страницы
      * @param context  Контекст сборки
-     * @param p        Процессор сборки метаданных
      * @return breadcrumb текущей страницы
      */
-    protected BreadcrumbList initBreadcrumbByContext(String pageName, PageContext context, CompileProcessor p) {
+    protected BreadcrumbList initBreadcrumbByContext(String pageName, PageContext context) {
         if (context instanceof ModalPageContext)
             return null;
         BreadcrumbList breadcrumbs = new BreadcrumbList();
@@ -153,7 +153,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
                 breadcrumbs.add(new Breadcrumb(breadcrumb));
             }
             Breadcrumb prev = breadcrumbs.get(breadcrumbs.size() - 1);
-            prev.setPath(p.cast(prev.getPath(), context.getParentRoute(), "/"));
+            prev.setPath(castDefault(prev.getPath(), context.getParentRoute(), "/"));
         }
         Breadcrumb current = new Breadcrumb();
         current.setLabel(pageName);
@@ -175,13 +175,13 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
      */
     protected PageProperty initPageName(N2oPage source, String pageName, PageContext context, CompileProcessor p) {
         PageProperty pageProperty = new PageProperty();
-        boolean showTitle = p.cast(source.getShowTitle(), () -> p.resolve(property("n2o.api.page.show_title"), Boolean.class));
+        boolean showTitle = castDefault(source.getShowTitle(), () -> p.resolve(property("n2o.api.page.show_title"), Boolean.class));
 
-        pageProperty.setHtmlTitle(p.cast(source.getHtmlTitle(), pageName));
+        pageProperty.setHtmlTitle(castDefault(source.getHtmlTitle(), pageName));
         if (context instanceof ModalPageContext)
             pageProperty.setModalHeaderTitle(pageName);
         else if (showTitle)
-            pageProperty.setTitle(p.cast(source.getTitle(), pageName));
+            pageProperty.setTitle(castDefault(source.getTitle(), pageName));
 
         if (context.getParentModelLinks() != null)
             pageProperty.setModelLinks(context.getParentModelLinks());
@@ -199,9 +199,9 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
                 else {
                     ctxDs.setId(dsId);
                     if (ctxDs instanceof N2oApplicationDatasource) {
-                        appDatasourceIdsScope.put(ctxDs.getId(), p.cast(((N2oApplicationDatasource) ctxDs).getSourceDatasource(), ctxDs.getId()));
+                        appDatasourceIdsScope.put(ctxDs.getId(), castDefault(((N2oApplicationDatasource) ctxDs).getSourceDatasource(), ctxDs.getId()));
                     } else if (ctxDs instanceof N2oParentDatasource) {
-                        String sourceDatasourceId = p.cast(((N2oParentDatasource) ctxDs).getSourceDatasource(), ctxDs.getId());
+                        String sourceDatasourceId = castDefault(((N2oParentDatasource) ctxDs).getSourceDatasource(), ctxDs.getId());
                         if (context.getParentDatasourceIdsMap().containsKey(sourceDatasourceId))
                             parentDatasourceIdsScope.put(dsId, context.getParentDatasourceIdsMap().get(sourceDatasourceId));
                     }
@@ -217,7 +217,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
      */
     protected N2oToolbar cloneToolbar(N2oToolbar t, N2oWidget resultWidget, CompileProcessor p) {
         N2oToolbar toolbar = new N2oToolbar();
-        toolbar.setPlace(p.cast(t.getPlace(), () -> p.resolve(property("n2o.api.page.toolbar.place"), String.class)));
+        toolbar.setPlace(castDefault(t.getPlace(), () -> p.resolve(property("n2o.api.page.toolbar.place"), String.class)));
         toolbar.setGenerate(t.getGenerate());
         toolbar.setStyle(t.getStyle());
         toolbar.setDatasourceId(t.getDatasourceId());

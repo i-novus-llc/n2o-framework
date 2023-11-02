@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.meta.cell.RatingCell;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция ячейки рейтинга
@@ -23,13 +24,13 @@ public class RatingCellCompiler extends AbstractCellCompiler<RatingCell, N2oRati
     public RatingCell compile(N2oRatingCell source, CompileContext<?, ?> context, CompileProcessor p) {
         RatingCell cell = new RatingCell();
         build(cell, source, context, p, property("n2o.api.cell.rating.src"));
-        cell.setShowTooltip(p.cast(source.getShowTooltip(),
+        cell.setShowTooltip(castDefault(source.getShowTooltip(),
                 () -> p.resolve(property("n2o.api.cell.rating.show_tooltip"), Boolean.class)));
-        cell.setHalf(p.cast(source.getHalf(),
+        cell.setHalf(castDefault(source.getHalf(),
                 () -> p.resolve(property("n2o.api.cell.rating.half"), Boolean.class)));
-        cell.setMax(p.cast(source.getMax(),
+        cell.setMax(castDefault(source.getMax(),
                 () -> p.resolve(property("n2o.api.cell.rating.max"), Integer.class)));
-        cell.setReadonly(p.cast(source.getReadonly(),
+        cell.setReadonly(castDefault(source.getReadonly(),
                 () -> p.resolve(property("n2o.api.cell.rating.readonly"), Boolean.class)));
         if (Boolean.FALSE.equals(source.getReadonly()))
             compileAction(cell, source, context, p);
