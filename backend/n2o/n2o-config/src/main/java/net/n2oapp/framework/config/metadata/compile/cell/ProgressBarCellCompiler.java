@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.meta.cell.ProgressBarCell;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция ячейки иконка
@@ -24,11 +25,11 @@ public class ProgressBarCellCompiler extends AbstractCellCompiler<ProgressBarCel
     public ProgressBarCell compile(N2oProgressBarCell source, CompileContext<?, ?> context, CompileProcessor p) {
         ProgressBarCell cell = new ProgressBarCell();
         build(cell, source, context, p, property("n2o.api.cell.progress.bar.src"));
-        cell.setStriped(p.cast(source.getStriped(),
+        cell.setStriped(castDefault(source.getStriped(),
                 () -> p.resolve(property("n2o.api.cell.progress.striped"), Boolean.class)));
-        cell.setActive(p.cast(source.getActive(),
+        cell.setActive(castDefault(source.getActive(),
                 () -> p.resolve(property("n2o.api.cell.progress.active"), Boolean.class)));
-        cell.setSize(p.cast(source.getSize(),
+        cell.setSize(castDefault(source.getSize(),
                 () -> p.resolve(property("n2o.api.cell.progress.size"), N2oProgressBarCell.Size.class)));
         cell.setColor(source.getColor());
         return cell;

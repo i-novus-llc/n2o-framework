@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Утилитный класс для работы со значками
@@ -81,13 +82,13 @@ public class BadgeUtil {
      * @param p              Процессор сборки метаданных
      */
     private static void setDefaults(Badge compiled, BadgeAware source, String propertyPrefix, CompileProcessor p) {
-        compiled.setShape(p.cast(source.getBadgeShape(),
+        compiled.setShape(castDefault(source.getBadgeShape(),
                 () -> p.resolve(property(propertyPrefix + SHAPE), ShapeType.class)));
-        compiled.setPosition(p.cast(source.getBadgePosition(),
+        compiled.setPosition(castDefault(source.getBadgePosition(),
                 () -> p.resolve(property(propertyPrefix + POSITION), Position.class)));
-        compiled.setImagePosition(p.cast(source.getBadgeImagePosition(),
+        compiled.setImagePosition(castDefault(source.getBadgeImagePosition(),
                 () -> p.resolve(property(propertyPrefix + IMAGE_POSITION), Position.class)));
-        compiled.setImageShape(p.cast(source.getBadgeImageShape(),
+        compiled.setImageShape(castDefault(source.getBadgeImageShape(),
                 () -> p.resolve(property(propertyPrefix + IMAGE_SHAPE), ShapeType.class)));
     }
 }

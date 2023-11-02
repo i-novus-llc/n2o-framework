@@ -28,9 +28,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientWidgetId;
 
@@ -45,7 +45,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
     @Override
     public SimplePage compile(N2oSimplePage source, PageContext context, CompileProcessor p) {
         SimplePage page = new SimplePage();
-        String pageName = p.cast(context.getPageName(), source.getName());
+        String pageName = castDefault(context.getPageName(), source.getName());
         page.setPageProperty(initPageName(source, pageName, context, p));
         compileBaseProperties(source, page, context, p);
 
@@ -57,8 +57,8 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             source.setWidget(p.merge(p.getSource(refId, N2oWidget.class), source.getWidget()));
         }
         N2oWidget widget = source.getWidget();
-        widget.setId(p.cast(widget.getId(), MAIN_WIDGET_ID));
-        widget.setRoute(p.cast(widget.getRoute(), "/" + ("/".equals(pageRoute) ? widget.getId() : "")));
+        widget.setId(castDefault(widget.getId(), MAIN_WIDGET_ID));
+        widget.setRoute(castDefault(widget.getRoute(), "/" + ("/".equals(pageRoute) ? widget.getId() : "")));
         PageRoutes routes = initRoute(pageRoute);
         ParentRouteScope pageRouteScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         BreadcrumbList breadcrumbs = new BreadcrumbList(page.getBreadcrumb());

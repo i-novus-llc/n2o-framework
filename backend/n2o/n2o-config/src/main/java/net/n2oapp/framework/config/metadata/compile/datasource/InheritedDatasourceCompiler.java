@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -45,11 +46,11 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
 
         InheritedDatasource.Submit submit = new InheritedDatasource.Submit();
         N2oInheritedDatasource.Submit sourceSubmit = source.getSubmit();
-        submit.setAuto(p.cast(sourceSubmit.getAuto(),
+        submit.setAuto(castDefault(sourceSubmit.getAuto(),
                 () -> p.resolve(property("n2o.api.datasource.inherited.submit.auto"), Boolean.class)));
-        submit.setModel(p.cast(sourceSubmit.getModel(), ReduxModel.resolve));
-        submit.setTargetDs(getClientDatasourceId(p.cast(sourceSubmit.getTargetDatasource(), source.getSourceDatasource()), p));
-        submit.setTargetModel(p.cast(sourceSubmit.getTargetModel(), source.getSourceModel(), ReduxModel.resolve));
+        submit.setModel(castDefault(sourceSubmit.getModel(), ReduxModel.resolve));
+        submit.setTargetDs(getClientDatasourceId(castDefault(sourceSubmit.getTargetDatasource(), source.getSourceDatasource()), p));
+        submit.setTargetModel(castDefault(sourceSubmit.getTargetModel(), source.getSourceModel(), ReduxModel.resolve));
         submit.setTargetField(sourceSubmit.getTargetDatasource() != null ? sourceSubmit.getTargetFieldId() : source.getSourceFieldId());
         submit.setSubmitValueExpression(ScriptProcessor.resolveFunction(source.getSubmit().getSubmitValue()));
         return submit;
@@ -58,7 +59,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
     private InheritedDatasource.Provider initProvider(N2oInheritedDatasource source, CompileProcessor p) {
         InheritedDatasource.Provider provider = new InheritedDatasource.Provider();
         provider.setSourceDs(getClientDatasourceId(source.getSourceDatasource(), p));
-        provider.setSourceModel(p.cast(source.getSourceModel(), ReduxModel.resolve));
+        provider.setSourceModel(castDefault(source.getSourceModel(), ReduxModel.resolve));
         provider.setSourceField(source.getSourceFieldId());
         provider.setFetchValueExpression(ScriptProcessor.resolveFunction(source.getFetchValue()));
         return provider;
@@ -73,7 +74,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
             InheritedDatasource.Filter filter = new InheritedDatasource.Filter();
             filter.setType(sourceFilter.getType());
             filter.setFieldId(sourceFilter.getFieldId());
-            boolean required = p.cast(sourceFilter.getRequired(), false);
+            boolean required = castDefault(sourceFilter.getRequired(), false);
             filter.setRequired(required);
             Object value = getPrefilterValue(sourceFilter);
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
@@ -85,7 +86,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
                 String clientDatasourceId = sourceFilter.getRefPageId() != null ?
                         getClientDatasourceId(sourceFilter.getDatasourceId(), sourceFilter.getRefPageId(), p) :
                         getClientDatasourceId(sourceFilter.getDatasourceId(), p);
-                ReduxModel model = p.cast(sourceFilter.getModel(), ReduxModel.resolve);
+                ReduxModel model = castDefault(sourceFilter.getModel(), ReduxModel.resolve);
                 ModelLink link = new ModelLink(model, clientDatasourceId);
                 link.setValue(value);
                 link.setParam(sourceFilter.getParam());

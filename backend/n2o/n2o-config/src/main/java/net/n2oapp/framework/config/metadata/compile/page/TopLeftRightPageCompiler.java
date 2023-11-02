@@ -12,6 +12,7 @@ import java.util.*;
 
 import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция страницы с тремя регионами
@@ -22,7 +23,7 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
     @Override
     public TopLeftRightPage compile(N2oTopLeftRightPage source, PageContext context, CompileProcessor p) {
         TopLeftRightPage page = new TopLeftRightPage();
-        page.setNeedScrollButton(p.cast(source.getScrollTopButton(),
+        page.setNeedScrollButton(castDefault(source.getScrollTopButton(),
                 () -> p.resolve(property("n2o.api.page.top_left_right.scroll_top_button"), Boolean.class)));
 
         if (source.getTop() != null || source.getLeft() != null || source.getRight() != null) {
@@ -43,7 +44,7 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
     private TopLeftRightPage.Places.RegionOptions compileRegionOptions(N2oTopLeftRightPage.RegionOptions source, CompileProcessor p) {
         TopLeftRightPage.Places.RegionOptions regionOptions = new TopLeftRightPage.Places.RegionOptions();
         regionOptions.setWidth(prepareSizeAttribute(source.getWidth()));
-        regionOptions.setFixed(p.cast(source.getFixed(),
+        regionOptions.setFixed(castDefault(source.getFixed(),
                 () -> p.resolve(property("n2o.api.page.top_left_right.region.fixed"), Boolean.class)));
         regionOptions.setOffset(source.getOffset());
         return regionOptions;

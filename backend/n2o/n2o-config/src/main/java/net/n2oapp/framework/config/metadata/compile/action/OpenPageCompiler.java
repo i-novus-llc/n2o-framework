@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция open-page
@@ -29,11 +30,11 @@ public class OpenPageCompiler extends AbstractOpenPageCompiler<LinkAction, N2oOp
     public LinkAction compile(N2oOpenPage source, CompileContext<?, ?> context, CompileProcessor p) {
         initDefaults(source, context, p);
         LinkActionImpl openPage = new LinkActionImpl();
-        source.setSrc(p.cast(source.getSrc(),
+        source.setSrc(castDefault(source.getSrc(),
                 () -> p.resolve(property("n2o.api.action.link.src"), String.class)));
         openPage.setType(p.resolve(property("n2o.api.action.link.type"), String.class));
         openPage.setObjectId(source.getObjectId());
-        openPage.setTarget(p.cast(source.getTarget(), Target.application));
+        openPage.setTarget(castDefault(source.getTarget(), Target.application));
         openPage.setOperationId(source.getOperationId());
         openPage.setPageId(source.getPageId());
         compileAction(openPage, source, p);

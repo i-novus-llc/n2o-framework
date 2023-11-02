@@ -8,8 +8,10 @@ import net.n2oapp.framework.api.metadata.action.ifelse.N2oConditionBranch;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
 import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionActionPayload;
 import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -28,12 +30,12 @@ public class IfBranchActionCompiler extends BaseConditionActionCompiler<N2oIfBra
                                   CompileProcessor p, PageIndexScope indexScope) {
         N2oIfBranchAction ifSource = (N2oIfBranchAction) source;
         initDatasource(payload, ifSource, p);
-        payload.setModel(p.cast(ifSource.getModel(), () -> getLocalModel(p)));
+        payload.setModel(castDefault(ifSource.getModel(), () -> getLocalModel(p)));
         super.compilePayload(source, payload, failBranchesScope, context, p, indexScope);
     }
 
     private void initDatasource(ConditionActionPayload payload, N2oIfBranchAction source, CompileProcessor p) {
-        payload.setDatasource(getClientDatasourceId(p.cast(source.getDatasourceId(), () -> getLocalDatasourceId(p)), p));
+        payload.setDatasource(getClientDatasourceId(castDefault(source.getDatasourceId(), () -> getLocalDatasourceId(p)), p.getScope(PageScope.class).getPageId()));
         if (payload.getDatasource() == null) {
             throw new N2oException(String.format("Datasource is undefined for if-branch with test=\"%s\"",
                     source.getTest()));

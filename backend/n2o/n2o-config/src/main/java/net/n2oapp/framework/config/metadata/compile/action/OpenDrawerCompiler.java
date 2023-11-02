@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.register.route.RouteUtil.convertPathToId;
 
 /**
@@ -42,21 +43,21 @@ public class OpenDrawerCompiler extends AbstractModalCompiler<OpenDrawer, N2oOpe
 
     protected void compilePayload(N2oOpenDrawer source, OpenDrawer drawer, PageContext pageContext, CompileProcessor p) {
         OpenDrawerPayload payload = drawer.getPayload();
-        payload.setBackdrop(p.cast(source.getBackdrop(),
+        payload.setBackdrop(castDefault(source.getBackdrop(),
                 () -> p.resolve(property("n2o.api.action.open_drawer.backdrop"), Boolean.class)));
-        payload.setWidth(prepareSizeAttribute(p.cast(source.getWidth(),
+        payload.setWidth(prepareSizeAttribute(castDefault(source.getWidth(),
                 () -> p.resolve(property("n2o.api.action.open_drawer.width"), String.class))));
         payload.setHeight(prepareSizeAttribute(source.getHeight()));
-        payload.setPlacement(p.cast(source.getPlacement(),
+        payload.setPlacement(castDefault(source.getPlacement(),
                 () -> p.resolve(property("n2o.api.action.open_drawer.placement"), String.class)));
-        payload.setCloseOnBackdrop(p.cast(source.getCloseOnBackdrop(),
+        payload.setCloseOnBackdrop(castDefault(source.getCloseOnBackdrop(),
                 () -> p.resolve(property("n2o.api.action.open_drawer.close_on_backdrop"), Boolean.class), () -> true));
-        payload.setClosable(p.cast(source.getClosable(),
+        payload.setClosable(castDefault(source.getClosable(),
                 () -> p.resolve(property("n2o.api.action.open_drawer.closable"), Boolean.class), () -> true));
         payload.setPrompt(pageContext.getUnsavedDataPromptOnClose());
-        payload.setFixedFooter(p.cast(source.getFixedFooter(),
+        payload.setFixedFooter(castDefault(source.getFixedFooter(),
                 () -> p.resolve(property("n2o.api.action.open_drawer.fixed_footer"), Boolean.class)));
-        payload.setCloseOnEscape(p.cast(source.getCloseOnEscape(),
+        payload.setCloseOnEscape(castDefault(source.getCloseOnEscape(),
                 () -> p.resolve(property("n2o.api.action.open_drawer.close_on_escape"), Boolean.class)));
     }
 }

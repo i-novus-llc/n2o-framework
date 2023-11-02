@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.chart.LineChartItem;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция компонента линейного графика
@@ -28,10 +29,10 @@ public class LineChartCompiler extends StandardChartCompiler<LineChart, N2oLineC
             LineChartItem component = new LineChartItem();
             component.setFieldId(item.getFieldId());
             component.setLabel(item.getLabel());
-            component.setType(p.cast(item.getType(),
+            component.setType(castDefault(item.getType(),
                     () -> p.resolve(property("n2o.api.widget.chart.line.type"), ChartLineType.class)));
             component.setColor(item.getColor());
-            component.setHasLabel(p.cast(item.getHasLabel(),
+            component.setHasLabel(castDefault(item.getHasLabel(),
                     () -> p.resolve(property("n2o.api.widget.chart.line.has_label"), Boolean.class)));
             chart.addItem(component);
         }

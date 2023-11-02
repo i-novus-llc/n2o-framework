@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.fieldset.LineFieldSet;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция филдсета с горизонтальной линией <line/>
@@ -28,13 +29,13 @@ public class LineFieldSetCompiler extends AbstractFieldSetCompiler<LineFieldSet,
         LineFieldSet fieldSet = new LineFieldSet();
         compileFieldSet(fieldSet, source, context, p);
 
-        fieldSet.setCollapsible(p.cast(source.getCollapsible(),
+        fieldSet.setCollapsible(castDefault(source.getCollapsible(),
                 () -> p.resolve(property("n2o.api.fieldset.line.collapsible"), Boolean.class)));
-        fieldSet.setHasSeparator(p.cast(source.getHasSeparator(),
+        fieldSet.setHasSeparator(castDefault(source.getHasSeparator(),
                 () -> p.resolve(property("n2o.api.fieldset.line.has_separator"), Boolean.class)));
-        fieldSet.setExpand(p.cast(source.getExpand(),
+        fieldSet.setExpand(castDefault(source.getExpand(),
                 () -> p.resolve(property("n2o.api.fieldset.line.expand"), Boolean.class)));
-        fieldSet.setSrc(p.cast(source.getSrc(),
+        fieldSet.setSrc(castDefault(source.getSrc(),
                 () -> p.resolve(property("n2o.api.fieldset.line.src"), String.class)));
         fieldSet.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
         return fieldSet;

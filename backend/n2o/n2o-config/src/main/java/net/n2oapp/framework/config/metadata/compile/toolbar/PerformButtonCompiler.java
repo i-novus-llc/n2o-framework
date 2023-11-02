@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.compileValidate;
 import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.initDatasource;
@@ -76,15 +77,15 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     }
 
     protected void initDefaults(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
-        source.setId(p.cast(source.getId(), source.getActionId()));
+        source.setId(castDefault(source.getId(), source.getActionId()));
         super.initDefaults(source, context, p);
 
         source.setDatasourceId(initDatasource(source, p));
-        source.setSrc(p.cast(source.getSrc(),
+        source.setSrc(castDefault(source.getSrc(),
                 () -> p.resolve(property("n2o.api.button.src"), String.class)));
-        source.setRounded(p.cast(source.getRounded(),
+        source.setRounded(castDefault(source.getRounded(),
                 () -> p.resolve(property("n2o.api.button.rounded"), Boolean.class)));
-        boolean validate = initValidate(source, p, source.getDatasourceId());
+        boolean validate = initValidate(source, source.getDatasourceId());
         source.setValidate(validate);
         source.setValidateDatasourceIds(initValidateDatasources(source, validate, source.getDatasourceId()));
         source.setActions(initActions(source, p));
@@ -156,7 +157,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
      * @return Условие доступности кнопки при пустой модели
      */
     private Condition enabledByEmptyModelCondition(N2oButton source, String clientDatasource, ComponentScope componentScope, CompileProcessor p) {
-        DisableOnEmptyModelType disableOnEmptyModel = p.cast(source.getDisableOnEmptyModel(),
+        DisableOnEmptyModelType disableOnEmptyModel = castDefault(source.getDisableOnEmptyModel(),
                 () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelType.class));
         if (DisableOnEmptyModelType.FALSE.equals(disableOnEmptyModel)) return null;
 
@@ -189,7 +190,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
     private void compileDependencyCondition(N2oButton.Dependency dependency, PerformButton button, ValidationType validationType,
                                             String buttonDatasource, ReduxModel buttonModel, CompileProcessor p) {
-        ReduxModel refModel = p.cast(dependency.getModel(), buttonModel, ReduxModel.resolve);
+        ReduxModel refModel = castDefault(dependency.getModel(), buttonModel, ReduxModel.resolve);
         Condition condition = new Condition();
         condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
         String datasource = (dependency.getDatasource() != null) ?

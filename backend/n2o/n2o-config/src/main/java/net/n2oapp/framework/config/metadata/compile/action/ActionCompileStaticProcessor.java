@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
@@ -91,7 +92,7 @@ public class ActionCompileStaticProcessor {
                                           PageIndexScope pageIndexScope, Object... scopes) {
         if (source.getActions() != null) {
             for (ActionBar a : source.getActions()) {
-                a.setModel(p.cast(a.getModel(), ReduxModel.resolve));
+                a.setModel(castDefault(a.getModel(), ReduxModel.resolve));
                 initMultiActionIds(a.getN2oActions(), "act_multi", p, pageIndexScope);
                 // TODO - don't compile, only init id if necessary
                 compileAction(a.getN2oActions(), null, context, p, new ComponentScope(a), pageIndexScope, scopes);
@@ -217,9 +218,9 @@ public class ActionCompileStaticProcessor {
 
     private static void initMultiActionIds(N2oAction[] actions, String prefix, CompileProcessor p, PageIndexScope pageIndexScope) {
         if (ArrayUtils.getLength(actions) > 1) {
-            PageIndexScope indexScope = p.cast(pageIndexScope, () -> p.getScope(PageIndexScope.class));
+            PageIndexScope indexScope = castDefault(pageIndexScope, () -> p.getScope(PageIndexScope.class));
             Arrays.stream(actions).filter(ActionCompileStaticProcessor::isNotFailConditions)
-                    .forEach(action -> action.setId(p.cast(action.getId(), prefix + indexScope.get())));
+                    .forEach(action -> action.setId(castDefault(action.getId(), prefix + indexScope.get())));
         }
     }
 

@@ -21,12 +21,13 @@ import java.util.List;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> extends ComponentCompiler<D, S, PageContext> {
 
     protected D build(D compiled, S source, CompileProcessor p) {
         compileComponent(compiled, source, null, p);
-        compiled.setId(p.cast(source.getId(), createId(p)));
+        compiled.setId(castDefault(source.getId(), createId(p)));
 
         return compiled;
     }
@@ -57,14 +58,14 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
     }
 
     protected void compileRoute(RoutableRegion source, String regionId, String property, CompileProcessor p) {
-        Boolean routable = p.cast(
+        Boolean routable = castDefault(
                 source.getRoutable(),
                 () -> p.resolve(property(property), Boolean.class)
         );
         PageRoutes routes = p.getScope(PageRoutes.class);
         if (isNull(routes) || !Boolean.TRUE.equals(routable))
             return;
-        String activeParam = p.cast(source.getActiveParam(), regionId);
+        String activeParam = castDefault(source.getActiveParam(), regionId);
         routes.addQueryMapping(
                 activeParam,
                 Redux.dispatchSetActiveRegionEntity(regionId, activeParam),

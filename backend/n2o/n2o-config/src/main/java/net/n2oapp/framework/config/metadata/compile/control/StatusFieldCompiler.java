@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.control.Status;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция компонента отображения статуса
@@ -26,7 +27,7 @@ public class StatusFieldCompiler extends FieldCompiler<Status, N2oStatus> {
         Status status = new Status();
         status.setColor(source.getColor());
         status.setText(p.resolveJS(source.getText()));
-        status.setTextPosition(p.cast(source.getTextPosition(),
+        status.setTextPosition(castDefault(source.getTextPosition(),
                 () -> p.resolve(property("n2o.api.control.status.text_position"), Position.class)));
         initDefaults(source, context, p);
         compileField(status, source, context, p);

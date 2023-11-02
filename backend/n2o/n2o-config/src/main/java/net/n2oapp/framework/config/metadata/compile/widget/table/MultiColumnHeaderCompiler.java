@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция заголовка мульти-столбца таблицы
@@ -29,10 +30,10 @@ public class MultiColumnHeaderCompiler extends AbstractHeaderCompiler<N2oMultiCo
         header.setLabel(source.getLabel());
         header.setMultiHeader(true);
         header.setChildren(new ArrayList<>());
-        header.getElementAttributes().put("alignment", p.cast(source.getAlignment() == null ? null : source.getAlignment().getId(),
+        header.getElementAttributes().put("alignment", castDefault(source.getAlignment() == null ? null : source.getAlignment().getId(),
                 () -> p.resolve(property("n2o.api.widget.column.multi.alignment"), String.class)));
         for (AbstractColumn subColumn : source.getChildren()) {
-            subColumn.setContentAlignment(p.cast(subColumn.getContentAlignment(), source.getContentAlignment()));
+            subColumn.setContentAlignment(castDefault(subColumn.getContentAlignment(), source.getContentAlignment()));
             header.getChildren().add(p.compile(subColumn, context, p));
         }
         return header;

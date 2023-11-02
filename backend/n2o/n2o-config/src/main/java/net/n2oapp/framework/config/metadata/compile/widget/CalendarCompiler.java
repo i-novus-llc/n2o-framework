@@ -18,6 +18,7 @@ import java.util.Date;
 
 import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция виджета календарь
@@ -43,7 +44,7 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
 
         CalendarWidgetComponent component = calendar.getComponent();
-        component.setSize(p.cast(source.getSize(), () -> p.resolve(property("n2o.api.widget.calendar.size"), Integer.class)));
+        component.setSize(castDefault(source.getSize(), () -> p.resolve(property("n2o.api.widget.calendar.size"), Integer.class)));
         component.setHeight(prepareSizeAttribute(source.getHeight()));
         String dateDomain = p.resolve(property("n2o.api.control.date_time.domain"), String.class);
         component.setDate((Date) p.resolve(source.getDefaultDate(), dateDomain));
@@ -53,12 +54,12 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
         component.setViews(Arrays.stream(source.getViews()).map(v -> CalendarViewType.valueOf(v).getTitle()).toArray(String[]::new));
         component.setMinTime(p.resolveJS(source.getMinTime()));
         component.setMaxTime(p.resolveJS(source.getMaxTime()));
-        component.setMarkDaysOff(p.cast(source.getMarkDaysOff(),
+        component.setMarkDaysOff(castDefault(source.getMarkDaysOff(),
                 () -> p.resolve(property("n2o.api.widget.calendar.mark_days_off"), Boolean.class)));
-        component.setSelectable(p.cast(source.getSelectable(),
+        component.setSelectable(castDefault(source.getSelectable(),
                 () -> p.resolve(property("n2o.api.widget.calendar.selectable"), Boolean.class)));
-        component.setStep(p.cast(source.getStep(), () -> p.resolve(property("n2o.api.widget.calendar.step"), Integer.class)));
-        component.setTimeSlots(p.cast(source.getTimeSlotCount(),
+        component.setStep(castDefault(source.getStep(), () -> p.resolve(property("n2o.api.widget.calendar.step"), Integer.class)));
+        component.setTimeSlots(castDefault(source.getTimeSlotCount(),
                 () -> p.resolve(property("n2o.api.widget.calendar.time_slot_count"), Integer.class)));
         component.setTitleFieldId(source.getTitleFieldId());
         component.setTooltipFieldId(source.getTooltipFieldId());

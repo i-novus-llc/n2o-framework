@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция региона с горизонтальным делителем
@@ -30,11 +31,11 @@ public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRe
         build(region, source, p);
         region.setContent(initContent(source.getContent(), context, p, source));
         region.setLabel(source.getLabel());
-        region.setCollapsible(p.cast(source.getCollapsible(),
+        region.setCollapsible(castDefault(source.getCollapsible(),
                 () -> p.resolve(property("n2o.api.region.line.collapsible"), Boolean.class)));
-        region.setHasSeparator(p.cast(source.getHasSeparator(),
+        region.setHasSeparator(castDefault(source.getHasSeparator(),
                 () -> p.resolve(property("n2o.api.region.line.has_separator"), Boolean.class)));
-        region.setExpand(p.cast(source.getExpand(),
+        region.setExpand(castDefault(source.getExpand(),
                 () -> p.resolve(property("n2o.api.region.line.expand"), Boolean.class)));
         return region;
     }

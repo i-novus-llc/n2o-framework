@@ -41,6 +41,7 @@ import java.util.*;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientWidgetId;
@@ -62,8 +63,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setProperties(p.mapAttributes(source));
         compiled.setSrc(initSrc(source, p));
         compiled.setIcon(source.getIcon());
-        compiled.setFetchOnInit(p.cast(source.getFetchOnInit(), true));
-        compiled.setFetchOnVisibility(p.cast(source.getFetchOnVisibility(), true));
+        compiled.setFetchOnInit(castDefault(source.getFetchOnInit(), true));
+        compiled.setFetchOnVisibility(castDefault(source.getFetchOnVisibility(), true));
         compileComponent(compiled, source, p);
         initDatasource(compiled, source, p);
         compileDependencies(compiled, source, p);
@@ -79,7 +80,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         String defaultWidgetSrc = null;
         if (nonNull(getPropertyWidgetSrc()))
             defaultWidgetSrc = p.resolve(property(getPropertyWidgetSrc()), String.class);
-        return p.cast(source.getSrc(), defaultWidgetSrc);
+        return castDefault(source.getSrc(), defaultWidgetSrc);
     }
 
     /**
@@ -165,7 +166,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     private void compileAutoFocus(S source, D compiled, CompileProcessor p) {
         if (isNull(compiled.getComponent()))
             return;
-        compiled.getComponent().setAutoFocus(p.cast(source.getAutoFocus(),
+        compiled.getComponent().setAutoFocus(castDefault(source.getAutoFocus(),
                 () -> p.resolve(property("n2o.api.widget.auto_focus"), Boolean.class), () -> true));
     }
 
@@ -214,7 +215,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 String datasourceId = dep.getDatasource() == null ? compiled.getDatasource() :
                         getClientDatasourceId(dep.getDatasource(), p);
                 ModelLink link = new ModelLink(
-                        p.cast(dep.getModel(), ReduxModel.resolve),
+                        castDefault(dep.getModel(), ReduxModel.resolve),
                         datasourceId);
                 condition.setOn(link.getBindLink());
                 if (dep instanceof N2oVisibilityDependency) {

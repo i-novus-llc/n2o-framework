@@ -12,6 +12,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция группы чекбоксов
@@ -26,9 +27,9 @@ public class CheckboxGroupCompiler extends ListControlCompiler<CheckboxGroup, N2
     @Override
     public StandardField<CheckboxGroup> compile(N2oCheckboxGroup source, CompileContext<?, ?> context, CompileProcessor p) {
         CheckboxGroup checkboxGroup = new CheckboxGroup();
-        checkboxGroup.setInline(p.cast(source.getInline(),
+        checkboxGroup.setInline(castDefault(source.getInline(),
                 () -> p.resolve(property("n2o.api.control.checkbox_group.inline"), Boolean.class)));
-        checkboxGroup.setType(p.cast(source.getType(),
+        checkboxGroup.setType(castDefault(source.getType(),
                 () -> p.resolve(property("n2o.api.control.checkbox_group.type"), N2oCheckboxGroup.CheckboxGroupType.class)));
         StandardField<CheckboxGroup> result = compileListControl(checkboxGroup, source, context, p);
         return compileFetchDependencies(result, source, p);

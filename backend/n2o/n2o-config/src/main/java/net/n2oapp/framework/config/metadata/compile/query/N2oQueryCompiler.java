@@ -63,7 +63,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             query.setObject(p.getCompiled(new ObjectContext(source.getObjectId())));
         }
 
-        String route = normalize(p.cast(source.getRoute(), queryId));
+        String route = normalize(castDefault(source.getRoute(), queryId));
         query.setRoute(isDynamic(route) ? route.replaceAll("[?=&]", "_") : route);
         query.setLists(initSeparators(source.getLists(), p));
         query.setUniques(initSeparators(source.getUniques(), p));
@@ -71,7 +71,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         if (nonNull(context.getValidations()) && !context.getValidations().isEmpty())
             query.setValidations(context.getValidations());
         List<AbstractField> fields = nonNull(source.getFields()) ? Arrays.asList(source.getFields()) : List.of();
-        initDefaultFilters(source.getFilters(), p);
+        initDefaultFilters(source.getFilters());
         initDefaultFields(
                 fields,
                 p.resolve(property((IS_SELECTED)), Boolean.class),
@@ -88,7 +88,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         query.setFiltersMap(unmodifiableMap(initFiltersMap(source, query, p)));
         query.setInvertFiltersMap(unmodifiableMap(initInvertFiltersMap(source, query.getFieldsMap())));
         query.setFilterFieldsMap(unmodifiableMap(initFilterFieldsMap(query.getFiltersMap())));
-        query.setParamToFilterIdMap(unmodifiableMap(initParamToFilterIdMap(query.getFilterFieldsMap(), p)));
+        query.setParamToFilterIdMap(unmodifiableMap(initParamToFilterIdMap(query.getFilterFieldsMap())));
         query.setFilterIdToParamMap(unmodifiableMap(initFilterIdToParamMap(query.getParamToFilterIdMap())));
         query.setSubModelQueries(context.getSubModelQueries());
         initExpressions(query);
@@ -130,10 +130,10 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         for (Filter preFilter : preFilters) {
             for (N2oQuery.Filter filter : source.getFilters()) {
                 if (filter.getFilterId().equals(preFilter.getFilterId())) {
-                    filter.setParam(p.cast(preFilter.getParam(), filter.getParam()));
+                    filter.setParam(castDefault(preFilter.getParam(), filter.getParam()));
                     if (nonNull(preFilter.getLink()) && !preFilter.getLink().isLink()) {
                         filter.setCompiledDefaultValue(
-                                p.cast(
+                                castDefault(
                                         preFilter.getLink().getValue(),
                                         () -> p.resolve(filter.getDefaultValue(), filter.getDomain())
                                 )
@@ -169,10 +169,10 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         return invertFiltersMap;
     }
 
-    private Map<String, String> initParamToFilterIdMap(Map<String, N2oQuery.Filter> filterIdsMap, CompileProcessor p) {
+    private Map<String, String> initParamToFilterIdMap(Map<String, N2oQuery.Filter> filterIdsMap) {
         Map<String, String> filterParams = new HashMap<>();
         for (N2oQuery.Filter filter : filterIdsMap.values()) {
-            String param = p.cast(filter.getParam(), () -> normalizeParam(filter.getFilterId()));
+            String param = castDefault(filter.getParam(), () -> normalizeParam(filter.getFilterId()));
             filterParams.put(param, filter.getFilterId());
         }
 
@@ -212,16 +212,16 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                 if (selection.getInvocation() instanceof N2oRestDataProvider) {
                     N2oRestDataProvider invocation = (N2oRestDataProvider) selection.getInvocation();
                     invocation.setFiltersSeparator(
-                            p.cast(invocation.getFiltersSeparator(), () -> p.resolve(property(FILTERS_SEPARATOR), String.class))
+                            castDefault(invocation.getFiltersSeparator(), () -> p.resolve(property(FILTERS_SEPARATOR), String.class))
                     );
                     invocation.setSelectSeparator(
-                            p.cast(invocation.getSelectSeparator(), () -> p.resolve(property(SELECT_SEPARATOR), String.class))
+                            castDefault(invocation.getSelectSeparator(), () -> p.resolve(property(SELECT_SEPARATOR), String.class))
                     );
                     invocation.setJoinSeparator(
-                            p.cast(invocation.getJoinSeparator(), () -> p.resolve(property(JOIN_SEPARATOR), String.class))
+                            castDefault(invocation.getJoinSeparator(), () -> p.resolve(property(JOIN_SEPARATOR), String.class))
                     );
                     invocation.setSortingSeparator(
-                            p.cast(invocation.getSortingSeparator(), () -> p.resolve(property(SORTING_SEPARATOR), String.class))
+                            castDefault(invocation.getSortingSeparator(), () -> p.resolve(property(SORTING_SEPARATOR), String.class))
                     );
                 }
             }
@@ -266,17 +266,17 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         return result;
     }
 
-    private void initDefaultFilters(N2oQuery.Filter[] filters, CompileProcessor p) {
+    private void initDefaultFilters(N2oQuery.Filter[] filters) {
         if (nonNull(filters)) {
             for (N2oQuery.Filter filter : filters) {
                 filter.setFilterId(
-                        p.cast(
+                        castDefault(
                                 filter.getFilterId(),
                                 () -> normalizeParam(filter.getFieldId()) + "_" + filter.getType()
                         )
                 );
                 filter.setParam(
-                        p.cast(
+                        castDefault(
                                 filter.getParam(),
                                 () -> normalizeParam(filter.getFilterId())
                         )

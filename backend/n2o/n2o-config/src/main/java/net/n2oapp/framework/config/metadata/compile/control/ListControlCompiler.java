@@ -27,6 +27,7 @@ import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 public abstract class ListControlCompiler<T extends ListControl, S extends N2oListField> extends StandardFieldCompiler<T, S> {
@@ -34,19 +35,19 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
 
     protected StandardField<T> compileListControl(T listControl, S source, CompileContext<?, ?> context, CompileProcessor p) {
         listControl.setFormat(p.resolveJS(source.getFormat()));
-        listControl.setLabelFieldId(p.cast(p.resolveJS(source.getLabelFieldId()), "name"));
-        listControl.setSortFieldId(p.cast(source.getSortFieldId(), listControl.getLabelFieldId()));
-        listControl.setValueFieldId(p.cast(p.resolveJS(source.getValueFieldId()), "id"));
+        listControl.setLabelFieldId(castDefault(p.resolveJS(source.getLabelFieldId()), "name"));
+        listControl.setSortFieldId(castDefault(source.getSortFieldId(), listControl.getLabelFieldId()));
+        listControl.setValueFieldId(castDefault(p.resolveJS(source.getValueFieldId()), "id"));
         listControl.setIconFieldId(p.resolveJS(source.getIconFieldId()));
         listControl.setImageFieldId(p.resolveJS(source.getImageFieldId()));
         listControl.setGroupFieldId(p.resolveJS(source.getGroupFieldId()));
         listControl.setHasSearch(source.getSearch());
         listControl.setStatusFieldId(source.getStatusFieldId());
         compileData(source, listControl, context, p);
-        listControl.setCaching(p.cast(source.getCache(), () -> p.resolve(property("n2o.api.control.list.cache"), Boolean.class)));
+        listControl.setCaching(castDefault(source.getCache(), () -> p.resolve(property("n2o.api.control.list.cache"), Boolean.class)));
         listControl.setEnabledFieldId(source.getEnabledFieldId());
         listControl.setBadge(BadgeUtil.compileReferringBadge(source, PROPERTY_PREFIX, p));
-        listControl.setSize(p.cast(listControl.getSize(), () -> source.getSize(),
+        listControl.setSize(castDefault(listControl.getSize(), () -> source.getSize(),
                 () -> p.resolve(property("n2o.api.control.list.size"), Integer.class)));
         initSubModel(source, listControl.getData(), p);
         return compileStandardField(listControl, source, context, p);
@@ -153,7 +154,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         CompiledQuery query = p.getCompiled(queryContext);
 
         if (Boolean.TRUE.equals(listControl.getHasSearch())) {
-            String searchFilterId = p.cast(source.getSearchFilterId(), listControl.getLabelFieldId());
+            String searchFilterId = castDefault(source.getSearchFilterId(), listControl.getLabelFieldId());
             if (query.getFilterIdToParamMap().containsKey(searchFilterId))
                 return query.getFilterIdToParamMap().get(searchFilterId);
             else if (searchFilterId != null && listControl.getHasSearch())

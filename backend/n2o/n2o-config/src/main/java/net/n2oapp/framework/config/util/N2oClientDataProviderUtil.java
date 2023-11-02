@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
 import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
@@ -103,7 +104,7 @@ public class N2oClientDataProviderUtil {
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setMethod(RequestMethod.POST);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        dataProvider.setUrl(p.cast(submit.getRoute(), widgetScope.getDatasourceId()));
+        dataProvider.setUrl(castDefault(submit.getRoute(), widgetScope.getDatasourceId()));
         dataProvider.setTargetModel(widgetScope.getModel());
         dataProvider.setClientDatasourceId(widgetScope.getClientDatasourceId());
         dataProvider.setPathParams(submit.getPathParams());
@@ -114,11 +115,11 @@ public class N2oClientDataProviderUtil {
         actionContextData.setObjectId(compiledObject.getId());
         actionContextData.setOperationId(submit.getOperationId());
         actionContextData.setRoute(submit.getRoute());
-        actionContextData.setMessageOnSuccess(p.cast(submit.getMessageOnSuccess(), false));
-        actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), false));
-        actionContextData.setMessagePosition(p.cast(submit.getMessagePosition(),
+        actionContextData.setMessageOnSuccess(castDefault(submit.getMessageOnSuccess(), false));
+        actionContextData.setMessageOnFail(castDefault(submit.getMessageOnFail(), false));
+        actionContextData.setMessagePosition(castDefault(submit.getMessagePosition(),
                 () -> p.resolve(property("n2o.api.message.position"), MessagePosition.class)));
-        actionContextData.setMessagePlacement(p.cast(submit.getMessagePlacement(),
+        actionContextData.setMessagePlacement(castDefault(submit.getMessagePlacement(),
                 () -> p.resolve(property("n2o.api.message.placement"), MessagePlacement.class)));
         actionContextData.setMessagesForm(submit.getMessageWidgetId());
         actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));

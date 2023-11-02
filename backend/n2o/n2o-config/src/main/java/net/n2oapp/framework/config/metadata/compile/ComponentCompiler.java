@@ -9,6 +9,8 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.config.util.StylesResolver;
 
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
+
 /**
  * Сборка компонента
  */
@@ -19,7 +21,7 @@ public abstract class ComponentCompiler<D extends Component, S extends SourceCom
         if (getSrcProperty() == null) {
             compiled.setSrc(source.getSrc());
         } else {
-            compiled.setSrc(p.cast(source.getSrc(), () -> p.resolve(Placeholders.property(getSrcProperty()), String.class)));
+            compiled.setSrc(castDefault(source.getSrc(), () -> p.resolve(Placeholders.property(getSrcProperty()), String.class)));
         }
         if (compiled.getSrc() == null)
             throw new N2oException("component src is required");

@@ -40,6 +40,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientWidgetId;
@@ -54,7 +55,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                                              Object... scopes);
 
     public D compilePage(S source, D page, PageContext context, CompileProcessor p, SearchBarScope searchBarScope) {
-        String pageName = p.cast(context.getPageName(), source.getName());
+        String pageName = castDefault(context.getPageName(), source.getName());
         page.setPageProperty(initPageName(source, pageName, context, p));
         compileBaseProperties(source, page, context, p);
         String pageRoute = initPageRoute(source, context, p);
@@ -82,7 +83,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         ApplicationDatasourceIdsScope appDatasourceIdsScope = new ApplicationDatasourceIdsScope();
         ParentDatasourceIdsScope parentDatasourceIdsScope = new ParentDatasourceIdsScope();
         DataSourcesScope datasourcesScope = initDataSourcesScope(source, sourceWidgets, appDatasourceIdsScope,
-                parentDatasourceIdsScope, context, p);
+                parentDatasourceIdsScope, context);
         PageScope pageScope = initPageScope(source, page.getId(), sourceWidgets, resultWidget,
                 appDatasourceIdsScope, context, p);
         initContextDatasources(datasourcesScope, appDatasourceIdsScope, parentDatasourceIdsScope, pageScope, context, p);
@@ -143,14 +144,14 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     private DataSourcesScope initDataSourcesScope(S source, List<N2oWidget> sourceWidgets,
                                                   ApplicationDatasourceIdsScope appDatasourceIdsScope,
                                                   ParentDatasourceIdsScope parentDatasourceIdsScope,
-                                                  PageContext context, CompileProcessor p) {
+                                                  PageContext context) {
         DataSourcesScope datasourcesScope = new DataSourcesScope();
         Set<String> parentDatasourceIds = new HashSet<>();
 
         if (nonNull(source.getDatasources()))
             for (N2oAbstractDatasource ds : source.getDatasources()) {
                 if (ds instanceof N2oApplicationDatasource)
-                    appDatasourceIdsScope.put(ds.getId(), p.cast(((N2oApplicationDatasource) ds).getSourceDatasource(), ds.getId()));
+                    appDatasourceIdsScope.put(ds.getId(), castDefault(((N2oApplicationDatasource) ds).getSourceDatasource(), ds.getId()));
                 if (ds instanceof N2oParentDatasource) {
                     parentDatasourceIds.add(ds.getId());
                     if (context.getParentDatasourceIdsMap() != null && !context.getParentDatasourceIdsMap().containsKey(ds.getId())) {

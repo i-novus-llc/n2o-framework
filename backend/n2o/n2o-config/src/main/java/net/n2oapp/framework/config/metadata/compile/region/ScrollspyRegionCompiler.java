@@ -17,6 +17,7 @@ import java.util.Objects;
 
 import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция региона с отслеживанием прокрутки
@@ -50,10 +51,10 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
         build(region, source, p);
         region.setTitle(source.getTitle());
         region.setPlacement(
-                p.cast(source.getPlacement(), () -> p.resolve(property(PLACEMENT), String.class))
+                castDefault(source.getPlacement(), () -> p.resolve(property(PLACEMENT), String.class))
         );
         region.setHeadlines(
-                p.cast(source.getHeadlines(), () -> p.resolve(property(HEADLINES), Boolean.class))
+                castDefault(source.getHeadlines(), () -> p.resolve(property(HEADLINES), Boolean.class))
         );
         region.setMaxHeight(prepareSizeAttribute(source.getMaxHeight()));
         region.setMenu(initMenu(source.getMenu(), context, p));
@@ -102,14 +103,14 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
         initElement(element, item, p);
         element.setGroup(initMenu(((GroupItem) item).getGroup(), context, p));
         element.setHeadline(
-                p.cast(((GroupItem) item).getHeadline(), () -> p.resolve(property(GROUP_HEADLINE), Boolean.class))
+                castDefault(((GroupItem) item).getHeadline(), () -> p.resolve(property(GROUP_HEADLINE), Boolean.class))
         );
 
         return element;
     }
 
     private void initElement(ScrollspyElement element, AbstractMenuItem item, CompileProcessor p) {
-        element.setId(p.cast(item.getId(), createId("element_scrollspy", p)));
+        element.setId(castDefault(item.getId(), createId("element_scrollspy", p)));
         element.setTitle(item.getTitle());
     }
 }

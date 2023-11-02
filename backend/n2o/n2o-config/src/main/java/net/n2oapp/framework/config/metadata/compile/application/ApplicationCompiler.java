@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция приложения
@@ -37,10 +38,10 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         initWelcomePage(source, p);
 
         Application.Layout layout = new Application.Layout();
-        layout.setFixed(p.cast(source.getNavigationLayoutFixed(),
+        layout.setFixed(castDefault(source.getNavigationLayoutFixed(),
                 () -> p.resolve(property("n2o.application.navigation_layout_fixed"), Boolean.class)));
 
-        NavigationLayout navLayout = p.cast(source.getNavigationLayout(),
+        NavigationLayout navLayout = castDefault(source.getNavigationLayout(),
                 () -> p.resolve(property("n2o.application.navigation_layout"), NavigationLayout.class));
         layout.setFullSizeHeader(navLayout.equals(NavigationLayout.fullSizeHeader));
 
@@ -83,7 +84,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     private Header initHeader(N2oHeader source, ApplicationContext context, DataSourcesScope dataSourcesScope, CompileProcessor p) {
         if (source == null) return null;
         Header header = new Header();
-        header.setSrc(p.cast(source.getSrc(), () -> p.resolve(property("n2o.api.header.src"), String.class)));
+        header.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.header.src"), String.class)));
         header.setClassName(source.getCssClass());
         header.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         Logo logo = new Logo();
@@ -109,8 +110,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
             return null;
         Sidebar sidebar = p.compile(source, context, dataSourcesScope);
         if (header != null && header.getSidebarSwitcher() != null) {
-            sidebar.setDefaultState(p.cast(source.getDefaultState(), SidebarState.none));
-            sidebar.setToggledState(p.cast(source.getToggledState(), SidebarState.maxi));
+            sidebar.setDefaultState(castDefault(source.getDefaultState(), SidebarState.none));
+            sidebar.setToggledState(castDefault(source.getToggledState(), SidebarState.maxi));
         }
         return sidebar;
     }
@@ -118,7 +119,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     private Footer initFooter(N2oFooter source, CompileProcessor p) {
         if (source == null || source.getVisible() != null && !source.getVisible()) return null;
         Footer footer = new Footer();
-        footer.setSrc(p.cast(source.getSrc(), () -> p.resolve(property("n2o.api.footer.src"), String.class)));
+        footer.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.footer.src"), String.class)));
         footer.setClassName(source.getCssClass());
         footer.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         footer.setTextRight(p.resolveJS(source.getRightText()));
