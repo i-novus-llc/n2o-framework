@@ -18,6 +18,7 @@ import java.util.List;
 
 import static net.n2oapp.framework.api.StringUtils.*;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -49,19 +50,19 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         build(region, source, p);
         region.setItems(initItems(source, context, p));
         region.setAlwaysRefresh(
-                p.cast(source.getAlwaysRefresh(), () -> p.resolve(property(ALWAYS_REFRESH), Boolean.class))
+                castDefault(source.getAlwaysRefresh(), () -> p.resolve(property(ALWAYS_REFRESH), Boolean.class))
         );
         region.setLazy(
-                p.cast(source.getLazy(), () -> p.resolve(property(LAZY), Boolean.class))
+                castDefault(source.getLazy(), () -> p.resolve(property(LAZY), Boolean.class))
         );
         region.setScrollbar(
-                p.cast(source.getScrollbar(), () -> p.resolve(property(SCROLLBAR), Boolean.class))
+                castDefault(source.getScrollbar(), () -> p.resolve(property(SCROLLBAR), Boolean.class))
         );
         region.setMaxHeight(prepareSizeAttribute(
-                p.cast(source.getMaxHeight(), () -> p.resolve(property(MAX_HEIGHT), String.class)))
+                castDefault(source.getMaxHeight(), () -> p.resolve(property(MAX_HEIGHT), String.class)))
         );
         region.setHideSingleTab(
-                p.cast(source.getHideSingleTab(), () -> p.resolve(property(HIDE_SINGLE_TAB), Boolean.class))
+                castDefault(source.getHideSingleTab(), () -> p.resolve(property(HIDE_SINGLE_TAB), Boolean.class))
         );
         region.setActiveTabFieldId(source.getActiveTabFieldId());
         region.setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
@@ -127,7 +128,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     private String createTabId(String regionId, String alias, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         String regionName = getDefaultId(pageScope, alias);
-        String id = p.cast(regionId, createId(regionName, p));
+        String id = castDefault(regionId, createId(regionName, p));
 
         //проверяем id на уникальность
         if (pageScope != null) {

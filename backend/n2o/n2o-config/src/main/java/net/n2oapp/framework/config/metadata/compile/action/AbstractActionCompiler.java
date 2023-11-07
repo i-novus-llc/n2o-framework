@@ -18,10 +18,10 @@ import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
@@ -156,7 +156,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      */
     protected ReduxModel getLocalModel(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
-        return p.cast(ComponentScope.getFirstNotNull(componentScope, ModelAware.class, ModelAware::getModel), ReduxModel.resolve);
+        return castDefault(ComponentScope.getFirstNotNull(componentScope, ModelAware.class, ModelAware::getModel), ReduxModel.resolve);
     }
 
     /**
@@ -170,7 +170,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      */
     private ModelLink initParamModelLink(N2oParam param, String defaultClientWidgetId, ReduxModel defaultModel, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        String widgetId = p.cast(getClientDatasourceId(param.getRefWidgetId(), p), defaultClientWidgetId);
+        String widgetId = castDefault(getClientDatasourceId(param.getRefWidgetId(), p), defaultClientWidgetId);
 
         String clientDatasourceId;
         if (pageScope == null) {
@@ -186,7 +186,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
                 clientDatasourceId = getClientDatasourceId(getLocalDatasourceId(p), p);
         }
 
-        ModelLink link = new ModelLink(p.cast(param.getModel(), defaultModel), clientDatasourceId);
+        ModelLink link = new ModelLink(castDefault(param.getModel(), defaultModel), clientDatasourceId);
         link.setValue(p.resolveJS(param.getValue()));
         return link;
     }

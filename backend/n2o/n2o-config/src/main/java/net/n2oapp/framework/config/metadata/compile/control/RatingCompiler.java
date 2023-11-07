@@ -4,11 +4,13 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.plain.N2oRating;
+import net.n2oapp.framework.api.metadata.local.util.CompileUtil;
 import net.n2oapp.framework.api.metadata.meta.control.Rating;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция поля для ввода и отображения рейтинга
@@ -28,9 +30,9 @@ public class RatingCompiler extends StandardFieldCompiler<Rating, N2oRating> {
     @Override
     public StandardField<Rating> compile(N2oRating source, CompileContext<?, ?> context, CompileProcessor p) {
         Rating rating = new Rating();
-        rating.setMax(p.cast(source.getMax(),
+        rating.setMax(castDefault(source.getMax(),
                 () -> p.resolve(property("n2o.api.control.rating.max"), Integer.class)));
-        rating.setHalf(p.cast(source.getHalf(),
+        rating.setHalf(castDefault(source.getHalf(),
                 () -> p.resolve(property("n2o.api.control.rating.half"), Boolean.class)));
         rating.setShowTooltip(source.getShowTooltip());
 

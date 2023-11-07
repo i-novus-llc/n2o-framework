@@ -10,7 +10,7 @@ description: ""
 ## Изменения в Java API {#changes-java-api}
 
 - Класс `CopyValuesController` пакета `net.n2oapp.framework.ui.controller` переименован в `MergeValuesController`.
-
-- Aтрибут `type` был удален из элементов `<icon>`, `<link>`, `<output-text>`, `<button>`, `<sub-menu>`, `<menu-item>`. Для задания иконок и текста используйте соответствующие атрибуты этих компонентов.
-
-- Атрибут `name` был удален из элементов типа `<widget>`.
+- Aтрибут `type` был удален из элементов `<icon>`, `<link>`, `<output-text>`, `<button>`, `<sub-menu>`, `<menu-item>`.
+Для задания иконок и текста используйте соответствующие атрибуты этих компонентов.
+- Атрибут `name` был удален из виджетов.
+- Упразднены все методы `cast` класса `CompileProcessor` в пользу вызовов `CompileUtil.castDefault`.

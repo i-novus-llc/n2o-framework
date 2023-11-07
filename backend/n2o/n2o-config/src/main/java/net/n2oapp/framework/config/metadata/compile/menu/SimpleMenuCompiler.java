@@ -28,6 +28,7 @@ import java.util.List;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция простого меню
@@ -60,7 +61,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     private MenuItem createMenuItem(N2oSimpleMenu.AbstractMenuItem source,
                                     CompileProcessor p, ApplicationContext context, IndexScope idx) {
         MenuItem compiled = new MenuItem();
-        source.setId(p.cast(source.getId(), "mi" + idx.get()));
+        source.setId(castDefault(source.getId(), "mi" + idx.get()));
         compiled.setId(source.getId());
         compiled.setTitle(source.getName());
         compiled.setIcon(source.getIcon());

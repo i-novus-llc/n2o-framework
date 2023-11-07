@@ -27,6 +27,7 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
@@ -52,19 +53,19 @@ public class ClientDataProviderUtil {
             dataProvider.setFormMapping(compileParams(source.getFormParams(), context, p, targetModel, source.getClientDatasourceId()));
             dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), context, p, targetModel, source.getClientDatasourceId()));
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-            path = p.cast(routeScope != null ? routeScope.getUrl() : null, () -> context.getRoute((N2oCompileProcessor) p), () -> "");
+            path = castDefault(routeScope != null ? routeScope.getUrl() : null, () -> context.getRoute((N2oCompileProcessor) p), () -> "");
             if (context.getPathRouteMapping() != null)
                 pathMapping.putAll(context.getPathRouteMapping());
-            path = normalize(path + normalize(p.cast(source.getUrl(), source.getId(), "")));
+            path = normalize(path + normalize(castDefault(source.getUrl(), source.getId(), "")));
             dataProvider.setPathMapping(pathMapping);
             dataProvider.setMethod(source.getMethod());
             dataProvider.setOptimistic(source.getOptimistic());
             dataProvider.setSubmitForm(source.getSubmitForm());
 
-            initActionContext(source, pathMapping, p.cast(path, source.getUrl()), p);
+            initActionContext(source, pathMapping, castDefault(path, source.getUrl()), p);
         }
 
-        dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + p.cast(path, source.getUrl()));
+        dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + castDefault(path, source.getUrl()));
         dataProvider.setQueryMapping(compileParams(source.getQueryParams(), context, p, targetModel, source.getClientDatasourceId()));
         dataProvider.setQuickSearchParam(source.getQuickSearchParam());
         dataProvider.setSize(source.getSize());
@@ -97,8 +98,8 @@ public class ClientDataProviderUtil {
             ModelLink link;
             if (param.getValueParam() == null) {
                 link = getModelLink(p,
-                        p.cast(param.getModel(), defaultModel),
-                        p.cast(param.getDatasourceId(), defaultClientDatasourceId),
+                        castDefault(param.getModel(), defaultModel),
+                        castDefault(param.getDatasourceId(), defaultClientDatasourceId),
                         param);
             } else {
                 link = getModelLinkByParam(context, param);
@@ -124,7 +125,7 @@ public class ClientDataProviderUtil {
                         getClientDatasourceId(param.getDatasourceId(), param.getRefPageId(), p) :
                         getClientDatasourceId(param.getDatasourceId(), p);
             }
-            link = new ModelLink(p.cast(param.getModel(), model), clientDatasourceId);
+            link = new ModelLink(castDefault(param.getModel(), model), clientDatasourceId);
             link.setValue(value);
         } else {
             link = new ModelLink(value);
@@ -189,10 +190,10 @@ public class ClientDataProviderUtil {
             actionContext.setParentSourceDatasourceId(source.getDatasourceId());
             actionContext.setMessagesForm(actionContextData.getMessagesForm());
             actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
-            actionContext.setMessageOnFail(p.cast(actionContextData.isMessageOnFail(), true));
-            actionContext.setMessagePosition(p.cast(actionContextData.getMessagePosition(),
+            actionContext.setMessageOnFail(castDefault(actionContextData.isMessageOnFail(), true));
+            actionContext.setMessagePosition(castDefault(actionContextData.getMessagePosition(),
                     () -> p.resolve(property("n2o.api.message.position"), MessagePosition.class)));
-            actionContext.setMessagePlacement(p.cast(actionContextData.getMessagePlacement(),
+            actionContext.setMessagePlacement(castDefault(actionContextData.getMessagePlacement(),
                     () -> p.resolve(property("n2o.api.message.placement"), MessagePlacement.class)));
 
             Set<String> formParams = new HashSet<>();

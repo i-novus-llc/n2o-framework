@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция контрола просмотра кода
@@ -28,14 +29,14 @@ public class CodeViewerCompiler extends StandardFieldCompiler<CodeViewer, N2oCod
             codeViewer.setText(source.getText().trim().replaceAll("\n( )+", "\n"));
         }
         codeViewer.setLanguage(source.getLanguage());
-        N2oCodeViewer.ColorTheme theme = p.cast(source.getTheme(),
+        N2oCodeViewer.ColorTheme theme = castDefault(source.getTheme(),
                 () -> p.resolve(property("n2o.api.control.code.theme"), N2oCodeViewer.ColorTheme.class));
         codeViewer.setDarkTheme(theme.equals(N2oCodeViewer.ColorTheme.dark));
-        codeViewer.setShowLineNumbers(p.cast(source.getShowLineNumbers(),
+        codeViewer.setShowLineNumbers(castDefault(source.getShowLineNumbers(),
                 () -> p.resolve(property("n2o.api.control.code.show_line_numbers"), Boolean.class)));
-        codeViewer.setStartingLineNumber(p.cast(source.getStartingLineNumber(),
+        codeViewer.setStartingLineNumber(castDefault(source.getStartingLineNumber(),
                 () -> p.resolve(property("n2o.api.control.code.starting_line_number"), Integer.class)));
-        codeViewer.setHideButtons(p.cast(source.getHideButtons(),
+        codeViewer.setHideButtons(castDefault(source.getHideButtons(),
                 () -> p.resolve(property("n2o.api.control.code.hide_buttons"), Boolean.class)));
         return compileStandardField(codeViewer, source, context, p);
     }

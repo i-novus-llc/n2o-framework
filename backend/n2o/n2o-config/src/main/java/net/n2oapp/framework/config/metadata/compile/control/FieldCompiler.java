@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -61,12 +62,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        source.setNoLabel(p.cast(source.getNoLabel(),
+        source.setNoLabel(castDefault(source.getNoLabel(),
                 () -> p.resolve(property("n2o.api.control.no_label"), Boolean.class)));
-        source.setNoLabelBlock(p.cast(source.getNoLabelBlock(),
+        source.setNoLabelBlock(castDefault(source.getNoLabelBlock(),
                 () -> p.resolve(property("n2o.api.control.no_label_block"), Boolean.class)));
-        source.setRefPage(p.cast(source.getRefPage(), PageRef.THIS));
-        source.setRefDatasourceId(p.cast(source.getRefDatasourceId(), () -> {
+        source.setRefPage(castDefault(source.getRefPage(), PageRef.THIS));
+        source.setRefDatasourceId(castDefault(source.getRefDatasourceId(), () -> {
             if (source.getRefPage().equals(PageRef.THIS)) {
                 return initLocalDatasourceId(p);
             } else if (source.getRefPage().equals(PageRef.PARENT)) {
@@ -78,7 +79,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             }
             return null;
         }));
-        source.setRefModel(p.cast(source.getRefModel(),
+        source.setRefModel(castDefault(source.getRefModel(),
                 () -> Optional.ofNullable(p.getScope(WidgetScope.class)).map(WidgetScope::getModel).orElse(null),
                 () -> ReduxModel.resolve));
         initCondition(source, source::getVisible, new N2oField.VisibilityDependency(), b -> source.setVisible(b.toString()), !"false".equals(source.getVisible()));
@@ -90,7 +91,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         compileComponent(field, source, context, p);
 
         IndexScope idx = p.getScope(IndexScope.class);
-        field.setId(p.cast(source.getId(), () -> "f" + idx.get()));
+        field.setId(castDefault(source.getId(), () -> "f" + idx.get()));
         field.setLabel(initLabel(source, p));
         field.setNoLabelBlock(source.getNoLabelBlock());
         field.setLabelClass(p.resolveJS(source.getLabelClass()));
@@ -157,7 +158,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     private void addToField(ControlDependency compiled, Field field, N2oField.Dependency source, CompileProcessor p) {
-        compiled.setApplyOnInit(p.cast(source.getApplyOnInit(),
+        compiled.setApplyOnInit(castDefault(source.getApplyOnInit(),
                 () -> p.resolve(property("n2o.api.control.dependency.apply_on_init"), Boolean.class)));
         if (source.getOn() != null) {
             List<String> ons = Arrays.asList(source.getOn());
@@ -181,7 +182,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             dependency.setType(ValidationType.required);
         else if (source instanceof N2oField.VisibilityDependency) {
             dependency.setType(ValidationType.visible);
-            Boolean isResettable = p.cast(((N2oField.VisibilityDependency) source).getReset(),
+            Boolean isResettable = castDefault(((N2oField.VisibilityDependency) source).getReset(),
                     () -> p.resolve(property("n2o.api.control.dependency.visibility.reset"), Boolean.class));
             if (Boolean.TRUE.equals(isResettable)) {
                 ControlDependency reset = new ControlDependency();
@@ -229,7 +230,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             filters.forEach(f -> {
                 Filter filter = new Filter();
                 filter.setFilterId(f.getFilterId());
-                filter.setParam(p.cast(source.getParam(), () -> widgetScope.getWidgetId() + "_" + f.getParam()));
+                filter.setParam(castDefault(source.getParam(), () -> widgetScope.getWidgetId() + "_" + f.getParam()));
                 filter.setRoutable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
                 ModelLink link = new ModelLink(ReduxModel.filter, widgetScope.getClientDatasourceId());

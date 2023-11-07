@@ -12,6 +12,7 @@ import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.register.route.RouteUtil.convertPathToId;
 
 /**
@@ -42,16 +43,16 @@ public class ShowModalCompiler extends AbstractModalCompiler<ShowModal, N2oShowM
 
     protected void compilePayload(N2oShowModal source, ShowModal showModal, PageContext pageContext, CompileProcessor p) {
         ShowModalPayload payload = showModal.getPayload();
-        payload.setSize(p.cast(source.getModalSize(),
+        payload.setSize(castDefault(source.getModalSize(),
                 () -> p.resolve(property("n2o.api.action.show_modal.size"), String.class)));
-        payload.setScrollable(p.cast(source.getScrollable(),
+        payload.setScrollable(castDefault(source.getScrollable(),
                 () -> p.resolve(property("n2o.api.action.show_modal.scrollable"), Boolean.class)));
         payload.setCloseButton(true);
         payload.setPrompt(pageContext.getUnsavedDataPromptOnClose());
-        payload.setHasHeader(p.cast(source.getHasHeader(),
+        payload.setHasHeader(castDefault(source.getHasHeader(),
                 () -> p.resolve(property("n2o.api.action.show_modal.has_header"), Boolean.class)));
         payload.setClassName(source.getClassName());
-        String backdrop = p.cast(source.getBackdrop(),
+        String backdrop = castDefault(source.getBackdrop(),
                 () -> p.resolve(property("n2o.api.action.show_modal.backdrop"), String.class));
         payload.setBackdrop("true".equals(backdrop) || "false".equals(backdrop) ? Boolean.valueOf(backdrop) : backdrop);
         payload.setStyle(StylesResolver.resolveStyles(source.getStyle()));

@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 
 @Component
@@ -59,7 +60,7 @@ public class ListWidgetCompiler extends BaseListWidgetCompiler<ListWidget, N2oLi
         Map<String, AbstractCell> list = new HashMap<>();
         for (N2oListWidget.ContentElement element : source.getContent()) {
             element.setId(element.getTextFieldId());
-            list.put(element.getPlace(), p.compile(p.cast(element.getCell(), N2oTextCell::new), context,
+            list.put(element.getPlace(), p.compile(castDefault(element.getCell(), N2oTextCell::new), context,
                     new ComponentScope(element), actions, widgetScope, widgetActions, object, new IndexScope()));
 
         }

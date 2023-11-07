@@ -24,6 +24,7 @@ import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.initDatasource;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
@@ -43,6 +44,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         button.setClassName(source.getCssClass());
         button.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         button.setColor(source.getColor());
+        button.setModel(source.getModel());
         button.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
         initHint(source, button, p);
     }
@@ -86,15 +88,15 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
         PageIndexScope pageIndexScope = p.getScope(PageIndexScope.class);
         String defaultId = ("_".equals(pageIndexScope.getPageId()) ? "mi" : pageIndexScope.getPageId() + "_mi") + pageIndexScope.get();
-        source.setId(p.cast(source.getId(), defaultId));
+        source.setId(castDefault(source.getId(), defaultId));
 
         if (p.resolve(property("n2o.api.button.generate-label"), Boolean.class))
-            source.setLabel(p.cast(source.getLabel(), source.getId()));
+            source.setLabel(castDefault(source.getLabel(), source.getId()));
         source.setTooltipPosition(initTooltipPosition(source, p));
         source.setColor(initColor(source, p));
 
         source.setDatasourceId(initDatasource(source, p));
-        source.setModel(p.cast(source.getModel(), ReduxModel.resolve));
+        source.setModel(castDefault(source.getModel(), ReduxModel.resolve));
     }
 
     private String initTooltipPosition(S source, CompileProcessor p) {

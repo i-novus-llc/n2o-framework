@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.control.TimePicker;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Сборка компонента ввода времени
@@ -25,11 +26,11 @@ public class TimePickerCompiler extends StandardFieldCompiler<TimePicker, N2oTim
     public StandardField<TimePicker> compile(N2oTimePicker source, CompileContext<?, ?> context, CompileProcessor p) {
         TimePicker timePicker = new TimePicker();
         timePicker.setPrefix(source.getPrefix());
-        timePicker.setMode(p.cast(source.getMode(),
+        timePicker.setMode(castDefault(source.getMode(),
                 () -> p.resolve(property("n2o.api.control.time_picker.mode"), String.class).split(",")));
-        timePicker.setTimeFormat(p.cast(source.getTimeFormat(),
+        timePicker.setTimeFormat(castDefault(source.getTimeFormat(),
                 () -> p.resolve(property("n2o.api.control.time_picker.time_format"), String.class)));
-        timePicker.setFormat(p.cast(source.getFormat(),
+        timePicker.setFormat(castDefault(source.getFormat(),
                 () -> p.resolve(property("n2o.api.control.time_picker.format"), String.class)));
         return compileStandardField(timePicker, source, context, p);
     }

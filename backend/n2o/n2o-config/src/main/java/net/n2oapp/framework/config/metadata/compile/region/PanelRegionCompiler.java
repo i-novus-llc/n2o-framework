@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция региона в виде панелей.
@@ -37,14 +38,14 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
         region.setColor(source.getColor());
         region.setIcon(source.getIcon());
         region.setHeader(
-                p.cast(source.getHeader(), () -> p.resolve(property(HEADER),  Boolean.class), () -> true)
+                castDefault(source.getHeader(), () -> p.resolve(property(HEADER),  Boolean.class), () -> true)
         );
         region.setFooterTitle(source.getFooterTitle());
         region.setOpen(
-                p.cast(source.getOpen(), () -> p.resolve(property(OPEN),  Boolean.class), () -> true)
+                castDefault(source.getOpen(), () -> p.resolve(property(OPEN),  Boolean.class), () -> true)
         );
         region.setCollapsible(
-                p.cast(source.getCollapsible(), () -> p.resolve(property(COLLAPSIBLE),  Boolean.class), () -> true)
+                castDefault(source.getCollapsible(), () -> p.resolve(property(COLLAPSIBLE),  Boolean.class), () -> true)
         );
         region.setFullScreen(false);
         compileRoute(source, region.getId(), ROUTABLE, p);

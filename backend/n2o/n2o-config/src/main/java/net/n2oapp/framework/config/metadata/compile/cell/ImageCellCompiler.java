@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция ячейки с изображением
@@ -29,9 +30,9 @@ public class ImageCellCompiler extends AbstractCellCompiler<ImageCell, N2oImageC
     public ImageCell compile(N2oImageCell source, CompileContext<?, ?> context, CompileProcessor p) {
         ImageCell cell = new ImageCell();
         build(cell, source, context, p, property("n2o.api.cell.image.src"));
-        cell.setShape(p.cast(source.getShape(),
+        cell.setShape(castDefault(source.getShape(),
                 () -> p.resolve(property("n2o.api.cell.image.shape"), ShapeType.class)));
-        cell.setWidth(prepareSizeAttribute(p.cast(source.getWidth(),
+        cell.setWidth(prepareSizeAttribute(castDefault(source.getWidth(),
                 () -> p.resolve(property("n2o.api.cell.image.width"), String.class))));
 
         compileAction(cell, source, context, p);
@@ -39,7 +40,7 @@ public class ImageCellCompiler extends AbstractCellCompiler<ImageCell, N2oImageC
         cell.setTitle(p.resolveJS(source.getTitle()));
         cell.setDescription(p.resolveJS(source.getDescription()));
         cell.setData(p.resolveJS(source.getData()));
-        cell.setTextPosition(p.cast(source.getTextPosition(),
+        cell.setTextPosition(castDefault(source.getTextPosition(),
                 () -> p.resolve(property("n2o.api.cell.image.text_position"), N2oImageCell.Position.class)));
         cell.setStatuses(compileStatuses(source.getStatuses(), p));
 
@@ -52,10 +53,10 @@ public class ImageCellCompiler extends AbstractCellCompiler<ImageCell, N2oImageC
         ImageStatusElement[] statusElements = new ImageStatusElement[statuses.length];
         for (N2oImageStatusElement e : statuses) {
             ImageStatusElement statusElement = new ImageStatusElement();
-            statusElement.setSrc(p.cast(e.getSrc(), "Status"));
+            statusElement.setSrc(castDefault(e.getSrc(), "Status"));
             statusElement.setFieldId(e.getFieldId());
             statusElement.setIcon(p.resolveJS(e.getIcon()));
-            statusElement.setPlace(p.cast(e.getPlace(),
+            statusElement.setPlace(castDefault(e.getPlace(),
                     () -> p.resolve(property("n2o.api.cell.image.status_place"), ImageStatusElementPlace.class)));
             statusElements[i++] = statusElement;
         }

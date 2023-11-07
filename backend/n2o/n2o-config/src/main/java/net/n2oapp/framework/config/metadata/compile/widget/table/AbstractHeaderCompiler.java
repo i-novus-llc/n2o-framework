@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.StylesResolver.resolveStyles;
 
 /**
@@ -24,7 +25,7 @@ import static net.n2oapp.framework.config.util.StylesResolver.resolveStyles;
 public abstract class AbstractHeaderCompiler<S extends AbstractColumn> implements BaseSourceCompiler<ColumnHeader, S, CompileContext<?, ?>> {
 
     protected void compileBaseProperties(S source, ColumnHeader compiled, CompileProcessor p) {
-        compiled.setSrc(p.cast(source.getSrc(), () -> p.resolve(property("n2o.api.widget.column.src"), String.class)));
+        compiled.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.widget.column.src"), String.class)));
         compiled.getElementAttributes().put("className", source.getCssClass());
         compiled.getElementAttributes().put("style", resolveStyles(source.getStyle()));
 

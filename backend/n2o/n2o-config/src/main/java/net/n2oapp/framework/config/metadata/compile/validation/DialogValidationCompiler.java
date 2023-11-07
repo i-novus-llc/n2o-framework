@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.validation;
 
-import net.n2oapp.framework.api.data.validation.ValidationDialog;
+import net.n2oapp.framework.api.data.validation.DialogValidation;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidationDialog;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oDialogValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import org.springframework.stereotype.Component;
 
@@ -12,16 +12,16 @@ import org.springframework.stereotype.Component;
  * Компиляция валидации с диалогом выбора
  */
 @Component
-public class ValidationDialogCompiler extends InvocationValidationCompiler<ValidationDialog, N2oValidationDialog> {
+public class DialogValidationCompiler extends InvocationValidationCompiler<DialogValidation, N2oDialogValidation> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
-        return N2oValidationDialog.class;
+        return N2oDialogValidation.class;
     }
 
     @Override
-    public ValidationDialog compile(N2oValidationDialog source, CompileContext<?, ?> context, CompileProcessor p) {
-        ValidationDialog validation = new ValidationDialog();
+    public DialogValidation compile(N2oDialogValidation source, CompileContext<?, ?> context, CompileProcessor p) {
+        DialogValidation validation = new DialogValidation();
         compileInvocationValidation(validation, source, p);
 
         N2oDialog n2oDialog = new N2oDialog(source.getId());

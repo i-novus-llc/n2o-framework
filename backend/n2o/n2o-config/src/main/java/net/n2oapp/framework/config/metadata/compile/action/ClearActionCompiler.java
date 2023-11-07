@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -28,7 +29,7 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         compileAction(clearAction, source, p);
         clearAction.setType(p.resolve(property("n2o.api.action.clear.type"), String.class));
         clearAction.getPayload().setPrefixes(initPayloadPrefixes(source, p));
-        String datasource = p.cast(source.getDatasourceId(), () -> getLocalDatasourceId(p));
+        String datasource = castDefault(source.getDatasourceId(), () -> getLocalDatasourceId(p));
         clearAction.getPayload().setKey(getClientDatasourceId(datasource, p));
         if (Boolean.TRUE.equals(source.getCloseOnSuccess())) {
             if (clearAction.getMeta() == null)

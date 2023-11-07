@@ -19,6 +19,7 @@ import java.util.HashMap;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 @Component
 public class DateIntervalCompiler extends StandardFieldCompiler<DateInterval, N2oDateInterval> {
@@ -35,12 +36,12 @@ public class DateIntervalCompiler extends StandardFieldCompiler<DateInterval, N2
         if (domain == null || domain.getJsFormat() == null)
             throw new IllegalStateException("Wrong domain for control " + source.getId());
         dateInterval.setOutputFormat(domain.getJsFormat());
-        dateInterval.setDateFormat(p.cast(source.getDateFormat(),
+        dateInterval.setDateFormat(castDefault(source.getDateFormat(),
                 () -> p.resolve(property("n2o.api.control.date_interval.date_format"), String.class)));
         dateInterval.setTimeFormat(source.getTimeFormat());
         dateInterval.setMin(p.resolveJS(source.getMin()));
         dateInterval.setMax(p.resolveJS(source.getMax()));
-        dateInterval.setUtc(p.cast(source.getUtc(),
+        dateInterval.setUtc(castDefault(source.getUtc(),
                 () -> p.resolve(property("n2o.api.control.date_interval.utc"), Boolean.class)));
         return compileStandardField(dateInterval, source, context, p);
     }

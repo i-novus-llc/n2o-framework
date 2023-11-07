@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.meta.cell.IconCell;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция ячейки с иконкой
@@ -25,7 +26,7 @@ public class IconCellCompiler extends AbstractCellCompiler<IconCell, N2oIconCell
         IconCell cell = new IconCell();
         build(cell, source, context, p, property("n2o.api.cell.icon.src"));
         cell.setText(source.getText());
-        cell.setIcon(p.cast(source.getIcon(), () -> compileSwitch(source.getIconSwitch(), p)));
+        cell.setIcon(castDefault(source.getIcon(), () -> compileSwitch(source.getIconSwitch(), p)));
         if (source.getPosition() != null) {
             cell.setPosition(source.getPosition());
         }

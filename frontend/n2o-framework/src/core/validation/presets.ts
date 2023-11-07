@@ -78,10 +78,10 @@ export function condition<
 export function constraint<
     TData extends object,
     TKey extends keyof TData,
-    TOptions
->(fieldId: TKey, values: TData, options: TOptions): Promise<boolean> {
+    TOptions extends { signal?: AbortSignal }
+>(fieldId: TKey, values: TData, { signal, ...options }: TOptions): Promise<boolean> {
     if (!isEmpty(values[fieldId])) {
-        return defaultApiProvider[FETCH_VALIDATE](options)
+        return defaultApiProvider[FETCH_VALIDATE](options, signal)
     }
 
     return Promise.reject(new Error('is empty value'))

@@ -5,9 +5,7 @@ import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oButtonField;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Button;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -21,6 +19,7 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
@@ -43,15 +42,15 @@ public class ButtonCompileUtil {
 
     public static Confirm initConfirm(Button source, CompileProcessor p, CompiledObject.Operation operation, Object condition) {
         Confirm confirm = new Confirm();
-        confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.MODAL));
-        confirm.setTitle(p.cast(source.getConfirmTitle(), () -> p.getMessage("n2o.confirm.title")));
+        confirm.setMode(castDefault(source.getConfirmType(), ConfirmType.MODAL));
+        confirm.setTitle(castDefault(source.getConfirmTitle(), () -> p.getMessage("n2o.confirm.title")));
         confirm.setOk(new Confirm.Button(
-                p.cast(source.getConfirmOkLabel(), () -> p.getMessage("n2o.confirm.default.okLabel")),
-                p.cast(source.getConfirmOkColor(), () -> p.resolve(property("n2o.api.button.confirm.ok_color"), String.class))));
+                castDefault(source.getConfirmOkLabel(), () -> p.getMessage("n2o.confirm.default.okLabel")),
+                castDefault(source.getConfirmOkColor(), () -> p.resolve(property("n2o.api.button.confirm.ok_color"), String.class))));
         confirm.setCancel(new Confirm.Button(
-                p.cast(source.getConfirmCancelLabel(), () -> p.getMessage("n2o.confirm.default.cancelLabel")),
-                p.cast(source.getConfirmCancelColor(), () -> p.resolve(property("n2o.api.button.confirm.cancel_color"), String.class))));
-        confirm.setText(initExpression(p.cast(source.getConfirmText(), () -> p.getMessage("n2o.confirm.text"))));
+                castDefault(source.getConfirmCancelLabel(), () -> p.getMessage("n2o.confirm.default.cancelLabel")),
+                castDefault(source.getConfirmCancelColor(), () -> p.resolve(property("n2o.api.button.confirm.cancel_color"), String.class))));
+        confirm.setText(initExpression(castDefault(source.getConfirmText(), () -> p.getMessage("n2o.confirm.text"))));
         confirm.setCondition(initConfirmCondition(condition));
         confirm.setCloseButton(p.resolve(property("n2o.api.button.confirm.close_button"), Boolean.class));
         confirm.setReverseButtons(p.resolve(property("n2o.api.button.confirm.reverse_buttons"), Boolean.class));
@@ -112,9 +111,9 @@ public class ButtonCompileUtil {
         return null;
     }
 
-    public static Boolean initValidate(Button source, CompileProcessor p, String datasource) {
+    public static Boolean initValidate(Button source, String datasource) {
         if (isEmpty(source.getActions()))
-            return p.cast(source.getValidate(), false);
-        return p.cast(source.getValidate(), nonNull(datasource) || nonNull(source.getValidateDatasourceIds()));
+            return castDefault(source.getValidate(), false);
+        return castDefault(source.getValidate(), nonNull(datasource) || nonNull(source.getValidateDatasourceIds()));
     }
 }

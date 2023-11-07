@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция кнопки с выпадающим меню
@@ -48,9 +49,9 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
         compileBase(submenu, source, context, p);
         submenu.setId(source.getId() == null ? "subMenu" + idx.get() : source.getId());
         source.setId(submenu.getId());
-        submenu.setSrc(p.cast(source.getSrc(),
+        submenu.setSrc(castDefault(source.getSrc(),
                 () -> p.resolve(property("n2o.api.action.submenu.src"), String.class)));
-        submenu.setShowToggleIcon(p.cast(source.getShowToggleIcon(),
+        submenu.setShowToggleIcon(castDefault(source.getShowToggleIcon(),
                 () -> p.resolve(property("n2o.api.submenu.show_toggle_icon"), Boolean.class)));
 
         compileCondition(source, submenu, p, p.getScope(ComponentScope.class));
@@ -66,6 +67,10 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
         if (source.getMenuItems() != null) {
             button.setSubMenu(Stream.of(source.getMenuItems())
                     .map(mi -> {
+                        if (mi.getDatasourceId() == null)
+                            mi.setDatasourceId(source.getDatasourceId());
+                        if (mi.getModel() == null)
+                            mi.setModel(source.getModel());
                         PerformButton menuItem = p.compile(mi, context, p, idx);
                         menuItem.setColor(null);
                         return menuItem;

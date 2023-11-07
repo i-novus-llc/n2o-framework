@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.cell.TooltipListCell;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция ячейки с тултипом и раскрывающимся текстовым списком
@@ -27,8 +28,8 @@ public class TooltipListCellCompiler extends AbstractCellCompiler<TooltipListCel
         cell.setLabel(source.getLabel());
         cell.setFewLabel(source.getFewLabel());
         cell.setManyLabel(source.getManyLabel());
-        cell.setDashedLabel(p.cast(source.getDashedLabel(), () -> p.resolve(property("n2o.api.cell.tooltip_list.dashed_label"), Boolean.class)));
-        cell.setTrigger(p.cast(source.getTrigger(), () -> p.resolve(property("n2o.api.cell.tooltip_list.trigger"), TriggerEnum.class)));
+        cell.setDashedLabel(castDefault(source.getDashedLabel(), () -> p.resolve(property("n2o.api.cell.tooltip_list.dashed_label"), Boolean.class)));
+        cell.setTrigger(castDefault(source.getTrigger(), () -> p.resolve(property("n2o.api.cell.tooltip_list.trigger"), TriggerEnum.class)));
         return cell;
     }
 }

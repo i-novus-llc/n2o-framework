@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.event.OnChangeEvent;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileAction;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initActions;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
@@ -31,7 +32,7 @@ public class OnChangeEventCompiler extends BaseEventCompiler<N2oOnChangeEvent, O
 
         event.setType(p.resolve(property("n2o.api.page.event.on_change.type"), String.class));
         event.setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
-        event.setModel(p.cast(source.getModel(), ReduxModel.resolve));
+        event.setModel(castDefault(source.getModel(), ReduxModel.resolve));
         event.setField(source.getFieldId());
         event.setAction(compileAction(source, context, p, null));
 

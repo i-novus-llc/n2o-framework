@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция страницы с регионами и поисковой строкой
@@ -34,14 +35,14 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
     }
 
     private void initDefaults(N2oSearchablePage source, CompileProcessor p) {
-        source.setSearchBar(initSearchBar(source.getSearchBar(), p));
+        source.setSearchBar(initSearchBar(source.getSearchBar()));
     }
 
-    private N2oSearchablePage.N2oSearchBar initSearchBar(N2oSearchablePage.N2oSearchBar source, CompileProcessor p) {
+    private N2oSearchablePage.N2oSearchBar initSearchBar(N2oSearchablePage.N2oSearchBar source) {
         N2oSearchablePage.N2oSearchBar result = source;
         if (result == null)
             result = new N2oSearchablePage.N2oSearchBar();
-        result.setSearchParam(p.cast(result.getSearchParam(), result.getDatasourceId() + "_" + result.getSearchFilterId()));
+        result.setSearchParam(castDefault(result.getSearchParam(), result.getDatasourceId() + "_" + result.getSearchFilterId()));
         return result;
     }
 

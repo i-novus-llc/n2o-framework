@@ -153,7 +153,7 @@ export type Props = {
     /**
    * Значение
    */
-    value?: string | number,
+    value?: string | number | TOption[],
     /**
    * Значение ключа value в данных
    */

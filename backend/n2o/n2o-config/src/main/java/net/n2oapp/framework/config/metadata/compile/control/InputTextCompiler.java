@@ -53,30 +53,30 @@ public class InputTextCompiler extends StandardFieldCompiler<InputText, N2oInput
         if (domain == null) domain = Domain.STRING;
         switch (domain) {
             case INTEGER:
-                inputText.setMin(p.cast(p.resolveJS(source.getMin(), Integer.class), Integer.MIN_VALUE));
-                inputText.setMax(p.cast(p.resolveJS(source.getMax(), Integer.class), Integer.MAX_VALUE));
+                inputText.setMin(castDefault(p.resolveJS(source.getMin(), Integer.class), Integer.MIN_VALUE));
+                inputText.setMax(castDefault(p.resolveJS(source.getMax(), Integer.class), Integer.MAX_VALUE));
                 inputText.setStep(castDefault(source.getStep(), "1"));
                 return;
             case LONG:
-                inputText.setMin(p.cast(p.resolveJS(source.getMin(), Long.class), "-99999999999999"));
-                inputText.setMax(p.cast(p.resolveJS(source.getMax(), Long.class), "99999999999999"));
+                inputText.setMin(castDefault(p.resolveJS(source.getMin(), Long.class), "-99999999999999"));
+                inputText.setMax(castDefault(p.resolveJS(source.getMax(), Long.class), "99999999999999"));
                 inputText.setStep(castDefault(source.getStep(), "1"));
                 return;
             case SHORT:
-                inputText.setMin(p.cast(p.resolveJS(source.getMin(), Short.class), Short.MIN_VALUE));
-                inputText.setMax(p.cast(p.resolveJS(source.getMax(), Short.class), Short.MAX_VALUE));
+                inputText.setMin(castDefault(p.resolveJS(source.getMin(), Short.class), Short.MIN_VALUE));
+                inputText.setMax(castDefault(p.resolveJS(source.getMax(), Short.class), Short.MAX_VALUE));
                 inputText.setStep(castDefault(source.getStep(), "1"));
                 return;
             case NUMERIC:
-                inputText.setMin(p.cast(p.resolveJS(source.getMin(), BigDecimal.class), "-999999999"));
-                inputText.setMax(p.cast(p.resolveJS(source.getMax(), BigDecimal.class), "999999999"));
+                inputText.setMin(castDefault(p.resolveJS(source.getMin(), BigDecimal.class), "-999999999"));
+                inputText.setMax(castDefault(p.resolveJS(source.getMax(), BigDecimal.class), "999999999"));
                 inputText.setStep(castDefault(source.getStep(), "0.01"));
-                inputText.setPrecision(p.cast(source.getPrecision(),
+                inputText.setPrecision(castDefault(source.getPrecision(),
                         () -> p.resolve(property("n2o.api.control.input_text.precision"), Integer.class)));
                 return;
             case STRING:
                 inputText.setLength(source.getLength());
-                inputText.setSrc(p.cast(source.getSrc(),
+                inputText.setSrc(castDefault(source.getSrc(),
                         () -> p.resolve(property("n2o.api.control.input_text.src"), String.class)));
                 return;
             default:

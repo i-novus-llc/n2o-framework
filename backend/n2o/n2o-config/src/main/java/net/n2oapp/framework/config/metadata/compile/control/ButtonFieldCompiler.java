@@ -75,7 +75,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         button.setConfirm(ButtonCompileUtil.compileConfirm(source, p, operation));
 
         String datasource = initDatasource(source, p);
-        boolean validate = initValidate(source, p, datasource);
+        boolean validate = initValidate(source, datasource);
         source.setValidate(validate);
         button.setValidate(compileValidate(source, p, datasource));
         button.setDatasource(DatasourceUtil.getClientDatasourceId(datasource, p));

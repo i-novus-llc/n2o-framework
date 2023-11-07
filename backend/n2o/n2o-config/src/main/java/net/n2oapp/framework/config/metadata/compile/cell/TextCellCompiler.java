@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция ячейки с текстом
@@ -25,12 +26,12 @@ public class TextCellCompiler extends AbstractCellCompiler<TextCell, N2oTextCell
         TextCell cell = new TextCell();
         build(cell, source, context, p, property("n2o.api.cell.text.src"));
         if (source.getClassSwitch() != null)
-            cell.getElementAttributes().put("className", p.cast(source.getCssClass(), () -> compileSwitch(source.getClassSwitch(), p)));
+            cell.getElementAttributes().put("className", castDefault(source.getCssClass(), () -> compileSwitch(source.getClassSwitch(), p)));
         cell.setFormat(source.getFormat());
         cell.setSubTextFieldKey(source.getSubTextFieldKey());
         cell.setSubTextFormat(source.getSubTextFormat());
         cell.setIcon(source.getIcon());
-        cell.setIconPosition(p.cast(source.getIconPosition(),
+        cell.setIconPosition(castDefault(source.getIconPosition(),
                 () -> p.resolve(property("n2o.api.cell.text.icon_position"), Position.class)));
         return cell;
     }

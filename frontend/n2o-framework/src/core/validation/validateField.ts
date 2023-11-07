@@ -8,7 +8,12 @@ import { Severity } from './types'
 export async function validateField<
     TData extends object = object,
     TKey extends keyof TData = keyof TData
->(field: TKey, model: TData, validationList: Validation[]): Promise<ValidationResult[]> {
+>(
+    field: TKey,
+    model: TData,
+    validationList: Validation[],
+    signal?: AbortSignal,
+): Promise<ValidationResult[]> {
     const errors: ValidationResult[] = []
 
     const validations = validationList.filter((validation) => {
@@ -32,7 +37,7 @@ export async function validateField<
         const validationFunction = presets[validation.type]
 
         try {
-            const valid = await validationFunction(field, model, validation)
+            const valid = await validationFunction(field, model, { ...validation, signal })
 
             if (!valid) {
                 const expression = parseExpression(validation.text)

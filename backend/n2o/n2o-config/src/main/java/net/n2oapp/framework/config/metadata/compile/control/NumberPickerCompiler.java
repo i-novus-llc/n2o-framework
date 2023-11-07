@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция компонента выбора числа из диапазона
@@ -24,11 +25,11 @@ public class NumberPickerCompiler extends StandardFieldCompiler<NumberPicker, N2
     @Override
     public StandardField<NumberPicker> compile(N2oNumberPicker source, CompileContext<?, ?> context, CompileProcessor p) {
         NumberPicker numberPicker = new NumberPicker();
-        numberPicker.setMin(p.cast(source.getMin(),
+        numberPicker.setMin(castDefault(source.getMin(),
                 () -> p.resolve(property("n2o.api.control.number_picker.min"), Integer.class)));
-        numberPicker.setMax(p.cast(source.getMax(),
+        numberPicker.setMax(castDefault(source.getMax(),
                 () -> p.resolve(property("n2o.api.control.number_picker.max"), Integer.class)));
-        numberPicker.setStep(p.cast(source.getStep(),
+        numberPicker.setStep(castDefault(source.getStep(),
                 () -> p.resolve(property("n2o.api.control.number_picker.step"), Integer.class)));
         source.setDomain("integer");
         return compileStandardField(numberPicker, source, context, p);
