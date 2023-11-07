@@ -12,7 +12,7 @@
         <table/>
         <line/>
     </tab>
-    <tab id="tab2" name="Tab2">
+    <tab id="tab2" name="Tab2" datasource="ds" enabled="true" visible="true">
         <panel/>
         <form/>
         <table/>

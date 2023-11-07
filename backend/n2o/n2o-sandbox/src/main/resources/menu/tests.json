@@ -264,12 +264,20 @@
           "name": "TabsRegionAT. testTabsRegion"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/region/tabs/visible",
-          "name": "TabsRegionAT. testVisible and testWidgetWithVisibleDepend"
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/visible_by_widget",
+          "name": "TabsRegionAT. testVisibleByWidget and testWidgetWithVisibleDepend"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/region/tabs/search_buttons",
           "name": "TabsRegionAT. testSearchButtons"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/visible",
+          "name": "TabsRegionAT. testVisible"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/tabs/enabled",
+          "name": "TabsRegionAT. testEnabled"
         }
       ]
     },

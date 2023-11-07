@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.global.view.region;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
@@ -36,6 +37,9 @@ public class N2oTabsRegion extends N2oRegion implements RegionItem, RoutableRegi
     public static class Tab implements Source, ExtensionAttributesAware, RegionItem {
         private String id;
         private String name;
+        private String datasource;
+        private String enabled;
+        private String visible;
         private SourceComponent[] content;
         @ExtAttributesSerializer
         private Map<N2oNamespace, Map<String, String>> extAttributes;

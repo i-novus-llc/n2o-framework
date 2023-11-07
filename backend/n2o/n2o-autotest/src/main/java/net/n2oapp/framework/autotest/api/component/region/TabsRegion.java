@@ -100,5 +100,15 @@ public interface TabsRegion extends Region {
          * Прокрутка страницы вниз
          */
         void scrollDown();
+
+        /**
+         * Проверка того, что вкладка доступна
+         */
+        void shouldBeEnabled();
+
+        /**
+         * Проверка того, что вкладка недоступна
+         */
+        void shouldBeDisabled();
     }
 }

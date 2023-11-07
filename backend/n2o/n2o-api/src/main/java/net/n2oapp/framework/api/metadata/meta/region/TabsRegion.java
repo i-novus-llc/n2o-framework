@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +49,14 @@ public class TabsRegion extends Region implements CompiledRegionItem {
         private String icon;
         @JsonProperty
         private Boolean opened;
+        @JsonProperty
+        private String datasource;
+        @JsonProperty
+        private Object visible;
+        @JsonProperty
+        private Object enabled;
+        @JsonProperty
+        private Map<ValidationType, List<Condition>> conditions = new HashMap<>();
         private Map<String, Object> properties;
 
         @Override

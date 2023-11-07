@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Проверка поведения вкладок при скрытии части из них">
+    <regions>
+        <form id="form">
+            <fields>
+                <radio-group id="radio">
+                    <options>
+                        <option id="on" name="visible tab3"/>
+                        <option id="off" name="invisible tab3"/>
+                    </options>
+                </radio-group>
+            </fields>
+        </form>
+        <tabs>
+            <tab name="One">
+                <form>
+                    <fields>
+                        <input-text id="field1"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="Two">
+                <form visible="false">
+                    <fields>
+                        <input-text id="field2"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="Three">
+                <form visible="{radio.id == 'on'}" depends-on="form">
+                    <fields>
+                        <input-text id="field3" default-value="test3"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="Four">
+                <form>
+                    <fields>
+                        <input-text id="field4"/>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
+    </regions>
+</page>

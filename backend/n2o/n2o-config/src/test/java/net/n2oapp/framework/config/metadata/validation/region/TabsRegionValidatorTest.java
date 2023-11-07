@@ -31,7 +31,7 @@ public class TabsRegionValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void  testTabsEmpty() {
+    void testTabsEmpty() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/testEmptyTabs.page.xml"));
@@ -44,5 +44,14 @@ public class TabsRegionValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/testTabsDatasourceExistence.page.xml"));
         assertEquals("Регион <tabs> ссылается на несуществующий источник данных 'test'", exception.getMessage());
+    }
+
+    @Test
+    void testTabDatasourceExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/region/testTabDatasourceExistence.page.xml")
+        );
+        assertEquals("Вкладка 'tab1' ссылается на несуществующий источник данных 'test'", exception.getMessage());
     }
 }

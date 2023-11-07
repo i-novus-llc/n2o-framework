@@ -10,6 +10,10 @@ import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScop
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
+
 @Component
 public class TabsValidator implements SourceValidator<N2oTabsRegion>, SourceClassAware {
 
@@ -26,5 +30,17 @@ public class TabsValidator implements SourceValidator<N2oTabsRegion>, SourceClas
         if (source.getDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p.getScope(DatasourceIdsScope.class),
                     String.format("Регион <tabs> ссылается на несуществующий источник данных '%s'", source.getDatasourceId()));
+        Arrays.stream(source.getTabs()).forEach(tab -> this.validateTab(tab, p));
+    }
+
+    private void validateTab(N2oTabsRegion.Tab source, SourceProcessor p) {
+        if (source.getDatasource() != null)
+            ValidationUtils.checkDatasourceExistence(source.getDatasource(), p.getScope(DatasourceIdsScope.class),
+                    String.format(
+                            "Вкладка %s ссылается на несуществующий источник данных %s",
+                            getIdOrEmptyString(source.getName()),
+                            getIdOrEmptyString(source.getDatasource())
+                    )
+            );
     }
 }

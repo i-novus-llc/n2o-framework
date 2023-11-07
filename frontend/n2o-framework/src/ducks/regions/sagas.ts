@@ -22,6 +22,8 @@ import { formsSelector } from '../form/selectors'
 import { FormsState as Forms } from '../form/types'
 import { INVALID_TAB_REDUX_KEY } from '../../components/regions/Tabs/constants'
 import { State as ModelsState } from '../models/Models'
+import { checkTabAvailability } from '../../components/regions/helpers'
+import { State } from '../State'
 
 import { SetTabInvalid, RegisterRegion, ServiceInfo } from './Actions'
 import {
@@ -164,6 +166,7 @@ function* validateTabs() {
         yield cancel()
     }
 
+    const state: State = yield select()
     const regionsIds = Object.keys(tabsRegions)
 
     for (const regionId of regionsIds) {
@@ -174,35 +177,45 @@ function* validateTabs() {
         for (const [tabId, service] of Object.entries(serviceInfo)) {
             const { widgets } = service
 
-            /** Проверка tab на содержание невалидных полей **/
-            const invalid = widgets.some((widget) => {
-                const form = forms[widget]
-
-                if (!form) {
-                    return false
-                }
-
-                const { datasource = null } = form
-
-                if (!datasource) {
-                    return false
-                }
-
-                const { fields } = forms[widget]
-                const { errors } = dataSources[datasource]
-
-                const { resolve, edit } = errors
-                const fieldKeys = Object.keys(fields).filter(fieldKey => fields[fieldKey].visible)
-
-                return fieldKeys.some(fieldKey => resolve[fieldKey] || edit[fieldKey])
-            })
-
             const { tabs } = region
 
             const tab = tabs.find(({ id }) => id === tabId)
+
+            const widgetsState = get(state, 'widgets', {})
+            const regionsState = get(state, 'regions', {})
+
+            const available = tab
+                ? checkTabAvailability({ serviceInfo, widgetsState, regionsState }, tab, state)
+                : false
+
+            /** Проверка tab на содержание невалидных полей **/
+            const invalid = available
+                ? widgets.some((widget) => {
+                    const form = forms[widget]
+
+                    if (!form) {
+                        return false
+                    }
+
+                    const { datasource = null } = form
+
+                    if (!datasource) {
+                        return false
+                    }
+
+                    const { fields } = forms[widget]
+                    const { errors } = dataSources[datasource]
+
+                    const { resolve, edit } = errors
+                    const fieldKeys = Object.keys(fields).filter(fieldKey => fields[fieldKey].visible)
+
+                    return fieldKeys.some(fieldKey => resolve[fieldKey] || edit[fieldKey])
+                })
+                : false
+
             const currentInvalid = get(tab, INVALID_TAB_REDUX_KEY, false)
 
-            if (invalid !== currentInvalid) {
+            if ((invalid !== currentInvalid)) {
                 const { parent } = tabsRegions[regionId]
 
                 /** Вложенные tabs в tabs, установка invalid родительскому tab **/
