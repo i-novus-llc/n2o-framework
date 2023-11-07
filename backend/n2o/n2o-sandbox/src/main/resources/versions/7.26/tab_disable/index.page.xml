@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Видимость и доступность вкладки">
+    <datasources>
+        <datasource id="ds"/>
+    </datasources>
+
+    <regions>
+        <form datasource="ds">
+            <fields>
+                <row>
+                    <radio-group id="check1" label="Доступность вкладок">
+                        <options>
+                            <option id="0" name="Все"/>
+                            <option id="1" name="Первая"/>
+                            <option id="2" name="Вторая"/>
+                            <option id="3" name="Третья"/>
+                        </options>
+                        <default-value id="0"/>
+                    </radio-group>
+                    <radio-group id="check2" label="Видимость вкладок">
+                        <options>
+                            <option id="0" name="Все"/>
+                            <option id="1" name="Первая"/>
+                            <option id="2" name="Вторая"/>
+                            <option id="3" name="Третья"/>
+                        </options>
+                        <default-value id="0"/>
+                    </radio-group>
+                </row>
+            </fields>
+        </form>
+
+        <tabs>
+            <tab name="One" datasource="ds"
+                 enabled="{check1.id == 0 || check1.id == 1}"
+                 visible="{check2.id == 0 || check2.id == 1}">
+                <form>
+                    <fields>
+                        <input-text id="f1"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="Two" datasource="ds"
+                 enabled="{check1.id == 0 || check1.id == 2}"
+                 visible="{check2.id == 0 || check2.id == 2}">
+                <form>
+                    <fields>
+                        <input-text id="f2"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="Three" datasource="ds"
+                 enabled="{check1.id == 0 || check1.id == 3}"
+                 visible="{check2.id == 0 || check2.id == 3}">
+                <form>
+                    <fields>
+                        <input-text id="f3"/>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
+    </regions>
+</page>
