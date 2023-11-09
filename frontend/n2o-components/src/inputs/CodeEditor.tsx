@@ -60,6 +60,7 @@ export const CodeEditor = ({
                     showLineNumbers: true,
                     tabSize: 2,
                 }}
+                wrapEnabled
             />
         </div>
     )
