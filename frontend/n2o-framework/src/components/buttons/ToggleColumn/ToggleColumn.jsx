@@ -14,7 +14,7 @@ import { useTableWidget } from '../../widgets/AdvancedTable'
  */
 export const ToggleColumn = (props) => {
     const { columnsState, changeColumnParam } = useTableWidget()
-    const { icon, label, nested = false } = props
+    const { icon, label, entityKey: widgetId, nested = false } = props
 
     return (
         <UncontrolledButtonDropdown direction={nested ? 'right' : 'down'}>
@@ -31,7 +31,7 @@ export const ToggleColumn = (props) => {
                                 const { conditions, columnId, label, visible } = column
 
                                 const toggleVisibility = () => {
-                                    changeColumnParam(columnId, 'visible', !visible)
+                                    changeColumnParam(widgetId, columnId, 'visible', !visible)
                                 }
 
                                 return (

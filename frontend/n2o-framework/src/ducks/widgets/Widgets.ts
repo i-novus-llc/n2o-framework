@@ -23,7 +23,7 @@ export type Widget = {
     toolbar?: Record<string, unknown>
     paging?: Record<string, unknown>
     filter?: Record<string, unknown>
-    table?: { textWrap: boolean }
+    table?: { textWrap: boolean, columns: Record<string, { visible: boolean }> }
     form?: {
         modelPrefix: ModelPrefix
         [key: string]: unknown

@@ -22,6 +22,7 @@ import { addComponent, removeComponent } from './ducks/datasource/store'
 import { requestConfigSuccess } from './ducks/global/store'
 import { updateModel } from './ducks/models/store'
 import { sagas as apiSagas } from './ducks/api/sagas'
+import { sagas as tableSagas } from './ducks/table/sagas'
 
 const webSocketConfig = {
     observables: [addComponent, removeComponent, requestConfigSuccess],
@@ -49,6 +50,7 @@ export default function generateSagas(dispatch, config) {
             ...overlaysSagas,
             ...regionsSagas,
             ...toolbarSagas,
+            ...tableSagas,
             ...defaultTo(config.customSagas, []),
             ...wsSaga(webSocketConfig),
             ...apiSagas,

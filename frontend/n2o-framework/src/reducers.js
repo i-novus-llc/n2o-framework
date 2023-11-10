@@ -13,6 +13,7 @@ import form from './ducks/form/store'
 import user from './ducks/user/store'
 import alerts from './ducks/alerts/store'
 import regions from './ducks/regions/store'
+import table from './ducks/table/store'
 
 export default (history, customReducers = {}) => combineReducers({
     alerts,
@@ -28,5 +29,6 @@ export default (history, customReducers = {}) => combineReducers({
     user,
     router: connectRouter(history),
     widgets,
+    table,
     ...customReducers,
 })

@@ -8,9 +8,10 @@ import { resolveConditions } from '../../../../sagas/conditions'
 type Props = {
     columnsState: ColumnState
     changeColumnParam: ChangeColumnParam
+    widgetId: string
 }
 
-export const VoidResolveColumnConditions: VFC<Props> = ({ columnsState, changeColumnParam }) => {
+export const VoidResolveColumnConditions: VFC<Props> = ({ columnsState, changeColumnParam, widgetId }) => {
     const { getState } = useStore()
     const refState = useRef(columnsState)
     const models = useSelector(modelsSelector)
@@ -21,7 +22,7 @@ export const VoidResolveColumnConditions: VFC<Props> = ({ columnsState, changeCo
         const state = getState()
 
         refState.current.forEach(({ conditions, visible, columnId }) => {
-            if (!conditions.visible) {
+            if (!conditions?.visible) {
                 return
             }
 
@@ -29,7 +30,7 @@ export const VoidResolveColumnConditions: VFC<Props> = ({ columnsState, changeCo
             const needChangeVisibility = resolvedVisibility !== visible
 
             if (needChangeVisibility) {
-                changeColumnParam(columnId, 'visible', resolvedVisibility)
+                changeColumnParam(widgetId, columnId, 'visible', resolvedVisibility)
             }
         })
     }, [changeColumnParam, getState, models])
