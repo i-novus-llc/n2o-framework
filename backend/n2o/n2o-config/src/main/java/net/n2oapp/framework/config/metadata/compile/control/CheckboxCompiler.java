@@ -25,7 +25,9 @@ public class CheckboxCompiler extends StandardFieldCompiler<Checkbox, N2oCheckbo
     @Override
     public StandardField<Checkbox> compile(N2oCheckbox source, CompileContext<?,?> context, CompileProcessor p) {
         Checkbox checkbox = new Checkbox();
+        StandardField<Checkbox> field;
         CheckboxDefaultValueEnum defaultUnchecked = p.resolve(property("n2o.api.control.checkbox.unchecked"), CheckboxDefaultValueEnum.class);
+
         if (CheckboxDefaultValueEnum.FALSE == source.getUnchecked() ||
                 source.getUnchecked() == null && CheckboxDefaultValueEnum.FALSE == defaultUnchecked) {
             checkbox.setDefaultUnchecked(CheckboxDefaultValueEnum.FALSE.getId());
@@ -34,11 +36,12 @@ public class CheckboxCompiler extends StandardFieldCompiler<Checkbox, N2oCheckbo
         } else {
             checkbox.setDefaultUnchecked(CheckboxDefaultValueEnum.NULL.getId());
         }
-        StandardField<Checkbox> field = compileStandardField(checkbox, source, context, p);
-        if (field.getLabel() != null) {
-            checkbox.setLabel(p.resolveJS(field.getLabel()));
-        }
+        field = compileStandardField(checkbox, source, context, p);
+        checkbox.setLabel(field.getLabel());
         field.setLabel(null);
+        checkbox.setHelp(field.getHelp());
+        field.setHelp(null);
+
         return field;
     }
 
