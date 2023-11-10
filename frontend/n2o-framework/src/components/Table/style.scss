@@ -15,7 +15,8 @@
     white-space: nowrap;
 }
 
-.table-container[data-text-wrap="false"] .cell * {
+.table-container[data-text-wrap="false"] .cell .cell-content *,
+.table-container[data-text-wrap="false"] .n2o-advanced-table-header-title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -115,5 +116,38 @@
         .cell-selection {
             width: 30px;
         }
+    }
+}
+
+.n2o-advanced-table-filter-btn {
+    flex-shrink: 0;
+}
+
+.table-row-overlay {
+    display: flex;
+    position: absolute;
+    justify-content: flex-end;
+    height: 0;
+
+    .toolbar-container {
+        display: flex;
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 8px;
+        background-color: #dfdfdf;
+    }
+
+    .toolbar-container::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 20px 20px 0;
+        border-color: transparent #dfdfdf transparent transparent;
+        transform: translateX(-100%);
     }
 }
