@@ -1,29 +1,24 @@
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { defaultTo } from 'lodash'
 import { useSelector } from 'react-redux'
-import omit from 'lodash/omit'
 import { compose } from 'recompose'
 import { createContext, useContext as useContextSelector } from 'use-context-selector'
 
 import { N2OPagination } from '../Table/N2OPagination'
 import WidgetLayout from '../StandardWidget'
-import { StandardFieldset } from '../Form/fieldsets'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
-import { FactoryContext } from '../../../core/factory/context'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { Selection, TableActions, TableContainer } from '../../Table'
-import { useCheckAccess } from '../../../core/auth/SecurityController'
 import { withSecurityList } from '../../../core/auth/withSecurity'
 import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 import { ToolbarOverlay } from '../../Table/provider/ToolbarOverlay'
 import { useOnActionMethod } from '../hooks/useOnActionMethod'
 
 import { useExpandAllRows } from './hooks/useExpandAllRows'
-import { useResolveCellsVisible } from './hooks/useResolveCellsVisible'
-import { useColumnsState } from './hooks/useColumnsState'
 import { useTableActionReactions } from './hooks/useTableActionReactions'
 import { VoidResolveColumnConditions } from './voidComponents/VoidResolveColumnConditions'
+import { WithTableProps } from './WithTableProps'
 
 const tableWidgetContext = createContext(null)
 
@@ -33,11 +28,12 @@ const EmptyComponent = () => (
 
 const AdvancedTableContainer = (props) => {
     const {
-        id, disabled, toolbar, datasource, className, setPage, loading, fetchData,
-        style, paging, filter, table, size, count, page, sorting, children, hasNext, isInit,
-        setResolve,
+        id, disabled, toolbar, datasource, className, setPage, loading,
+        fetchData, style, paging, table, size, count,
+        page, sorting, children, hasNext, isInit, setResolve,
+        changeColumnParam, columnsState, tableConfig,
+        resolvedFilter, hasSecurityAccess, resolvedCells, paginationVisible,
     } = props
-    const { resolveProps } = useContext(FactoryContext)
 
     const tableContainerElem = useRef(null)
     const [expandedRows, setExpandedRows] = useState([])
@@ -57,24 +53,6 @@ const AdvancedTableContainer = (props) => {
 
         return model ? model.id : null
     })
-
-    const cells = useMemo(() => ({
-        header: table.header.cells.map(cell => resolveProps(cell)),
-        body: table.body.cells.map(cell => resolveProps(cell)),
-    }), [table.header.cells, table.body.cells, resolveProps])
-    const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
-
-    const [columnsState, changeColumnParam] = useColumnsState(cells.header)
-    const resolvedCells = useResolveCellsVisible(cells, columnsState)
-
-    const tableConfig = useMemo(() => {
-        const config = omit(table, ['autoSelect', 'autoFocus', 'textWrap', 'header.cells', 'body.cells'])
-
-        return resolveProps(config)
-    }, [resolveProps, table])
-
-    const paginationVisible = useMemo(() => columnsState.some(column => column.visible), [columnsState])
-    const hasSecurityAccess = useCheckAccess(tableConfig.body?.row?.security)
 
     const { place = 'bottomLeft' } = paging
     const pagination = {
@@ -161,6 +139,7 @@ const AdvancedTableContainer = (props) => {
             <VoidResolveColumnConditions
                 columnsState={columnsState}
                 changeColumnParam={changeColumnParam}
+                widgetId={id}
             />
             <ToolbarOverlay
                 onClickActionButton={onClickToolbarActionButton}
@@ -207,6 +186,7 @@ AdvancedTableContainer.displayName = 'AdvancedTableWidget'
 
 export const AdvancedTableWidget = compose(
     WidgetHOC,
+    WithTableProps,
 )(withSecurityList(AdvancedTableContainer, 'table.header.cells'))
 
 export const useTableWidget = () => {

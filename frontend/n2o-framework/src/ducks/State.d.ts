@@ -10,6 +10,7 @@ import { State as UserState } from './user/User'
 import { State as WidgetsState } from './widgets/Widgets'
 import { State as GlobalState, RouterState } from './global/Global'
 import { State as AlertsState } from './alerts/Alerts'
+import { State as TableState } from './table/Table'
 
 export interface State {
     form?: FormsState
@@ -25,4 +26,5 @@ export interface State {
     global: GlobalState
     router: RouterState
     regions: RegionsState
+    table: TableState
 }

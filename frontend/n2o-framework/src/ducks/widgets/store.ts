@@ -1,10 +1,15 @@
 import { createSlice, createAction } from '@reduxjs/toolkit'
-import set from 'lodash/set'
+import merge from 'lodash/merge'
 
 import WidgetResolver from './WidgetResolver'
 import { ALERT_ADD, ALERT_REMOVE, SET_WIDGET_METADATA } from './constants'
 import { State } from './Widgets'
-import { ChangeFilterVisibility, Register, Resolve, Toggle } from './Actions'
+import {
+    ChangeFilterVisibility,
+    Register,
+    Resolve,
+    Toggle,
+} from './Actions'
 
 const initialState: State = {}
 
@@ -25,8 +30,7 @@ const widgetSlice = createSlice({
 
                 state[widgetId] = {
                     ...WidgetResolver.defaultState,
-                    ...currentState,
-                    ...initProps,
+                    ...merge(currentState, initProps),
                     isInit: !preInit,
                     type: initProps.type,
                 }
@@ -228,39 +232,6 @@ const widgetSlice = createSlice({
                 delete state[payload.widgetId]
             },
         },
-
-        /**
-         * Установить перенос текста в таблице
-         */
-        toggleTableWordWrap: {
-
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(widgetId) {
-                return ({
-                    payload: { widgetId },
-                })
-            },
-
-            reducer(state, action: Toggle) {
-                const { payload } = action
-
-                const { id } = payload
-
-                if (!id) {
-                    return
-                }
-
-                const { table } = state[id]
-
-                if (!table) {
-                    return
-                }
-
-                const { textWrap } = table
-
-                set(state, `${id}.table.textWrap`, !textWrap)
-            },
-        },
     },
 })
 
@@ -278,7 +249,6 @@ export const {
     TOGGLE_FILTER_VISIBILITY: toggleWidgetFilters,
     REMOVE: removeWidget,
     SET_ACTIVE: setActive,
-    toggleTableWordWrap,
 } = widgetSlice.actions
 
 export const alertAddWidget = createAction(ALERT_ADD, (widgetId: string, alertKey: string) => ({

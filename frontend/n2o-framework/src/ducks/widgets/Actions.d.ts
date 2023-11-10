@@ -1,8 +1,9 @@
 import { Action } from '../Action'
+import { Table } from '../table/Table'
 
 export type RegisterPayload = {
     widgetId: string
-    initProps: { type: string }
+    initProps: { type: string, table?: Table }
     preInit: boolean
 }
 
