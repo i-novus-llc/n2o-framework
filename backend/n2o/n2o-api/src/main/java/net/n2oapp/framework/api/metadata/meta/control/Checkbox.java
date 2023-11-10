@@ -17,4 +17,6 @@ public class Checkbox extends Control {
     private Boolean readOnly;
     @JsonProperty
     private String defaultUnchecked;
+    @JsonProperty
+    private String help;
 }
