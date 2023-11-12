@@ -13,6 +13,7 @@ import { Selection, TableActions, TableContainer } from '../../Table'
 import { withSecurityList } from '../../../core/auth/withSecurity'
 import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 import { ToolbarOverlay } from '../../Table/provider/ToolbarOverlay'
+import { useChangeFilter } from '../../Table/hooks/useChangeFilter'
 import { useOnActionMethod } from '../hooks/useOnActionMethod'
 
 import { useExpandAllRows } from './hooks/useExpandAllRows'
@@ -39,6 +40,7 @@ const AdvancedTableContainer = (props) => {
     const [expandedRows, setExpandedRows] = useState([])
 
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
+    const filterModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.filter))
     const selectedRows = useSelector((state) => {
         const models = dataSourceModelByPrefixSelector(datasource, ModelPrefix.selected)(state) || EMPTY_ARRAY
 
@@ -71,6 +73,7 @@ const AdvancedTableContainer = (props) => {
     }
 
     const { setActiveModel, setMultiModel, unsetMultiModel } = useTableActionReactions(datasource)
+    const onFilter = useChangeFilter(datasource)
     const onRowClickAction = useOnActionMethod(id, tableConfig?.body?.row?.click)
     const actionListener = useCallback((action, payload) => {
         switch (action) {
@@ -116,11 +119,16 @@ const AdvancedTableContainer = (props) => {
                 break
             }
 
+            case TableActions.onChangeFilter: {
+                onFilter(payload.model)
+
+                break
+            }
             default: {
                 break
             }
         }
-    }, [onRowClickAction, setActiveModel, setMultiModel, unsetMultiModel])
+    }, [onRowClickAction, setActiveModel, setMultiModel, unsetMultiModel, onFilter])
     const onClickToolbarActionButton = useCallback((model) => {
         setActiveModel(model)
     }, [setActiveModel])
@@ -160,6 +168,7 @@ const AdvancedTableContainer = (props) => {
                 >
                     {isInit ? (
                         <TableContainer
+                            filterValue={filterModel}
                             refContainerElem={tableContainerElem}
                             actionListener={actionListener}
                             hasSecurityAccess={hasSecurityAccess}
@@ -168,7 +177,6 @@ const AdvancedTableContainer = (props) => {
                             data={datasourceModel}
                             cells={resolvedCells}
                             tableConfig={tableConfig}
-                            id={id}
                             isTextWrap={table.textWrap}
                             selectedRows={selectedRows}
                             expandedRows={expandedRows}

@@ -22,6 +22,10 @@
     text-overflow: ellipsis;
 }
 
+.table-container .n2o-advanced-table-filter-dropdown-buttons button {
+    justify-content: center;
+}
+
 .n2o-advanced-table {
     --padding-aside-cell: 0.3rem;
     --padding-multiplier: 30px;
