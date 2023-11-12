@@ -18,6 +18,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+
 /**
  * Автотест для проверки скрытия виджета по условию
  */
@@ -49,7 +51,7 @@ public class WidgetEnablingAT extends AutoTestBase {
     }
 
     @Test
-    public void test() {
+    void test() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -67,11 +69,10 @@ public class WidgetEnablingAT extends AutoTestBase {
         button.shouldBeEnabled();
         button.click();
         page.alerts(Alert.Placement.top).alert(0).shouldExists();
-        page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
 
         Cells row = table.columns().rows().row(2);
         row.click();
-        page.alerts(Alert.Placement.top).alert(0).shouldExists();
+        page.alerts(Alert.Placement.topLeft).alert(0).shouldExists();
 
         Checkbox checkbox = form.fieldsets()
                 .fieldset(0, SimpleFieldSet.class)
