@@ -10,9 +10,9 @@ import { Cell, HeaderCell } from './cell'
 
 export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
     hasSecurityAccess: boolean
+    filterValue?: Record<string, any>
     sorting: Record<string, SortDirection>
     data: Data
-    id: string
     isTextWrap: boolean
     focusedRowValue: string | null
     expandedRows: ExpandedRows
