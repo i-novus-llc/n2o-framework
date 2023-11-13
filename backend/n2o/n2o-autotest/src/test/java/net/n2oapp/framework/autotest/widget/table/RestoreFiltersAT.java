@@ -108,6 +108,7 @@ public class RestoreFiltersAT extends AutoTestBase {
 
         Selenide.back();
         secPage.shouldExists();
+        secPage.breadcrumb().shouldHaveSize(2);
         Selenide.forward();
         page.shouldExists();
         filter.shouldHaveValue("test2", Duration.ofSeconds(15));
