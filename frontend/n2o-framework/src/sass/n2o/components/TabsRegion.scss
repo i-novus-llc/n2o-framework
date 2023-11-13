@@ -1,4 +1,9 @@
 .n2o-tabs-region {
+    .tabs-nav-item.disabled {
+        color: #263238;
+        opacity: 0.65;
+    }
+
     .tabs__content {
         padding: 15px;
     }
