@@ -7,11 +7,8 @@ import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 
 import java.util.Arrays;
 
