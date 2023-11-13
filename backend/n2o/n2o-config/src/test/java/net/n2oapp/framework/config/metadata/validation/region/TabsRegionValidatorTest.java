@@ -5,9 +5,12 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
+import net.n2oapp.framework.config.metadata.validation.standard.datasource.StandardDatasourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.regions.ScrollspyValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.regions.TabsValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +30,8 @@ public class TabsRegionValidatorTest extends SourceValidationTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack());
-        builder.validators(new StandardPageValidator(), new ScrollspyValidator(), new TabsValidator());
+        builder.validators(new StandardPageValidator(), new ScrollspyValidator(),
+                new TabsValidator(), new WidgetValidator(), new StandardDatasourceValidator());
     }
 
     @Test
@@ -44,6 +48,14 @@ public class TabsRegionValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/testTabsDatasourceExistence.page.xml"));
         assertEquals("Регион <tabs> ссылается на несуществующий источник данных 'test'", exception.getMessage());
+    }
+
+    @Test
+    void testContentInTab() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/region/testContentInTab.page.xml"));
+        assertEquals("Источник данных  ссылается на несуществующую выборку 'testQ'", exception.getMessage());
     }
 
     @Test
