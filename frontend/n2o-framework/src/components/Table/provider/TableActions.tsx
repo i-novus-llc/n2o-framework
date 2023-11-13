@@ -12,6 +12,7 @@ type TTableActionContextValue = {
     selectSingleRow(rowValue: string): void
     setFocusOnRow(rowValue: string | null, model?: any): void
     onDispatchRowAction(rowClickAction: Record<string, any>, model: any): void
+    onChangeFilter(model: Record<string, any>): void
 }
 
 const tableActionsContext = createContext<TTableActionContextValue | null>(null)
@@ -45,6 +46,9 @@ export const TableActionsProvider: FC<TTableActionsProviderProps> = ({
         },
         onDispatchRowAction(rowClickAction, model) {
             onRowClickAction(model, rowClickAction)
+        },
+        onChangeFilter(model) {
+            actionListener(TableActions.onChangeFilter, { model })
         },
     }), [actionListener, onRowClickAction])
 
