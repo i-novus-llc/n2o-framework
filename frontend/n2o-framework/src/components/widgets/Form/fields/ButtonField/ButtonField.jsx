@@ -6,10 +6,15 @@ import StandardButton from '../../../../buttons/StandardButton/StandardButton'
 import { FieldAlignmentBlock } from '../FieldAlignmentBlock'
 
 function ButtonField({ className, style, visible, noLabelBlock, ...rest }) {
+    const { labelPosition } = rest
+
+    const isTopLabelPosition = labelPosition === 'top' || labelPosition === 'top-right' || labelPosition === 'top-left'
+    const isTopAlign = !noLabelBlock && isTopLabelPosition
+
     return (
         visible && (
             <>
-                <FieldAlignmentBlock visible={!noLabelBlock} />
+                <FieldAlignmentBlock visible={isTopAlign} />
                 <div
                     style={style}
                     className={classNames('n2o-button-field n2o-form-group', className)}
