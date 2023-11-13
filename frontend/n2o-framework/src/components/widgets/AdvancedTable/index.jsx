@@ -18,6 +18,7 @@ import { SelectionType, TableActions, TableContainer } from '../../Table'
 import { useCheckAccess } from '../../../core/auth/SecurityController'
 import { withSecurityList } from '../../../core/auth/withSecurity'
 import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
+import { useChangeFilter } from '../../Table/hooks/useChangeFilter'
 
 import { useExpandAllRows } from './hooks/useExpandAllRows'
 import { useResolveCellsVisible } from './hooks/useResolveCellsVisible'
@@ -94,6 +95,7 @@ const AdvancedTableContainer = (props) => {
     }
 
     const { setActiveModel, setMultiModel, unsetMultiModel } = useTableActionReactions(datasource)
+    const onFilter = useChangeFilter(datasource)
     const actionListener = useCallback((action, payload) => {
         switch (action) {
             case TableActions.toggleExpandRow: {
@@ -131,6 +133,13 @@ const AdvancedTableContainer = (props) => {
 
                 break
             }
+
+            case TableActions.onChangeFilter: {
+                onFilter(payload.model)
+
+                break
+            }
+
             default: {
                 break
             }
