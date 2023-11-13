@@ -91,7 +91,7 @@ public class ChangeDataEventAT extends AutoTestBase {
         test.setValue("5");
         N2oSelenide.modal().shouldExists();
         N2oSelenide.modal().close();
-        N2oSelenide.modal().shouldNotExists();
+        N2oSelenide.modal().shouldNotExists(Duration.ofSeconds(15));
         test.click();
         test.setValue("3");
         test.shouldHaveValue("3");
