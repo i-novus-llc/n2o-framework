@@ -23,6 +23,7 @@ export const RowResolver: VFC<RowResolverProps> = (props) => {
         selection,
         hasSecurityAccess,
         click,
+        rowIndex,
         ...otherProps
     } = props
     const { setFocusOnRow, onRowClick } = useTableActions()
@@ -53,6 +54,7 @@ export const RowResolver: VFC<RowResolverProps> = (props) => {
         <RowComponent
             {...otherProps}
             {...otherElementAttributes}
+            rowIndex={rowIndex}
             selection={selection}
             data={data}
             onClick={hasRowAction ? onClickRowAction : undefined}
@@ -77,6 +79,7 @@ export const RowResolver: VFC<RowResolverProps> = (props) => {
                     model={data}
                     rowValue={rowValue}
                     isTreeExpanded={isTreeExpanded}
+                    rowIndex={rowIndex}
                     {...elementAttributes}
                     {...cellProps}
                 />

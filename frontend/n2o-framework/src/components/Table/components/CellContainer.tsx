@@ -14,6 +14,7 @@ export const CellContainer = memo<CellContainerProps>((props) => {
         hasExpandedButton,
         isTreeExpanded,
         rowValue,
+        rowIndex,
         ...otherProps
     } = props
     const resolvedProps = useMemo(() => propsResolver(otherProps, otherProps.model, ['toolbar', 'security', 'model']), [otherProps])
@@ -27,7 +28,7 @@ export const CellContainer = memo<CellContainerProps>((props) => {
                         isTreeExpanded={isTreeExpanded}
                     />
                 )}
-                <CellComponent rowValue={rowValue} {...resolvedProps} />
+                <CellComponent rowValue={rowValue} {...resolvedProps} rowIndex={rowIndex} />
             </div>
         </Table.Cell>
     )

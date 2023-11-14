@@ -121,6 +121,7 @@ export type RowsProps = Omit<TableBodyProps, 'row'> & {
 } & Row
 
 export type RowContainerProps = {
+    rowIndex: number
     data: DataItem
     isSelectedRow: boolean
     isTreeExpanded: boolean
@@ -151,4 +152,5 @@ export type CellContainerProps = {
     cellIndex: number
     hasExpandedButton: boolean
     isTreeExpanded: boolean
+    rowIndex: RowContainerProps['rowIndex']
 } & Omit<Cell, 'elementAttributes'>
