@@ -2,6 +2,7 @@ package net.n2oapp.framework.ui.controller.export;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
@@ -13,10 +14,8 @@ import net.n2oapp.framework.ui.controller.AbstractController;
 import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ExportController extends AbstractController {
 
@@ -52,7 +51,10 @@ public class ExportController extends AbstractController {
     }
 
     public GetDataResponse getData(String path, Map<String, String[]> params, UserContext user) {
-        return dataController.getData(path, params, user);
+        GetDataResponse data = dataController.getData(path, params, user);
+        leaveShowedFields(data, params.get("show"));
+
+        return data;
     }
 
     public Map<String, String> getHeaders(String path, Map<String, String[]> params) {
@@ -85,5 +87,25 @@ public class ExportController extends AbstractController {
 
     private String getFileName(String fileFormat) {
         return FILE_NAME + "_" + System.currentTimeMillis() + "." + fileFormat;
+    }
+
+    /**
+     * Функция оставляет только поля, указанные в параметре 'show'
+     *
+     * @param dataResponse - данные для экспорта
+     * @param showedFields - имена отображаемых полей
+     */
+    private void leaveShowedFields(GetDataResponse dataResponse, String[] showedFields) {
+        if (dataResponse.getList().isEmpty() || StringUtils.isEmpty(showedFields))
+            return;
+
+        Set<String> showed = Set.of(showedFields);
+        List<String> ignore = dataResponse.getList()
+                .get(0)
+                .flatKeySet()
+                .stream()
+                .filter(f -> !showed.contains(f))
+                .collect(Collectors.toList());
+        dataResponse.getList().forEach(data -> ignore.forEach(data::remove));
     }
 }

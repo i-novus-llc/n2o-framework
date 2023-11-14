@@ -194,8 +194,9 @@ AdvancedTableContainer.displayName = 'AdvancedTableWidget'
 
 export const AdvancedTableWidget = compose(
     WidgetHOC,
-    WithTableProps,
-)(withSecurityList(AdvancedTableContainer, 'table.header.cells'))
+)(
+    withSecurityList(WithTableProps(AdvancedTableContainer), 'table.header.cells'),
+)
 
 export const useTableWidget = () => {
     const context = useContextSelector(tableWidgetContext)

@@ -1,14 +1,11 @@
 import { createAction } from '@reduxjs/toolkit'
-import get from 'lodash/get'
 import { select, takeEvery, cancel } from 'redux-saga/effects'
 
 // @ts-ignore ignore import error from js file
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { dataSourceByIdSelector } from '../datasource/selectors'
-import { getContainerColumns } from '../columns/selectors'
+import { getTableColumns } from '../table/selectors'
 import { Columns } from '../columns/Columns'
-import { makeWidgetByIdSelector } from '../widgets/selectors'
-import { Widget } from '../widgets/Widgets'
 import { Action } from '../Action'
 import { getModelSelector } from '../models/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
@@ -21,7 +18,7 @@ import { escapeUrl } from './utils/escapeUrl'
 
 const ATTRIBUTES_ERROR = 'Ошибка экспорта, payload содержит не все параметры'
 const PARAMS_ERROR = 'Ошибка экспорта, не передан формат или кодировка'
-const IGNORE = 'ignore'
+const SHOW = 'show'
 const PARAM_KEY = 'id'
 
 export type Payload = {
@@ -40,20 +37,10 @@ export const creator = createAction(
     }),
 )
 
-function getIgnored(columns: Columns, widget: Widget): string[] {
-    const ignored = []
+function getShowedColumns(columns: Columns): string[] {
+    const ids = Object.keys(columns) || []
 
-    const widgetColumns = get(widget, 'table.header.cells', [])
-
-    for (const { id } of widgetColumns) {
-        const visible = get(columns, `${id}.visible`)
-
-        if (!columns[id] || !visible) {
-            ignored.push(id)
-        }
-    }
-
-    return ignored
+    return ids.filter(id => columns[id].visible)
 }
 
 function createExportUrl(
@@ -61,24 +48,24 @@ function createExportUrl(
     baseURL: string,
     format: string,
     charset: string,
-    ignored: string[],
+    showed: string[],
 ) {
     const { pathname } = window.location
 
-    const escapedUrl = escapeUrl(resolvedURL)
     const path = pathname.slice(0, -1)
+    const exportURL = `${path}${baseURL}?format=${format}&charset=${charset}&url=`
 
-    let exportURL = `${path}${baseURL}?format=${format}&charset=${charset}&url=${escapedUrl}`
-
-    if (!ignored.length) {
-        return exportURL
+    if (!showed.length) {
+        return `${exportURL}${escapeUrl(resolvedURL)}`
     }
 
-    for (const ignore of ignored) {
-        exportURL += `&${IGNORE}=${ignore}`
+    let url = resolvedURL
+
+    for (const show of showed) {
+        url += `&${SHOW}=${show}`
     }
 
-    return exportURL
+    return `${exportURL}${escapeUrl(url)}`
 }
 
 interface ExportConfig {
@@ -128,14 +115,14 @@ export function* effect({ payload }: Action<string, Payload>) {
         sorting,
     })
 
-    const columns: Columns = yield select(getContainerColumns(widgetId))
-    const widget: Widget = yield select(makeWidgetByIdSelector(widgetId))
-    /* columns with failed security check or not visible */
-    const ignored = getIgnored(columns, widget)
+    const columns: Columns = yield select(getTableColumns(widgetId))
 
-    const exportURL = createExportUrl(resolvedURL, baseURL, format, charset, ignored)
+    const showed = getShowedColumns(columns)
+
+    const exportURL = createExportUrl(resolvedURL, baseURL, format, charset, showed)
 
     window.open(exportURL, '_blank')
 }
 
+// @ts-ignore проблема с типизацией saga
 export const sagas = [takeEvery(creator.type, EffectWrapper(effect))]

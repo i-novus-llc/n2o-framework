@@ -74,6 +74,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.sandbox.utils.FileUtil.findFilesByUri;
 import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
@@ -224,6 +225,8 @@ public class ViewController {
             String dataPrefix = "/n2o/data";
             String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
             Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(url));
+            if (params == null)
+                throw new N2oException("Query-параметр запроса пустой");
 
             GetDataResponse dataResponse = exportController.getData(path, params, new UserContext(sandboxContext));
             Map<String, String> headers = exportController.getHeaders(path, params);

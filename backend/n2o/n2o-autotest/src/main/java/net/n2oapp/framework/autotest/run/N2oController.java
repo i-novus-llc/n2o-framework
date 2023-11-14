@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Контроллер n2o запросов для автотестов
@@ -131,6 +132,8 @@ public class N2oController {
         String dataPrefix = "/n2o/data";
         String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
         Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(url));
+        if (params == null)
+            throw new N2oException("Query-параметр запроса пустой");
 
         GetDataResponse dataResponse = exportController.getData(path, params, null);
         Map<String, String> headers = exportController.getHeaders(path, params);
@@ -199,5 +202,4 @@ public class N2oController {
         }
         return headers;
     }
-
 }

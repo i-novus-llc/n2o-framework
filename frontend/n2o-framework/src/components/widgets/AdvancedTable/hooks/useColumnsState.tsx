@@ -12,6 +12,7 @@ type ColumnItem = {
     columnId: string
     label: string
     visible: boolean
+    visibleState?: boolean
     disabled: boolean
     conditions: { visible?: Condition[] }
 }
@@ -23,7 +24,6 @@ export type ChangeColumnParam = <
 
 export const useColumnsState = (columns: HeaderCell[], widgetId: string, state: State) => {
     const dispatch = useDispatch()
-
     const changeColumnParam = useCallback<ChangeColumnParam>((widgetId, columnId, paramKey, value) => {
         dispatch(changeTableColumnParam(widgetId, columnId, paramKey, value))
     }, [])

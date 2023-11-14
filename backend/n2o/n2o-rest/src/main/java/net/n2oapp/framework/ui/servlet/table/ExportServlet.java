@@ -1,5 +1,6 @@
 package net.n2oapp.framework.ui.servlet.table;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.rest.ExportResponse;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.user.UserContext;
@@ -13,7 +14,10 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ExportServlet extends N2oServlet {
 
@@ -36,10 +40,12 @@ public class ExportServlet extends N2oServlet {
 
         String path = getPath(url, "/n2o/data");
         Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(url));
+        if (params == null)
+            throw new N2oException("Query-параметр запроса пустой");
 
-        GetDataResponse result = controller.getData(path, params, (UserContext) req.getAttribute(USER));
+        GetDataResponse dataResponse = controller.getData(path, params, (UserContext) req.getAttribute(USER));
         Map<String, String> headers = controller.getHeaders(path, params);
-        ExportResponse exportResponse = controller.export(result.getList(), format, charset, headers);
+        ExportResponse exportResponse = controller.export(dataResponse.getList(), format, charset, headers);
 
         resp.setStatus(exportResponse.getStatus());
         resp.setContentType(exportResponse.getContentType());
