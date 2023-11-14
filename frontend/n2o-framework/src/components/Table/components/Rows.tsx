@@ -31,6 +31,7 @@ export const Rows: VFC<RowsProps> = (props) => {
                 return (
                     <Fragment key={rowRenderFieldKey ? dataItem[rowRenderFieldKey] : index}>
                         <RowContainer
+                            rowIndex={index}
                             data={dataItem}
                             isFocused={isFocused}
                             rowValue={rowValue}
