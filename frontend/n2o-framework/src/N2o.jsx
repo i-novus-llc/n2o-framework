@@ -4,8 +4,8 @@ import { Provider } from 'react-redux'
 import pick from 'lodash/pick'
 import { compose, withContext, defaultProps, withProps } from 'recompose'
 import { withTranslation } from 'react-i18next'
-import './i18n'
 
+import './i18n'
 import packageJson from '../package.json'
 
 import history from './history'
@@ -24,6 +24,7 @@ import { errorTemplates } from './components/errors/errorTemplates'
 import locales from './locales'
 import { Tooltip } from './components/snippets/Tooltip/Tooltip'
 import { ErrorHandlersProvider } from './core/error/Container'
+import '@fortawesome/fontawesome-free/css/all.css'
 
 const { version } = packageJson
 

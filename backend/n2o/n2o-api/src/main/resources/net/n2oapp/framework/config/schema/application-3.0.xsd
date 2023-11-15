@@ -155,12 +155,12 @@
         </xs:attribute>
         <xs:attribute name="sidebar-icon" type="xs:string" >
             <xs:annotation>
-                <xs:documentation>Иконка открытия боковой панели, если не задана, значит кнопки не будет. Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
+                <xs:documentation>Иконка открытия боковой панели, если не задана, значит кнопки не будет. Иконка из https://fontawesome.com/v6/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="sidebar-toggled-icon" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Иконка скрытия боковой панели, если не задана, значит кнопки не будет. Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
+                <xs:documentation>Иконка скрытия боковой панели, если не задана, значит кнопки не будет. Иконка из https://fontawesome.com/v6/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>

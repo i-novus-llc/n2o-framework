@@ -25,7 +25,7 @@ http://n2oapp.net/framework/config/schema/widget-5.0
 |src                 |Строка                                   |React компонент виджета                                                   |Для каждого виджета своя реализация по умолчанию. Для `<widget>` атрибут обязательный. |
 |class               |CSS класс                                |Класс компонента виджета                                                  |                                                                                       |
 |style               |CSS свойство                             |Стиль компонента виджета                                                  |                                                                                       |
-|icon                |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Иконка виджета                                                  |                                                                                       |
+|icon                |[Класс иконки](https://fontawesome.com/v6/icons/)|Иконка виджета                                                  |                                                                                       |
 |datasource          |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных для виджета              |                                                                                       |
 |fetch-on-init       |true false                               |Получение данных при инициализации                                        |                                                                                       |
 |fetch-on-visibility |true false                               |Получение данных при появлении по условию видимости                       |                                                                                       |
@@ -569,7 +569,7 @@ n2o.api.widget.table.checkboxes=false
 |width            |Строка                                   |Ширина столбца. Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
 |resizable        |true false                               |Можно ли изменить ширину столбца                  |false                                                       |
 |label            |Строка                                   |Наименование заголовка столбца                    |Значение поля выборки `text-field-id`, иначе значение `id`  |
-|icon             |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Иконка заголовка столбца                |                                                            |
+|icon             |[Класс иконки](https://fontawesome.com/v6/icons/)|Иконка заголовка столбца                |                                                            |
 |sorting-field-id |Ссылка на поле выборки                   |Поле, по которому сортируется столбец             |Значение `text-field-id`                                    |
 |sorting-direction|asc desc                                 |Направление сортировки по умолчанию               |                                                            |
 |fixed            |left right                               |Прилипание столбца к краю                         |                                                            |
@@ -657,7 +657,7 @@ Java Script выражение.
 |width            |Строка                                   |Ширина столбца. Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
 |resizable        |true false                               |Можно ли изменить ширину столбца                  |false                                                     |
 |label            |Строка                                   |Наименование заголовка столбца                    |Значение поля выборки `text-field-id`, иначе значение `id`|
-|icon             |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Иконка заголовка столбца                |                                                          |
+|icon             |[Класс иконки](https://fontawesome.com/v6/icons/)|Иконка заголовка столбца                |                                                          |
 |sorting-field-id |Ссылка на поле выборки                   |Поле, по которому сортируется столбец             |Значение `text-field-id`                                  |
 |sorting-direction|asc desc                                 |Направление сортировки по умолчанию               |                                                          |
 |fixed            |left right                               |Прилипание столбца к краю                         |                                                          |
@@ -1104,7 +1104,7 @@ n2o.api.widget.toolbar.place=topLeft
 |------------|---------------------------------------------------|---------------------------------------|---------------------------------------------------------------|--------------
 |id          |Строка                                             |Идентификатор действия                 |                                                               |!
 |name        |Строка                                             |Наименование                           |Вычисляется по операции объекта                                |
-|icon        |[Класс иконки](https://fontawesome.com/v4.7/icons/)|Иконка действия                        |Вычисляется, если `id` действия из списка стандартных действий.|
+|icon        |[Класс иконки](https://fontawesome.com/v6/icons/)|Иконка действия                        |Вычисляется, если `id` действия из списка стандартных действий.|
 |visible     |true false                                         |Видимость действия                     |true                                                           |
 |enabled     |true false                                         |Доступность действия                   |true                                                           |
 |model       |resolve edit filter multi datasource               |Модель, над которой выполнится действие|resolve                                                        |
@@ -1134,10 +1134,10 @@ n2o.api.widget.toolbar.place=topLeft
 |src         |Строка                                                        |React компонент пагинации                                      |Pagination                                    |
 |prev        |true false                                                    |Показать/скрыть кнопку быстрого перехода на предыдущую страницу|false                                         |
 |prev-label  |Строка                                                        |Текст кнопки "Предыдущая страница"                             |                                              |
-|prev-icon   |[Класс иконки](https://fontawesome.com/v4.7/icons/)           |Иконка кнопки "Предыдущая страница"                            |fa fa-angle-left                              |
+|prev-icon   |[Класс иконки](https://fontawesome.com/v6/icons/)           |Иконка кнопки "Предыдущая страница"                            |fa fa-angle-left                              |
 |next        |true false                                                    |Показать/скрыть кнопку быстрого перехода на следующую страницу |false                                         |
 |next-label  |Строка                                                        |Текст кнопки "Следующая страница"                              |                                              |
-|next-icon   |[Класс иконки](https://fontawesome.com/v4.7/icons/)           |Иконка кнопки "Следующая страница"                             |fa fa-angle-right                             |
+|next-icon   |[Класс иконки](https://fontawesome.com/v6/icons/)           |Иконка кнопки "Следующая страница"                             |fa fa-angle-right                             |
 |show-last   |true false                                                    |Показать/скрыть кнопку с номером последней страницы.           |true                                          |
 |show-count  |always never by-request                                       |Показать общее количество записей                              |always если show-last="true", never если false|
 |place       |topLeft topRight bottomLeft bottomRight topCenter bottomCenter|Место расположения пагинации                                   |bottomLeft                                    |

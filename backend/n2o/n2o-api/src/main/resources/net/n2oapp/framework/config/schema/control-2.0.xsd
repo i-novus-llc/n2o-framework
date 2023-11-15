@@ -596,7 +596,7 @@
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка по умолчанию в области загрузки. Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
+                        <xs:documentation>Иконка по умолчанию в области загрузки. Иконка из https://fontawesome.com/v6/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="width" type="xs:string">
@@ -1102,7 +1102,7 @@
         </xs:attribute>
         <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Иконка статуса из https://fontawesome.com/v4.7/icons/</xs:documentation>
+                <xs:documentation>Иконка статуса из https://fontawesome.com/v6/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="place" default="topLeft">
@@ -1288,7 +1288,7 @@
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
+                        <xs:documentation>Иконка из https://fontawesome.com/v6/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="position" type="positionType" default="left">
@@ -1708,7 +1708,7 @@
         <xs:attribute name="label-field-id" type="xs:string" use="required"/>
         <xs:attribute name="icon" type="xs:string" use="optional">
             <xs:annotation>
-                <xs:documentation>Иконка из https://fontawesome.com/v4.7/icons/</xs:documentation>
+                <xs:documentation>Иконка из https://fontawesome.com/v6/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true"/>
