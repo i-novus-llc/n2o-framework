@@ -5,6 +5,7 @@ export const initialState: State = {}
 export const defaultColumnState = {
     isInit: true,
     visible: true,
+    visibleState: true,
     disabled: false,
     frozen: false,
     key: '',

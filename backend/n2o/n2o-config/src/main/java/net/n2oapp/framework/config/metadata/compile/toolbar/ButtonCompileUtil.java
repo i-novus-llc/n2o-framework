@@ -1,18 +1,27 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
+import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.GenerateAware;
+import net.n2oapp.framework.api.metadata.compile.ButtonGeneratorFactory;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oButtonField;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -115,5 +124,23 @@ public class ButtonCompileUtil {
         if (isEmpty(source.getActions()))
             return castDefault(source.getValidate(), false);
         return castDefault(source.getValidate(), nonNull(datasource) || nonNull(source.getValidateDatasourceIds()));
+    }
+
+    public static List<AbstractButton> generateButtons(GenerateAware source, N2oToolbar toolbar, ButtonGeneratorFactory buttonGeneratorFactory,
+                                                       CompileContext<?, ?> context, CompileProcessor p) {
+        List<AbstractButton> generated = new ArrayList<>();
+        Map<N2oNamespace, Map<String, String>> extAttributes = source instanceof N2oButton ? ((N2oButton) source).getExtAttributes() : new HashMap<>();
+
+        List.of(source.getGenerate()).forEach(type ->
+            generated.addAll(
+                    buttonGeneratorFactory.generate(type, toolbar, context, p)
+                            .stream()
+                            .peek(item -> ((ExtensionAttributesAware) item).setExtAttributes(extAttributes))
+                            .map(item -> (AbstractButton)p.compile(item, context, p))
+                            .collect(Collectors.toList())
+            )
+        );
+
+        return generated;
     }
 }

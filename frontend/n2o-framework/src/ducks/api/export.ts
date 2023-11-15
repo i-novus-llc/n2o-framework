@@ -40,7 +40,7 @@ export const creator = createAction(
 function getShowedColumns(columns: Columns): string[] {
     const ids = Object.keys(columns) || []
 
-    return ids.filter(id => columns[id].visible)
+    return ids.filter(id => columns[id].visible && columns[id].visibleState)
 }
 
 function createExportUrl(

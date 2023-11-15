@@ -3,11 +3,13 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -17,8 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тестирование компиляции базовой кнопки
@@ -112,5 +113,22 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
 
         confirm = page.getWidget().getToolbar().getButton("btn4").getConfirm();
         assertThat(confirm, nullValue());
+    }
+
+    @Test
+    void generateButton() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generateButton.page.xml")
+                .get(new PageContext("generateButton"));
+
+        assertThat(page.getWidget().getToolbar().size(), is(1));
+        assertThat(page.getWidget().getToolbar().get("topLeft").size(), is(1));
+        assertThat(page.getWidget().getToolbar().get("topLeft").get(0).getButtons().size(), is(1));
+
+        PerformButton button = (PerformButton) page.getWidget().getToolbar().get("topLeft").get(0).getButtons().get(0);
+        assertThat(button.getId(), is("close"));
+        assertThat(button.getLabel(), is("Закрыть"));
+        assertThat(button.getAction(), instanceOf(LinkAction.class));
+        assertThat(button.getProperties().size(), is(1));
+        assertThat(button.getProperties().get("label"), is("newLabel"));
     }
 }

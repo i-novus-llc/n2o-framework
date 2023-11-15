@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import isEmpty from 'lodash/isEmpty'
 import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 import { useTableWidget } from '../../widgets/AdvancedTable'
@@ -9,12 +8,27 @@ import { useTableWidget } from '../../widgets/AdvancedTable'
  * Дропдаун для скрытия/показа колонок в таблице
  * @reactProps {string} entityKey - id виджета, размер которого меняется
  * @reactProps {array} columns - кологки(приходит из редакса)
+ * @reactProps {string} defaultColumns - изначально видимые колонки (visibleState) (прим. 'id1,id2'), остальные скрываются
  * @example
  * <ToggleColumn entityKey='TestEntityKey'/>
  */
+
 export const ToggleColumn = (props) => {
-    const { columnsState, changeColumnParam } = useTableWidget()
-    const { icon, label, entityKey: widgetId, nested = false } = props
+    const { icon, label, entityKey: widgetId, defaultColumns = '', nested = false } = props
+    const { columnsState, changeColumnParam } = useTableWidget({ defaultColumns, widgetId })
+
+    useEffect(() => {
+        if (defaultColumns) {
+            const defaultIds = defaultColumns.split(',')
+
+            for (const column of columnsState) {
+                const { columnId } = column
+                const visible = defaultIds.includes(columnId)
+
+                changeColumnParam(widgetId, columnId, 'visibleState', visible)
+            }
+        }
+    }, [columnsState.length])
 
     return (
         <UncontrolledButtonDropdown direction={nested ? 'right' : 'down'}>
@@ -28,25 +42,29 @@ export const ToggleColumn = (props) => {
 
                         <DropdownMenu>
                             {columnsState.map((column) => {
-                                const { conditions, columnId, label, visible } = column
+                                const { columnId, label, visible, visibleState } = column
+
+                                if (!visible) {
+                                    return null
+                                }
 
                                 const toggleVisibility = () => {
-                                    changeColumnParam(widgetId, columnId, 'visible', !visible)
+                                    /* visibleState - локальная видимость колонки, переключаемая в ToggleColumn
+                                       visible - влияет на общую видимость колонки и соответствующей кнопки переключения в ToggleColumn */
+                                    changeColumnParam(widgetId, columnId, 'visibleState', !visibleState)
                                 }
 
                                 return (
-                                    isEmpty(conditions) && (
-                                        <DropdownItem
-                                            key={columnId}
-                                            toggle={false}
-                                            onClick={toggleVisibility}
-                                        >
-                                            <span className="n2o-dropdown-check-container">
-                                                {visible && <i className="fa fa-check" aria-hidden="true" />}
-                                            </span>
-                                            <span>{label || columnId}</span>
-                                        </DropdownItem>
-                                    )
+                                    <DropdownItem
+                                        key={columnId}
+                                        toggle={false}
+                                        onClick={toggleVisibility}
+                                    >
+                                        <span className="n2o-dropdown-check-container">
+                                            {visibleState && <i className="fa fa-check" aria-hidden="true" />}
+                                        </span>
+                                        <span>{label || columnId}</span>
+                                    </DropdownItem>
                                 )
                             })}
                         </DropdownMenu>

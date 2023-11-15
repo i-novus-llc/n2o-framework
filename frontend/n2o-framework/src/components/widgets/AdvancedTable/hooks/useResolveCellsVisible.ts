@@ -22,7 +22,11 @@ const filterVisibleNestedFields = (data: HeaderCell[], columnsState: ColumnState
         const cellState = columnsState.find(column => column.columnId === id)
 
         if (cellState) {
-            return cellState?.visible
+            if (!cellState.visible) {
+                return false
+            }
+
+            return cellState.visibleState
         }
 
         return true
@@ -31,13 +35,12 @@ const filterVisibleNestedFields = (data: HeaderCell[], columnsState: ColumnState
     const resolveVisibility = (data: HeaderCell[]): HeaderCell[] => (
         data.reduce<HeaderCell[]>((filteredArray, item) => {
             const { children } = item
-            const hasChildren = children?.length
 
             if (item.visible === false) {
                 return filteredArray
             }
 
-            if (hasChildren) {
+            if (children?.length) {
                 const filteredChildren = resolveVisibility(children)
 
                 if (filteredChildren.length) {

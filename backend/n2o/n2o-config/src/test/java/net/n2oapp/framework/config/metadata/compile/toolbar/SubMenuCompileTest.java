@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -91,5 +92,10 @@ public class SubMenuCompileTest extends SourceCompileTestBase {
         assertThat(subMenu.getSubMenu().get(0).getDatasource(), is("testSubMenu_table"));
         assertThat(subMenu.getSubMenu().get(1).getModel(), is(ReduxModel.resolve));
         assertThat(subMenu.getSubMenu().get(1).getDatasource(), is("testSubMenu_ds"));
+
+        assertThat(subMenu.getSubMenu().size(), is(3));
+        assertThat(subMenu.getSubMenu().get(2).getId(), is("close"));
+        assertThat(subMenu.getSubMenu().get(2).getLabel(), is("Закрыть"));
+        assertThat(subMenu.getSubMenu().get(2).getAction(), instanceOf(LinkAction.class));
     }
 }

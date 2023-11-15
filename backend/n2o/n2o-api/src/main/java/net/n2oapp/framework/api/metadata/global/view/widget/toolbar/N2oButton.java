@@ -40,6 +40,8 @@ public class N2oButton extends N2oAbstractButton implements Button, WidgetIdAwar
 
     private Dependency[] dependencies;
 
+    private Boolean isGeneratedForSubMenu = false;
+
     @Override
     public List<N2oAction> getListActions() {
         if (actions == null)

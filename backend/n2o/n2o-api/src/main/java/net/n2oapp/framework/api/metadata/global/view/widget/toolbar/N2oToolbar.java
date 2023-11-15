@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
+import net.n2oapp.framework.api.metadata.aware.GenerateAware;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class N2oToolbar implements Source, GroupItems<ToolbarItem>, DatasourceIdAware {
+public class N2oToolbar implements Source, GroupItems<ToolbarItem>, DatasourceIdAware, GenerateAware {
     @N2oAttribute("Css класс")
     private String cssClass;
     @N2oAttribute("Стиль")

@@ -60,4 +60,36 @@ public class SubMenuValidatorTest extends SourceValidationTestBase {
     void testConfirmDatasourceInMenuItem() {
         validate("net/n2oapp/framework/config/metadata/validation/button/sub_menu/testConfirmDatasource.page.xml");
     }
+
+    @Test
+    void generateHasOneMoreType() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/button/sub_menu/menuItemGenerateHasOneMoreType.page.xml"));
+        assertEquals("Атрибут 'generate' кнопки 'oneMoreGenerate' не может содержать более одного типа генерации", exception.getMessage());
+    }
+
+    @Test
+    void menuItemGenerateHasEmptyValue() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/button/sub_menu/menuItemGenerateHasEmptyValue.page.xml"));
+        assertEquals("Атрибут 'generate' кнопки 'oneMoreGenerate' не может содержать пустую строку", exception.getMessage());
+    }
+
+    @Test
+    void generateHasCrudType() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/button/sub_menu/menuItemGenerateHasCrudType.page.xml"));
+        assertEquals("Атрибут 'generate' кнопки 'crudGenerate' не может реализовывать 'crud' генерацию", exception.getMessage());
+    }
+
+    @Test
+    void generateHasEmptyValue() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/button/sub_menu/generateHasEmptyValue.page.xml"));
+        assertEquals("Атрибут 'generate' выпадающего меню 'empty' не может содержать пустую строку", exception.getMessage());
+    }
 }

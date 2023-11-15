@@ -17,6 +17,7 @@ import net.n2oapp.framework.api.metadata.meta.badge.Position;
 @Getter
 @Setter
 public abstract class N2oAbstractButton extends N2oComponent implements GroupItem, IdAware, BadgeAware, DatasourceIdAware {
+
     @N2oAttribute("Идентификатор")
     private String id;
     @N2oAttribute("Заголовок")
@@ -49,6 +50,8 @@ public abstract class N2oAbstractButton extends N2oComponent implements GroupIte
     private String visible;
     @N2oAttribute("Условие доступности")
     private String enabled;
+    @N2oAttribute("Типы генерируемых кнопок")
+    private String[] generate;
 
     @Deprecated
     public String getWidgetId() {
