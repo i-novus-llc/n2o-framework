@@ -14,6 +14,7 @@
                     <sub-menu model="datasource">
                         <menu-item label="menu-item1"/>
                         <menu-item label="menu-item1" model="resolve" datasource="ds"/>
+                        <menu-item generate="close"/>
                     </sub-menu>
                 </toolbar>
             </table>

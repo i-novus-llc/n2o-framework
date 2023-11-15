@@ -13,6 +13,7 @@ class ColumnsResolver {
         return ({
             isInit: true,
             visible: true,
+            visibleState: true,
             disabled: false,
             frozen: false,
             key: '',

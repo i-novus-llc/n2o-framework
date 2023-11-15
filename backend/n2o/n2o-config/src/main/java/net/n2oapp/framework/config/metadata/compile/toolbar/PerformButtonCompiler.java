@@ -1,16 +1,19 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
+import net.n2oapp.framework.api.metadata.compile.ButtonGeneratorFactory;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -22,6 +25,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -30,23 +34,36 @@ import java.util.List;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
-import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.compileValidate;
-import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.initDatasource;
-import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.initValidate;
+import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Компиляция кнопки
  */
 @Component
-public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, PerformButton> {
+public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, PerformButton> implements MetadataEnvironmentAware {
+
+    protected ButtonGeneratorFactory buttonGeneratorFactory;
+
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oButton.class;
     }
 
     @Override
+    public void setEnvironment(MetadataEnvironment environment) {
+        buttonGeneratorFactory = environment.getButtonGeneratorFactory();
+    }
+
+    @Override
     public PerformButton compile(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
+        if (!ArrayUtils.isEmpty(source.getGenerate())) {
+            N2oToolbar toolbar = p.getScope(N2oToolbar.class);
+            toolbar.setIsGeneratedForSubMenu(source.getIsGeneratedForSubMenu());
+
+            return (PerformButton) generateButtons(source, toolbar, buttonGeneratorFactory, context, p).get(0);
+        }
+
         PerformButton button = new PerformButton();
         initDefaults(source, context, p);
         compileBase(button, source, context, p);
@@ -60,6 +77,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         button.setAction(action);
         button.setConfirm(ButtonCompileUtil.compileConfirm(source, p, getOperation(action, compiledObject)));
         compileDependencies(source, button, p);
+
         return button;
     }
 
@@ -73,6 +91,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             }
             //todo если это invoke-action, то из action в объекте должны доставаться поля action.getName(), confirmationText
         }
+
         return operation;
     }
 
@@ -98,22 +117,25 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             if (source.getDatasourceId() != null)
                 return new String[]{datasource};
         }
+
         return null;
     }
 
     private CompiledObject initObject(CompileProcessor p, N2oButton button) {
         if (button.getDatasourceId() != null && p.getScope(DataSourcesScope.class) != null) {
             N2oAbstractDatasource datasource = p.getScope(DataSourcesScope.class).get(button.getDatasourceId());
+
             if (datasource instanceof N2oStandardDatasource) {
                 N2oStandardDatasource standardDatasource = (N2oStandardDatasource) datasource;
+
                 if (standardDatasource.getObjectId() != null) {
                     return p.getCompiled(new ObjectContext(standardDatasource.getObjectId()));
                 } else if (standardDatasource.getQueryId() != null) {
-                    CompiledQuery query = p.getCompiled(new QueryContext(standardDatasource.getQueryId()));
-                    return query.getObject();
+                    return p.getCompiled(new QueryContext(standardDatasource.getQueryId())).getObject();
                 }
             }
         }
+
         return p.getScope(CompiledObject.class);
     }
 
@@ -157,8 +179,10 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
      * @return Условие доступности кнопки при пустой модели
      */
     private Condition enabledByEmptyModelCondition(N2oButton source, String clientDatasource, ComponentScope componentScope, CompileProcessor p) {
-        DisableOnEmptyModelType disableOnEmptyModel = castDefault(source.getDisableOnEmptyModel(),
-                () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelType.class));
+        DisableOnEmptyModelType disableOnEmptyModel = castDefault(
+                source.getDisableOnEmptyModel(),
+                () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelType.class)
+        );
         if (DisableOnEmptyModelType.FALSE.equals(disableOnEmptyModel)) return null;
 
         boolean parentIsNotCell = componentScope == null || componentScope.unwrap(N2oCell.class) == null;
@@ -170,8 +194,10 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             Condition condition = new Condition();
             condition.setExpression("!$.isEmptyModel(this)");
             condition.setModelLink(new ModelLink(source.getModel(), clientDatasource).getBindLink());
+
             return condition;
         }
+
         return null;
     }
 

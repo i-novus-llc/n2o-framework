@@ -1,12 +1,13 @@
-import { ICondition } from '../../sagas/conditions'
+import { Condition } from '../../sagas/conditions'
 
 interface Conditions {
-    visible?: ICondition[]
+    visible?: Condition[]
 }
 
 export interface Column {
     isInit: boolean
     visible: boolean
+    visibleState: boolean
     disabled: boolean
     frozen: boolean
     key: string

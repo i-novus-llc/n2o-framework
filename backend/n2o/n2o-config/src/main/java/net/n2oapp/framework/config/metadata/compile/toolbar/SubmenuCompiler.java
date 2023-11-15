@@ -8,19 +8,22 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
+import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.generateButtons;
 
 /**
  * Компиляция кнопки с выпадающим меню
@@ -57,7 +60,7 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
         compileCondition(source, submenu, p, p.getScope(ComponentScope.class));
 
         initMenuItems(source, submenu, idx, context, p);
-        initGenerate(source, submenu, idx, context, p);
+        initGenerate(source, submenu, context, p);
 
         return submenu;
     }
@@ -71,30 +74,32 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
                             mi.setDatasourceId(source.getDatasourceId());
                         if (mi.getModel() == null)
                             mi.setModel(source.getModel());
+                        mi.setIsGeneratedForSubMenu(true);
                         PerformButton menuItem = p.compile(mi, context, p, idx);
                         menuItem.setColor(null);
+
                         return menuItem;
                     })
                     .collect(Collectors.toList()));
         }
     }
 
-    private void initGenerate(N2oSubmenu sub, Submenu button, IndexScope idx,
+    private void initGenerate(N2oSubmenu sub, Submenu button,
                               CompileContext<?, ?> context, CompileProcessor p) {
-        if (sub.getGenerate() != null) {
+        if (!ArrayUtils.isEmpty(sub.getGenerate())) {
             if (button.getSubMenu() == null)
                 button.setSubMenu(new ArrayList<>());
 
-            N2oToolbar source = p.getScope(N2oToolbar.class);
-            source.setIsGeneratedForSubMenu(true);
+            N2oToolbar toolbar = p.getScope(N2oToolbar.class);
+            toolbar.setIsGeneratedForSubMenu(true);
 
-            for (String generate : sub.getGenerate()) {
-                for (ToolbarItem toolbarItem : buttonGeneratorFactory.generate(generate, source, context, p)) {
-                    PerformButton menuItem = p.compile(toolbarItem, context, p, idx);
-                    menuItem.setColor(null);
-                    button.getSubMenu().add(menuItem);
-                }
-            }
+            List<AbstractButton> generatedButtons = generateButtons(sub, toolbar, buttonGeneratorFactory, context, p);
+            button.getSubMenu().addAll(
+                    generatedButtons.stream()
+                            .map(b -> (PerformButton) b)
+                            .peek(b -> b.setColor(null))
+                            .collect(Collectors.toList())
+            );
         }
     }
 }

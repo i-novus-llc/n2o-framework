@@ -118,4 +118,28 @@ public class ButtonValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/field/testButtonFieldBadgeColor.page.xml"));
         assertEquals("Кнопка использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
     }
+
+    @Test
+    void generateHasOneMoreType() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/button/generateHasOneMoreType.page.xml"));
+        assertEquals("Атрибут 'generate' кнопки 'oneMoreGenerate' не может содержать более одного типа генерации", exception.getMessage());
+    }
+
+    @Test
+    void generateHasEmptyValue() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/button/generateHasEmptyValue.page.xml"));
+        assertEquals("Атрибут 'generate' кнопки 'emptyValue' не может содержать пустую строку", exception.getMessage());
+    }
+
+    @Test
+    void generateHasCrudType() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/button/generateHasCrudType.page.xml"));
+        assertEquals("Атрибут 'generate' кнопки 'crudGenerate' не может реализовывать 'crud' генерацию", exception.getMessage());
+    }
 }

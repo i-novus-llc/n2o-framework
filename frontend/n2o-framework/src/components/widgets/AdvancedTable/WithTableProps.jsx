@@ -34,7 +34,10 @@ export function WithTableProps(Component) {
             return resolveProps(config)
         }, [resolveProps, table])
 
-        const paginationVisible = useMemo(() => columnsState.some(column => column.visible), [columnsState])
+        const paginationVisible = useMemo(() => !columnsState.every(
+            column => !column.visibleState || !column.visible,
+        ),
+        [columnsState])
         const hasSecurityAccess = check(tableConfig.body?.row?.security)
 
         return (

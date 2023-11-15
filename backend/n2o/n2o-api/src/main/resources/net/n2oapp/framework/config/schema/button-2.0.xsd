@@ -145,6 +145,11 @@
                         <xs:documentation>Валидирование форм при нажатии на кнопку.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="generate" type="bs:generateDefinition">
+                    <xs:annotation>
+                        <xs:documentation>Генерация стандартной кнопки. Можно указать только одно значение.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="validate-datasources" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Источники данных, которые будут валидироваться.</xs:documentation>
