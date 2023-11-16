@@ -36,7 +36,7 @@ public class ConfigStarter {
     private final N2oApplicationBuilder applicationBuilder;
 
     @Value("${n2o.config.monitoring.enabled}")
-    private boolean monitoringEnabled = false;
+    private boolean monitoringEnabled;
     @Value("${n2o.config.ignores}")
     private List<String> monitoringIgnores = Collections.emptyList();
 
