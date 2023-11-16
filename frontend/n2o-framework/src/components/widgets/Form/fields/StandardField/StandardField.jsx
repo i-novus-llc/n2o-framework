@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import omit from 'lodash/omit'
+import get from 'lodash/get'
+import has from 'lodash/has'
 
 import { EventHandlersContext } from '@i-novus/n2o-components/lib/inputs/eventHandlersContext'
 
@@ -83,6 +85,7 @@ class StandardField extends React.Component {
             toolbar,
             form,
             noLabelBlock,
+            model,
             ...props
         } = this.props
 
@@ -154,7 +157,6 @@ class StandardField extends React.Component {
                                 placeholder={placeholder}
                                 visible={visible}
                                 autoFocus={autoFocus}
-                                value={value}
                                 {...this.context}
                                 onBlur={onBlur}
                                 onFocus={onFocus}
@@ -162,10 +164,12 @@ class StandardField extends React.Component {
                                 help={help}
                                 {...omit(props, ['dataProvider', 'containerKey', 'controlClass', 'controlStyle'])}
                                 {...control}
+                                value={has(model, id) ? value : get(control, 'value', null)}
                                 className={classNames(control.className, {
                                     [validationClass]: validationClass && touched,
                                     'form-control__with-toolbar': toolbar,
                                 })}
+                                model={model}
                             />
                             {toolbar && (
                                 <Toolbar
