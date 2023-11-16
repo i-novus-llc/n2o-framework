@@ -188,6 +188,12 @@ java -jar target/myproject-1.0.jar
 java -jar target/myproject-1.0.jar --n2o.project.path=C:/Users/some_user/IdeaProjects/myProject
 ```
 
+В настройках `application.properties` пропишите:
+
+```
+n2o.config.monitoring.enabled=true
+```
+
 Если же запуск происходит через IntelliJ IDEA, то для запускаемого класса нужно вызвать
 `Modify Run Configuration` или `Run/Debug Configurations` и
 ввести настройку `--n2o.project.path` в качестве `Program arguments`
