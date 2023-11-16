@@ -3,6 +3,7 @@ package net.n2oapp.framework.boot;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.*;
+import net.n2oapp.framework.api.rest.RestLoggingHandler;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.boot.graphql.GraphQlDataProviderEngine;
@@ -12,6 +13,7 @@ import net.n2oapp.framework.engine.data.*;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.java.ObjectLocator;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
+import net.n2oapp.framework.engine.data.rest.N2oRestLoggingHandler;
 import net.n2oapp.framework.engine.data.rest.SpringRestDataProviderEngine;
 import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
@@ -165,13 +167,19 @@ public class N2oEngineConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(name = "restDataProviderEngine")
-    public SpringRestDataProviderEngine restDataProviderEngine(RestTemplateBuilder builder) {
+    public SpringRestDataProviderEngine restDataProviderEngine(RestTemplateBuilder builder, List<RestLoggingHandler> loggingHandlers) {
         ObjectMapper restObjectMapper = restObjectMapper();
         SpringRestDataProviderEngine springRestDataProviderEngine = new SpringRestDataProviderEngine(
                 restTemplate(builder, httpMessageConverter(restObjectMapper)),
-                restObjectMapper);
+                restObjectMapper, loggingHandlers);
         springRestDataProviderEngine.setBaseRestUrl(baseRestUrl);
         return springRestDataProviderEngine;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public RestLoggingHandler loggingHandler() {
+        return new N2oRestLoggingHandler();
     }
 
     @Bean
