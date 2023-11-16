@@ -9,14 +9,12 @@ import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
+import net.n2oapp.framework.api.rest.RestLoggingHandler;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
@@ -25,11 +23,13 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BinaryOperator;
 
+import static java.util.Collections.emptyList;
 import static net.n2oapp.framework.engine.data.QueryUtil.*;
 
 /**
@@ -37,10 +37,10 @@ import static net.n2oapp.framework.engine.data.QueryUtil.*;
  */
 public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRestDataProvider> {
     private static final Logger log = LoggerFactory.getLogger(SpringRestDataProviderEngine.class);
+    private final List<RestLoggingHandler> loggingHandlers;
     private RestTemplate restTemplate;
-
     private ObjectMapper objectMapper;
-    private ResponseExtractor<Object> responseExtractor;
+    private ResponseExtractor<ResponseEntity<Object>> responseExtractor;
     private String baseRestUrl;
 
     @Value("${n2o.engine.rest.forward-headers:}")
@@ -52,9 +52,20 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
     private String forwardCookies;
 
     public SpringRestDataProviderEngine(RestTemplate restTemplate, ObjectMapper objectMapper) {
+        this(restTemplate, objectMapper, emptyList());
+    }
+
+    public SpringRestDataProviderEngine(RestTemplate restTemplate, ObjectMapper objectMapper, List<RestLoggingHandler> loggingHandlers) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
         this.responseExtractor = new N2oResponseExtractor(objectMapper);
+        this.loggingHandlers = loggingHandlers;
+    }
+
+    private URI getURI(String host, Integer port, String url, Map<String, Object> args) {
+        if (host != null && port != null)
+            url = "http://" + host + ":" + port + url;
+        return restTemplate.getUriTemplateHandler().expand(url, args);
     }
 
     @Override
@@ -103,77 +114,52 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
     /**
      * Инициализация заголовков запроса
      *
-     * @param args Аргументы запроса
      * @return Заголовки
      */
-    protected HttpHeaders initHeaders(Map<String, Object> args) {
+    protected HttpHeaders initHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         return httpHeaders;
     }
 
-    private static class N2oResponseExtractor implements ResponseExtractor<Object> {
-        private ObjectMapper mapper;
-
-        public N2oResponseExtractor(ObjectMapper objectMapper) {
-            this.mapper = objectMapper;
-        }
-
-        @Override
-        public Object extractData(ClientHttpResponse response) throws IOException {
-            String result;
-            try (InputStream body = response.getBody()) {
-                result = IOUtils.toString(body, StandardCharsets.UTF_8);
-            }
-            Object data = null;
-            if (result != null && !result.isEmpty()) {
-                result = result.trim();
-                if (result.startsWith("["))
-                    data = mapper.<List<DataSet>>readValue(result, mapper.getTypeFactory().constructCollectionType(List.class, DataSet.class));
-                else if (result.startsWith("{"))
-                    data = mapper.readValue(result, DataSet.class);
-                else
-                    data = mapper.readValue(result, Object.class);
-            }
-            return data;
-        }
-    }
-
     private Object executeQuery(HttpMethod method, String query, Map<String, Object> args, N2oRestDataProvider invocation) {
-        query = getURL(invocation.getProxyHost(), invocation.getProxyPort(), query);
-        HttpHeaders headers = initHeaders(args);
+        URI finalQuery = getURI(invocation.getProxyHost(), invocation.getProxyPort(), query, args);
+        HttpHeaders headers = initHeaders();
         copyForwardedHeaders(resolveForwardedHeaders(invocation), headers);
         copyForwardedCookies(resolveForwardedCookies(invocation), headers);
-        Map<String, Object> body = new HashMap<>(args);
 
-        log.debug("Execute REST query: " + query);
+        log.debug("Execute REST query: " + finalQuery);
         try {
+            ResponseEntity<Object> result;
             switch (method) {
                 case GET:
-                    return exchange(query, method, headers, args);
+                    result = exchange(finalQuery, method, headers);
+                    break;
                 case DELETE:
                 case POST:
                 case PUT:
                 case PATCH:
-                    return exchange(query, method, body, headers, args);
+                    result = exchange(finalQuery, method, args, headers);
+                    break;
                 default:
                     throw new UnsupportedOperationException("Method " + method.name() + " unsupported");
             }
+            loggingHandlers.forEach(handler -> handler.handle(result.getStatusCodeValue(), method, finalQuery.toString(), headers));
+            return result.getBody();
         } catch (RestClientResponseException e) {
-            log.error("Execution error with REST query: " + query);
-            throw new N2oQueryExecutionException(e.getMessage().replaceAll("[{}]", ""), query, e);
+            loggingHandlers.forEach(handler -> handler.handleError(e, method, finalQuery.toString(), headers));
+            throw new N2oQueryExecutionException(e.getMessage().replaceAll("[{}]", ""), finalQuery.toString(), e);
         }
-
     }
 
-    private Object exchange(String query, HttpMethod method, HttpHeaders headers, Map<String, Object> args) {
+    private ResponseEntity<Object> exchange(URI query, HttpMethod method, HttpHeaders headers) {
         RequestCallback requestCallback = restTemplate.httpEntityCallback(new HttpEntity<>(headers), Object.class);
-        return restTemplate.execute(query, method, requestCallback, responseExtractor, args);
+        return restTemplate.execute(query, method, requestCallback, responseExtractor);
     }
 
-    private Object exchange(String query, HttpMethod method, Object body, HttpHeaders headers, Map<String, Object> args) {
+    private ResponseEntity<Object> exchange(URI query, HttpMethod method, Object body, HttpHeaders headers) {
         RequestCallback requestCallback = restTemplate.httpEntityCallback(new HttpEntity<>(body, headers), Object.class);
-        return restTemplate.execute(query, method, requestCallback, responseExtractor, args);
+        return restTemplate.execute(query, method, requestCallback, responseExtractor);
     }
 
     /**
@@ -236,10 +222,30 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         return result;
     }
 
-    private static String getURL(String host, Integer port, String url) {
-        if (host == null || port == null)
-            return url;
-        else
-            return "http://" + host + ":" + port + url;
+    private static class N2oResponseExtractor implements ResponseExtractor<ResponseEntity<Object>> {
+        private ObjectMapper mapper;
+
+        public N2oResponseExtractor(ObjectMapper objectMapper) {
+            this.mapper = objectMapper;
+        }
+
+        @Override
+        public ResponseEntity<Object> extractData(ClientHttpResponse response) throws IOException {
+            String result;
+            try (InputStream body = response.getBody()) {
+                result = IOUtils.toString(body, StandardCharsets.UTF_8);
+            }
+            Object data = null;
+            if (result != null && !result.isEmpty()) {
+                result = result.trim();
+                if (result.startsWith("["))
+                    data = mapper.<List<DataSet>>readValue(result, mapper.getTypeFactory().constructCollectionType(List.class, DataSet.class));
+                else if (result.startsWith("{"))
+                    data = mapper.readValue(result, DataSet.class);
+                else
+                    data = mapper.readValue(result, Object.class);
+            }
+            return ResponseEntity.status(response.getRawStatusCode()).headers(response.getHeaders()).body(data);
+        }
     }
 }
