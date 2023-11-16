@@ -25,7 +25,7 @@ export function WithTableProps(Component) {
 
         const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
 
-        const [columnsState, changeColumnParam] = useColumnsState(cells.header, id, state)
+        const [columnsState, changeColumnParam, switchTableParameter] = useColumnsState(cells.header, id, state)
         const resolvedCells = useResolveCellsVisible(cells, columnsState)
 
         const tableConfig = useMemo(() => {
@@ -50,6 +50,7 @@ export function WithTableProps(Component) {
                 hasSecurityAccess={hasSecurityAccess}
                 resolvedCells={resolvedCells}
                 paginationVisible={paginationVisible}
+                switchTableParam={switchTableParameter}
             />
         )
     }

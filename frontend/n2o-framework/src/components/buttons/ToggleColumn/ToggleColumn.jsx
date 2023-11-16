@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react'
+import { useStore } from 'react-redux'
 import PropTypes from 'prop-types'
 import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 import { useTableWidget } from '../../widgets/AdvancedTable'
+import { getTableParam } from '../../../ducks/table/selectors'
+import { VISIBLE_STATE, IS_DEFAULT_COLUMNS } from '../../../ducks/table/constants'
 
 /**
  * Дропдаун для скрытия/показа колонок в таблице
@@ -15,19 +18,32 @@ import { useTableWidget } from '../../widgets/AdvancedTable'
 
 export const ToggleColumn = (props) => {
     const { icon, label, entityKey: widgetId, defaultColumns = '', nested = false } = props
-    const { columnsState, changeColumnParam } = useTableWidget({ defaultColumns, widgetId })
+    const { columnsState, changeColumnParam, switchTableParam } = useTableWidget()
+
+    const { getState } = useStore()
 
     useEffect(() => {
-        if (defaultColumns) {
-            const defaultIds = defaultColumns.split(',')
-
-            for (const column of columnsState) {
-                const { columnId } = column
-                const visible = defaultIds.includes(columnId)
-
-                changeColumnParam(widgetId, columnId, 'visibleState', visible)
-            }
+        if (!defaultColumns || !columnsState.length) {
+            return
         }
+
+        const state = getState()
+        const isDefaultColumns = getTableParam(widgetId, IS_DEFAULT_COLUMNS)(state)
+
+        if (isDefaultColumns) {
+            return
+        }
+
+        const defaultIds = defaultColumns.split(',')
+
+        for (const column of columnsState) {
+            const { columnId } = column
+            const visible = defaultIds.includes(columnId)
+
+            changeColumnParam(widgetId, columnId, VISIBLE_STATE, visible)
+        }
+
+        switchTableParam(widgetId, IS_DEFAULT_COLUMNS)
     }, [columnsState.length])
 
     return (
