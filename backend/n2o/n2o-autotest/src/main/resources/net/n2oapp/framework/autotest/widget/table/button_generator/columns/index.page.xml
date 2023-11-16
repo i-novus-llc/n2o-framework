@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             xmlns:gen="http://n2oapp.net/framework/config/schema/gen-attr"
+             name="Автотест, проверяющий работу зависимости 'visibility' при генерации кнопки 'columns'">
+    <table>
+        <filters>
+            <input-text id="folderType"/>
+            <search-buttons id="filter_buttons" clear-ignore="folderType"/>
+        </filters>
+        <datasource query-id="data"/>
+        <columns>
+            <column text-field-id="idd"/>
+            <column text-field-id="name" visible="false" />
+            <column text-field-id="type">
+                <dependencies>
+                    <visibility model="edit">'1' === folderType</visibility>
+                </dependencies>
+            </column>
+        </columns>
+
+        <toolbar place="topRight">
+            <button generate="columns" gen:defaultColumns="idd,type"/>
+        </toolbar>
+    </table>
+</simple-page>

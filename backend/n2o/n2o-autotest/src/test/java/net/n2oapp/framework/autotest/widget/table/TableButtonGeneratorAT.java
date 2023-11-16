@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.Button;
+import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
@@ -41,9 +42,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class TableButtonGeneratorAT extends AutoTestBase {
 
     private SimplePage page;
-
     private TableWidget table;
-
     private Toolbar toolbar;
 
     @BeforeAll
@@ -55,26 +54,32 @@ public class TableButtonGeneratorAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        page = open(SimplePage.class);
-        page.shouldExists();
-        table = page.widget(TableWidget.class);
-        toolbar = table.toolbar().topRight();
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        builder.packs(
+                new N2oApplicationPack(),
+                new N2oAllPagesPack(),
+                new N2oAllDataPack()
+        );
+
         setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator/simple");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/index.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/data.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/data.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/exportModal.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/exportModal.page.xml")
+        );
     }
 
     @Test
-    public void testFilters() {
+    void testFilters() {
+        openPage();
+
         table.columns().rows().shouldHaveSize(5);
+
         InputText inputName = table.filters().fields().field("Наименование").control(InputText.class);
         InputText inputRegion = table.filters().fields().field("Регион").control(InputText.class);
         Button search = table.filters().toolbar().button("Найти");
@@ -87,7 +92,6 @@ public class TableButtonGeneratorAT extends AutoTestBase {
 
         toolbar.button(0, N2oStandardButton.class).shouldHaveIcon("fa-filter");
         toolbar.button(0, N2oStandardButton.class).click();
-
         inputName.shouldBeHidden();
         inputRegion.shouldBeHidden();
         search.shouldBeHidden();
@@ -116,7 +120,9 @@ public class TableButtonGeneratorAT extends AutoTestBase {
     }
 
     @Test
-    public void testColumns() {
+    void testColumns() {
+        openPage();
+
         table.columns().headers().shouldHaveSize(4);
         table.columns().headers().header(0).shouldHaveTitle("Идентификатор");
         table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
@@ -200,7 +206,60 @@ public class TableButtonGeneratorAT extends AutoTestBase {
     }
 
     @Test
-    public void testRefresh() {
+    void columnsVisibilityTest() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator/columns");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/columns/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/columns/data.query.xml")
+        );
+
+        openPage();
+
+        InputText inpFolderType = table.filters().fields().field("folderType").control(InputText.class);
+        DropdownButton button = toolbar.button(0, N2oDropdownButton.class);
+
+        table.columns().headers().shouldHaveSize(1);
+        table.columns().headers().header(0).shouldHaveTitle("ID");
+        button.shouldBeCollapsed();
+        button.click();
+        button.shouldBeExpanded();
+        button.shouldHaveItems(1);
+        button.menuItem("ID").shouldExists();
+
+        inpFolderType.setValue("1");
+        inpFolderType.shouldHaveValue("1");
+        table.columns().headers().shouldHaveSize(2);
+        table.columns().headers().header(0).shouldHaveTitle("ID");
+        table.columns().headers().header(1).shouldHaveTitle("Тип");
+        button.click();
+        button.shouldBeExpanded();
+        button.shouldHaveItems(2);
+        button.menuItem("ID").shouldExists();
+        button.menuItem("Тип").shouldExists();
+
+        button.menuItem("Тип").click();
+        button.menuItem("Тип").shouldExists();
+        table.columns().headers().shouldHaveSize(1);
+        table.columns().headers().header(0).shouldHaveTitle("ID");
+
+        button.menuItem("Тип").click();
+        table.columns().headers().shouldHaveSize(2);
+        table.columns().headers().header(0).shouldHaveTitle("ID");
+        table.columns().headers().header(1).shouldHaveTitle("Тип");
+
+        inpFolderType.clear();
+        table.columns().headers().shouldHaveSize(1);
+        table.columns().headers().header(0).shouldHaveTitle("ID");
+        button.click();
+        button.shouldBeExpanded();
+        button.shouldHaveItems(1);
+        button.menuItem("ID").shouldExists();
+    }
+
+    @Test
+    void testRefresh() {
+        openPage();
+
         Button create = table.toolbar().topLeft().button("Создать");
         Button delete = table.toolbar().topLeft().button("Удалить");
         Button refresh = table.toolbar().topRight().button(2, N2oStandardButton.class);
@@ -220,11 +279,16 @@ public class TableButtonGeneratorAT extends AutoTestBase {
     }
 
     @Test
-    public void testResize() {
+    void testResize() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator/resize");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/index.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/data.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/data.object.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/data.object.xml")
+        );
+
+        openPage();
+
         N2oDropdownButton resize = table.toolbar().topRight().button(3, N2oDropdownButton.class);
         table.columns().rows().shouldHaveSize(5);
         table.paging().lastShouldHavePage("12");
@@ -272,8 +336,9 @@ public class TableButtonGeneratorAT extends AutoTestBase {
     }
 
     @Test
-    public void exportCurrentPageTest() throws IOException {
-        table.shouldExists();
+    void exportCurrentPageTest() throws IOException {
+        openPage();
+
         table.paging().selectPage("2");
 
         StandardButton exportBtn = table.toolbar().topRight().button(5, StandardButton.class);
@@ -328,7 +393,8 @@ public class TableButtonGeneratorAT extends AutoTestBase {
     }
 
     @Test
-    public void exportAllTableTest() throws IOException {
+    void exportAllTableTest() throws IOException {
+        openPage();
         StandardButton exportBtn = table.toolbar().topRight().button(5, StandardButton.class);
         exportBtn.shouldBeVisible();
 
@@ -382,5 +448,13 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         } catch (IOException e) {
             fail();
         }
+    }
+
+    private void openPage() {
+        page = open(SimplePage.class);
+        page.shouldExists();
+        table = page.widget(TableWidget.class);
+        table.shouldExists();
+        toolbar = table.toolbar().topRight();
     }
 }
