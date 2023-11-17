@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { HeaderCell } from '../../../Table/types/cell'
 import { getAllValuesByKey } from '../../../Table/utils'
 import { resolveConditions, Condition } from '../../../../sagas/conditions'
-import { registerTableColumn, changeTableColumnParam } from '../../../../ducks/table/store'
+import { registerTableColumn, changeTableColumnParam, switchTableParam } from '../../../../ducks/table/store'
 import { getTableColumns } from '../../../../ducks/table/selectors'
 import { State } from '../../../../ducks/State'
 
@@ -28,6 +28,10 @@ export const useColumnsState = (columns: HeaderCell[], widgetId: string, state: 
         dispatch(changeTableColumnParam(widgetId, columnId, paramKey, value))
     }, [])
 
+    const switchTableParameter = useCallback((widgetId, paramKey) => {
+        dispatch(switchTableParam(widgetId, paramKey))
+    }, [])
+
     useLayoutEffect(() => {
         const allHeaderCell = getAllValuesByKey(columns, { keyToIterate: 'children' })
 
@@ -49,10 +53,10 @@ export const useColumnsState = (columns: HeaderCell[], widgetId: string, state: 
                 ))
             }
         })
-    }, [columns])
+    }, [columns.length])
 
     const reduxColumns = useSelector(getTableColumns(widgetId))
     const columnsState = Object.values(reduxColumns)
 
-    return [columnsState, changeColumnParam]
+    return [columnsState, changeColumnParam, switchTableParameter]
 }

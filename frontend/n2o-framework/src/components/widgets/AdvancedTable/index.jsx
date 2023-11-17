@@ -32,7 +32,7 @@ const AdvancedTableContainer = (props) => {
         id, disabled, toolbar, datasource, className, setPage, loading,
         fetchData, style, paging, table, size, count,
         page, sorting, children, hasNext, isInit, setResolve,
-        changeColumnParam, columnsState, tableConfig,
+        changeColumnParam, columnsState, tableConfig, switchTableParam,
         resolvedFilter, hasSecurityAccess, resolvedCells, paginationVisible,
     } = props
 
@@ -143,10 +143,11 @@ const AdvancedTableContainer = (props) => {
     useExpandAllRows(setExpandedRows, children, datasourceModel)
 
     return (
-        <tableWidgetContext.Provider value={{ changeColumnParam, columnsState }}>
+        <tableWidgetContext.Provider value={{ changeColumnParam, columnsState, switchTableParam }}>
             <VoidResolveColumnConditions
                 columnsState={columnsState}
                 changeColumnParam={changeColumnParam}
+                changeTableParam={switchTableParam}
                 widgetId={id}
             />
             <ToolbarOverlay
