@@ -40,7 +40,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Контроллер n2o запросов для автотестов
@@ -178,13 +177,13 @@ public class N2oController {
         subModelsProcessor.setEnvironment(environment);
         Map<String, Object> beans = new HashMap<>();
         beans.put("queryController", new QueryController(dataProcessingStack, queryProcessor,
-                subModelsProcessor, messageBuilder, environment, messagesConstructor));
+                subModelsProcessor, messageBuilder, messagesConstructor));
         beans.put("operationController", new OperationController(dataProcessingStack,
                 operationProcessor, messageBuilder, environment, messagesConstructor));
         beans.put("mergeValuesController", new MergeValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
-                messageBuilder, environment));
+                messageBuilder));
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,
-                subModelsProcessor, messageBuilder, environment));
+                subModelsProcessor, messageBuilder));
         return new N2oControllerFactory(beans);
     }
 

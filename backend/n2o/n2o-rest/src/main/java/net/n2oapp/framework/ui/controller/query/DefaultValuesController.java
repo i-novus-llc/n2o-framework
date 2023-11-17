@@ -2,7 +2,6 @@ package net.n2oapp.framework.ui.controller.query;
 
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.rest.GetDataResponse;
@@ -20,9 +19,8 @@ public abstract class DefaultValuesController extends GetController {
     protected DefaultValuesController(DataProcessingStack dataProcessingStack,
                                       QueryProcessor queryProcessor,
                                       SubModelsProcessor subModelsProcessor,
-                                      AlertMessageBuilder messageBuilder,
-                                      MetadataEnvironment environment) {
-        super(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder, environment);
+                                      AlertMessageBuilder messageBuilder) {
+        super(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder);
     }
 
     @Override

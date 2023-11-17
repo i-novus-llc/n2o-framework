@@ -87,7 +87,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
 
         testSetController = new TestSetController(dataProcessingStack, operationProcessor, builder.getEnvironment());
         getController = new QueryController(dataProcessingStack, queryProcessor, null,
-                messageBuilder, builder.getEnvironment(), messagesConstructor);
+                messageBuilder, messagesConstructor);
 
         testDataProvider = new N2oTestDataProvider();
         testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");

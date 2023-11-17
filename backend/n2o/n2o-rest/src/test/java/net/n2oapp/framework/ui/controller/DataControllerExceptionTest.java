@@ -143,7 +143,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         OperationController operationController = new OperationController(dataProcessingStack,
                 operationProcessor, messageBuilder, builder.getEnvironment(), messagesConstructor);
         QueryController queryController = new QueryController(dataProcessingStack, queryProcessor, null,
-                messageBuilder, builder.getEnvironment(), messagesConstructor);
+                messageBuilder, messagesConstructor);
         map.put("operationController", operationController);
         map.put("queryController", queryController);
 

@@ -123,7 +123,7 @@ public class MergeValuesControllerTest {
         DataProcessingStack dataProcessingStack = Mockito.mock(SpringDataProcessingStack.class);
 
         MergeValuesController copyValuesController = new MergeValuesController(dataProcessingStack, queryProcessor,
-                subModelsProcessor, null, null);
+                subModelsProcessor, null);
         Map<String, Object> map = new HashMap<>();
         map.put("CopyValuesController", copyValuesController);
 
