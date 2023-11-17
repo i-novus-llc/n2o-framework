@@ -141,3 +141,9 @@ description: ""
 В связи с чем методы, использующие в качестве аргумента varargs тип, теперь используют массив.
 
 Пример: `shouldHaveOptions(String... values)` -> `shouldHaveOptions(String[] values, Duration... duration)`
+
+## Изменения в настройках
+
+- Настройка `n2o.config.monitoring.enabled` (включение отслеживания изменений xml файлов в папке `${n2o.config.path}`), теперь по умолчанию выключена.
+Если вам необходим моментальный подхват ваших изменений, то необходимо в настройках приложения прописать `n2o.config.monitoring.enabled=true`
+
