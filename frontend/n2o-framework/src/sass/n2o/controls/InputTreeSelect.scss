@@ -70,6 +70,10 @@
         }
     }
 
+    .n2o-select-tree-tree-node-content-wrapper {
+        padding: 2px;
+    }
+
     .n2o-select-tree-tree-node-content-wrapper-normal,
     .n2o-select-tree-tree-node-content-wrapper-open,
     .n2o-select-tree-tree-node-content-wrapper-close {
@@ -194,6 +198,10 @@
                                             background-image: $custom-checkbox-indicator-icon-indeterminate;
                                             left: -1.2rem;
                                         }
+                                    }
+
+                                    .n2o-badge {
+                                        font-size: 12px;
                                     }
                                 }
 
