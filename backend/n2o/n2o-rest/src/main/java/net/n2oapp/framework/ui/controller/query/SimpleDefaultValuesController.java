@@ -1,6 +1,5 @@
 package net.n2oapp.framework.ui.controller.query;
 
-import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.rest.ControllerType;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
@@ -17,9 +16,8 @@ public class SimpleDefaultValuesController extends DefaultValuesController {
     public SimpleDefaultValuesController(DataProcessingStack dataProcessingStack,
                                          QueryProcessor queryProcessor,
                                          SubModelsProcessor subModelsProcessor,
-                                         AlertMessageBuilder messageBuilder,
-                                         MetadataEnvironment environment) {
-        super(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder, environment);
+                                         AlertMessageBuilder messageBuilder) {
+        super(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder);
     }
 
     @Override

@@ -2,7 +2,6 @@ package net.n2oapp.framework.ui.controller.query;
 
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.rest.ControllerType;
@@ -30,9 +29,8 @@ public class QueryController extends GetController {
                            QueryProcessor queryProcessor,
                            SubModelsProcessor subModelsProcessor,
                            AlertMessageBuilder messageBuilder,
-                           MetadataEnvironment environment,
                            AlertMessagesConstructor messagesConstructor) {
-        super(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder, environment);
+        super(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder);
         this.messagesConstructor = messagesConstructor;
     }
 

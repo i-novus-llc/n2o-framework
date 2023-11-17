@@ -42,12 +42,12 @@ import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.templates.TemplateModel;
-import net.n2oapp.framework.ui.controller.export.format.CsvFileGenerator;
-import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 import net.n2oapp.framework.ui.controller.DataController;
-import net.n2oapp.framework.ui.controller.export.ExportController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
+import net.n2oapp.framework.ui.controller.export.ExportController;
+import net.n2oapp.framework.ui.controller.export.format.CsvFileGenerator;
+import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 import net.n2oapp.framework.ui.controller.query.MergeValuesController;
 import net.n2oapp.framework.ui.controller.query.QueryController;
 import net.n2oapp.framework.ui.controller.query.SimpleDefaultValuesController;
@@ -74,7 +74,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.sandbox.utils.FileUtil.findFilesByUri;
 import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
@@ -475,13 +474,13 @@ public class ViewController {
         N2oSubModelsProcessor subModelsProcessor = new N2oSubModelsProcessor(queryProcessor, domainProcessor);
         subModelsProcessor.setEnvironment(environment);
         beans.put("queryController", new QueryController(dataProcessingStack, queryProcessor,
-                subModelsProcessor, messageBuilder, environment, messagesConstructor));
+                subModelsProcessor, messageBuilder, messagesConstructor));
         beans.put("operationController", new OperationController(dataProcessingStack,
                 operationProcessor, messageBuilder, environment, messagesConstructor));
         beans.put("mergeValuesController", new MergeValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
-                messageBuilder, environment));
+                messageBuilder));
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,
-                subModelsProcessor, messageBuilder, environment));
+                subModelsProcessor, messageBuilder));
         ControllerFactory factory = new N2oControllerFactory(beans);
         return factory;
     }

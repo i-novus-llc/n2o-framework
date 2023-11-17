@@ -2,7 +2,6 @@ package net.n2oapp.framework.ui.controller;
 
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.context.ContextProcessor;
-import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.rest.GetDataResponse;
@@ -10,7 +9,6 @@ import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -28,7 +26,6 @@ import net.n2oapp.framework.engine.modules.stack.SpringDataProcessingStack;
 import net.n2oapp.framework.ui.controller.query.SimpleDefaultValuesController;
 import net.n2oapp.properties.OverrideProperties;
 import net.n2oapp.properties.reader.PropertiesReader;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -124,7 +121,7 @@ public class DefaultValuesControllerTest {
         DataProcessingStack dataProcessingStack = Mockito.mock(SpringDataProcessingStack.class);
 
         SimpleDefaultValuesController valuesController = new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,
-                subModelsProcessor, null, null);
+                subModelsProcessor, null);
         Map<String, Object> map = new HashMap<>();
         map.put("SimpleDefaultValuesController", valuesController);
 
