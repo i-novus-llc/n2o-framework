@@ -442,7 +442,7 @@ type Props = {
     /**
      * Значение ключа value в данных
      */
-    valueFieldId: string
+    valueFieldId: keyof TOption
     /**
      * Минимальное кол-во символов до фильтрации
      */

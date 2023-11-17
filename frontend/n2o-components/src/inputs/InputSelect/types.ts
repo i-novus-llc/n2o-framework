@@ -12,6 +12,7 @@ export type TOption = {
     disabled?: boolean,
     formattedTitle?: string,
     id: string | number,
+    parentId: string | number
     label: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any
