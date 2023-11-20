@@ -179,6 +179,10 @@
           "name": "PageTitleLinkResolveAT. testConstantParams"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/page/title/browser_storage",
+          "name": "PageTitleLinkResolveAT. testBrowserStorage"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/page/top_left_right",
           "name": "TopLeftRightPageAT"
         }
