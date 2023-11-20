@@ -44,7 +44,6 @@ type Props = {
 
 type State = {
     data: Props['data'],
-    options: Props['data'],
     loading: boolean,
     count: number,
     size: Props['size'],
@@ -83,7 +82,6 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
 
             this.state = {
                 data: [],
-                options: [],
                 loading: false,
                 count: 0,
                 size: props.size,
@@ -99,19 +97,16 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
         }
 
         componentDidMount() {
-            const { data } = this.state
-            const { datasourceModel } = this.props
+            const { datasourceModel, data } = this.props
 
-            if (datasourceModel) {
-                const { datasourceModel } = this.props
-
-                if (isEmpty(data) && !isEmpty(datasourceModel)) {
-                    this.setState({ data: datasourceModel })
-                }
+            if (!isEmpty(datasourceModel)) {
+                this.setState({ data: datasourceModel })
+            } else if (!isEmpty(data)) {
+                this.setState({ data })
             }
         }
 
-        componentDidUpdate({ datasourceModel: prevDatasourceModel }: {datasourceModel: object}) {
+        componentDidUpdate({ datasourceModel: prevDatasourceModel }: Props) {
             const { datasourceModel } = this.props
 
             if (datasourceModel) {
@@ -121,18 +116,6 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                     this.setState({ data: datasourceModel })
                 }
             }
-        }
-
-        static getDerivedStateFromProps(nextProps: Props) {
-            const { data } = nextProps
-
-            if (data?.length) {
-                return {
-                    options: data,
-                }
-            }
-
-            return null
         }
 
         /**
@@ -325,13 +308,13 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
 
         render() {
             const { valueFieldId, sortFieldId, setRef } = this.props
-            const { data, options, loading, count, size, page } = this.state
+            const { data, loading, count, size, page } = this.state
 
             return (
                 <WrappedComponent
                     {...this.props}
                     {...this.state}
-                    options={!isEmpty(options) ? options : data}
+                    options={data}
                     loading={loading}
                     count={count}
                     size={size}
