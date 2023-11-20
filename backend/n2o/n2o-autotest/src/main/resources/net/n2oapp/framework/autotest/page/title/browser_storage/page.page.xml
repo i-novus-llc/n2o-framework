@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="{id}" title="{id}" show-title="true" datasource="st" model="resolve">
+
+    <datasources>
+        <browser-storage id="st" key="st"/>
+    </datasources>
+    <regions>
+        <form datasource="st">
+            <fields>
+                <input-text id="id" enabled="false"/>
+                <input-text id="name" enabled="false"/>
+            </fields>
+        </form>
+    </regions>
+</page>

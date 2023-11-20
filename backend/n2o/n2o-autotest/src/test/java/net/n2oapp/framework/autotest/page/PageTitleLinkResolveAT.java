@@ -1,7 +1,9 @@
 package net.n2oapp.framework.autotest.page;
 
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -41,16 +43,22 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        builder.packs(
+                new N2oAllPagesPack(),
+                new N2oApplicationPack(),
+                new N2oAllDataPack());
     }
-    
+
     @Test
     public void testPathParam() {
         setJsonPath("net/n2oapp/framework/autotest/page/title/params/path_params");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/test.query.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/masterWidget.widget.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/page.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/page.page.xml")
+        );
+
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -108,9 +116,12 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
     @Test
     public void testQueryParams() {
         setJsonPath("net/n2oapp/framework/autotest/page/title/params/query_params");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/test.query.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/page.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/page.page.xml")
+        );
+
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -171,9 +182,11 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
     @Test
     public void testConstantParams() {
         setJsonPath("net/n2oapp/framework/autotest/page/title/params/constant_value");
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/test.query.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/open.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/open.page.xml")
+        );
 
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -183,5 +196,38 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         page.shouldExists();
         page.shouldHaveTitle("Версия:201 №202");
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/201/open\\?number=202");
+    }
+
+    @Test
+    void testBrowserStorage() {
+        setJsonPath("net/n2oapp/framework/autotest/page/title/browser_storage");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/browser_storage/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/browser_storage/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/browser_storage/page.page.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget tableWidget = page.regions()
+                .region(0, SimpleRegion.class)
+                .content().widget(TableWidget.class);
+        StandardButton openBtn = tableWidget.toolbar()
+                .topLeft()
+                .button("Открыть");
+
+        openBtn.click();
+
+        page.breadcrumb().crumb(1).shouldHaveLabel("1");
+        page.shouldHaveTitle("1");
+
+        Selenide.back();
+
+        tableWidget.columns().rows().row(2).click();
+        openBtn.click();
+
+        page.breadcrumb().crumb(1).shouldHaveLabel("3");
+        page.shouldHaveTitle("3");
     }
 }
