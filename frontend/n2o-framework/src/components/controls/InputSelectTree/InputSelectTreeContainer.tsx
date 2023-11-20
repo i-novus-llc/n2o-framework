@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import unionWith from 'lodash/unionWith'
+import isNaN from 'lodash/isNaN'
+import get from 'lodash/get'
 
 import { Props, defaultProps } from '@i-novus/n2o-components/lib/inputs/InputSelectTree/allProps'
 import { InputSelectTreeComponent } from '@i-novus/n2o-components/lib/inputs/InputSelectTree/InputSelectTree'
@@ -36,7 +38,7 @@ import listContainer from '../listContainer'
  * @reactProps {string} format - формат
  */
 
-function optionsHasValue(options: TOption[], selectedValueId: string) {
+function optionsHasValue(options: TOption[], selectedValueId: string | number | null) {
     if (!options.length) {
         return false
     }
@@ -44,8 +46,23 @@ function optionsHasValue(options: TOption[], selectedValueId: string) {
     return options.some(({ id }) => id === selectedValueId)
 }
 
+function createValue(value: string | number) {
+    const numberValue = Number(value)
+
+    return isNaN(numberValue) ? value : numberValue
+}
+
+function mapIds(options: TOption[], valueFieldId: keyof TOption, parentFieldId: keyof TOption) {
+    return options.map((option) => {
+        const id: string | number = option[valueFieldId]
+        const parent: string | number | undefined = option[parentFieldId]
+
+        return { ...option, [valueFieldId]: createValue(id), [parentFieldId]: parent ? createValue(parent) : null }
+    })
+}
+
 function InputSelectTreeContainer(props: Props) {
-    const { options, ajax, value, valueFieldId } = props
+    const { options, ajax, value, valueFieldId, parentFieldId } = props
     const [unionOptions, setOptions] = useState(options)
 
     const optionsWithValues = useMemo(() => {
@@ -60,15 +77,15 @@ function InputSelectTreeContainer(props: Props) {
         const newOptions = [...options]
 
         for (const selectedValue of values) {
-            const selectedValueId = selectedValue[valueFieldId]
+            const selectedValueId: string | number | null = get(selectedValue, valueFieldId, null)
 
             if (!optionsHasValue(options, selectedValueId)) {
-                newOptions.push(selectedValue)
+                newOptions.push(selectedValue as TOption)
             }
         }
 
         return newOptions
-    }, [value, options])
+    }, [value, options, valueFieldId])
 
     useEffect(() => {
         if (!isEqual(optionsWithValues, unionOptions)) {
@@ -80,10 +97,12 @@ function InputSelectTreeContainer(props: Props) {
         }
     }, [optionsWithValues, ajax, unionOptions])
 
+    const mappedOptions = mapIds(unionOptions, valueFieldId, parentFieldId)
+
     return (
         <InputSelectTreeComponent
             {...props}
-            options={unionOptions}
+            options={mappedOptions}
         />
     )
 }
