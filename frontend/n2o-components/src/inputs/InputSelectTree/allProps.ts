@@ -140,7 +140,7 @@ export type Props = {
     /**
    * Значение ключа parent в данных
    */
-    parentFieldId: string,
+    parentFieldId: keyof TOption,
     /**
    * Placeholder контрола
    */
@@ -153,9 +153,9 @@ export type Props = {
     /**
    * Значение
    */
-    value?: string | number | TOption[],
+    value?: TOption[],
     /**
    * Значение ключа value в данных
    */
-    valueFieldId: string
+    valueFieldId: keyof TOption
 }
