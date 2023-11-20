@@ -221,6 +221,16 @@ n2o.api.control.date_time.domain=date
 ### &lt;field&gt;
 Произвольный React компонент.
 
+Через [расширенные свойства](../manual/configs#расширенные-свойства) можно указать дополнительные свойства поля.
+
+**Пример**
+
+```xml
+<field src="MyControl"
+       ext:prop1="value1"
+       ext:prop2="value2"/>
+```
+
 **Тело**<br/>
 &lt;controls&gt; - [Список произвольных полей](#controls)
 
@@ -1432,8 +1442,6 @@ n2o.api.control.date_interval.utc=false
 
 <Sandbox height={400} projectId="uxcomponents_date_time_date_interval" />
 
-
-
 ### &lt;interval-field&gt;
 
 Компонент интервала
@@ -1450,8 +1458,6 @@ n2o.api.control.date_interval.utc=false
 
 **Тело**<br/>
 [Поле ввода](#Input_fields)
-
-
 
 #### &lt;end&gt;
 
@@ -1513,7 +1519,6 @@ n2o.api.control.dependency.apply_on_init=true
   </dependencies>
 </input-text>
 ```
-
 
 
 ### &lt;enabling&gt;
@@ -1611,8 +1616,6 @@ Java Script выражение.
 </dependencies>
 ```
 
-
-
 ### &lt;set-value&gt;
 
 Условие установки значений
@@ -1683,15 +1686,11 @@ Java Script выражение.
 **Тело**<br/>
 [Список валидаций](../xml/object#validations3)
 
-
-
 ## Действие обновления компонента
 
 ### &lt;submit&gt;
 
 [Действие обновления компонента](#fetch)
-
-
 
 ## Меню управляющих кнопок
 
