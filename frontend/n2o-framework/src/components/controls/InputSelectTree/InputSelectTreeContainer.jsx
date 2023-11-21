@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import unionWith from 'lodash/unionWith'
+import isNaN from 'lodash/isNaN'
+import get from 'lodash/get'
 
 import listContainer from '../listContainer'
 
@@ -43,8 +45,23 @@ function optionsHasValue(options, selectedValueId) {
     return options.some(({ id }) => id === selectedValueId)
 }
 
+function createValue(value) {
+    const numberValue = Number(value)
+
+    return isNaN(numberValue) ? value : numberValue
+}
+
+function mapIds(options, valueFieldId, parentFieldId) {
+    return options.map((option) => {
+        const id = option[valueFieldId]
+        const parent = option[parentFieldId]
+
+        return { ...option, [valueFieldId]: createValue(id), [parentFieldId]: parent ? createValue(parent) : null }
+    })
+}
+
 function InputSelectTreeContainer(props) {
-    const { data: options, ajax, value, valueFieldId, isLoading } = props
+    const { data: options, ajax, value, valueFieldId, isLoading, parentFieldId } = props
     const [unionOptions, setOptions] = useState(options)
 
     const optionsWithValues = useMemo(() => {
@@ -59,7 +76,7 @@ function InputSelectTreeContainer(props) {
         const newOptions = [...options]
 
         for (const selectedValue of values) {
-            const selectedValueId = selectedValue[valueFieldId]
+            const selectedValueId = get(selectedValue, valueFieldId, null)
 
             if (!optionsHasValue(options, selectedValueId)) {
                 newOptions.push(selectedValue)
@@ -67,7 +84,7 @@ function InputSelectTreeContainer(props) {
         }
 
         return newOptions
-    }, [value, options])
+    }, [value, options, valueFieldId])
 
     useEffect(() => {
         if (!isEqual(optionsWithValues, unionOptions)) {
@@ -79,10 +96,12 @@ function InputSelectTreeContainer(props) {
         }
     }, [optionsWithValues, ajax, unionOptions])
 
+    const mappedOptions = mapIds(unionOptions, valueFieldId, parentFieldId)
+
     return (
         <InputSelectTreeComponent
             {...props}
-            options={unionOptions}
+            options={mappedOptions}
             loading={isLoading}
         />
     )
