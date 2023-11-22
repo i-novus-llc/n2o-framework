@@ -27,14 +27,6 @@ public class N2oButton extends N2oAbstractButton implements Button, WidgetIdAwar
     private Boolean validate;
     private String[] validateDatasourceIds;
 
-    private String confirm;
-    private ConfirmType confirmType;
-    private String confirmText;
-    private String confirmTitle;
-    private String confirmOkLabel;
-    private String confirmOkColor;
-    private String confirmCancelLabel;
-    private String confirmCancelColor;
     @N2oAttribute("Недоступность кнопки при пустой модели")
     private DisableOnEmptyModelType disableOnEmptyModel;
 

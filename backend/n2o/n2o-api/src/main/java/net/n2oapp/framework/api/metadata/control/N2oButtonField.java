@@ -28,12 +28,4 @@ public class N2oButtonField extends N2oActionField implements Button, BadgeAware
     private String[] validateDatasourceIds;
     private String tooltipPosition;
     private Boolean rounded;
-    private String confirm;
-    private ConfirmType confirmType;
-    private String confirmText;
-    private String confirmTitle;
-    private String confirmOkLabel;
-    private String confirmOkColor;
-    private String confirmCancelLabel;
-    private String confirmCancelColor;
 }

@@ -1,8 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -74,45 +72,6 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
 
         btn = page.getToolbar().getButton("btn6");
         assertThat(btn.getModel(), is(ReduxModel.datasource));
-    }
-
-    @Test
-    void testConfirm() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/toolbar/testButtonConfirm.object.xml"));
-        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testButtonConfirm.page.xml")
-                .get(new PageContext("testButtonConfirm"));
-
-        Confirm confirm = page.getWidget().getToolbar().getButton("btn1").getConfirm();
-        assertThat(confirm, nullValue());
-
-        confirm = page.getWidget().getToolbar().getButton("btn2").getConfirm();
-        assertThat(confirm.getCondition(), is("`true`"));
-        assertThat(confirm.getText(), is("`'' + this.id === '1' ? 'id is 1' : 'id is 2' + ''`"));
-        assertThat(confirm.getTitle(), is("Подтвердить действие"));
-        assertThat(confirm.getOk().getLabel(), is("Ок"));
-        assertThat(confirm.getOk().getColor(), is("success"));
-        assertThat(confirm.getCancel().getLabel(), is("Отмена"));
-        assertThat(confirm.getCancel().getColor(), is("danger"));
-        assertThat(confirm.getReverseButtons(), is(false));
-        assertThat(confirm.getCloseButton(), is(false));
-        assertThat(confirm.getMode(), is(ConfirmType.POPOVER));
-        assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_w1']"));
-
-        confirm = page.getWidget().getToolbar().getButton("btn3").getConfirm();
-        assertThat(confirm.getCondition(), is("`id === '1'|| id === '2'`"));
-        assertThat(confirm.getText(), is("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие."));
-        assertThat(confirm.getTitle(), is("Предупреждение"));
-        assertThat(confirm.getOk().getLabel(), is("Да"));
-        assertThat(confirm.getOk().getColor(), is("primary"));
-        assertThat(confirm.getCancel().getLabel(), is("Нет"));
-        assertThat(confirm.getCancel().getColor(), is("secondary"));
-        assertThat(confirm.getReverseButtons(), is(false));
-        assertThat(confirm.getCloseButton(), is(false));
-        assertThat(confirm.getMode(), is(ConfirmType.MODAL));
-        assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_w1']"));
-
-        confirm = page.getWidget().getToolbar().getButton("btn4").getConfirm();
-        assertThat(confirm, nullValue());
     }
 
     @Test

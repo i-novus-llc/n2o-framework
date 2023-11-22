@@ -1332,10 +1332,6 @@
           "name": "ButtonConfirmTypeAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/button/dialogs_buttons",
-          "name": "DialogsButtonsAT"
-        },
-        {
           "templateId": "net/n2oapp/framework/autotest/button/enabled/simple",
           "name": "ButtonEnabledAT. testEnabledButton"
         },

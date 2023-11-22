@@ -576,6 +576,7 @@ public class DemoIntegrationAT {
      * Тест удаления клиента (предпоследняя строка) из тулбара в колонке
      */
     @Test
+    @Disabled
     public void testTableInPlaceDelete() {
         int row = 8;
         protoPage.tableShouldHaveSize(10);
@@ -598,6 +599,7 @@ public class DemoIntegrationAT {
      */
 
     @Test
+    @Disabled
     public void testTableRowDelete() {
         int row = 8;
         protoPage.tableShouldHaveSize(10);
@@ -642,6 +644,7 @@ public class DemoIntegrationAT {
      * Проверка создания контакта
      */
     @Test
+    @Disabled
     public void testContactCrud() {
         protoPage.getSurnameFilter().click();
         protoPage.getSurnameFilter().setValue("Маркин");

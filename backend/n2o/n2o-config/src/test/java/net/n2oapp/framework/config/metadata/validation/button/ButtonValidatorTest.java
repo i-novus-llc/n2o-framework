@@ -43,19 +43,6 @@ public class ButtonValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void testConfirmNonDatasource() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/button/testConfirmNonDatasource.page.xml"));
-        assertEquals("Кнопка  имеет ссылки в 'confirm' атрибутах, но не ссылается на какой-либо источник данных", exception.getMessage());
-    }
-
-    @Test
-    void testConfirmDatasource() {
-        validate("net/n2oapp/framework/config/metadata/validation/button/testConfirmDatasource.page.xml");
-    }
-
-    @Test
     void testColor() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
@@ -64,43 +51,11 @@ public class ButtonValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void testConfirmOkColor() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/button/testButtonConfirmOkColor.page.xml"));
-        assertEquals("Кнопка использует недопустимое значение атрибута confirm-ok-color=\"red\"", exception.getMessage());
-    }
-
-    @Test
-    void tesConfirmCancelColor() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/button/testButtonConfirmCancelColor.page.xml"));
-        assertEquals("Кнопка использует недопустимое значение атрибута confirm-cancel-color=\"red\"", exception.getMessage());
-    }
-
-    @Test
     void testFieldColor() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/field/testButtonFieldColor.page.xml"));
         assertEquals("Кнопка использует недопустимое значение атрибута color=\"red\"", exception.getMessage());
-    }
-
-    @Test
-    void testFieldConfirmOkColor() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/button/field/testButtonFieldConfirmOkColor.page.xml"));
-        assertEquals("Кнопка использует недопустимое значение атрибута confirm-ok-color=\"red\"", exception.getMessage());
-    }
-
-    @Test
-    void testFieldConfirmCancelColor() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/button/field/testButtonFieldConfirmCancelColor.page.xml"));
-        assertEquals("Кнопка использует недопустимое значение атрибута confirm-cancel-color=\"red\"", exception.getMessage());
     }
 
     @Test

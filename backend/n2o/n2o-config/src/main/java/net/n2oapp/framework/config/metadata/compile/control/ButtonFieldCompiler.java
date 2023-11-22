@@ -72,8 +72,6 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         if (source.getModel() == null)
             source.setModel(ReduxModel.resolve);
 
-        button.setConfirm(ButtonCompileUtil.compileConfirm(source, p, operation));
-
         String datasource = initDatasource(source, p);
         boolean validate = initValidate(source, datasource);
         source.setValidate(validate);
