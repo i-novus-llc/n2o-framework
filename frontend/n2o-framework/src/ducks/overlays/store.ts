@@ -3,23 +3,23 @@ import { createSlice, createAction } from '@reduxjs/toolkit'
 import OverlayResolver from './OverlayResolver'
 import { CLOSE } from './constants'
 import { State } from './Overlays'
-import { InsertOverlay } from './Actions'
+import { InsertOverlay, Insert, Remove } from './Actions'
 
 const initialState: State = []
 
+/* TODO OverlaysRefactoring перевести все действия открытия overlays на action insert,
+    сделать уникальные mode для выбора src, убрать type */
 const overlaysSlice = createSlice({
     name: 'n2o/overlays',
     initialState,
     reducers: {
         INSERT_MODAL: {
-            /* FIXME бэк не присылает mode, но для drawer и dialog присылает */
-            prepare(name, visible, mode, addition) {
+            prepare(name, visible, mode) {
                 return ({
                     payload: {
                         name,
                         visible,
                         mode,
-                        ...addition,
                     },
                 })
             },
@@ -28,23 +28,23 @@ const overlaysSlice = createSlice({
                 const { name, visible } = action.payload
 
                 state.push({
-                    visible,
                     name,
+                    visible,
                     mode: 'modal',
-                    props: action.payload,
+                    type: 'page',
+                    props: { ...action.payload },
                 })
             },
         },
 
         INSERT_DRAWER: {
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(name, visible, mode, addition) {
+            prepare(name, visible, mode) {
                 return ({
                     payload: {
                         name,
                         visible,
                         mode,
-                        ...addition,
                     },
                 })
             },
@@ -54,23 +54,23 @@ const overlaysSlice = createSlice({
                 const { name, visible, mode } = action.payload
 
                 state.push({
-                    visible,
                     name,
+                    visible,
                     mode,
-                    props: action.payload,
+                    type: 'page',
+                    props: { ...action.payload },
                 })
             },
         },
 
         INSERT_DIALOG: {
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(name, visible, mode, addition) {
+            prepare(name, visible, mode) {
                 return ({
                     payload: {
                         name,
                         visible,
                         mode,
-                        ...addition,
                     },
                 })
             },
@@ -80,11 +80,58 @@ const overlaysSlice = createSlice({
                 const { name, visible, mode } = action.payload
 
                 state.push({
-                    visible,
                     name,
+                    visible,
                     mode,
-                    props: action.payload,
+                    type: 'page',
+                    props: { ...action.payload },
                 })
+            },
+        },
+
+        insert: {
+            prepare(name, visible, mode, type, props) {
+                return ({
+                    payload: {
+                        name,
+                        visible,
+                        mode,
+                        type,
+                        props,
+                    },
+                })
+            },
+
+            reducer(state, action: Insert) {
+                const { name, visible, mode, type, props } = action.payload
+                const insertedId = `${type}-${mode}_${props?.target}`
+
+                if (state.some(({ id }) => id === insertedId)) {
+                    return
+                }
+
+                state.push({
+                    name,
+                    id: insertedId,
+                    visible,
+                    mode,
+                    type,
+                    props,
+                })
+            },
+        },
+
+        remove: {
+            prepare(id) {
+                return ({
+                    payload: { id },
+                })
+            },
+
+            reducer(state, action: Remove) {
+                const { id: removedId } = action.payload
+
+                return state.filter(({ id }) => id !== removedId)
             },
         },
 
@@ -135,7 +182,6 @@ const overlaysSlice = createSlice({
 
 export default overlaysSlice.reducer
 
-// Actions
 export const {
     DESTROY: destroyOverlay,
     DESTROY_OVERLAYS: destroyOverlays,
@@ -146,6 +192,8 @@ export const {
     INSERT_DIALOG: insertDialog,
     INSERT_DRAWER: insertDrawer,
     INSERT_MODAL: insertOverlay,
+    insert,
+    remove,
 } = overlaysSlice.actions
 
 /**

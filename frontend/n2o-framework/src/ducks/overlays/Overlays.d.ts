@@ -16,9 +16,11 @@ export interface OverlayProps {
 export interface Overlay {
     visible: boolean
     name: string
-    mode: 'modal' | 'drawer' | 'dialog'
-    props?: Overlay
+    mode: 'modal' | 'drawer' | 'dialog' | 'popover'
+    type: 'page' | 'confirm'
+    props?: Record<string, unknown>
     showPrompt?: boolean
+    id?: string
 }
 
 export type State = Overlay[]

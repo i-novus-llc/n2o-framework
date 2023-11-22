@@ -3,10 +3,7 @@ import PropTypes from 'prop-types'
 import { connect, ReactReduxContext } from 'react-redux'
 import { compose, withPropsOnChange } from 'recompose'
 import omit from 'lodash/omit'
-import get from 'lodash/get'
 import isNil from 'lodash/isNil'
-import isEmpty from 'lodash/isEmpty'
-import isObject from 'lodash/isObject'
 
 import { registerButton, removeButton } from '../../ducks/toolbar/store'
 import {
@@ -19,9 +16,8 @@ import {
 } from '../../ducks/toolbar/selectors'
 import { validate as validateDatasource } from '../../core/validation/validate'
 import { id as getID } from '../../utils/id'
-import linkResolver from '../../utils/linkResolver'
-import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { ModelPrefix } from '../../core/datasource/const'
+import { mergeMeta } from '../../ducks/api/utils/mergeMeta'
 
 import { ActionButton } from './ActionButton'
 
@@ -40,16 +36,8 @@ export default function withActionButton(options = {}) {
             constructor(props) {
                 super(props)
                 this.generatedTooltipId = getID()
-
-                this.state = {
-                    id: props.uid || getID(),
-                    confirm: null,
-                    event: null,
-                    url: props.url,
-                }
+                this.state = { id: props.uid || getID(), url: props.url }
             }
-
-            isConfirm = false
 
             componentWillUnmount() {
                 const { removeButton, entityKey, id } = this.props
@@ -63,52 +51,12 @@ export default function withActionButton(options = {}) {
 
             initIfNeeded = () => {
                 const {
-                    entityKey,
-                    id,
-                    initialProps: {
-                        visible = true,
-                        disabled,
-                        count,
-                        conditions,
-                    } = {},
+                    entityKey, id,
+                    initialProps: { visible = true, disabled, count, conditions } = {},
                     registerButton,
                 } = this.props
 
                 registerButton(entityKey, id, { visible, disabled, count, conditions })
-            }
-
-            mapConfirmProps = () => {
-                const { confirm: confirmJSON } = this.props
-
-                if (isEmpty(confirmJSON)) { return null }
-
-                const { store } = this.context
-                const state = store.getState()
-                const { modelLink, text, condition, ...confirm } = confirmJSON
-                const model = get(state, modelLink)
-
-                const resolvedText = linkResolver(state, { link: modelLink, value: text })
-
-                const getResolvedCondition = (condition) => {
-                    if (isObject(condition) && isEmpty(condition)) {
-                        return true
-                    }
-
-                    if (typeof condition === 'boolean') {
-                        return condition
-                    }
-
-                    return evalExpression(parseExpression(condition), model)
-                }
-
-                if (!getResolvedCondition(condition)) {
-                    return null
-                }
-
-                return {
-                    ...confirm,
-                    text: resolvedText,
-                }
             }
 
             /**
@@ -117,10 +65,7 @@ export default function withActionButton(options = {}) {
              */
             validationFields = async () => {
                 const { store } = this.context
-                const {
-                    validate,
-                    dispatch,
-                } = this.props
+                const { validate, dispatch } = this.props
 
                 if (!validate?.length) {
                     return true
@@ -130,11 +75,7 @@ export default function withActionButton(options = {}) {
 
                 for (const datasourceId of validate) {
                     const isDatasourceValid = await validateDatasource(
-                        store.getState(),
-                        datasourceId,
-                        ModelPrefix.active,
-                        dispatch,
-                        true,
+                        store.getState(), datasourceId, ModelPrefix.active, dispatch, true,
                     )
 
                     valid = valid && isDatasourceValid
@@ -157,81 +98,41 @@ export default function withActionButton(options = {}) {
                     return
                 }
 
-                const confirm = this.mapConfirmProps()
+                /* необходимо для позиционирования popover */
+                const { id: target } = this.state
+                const { action } = this.props
 
-                if (!confirm) {
-                    const { store } = this.context
-                    const state = store.getState()
+                const extendedAction = action ? mergeMeta(action, { target }) : null
 
-                    onClick(event, this.props, state)
-
-                    return
-                }
-
-                event.preventDefault()
-                this.setState({ confirm, event })
-            }
-
-            onConfirm = () => {
-                const { event } = this.state
                 const { store } = this.context
-                const { url } = this.props
                 const state = store.getState()
 
-                this.setState({ confirm: null, event: null, url })
-                onClick(event, this.props, state)
-            }
-
-            onDeny = () => {
-                this.setState({ confirm: null, event: null })
+                onClick(event, { ...this.props, action: extendedAction }, state)
             }
 
             render() {
-                const {
-                    hint,
-                    message,
-                    visible,
-                    visibleFromState,
-                    disabled,
-                    disabledFromState,
-                    hintPosition,
-                } = this.props
+                const { hint, message, visible, visibleFromState,
+                    disabled, disabledFromState, hintPosition } = this.props
 
-                const currentVisible = !isNil(visible)
-                    ? visible
-                    : visibleFromState
+                const isVisible = !isNil(visible) ? visible : visibleFromState
+                const isDisabled = !isNil(disabled) ? disabled : disabledFromState
 
-                const currentDisabled = !isNil(disabled)
-                    ? disabled
-                    : disabledFromState
+                const currentMessage = isDisabled ? message || hint : hint
 
-                const currentMessage = currentDisabled ? message || hint : hint
-
-                const { confirm: confirmState, url, id } = this.state
-                const confirm = confirmState ? {
-                    ...confirmState,
-                    onDeny: this.onDeny,
-                    onConfirm: this.onConfirm,
-                    target: id,
-                } : null
+                const { url, id } = this.state
 
                 return (
                     <ActionButton
                         Component={WrappedComponent}
                         componentProps={
-                            { ...omit(this.props, [
-                                'isInit',
-                                'targetTooltip',
-                                'initialProps',
-                                'registerButton',
-                                'uid',
-                            ]) }}
-                        url={url}
-                        componentDisabled={currentDisabled}
-                        componentVisible={currentVisible}
-                        onClick={this.onClickHandler}
-                        id={id}
-                        confirm={confirm}
+                            {
+                                ...omit(this.props, ['isInit', 'targetTooltip', 'initialProps', 'registerButton', 'uid']),
+                                visible: isVisible,
+                                disabled: isDisabled,
+                                onClick: this.onClickHandler,
+                                url,
+                                id,
+                            }}
                         hint={currentMessage}
                         placement={hintPosition}
                     />
@@ -269,7 +170,6 @@ export default function withActionButton(options = {}) {
             entityKey: PropTypes.string,
             id: PropTypes.string,
             validate: PropTypes.arrayOf(PropTypes.string),
-            confirm: PropTypes.object,
             registerButton: PropTypes.func,
             removeButton: PropTypes.func,
             dispatch: PropTypes.func,
