@@ -19,6 +19,7 @@ import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -37,6 +38,7 @@ import static org.openqa.selenium.remote.CapabilityType.UNHANDLED_PROMPT_BEHAVIO
 @SpringBootTest(
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureDataMongo
 public class AutoTestBase extends N2oTestBase {
 
     @LocalServerPort
