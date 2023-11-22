@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import map from 'lodash/map'
-import has from 'lodash/has'
 import defaultTo from 'lodash/defaultTo'
 
 import { closeOverlay, hidePrompt } from '../../ducks/overlays/store'
@@ -11,29 +10,36 @@ import { overlaysSelector } from '../../ducks/overlays/selectors'
 import { FactoryContext } from '../../core/factory/context'
 import { OVERLAYS } from '../../core/factory/factoryLevels'
 
-const ModalMode = {
-    MODAL: 'modal',
-    DRAWER: 'drawer',
-    DIALOG: 'dialog',
-}
-
-const PageComponent = {
-    [ModalMode.MODAL]: 'Modal',
-    [ModalMode.DRAWER]: 'Drawer',
-    [ModalMode.DIALOG]: 'Dialog',
+/* TODO OverlaysRefactoring сделать 1 уровневым после перехода overlays на универсальный action insert */
+const TYPES = {
+    confirm: {
+        modal: 'ConfirmDialog',
+        popover: 'ConfirmPopover',
+    },
+    page: {
+        modal: 'Modal',
+        drawer: 'Drawer',
+        dialog: 'Dialog',
+    },
 }
 
 const prepareProps = (props, overlay = {}) => ({ ...props, ...overlay, ...defaultTo(overlay.props, {}) })
 
 const renderOverlays = ({ overlays, ...rest }) => map(
     overlays,
-    ({ mode, ...overlay }) => {
-        if (!has(PageComponent, mode)) { return null }
+    ({ type, mode, ...overlay }) => {
+        const overlayType = TYPES[type]
+
+        if (!overlayType) {
+            return null
+        }
 
         const { getComponent } = useContext(FactoryContext)
-        const Overlay = getComponent(PageComponent[mode], OVERLAYS)
 
-        return React.createElement(Overlay, prepareProps(rest, overlay))
+        const Overlay = overlayType[mode]
+        const Component = getComponent(Overlay, OVERLAYS)
+
+        return React.createElement(Component, prepareProps(rest, overlay))
     },
 )
 
