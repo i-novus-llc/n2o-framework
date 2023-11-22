@@ -1,7 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.metadata.meta.action.Action;
+import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
+import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -60,37 +63,32 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
                 .getButtons().stream().map(AbstractButton::getId).collect(Collectors.toList());
         List<String> buttonsLabel = form.getToolbar().get("topLeft").get(0)
                 .getButtons().stream().map(AbstractButton::getLabel).collect(Collectors.toList());
-        List<String> buttonsAction = form.getToolbar().get("topLeft").get(0)
-                .getButtons().stream().map(AbstractButton::getAction).map(a -> {
-                    if (a instanceof ShowModal) return ((ShowModal) a).getOperationId();
-                    if (a instanceof InvokeAction) return ((InvokeAction) a).getOperationId();
-                    return null;
-                }).collect(Collectors.toList());
+        List<Action> buttonsAction = form.getToolbar().get("topLeft").get(0)
+                .getButtons().stream().map(AbstractButton::getAction).collect(Collectors.toList());
+
 
         assertThat(buttonsId.contains("create"), is(true));
         assertThat(buttonsId.contains("update"), is(true));
         assertThat(buttonsId.contains("delete"), is(true));
 
-        assertThat(buttonsAction.contains("create"), is(true));
-        assertThat(buttonsAction.contains("update"), is(true));
-        assertThat(buttonsAction.contains("delete"), is(true));
-
         assertThat(buttonsLabel.contains("Создать"), is(true));
         assertThat(buttonsLabel.contains("Изменить"), is(true));
         assertThat(buttonsLabel.contains("Удалить"), is(true));
 
-        for (AbstractButton button : form.getToolbar().get("topLeft").get(0).getButtons()) {
-            if ("delete".equalsIgnoreCase(button.getId())) {
-                assertThat(button.getConfirm().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.text")));
-                assertThat(button.getConfirm().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.title")));
-                assertThat(button.getConfirm().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.default.okLabel")));
-                assertThat(button.getConfirm().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.default.cancelLabel")));
-                assertThat(button.getConfirm().getCloseButton(), is(false));
-            } else {
-                assertThat(button.getConfirm(), nullValue());
-            }
-        }
+        assertThat(((ShowModal) buttonsAction.get(0)).getOperationId(), is("create"));
+        assertThat(((ShowModal) buttonsAction.get(1)).getOperationId(), is("update"));
 
-        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().get(0).getConfirm(), notNullValue());//action2
+        MultiAction multiAction = (MultiAction) buttonsAction.get(2);
+        assertThat(multiAction.getPayload().getActions().size(), is(2));
+        assertThat(multiAction.getPayload().getActions().get(0).getClass(), is(ConfirmAction.class));
+        assertThat(multiAction.getPayload().getActions().get(1).getClass(), is(InvokeAction.class));
+        ConfirmAction confirmAction = (ConfirmAction) multiAction.getPayload().getActions().get(0);
+        assertThat(confirmAction.getPayload().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text")));
+        assertThat(confirmAction.getPayload().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title")));
+        assertThat(confirmAction.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
+        assertThat(confirmAction.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
+        assertThat(confirmAction.getPayload().getCloseButton(), is(false));
+        assertThat(((InvokeAction)multiAction.getPayload().getActions().get(1)).getOperationId(), is("delete"));
+
     }
 }

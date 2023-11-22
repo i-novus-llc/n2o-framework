@@ -18,13 +18,6 @@ public interface ButtonIOAware<T extends Button> {
         p.attributeEnum(e, "model", b::getModel, b::setModel, ReduxModel.class);
         p.attribute(e, "widget-id", b::getWidgetId, b::setWidgetId);
 
-        p.attribute(e, "confirm", b::getConfirm, b::setConfirm);
-        p.attribute(e, "confirm-text", b::getConfirmText, b::setConfirmText);
-        p.attributeEnum(e, "confirm-type", b::getConfirmType, b::setConfirmType, ConfirmType.class);
-        p.attribute(e, "confirm-title", b::getConfirmTitle, b::setConfirmTitle);
-        p.attribute(e, "confirm-ok-label", b::getConfirmOkLabel, b::setConfirmOkLabel);
-        p.attribute(e, "confirm-cancel-label", b::getConfirmCancelLabel, b::setConfirmCancelLabel);
-
         p.anyChildren(e, null, b::getActions, b::setActions, p.anyOf(N2oAction.class).ignore("dependencies"), namespace);
     }
 
@@ -33,14 +26,5 @@ public interface ButtonIOAware<T extends Button> {
 
         p.attributeBoolean(e, "validate", b::getValidate, b::setValidate);
         p.attributeArray(e, "validate-datasources", ",", b::getValidateDatasourceIds, b::setValidateDatasourceIds);
-
-        p.attribute(e, "confirm", b::getConfirm, b::setConfirm);
-        p.attribute(e, "confirm-text", b::getConfirmText, b::setConfirmText);
-        p.attributeEnum(e, "confirm-type", b::getConfirmType, b::setConfirmType, ConfirmType.class);
-        p.attribute(e, "confirm-title", b::getConfirmTitle, b::setConfirmTitle);
-        p.attribute(e, "confirm-ok-label", b::getConfirmOkLabel, b::setConfirmOkLabel);
-        p.attribute(e, "confirm-ok-color", b::getConfirmOkColor, b::setConfirmOkColor);
-        p.attribute(e, "confirm-cancel-label", b::getConfirmCancelLabel, b::setConfirmCancelLabel);
-        p.attribute(e, "confirm-cancel-color", b::getConfirmCancelColor, b::setConfirmCancelColor);
     }
 }

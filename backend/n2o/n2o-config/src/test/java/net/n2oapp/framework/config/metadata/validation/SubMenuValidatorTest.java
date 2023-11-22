@@ -49,19 +49,6 @@ public class SubMenuValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void testConfirmNonDatasourceInMenuItem() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/button/sub_menu/testConfirmNonDatasource.page.xml"));
-        assertEquals("Кнопка  имеет ссылки в 'confirm' атрибутах, но не ссылается на какой-либо источник данных", exception.getMessage());
-    }
-
-    @Test
-    void testConfirmDatasourceInMenuItem() {
-        validate("net/n2oapp/framework/config/metadata/validation/button/sub_menu/testConfirmDatasource.page.xml");
-    }
-
-    @Test
     void generateHasOneMoreType() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,

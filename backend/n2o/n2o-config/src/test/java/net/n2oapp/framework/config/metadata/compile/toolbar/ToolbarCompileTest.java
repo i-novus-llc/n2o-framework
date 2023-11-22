@@ -101,9 +101,6 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b3.getId(), is("testId3"));
         assertThat(f.getToolbar().getButton("testId3"), notNullValue());
         assertThat(b3.getConditions().get(ValidationType.enabled).size(), is(1));
-        assertThat(b3.getConfirm().getMode(), is(ConfirmType.POPOVER));
-        assertThat(b3.getConfirm().getModelLink(), is("models.resolve['testToolbar_w1']"));
-        assertThat(b3.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
         assertThat(b3.getSrc(), is("StandardButton"));
         assertThat(((LinkAction) b3.getAction()).getUrl(), is("http://example.com"));
         assertThat(((LinkAction) b3.getAction()).getTarget(), is(Target.self));
@@ -128,9 +125,5 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         Submenu button = (Submenu) f.getToolbar().get("bottomLeft").get(0).getButtons().get(2);
         PerformButton item = button.getSubMenu().get(0);
         assertThat(item.getId(), is("tesId10"));
-        assertThat(item.getConfirm(), notNullValue());
-        assertThat(item.getConfirm().getMode(), is(ConfirmType.MODAL));
-        assertThat(item.getConfirm().getModelLink(), is("models.resolve['testToolbar_w1']"));
-        assertThat(item.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
     }
 }

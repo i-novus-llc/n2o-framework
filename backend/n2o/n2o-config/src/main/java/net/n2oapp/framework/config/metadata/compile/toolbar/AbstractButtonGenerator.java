@@ -2,6 +2,8 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.action.N2oAbstractAction;
+import net.n2oapp.framework.api.metadata.action.N2oConfirmAction;
 import net.n2oapp.framework.api.metadata.compile.ButtonGenerator;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -37,13 +39,13 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
         }
         switch (action) {
             case delete: {
+                N2oConfirmAction confirmAction = new N2oConfirmAction();
                 N2oInvokeAction invokeAction = new N2oInvokeAction();
                 invokeAction.setOperationId(action.name());
                 WidgetScope widgetScope = p.getScope(WidgetScope.class);
                 String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
                 invokeAction.setRoute(normalize("/" + widgetId + "/delete"));
-                button.setConfirm("true");
-                button.setActions(new N2oInvokeAction[]{invokeAction});
+                button.setActions(new N2oAbstractAction[]{confirmAction, invokeAction});
             }
             break;
             case create: {

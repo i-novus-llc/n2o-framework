@@ -6,9 +6,7 @@
                   src="src" style="color: red" tooltip-position="right">
             <menu-item id="btn" widget-id="table" model="resolve" icon="icon" color="primary"
                 visible="true" enabled="true" action-id="test" class="test" style="test"
-                description="desc" tooltip-position="right" disable-on-empty-model="false"
-                confirm="true" confirm-text="test" confirm-type="modal" confirm-title="title" confirm-ok-label="ok"
-                confirm-cancel-label="cancel" rounded="true" src="test">
+                description="desc" tooltip-position="right" disable-on-empty-model="false" rounded="true" src="test">
             <dependencies>
                 <enabling ref-model="resolve" ref-widget-id="ref" message="Не указана дата"/>
                 <visibility ref-model="resolve" ref-widget-id="ref"/>

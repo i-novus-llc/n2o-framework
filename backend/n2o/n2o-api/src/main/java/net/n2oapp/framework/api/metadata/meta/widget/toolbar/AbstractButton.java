@@ -7,7 +7,6 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
@@ -44,8 +43,6 @@ public abstract class AbstractButton extends Component implements IdAware {
     private String hintPosition;
     @JsonProperty
     private Map<ValidationType, List<Condition>> conditions = new HashMap<>();
-    @JsonProperty
-    private Confirm confirm;
     @JsonProperty
     private Badge badge;
     @JsonProperty

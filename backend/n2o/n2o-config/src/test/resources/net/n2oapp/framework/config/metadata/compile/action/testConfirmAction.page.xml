@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <toolbar>
+        <button id="b1">
+            <confirm title="testTitle" text="testText" class="test" style="padding-top: 0; page-break-before: avoid;">
+                <ok label="test" color="secondary" class="test__class" style="padding-top: 0; page-break-before: avoid;"/>
+                <cancel label="test2" color="primary" class="test__class" style="padding-top: 0; page-break-before: avoid;"/>
+            </confirm>
+        </button>
+        <button id="b2">
+            <confirm title="testTitle" text="testText" close-button="true" type="popover">
+                <cancel label="test2"/>
+                <ok label="test"/>
+            </confirm>
+        </button>
+        <button id="b3">
+            <confirm/>
+        </button>
+    </toolbar>
+</page>
