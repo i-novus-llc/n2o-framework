@@ -37,8 +37,8 @@ export const creator = createAction(
 export function* effect({ payload, type }: ReturnType<typeof creator>) {
     try {
         const { operation, item, list, primaryKey } = payload
-        const targetModel: object = yield select(getModelByPrefixAndNameSelector(list.model, list.datasource))
-        const sourceModel: object = yield select(getModelByPrefixAndNameSelector(item.model, item.datasource))
+        const targetModel: object = yield select(getModelByPrefixAndNameSelector(list.model, list.datasource, []))
+        const sourceModel: object = yield select(getModelByPrefixAndNameSelector(item.model, item.datasource, []))
 
         let targetList = list.field ? get(targetModel, list.field) : targetModel
 
@@ -58,7 +58,8 @@ export function* effect({ payload, type }: ReturnType<typeof creator>) {
 
         const newList = updateList(targetList, element, primaryKey, operation)
 
-        let newModel
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let newModel: Record<string, any>
 
         if (list.field) {
             newModel = cloneDeep(targetModel)
