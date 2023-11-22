@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.reader;
 
-import net.n2oapp.engine.factory.EngineNotFoundException;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
@@ -8,6 +7,8 @@ import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
+import net.n2oapp.framework.config.ElementWrongLocation;
+import net.n2oapp.framework.config.SchemaNotRegisteredException;
 import org.jdom2.Namespace;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -40,10 +41,10 @@ public class N2oNamespaceReaderFactory<T extends NamespaceUriAware> implements N
                 engines.get(namespace.getURI()).forEach(elementReaders::putIfAbsent);
         }
         if (elementReaders.isEmpty())
-            throw new EngineNotFoundException(elementName);
+            throw new SchemaNotRegisteredException(elementName);
         NamespaceReader reader = elementReaders.get(elementName);
         if (reader == null)
-            throw new EngineNotFoundException(elementName);
+            throw new ElementWrongLocation(elementName);
         if (reader instanceof IOProcessorAware)
             ((IOProcessorAware) reader).setIOProcessor(this.processor);
         return reader;
@@ -86,5 +87,4 @@ public class N2oNamespaceReaderFactory<T extends NamespaceUriAware> implements N
     public void setIOProcessor(IOProcessor processor) {
         this.processor = processor;
     }
-
 }
