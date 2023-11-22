@@ -37,15 +37,11 @@ public class PersisterFactoryByMap implements NamespacePersisterFactory<Namespac
         register(new ProxyNamespaceIO<>(io));
     }
 
-    private NamespacePersister handleException(Class<?> clazz) {
-        throw new EngineNotFoundException(clazz);
-    }
-
 
     @Override
     public NamespacePersister<NamespaceUriAware> produce(Class clazz, Namespace... namespaces) {
         if (!map.containsKey(clazz))
-            return handleException(clazz);
+            throw new EngineNotFoundException(clazz);
         Map<String, NamespacePersister> inmap = map.get(clazz);
         NamespacePersister persister = null;
         for (Namespace namespace : namespaces) {
@@ -55,7 +51,7 @@ public class PersisterFactoryByMap implements NamespacePersisterFactory<Namespac
             }
         }
         if (persister == null) {
-            return handleException(clazz);
+            throw new EngineNotFoundException(clazz);
         }
         if (persister instanceof PersisterFactoryAware)
             ((PersisterFactoryAware) persister).setPersisterFactory(this);
