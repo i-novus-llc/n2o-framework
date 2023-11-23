@@ -87,8 +87,14 @@ export class InputNumberComponent extends React.Component<InputNumberProps, Inpu
 
         if (matchesWhiteList(parsedValue)) {
             this.setState({ value: this.resolveValue(value) }, () => {
-                if (!isNaN(toNumber(value)) || mode === InputMode.PICKER) {
-                    onChange?.(this.resolveValue(value))
+                const isPicker = mode === InputMode.PICKER
+
+                if (!isNaN(toNumber(value)) || isPicker) {
+                    if (isPicker) {
+                        onChange?.(this.resolveValue(value))
+                    } else {
+                        onChange?.(Number(this.resolveValue(value)))
+                    }
                 }
             })
         }
@@ -124,8 +130,8 @@ export class InputNumberComponent extends React.Component<InputNumberProps, Inpu
             newValue = newValue.toFixed(this.stepPrecition)
 
             this.setState({ value: newValue }, () => {
-                onChange?.(newValue)
-                onBlur?.(newValue)
+                onChange?.(Number(newValue))
+                onBlur?.(Number(newValue))
             })
         }
     }
