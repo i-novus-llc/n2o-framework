@@ -554,3 +554,27 @@ export const customReducers = { pages: pagesReducers }
     }
 }
 ```
+
+### Смена favicon или других статичных элементов {#favicon}
+
+Чтобы поменять иконку приложения favicon, необходимо:
+1) написать реализацию `StaticCustomizationController`
+2) и указать путь расположения новой иконки
+
+Так же с помощью реализации `StaticCustomizationController` можно переопределить получение других статичных элементов.
+
+Пример:
+
+```
+@Controller
+public class PsFaviconController extends StaticCustomizationController {
+
+    @Value("${ps.favicon.path}")
+    private String path;
+
+    @Override
+    protected String faviconPath() {
+        return path;
+    }
+}
+```
