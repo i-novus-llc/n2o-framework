@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <table query-id="test">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Автотест проверяющий фильтрацию в заголовках столбцов">
+    <table>
+        <datasource id="ds1" query-id="test"/>
         <columns>
             <column text-field-id="id"/>
             <filter-column text-field-id="name" style="color: red">
