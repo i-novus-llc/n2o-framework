@@ -418,7 +418,11 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close",
-          "name": "RestoreFiltersAT"
+          "name": "RestoreFiltersAT .afterPageClosing"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_page_reloading",
+          "name": "RestoreFiltersAT .afterPageReloading"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/filters_validation/simple",

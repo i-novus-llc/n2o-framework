@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0" object-id="person">
+    <list>
+        <test file="test.json" operation="findAll"/>
+    </list>
+
+    <filters>
+        <in field-id="kind" filter-id="kind*.id" domain="integer[]">kind.id:in:kind*.id</in>
+    </filters>
+
+    <fields>
+        <field id="id"/>
+        <field id="name"/>
+        <field id="kind" name="Вид документа"/>
+    </fields>
+</query>
+
