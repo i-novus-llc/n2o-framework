@@ -2682,10 +2682,10 @@ class MyService {
 
 ### Встроенные функции нормализации {#normalize_built_in_functions}
 
-В java-библиотеке N2O содержится классы `StringNormalizer`, реализующий базовые функции нормализации строковых данных и
-`DateFormatNormalizer` для преобразование даты и времени
+В java-библиотеке N2O содержатся классы, реализующие базовые функции нормализации строковых данных,
+а также преобразования даты и времени.
 
-#### Нормализация строковых данных `StringNormalizer` {#string_normalizer}
+#### Функции нормализации строковых данных `StringNormalizer` {#string_normalizer_functions}
 
 |Имя метода                                           |Описание                                 |
 |-----------------------------------------------------|-----------------------------------------|
@@ -2858,7 +2858,7 @@ class MyService {
 <field id="shortName" normalize="#formatNameWithInitials(#data['lastName'], #data['firstName'], #data['patronymic'])"/>
 ```
 
-#### Нормализация даты `DateFormatNormalizer` {#date_format_normalizer}
+#### Функции нормализации даты и времени `DateFormatNormalizer` {#date_normalizer_functions}
 
 |Имя метода                                           |Описание                                                      |
 |-----------------------------------------------------|--------------------------------------------------------------|
