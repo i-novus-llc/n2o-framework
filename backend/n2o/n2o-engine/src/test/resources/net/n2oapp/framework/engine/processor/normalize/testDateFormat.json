@@ -1,0 +1,13 @@
+[
+  {
+    "isoDate": "2022-09-12",
+    "customDate": "9.9.2022",
+
+    "isoDateTime": "2011-08-03T10:15:00",
+    "isoDateTimeWithMsAndZ": "2011-08-03T10:15:00.123456Z",
+    "customDateTime": "3.8.2011 10:15:00",
+
+    "startDate" : "12.09.2022",
+    "endDate" : "13.09.2022"
+  }
+]
