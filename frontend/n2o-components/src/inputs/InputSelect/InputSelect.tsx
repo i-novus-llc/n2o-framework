@@ -736,6 +736,7 @@ export class InputSelect extends React.Component<Props, State> {
                             format={format}
                             popUpItemRef={this.popUpItemRef}
                             style={popUpStyle}
+                            multiSelect={multiSelect}
                         >
                             <div className="n2o-alerts">
                                 {alerts?.map(alert => (
