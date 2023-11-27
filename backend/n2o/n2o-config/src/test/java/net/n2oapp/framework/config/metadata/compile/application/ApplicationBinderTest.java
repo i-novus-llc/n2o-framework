@@ -33,25 +33,31 @@ public class ApplicationBinderTest extends SourceCompileTestBase {
         Application app = bind("net/n2oapp/framework/config/metadata/compile/application/testAppBinder.application.xml")
                 .get(new ApplicationContext("testAppBinder"), new DataSet(), mock(SubModelsProcessor.class));
 
+        assertThat(app.getHeader().getProperties().get("description"), is("Test"));
         assertThat(app.getHeader().getMenu().getItems().get(0).getTitle(), is("Test Test"));
         assertThat(app.getHeader().getMenu().getItems().get(0).getBadge().getText(), is("Test"));
         assertThat(app.getHeader().getMenu().getItems().get(0).getBadge().getColor(), is("Test"));
         assertThat(app.getHeader().getMenu().getItems().get(0).getImageSrc(), is("Test"));
+        assertThat(app.getHeader().getMenu().getItems().get(0).getProperties().get("description"), is("Test"));
 
         assertThat(app.getHeader().getMenu().getItems().get(1).getSubItems().get(0).getTitle(), is("Test Test"));
         assertThat(app.getHeader().getMenu().getItems().get(1).getSubItems().get(0).getBadge().getText(), is("Test"));
         assertThat(app.getHeader().getMenu().getItems().get(1).getSubItems().get(0).getBadge().getColor(), is("Test"));
         assertThat(app.getHeader().getMenu().getItems().get(1).getSubItems().get(0).getImageSrc(), is("Test"));
+        assertThat(app.getHeader().getMenu().getItems().get(1).getProperties().get("description"), is("Test"));
 
+        assertThat(app.getSidebars().get(0).getProperties().get("description"), is("Test"));
         assertThat(app.getSidebars().get(0).getSubtitle(), is("Test Test"));
         assertThat(app.getSidebars().get(0).getMenu().getItems().get(0).getTitle(), is("Test Test"));
         assertThat(app.getSidebars().get(0).getMenu().getItems().get(0).getBadge().getText(), is("Test"));
         assertThat(app.getSidebars().get(0).getMenu().getItems().get(0).getBadge().getColor(), is("Test"));
         assertThat(app.getSidebars().get(0).getMenu().getItems().get(0).getImageSrc(), is("Test"));
+        assertThat(app.getSidebars().get(0).getMenu().getItems().get(0).getProperties().get("description"), is("Test"));
 
         assertThat(app.getSidebars().get(0).getMenu().getItems().get(1).getSubItems().get(0).getTitle(), is("Test Test"));
         assertThat(app.getSidebars().get(0).getMenu().getItems().get(1).getSubItems().get(0).getBadge().getText(), is("Test"));
         assertThat(app.getSidebars().get(0).getMenu().getItems().get(1).getSubItems().get(0).getBadge().getColor(), is("Test"));
         assertThat(app.getSidebars().get(0).getMenu().getItems().get(1).getSubItems().get(0).getImageSrc(), is("Test"));
+        assertThat(app.getSidebars().get(0).getMenu().getItems().get(1).getProperties().get("description"), is("Test"));
     }
 }
