@@ -65,12 +65,13 @@ const overlaysSlice = createSlice({
 
         INSERT_DIALOG: {
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(name, visible, mode) {
+            prepare(name, visible, mode, props) {
                 return ({
                     payload: {
                         name,
                         visible,
                         mode,
+                        props,
                     },
                 })
             },
