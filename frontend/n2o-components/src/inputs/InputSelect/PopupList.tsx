@@ -79,6 +79,7 @@ type Props = {
     statusFieldId?: string,
     style?: object,
     valueFieldId: string
+    multiSelect?: boolean
 }
 
 type State = {
