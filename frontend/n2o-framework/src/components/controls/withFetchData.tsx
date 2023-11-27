@@ -1,4 +1,5 @@
 import React, { Component, FC } from 'react'
+import { Dispatch } from 'redux'
 import { connect, ReactReduxContext } from 'react-redux'
 import get from 'lodash/get'
 import isArray from 'lodash/isArray'
@@ -8,24 +9,26 @@ import isEqual from 'lodash/isEqual'
 import omit from 'lodash/omit'
 import isEmpty from 'lodash/isEmpty'
 
+import { State as Store } from '../../ducks/State'
 // @ts-ignore import from js file
 import cachingStore from '../../utils/cacher'
 // @ts-ignore import from js file
 import { fetchInputSelectData, FETCH_CONTROL_VALUE } from '../../core/api'
 // @ts-ignore import from js file
-import { addAlert, removeAllAlerts } from '../../ducks/alerts/store'
+import { addAlert } from '../../ducks/alerts/store'
 // @ts-ignore import from js file
 import { dataProviderResolver } from '../../core/dataProviderResolver'
-// @ts-ignore import from js file
 import { fetchError } from '../../actions/fetch'
 // @ts-ignore import from js file
 import { WithDataSource } from '../../core/widget/WithDataSource'
 import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
+import { Alert } from '../../ducks/alerts/Alerts'
+import { FETCH_TYPE } from '../../core/widget/const'
+import { GLOBAL_KEY } from '../../ducks/alerts/constants'
 
 type Props = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data: any[],
+    data: unknown[],
     dataProvider: object,
     datasource: string,
     datasourceModel: [],
@@ -35,7 +38,6 @@ type Props = {
     valueFieldId: string,
     sortFieldId: string,
     addAlert(obj: object): void,
-    removeAlerts(): void,
     fetchError(obj: object): void,
     fetchData(obj: object): void,
     setFilter(obj: object): void,
@@ -163,7 +165,9 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
             } else {
                 errorMessage = body
             }
-            const messages = get(errorMessage, 'meta.alert.messages', false)
+
+            try { errorMessage = JSON.parse(errorMessage) } catch (e) { /**/ }
+            const messages = get(errorMessage, 'meta.alert.messages', null)
 
             if (messages) {
                 this.addAlertMessage(messages)
@@ -327,36 +331,19 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
             )
         }
 
-        static defaultProps = {
-            caching: false,
-            size: 10,
-        } as Props
+        static defaultProps = { caching: false, size: 10 } as Props
     }
 
     WithFetchData.contextType = ReactReduxContext
 
-    const mapStateToProps = (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        state: any,
-        { datasource, caching }: { datasource: string, caching: boolean },
-    ) => ({
+    const mapStateToProps = (state: Store, { datasource, caching }: Props) => ({
         datasourceModel: getModelByPrefixAndNameSelector(ModelPrefix.source, datasource)(state),
         widget: false,
-        fetch: caching ? 'lazy' : 'always',
+        fetch: caching ? FETCH_TYPE.lazy : FETCH_TYPE.always,
     })
 
-    const mapDispatchToProps = (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        dispatch: (arg: any) => void,
-        ownProps: {
-            form: number | string
-            labelFieldId: number | string
-            datasource: string
-            caching: boolean
-        },
-    ) => ({
-        addAlert: (message: string) => dispatch(addAlert(`${ownProps.form}.${ownProps.labelFieldId}`, message)),
-        removeAlerts: () => dispatch(removeAllAlerts(`${ownProps.form}.${ownProps.labelFieldId}`)),
+    const mapDispatchToProps = (dispatch: Dispatch) => ({
+        addAlert: (message: Alert) => dispatch(addAlert(message.placement || GLOBAL_KEY, message)),
         fetchError: (error: Error) => dispatch(fetchError(FETCH_CONTROL_VALUE, {}, error)),
     })
 
