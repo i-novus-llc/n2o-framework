@@ -1,0 +1,62 @@
+---
+title: Миграция с 7.26 на 7.27
+description: ""
+---
+
+## Изменения в XML API {#changes-xml-api}
+
+- У кнопок удалены все атрибуты, связанные с confirm (вызов окна подтверждения). Вместо этого было введено
+действие `<confirm>`.
+
+Значение по умолчанию
+```xml title="Пример, как работало в версии 7.26 и ниже"
+<button label="Подтвердить"
+        confirm="true"/>
+```
+
+```xml title="Пример, как работает в версии 7.27"
+<button label="Подтвердить">
+    <confirm/>
+</button>
+```
+
+Задание атрибутов
+```xml title="Пример, как работало в версии 7.26 и ниже"
+<button label="Подтвердить"
+        confirm="true"
+        confirm-text="Вы уверены?"
+        confirm-title="Подтверждение"
+        confirm-ok-label="Да"
+        confirm-cancel-label="Нет"/>
+```
+
+```xml title="Пример, как работает в версии 7.27"
+<button label="Подтвердить">
+    <confirm title="Подтверждение" text="Вы уверены?">
+        <ok label="Да"/>
+        <cancel label="Нет"/>
+    </confirm>
+</button>
+```
+
+Вызов окна подтверждения по условию
+```xml title="Пример, как работало в версии 7.26 и ниже"
+<button label="Подтвердить"
+        confirm="{field=='data'}"
+        confirm-text="Вы уверены?"
+        confirm-title="Подтверждение"
+        confirm-ok-label="Да"
+        confirm-cancel-label="Нет"/>
+```
+
+```xml title="Пример, как работает в версии 7.27"
+<button label="Подтвердить">
+    <if test="field=='data'">
+        <confirm title="Подтверждение" text="Вы уверены?">
+            <ok label="Да"/>
+            <cancel label="Нет"/>
+        </confirm>
+    </if>
+</button>
+```
+
