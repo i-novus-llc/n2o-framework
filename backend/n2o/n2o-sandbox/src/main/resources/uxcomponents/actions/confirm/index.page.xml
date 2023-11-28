@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Кнопка с подтверждением">
+    <form>
+        <toolbar>
+            <button label="Подтвердить">
+                <confirm title="Подтверждение" text="Вы уверены?">
+                    <ok label="Да"/>
+                    <cancel label="Нет"/>
+                </confirm>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>
