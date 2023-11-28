@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 
 import { State } from '../State'
 import { dataSourceFieldError } from '../datasource/selectors'
@@ -7,6 +8,7 @@ import { ModelPrefix } from '../../core/datasource/const'
 import { ValidationResult } from '../../core/validation/types'
 
 import { getDefaultField } from './FormPlugin'
+import { Field } from './types'
 
 /**
  * селектор для редакс-форм
@@ -45,9 +47,23 @@ export const makeFieldByName = (formName: string, fieldName: string) => createSe
     form => get(form.fields, fieldName, defaultField),
 )
 
-export const makeFieldParam = (formName: string, fieldName: string, key: string) => createSelector(
+export const makeFieldParam = (formName: string, fieldName: string, key: keyof Field) => createSelector(
     makeFormByName(formName),
-    form => get(form.fields, `${fieldName}.${key}`, null),
+    (form) => {
+        const { fields } = form
+
+        if (isEmpty(fields)) {
+            return null
+        }
+
+        const field = fields[fieldName]
+
+        if (isEmpty(field)) {
+            return null
+        }
+
+        return field[key]
+    },
 )
 
 /**
