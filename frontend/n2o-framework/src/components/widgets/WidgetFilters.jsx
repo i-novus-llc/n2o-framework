@@ -4,7 +4,7 @@ import { useDispatch, useSelector, useStore } from 'react-redux'
 import difference from 'lodash/difference'
 import map from 'lodash/map'
 import unset from 'lodash/unset'
-import clone from 'lodash/clone'
+import cloneDeep from 'lodash/cloneDeep'
 import { isEmpty, isEqual } from 'lodash'
 
 import { Filter } from '../snippets/Filter/Filter'
@@ -93,7 +93,7 @@ const WidgetFilters = (props) => {
 
     const handleReset = useCallback((fetchOnClear = true, forceFetch) => {
         const filterModel = getModelByPrefixAndNameSelector(modelPrefix, datasource)(getState())
-        const newReduxForm = clone(filterModel)
+        const newReduxForm = cloneDeep(filterModel)
         const toReset = difference(
             map(flatFields(fieldsets, []), 'id'),
             blackResetList,
