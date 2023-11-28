@@ -650,14 +650,14 @@
                     </xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="ok" type="confirmButtonDefinition" minOccurs="1" maxOccurs="1">
+                    <xs:element name="ok" type="confirmButtonDefinition">
                         <xs:annotation>
                             <xs:documentation>
                                 Кнопка подтверждения
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="cancel" type="confirmButtonDefinition" minOccurs="1" maxOccurs="1">
+                    <xs:element name="cancel" type="confirmButtonDefinition">
                         <xs:annotation>
                             <xs:documentation>
                                 Кнопка отмены
@@ -668,37 +668,90 @@
                 <xs:attribute name="title" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Заголовок окна предупреждения.
+                            Заголовок окна предупреждения
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="text" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Текст предупреждения.</xs:documentation>
+                        <xs:documentation>
+                            Текст предупреждения
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="type" type="confirmType" default="modal">
                     <xs:annotation>
-                        <xs:documentation>Тип предупреждения перед выполнением действия.</xs:documentation>
+                        <xs:documentation>
+                            Тип окна предупреждения
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Класс окна предупреждения.</xs:documentation>
+                        <xs:documentation>
+                            Класс окна предупреждения
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль окна предупреждения.</xs:documentation>
+                        <xs:documentation>
+                            Стиль окна предупреждения
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="close-button" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Показывать ли значок закрытия окна подтверждения.</xs:documentation>
+                        <xs:documentation>
+                            Наличие закрывающего крестика
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="confirmButtonDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Кнопка окна подтверждения
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Заголовок кнопки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="color" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Цвет кнопки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Иконка кнопки из https://fontawesome.com/v6/icons/
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Класс кнопки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Стиль кнопки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="copyDefinition">
@@ -1789,45 +1842,4 @@
             <xs:enumeration value="modal"/>
         </xs:restriction>
     </xs:simpleType>
-
-    <xs:complexType name="confirmButtonDefinition">
-        <xs:annotation>
-            <xs:documentation>Кнопка окна подтверждения.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="label" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Заголовок кнопки
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="color" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Цвет кнопки
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="icon" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Иконка кнопки из https://fontawesome.com/v6/icons/
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="class" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Класс кнопки
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="style" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Стиль кнопки
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
 </xs:schema>

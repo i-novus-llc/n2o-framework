@@ -42,20 +42,13 @@ description: ""
 Вызов окна подтверждения по условию
 ```xml title="Пример, как работало в версии 7.26 и ниже"
 <button label="Подтвердить"
-        confirm="{field=='data'}"
-        confirm-text="Вы уверены?"
-        confirm-title="Подтверждение"
-        confirm-ok-label="Да"
-        confirm-cancel-label="Нет"/>
+        confirm="{type=='1'}"/>
 ```
 
 ```xml title="Пример, как работает в версии 7.27"
 <button label="Подтвердить">
-    <if test="field=='data'">
-        <confirm title="Подтверждение" text="Вы уверены?">
-            <ok label="Да"/>
-            <cancel label="Нет"/>
-        </confirm>
+    <if test="type=='1'">
+        <confirm/>
     </if>
 </button>
 ```
