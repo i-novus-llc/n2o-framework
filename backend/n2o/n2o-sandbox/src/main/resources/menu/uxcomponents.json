@@ -831,6 +831,10 @@
           "name": "Сохранение данных"
         },
         {
+          "templateId": "uxcomponents/actions/confirm",
+          "name": "Кнопка с подтверждением"
+        },
+        {
           "templateId": "uxcomponents/actions/copy",
           "name": "Копирование данных"
         },
