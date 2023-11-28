@@ -6,17 +6,12 @@
             <text id="hello">Привет Мир!</text>
         </fields>
         <toolbar place="bottomRight">
-            <button
-                    color="link"
-                    label="Кнопка"
-                    confirm="true"
-                    confirm-text=""
-                    confirm-title="Подтвердите действие"
-                    confirm-ok-label="Подтвердить"
-                    confirm-cancel-label="Отменить"
-                    confirm-ok-color="primary"
-                    confirm-cancel-color="danger"
-            />
+            <button color="link" label="Кнопка">
+                <confirm title="Подтвердите действие" text="">
+                    <ok label="Подтвердить" color="primary"/>
+                    <cancel label="Отменить" color="danger"/>
+                </confirm>
+            </button>
         </toolbar>
     </form>
 </simple-page>

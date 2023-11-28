@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.button;
+package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.page.Page;
@@ -14,13 +14,12 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
  * Автотест для подтверждения действия кнопки
  */
-public class ButtonConfirmTypeAT extends AutoTestBase {
+public class ConfirmActionAT extends AutoTestBase {
 
     private SimplePage page;
     private StandardWidget.WidgetToolbar toolbar;
@@ -44,12 +43,11 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/button/confirm_type/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/button/confirm_type/myObject.object.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/confirm/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/confirm/myObject.object.xml"));
     }
 
     @Test
-    @Disabled
     public void testDialog() {
         StandardButton button = toolbar.bottomLeft().button("dialog");
         button.shouldBeEnabled();
@@ -69,7 +67,6 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
     }
 
     @Test
-    @Disabled
     public void testPopover() {
         StandardButton button = toolbar.bottomLeft().button("popover");
         button.shouldBeEnabled();
