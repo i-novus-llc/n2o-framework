@@ -14,7 +14,7 @@ export type Field = {
     message: string | null
     filter: unknown // TODO: добавить тип
     dependency: Array<{
-        type: `${DEPENDENCY_TYPES}`
+        type: DEPENDENCY_TYPES
         expression: string
         applyOnInit: boolean
         on: string[]
@@ -23,6 +23,7 @@ export type Field = {
     loading: boolean
     touched?: boolean
     parentIndex?: number
+    fetchTrigger?: number
 }
 
 export type Form = {
