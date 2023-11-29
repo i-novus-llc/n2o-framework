@@ -26,12 +26,16 @@ import { Form } from './types'
 
 const validateFields: Record<string, string[]> = {}
 
-const includesField = (entryValue: Validation[], actionField: string) => entryValue[0].on?.some(dependencyField => (
-    dependencyField === actionField || // full equality
-    dependencyField.startsWith(`${actionField}.`) || // fieldName: "field", on: "field.id"
-    actionField.startsWith(`${dependencyField}.`) || // fieldName: "field.inner", on: "field"
-    actionField.startsWith(`${dependencyField}[`) // fieldName: "field[index]", on: "field"
-))
+const includesField = (validations: Validation[], actionField: string) => validations.some(
+    validation => validation.on?.some(
+        dependencyField => (
+            dependencyField === actionField || // full equality
+            dependencyField.startsWith(`${actionField}.`) || // fieldName: "field", on: "field.id"
+            actionField.startsWith(`${dependencyField}.`) || // fieldName: "field.inner", on: "field"
+            actionField.startsWith(`${dependencyField}[`) // fieldName: "field[index]", on: "field"
+        ),
+    ),
+)
 
 function diffKeys <
     TValue extends Record<string, unknown> | undefined | null
