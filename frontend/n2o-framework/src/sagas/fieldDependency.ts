@@ -388,11 +388,7 @@ function* resolveOnSetModel({ payload, meta }: { payload: ResolveOnSetModelPaylo
                     continue
                 }
 
-                const isSomeFieldChanged = on.some((fieldPath: string) => {
-                    if (!prevModel) {
-                        return true
-                    }
-
+                const isSomeFieldChanged = !prevModel || on.some((fieldPath: string) => {
                     const currentValue = get(model, fieldPath)
                     const prevValue = get(prevModel, fieldPath)
 
