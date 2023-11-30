@@ -43,7 +43,7 @@ public class ConfirmActionCompilerTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getStyle().get("paddingTop"), CoreMatchers.is("0"));
         assertThat(testAction.getPayload().getMode(), is(ConfirmType.MODAL));
         assertThat(testAction.getPayload().getCloseButton(), is(false));
-        assertThat(testAction.getPayload().getReverseButton(), is(false));
+        assertThat(testAction.getPayload().getReverseButtons(), is(false));
         assertThat(testAction.getPayload().getOk().getLabel(), is("test"));
         assertThat(testAction.getPayload().getOk().getColor(), is("secondary"));
         assertThat(testAction.getPayload().getOk().getClassName(), is("test__class"));
@@ -58,7 +58,7 @@ public class ConfirmActionCompilerTest extends SourceCompileTestBase {
         testAction = (ConfirmAction) page.getToolbar().getButton("b2").getAction();
         assertThat(testAction.getPayload().getCloseButton(), is(true));
         assertThat(testAction.getPayload().getMode(), is(ConfirmType.POPOVER));
-        assertThat(testAction.getPayload().getReverseButton(), is(true));
+        assertThat(testAction.getPayload().getReverseButtons(), is(true));
 
         testAction = (ConfirmAction) page.getToolbar().getButton("b3").getAction();
         assertThat(testAction.getType(), is("n2o/api/action/confirm"));
@@ -66,7 +66,7 @@ public class ConfirmActionCompilerTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text")));
         assertThat(testAction.getPayload().getMode(), is(ConfirmType.MODAL));
         assertThat(testAction.getPayload().getCloseButton(), is(false));
-        assertThat(testAction.getPayload().getReverseButton(), is(false));
+        assertThat(testAction.getPayload().getReverseButtons(), is(false));
         assertThat(testAction.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
         assertThat(testAction.getPayload().getOk().getColor(), is(Color.primary.name()));
         assertThat(testAction.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
