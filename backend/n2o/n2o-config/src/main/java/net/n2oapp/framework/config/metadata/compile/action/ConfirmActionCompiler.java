@@ -37,16 +37,16 @@ public class ConfirmActionCompiler extends AbstractActionCompiler<ConfirmAction,
         compiled.getPayload().setCloseButton(castDefault(source.getCloseButton(), p.resolve(property("n2o.api.action.confirm.close_button"), Boolean.class)));
         if (source.getConfirmButtons() != null && source.getConfirmButtons().length == 2) {
             if (source.getConfirmButtons()[0] instanceof N2oConfirmAction.OkButton) {
-                compiled.getPayload().setReverseButton(false);
+                compiled.getPayload().setReverseButtons(false);
                 compiled.getPayload().setOk(compileOkButton(source.getConfirmButtons()[0], p));
                 compiled.getPayload().setCancel(compileCancelButton(source.getConfirmButtons()[1], p));
             } else {
-                compiled.getPayload().setReverseButton(true);
+                compiled.getPayload().setReverseButtons(true);
                 compiled.getPayload().setOk(compileOkButton(source.getConfirmButtons()[1], p));
                 compiled.getPayload().setCancel(compileCancelButton(source.getConfirmButtons()[0], p));
             }
         } else {
-            compiled.getPayload().setReverseButton(false);
+            compiled.getPayload().setReverseButtons(false);
             compiled.getPayload().setOk(compileOkButton(new N2oConfirmAction.OkButton(), p));
             compiled.getPayload().setCancel(compileCancelButton(new N2oConfirmAction.CancelButton(), p));
         }

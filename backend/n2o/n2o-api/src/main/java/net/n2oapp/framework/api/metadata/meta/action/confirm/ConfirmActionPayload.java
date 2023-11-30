@@ -32,7 +32,7 @@ public class ConfirmActionPayload implements ActionPayload {
     private Boolean closeButton;
 
     @JsonProperty
-    private Boolean reverseButton;
+    private Boolean reverseButtons;
 
     @JsonProperty
     private ConfirmButton ok;

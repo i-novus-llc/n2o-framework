@@ -57,11 +57,11 @@ export function PopoverConfirm({
                         <PopoverBody>
                             <div className="mb-1">{text}</div>
                             <ButtonGroup className={classNames('d-flex justify-content-between', { 'flex-row-reverse': reverseButtons })}>
-                                <Button color={cancelColor} className="btn-sm" onClick={onDeny}>
-                                    {cancelLabel}
-                                </Button>
                                 <Button color={okColor} className="btn-sm" onClick={onConfirm}>
                                     {okLabel}
+                                </Button>
+                                <Button color={cancelColor} className="btn-sm" onClick={onDeny}>
+                                    {cancelLabel}
                                 </Button>
                             </ButtonGroup>
                         </PopoverBody>
