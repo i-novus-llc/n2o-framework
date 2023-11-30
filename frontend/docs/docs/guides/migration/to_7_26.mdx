@@ -7,14 +7,6 @@ description: ""
 
 - Версия Spring Boot повышена до 2.7.5
 
-## Изменения в Java API {#changes-java-api}
-
-- Класс `CopyValuesController` пакета `net.n2oapp.framework.ui.controller` переименован в `MergeValuesController`.
-- Aтрибут `type` был удален из элементов `<icon>`, `<link>`, `<output-text>`, `<button>`, `<sub-menu>`, `<menu-item>`.
-Для задания иконок и текста используйте соответствующие атрибуты этих компонентов.
-- Атрибут `name` был удален из виджетов.
-- Упразднены все методы `cast` класса `CompileProcessor` в пользу вызовов `CompileUtil.castDefault`.
-
 ## Изменения в сборке Frontend {#changes-frontend-build}
 
 - Добавлена поддержка font-awesome 6.4.2. Поддержка версии 4.7 временно сохранена.
@@ -23,3 +15,52 @@ description: ""
 
 - Настройка `n2o.config.monitoring.enabled` (включение отслеживания изменений xml файлов в папке `${n2o.config.path}`), теперь по умолчанию выключена.
 Если вам необходим моментальный подхват ваших изменений, то необходимо в настройках приложения прописать `n2o.config.monitoring.enabled=true`
+
+## Изменения в Java API {#changes-java-api}
+
+- Класс `CopyValuesController` пакета `net.n2oapp.framework.ui.controller` переименован в `MergeValuesController`.
+- Упразднены все методы `cast` класса `CompileProcessor` в пользу вызовов `CompileUtil.castDefault`.
+
+## Изменения в XML API {#changes-xml-api}
+
+- Атрибут `name` был удален из виджетов.
+- Из элементов `<icon>`, `<link>`, `<output-text>`, `<button>`, `<sub-menu>`, `<menu-item>` был удален атрибут `type`,
+отвечающий за отображение текста и\или иконки.
+Наличие текста и\или иконки определяется наличием атрибутов, отвечающих за текст и иконку.
+В случае `<button>` это `label` и `icon`.
+- Атрибут `visible` колонки таблицы больше нельзя использовать в качестве значения по умолчанию для кнопки **Скрытие столбцов** (`generate="columns"`).<br/>
+Раньше с помощью `visible="false"` можно было отключать колонку в кнопке.
+Но это решение нарушало логику работы видимости столбца.
+Теперь значение `false` означает полное отсутствие колонки и в таблице, и в кнопке.<br/>
+Для проставления значения по умолчанию для кнопки **Скрытие столбцов** используйте внешний атрибут `defaultColumns` в кнопке.
+
+```xml title="Пример, как работало в версии 7.25 и ниже"
+<table>
+    <columns>
+        <column text-field-id="id" visible="false"/>
+        <column text-field-id="name"/>
+        <column text-field-id="type"/>
+    </columns>
+    <toolbar>
+        <button generate="columns"/>
+    </toolbar>
+ </table>
+```
+
+```xml title="Пример, как работает в версии 7.26"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             xmlns:gen="http://n2oapp.net/framework/config/schema/gen-attr">
+    ...
+    <table>
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="name"/>
+            <column text-field-id="type"/>
+        </columns>
+        <toolbar>
+            <button generate="columns" gen:defaultColumns="name,type"/>
+        </toolbar>
+    </table>
+    ...
+</simple-page>
+```
