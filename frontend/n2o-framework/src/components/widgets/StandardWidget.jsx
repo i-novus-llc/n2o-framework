@@ -9,7 +9,6 @@ import { isEmpty } from 'lodash'
 import Toolbar from '../buttons/Toolbar'
 import { Spinner } from '../snippets/Spinner/Spinner'
 import { dataSourceError } from '../../ducks/datasource/selectors'
-import { resolveToolbarText } from '../../utils/toolbarTextResolver'
 import { ErrorContainer } from '../../core/error/Container'
 
 import WidgetFilters from './WidgetFilters'
@@ -38,7 +37,7 @@ const PLACES = {
 class StandardWidget extends React.Component {
     // eslint-disable-next-line consistent-return
     renderSection(place) {
-        const { widgetId, toolbar, filter, fetchData, datasource, activeModel = {} } = this.props
+        const { widgetId, toolbar, filter, fetchData, datasource } = this.props
 
         const filterProps = {
             ...filter,
@@ -76,7 +75,6 @@ class StandardWidget extends React.Component {
                     },
                 )
                 const currentToolbar = toolbar[place]
-                const resolvedToolbar = resolveToolbarText(currentToolbar, activeModel)
 
                 return (
                     <div className={toolbarClassNames}>
@@ -85,7 +83,7 @@ class StandardWidget extends React.Component {
                                 {propsPlace}
                             </div>
                         )}
-                        <Toolbar toolbar={resolvedToolbar} entityKey={widgetId} />
+                        <Toolbar toolbar={currentToolbar} entityKey={widgetId} />
                     </div>
                 )
             }
