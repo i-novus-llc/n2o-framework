@@ -55,8 +55,6 @@ type Props = {
     filterValue?: any,
     format?: string,
     groupFieldId: string,
-    handleMouseEnter?(): void,
-    handleMouseLeave?(): void,
     hasCheckboxes: boolean,
     iconFieldId: string,
     imageFieldId: string,
@@ -138,8 +136,6 @@ export class PopupList extends React.Component<Props, State> {
     render() {
         const {
             children,
-            handleMouseEnter,
-            handleMouseLeave,
             style,
             ...rest
         } = this.props
@@ -150,8 +146,6 @@ export class PopupList extends React.Component<Props, State> {
                     style={style}
                     className={classNames('n2o-dropdown-control n2o-pop-up')}
                     ref={this.setMenuElement}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
                 >
                     {children}
                     <PopupItems {...omit(rest, ['needAddFilter', 'filterValue', 'expandPopUp', 'fetchData', 'isExpanded'])} />
