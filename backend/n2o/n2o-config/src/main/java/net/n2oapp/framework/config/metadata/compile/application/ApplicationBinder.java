@@ -11,6 +11,8 @@ import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.config.util.BindUtil.resolveExtension;
+
 /**
  * Базовое связывание данных в шапке
  */
@@ -38,6 +40,7 @@ public class ApplicationBinder implements BaseMetadataBinder<Application> {
         if (header != null) {
             bindMenu(header.getMenu(), p);
             bindMenu(header.getExtraMenu(), p);
+            resolveExtension(header, p);
         }
     }
 
@@ -46,6 +49,7 @@ public class ApplicationBinder implements BaseMetadataBinder<Application> {
             bindMenu(sidebar.getMenu(), p);
             bindMenu(sidebar.getExtraMenu(), p);
             sidebar.setSubtitle(p.resolveText(sidebar.getSubtitle()));
+            resolveExtension(sidebar, p);
         }
     }
 
@@ -58,6 +62,7 @@ public class ApplicationBinder implements BaseMetadataBinder<Application> {
     private void resolveItem(MenuItem item, BindProcessor p) {
         item.setTitle(p.resolveText(item.getTitle()));
         item.setImageSrc(p.resolve(item.getImageSrc(), String.class));
+        resolveExtension(item, p);
         BadgeUtil.bindSimpleBadge(item.getBadge(), p);
         if (item.getSubItems() != null)
             item.getSubItems().forEach(i -> resolveItem(i, p));

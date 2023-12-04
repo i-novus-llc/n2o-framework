@@ -297,6 +297,6 @@ public class InputTextAT extends AutoTestBase {
         input.shouldHaveValue("-0.5");
         input.setValue("0");
         input.clickPlusStepButton();
-        input.shouldHaveValue("1.0");
+        input.shouldHaveValue("1");
     }
 }

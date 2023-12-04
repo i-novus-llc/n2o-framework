@@ -78,7 +78,6 @@ export class InputSelect extends React.Component<Props, State> {
             isExpanded: false,
             value: valueArray,
             activeValueId: null,
-            isPopupFocused: false,
             popUpMaxHeight: DEFAULT_POPUP_HEIGHT,
             prevModel: {},
             options,
@@ -161,7 +160,7 @@ export class InputSelect extends React.Component<Props, State> {
      * @private
      */
     handleValueChangeOnBlur = () => {
-        const { value, input, isPopupFocused } = this.state
+        const { value, input, isExpanded } = this.state
         const {
             onChange,
             multiSelect,
@@ -179,7 +178,7 @@ export class InputSelect extends React.Component<Props, State> {
             !value?.some(person => person.id === input)
         )
 
-        if (input && isEmpty(findValue) && resetOnBlur && !isPopupFocused) {
+        if (input && isEmpty(findValue) && resetOnBlur && !isExpanded) {
             this.setState(
                 {
                     input: multiSelect ? '' : (value?.[0] && value?.[0][labelFieldId as keyof TOption]) || '',
@@ -515,21 +514,9 @@ export class InputSelect extends React.Component<Props, State> {
         }
     }
 
-    handlePopupListMouseEnter = () => {
-        this.setState({
-            isPopupFocused: true,
-        })
-    }
-
-    handlePopupListMouseLeave = () => {
-        this.setState({
-            isPopupFocused: false,
-        })
-    }
-
     onInputBlur = () => {
         const { onBlur, datasource, setFilter, sortFieldId, models = {} } = this.props
-        const { isExpanded, value, isPopupFocused } = this.state
+        const { isExpanded, value } = this.state
 
         if (datasource && sortFieldId) {
             const { filter } = models
@@ -548,7 +535,7 @@ export class InputSelect extends React.Component<Props, State> {
         this.handleValueChangeOnBlur()
         this.setInputFocus(false)
 
-        if (isEmpty(value) && !isPopupFocused) {
+        if (isEmpty(value) && !isExpanded) {
             this.setNewInputValue('')
         }
     }
@@ -702,8 +689,6 @@ export class InputSelect extends React.Component<Props, State> {
                             } }}
                     >
                         <PopupList
-                            handleMouseEnter={this.handlePopupListMouseEnter}
-                            handleMouseLeave={this.handlePopupListMouseLeave}
                             scheduleUpdate={() => {}}
                             loading={loading}
                             isExpanded={isExpanded}
@@ -736,6 +721,7 @@ export class InputSelect extends React.Component<Props, State> {
                             format={format}
                             popUpItemRef={this.popUpItemRef}
                             style={popUpStyle}
+                            multiSelect={multiSelect}
                         >
                             <div className="n2o-alerts">
                                 {alerts?.map(alert => (

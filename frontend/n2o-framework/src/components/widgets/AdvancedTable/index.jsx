@@ -15,6 +15,7 @@ import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 import { ToolbarOverlay } from '../../Table/provider/ToolbarOverlay'
 import { useChangeFilter } from '../../Table/hooks/useChangeFilter'
 import { useOnActionMethod } from '../hooks/useOnActionMethod'
+import { getTableParam } from '../../../ducks/table/selectors'
 
 import { useExpandAllRows } from './hooks/useExpandAllRows'
 import { useTableActionReactions } from './hooks/useTableActionReactions'
@@ -39,6 +40,7 @@ const AdvancedTableContainer = (props) => {
     const tableContainerElem = useRef(null)
     const [expandedRows, setExpandedRows] = useState([])
 
+    const textWrap = useSelector(getTableParam(id, 'textWrap'))
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
     const filterModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.filter))
     const selectedRows = useSelector((state) => {
@@ -178,7 +180,7 @@ const AdvancedTableContainer = (props) => {
                             data={datasourceModel}
                             cells={resolvedCells}
                             tableConfig={tableConfig}
-                            isTextWrap={table.textWrap}
+                            isTextWrap={textWrap}
                             selectedRows={selectedRows}
                             expandedRows={expandedRows}
                             focusedRowValue={focusedRowValue}

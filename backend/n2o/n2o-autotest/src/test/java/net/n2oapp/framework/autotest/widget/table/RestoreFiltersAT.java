@@ -3,8 +3,10 @@ package net.n2oapp.framework.autotest.widget.table;
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.Button;
+import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
+import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -48,7 +50,7 @@ public class RestoreFiltersAT extends AutoTestBase {
     }
 
     @Test
-    public void test() {
+    public void afterPageClosing() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close/index.page.xml"),
@@ -113,5 +115,37 @@ public class RestoreFiltersAT extends AutoTestBase {
         page.shouldExists();
         filter.shouldHaveValue("test2", Duration.ofSeconds(15));
         table.columns().rows().shouldHaveSize(1);
+    }
+
+    @Test
+    void afterPageReloading() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_page_reloading");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_page_reloading/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_page_reloading/kind.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_page_reloading/person.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_page_reloading/person.object.xml")
+        );
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget table = page.widget(TableWidget.class);
+        table.shouldExists();
+        table.paging().shouldHaveTotalElements(4);
+
+        InputSelect kindInpSelect = table.filters().fieldsets().fieldset(0, SimpleFieldSet.class).fields().field("Вид документа").control(InputSelect.class);
+        kindInpSelect.openPopup();
+        kindInpSelect.dropdown().selectMulti(0, 2);
+        kindInpSelect.shouldSelectedMultiSize(2);
+        kindInpSelect.closePopup();
+        table.filters().toolbar().button("Найти").click();
+        table.paging().shouldHaveTotalElements(3);
+
+        Selenide.refresh();
+
+        page.shouldExists();
+        table.paging().shouldHaveTotalElements(3);
+        kindInpSelect.shouldSelectedMultiSize(2);
     }
 }

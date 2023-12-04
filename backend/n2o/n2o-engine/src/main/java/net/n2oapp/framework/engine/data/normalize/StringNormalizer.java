@@ -18,11 +18,11 @@ import static java.util.Objects.requireNonNullElse;
  * Утилитный класс для функций нормализации данных
  */
 @Normalizer
-public class NormalizeUtil {
+public class StringNormalizer {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private NormalizeUtil() {
+    private StringNormalizer() {
         throw new IllegalStateException("Utility class");
     }
 

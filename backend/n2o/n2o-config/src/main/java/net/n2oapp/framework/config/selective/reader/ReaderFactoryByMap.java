@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.selective.reader;
 
-import net.n2oapp.engine.factory.EngineNotFoundException;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -9,6 +8,8 @@ import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
+import net.n2oapp.framework.config.ElementWrongLocation;
+import net.n2oapp.framework.config.SchemaNotRegisteredException;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
 import org.jdom2.Namespace;
 
@@ -24,10 +25,8 @@ public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAw
     private Map<String, Map<String, NamespaceReader>> map = new HashMap<>();
     private IOProcessor ioProcessor = new IOProcessorImpl(this);
 
-
     public ReaderFactoryByMap() {
     }
-
 
     public ReaderFactoryByMap register(NamespaceReader reader) {
         add(reader);
@@ -47,11 +46,11 @@ public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAw
                     innerEngines.putIfAbsent(readerEntry.getKey(), readerEntry.getValue());
         }
         if (innerEngines.isEmpty())
-            throw new EngineNotFoundException(elementName);
+            throw new SchemaNotRegisteredException(elementName);
         NamespaceReader reader;
         reader = innerEngines.get(elementName);
         if (reader == null)
-            throw new EngineNotFoundException(elementName);
+            throw new ElementWrongLocation(elementName);
         if (reader instanceof IOProcessorAware)
             ((IOProcessorAware) reader).setIOProcessor(this.ioProcessor);
         return reader;

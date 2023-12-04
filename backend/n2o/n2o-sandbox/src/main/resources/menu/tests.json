@@ -179,6 +179,10 @@
           "name": "PageTitleLinkResolveAT. testConstantParams"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/page/title/browser_storage",
+          "name": "PageTitleLinkResolveAT. testBrowserStorage"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/page/top_left_right",
           "name": "TopLeftRightPageAT"
         }
@@ -389,7 +393,7 @@
           "name": "TableAT. fetchOnVisibilityTest"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/widget/table/filter_column",
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filter_column/simple",
           "name": "FilterColumnAT"
         },
         {
@@ -414,7 +418,11 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close",
-          "name": "RestoreFiltersAT"
+          "name": "RestoreFiltersAT .afterPageClosing"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_page_reloading",
+          "name": "RestoreFiltersAT .afterPageReloading"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/filters_validation/simple",

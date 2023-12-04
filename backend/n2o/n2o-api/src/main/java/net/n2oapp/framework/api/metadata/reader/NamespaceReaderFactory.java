@@ -18,15 +18,25 @@ public interface NamespaceReaderFactory<T extends NamespaceUriAware, R extends N
     R produce(String elementName, Namespace... namespaces);
 
     default R produce(Element element) {
-        return produce(element.getName(), element.getNamespace());
+        CurrentElementHolder.setElement(element);
+        try {
+            return produce(element.getName(), element.getNamespace());
+        } finally {
+            CurrentElementHolder.clear();
+        }
     }
 
     default R produce(Element element, Namespace parentNamespace, Namespace... defaultNamespaces) {
         String parentNameSpacePrefix = nonNull(element.getParentElement()) ? element.getParentElement().getNamespacePrefix() : null;
-        if (defaultNamespaces != null && (hasText(parentNameSpacePrefix) || element.getNamespace().getURI().equals(parentNamespace.getURI()))) {
-            return produce(element.getName(), defaultNamespaces);
-        } else {
-            return produce(element);
+        try {
+            if (defaultNamespaces != null && (hasText(parentNameSpacePrefix) || element.getNamespace().getURI().equals(parentNamespace.getURI()))) {
+                CurrentElementHolder.setElement(element);
+                return produce(element.getName(), defaultNamespaces);
+            } else {
+                return produce(element);
+            }
+        } finally {
+            CurrentElementHolder.clear();
         }
     }
 

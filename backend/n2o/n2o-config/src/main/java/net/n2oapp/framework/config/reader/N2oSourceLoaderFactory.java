@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.reader;
 
 import net.n2oapp.framework.api.metadata.SourceMetadata;
+import net.n2oapp.framework.api.metadata.reader.CurrentElementHolder;
 import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.reader.SourceLoaderFactory;
 import net.n2oapp.framework.api.register.SourceInfo;
@@ -23,7 +24,12 @@ public class N2oSourceLoaderFactory extends BaseMetadataFactory<SourceLoader> im
     @Override
     public <S extends SourceMetadata, I extends SourceInfo> S read(I info, String params) {
         SourceLoader<I> reader = produce((g, i) -> info.getReaderClass().isAssignableFrom(g.getClass()), info);
-        return reader.load(info, params);
+        CurrentElementHolder.setSourceInfo(info);
+        try {
+            return reader.load(info, params);
+        } finally {
+            CurrentElementHolder.clear();
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.util;
 
+import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -27,5 +28,19 @@ public class BindUtil {
         if (queryMapping != null) {
             queryMapping.forEach((k, v) -> queryMapping.put(k, (ModelLink) p.resolveLink(v)));
         }
+    }
+
+    /**
+     * Заменить в атрибутах расширения плейсхолдеры на значения
+     *
+     * @param metadata Компонент
+     * @param p        Процессор
+     */
+    public static void resolveExtension(PropertiesAware metadata, BindProcessor p) {
+       if (metadata.getProperties() != null)
+            metadata.getProperties().entrySet().forEach(e -> {
+                if (e.getValue() instanceof String)
+                    e.setValue(p.resolveText(e.getValue().toString()));
+            });
     }
 }

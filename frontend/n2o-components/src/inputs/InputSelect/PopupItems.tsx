@@ -69,6 +69,7 @@ export function PopupItems({
     autocomplete,
     renderIfEmpty,
     popUpItemRef,
+    multiSelect,
 }: Props) {
     /* FIXME, костыль для выбора элементов с помощью keyup / keydown, сложности с focus в InputSelect.
          Отвечает за scroll к последнему active элементу, нужно для lazy load см. в PopUpList */
@@ -121,7 +122,10 @@ export function PopupItems({
         return text
     }
 
-    const getDisabled = (item: TOption) => {
+    const getDisabled = (item: TOption, isSelected: boolean) => {
+        if (isSelected && !multiSelect) {
+            return true
+        }
         const enabledField = get(item, enabledFieldId)
 
         if (!isNil(enabledField)) {
@@ -151,8 +155,8 @@ export function PopupItems({
 
         const shouldRenderBadge = badgeFieldId && badgePosition && badge
 
-        const disabled = getDisabled(item)
         const isSelected = inArray(selected, item)
+        const disabled = getDisabled(item, isSelected)
 
         return (
             <div ref={popUpItemRef}>
@@ -160,7 +164,7 @@ export function PopupItems({
                     ref={handleRef}
                     className={cx('n2o-eclipse-content', {
                         active: activeValueId === get(item, valueFieldId) && !disabled,
-                        'selected': isSelected && !hasCheckboxes,
+                        selected: isSelected && !hasCheckboxes,
                         'n2o-eclipse-content__with-status': withStatus(item),
                     })}
                     onMouseOver={() => onMouseOver(item)}
@@ -182,7 +186,7 @@ export function PopupItems({
                             inline
                             tabIndex={-1}
                         />
-                        ) : renderLabel(item)
+                    ) : renderLabel(item)
                     }
                     {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                     {shouldRenderBadge && isBadgeRightPosition(badgePosition) && <Badge key="badge-right" {...resolveBadgeProps(badge, item as any)} shape={badge?.shape || Shape.Square} />}
@@ -271,6 +275,7 @@ type Props = {
     setActiveValueId: InputContentProps['setActiveValueId'],
     statusFieldId: string,
     valueFieldId: string
+    multiSelect: boolean
 }
 
 PopupItems.defaultProps = {
@@ -291,4 +296,5 @@ PopupItems.defaultProps = {
     iconFieldId: '',
     imageFieldId: '',
     groupFieldId: '',
+    multiSelect: false,
 } as Props

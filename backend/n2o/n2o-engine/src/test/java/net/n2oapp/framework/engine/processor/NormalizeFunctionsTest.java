@@ -177,4 +177,28 @@ public class NormalizeFunctionsTest {
         assertThat(data.getInteger("length"), is(5)); //simple annotation
         assertThat(data.getString("upperCase"), is("VALUE")); //annotation with alias
     }
+
+    @Test
+    void testDateFormat() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testDateFormat.query.xml"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testDateFormat"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        criteria.setSize(1);
+        List<DataSet> result = (List<DataSet>) queryProcessor.execute(query, criteria).getCollection();
+
+        assertThat(result.get(0).get("dateDefaultFormats"), is("12.09.2022"));
+        assertThat(result.get(0).get("dateOutputFormat"), is("12.9.2022"));
+        assertThat(result.get(0).get("dateInputFormat"), is("09.09.2022"));
+        assertThat(result.get(0).get("dateInputAndOutputFormat"), is("09.9.2022"));
+
+        assertThat(result.get(0).get("dateTimeDefaultFormats"), is("03.08.2011"));
+        assertThat(result.get(0).get("dateTimeInputFormat"), is("03.08.2011"));
+        assertThat(result.get(0).get("dateTimeOutputFormat"), is("03.8.2011 10:15:00"));
+        assertThat(result.get(0).get("dateTimeInputAndOutputFormat"), is("2011-08-03T10:15:00"));
+
+        assertThat(result.get(0).get("dateTimeOutputFormatParseWithMs"), is("03.8.2011"));
+        assertThat(result.get(0).get("datePeriod"), is("12.09.2022 - 13.09.2022"));
+    }
 }

@@ -33,24 +33,29 @@ public class FilterColumnAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
-        page = open(SimplePage.class);
-        page.shouldExists();
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/filter_column");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/table.widget.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/test.query.xml"));
+        builder.packs(
+                new N2oApplicationPack(),
+                new N2oAllPagesPack(),
+                new N2oAllDataPack()
+        );
     }
 
     @Test
     public void testFilterColumn() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filter_column/simple");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/simple/test.query.xml")
+        );
+
+        page = open(SimplePage.class);
+        page.shouldExists();
+
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
 

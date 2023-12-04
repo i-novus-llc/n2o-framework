@@ -5,6 +5,9 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 
+/**
+ * Исходная модель действия подтверждения
+ */
 @Getter
 @Setter
 public class N2oConfirmAction extends N2oAbstractAction implements N2oAction{

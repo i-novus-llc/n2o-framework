@@ -8,6 +8,7 @@ public class EngineNotFoundException extends RuntimeException {
 
     /**
      * Создать исключение по типу
+     *
      * @param type Тип, по которому не был найден движок
      */
     public EngineNotFoundException(Object type) {
@@ -17,10 +18,22 @@ public class EngineNotFoundException extends RuntimeException {
 
     /**
      * Создать исключение по типу
+     *
+     * @param type    Тип, по которому не был найден движок
+     * @param message Сообщение ошибки
+     */
+    public EngineNotFoundException(Object type, String message) {
+        super(message);
+        this.type = type;
+    }
+
+    /**
+     * Создать исключение по типу
+     *
      * @param type Тип, по которому не был найден движок
      */
     public EngineNotFoundException(Class factoryClass, Object type) {
-        super(String.format("Factory %s has not found engine by %s", factoryClass.getSimpleName() , type));
+        super(String.format("Factory %s has not found engine by %s", factoryClass.getSimpleName(), type));
         this.type = type;
     }
 
