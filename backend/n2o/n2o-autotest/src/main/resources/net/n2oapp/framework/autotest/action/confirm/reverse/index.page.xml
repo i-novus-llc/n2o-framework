@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Автотест окна подверждения с reverseButtons">
+    <form>
+        <datasource/>
+        <fields>
+            <hidden id="id" default-value="1"/>
+            <input-text id="test1"/>
+        </fields>
+        <toolbar place="bottomLeft">
+            <button label="popover">
+                <confirm title="burn" text="Going to hell?" type="popover">
+                    <cancel label="No no no"/>
+                    <ok label="Hell, yes"/>
+                </confirm>
+                <set-value to="test1">
+                    return 'qwerty'
+                </set-value>
+            </button>
+            <button label="dialog">
+                <confirm title="burn" text="Going to hell?">
+                    <cancel label="No no no"/>
+                    <ok label="Hell, yes"/>
+                </confirm>
+                <set-value to="test1">
+                    return 'qwerty2'
+                </set-value>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

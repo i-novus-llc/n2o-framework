@@ -1035,10 +1035,6 @@
         {
           "templateId": "versions/7.2/case50",
           "name": "Редактируемые ячейки"
-        },
-        {
-          "templateId": "versions/7.2/case51",
-          "name": "Добавление confirm в menu-item"
         }
       ]
     },

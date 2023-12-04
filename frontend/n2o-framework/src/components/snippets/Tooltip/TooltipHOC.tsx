@@ -5,7 +5,7 @@ import { Config, usePopperTooltip } from 'react-popper-tooltip'
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
 
-interface TooltipHocProps extends Config {
+export interface TooltipHocProps extends Config {
     hint?: string | number | React.Component | null
     trigger?: 'click' | 'double-click' | 'right-click' | 'hover' | 'focus',
     /**

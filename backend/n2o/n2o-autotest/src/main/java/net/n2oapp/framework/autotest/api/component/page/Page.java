@@ -258,6 +258,14 @@ public interface Page extends Component {
         StandardButton button(String label);
 
         /**
+         * Возвращает стандартную кнопку диалога, соответствующую ожидаемому индексу
+         * @param index индекс кнопки
+         * @return Кнопка для автотестирования
+         */
+        StandardButton button(int index);
+
+
+        /**
          * Проверка закрытия диалога в течение передаваемого времени
          * @param timeOut длительность проверки
          */
@@ -289,7 +297,14 @@ public interface Page extends Component {
          * Возвращает кнопку соответствующую метке
          * @param label метка кнопки
          */
-        Button button(String label);
+        StandardButton button(String label);
+
+        /**
+         * Возвращает кнопку по индексу
+         * @param index индекс кнопки
+         */
+        StandardButton button(int index);
+
 
         /**
          * Проверка закрытия поповера в течение передаваемого времени

@@ -116,7 +116,8 @@
                     <column text-field-id="">
                         <toolbar>
                             <sub-menu icon="fa fa-ellipsis-v">
-                                <menu-item label="Удалить" icon="fa fa-trash" confirm="true">
+                                <menu-item label="Удалить" icon="fa fa-trash">
+                                    <confirm/>
                                     <invoke operation-id="delete"/>
                                 </menu-item>
                                 <menu-item label="Изменить" icon="fa fa-pencil">
@@ -198,8 +199,8 @@
                             </toolbars>
                         </show-modal>
                     </button>
-                    <button id="delete" label="${delete}" description="${delete}" icon="fa fa-trash"
-                            confirm-text="${client.delete.confirm}" confirm="true">
+                    <button id="delete" label="${delete}" description="${delete}" icon="fa fa-trash">
+                        <confirm text="${client.delete.confirm}"/>
                         <invoke operation-id="delete" route="/clients/delete"/>
                     </button>
                 </toolbar>

@@ -3,25 +3,27 @@ title: Миграция с 7.25 на 7.26
 description: ""
 ---
 
-## Изменения в сборке {#changes-build}
+## 7.26.0 {#7_26_0}
+
+### Изменения в сборке {#changes-build}
 
 - Версия Spring Boot повышена до 2.7.5
 
-## Изменения в сборке Frontend {#changes-frontend-build}
+### Изменения в сборке Frontend {#changes-frontend-build}
 
 - Добавлена поддержка font-awesome 6.4.2. Поддержка версии 4.7 временно сохранена.
 
-## Изменения в настройках {#changes-properties}
+### Изменения в настройках {#changes-properties}
 
 - Настройка `n2o.config.monitoring.enabled` (включение отслеживания изменений xml файлов в папке `${n2o.config.path}`), теперь по умолчанию выключена.
 Если вам необходим моментальный подхват ваших изменений, то необходимо в настройках приложения прописать `n2o.config.monitoring.enabled=true`
 
-## Изменения в Java API {#changes-java-api}
+### Изменения в Java API {#changes-java-api}
 
 - Класс `CopyValuesController` пакета `net.n2oapp.framework.ui.controller` переименован в `MergeValuesController`.
 - Упразднены все методы `cast` класса `CompileProcessor` в пользу вызовов `CompileUtil.castDefault`.
 
-## Изменения в XML API {#changes-xml-api}
+### Изменения в XML API {#changes-xml-api}
 
 - Атрибут `name` был удален из виджетов.
 - Из элементов `<icon>`, `<link>`, `<output-text>`, `<button>`, `<sub-menu>`, `<menu-item>` был удален атрибут `type`,
@@ -64,3 +66,65 @@ description: ""
     ...
 </simple-page>
 ```
+
+## 7.26.1 {#7_26_1}
+
+### Изменения в XML API {#changes-xml-api-7_26_1}
+
+- У кнопок удалены все атрибуты, связанные с confirm (вызов окна подтверждения). Вместо этого было введено
+действие `<confirm>`.
+
+Значение по умолчанию
+```xml title="Пример, как работало в версии 7.26 и ниже"
+<button label="Подтвердить"
+        confirm="true">
+    <!-- действия -->
+</button>
+```
+
+```xml title="Пример, как работает в версии 7.27"
+<button label="Подтвердить">
+    <confirm/>
+    <!-- действия -->
+</button>
+```
+
+Задание атрибутов
+```xml title="Пример, как работало в версии 7.26 и ниже"
+<button label="Подтвердить"
+        confirm="true"
+        confirm-text="Вы уверены?"
+        confirm-title="Подтверждение"
+        confirm-ok-label="Да"
+        confirm-cancel-label="Нет">
+    <!-- действия -->
+</button>
+```
+
+```xml title="Пример, как работает в версии 7.27"
+<button label="Подтвердить">
+    <confirm title="Подтверждение" text="Вы уверены?">
+        <ok label="Да"/>
+        <cancel label="Нет"/>
+    </confirm>
+    <!-- действия -->
+</button>
+```
+
+Вызов окна подтверждения по условию
+```xml title="Пример, как работало в версии 7.26 и ниже"
+<button label="Подтвердить"
+        confirm="{type=='1'}">
+    <!-- действия -->
+</button>
+```
+
+```xml title="Пример, как работает в версии 7.27"
+<button label="Подтвердить">
+    <if test="type=='1'">
+        <confirm/>
+    </if>
+    <!-- действия -->
+</button>
+```
+

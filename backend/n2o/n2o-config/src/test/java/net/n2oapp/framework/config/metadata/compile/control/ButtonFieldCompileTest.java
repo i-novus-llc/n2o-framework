@@ -79,32 +79,6 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getSrc(), is("ButtonField"));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(6).getCols().get(0).getFields().get(0);
-        assertThat(field.getConfirm().getText(), is("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие."));
-        assertThat(field.getConfirm().getTitle(), is("Предупреждение"));
-        assertThat(field.getConfirm().getOk().getLabel(), is("Да"));
-        assertThat(field.getConfirm().getOk().getColor(), is("primary"));
-        assertThat(field.getConfirm().getCancel().getLabel(), is("Нет"));
-        assertThat(field.getConfirm().getCancel().getColor(), is("secondary"));
-        assertThat(field.getConfirm().getReverseButtons(), is(false));
-        assertThat(field.getConfirm().getCloseButton(), is(false));
-        assertThat(field.getConfirm().getMode(), is(ConfirmType.MODAL));
-        assertThat(field.getConfirm().getCondition(), is("`true`"));
-        assertThat(field.getConfirm().getModelLink(), is("models.resolve['testButtonFieldCompile_w1']"));
-
-        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(7).getCols().get(0).getFields().get(0);
-        assertThat(field.getConfirm().getText(), is("Зарегистрировать заявление?"));
-        assertThat(field.getConfirm().getTitle(), is("Предупреждение"));
-        assertThat(field.getConfirm().getOk().getLabel(), is("Зарегистрировать"));
-        assertThat(field.getConfirm().getOk().getColor(), is("dark"));
-        assertThat(field.getConfirm().getCancel().getLabel(), is("Отмена"));
-        assertThat(field.getConfirm().getCancel().getColor(), is("light"));
-        assertThat(field.getConfirm().getReverseButtons(), is(false));
-        assertThat(field.getConfirm().getCloseButton(), is(false));
-        assertThat(field.getConfirm().getMode(), is(ConfirmType.MODAL));
-        assertThat(field.getConfirm().getCondition(), is("`test === '1'|| test === '2'`"));
-        assertThat(field.getConfirm().getModelLink(), is("models.resolve['testButtonFieldCompile_w1']"));
-
-        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(8).getCols().get(0).getFields().get(0);
         assertThat(field.getDescription(), is("`description`"));
         assertThat(field.getHint(), is("`description`"));
     }

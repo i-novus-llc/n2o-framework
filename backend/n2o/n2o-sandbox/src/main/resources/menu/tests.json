@@ -1220,6 +1220,14 @@
           "name": "RefreshAfterCloseModalAT. testModal"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/action/confirm/type",
+          "name": "ConfirmAT. testDialog testPopover"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/confirm/reverse",
+          "name": "ConfirmAT. testReverse"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/action/copy/field",
           "name": "CopyFieldAT"
         },
@@ -1334,14 +1342,6 @@
         {
           "templateId": "net/n2oapp/framework/autotest/action/switch_case/row_click",
           "name": "SwitchCaseActionAT. testSwitchCaseInRowClick"
-        },
-        {
-          "templateId": "net/n2oapp/framework/autotest/button/confirm_type",
-          "name": "ButtonConfirmTypeAT"
-        },
-        {
-          "templateId": "net/n2oapp/framework/autotest/button/dialogs_buttons",
-          "name": "DialogsButtonsAT"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/button/enabled/simple",

@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Component;
@@ -36,15 +35,10 @@ public class ButtonValidator implements SourceValidator<Button>, SourceClassAwar
     @Override
     public void validate(Button source, SourceProcessor p) {
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
         checkDatasource(source, datasourceIdsScope);
-        if (widgetScope == null)
-            checkDatasourceForConfirm(source);
         checkValidateDatasource(source, datasourceIdsScope);
 
         checkColor(source.getColor(), "color");
-        checkColor(source.getConfirmOkColor(), "confirm-ok-color");
-        checkColor(source.getConfirmCancelColor(), "confirm-cancel-color");
         if (source instanceof BadgeAware)
             checkBadgeColor(((BadgeAware) source).getBadgeColor());
 
@@ -132,19 +126,5 @@ public class ButtonValidator implements SourceValidator<Button>, SourceClassAwar
                                 button, validateDs));
             }
         }
-    }
-
-    /**
-     * Проверка существования источника данных для кнопки, если
-     * confirm или confirm-text являются ссылками
-     *
-     * @param source Исходная модель кнопки
-     */
-    private void checkDatasourceForConfirm(Button source) {
-        if ((StringUtils.isLink(source.getConfirm()) || StringUtils.isLink(source.getConfirmText())) && source.getDatasourceId() == null)
-            throw new N2oMetadataValidationException(
-                    String.format("Кнопка %s имеет ссылки в 'confirm' атрибутах, но не ссылается на какой-либо источник данных",
-                            ValidationUtils.getIdOrEmptyString(source.getId()))
-            );
     }
 }

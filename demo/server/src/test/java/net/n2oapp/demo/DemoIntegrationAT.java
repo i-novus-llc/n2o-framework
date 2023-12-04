@@ -167,7 +167,6 @@ public class DemoIntegrationAT {
      * Проверка работы сортировки по фамилии
      */
     @Test
-    @Disabled
     public void testTableSorting() {
         List<String> unsortedSurnameColumn = new ArrayList<>(
                 List.of(new String[]{

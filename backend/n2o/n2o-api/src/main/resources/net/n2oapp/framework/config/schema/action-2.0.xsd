@@ -10,6 +10,7 @@
     <xs:element name="alert" type="alertDefinition"/>
     <xs:element name="clear" type="clearDefinition"/>
     <xs:element name="close" type="closeDefinition"/>
+    <xs:element name="confirm" type="confirmDefinition"/>
     <xs:element name="copy" type="copyDefinition"/>
     <xs:element name="edit-list" type="editListDefinition"/>
     <xs:element name="invoke" type="invokeActionDefinition"/>
@@ -36,6 +37,7 @@
             <xs:element name="a" type="aDefinition" minOccurs="0"/>
             <xs:element name="invoke" type="invokeActionDefinition" minOccurs="0"/>
             <xs:element name="close" type="closeDefinition" minOccurs="0"/>
+            <xs:element name="confirm" type="confirmDefinition" minOccurs="0"/>
             <xs:element name="copy" type="copyDefinition" minOccurs="0"/>
             <xs:element name="clear" type="clearDefinition" minOccurs="0"/>
             <xs:element name="set-value" type="setValueDefinition" minOccurs="0"/>
@@ -637,6 +639,119 @@
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="confirmDefinition">
+        <xs:complexContent>
+            <xs:extension base="actionDefinition">
+                <xs:annotation>
+                    <xs:documentation>
+                        Действие подтверждения
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="ok" type="confirmButtonDefinition">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Кнопка подтверждения
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="cancel" type="confirmButtonDefinition">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Кнопка отмены
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок окна предупреждения
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Текст предупреждения
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="type" type="confirmType" default="modal">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Тип окна предупреждения
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Класс окна предупреждения
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Стиль окна предупреждения
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="close-button" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Наличие закрывающего крестика
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="confirmButtonDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Кнопка окна подтверждения
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Заголовок кнопки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="color" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Цвет кнопки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Иконка кнопки из https://fontawesome.com/v6/icons/
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Класс кнопки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Стиль кнопки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="copyDefinition">
@@ -1715,6 +1830,16 @@
             <xs:enumeration value="update"/>
             <xs:enumeration value="delete"/>
             <xs:enumeration value="deleteMany"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="confirmType">
+        <xs:annotation>
+            <xs:documentation>Тип подтверждения действия.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="popover"/>
+            <xs:enumeration value="modal"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

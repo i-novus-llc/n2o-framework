@@ -250,7 +250,6 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((StandardDatasource) detailPage.getDatasources().get(form.getDatasource())).getSubmit().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open/w1"));
         AbstractButton closeBtn = detailPage.getWidget().getToolbar().get("bottomRight").get(0).getButtons().get(0);
         assertThat(closeBtn, notNullValue());
-        assertThat(closeBtn.getConfirm(), nullValue());
         assertThat(closeBtn.getAction(), instanceOf(CloseAction.class));
         assertThat(closeBtn.getValidate(), nullValue());
     }
