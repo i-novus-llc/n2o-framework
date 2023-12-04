@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
@@ -21,9 +22,6 @@ import org.junit.jupiter.api.Test;
  */
 public class ConfirmActionAT extends AutoTestBase {
 
-    private SimplePage page;
-    private StandardWidget.WidgetToolbar toolbar;
-
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -33,56 +31,119 @@ public class ConfirmActionAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        page = open(SimplePage.class);
-        page.shouldExists();
-        toolbar = page.widget(FormWidget.class).toolbar();
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/confirm/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/confirm/myObject.object.xml"));
     }
 
     @Test
-    public void testDialog() {
+    void testDialog() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/confirm/type/index.page.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        StandardWidget.WidgetToolbar toolbar = page.widget(FormWidget.class).toolbar();
+
         StandardButton button = toolbar.bottomLeft().button("dialog");
         button.shouldBeEnabled();
+        InputText test1 = page.widget(FormWidget.class).fields().field("test1").control(InputText.class);
+        InputText test2 = page.widget(FormWidget.class).fields().field("test2").control(InputText.class);
 
         button.click();
         Page.Dialog dialog = page.dialog("Предупреждение");
         dialog.shouldBeVisible();
         dialog.shouldHaveText("confirm-text");
-        dialog.button("Нет").click();
-        page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
+        dialog.button(1).shouldHaveLabel("Нет");
+        dialog.button(1).click();
+        test1.shouldBeEmpty();
+        test2.shouldBeEmpty();
 
         button.click();
         dialog.shouldBeVisible();
         dialog.shouldHaveText("confirm-text");
-        dialog.button("Да").click();
-        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("success");
+        dialog.button(0).shouldHaveLabel("Да");
+        dialog.button(0).click();
+        test1.shouldHaveValue("qwerty2");
+        test2.shouldHaveValue("zxc2");
     }
 
     @Test
-    public void testPopover() {
+    void testPopover() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/confirm/type/index.page.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        StandardWidget.WidgetToolbar toolbar = page.widget(FormWidget.class).toolbar();
+
         StandardButton button = toolbar.bottomLeft().button("popover");
         button.shouldBeEnabled();
+        InputText test1 = page.widget(FormWidget.class).fields().field("test1").control(InputText.class);
+        InputText test2 = page.widget(FormWidget.class).fields().field("test2").control(InputText.class);
+
 
         button.click();
         Page.Popover popover = page.popover("burn");
         popover.shouldBeVisible();
         popover.shouldHaveText("Going to hell?");
-        popover.button("No no no").click();
-        page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
+        popover.button(1).shouldHaveLabel("No no no");
+        popover.button(1).click();
+        test1.shouldBeEmpty();
+        test2.shouldBeEmpty();
 
         button.click();
         popover.shouldBeVisible();
         popover.shouldHaveText("Going to hell?");
-        popover.button("Hell, yes").click();
-        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("success");
+        popover.button(0).shouldHaveLabel("Hell, yes");
+        popover.button(0).click();
+        test1.shouldHaveValue("qwerty");
+        test2.shouldHaveValue("zxc");
     }
 
+    @Test
+    void testReverse() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/confirm/reverse/index.page.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        StandardWidget.WidgetToolbar toolbar = page.widget(FormWidget.class).toolbar();
+
+        StandardButton popoverButton = toolbar.bottomLeft().button("popover");
+        StandardButton dialogButton = toolbar.bottomLeft().button("dialog");
+
+        InputText test1 = page.widget(FormWidget.class).fields().field("test1").control(InputText.class);
+
+        popoverButton.click();
+        Page.Popover popover = page.popover("burn");
+        popover.shouldBeVisible();
+        popover.button(1).shouldHaveLabel("No no no");
+        popover.button(1).click();
+        test1.shouldBeEmpty();
+
+        popoverButton.click();
+        popover.shouldBeVisible();
+        popover.button(0).shouldHaveLabel("Hell, yes");
+        popover.button(0).click();
+        test1.shouldHaveValue("qwerty");
+
+        dialogButton.click();
+        Page.Dialog dialog = page.dialog("burn");
+        dialog.shouldBeVisible();
+        dialog.shouldHaveText("Going to hell?");
+        dialog.button(1).shouldHaveLabel("No no no");
+        dialog.button(1).click();
+        test1.shouldHaveValue("qwerty");
+
+        dialogButton.click();
+        dialog.shouldBeVisible();
+        dialog.shouldHaveText("Going to hell?");
+        dialog.button(0).shouldHaveLabel("Hell, yes");
+        dialog.button(0).click();
+        test1.shouldHaveValue("qwerty2");
+    }
 }

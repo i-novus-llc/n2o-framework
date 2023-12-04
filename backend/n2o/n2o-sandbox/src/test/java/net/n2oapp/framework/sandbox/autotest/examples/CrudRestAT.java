@@ -65,7 +65,6 @@ public class CrudRestAT extends AutoTestBase {
     }
 
     @Test
-    @Disabled
     public void crudTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
