@@ -1212,8 +1212,12 @@
           "name": "RefreshAfterCloseModalAT. testModal"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/action/confirm",
-          "name": "ConfirmAT"
+          "templateId": "net/n2oapp/framework/autotest/action/confirm/type",
+          "name": "ConfirmAT. testDialog testPopover"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/confirm/reverse",
+          "name": "ConfirmAT. testReverse"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/action/copy/field",

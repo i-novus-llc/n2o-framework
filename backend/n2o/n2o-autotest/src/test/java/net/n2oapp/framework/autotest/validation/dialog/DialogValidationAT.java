@@ -151,7 +151,6 @@ public class DialogValidationAT extends AutoTestBase {
      * Тест проверяет резолвится ли значение в заголовке диалога
      */
     @Test
-    @Disabled
     public void test() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/validation/resolve_dialog_title/index.page.xml"),
