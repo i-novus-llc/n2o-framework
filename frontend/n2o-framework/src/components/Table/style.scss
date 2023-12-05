@@ -32,6 +32,7 @@
 
     .checkbox-cell {
         display: flex;
+        overflow: visible !important;
     }
 
     .table-row-presentation > td {
