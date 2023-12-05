@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.reader.SourceLoader;
-import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.config.io.MetadataParamHolder;
 import net.n2oapp.framework.config.reader.MetadataReaderException;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -21,7 +20,6 @@ import java.io.InputStream;
 public class ProjectFileLoader implements SourceLoader<ProjectFileInfo> {
 
     private NamespaceReaderFactory elementReaderFactory;
-    private MetadataRegister configRegister;
 
     public ProjectFileLoader(NamespaceReaderFactory elementReaderFactory) {
         this.elementReaderFactory = elementReaderFactory;
@@ -36,10 +34,8 @@ public class ProjectFileLoader implements SourceLoader<ProjectFileInfo> {
             if (!sourceClass.isAssignableFrom(source.getClass()))
                 throw new MetadataReaderException("read class [" + source.getClass() + "], but expected [" + sourceClass + "]");
             return source;
-        } catch (N2oException e) {
-            throw e;
         } catch (Exception e) {
-            throw new N2oException(e);
+            throw N2oException.wrap(e);
         } finally {
             MetadataParamHolder.setParams(null);
         }
