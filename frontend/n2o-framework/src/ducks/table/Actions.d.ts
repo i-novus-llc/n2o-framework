@@ -20,7 +20,7 @@ export type ChangeTableColumnParamPayload = {
     widgetId: string
     columnId: string
     paramKey: string
-    value: string
+    value: string | boolean | number
 }
 
 export type ChangeTableParamPayload = {
