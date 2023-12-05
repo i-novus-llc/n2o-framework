@@ -23,7 +23,7 @@ public class N2oCheckboxCell extends N2oCell implements CheckboxCell {
     public void setChecked(boolean val) {
         //FIXME element().shouldBe(Condition.exist).setSelected(value); UPD: не может быть пофикшено, тк invisible
         if (val != isChecked())
-            element().shouldBe(Condition.exist).click();
+            element().shouldBe(Condition.exist).parent().$(".custom-control-label").click();
     }
 
     @Override
