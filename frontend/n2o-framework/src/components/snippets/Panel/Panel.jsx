@@ -47,7 +47,6 @@ export function Panel({
             style={style}
             onToggle={onToggle}
             color={color}
-            // expanded={open}
             outline
             onKeyDown={onKeyPress}
             tabIndex="-1"

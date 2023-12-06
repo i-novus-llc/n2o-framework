@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import every from 'lodash/every'
-import isUndefined from 'lodash/isUndefined'
+import some from 'lodash/some'
+import isNil from 'lodash/isNil'
 import isArray from 'lodash/isArray'
 import map from 'lodash/map'
 import { compose, setDisplayName } from 'recompose'
@@ -114,17 +114,14 @@ class PanelRegion extends React.Component {
             pageId,
         } = this.props
         const { tabs } = this.state
-        const isInvisible = every(
-            content,
-            item => getWidgetProps(item.id).visible === false,
-        )
+        const visible = some(content, item => getWidgetProps(item.id).visible === true)
 
         return (
             <PanelShortHand
                 tabs={tabs}
                 {...this.props}
-                open={isUndefined(activeEntity) ? open : activeEntity}
-                style={{ display: isInvisible && 'none', ...style }}
+                open={!isNil(activeEntity) ? activeEntity : open}
+                style={{ display: !visible && 'none', ...style }}
                 onVisibilityChange={changeActiveEntity}
                 className={className}
             >
