@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oInheritedDatasource;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,10 +20,10 @@ public class InheritedDatasourceValidator extends AbstractDataSourceValidator<N2
 
     @Override
     public void validate(N2oInheritedDatasource source, SourceProcessor p) {
-        checkSourceDatasource(source);
+        checkSourceDatasource(source, p);
     }
 
-    private void checkSourceDatasource(N2oInheritedDatasource source) {
+    private void checkSourceDatasource(N2oInheritedDatasource source, SourceProcessor p) {
         String sourceDatasource = source.getSourceDatasource();
         if (sourceDatasource == null)
             throw new N2oMetadataValidationException(
@@ -33,5 +34,14 @@ public class InheritedDatasourceValidator extends AbstractDataSourceValidator<N2
                     String.format("Атрибут 'source-datasource' источника данных '%s' совпадает с 'id'",
                             source.getId())
             );
+        ValidationUtils.checkDatasourceExistence(
+                sourceDatasource,
+                p,
+                String.format(
+                        "В источнике данных '%s' атрибут 'source-datasource' ссылается на несуществующий источник данных '%s'",
+                        source.getId(),
+                        source.getSourceDatasource()
+                )
+        );
     }
 }
