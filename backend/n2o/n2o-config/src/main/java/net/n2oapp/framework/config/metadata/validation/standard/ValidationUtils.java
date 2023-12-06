@@ -79,6 +79,11 @@ public final class ValidationUtils {
     public static void checkDatasourceExistence(String dsId, SourceProcessor p, String msg) {
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
         DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+
+        //ToDo исправить, после переработки механизма pipeline
+        if (dataSourcesScope == null && datasourceIdsScope == null)
+            return;
+
         if ((datasourceIdsScope == null || !datasourceIdsScope.contains(dsId))
                 && (dataSourcesScope == null || !dataSourcesScope.containsKey(dsId))) {
             throw new N2oMetadataValidationException(msg);
