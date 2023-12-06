@@ -15,6 +15,10 @@
         {
           "templateId": "versions/7.26/tab_disable",
           "name": "Видимость и доступность вкладки"
+        },
+        {
+          "templateId": "versions/7.26/confirm_action",
+          "name": "Действие <confirm>"
         }
       ]
     },
@@ -154,10 +158,6 @@
         {
           "templateId": "versions/7.23/copy_attributes",
           "name": "Копирование данных из виджета в текущую/родительскую страницу"
-        },
-        {
-          "templateId": "versions/7.23/confirm_buttons_color",
-          "name": "Цвета кнопок в окне подтверждения"
         },
         {
           "templateId": "versions/7.23/images_in_badge",
