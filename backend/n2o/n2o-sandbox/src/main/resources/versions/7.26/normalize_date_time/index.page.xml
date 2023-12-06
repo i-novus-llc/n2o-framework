@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Функции нормализации даты и времени">
+    <form>
+        <datasource query-id="test"/>
+        <fields>
+            <output-text id="dateDefaultFormats"
+                         label="1) Обычное форматирование даты"
+                         description="2022-09-12"/>
+            <output-text id="dateTimeDefaultFormats"
+                         label="2) Обычное форматирование даты и времени"
+                         description="2011-08-03T10:15:00"/>
+
+            <output-text id="dateOutputFormat"
+                         label="3) Форматирование даты в формат dd.M.yyyy"
+                         description="2022-09-12"/>
+            <output-text id="dateTimeOutputFormat"
+                         label="4) Форматирование даты и времени в формат dd.M.yyyy HH:mm:ss"
+                         description="2011-08-03T10:15:00"/>
+
+            <output-text id="dateInputFormat"
+                         label="5) Форматирование даты из формата d.M.yyyy"
+                         description="9.9.2022"/>
+            <output-text id="dateTimeInputFormat"
+                         label="6) Форматирование даты и времени из формата d.M.yyyy HH:mm:ss"
+                         description="4.7.2012 11:16:00"/>
+            <output-text id="dateTimeInputWithLiteralsFormat"
+                         label="7) Форматирование даты и времени из формата yyyy-MM-dd'T'HH:mm:ss'Z'.SSSSSS"
+                         description="2022-10-19T10:52:42Z.903626"/>
+
+            <output-text id="dateInputAndOutputFormat"
+                         label="8) Форматирование даты из формата d.M.yyyy в dd.M.yyyy"
+                         description="9.9.2022"/>
+            <output-text id="dateTimeInputAndOutputFormat"
+                         label="9) Форматирование даты и времени из формата d.M.yyyy HH:mm:ss в yyyy-MM-ddTHH:mm:ss"
+                         description="4.7.2012 11:16:00"/>
+
+            <output-text id="period"
+                         label="10) Преобразование двух дат к интервальному виду"
+                         description="09.9.2022, 12.09.2022"/>
+        </fields>
+    </form>
+</simple-page>

@@ -1,0 +1,10 @@
+[
+  {
+    "isoDate": "2022-09-12",
+    "customDate": "9.9.2022",
+
+    "isoDateTime": "2011-08-03T10:15:00",
+    "customDateTime": "4.7.2012 11:16:00",
+    "customDateTimeWithLiterals": "2022-10-19T10:52:42Z.903626"
+  }
+]
