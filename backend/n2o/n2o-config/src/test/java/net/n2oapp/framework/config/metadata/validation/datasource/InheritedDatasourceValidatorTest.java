@@ -59,6 +59,18 @@ public class InheritedDatasourceValidatorTest extends SourceValidationTestBase {
         );
     }
 
+    /**
+     * Проверяется, что source-datasource не совпадает с id
+     */
+    @Test
+    void testExistingSourceDatasourceId() {
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/datasource/inherited/testExistingSourceDatasourceId.page.xml"),
+                "В источнике данных 'ds1' атрибут 'source-datasource' ссылается на несуществующий источник данных 'anystring'"
+        );
+    }
+
     @Test
     void testFetchOnExistenceDatasource() {
         N2oMetadataValidationException exception = assertThrows(
