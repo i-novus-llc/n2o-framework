@@ -1,10 +1,8 @@
 package net.n2oapp.framework.config.metadata.validation.standard.regions;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
-import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
@@ -15,7 +13,7 @@ import java.util.Arrays;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 
 @Component
-public class TabsValidator implements SourceValidator<N2oTabsRegion>, SourceClassAware {
+public class TabsValidator extends AbstractRegionValidator<N2oTabsRegion> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -43,7 +41,7 @@ public class TabsValidator implements SourceValidator<N2oTabsRegion>, SourceClas
                             getIdOrEmptyString(source.getDatasource())
                     )
             );
-        if (source.getContent() != null)
-            Arrays.stream(source.getContent()).forEach(p::validate);
+
+        p.safeStreamOf(source.getContent()).forEach(p::validate);
     }
 }

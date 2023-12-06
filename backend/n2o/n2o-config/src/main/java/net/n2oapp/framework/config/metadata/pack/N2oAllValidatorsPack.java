@@ -20,9 +20,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.invocation.JavaD
 import net.n2oapp.framework.config.metadata.validation.standard.object.ObjectValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.*;
 import net.n2oapp.framework.config.metadata.validation.standard.query.QueryValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.regions.PanelRegionValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.regions.ScrollspyValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.regions.TabsValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.regions.*;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.*;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.columns.BlockValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.columns.FilterColumnValidator;
@@ -33,6 +31,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.widget.columns.S
  * Набор стандартных валидаторов метаданных
  */
 public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder> {
+
     @Override
     public void build(N2oApplicationBuilder b) {
         b.validators(new ObjectValidator(), new QueryValidator(), new PageValidator(),
@@ -54,7 +53,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new LinkCellValidator(), new BadgeCellValidator(), new IconCellValidator(), new EditCellValidator(),
                 new ToolbarCellValidator(), new ListCellValidator(), new MultiColumnValidator(), new SimpleColumnValidator(),
                 new FilterColumnValidator(), new BlockValidator(),
-                new ProgressBarCellValidator(), new PanelRegionValidator(),
+                new ProgressBarCellValidator(), new PanelRegionValidator(), new CustomRegionValidator(), new LineRegionValidator(),
                 new ProgressValidator(), new StatusValidator(), new AlertFieldValidator());
     }
 }
