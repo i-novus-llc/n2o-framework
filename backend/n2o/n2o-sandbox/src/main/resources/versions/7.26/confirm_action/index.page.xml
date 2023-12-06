@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Действие &lt;confirm&gt;">
+    <form>
+        <toolbar place="topLeft">
+            <button label="Modal">
+                <confirm title="Подтверждение" text="Вы уверены?" type="modal">
+                    <ok label="Да"/>
+                    <cancel label="Нет"/>
+                </confirm>
+                <alert text="Действие выполнено"/>
+            </button>
+
+            <button label="Popover">
+                <confirm title="Подтверждение" text="Вы уверены?" type="popover">
+                    <ok label="Да"/>
+                    <cancel label="Нет"/>
+                </confirm>
+                <alert text="Действие выполнено"/>
+            </button>
+
+        </toolbar>
+
+        <toolbar place="topRight">
+            <button label="Modal (инвертированные кнопки)">
+                <confirm title="Подтверждение" text="Вы уверены?" type="modal">
+                    <cancel label="Нет"/>
+                    <ok label="Да"/>
+                </confirm>
+                <alert text="Действие выполнено"/>
+            </button>
+
+            <button label="Popover (инвертированные кнопки)">
+                <confirm title="Подтверждение" text="Вы уверены?" type="popover">
+                    <cancel label="Нет"/>
+                    <ok label="Да"/>
+                </confirm>
+                <alert text="Действие выполнено"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>
