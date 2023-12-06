@@ -20,7 +20,7 @@ public class N2oException extends RuntimeException {
     public static N2oException wrap(Throwable e) {
         if (e instanceof N2oException)
             return (N2oException) e;
-        return new N2oException(e);
+        return e.getMessage() != null ? new N2oException(e.getMessage(), e) : new N2oException(e);
     }
 
     /**
