@@ -34,7 +34,7 @@ export const ToggleColumn = (props) => {
             return
         }
 
-        const defaultIds = defaultColumns.split(',')
+        const defaultIds = defaultColumns.replace(/\s/g, '').split(',')
 
         for (const column of columnsState) {
             const { columnId } = column
