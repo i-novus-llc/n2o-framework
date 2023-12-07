@@ -10,7 +10,7 @@ import {
     RegisterTableColumn,
     SwitchTableColumnParam,
 } from './Actions'
-import { defaultColumnState, defaultTableState, initialState } from './constants'
+import { getDefaultColumnState, getDefaultTableState, initialState } from './constants'
 
 const tableSlice = createSlice({
     name: 'n2o/table',
@@ -27,10 +27,7 @@ const tableSlice = createSlice({
                 const { widgetId, initProps } = action.payload
                 const currentState = state[widgetId] || {}
 
-                state[widgetId] = {
-                    ...defaultTableState,
-                    ...merge(currentState, initProps),
-                }
+                state[widgetId] = { ...getDefaultTableState(), ...merge(currentState, initProps) }
             },
         },
 
@@ -89,12 +86,12 @@ const tableSlice = createSlice({
                 const { widgetId, columnId } = action.payload
 
                 if (!state[widgetId]) {
-                    state[widgetId] = defaultTableState
+                    state[widgetId] = getDefaultTableState()
                 }
 
                 const { columns } = state[widgetId]
 
-                set(columns, [columnId], { ...defaultColumnState, ...action.payload })
+                columns[columnId] = { ...getDefaultColumnState(), ...action.payload }
             },
         },
 

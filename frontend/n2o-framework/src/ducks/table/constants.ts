@@ -5,7 +5,7 @@ export const IS_DEFAULT_COLUMNS = 'isDefaultColumns'
 
 export const initialState: State = {}
 
-export const defaultColumnState = {
+export const getDefaultColumnState = () => ({
     isInit: true,
     visible: true,
     [VISIBLE_STATE]: true,
@@ -13,9 +13,9 @@ export const defaultColumnState = {
     frozen: false,
     key: '',
     columnId: '',
-}
+})
 
-export const defaultTableState: Table = {
+export const getDefaultTableState = (): Table => ({
     columns: {},
     [IS_DEFAULT_COLUMNS]: false,
-}
+})
