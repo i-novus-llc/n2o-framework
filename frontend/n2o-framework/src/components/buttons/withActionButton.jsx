@@ -74,9 +74,18 @@ export default function withActionButton(options = {}) {
                         conditions,
                     } = {},
                     registerButton,
+                    subMenu,
                 } = this.props
 
                 registerButton(entityKey, id, { visible, disabled, count, conditions })
+
+                if (subMenu) {
+                    subMenu.forEach((item) => {
+                        const { id, visible = true, disabled = false, conditions } = item
+
+                        registerButton(entityKey, id, { visible, disabled, count, conditions })
+                    })
+                }
             }
 
             mapConfirmProps = () => {
