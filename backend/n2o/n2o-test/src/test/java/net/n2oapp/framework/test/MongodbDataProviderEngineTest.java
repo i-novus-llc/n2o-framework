@@ -18,7 +18,6 @@ import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -40,10 +39,11 @@ import static org.hamcrest.Matchers.notNullValue;
 /**
  * Тестирование сервиса для выполнения запросов к MongoDb
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+@SpringBootTest(
+        classes = TestMongoConfiguration.class,
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = {"spring.main.allow-bean-definition-overriding=true", "spring.data.mongodb.database=dbName"})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-@AutoConfigureDataMongo
+@DirtiesContext
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MongodbDataProviderEngineTest {
@@ -83,7 +83,7 @@ public class MongodbDataProviderEngineTest {
     }
 
     @Test
-    public void testSelect() {
+    void testSelect() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/mongodb";
         String fooResourceUrl = "http://localhost:" + appPort + queryPath + "?size=10&page=1&sorting.id=asc";
@@ -103,7 +103,7 @@ public class MongodbDataProviderEngineTest {
     }
 
     @Test
-    public void testSortingLimitOffset() {
+    void testSortingLimitOffset() {
         //one field sort
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/mongodb";
@@ -129,7 +129,7 @@ public class MongodbDataProviderEngineTest {
     }
 
     @Test
-    public void testFilters() {
+    void testFilters() {
         String queryPath = "/n2o/data/test/mongodb";
         //eq generate all
         RestTemplate restTemplate = new RestTemplate();
@@ -227,7 +227,7 @@ public class MongodbDataProviderEngineTest {
 
     @Test
     @Order(1)
-    public void insertOneOperationTest() {
+    void insertOneOperationTest() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/testInsertMongo";
         String fooResourceUrl = "http://localhost:" + appPort + queryPath;
@@ -253,7 +253,7 @@ public class MongodbDataProviderEngineTest {
 
     @Test
     @Order(2)
-    public void updateOneOperationTest() {
+    void updateOneOperationTest() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/testUpdateMongo";
         String fooResourceUrl = "http://localhost:" + appPort + queryPath;
@@ -276,7 +276,7 @@ public class MongodbDataProviderEngineTest {
 
     @Test
     @Order(3)
-    public void deleteOneOperationTest() {
+    void deleteOneOperationTest() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/testDeleteMongo";
         String fooResourceUrl = "http://localhost:" + appPort + queryPath;
@@ -295,7 +295,7 @@ public class MongodbDataProviderEngineTest {
 
     @Test
     @Order(4)
-    public void deleteManyOperationTest() {
+    void deleteManyOperationTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.insertOne);
         HashMap<String, Object> inParams = new HashMap<>();
         inParams.put("name", "test2");
@@ -329,7 +329,7 @@ public class MongodbDataProviderEngineTest {
     }
 
     @Test
-    public void isNullFilterTest() {
+    void isNullFilterTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         HashMap<Object, Object> inParams = new HashMap<>();
         inParams.put("filters", new ArrayList<>(Arrays.asList("{info:null}")));
@@ -341,7 +341,7 @@ public class MongodbDataProviderEngineTest {
     }
 
     @Test
-    public void isNotNullFilterTest() {
+    void isNotNullFilterTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         HashMap<Object, Object> inParams = new HashMap<>();
         inParams.put("filters", new ArrayList<>(Arrays.asList("{ info: {$ne:null}}")));
