@@ -2,7 +2,8 @@
     <form>
         <fields>
             <code-editor id="editor" label="CodeEditor" language="javascript"
-                         default-value="var str = 'Hello, World!'"/>
+                         default-value="var str = 'Hello, World!'"
+            />
         </fields>
     </form>
 </simple-page>

@@ -36,7 +36,17 @@ public class N2oCodeEditor extends N2oControl implements CodeEditor {
         should(Condition.text(value), lines().get(line), duration);
     }
 
+    @Override
+    public void shouldHaveLines(int lines) {
+        lines().shouldHave(CollectionCondition.size(lines));
+    }
+
+    @Override
+    public void shouldHaveRowsInLine(int rows, int line) {
+        lines().get(line).$$(".ace_line").shouldHave(CollectionCondition.size(rows));
+    }
+
     protected ElementsCollection lines() {
-        return element().$$(".ace_line");
+        return element().$$(".ace_line_group");
     }
 }
