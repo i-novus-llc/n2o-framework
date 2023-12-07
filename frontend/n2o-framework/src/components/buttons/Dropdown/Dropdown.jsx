@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { compose, mapProps } from 'recompose'
 import map from 'lodash/map'
@@ -14,65 +15,77 @@ import { SimpleButton } from '../Simple/Simple'
 import mappingProps from '../Simple/mappingProps'
 import withActionButton from '../withActionButton'
 
+function SubMenu(props) {
+    const { items, actionCallback, entityKey, toggle, onClick } = props
+
+    return map(items, ({ src, component, ...btn }) => {
+        if (component) {
+            return React.createElement(component, { ...btn, actionCallback, entityKey, onClick: toggle })
+        }
+
+        return (
+            <Factory
+                key={btn.id}
+                {...btn}
+                entityKey={entityKey}
+                level={BUTTONS}
+                src={src}
+                onClick={onClick}
+                className={classNames('dropdown-item dropdown-item-btn', btn.className)}
+                tag="div"
+                nested
+            />
+        )
+    })
+}
+
 class DropdownButton extends React.Component {
-  state = {
-      opened: false,
-      popperKey: 0,
-  };
+  state = { opened: false, popperKey: 0 }
 
   toggle = () => {
       let { popperKey } = this.state
       const { opened } = this.state
 
-      if (!opened) {
-          popperKey += 1
-      }
+      if (!opened) { popperKey += 1 }
 
       this.setState({ opened: !opened, popperKey })
   };
 
-    onClick = () => {
-        this.setState({ opened: false })
-    }
+    onClick = () => this.setState({ opened: false })
 
-    handleClickOutside = () => {
-        this.onClick()
-    };
+    handleClickOutside = () => this.onClick()
 
     render() {
         const {
-            subMenu,
-            entityKey,
-            className,
-            showToggleIcon,
-            toolbar,
-            tooltipTriggerRef,
-            ...rest
+            subMenu, entityKey, className,
+            showToggleIcon, toolbar, tooltipTriggerRef,
+            getStoreButtons, actionCallback, ...rest
         } = this.props
 
         const { opened, popperKey } = this.state
-        const storesSubMenu = get(toolbar, entityKey)
-        let dropdownVisible = false
+        const storeButtons = getStoreButtons(entityKey)
+        let visible = false
 
-        if (subMenu && storesSubMenu) {
-            dropdownVisible = some(subMenu, (subMenuItem) => {
-                if (subMenuItem && subMenuItem.visible !== undefined) {
-                    return subMenuItem.visible
-                }
+        if (storeButtons) {
+            visible = some(subMenu, (item = {}) => {
+                const { visible } = item
 
-                const storesSubMenuItem = storesSubMenu[subMenuItem.id]
+                if (visible !== undefined) { return visible }
 
-                return get(storesSubMenuItem, 'visible')
+                const { id } = item
+
+                return get(storeButtons, `${id}.visible`)
             })
         }
 
         return (
-            <div className={classNames('n2o-dropdown', { visible: dropdownVisible })}>
+            <div className={classNames('n2o-dropdown', { visible })}>
                 <Manager>
                     <Reference>
                         {({ ref }) => (
                             <SimpleButton
                                 {...rest}
+                                actionCallback={actionCallback}
                                 onClick={this.toggle}
                                 innerRef={ref}
                                 tooltipTriggerRef={tooltipTriggerRef}
@@ -90,35 +103,15 @@ class DropdownButton extends React.Component {
                                 ref={ref}
                                 style={style}
                                 data-placement={placement}
-                                className={classNames('dropdown-menu n2o-dropdown-menu', {
-                                    'd-block': opened,
-                                })}
+                                className={classNames('dropdown-menu n2o-dropdown-menu', { 'd-block': opened })}
                             >
-                                {map(subMenu, ({ src, component, ...btnProps }) => (
-                                    component ? (
-                                        React.createElement(
-                                            component,
-                                            {
-                                                ...btnProps,
-                                                actionCallback: rest.actionCallback,
-                                                entityKey,
-                                                onClick: this.toggle,
-                                            },
-                                        )
-                                    ) : (
-                                        <Factory
-                                            key={btnProps.id}
-                                            {...btnProps}
-                                            entityKey={entityKey}
-                                            level={BUTTONS}
-                                            src={src}
-                                            onClick={this.onClick}
-                                            className={classNames('dropdown-item dropdown-item-btn', btnProps.className)}
-                                            tag="div"
-                                            nested
-                                        />
-                                    )
-                                ))}
+                                <SubMenu
+                                    items={subMenu}
+                                    actionCallback={actionCallback}
+                                    entityKey={entityKey}
+                                    toggle={this.toggle}
+                                    onClick={this.onClick}
+                                />
                             </div>
                         )}
                     </Popper>
@@ -137,16 +130,11 @@ DropdownButton.propTypes = {
     tooltipTriggerRef: PropTypes.func,
 }
 
-DropdownButton.defaultProps = {
-    subMenu: [],
-    showToggleIcon: true,
-}
+DropdownButton.defaultProps = { subMenu: [], showToggleIcon: true }
 
 export default compose(
     withActionButton(),
-    mapProps(props => ({
-        ...mappingProps(props),
-        subMenu: props.subMenu,
-    })),
+    mapProps(props => ({ ...mappingProps(props), subMenu: props.subMenu })),
+    connect(state => ({ getStoreButtons: id => state.toolbar[id] || null })),
     onClickOutside,
 )(DropdownButton)
