@@ -37,7 +37,7 @@ public class ConditionValidationAT extends AutoTestBase {
     }
 
     @Test
-    void test() {
+    void testCondition() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/validation/condition/index.page.xml"));
         SimplePage page = open(SimplePage.class);
@@ -85,5 +85,37 @@ public class ConditionValidationAT extends AutoTestBase {
         testInput.control(InputText.class).clear();
         testInput.shouldHaveValidationMessage(Condition.exist);
         testInput.shouldHaveValidationMessage(Condition.text("Обязательно если test"));
+    }
+
+    /** on-валидации, если на поле больше одной валидации **/
+    @Test
+    void testTwoValidations() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/validation/two_validations/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        FormWidget widget = page.widget(FormWidget.class);
+        Button validateButton = widget.toolbar().topLeft().button("validate");
+        Checkbox checkbox = widget.fields().field("valid").control(Checkbox.class);
+        StandardField requiredInput = widget.fields().field("required");
+        StandardField partialInput = widget.fields().field("partial");
+
+        validateButton.click();
+        requiredInput.shouldExists();
+        requiredInput.shouldHaveValidationMessage(Condition.exist);
+        requiredInput.shouldHaveValidationMessage(Condition.text("condition1 is invalid"));
+
+        partialInput.shouldExists();
+        partialInput.shouldHaveValidationMessage(Condition.exist);
+        partialInput.shouldHaveValidationMessage(Condition.text("condition2 is invalid"));
+
+        checkbox.setChecked(true);
+        requiredInput.shouldHaveValidationMessage(Condition.empty);
+        partialInput.shouldHaveValidationMessage(Condition.empty);
+
+        checkbox.setChecked(false);
+        requiredInput.shouldHaveValidationMessage(Condition.exist);
+        partialInput.shouldHaveValidationMessage(Condition.exist);
     }
 }

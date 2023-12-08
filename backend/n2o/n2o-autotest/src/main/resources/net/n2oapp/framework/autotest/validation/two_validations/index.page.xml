@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Автотест на on-валидации, если на поле больше одной валидации">
+    <form>
+        <toolbar place="topLeft">
+            <button label="validate" validate="true"/>
+        </toolbar>
+        <fields>
+            <checkbox id="checkbox"
+                      default-value="false"
+                      label="valid"/>
+            <input-text id="i_1"
+                        required="true"
+                        label="required"
+                        default-value="value">
+                <validations>
+                    <condition id="condition1" message="condition1 is invalid" on="checkbox">
+                        checkbox
+                    </condition>
+                </validations>
+            </input-text>
+            <input-text id="i_2"
+                        label="partial"
+                        default-value="value">
+                <validations>
+                    <condition id="condition2" message="condition2 is invalid" on="checkbox">
+                        checkbox
+                    </condition>
+                </validations>
+            </input-text>
+        </fields>
+    </form>
+</simple-page>
