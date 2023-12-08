@@ -19,16 +19,16 @@ import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import static com.codeborne.selenide.Configuration.*;
+import static com.codeborne.selenide.Configuration.browserCapabilities;
+import static com.codeborne.selenide.Configuration.headless;
 import static net.n2oapp.framework.autotest.run.AutoTestUtil.checkChromeDriver;
 import static org.openqa.selenium.remote.CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR;
 
@@ -38,7 +38,6 @@ import static org.openqa.selenium.remote.CapabilityType.UNHANDLED_PROMPT_BEHAVIO
 @SpringBootTest(
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureDataMongo
 public class AutoTestBase extends N2oTestBase {
 
     @LocalServerPort
