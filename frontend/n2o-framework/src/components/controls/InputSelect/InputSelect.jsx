@@ -293,7 +293,7 @@ class InputSelect extends React.Component {
      * @private
      */
     setIsExpanded = (isExpanded) => {
-        const { disabled, onToggle, caching } = this.props
+        const { disabled, onToggle, caching, size, sortFieldId } = this.props
         const { prevModel } = this.state
 
         if (!isExpanded || disabled) {
@@ -338,7 +338,7 @@ class InputSelect extends React.Component {
                 */
                 const concat = cacheReset ? false : caching || false
 
-                _fetchData({ page: currentPage }, concat, cacheReset)
+                _fetchData({ size, page: currentPage, [`sorting.${sortFieldId}`]: 'ASC' }, concat, cacheReset)
             }
         })
 
