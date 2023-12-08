@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.api.component.button;
 
 import com.codeborne.selenide.Condition;
 
+import java.time.Duration;
+
 /**
  * Кнопка с выпадающим меню для автотестирования
  */
@@ -12,6 +14,17 @@ public interface DropdownButton extends Button {
      */
     void shouldHaveItems(int count);
 
+    /**
+     * Проверка точного соответствия метки (без учета регистра) у кнопки
+     * @param label ожидаемое значение метки
+     */
+    void shouldHaveLabel(String label, Duration... duration);
+
+    /**
+     * Проверка описания на соответствие
+     * @param text ожидаемый текст описания
+     */
+    void shouldHaveDescription(String text, Duration... duration);
     /**
      * Возвращает первую стандартную кнопку, метка которой соответствует ожидаемому
      * @param label ожидаемая метка кнопки

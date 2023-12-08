@@ -8,6 +8,8 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 
+import java.time.Duration;
+
 public class N2oDropdownButton extends N2oButton implements DropdownButton {
 
     private final String DROPDOWN = ".n2o-dropdown-menu,.dropdown-menu";
@@ -15,6 +17,16 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
     @Override
     public void shouldBeEnabled() {
         element().shouldBe(Condition.enabled);
+    }
+
+    @Override
+    public void shouldHaveLabel(String label, Duration... duration) {
+        should(Condition.exactText(label), duration);
+    }
+
+    @Override
+    public void shouldHaveDescription(String description, Duration... duration) {
+        should(Condition.text(description), duration);
     }
 
     @Override

@@ -1,10 +1,9 @@
-package net.n2oapp.framework.autotest.button;
+package net.n2oapp.framework.autotest.condition.button.visible;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
-import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -19,9 +18,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест для условия доступности кнопок
+ * Автотест для условия видимости кнопок
  */
-public class ButtonEnabledAT extends AutoTestBase {
+public class ButtonVisibleAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -41,87 +40,79 @@ public class ButtonEnabledAT extends AutoTestBase {
     }
 
     @Test
-    public void testEnabledButton() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/enabled/simple/index.page.xml"));
+    public void testVisibleButton() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/condition/button/visible/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
         FormWidget form = page.widget(FormWidget.class);
         RadioGroup type = form.fields().field("type").control(RadioGroup.class);
         Toolbar toolbar = form.toolbar().bottomLeft();
+        StandardButton hiddenButton = toolbar.button("Hidden button");
         StandardButton button = toolbar.button("Button");
         DropdownButton subMenu = toolbar.dropdown();
         StandardButton item1 = subMenu.menuItem("item1");
         StandardButton item2 = subMenu.menuItem("item2");
 
         type.shouldBeEmpty();
-        button.shouldBeDisabled();
-        subMenu.click();
-        item1.shouldBeDisabled();
-        item2.shouldBeDisabled();
+        hiddenButton.shouldNotExists();
+        button.shouldNotExists();
+        subMenu.shouldExists();
+        subMenu.shouldBeHidden();
 
         type.check("button and all menu items");
-        button.shouldBeEnabled();
-        subMenu.shouldBeEnabled();
+        button.shouldExists();
+        subMenu.shouldExists();
         subMenu.click();
-        item1.shouldBeEnabled();
-        item2.shouldBeEnabled();
+        subMenu.shouldHaveItems(2);
+        item1.shouldExists();
+        item2.shouldExists();
 
         type.check("first menu item");
-        button.shouldBeDisabled();
-        subMenu.shouldBeEnabled();
+        button.shouldNotExists();
         subMenu.click();
-        item1.shouldBeEnabled();
-        item2.shouldBeDisabled();
+        subMenu.shouldHaveItems(1);
+        item1.shouldExists();
 
         type.check("second menu item");
-        button.shouldBeDisabled();
-        subMenu.shouldBeEnabled();
+        button.shouldNotExists();
         subMenu.click();
-        item1.shouldBeDisabled();
-        item2.shouldBeEnabled();
+        subMenu.shouldHaveItems(1);
+        item2.shouldExists();
 
         type.check("none");
-        button.shouldBeDisabled();
-        subMenu.shouldBeEnabled();
-        subMenu.click();
-        item1.shouldBeDisabled();
-        item2.shouldBeDisabled();
-
-        StandardButton btnWithDependency = toolbar.button("btnWithDependency");
-        btnWithDependency.shouldExists();
-        btnWithDependency.shouldBeDisabled();
-        form.fields().field("Condition").control(InputText.class).click();
-        form.fields().field("Condition").control(InputText.class).setValue("enable");
-        btnWithDependency.shouldBeEnabled();
+        button.shouldNotExists();
+        subMenu.shouldExists();
+        subMenu.shouldBeHidden();
     }
 
     @Test
-    public void testEnabledSubMenu() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/enabled/submenu/index.page.xml"));
+    public void testVisibleSubMenu() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/visible/submenu/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
         FormWidget form = page.widget(FormWidget.class);
         RadioGroup type = form.fields().field("type").control(RadioGroup.class);
         Toolbar toolbar = form.toolbar().bottomLeft();
-        DropdownButton disabledSubMenu = toolbar.dropdown(Condition.text("Disabled submenu"));
+        DropdownButton hiddenSubMenu = toolbar.dropdown(Condition.text("Hidden submenu"));
         DropdownButton subMenu = toolbar.dropdown(Condition.textCaseSensitive("SubMenu"));
         StandardButton item1 = subMenu.menuItem("item1");
         StandardButton item2 = subMenu.menuItem("item2");
 
         type.shouldBeEmpty();
-        disabledSubMenu.shouldBeDisabled();
-        subMenu.shouldBeDisabled();
+        hiddenSubMenu.shouldNotExists();
+        subMenu.shouldNotExists();
 
-        type.check("enable");
-        subMenu.shouldBeEnabled();
+        type.check("show");
+        subMenu.shouldExists();
         subMenu.click();
-        item1.shouldBeEnabled();
-        item2.shouldBeEnabled();
+        subMenu.shouldHaveItems(2);
+        item1.shouldExists();
+        item2.shouldExists();
 
-        type.check("disable");
-        disabledSubMenu.shouldBeDisabled();
-        subMenu.shouldBeDisabled();
+        type.check("hide");
+        subMenu.shouldNotExists();
+        hiddenSubMenu.shouldNotExists();
     }
 }
