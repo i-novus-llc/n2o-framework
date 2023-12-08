@@ -1344,11 +1344,11 @@
           "name": "SwitchCaseActionAT. testSwitchCaseInRowClick"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/button/enabled/simple",
+          "templateId": "net/n2oapp/framework/autotest/condition/button/enabled/simple",
           "name": "ButtonEnabledAT. testEnabledButton"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/button/enabled/submenu",
+          "templateId": "net/n2oapp/framework/autotest/condition/button/enabled/submenu",
           "name": "ButtonEnabledAT. testEnabledSubMenu"
         },
         {
@@ -1356,12 +1356,16 @@
           "name": "ButtonBindingAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/button/visible/simple",
+          "templateId": "net/n2oapp/framework/autotest/condition/button/visible/simple",
           "name": "ButtonVisibleAT. testVisibleButton"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/button/visible/submenu",
+          "templateId": "net/n2oapp/framework/autotest/condition/button/visible/submenu",
           "name": "ButtonVisibleAT. testVisibleSubMenu"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/resolve_attributes",
+          "name": "ButtonAT"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/websocket/common",

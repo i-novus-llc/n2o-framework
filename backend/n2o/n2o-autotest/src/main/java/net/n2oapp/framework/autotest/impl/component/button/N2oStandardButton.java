@@ -18,7 +18,10 @@ public class N2oStandardButton extends N2oButton implements StandardButton {
     public void shouldHaveLabel(String label, Duration... duration) {
         should(Condition.exactText(label), duration);
     }
-
+    @Override
+    public void shouldHaveDescription(String description, Duration... duration) {
+        should(Condition.text(description), duration);
+    }
     @Override
     public void shouldHaveIcon(String iconName) {
         element().$("i").shouldHave(Condition.cssClass(iconName));
