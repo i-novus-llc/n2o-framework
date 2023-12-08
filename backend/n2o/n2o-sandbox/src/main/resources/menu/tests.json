@@ -1498,7 +1498,11 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/validation/condition",
-          "name": "ConditionValidationAT"
+          "name": "ConditionValidationAT .testCondition"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/validation/two_validations",
+          "name": "ConditionValidationAT. testTwoValidations"
         }
       ]
     }
