@@ -38,6 +38,8 @@ import { State } from '../ducks/State'
 import { State as WidgetsState } from '../ducks/widgets/Widgets'
 import { ButtonContainer } from '../ducks/toolbar/Toolbar'
 import { metaPropsType } from '../plugins/utils'
+import { setDirty } from '../ducks/form/store'
+import { isDirtyForm } from '../ducks/form/selectors'
 
 import fetchSaga from './fetch'
 
@@ -176,6 +178,7 @@ interface IHandleInvokePayload {
     model: ModelPrefix
     dataProvider: { submitForm?: boolean, optimistic?: boolean }
     pageId: string
+    widgetId?: string
 }
 
 interface IHandleInvokeMeta {
@@ -193,6 +196,7 @@ export function* handleInvoke(
         model: modelPrefix,
         dataProvider,
         pageId,
+        widgetId,
     } = action.payload
 
     const state: State = yield select()
@@ -220,6 +224,16 @@ export function* handleInvoke(
                 yield put(disableWidget(id))
             }
         }
+
+        // Доп проверка на то, что сохранение было произведено в форме и если это так, то мы сбрасываем флаг dirty
+        if (widgetId) {
+            const currentDirtyState = isDirtyForm(widgetId)(state)
+
+            if (currentDirtyState) {
+                yield put(setDirty(widgetId, false))
+            }
+        }
+
         const response: {meta: metaPropsType, data: {$list: metaPropsType}} = optimistic
             ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
             : yield call(fetchInvoke, dataProvider, model, apiProvider)
