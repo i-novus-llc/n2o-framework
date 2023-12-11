@@ -102,18 +102,16 @@ export default function withActionButton(options = {}) {
 
                 if (!valid) {
                     event.preventDefault()
-                    this.setState({
-                        url: null,
-                    })
+                    this.setState({ url: null })
 
                     return
                 }
 
                 /* необходимо для позиционирования popover */
                 const { id: target } = this.state
-                const { action } = this.props
+                const { action, id: buttonId, entityKey: key } = this.props
 
-                const extendedAction = action ? mergeMeta(action, { target }) : null
+                const extendedAction = action ? mergeMeta(action, { target, key, buttonId }) : null
 
                 const { store } = this.context
                 const state = store.getState()
