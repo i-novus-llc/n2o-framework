@@ -3,6 +3,8 @@ import { Action as ReduxAction } from 'redux'
 interface N2OMeta {
     operationId?: string
     target?: string
+    key?: string
+    buttonId?: string
     [key: string]: unknown
 }
 

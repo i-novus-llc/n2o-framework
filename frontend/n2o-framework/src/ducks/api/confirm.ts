@@ -9,6 +9,7 @@ import { Meta } from '../Action'
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
 // @ts-ignore ignore import error from js file
 import linkResolver from '../../utils/linkResolver'
+import { State } from '../State'
 
 import { ACTIONS_PREFIX } from './constants'
 import { startOperation } from './Operation'
@@ -25,10 +26,7 @@ export type Payload = {
 
 export const creator = createAction(
     `${ACTIONS_PREFIX}confirm`,
-    (payload: Payload, meta: Meta) => ({
-        payload,
-        meta,
-    }),
+    (payload: Payload, meta: Meta) => ({ payload, meta }),
 )
 
 const resolveConditions = (model: Record<string, unknown>, condition?: string | boolean) => {
@@ -44,9 +42,7 @@ const resolveConditions = (model: Record<string, unknown>, condition?: string | 
 
     const expression = parseExpression(condition)
 
-    if (expression) {
-        return evalExpression(expression, model)
-    }
+    if (expression) { return evalExpression(expression, model) }
 
     return false
 }
@@ -54,34 +50,34 @@ const resolveConditions = (model: Record<string, unknown>, condition?: string | 
 function* resolve(props: Pick<Payload, 'modelLink' | 'condition' | 'text'>) {
     const { modelLink } = props
 
-    if (!modelLink) {
-        return props
-    }
+    if (!modelLink) { return props }
 
-    const state = yield select()
-    const model = get(state, modelLink)
+    const state: State = yield select()
+    const model: Record<string, unknown> = get(state, modelLink)
     const { condition } = props
 
-    if (!resolveConditions(model, condition)) {
-        return null
-    }
+    if (!resolveConditions(model, condition)) { return {} }
 
     const { text } = props
-    const resolvedText = linkResolver(state, { link: modelLink, value: text })
+    const resolvedText: string = linkResolver(state, { link: modelLink, value: text })
 
     return { ...props, text: resolvedText }
 }
 
 /* TODO OverlaysRefactoring убрать передаваемый type */
 export function* effect({ payload, meta, type: actionType }: ReturnType<typeof creator>) {
-    const { name, visible = true, mode, type = 'confirm', ...props } = payload
-    const { operationId = null, target } = meta
+    const { name, mode, visible = true, type = 'confirm', ...props } = payload
+    const { target, buttonId, key, operationId = null } = meta
 
     if (operationId) {
-        yield put(startOperation(actionType, operationId))
+        yield put(startOperation(actionType, operationId, { key, buttonId }))
     }
 
-    const resolvedProps = { ...yield resolve(props), target, operation: { id: operationId, type: actionType } }
+    const resolved: Record<string, unknown> = yield resolve(props)
+
+    const resolvedProps = {
+        ...resolved, target, operation: { id: operationId, type: actionType, buttonId, key },
+    }
 
     yield put(insert(name, visible, mode, type, resolvedProps))
 }

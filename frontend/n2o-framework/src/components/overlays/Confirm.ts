@@ -37,7 +37,7 @@ export interface ConfirmProps {
         color: Color
     }
     id: string
-    operation: { id: string, type: string }
+    operation: { id: string, type: string, key: string, buttonId: string }
     className?: string
     size: 'lg' | 'sm'
 }
