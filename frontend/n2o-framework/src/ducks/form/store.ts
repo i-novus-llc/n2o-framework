@@ -11,6 +11,7 @@ import {
     BlurFieldAction, FocusFieldAction,
     RegisterAction, RegisterFieldAction,
     RegisterFieldDependencyAction, RemoveAction,
+    SetDirtyPayload,
     SetFieldDisabledAction, SetFieldLoadingAction, DangerouslySetFieldValue,
     SetFieldRequiredAction, SetFieldVisibleAction,
     SetMultiFieldDisabledAction, SetMultiFieldVisibleAction,
@@ -375,6 +376,21 @@ const formSlice = createSlice({
                 }
             },
         },
+
+        setDirty: {
+            prepare(formName: string, data: boolean) {
+                return ({
+                    payload: { formName, data },
+                    meta: { formName, data },
+                })
+            },
+
+            reducer(state, action: SetDirtyPayload) {
+                const { data, formName } = action.payload
+
+                state[formName].dirty = data
+            },
+        },
     },
 
     extraReducers: {
@@ -463,4 +479,5 @@ export const {
     FOCUS: handleFocus,
     TOUCH: handleTouch,
     unRegisterExtraField,
+    setDirty,
 } = formSlice.actions

@@ -33,6 +33,8 @@ import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
 import { ModelPrefix } from '../core/datasource/const'
 import { failValidate, submit } from '../ducks/datasource/store'
 import { EffectWrapper } from '../ducks/api/utils/effectWrapper'
+import { isDirtyForm } from '../ducks/form/selectors'
+import { setDirty } from '../ducks/form/store'
 
 import fetchSaga from './fetch'
 
@@ -185,6 +187,7 @@ export function* handleInvoke(apiProvider, action) {
         model: modelPrefix,
         dataProvider,
         pageId,
+        widgetId,
     } = action.payload
 
     const state = yield select()
@@ -211,6 +214,16 @@ export function* handleInvoke(apiProvider, action) {
                 yield put(disableWidget(id))
             }
         }
+
+        // Доп проверка на то, что сохранение было произведено в форме и если это так, то мы сбрасываем флаг dirty
+        if (widgetId) {
+            const currentDirtyState = isDirtyForm(widgetId)(state)
+
+            if (currentDirtyState) {
+                yield put(setDirty(widgetId, false))
+            }
+        }
+
         const response = optimistic
             ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
             : yield call(fetchInvoke, dataProvider, model, apiProvider)
