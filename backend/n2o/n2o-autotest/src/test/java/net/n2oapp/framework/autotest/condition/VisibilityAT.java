@@ -38,7 +38,7 @@ public class VisibilityAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/condition/visibility/index.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/condition/visibility/field/index.page.xml"));
     }
 
     @Test
@@ -52,48 +52,48 @@ public class VisibilityAT extends AutoTestBase {
         RadioGroup fs1 = fields1.field("Field Selector 1").control(RadioGroup.class);
         fs1.shouldBeChecked("Show left field");
 
-        fields1.field("Field L11").control(InputText.class).shouldExists();
-        fields1.field("Field L21").control(InputText.class).shouldExists();
-        fields1.field("Field R11").control(InputText.class).shouldNotExists();
-        fields1.field("Field R21").control(InputText.class).shouldExists();
+        fields1.field("Field_L11").control(InputText.class).shouldExists();
+        fields1.field("Field_L21").control(InputText.class).shouldExists();
+        fields1.field("Field_R11").control(InputText.class).shouldNotExists();
+        fields1.field("Field_R21").control(InputText.class).shouldExists();
 
         Fields fields2 = page.regions().region(1, SimpleRegion.class).content().widget(FormWidget.class).fields();
         fields2.shouldHaveSize(3);
         RadioGroup fs2 = fields2.field("Field Selector 2").control(RadioGroup.class);
         fs2.shouldBeEmpty();
 
-        fields2.field("Field L12").control(InputText.class).shouldNotExists();
-        fields2.field("Field L22").control(InputText.class).shouldExists();
-        fields2.field("Field R12").control(InputText.class).shouldNotExists();
-        fields2.field("Field R22").control(InputText.class).shouldExists();
+        fields2.field("Field_L12").control(InputText.class).shouldNotExists();
+        fields2.field("Field_L22").control(InputText.class).shouldExists();
+        fields2.field("Field_R12").control(InputText.class).shouldNotExists();
+        fields2.field("Field_R22").control(InputText.class).shouldExists();
 
         fs1.check("Show right field");
         fs1.shouldBeChecked("Show right field");
-        fields1.field("Field L11").control(InputText.class).shouldNotExists();
-        fields1.field("Field L21").control(InputText.class).shouldNotExists();
-        fields1.field("Field R11").control(InputText.class).shouldExists();
-        fields1.field("Field R21").control(InputText.class).shouldExists();
+        fields1.field("Field_L11").control(InputText.class).shouldNotExists();
+        fields1.field("Field_L21").control(InputText.class).shouldNotExists();
+        fields1.field("Field_R11").control(InputText.class).shouldExists();
+        fields1.field("Field_R21").control(InputText.class).shouldExists();
 
         fs1.check("Show left field");
         fs1.shouldBeChecked("Show left field");
-        fields1.field("Field L11").control(InputText.class).shouldExists();
-        fields1.field("Field L21").control(InputText.class).shouldExists();
-        fields1.field("Field R11").control(InputText.class).shouldNotExists();
-        fields1.field("Field R21").control(InputText.class).shouldNotExists();
+        fields1.field("Field_L11").control(InputText.class).shouldExists();
+        fields1.field("Field_L21").control(InputText.class).shouldExists();
+        fields1.field("Field_R11").control(InputText.class).shouldNotExists();
+        fields1.field("Field_R21").control(InputText.class).shouldNotExists();
 
         fs2.check("Show left field");
         fs2.shouldBeChecked("Show left field");
-        fields2.field("Field L12").control(InputText.class).shouldExists();
-        fields2.field("Field L22").control(InputText.class).shouldExists();
-        fields2.field("Field R12").control(InputText.class).shouldNotExists();
-        fields2.field("Field R22").control(InputText.class).shouldNotExists();
+        fields2.field("Field_L12").control(InputText.class).shouldExists();
+        fields2.field("Field_L22").control(InputText.class).shouldExists();
+        fields2.field("Field_R12").control(InputText.class).shouldNotExists();
+        fields2.field("Field_R22").control(InputText.class).shouldNotExists();
 
         fs2.check("Show right field");
         fs2.shouldBeChecked("Show right field");
-        fields2.field("Field L12").control(InputText.class).shouldNotExists();
-        fields2.field("Field L22").control(InputText.class).shouldNotExists();
-        fields2.field("Field R12").control(InputText.class).shouldExists();
-        fields2.field("Field R22").control(InputText.class).shouldExists();
+        fields2.field("Field_L12").control(InputText.class).shouldNotExists();
+        fields2.field("Field_L22").control(InputText.class).shouldNotExists();
+        fields2.field("Field_R12").control(InputText.class).shouldExists();
+        fields2.field("Field_R22").control(InputText.class).shouldExists();
     }
 
     @Test

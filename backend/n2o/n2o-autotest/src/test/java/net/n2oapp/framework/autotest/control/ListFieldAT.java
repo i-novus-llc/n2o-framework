@@ -41,6 +41,7 @@ public class ListFieldAT extends AutoTestBase {
 
     @Test
     public void listFieldFiltrationTest() {
+        setJsonPath("net/n2oapp/framework/autotest/control/list/filter");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/filter/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/filter/test.query.xml"));
@@ -74,6 +75,7 @@ public class ListFieldAT extends AutoTestBase {
 
     @Test
     public void testOptionsFromDS() {
+        setJsonPath("net/n2oapp/framework/autotest/control/list/options_from_ds");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/options_from_ds/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/options_from_ds/test.query.xml"));

@@ -12,6 +12,12 @@ import { DataSourceContext, METHODS } from './context'
 
 export const WithDatasourceLifeCycle = (Component) => {
     class WithDatasourceLifeCycle extends React.Component {
+        componentDidMount() {
+            const { visible } = this.props
+
+            this.switchRegistration(visible)
+        }
+
         componentDidUpdate({ visible: prevVisible, isInit: prevInit }) {
             const { visible, isInit, fetchOnInit, fetchOnVisibility } = this.props
 
@@ -82,7 +88,9 @@ const mapStateToProps = (state, { datasource }) => ({
         dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state)?.length || 0,
 })
 
-const WithSource = Component => DataSourceHOC(connect(mapStateToProps)(WithDatasourceLifeCycle(Component)))
+const WithSource = Component => DataSourceHOC(
+    connect(mapStateToProps)(WithDatasourceLifeCycle(Component)),
+)
 
 export const WithDataSource = (Component) => {
     const WithDataSource = WithSource(Component)

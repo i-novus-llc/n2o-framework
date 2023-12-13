@@ -67,6 +67,7 @@ public class FieldToolbarAT extends AutoTestBase {
         toolbar.button("Ссылка").click();
         Selenide.switchTo().window(1);
         page.urlShouldMatches("https://yandex.ru.*");
+        Selenide.closeWindow();
         Selenide.switchTo().window(0);
 
         fields.field("id").control(InputText.class).val("test");
@@ -110,6 +111,7 @@ public class FieldToolbarAT extends AutoTestBase {
         dropdownButton.menuItem("Ссылка").click();
         Selenide.switchTo().window(1);
         page.urlShouldMatches("https://yandex.ru.*");
+        Selenide.closeWindow();
         Selenide.switchTo().window(0);
 
         fields.field("id").control(InputText.class).val("test");

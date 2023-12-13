@@ -30,10 +30,10 @@ public class ToolbarCellAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
+        setJsonPath("net/n2oapp/framework/autotest/cells/toolbar");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/toolbar/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/cells/toolbar/testTable.query.xml"));
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();

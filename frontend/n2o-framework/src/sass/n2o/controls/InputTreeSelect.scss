@@ -9,6 +9,13 @@
     }
 }
 
+/* активные элементы при навигации с помощью клавиш */
+.n2o-select-tree-tree-treenode-active {
+    .n2o-select-tree-tree-node-content-wrapper {
+        background-color: #dce3e7;
+    }
+}
+
 /* Костыль n2o-select-tree рисует заглушку с классом n2o-select-tree-selection-item */
 
 /* Плейсхолдер появляется отдельным блоком рядом с селектом */
@@ -31,9 +38,41 @@
     }
 }
 
+.n2o-select-tree-tree-treenode-checkbox-indeterminate {
+    .custom-control-label::before {
+        color: $custom-checkbox-indicator-indeterminate-bg;
+        background-color: $checkbox-background-color-checked;
+        border-color: $checkbox-border-color-checked;
+    }
+
+    .custom-control-label::after {
+        background-image: $custom-checkbox-indicator-icon-indeterminate;
+        left: -1.2rem;
+    }
+}
+
 .n2o-select-tree-container {
     width: 100%;
     min-height: calc(2.25rem + 2px);
+
+    .n2o-select-tree-arrow {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        transition: 0.2s;
+        pointer-events: none;
+    }
+
+    .n2o-select-tree-open {
+        .n2o-select-tree-arrow {
+            top: 12px;
+            transform: rotate(180deg);
+        }
+    }
+
+    .n2o-select-tree-tree-node-content-wrapper {
+        padding: 2px;
+    }
 
     .n2o-select-tree-tree-node-content-wrapper-normal,
     .n2o-select-tree-tree-node-content-wrapper-open,
@@ -54,10 +93,6 @@
             display: flex;
             align-items: center;
             font-size: 16px;
-        }
-
-        .n2o-select-tree-arrow {
-            display: none;
         }
 
         .n2o-select-tree-tree-treenode.filter-node {
@@ -164,6 +199,10 @@
                                             left: -1.2rem;
                                         }
                                     }
+
+                                    .n2o-badge {
+                                        font-size: 12px;
+                                    }
                                 }
 
                                 .n2o-icon {
@@ -188,7 +227,6 @@
 
                         .n2o-select-tree-label {
                             font-size: 16px;
-                            //width: 100%;
                             display: block;
                         }
                     }
@@ -202,12 +240,8 @@
             .n2o-select-tree-selection-overflow {
                 display: flex;
                 flex-wrap: wrap;
-                align-items: center;
-                width: 100%;
-                min-height: calc(2.25rem + 2px);
-                max-height: 400px;
-                overflow-y: auto;
-                padding: 2px 20px 2px 2px;
+                padding-right: 50px;
+                max-width: 100%;
 
                 .n2o-select-tree-selection-overflow-item {
                     flex: none;
@@ -241,24 +275,35 @@
 
                 .n2o-select-tree-selection-overflow-item-suffix {
                     flex: none;
-                    max-width: 100%;
+                    // для ввода в поиске, если неограничить контрол будет расширяться
+                    max-width: 200px;
+                    overflow: hidden;
 
                     .n2o-select-tree-selection-search {
-                        height: 100%;
                         position: relative;
-                        max-width: 100%;
-                        display: flex;
+                        height: 100%;
+                        display: block;
+                        min-width: 40px;
+                        margin-left: 10px;
 
                         .n2o-select-tree-selection-search-input {
                             border: none;
-                            border-right: 1px solid $primary;
                             outline: none;
-                            background: transparent;
-                            width: 0;
+                            font-size: 16px;
+                            width: 100%;
+                            min-width: 40px;
                         }
 
                         .n2o-select-tree-selection-search-mirror {
-                            padding-left: 5px;
+                            position: absolute;
+                            z-index: 999;
+                            white-space: nowrap;
+                            left: 0;
+                            top: 0;
+                            visibility: hidden;
+                            font-size: 16px;
+                            height: 100%;
+                            padding: 1px;
                         }
                     }
                 }
@@ -272,7 +317,7 @@
 
         .n2o-select-tree-clear {
             position: absolute;
-            right: 5px;
+            right: 30px;
             top: 10px;
             cursor: pointer;
         }
@@ -362,13 +407,6 @@
         }
     }
 
-    //.n2o-select-tree-content-wrapper {
-    //    width: 100%;
-    //    display: flex;
-    //    align-items: center;
-    //    font-size: 16px;
-    //}
-
     .n2o-select-tree-tree-iconEle {
         display: none;
     }
@@ -376,4 +414,8 @@
 
 input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
+}
+
+.n2o-select-tree-empty {
+    font-size: 14px;
 }

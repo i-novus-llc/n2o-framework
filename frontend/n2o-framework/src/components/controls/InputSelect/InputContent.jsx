@@ -59,6 +59,7 @@ function InputContent({
     disabledValues,
     options,
     onClick,
+    onKeyDown,
     isExpanded,
     autoFocus,
     setRef,
@@ -66,12 +67,29 @@ function InputContent({
     mode,
     maxTagTextLength,
 }) {
+    const setOnlyElementFound = () => {
+        if (mode !== 'autocomplete' && !multiSelect && options.length === 1) {
+            const active = options[0]
+            const currentActive = selected[0] || {}
+            const { id } = active
+            const { id: currentId } = currentActive
+
+            if (currentId !== id) {
+                onSelect(active)
+                setActiveValueId(id)
+            }
+        }
+    }
     /**
      * Обработчик изменения инпута при нажатии на клавишу
      * @param e - событие изменения
      * @private
      */
     const handleKeyDown = (e) => {
+        if (onKeyDown) {
+            onKeyDown(e)
+        }
+
         if (
             e.key === 'Backspace' &&
             selected.length &&
@@ -154,6 +172,8 @@ function InputContent({
                 onSelect(findEquals)
                 setActiveValueId(null)
             }
+
+            setOnlyElementFound()
         } else if (e.key === 'Escape') {
             closePopUp(false)
         }
@@ -248,6 +268,7 @@ InputContent.propTypes = {
     clearSelected: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
+    onKeyDown: PropTypes.func,
     multiSelect: PropTypes.bool,
     collapseSelected: PropTypes.bool,
     lengthToGroup: PropTypes.number,

@@ -2,9 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import omit from 'lodash/omit'
+import get from 'lodash/get'
+import has from 'lodash/has'
 
 import Toolbar from '../../../../buttons/Toolbar'
 import { Spinner } from '../../../../snippets/Spinner/Spinner'
+import { EventHandlersContext } from '../../../../controls/eventHandlersContext'
 
 import Control from './Control'
 import Label from './Label'
@@ -47,6 +50,8 @@ import { FieldActionsPropTypes } from './FieldPropTypes'
  *             style={display: 'inline-block'}/>
  */
 class StandardField extends React.Component {
+    static contextType = EventHandlersContext
+
     render() {
         const {
             id,
@@ -79,6 +84,7 @@ class StandardField extends React.Component {
             toolbar,
             form,
             noLabelBlock,
+            model,
             ...props
         } = this.props
 
@@ -137,6 +143,7 @@ class StandardField extends React.Component {
                             )}
                             required={required}
                             help={help}
+                            needStub
                         />
                     ) : null}
                     <div style={styleHelper}>
@@ -149,17 +156,19 @@ class StandardField extends React.Component {
                                 placeholder={placeholder}
                                 visible={visible}
                                 autoFocus={autoFocus}
-                                value={value}
+                                {...this.context}
                                 onBlur={onBlur}
                                 onFocus={onFocus}
                                 onChange={onChange}
                                 help={help}
                                 {...omit(props, ['dataProvider', 'containerKey', 'controlClass', 'controlStyle'])}
                                 {...control}
+                                value={has(model, id) ? value : get(control, 'value', null)}
                                 className={classNames(control.className, {
                                     [validationClass]: validationClass && touched,
                                     'form-control__with-toolbar': toolbar,
                                 })}
+                                model={model}
                             />
                             {toolbar && (
                                 <Toolbar
@@ -237,6 +246,7 @@ StandardField.propTypes = {
     form: PropTypes.string,
     noLabelBlock: PropTypes.bool,
     value: PropTypes.any,
+    model: PropTypes.object,
 }
 
 StandardField.defaultProps = {

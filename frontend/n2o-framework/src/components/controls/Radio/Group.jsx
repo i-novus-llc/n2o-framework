@@ -17,6 +17,7 @@ export function Group({
     type,
     name,
     onChange,
+    onKeyDown,
     enabledFieldId,
 }) {
     const changeHandler = useCallback(event => onChange(event.target.value), [onChange])
@@ -33,6 +34,7 @@ export function Group({
                 {...radio}
                 key={radio.value}
                 name={name}
+                onKeyDown={onKeyDown}
                 type={type}
                 disabled={isDisabled}
                 checked={toString(radio.value) === toString(value)}
@@ -59,6 +61,7 @@ export function Group({
 Group.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
     disabled: PropTypes.bool,
     visible: PropTypes.bool,
     style: PropTypes.object,
@@ -80,6 +83,7 @@ Group.defaultProps = {
     inline: false,
     type: RadioTypes.input,
     onChange: () => {},
+    onKeyDown: () => {},
 }
 
 export { RadioTypes }

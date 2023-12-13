@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list>
+        <test file="testTable.json" operation="findAll"/>
+    </list>
+    <count>
+        <test file="testTable.json" operation="count"/>
+    </count>
+    <fields>
+        <field id="id">
+            <select/>
+        </field>
+        <field id="name">
+            <select/>
+            <filters>
+                <eq/>
+            </filters>
+        </field>
+        <field id="surname">
+            <select/>
+        </field>
+        <field id="gender">
+            <select/>
+            <filters>
+                <eq/>
+            </filters>
+        </field>
+        <field id="birthday">
+            <select/>
+        </field>
+    </fields>
+</query>

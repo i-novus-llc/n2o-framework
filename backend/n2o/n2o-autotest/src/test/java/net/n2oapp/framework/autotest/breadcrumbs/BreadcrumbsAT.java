@@ -37,12 +37,13 @@ public class BreadcrumbsAT extends AutoTestBase {
 
     @Test
     public void breadcrumbsTest() {
+        setJsonPath("net/n2oapp/framework/autotest/breadcrumbs/common");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/reader.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/book.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/readers.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/books.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/common/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/common/reader.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/common/book.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/common/readers.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/common/books.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Table");
@@ -108,6 +109,7 @@ public class BreadcrumbsAT extends AutoTestBase {
 
     @Test
     public void testOpenPage() {
+        setJsonPath("net/n2oapp/framework/autotest/breadcrumbs/open_page");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/open_page/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/open_page/page2.page.xml"),
@@ -154,6 +156,7 @@ public class BreadcrumbsAT extends AutoTestBase {
 
     @Test
     public void testResolve() {
+        setJsonPath("net/n2oapp/framework/autotest/breadcrumbs/resolve");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/resolve/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/resolve/page2.page.xml"),

@@ -9,7 +9,7 @@
     <parent>
         <artifactId>n2o</artifactId>
         <groupId>net.n2oapp.framework</groupId>
-        <version>7.23.78-SNAPSHOT</version>
+        <version>7.23.85-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -80,7 +80,6 @@
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-autotest</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>

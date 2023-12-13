@@ -122,8 +122,14 @@ export class InputNumber extends React.Component {
 
         if (matchesWhiteList(parsedValue)) {
             this.setState({ value: this.resolveValue(value) }, () => {
-                if (!isNaN(toNumber(value)) || mode === inputMode.PICKER) {
-                    onChange(this.resolveValue(value))
+                const isPicker = mode === inputMode.PICKER
+
+                if (!isNaN(toNumber(value)) || isPicker) {
+                    if (isPicker) {
+                        onChange?.(this.resolveValue(value))
+                    } else {
+                        onChange?.(Number(this.resolveValue(value)))
+                    }
                 }
             })
         }
@@ -161,8 +167,8 @@ export class InputNumber extends React.Component {
             newValue = newValue.toFixed(this.stepPrecition)
 
             this.setState({ value: newValue }, () => {
-                onChange(newValue)
-                onBlur(newValue)
+                onChange(Number(newValue))
+                onBlur(Number(newValue))
             })
         }
     }
@@ -192,6 +198,12 @@ export class InputNumber extends React.Component {
         const upKeyCode = 38
         const downKeyCode = 40
         let type
+
+        const { onKeyDown } = this.props
+
+        if (onKeyDown) {
+            onKeyDown(e)
+        }
 
         if (e.keyCode === upKeyCode) {
             type = 'up'
@@ -283,6 +295,7 @@ InputNumber.defaultProps = {
     onChange: () => {},
     onBlur: () => {},
     onFocus: () => {},
+    onKeyDown: () => {},
     mode: inputMode.DEFAULT,
 }
 
@@ -325,6 +338,7 @@ InputNumber.propTypes = {
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
+    onKeyDown: PropTypes.func,
     /**
      * Класс
      */

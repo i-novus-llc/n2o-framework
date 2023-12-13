@@ -33,16 +33,17 @@ public class SwitchCaseActionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-
+        setJsonPath("net/n2oapp/framework/autotest/action/switch_case/row_click");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/page1.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/page2.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/row_click/page1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/row_click/page2.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/row_click/test.query.xml"));
     }
 
 
     @Test
     public void testSwitchCaseInButton() {
+        setJsonPath("net/n2oapp/framework/autotest/action/switch_case/button");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/button/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);

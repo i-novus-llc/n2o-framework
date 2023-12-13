@@ -73,6 +73,7 @@ class InputSelect extends React.Component {
             activeValueId: null,
             isPopupFocused: false,
             popUpMaxHeight: DEFAULT_POPUP_HEIGHT,
+            prevModel: {},
             options,
             input,
         }
@@ -292,20 +293,52 @@ class InputSelect extends React.Component {
      * @private
      */
     setIsExpanded = (isExpanded) => {
-        const { disabled, onToggle, onOpen } = this.props
+        const { disabled, onToggle, caching, size, sortFieldId } = this.props
+        const { prevModel } = this.state
 
         if (!isExpanded || disabled) {
             return null
         }
 
-        this.setState({
-            isExpanded,
-            inputFocus: isExpanded,
-        }, () => {
-            const { page, data = [] } = this.props
+        this.setState({ isExpanded, inputFocus: isExpanded }, () => {
+            const { page, _fetchData, value = [], model = {} } = this.props
 
-            if (!data.length || page === 1) {
-                onOpen()
+            if (isEmpty(value) || page === 1 || !caching) {
+                const updatedModel = !isEqual(model, prevModel)
+                /*
+                   Кейс с префильтром,
+                   InputSelect подгружает и кэширует данные + параметры запроса в PopupList (onScroll).
+                   При этом, с закешированными данными и параметрами, может получить модель префильтрации.
+                   В таком случае нужно ресетнуть cache и page для актуального запроса.
+                   Если модель не поменялась, данные вновь берутся из cache.
+                */
+                const cacheReset = !isEmpty(model) && updatedModel
+
+                if (updatedModel) {
+                    this.setState({ prevModel: model })
+                }
+
+                const getCurrentPage = (cacheReset, caching, page) => {
+                    if (cacheReset) {
+                        return 1
+                    }
+
+                    if (caching && page) {
+                        return page
+                    }
+
+                    return 1
+                }
+
+                const currentPage = getCurrentPage(cacheReset, caching, page)
+                /*
+                   Concat данных, если передан caching + подгружено несколько pages через onScroll,
+                   иначе при очередном открытии InputSelect будет получена конкретная часть list последнего page из cache.
+                   Во время префильтрации, ненужно мержить данные из cache
+                */
+                const concat = cacheReset ? false : caching || false
+
+                _fetchData({ size, page: currentPage, [`sorting.${sortFieldId}`]: 'ASC' }, concat, cacheReset)
             }
         })
 
@@ -377,7 +410,6 @@ class InputSelect extends React.Component {
             options,
             onSelect,
             onChange,
-            onBlur,
         } = this.props
 
         const selectCallback = () => {
@@ -397,11 +429,13 @@ class InputSelect extends React.Component {
             }),
             () => {
                 selectCallback()
-                onBlur(this.getValue())
 
                 if (this.inputRef) {
                     this.inputRef.focus()
                 }
+
+                this.textAreaRef.focus()
+                this.setInputFocus(true)
             },
         )
 
@@ -433,7 +467,8 @@ class InputSelect extends React.Component {
                 this.clearSearchField()
             }
             this.clearSelected()
-            this.setInputFocus(false)
+            this.textAreaRef.focus()
+            this.setInputFocus(true)
         }
     }
 
@@ -573,7 +608,9 @@ class InputSelect extends React.Component {
             popupAutoSize,
             maxTagTextLength,
             onDismiss,
+            onKeyDown,
             filter,
+            sortFieldId,
         } = this.props
         const {
             value: stateValue,
@@ -587,7 +624,9 @@ class InputSelect extends React.Component {
         } = this.state
 
         const inputSelectStyle = { width: '100%', cursor: 'text', ...style }
-        const needAddFilter = filter && !find(stateValue, item => item[labelFieldId] === input)
+
+        const sorting = !isEmpty(sortFieldId) && !isEmpty(input)
+        const needAddFilter = (!isEmpty(filter) || sorting) && !find(stateValue, item => item[labelFieldId] === input)
 
         const popUpStyle = { maxHeight: `${popUpMaxHeight}${MEASURE}` }
 
@@ -616,13 +655,14 @@ class InputSelect extends React.Component {
                             inputFocus={inputFocus}
                             onClearClick={this.handleElementClear}
                             disabled={disabled}
-                            className={`${className} ${isExpanded ? 'focus' : ''}`}
+                            className={`${className} ${(isExpanded || inputFocus) ? 'focus' : ''}`}
                             onClick={this.onInputSelectGroupClick}
                         >
                             <InputContent
                                 setRef={this.setInputRef}
                                 onFocus={this.onFocus}
                                 onBlur={this.onInputBlur}
+                                onKeyDown={onKeyDown}
                                 loading={loading}
                                 value={input}
                                 disabled={disabled}
@@ -753,6 +793,13 @@ InputSelect.propTypes = {
      */
     badge: PropTypes.object,
     /**
+     * Флаг кэширования запросов,
+     * если false лист при открытии селекта всегда запрашиватся заного т.е. с page = 1
+     */
+    caching: PropTypes.bool,
+    _fetchData: PropTypes.func,
+    model: PropTypes.object,
+    /**
      * Ключ сортировки в данных
      */
     sortFieldId: PropTypes.string,
@@ -776,6 +823,7 @@ InputSelect.propTypes = {
      * Callback на переключение
      */
     onToggle: PropTypes.func,
+    onKeyDown: PropTypes.func,
     onInput: PropTypes.func,
     /**
      * Callback на изменение
@@ -888,6 +936,7 @@ InputSelect.defaultProps = {
     onChange() {},
     onScrollEnd() {},
     onBlur() {},
+    onKeyDown() {},
 }
 
 export { InputSelect }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -79,7 +80,7 @@ public class FileStoreController {
 
     @Getter
     @Builder
-    public static class FileModel {
+    public static class FileModel implements Serializable {
         String id;
         String fileName;
         String url;

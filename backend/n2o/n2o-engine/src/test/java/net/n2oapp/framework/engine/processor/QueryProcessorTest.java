@@ -418,6 +418,9 @@ public class QueryProcessorTest {
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedFieldsFiltering.query.xml"));
         CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testNestedFieldsFiltering"));
 
+        assertThat(query.getInvertFiltersMap().size(), is(2));
+        assertThat(query.getInvertFiltersMap().get("organization_code_eq").getKey(), is("organization.code"));
+
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         Filter filter = new Filter(31, FilterType.eq);
         criteria.addRestriction(new Restriction("organization.code", filter));

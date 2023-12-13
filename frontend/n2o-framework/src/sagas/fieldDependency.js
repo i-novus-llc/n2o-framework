@@ -25,6 +25,7 @@ import {
     setLoading,
     registerFieldExtra,
     initializeDependencies,
+    syncValues,
 } from '../ducks/form/store'
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
@@ -234,6 +235,16 @@ const shouldBeResolved = ({
         )
     )) { return true }
 
+    // Произошла синхронизация моделей формы и редюсера models.
+    // Тригерим только если у поля есть зависимости
+    if (actionType === syncValues.type && on.length) {
+        return true
+    }
+
+    if (actionType === actionTypes.INITIALIZE && !applyOnInit) {
+        return false
+    }
+
     // apply on change
     /*
      * условие 2 нужно чтобы стрелть событиями когда обновлённое поле это объект,
@@ -242,6 +253,7 @@ const shouldBeResolved = ({
      * из-за этого условия стреляют лишние зависимости: on=['field.count']
      * FIXME: Переделать на реальное сравнение изменения вложенных полей
      */
+
     return isChangeAction && on?.some(dependencyField => (
         dependencyField === actionField || // full equality
         dependencyField.startsWith(`${actionField}.`) || // fieldName: "field", on: "field.id"
@@ -282,6 +294,7 @@ export function* resolveDependency({ type, meta, payload }) {
      * зависимость отрабатывает раньше чем redux form изменяет поля с пред. данными
      * если delay будет безусловный, в полях при обработке начнется мерцание.
      */
+
     if (Array.isArray(payload)) {
         yield delay(16)
     }
@@ -289,7 +302,9 @@ export function* resolveDependency({ type, meta, payload }) {
     try {
         const { form: formName, field: fieldName } = meta
         const form = yield select(makeFormByName(formName))
-        const fieldKeys = type === actionTypes.INITIALIZE ? keys(form.registeredFields) : null
+        const fieldKeys = (type === actionTypes.INITIALIZE || type === syncValues.type)
+            ? keys(form.registeredFields)
+            : null
 
         if (isEmpty(form) || isEmpty(form.registeredFields)) {
             return
@@ -357,6 +372,7 @@ export const fieldDependencySagas = [
         registerFieldExtra.type,
         actionTypes.CHANGE,
         initializeDependencies.type,
+        syncValues,
     ], resolveDependency),
     takeEvery(resolveRequest, resolveDependencyOnInit),
     takeLatest(combineModels, resolveDependencyDefaultModels),

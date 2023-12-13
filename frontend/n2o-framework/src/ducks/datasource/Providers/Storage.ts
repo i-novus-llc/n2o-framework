@@ -1,5 +1,5 @@
 import { select } from 'redux-saga/effects'
-import { isNil } from 'lodash'
+import { isEmpty } from 'lodash'
 
 import { dataSourceByIdSelector, dataSourceProviderSelector } from '../selectors'
 import type { IProvider, QueryOptions, StorageProvider, StorageSubmit } from '../Provider'
@@ -20,7 +20,7 @@ export function* submit(id: string, { key, model: prefix, storage: storageType }
     const model: unknown = yield select(makeGetModelByPrefixSelector(prefix, id))
     const storage = storageType === StorageType.local ? localStorage : sessionStorage
 
-    if (isNil(model)) {
+    if (isEmpty(model)) {
         return storage.removeItem(getFullKey(key))
     }
 
@@ -35,7 +35,7 @@ export function* query(id: string, { storage: storageType, key }: StorageProvide
     const { sorting, paging: { page, size } } = datasource
 
     if (!key) {
-        throw new Error('Parametr "key" is required for query data')
+        throw new Error('Parameter "key" is required for query data')
     }
 
     const storage = storageType === StorageType.local ? localStorage : sessionStorage

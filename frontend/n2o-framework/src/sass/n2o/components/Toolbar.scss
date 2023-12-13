@@ -5,6 +5,12 @@
     max-width: max-content;
 }
 
+.buttons-toolbar {
+    .btn-group {
+        margin-right: 0.5rem;
+    }
+}
+
 .modal-footer {
     .btn-toolbar {
         .btn-group,

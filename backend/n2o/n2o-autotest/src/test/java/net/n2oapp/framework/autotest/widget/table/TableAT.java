@@ -60,8 +60,9 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void testTable() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/testTable.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/simple/testTable.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -130,6 +131,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void testRowClickEnabled() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/row_click");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_click/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_click/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_click/test.query.xml"));
@@ -158,8 +160,9 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void testToolbar() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/test.query.xml"));
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/simple/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -179,9 +182,10 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void testHideOnBlur() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur/test.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -207,6 +211,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void testPaging() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -261,6 +266,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void testSortOfColumn() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/sort_column");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/sort_column/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/sort_column/test.query.xml"));
 
@@ -299,6 +305,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void testFetchOnClear() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/search_buttons");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/search_buttons/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/search_buttons/test.query.xml"));
 

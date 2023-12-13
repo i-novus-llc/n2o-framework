@@ -484,6 +484,7 @@ class N2OSelect extends React.Component {
             hasSearch,
             cleanable,
             style,
+            onKeyDown,
         } = this.props
         const inputSelectStyle = { width: '100%', ...style }
 
@@ -499,7 +500,7 @@ class N2OSelect extends React.Component {
                 onBlur={this.handleOnBlur}
                 ref={this.n2oSelectRef}
             >
-                <Button innerRef={this.setControlRef} onClick={this.handleButtonClick}>
+                <Button innerRef={this.setControlRef} onClick={this.handleButtonClick} onKeyDown={onKeyDown}>
                     <InputSelectGroup
                         className={className}
                         isExpanded={isExpanded}
@@ -641,6 +642,7 @@ N2OSelect.propTypes = {
      * Callback на закрытие попапа
      */
     onClose: PropTypes.func,
+    onKeyDown: PropTypes.func,
     groupFieldId: PropTypes.string,
     /**
      * Формат
@@ -692,6 +694,7 @@ N2OSelect.defaultProps = {
     onOpen() {},
     onClose() {},
     onBlur() {},
+    onKeyDown() {},
 }
 
 export { N2OSelect }

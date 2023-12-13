@@ -33,9 +33,9 @@ class TextEditor extends Component {
         super(props)
 
         this.state = {
-            editorState: this.convertToEditorState(props.value),
+            editorState: this.convertToEditorState(props.value || ''),
             // eslint-disable-next-line react/no-unused-state
-            value: props.value,
+            value: props.value || '',
         }
 
         this.onEditorStateChange = this.onEditorStateChange.bind(this)

@@ -10,6 +10,7 @@ import {
     mapUrl,
     makeRegionIsInitSelector,
     makeRegionActiveEntitySelector,
+    unregisterRegion,
 } from '../../ducks/regions/store'
 
 import { getFirstContentId } from './helpers'
@@ -46,8 +47,8 @@ const createRegionContainer = config => (WrappedComponent) => {
                     active,
                     resolveModel,
                     activeTabFieldId,
-                    query,
                     content,
+                    query = {},
                     datasource = null,
                     open = true,
                     tabs = [],
@@ -66,11 +67,15 @@ const createRegionContainer = config => (WrappedComponent) => {
                         }
                     }
 
+                    if (active) {
+                        return active
+                    }
+
                     const [first = {}] = tabs
+                    const [queryParam] = Object.values(query) || null
 
-                    return activeEntity || active || query[id] || getFirstContentId(content) || first.id
+                    return queryParam || activeEntity || getFirstContentId(content) || first.id
                 }
-
                 const currentActiveEntity = getCurrentActiveEntity()
 
                 dispatch(registerRegion(id, {
@@ -96,6 +101,11 @@ const createRegionContainer = config => (WrappedComponent) => {
                 const { initIfNeeded } = this.props
 
                 initIfNeeded()
+            },
+            componentWillUnmount() {
+                const { dispatch, id } = this.props
+
+                dispatch(unregisterRegion(id))
             },
         }),
     )

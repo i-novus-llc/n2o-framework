@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create" success-text="form_value={form_value} second_form.value={second_form.value} second_form.value2={second_form.value2}">
+            <invocation>
+                <test file="test.json" operation="echo"/>
+            </invocation>
+            <in>
+                <field id="form_value"/>
+                <field id="second_form"/>
+            </in>
+            <out>
+                <field id="form_value"/>
+                <field id="second_form.value"/>
+                <field id="second_form.value2"/>
+            </out>
+        </operation>
+    </operations>
+</object>

@@ -71,8 +71,6 @@
 }
 
 .n2o-advanced-table {
-    overflow-x: auto;
-
     .row-click {
         cursor: pointer;
     }
@@ -294,4 +292,10 @@
 
 .n2o-advanced-table-header-cel {
     vertical-align: initial !important;
+}
+
+.cell {
+    .btn-group {
+        position: initial;
+    }
 }

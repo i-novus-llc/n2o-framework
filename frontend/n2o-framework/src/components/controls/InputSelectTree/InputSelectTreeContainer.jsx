@@ -1,17 +1,14 @@
-import React, { Component } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import unionWith from 'lodash/unionWith'
-import map from 'lodash/map'
-import omit from 'lodash/omit'
-import isArray from 'lodash/isArray'
-import { withProps, compose, setDisplayName } from 'recompose'
+import isNaN from 'lodash/isNaN'
+import get from 'lodash/get'
 
 import listContainer from '../listContainer'
 
-import { propTypes, defaultProps } from './allProps'
-// eslint-disable-next-line import/no-named-as-default
-import InputSelectTree from './InputSelectTree'
+import { InputSelectTreeComponent } from './InputSelectTree'
 
 /**
  * Контейнер для {@link InputSelect}
@@ -27,10 +24,9 @@ import InputSelectTree from './InputSelectTree'
  * @reactProps {string} value - текущее значение
  * @reactProps {function} onInput - callback при вводе в инпут
  * @reactProps {function} onSelect - callback при выборе значения из popup
- * @reactProps {function} onScrollEnd - callback при прокрутке скролла popup
  * @reactProps {string} placeHolder - подсказка в инпуте
  * @reactProps {boolean} resetOnBlur - фича, при которой сбрасывается значение контрола, если оно не выбрано из popup
- * @reactProps {function} onOpen - callback на открытие попапа
+ * @reactProps {function} fetchData - callback на открытие попапа
  * @reactProps {function} onClose - callback на закрытие попапа
  * @reactProps {string} queryId - queryId
  * @reactProps {number} size - size
@@ -39,59 +35,152 @@ import InputSelectTree from './InputSelectTree'
  * @reactProps {boolean} closePopupOnSelect - флаг закрытия попапа при выборе
  * @reactProps {boolean} hasCheckboxes - флаг наличия чекбоксов
  * @reactProps {string} format - формат
- * @reactProps {boolean} collapseSelected - флаг сжатия выбранных элементов
- * @reactProps {number} lengthToGroup - от скольки элементов сжимать выбранные элементы
  */
 
-class InputSelectTreeContainer extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            data: props.data,
-        }
+function optionsHasValue(options, selectedValueId) {
+    if (!options.length) {
+        return false
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.data !== prevState.data && nextProps.ajax) {
-            return { data: unionWith(nextProps.data, prevState.data, isEqual) }
-        }
-
-        return { data: nextProps.data }
-    }
-
-    render() {
-        const { data } = this.state
-        const { isLoading } = this.props
-
-        return (
-            <InputSelectTree
-                {...this.props}
-                data={data}
-                loading={isLoading}
-            />
-        )
-    }
+    return options.some(({ id }) => id === selectedValueId)
 }
 
-InputSelectTreeContainer.propTypes = propTypes
-InputSelectTreeContainer.defaultProps = defaultProps
+function createValue(value) {
+    const numberValue = Number(value)
 
-// eslint-disable-next-line consistent-return
-const overrideDataWithValue = withProps(({ data, value }) => {
-    const newValue = isArray(value) ? value : [value]
+    return isNaN(numberValue) ? value : numberValue
+}
 
-    if (isEmpty(data) && !isEmpty(value)) {
-        return {
-            data: map(newValue, val => ({
-                ...omit(val, ['hasChildren']),
-            })),
+function mapIds(options, valueFieldId, parentFieldId) {
+    return options.map((option) => {
+        const id = option[valueFieldId]
+        const parent = option[parentFieldId]
+
+        return { ...option, [valueFieldId]: createValue(id), [parentFieldId]: parent ? createValue(parent) : null }
+    })
+}
+
+function InputSelectTreeContainer(props) {
+    const { data: options, ajax, value, valueFieldId, isLoading, parentFieldId } = props
+    const [unionOptions, setOptions] = useState(options)
+
+    const optionsWithValues = useMemo(() => {
+        if (isEmpty(value)) { return options }
+
+        const values = Array.isArray(value) ? value : [value]
+
+        if (isEmpty(options)) {
+            return values
         }
-    }
-})
 
-export { InputSelectTreeContainer }
-export default compose(
-    setDisplayName('InputSelectTreeContainer'),
-    listContainer,
-    overrideDataWithValue,
-)(InputSelectTreeContainer)
+        const newOptions = [...options]
+
+        for (const selectedValue of values) {
+            const selectedValueId = get(selectedValue, valueFieldId, null)
+
+            if (!optionsHasValue(options, selectedValueId)) {
+                newOptions.push(selectedValue)
+            }
+        }
+
+        return newOptions
+    }, [value, options, valueFieldId])
+
+    useEffect(() => {
+        if (!isEqual(optionsWithValues, unionOptions)) {
+            if (ajax) {
+                setOptions(unionWith(optionsWithValues, unionOptions, isEqual))
+            } else {
+                setOptions(optionsWithValues)
+            }
+        }
+    }, [optionsWithValues, ajax, unionOptions])
+
+    const mappedOptions = mapIds(unionOptions, valueFieldId, parentFieldId)
+
+    return (
+        <InputSelectTreeComponent
+            {...props}
+            options={mappedOptions}
+            loading={isLoading}
+        />
+    )
+}
+
+InputSelectTreeContainer.propTypes = {
+    data: PropTypes.array,
+    ajax: PropTypes.bool,
+    value: PropTypes.string,
+    valueFieldId: PropTypes.string,
+    isLoading: PropTypes.bool,
+    children: PropTypes.node,
+    onSearch: PropTypes.func,
+    onSelect: PropTypes.func,
+    onChange: PropTypes.func,
+    onClose: PropTypes.func,
+    onToggle: PropTypes.func,
+    onOpen: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    onInput: PropTypes.func,
+    parentFieldId: PropTypes.string,
+    labelFieldId: PropTypes.string,
+    iconFieldId: PropTypes.string,
+    badgeFieldId: PropTypes.string,
+    badgeColorFieldId: PropTypes.string,
+    sortFieldId: PropTypes.string,
+    hasChildrenFieldId: PropTypes.string,
+    searchPlaceholder: PropTypes.string,
+    transitionName: PropTypes.string,
+    choiceTransitionName: PropTypes.string,
+    showCheckedStrategy: PropTypes.string,
+    placeholder: PropTypes.string,
+    disabled: PropTypes.bool,
+    hasCheckboxes: PropTypes.bool,
+    multiSelect: PropTypes.bool,
+    closePopupOnSelect: PropTypes.bool,
+    allowClear: PropTypes.bool,
+    showSearch: PropTypes.bool,
+    dropdownPopupAlign: PropTypes.object,
+}
+
+InputSelectTreeContainer.defaultProps = {
+    children: null,
+    hasChildrenFieldId: 'hasChildren',
+    disabled: false,
+    parentFieldId: 'parentId',
+    valueFieldId: 'id',
+    labelFieldId: 'name',
+    iconFieldId: 'icon',
+    badgeFieldId: 'badge',
+    badgeColorFieldId: 'color',
+    sortFieldId: 'name',
+    hasCheckboxes: false,
+    multiSelect: false,
+    closePopupOnSelect: false,
+    data: [],
+    searchPlaceholder: '',
+    transitionName: 'slide-up',
+    choiceTransitionName: 'zoom',
+    showCheckedStrategy: 'all',
+    allowClear: true,
+    placeholder: '',
+    showSearch: true,
+    dropdownPopupAlign: {
+        points: ['tl', 'bl'],
+        overflow: {
+            adjustY: true,
+        },
+    },
+    onSearch: () => {},
+    onSelect: () => {},
+    onChange: () => {},
+    onClose: () => {},
+    onToggle: () => {},
+    onOpen: () => {},
+    onFocus: () => {},
+    onBlur: () => {},
+    onInput: () => {},
+}
+
+export default listContainer(InputSelectTreeContainer)
