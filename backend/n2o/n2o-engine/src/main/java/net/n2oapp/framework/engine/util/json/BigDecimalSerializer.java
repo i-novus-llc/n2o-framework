@@ -18,7 +18,7 @@ public class BigDecimalSerializer extends JsonSerializer<BigDecimal> {
     @Override
     public void serialize(BigDecimal value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
         // put your desired money style here
-        jgen.writeString(trim(value.toString()));
+        jgen.writeNumber(new BigDecimal(trim(value.toString())));
     }
 
     @Override
