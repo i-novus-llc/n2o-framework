@@ -3,7 +3,7 @@
       name="CRUD + localStorage">
     <datasources>
         <browser-storage id="table" key="crud" type="localStorage">
-            <submit/>
+            <submit model="datasource"/>
         </browser-storage>
     </datasources>
     <regions>
