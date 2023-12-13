@@ -101,7 +101,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         formToolbar.button("Modal from detail").click();
         modal.shouldExists();
         modal.shouldHaveTitle("Page name=test2 type=type1");
-        modal.close();
+        modal.closeByEsc();
         modal.shouldNotExists(Duration.ofSeconds(15));
     }
 

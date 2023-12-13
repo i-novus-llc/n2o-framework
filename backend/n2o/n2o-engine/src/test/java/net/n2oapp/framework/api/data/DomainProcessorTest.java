@@ -51,7 +51,7 @@ public class DomainProcessorTest {
     }
 
     @Test
-    void testDynamicValue() throws Exception {
+    void testDynamicValue() {
         DomainProcessor proc = new DomainProcessor();
         assert "{id}".equals(proc.deserialize("{id}", "integer"));
         assert "`1 == 1`".equals(proc.deserialize("`1 == 1`", "boolean"));
@@ -59,7 +59,7 @@ public class DomainProcessorTest {
     }
 
     @Test
-    void testAutoCast() throws Exception {
+    void testAutoCast() {
         DomainProcessor proc = new DomainProcessor();
         assert proc.deserialize("abc123") instanceof String;
         assert proc.deserialize(100) instanceof Integer;
@@ -83,7 +83,7 @@ public class DomainProcessorTest {
 
     @Test
     void testSimpleTyping() {
-        DomainProcessor proc = DomainProcessor.getInstance();
+        DomainProcessor proc = new DomainProcessor();
         assert proc.deserialize("true", "Boolean") instanceof Boolean;
         assert proc.deserialize("1", "Byte") instanceof Byte;
         assert proc.deserialize("32", "Short") instanceof Short;
@@ -108,7 +108,7 @@ public class DomainProcessorTest {
     }
 
     @Test
-    void testArrays() throws Exception {
+    void testArrays() {
         DomainProcessor proc = new DomainProcessor();
 
         //список чисел с доменом
@@ -182,13 +182,13 @@ public class DomainProcessorTest {
         Map<String, Date> mapDate = new HashMap<>();
         mapDate.put("begin", date1);
         mapDate.put("end", date2);
-        checkDates(date1, date2, (Interval) proc.deserialize(mapDate, "interval{date}"));
+        checkDates(date1, date2, (Interval<?>) proc.deserialize(mapDate, "interval{date}"));
 
         //мапа строковых дат
         Map<String, String> mapString = new HashMap<>();
         mapString.put("begin", "2014-02-01T11:11:00+04");
         mapString.put("end", "2014-02-02T11:11:00+04");
-        checkDates(date1, date2, (Interval) proc.deserialize(mapString, "interval{date}"));
+        checkDates(date1, date2, (Interval<?>) proc.deserialize(mapString, "interval{date}"));
 
         //мапа числел
         Map<String, Integer> mapInteger = new HashMap<>();
@@ -196,8 +196,8 @@ public class DomainProcessorTest {
         mapInteger.put("end", 2);
         Object value = proc.deserialize(mapInteger, "interval{integer}");
         assertThat(value, instanceOf(Interval.class));
-        assertThat(((Interval) value).getBegin(), is(1));
-        assertThat(((Interval) value).getEnd(), is(2));
+        assertThat(((Interval<?>) value).getBegin(), is(1));
+        assertThat(((Interval<?>) value).getEnd(), is(2));
 
         //мапа строковых чисел
         mapString = new HashMap<>();
@@ -205,14 +205,14 @@ public class DomainProcessorTest {
         mapString.put("end", "2");
         value = proc.deserialize(mapInteger, "interval{integer}");
         assertThat(value, instanceOf(Interval.class));
-        assertThat(((Interval) value).getBegin(), is(1));
-        assertThat(((Interval) value).getEnd(), is(2));
+        assertThat(((Interval<?>) value).getBegin(), is(1));
+        assertThat(((Interval<?>) value).getEnd(), is(2));
 
         //список чисел
         value = proc.deserialize(Arrays.asList(1, 2), "interval{integer}");
         assertThat(value, instanceOf(Interval.class));
-        assertThat(((Interval) value).getBegin(), is(1));
-        assertThat(((Interval) value).getEnd(), is(2));
+        assertThat(((Interval<?>) value).getBegin(), is(1));
+        assertThat(((Interval<?>) value).getEnd(), is(2));
     }
 
     @Test
@@ -238,7 +238,7 @@ public class DomainProcessorTest {
         assertThat(proc.serialize(date), is("2019-01-01T11:11:00"));
     }
 
-    private void checkDates(Date date1, Date date2, Interval interval) {
+    private void checkDates(Date date1, Date date2, Interval<?> interval) {
         assert interval.size() == 2;
         assert interval.getBegin().equals(date1);
         assert interval.getEnd().equals(date2);
