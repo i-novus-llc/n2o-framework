@@ -183,7 +183,9 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                                 getClientDatasourceId(preFilter.getDatasourceId(), preFilter.getRefPageId(), p) :
                                 getClientDatasourceId(preFilter.getDatasourceId(), p);
                         ReduxModel model = p.cast(preFilter.getModel(), ReduxModel.resolve);
-                        ModelLink link = new ModelLink(model, clientDatasourceId);
+                        ModelLink link = new ModelLink(
+                                model,
+                                clientDatasourceId != null ? clientDatasourceId : getClientDatasourceId(source.getId(), p));
                         link.setValue(prefilterValue);
                         link.setParam(filter.getParam());
                         filter.setLink(link);
