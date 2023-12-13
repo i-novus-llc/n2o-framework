@@ -43,7 +43,7 @@ public class GraphQlDataProviderEngineTest {
     private int appPort;
 
     @Captor
-    ArgumentCaptor<HttpEntity> httpEntityCaptor;
+    ArgumentCaptor<HttpEntity<?>> httpEntityCaptor;
 
     @Autowired
     private GraphQlDataProviderEngine provider;
@@ -198,7 +198,7 @@ public class GraphQlDataProviderEngineTest {
         assertEquals(request.getId(), result.get("id"));
         assertEquals(request.getPersonName(), result.get("personName"));
         assertEquals(request.getAge(), result.get("age"));
-        assertEquals(request.getAddresses().get(0).getStreet(), ((Map) ((List) result.get("addresses")).get(0)).get("street"));
+        assertEquals(request.getAddresses().get(0).getStreet(), ((Map<?, ?>) ((List<?>) result.get("addresses")).get(0)).get("street"));
     }
 
     /**
@@ -284,8 +284,8 @@ public class GraphQlDataProviderEngineTest {
         data.put("data", persons);
 
         String expectedQuery = "query persons(" +
-                "filter: { [{ name: {like: \"\\\"t\\\\\\\"es\\\\\\\"t\\\"\" } }] AND [{ age: {ge: 20 } }] AND [{ salary: {ge: \"123.55\" } }] }) " +
-                "{id name age}";
+                "filter: { [{ name: {like: \"\\\"t\\\\\\\"es\\\\\\\"t\\\"\" } }] AND [{ age: {ge: 20 } }] AND [{ salary: {ge: \"123.55\" } }] }" +
+                ") {id name age}";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 

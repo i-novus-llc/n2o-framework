@@ -27,22 +27,22 @@ public enum Domain {
     OFFSETDATETIME("offsetdatetime", OffsetDateTime.class, "YYYY-MM-DDTHH:mm:ssZ"),
     OBJECT("object", DataSet.class);
 
-    private String name;
-    private Class type;
+    private final String name;
+    private final Class<?> type;
     private String jsFormat;
 
-    Domain(String name, Class type) {
+    Domain(String name, Class<?> type) {
         this.name = name;
         this.type = type;
     }
 
-    Domain(String name, Class type, String jsFormat) {
+    Domain(String name, Class<?> type, String jsFormat) {
         this.name = name;
         this.type = type;
         this.jsFormat = jsFormat;
     }
 
-    public Class getType() {
+    public Class<?> getType() {
         return type;
     }
 
@@ -64,6 +64,7 @@ public enum Domain {
                 return domain;
             }
         }
+
         return null;
     }
 
@@ -73,6 +74,7 @@ public enum Domain {
                 return domain;
             }
         }
+
         return null;
     }
 }
