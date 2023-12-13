@@ -40,12 +40,13 @@ public final class IOProcessorImpl implements IOProcessor {
     /**
      * Если true, то чтение, false запись
      */
-    private boolean r;
+    private final boolean r;
     private NamespaceReaderFactory readerFactory;
     private NamespacePersisterFactory persisterFactory;
     private MessageSourceAccessor messageSourceAccessor;
     private PropertyResolver systemProperties;
     private boolean failFast = true;
+    private final DomainProcessor domainProcessor = new DomainProcessor();
 
     public IOProcessorImpl(boolean read) {
         this.r = read;
@@ -302,7 +303,7 @@ public final class IOProcessorImpl implements IOProcessor {
                 String value = valueName == null ?
                         childE.getValue() :
                         childE.getAttribute(valueName).getValue();
-                Object objValue = DomainProcessor.getInstance().doDomainConversion(null, value);
+                Object objValue = domainProcessor.deserialize(value, (String) null);
                 result.put(key, objValue);
             }
             setter.accept(result);
@@ -328,7 +329,7 @@ public final class IOProcessorImpl implements IOProcessor {
                 Attribute attribute = childE.getAttributes().get(0);
                 String key = attribute.getName();
                 String value = attribute.getValue();
-                Object objValue = DomainProcessor.getInstance().deserialize(value);
+                Object objValue = domainProcessor.deserialize(value);
                 result.put(key, objValue);
             }
             setter.accept(result);

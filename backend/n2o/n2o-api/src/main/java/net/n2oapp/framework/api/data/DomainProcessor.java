@@ -1,6 +1,5 @@
 package net.n2oapp.framework.api.data;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
@@ -34,13 +33,6 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_TIME;
  */
 public class DomainProcessor {
     public static final String JAVA_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
-
-    private static DomainProcessor ourInstance = new DomainProcessor();
-
-    @Deprecated
-    public static DomainProcessor getInstance() {
-        return ourInstance;
-    }
 
     private final ObjectMapper objectMapper;
 
@@ -119,8 +111,10 @@ public class DomainProcessor {
         Object result = deserialize(value, Domain.getByClass(clazz));
         if (result != null
                 && !StringUtils.isDynamicValue(result)
-                && !clazz.isAssignableFrom(result.getClass()))
+                && !clazz.isAssignableFrom(result.getClass())) {
             throw new ClassCastException(String.format("Value [%s] is not a %s", value, clazz));
+        }
+
         return result;
     }
 
@@ -198,11 +192,6 @@ public class DomainProcessor {
         return inDataSet;
     }
 
-    @Deprecated //use deserialize(Object, String)
-    public Object doDomainConversion(String domain, Object value) {
-        return deserialize(value, domain);
-    }
-
     private Object convertObject(Object value, String domain) {
         //строку преобразуем в домен, а если значение не строка, то возвращаем как есть
         if (value instanceof String || value instanceof Number) {
@@ -211,8 +200,9 @@ public class DomainProcessor {
             } catch (ParseException | IOException e) {
                 throw new IllegalStateException(String.format("failed to cast to type [%s] value [%s]", domain, value), e);
             }
-        } else
-            return value;
+        }
+
+        return value;
     }
 
     /**
@@ -225,8 +215,8 @@ public class DomainProcessor {
     @SuppressWarnings("unchecked")
     private Interval<?> convertInterval(Object value, String domain) {
         Interval<?> res = new Interval<>();
-        Object begin = null;
-        Object end = null;
+        Object begin;
+        Object end;
         String domainElement = domain.replaceAll("interval\\{", "").replaceAll("\\}", "");
         if (value instanceof String
                 && (((String) value).startsWith("{")
@@ -240,7 +230,7 @@ public class DomainProcessor {
         }
         if (value instanceof Collection) {
             //array
-            Iterator iterator = ((Collection) value).iterator();
+            Iterator iterator = ((Collection<?>) value).iterator();
             begin = iterator.hasNext() ? iterator.next() : null;
             end = iterator.hasNext() ? iterator.next() : null;
         } else if (value instanceof Map) {
@@ -304,7 +294,7 @@ public class DomainProcessor {
 
     private String findDomain(Object value) {
         if (value instanceof Collection) {
-            if (((Collection) value).isEmpty())
+            if (((Collection<?>) value).isEmpty())
                 return "integer[]";//не важно какой тип элементов списка, если он пустой
             Optional<Object> firstElement = ((Collection<Object>) value).stream().filter(Objects::nonNull).findFirst();
             if (firstElement.isEmpty())
