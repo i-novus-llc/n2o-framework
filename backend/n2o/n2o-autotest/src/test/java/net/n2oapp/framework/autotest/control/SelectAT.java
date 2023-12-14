@@ -64,6 +64,10 @@ public class SelectAT extends AutoTestBase {
         input.shouldBeEmpty();
         dropdown.selectItem(1);
         input.shouldSelected("Two");
+        // Выбранная строка в выпадающем списке не должна быть кликабельной
+        input.dropdown().item(1).shouldBeSelected();
+        input.dropdown().item(1).shouldBeDisabled();
+
         input.shouldBeCleanable();
         input.clear();
         input.shouldBeEmpty();
@@ -75,6 +79,9 @@ public class SelectAT extends AutoTestBase {
         DropDown dropdown2 = input2.dropdown();
         dropdown2.selectItem(1);
         input2.shouldNotBeCleanable();
+        // Выбранная строка в выпадающем списке не должна быть кликабельной
+        input2.dropdown().item(1).shouldBeSelected();
+        input2.dropdown().item(1).shouldBeDisabled();
 
         // close popup by click on outside area
         input2.click();

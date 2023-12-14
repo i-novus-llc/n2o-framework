@@ -82,6 +82,7 @@ public class InputSelectAT extends AutoTestBase {
         input.shouldBeClosed();
         input.shouldHaveValue("Two");
 
+        // Выбранная строка в выпадающем списке не должна быть кликабельной
         input.openPopup();
         input.dropdown().item(1).shouldBeSelected();
         input.dropdown().item(1).shouldBeDisabled();
@@ -93,8 +94,14 @@ public class InputSelectAT extends AutoTestBase {
         input.dropdown().item(1).shouldNotBeSelected();
 
         input.setValue("Three");
+        input.pressEnter();
+        input.shouldBeClosed();
         input.shouldHaveValue("Three");
-        input.closePopup();
+
+        // Выбранная строка в выпадающем списке не должна быть кликабельной
+        input.openPopup();
+        input.dropdown().item(2).shouldBeSelected();
+        input.dropdown().item(2).shouldBeDisabled();
 
         InputSelect input2 = fields.field("InputSelect1").control(InputSelect.class);
         input2.click();
