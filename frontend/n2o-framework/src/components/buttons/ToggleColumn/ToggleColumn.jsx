@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useStore } from 'react-redux'
 import PropTypes from 'prop-types'
 import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import classNames from 'classnames'
 
 import { useTableWidget } from '../../widgets/AdvancedTable'
 import { getTableParam } from '../../../ducks/table/selectors'
@@ -23,16 +24,12 @@ export const ToggleColumn = (props) => {
     const { getState } = useStore()
 
     useEffect(() => {
-        if (!defaultColumns || !columnsState.length) {
-            return
-        }
+        if (!defaultColumns || !columnsState.length) { return }
 
         const state = getState()
         const isDefaultColumns = getTableParam(widgetId, IS_DEFAULT_COLUMNS)(state)
 
-        if (isDefaultColumns) {
-            return
-        }
+        if (isDefaultColumns) { return }
 
         const defaultIds = defaultColumns.replace(/\s/g, '').split(',')
 
@@ -46,6 +43,13 @@ export const ToggleColumn = (props) => {
         switchTableParam(widgetId, IS_DEFAULT_COLUMNS)
     }, [columnsState.length])
 
+    function getLabel(label, icon, columnId) {
+        if (!label && !icon) { return columnId }
+        if (!label) { return null }
+
+        return label
+    }
+
     return (
         <UncontrolledButtonDropdown direction={nested ? 'right' : 'down'}>
             <div>
@@ -58,11 +62,11 @@ export const ToggleColumn = (props) => {
 
                         <DropdownMenu>
                             {columnsState.map((column) => {
-                                const { columnId, label, visible, visibleState } = column
+                                const { columnId, label, icon, visible, visibleState } = column
 
-                                if (!visible) {
-                                    return null
-                                }
+                                if (!visible) { return null }
+
+                                const currentLabel = getLabel(label, icon, columnId)
 
                                 const toggleVisibility = () => {
                                     /* visibleState - локальная видимость колонки, переключаемая в ToggleColumn
@@ -79,7 +83,8 @@ export const ToggleColumn = (props) => {
                                         <span className="n2o-dropdown-check-container">
                                             {visibleState && <i className="fa fa-check" aria-hidden="true" />}
                                         </span>
-                                        <span>{label || columnId}</span>
+                                        {icon && <i className={classNames(icon, { 'mr-1': currentLabel })} />}
+                                        {currentLabel && <span>{currentLabel}</span>}
                                     </DropdownItem>
                                 )
                             })}

@@ -36,20 +36,27 @@ export const useColumnsState = (columns: HeaderCell[], widgetId: string, state: 
         const allHeaderCell = getAllValuesByKey(columns, { keyToIterate: 'children' })
 
         allHeaderCell.forEach((cellData) => {
-            if (cellData.id) {
+            const { id: columnId } = cellData
+
+            if (columnId) {
                 let resolvedVisibility = cellData.visible === undefined ? true : cellData.visible
 
                 if (cellData?.conditions?.visible) {
                     resolvedVisibility = resolveConditions(state, cellData.conditions.visible).resolve
                 }
 
+                const { disabled, icon, label = '', conditions = {} } = cellData
+
                 dispatch(registerTableColumn(
-                    widgetId,
-                    cellData.id,
-                    cellData.label || '',
-                    resolvedVisibility,
-                    Boolean(cellData.disabled),
-                    cellData.conditions || {},
+                    {
+                        widgetId,
+                        columnId,
+                        label,
+                        visible: resolvedVisibility,
+                        disabled: Boolean(disabled),
+                        conditions,
+                        icon,
+                    },
                 ))
             }
         })
