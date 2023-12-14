@@ -62,24 +62,8 @@ const tableSlice = createSlice({
         },
 
         registerTableColumn: {
-            prepare(
-                widgetId,
-                columnId,
-                label,
-                visible,
-                disabled,
-                conditions,
-            ) {
-                return ({
-                    payload: {
-                        widgetId,
-                        columnId,
-                        label,
-                        visible,
-                        disabled,
-                        conditions,
-                    },
-                })
+            prepare(column) {
+                return ({ payload: column })
             },
 
             reducer(state, action: RegisterTableColumn) {
