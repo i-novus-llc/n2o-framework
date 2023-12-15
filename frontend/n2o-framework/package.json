@@ -124,7 +124,7 @@
     "react-textarea-autosize": "7.0.4",
     "react-virtualized": "9.22.3",
     "reactstrap": "8.10.1-popper2-beta.0",
-    "recharts": "^1.6.2",
+    "recharts": "^2.10.3",
     "recompose": "0.30.0",
     "redux": "4.1.2",
     "redux-actions": "2.6.5",
