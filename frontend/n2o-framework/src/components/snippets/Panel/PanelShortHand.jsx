@@ -83,7 +83,7 @@ function PanelContainer({
         >
             {header && (
                 <Panel.Heading>
-                    <Panel.Title collapsible={collapsible} icon={icon}>
+                    <Panel.Title collapsible={collapsible} icon={icon} toggleCollapse={toggleCollapse}>
                         {headerTitle}
                     </Panel.Title>
                     <Panel.Menu
@@ -98,9 +98,7 @@ function PanelContainer({
               tabs.map((tab, i) => {
                   const activeTab = activeTabState
 
-                  if (!activeTab && i === 0) {
-                      changeActiveTab(tab.id)
-                  }
+                  if (!activeTab && i === 0) { changeActiveTab(tab.id) }
 
                   return (
                       <Panel.NavItem

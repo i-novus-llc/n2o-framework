@@ -7,11 +7,12 @@ import { Icon } from '../Icon/Icon'
  * Компонент заголовка для {@link Panel}
  * @reactProps (string) icon - класс для иконки
  * @reactProps {node} children - элемент вставляемый в PanelTitle
+ * @reactProps {function} toggleCollapse - открывает/закрывает панель
  */
 
-function PanelTitle({ icon, children }) {
+function PanelTitle({ icon, children, toggleCollapse }) {
     return (
-        <a>
+        <a className="n2o-panel-region__panel-title" onClick={toggleCollapse}>
             {icon && <Icon name={icon} className="p-0 mr-2" />}
             {children}
         </a>
