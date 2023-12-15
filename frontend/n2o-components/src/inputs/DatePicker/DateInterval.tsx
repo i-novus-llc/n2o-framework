@@ -11,7 +11,7 @@ type IntervalValue = {
     [DateTimeControlName.END]: string | null,
 }
 
-type DateIntervalProps = TBaseProps & TBaseInputProps<IntervalValue> & {
+export type DateIntervalProps = TBaseProps & TBaseInputProps<IntervalValue> & {
     configLocale?: 'en' | 'ru',
     dateDivider?: string,
     dateFormat?: string,
@@ -88,6 +88,7 @@ export const DateInterval = ({
             onChange={handleChange}
             onBlur={handleBlur}
             type="date-interval"
+            disabled={disabled}
         />
     )
 }
