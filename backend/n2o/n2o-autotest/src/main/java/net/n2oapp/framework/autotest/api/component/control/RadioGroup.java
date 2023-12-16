@@ -26,6 +26,11 @@ public interface RadioGroup extends Control {
     void shouldHaveOptions(String[] labels, Duration... duration);
 
     /**
+     * Проверка отсутствия радио-кнопок
+     */
+    void shouldNotHaveOptions(Duration... duration);
+
+    /**
      * Проверка соответствия типа радио-кнопок
      * @param type ожидаемый тип радио-кнопок
      */

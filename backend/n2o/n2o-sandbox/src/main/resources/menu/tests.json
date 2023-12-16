@@ -1469,6 +1469,10 @@
           "name": "WidgetVisibilityAT"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/fetch",
+          "name": "FieldFetchDependencyAT"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/validation/dialog",
           "name": "DialogValidationAT. testDialog"
         },

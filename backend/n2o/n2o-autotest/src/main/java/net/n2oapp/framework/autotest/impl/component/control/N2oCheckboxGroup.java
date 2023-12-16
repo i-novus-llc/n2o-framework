@@ -52,6 +52,11 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
     }
 
     @Override
+    public void shouldNotHaveOptions(Duration... duration) {
+        should(CollectionCondition.size(0), element().$$(".custom-control-label"), duration);
+    }
+
+    @Override
     public void shouldHaveTooltip(String label) {
         inputElement(label).shouldHave(Condition.attribute("title", label));
     }
