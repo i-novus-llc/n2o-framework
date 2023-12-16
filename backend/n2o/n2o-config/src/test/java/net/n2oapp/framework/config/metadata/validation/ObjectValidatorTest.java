@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование валидации объектов
  */
-public class ObjectValidatorTest extends SourceValidationTestBase {
+class ObjectValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach
@@ -75,6 +75,10 @@ public class ObjectValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkValidationSide.object.xml"));
         assertEquals("Атрибут 'side' валидации 'test' операции 'op' объекта 'checkValidationSide' не может иметь значение client", exception.getMessage());
+        exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/object/checkValidationSideForWhiteList.object.xml"));
+        assertEquals("Атрибут 'side' валидации 'test' операции 'op' объекта 'checkValidationSideForWhiteList' не может иметь значение client", exception.getMessage());
     }
 
     @Test
