@@ -104,12 +104,19 @@ public class SelectAT extends AutoTestBase {
         input.openPopup();
         DropDown dropdown = input.dropdown();
         dropdown.shouldHaveOptions(new String[]{"One", "Two", "Three"});
+
         dropdown.selectMulti(0);
         dropdown.shouldBeChecked(0);
+        dropdown.item(0).shouldBeEnabled();
         input.shouldSelected("Объектов 1 шт");
+
         dropdown.selectMulti(1, 2);
         dropdown.shouldBeChecked(0, 1, 2);
+        dropdown.item(0).shouldBeEnabled();
+        dropdown.item(1).shouldBeEnabled();
+        dropdown.item(2).shouldBeEnabled();
         input.shouldSelected("Объектов 3 шт");
+
         input.clear();
         dropdown.shouldNotBeChecked(0, 1, 2);
         input.shouldBeEmpty();
