@@ -45,13 +45,9 @@ class PanelRegion extends React.Component {
     }
 
     // eslint-disable-next-line react/no-deprecated
-    componentWillReceiveProps() {
-        this.getPanelsWithAccess()
-    }
+    componentWillReceiveProps() { this.getPanelsWithAccess() }
 
-    componentDidMount() {
-        this.getPanelsWithAccess()
-    }
+    componentDidMount() { this.getPanelsWithAccess() }
 
     getContent = (meta, pageId) => {
         const content = isArray(meta) ? meta : [meta]
