@@ -2,11 +2,13 @@ package net.n2oapp.framework.config.metadata.validation.standard.button;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oConfirmAction;
 import net.n2oapp.framework.api.metadata.aware.GenerateAware;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.compile.enums.Color;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Button;
+import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -42,8 +44,11 @@ public class ButtonValidator implements SourceValidator<Button>, SourceClassAwar
         if (source instanceof BadgeAware)
             checkBadgeColor(((BadgeAware) source).getBadgeColor());
 
-        if (isNotEmpty(source.getActions()))
+        if (isNotEmpty(source.getActions())) {
+            if (source.getConfirm() != null && (Arrays.stream(source.getActions()).filter(N2oConfirmAction.class::isInstance).count() >= 2))
+                throw new N2oMetadataValidationException("Кнопка одновременно имеет атрибут 'confirm' и действие <confirm>");
             Arrays.stream(source.getActions()).forEach(a -> p.validate(a, new ComponentScope(source, p.getScope(ComponentScope.class))));
+        }
 
         if (source instanceof GenerateAware && ((GenerateAware) source).getGenerate() != null) {
             String[] generate = ((GenerateAware) source).getGenerate();

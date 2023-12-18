@@ -1,8 +1,13 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.metadata.compile.enums.Color;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
+import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
+import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -81,5 +86,28 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(6).getCols().get(0).getFields().get(0);
         assertThat(field.getDescription(), is("`description`"));
         assertThat(field.getHint(), is("`description`"));
+
+        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(7).getCols().get(0).getFields().get(0);
+        assertThat(field.getAction().getClass(), is(MultiAction.class));
+        assertThat(((MultiAction) field.getAction()).getPayload().getActions().get(0).getClass(), is(ConfirmAction.class));
+        assertThat(((MultiAction) field.getAction()).getPayload().getActions().get(1).getClass(), is(LinkActionImpl.class));
+        ConfirmAction confirm = (ConfirmAction) ((MultiAction) field.getAction()).getPayload().getActions().get(0);
+        assertThat(confirm.getPayload().getMode(), is(ConfirmType.MODAL));
+        assertThat(confirm.getPayload().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title")));
+        assertThat(confirm.getPayload().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text")));
+        assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
+        assertThat(confirm.getPayload().getOk().getColor(), is(Color.primary.name()));
+        assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
+        assertThat(confirm.getPayload().getCancel().getColor(), is(Color.secondary.name()));
+
+        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(8).getCols().get(0).getFields().get(0);
+        confirm = (ConfirmAction)  field.getAction();
+
+        assertThat(confirm.getPayload().getTitle(), is("Предупреждение"));
+        assertThat(confirm.getPayload().getText(), is("Подтвердите действие"));
+        assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
+        assertThat(confirm.getPayload().getOk().getColor(), is(Color.danger.name()));
+        assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
+        assertThat(confirm.getPayload().getCancel().getColor(), is(Color.primary.name()));
     }
 }

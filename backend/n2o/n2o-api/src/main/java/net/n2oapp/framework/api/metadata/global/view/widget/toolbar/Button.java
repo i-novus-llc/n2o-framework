@@ -17,6 +17,38 @@ public interface Button extends DatasourceIdAware, ModelAware, ActionsAware, IdA
 
     void setValidateDatasourceIds(String[] validateDatasourceIds);
 
+    String getConfirm();
+
+    void setConfirm(String confirm);
+
+    ConfirmType getConfirmType();
+
+    void setConfirmType(ConfirmType confirmType);
+
+    String getConfirmText();
+
+    void setConfirmText(String confirmText);
+
+    String getConfirmTitle();
+
+    void setConfirmTitle(String confirmTitle);
+
+    String getConfirmOkLabel();
+
+    void setConfirmOkLabel(String confirmOkLabel);
+
+    String getConfirmOkColor();
+
+    void setConfirmOkColor(String confirmOkColor);
+
+    String getConfirmCancelLabel();
+
+    void setConfirmCancelLabel(String confirmCancelLabel);
+
+    String getConfirmCancelColor();
+
+    void setConfirmCancelColor(String confirmCancelColor);
+
     String getColor();
 
     void setColor(String color);
