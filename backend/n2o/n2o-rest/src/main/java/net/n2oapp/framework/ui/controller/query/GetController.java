@@ -40,18 +40,17 @@ public abstract class GetController implements ControllerTypeAware {
 
 
     public CollectionPage<DataSet> executeQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
-        CollectionPage<DataSet> pageData;
+        CollectionPage<DataSet> pageData = null;
         dataProcessingStack.processQuery(requestInfo, responseInfo);
         try {
             pageData = queryProcessor.execute(requestInfo.getQuery(), requestInfo.getCriteria());
             pageData = executeAdditionalRequest(requestInfo, pageData);
             executeSubModelsRequest(requestInfo, pageData);
         } catch (N2oSpelException e) {
-            dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
-            throw new N2oSpelException(e, requestInfo.getQuery().getId() + METADATA_FILE_EXTENSION);
+            N2oSpelException n2oSpelException = new N2oSpelException(e, requestInfo.getQuery().getId() + METADATA_FILE_EXTENSION);
+            dataProcessingStack.processQueryError(requestInfo, responseInfo, n2oSpelException);
         } catch (N2oException e) {
             dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
-            throw e;
         } catch (Exception e) {
             throw new N2oException(e);
         }
