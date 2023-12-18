@@ -23,6 +23,7 @@ public class ButtonFieldIOv3 extends ActionFieldIOv3<N2oButtonField> implements 
     public void io(Element e, N2oButtonField m, IOProcessor p) {
         super.io(e, m, p);
         button(e, m, p, this);
+        m.adapterV3();
         badge(e, m, p);
 
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);

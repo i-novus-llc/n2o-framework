@@ -20,5 +20,12 @@
         <button id="btn3" label="load" icon="fa fa-download"/>
         <button id="btn4" description="{description}"/>
         <button id="btn6" model="datasource"/>
+        <button id="btn7" confirm="true" datasource="table">
+            <invoke operation-id="delete"/>
+        </button>
+        <button id="btn8" confirm="true" confirm-title="Предупреждение" confirm-text="Подтвердите действие"
+                confirm-ok-label="Да" сonfirm-cancel-label="Нет" confirm-type="popover"
+                confirm-ok-color="danger" confirm-cancel-color="primary"/>
+        <button id="btn9" confirm="{test}" datasource="test"/>
     </toolbar>
 </page>

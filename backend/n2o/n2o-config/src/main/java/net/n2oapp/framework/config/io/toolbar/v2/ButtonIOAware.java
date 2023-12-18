@@ -19,6 +19,14 @@ public interface ButtonIOAware<T extends Button> {
         p.attribute(e, "widget-id", b::getWidgetId, b::setWidgetId);
 
         p.anyChildren(e, null, b::getActions, b::setActions, p.anyOf(N2oAction.class).ignore("dependencies"), namespace);
+        p.attribute(e, "confirm", b::getConfirm, b::setConfirm);
+        p.attribute(e, "confirm-text", b::getConfirmText, b::setConfirmText);
+        p.attributeEnum(e, "confirm-type", b::getConfirmType, b::setConfirmType, ConfirmType.class);
+        p.attribute(e, "confirm-title", b::getConfirmTitle, b::setConfirmTitle);
+        p.attribute(e, "confirm-ok-label", b::getConfirmOkLabel, b::setConfirmOkLabel);
+        p.attribute(e, "confirm-cancel-label", b::getConfirmCancelLabel, b::setConfirmCancelLabel);
+        p.attribute(e, "confirm-ok-color", b::getConfirmOkColor, b::setConfirmOkColor);
+        p.attribute(e, "confirm-cancel-color", b::getConfirmCancelColor, b::setConfirmCancelColor);
     }
 
     default void button(Element e, T b, IOProcessor p, ActionsAwareIO<T> action) {
@@ -26,5 +34,13 @@ public interface ButtonIOAware<T extends Button> {
 
         p.attributeBoolean(e, "validate", b::getValidate, b::setValidate);
         p.attributeArray(e, "validate-datasources", ",", b::getValidateDatasourceIds, b::setValidateDatasourceIds);
+        p.attribute(e, "confirm", b::getConfirm, b::setConfirm);
+        p.attribute(e, "confirm-text", b::getConfirmText, b::setConfirmText);
+        p.attributeEnum(e, "confirm-type", b::getConfirmType, b::setConfirmType, ConfirmType.class);
+        p.attribute(e, "confirm-title", b::getConfirmTitle, b::setConfirmTitle);
+        p.attribute(e, "confirm-ok-label", b::getConfirmOkLabel, b::setConfirmOkLabel);
+        p.attribute(e, "confirm-cancel-label", b::getConfirmCancelLabel, b::setConfirmCancelLabel);
+        p.attribute(e, "confirm-ok-color", b::getConfirmOkColor, b::setConfirmOkColor);
+        p.attribute(e, "confirm-cancel-color", b::getConfirmCancelColor, b::setConfirmCancelColor);
     }
 }

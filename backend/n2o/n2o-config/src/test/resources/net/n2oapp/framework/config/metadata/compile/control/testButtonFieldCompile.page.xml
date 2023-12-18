@@ -38,6 +38,12 @@
                         id="btn6"
                         description="{description}">
                 </button>
+                <button id="btn7" confirm="true" datasource="table">
+                    <a href="http://ya.ru"/>
+                </button>
+                <button id="btn8" confirm="true" confirm-title="Предупреждение" confirm-text="Подтвердите действие"
+                        confirm-ok-label="Да" confirm-cancel-label="Нет" confirm-type="popover"
+                        confirm-ok-color="danger" confirm-cancel-color="primary"/>
                 <hidden id="description" default-value="test"/>
             </fields>
         </form>
