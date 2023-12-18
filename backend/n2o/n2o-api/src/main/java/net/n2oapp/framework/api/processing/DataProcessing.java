@@ -27,8 +27,8 @@ public interface DataProcessing {
      * @param responseInfo Информация об ответе на запрос
      * @param dataSet      Входной набор данных
      */
-    default void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
-
+    default void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet, N2oException exception) {
+        throw exception;
     }
 
     /**
@@ -54,7 +54,7 @@ public interface DataProcessing {
      * @param exception    Ошибка при выполнении запроса
      */
     default void processQueryError(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, N2oException exception) {
-
+        throw exception;
     }
 
     /**
