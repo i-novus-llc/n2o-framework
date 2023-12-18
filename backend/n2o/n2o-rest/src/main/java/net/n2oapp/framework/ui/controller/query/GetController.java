@@ -47,11 +47,10 @@ public abstract class GetController implements ControllerTypeAware {
             pageData = queryProcessor.execute(requestInfo.getQuery(), requestInfo.getCriteria());
             executeSubModels(requestInfo, pageData, responseInfo);
         } catch (N2oSpelException e) {
-            dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
-            throw new N2oSpelException(e, requestInfo.getQuery().getId() + METADATA_FILE_EXTENSION);
+            N2oSpelException n2oSpelException = new N2oSpelException(e, requestInfo.getQuery().getId() + METADATA_FILE_EXTENSION);
+            dataProcessingStack.processQueryError(requestInfo, responseInfo, n2oSpelException);
         } catch (N2oException e) {
             dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
-            throw e;
         } catch (Exception e) {
             throw new N2oException(e);
         }
