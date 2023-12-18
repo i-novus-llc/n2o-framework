@@ -37,9 +37,10 @@ public class N2oValidationModule implements DataProcessing {
     }
 
     @Override
-    public void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
+    public void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet, N2oException exception) {
         List<FailInfo> fails = processor.validate(buildInfo(requestInfo, dataSet), afterFailOperation);
         prepareResponse(fails, requestInfo, responseInfo);
+        DataProcessing.super.processActionError(requestInfo, responseInfo, dataSet, exception);
     }
 
     @Override
@@ -54,6 +55,7 @@ public class N2oValidationModule implements DataProcessing {
             List<FailInfo> fails = processor.validate(buildInfo(requestInfo, requestInfo.getData()), afterFailQuery);
             prepareResponse(fails, requestInfo, responseInfo);
         }
+        DataProcessing.super.processQueryError(requestInfo, responseInfo, exception);
     }
 
     @Override

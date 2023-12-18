@@ -36,7 +36,7 @@ public abstract class SetController implements ControllerTypeAware {
     protected DataSet handleActionRequest(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo) {
         DataSet inDataSet = requestInfo.getData();
         dataProcessingStack.processAction(requestInfo, responseInfo, inDataSet);
-        DataSet resDataSet;
+        DataSet resDataSet = null;
         try {
             resDataSet = actionProcessor.invoke(
                     requestInfo.getOperation(),
@@ -44,13 +44,12 @@ public abstract class SetController implements ControllerTypeAware {
                     requestInfo.getInParametersMap().values(),
                     requestInfo.getOutParametersMap().values());
         } catch (N2oSpelException e) {
-            dataProcessingStack.processActionError(requestInfo, responseInfo, inDataSet);
             e.setOperationId(requestInfo.getOperation().getId());
-            throw new N2oSpelException(e, requestInfo.getObject().getId() + METADATA_FILE_EXTENSION);
+            N2oSpelException n2oSpelException = new N2oSpelException(e, requestInfo.getObject().getId() + METADATA_FILE_EXTENSION);
+            dataProcessingStack.processActionError(requestInfo, responseInfo, inDataSet, n2oSpelException);
         } catch (N2oException e) {
-            dataProcessingStack.processActionError(requestInfo, responseInfo, inDataSet);
+            dataProcessingStack.processActionError(requestInfo, responseInfo, inDataSet, e);
             responseInfo.prepare(inDataSet);
-            throw e;
         } catch (Exception exception) {
             throw new N2oException(exception);
         }

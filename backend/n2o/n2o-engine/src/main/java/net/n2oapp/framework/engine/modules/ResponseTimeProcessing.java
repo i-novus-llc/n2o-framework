@@ -29,8 +29,9 @@ public class ResponseTimeProcessing implements DataProcessing {
     }
 
     @Override
-    public void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
+    public void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet, final N2oException exception) {
         setResponseTime(requestInfo, responseInfo);
+        DataProcessing.super.processActionError(requestInfo, responseInfo, dataSet, exception);
     }
 
     @Override
@@ -46,6 +47,7 @@ public class ResponseTimeProcessing implements DataProcessing {
     @Override
     public void processQueryError(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, N2oException exception) {
         setResponseTime(requestInfo, responseInfo);
+        DataProcessing.super.processQueryError(requestInfo, responseInfo, exception);
     }
 
     private void setRequestTime(RequestInfo requestInfo) {
