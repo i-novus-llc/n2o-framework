@@ -856,6 +856,10 @@
           "name": "ListFieldAT. testOptionsFromDS"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/control/list/alert",
+          "name": "ListFieldAT. testAlert"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/control/masked",
           "name": "MaskedInputAT"
         },

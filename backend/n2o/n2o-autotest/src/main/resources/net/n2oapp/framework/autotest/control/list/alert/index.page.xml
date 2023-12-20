@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Пример для проверки вывода уведомления об ошибке спискового поля">
+    <form>
+        <fields>
+            <input-select id="tt" query-id="test"/>
+        </fields>
+    </form>
+</simple-page>
