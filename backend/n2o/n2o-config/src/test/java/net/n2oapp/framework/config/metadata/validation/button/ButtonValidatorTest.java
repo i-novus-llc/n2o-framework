@@ -47,7 +47,7 @@ public class ButtonValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/testButtonColor.page.xml"));
-        assertEquals("Кнопка использует недопустимое значение атрибута color=\"red\"", exception.getMessage());
+        assertEquals("Кнопка 'красная кнопка' использует недопустимое значение атрибута color=\"red\"", exception.getMessage());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class ButtonValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/field/testButtonFieldColor.page.xml"));
-        assertEquals("Кнопка использует недопустимое значение атрибута color=\"red\"", exception.getMessage());
+        assertEquals("Кнопка 'button' использует недопустимое значение атрибута color=\"red\"", exception.getMessage());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class ButtonValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/testButtonBadgeColor.page.xml"));
-        assertEquals("Кнопка использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
+        assertEquals("Кнопка 'красная кнопка' использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class ButtonValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/field/testButtonFieldBadgeColor.page.xml"));
-        assertEquals("Кнопка использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
+        assertEquals("Кнопка 'красная кнопка' использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
     }
 
     @Test
@@ -103,6 +103,6 @@ public class ButtonValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/testConfirmAttrAndAction.page.xml"));
-        assertEquals("Кнопка одновременно имеет атрибут 'confirm' и действие <confirm>", exception.getMessage());
+        assertEquals("Кнопка 'btn' одновременно имеет атрибут 'confirm' и действие <confirm>", exception.getMessage());
     }
 }
