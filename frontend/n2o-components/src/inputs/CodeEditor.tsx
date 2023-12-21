@@ -1,6 +1,6 @@
 import React from 'react'
 import AceEditor from 'react-ace'
-import cx from 'classnames'
+import classNames from 'classnames'
 import 'brace/mode/java'
 import 'brace/mode/groovy'
 import 'brace/mode/html'
@@ -32,16 +32,14 @@ export const CodeEditor = ({
     maxLines = 100,
     lang = 'javascript',
 }: CodeEditorProps) => {
-    if (!visible) {
-        return null
-    }
+    if (!visible) { return null }
 
     return (
         <div
-            className={cx('n2o-code-editor', className)}
+            className={classNames('n2o-code-editor', className, { disabled })}
         >
             <AceEditor
-                style={{ resize: 'vertical' }}
+                style={!disabled ? { resize: 'vertical' } : {}}
                 className="n2o-ace-editor"
                 mode={lang}
                 theme="tomorrow"
@@ -56,10 +54,7 @@ export const CodeEditor = ({
                 highlightActiveLine
                 value={value}
                 enableBasicAutocompletion={autocomplete}
-                setOptions={{
-                    showLineNumbers: true,
-                    tabSize: 2,
-                }}
+                setOptions={{ showLineNumbers: true, tabSize: 2 }}
                 wrapEnabled
             />
         </div>

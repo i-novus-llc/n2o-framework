@@ -38,13 +38,24 @@ export const CheckboxGroup: FC<Props> = ({
     onBlur,
     onFocus,
 }) => {
+    function getDisabled(option: { disabled?: boolean, [key: string]: unknown }) {
+        if (disabled) {
+            return true
+        }
+
+        if (isNil(option[enabledFieldId])) {
+            return option.disabled
+        }
+
+        return !option[enabledFieldId]
+    }
     const renderedOptions = useMemo(() => options?.map(option => (
         <Checkbox
             key={option[valueFieldId]}
             value={option}
             label={option[labelFieldId]}
             checked={!isNull(value) && value && isIncludes(value, option, valueFieldId)}
-            disabled={disabled || isNil(option[enabledFieldId]) ? option.disabled : !option[enabledFieldId]}
+            disabled={getDisabled(option)}
             inline={inline}
             onChange={onChange}
             onBlur={onBlur}
