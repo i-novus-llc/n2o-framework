@@ -1,33 +1,28 @@
 {
-    "options": ["inline", "fontSize", "list", "textAlign", "link", "image"],
-    "inline": {
-      "visible": true,
-      "inDropdown": false,
-      "options": ["bold", "italic", "underline"]
-    },
-    "fontSize": {
-      "inDropdown": true,
-      "options": [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96]
-    },
-    "list": {
-      "visible": true,
-      "inDropdown": false,
-      "options": ["unordered", "ordered"]
-    },
-    "textAlign": {
-      "visible": true,
-      "inDropdown": false,
-      "options": ["left", "center", "right", "justify"]
-    },
-    "link": {
-      "visible": true,
-      "options": ["link", "unlink"]
-    },
-    "image": {
-      "visible": true,
-      "urlEnabled": true,
-      "uploadEnabled": true,
-      "alignmentEnabled": true,
-      "inputAccept": "image/gif,image/jpeg,image/jpg,image/png,image/svg"
-    }
+  "options": ["inline", "blockType", "fontSize", "fontFamily", "list", "textAlign", "colorPicker", "link", "image"],
+  "inline": {
+    "options": ["bold", "italic", "underline", "strikethrough"]
+  },
+  "blockType": {
+    "inDropdown": true,
+    "options": ["Normal", "H1", "H2", "H3", "H4", "H5", "H6", "Blockquote", "Code"]
+  },
+  "fontSize": {
+    "inDropdown": true,
+    "options": [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96]
+  },
+  "fontFamily": {
+    "options": ["Arial", "Georgia", "Impact", "Tahoma", "Times New Roman", "Verdana"]
+  },
+  "list": {
+    "inDropdown": true,
+    "options": ["unordered", "ordered", "indent", "outdent"]
+  },
+  "textAlign": {
+    "inDropdown": true,
+    "options": ["left", "center", "right", "justify"]
+  },
+  "link": {
+    "inDropdown": false
+  }
 }
