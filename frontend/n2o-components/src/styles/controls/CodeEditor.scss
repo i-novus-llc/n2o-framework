@@ -11,3 +11,15 @@
         width: 100% !important;
     }
 }
+
+.n2o-code-editor.disabled {
+    opacity: 0.65;
+
+    .ace_layer.ace_cursor-layer {
+        display: none;
+    }
+
+    .ace_content:hover {
+        cursor: default;
+    }
+}

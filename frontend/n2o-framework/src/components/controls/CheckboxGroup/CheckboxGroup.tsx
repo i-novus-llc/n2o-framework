@@ -22,6 +22,7 @@ type Props = {
     enabledFieldId: string,
     inline: boolean,
     loading: boolean,
+    disabled: boolean,
     className?: string,
     style?: object,
     size?: number,
@@ -75,6 +76,7 @@ export class CheckboxGroup extends React.Component<Props> {
             children,
             inline,
             onFocus,
+            disabled,
         } = this.props
 
         const isBtn = children && React.Children.map(children, (child: Child) => child.type.displayName)?.includes('CheckboxButton')
@@ -104,6 +106,7 @@ export class CheckboxGroup extends React.Component<Props> {
                 onChange={this.onChange}
                 onBlur={this.onBlur}
                 onFocus={onFocus}
+                disabled={disabled}
             />
         )
     }
@@ -123,6 +126,7 @@ export class CheckboxGroup extends React.Component<Props> {
         onFocus: () => {},
         onBlur: () => {},
         fetchData: () => {},
+        disabled: false,
     } as Props
 }
 
