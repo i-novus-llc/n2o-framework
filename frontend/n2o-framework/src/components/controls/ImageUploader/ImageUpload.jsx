@@ -56,7 +56,7 @@ function ImageUpload(props) {
                     [componentClassContainer]: componentClass,
                 })}
             >
-                {!disabled && (
+                {visible && (
                     <Dropzone
                         className={classNames('n2o-image-uploader-control', componentClass, compiledClassName, {
                             'd-none': !showControl,
@@ -68,6 +68,7 @@ function ImageUpload(props) {
                         accept={accept}
                         multiple={multiple}
                         disabled={disabled}
+                        disabledClassName="disabled"
                         onDrop={onImagesDrop}
                         onDragEnter={onDragEnter}
                         onDragLeave={onDragLeave}

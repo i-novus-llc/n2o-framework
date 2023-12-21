@@ -11,6 +11,7 @@ const Rating = ({
     showTooltip,
     onChange,
     readonly,
+    disabled,
 }) => (
     <SnippetRating
         value={value}
@@ -19,7 +20,7 @@ const Rating = ({
         half={half}
         showTooltip={showTooltip}
         onChange={onChange}
-        readonly={readonly}
+        readonly={readonly || disabled}
     />
 )
 
@@ -49,6 +50,7 @@ Rating.propTypes = {
      * Флаг только для чтения
      */
     readonly: PropTypes.bool,
+    disabled: PropTypes.bool,
 }
 
 Rating.defaultProps = {

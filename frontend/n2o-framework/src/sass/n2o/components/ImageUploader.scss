@@ -81,6 +81,13 @@
     transition: 0.3s;
 }
 
+.n2o-image-uploader-control.disabled {
+    div::before {
+        color: #263238;
+        opacity: 0.65;
+    }
+}
+
 .n2o-image-uploader-control--shape-square {
     border-radius: 0;
 }
@@ -101,6 +108,11 @@
     border: $image-uploader-border;
     cursor: pointer;
     transition: 0.3s;
+}
+
+.n2o-image-uploader-control.disabled:hover {
+    cursor: default;
+    border-color: #d9d9d9;
 }
 
 .n2o-image-uploader-control.avatar {
