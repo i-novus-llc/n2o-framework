@@ -14,10 +14,10 @@ import { Form } from '../form/types'
 import { CLOSE } from './constants'
 import {
     showPrompt,
-    destroyOverlay,
     destroyOverlays,
     insertOverlay,
     insertDrawer,
+    remove,
 } from './store'
 
 interface Refresh {
@@ -58,8 +58,9 @@ export function* checkPrompt(action: { payload: { name: string, prompt: boolean 
     if (prompt) {
         needToShowPrompt = yield call(checkOnDirtyForm, name)
     }
+
     if (!needToShowPrompt) {
-        yield put(destroyOverlay())
+        yield put(remove(name))
         yield call(resetQuerySaga, name)
     } else {
         yield put(showPrompt(name))
