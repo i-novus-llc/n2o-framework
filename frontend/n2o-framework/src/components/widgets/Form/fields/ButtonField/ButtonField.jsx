@@ -16,10 +16,9 @@ function ButtonField({ className, style, visible, noLabelBlock, ...rest }) {
             <>
                 <FieldAlignmentBlock visible={isTopAlign} />
                 <div
-                    style={style}
                     className={classNames('n2o-button-field n2o-form-group', className)}
                 >
-                    <StandardButton {...rest} className={className} />
+                    <StandardButton {...rest} style={style} className={className} />
                     <div className="n2o-validation-message" />
                 </div>
             </>
