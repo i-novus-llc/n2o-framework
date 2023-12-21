@@ -32,6 +32,8 @@ const overlaysSlice = createSlice({
                     visible,
                     mode: 'modal',
                     type: 'page',
+                    /* TODO OverlaysRefactoring перевести на id */
+                    id: name,
                     props: { ...action.payload },
                 })
             },
@@ -58,6 +60,8 @@ const overlaysSlice = createSlice({
                     visible,
                     mode,
                     type: 'page',
+                    /* TODO OverlaysRefactoring перевести на id */
+                    id: name,
                     props: { ...action.payload },
                 })
             },
