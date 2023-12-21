@@ -940,6 +940,10 @@
           "name": "InputSelectTreeAT. testMaxTagsCount"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/control/select_tree/checking_strategy",
+          "name": "InputSelectTreeAT. testCheckingStrategy"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/control/slider",
           "name": "SliderAT"
         },
