@@ -46,7 +46,7 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
 
     public class N2oDropDownTreeItem extends N2oComponent implements DropDownTreeItem {
 
-        private static final String SELECTED_NODE = "n2o-select-tree-tree-node-selected";
+        private static final String SELECTED_NODE = "n2o-select-tree-tree-treenode-checkbox-checked";
 
         private static final String SWITCHER = "n2o-select-tree-tree-switcher";
 

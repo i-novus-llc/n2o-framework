@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list>
+        <test file="test.json"/>
+    </list>
+    <count>
+        <test operation="count" file="test.json"/>
+    </count>
+
+    <filters>
+        <eq field-id="id" filter-id="id"/>
+        <eq field-id="name" filter-id="name"/>
+        <eq field-id="parent" filter-id="parent"/>
+    </filters>
+
+    <fields>
+        <field id="id"/>
+        <field id="name"/>
+        <field id="icon"/>
+        <field id="badge"/>
+        <field id="badgeColor"/>
+        <field id="parent"/>
+    </fields>
+</query>

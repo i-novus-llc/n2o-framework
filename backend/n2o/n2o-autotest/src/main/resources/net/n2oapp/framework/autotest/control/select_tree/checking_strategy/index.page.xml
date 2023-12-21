@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Проверка стратегий выбора в input-select-tree">
+    <regions>
+        <region place="single">
+            <form name="Выборка">
+                <datasource id="ds1" query-id="test" default-values-mode="query">
+                    <filters>
+                        <eq field-id="id" value="1"/>
+                    </filters>
+                </datasource>
+                <toolbar place="topRight">
+                    <button label="uncheck" enabled="true"/>
+                </toolbar>
+                <fields>
+                    <input-select-tree id="tree2" label="Дерево с ограничением отображения выбранных = 2"
+                                       checkboxes="true" max-tag-count="2"
+                                       query-id="tree" parent-field-id="parent" label-field-id="name"/>
+                    <input-select-tree id="tree2" label="Дерево со стратегией выбора child"
+                                       checkboxes="true" checking-strategy="child"
+                                       query-id="tree" parent-field-id="parent" label-field-id="name"/>
+                    <input-select-tree id="tree2" label="Дерево со стратегией выбора parent"
+                                       checkboxes="true" checking-strategy="parent"
+                                       query-id="tree" parent-field-id="parent" label-field-id="name"/>
+                </fields>
+            </form>
+            <form name="Значения по умолчанию">
+                <datasource id="ds2" query-id="test" default-values-mode="defaults"/>
+                <fields>
+                    <input-select-tree id="tree1" label="Дерево с выбранным не рутовым элементом" checkboxes="true"
+                                       query-id="tree" parent-field-id="parent" label-field-id="name">
+                        <default-value id="11" name="11" parent="1"/>
+                    </input-select-tree>
+                </fields>
+            </form>
+        </region>
+    </regions>
+</page>

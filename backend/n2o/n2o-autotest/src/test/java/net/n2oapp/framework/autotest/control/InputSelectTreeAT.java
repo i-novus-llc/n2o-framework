@@ -1,9 +1,14 @@
 package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.CollectionCondition;
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
+import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputSelectTree;
+import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -32,7 +37,7 @@ public class InputSelectTreeAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
-                new N2oControlsPack(), new N2oControlsV2IOPack(), new N2oAllDataPack());
+                new N2oControlsPack(), new N2oControlsV2IOPack(), new N2oAllDataPack(), new N2oRegionsPack());
     }
 
     @Test
@@ -177,5 +182,85 @@ public class InputSelectTreeAT extends AutoTestBase {
         inputSelectTree3.selectOption(6);
         inputSelectTree3.selectOption(7);
         inputSelectTree3.shouldSelectedMultiSize(6);
+    }
+
+    @Test
+    void testCheckingStrategy() {
+        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/checking_strategy");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/checking_strategy/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/checking_strategy/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/checking_strategy/tree.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        
+        Fields fields = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields();
+        StandardButton uncheck = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class).toolbar().topRight().button("uncheck");
+        InputSelectTree selectedLessThanTwo = fields.field("Дерево с ограничением отображения выбранных = 2").control(InputSelectTree.class);
+        InputSelectTree childStrategy = fields.field("Дерево со стратегией выбора child").control(InputSelectTree.class);
+        InputSelectTree parentStrategy = fields.field("Дерево со стратегией выбора parent").control(InputSelectTree.class);
+
+        InputSelectTree selectedNotRoot = page.regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(1, FormWidget.class)
+                .fieldsets()
+                .fieldset(0, SimpleFieldSet.class)
+                .fields()
+                .field("Дерево с выбранным не рутовым элементом")
+                .control(InputSelectTree.class);
+
+        selectedLessThanTwo.shouldSelectedMulti(new String[]{"11", "12"});
+        childStrategy.shouldSelectedMulti(new String[]{"11", "12"});
+        parentStrategy.shouldSelectedMulti(new String[]{"11", "12"});
+        selectedNotRoot.shouldSelectedMulti(new String[]{"11"});
+
+        selectedNotRoot.click();
+        parentStrategy.click();
+        childStrategy.click();
+        selectedLessThanTwo.click();
+
+        selectedNotRoot.shouldSelectedMulti(new String[]{"11", "111"});
+        parentStrategy.shouldSelectedMulti(new String[]{"1"});
+        childStrategy.shouldSelectedMulti(new String[]{"12", "111"});
+        selectedLessThanTwo.shouldSelectedMulti(new String[]{"11", "12", "+ 2..."});
+
+        selectedNotRoot.click();
+        selectedNotRoot.dropdown().item(0).shouldNotBeSelected();
+        selectedNotRoot.dropdown().item(0).expand();
+        selectedNotRoot.dropdown().item(1).shouldBeSelected();
+        selectedNotRoot.dropdown().item(1).expand();
+        selectedNotRoot.dropdown().item(2).shouldBeSelected();
+        selectedNotRoot.dropdown().item(3).shouldNotBeSelected();
+        uncheck.click();
+
+        parentStrategy.click();
+        parentStrategy.dropdown().item(0).shouldBeSelected();
+        parentStrategy.dropdown().item(0).expand();
+        parentStrategy.dropdown().item(1).shouldBeSelected();
+        parentStrategy.dropdown().item(1).expand();
+        parentStrategy.dropdown().item(2).shouldBeSelected();
+        parentStrategy.dropdown().item(3).shouldBeSelected();
+        uncheck.click();
+
+        childStrategy.click();
+        childStrategy.dropdown().item(0).shouldBeSelected();
+        childStrategy.dropdown().item(0).expand();
+        childStrategy.dropdown().item(1).shouldBeSelected();
+        childStrategy.dropdown().item(1).expand();
+        childStrategy.dropdown().item(2).shouldBeSelected();
+        childStrategy.dropdown().item(3).shouldBeSelected();
+        uncheck.click();
+
+        selectedLessThanTwo.click();
+        selectedLessThanTwo.dropdown().item(0).shouldBeSelected();
+        selectedLessThanTwo.dropdown().item(0).expand();
+        selectedLessThanTwo.dropdown().item(1).shouldBeSelected();
+        selectedLessThanTwo.dropdown().item(1).expand();
+        selectedLessThanTwo.dropdown().item(2).shouldBeSelected();
+        selectedLessThanTwo.dropdown().item(3).shouldBeSelected();
+        uncheck.click();
     }
 }
