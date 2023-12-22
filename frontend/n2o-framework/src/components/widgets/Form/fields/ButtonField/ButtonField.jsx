@@ -7,11 +7,8 @@ import StandardButton from '../../../../buttons/StandardButton/StandardButton'
 function ButtonField({ className, style, visible, ...rest }) {
     return (
         visible && (
-            <div
-                style={style}
-                className={classNames('n2o-button-field n2o-form-group', className)}
-            >
-                <StandardButton {...rest} className={className} />
+            <div className={classNames('n2o-button-field n2o-form-group', className)}>
+                <StandardButton {...rest} style={style} className={className} />
             </div>
         )
     )
