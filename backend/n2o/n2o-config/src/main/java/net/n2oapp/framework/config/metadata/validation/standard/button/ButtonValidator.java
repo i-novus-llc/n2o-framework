@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.compile.enums.Color;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Button;
-import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -40,13 +39,13 @@ public class ButtonValidator implements SourceValidator<Button>, SourceClassAwar
         checkDatasource(source, datasourceIdsScope);
         checkValidateDatasource(source, datasourceIdsScope);
 
-        checkColor(source.getColor(), "color");
+        checkColor(source);
         if (source instanceof BadgeAware)
-            checkBadgeColor(((BadgeAware) source).getBadgeColor());
+            checkBadgeColor(source);
 
         if (isNotEmpty(source.getActions())) {
             if (source.getConfirm() != null && (Arrays.stream(source.getActions()).filter(N2oConfirmAction.class::isInstance).count() >= 2))
-                throw new N2oMetadataValidationException("Кнопка одновременно имеет атрибут 'confirm' и действие <confirm>");
+                throw new N2oMetadataValidationException(String.format("Кнопка %s одновременно имеет атрибут 'confirm' и действие <confirm>", getLabelOrId(source)));
             Arrays.stream(source.getActions()).forEach(a -> p.validate(a, new ComponentScope(source, p.getScope(ComponentScope.class))));
         }
 
@@ -54,48 +53,41 @@ public class ButtonValidator implements SourceValidator<Button>, SourceClassAwar
             String[] generate = ((GenerateAware) source).getGenerate();
             if (generate.length > 1)
                 throw new N2oMetadataValidationException(
-                        String.format("Атрибут 'generate' кнопки %s не может содержать более одного типа генерации",
-                                ValidationUtils.getIdOrEmptyString(source.getId()))
+                        String.format("Атрибут 'generate' кнопки %s не может содержать более одного типа генерации", getLabelOrId(source))
                 );
             if ((generate.length == 1 && StringUtils.isEmpty(generate[0])))
                 throw new N2oMetadataValidationException(
-                        String.format("Атрибут 'generate' кнопки %s не может содержать пустую строку",
-                                ValidationUtils.getIdOrEmptyString(source.getId()))
+                        String.format("Атрибут 'generate' кнопки %s не может содержать пустую строку", getLabelOrId(source))
                 );
             if (generate[0].equals("crud"))
                 throw new N2oMetadataValidationException(
-                        String.format("Атрибут 'generate' кнопки %s не может реализовывать 'crud' генерацию",
-                                ValidationUtils.getIdOrEmptyString(source.getId()))
+                        String.format("Атрибут 'generate' кнопки %s не может реализовывать 'crud' генерацию", getLabelOrId(source))
                 );
         }
     }
 
     /**
      * Проверка использования допустимого значения атрибута цвета
-     *
-     * @param color         значение атрибута
-     * @param attributeName имя атрибута
      */
-    private static void checkColor(String color, String attributeName) {
-        if (color != null && !Objects.equals(color, "link")
-                && !color.startsWith("outline")
-                && !EnumUtils.isValidEnum(Color.class, color)) {
+    private void checkColor(Button source) {
+        if (source.getColor() != null && !Objects.equals(source.getColor(), "link")
+                && !source.getColor().startsWith("outline")
+                && !EnumUtils.isValidEnum(Color.class, source.getColor())) {
             throw new N2oMetadataValidationException(
-                    String.format("Кнопка использует недопустимое значение атрибута %s=\"%s\"", attributeName, color)
+                    String.format("Кнопка %s использует недопустимое значение атрибута color=\"%s\"", getLabelOrId(source), source.getColor())
             );
         }
     }
 
     /**
      * Проверка использования допустимого значения атрибута badge-color
-     *
-     * @param color значение атрибута badge-color
      */
-    private static void checkBadgeColor(String color) {
-        if (color != null && !StringUtils.isLink(color)
-                && !EnumUtils.isValidEnum(Color.class, color)) {
+    private void checkBadgeColor(Button source) {
+        String badgeColor = ((BadgeAware) source).getBadgeColor();
+        if (badgeColor != null && !StringUtils.isLink(badgeColor)
+                && !EnumUtils.isValidEnum(Color.class, badgeColor)) {
             throw new N2oMetadataValidationException(
-                    String.format("Кнопка использует недопустимое значение атрибута badge-color=\"%s\"", color)
+                    String.format("Кнопка %s использует недопустимое значение атрибута badge-color=\"%s\"", getLabelOrId(source), badgeColor)
             );
         }
     }
@@ -108,10 +100,9 @@ public class ButtonValidator implements SourceValidator<Button>, SourceClassAwar
      */
     private void checkDatasource(Button source, DatasourceIdsScope datasourceIdsScope) {
         if (source.getDatasourceId() != null) {
-            String button = ValidationUtils.getIdOrEmptyString(source.getId());
             ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), datasourceIdsScope,
                     String.format("Кнопка %s ссылается на несуществующий источник данных '%s'",
-                            button, source.getDatasourceId())
+                            getLabelOrId(source), source.getDatasourceId())
             );
         }
     }
@@ -124,12 +115,15 @@ public class ButtonValidator implements SourceValidator<Button>, SourceClassAwar
      */
     private void checkValidateDatasource(Button source, DatasourceIdsScope datasourceIdsScope) {
         if (source.getValidateDatasourceIds() != null) {
-            String button = ValidationUtils.getIdOrEmptyString(source.getId());
             for (String validateDs : source.getValidateDatasourceIds()) {
                 ValidationUtils.checkDatasourceExistence(validateDs, datasourceIdsScope,
                         String.format("Атрибут 'validate-datasources' кнопки %s содержит несуществующий источник данных '%s'",
-                                button, validateDs));
+                                getLabelOrId(source), validateDs));
             }
         }
+    }
+
+    private String getLabelOrId(Button button) {
+        return ValidationUtils.getIdOrEmptyString(button.getLabel() != null ? button.getLabel() : button.getId());
     }
 }
