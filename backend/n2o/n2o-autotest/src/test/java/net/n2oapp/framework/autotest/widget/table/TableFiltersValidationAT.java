@@ -48,7 +48,7 @@ public class TableFiltersValidationAT extends AutoTestBase {
     }
 
     @Test
-    public void testView() {
+    void testView() {
         builder.packs(
                 new N2oApplicationPack(),
                 new N2oAllPagesPack(),
@@ -95,18 +95,14 @@ public class TableFiltersValidationAT extends AutoTestBase {
         id.control(InputText.class).click();
         id.control(InputText.class).setValue("2");
         like.control(InputText.class).shouldBeDisabled();
-        like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        tableWidget.filters().toolbar().button("Найти").click();
-        like.control(InputText.class).shouldBeDisabled();
-        like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-
+        like.shouldHaveValidationMessage(Condition.empty);
         eq.control(InputText.class).click();
         eq.control(InputText.class).setValue("test1");
         eq.shouldHaveValidationMessage(Condition.empty);
     }
 
     @Test
-    public void testValidationFetch() {
+    void testValidationFetch() {
         builder.packs(
                 new N2oApplicationPack(),
                 new N2oAllPagesPack(),
