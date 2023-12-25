@@ -25,10 +25,10 @@ public abstract class DataProcessingStack {
         });
     }
 
-    public void processActionError(final ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, final DataSet dataSet) {
+    public void processActionError(final ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, final DataSet dataSet, N2oException exception) {
         process(module -> {
             logger.debug("Processing action error");
-            module.processActionError(requestInfo, responseInfo, dataSet);
+            module.processActionError(requestInfo, responseInfo, dataSet, exception);
         });
     }
 
