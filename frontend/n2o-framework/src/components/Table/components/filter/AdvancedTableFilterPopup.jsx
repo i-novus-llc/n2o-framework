@@ -25,13 +25,17 @@ function AdvancedTableFilterPopup({
     component,
     controlProps,
 }) {
+    const onKeyDown = (event) => {
+        if (event.key === 'Enter') { onSearchClick() }
+    }
+
     return (
         <>
             <div className="n2o-advanced-table-filter-dropdown-popup">
                 {component ? (
-                    React.createElement(component, { ...controlProps, value, onChange, popupPlacement: 'right' })
+                    React.createElement(component, { ...controlProps, value, onChange, onKeyDown, popupPlacement: 'right' })
                 ) : (
-                    <InputText value={value} onChange={onChange} />
+                    <InputText value={value} onChange={onChange} onKeyDown={onKeyDown} />
                 )}
             </div>
             <div className="n2o-advanced-table-filter-dropdown-buttons">
