@@ -127,7 +127,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected String initLabel(S source, CompileProcessor p) {
-        if (!source.getNoLabelBlock() || !source.getNoLabel())
+        if (Boolean.FALSE.equals(source.getNoLabelBlock() || source.getNoLabel()))
             return p.resolveJS(source.getLabel());
         return null;
     }
@@ -268,7 +268,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class) != null ? p.getScope(FieldSetVisibilityScope.class).getConditions() : Collections.emptySet();
         String fieldId = p.getScope(MultiFieldSetScope.class) == null ? field.getId() : p.getScope(MultiFieldSetScope.class).getId() + "[index]." + field.getId();
         validations.addAll(initRequiredValidation(fieldId, field, source, p, visibilityConditions));
-        validations.addAll(initInlineValidations(fieldId, field, source, context, p, visibilityConditions));
+        validations.addAll(initInlineValidations(fieldId, source, context, p, visibilityConditions));
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         ValidationScope validationScope = p.getScope(ValidationScope.class);
@@ -287,7 +287,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             if (momentScope != null)
                 mandatory.setMoment(momentScope.getMoment());
             mandatory.addEnablingConditions(visibilityConditions);
-            mandatory.addEnablingConditions(collectConditions(source, N2oField.VisibilityDependency.class));
+            mandatory.addEnablingConditions(collectConditions(source, N2oField.VisibilityDependency.class, N2oField.EnablingDependency.class));
             result.add(mandatory);
             field.setRequired(true);
         } else if (source.containsDependency(N2oField.RequiringDependency.class)) {
@@ -299,6 +299,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     collectConditions(
                             source,
                             N2oField.RequiringDependency.class,
+                            N2oField.EnablingDependency.class,
                             N2oField.VisibilityDependency.class
                     )
             );
@@ -309,8 +310,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return result;
     }
 
-    private List<Validation> initInlineValidations(String fieldId, Field field,
-                                                   S source,
+    private List<Validation> initInlineValidations(String fieldId, S source,
                                                    CompileContext<?, ?> context, CompileProcessor p,
                                                    Set<String> visibilityConditions) {
 
@@ -331,11 +331,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             List<String> fieldVisibilityConditions = new ArrayList<>();
             if (source.getDependencies() != null) {
                 for (N2oField.Dependency dependency : source.getDependencies()) {
-                    if (dependency.getClass().equals(N2oField.VisibilityDependency.class))
+                    if (dependency.getClass().equals(N2oField.VisibilityDependency.class) ||
+                            dependency.getClass().equals(N2oField.EnablingDependency.class))
                         fieldVisibilityConditions.add(dependency.getValue());
                 }
-            } else if ("false".equals(source.getVisible())) {
-                fieldVisibilityConditions.add(source.getVisible());
+            } else if ("false".equals(source.getVisible()) || "false".equals(source.getEnabled())) {
+                fieldVisibilityConditions.add("false");
             }
 
             for (N2oValidation v : validations.getInlineValidations()) {
@@ -459,11 +460,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     if (defValue instanceof DefaultValues) {
                         Map<String, Object> values = ((DefaultValues) defValue).getValues();
                         if (values != null) {
-                            for (String param : values.keySet()) {
-                                if (values.get(param) instanceof String) {
-                                    Object value = ScriptProcessor.resolveExpression((String) values.get(param));
+                            for (Map.Entry<String,Object> entry : values.entrySet()) {
+                                if (entry.getValue() instanceof String) {
+                                    Object value = ScriptProcessor.resolveExpression((String) entry.getValue());
                                     if (value != null)
-                                        values.put(param, value);
+                                        values.put(entry.getKey(), value);
                                 }
                             }
                         }
@@ -497,7 +498,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      *
      * @param source Исходная модель поля
      * @param p      Процессор сборки
-     * @return Значение по умолчанию поля
      */
     protected void compileParams(D control, S source, WidgetParamScope paramScope, CompileProcessor p) {
         if (source.getParam() != null) {

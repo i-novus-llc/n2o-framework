@@ -55,7 +55,7 @@ public class InputSelectAT extends AutoTestBase {
     }
 
     @Test
-    public void testSingle() {
+    void testSingle() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/simple/index.page.xml")
         );
@@ -118,7 +118,7 @@ public class InputSelectAT extends AutoTestBase {
     }
 
     @Test
-    public void testColorStatus() {
+    void testColorStatus() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/simple/index.page.xml")
         );
@@ -138,7 +138,7 @@ public class InputSelectAT extends AutoTestBase {
     }
 
     @Test
-    public void testMulti() {
+    void testMulti() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/multi/index.page.xml")
         );
@@ -182,7 +182,7 @@ public class InputSelectAT extends AutoTestBase {
     }
 
     @Test
-    public void testCheckboxes() {
+    void testCheckboxes() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/checkboxes/index.page.xml")
         );
@@ -224,7 +224,7 @@ public class InputSelectAT extends AutoTestBase {
     }
 
     @Test
-    public void testReadFromQuery() {
+    void testReadFromQuery() {
         setJsonPath("net/n2oapp/framework/autotest/control/input_select/query");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/query/index.page.xml"),
@@ -277,7 +277,7 @@ public class InputSelectAT extends AutoTestBase {
     }
 
     @Test
-    public void testPrefilterByQueryParam() {
+    void testPrefilterByQueryParam() {
         setJsonPath("net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param/index.page.xml"),
@@ -311,7 +311,7 @@ public class InputSelectAT extends AutoTestBase {
     }
 
     @Test
-    public void testPrefilterByPathParam() {
+    void testPrefilterByPathParam() {
         setJsonPath("net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param/index.page.xml"),
@@ -345,7 +345,7 @@ public class InputSelectAT extends AutoTestBase {
     }
 
     @Test
-    public void testSearchMinLength() {
+    void testSearchMinLength() {
         setJsonPath("net/n2oapp/framework/autotest/control/input_select/throttle_delay");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/index.page.xml"),
@@ -372,7 +372,7 @@ public class InputSelectAT extends AutoTestBase {
     }
 
     @Test
-    public void dropdownOptionsPermanent() {
+    void dropdownOptionsPermanent() {
         setJsonPath("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent/index.page.xml"),
@@ -418,6 +418,7 @@ public class InputSelectAT extends AutoTestBase {
         FormWidget formWidget = page.widget(FormWidget.class);
         InputSelect inputSelect = formWidget.fieldsets().fieldset(0, SimpleFieldSet.class).fields().field("Ввод с выпадающим списком").control(InputSelect.class);
         inputSelect.click();
+        inputSelect.shouldBeOpened();
         inputSelect.pressEnter();
         formWidget.toolbar().topLeft().button("unselect").click();
         inputSelect.shouldHaveValue("111");
