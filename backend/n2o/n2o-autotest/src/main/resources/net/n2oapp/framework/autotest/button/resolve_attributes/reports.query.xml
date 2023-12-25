@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list>
+        <test file="reports.json" />
+    </list>
+
+    <filters>
+        <eq field-id="id" filter-id="id"/>
+        <eq field-id="unread" filter-id="unread"/>
+    </filters>
+
+    <fields>
+        <field id="id"/>
+        <field id="dateTime"/>
+        <field id="text"/>
+        <field id="unread"/>
+    </fields>
+</query>

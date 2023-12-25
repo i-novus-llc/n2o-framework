@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+
+    <unique>
+        <test file="test.json" operation="findOne"/>
+    </unique>
+
+    <fields>
+        <field id="dateDefaultFormats" mapping="['isoDate']" normalize="#date(#this)"/>
+        <field id="dateTimeDefaultFormats" mapping="['isoDateTime']" normalize="#date(#this)"/>
+
+        <field id="dateInputFormat" mapping="['customDate']" normalize="#dateWithInput(#this, 'd.M.yyyy')"/>
+        <field id="dateTimeInputFormat" mapping="['customDateTime']" normalize="#dateWithInput(#this, 'd.M.yyyy HH:mm:ss')"/>
+        <field id="dateTimeInputWithLiteralsFormat" mapping="['customDateTimeWithLiterals']"
+               normalize="#dateWithInput(#this, 'yyyy-MM-dd''T''HH:mm:ss''Z''.SSSSSS')"/>
+
+        <field id="dateOutputFormat" mapping="['isoDate']" normalize="#dateWithOutput(#this, 'dd.M.yyyy')"/>
+        <field id="dateTimeOutputFormat" mapping="['isoDateTime']" normalize="#dateWithOutput(#this, 'dd.M.yyyy HH:mm:ss')"/>
+
+        <field id="dateInputAndOutputFormat" mapping="['customDate']"
+               normalize="#dateWithInputAndOutput(#this, 'd.M.yyyy', 'dd.M.yyyy')"/>
+        <field id="dateTimeInputAndOutputFormat" mapping="['customDateTime']"
+               normalize="#dateWithInputAndOutput(#this, 'd.M.yyyy HH:mm:ss', 'yyyy-MM-dd''T''HH:mm:ss')"/>
+
+        <field id="period" normalize="#period(#data['dateInputAndOutputFormat'], #data['dateDefaultFormats'])"/>
+    </fields>
+</query>

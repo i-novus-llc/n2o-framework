@@ -856,6 +856,10 @@
           "name": "ListFieldAT. testOptionsFromDS"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/control/list/alert",
+          "name": "ListFieldAT. testAlert"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/control/masked",
           "name": "MaskedInputAT"
         },
@@ -934,6 +938,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/control/select_tree/max_count",
           "name": "InputSelectTreeAT. testMaxTagsCount"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select_tree/checking_strategy",
+          "name": "InputSelectTreeAT. testCheckingStrategy"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/slider",
@@ -1220,6 +1228,14 @@
           "name": "RefreshAfterCloseModalAT. testModal"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/action/confirm/type",
+          "name": "ConfirmAT. testDialog testPopover"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/confirm/reverse",
+          "name": "ConfirmAT. testReverse"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/action/copy/field",
           "name": "CopyFieldAT"
         },
@@ -1336,19 +1352,11 @@
           "name": "SwitchCaseActionAT. testSwitchCaseInRowClick"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/button/confirm_type",
-          "name": "ButtonConfirmTypeAT"
-        },
-        {
-          "templateId": "net/n2oapp/framework/autotest/button/dialogs_buttons",
-          "name": "DialogsButtonsAT"
-        },
-        {
-          "templateId": "net/n2oapp/framework/autotest/button/enabled/simple",
+          "templateId": "net/n2oapp/framework/autotest/condition/button/enabled/simple",
           "name": "ButtonEnabledAT. testEnabledButton"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/button/enabled/submenu",
+          "templateId": "net/n2oapp/framework/autotest/condition/button/enabled/submenu",
           "name": "ButtonEnabledAT. testEnabledSubMenu"
         },
         {
@@ -1356,12 +1364,16 @@
           "name": "ButtonBindingAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/button/visible/simple",
+          "templateId": "net/n2oapp/framework/autotest/condition/button/visible/simple",
           "name": "ButtonVisibleAT. testVisibleButton"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/button/visible/submenu",
+          "templateId": "net/n2oapp/framework/autotest/condition/button/visible/submenu",
           "name": "ButtonVisibleAT. testVisibleSubMenu"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/resolve_attributes",
+          "name": "ButtonAT"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/websocket/common",
@@ -1465,6 +1477,10 @@
           "name": "WidgetVisibilityAT"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/fetch",
+          "name": "FieldFetchDependencyAT"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/validation/dialog",
           "name": "DialogValidationAT. testDialog"
         },
@@ -1498,7 +1514,11 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/validation/condition",
-          "name": "ConditionValidationAT"
+          "name": "ConditionValidationAT .testCondition"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/validation/two_validations",
+          "name": "ConditionValidationAT. testTwoValidations"
         }
       ]
     }

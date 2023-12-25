@@ -32,6 +32,7 @@
 
     .checkbox-cell {
         display: flex;
+        overflow: visible !important;
     }
 
     .table-row-presentation > td {
@@ -126,6 +127,10 @@
 
 .n2o-advanced-table-filter-btn {
     flex-shrink: 0;
+
+    .n2o-advanced-table-filter-badge {
+        padding: 0;
+    }
 }
 
 .table-row-overlay {

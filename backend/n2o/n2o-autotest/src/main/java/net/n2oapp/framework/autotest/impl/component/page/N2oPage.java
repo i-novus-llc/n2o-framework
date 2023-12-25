@@ -275,6 +275,11 @@ public class N2oPage extends N2oComponent implements Page {
         }
 
         @Override
+        public StandardButton button(int index) {
+            return N2oSelenide.component(element().$$(".btn").get(index), StandardButton.class);
+        }
+
+        @Override
         public void shouldBeClosed(long timeOut) {
             SelenideElement modalTitle = element().$(".modal-header .modal-title");
 
@@ -300,8 +305,13 @@ public class N2oPage extends N2oComponent implements Page {
         }
 
         @Override
-        public Button button(String label) {
+        public StandardButton button(String label) {
             return N2oSelenide.component(element().shouldBe(Condition.exist).$$(".popover-body .btn").findBy(Condition.exactText(label)), StandardButton.class);
+        }
+
+        @Override
+        public StandardButton button(int index) {
+            return N2oSelenide.component(element().shouldBe(Condition.exist).$$(".popover-body .btn").get(index), StandardButton.class);
         }
 
         @Override

@@ -17,7 +17,8 @@
                 <time-picker id="time" label="Время"/>
             </fields>
             <toolbar>
-                <button label="Отправить" confirm-text="Зарегистрировать обращение?" datasource="ds2">
+                <button label="Отправить" datasource="ds2">
+                    <confirm text="Зарегистрировать обращение?"/>
                     <invoke operation-id="insureCreate" object-id="test"
                             clear-on-success="true"
                             redirect-url="/" redirect-target="application"/>

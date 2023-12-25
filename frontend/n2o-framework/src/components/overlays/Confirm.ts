@@ -1,5 +1,3 @@
-import { ModelPrefix } from '../../core/datasource/const'
-
 export enum ConfirmMode {
     POPOVER = 'popover',
     MODAL = 'modal',
@@ -7,11 +5,11 @@ export enum ConfirmMode {
 
 type Color = 'info' | 'danger' | 'warning' | 'success' | 'primary' | 'secondary' | 'link'
 
-export type ConfirmJSON = {
+export interface ConfirmJSON {
     text: string
     title: string
-    modelLink: `models.${ModelPrefix}[${string}`
-    condition: `\`${string}\``
+    modelLink: string
+    condition: string
     closeButton: boolean
     reverseButtons: boolean
     mode: ConfirmMode
@@ -25,7 +23,7 @@ export type ConfirmJSON = {
     }
 }
 
-export type ConfirmProps = {
+export interface ConfirmProps {
     text: string
     title: string
     closeButton: boolean
@@ -38,6 +36,8 @@ export type ConfirmProps = {
         label: string
         color: Color
     }
-    onConfirm(): void;
-    onDeny(): void;
+    id: string
+    operation: { id: string, type: string, key: string, buttonId: string }
+    className?: string
+    size: 'lg' | 'sm'
 }

@@ -7,7 +7,6 @@ import { DropdownItem } from 'reactstrap'
 import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view-if-needed'
 
-import { Icon } from '../../display/Icon'
 import { StatusText } from '../../display/StatusText/StatusText'
 import { Badge } from '../../display/Badge/Badge'
 import { isBadgeLeftPosition, isBadgeRightPosition, resolveBadgeProps } from '../../display/Badge/utils'
@@ -123,7 +122,7 @@ export function PopupItems({
     }
 
     const getDisabled = (item: TOption, isSelected: boolean) => {
-        if (isSelected && !multiSelect) {
+        if (isSelected && !multiSelect && !hasCheckboxes) {
             return true
         }
         const enabledField = get(item, enabledFieldId)

@@ -1,7 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Просмотр события">
-    <form query-id="test" route="/update">
+    <form>
+        <datasource query-id="test" route="/update">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+        </datasource>
         <fields>
             <input-text id="title" label="Название события"/>
             <date-interval id="date" time-format="HH:mm:ss" label="Дата"/>
@@ -12,12 +17,9 @@
                 </options>
             </radio-group>
         </fields>
-        <pre-filters>
-            <eq field-id="id" param="id"/>
-        </pre-filters>
         <toolbar place="topRight">
-            <button icon="fa fa-trash" description="Удалить" rounded="true" color="danger"
-                    confirm="true" confirm-title="Вы действительно хотите удалить событие?">
+            <button icon="fa fa-trash" description="Удалить" rounded="true" color="danger">
+                <confirm title="Вы действительно хотите удалить событие?"/>
                 <invoke operation-id="delete" close-on-success="true"/>
             </button>
         </toolbar>

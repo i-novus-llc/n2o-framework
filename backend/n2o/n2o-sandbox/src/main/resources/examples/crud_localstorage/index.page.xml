@@ -3,7 +3,7 @@
       name="CRUD + localStorage">
     <datasources>
         <browser-storage id="table" key="crud" type="localStorage">
-            <submit/>
+            <submit model="datasource"/>
         </browser-storage>
     </datasources>
     <regions>
@@ -36,7 +36,8 @@
                 </datasources>
             </show-modal>
         </button>
-        <button label="Удалить" datasource="table" confirm="true">
+        <button label="Удалить" datasource="table">
+            <confirm/>
             <edit-list operation="delete"
                        datasource="table"
                        model="datasource"

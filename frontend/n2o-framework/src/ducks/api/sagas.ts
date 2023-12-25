@@ -4,6 +4,7 @@ import { sagas as alertSagas } from './alerts'
 import { sagas as modelsSagas } from './models'
 import { sagas as pageSagas } from './page'
 import { sagas as exportSagas } from './export'
+import { sagas as confirmSagas } from './confirm'
 
 export const sagas = [
     ...actionsSagas,
@@ -11,4 +12,5 @@ export const sagas = [
     ...modelsSagas,
     ...pageSagas,
     ...exportSagas,
+    ...confirmSagas,
 ]

@@ -1,18 +1,16 @@
-.custom-checkbox-align {
-    position: absolute;
-    top: 4px;
-    left: 0;
-    width: $checkbox-width;
-    height: $checkbox-height;
-    z-index: 10;
-    opacity: 0;
-}
-
 .custom-checkbox {
-    margin: $custom-checkbox-margin;
+    min-height: $checkbox-custom-control-size;
+    min-width: $checkbox-custom-control-size;
+    margin: 0;
+    padding: 0;
+    overflow: visible !important;
 
     .custom-control-label {
+        display: flex;
+        gap: 8px;
+
         &::before {
+            position: relative;
             top: $checkbox-position-top;
             left: $checkbox-position-left;
             right: $checkbox-position-right;
@@ -30,8 +28,6 @@
     }
 
     .custom-control-input {
-        @extend .custom-checkbox-align;
-
         ~ .custom-control-label {
             &::after {
                 top: $checkbox-position-top;
@@ -73,8 +69,4 @@
             }
         }
     }
-}
-
-.custom-control {
-    padding-left: $checkbox-custom-control-padding-left;
 }

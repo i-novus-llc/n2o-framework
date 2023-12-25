@@ -8,6 +8,7 @@ import htmlToDraft from 'html-to-draftjs'
 import { TBaseInputProps, TBaseProps } from '../types'
 
 import '../styles/controls/TextEditor.scss'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 type TextEditorProps = TBaseProps & TBaseInputProps<string> & {
     onBlur?(e: SyntheticEvent): void,
@@ -67,6 +68,7 @@ export const TextEditor = memo(({
                     editorClassName={cn('n2o-text-editor', className)}
                     onEditorStateChange={onEditorStateChange}
                     toolbar={toolbarConfig}
+                    locale="ru"
                 />
             )}
         </div>

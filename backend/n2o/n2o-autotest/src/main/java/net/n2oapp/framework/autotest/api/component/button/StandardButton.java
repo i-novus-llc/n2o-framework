@@ -17,6 +17,12 @@ public interface StandardButton extends Button {
     void shouldHaveLabel(String label, Duration... duration);
 
     /**
+     * Проверка описания на соответствие
+     * @param text ожидаемый текст описания
+     */
+    void shouldHaveDescription(String text, Duration... duration);
+
+    /**
      * Проверка иконки у кнопки на соответствие ожидаемому значению
      * @param iconName ожидаемое имя иконки
      */

@@ -22,7 +22,7 @@ public interface NamespaceReaderFactory<T extends NamespaceUriAware, R extends N
         try {
             return produce(element.getName(), element.getNamespace());
         } finally {
-            CurrentElementHolder.clear();
+            CurrentElementHolder.clearElementScope();
         }
     }
 
@@ -36,7 +36,7 @@ public interface NamespaceReaderFactory<T extends NamespaceUriAware, R extends N
                 return produce(element);
             }
         } finally {
-            CurrentElementHolder.clear();
+            CurrentElementHolder.clearElementScope();
         }
     }
 

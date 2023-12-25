@@ -33,4 +33,8 @@ public class CurrentElementHolder {
         threadLocalSourceInfoScope.remove();
     }
 
+    public static void clearElementScope() {
+        threadLocalElementScope.remove();
+    }
+
 }

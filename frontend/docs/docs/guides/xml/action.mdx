@@ -183,6 +183,65 @@ n2o.api.action.close.refresh_on_close = false
 
 <Sandbox height={200} projectId="uxcomponents_actions_close" showHeader/>
 
+### &lt;confirm&gt; {#confirm}
+
+Действие открытия окна подтверждения
+
+**Атрибуты**
+
+|Наименование   |Тип                                                        |Описание                      |Значение по умолчанию |
+|---------------|-----------------------------------------------------------|------------------------------|----------------------|
+|title          |String                                                     |Заголовок окна предупреждения |                      |
+|text           |String                                                     |Текст предупреждения          |                      |
+|type           |modal popover                                              |Тип окна предупреждения       | modal                |
+|class          |[CSS класс](https://getbootstrap.com/docs/4.0/components/) |Класс окна предупреждения     |                      |
+|style          |CSS свойство                                               |Стиль окна предупреждения     |                      |
+|close-button   |true false                                                 |Наличие закрывающего крестика | false                |
+
+**Настройки**
+```yaml
+#Тип окна предупреждения
+n2o.api.action.confirm.mode = modal
+#Наличие закрывающего крестика
+n2o.api.action.confirm.close_button = false
+```
+
+**Тело**
+
+&lt;ok&gt; - [Кнопка подтверждения](#confirm_buttons)<br/>
+&lt;cancel&gt; - [Кнопка отмены](#confirm_buttons)
+
+#### &lt;ok&gt; &lt;cancel&gt; {#confirm_buttons}
+
+**Атрибуты**
+
+|Наименование   |Тип                                                                         |Описание         |Значение по умолчанию |
+|---------------|----------------------------------------------------------------------------|-----------------|----------------------|
+|label          |String                                                                      |Заголовок кнопки |                      |
+|color          |primary secondary success danger warning info light dark link               |Цвет кнопки      | primary              |
+|icon           |[Класс иконки](https://fontawesome.com/v6/icons/)                           |Иконка           |                      |
+|class          |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples) |Класс кнопки     |                      |
+|style          |CSS свойство                                                                |Стиль кнопки     |                      |
+
+**Настройки**
+```yaml
+#Цвет кнопки подтверждения
+n2o.api.action.confirm.ok_color = primary
+#Цвет кнопки отмены
+n2o.api.action.confirm.cancel_color = secondary
+```
+
+**Пример**
+
+```xml
+<confirm title="Подтверждение" text="Вы уверены?">
+    <ok label="Да"/>
+    <cancel label="Нет"/>
+</confirm>
+```
+
+<Sandbox height={200} projectId="uxcomponents_actions_confirm" showHeader/>
+
 ### &lt;copy&gt; {#copy}
 
 Действие копирования данных

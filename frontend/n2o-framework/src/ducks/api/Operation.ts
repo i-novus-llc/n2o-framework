@@ -12,19 +12,15 @@ type Payload = {
 
 export type OperationAction = Action<string, Payload>
 
-type Creator = ((name: string, uid: string) => OperationAction) & { type: OperationAction['type'] }
-
-const create = (type: string): Creator => createAction(
-    `${ACTIONS_PREFIX}${type}`,
-    (name: string, uid: string) => ({ payload: { name, uid }, meta: {} }),
+export const startOperation = createAction(
+    `${ACTIONS_PREFIX}start_operation`,
+    (name: string, uid: string, meta) => ({ payload: { name, uid }, meta: meta || {} }),
 )
-
-export const startOperation = create('start_operation')
 export const successOperation = createAction(
     `${ACTIONS_PREFIX}success_operation`,
-    (name: string, uid: string, result?: unknown) => ({ payload: { name, uid, result }, meta: {} }),
+    (name: string, uid: string, result?: unknown, meta?) => ({ payload: { name, uid, result }, meta: meta || {} }),
 )
 export const failOperation = createAction(
     `${ACTIONS_PREFIX}fail_operation`,
-    (name: string, uid: string, error) => ({ payload: { name, uid }, error, meta: {} }),
+    (name: string, uid: string, error, meta?) => ({ payload: { name, uid }, error, meta: meta || {} }),
 )

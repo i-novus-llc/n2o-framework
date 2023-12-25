@@ -4,11 +4,7 @@ import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 
 import classNames from 'classnames'
 
 import { ConfirmProps } from './Confirm'
-
-export type ConfirmDialogProps = ConfirmProps & {
-    size: 'lg' | 'sm'
-    className?: string
-}
+import { useConfirmEffects } from './useConfirmEffects'
 
 export function ConfirmDialog({
     size,
@@ -16,13 +12,14 @@ export function ConfirmDialog({
     text,
     ok,
     cancel,
-    onConfirm,
-    onDeny,
     closeButton,
     className,
+    id,
+    operation,
     reverseButtons = false,
-}: ConfirmDialogProps) {
+}: ConfirmProps) {
     const { t } = useTranslation()
+    const { onConfirm, onDeny } = useConfirmEffects(id, operation)
 
     const { label: okLabel, color: okColor = 'primary' } = ok || {}
     const { label: cancelLabel, color: cancelColor } = cancel || {}
@@ -38,11 +35,7 @@ export function ConfirmDialog({
                 'simple-modal-dialog': !title && !text,
             })}
         >
-            {hasHeader && (
-                <ModalHeader toggle={closeButton ? onDeny : undefined}>
-                    {title}
-                </ModalHeader>
-            )}
+            {hasHeader && <ModalHeader toggle={closeButton ? onDeny : undefined}>{title}</ModalHeader>}
             {text && <ModalBody>{text}</ModalBody>}
             <ModalFooter>
                 <ButtonGroup className={classNames({ 'flex-row-reverse': reverseButtons })}>

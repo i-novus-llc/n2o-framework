@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import { Dropdown, DropdownToggle, DropdownMenu, Badge, Button } from 'reactstrap'
 import isNumber from 'lodash/isNumber'
+import omit from 'lodash/omit'
 
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableFilterPopup from './AdvancedTableFilterPopup'
@@ -85,6 +86,8 @@ class AdvancedTableFilter extends Component {
       const { filterOpen, value } = this.state
       const { component, ...controlProps } = control
 
+      const { style = {} } = controlProps
+
       return (
           <>
               {children}
@@ -108,6 +111,7 @@ class AdvancedTableFilter extends Component {
                       className="n2o-advanced-table-filter-dropdown"
                       tag="div"
                       positionFixed
+                      style={style}
                       right
                   >
                       <AdvancedTableFilterPopup
@@ -116,7 +120,7 @@ class AdvancedTableFilter extends Component {
                           onSearchClick={this.onSearchClick}
                           onResetClick={this.onResetClick}
                           component={component}
-                          controlProps={controlProps}
+                          controlProps={omit(controlProps, 'style')}
                       />
                   </DropdownMenu>
               </Dropdown>

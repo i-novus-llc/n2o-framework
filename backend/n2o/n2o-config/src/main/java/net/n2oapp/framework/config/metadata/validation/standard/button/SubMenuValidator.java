@@ -24,6 +24,10 @@ public class SubMenuValidator implements SourceValidator<N2oSubmenu>, SourceClas
         if (!ArrayUtils.isEmpty(source.getMenuItems()))
             p.safeStreamOf(source.getMenuItems()).forEach(p::validate);
         if (source.getGenerate() != null && source.getGenerate().length == 1 && StringUtils.isEmpty(source.getGenerate()[0]))
-            throw new N2oMetadataValidationException(String.format("Атрибут 'generate' выпадающего меню %s не может содержать пустую строку", ValidationUtils.getIdOrEmptyString(source.getId())));
+            throw new N2oMetadataValidationException(String.format("Атрибут 'generate' выпадающего меню %s не может содержать пустую строку", getLabelOrId(source)));
+    }
+
+    private String getLabelOrId(N2oSubmenu source) {
+        return ValidationUtils.getIdOrEmptyString( source.getLabel() != null ? source.getLabel() : source.getId());
     }
 }

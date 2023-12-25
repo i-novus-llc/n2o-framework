@@ -4,13 +4,13 @@ import get from 'lodash/get'
 import merge from 'lodash/merge'
 
 import {
-    RegisterTable,
     ChangeTableColumnParam,
-    RegisterTableColumn,
     ChangeTableParam,
+    RegisterTable,
+    RegisterTableColumn,
     SwitchTableColumnParam,
 } from './Actions'
-import { initialState, defaultTableState, defaultColumnState } from './constants'
+import { getDefaultColumnState, getDefaultTableState, initialState } from './constants'
 
 const tableSlice = createSlice({
     name: 'n2o/table',
@@ -27,10 +27,7 @@ const tableSlice = createSlice({
                 const { widgetId, initProps } = action.payload
                 const currentState = state[widgetId] || {}
 
-                state[widgetId] = {
-                    ...defaultTableState,
-                    ...merge(currentState, initProps),
-                }
+                state[widgetId] = { ...getDefaultTableState(), ...merge(currentState, initProps) }
             },
         },
 
@@ -65,34 +62,20 @@ const tableSlice = createSlice({
         },
 
         registerTableColumn: {
-            prepare(
-                widgetId,
-                columnId,
-                label,
-                visible,
-                disabled,
-                conditions,
-            ) {
-                return ({
-                    payload: {
-                        widgetId,
-                        columnId,
-                        label,
-                        visible,
-                        disabled,
-                        conditions,
-                    },
-                })
+            prepare(column) {
+                return ({ payload: column })
             },
 
             reducer(state, action: RegisterTableColumn) {
                 const { widgetId, columnId } = action.payload
 
                 if (!state[widgetId]) {
-                    state[widgetId] = defaultTableState
+                    state[widgetId] = getDefaultTableState()
                 }
 
-                set(state, `${widgetId}.columns.${columnId}`, { ...defaultColumnState, ...action.payload })
+                const { columns } = state[widgetId]
+
+                columns[columnId] = { ...getDefaultColumnState(), ...action.payload }
             },
         },
 
@@ -106,7 +89,16 @@ const tableSlice = createSlice({
             reducer(state, action: ChangeTableColumnParam) {
                 const { widgetId, columnId, paramKey, value } = action.payload
 
-                set(state, `${widgetId}.columns.${columnId}.${paramKey}`, value)
+                if (!state[widgetId]) {
+                    // eslint-disable-next-line no-console
+                    console.warn(`Виджет ${widgetId} не существует`)
+
+                    return
+                }
+
+                const column = state[widgetId].columns[columnId]
+
+                set(column, paramKey, value)
             },
         },
     },

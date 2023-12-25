@@ -28,6 +28,7 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> implements Actions
     public void io(Element e, N2oButton b, IOProcessor p) {
         super.io(e, b, p);
         button(e, b, p, this);
+        b.adapterV2();
 
         p.attributeArray(e, "generate", ",", b::getGenerate, b::setGenerate);
         p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);

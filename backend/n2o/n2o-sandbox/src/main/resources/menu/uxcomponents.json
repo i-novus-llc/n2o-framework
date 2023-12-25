@@ -781,10 +781,6 @@
           "name": "Размеры кнопок"
         },
         {
-          "templateId": "uxcomponents/buttons/confirm_button",
-          "name": "Кнопка с подтверждением"
-        },
-        {
           "templateId": "uxcomponents/buttons/dropdown_button",
           "name": "Кнопка с выпадающим списком"
         },
@@ -817,6 +813,10 @@
         {
           "templateId": "uxcomponents/actions/open_page",
           "name": "Открытие вложенной страницы"
+        },
+        {
+          "templateId": "uxcomponents/actions/confirm",
+          "name": "Открытие окна подтверждения"
         },
         {
           "templateId": "uxcomponents/actions/close",

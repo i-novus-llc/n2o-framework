@@ -39,6 +39,11 @@ public interface CheckboxGroup extends Control {
     void shouldHaveOptions(String[] labels, Duration... duration);
 
     /**
+     * Проверка отсутствия чекбоксов
+     */
+    void shouldNotHaveOptions(Duration... duration);
+
+    /**
      * Проверка соответствия тултипа при наведении на чекбокс со значением самой метки чекбокса
      *
      * @param label значение метки проверяемого чекбокса

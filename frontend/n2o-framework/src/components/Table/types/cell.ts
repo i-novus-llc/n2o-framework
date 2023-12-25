@@ -17,6 +17,7 @@ export type HeaderCell = {
     visible?: boolean
     conditions?: Record<string, any>
     label: string
+    icon?: string
     multiHeader?: boolean;
     id: string
     fieldId: string

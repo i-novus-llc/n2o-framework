@@ -2,7 +2,6 @@ import React from 'react'
 import { pure } from 'recompose'
 import PropTypes from 'prop-types'
 import { Button } from 'reactstrap'
-import assign from 'lodash/assign'
 
 import InputText from '../../../controls/InputText/InputText'
 
@@ -26,24 +25,17 @@ function AdvancedTableFilterPopup({
     component,
     controlProps,
 }) {
-    const childProps = {
-        ...controlProps,
-        value,
-        onChange,
+    const onKeyDown = (event) => {
+        if (event.key === 'Enter') { onSearchClick() }
     }
 
     return (
         <>
             <div className="n2o-advanced-table-filter-dropdown-popup">
                 {component ? (
-                    React.createElement(
-                        component,
-                        assign({}, childProps, {
-                            popupPlacement: 'right',
-                        }),
-                    )
+                    React.createElement(component, { ...controlProps, value, onChange, onKeyDown, popupPlacement: 'right' })
                 ) : (
-                    <InputText value={value} onChange={onChange} />
+                    <InputText value={value} onChange={onChange} onKeyDown={onKeyDown} />
                 )}
             </div>
             <div className="n2o-advanced-table-filter-dropdown-buttons">

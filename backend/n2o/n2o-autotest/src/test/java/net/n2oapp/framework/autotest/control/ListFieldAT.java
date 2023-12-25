@@ -4,26 +4,31 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.*;
+import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+
 /**
- * Тестирование фильтрации списковых полей
+ * Тестирование списковых полей
  */
-public class ListFieldAT extends AutoTestBase {
+class ListFieldAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -39,8 +44,13 @@ public class ListFieldAT extends AutoTestBase {
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
     }
 
+    @AfterAll
+    static void afterClass() {
+        System.setProperty("n2o.ui.message.dev-mode", "false");
+    }
+
     @Test
-    public void listFieldFiltrationTest() {
+    void listFieldFiltrationTest() {
         setJsonPath("net/n2oapp/framework/autotest/control/list/filter");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/filter/index.page.xml"),
@@ -81,7 +91,7 @@ public class ListFieldAT extends AutoTestBase {
     }
 
     @Test
-    public void testOptionsFromDS() {
+    void testOptionsFromDS() {
         setJsonPath("net/n2oapp/framework/autotest/control/list/options_from_ds");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/options_from_ds/index.page.xml"),
@@ -111,7 +121,7 @@ public class ListFieldAT extends AutoTestBase {
     }
 
     @Test
-    public void testOptionFromParentDS() {
+    void testOptionFromParentDS() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/option_from_parent_ds/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/option_from_parent_ds/createDoc.page.xml"));
@@ -129,7 +139,7 @@ public class ListFieldAT extends AutoTestBase {
     }
 
     @Test
-    public void testFetchValueDependencies() {
+    void testFetchValueDependencies() {
         setJsonPath("net/n2oapp/framework/autotest/control/list/fetch_value");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/fetch_value/index.page.xml"),
@@ -155,5 +165,28 @@ public class ListFieldAT extends AutoTestBase {
         fields.field("size 3").control(InputSelect.class).shouldSelectedMulti(new String[]{"test1", "test2", "test3"});
         fields.field("size 4").control(InputSelect.class).shouldSelectedMulti(new String[]{"test1", "test2", "test3", "test4"});
         fields.field("size 5").control(InputSelect.class).shouldSelectedMulti(new String[]{"test1", "test2", "test3", "test4"});
+    }
+
+    @Test
+    void testAlert() {
+        System.setProperty("n2o.ui.message.dev-mode", "true");
+        setJsonPath("net/n2oapp/framework/autotest/control/list/alert");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/list/alert/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/list/alert/test.query.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        InputSelect inputSelect = page.widget(FormWidget.class)
+                .fieldsets()
+                .fieldset(0, SimpleFieldSet.class)
+                .fields()
+                .field("tt")
+                .control(InputSelect.class);
+        inputSelect.openPopup();
+
+        Alert alert = page.alerts(Alert.Placement.top).alert(0);
+        alert.shouldHaveText("В test.query.xml не найден <count> запрос необходимый для пагинации", Duration.ofSeconds(15));
     }
 }

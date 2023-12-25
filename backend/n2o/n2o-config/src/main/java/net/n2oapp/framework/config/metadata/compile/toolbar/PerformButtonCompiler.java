@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
@@ -75,24 +74,9 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         CompiledObject compiledObject = initObject(p, source);
         Action action = compileAction(source, context, p, compiledObject);
         button.setAction(action);
-        button.setConfirm(ButtonCompileUtil.compileConfirm(source, p, getOperation(action, compiledObject)));
         compileDependencies(source, button, p);
 
         return button;
-    }
-
-    private CompiledObject.Operation getOperation(Action action, CompiledObject compiledObject) {
-        CompiledObject.Operation operation = null;
-        if (action != null) {
-            if (action instanceof InvokeAction) {
-                operation = compiledObject != null && compiledObject.getOperations() != null
-                        && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
-                        compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
-            }
-            //todo если это invoke-action, то из action в объекте должны доставаться поля action.getName(), confirmationText
-        }
-
-        return operation;
     }
 
     protected void initDefaults(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {

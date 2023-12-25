@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <actions>
+        <action>
+            <confirm text="test">
+                <cancel label="test"/>
+                <cancel label="test"/>
+            </confirm>
+        </action>
+    </actions>
+</page>

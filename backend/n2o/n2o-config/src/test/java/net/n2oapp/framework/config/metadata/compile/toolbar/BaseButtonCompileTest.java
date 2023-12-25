@@ -1,14 +1,18 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
+import net.n2oapp.framework.api.metadata.compile.enums.Color;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionAction;
+import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -74,45 +78,46 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
 
         btn = page.getToolbar().getButton("btn6");
         assertThat(btn.getModel(), is(ReduxModel.datasource));
-    }
 
-    @Test
-    void testConfirm() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/toolbar/testButtonConfirm.object.xml"));
-        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testButtonConfirm.page.xml")
-                .get(new PageContext("testButtonConfirm"));
+        btn = page.getToolbar().getButton("btn7");
+        assertThat(btn.getAction().getClass(), is(MultiAction.class));
+        assertThat(((MultiAction) btn.getAction()).getPayload().getActions().get(0).getClass(), is(ConfirmAction.class));
+        assertThat(((MultiAction) btn.getAction()).getPayload().getActions().get(1).getClass(), is(InvokeAction.class));
+        ConfirmAction confirm = (ConfirmAction) ((MultiAction) btn.getAction()).getPayload().getActions().get(0);
+        assertThat(confirm.getPayload().getMode(), is(ConfirmType.MODAL));
+        assertThat(confirm.getPayload().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title")));
+        assertThat(confirm.getPayload().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text")));
+        assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
+        assertThat(confirm.getPayload().getOk().getColor(), is(Color.primary.name()));
+        assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
+        assertThat(confirm.getPayload().getCancel().getColor(), is(Color.secondary.name()));
 
-        Confirm confirm = page.getWidget().getToolbar().getButton("btn1").getConfirm();
-        assertThat(confirm, nullValue());
+        btn = page.getToolbar().getButton("btn8");
+        confirm = (ConfirmAction)  btn.getAction();
 
-        confirm = page.getWidget().getToolbar().getButton("btn2").getConfirm();
-        assertThat(confirm.getCondition(), is("`true`"));
-        assertThat(confirm.getText(), is("`'' + this.id === '1' ? 'id is 1' : 'id is 2' + ''`"));
-        assertThat(confirm.getTitle(), is("Подтвердить действие"));
-        assertThat(confirm.getOk().getLabel(), is("Ок"));
-        assertThat(confirm.getOk().getColor(), is("success"));
-        assertThat(confirm.getCancel().getLabel(), is("Отмена"));
-        assertThat(confirm.getCancel().getColor(), is("danger"));
-        assertThat(confirm.getReverseButtons(), is(false));
-        assertThat(confirm.getCloseButton(), is(false));
-        assertThat(confirm.getMode(), is(ConfirmType.POPOVER));
-        assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_w1']"));
+        assertThat(confirm.getPayload().getTitle(), is("Предупреждение"));
+        assertThat(confirm.getPayload().getText(), is("Подтвердите действие"));
+        assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
+        assertThat(confirm.getPayload().getOk().getColor(), is(Color.danger.name()));
+        assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
+        assertThat(confirm.getPayload().getCancel().getColor(), is(Color.primary.name()));
 
-        confirm = page.getWidget().getToolbar().getButton("btn3").getConfirm();
-        assertThat(confirm.getCondition(), is("`id === '1'|| id === '2'`"));
-        assertThat(confirm.getText(), is("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие."));
-        assertThat(confirm.getTitle(), is("Предупреждение"));
-        assertThat(confirm.getOk().getLabel(), is("Да"));
-        assertThat(confirm.getOk().getColor(), is("primary"));
-        assertThat(confirm.getCancel().getLabel(), is("Нет"));
-        assertThat(confirm.getCancel().getColor(), is("secondary"));
-        assertThat(confirm.getReverseButtons(), is(false));
-        assertThat(confirm.getCloseButton(), is(false));
-        assertThat(confirm.getMode(), is(ConfirmType.MODAL));
-        assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_w1']"));
+        btn = page.getToolbar().getButton("btn9");
+        assertThat(btn.getAction().getClass(), is(ConditionAction.class));
+        ConditionAction conditionAction = (ConditionAction) btn.getAction();
+        assertThat(conditionAction.getPayload().getCondition(), is("test"));
+        assertThat(conditionAction.getPayload().getDatasource(), is("testButton_test"));
+        assertThat(conditionAction.getPayload().getSuccess().getClass(), is(ConfirmAction.class));
+        assertThat(conditionAction.getPayload().getFail(), is(nullValue()));
 
-        confirm = page.getWidget().getToolbar().getButton("btn4").getConfirm();
-        assertThat(confirm, nullValue());
+        confirm = (ConfirmAction) conditionAction.getPayload().getSuccess();
+        assertThat(confirm.getPayload().getMode(), is(ConfirmType.MODAL));
+        assertThat(confirm.getPayload().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title")));
+        assertThat(confirm.getPayload().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text")));
+        assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
+        assertThat(confirm.getPayload().getOk().getColor(), is(Color.primary.name()));
+        assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
+        assertThat(confirm.getPayload().getCancel().getColor(), is(Color.secondary.name()));
     }
 
     @Test

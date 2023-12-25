@@ -160,46 +160,6 @@
                         <xs:documentation>Круглая форма кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="confirm" type="xs:string" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Показать предупреждение перед выполнением действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="confirm-text" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Текст предупреждения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="confirm-type" type="confirmType" default="modal">
-                    <xs:annotation>
-                        <xs:documentation>Тип предупреждения перед выполнением действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="confirm-title" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Заголовок окна предупреждения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="confirm-ok-label" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Текст кнопки подтверждения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="confirm-cancel-label" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Текст кнопки отмены.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="confirm-ok-color" type="bs:buttonColorDefinition" default="primary">
-                    <xs:annotation>
-                        <xs:documentation>Цвет кнопки подтверждения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="confirm-cancel-color" type="bs:buttonColorDefinition" default="secondary">
-                    <xs:annotation>
-                        <xs:documentation>Цвет кнопки отмены.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="disable-on-empty-model">
                     <xs:annotation>
                         <xs:documentation>Недоступность кнопки при пустой модели.</xs:documentation>
@@ -308,16 +268,6 @@
             <xs:enumeration value="right"/>
             <xs:enumeration value="top"/>
             <xs:enumeration value="bottom"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="confirmType">
-        <xs:annotation>
-            <xs:documentation>Тип подтверждения действия.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="popover"/>
-            <xs:enumeration value="modal"/>
         </xs:restriction>
     </xs:simpleType>
 

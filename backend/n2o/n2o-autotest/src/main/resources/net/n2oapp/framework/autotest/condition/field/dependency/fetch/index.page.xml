@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Проверка fetch-зависимости у списковых полей">
+    <form>
+        <datasource id="tableDs" query-id="test" route="/main">
+            <filters>
+                <eq field-id="id" value="1"/>
+            </filters>
+        </datasource>
+        <fields>
+            <input-text id="values[0].type"
+                        domain="integer"
+                        placeholder="Ввеси 1, затем 2"
+            />
+
+            <radio-group id="values[0].test4"
+                         label="Фильтр по радио кнопкам"
+                         query-id="test"
+                         description="При values[0].type=1 должно быть 2 значения"
+            >
+                <filters>
+                    <eq field-id="type" value="{values[0].type}"/>
+                </filters>
+                <dependencies>
+                    <fetch on="values[0].type"/>
+                </dependencies>
+            </radio-group>
+            <checkbox-group id="values[0].test5" label="Фильтр по чекбоксам" cache="true" query-id="test"
+                            description="При values[0].type=1 должно быть 2 значения">
+                <filters>
+                    <eq field-id="type" value="{values[0].type}"/>
+                </filters>
+                <dependencies>
+                    <fetch on="values[0].type"/>
+                </dependencies>
+            </checkbox-group>
+        </fields>
+    </form>
+</simple-page>
