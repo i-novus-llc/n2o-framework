@@ -419,6 +419,7 @@ public class InputSelectAT extends AutoTestBase {
         InputSelect inputSelect = formWidget.fieldsets().fieldset(0, SimpleFieldSet.class).fields().field("Ввод с выпадающим списком").control(InputSelect.class);
         inputSelect.click();
         inputSelect.shouldBeOpened();
+        inputSelect.dropdown().shouldHaveOptions(new String[]{"111"});
         inputSelect.pressEnter();
         formWidget.toolbar().topLeft().button("unselect").click();
         inputSelect.shouldHaveValue("111");
