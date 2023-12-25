@@ -69,7 +69,7 @@ public class TableAT extends AutoTestBase {
     }
 
     @Test
-    public void testTable() {
+    void testTable() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/simple/index.page.xml"),
@@ -129,7 +129,7 @@ public class TableAT extends AutoTestBase {
     }
 
     @Test
-    public void testRowClickEnabled() {
+    void testRowClickEnabled() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/row_click");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_click/index.page.xml"),
@@ -159,7 +159,7 @@ public class TableAT extends AutoTestBase {
     }
 
     @Test
-    public void testOverlay() {
+    void testOverlay() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/row_overlay");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_overlay/index.page.xml"),
@@ -194,8 +194,9 @@ public class TableAT extends AutoTestBase {
         page.alerts(Alert.Placement.topRight).alert(0).shouldHaveTitle("Уведомление по menu-item");
 
     }
+
     @Test
-    public void testToolbar() {
+    void testToolbar() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/simple/index.page.xml"),
@@ -220,7 +221,7 @@ public class TableAT extends AutoTestBase {
     }
 
     @Test
-    public void testSortOfColumn() {
+    void testSortOfColumn() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/sort_column");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/sort_column/index.page.xml"),
@@ -261,7 +262,7 @@ public class TableAT extends AutoTestBase {
     }
 
     @Test
-    public void testFetchOnClear() {
+    void testFetchOnClear() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/search_buttons");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/search_buttons/index.page.xml"),
@@ -286,7 +287,7 @@ public class TableAT extends AutoTestBase {
     }
 
     @Test
-    public void fetchOnVisibilityTest() {
+    void fetchOnVisibilityTest() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/fetch_on_visibility");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_visibility/index.page.xml"),
