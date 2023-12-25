@@ -4,7 +4,6 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.StandardWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -107,7 +106,7 @@ public class ConfirmActionAT extends AutoTestBase {
         button.click();
         popover.shouldBeVisible();
         test1.click();
-        popover.shouldBeClosed(500);
+        popover.shouldBeClosed();
     }
 
     @Test

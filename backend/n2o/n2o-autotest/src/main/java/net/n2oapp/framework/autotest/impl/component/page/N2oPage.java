@@ -7,7 +7,6 @@ import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
-import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.Page;
@@ -145,6 +144,7 @@ public class N2oPage extends N2oComponent implements Page {
     public class N2oPageToolbar implements PageToolbar {
 
         private static final String TOOLBAR = ".n2o-page-body .toolbar_placement_%s .btn";
+
         @Override
         public Toolbar topLeft() {
             return N2oSelenide.collection(element().$$(String.format(TOOLBAR, "topLeft")), Toolbar.class);
@@ -167,11 +167,13 @@ public class N2oPage extends N2oComponent implements Page {
 
     }
 
-    public class N2oOverlay extends N2oComponent implements Overlay{
+    public class N2oOverlay extends N2oComponent implements Overlay {
         private static final String TOOLBAR = ".toolbar-container .btn";
+
         public Toolbar toolbar() {
             return N2oSelenide.collection(element().$$(TOOLBAR), Toolbar.class);
         }
+
         public N2oOverlay(SelenideElement element) {
             setElement(element);
         }
@@ -258,6 +260,7 @@ public class N2oPage extends N2oComponent implements Page {
 
         }
     }
+
     public static class N2oDialog extends N2oComponent implements Dialog {
 
         public N2oDialog(SelenideElement element) {
@@ -293,6 +296,7 @@ public class N2oPage extends N2oComponent implements Page {
         }
 
     }
+
     public static class N2oPopover extends N2oComponent implements Popover {
 
         public N2oPopover(SelenideElement element) {
@@ -315,11 +319,8 @@ public class N2oPage extends N2oComponent implements Page {
         }
 
         @Override
-        public void shouldBeClosed(long timeOut) {
-            SelenideElement popoverBody = popoverBody();
-
-            if (popoverBody.exists())
-                popoverBody.shouldBe(Condition.exist, Duration.ofMillis(timeOut));
+        public void shouldBeClosed(Duration... duration) {
+            should(Condition.not(Condition.exist), popoverBody(), duration);
         }
 
         private SelenideElement popoverBody() {
@@ -327,9 +328,11 @@ public class N2oPage extends N2oComponent implements Page {
         }
 
     }
+
     static class UrlMatch extends Condition {
 
         private final String regex;
+
         public UrlMatch(String regex) {
             super("urlMatch", true);
             this.regex = regex;

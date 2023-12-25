@@ -6,7 +6,6 @@ import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
-import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
@@ -307,10 +306,9 @@ public interface Page extends Component {
 
 
         /**
-         * Проверка закрытия поповера в течение передаваемого времени
-         * @param timeOut длительность проверки
+         * Проверка закрытия поповера
          */
-        void shouldBeClosed(long timeOut);
+        void shouldBeClosed(Duration... duration);
     }
 
 }
