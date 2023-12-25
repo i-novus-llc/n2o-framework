@@ -14,7 +14,7 @@ import { resolveConditions } from '../../sagas/conditions'
 // @ts-ignore ignore import error from js file
 import request from '../../utils/request'
 import { State } from '../State'
-import { SequenceMeta } from '../api/action/sequence'
+import { SequenceMeta, creator as sequence, finisher as sequenceEnd } from '../api/action/sequence'
 import { failOperation, startOperation, successOperation } from '../api/Operation'
 
 import { getContainerButtons } from './selectors'
@@ -199,6 +199,6 @@ function* endOperationEffect({ key, buttonId }: SequenceMeta) {
 
 export default [
     takeEvery(PRINT_BUTTON, print),
-    takeEvery([startOperation], ({ meta }) => startOperationEffect(meta)),
-    takeEvery([failOperation, successOperation], ({ meta }) => endOperationEffect(meta)),
+    takeEvery([startOperation, sequence], ({ meta }) => startOperationEffect(meta)),
+    takeEvery([failOperation, successOperation, sequenceEnd], ({ meta }) => endOperationEffect(meta)),
 ]

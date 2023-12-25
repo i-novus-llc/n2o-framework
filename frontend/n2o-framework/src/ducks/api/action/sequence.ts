@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { cancel } from 'redux-saga/effects'
+import { cancel, put } from 'redux-saga/effects'
 
 import { Action, ErrorAction, Meta } from '../../Action'
 import { ACTIONS_PREFIX } from '../constants'
@@ -15,6 +15,11 @@ export const creator = createAction(
     (payload: Payload, meta: SequenceMeta) => ({ payload, meta }),
 )
 
+export const finisher = createAction(
+    `${ACTIONS_PREFIX}sequence_end`,
+    (payload: Record<string, unknown>, meta: SequenceMeta) => ({ payload, meta }),
+)
+
 export function* effect({ payload, meta }: ReturnType<typeof creator>) {
     const { actions } = payload
     const { target, key, buttonId } = meta
@@ -25,4 +30,6 @@ export function* effect({ payload, meta }: ReturnType<typeof creator>) {
         if (resultAction.type === failOperation.type) { yield cancel() }
         if (resultAction.error) { throw new Error(resultAction.error) }
     }
+
+    yield put(finisher({}, { target, key, buttonId }))
 }
