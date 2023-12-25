@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { pure } from 'recompose'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
+import omit from 'lodash/omit'
 import { Dropdown, DropdownToggle, DropdownMenu, Badge, Button } from 'reactstrap'
 import isNumber from 'lodash/isNumber'
 
@@ -87,6 +88,8 @@ class AdvancedTableFilter extends Component {
       const { filterOpen, value } = this.state
       const { component, ...controlProps } = control
 
+      const { style = {} } = controlProps
+
       return (
           <>
               {children}
@@ -111,6 +114,7 @@ class AdvancedTableFilter extends Component {
                       tag="div"
                       modifiers={MODIFIERS}
                       positionFixed
+                      style={style}
                       right
                   >
                       <AdvancedTableFilterPopup
@@ -119,7 +123,7 @@ class AdvancedTableFilter extends Component {
                           onSearchClick={this.onSearchClick}
                           onResetClick={this.onResetClick}
                           component={component}
-                          controlProps={controlProps}
+                          controlProps={omit(controlProps, 'style')}
                       />
                   </DropdownMenu>
               </Dropdown>
