@@ -5,11 +5,11 @@
         <toolbar>
             <button label="Открыть форму с date-time"
                     disable-on-empty-model="false">
-                <show-modal page-id="date_time" unsaved-data-prompt-on-close="false"/>
+                <show-modal page-id="date_time"/>
             </button>
             <button label="Открыть форму с date-interval"
                     disable-on-empty-model="false">
-                <show-modal page-id="date_interval" unsaved-data-prompt-on-close="false"/>
+                <show-modal page-id="date_interval"/>
             </button>
         </toolbar>
     </form>

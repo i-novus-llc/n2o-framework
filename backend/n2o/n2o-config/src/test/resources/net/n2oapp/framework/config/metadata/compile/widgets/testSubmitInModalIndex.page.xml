@@ -9,7 +9,7 @@
         <toolbar>
             <button label="Открыть" id="open">
                 <show-modal page-id="testSubmitInModal" refresh-on-close="true"
-                            unsaved-data-prompt-on-close="false" route="/:id/open">
+                            route="/:id/open">
                     <path-param name="id" value="{id}"/>
                 </show-modal>
             </button>

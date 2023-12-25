@@ -3,7 +3,7 @@
       object-id="test"
       name="Действие 'Закрыть' выполнится без предупреждения">
     <regions>
-        <form id="form" query-id="test" unsaved-data-prompt="false">
+        <form id="form" query-id="test">
             <fields>
                 <input-text id="name"/>
                 <checkbox id="type"/>

@@ -8,8 +8,7 @@
         </columns>
         <toolbar>
             <button label="Открыть">
-                <show-modal page-id="modal" refresh-on-close="true" route="/:id/modal"
-                            unsaved-data-prompt-on-close="false">
+                <show-modal page-id="modal" refresh-on-close="true" route="/:id/modal">
                     <path-param name="id" value="{id}"/>
                 </show-modal>
             </button>
