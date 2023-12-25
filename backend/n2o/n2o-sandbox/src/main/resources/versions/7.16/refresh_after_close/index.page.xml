@@ -11,11 +11,11 @@
         <form>
             <toolbar>
                 <button label="Modal" disable-on-empty-model="false">
-                    <show-modal page-id="modal" route="/modal" unsaved-data-prompt-on-close="false"
+                    <show-modal page-id="modal" route="/modal"
                                 backdrop="true" refresh-on-close="true" refresh-widget-id="table"/>
                 </button>
                 <button label="Drawer" disable-on-empty-model="false">
-                    <open-drawer page-id="modal" route="/drawer" unsaved-data-prompt-on-close="false"
+                    <open-drawer page-id="modal" route="/drawer"
                                  close-on-backdrop="true" refresh-on-close="true" refresh-widget-id="table"/>
                 </button>
             </toolbar>
