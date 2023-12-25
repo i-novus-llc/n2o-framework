@@ -102,6 +102,12 @@ public class ConfirmActionAT extends AutoTestBase {
         popover.button(0).click();
         test1.shouldHaveValue("qwerty");
         test2.shouldHaveValue("zxc");
+
+        //Проверка закрытия окна при клике вне
+        button.click();
+        popover.shouldBeVisible();
+        test1.click();
+        popover.shouldBeClosed(500);
     }
 
     @Test
