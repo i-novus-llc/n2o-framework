@@ -16,7 +16,7 @@
         </columns>
         <toolbar>
             <button label="Создать">
-                <show-modal page-id="test" unsaved-data-prompt-on-close="false"/>
+                <show-modal page-id="test"/>
             </button>
         </toolbar>
     </table>

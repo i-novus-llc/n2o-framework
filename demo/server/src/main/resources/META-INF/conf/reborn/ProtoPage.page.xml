@@ -271,8 +271,7 @@
                 </content>
                 <toolbar>
                     <button id="createContact" label="${create}" model="filter">
-                        <show-modal page-id="ProtoContactsCreate" route="/contacts/:client_id/createContact"
-                                    unsaved-data-prompt-on-close="false">
+                        <show-modal page-id="ProtoContactsCreate" route="/contacts/:client_id/createContact">
                             <params>
                                 <path-param name="client_id" value="{id}" model="resolve" datasource="clientsDs"/>
                             </params>
