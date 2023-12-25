@@ -6,7 +6,7 @@
             <toolbar>
                 <button id="l1" label="Изменить с предупреждением (модальное окно)">
                     <show-modal page-id="modalWithPrompt" submit-operation-id="update"
-                                route="/:id/modal">
+                                unsaved-data-prompt-on-close="true" route="/:id/modal">
                         <path-param name="id" value="{id}"/>
                     </show-modal>
                 </button>
@@ -28,7 +28,7 @@
             <toolbar>
                 <button id="r1" label="Изменить без предупреждения (модальное окно)">
                     <show-modal page-id="modalWithNoPrompt" submit-operation-id="update"
-                                unsaved-data-prompt-on-close="false" route="/:id/modal2">
+                                route="/:id/modal2">
                         <path-param name="id" value="{id}"/>
                     </show-modal>
                 </button>

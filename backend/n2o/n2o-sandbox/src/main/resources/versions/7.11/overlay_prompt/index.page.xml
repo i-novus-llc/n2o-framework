@@ -10,13 +10,13 @@
                 <show-modal page-id="modal" unsaved-data-prompt-on-close="true"/>
             </button>
             <button label="Модальное окно без подтверждения">
-                <show-modal page-id="modal" unsaved-data-prompt-on-close="false"/>
+                <show-modal page-id="modal"/>
             </button>
             <button label="Drawer с подтверждением">
                 <open-drawer page-id="modal" unsaved-data-prompt-on-close="true"/>
             </button>
             <button label="Drawer без подтверждения">
-                <open-drawer page-id="modal" unsaved-data-prompt-on-close="false"/>
+                <open-drawer page-id="modal"/>
             </button>
         </toolbar>
     </form>
