@@ -1,40 +1,42 @@
-import React from 'react'
+import React, { useState, cloneElement, useRef } from 'react'
 import classNames from 'classnames'
-import { PropsGetterArgs } from 'react-popper-tooltip/dist/types'
-import 'react-popper-tooltip/dist/styles.css'
+import { Tooltip as Component, TooltipProps } from 'reactstrap'
 
-export interface TooltipProps {
-    hint?: string | number | React.Component
-    className?: string
-    getArrowProps(args?: PropsGetterArgs): {
-        style: React.CSSProperties
-        'data-popper-arrow': boolean
-    };
-    getTooltipProps(args?: PropsGetterArgs): {
-        'data-popper-interactive': boolean | undefined
-        style: React.CSSProperties
-    };
-    setTooltipRef: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-    theme: 'dark' | 'light'
-}
+export function Tooltip(props: TooltipProps) {
+    const { hint, className, placement, delay, trigger, children } = props
+    const tooltipRef = useRef(null)
+    const [isOpen, setOpen] = useState(false)
 
-export function Tooltip({
-    hint,
-    className,
-    setTooltipRef,
-    getTooltipProps,
-    getArrowProps,
-    theme = 'dark',
-}: TooltipProps): JSX.Element {
+    if (!children) { return null }
+
+    const toggle = () => setOpen(!isOpen)
+    const close = () => setOpen(false)
+
+    let content = children
+
+    const { ref } = (children as TooltipProps['TooltipChildren'])?.props?.children
+
+    if (!ref && typeof children === 'object' && 'ref' in children) {
+        content = cloneElement(children, { ref: tooltipRef, tooltipClose: close })
+    }
+
     return (
-        <div
-            ref={setTooltipRef}
-            {...getTooltipProps(
-                { className: classNames('tooltip-container', className, theme) },
-            )}
-        >
-            {hint}
-            <div {...getArrowProps({ className: classNames('tooltip-arrow', theme) })} />
-        </div>
+        <>
+            {content}
+            <Component
+                toggle={toggle}
+                handleClickOutside={close}
+                placement={placement}
+                isOpen={isOpen}
+                target={ref || tooltipRef}
+                container={ref || tooltipRef}
+                delay={delay}
+                popperClassName={classNames('tooltip-container', className)}
+                trigger={trigger}
+                flip
+            >
+                {hint}
+            </Component>
+        </>
     )
 }

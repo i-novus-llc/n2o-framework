@@ -9,6 +9,7 @@ import isArray from 'lodash/isArray'
 import withCell from '../../withCell'
 import DefaultCell from '../DefaultCell'
 import getNoun from '../../../../../utils/getNoun'
+import { Tooltip } from '../../../../snippets/Tooltip/TooltipHOC'
 
 import { ListTextCellTrigger } from './ListTextCellTrigger'
 import { replacePlaceholder } from './utils'
@@ -24,7 +25,6 @@ function ListTextCell(props) {
         manyLabel,
         trigger,
         labelDashed,
-        theme,
         placement,
     } = props
 
@@ -53,14 +53,12 @@ function ListTextCell(props) {
     return (
         <DefaultCell disabled={disabled} className="list-text-cell">
             {singleElement ? first(tooltipList) : (
-                <ListTextCellTrigger
-                    label={replacePlaceholder(currentLabel, listLength)}
-                    hint={hint}
-                    trigger={trigger}
-                    labelDashed={labelDashed}
-                    theme={theme}
-                    placement={placement}
-                />
+                <Tooltip hint={hint} placement={placement} trigger={trigger}>
+                    <ListTextCellTrigger
+                        label={replacePlaceholder(currentLabel, listLength)}
+                        labelDashed={labelDashed}
+                    />
+                </Tooltip>
             )}
         </DefaultCell>
     )
@@ -105,10 +103,6 @@ ListTextCell.propTypes = {
    * применить к label dashed underline
    */
     labelDashed: PropTypes.bool,
-    /**
-   * dark(default) или light тема tooltip
-   */
-    theme: PropTypes.string,
     model: PropTypes.object,
     disabled: PropTypes.bool,
 }
@@ -118,6 +112,5 @@ ListTextCell.defaultProps = {
     trigger: 'hover',
     fieldKey: [],
     labelDashed: false,
-    theme: 'dark',
     disabled: false,
 }

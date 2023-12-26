@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { id as generateId } from '../../../../../utils/id'
-import { ExtendedTooltipComponent } from '../../../../../components/snippets/Tooltip/TooltipHOC'
 import { Item } from '../../../../CommonMenuTypes'
 
 import { LinkBody } from './LinkBody'
@@ -14,25 +12,22 @@ interface OuterLinkProps {
     sidebarOpen: boolean
     isMiniView: boolean
     item: Item
+    id: string
+    forwardedRef?: React.Ref<HTMLAnchorElement>
 }
 
 export function OuterLink(props: OuterLinkProps) {
-    const { href, title, isStaticView, showContent, sidebarOpen, isMiniView, item } = props
-    const id = generateId()
-
-    const hint = isMiniView ? title : null
+    const { href, isStaticView, showContent, sidebarOpen, isMiniView, item, id, forwardedRef } = props
 
     return (
-        <ExtendedTooltipComponent hint={hint} placement="right">
-            <a id={id} className="n2o-sidebar__item" href={href}>
-                <LinkBody
-                    {...item}
-                    sidebarOpen={sidebarOpen}
-                    isStaticView={isStaticView}
-                    showContent={showContent}
-                    isMiniView={isMiniView}
-                />
-            </a>
-        </ExtendedTooltipComponent>
+        <a id={id} className="n2o-sidebar__item" href={href} ref={forwardedRef}>
+            <LinkBody
+                {...item}
+                sidebarOpen={sidebarOpen}
+                isStaticView={isStaticView}
+                showContent={showContent}
+                isMiniView={isMiniView}
+            />
+        </a>
     )
 }

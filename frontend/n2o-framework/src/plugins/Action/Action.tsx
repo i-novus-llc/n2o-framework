@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
-import { ExtendedTooltipComponent } from '../../components/snippets/Tooltip/TooltipHOC'
+import { Tooltip } from '../../components/snippets/Tooltip/TooltipHOC'
 import { LinkBody as SidebarItem } from '../SideBar/Menu/NavItems/Links/LinkBody'
 import { LinkBody as HeaderItem } from '../Header/SimpleHeader/Menu/NavItems/Links/LinkBody'
 import { Item } from '../CommonMenuTypes'
@@ -35,7 +35,7 @@ export function Action(props: ActionProps) {
     const hint = isMiniView ? title : null
 
     return (
-        <ExtendedTooltipComponent
+        <Tooltip
             hint={hint}
             placement="right"
         >
@@ -58,6 +58,6 @@ export function Action(props: ActionProps) {
                     )
                     : <HeaderItem {...item} />}
             </li>
-        </ExtendedTooltipComponent>
+        </Tooltip>
     )
 }

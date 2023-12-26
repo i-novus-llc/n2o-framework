@@ -1,24 +1,14 @@
-import * as React from 'react'
-import { ComponentType, useContext } from 'react'
-import { Config, usePopperTooltip } from 'react-popper-tooltip'
+import React, { ComponentType, useContext, forwardRef, cloneElement } from 'react'
 
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
 
-export interface TooltipHocProps extends Config {
+export interface TooltipHocProps {
     hint?: string | number | React.Component | null
-    trigger?: 'click' | 'double-click' | 'right-click' | 'hover' | 'focus',
-    /**
-     * if this option is enabled, TooltipHOC will give the incoming component tooltipTriggerRef
-     * @default false
-     */
-    isControlledTooltip?: boolean
-    className?: string,
-    setTriggerRef?: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
-    /**
-    * Delay in showing the tooltip (ms)
-    */
-    delayShow?: number,
+    placement?: string
+    tooltipDelay?: number
+    className?: string
+    trigger?: string
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -27,93 +17,37 @@ export function TooltipHOC<TProps extends TooltipHocProps>(Component: Function):
         const { getComponent } = useContext(FactoryContext)
         const FactoryTooltip = getComponent('Tooltip', FactoryLevels.SNIPPETS)
 
-        const { hint, isControlledTooltip = false, delayShow = 300 } = props
+        const { hint, className, placement = 'bottom', tooltipDelay = 0, trigger = 'hover' } = props
 
-        const {
-            getArrowProps,
-            getTooltipProps,
-            setTooltipRef,
-            setTriggerRef,
-            visible,
-        } = usePopperTooltip({
-            ...props,
-            delayShow,
-        })
-
-        if (!hint || !FactoryTooltip) {
-            return <Component {...props} />
-        }
-
-        const tooltipProps = {
-            setTooltipRef,
-            getTooltipProps,
-            getArrowProps,
-            ...props,
-        }
-
-        if (isControlledTooltip) {
-            return (
-                <>
-                    <Component {...props} tooltipTriggerRef={setTriggerRef} />
-                    {visible && (
-                        <FactoryTooltip {...tooltipProps} />
-                    )}
-                </>
-            )
-        }
+        if (!hint || !FactoryTooltip) { return <Component {...props} /> }
 
         return (
-            <>
-                <div ref={setTriggerRef}>
-                    <Component {...props} />
-                </div>
-                {visible && (
-                    <FactoryTooltip {...tooltipProps} />
-                )}
-            </>
+            <FactoryTooltip
+                hint={hint}
+                className={className}
+                placement={placement}
+                delay={tooltipDelay}
+                trigger={trigger}
+            >
+                <Component {...props} />
+            </FactoryTooltip>
         )
     }
 }
 
-interface ExpandableProps {
-    Component?: ComponentType,
-    children?: React.ReactChildren
-}
-
-type expandable = React.ReactChildren | JSX.Element | null
-
-function Expandable({
-    Component,
-    children,
-    ...props
-}: ExpandableProps): expandable {
-    if (children) {
-        return children
-    }
-
-    if (Component) {
-        return <Component {...props} />
-    }
-
-    return null
-}
+const Expandable = forwardRef(
+    // @ts-ignore FIXME разобраться
+    ({ children, ...rest }, forwardedRef) => cloneElement(children, { ...rest, forwardedRef }),
+)
 
 /**
  * Wrapper with TooltipHOC
  * @example
- *  <ExtendedTooltipComponent
-       Component={TargetComponent}
-       {...targetComponentProps}
-       hint='target component hint'
-       placement='top'
-    />
- * @example2
- *  <ExtendedTooltipComponent
-       {...targetComponentProps}
+ *  <Tooltip
        hint='target component hint'
        placement='top'
      >
  <TargetComponent />
- </ExtendedTooltipComponent>
+ </Tooltip>
  */
-export const ExtendedTooltipComponent = TooltipHOC(Expandable)
+export const Tooltip = TooltipHOC(Expandable)

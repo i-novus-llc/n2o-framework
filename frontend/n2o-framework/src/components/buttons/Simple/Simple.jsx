@@ -28,8 +28,8 @@ const SimpleButtonBody = ({
     rounded,
     className,
     badge,
-    tooltipTriggerRef,
     dataSourceIsLoading,
+    forwardedRef,
     ...rest
 }) => {
     const { text, position } = badge || {}
@@ -43,7 +43,7 @@ const SimpleButtonBody = ({
     const currentDisabled = dataSourceIsLoading || disabled
 
     return visible ? (
-        <div ref={tooltipTriggerRef}>
+        <div ref={forwardedRef}>
             <Button
                 id={id}
                 tag={tag}

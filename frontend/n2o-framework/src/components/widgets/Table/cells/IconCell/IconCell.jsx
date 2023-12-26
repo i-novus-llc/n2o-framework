@@ -18,12 +18,13 @@ import { textPlaceTypes } from './cellTypes'
  * @reactProps {string} icon - класс иконки
  * @reactProps {string} textPlace - расположение текста
  */
-function IconCell({ id, model, visible, icon, textPlace }) {
+function IconCell({ id, model, visible, icon, textPlace, forwardedRef }) {
     const text = get(model, id)
 
     return (
         visible && (
             <div
+                ref={forwardedRef}
                 className={classNames('icon-cell-container', {
                     'icon-cell-container__with-tooltip': !isUndefined(
                         model.tooltipFieldId,
