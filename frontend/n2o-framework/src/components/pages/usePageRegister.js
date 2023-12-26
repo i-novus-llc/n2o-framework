@@ -1,5 +1,6 @@
 import { useLayoutEffect } from 'react'
 import isEmpty from 'lodash/isEmpty'
+import { destroy } from 'redux-form'
 
 import { register, remove } from '../../ducks/datasource/store'
 
@@ -15,6 +16,7 @@ export const usePageRegister = (datasources, dispatch, pageId) => {
         return () => {
             Object.keys(datasources).forEach((id) => {
                 dispatch(remove(id))
+                dispatch(destroy(id))
             })
         }
     }, [datasources, dispatch, pageId])
