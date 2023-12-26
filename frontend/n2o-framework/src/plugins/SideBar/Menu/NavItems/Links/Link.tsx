@@ -2,6 +2,8 @@ import React from 'react'
 
 import { OUTER_LINK_TYPE } from '../../../../constants'
 import { Item } from '../../../../CommonMenuTypes'
+import { Tooltip } from '../../../../../components/snippets/Tooltip/TooltipHOC'
+import { id as generateId } from '../../../../../utils/id'
 
 import { OuterLink } from './OuterLink'
 import { InnerLink } from './InnerLink'
@@ -16,29 +18,24 @@ interface LinkProps {
 
 export function Link(props: LinkProps) {
     const { item, sidebarOpen, isMiniView, isStaticView, showContent } = props
-    const { linkType, href } = item
+    const { linkType, href, title } = item
 
-    if (linkType === OUTER_LINK_TYPE) {
-        return (
-            <OuterLink
-                sidebarOpen={sidebarOpen}
-                isMiniView={isMiniView}
-                item={item}
-                isStaticView={isStaticView}
-                showContent={showContent}
-                href={href}
-            />
-        )
+    const hint = isMiniView ? title : null
+    const id = generateId()
+    const linkProps = {
+        sidebarOpen,
+        isMiniView,
+        item,
+        isStaticView,
+        showContent,
+        href,
+        title,
+        id,
     }
 
     return (
-        <InnerLink
-            sidebarOpen={sidebarOpen}
-            isMiniView={isMiniView}
-            item={item}
-            isStaticView={isStaticView}
-            showContent={showContent}
-            href={href}
-        />
+        <Tooltip placement="right" hint={hint}>
+            {linkType === OUTER_LINK_TYPE ? <OuterLink {...linkProps} /> : <InnerLink {...linkProps} /> }
+        </Tooltip>
     )
 }

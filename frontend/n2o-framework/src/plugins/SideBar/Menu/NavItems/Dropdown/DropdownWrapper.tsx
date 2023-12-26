@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import classNames from 'classnames'
 
-import { NavItemImage } from '../../../../../components/snippets/NavItemImage/NavItemImage'
-import { ExtendedTooltipComponent } from '../../../../../components/snippets/Tooltip/TooltipHOC'
+import { NavItemImage } from '@i-novus/n2o-components/lib/display/NavItemImage'
+
+import { Tooltip } from '../../../../../components/snippets/Tooltip/TooltipHOC'
 import { Icon } from '../../../utils'
 
 interface DropdownWrapperProps {
@@ -31,6 +32,7 @@ export function DropdownWrapper(props: DropdownWrapperProps) {
         imageSrc,
         imageShape,
     } = props
+    const ref = useRef(null)
     const [isOpen, setOpen] = useState(false)
     const toggle = () => setOpen(!isOpen)
 
@@ -51,8 +53,8 @@ export function DropdownWrapper(props: DropdownWrapperProps) {
 
     return (
         <>
-            <ExtendedTooltipComponent hint={title} placement="right">
-                <div className="n2o-sidebar__item-dropdown">
+            <Tooltip hint={title} placement="right">
+                <div className="n2o-sidebar__item-dropdown" ref={ref}>
                     <div
                         onClick={toggle}
                         className={itemDropdownClass}
@@ -83,7 +85,7 @@ export function DropdownWrapper(props: DropdownWrapperProps) {
                         />
                     </div>
                 </div>
-            </ExtendedTooltipComponent>
+            </Tooltip>
             {isOpen && (<div className={subItemsClass}>{children}</div>)}
         </>
     )

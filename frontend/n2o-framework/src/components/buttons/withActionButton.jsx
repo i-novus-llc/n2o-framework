@@ -130,22 +130,18 @@ export default function withActionButton(options = {}) {
 
                 const { url, id } = this.state
 
-                return (
-                    <ActionButton
-                        Component={WrappedComponent}
-                        componentProps={
-                            {
-                                ...omit(this.props, ['isInit', 'targetTooltip', 'initialProps', 'registerButton', 'uid']),
-                                visible: isVisible,
-                                disabled: isDisabled,
-                                onClick: this.onClickHandler,
-                                url,
-                                id,
-                            }}
-                        hint={currentMessage}
-                        placement={hintPosition}
-                    />
-                )
+                const buttonProps = {
+                    ...omit(this.props, ['isInit', 'targetTooltip', 'initialProps', 'registerButton', 'uid']),
+                    visible: isVisible,
+                    disabled: isDisabled,
+                    onClick: this.onClickHandler,
+                    hint: currentMessage,
+                    placement: hintPosition,
+                    url,
+                    id,
+                }
+
+                return <ActionButton Component={WrappedComponent} {...buttonProps} />
             }
         }
 

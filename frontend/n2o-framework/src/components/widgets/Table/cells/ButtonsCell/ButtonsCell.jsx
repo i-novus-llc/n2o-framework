@@ -6,7 +6,6 @@ import classNames from 'classnames'
 
 import propsResolver from '../../../../../utils/propsResolver'
 import Toolbar from '../../../../buttons/Toolbar'
-import withTooltip from '../../withTooltip'
 import withCell from '../../withCell'
 import DefaultCell from '../DefaultCell'
 
@@ -32,7 +31,8 @@ function ButtonsCell({
     model,
     toolbar,
     onResolve,
-    tooltipTriggerRef,
+    tooltipFieldId,
+    placement = 'bottom',
 }) {
     const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`
 
@@ -40,14 +40,17 @@ function ButtonsCell({
         return null
     }
 
+    const hint = get(model, tooltipFieldId, null)
+
     return (
         <DefaultCell disabled={disabled} className={classNames('d-inline-flex', className)}>
             <Toolbar
-                tooltipTriggerRef={tooltipTriggerRef}
                 className="n2o-buttons-cell"
                 entityKey={key}
                 toolbar={propsResolver(toolbar, model)}
                 onClick={onResolve}
+                placement={placement}
+                hint={hint}
             />
         </DefaultCell>
     )
@@ -70,7 +73,6 @@ ButtonsCell.propTypes = {
     model: PropTypes.any,
     toolbar: PropTypes.any,
     onResolve: PropTypes.func,
-    tooltipTriggerRef: PropTypes.func,
 }
 
 ButtonsCell.defaultProps = {
@@ -83,7 +85,6 @@ const enhance = compose(
         ...props,
         isControlledTooltip: true,
     })),
-    withTooltip,
     withCell,
     withHandlers({
         onResolve: ({ callAction, model }) => () => {
