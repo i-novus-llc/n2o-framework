@@ -5,8 +5,10 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.api.rest.RestLoggingHandler;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
+import net.n2oapp.framework.api.util.ExternalFilesLoader;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.boot.graphql.GraphQlDataProviderEngine;
+import net.n2oapp.framework.config.util.N2oExternalFilesLoader;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.SpringApplicationContextProvider;
 import net.n2oapp.framework.engine.data.*;
@@ -198,6 +200,12 @@ public class N2oEngineConfiguration {
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper mapper = new ObjectMapper();
         return new GraphQlDataProviderEngine(restTemplate, mapper);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ExternalFilesLoader externalFilesLoader() {
+        return new N2oExternalFilesLoader();
     }
 
     private ObjectMapper restObjectMapper() {

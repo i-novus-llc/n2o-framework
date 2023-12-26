@@ -259,6 +259,10 @@
         {
           "templateId": "interactions/validation/whitelist",
           "name": "Список валидаций прикрепленных к полю"
+        },
+        {
+          "templateId": "interactions/validation/in_js_file",
+          "name": "Валидация в отдельном js файле"
         }
       ]
     },
