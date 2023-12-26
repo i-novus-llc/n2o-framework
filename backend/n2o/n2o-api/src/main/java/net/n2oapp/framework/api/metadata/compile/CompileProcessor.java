@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 
 import java.util.Map;
-import java.util.function.Supplier;
 
 /**
  * Процессор сборки метаданных
@@ -159,4 +158,12 @@ public interface CompileProcessor {
      * @return Исходная метаданная с перекрытыми свойствами
      */
     <S extends Source> S merge(S source, S override);
+
+    /**
+     * Получить содержимое файла
+     *
+     * @param fileUri расположение файла
+     * @return Содержимое файла
+     */
+    String getExternalFile(String fileUri);
 }
