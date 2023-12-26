@@ -1,5 +1,6 @@
 import React from 'react'
 import { createAction, createSlice } from '@reduxjs/toolkit'
+import { isEmpty } from 'lodash'
 
 import { RESET_STATE } from '../widgets/constants'
 
@@ -281,6 +282,10 @@ const toolbarSlice = createSlice({
 
                 if (state[key]?.[buttonId]) {
                     delete state[key][buttonId]
+                }
+
+                if (isEmpty(state[key])) {
+                    delete state[key]
                 }
             },
         },
