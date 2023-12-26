@@ -90,7 +90,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         search.shouldBeVisible();
         reset.shouldBeVisible();
 
-        toolbar.button(0, N2oStandardButton.class).shouldHaveIcon("fa-filter");
+        toolbar.button(0, N2oStandardButton.class).shouldHaveIcon("fa fa-filter");
         toolbar.button(0, N2oStandardButton.class).click();
         inputName.shouldBeHidden();
         inputRegion.shouldBeHidden();
@@ -132,14 +132,14 @@ public class TableButtonGeneratorAT extends AutoTestBase {
 
         N2oDropdownButton button = toolbar.button(1, N2oDropdownButton.class);
         button.shouldBeCollapsed();
-        button.shouldHaveIcon("fa-table");
+        button.shouldHaveIcon("fa fa-table");
         button.click();
         button.shouldBeExpanded();
         button.shouldHaveItems(4);
-        button.menuItem("Идентификатор").shouldHaveIcon("fa-check");
-        button.menuItem("Идентификатор ИПС").shouldHaveIcon("fa-check");
-        button.menuItem("Наименование").shouldHaveIcon("fa-check");
-        button.menuItem("Регион").shouldHaveIcon("fa-check");
+        shouldBeChecked(button.menuItem("Идентификатор"));
+        shouldBeChecked(button.menuItem("Идентификатор ИПС"));
+        shouldBeChecked(button.menuItem("Наименование"));
+        shouldBeChecked(button.menuItem("Регион"));
         button.menuItem("Наименование").click();
         table.columns().headers().shouldHaveSize(3);
         table.columns().headers().header(0).shouldHaveTitle("Идентификатор");
@@ -158,10 +158,10 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         button.click();
         button.shouldBeExpanded();
         table.columns().headers().shouldHaveSize(3);
-        button.menuItem("Идентификатор").shouldHaveIcon("fa-check");
-        button.menuItem("Идентификатор ИПС").shouldHaveIcon("fa-check");
-        button.menuItem("Наименование").shouldNotHaveIcon();
-        button.menuItem("Регион").shouldHaveIcon("fa-check");
+        shouldBeChecked(button.menuItem("Идентификатор"));
+        shouldBeChecked(button.menuItem("Идентификатор ИПС"));
+        shouldNotBeChecked(button.menuItem("Наименование"));
+        shouldBeChecked(button.menuItem("Регион"));
 
         button.menuItem("Идентификатор").click();
         button.menuItem("Идентификатор").shouldNotHaveIcon();
@@ -172,37 +172,80 @@ public class TableButtonGeneratorAT extends AutoTestBase {
 
         button.menuItem("Идентификатор ИПС").click();
         button.menuItem("Регион").click();
-        button.menuItem("Идентификатор").shouldNotHaveIcon();
-        button.menuItem("Идентификатор ИПС").shouldNotHaveIcon();
-        button.menuItem("Наименование").shouldNotHaveIcon();
-        button.menuItem("Регион").shouldNotHaveIcon();
+        shouldNotBeChecked(button.menuItem("Идентификатор"));
+        shouldNotBeChecked(button.menuItem("Идентификатор ИПС"));
+        shouldNotBeChecked(button.menuItem("Наименование"));
+        shouldNotBeChecked(button.menuItem("Регион"));
         table.columns().headers().shouldHaveSize(0);
         table.paging().shouldNotExists();
 
         button.menuItem("Наименование").click();
-        button.menuItem("Наименование").shouldHaveIcon("fa-check");
+        shouldBeChecked(button.menuItem("Наименование"));
         table.columns().headers().shouldHaveSize(1);
 
         button.menuItem("Идентификатор ИПС").click();
-        button.menuItem("Идентификатор ИПС").shouldHaveIcon("fa-check");
+        shouldBeChecked(button.menuItem("Идентификатор ИПС"));
         table.columns().headers().shouldHaveSize(2);
         table.columns().headers().header(0).shouldHaveTitle("Идентификатор ИПС");
         table.columns().headers().header(1).shouldHaveTitle("Наименование");
 
         button.menuItem("Регион").click();
-        button.menuItem("Регион").shouldHaveIcon("fa-check");
+        shouldBeChecked(button.menuItem("Регион"));
         table.columns().headers().shouldHaveSize(3);
         table.columns().headers().header(0).shouldHaveTitle("Идентификатор ИПС");
         table.columns().headers().header(1).shouldHaveTitle("Наименование");
         table.columns().headers().header(2).shouldHaveTitle("Регион");
 
         button.menuItem("Идентификатор").click();
-        button.menuItem("Идентификатор").shouldHaveIcon("fa-check");
+        shouldBeChecked(button.menuItem("Идентификатор"));
         table.columns().headers().shouldHaveSize(4);
         table.columns().headers().header(0).shouldHaveTitle("Идентификатор");
         table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
         table.columns().headers().header(2).shouldHaveTitle("Наименование");
         table.columns().headers().header(3).shouldHaveTitle("Регион");
+    }
+
+    /**
+     * Проверка заголовков колонок и настройки видимости колонок:
+     * - при отсутствии icon и label
+     * - только с icon
+     * - только с label
+     * - и с icon и с label
+     */
+    @Test
+    void testHeadersAndColumnsSettings() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator/check_headers");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/check_headers/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/check_headers/data.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/check_headers/exportModal.page.xml")
+        );
+        openPage();
+
+        table.columns().headers().shouldHaveSize(4);
+        table.columns().headers().header(0).shouldNotHaveTitle();
+        table.columns().headers().header(0).shouldHaveIcon("fa-plus");
+        table.columns().headers().header(1).shouldNotHaveTitle();
+        table.columns().headers().header(1).shouldNotHaveIcon();
+        table.columns().headers().header(2).shouldHaveTitle("Наименование");
+        table.columns().headers().header(2).shouldHaveIcon("fa-pencil");
+        table.columns().headers().header(3).shouldHaveTitle("Регион");
+        table.columns().headers().header(1).shouldNotHaveIcon();
+
+        N2oDropdownButton button = toolbar.button(0, N2oDropdownButton.class);
+        button.shouldBeCollapsed();
+        button.shouldHaveIcon("fa fa-table");
+        button.click();
+        button.shouldBeExpanded();
+        button.shouldHaveItems(4);
+        //клики необходимы, так как у кнопки две иконки в разных <i> элементах
+        button.menuItem(0).click();
+        button.menuItem(0).shouldHaveIcon("fa fa-plus");
+        button.menuItem(1).shouldHaveDescription("id_ips");
+        button.menuItem(2).click();
+        button.menuItem(2).shouldHaveIcon("fa fa-pencil");
+        button.menuItem(2).shouldHaveDescription("Наименование");
+        button.menuItem(3).shouldHaveDescription("Регион");
     }
 
     @Test
@@ -296,14 +339,14 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         resize.click();
         resize.shouldHaveItems(4);
         resize.shouldBeExpanded();
-        resize.menuItem("5").shouldHaveIcon("fa-check");
+        resize.menuItem("5").shouldHaveIcon("fa fa-check");
         resize.menuItem("10").shouldNotHaveIcon();
         resize.menuItem("20").shouldNotHaveIcon();
         resize.menuItem("50").shouldNotHaveIcon();
 
         resize.menuItem("10").click();
         resize.menuItem("5").shouldNotHaveIcon();
-        resize.menuItem("10").shouldHaveIcon("fa-check");
+        resize.menuItem("10").shouldHaveIcon("fa fa-check");
         table.columns().rows().shouldHaveSize(10);
         table.paging().lastShouldHavePage("6");
         table.paging().selectPage("2");
@@ -316,13 +359,13 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         resize.click();
         resize.menuItem("20").click();
         resize.menuItem("10").shouldNotHaveIcon();
-        resize.menuItem("20").shouldHaveIcon("fa-check");
+        resize.menuItem("20").shouldHaveIcon("fa fa-check");
         table.columns().rows().shouldHaveSize(20);
         table.paging().lastShouldHavePage("3");
 
         resize.menuItem("50").click();
         resize.menuItem("20").shouldNotHaveIcon();
-        resize.menuItem("50").shouldHaveIcon("fa-check");
+        resize.menuItem("50").shouldHaveIcon("fa fa-check");
         table.columns().rows().shouldHaveSize(50);
         table.paging().lastShouldHavePage("2");
         table.paging().selectPage("2");
@@ -456,5 +499,19 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         table = page.widget(TableWidget.class);
         table.shouldExists();
         toolbar = table.toolbar().topRight();
+    }
+
+    /**
+     * Проверка того, что колонка выбрана в настройках таблицы
+     */
+    private void shouldBeChecked(StandardButton button) {
+        button.element().$(".n2o-dropdown-check-container .fa-check").should(Condition.exist);
+    }
+
+    /**
+     * Проверка того, что колонка не выбрана в настройках таблицы
+     */
+    private void shouldNotBeChecked(StandardButton button) {
+        button.element().$(".n2o-dropdown-check-container .fa-check").shouldNot(Condition.exist);
     }
 }

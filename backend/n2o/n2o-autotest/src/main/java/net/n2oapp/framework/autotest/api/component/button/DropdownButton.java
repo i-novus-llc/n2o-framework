@@ -40,6 +40,13 @@ public interface DropdownButton extends Button {
     StandardButton menuItem(Condition by);
 
     /**
+     * Возвращает стандартную кнопку по индексу
+     * @param index номер кнопки  из списка
+     * @return Стандартная кнопка для автотестирования
+     */
+    StandardButton menuItem(int index);
+
+    /**
      * Не поддерживаемый метод, следует использовать метод shouldBeHidden()
      */
     @Deprecated

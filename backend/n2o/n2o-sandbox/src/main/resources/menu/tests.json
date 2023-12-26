@@ -377,6 +377,10 @@
           "name": "TableButtonGeneratorAT. columnsVisibilityTest"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/button_generator/check_headers",
+          "name": "TableButtonGeneratorAT. testHeadersAndColumnsSettings"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/checkboxes",
           "name": "TableCheckboxesAT"
         },
