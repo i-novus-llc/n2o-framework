@@ -38,6 +38,7 @@ import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
+import net.n2oapp.framework.sandbox.loader.SandboxExternalFilesLoader;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
@@ -461,6 +462,7 @@ public class ViewController {
         env.setReadCompileBindTerminalPipelineFunction(p -> p.read().transform().validate().compile().transform().bind());
         env.setDynamicMetadataProviderFactory(dynamicMetadataProviderFactory);
         env.setRouteRegister(projectRouteRegister);
+        env.setExternalFilesLoader(new SandboxExternalFilesLoader(templatesHolder, restClient));
 
         return env;
     }

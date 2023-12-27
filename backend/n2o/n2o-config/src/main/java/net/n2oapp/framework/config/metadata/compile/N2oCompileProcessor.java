@@ -301,6 +301,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     @Override
+    public String getExternalFile(String fileUri) {
+        return env.getExternalFilesLoader().getContentByUri(fileUri);
+    }
+
+    @Override
     public boolean canResolveParam(String param) {
         return params != null && params.containsKey(param);
     }

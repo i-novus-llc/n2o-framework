@@ -46,7 +46,7 @@ public class FieldToolbarAT extends AutoTestBase {
     }
 
     @Test
-    public void testFieldToolbar() {
+    void testFieldToolbar() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         Fields fields = page.widget(FormWidget.class).fields();
@@ -83,7 +83,7 @@ public class FieldToolbarAT extends AutoTestBase {
         modal.shouldHaveTitle("Другая страница");
         modal.content(SimplePage.class).widget(FormWidget.class).fields().field("С другой страницы").shouldExists();
         modal.close();
-
+        modal.shouldNotExists();
         toolbar.button("Открыть страницу").click();
 
         page.breadcrumb().crumb(1).shouldHaveLabel("Другая страница");
@@ -91,7 +91,7 @@ public class FieldToolbarAT extends AutoTestBase {
     }
 
     @Test
-    public void testFieldToolbarSubmenu() {
+    void testFieldToolbarSubmenu() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         Fields fields = page.widget(FormWidget.class).fields();

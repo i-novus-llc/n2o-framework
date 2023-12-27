@@ -23,6 +23,7 @@ import net.n2oapp.framework.api.register.SourceTypeRegister;
 import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.api.register.scan.MetadataScannerFactory;
 import net.n2oapp.framework.api.test.TestContextEngine;
+import net.n2oapp.framework.api.util.ExternalFilesLoader;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
 import net.n2oapp.framework.config.register.N2oComponentTypeRegister;
@@ -33,6 +34,7 @@ import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
+import net.n2oapp.framework.config.util.N2oExternalFilesLoader;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -52,6 +54,7 @@ public class N2oEnvironment implements MetadataEnvironment {
     private PropertyResolver systemProperties;
     private ContextProcessor contextProcessor;
     private ObjectMapper serializeObjectMapper;
+    private ExternalFilesLoader externalFilesLoader;
 
     private MetadataScannerFactory metadataScannerFactory;
     private SourceLoaderFactory sourceLoaderFactory;
@@ -87,6 +90,7 @@ public class N2oEnvironment implements MetadataEnvironment {
         this.domainProcessor = new DomainProcessor(new ObjectMapper());
         this.contextProcessor = new ContextProcessor(new TestContextEngine());
         this.serializeObjectMapper = createDefaultSerializeObjectMapper();
+        this.externalFilesLoader = new N2oExternalFilesLoader();
 
         this.namespaceReaderFactory = new ReaderFactoryByMap();
         this.namespacePersisterFactory = new PersisterFactoryByMap();
@@ -114,6 +118,7 @@ public class N2oEnvironment implements MetadataEnvironment {
         this.domainProcessor = copy.getDomainProcessor();
         this.contextProcessor = copy.getContextProcessor();
         this.serializeObjectMapper = copy.getSerializeObjectMapper();
+        this.externalFilesLoader = copy.getExternalFilesLoader();
 
         this.namespaceReaderFactory = copy.getNamespaceReaderFactory();
         this.namespacePersisterFactory = copy.getNamespacePersisterFactory();
@@ -375,6 +380,15 @@ public class N2oEnvironment implements MetadataEnvironment {
     @Override
     public ObjectMapper getSerializeObjectMapper() {
         return serializeObjectMapper;
+    }
+
+    @Override
+    public ExternalFilesLoader getExternalFilesLoader() {
+        return externalFilesLoader;
+    }
+
+    public void setExternalFilesLoader(ExternalFilesLoader externalFilesLoader) {
+        this.externalFilesLoader = externalFilesLoader;
     }
 
     public void setButtonGeneratorFactory(ButtonGeneratorFactory buttonGeneratorFactory) {
