@@ -22,6 +22,7 @@ import net.n2oapp.framework.api.rest.*;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.user.UserContext;
+import net.n2oapp.framework.api.util.ExternalFilesLoader;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
@@ -38,7 +39,6 @@ import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
-import net.n2oapp.framework.sandbox.loader.SandboxExternalFilesLoader;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
@@ -116,6 +116,8 @@ public class ViewController {
     private XsdSchemaParser schemaParser;
     @Autowired
     private ProjectTemplateHolder templatesHolder;
+    @Autowired
+    private ExternalFilesLoader externalFilesLoader;
 
     private final List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers;
 
@@ -462,7 +464,7 @@ public class ViewController {
         env.setReadCompileBindTerminalPipelineFunction(p -> p.read().transform().validate().compile().transform().bind());
         env.setDynamicMetadataProviderFactory(dynamicMetadataProviderFactory);
         env.setRouteRegister(projectRouteRegister);
-        env.setExternalFilesLoader(new SandboxExternalFilesLoader(templatesHolder, restClient));
+        env.setExternalFilesLoader(externalFilesLoader);
 
         return env;
     }
@@ -483,8 +485,7 @@ public class ViewController {
                 messageBuilder));
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,
                 subModelsProcessor, messageBuilder));
-        ControllerFactory factory = new N2oControllerFactory(beans);
-        return factory;
+        return new N2oControllerFactory(beans);
     }
 
     private MessageSourceAccessor getMessageSourceAccessor(String projectPath) {

@@ -43,4 +43,8 @@ public class FileUtil {
         }
         return files;
     }
+
+    public static boolean isTemplate(String projectId) {
+        return projectId.contains("_");
+    }
 }

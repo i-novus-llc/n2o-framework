@@ -168,6 +168,12 @@ public class N2oEngineConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
+    public ExternalFilesLoader externalFilesLoader() {
+        return new N2oExternalFilesLoader();
+    }
+
+    @Bean
     @ConditionalOnMissingBean(name = "restDataProviderEngine")
     public SpringRestDataProviderEngine restDataProviderEngine(RestTemplateBuilder builder, List<RestLoggingHandler> loggingHandlers) {
         ObjectMapper restObjectMapper = restObjectMapper();
@@ -200,12 +206,6 @@ public class N2oEngineConfiguration {
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper mapper = new ObjectMapper();
         return new GraphQlDataProviderEngine(restTemplate, mapper);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public ExternalFilesLoader externalFilesLoader() {
-        return new N2oExternalFilesLoader();
     }
 
     private ObjectMapper restObjectMapper() {
