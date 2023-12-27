@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.util.FileSystemUtil.getContentByUri;
 
 /**
  * Компиляция валидации условия значений полей
@@ -28,7 +27,7 @@ public class ConditionValidationCompiler extends BaseValidationCompiler<Conditio
         ConditionValidation validation = new ConditionValidation();
         compileValidation(validation, source, p);
         validation.setSeverity(castDefault(source.getSeverity(), SeverityType.danger));
-        validation.setExpression(ScriptProcessor.resolveFunction(castDefault(source.getExpression(), () -> getContentByUri(source.getSrc()))));
+        validation.setExpression(ScriptProcessor.resolveFunction(castDefault(source.getExpression(), () -> p.getExternalFile(source.getSrc()))));
         validation.setExpressionOn(source.getExpressionOn());
         return validation;
     }
