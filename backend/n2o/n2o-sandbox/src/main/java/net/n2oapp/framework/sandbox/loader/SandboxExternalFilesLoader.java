@@ -9,6 +9,7 @@ import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.templates.TemplateModel;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.io.IOException;
@@ -17,7 +18,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
+import static net.n2oapp.framework.sandbox.utils.FileUtil.isTemplate;
 
+@Component
 public class SandboxExternalFilesLoader implements ExternalFilesLoader {
 
     private ProjectTemplateHolder templatesHolder;
@@ -44,7 +47,6 @@ public class SandboxExternalFilesLoader implements ExternalFilesLoader {
                 String response = restClient.getFile(projectId, uri);
                 if (response != null)
                     return response;
-                throw new N2oException(String.format("File %s not found", uri));
             }
         } catch (HttpClientErrorException.NotFound e) {
             ClassPathResource classPathResource = new ClassPathResource(uri);
@@ -55,11 +57,7 @@ public class SandboxExternalFilesLoader implements ExternalFilesLoader {
                     throw new N2oException(ex);
                 }
             }
-            throw new N2oException(String.format("File %s not found", uri));
         }
-    }
-
-    private boolean isTemplate(String projectId) {
-        return projectId.contains("_");
+        throw new N2oException(String.format("File %s not found", uri));
     }
 }

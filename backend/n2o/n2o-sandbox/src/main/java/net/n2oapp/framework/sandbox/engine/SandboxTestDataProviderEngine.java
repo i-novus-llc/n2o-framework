@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.util.*;
 
 import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
+import static net.n2oapp.framework.sandbox.utils.FileUtil.isTemplate;
 
 /**
  * Тестовый провайдер данных для чтения/изменения json при работе с sandbox
@@ -95,9 +96,5 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
     protected String richKey(String key) {
         String projectId = ThreadLocalProjectId.getProjectId();
         return projectId + "/" + key;
-    }
-
-    private boolean isTemplate(String projectId) {
-        return projectId.contains("_");
     }
 }
