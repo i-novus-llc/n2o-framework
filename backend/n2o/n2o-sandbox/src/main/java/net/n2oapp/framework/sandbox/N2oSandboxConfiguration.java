@@ -4,14 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
-import net.n2oapp.framework.api.util.ExternalFilesLoader;
 import net.n2oapp.framework.boot.*;
-import net.n2oapp.framework.config.util.N2oExternalFilesLoader;
 import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
-import net.n2oapp.framework.sandbox.loader.SandboxExternalFilesLoader;
-import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxContext;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
@@ -23,7 +19,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -48,9 +47,7 @@ import java.util.Map;
 @EnableJpaRepositories
 @EnableAutoConfiguration
 @EnableCaching
-@ComponentScan(basePackages = {"net.n2oapp.framework.sandbox", "net.n2oapp.framework.autotest.cases"},
-        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
-                value = N2oExternalFilesLoader.class)})
+@ComponentScan(basePackages = {"net.n2oapp.framework.sandbox", "net.n2oapp.framework.autotest.cases"})
 public class N2oSandboxConfiguration {
 
     @Bean
@@ -126,11 +123,5 @@ public class N2oSandboxConfiguration {
     @ConditionalOnMissingBean
     public SandboxApplicationBuilderConfigurer sandboxApplicationBuilderConfigurer() {
         return new SandboxApplicationBuilderConfigurer();
-    }
-
-    @Bean
-    @Primary
-    public ExternalFilesLoader externalFilesLoader(ProjectTemplateHolder templatesHolder, SandboxRestClient restClient) {
-        return new SandboxExternalFilesLoader(templatesHolder, restClient);
     }
 }
