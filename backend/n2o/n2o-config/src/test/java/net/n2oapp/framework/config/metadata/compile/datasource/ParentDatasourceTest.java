@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.editlist.EditListAction;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
-import net.n2oapp.framework.api.metadata.meta.action.multi.MultiActionPayload;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -20,7 +19,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -163,8 +161,8 @@ public class ParentDatasourceTest extends SourceCompileTestBase {
 
         datasources = modalPage.getDatasources();
         assertThat(datasources.size(), is(1));
-        assertThat(((InheritedDatasource)datasources.get("p_modal_modal_ds3")).getProvider().getSourceDs(), is("p_ds2"));
-        assertThat(((EditListAction)((MultiAction)modalPage.getToolbar().get("bottomRight").get(0).getButtons().get(0).getAction())
+        assertThat(((InheritedDatasource) datasources.get("p_modal_modal_ds3")).getProvider().getSourceDs(), is("p_ds2"));
+        assertThat(((EditListAction) ((MultiAction) modalPage.getToolbar().get("bottomRight").get(0).getButtons().get(0).getAction())
                 .getPayload().getActions().get(0)).getPayload().getList().getDatasource(), is("p_ds2"));
 
         modalPageContext = (PageContext) route("/p/modal2", Page.class);
@@ -178,8 +176,8 @@ public class ParentDatasourceTest extends SourceCompileTestBase {
 
         datasources = modalPage.getDatasources();
         assertThat(datasources.size(), is(1));
-        assertThat(((InheritedDatasource)datasources.get("p_modal2_modal_ds3")).getProvider().getSourceDs(), is("p_ds3"));
-        assertThat(((EditListAction)((MultiAction)modalPage.getToolbar().get("bottomRight").get(0).getButtons().get(0).getAction())
+        assertThat(((InheritedDatasource) datasources.get("p_modal2_modal_ds3")).getProvider().getSourceDs(), is("p_ds3"));
+        assertThat(((EditListAction) ((MultiAction) modalPage.getToolbar().get("bottomRight").get(0).getButtons().get(0).getAction())
                 .getPayload().getActions().get(0)).getPayload().getList().getDatasource(), is("p_ds3"));
     }
 
