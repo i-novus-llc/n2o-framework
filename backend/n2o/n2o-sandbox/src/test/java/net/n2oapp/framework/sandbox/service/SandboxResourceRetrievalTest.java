@@ -25,11 +25,11 @@ import static org.hamcrest.Matchers.is;
  * Тест на проверку обработки запросов на получение xsd схем и шаблонов xml
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ViewController.class, SandboxPropertyResolver.class, XsdSchemaParser.class,
+        classes = {SandboxTestApplication.class, ViewController.class, SandboxPropertyResolver.class, XsdSchemaParser.class,
                 SandboxRestClientImpl.class, ProjectTemplateHolder.class})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
-public class SandboxResourceRetrievalTest {
+class SandboxResourceRetrievalTest {
 
     @Autowired
     private ViewController viewController;
@@ -38,14 +38,14 @@ public class SandboxResourceRetrievalTest {
 
     @SneakyThrows
     @Test
-    public void testTemplatesRetrieval() {
+    void testTemplatesRetrieval() {
         String templateFile = viewController.getTemplateFile("open.page.xml");
         assertThat(templateFile, is(StreamUtils.copyToString(new ClassPathResource("templates/page.xml").getInputStream(), Charset.defaultCharset())));
     }
 
     @SneakyThrows
     @Test
-    public void testSchemasRetrieval() {
+    void testSchemasRetrieval() {
         viewController.loadSchema("search-1.0");
         ResponseEntity<Resource> responseSchema = viewController.loadSchema("search-1.0");
         assertThat(responseSchema.getStatusCodeValue(), is(200));
