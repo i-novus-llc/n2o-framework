@@ -5,7 +5,7 @@ import { TOption } from '../../types'
 
 import { Tab } from './Tabs'
 
-export function createOptions(tabs: Tab[], hideSingleTab?: boolean): Array<TOption<string | number>> | null {
+export function createOptions(tabs: Tab[], hideSingleTab?: boolean): Array<TOption<string>> | null {
     if (hideSingleTab && tabs.length === 1) {
         return null
     }
