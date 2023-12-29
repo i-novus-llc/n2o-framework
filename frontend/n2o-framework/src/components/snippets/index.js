@@ -1,3 +1,5 @@
+import { Tabs } from '@i-novus/n2o-components/lib/display/Tabs/Tabs'
+
 import Alert from './Alerts/Alert'
 import { Collapse } from './Collapse/Collapse'
 import { Icon } from './Icon/Icon'
@@ -34,4 +36,5 @@ export default {
     Html,
     Tooltip,
     Pagination,
+    Tabs,
 }

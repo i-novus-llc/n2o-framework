@@ -3,16 +3,16 @@ import uniqueId from 'lodash/uniqueId'
 import classNames from 'classnames'
 import { UncontrolledTooltip } from 'reactstrap'
 
-import { Input } from '../../Input'
+import { Input } from './Input'
 
 export type Props = {
     checked: boolean,
-    className: string,
-    disabled: boolean,
+    className?: string,
+    disabled?: boolean,
     invalid?: boolean,
-    label: ReactNode,
+    label?: ReactNode,
     labelClassname?: string,
-    name: string,
+    name?: string,
     onChange(event: ChangeEvent<HTMLInputElement>): void,
     onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
     tooltip?: string,
@@ -22,8 +22,8 @@ export type Props = {
 
 export function InputRadio({
     label,
-    checked,
-    disabled,
+    checked = false,
+    disabled = false,
     visible,
     onChange,
     onKeyDown,
@@ -70,8 +70,3 @@ export function InputRadio({
         </div>
     )
 }
-
-InputRadio.defaultProps = {
-    checked: false,
-    disabled: false,
-} as Props
