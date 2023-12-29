@@ -81,7 +81,6 @@ type ItemWrapperProps = Pick<InputElementsProps, 'onRemoveItem' | 'maxTagTextLen
 type InputElementsProps = Pick<InputContentProps,
 'selected' | 'labelFieldId' | 'onRemoveItem' | 'maxTagTextLength' | 'maxTagCount' | 'disabled'>
 
-
 const getTitle = (item: TOption, labelFieldId: InputElementsProps['labelFieldId']) => {
     if (typeof item === 'string') {
         return item
@@ -110,7 +109,6 @@ export function InputElements({
             const id = selected.length
             const title = `${t('selected')}: ${selected.length}`
 
-            
             list = []
             rest = (
                 <SelectedItem
@@ -150,5 +148,10 @@ export function InputElements({
         )
     })
 
-    return <>{tags}{rest}</>
+    return (
+        <>
+            {tags}
+            {rest}
+        </>
+    )
 }

@@ -1,14 +1,13 @@
-import React, { ChangeEvent, FC, KeyboardEvent } from 'react'
+import React, { ChangeEvent, KeyboardEvent } from 'react'
 import classNames from 'classnames'
 import toString from 'lodash/toString'
 import isNil from 'lodash/isNil'
 
-import { TBaseInputProps, TBaseProps, TOption } from '../../../types'
+import { TBaseInputProps, TBaseProps, TOption } from '../types'
 
-import { InputRadio, Props as InputProps } from './Input'
+import { InputRadio } from './Radio'
 
 export type Props = TBaseProps & Omit<TBaseInputProps<string | number>, 'onChange'> & {
-    InputComponent?: FC<InputProps>,
     enabledFieldId?: string,
     groupClassName?: string,
     inline: boolean,
@@ -17,7 +16,7 @@ export type Props = TBaseProps & Omit<TBaseInputProps<string | number>, 'onChang
     options: Array<TOption<string | number>>
 }
 
-export function Group({
+export function RadioGroup({
     value,
     visible,
     style,
@@ -30,17 +29,14 @@ export function Group({
     onKeyDown,
     enabledFieldId,
     inline,
-    InputComponent: PropInputComponent,
 }: Props) {
     const renderedOptions = options.map((radio) => {
         const isDisabled = radio.disabled || (!isNil(radio[enabledFieldId as keyof TOption<string | number>])
             ? !radio[enabledFieldId as keyof TOption<string | number>]
             : disabled)
 
-        const InputComponent = PropInputComponent || InputRadio
-
         return (
-            <InputComponent
+            <InputRadio
                 {...radio}
                 key={radio.value}
                 name={name}
@@ -73,7 +69,7 @@ export function Group({
     )
 }
 
-Group.defaultProps = {
+RadioGroup.defaultProps = {
     visible: true,
     onChange: () => {},
     disabled: false,

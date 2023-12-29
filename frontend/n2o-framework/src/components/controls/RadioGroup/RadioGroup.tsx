@@ -2,9 +2,9 @@ import React, { ChangeEvent, Component } from 'react'
 import uniqueId from 'lodash/uniqueId'
 import toString from 'lodash/toString'
 import { isEqual } from 'lodash'
+import classNames from 'classnames'
 
-import { Group as DefaultGroup } from '@i-novus/n2o-components/lib/inputs/RadioGroup/default/Group'
-import { Group as TabsGroup } from '@i-novus/n2o-components/lib/inputs/RadioGroup/tabs/Group'
+import { RadioGroup as Group } from '@i-novus/n2o-components/lib/inputs/RadioGroup'
 import { TOption } from '@i-novus/n2o-components/lib/types'
 
 import Spinner from '../../snippets/Spinner/InlineSpinner'
@@ -92,13 +92,11 @@ class RadioGroup extends Component<Props, State> {
         return onChange(item)
     }
 
-    static getDerivedStateFromProps(
-        { options, valueFieldId, labelFieldId }:
-        {options: Props['options'], valueFieldId: Props['valueFieldId'], labelFieldId: Props['labelFieldId']},
-    ) {
+    static getDerivedStateFromProps({ options, valueFieldId, labelFieldId, type }: Props) {
         return {
             options: options ? options.map(radio => ({
                 ...radio,
+                labelClassname: classNames({ 'n2o-radio-input-tabs': type === RadioGroupType.tabs }),
                 value: radio[valueFieldId as keyof TOption<string | object>],
                 label: radio[labelFieldId as keyof TOption<string | object>],
             })) : [],
@@ -133,19 +131,15 @@ class RadioGroup extends Component<Props, State> {
             visible,
             enabledFieldId,
             style,
-            className,
+            className: classNames(className, {
+                'n2o-radio-group-tabs': type === RadioGroupType.tabs,
+            }),
             inline,
             name: groupName,
             options,
         }
 
-        switch (type) {
-            case 'tabs':
-                return <TabsGroup {...groupProps} />
-            case 'default':
-            default:
-                return <DefaultGroup {...groupProps} />
-        }
+        return <Group {...groupProps} />
     }
 
     static defaultProps = {

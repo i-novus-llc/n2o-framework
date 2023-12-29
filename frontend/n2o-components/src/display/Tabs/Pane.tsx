@@ -1,24 +1,30 @@
 import classNames from 'classnames'
 import React from 'react'
 
-import { Group } from '../../inputs/RadioGroup/tabs/Group'
+import { RadioGroup } from '../../inputs/RadioGroup'
 import { TOption } from '../../types'
 
 interface Props {
     onChange(event: React.ChangeEvent<HTMLInputElement>): void
     className?: string
-    options: Array<TOption<string | number>> | null
+    tabs: Array<TOption<string>> | null
     active: string
 }
 
-export function Pane({ onChange, className, options, active }: Props) {
-    if (!options) {
+// TODO переделать нормально панеь табов, отвязать от радио-группы
+export function Pane({ onChange, className, tabs, active }: Props) {
+    if (!tabs) {
         return null
     }
 
+    const options = tabs.map(tab => ({
+        ...tab,
+        labelClassname: 'n2o-radio-input-tabs',
+    }))
+
     return (
-        <Group
-            className={classNames('tabs__list', className)}
+        <RadioGroup
+            className={classNames('tabs__list n2o-radio-group-tabs', className)}
             options={options}
             onChange={onChange}
             value={active}

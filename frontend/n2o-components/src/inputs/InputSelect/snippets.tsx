@@ -1,8 +1,9 @@
-import React from "react"
-import { get } from "lodash"
-import { TOption } from "./types"
+import React from 'react'
+import { get } from 'lodash'
 
 import { Icon } from '../../display/Icon'
+
+import { TOption } from './types'
 
 export function PopupImage({ item, imageFieldId }: {
     item: TOption,
