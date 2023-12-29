@@ -37,12 +37,12 @@ import static org.hamcrest.Matchers.is;
  * Тест на проверку обработки запросов на получение конфигурации и страницы примера
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
+        classes = {SandboxTestApplication.class, ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
                 XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class, ProjectTemplateHolder.class},
         properties = {"n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
-public class SandboxMetadataRetrievalTest {
+class SandboxMetadataRetrievalTest {
 
     private static final MockHttpServletRequest request = new MockHttpServletRequest();
     private static final WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort()
@@ -72,7 +72,7 @@ public class SandboxMetadataRetrievalTest {
 
     @SneakyThrows
     @Test
-    public void testGetConfig(){
+    void testGetConfig(){
         wireMockServer.stubFor(get("/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json")));
         wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
         wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
@@ -98,7 +98,7 @@ public class SandboxMetadataRetrievalTest {
 
     @SneakyThrows
     @Test
-    public void testGetPage() {
+    void testGetPage() {
         wireMockServer.stubFor(get("/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json")
                 .withBody(StreamUtils.copyToString(new ClassPathResource("data/testMetadataRetrieval.json").getInputStream(), Charset.defaultCharset()))));
         wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));

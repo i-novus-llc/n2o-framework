@@ -36,12 +36,12 @@ import static org.hamcrest.Matchers.is;
  * Тест на проверку установки свойств
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
+        classes = {SandboxTestApplication.class, ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
                 SandboxContext.class, XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class, ProjectTemplateHolder.class},
         properties = {"n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
-public class SandboxPropertySettingTest {
+class SandboxPropertySettingTest {
 
     private static final MockHttpServletRequest request = new MockHttpServletRequest();
     private static final WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort()
@@ -71,7 +71,7 @@ public class SandboxPropertySettingTest {
 
     @SneakyThrows
     @Test
-    public void testApplicationProperties() {
+    void testApplicationProperties() {
         wireMockServer.stubFor(get(urlMatching("/project/myProjectId")).withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
         wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("n2o.api.header.src=CustomHeader\n" +
@@ -93,7 +93,7 @@ public class SandboxPropertySettingTest {
 
     @SneakyThrows
     @Test
-    public void testUserProperties() {
+    void testUserProperties() {
         wireMockServer.stubFor(get("/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testPropertySetting.json").getInputStream(), Charset.defaultCharset()))));
         wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));

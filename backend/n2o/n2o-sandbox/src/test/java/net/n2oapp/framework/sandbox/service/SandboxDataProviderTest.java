@@ -6,6 +6,7 @@ import com.github.tomakehurst.wiremock.http.JvmProxyConfigurer;
 import lombok.SneakyThrows;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
+import net.n2oapp.framework.boot.N2oMongoAutoConfiguration;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
@@ -20,6 +21,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
@@ -39,12 +43,13 @@ import static org.hamcrest.Matchers.is;
  * Тест получения и установки значений провайдером данных
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class, ProjectTemplateHolder.class,
+        classes = {SandboxTestApplication.class, ViewController.class, SandboxPropertyResolver.class,
+                SandboxRestClientImpl.class, ProjectTemplateHolder.class,
                 SandboxTestDataProviderEngine.class, XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class},
         properties = {"n2o.access.deny_objects=false", "n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
-public class SandboxDataProviderTest {
+class SandboxDataProviderTest {
 
     private static final MockHttpServletRequest request = new MockHttpServletRequest();
     private static final WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort()
@@ -75,7 +80,7 @@ public class SandboxDataProviderTest {
 
     @SneakyThrows
     @Test
-    public void testGetData() {
+    void testGetData() {
         request.setRequestURI("/sandbox/view/myProjectId/n2o/data/_w1");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
         wireMockServer.stubFor(get(urlMatching("/project/myProjectId")).withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
@@ -117,7 +122,7 @@ public class SandboxDataProviderTest {
 
     @SneakyThrows
     @Test
-    public void testSetData() {
+    void testSetData() {
         request.setRequestURI("/sandbox/view/myProjectId/n2o/data/w1/3/update/multi1");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
         wireMockServer.stubFor(get("/project/myProjectId").willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(

@@ -13,6 +13,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
@@ -32,7 +35,9 @@ import java.util.Map;
         N2oEnvironmentConfiguration.class,
         N2oEngineConfiguration.class,
         N2oMetadataConfiguration.class})
-@SpringBootApplication(exclude = {N2oFrameworkAutoConfiguration.class})
+@SpringBootApplication(exclude = {N2oFrameworkAutoConfiguration.class,
+        RedisAutoConfiguration.class, N2oMongoAutoConfiguration.class,
+        MongoAutoConfiguration.class, EmbeddedMongoAutoConfiguration.class})
 @ComponentScan("net/n2oapp/framework/autotest")
 public class AutoTestApplication {
 

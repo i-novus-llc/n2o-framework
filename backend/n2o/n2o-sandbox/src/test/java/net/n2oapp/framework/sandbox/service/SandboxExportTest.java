@@ -39,12 +39,13 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class, ProjectTemplateHolder.class,
+        classes = {SandboxTestApplication.class, ViewController.class, SandboxPropertyResolver.class,
+                SandboxRestClientImpl.class, ProjectTemplateHolder.class,
                 SandboxTestDataProviderEngine.class, XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class},
         properties = {"n2o.access.deny_objects=false", "n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
-public class SandboxExportTest {
+class SandboxExportTest {
 
     private static final MockHttpServletRequest request = new MockHttpServletRequest();
     private static final WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort()
@@ -75,7 +76,7 @@ public class SandboxExportTest {
 
     @SneakyThrows
     @Test
-    public void export() {
+    void export() {
         String expectedBody = "\"id\";\"name\"\n" +
                 "1;\"test1\"\n" +
                 "2;\"test2\"\n" +
