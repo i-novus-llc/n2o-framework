@@ -49,7 +49,7 @@ export function Tabs({
 
     return (
         <section className={classNames('tabs', className)} style={style}>
-            <Pane onChange={onChange} className={paneClassName} options={options} active={active} />
+            <Pane onChange={onChange} className={paneClassName} tabs={options} active={active} />
             <Content
                 active={active}
                 tabs={tabs}

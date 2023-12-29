@@ -1,14 +1,29 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import flowRight from 'lodash/flowRight'
 
-import { Tabs, Tab } from '@i-novus/n2o-components/lib/display/Tabs/Tabs'
+import { Tabs as TabsControl } from '@i-novus/n2o-components/lib/display/Tabs/Tabs'
 
 // @ts-ignore ignore import error from js file
 import { createRegionContainer } from '../withRegionContainer'
 // @ts-ignore ignore import error from js file
 import withWidgetProps from '../withWidgetProps'
+import { FactoryContext } from '../../../core/factory/context'
+import { FactoryLevels } from '../../../core/factory/factoryLevels'
 
 import { TabsController, Props } from './TabsController'
+
+interface Tab {
+    content: JSX.Element[]
+    disabled: boolean
+    icon?: string
+    id: string
+    invalid?: boolean
+    label: string
+    opened: boolean
+    visible?: boolean
+    tooltip?: string
+    className?: string
+}
 
 export interface TabsRegionProps extends Props {
     tabs: Tab[]
@@ -31,6 +46,8 @@ function TabsRegionBody(props: TabsRegionProps) {
         setResolve,
         resolveModel,
     } = props
+    const { getComponent } = useContext(FactoryContext)
+    const Tabs = getComponent('Tabs', FactoryLevels.SNIPPETS) || TabsControl
 
     const onChange = useCallback((
         event: React.ChangeEvent<HTMLInputElement>,
