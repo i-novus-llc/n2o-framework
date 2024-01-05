@@ -23,8 +23,8 @@ public interface StandardButton extends Button {
     void shouldHaveDescription(String text, Duration... duration);
 
     /**
-     * Проверка иконки у кнопки на соответствие ожидаемому значению
-     * @param iconName ожидаемое имя иконки
+     * Проверка класса иконки у кнопки на соответствие ожидаемому значению
+     * @param iconName ожидаемый класс иконки
      */
     void shouldHaveIcon(String iconName);
 

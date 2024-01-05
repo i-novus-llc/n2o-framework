@@ -9,15 +9,11 @@ import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 
 import java.time.Duration;
+import java.util.Arrays;
 
 public class N2oDropdownButton extends N2oButton implements DropdownButton {
 
     private final String DROPDOWN = ".n2o-dropdown-menu,.dropdown-menu";
-
-    @Override
-    public void shouldBeEnabled() {
-        element().shouldBe(Condition.enabled);
-    }
 
     @Override
     public void shouldHaveLabel(String label, Duration... duration) {
@@ -42,6 +38,11 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
     @Override
     public StandardButton menuItem(Condition by) {
         return N2oSelenide.component(menuItems().findBy(by), N2oStandardButton.class);
+    }
+
+    @Override
+    public StandardButton menuItem(int index) {
+        return N2oSelenide.component(menuItems().get(index), N2oStandardButton.class);
     }
 
     @Override
@@ -71,7 +72,7 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
 
     @Override
     public void shouldHaveIcon(String iconName) {
-        element().$("i").shouldHave(Condition.cssClass(iconName));
+        Arrays.stream(iconName.split(" ")).forEach(i -> element().$("i").shouldHave(Condition.cssClass(i)));
     }
 
     private SelenideElement dropdownMenu() {
