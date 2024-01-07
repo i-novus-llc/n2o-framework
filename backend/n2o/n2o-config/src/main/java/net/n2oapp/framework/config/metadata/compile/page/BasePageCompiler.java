@@ -152,7 +152,18 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                     appDatasourceIdsScope.put(ds.getId(), p.cast(((N2oApplicationDatasource) ds).getSourceDatasource(), ds.getId()));
                 if (ds instanceof N2oParentDatasource) {
                     parentDatasourceIds.add(ds.getId());
-                    if (context.getParentDatasourceIdsMap() != null && !context.getParentDatasourceIdsMap().containsKey(ds.getId())) {
+
+                    String sourceDatasourceId = null;
+                    if (context.getDatasources() != null) {
+                        sourceDatasourceId = context.getDatasources().stream()
+                                .filter(datasource -> ds.getId().equals(datasource.getId()) && datasource instanceof N2oParentDatasource)
+                                .map(datasource -> p.cast(((N2oParentDatasource) datasource).getSourceDatasource(), datasource.getId()))
+                                .findFirst()
+                                .orElse(null);
+                    }
+                    if (context.getParentDatasourceIdsMap() != null
+                            && !context.getParentDatasourceIdsMap().containsKey(ds.getId())
+                            && !context.getParentDatasourceIdsMap().containsKey(sourceDatasourceId)) {
                         throw new N2oException("Элемент \"<parent-datasource>\" ссылается на несуществующий источник родительской страницы");
                     }
                 }
