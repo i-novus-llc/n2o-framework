@@ -57,6 +57,11 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
     }
 
     @Override
+    public void shouldBeDisabled() {
+        element().$$(INPUT).shouldBe(CollectionCondition.allMatch("Проверка на то, что поле вляется недоступным", e -> !e.isEnabled()));
+    }
+
+    @Override
     public void shouldHaveTooltip(String label) {
         inputElement(label).shouldHave(Condition.attribute("title", label));
     }
@@ -64,7 +69,7 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
     protected SelenideElement inputElement(String label) {
         return element().$$(".custom-control")
                 .findBy(Condition.text(label))
-                .$(".n2o-input")
+                .$(INPUT)
                 .shouldBe(Condition.exist);
     }
 }

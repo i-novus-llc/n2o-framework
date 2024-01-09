@@ -8,6 +8,9 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
  * Компоненты ввода для автотестирования
  */
 public abstract class N2oControl extends N2oComponent implements Control {
+
+    protected static final String INPUT = ".n2o-input";
+
     @Override
     public void shouldBeEnabled() {
         element().shouldBe(Condition.enabled);

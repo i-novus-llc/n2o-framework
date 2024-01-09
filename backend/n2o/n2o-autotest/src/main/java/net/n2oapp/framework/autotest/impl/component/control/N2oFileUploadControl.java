@@ -66,6 +66,11 @@ public class N2oFileUploadControl extends N2oControl implements FileUploadContro
                 .shouldHave(Condition.attribute("href", href));
     }
 
+    @Override
+    public void shouldBeDisabled() {
+        element().shouldHave(Condition.cssClass("disabled"));
+    }
+
     protected ElementsCollection files() {
         return element().parent().$$(".n2o-file-uploader-files-list .n2o-file-uploader-files-item");
     }

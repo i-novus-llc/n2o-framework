@@ -62,6 +62,11 @@ public class N2oSlider extends N2oControl implements Slider {
         shouldHaveValue(sliderElement(1), value);
     }
 
+    @Override
+    public void shouldBeDisabled() {
+        element().shouldHave(Condition.cssClass("rc-slider-disabled"));
+    }
+
     private void shouldHaveValue(SelenideElement element, String value) {
         element.shouldHave(Condition.attribute("aria-valuenow", value));
     }

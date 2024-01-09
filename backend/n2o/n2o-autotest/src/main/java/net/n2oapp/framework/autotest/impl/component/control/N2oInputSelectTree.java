@@ -130,6 +130,11 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
         dropdownElement().shouldNotBe(Condition.visible);
     }
 
+    @Override
+    public void shouldBeDisabled() {
+        input().shouldBe(Condition.disabled);
+    }
+
     @Deprecated
     public void expand() {
         openPopup();

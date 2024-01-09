@@ -47,6 +47,11 @@ public class N2oRadioGroup extends N2oControl implements RadioGroup {
         element().shouldHave(Condition.cssClass(String.format("n2o-radio-group-%s", type.name().toLowerCase())));
     }
 
+    @Override
+    public void shouldBeDisabled() {
+        radioInput().asFixedIterable().stream().forEach(el -> el.parent().$(".n2o-input").shouldBe(Condition.disabled));
+    }
+
     protected ElementsCollection radioInput() {
         return element().$$(".n2o-radio-input");
     }

@@ -31,6 +31,11 @@ public class N2oTextEditor extends N2oControl implements TextEditor {
         should(Condition.text(value), duration);
     }
 
+    @Override
+    public void shouldBeDisabled() {
+        element().parent().shouldHave(Condition.cssClass("n2o-text-editor-wrapper--disabled"));
+    }
+
     protected SelenideElement editor() {
         return element().$(".public-DraftEditor-content");
     }

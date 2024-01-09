@@ -133,6 +133,11 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
                 String.format(".*max-height: %dpx.*", height)));
     }
 
+    @Override
+    public void shouldBeDisabled() {
+        element().$("input").shouldBe(Condition.disabled);
+    }
+
     protected ElementsCollection getFilesItems() {
         return element().parent().$$(".n2o-file-uploader-files-item-info");
     }

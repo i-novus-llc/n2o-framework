@@ -11,6 +11,8 @@ import java.time.Duration;
  */
 public class N2oInputMoney extends N2oControl implements InputMoneyControl {
 
+    protected static final String INPUT = ".n2o-input-money";
+
     @Override
     public String getValue() {
         SelenideElement input = inputElement();
@@ -21,7 +23,7 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
 
     @Override
     public void setValue(String value) {
-        element().parent().$(".n2o-input-money").setValue(value).pressEnter();
+        element().parent().$(INPUT).setValue(value).pressEnter();
     }
 
     @Override
@@ -62,6 +64,6 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
 
     protected SelenideElement inputElement() {
         return element().shouldBe(Condition.exist)
-                .parent().$(".n2o-input-money");
+                .parent().$(INPUT);
     }
 }

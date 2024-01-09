@@ -46,6 +46,11 @@ public class N2oCodeEditor extends N2oControl implements CodeEditor {
         lines().get(line).$$(".ace_line").shouldHave(CollectionCondition.size(rows));
     }
 
+    @Override
+    public void shouldBeDisabled() {
+        element().$(".ace_text-input").shouldHave(Condition.readonly);
+    }
+
     protected ElementsCollection lines() {
         return element().$$(".ace_line_group");
     }
