@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
@@ -64,18 +63,15 @@ public abstract class N2oWidget extends N2oMetadata
     private DefaultValuesMode upload;
     @Deprecated
     private String dependsOn;
-    @N2oAttribute("Иконка")
     private String icon;
     @Deprecated
     private String masterFieldId;
     @Deprecated
     private String detailFieldId;
-    @N2oAttribute("Условие видимости")
     private String visible;
     @Deprecated
     private N2oPreFilter[] preFilters;
     private ActionBar[] actions;
-    @N2oAttribute("Список меню управляющих кнопок")
     private N2oToolbar[] toolbars;
     @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;

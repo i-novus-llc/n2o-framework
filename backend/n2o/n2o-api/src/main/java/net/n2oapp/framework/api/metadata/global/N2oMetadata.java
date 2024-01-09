@@ -3,7 +3,6 @@ package net.n2oapp.framework.api.metadata.global;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.aware.RefIdAware;
@@ -15,7 +14,6 @@ import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 @Setter
 public abstract class N2oMetadata implements SourceMetadata, IdAware, RefIdAware, NameAware {
     private String namespaceUri;
-    @N2oAttribute("Идентификатор")
     private String id;
     private String refId;
 

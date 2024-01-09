@@ -2,33 +2,28 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.N2oAttribute;
-import net.n2oapp.framework.api.metadata.N2oComponent;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.action.N2oConfirmAction;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
-import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionAction;
-import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionActionPayload;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static net.n2oapp.framework.api.StringUtils.*;
+import static net.n2oapp.framework.api.StringUtils.isLink;
+import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 
 /**
  * Исходная модель кнопки
  */
 @Getter
 @Setter
-@N2oComponent
 public class N2oButton extends N2oAbstractButton implements Button, WidgetIdAware {
     private String actionId;
     private N2oAction[] actions;
-    @N2oAttribute("Круглая форма")
     private Boolean rounded;
     private Boolean validate;
     private String[] validateDatasourceIds;
@@ -50,7 +45,6 @@ public class N2oButton extends N2oAbstractButton implements Button, WidgetIdAwar
     @Deprecated
     private String confirmCancelColor;
 
-    @N2oAttribute("Недоступность кнопки при пустой модели")
     private DisableOnEmptyModelType disableOnEmptyModel;
 
     private Dependency[] dependencies;

@@ -2,8 +2,6 @@ package net.n2oapp.framework.api.metadata.global.view.widget;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.N2oAttribute;
-import net.n2oapp.framework.api.metadata.N2oComponent;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.control.SubmitOn;
@@ -14,9 +12,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
  */
 @Getter
 @Setter
-@N2oComponent
 public class N2oForm extends N2oWidget {
-    @N2oAttribute("Элементы формы")
     private SourceComponent[] items;
     private FormMode mode;
     private Boolean unsavedDataPrompt;
