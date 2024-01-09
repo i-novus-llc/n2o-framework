@@ -58,10 +58,17 @@ export const withRedux = (WidgetComponent) => {
          * @param {WidgetInitialTypes} props
          * @return {WidgetReduxTypes}
          */
-        (state, props) => ({
-            ...props,
-            ...makeWidgetByIdSelector(props.id)(state),
-        }),
+        (state, props) => {
+            const { parent, dependency } = props
+            const reduxProps = makeWidgetByIdSelector(props.id)(state)
+
+            /* FIXME костыль для табов, нужно пересмотреть */
+            if (!parent || dependency) { return { ...props, ...reduxProps } }
+
+            const { fetch } = props
+
+            return { ...props, ...reduxProps, fetch }
+        },
         (dispatch, props) => ({
             dispatch,
             setActive() {

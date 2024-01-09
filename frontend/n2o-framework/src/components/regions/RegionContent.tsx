@@ -61,7 +61,7 @@ export function RegionContent(props: Props) {
                 })
 
                 const fetchOnInit = getFetchOnInit(metaFetchOnInit, lazy, active)
-                const fetch = getFetch(lazy, active)
+                const fetch = getFetch(lazy, active, tabId)
 
                 return (
                     <Factory

@@ -127,8 +127,8 @@ export function getFetchOnInit(metaFetchOnInit: boolean, lazy: boolean, active: 
     return false
 }
 
-export function getFetch(lazy: boolean, active: string) {
-    if (!lazy) {
+export function getFetch(lazy: boolean, active: string, tabId: string) {
+    if (!lazy || (active === tabId)) {
         return FETCH_TYPE.always
     }
 
