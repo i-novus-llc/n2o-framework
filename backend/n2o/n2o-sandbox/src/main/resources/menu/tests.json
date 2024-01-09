@@ -1445,6 +1445,10 @@
           "name": "FieldEnabledAT. dynamicEnabled"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/enabled/all_field_disabled",
+          "name": "AllFieldsDisabledAT"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/condition/field/required/expression",
           "name": "FieldRequiredAT. expressionValue"
         },

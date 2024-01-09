@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
@@ -31,6 +32,11 @@ public class N2oRating extends N2oControl implements Rating {
     public void shouldHaveValue(String value, Duration... duration) {
         SelenideElement e = ratingInput().find(Condition.checked).shouldBe(Condition.exist);
         should(Condition.value(value), e, duration);
+    }
+
+    @Override
+    public void shouldBeDisabled() {
+        element().$(".rating-group--readonly").shouldBe(Condition.exist);
     }
 
     protected ElementsCollection ratingInput() {

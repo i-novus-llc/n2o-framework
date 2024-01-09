@@ -71,6 +71,11 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
         dropdownOptions().find(Condition.text(value)).click();
     }
 
+    @Override
+    public void shouldBeDisabled() {
+        inputElement().shouldBe(Condition.disabled);
+    }
+
     protected SelenideElement inputElement() {
         return element().$(".n2o-inp");
     }

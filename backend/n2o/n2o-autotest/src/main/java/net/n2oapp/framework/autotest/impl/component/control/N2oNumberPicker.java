@@ -54,6 +54,11 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
     }
 
     @Override
+    public void shouldBeDisabled() {
+        inputElement().shouldBe(Condition.disabled);
+    }
+
+    @Override
     public void clickMinusStepButton() {
         minusButton().click();
     }

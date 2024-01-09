@@ -50,7 +50,7 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
 
     @Override
     public void shouldHaveValue(String value, Duration... duration) {
-        element().$(".n2o-input").shouldHave(Condition.attribute("value", value));
+        element().$(INPUT).shouldHave(Condition.attribute("value", value));
     }
 
     @Override
@@ -114,6 +114,13 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
     public void closePopup() {
         if (popUp().is(Condition.exist))
             element().$(".n2o-input-icon").click();
+    }
+
+    @Override
+    public void shouldBeDisabled() {
+        element().$(INPUT).shouldBe(Condition.disabled);
+        openPopup();
+        shouldBeClosed();
     }
 
     @Deprecated

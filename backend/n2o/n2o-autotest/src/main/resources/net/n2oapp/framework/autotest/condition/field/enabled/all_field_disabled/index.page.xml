@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Автотест дизейбла полей">
+    <form>
+        <fields>
+            <row>
+                <col size="4">
+                    <button id="button" label="button" enabled="false" disable-on-empty-model="false"/>
+                    <checkbox id="checkbox" enabled="false"/>
+                    <date-time id="dateTime" enabled="false"/>
+                    <file-upload id="fileUpload" enabled="false"/>
+                    <image-upload label="imageUpload" id="files" multi="true"
+                                  label-field-id="fileName" value-field-id="id" url-field-id="url"
+                                  upload-url="${n2o.sandbox.url}/files"
+                                  delete-url="${n2o.sandbox.url}/files"
+                                  accept=".jpg,.png"
+                                  list-type="card"
+                                  show-name="true" enabled="false"/>
+                    <input-money id="inputMoney" enabled="false"/>
+                    <input-text id="inputText" enabled="false"/>
+                    <masked-input id="maskedInput" enabled="false"/>
+                    <number-picker id="numberPicker" enabled="false"/>
+
+                </col>
+                <col size="4">
+                    <date-interval id="dateInterval" enabled="false"/>
+                    <interval-field id="range" label="intervalField" enabled="false">
+                        <begin>
+                            <input-text id="start-range"/>
+                        </begin>
+                        <end>
+                            <input-text id="end-range"/>
+                        </end>
+                    </interval-field>
+                    <checkbox-group id="checkboxGroup" enabled="false">
+                        <options>
+                            <option id="1" name="test"/>
+                        </options>
+                    </checkbox-group>
+                    <input-select id="inputSelect" enabled="false"/>
+                    <select id="select" enabled="false"/>
+                    <input-select-tree id="inputSelectTree" enabled="false"/>
+                    <radio-group id="radioGroup" enabled="false">
+                        <options>
+                            <option id="1" name="test"/>
+                        </options>
+                    </radio-group>
+                    <code-editor id="codeEditor" enabled="false"/>
+                </col>
+                <col size="4">
+                    <password id="password" enabled="false"/>
+                    <rating id="rating" enabled="false"/>
+                    <slider id="slider" enabled="false"/>
+                    <text-area id="textArea" enabled="false"/>
+                    <text-editor id="textEditor" enabled="false"/>
+                    <time-picker id="timePicker" enabled="false"/>
+                    <auto-complete id="autoComplete" enabled="false"/>
+                </col>
+            </row>
+        </fields>
+    </form>
+</simple-page>

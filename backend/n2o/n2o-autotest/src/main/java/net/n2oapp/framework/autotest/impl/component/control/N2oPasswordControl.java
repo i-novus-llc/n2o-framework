@@ -85,7 +85,7 @@ public class N2oPasswordControl extends N2oControl implements PasswordControl {
     }
 
     protected SelenideElement inputElement() {
-        return element().shouldBe(Condition.exist).parent().$(".n2o-input");
+        return element().shouldBe(Condition.exist).parent().$(INPUT);
     }
 
     protected SelenideElement cellInputElement() {
