@@ -153,26 +153,6 @@ public class N2oDateInput extends N2oControl implements DateInput {
         popUp().shouldNotBe(Condition.exist);
     }
 
-    @Deprecated
-    public void expand() {
-        openPopup();
-    }
-
-    @Deprecated
-    public void collapse() {
-        closePopup();
-    }
-
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
-    }
-
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
-    }
-
     protected SelenideElement inputElement() {
         element().shouldBe(Condition.exist);
         return element().$(".n2o-date-input input");

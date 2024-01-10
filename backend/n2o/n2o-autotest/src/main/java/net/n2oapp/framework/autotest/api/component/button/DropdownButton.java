@@ -47,12 +47,6 @@ public interface DropdownButton extends Button {
     StandardButton menuItem(int index);
 
     /**
-     * Не поддерживаемый метод, следует использовать метод shouldBeHidden()
-     */
-    @Deprecated
-    void shouldNotBeVisible();
-
-    /**
      * Проверка того, что список кнопок раскрыт
      */
     void shouldBeExpanded();

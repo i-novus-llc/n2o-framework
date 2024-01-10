@@ -69,11 +69,6 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     @Override
-    public Alerts alerts() {
-        return N2oSelenide.collection(element().$$(".n2o-alerts-container .n2o-alert"), Alerts.class);
-    }
-
-    @Override
     public Alerts alerts(Alert.Placement placement) {
         return N2oSelenide.collection(element().$$(String.format(".n2o-alerts-container .%s .n2o-alert", placement.name())), Alerts.class);
     }
@@ -180,30 +175,6 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     public class N2oBreadcrumb extends N2oComponent implements Breadcrumb {
-
-        @Deprecated
-        @Override
-        public void clickLink(String text) {
-            element().$$(".n2o-breadcrumb-link").findBy(Condition.text(text)).shouldBe(Condition.exist).click();
-        }
-
-        @Deprecated
-        @Override
-        public void firstTitleShouldHaveText(String text, Duration... duration) {
-            should(Condition.text(text), element().$(".breadcrumb-item"), duration);
-        }
-
-        @Deprecated
-        @Override
-        public void lastTitleShouldHaveText(String title, Duration... duration) {
-            should(Condition.text(title), crumbs().last(), duration);
-        }
-
-        @Deprecated
-        @Override
-        public void titleShouldHaveText(String title, Integer index, Duration... duration) {
-            should(Condition.text(title), crumbs().get(index), duration);
-        }
 
         public N2oBreadcrumb(SelenideElement element) {
             setElement(element);

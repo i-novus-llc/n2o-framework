@@ -62,12 +62,6 @@ public interface Page extends Component {
     Popover popover(String title);
 
     /**
-     * Метод не поддерживаемый. Необходимо использовать alerts(Alert.Placement placement)
-     */
-    @Deprecated
-    Alerts alerts();
-
-    /**
      * Возвращает компонент оповещение, положение которого совпадает с ожидаемым
      * @param placement положение оповещения на странице
      * @return Компонент оповещение для автотестирования
@@ -153,39 +147,6 @@ public interface Page extends Component {
      * Компонент шлебные крошки для автотестирования
      */
     interface Breadcrumb extends Component {
-
-        /**
-         * Клик хлебной крошке с ссылкой с соответствующим текстом
-         * Метод не поддерживаемый, следует класс Crumb и его метод click();
-         * @param text текст хлебной крошки
-         */
-        @Deprecated
-        void clickLink(String text);
-
-        /**
-         * Проверка заголовка первой хлебной крошки на соответствие
-         * Метод не поддерживаемый, следует класс Crumb и его метод shouldHaveLabel(String text);
-         * @param text ожидаемый текст
-         */
-        @Deprecated
-        void firstTitleShouldHaveText(String text, Duration... duration);
-
-        /**
-         * Проверка заголовка последней хлебной крошки на соответствие
-         * Метод не поддерживаемый, следует класс Crumb и его метод shouldHaveLabel(String text);
-         * @param title ожидаемый текст заголовка
-         */
-        @Deprecated
-        void lastTitleShouldHaveText(String title, Duration... duration);
-
-        /**
-         * Проверка заголовка хлебной крошки соответствующей номеру
-         * Метод не поддерживаемый, следует класс Crumb и его метод shouldHaveLabel(String text);
-         * @param title ожидаемый заголовок
-         * @param index номер проверяемой крошки
-         */
-        @Deprecated
-        void titleShouldHaveText(String title, Integer index, Duration... duration);
 
         /**
          * Проверка количества хлебных крошек

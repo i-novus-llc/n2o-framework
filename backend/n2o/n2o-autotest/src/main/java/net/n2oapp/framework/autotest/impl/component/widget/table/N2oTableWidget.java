@@ -63,11 +63,6 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
             filter().shouldBe(Condition.hidden);
         }
 
-        @Deprecated
-        public void shouldBeInvisible() {
-            shouldBeHidden();
-        }
-
         protected SelenideElement filter() {
             return element().$(".n2o-filter");
         }

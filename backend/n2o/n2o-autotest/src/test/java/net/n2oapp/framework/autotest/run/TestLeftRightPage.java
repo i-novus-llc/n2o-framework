@@ -64,11 +64,6 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     }
 
     @Override
-    public Alerts alerts() {
-        return null;
-    }
-
-    @Override
     public Alerts alerts(Alert.Placement placement) {
         return null;
     }

@@ -89,26 +89,6 @@ public class N2oSelect extends N2oControl implements Select {
         return N2oSelenide.component(element().parent().parent().$(".n2o-dropdown-control"), DropDown.class);
     }
 
-    @Deprecated
-    public void expand() {
-        openPopup();
-    }
-
-    @Deprecated
-    public void collapse() {
-        closePopup();
-    }
-
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
-    }
-
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
-    }
-
     protected SelenideElement selectPopUp() {
         return element().parent().parent().$(".n2o-select-pop-up");
     }
