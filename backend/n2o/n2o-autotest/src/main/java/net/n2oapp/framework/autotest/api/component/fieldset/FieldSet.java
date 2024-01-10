@@ -14,12 +14,6 @@ public interface FieldSet extends Component, Help {
     void shouldBeEmpty();
 
     /**
-     * Устарело, вместо этого следует использовать shouldBeHidden()
-     */
-    @Deprecated
-    void shouldNotBeVisible();
-
-    /**
      * Проверка метки на соответствие
      * @param label ожидаемое значение метки
      */

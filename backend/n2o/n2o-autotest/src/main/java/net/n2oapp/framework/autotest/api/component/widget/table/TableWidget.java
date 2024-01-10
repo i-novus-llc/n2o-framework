@@ -76,12 +76,6 @@ public interface TableWidget extends StandardWidget {
          * Проверка скрытости фильтров
          */
         void shouldBeHidden();
-
-        /**
-         * Функция не поддерживаема, следует использовать shouldBeHidden()
-         */
-        @Deprecated
-        void shouldBeInvisible();
     }
 
     interface Rows {

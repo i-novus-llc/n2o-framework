@@ -123,26 +123,6 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
         shouldBeClosed();
     }
 
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
-    }
-
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
-    }
-
-    @Deprecated
-    public void expand() {
-        openPopup();
-    }
-
-    @Deprecated
-    public void collapse() {
-        closePopup();
-    }
-
     protected SelenideElement popUp() {
         return element().parent().parent().$(".n2o-pop-up");
     }

@@ -12,11 +12,6 @@ import java.time.Duration;
  */
 public abstract class N2oFieldSet extends N2oComponent implements FieldSet {
 
-    @Deprecated
-    public void shouldNotBeVisible() {
-        shouldBeHidden();
-    }
-
     @Override
     public void shouldHaveDescription(String description, Duration... duration) {
         should(Condition.text(description), description(), duration);

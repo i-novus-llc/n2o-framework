@@ -123,26 +123,6 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
         input().sendKeys(Keys.BACK_SPACE);
     }
 
-    @Deprecated
-    public void expand() {
-        openPopup();
-    }
-
-    @Deprecated
-    public void collapse() {
-        closePopup();
-    }
-
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
-    }
-
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
-    }
-
     protected SelenideElement popupIcon() {
         return element().$(".n2o-popup-control");
     }

@@ -135,26 +135,6 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
         input().shouldBe(Condition.disabled);
     }
 
-    @Deprecated
-    public void expand() {
-        openPopup();
-    }
-
-    @Deprecated
-    public void collapse() {
-        closePopup();
-    }
-
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
-    }
-
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
-    }
-
     protected SelenideElement switcher() {
         return element().$(".n2o-select-tree-arrow");
     }
