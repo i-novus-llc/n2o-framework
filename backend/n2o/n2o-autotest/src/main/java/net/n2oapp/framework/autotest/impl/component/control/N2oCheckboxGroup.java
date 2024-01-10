@@ -58,7 +58,7 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
 
     @Override
     public void shouldBeDisabled() {
-        element().$$(INPUT).shouldBe(CollectionCondition.allMatch("Проверка на то, что поле вляется недоступным", e -> !e.isEnabled()));
+        element().$$(INPUT).shouldBe(CollectionCondition.allMatch("Проверка на то, что поле является недоступным", e -> !e.isEnabled()));
     }
 
     @Override
