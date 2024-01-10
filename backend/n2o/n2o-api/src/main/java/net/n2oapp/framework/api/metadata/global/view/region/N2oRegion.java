@@ -2,7 +2,6 @@ package net.n2oapp.framework.api.metadata.global.view.region;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
@@ -19,9 +18,7 @@ import java.util.Objects;
 @Getter
 @Setter
 public abstract class N2oRegion extends N2oComponent implements SourceMetadata, RegionItem {
-    @N2oAttribute("Идентификатор")
     private String id;
-    @N2oAttribute("Элементы региона")
     private SourceComponent[] content;
 
     @Override

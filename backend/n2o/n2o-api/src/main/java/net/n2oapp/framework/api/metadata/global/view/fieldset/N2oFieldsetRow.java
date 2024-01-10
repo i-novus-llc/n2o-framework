@@ -2,8 +2,6 @@ package net.n2oapp.framework.api.metadata.global.view.fieldset;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.N2oAttribute;
-import net.n2oapp.framework.api.metadata.N2oComponent;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 
 /**
@@ -11,8 +9,6 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
  */
 @Getter
 @Setter
-@N2oComponent
 public class N2oFieldsetRow extends net.n2oapp.framework.api.metadata.control.N2oComponent {
-    @N2oAttribute("Элементы строки филдсета")
     private SourceComponent[] items;
 }

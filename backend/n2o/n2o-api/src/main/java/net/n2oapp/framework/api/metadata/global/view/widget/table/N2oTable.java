@@ -3,8 +3,6 @@ package net.n2oapp.framework.api.metadata.global.view.widget.table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.N2oAttribute;
-import net.n2oapp.framework.api.metadata.N2oComponent;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
@@ -13,10 +11,8 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 
 @Getter
 @Setter
-@N2oComponent
 public class N2oTable extends N2oAbstractTable {
     private N2oTableFilters filters;
-    @N2oAttribute("Тип отображения дочерних строк таблицы")
     private ChildrenToggle children;
 
     @Getter
