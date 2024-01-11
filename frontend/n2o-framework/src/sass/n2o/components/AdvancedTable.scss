@@ -272,7 +272,7 @@
 .n2o-advanced-table-filter-dropdown {
     flex-wrap: wrap;
     justify-content: space-between;
-    width: 200px;
+    min-width: 200px;
     padding: 10px;
     background-color: $white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
