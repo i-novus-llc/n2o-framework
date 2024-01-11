@@ -3,7 +3,6 @@ import classNames from 'classnames'
 
 import Table from '../basic'
 import { TableHeaderCellProps } from '../../types/props'
-// @ts-ignore - отсутствуют типы
 import { Icon } from '../../../snippets/Icon/Icon'
 import { useMouseDownResize } from '../../hooks/useMouseDownResize'
 
@@ -13,50 +12,38 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = (props) => {
     const {
         component: Component,
         id,
-        filterControl,
+        filterField,
         sortingDirection,
         colSpan,
         rowSpan,
         multiHeader,
-        elementAttributes,
         icon,
         resizable,
-        ...otherCellProps
+        elementAttributes = {},
+        ...rest
     } = props
 
-    const { className = '', ...otherElementAttributes } = elementAttributes
+    const { className } = elementAttributes
     const cellRef = useRef<HTMLTableCellElement>(null)
     const onMouseDownResizeCell = useMouseDownResize(cellRef)
 
     return (
         <Table.HeaderCell
-            className={classNames({
-                'n2o-advanced-table-header-text-center': multiHeader,
-                [className]: Boolean(className),
-            })}
             data-resizeble={resizable}
             ref={cellRef}
             colSpan={colSpan}
             rowSpan={rowSpan}
-            {...otherElementAttributes}
+            {...elementAttributes}
+            className={classNames(className, { 'n2o-advanced-table-header-text-center': multiHeader })}
         >
             <div className="n2o-advanced-table-header-cell-content">
-                {icon && <Icon name={icon} />}
-                <Component {...otherCellProps} sorting={sortingDirection} />
-                {filterControl ? (
-                    <HeaderFilter
-                        id={id}
-                        filterControl={filterControl}
-                    />
-
-                ) : null}
+                <Icon name={icon} visible={typeof icon === 'string'} />
+                <Component {...rest} sorting={sortingDirection} />
+                {filterField && <HeaderFilter id={id} filterField={filterField} />}
             </div>
-            {resizable ? <div className="resizeTrigger" onMouseDown={onMouseDownResizeCell} /> : null}
+            {resizable && <div className="resizeTrigger" onMouseDown={onMouseDownResizeCell} />}
         </Table.HeaderCell>
     )
 }
 
-TableHeaderCell.defaultProps = {
-    elementAttributes: {},
-}
 TableHeaderCell.displayName = 'TableHeaderCell'

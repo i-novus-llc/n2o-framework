@@ -30,7 +30,7 @@ export type HeaderCell = {
     rowSpan?: number
     hasSubColumns?: boolean
     sortingParam?: string
-    filterControl?: {
+    filterField?: {
         src: string
         id: string
         dateFormat?: string

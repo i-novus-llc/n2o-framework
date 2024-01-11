@@ -23,7 +23,7 @@ function AdvancedTableFilterPopup({
     onSearchClick,
     onResetClick,
     component,
-    controlProps,
+    componentProps,
 }) {
     const onKeyDown = (event) => {
         if (event.key === 'Enter') { onSearchClick() }
@@ -33,7 +33,7 @@ function AdvancedTableFilterPopup({
         <>
             <div className="n2o-advanced-table-filter-dropdown-popup">
                 {component ? (
-                    React.createElement(component, { ...controlProps, value, onChange, onKeyDown, popupPlacement: 'right' })
+                    React.createElement(component, { ...componentProps, value, onChange, onKeyDown, popupPlacement: 'right' })
                 ) : (
                     <InputText value={value} onChange={onChange} onKeyDown={onKeyDown} />
                 )}
@@ -52,14 +52,14 @@ AdvancedTableFilterPopup.propTypes = {
     component: PropTypes.any,
     onSearchClick: PropTypes.func,
     onResetClick: PropTypes.func,
-    controlProps: PropTypes.object,
+    componentProps: PropTypes.object,
 }
 
 AdvancedTableFilterPopup.defaultProps = {
     onChange: () => {},
     onSearchClick: () => {},
     onResetClick: () => {},
-    controlProps: {},
+    componentProps: {},
 }
 
 export { AdvancedTableFilterPopup }
