@@ -1,13 +1,13 @@
 import React, { memo } from 'react'
 
 import { HeaderFilterProps } from '../../types/props'
-// @ts-ignore - отсутсвует типизация
+// @ts-ignore ignore import error from js file
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableFilter from '../filter/AdvancedTableFilter'
 import { useTableRefProps } from '../../provider/TableRefProps'
 import { useTableActions } from '../../provider/TableActions'
 
-export const HeaderFilter = memo<HeaderFilterProps>(({ filterControl, id }) => {
+export const HeaderFilter = memo<HeaderFilterProps>(({ filterField, id }) => {
     const refTableProps = useTableRefProps()
     const { onChangeFilter } = useTableActions()
     const filterValue = refTableProps.current.filterValue?.[id]
@@ -17,7 +17,7 @@ export const HeaderFilter = memo<HeaderFilterProps>(({ filterControl, id }) => {
             id={id}
             onFilter={onChangeFilter}
             value={filterValue}
-            control={filterControl}
+            field={filterField}
         />
     )
 })
