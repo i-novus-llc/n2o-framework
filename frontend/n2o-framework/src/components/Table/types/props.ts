@@ -87,7 +87,7 @@ export type TableHeaderCellProps = {
     multiHeader?: boolean
     sortingDirection?: string
     resizable?: boolean
-} & Pick<HeaderCell, 'elementAttributes' | 'filterControl'>
+} & Pick<HeaderCell, 'elementAttributes' | 'filterField'>
 
 export type SelectionCellProps = {
     rowValue: string
@@ -143,7 +143,7 @@ export type DataRowProps = {
 
 export type HeaderFilterProps = {
     id: string
-} & Required<Pick<HeaderCell, 'filterControl'>>
+} & Required<Pick<HeaderCell, 'filterField'>>
 
 export type CellContainerProps = {
     isSelectedRow: boolean

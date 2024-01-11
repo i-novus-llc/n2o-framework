@@ -32,7 +32,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
-import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -57,7 +56,7 @@ import static org.hamcrest.Matchers.nullValue;
 /**
  * Тестирование компиляции виджета Таблица
  */
-public class TableWidgetCompileTest extends SourceCompileTestBase {
+class TableWidgetCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach
@@ -317,8 +316,9 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(columnHeaders.get(0).getId(), is("name"));
         assertThat(columnHeaders.get(0).getLabel(), is("label"));
         assertThat(columnHeaders.get(0).getFilterable(), is(true));
-        assertThat(columnHeaders.get(0).getFilterControl(), instanceOf(InputText.class));
-        assertThat(columnHeaders.get(0).getFilterControl().getId(), is("name"));
+        assertThat(columnHeaders.get(0).getFilterField().getControl(), instanceOf(InputText.class));
+        assertThat(columnHeaders.get(0).getFilterField().getStyle().get("color"), is("red"));
+        assertThat(columnHeaders.get(0).getFilterField().getId(), is("name"));
 
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("w1_name");
         assertThat(query.getOnSet().getBindLink(), is("models.filter['testFilterColumns_w1']"));
@@ -359,8 +359,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(1).getChildren(), nullValue());
         assertThat(headers.get(2).getId(), is("name"));
         assertThat(headers.get(2).getFilterable(), is(true));
-        assertThat(headers.get(2).getFilterControl(), instanceOf(InputText.class));
-        assertThat(headers.get(2).getFilterControl().getId(), is("name"));
+        assertThat(headers.get(2).getFilterField().getControl(), instanceOf(InputText.class));
+        assertThat(headers.get(2).getFilterField().getId(), is("name"));
 
         // проверка компиляции фильтруемого столбца внутри мульти-столбца
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("table_name");

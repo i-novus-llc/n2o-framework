@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.ColumnFixedPosition;
-import net.n2oapp.framework.api.metadata.meta.control.Control;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 
@@ -41,7 +41,7 @@ public class ColumnHeader implements IdAware, Compiled, JsonPropertiesAware {
     @JsonProperty
     private Boolean filterable;
     @JsonProperty
-    private Control filterControl;
+    private StandardField filterField;
     @JsonProperty
     private Boolean multiHeader;
     @JsonProperty
