@@ -1,6 +1,6 @@
 import React from 'react'
 import { Moment } from 'moment'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 import { TBaseProps } from '../../types'
 
@@ -33,18 +33,12 @@ export const Day = ({
     return (
         // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
         <td
-            className={cn('n2o-calendar-day', {
-                disabled,
-                selected,
-                current,
-                'other-month': otherMonth,
+            onMouseDown={onClick}
+            className={classNames('n2o-calendar-day', {
+                disabled, selected, current, 'other-month': otherMonth,
             })}
         >
-            <span
-                onMouseDown={onClick}
-            >
-                {day.format('D')}
-            </span>
+            {day.format('D')}
         </td>
     )
 }
