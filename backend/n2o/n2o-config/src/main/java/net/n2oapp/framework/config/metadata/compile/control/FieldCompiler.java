@@ -29,7 +29,10 @@ import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.script.ScriptParserException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.*;
+import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
@@ -338,7 +341,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             }
 
             for (N2oValidation v : validations.getInlineValidations()) {
-                v.setFieldId(fieldId);
+                if (v.getFieldId() == null)
+                    v.setFieldId(fieldId);
                 Validation compiledValidation = p.compile(v, context);
                 MomentScope momentScope = p.getScope(MomentScope.class);
                 if (momentScope != null)
