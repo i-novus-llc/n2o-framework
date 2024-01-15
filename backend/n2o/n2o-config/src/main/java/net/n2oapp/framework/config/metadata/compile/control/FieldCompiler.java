@@ -340,7 +340,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             }
 
             for (N2oValidation v : validations.getInlineValidations()) {
-                v.setFieldId(fieldId);
+                if (v.getFieldId() == null)
+                    v.setFieldId(fieldId);
                 Validation compiledValidation = p.compile(v, context);
                 MomentScope momentScope = p.getScope(MomentScope.class);
                 if (momentScope != null)
@@ -460,7 +461,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     if (defValue instanceof DefaultValues) {
                         Map<String, Object> values = ((DefaultValues) defValue).getValues();
                         if (values != null) {
-                            for (Map.Entry<String,Object> entry : values.entrySet()) {
+                            for (Map.Entry<String, Object> entry : values.entrySet()) {
                                 if (entry.getValue() instanceof String) {
                                     Object value = ScriptProcessor.resolveExpression((String) entry.getValue());
                                     if (value != null)
