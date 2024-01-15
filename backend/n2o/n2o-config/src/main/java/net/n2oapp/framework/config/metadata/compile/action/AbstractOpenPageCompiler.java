@@ -156,8 +156,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String parentRoute = normalize(route);
         route = normalize(route + actionRoute) + (actionRoute.endsWith("/") ? "/" : "");
         PageContext pageContext = constructContext(pageId, route);
-        if (pageScope != null && pageScope.getWidgetIdClientDatasourceMap() != null)
-            pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
         if (pageScope != null && pageScope.getTabIds() != null)
             pageContext.setParentTabIds(pageScope.getTabIds());
 
@@ -302,9 +300,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (datasourceIdAware != null && datasourceIdAware.getDatasourceId() != null) {
             datasource = getClientDatasourceId(datasourceIdAware.getDatasourceId(), p);
         } else {
-            datasource = (pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null)
-                    ? clientWidgetId
-                    : pageScope.getWidgetIdClientDatasourceMap().get(clientWidgetId);
+            datasource = clientWidgetId;
         }
         return new ModelLink(actionDataModel, datasource, isLink(pageId) ? unwrapLink(pageId) : QuerySimpleField.PK);
     }

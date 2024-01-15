@@ -178,12 +178,8 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
             if (clientDatasourceId == null)
                 clientDatasourceId = getLocalDatasourceId(p);
         } else {
-            if (param.getDatasourceId() != null)
-                clientDatasourceId = getClientDatasourceId(param.getDatasourceId(), p);
-            else if (widgetId != null && pageScope.getWidgetIdClientDatasourceMap().containsKey(widgetId))
-                clientDatasourceId = pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
-            else
-                clientDatasourceId = getClientDatasourceId(getLocalDatasourceId(p), p);
+            clientDatasourceId = getClientDatasourceId(
+                    param.getDatasourceId() != null ? param.getDatasourceId() : getLocalDatasourceId(p), p);
         }
 
         ModelLink link = new ModelLink(castDefault(param.getModel(), defaultModel), clientDatasourceId);
@@ -194,7 +190,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     /**
      * Получение идентификатора клиентского виджета по умолчанию
      *
-     * @param p           Процессор сборки метаданных
+     * @param p Процессор сборки метаданных
      * @return Идентификатор клиентского виджета по умолчанию
      */
     private String getDefaultClientWidgetId(CompileProcessor p) {

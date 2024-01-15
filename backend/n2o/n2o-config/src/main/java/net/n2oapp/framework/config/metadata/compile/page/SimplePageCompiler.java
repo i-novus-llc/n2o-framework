@@ -31,8 +31,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
-import static net.n2oapp.framework.config.util.DatasourceUtil.getClientWidgetId;
 
 /**
  * Компиляция страницы с единственным виджетом
@@ -120,14 +118,9 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         pageScope.setResultWidgetId(widget.getId());
         if (widget.getDatasource() != null)
             pageScope.setObjectId(widget.getDatasource().getObjectId());
-        pageScope.setWidgetIdClientDatasourceMap(new HashMap<>());
         pageScope.setWidgetIdSourceDatasourceMap(new HashMap<>());
         pageScope.getWidgetIdSourceDatasourceMap().put(widget.getId(),
                 widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId());
-        pageScope.getWidgetIdClientDatasourceMap().put(getClientWidgetId(widget.getId(), pageId),
-                getClientDatasourceId(widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId(), pageId, p));
-        if (context.getParentWidgetIdDatasourceMap() != null)
-            pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         return pageScope;
     }
 
