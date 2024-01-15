@@ -43,7 +43,6 @@ import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
-import static net.n2oapp.framework.config.util.DatasourceUtil.getClientWidgetId;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
@@ -224,18 +223,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         pageScope.getWidgetIdSourceDatasourceMap().putAll(sourceWidgets.stream()
                 .collect(Collectors.toMap(N2oMetadata::getId,
                         w -> isNull(w.getDatasourceId()) ? w.getId() : w.getDatasourceId())));
-        pageScope.setWidgetIdClientDatasourceMap(new HashMap<>());
-        pageScope.getWidgetIdClientDatasourceMap().putAll(sourceWidgets.stream()
-                .collect(Collectors.toMap(w -> getClientWidgetId(w.getId(), pageId),
-                        w -> {
-                            String datasourceId = isNull(w.getDatasourceId()) ? w.getId() : w.getDatasourceId();
-                            if (applicationDatasourceIds.containsKey(datasourceId))
-                                return applicationDatasourceIds.get(datasourceId);
-                            else
-                                return getClientDatasourceId(datasourceId, pageId, p);
-                        })));
-        if (nonNull(context.getParentWidgetIdDatasourceMap()))
-            pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         return pageScope;
     }
 

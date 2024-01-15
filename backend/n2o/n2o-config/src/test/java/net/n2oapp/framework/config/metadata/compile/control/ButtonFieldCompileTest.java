@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции ButtonField компонента
  */
-public class ButtonFieldCompileTest extends SourceCompileTestBase {
+class ButtonFieldCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -58,11 +58,11 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(((LinkAction) field.getAction()).getUrl(), is("/testButtonFieldCompile/test2/:param1/:param2?param3=:param3"));
         assertThat(((LinkAction) field.getAction()).getTarget(), is(Target.application));
         assertThat(((LinkAction) field.getAction()).getPathMapping().size(), is(2));
-        assertThat(((LinkAction) field.getAction()).getPathMapping().get("param1").getBindLink(), is("models.resolve['testButtonFieldCompile_w1']"));
+        assertThat(((LinkAction) field.getAction()).getPathMapping().get("param1").getBindLink(), is("models.resolve['testButtonFieldCompile_ds']"));
         assertThat(((LinkAction) field.getAction()).getPathMapping().get("param1").getValue(), is("`field1`"));
         assertThat(((LinkAction) field.getAction()).getPathMapping().get("param2").getValue(), is("1"));
         assertThat(((LinkAction) field.getAction()).getQueryMapping().size(), is(1));
-        assertThat(((LinkAction) field.getAction()).getQueryMapping().get("param3").getBindLink(), is("models.resolve['testButtonFieldCompile_w1']"));
+        assertThat(((LinkAction) field.getAction()).getQueryMapping().get("param3").getBindLink(), is("models.resolve['testButtonFieldCompile_ds']"));
         assertThat(((LinkAction) field.getAction()).getQueryMapping().get("param3").getValue(), is("`field3`"));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);

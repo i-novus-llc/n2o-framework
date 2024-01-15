@@ -109,7 +109,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         PageScope pageScope = p.getScope(PageScope.class);
         if (nonNull(pageScope)) {
             pageScope.getWidgetIdSourceDatasourceMap().put(source.getId(), datasource.getId());
-            pageScope.getWidgetIdClientDatasourceMap().put(compiled.getId(), getClientDatasourceId(datasource.getId(), p));
         }
 
         if (datasource instanceof N2oStandardDatasource)

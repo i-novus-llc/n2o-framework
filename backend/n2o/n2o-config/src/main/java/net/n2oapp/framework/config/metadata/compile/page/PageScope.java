@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,9 +19,6 @@ public class PageScope {
     @Deprecated
     private Set<String> widgetIds;
     private Map<String, String> widgetIdSourceDatasourceMap = new HashMap<>();
-    //fixme избавиться со временем возможно, сейчас нужна потому что много где есть ссылки на widgetId , которые превратились в datasource
-    @Deprecated
-    private Map<String, String> widgetIdClientDatasourceMap;
     /**
      * Список идентификаторов таб регионов
      */
