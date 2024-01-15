@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.TableValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.widget.columns.FilterColumnValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,8 @@ public class TableValidatorTest extends SourceValidationTestBase {
                 new N2oAllDataPack()
         );
         builder.validators(
-                new TableValidator()
+                new TableValidator(),
+                new FilterColumnValidator()
         );
     }
 
@@ -61,5 +63,14 @@ public class TableValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testOverlayToolbar.widget.xml")
         );
         assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре в <overlay> таблицы 'testOverlayToolbar'", exception.getMessage());
+    }
+
+    @Test
+    void testFilterColumnFilterExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testFilterColumnFilterExistence.page.xml")
+        );
+        assertEquals("В <filter-column text-field-id='test'> таблицы не задан фильтр", exception.getMessage());
     }
 }
