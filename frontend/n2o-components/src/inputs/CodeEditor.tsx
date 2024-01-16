@@ -52,7 +52,7 @@ export const CodeEditor = ({
                 minLines={minLines}
                 maxLines={maxLines}
                 highlightActiveLine
-                value={value}
+                value={value || ''}
                 enableBasicAutocompletion={autocomplete}
                 setOptions={{ showLineNumbers: true, tabSize: 2 }}
                 wrapEnabled
