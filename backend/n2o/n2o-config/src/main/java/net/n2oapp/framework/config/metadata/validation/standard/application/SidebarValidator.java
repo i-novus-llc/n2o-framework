@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarPathsScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
@@ -27,14 +28,14 @@ public class SidebarValidator implements SourceValidator<N2oSidebar>, SourceClas
             p.checkForExists(sidebar.getMenu().getRefId(), N2oSimpleMenu.class,
                     String.format("<menu> сайдбара ссылается на несуществующий 'ref-id = %s'",
                             sidebar.getMenu().getRefId()));
-            p.validate(sidebar.getMenu());
+            p.validate(sidebar.getMenu(), p.getScope(DatasourceIdsScope.class));
         }
         if (sidebar.getExtraMenu() != null) {
             if (sidebar.getExtraMenu().getRefId() != null)
                 p.checkForExists(sidebar.getExtraMenu().getRefId(), N2oSimpleMenu.class,
                         String.format("<extra-menu> сайдбара ссылается на несуществующий 'ref-id = %s'",
                                 sidebar.getMenu().getRefId()));
-            p.validate(sidebar.getExtraMenu());
+            p.validate(sidebar.getExtraMenu(), p.getScope(DatasourceIdsScope.class));
         }
         DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
 

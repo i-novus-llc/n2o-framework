@@ -18,7 +18,7 @@ public class N2oDropdownMenuItem extends N2oMenuItem implements DropdownMenuItem
 
     @Override
     public <T extends MenuItem> T item(int index, Class<T> componentClass) {
-        return N2oSelenide.component(element().$$(".dropdown-menu li").get(index), componentClass);
+        return N2oSelenide.component(element().$$(".dropdown-menu li, .n2o-sidebar__subitems  .n2o-sidebar__item-title").get(index), componentClass);
     }
 
     @Override

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
-import { dataSourceModelByPrefixSelector } from '../../ducks/datasource/selectors'
+import { getModelSelector } from '../../ducks/models/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
 
 import { resolveItems } from './utils'
@@ -10,23 +10,23 @@ import { resolveItems } from './utils'
 export const withItemsResolver = (Component) => {
     const WithItemsResolver = (props) => {
         const { menu, extraMenu, datasources, datasource } = props
-        const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))?.[0] || {}
 
-        if (!datasources || !datasource) {
-            return <Component {...props} />
-        }
+        const datasourceModels = useSelector(getModelSelector(`models.${ModelPrefix.source}`))
+        const datasourceModel = datasourceModels[datasource]?.[0] || {}
+
+        if (!datasources || !datasource) { return <Component {...props} extraMenu={{ items: extraMenu }} /> }
 
         const { items = [] } = menu
-        const { items: extraItems = [] } = extraMenu
 
-        const resolvedItems = resolveItems(items, datasourceModel)
-        const resolvedExtraItems = resolveItems(extraItems, datasourceModel)
+        const resolvedItems = resolveItems(items, datasourceModels, datasource)
+        const resolvedExtraItems = resolveItems(extraMenu, datasourceModels, datasource)
 
         return (
             <Component
                 {...props}
-                menu={{ ...menu, items: resolvedItems }}
-                extraMenu={{ ...extraMenu, items: resolvedExtraItems }}
+                menu={{ items: resolvedItems }}
+                extraMenu={{ items: resolvedExtraItems }}
+                datasourceModel={datasourceModel}
             />
         )
     }

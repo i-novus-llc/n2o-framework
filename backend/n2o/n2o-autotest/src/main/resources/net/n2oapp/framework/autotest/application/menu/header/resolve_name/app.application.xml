@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <datasources>
+        <datasource id="ds" query-id="test"/>
+        <datasource id="ds2" query-id="test2"/>
+    </datasources>
+    <header title="{header}" datasource="ds">
+        <nav>
+            <menu-item  name="{name}"/>
+            <menu-item  name="{name}" datasource="ds2"/>
+            <dropdown-menu name="{type}">
+                <menu-item name="{name}"/>
+                <menu-item name="{name}" datasource="ds2"/>
+            </dropdown-menu>
+            <dropdown-menu name="{type}" datasource="ds2">
+                <menu-item name="{name}"/>
+                <menu-item name="{name}" datasource="ds"/>
+            </dropdown-menu>
+        </nav>
+        <extra-menu>
+            <menu-item  name="{name}"/>
+            <menu-item  name="{name}" datasource="ds2"/>
+            <dropdown-menu name="{type}">
+                <menu-item name="{name}"/>
+                <menu-item name="{name}" datasource="ds2"/>
+            </dropdown-menu>
+            <dropdown-menu name="{type}" datasource="ds2">
+                <menu-item name="{name}"/>
+                <menu-item name="{name}" datasource="ds"/>
+            </dropdown-menu>
+        </extra-menu>
+    </header>
+    <sidebars>
+        <sidebar datasource="ds2">
+            <nav>
+                <menu-item  name="{name}" datasource="ds"/>
+                <menu-item  name="{name}"/>
+                <dropdown-menu name="{type}" datasource="ds">
+                    <menu-item name="{name}"/>
+                    <menu-item name="{name}" datasource="ds2"/>
+                </dropdown-menu>
+                <dropdown-menu name="{type}">
+                    <menu-item name="{name}"/>
+                    <menu-item name="{name}" datasource="ds"/>
+                </dropdown-menu>
+            </nav>
+            <extra-menu>
+                <menu-item  name="{name}" datasource="ds"/>
+                <menu-item  name="{name}"/>
+                <dropdown-menu name="{type}" datasource="ds">
+                    <menu-item name="{name}"/>
+                    <menu-item name="{name}" datasource="ds2"/>
+                </dropdown-menu>
+                <dropdown-menu name="{type}">
+                    <menu-item name="{name}"/>
+                    <menu-item name="{name}" datasource="ds"/>
+                </dropdown-menu>
+            </extra-menu>
+        </sidebar>
+    </sidebars>
+</application>

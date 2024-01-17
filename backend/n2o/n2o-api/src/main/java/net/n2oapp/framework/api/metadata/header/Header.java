@@ -23,6 +23,8 @@ public class Header extends Component {
     private SearchBar search;
     @JsonProperty
     private SidebarSwitcher sidebarSwitcher;
+    @JsonProperty
+    private String datasource;
 
     @Getter
     @Setter

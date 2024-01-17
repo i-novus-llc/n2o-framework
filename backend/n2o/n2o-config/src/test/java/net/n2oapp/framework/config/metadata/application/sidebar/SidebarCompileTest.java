@@ -128,4 +128,46 @@ public class SidebarCompileTest extends SourceCompileTestBase {
         sidebar = application.getSidebars().get(1);
         assertThat(sidebar.getPath(), is("/profile"));
     }
+
+    @Test
+    void testMenuItemsDatasource() {
+        Application application = compile("net/n2oapp/framework/config/metadata/application/sidebar/menuItemsDatasource.application.xml")
+                .bind().get(new ApplicationContext("menuItemsDatasource"), null);
+
+        Sidebar sidebar = application.getSidebars().get(0);
+        //nav
+        assertThat(sidebar.getDatasource(), is("test"));
+        assertThat(sidebar.getMenu().getItems().size(), is(4));
+        assertThat(sidebar.getMenu().getItems().get(0).getDatasource(), is("ds"));
+        assertThat(sidebar.getMenu().getItems().get(0).getTitle(), is("`name`"));
+        assertThat(sidebar.getMenu().getItems().get(1).getDatasource(), is("test"));
+
+        assertThat(sidebar.getMenu().getItems().get(2).getDatasource(), is("ds"));
+        assertThat(sidebar.getMenu().getItems().get(2).getSubItems().size(), is(2));
+        assertThat(sidebar.getMenu().getItems().get(2).getSubItems().get(0).getDatasource(), is("test"));
+        assertThat(sidebar.getMenu().getItems().get(2).getSubItems().get(0).getTitle(), is("`name2`"));
+        assertThat(sidebar.getMenu().getItems().get(2).getSubItems().get(1).getDatasource(), is("ds"));
+
+        assertThat(sidebar.getMenu().getItems().get(3).getDatasource(), is("test"));
+        assertThat(sidebar.getMenu().getItems().get(3).getSubItems().size(), is(2));
+        assertThat(sidebar.getMenu().getItems().get(3).getSubItems().get(0).getDatasource(), is("ds"));
+        assertThat(sidebar.getMenu().getItems().get(3).getSubItems().get(1).getDatasource(), is("test"));
+
+        //extra-menu
+        assertThat(sidebar.getExtraMenu().getItems().size(), is(4));
+        assertThat(sidebar.getExtraMenu().getItems().get(0).getDatasource(), is("ds"));
+        assertThat(sidebar.getExtraMenu().getItems().get(0).getTitle(), is("`name`"));
+        assertThat(sidebar.getExtraMenu().getItems().get(1).getDatasource(), is("test"));
+
+        assertThat(sidebar.getExtraMenu().getItems().get(2).getDatasource(), is("ds"));
+        assertThat(sidebar.getExtraMenu().getItems().get(2).getSubItems().size(), is(2));
+        assertThat(sidebar.getExtraMenu().getItems().get(2).getSubItems().get(0).getDatasource(), is("test"));
+        assertThat(sidebar.getExtraMenu().getItems().get(2).getSubItems().get(0).getTitle(), is("`name2`"));
+        assertThat(sidebar.getExtraMenu().getItems().get(2).getSubItems().get(1).getDatasource(), is("ds"));
+
+        assertThat(sidebar.getExtraMenu().getItems().get(3).getDatasource(), is("test"));
+        assertThat(sidebar.getExtraMenu().getItems().get(3).getSubItems().size(), is(2));
+        assertThat(sidebar.getExtraMenu().getItems().get(3).getSubItems().get(0).getDatasource(), is("ds"));
+        assertThat(sidebar.getExtraMenu().getItems().get(3).getSubItems().get(1).getDatasource(), is("test"));
+    }
 }

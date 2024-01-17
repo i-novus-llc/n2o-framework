@@ -1,4 +1,5 @@
 import React from 'react'
+import flowRight from 'lodash/flowRight'
 import { withResizeDetector } from 'react-resize-detector'
 import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
@@ -8,6 +9,10 @@ import PropTypes from 'prop-types'
 import { Navbar, Nav, NavbarToggler, Collapse } from 'reactstrap'
 
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer'
+import { withItemsResolver } from '../../withItemsResolver/withItemResolver'
+import { WithDataSource } from '../../../core/datasource/WithDataSource'
+import { withTitlesResolver } from '../../withTitlesResolver/withTitlesResolver'
+import { WithContextDataSource } from '../../WithContextDataSource/WithContextDataSource'
 
 import { Logo } from './Logo'
 import { SidebarSwitcher } from './SidebarSwitcher'
@@ -30,16 +35,12 @@ import { Menu, Menu as ExtraMenu } from './Menu/Menu'
  */
 
 class SimpleHeader extends React.Component {
-    state = {
-        isOpen: false,
-    }
+    state = { isOpen: false }
 
     toggle = () => {
         const { isOpen } = this.state
 
-        this.setState({
-            isOpen: !isOpen,
-        })
+        this.setState({ isOpen: !isOpen })
     }
 
     componentDidUpdate(prevProps) {
@@ -67,6 +68,7 @@ class SimpleHeader extends React.Component {
         } = this.props
 
         const { items } = menu
+        const { items: extraItems } = extraMenu
 
         let { style } = this.props
         const { isOpen } = this.state
@@ -134,7 +136,7 @@ class SimpleHeader extends React.Component {
                         </Nav>
                         <Nav className="ml-auto main-nav-extra" navbar>
                             <ExtraMenu
-                                items={extraMenu}
+                                items={extraItems}
                                 pathname={pathname}
                                 datasources={datasources}
                             />
@@ -209,6 +211,7 @@ SimpleHeader.propTypes = {
     datasources: PropTypes.object,
     toggleSidebar: PropTypes.func,
     sidebarOpen: PropTypes.bool,
+    datasource: PropTypes.string,
 }
 
 SimpleHeader.defaultProps = {
@@ -223,8 +226,15 @@ SimpleHeader.defaultProps = {
     localeSelect: false,
 }
 
-export default withResizeDetector(SimpleHeader, {
+const Enhancer = flowRight(
+    WithDataSource,
+    WithContextDataSource,
+    withItemsResolver,
+    withTitlesResolver,
+)(withResizeDetector(SimpleHeader, {
     handleHeight: false,
     refreshMode: 'debounce',
     refreshRate: 100,
-})
+}))
+
+export default Enhancer

@@ -60,7 +60,8 @@
             visible="false"
             class="css"
             logo-src="logo"
-            src="Header" home-page-url="home" style="margin-left:10px;width:300px">
+            src="Header" home-page-url="home" style="margin-left:10px;width:300px"
+            datasource="test">
         <nav src="Nav" ref-id="MenuRef"/>
 
         <search query-id="testQuery"

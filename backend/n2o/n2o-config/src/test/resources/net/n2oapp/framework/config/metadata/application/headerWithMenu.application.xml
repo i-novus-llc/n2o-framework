@@ -2,11 +2,15 @@
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0"
              xmlns:test="http://n2oapp.net/framework/config/schema/test"
              welcome-page-id="testPage">
+    <datasources>
+        <datasource id="ds1"/>
+        <datasource id="ds2"/>
+    </datasources>
     <header src="test" class="class"
-            title="N2O" home-page-url="/pageRoute" style="margin-left:10px">
+            title="N2O" home-page-url="/pageRoute" style="margin-left:10px" datasource="ds1">
         <nav>
             <dropdown-menu name="test">
-                <menu-item test:attr1="testAttribute">
+                <menu-item test:attr1="testAttribute" datasource="ds2">
                     <open-page page-id="pageWithoutLabel" route="/page1"/>
                 </menu-item>
                 <menu-item name="hrefLabel">
@@ -16,9 +20,13 @@
             <menu-item name="headerLabel">
                 <open-page page-id="pageWithoutLabel" label="headerLabel"/>
             </menu-item>
-            <menu-item name="hrefLabel">
+            <menu-item name="hrefLabel" datasource="ds2">
                 <a label="hrefLabel" href="http://test.com"/>
             </menu-item>
+            <dropdown-menu name="{test}" datasource="ds2">
+                <menu-item name="test" datasource="ds1"/>
+                <menu-item name="{test}"/>
+            </dropdown-menu>
         </nav>
 
         <extra-menu>
