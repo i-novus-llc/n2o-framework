@@ -7,7 +7,7 @@ import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 public class N2oButtonField extends N2oField implements ButtonField {
     @Override
     public void click() {
-        btn().click();
+        element().click();
     }
 
     @Override

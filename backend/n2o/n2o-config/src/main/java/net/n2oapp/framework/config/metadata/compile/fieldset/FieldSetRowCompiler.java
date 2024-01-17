@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.fieldset;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
@@ -28,12 +28,12 @@ public class FieldSetRowCompiler implements BaseSourceCompiler<FieldSet.Row, N2o
         row.setProperties(p.mapAndResolveAttributes(source));
         if (source.getItems() != null) {
             List<FieldSet.Column> columns = new ArrayList<>();
-            for (SourceComponent item : source.getItems()) {
+            for (FieldsetItem item : source.getItems()) {
                 if (item instanceof N2oFieldsetColumn) {
                     columns.add(p.compile(item, context));
                 } else {
                     N2oFieldsetColumn newCol = new N2oFieldsetColumn();
-                    newCol.setItems(new SourceComponent[]{item});
+                    newCol.setItems(new FieldsetItem[]{item});
                     columns.add(p.compile(newCol, context));
                 }
             }

@@ -5,12 +5,14 @@ import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.control.N2oSearchButtons;
+import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.control.filter_buttons.N2oClearButton;
+import net.n2oapp.framework.api.metadata.control.filter_buttons.N2oFilterButtonField;
+import net.n2oapp.framework.api.metadata.control.filter_buttons.N2oSearchButtons;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
@@ -18,8 +20,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Abstrac
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Models;
-import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.table.*;
@@ -35,7 +35,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -205,49 +204,48 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         AbstractTable.Filter filter = new AbstractTable.Filter();
         filter.setFilterFieldsets(fieldSets);
         filter.setFilterButtonId("filter");
-        List<N2oSearchButtons> searchButtons = new ArrayList<>();
-        findSearchButton(
+        filter.setFetchOnClear(castDefault(source.getFilters().getFetchOnClear(), () -> p.resolve(property("n2o.api.widget.table.fetch_on_clear"), Boolean.class)));
+        List<N2oField> searchButtons = new ArrayList<>();
+        findSearchButtons(
                 source.getFilters().getItems(),
                 searchButtons
         );
-        filter.setBlackResetList(
-                new ArrayList<>(
-                        searchButtons.stream()
-                                .filter(f -> f.getClearIgnore() != null)
-                                .flatMap(f -> Arrays.stream(f.getClearIgnore().split(",")))
-                                .map(String::trim)
-                                .collect(Collectors.toSet())
-                )
-        );
+        filter.setBlackResetList(initBlackResetList(searchButtons));
         filter.setFilterPlace(castDefault(source.getFilters().getPlace(), FilterPosition.TOP));
-        boolean hasSearchButtons = fieldSets.stream()
-                .flatMap(fs -> fs.getRows() != null ? fs.getRows().stream() : Stream.empty())
-                .flatMap(r -> r.getCols() != null ? r.getCols().stream() : Stream.empty())
-                .flatMap(c -> c.getFields() != null ? c.getFields().stream() : Stream.empty())
-                .filter(StandardField.class::isInstance)
-                .map(f -> ((StandardField<?>) f).getControl())
-                .anyMatch(SearchButtons.class::isInstance);
-        filter.setSearchOnChange(source.getFilters().getSearchOnChange());
-        if (hasSearchButtons || (filter.getSearchOnChange() != null && filter.getSearchOnChange())) {
+        filter.setFetchOnChange(castDefault(source.getFilters().getFetchOnChange(), () -> p.resolve(property("n2o.api.widget.table.fetch_on_change"), Boolean.class)));
+        if (!searchButtons.isEmpty() || Boolean.TRUE.equals(filter.getFetchOnChange())) {
             filter.setHideButtons(true);
         }
         initInlineFiltersDatasource(compiled, source, p);
         compiled.setFilter(filter);
     }
 
-    private void findSearchButton(SourceComponent[] filters, List<N2oSearchButtons> searchButtons) {
+    private void findSearchButtons(SourceComponent[] filters, List<N2oField> searchButtons) {
         if (filters == null)
             return;
         for (SourceComponent f : filters) {
-            if (f instanceof N2oSearchButtons) {
-                searchButtons.add((N2oSearchButtons) f);
-            } else if (f instanceof N2oFieldsetRow) {
-                findSearchButton(((N2oFieldsetRow) f).getItems(), searchButtons);
-            } else if (f instanceof N2oFieldsetColumn) {
-                findSearchButton(((N2oFieldsetColumn) f).getItems(), searchButtons);
+            if (f instanceof N2oSearchButtons || f instanceof N2oFilterButtonField) {
+                searchButtons.add((N2oField) f);
+            } else if (f instanceof FieldsetItem) {
+                findSearchButtons(((FieldsetItem) f).getItems(), searchButtons);
             }
         }
     }
+
+    private List<String> initBlackResetList(List<N2oField> searchButtons) {
+        List<String> blackResetList = new ArrayList<>();
+        searchButtons.forEach(f -> Arrays.stream(getIgnore(f)).collect(Collectors.toCollection(() -> blackResetList)));
+        return blackResetList;
+    }
+
+    private String[] getIgnore(N2oField field) {
+        if (field instanceof N2oSearchButtons && (((N2oSearchButtons) field).getClearIgnore() != null))
+            return ((N2oSearchButtons) field).getClearIgnore();
+        if (field instanceof N2oClearButton && (((N2oClearButton) field).getIgnore() != null))
+            return ((N2oClearButton) field).getIgnore();
+        return new String[]{};
+    }
+
 
     /**
      * Инициализация встроенного источника данных

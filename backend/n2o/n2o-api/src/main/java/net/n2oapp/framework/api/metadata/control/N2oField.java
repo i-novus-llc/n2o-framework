@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -18,7 +19,7 @@ import java.util.Arrays;
  */
 @Getter
 @Setter
-public abstract class N2oField extends N2oComponent implements IdAware {
+public abstract class N2oField extends N2oComponent implements IdAware, FieldsetItem {
     private String id;
     private String visible;
     private String required;
@@ -51,6 +52,11 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     @Deprecated
     public void setRefWidgetId(String refWidgetId) {
         this.refDatasourceId = refWidgetId;
+    }
+
+    @Override
+    public FieldsetItem[] getItems() {
+        return null;
     }
 
     /**

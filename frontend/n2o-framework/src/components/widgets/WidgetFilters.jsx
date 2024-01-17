@@ -30,27 +30,29 @@ export const WidgetFilterContext = createContext({
 
 const WidgetFilters = (props) => {
     const {
-        hideButtons = false,
         widgetId,
         fieldsets,
         fetchData,
-        searchOnChange,
+        fetchOnChange,
         blackResetList,
         filterFieldsets: propsFilterFieldsets,
         datasource,
+        hideButtons = false,
+        fetchOnClear = true,
     } = props
+
     const { getState } = useStore()
     const dispatch = useDispatch()
     /*
      * временно заиспользовал edit модель, чтобы не сетить в фильтр пока явно не нажата кнопка "поиск"
      * хак не имеет смысла, когда включено автообновление по мере ввода
      */
-    const modelPrefix = searchOnChange ? ModelPrefix.filter : ModelPrefix.edit
+    const modelPrefix = fetchOnChange ? ModelPrefix.filter : ModelPrefix.edit
     /*
      * филды с подмененными links в DataProvider (c filter на edit)
      */
     const modifiedFilterFieldsets = useMemo(() => modelLinkMapper(propsFilterFieldsets), [propsFilterFieldsets])
-    const filterFieldsets = searchOnChange ? propsFilterFieldsets : modifiedFilterFieldsets
+    const filterFieldsets = fetchOnChange ? propsFilterFieldsets : modifiedFilterFieldsets
     const fieldsKeys = useMemo(() => {
         const resolved = Object.values(propsResolver(fieldsets) || {})
 
@@ -63,15 +65,11 @@ const WidgetFilters = (props) => {
 
     // update default-values on init for edit-model
     useEffect(() => {
-        if (modelPrefix === ModelPrefix.filter) {
-            return
-        }
+        if (modelPrefix === ModelPrefix.filter) { return }
 
         const reduxEditModel = getModelByPrefixAndNameSelector(ModelPrefix.edit, datasource, EMPTY_OBJECT)(getState())
 
-        if (isEqual(reduxEditModel, reduxFilterModel)) {
-            return
-        }
+        if (isEqual(reduxEditModel, reduxFilterModel)) { return }
 
         dispatch(setModel(modelPrefix, datasource, reduxFilterModel, true))
     }, [datasource, dispatch, getState, modelPrefix, reduxFilterModel])
@@ -87,21 +85,17 @@ const WidgetFilters = (props) => {
         fetchData({ page: 1 }, forceUpdate)
     }, [dispatch, fetchData, datasource, modelPrefix, reduxFormFilter])
 
-    const handleFilterByFilter = useCallback(() => {
-        handleFilter(true)
-    }, [handleFilter])
+    const handleFilterByFilter = useCallback(() => handleFilter(true), [handleFilter])
 
-    const handleReset = useCallback((fetchOnClear = true, forceFetch) => {
+    const handleReset = useCallback(() => {
         const filterModel = getModelByPrefixAndNameSelector(modelPrefix, datasource)(getState())
         const newReduxForm = cloneDeep(filterModel)
-        const toReset = difference(
+        const resetList = difference(
             map(flatFields(fieldsets, []), 'id'),
             blackResetList,
         )
 
-        toReset.forEach((field) => {
-            unset(newReduxForm, field)
-        })
+        resetList.forEach((field) => { unset(newReduxForm, field) })
 
         dispatch(setModel(modelPrefix, datasource, newReduxForm))
         if (modelPrefix === ModelPrefix.edit) {
@@ -109,21 +103,22 @@ const WidgetFilters = (props) => {
         }
 
         if (fetchOnClear) {
-            fetchData({ page: 1 }, forceFetch)
-        } else {
-            clearDatasourceModel()
-        }
-    }, [modelPrefix, datasource, getState, fieldsets, blackResetList, dispatch, fetchData, clearDatasourceModel])
+            fetchData({ page: 1 }, true)
 
-    const handleResetByFilter = useCallback(() => {
-        handleReset(true, true)
-    }, [handleReset])
+            return
+        }
+
+        clearDatasourceModel()
+    }, [
+        fetchOnClear, modelPrefix, datasource, getState, fieldsets,
+        blackResetList, dispatch, fetchData, clearDatasourceModel,
+    ])
+
+    const handleResetByFilter = useCallback(() => handleReset(), [handleReset])
 
     useEffect(() => {
-        if (searchOnChange && reduxFormFilter) {
-            fetchData({ page: 1 })
-        }
-    }, [fetchData, reduxFormFilter, searchOnChange])
+        if (fetchOnChange && reduxFormFilter) { fetchData({ page: 1 }) }
+    }, [fetchData, reduxFormFilter, fetchOnChange])
 
     /*
      * Хак чтобы скопировать валидацию с фильтр-модели, когда запрос делается не по изменению формы
@@ -141,11 +136,7 @@ const WidgetFilters = (props) => {
     }, [datasource, dispatch, filterMessages, getState, modelPrefix])
 
     return (
-        <WidgetFilterContext.Provider value={{
-            search: handleFilter,
-            reset: handleReset,
-        }}
-        >
+        <WidgetFilterContext.Provider value={{ search: handleFilter, reset: handleReset }}>
             <Filter
                 style={{ display: visible ? '' : 'none' }}
                 visible={visible}
@@ -172,7 +163,7 @@ WidgetFilters.propTypes = {
     blackResetList: PropTypes.array,
     fetchData: PropTypes.func,
     hideButtons: PropTypes.bool,
-    searchOnChange: PropTypes.bool,
+    fetchOnChange: PropTypes.bool,
     datasource: PropTypes.string,
     filterFieldsets: PropTypes.array,
 }

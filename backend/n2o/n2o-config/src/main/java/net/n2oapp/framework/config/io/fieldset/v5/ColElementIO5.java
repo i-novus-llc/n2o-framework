@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.fieldset.v5;
 
-import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -24,7 +24,7 @@ public class ColElementIO5 implements NamespaceIO<N2oFieldsetColumn> {
         p.attributeInteger(e, "size", col::getSize, col::setSize);
         p.attribute(e, "visible", col::getVisible, col::setVisible);
         p.anyAttributes(e, col::getExtAttributes, col::setExtAttributes);
-        p.anyChildren(e, null, col::getItems, col::setItems, p.anyOf(SourceComponent.class), DEFAULT_NAMESPACE, controlDefaultNamespace);
+        p.anyChildren(e, null, col::getItems, col::setItems, p.anyOf(FieldsetItem.class), DEFAULT_NAMESPACE, controlDefaultNamespace);
     }
 
     @Override

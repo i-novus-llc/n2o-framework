@@ -3,6 +3,9 @@ package net.n2oapp.framework.config.metadata.pack;
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.control.*;
+import net.n2oapp.framework.config.metadata.compile.control.filters_buttons.ClearButtonCompiler;
+import net.n2oapp.framework.config.metadata.compile.control.filters_buttons.SearchButtonCompiler;
+import net.n2oapp.framework.config.metadata.compile.control.filters_buttons.SearchButtonsCompiler;
 
 public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
@@ -32,6 +35,8 @@ public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ImageUploadCompiler(),
                 new CustomFieldCompiler(),
                 new SearchButtonsCompiler(),
+                new SearchButtonCompiler(),
+                new ClearButtonCompiler(),
                 new CustomControlCompiler(),
                 new TextCompiler(),
                 new SliderCompiler(),

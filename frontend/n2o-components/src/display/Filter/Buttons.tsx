@@ -15,17 +15,19 @@ export interface ButtonsProps extends Omit<TBaseProps, 'disabled'> {
 
 export function Buttons({
     className,
-    visible = true,
     searchLabel,
     resetLabel,
     searchDisabled,
     clearDisabled,
     onSearch,
     onReset,
+    visible = true,
 }: ButtonsProps) {
     const { t } = useTranslation()
 
-    return visible ? (
+    if (!visible) { return null }
+
+    return (
         <ButtonGroup className={className}>
             <Button disabled={searchDisabled} color="primary" onClick={onSearch}>
                 {searchLabel || t('search')}
@@ -34,5 +36,5 @@ export function Buttons({
                 {resetLabel || t('reset')}
             </Button>
         </ButtonGroup>
-    ) : null
+    )
 }

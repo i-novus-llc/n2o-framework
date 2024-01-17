@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.meta.control.*;
+import net.n2oapp.framework.api.metadata.meta.control.filters_buttons.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -35,7 +36,7 @@ public class CustomFieldCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testCustomFieldCompile.page.xml")
                 .get(new PageContext("testCustomFieldCompile"));
         Form form = (Form) page.getWidget();
-        CustomField field = (CustomField)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        CustomField field = (CustomField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("testId"));
         assertThat(field.getSrc(), is("testSrc"));
         assertThat(field.getLabel(), is("testLabel"));
@@ -55,7 +56,7 @@ public class CustomFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getControl(), instanceOf(CustomControl.class));
 
 
-        CustomField customField = (CustomField)form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
+        CustomField customField = (CustomField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(customField.getId(), is("testId2"));
         assertThat(customField.getSrc(), is("StandardField"));
 
@@ -67,11 +68,11 @@ public class CustomFieldCompileTest extends SourceCompileTestBase {
         assertThat(customField.getControls().get(1), instanceOf(Text.class));
 
 
-        CustomField customField3 = (CustomField)form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
+        CustomField customField3 = (CustomField) form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
         assertThat(customField3.getId(), is("testId3"));
         assertThat(customField3.getSrc(), is("StandardField"));
         assertThat(customField3.getControl(), instanceOf(CustomField.class));
-        CustomField customField31 = (CustomField)customField3.getControl();
+        CustomField customField31 = (CustomField) customField3.getControl();
         assertThat(customField31.getId(), is("testId31"));
         assertThat(customField31.getSrc(), is("StandardField"));
 

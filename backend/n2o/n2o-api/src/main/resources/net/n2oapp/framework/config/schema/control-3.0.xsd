@@ -31,6 +31,8 @@
     <xs:element name="rating" type="controlRating"/>
     <xs:element name="field" type="fieldCustom"/>
     <xs:element name="search-buttons" type="controlSearchButtonsDefinition"/>
+    <xs:element name="search-button" type="btn:buttonDefinition"/>
+    <xs:element name="clear-button" type="controlClearButtonDefinition"/>
     <xs:element name="slider" type="controlSliderDefinition"/>
     <xs:element name="alert" type="controlAlertDefinition"/>
     <xs:element name="progress" type="controlProgressDefinition"/>
@@ -684,14 +686,16 @@
                         <xs:documentation>Поля, игнорируемые при сбросе фильтров</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="fetch-on-clear" type="xs:boolean" default="true">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlClearButtonDefinition">
+        <xs:complexContent>
+            <xs:extension base="btn:buttonDefinition">
+                <xs:attribute name="ignore" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Запуск обновления модели после сброса</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="no-label" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>Не отображать заголовок</xs:documentation>
+                        <xs:documentation>Список полей (через запятую), которые не будут сбрасываться при очистке</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.fieldset;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oField;
@@ -63,7 +64,7 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
                             fieldSetItems.add(source.getItems()[i]);
                             i++;
                         }
-                        SourceComponent[] items = new SourceComponent[fieldSetItems.size()];
+                        FieldsetItem[] items = new FieldsetItem[fieldSetItems.size()];
                         newFieldSet.setItems(fieldSetItems.toArray(items));
                         fieldSet = newFieldSet;
                     }

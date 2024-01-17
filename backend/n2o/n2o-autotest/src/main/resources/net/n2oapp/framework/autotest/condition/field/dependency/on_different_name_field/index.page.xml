@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Зависимость от поля с другим именем в дровере">
-    <table id="table" query-id="data">
+    <table id="table">
+        <datasource query-id="data"/>
         <columns>
             <column text-field-id="id"/>
             <column text-field-id="region.name"/>
@@ -17,7 +18,7 @@
                              target-model="filter"/>
             </button>
         </toolbar>
-        <filters search-on-change="true">
+        <filters fetch-on-change="true">
             <row>
                 <hidden id="region"/>
                 <input-text id="regionFilter" label="Значение из поля дровера" enabled="false">
