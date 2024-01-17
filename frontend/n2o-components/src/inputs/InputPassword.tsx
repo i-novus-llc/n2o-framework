@@ -14,11 +14,8 @@ type InputPasswordProps = TBaseProps & TBaseInputProps<string> & {
 }
 
 export const InputPassword = ({
-    className = '',
     style,
     autoFocus,
-    showPasswordBtn = true,
-    value = '',
     placeholder,
     disabled,
     onPaste,
@@ -26,6 +23,9 @@ export const InputPassword = ({
     onBlur,
     onKeyDown,
     onChange,
+    value = '',
+    className = '',
+    showPasswordBtn = true,
 }: InputPasswordProps) => {
     const [showPass, setShowPass] = useState(false)
     const onToggleShowPass = () => setShowPass(!showPass)
@@ -38,7 +38,7 @@ export const InputPassword = ({
                 type={type}
                 style={style}
                 autoFocus={autoFocus}
-                value={value}
+                value={value || ''}
                 placeholder={placeholder}
                 disabled={disabled}
                 onPaste={onPaste}
@@ -47,7 +47,7 @@ export const InputPassword = ({
                 onKeyDown={onKeyDown}
                 onChange={onChange}
             />
-            {showPasswordBtn ? (
+            {showPasswordBtn && (
                 <Button
                     className="n2o-input-password-toggler"
                     onClick={onToggleShowPass}
@@ -56,7 +56,7 @@ export const InputPassword = ({
                 >
                     <i className={classNames('fa', showPass ? 'fa-eye-slash' : 'fa-eye')} />
                 </Button>
-            ) : null}
+            )}
         </div>
     )
 }
