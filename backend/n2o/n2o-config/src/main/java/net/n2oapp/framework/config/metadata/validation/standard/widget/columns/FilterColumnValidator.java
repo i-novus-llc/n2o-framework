@@ -22,7 +22,7 @@ public class FilterColumnValidator implements SourceValidator<N2oFilterColumn>, 
     public void validate(N2oFilterColumn source, SourceProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (source.getFilter() == null)
-            throw new N2oMetadataValidationException(String.format("В <filter-column text-field-id=%s> таблицы не задан фильтр",
+            throw new N2oMetadataValidationException(String.format("В <filter-column text-field-id=%s> таблицы не задан <filter>",
                     ValidationUtils.getIdOrEmptyString(source.getTextFieldId())));
 
         p.validate(source.getFilter(), widgetScope);

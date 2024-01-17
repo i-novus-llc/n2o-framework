@@ -71,6 +71,6 @@ public class TableValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testFilterColumnFilterExistence.page.xml")
         );
-        assertEquals("В <filter-column text-field-id='test'> таблицы не задан фильтр", exception.getMessage());
+        assertEquals("В <filter-column text-field-id='test'> таблицы не задан <filter>", exception.getMessage());
     }
 }
