@@ -3,13 +3,11 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { NavbarBrand } from 'reactstrap'
 
-import { parseExpression } from '../../../utils/evalExpression'
+import { needRender } from '../../SideBar/utils'
 
 import { NavbarBrandContent } from './NavbarBrandContent'
 
 export function Logo({ title, subtitle, className, style, href, src, showContent, isMiniView }) {
-    const needRender = text => text && !parseExpression(text)
-
     return (
         <section
             className={classNames(

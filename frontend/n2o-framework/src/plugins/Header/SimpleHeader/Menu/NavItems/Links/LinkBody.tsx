@@ -3,8 +3,9 @@ import classNames from 'classnames'
 import { BadgeProps } from 'reactstrap'
 
 import { Badge } from '@i-novus/n2o-components/lib/display/Badge/Badge'
+import { NavItemImage } from '@i-novus/n2o-components/lib/display/NavItemImage'
 
-import { NavItemImage } from '../../../../../../components/snippets/NavItemImage/NavItemImage'
+import { needRender } from '../../../../../SideBar/utils'
 
 interface LinkBodyProps {
     imageSrc?: string
@@ -21,7 +22,7 @@ export function LinkBody(props: LinkBodyProps) {
         <>
             {!imageSrc && icon && <i className={classNames('mr-1', icon)} />}
             <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
-            <Badge {...badge}>{title}</Badge>
+            <Badge {...badge}>{needRender(title) && title}</Badge>
         </>
     )
 }

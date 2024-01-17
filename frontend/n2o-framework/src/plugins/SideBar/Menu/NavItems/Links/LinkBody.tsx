@@ -5,7 +5,7 @@ import { NavItemImage } from '@i-novus/n2o-components/lib/display/NavItemImage'
 
 import { Badge } from '../../../../../components/snippets/Badge/Badge'
 import { Item } from '../../../../CommonMenuTypes'
-import { Icon, Title, getCurrentTitle } from '../../../utils'
+import { Icon, Title, getCurrentTitle, needRender } from '../../../utils'
 
 export interface ItemContent extends Item {
     sidebarOpen: boolean
@@ -24,15 +24,17 @@ export function LinkBody(props: ItemContent) {
             <Icon icon={icon} title={title || ''} src={src} sidebarOpen={sidebarOpen} />
             <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
             <Badge {...badge}>
-                <Title
-                    title={currentTitle}
-                    className={
-                        classNames(
-                            'n2o-sidebar__item-title',
-                            { visible: isStaticView ? true : showContent },
-                        )
-                    }
-                />
+                {needRender(currentTitle) && (
+                    <Title
+                        title={currentTitle}
+                        className={
+                            classNames(
+                                'n2o-sidebar__item-title',
+                                { visible: isStaticView ? true : showContent },
+                            )
+                        }
+                    />
+                )}
             </Badge>
         </>
     )

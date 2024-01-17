@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.application.menu;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
@@ -9,7 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.action.alert.AlertActionPayload;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.application.ApplicationIOv2;
+import net.n2oapp.framework.config.io.application.ApplicationIOv3;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
@@ -24,6 +25,8 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SimpleMenuCompileTest extends SourceCompileTestBase {
     
@@ -39,7 +42,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         builder.packs(new N2oAllPagesPack());
         builder.ios(
                 new NavMenuIOv3(),
-                new ApplicationIOv2()
+                new ApplicationIOv3()
         );
         builder.compilers(
                 new SimpleMenuCompiler(),
@@ -155,5 +158,27 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
 
         menuItem = menu.getItems().get(1).getSubItems().get(2);
         assertThat(menuItem.getSrc(), is("StaticMenuItem"));
+    }
+
+    @Test
+    void testValidateResolveNameNonDS() {
+        N2oException exception = assertThrows(N2oException.class,
+                () -> compile("net/n2oapp/framework/config/metadata/menu/testValidateResolveNameNonDS.application.xml")
+                        .get(new ApplicationContext("testValidateResolveNameNonDS")));
+        assertEquals("Меню имеет плейсхолдер name='{test}', но при этом не указан источник данных", exception.getMessage());
+    }
+
+    @Test
+    void testValidateResolveNameDropdownNonDS() {
+        N2oException exception = assertThrows(N2oException.class,
+                ()-> compile("net/n2oapp/framework/config/metadata/menu/testValidateResolveNameDropdownNonDS.application.xml")
+                        .get(new ApplicationContext("testValidateResolveNameDropdownNonDS")));
+        assertEquals("Меню имеет плейсхолдер name='{test}', но при этом не указан источник данных", exception.getMessage());
+    }
+
+    @Test
+    void testValidateResolveNameDS() {
+        compile("net/n2oapp/framework/config/metadata/menu/testValidateResolveNameDS.application.xml")
+                .get(new ApplicationContext("testValidateResolveNameDS"));
     }
 }

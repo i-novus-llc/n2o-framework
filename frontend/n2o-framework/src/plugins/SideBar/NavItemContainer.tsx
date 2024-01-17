@@ -7,6 +7,7 @@ import { Item, FactoryComponent } from '../CommonMenuTypes'
 import { DataSourceModels } from '../../core/datasource/const'
 import { FactoryContext } from '../../core/factory/context'
 import { FactoryLevels } from '../../core/factory/factoryLevels'
+import { parseExpression } from '../../utils/evalExpression'
 
 interface SidebarItemContainer {
     className?: string
@@ -42,9 +43,11 @@ export function NavItemContainer(props: SidebarItemContainer) {
     const { getComponent } = useContext(FactoryContext)
     const FactoryComponent: FactoryComponent = getComponent(src, FactoryLevels.SIDEBAR_ITEM)
 
-    if (!FactoryComponent) {
-        return null
-    }
+    if (!FactoryComponent) { return null }
+
+    const { title } = item
+
+    if (parseExpression(title)) { return null }
 
     return (
         <li

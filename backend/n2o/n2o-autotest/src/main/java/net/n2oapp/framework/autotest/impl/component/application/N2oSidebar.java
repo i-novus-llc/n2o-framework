@@ -83,8 +83,7 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
     @Override
     public Menu extra() {
         return N2oSelenide.collection(element()
-                        .$$(".navbar-collapse .navbar-nav")
-                        .get(1)
+                        .$(".n2o-sidebar__extra")
                         .$$("ul > li"), N2oMenu.class);
     }
 

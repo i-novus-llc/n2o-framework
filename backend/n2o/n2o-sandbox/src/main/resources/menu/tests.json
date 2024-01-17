@@ -74,6 +74,10 @@
           "name": "MenuAT. nonActionMenuItem"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/header/resolve_name",
+          "name": "MenuAT. resolveName"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/application/sidebar/simple",
           "name": "SidebarAT. testSidebar"
         },

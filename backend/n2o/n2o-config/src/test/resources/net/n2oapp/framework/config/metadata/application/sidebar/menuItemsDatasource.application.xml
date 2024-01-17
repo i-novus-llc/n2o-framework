@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0" welcome-page-id="testPage">
+    <datasources>
+        <datasource id="test"/>
+    </datasources>
+    <sidebars>
+        <sidebar datasource="test">
+            <nav>
+                <menu-item datasource="ds" name="{name}"/>
+                <menu-item name="{name}"/>
+                <dropdown-menu datasource="ds">
+                    <menu-item datasource="test" name="{name2}"/>
+                    <menu-item name="{name3}"/>
+                </dropdown-menu>
+                <dropdown-menu name="{name4}">
+                    <menu-item datasource="ds" name="{name5}"/>
+                    <menu-item name="{name6}"/>
+                </dropdown-menu>
+            </nav>
+            <extra-menu>
+                <menu-item datasource="ds" name="{name}"/>
+                <menu-item name="{name}"/>
+                <dropdown-menu datasource="ds">
+                    <menu-item datasource="test" name="{name2}"/>
+                    <menu-item name="{name3}"/>
+                </dropdown-menu>
+                <dropdown-menu name="{name4}">
+                    <menu-item datasource="ds" name="{name5}"/>
+                    <menu-item name="{name6}"/>
+                </dropdown-menu>
+            </extra-menu>
+        </sidebar>
+    </sidebars>
+</application>

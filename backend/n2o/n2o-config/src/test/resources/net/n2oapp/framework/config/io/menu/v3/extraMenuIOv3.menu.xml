@@ -29,12 +29,12 @@
     <dropdown-menu id="user"
                    name="Виктория"
                    image="/static/users/vika91.png"
-                   image-shape="circle">
+                   image-shape="circle" datasource="test">
         <dropdown-menu name="Отделы">
             <menu-item name="Отдел разработки">
                 <a href="/developers" target="application"/>
             </menu-item>
-            <menu-item name="Отдел тестирования">
+            <menu-item name="Отдел тестирования" datasource="test">
                 <a href="/testers" target="application"/>
             </menu-item>
         </dropdown-menu>
