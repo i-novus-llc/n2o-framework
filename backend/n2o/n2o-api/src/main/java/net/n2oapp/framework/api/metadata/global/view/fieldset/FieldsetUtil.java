@@ -1,6 +1,6 @@
 package net.n2oapp.framework.api.metadata.global.view.fieldset;
 
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class FieldsetUtil {
      */
 
     public static ArrayList<N2oField> getAllFields(N2oFieldSet fieldSet, ArrayList<N2oField> fieldArrayList) {
-        for (NamespaceUriAware item : fieldSet.getItems()) {
+        for (FieldsetItem item : fieldSet.getItems()) {
             if (item instanceof N2oField) {
                 fieldArrayList.add((N2oField) item);
             }
@@ -47,7 +47,7 @@ public class FieldsetUtil {
      */
 
     private static ArrayList<N2oField> getAllFieldsInRow(N2oFieldsetRow row, ArrayList<N2oField> fieldArrayList) {
-        for (NamespaceUriAware item : row.getItems()) {
+        for (FieldsetItem item : row.getItems()) {
             if (item instanceof N2oField) {
                 fieldArrayList.add((N2oField) item);
             }
@@ -70,7 +70,7 @@ public class FieldsetUtil {
      */
 
     private static ArrayList<N2oField> getAllFieldsInCol(N2oFieldsetColumn col, ArrayList<N2oField> fieldArrayList) {
-        for (NamespaceUriAware item : col.getItems()) {
+        for (FieldsetItem item : col.getItems()) {
             if (item instanceof N2oField) {
                 fieldArrayList.add((N2oField) item);
             }

@@ -50,7 +50,8 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
 
     private void filters(Element e, N2oTable.N2oTableFilters f, IOProcessor p) {
         p.attributeEnum(e, "place", f::getPlace, f::setPlace, FilterPosition.class);
-        p.attributeBoolean(e, "search-on-change", f::getSearchOnChange, f::setSearchOnChange);
+        p.attributeBoolean(e, "fetch-on-change", f::getFetchOnChange, f::setFetchOnChange);
+        p.attributeBoolean(e, "fetch-on-clear", f::getFetchOnClear, f::setFetchOnClear);
         p.attribute(e, "datasource", f::getDatasourceId, f::setDatasourceId);
         p.anyChildren(e,null, f::getItems, f::setItems, p.anyOf(SourceComponent.class), FieldsetIOv5.NAMESPACE, ControlIOv3.NAMESPACE);
     }

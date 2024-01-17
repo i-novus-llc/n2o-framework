@@ -24,7 +24,8 @@ public class N2oTableMerger extends N2oWidgetMerger<N2oTable> {
             setIfNotNull(source.getFilters()::setPlace, override.getFilters()::getPlace);
             setIfNotNull(source.getFilters()::setDatasourceId, override.getFilters()::getDatasourceId);
             setIfNotNull(source.getFilters()::setDatasource, override.getFilters()::getDatasource);
-            setIfNotNull(source.getFilters()::setSearchOnChange, override.getFilters()::getSearchOnChange);
+            setIfNotNull(source.getFilters()::setFetchOnChange, override.getFilters()::getFetchOnChange);
+            setIfNotNull(source.getFilters()::setFetchOnClear, override.getFilters()::getFetchOnClear);
             addIfNotNull(source.getFilters(), override.getFilters(), N2oTable.N2oTableFilters::setItems, N2oTable.N2oTableFilters::getItems);
         }
         setIfNotNull(source::setChildren, override::getChildren);

@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
@@ -291,7 +292,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     newFieldsetItems.add(fields[i]);
                     i++;
                 }
-                SourceComponent[] items = new SourceComponent[newFieldsetItems.size()];
+                FieldsetItem[] items = new FieldsetItem[newFieldsetItems.size()];
                 newFieldset.setItems(newFieldsetItems.toArray(items));
                 fieldSet = newFieldset;
             }

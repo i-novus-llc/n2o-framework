@@ -1300,7 +1300,7 @@
                         <xs:documentation>Позиция фильтров.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="search-on-change" type="xs:boolean" default="false">
+                <xs:attribute name="fetch-on-change" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Запускать фильтрацию по мере ввода.</xs:documentation>
                     </xs:annotation>
@@ -1310,6 +1310,11 @@
                         <xs:documentation>
                             Идентификатор источника данных значений по умолчанию для фильтров.
                         </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fetch-on-clear" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Запуск обновления модели после сброса</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

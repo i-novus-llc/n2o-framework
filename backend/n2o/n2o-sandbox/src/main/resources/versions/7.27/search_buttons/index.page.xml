@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Кнопки поиска и сброса в фильтрах таблицы">
+    <datasources>
+        <datasource id="ds1" query-id="test"/>
+    </datasources>
+    <regions>
+        <table id="table" datasource="ds1">
+            <columns>
+                <column text-field-id="fio"/>
+                <column text-field-id="region.name" label="Регион"/>
+                <column text-field-id="department.name" label="Отделение"/>
+            </columns>
+            <filters>
+                <set>
+                    <row>
+                        <col size="4">
+                            <select id="region" label="Регион">
+                                <options>
+                                    <option id="1" name="Республика Татарстан"/>
+                                    <option id="2" name="Республика Марий-Эл"/>
+                                    <option id="3" name="Кабардино-Балкарская Республика"/>
+                                </options>
+                            </select>
+                        </col>
+                        <col size="4">
+                            <select id="department" label="Отделение">
+                                <options>
+                                    <option id="1" name="МФЦ Авиастроительный отдел"/>
+                                    <option id="2" name="МФЦ г. Звенигово"/>
+                                    <option id="3" name="Филиал ГБУ «МФЦ КБР» по Урванскому муниципальному району"/>
+                                </options>
+                            </select>
+                        </col>
+                        <col size="2">
+                            <row>
+                                <search-buttons search-label="Поиск" reset-label="Сброс"/>
+                            </row>
+                        </col>
+                    </row>
+                </set>
+            </filters>
+        </table>
+    </regions>
+</page>

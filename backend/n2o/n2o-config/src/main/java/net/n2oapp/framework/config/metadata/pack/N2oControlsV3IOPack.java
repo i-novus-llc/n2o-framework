@@ -2,8 +2,10 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
-import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.control.v3.*;
+import net.n2oapp.framework.config.io.control.v3.filters_buttons.ClearButtonIOv3;
+import net.n2oapp.framework.config.io.control.v3.filters_buttons.SearchButtonIOv3;
+import net.n2oapp.framework.config.io.control.v3.filters_buttons.SearchButtonsIOv3;
 import net.n2oapp.framework.config.io.control.v3.interval.DateIntervalIOv3;
 import net.n2oapp.framework.config.io.control.v3.list.*;
 import net.n2oapp.framework.config.io.control.v3.plain.*;
@@ -39,6 +41,8 @@ public class N2oControlsV3IOPack implements MetadataPack<XmlIOBuilder<?>> {
                 new CodeEditorIOv3(),
                 new CodeViewerIOv3(),
                 new SearchButtonsIOv3(),
+                new SearchButtonIOv3(),
+                new ClearButtonIOv3(),
                 new CustomControlIOv3(),
                 new TextFieldIOv3(),
                 new SliderIOv3(),

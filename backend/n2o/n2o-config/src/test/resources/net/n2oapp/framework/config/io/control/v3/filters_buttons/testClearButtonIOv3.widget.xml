@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <filters>
+        <clear-button id="btn" badge="{badge}" badge-color="{color}" datasource="table" model="resolve"
+               icon="icon" color="primary" visible="true" enabled="true" class="test" style="test" tooltip-position="right"
+               src="testSrc" rounded="true" badge-position="left" badge-shape="square" badge-image="/static/candidate.png"
+               badge-image-position="right" badge-image-shape="square" ignore="name,type"/>
+    </filters>
+</table>

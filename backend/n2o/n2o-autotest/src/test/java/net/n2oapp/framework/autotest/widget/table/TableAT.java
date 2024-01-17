@@ -262,31 +262,6 @@ public class TableAT extends AutoTestBase {
     }
 
     @Test
-    void testFetchOnClear() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/search_buttons");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/search_buttons/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/search_buttons/test.query.xml")
-        );
-
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-
-        TableWidget table = page.widget(TableWidget.class);
-        InputText input = table.filters().fields().field("name").control(InputText.class);
-        input.click();
-        input.setValue("test");
-        table.filters().toolbar().button("Найти").click();
-        table.columns().rows().shouldHaveSize(4);
-
-        table.filters().toolbar().button("Сбросить").click();
-        table.columns().rows().shouldHaveSize(0);
-        verifyNeverGetDataInvocation(2, "Запрос за данными таблицы при fetch-on-clear=false");
-        input.shouldBeEmpty();
-        table.paging().shouldNotHaveTotalElements();
-    }
-
-    @Test
     void fetchOnVisibilityTest() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/fetch_on_visibility");
         builder.sources(

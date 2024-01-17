@@ -51,6 +51,8 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
         @JsonProperty
         private Boolean hideButtons;
         @JsonProperty
-        private Boolean searchOnChange;
+        private Boolean fetchOnChange;
+        @JsonProperty
+        private Boolean fetchOnClear;
     }
 }

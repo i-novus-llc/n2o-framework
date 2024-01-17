@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.fieldset;
 
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
@@ -62,12 +62,12 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
             return;
         FieldSetVisibilityScope visibilityScope = initVisibilityScope(source, p);
         List<FieldSet.Row> rows = new ArrayList<>();
-        for (SourceComponent item : source.getItems()) {
+        for (FieldsetItem item : source.getItems()) {
             if (item instanceof N2oFieldsetRow) {
                 rows.add(p.compile(item, context, visibilityScope, scopes));
             } else {
                 N2oFieldsetRow newRow = new N2oFieldsetRow();
-                newRow.setItems(new SourceComponent[]{item});
+                newRow.setItems(new FieldsetItem[]{item});
                 rows.add(p.compile(newRow, context, visibilityScope, scopes));
             }
         }

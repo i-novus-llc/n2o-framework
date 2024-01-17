@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
@@ -16,8 +17,8 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttributesAware, SourceComponent {
-    private SourceComponent[] items;
+public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttributesAware, SourceComponent, FieldsetItem {
+    private FieldsetItem[] items;
     private String label;
     private String description;
     private String src;

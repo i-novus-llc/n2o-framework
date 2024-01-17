@@ -19,7 +19,8 @@ public class N2oTable extends N2oAbstractTable {
     @Setter
     public static class N2oTableFilters implements Source {
         private FilterPosition place;
-        private Boolean searchOnChange;
+        private Boolean fetchOnChange;
+        private Boolean fetchOnClear;
         private SourceComponent[] items;
         private String datasourceId;
         @JsonIgnore

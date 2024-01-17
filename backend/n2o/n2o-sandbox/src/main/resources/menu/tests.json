@@ -473,10 +473,6 @@
           "name": "TableAT. testRowClickEnabled"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/widget/table/search_buttons",
-          "name": "TableAT. testFetchOnClear"
-        },
-        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/selection/active",
           "name": "TableSelectionAT. testActiveSelection"
         },
@@ -982,6 +978,22 @@
         {
           "templateId": "net/n2oapp/framework/autotest/markdown/wordwrap_and_read_from_data",
           "name": "MarkdownAT. wordwrapAndReadFromData"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/buttons/separate_buttons",
+          "name": "FilterButtonsAT. testSeparateButtons"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/buttons/search_buttons",
+          "name": "FilterButtonsAT. testSearchButtons"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/buttons/clear_button_fetch_on_clear",
+          "name": "FilterButtonsAT. testFetchOnClearWithClearButton"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/buttons/search_buttons_fetch_on_clear",
+          "name": "FilterButtonsAT. testFetchOnClear"
         }
       ]
     },

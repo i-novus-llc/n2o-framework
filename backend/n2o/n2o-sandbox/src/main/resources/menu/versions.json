@@ -2,6 +2,23 @@
   "name": "Версии",
   "sections": [
     {
+      "name": "7.27",
+      "templates": [
+        {
+          "templateId": "versions/7.27/search_buttons",
+          "name": "Кнопки поиска и сброса в фильтрах таблицы"
+        },
+        {
+          "templateId": "versions/7.27/search_button",
+          "name": "Кнопка поиска в фильтрах таблицы"
+        },
+        {
+          "templateId": "versions/7.27/clear_button",
+          "name": "Кнопка сброса в фильтрах таблицы"
+        }
+      ]
+    },
+    {
       "name": "7.26",
       "templates": [
         {

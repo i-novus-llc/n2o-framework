@@ -64,7 +64,7 @@ const SimpleButtonBody = ({
                 {...rest}
             >
                 {icon && <Icon name={icon} className="n2o-btn-icon" />}
-                {(children || label) && <span>{children || label}</span>}
+                {children || label}
                 {needBadge && (
                     <Badge
                         {...badge}

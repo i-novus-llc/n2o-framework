@@ -20,7 +20,7 @@
                 <column text-field-id="urgently.name" label="Срочность"/>
                 <column text-field-id="status.name" label="Статус"/>
             </columns>
-            <filters search-on-change="true">
+            <filters fetch-on-change="true">
                 <set field-label-location="left">
                     <row>
                         <hidden id="fio"/>
