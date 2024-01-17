@@ -35,7 +35,7 @@ type RatingState = {
     value: number
 }
 
-// TODO отказаться от rating  в параметрах в пользу value для единообразия со всеми полями ввода
+// TODO отказаться от rating в параметрах в пользу value для единообразия со всеми полями ввода
 export class Rating extends Component<RatingProps, RatingState> {
     id: string
 
@@ -46,10 +46,13 @@ export class Rating extends Component<RatingProps, RatingState> {
             value: prepareValue(props.rating, props.half),
         }
         this.id = generateId()
-        this.onChangeAndSetState = this.onChangeAndSetState.bind(this)
-        this.renderStars = this.renderStars.bind(this)
-        this.renderNullStar = this.renderNullStar.bind(this)
-        this.renderTooltip = this.renderTooltip.bind(this)
+    }
+
+    componentDidUpdate(prevProps: Readonly<RatingProps>, prevState: Readonly<RatingState>): void {
+        const { value } = this.state
+        const { value: propsValue } = this.props
+
+        if (value && propsValue === null) { this.setState({ value: 0 }) }
     }
 
     static getDerivedStateFromProps(props: RatingProps, state: RatingState) {
@@ -57,38 +60,35 @@ export class Rating extends Component<RatingProps, RatingState> {
         const rating = props.rating || value
 
         if (rating && (rating !== state.rating)) {
-            return {
-                rating,
-                value: prepareValue(rating, props.half),
-            }
+            return { rating, value: prepareValue(rating, props.half) }
         }
 
         return null
     }
 
-    onChangeAndSetState(value: string) {
+    onChangeAndSetState = (value: string) => {
         const newValue = Number(value)
         const { onChange } = this.props
 
-        this.setState({
-            value: newValue,
-            rating: newValue,
-        })
+        this.setState({ value: newValue, rating: newValue })
         onChange(newValue)
     }
 
-    renderTooltip() {
+    renderTooltip = () => {
         const { showTooltip } = this.props
+
+        if (!showTooltip) { return null }
+
         const { rating } = this.state
 
-        return showTooltip ? (
+        return (
             <UncontrolledTooltip placement="top" target={this.id}>
                 {round(+rating, 2)}
             </UncontrolledTooltip>
-        ) : null
+        )
     }
 
-    renderNullStar() {
+    renderNullStar = () => {
         const { value } = this.state
         const { readonly } = this.props
 
@@ -119,7 +119,7 @@ export class Rating extends Component<RatingProps, RatingState> {
         )
     }
 
-    renderStars(index: number) {
+    renderStars = (index: number) => {
         const { value } = this.state
         const { readonly } = this.props
 
