@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { ITEM_SRC } from '../constants'
+import { parseExpression } from '../../utils/evalExpression'
 
 export const getCurrentTitle = (isMiniView?: boolean, icon?: string, title?: string, imageSrc?: string) => {
     if (!title) {
@@ -67,3 +68,5 @@ export const Title = ({ title, className }: TitleProps) => {
 
     return <span className={className}>{title}</span>
 }
+
+export const needRender = (text?: string | null) => text && !parseExpression(text)

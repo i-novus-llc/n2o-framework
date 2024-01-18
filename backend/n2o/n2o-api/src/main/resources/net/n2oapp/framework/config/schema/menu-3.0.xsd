@@ -55,6 +55,11 @@
                 <xs:documentation>Наименование выпадающего меню</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор источника данных выпадающего меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Иконка выпадающего меню из https://fontawesome.com/v6/icons/</xs:documentation>
@@ -91,6 +96,11 @@
                 <xs:attribute name="name" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Наименование компонента меню</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор источника данных</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="src" type="xs:string">

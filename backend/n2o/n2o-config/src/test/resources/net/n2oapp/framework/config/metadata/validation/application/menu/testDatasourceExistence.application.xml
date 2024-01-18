@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <datasources>
+        <datasource id="ds"/>
+        <datasource id="ds2"/>
+    </datasources>
+    <header>
+        <nav>
+            <menu-item name="test" datasource="ds"/>
+            <dropdown-menu name="test2" datasource="ds">
+                <menu-item name="test3" datasource="ds2"/>
+            </dropdown-menu>
+        </nav>
+    </header>
+</application>

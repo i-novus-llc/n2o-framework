@@ -11,9 +11,11 @@ import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.event.Event;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
@@ -87,13 +89,20 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         header.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.header.src"), String.class)));
         header.setClassName(source.getCssClass());
         header.setStyle(StylesResolver.resolveStyles(source.getStyle()));
+        if (source.getDatasourceId() != null) {
+            N2oAbstractDatasource datasource = dataSourcesScope.get(source.getDatasourceId());
+            if (datasource != null)
+                datasource.setSize(p.resolve(property("n2o.api.header.size"), Integer.class));
+            header.setDatasource(source.getDatasourceId());
+        }
+        ComponentScope componentScope = new ComponentScope(source);
         Logo logo = new Logo();
-        logo.setTitle(source.getTitle());
+        logo.setTitle(p.resolveJS(source.getTitle()));
         logo.setSrc(source.getLogoSrc());
         logo.setHref(source.getHomePageUrl());
         header.setLogo(logo);
-        header.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context, dataSourcesScope) : new SimpleMenu());
-        header.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context, dataSourcesScope) : new SimpleMenu());
+        header.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context, dataSourcesScope, componentScope) : new SimpleMenu());
+        header.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context, dataSourcesScope, componentScope) : new SimpleMenu());
         header.setSearch(source.getSearchBar() != null ? p.compile(source.getSearchBar(), context) : null);
         header.setProperties(p.mapAttributes(source));
         if (source.getSidebarIcon() != null || source.getSidebarToggledIcon() != null) {
