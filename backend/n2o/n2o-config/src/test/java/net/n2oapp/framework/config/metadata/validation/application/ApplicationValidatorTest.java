@@ -5,9 +5,7 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.application.ApplicationIOv3;
 import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv3;
-import net.n2oapp.framework.config.io.datasource.DatasourceIOv1;
 import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
-import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.validation.standard.application.ApplicationValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
@@ -70,5 +68,21 @@ public class ApplicationValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/application/checkDatasourceIdsUnique.application.xml"));
         assertEquals("Источник данных 'ds1' встречается более чем один раз в метаданной приложения 'checkDatasourceIdsUnique'", exception.getMessage());
+    }
+
+    @Test
+    void testHeaderLinkTitleNotExistDS() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/application/header/applicationHeaderTitleValidate.application.xml"));
+        assertEquals("Заголовок компонента <header> имеет плейсхолдер, но при этом не указан источник данных", exception.getMessage());
+    }
+
+    @Test
+    void testHeaderDatasourceExistent() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/application/header/applicationHeaderDatasourceExistentValidate.application.xml"));
+        assertEquals("<header> ссылается на несуществующий источник данных 'ds2'", exception.getMessage());
     }
 }

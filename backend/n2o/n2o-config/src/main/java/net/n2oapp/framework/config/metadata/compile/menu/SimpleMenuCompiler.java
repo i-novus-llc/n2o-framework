@@ -1,10 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.menu;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.action.N2oOpenPage;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
@@ -15,10 +17,12 @@ import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +31,8 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static net.n2oapp.framework.api.StringUtils.hasLink;
+import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
@@ -63,16 +69,30 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         MenuItem compiled = new MenuItem();
         source.setId(castDefault(source.getId(), "mi" + idx.get()));
         compiled.setId(source.getId());
-        compiled.setTitle(source.getName());
         compiled.setIcon(source.getIcon());
         compiled.setImageSrc(p.resolveJS(source.getImage()));
         compiled.setImageShape(source.getImageShape());
-        compiled.setDatasource(source.getDatasourceId());
+
+        if (hasLink(source.getName()) && (source.getDatasourceId() == null &&
+                p.getScope(ComponentScope.class).unwrap(DatasourceIdAware.class).getDatasourceId() == null))
+            throw new N2oException(
+                    String.format("Меню имеет плейсхолдер name=%s, но при этом не указан источник данных",
+                            ValidationUtils.getIdOrEmptyString(source.getName())));
+
+        compiled.setTitle(p.resolveJS(source.getName()));
+
+        if (nonNull(source.getDatasourceId()))
+            compiled.setDatasource(source.getDatasourceId());
+        else if (p.getScope(ComponentScope.class) != null) {
+            compiled.setDatasource(p.getScope(ComponentScope.class).unwrap(DatasourceIdAware.class).getDatasourceId());
+        }
+
         if (source instanceof N2oSimpleMenu.MenuItem) {
             menuItem((N2oSimpleMenu.MenuItem) source, compiled, p, context);
         } else if (source instanceof N2oSimpleMenu.DropdownMenuItem) {
             dropdownMenu((N2oSimpleMenu.DropdownMenuItem) source, compiled, p, context, idx);
         }
+
         compiled.setProperties(p.mapAttributes(source));
 
         return compiled;
@@ -85,7 +105,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setPageId(initPageId(source.getAction()));
         if (isNull(source.getName()))
-            compiled.setTitle(initDefaultName(source.getAction(), p));
+            compiled.setTitle(p.resolveJS(initDefaultName(source.getAction(), p)));
         if (nonNull(source.getAction())) {
             Action action = p.compile(
                     source.getAction(),
@@ -134,8 +154,11 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     private void dropdownMenu(N2oSimpleMenu.DropdownMenuItem source, MenuItem item, CompileProcessor p, ApplicationContext context, IndexScope idx) {
         item.setSrc(p.resolve(property("n2o.api.menu.item.dropdown.src"), String.class));
         ArrayList<MenuItem> subItems = new ArrayList<>();
-        for (N2oSimpleMenu.AbstractMenuItem subItem : source.getMenuItems())
+        for (N2oSimpleMenu.AbstractMenuItem subItem : source.getMenuItems()) {
+            if (isNull(subItem.getDatasourceId()) && !isNull(source.getDatasourceId()))
+                subItem.setDatasourceId(source.getDatasourceId());
             subItems.add(createMenuItem(subItem, p, context, idx));
+        }
         item.setSubItems(subItems);
     }
 }

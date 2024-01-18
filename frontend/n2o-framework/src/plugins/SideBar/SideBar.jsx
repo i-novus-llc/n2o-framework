@@ -96,7 +96,7 @@ export function SideBar({
     logo,
     subtitle,
     menu,
-    extraMenu = [],
+    extraMenu = {},
     defaultState = sidebarView.mini,
     toggledState = sidebarView.maxi,
     onMouseEnter,
@@ -111,6 +111,7 @@ export function SideBar({
     const currentVisible = controlled ? sidebarOpen : visible
 
     const { items = [] } = menu
+    const { items: extraItems = [] } = extraMenu
 
     const needShowContent = () => {
         if (isStaticView && defaultState !== 'micro') {
@@ -170,7 +171,7 @@ export function SideBar({
             <div className="n2o-sidebar__footer">
                 {showContent && (
                     <div className="n2o-sidebar__extra">
-                        <ul className="n2o-sidebar__nav-list">{renderItems(extraMenu)}</ul>
+                        <ul className="n2o-sidebar__nav-list">{renderItems(extraItems)}</ul>
                     </div>
                 )}
                 {!controlled && !isStaticView && (

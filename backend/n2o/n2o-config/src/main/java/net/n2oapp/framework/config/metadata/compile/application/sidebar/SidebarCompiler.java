@@ -10,6 +10,7 @@ import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +45,7 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
         sidebar.setSubtitle(p.resolveJS(source.getSubtitle()));
         ComponentScope componentScope = new ComponentScope(source);
         sidebar.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context, componentScope) : new SimpleMenu());
-        sidebar.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context) : new SimpleMenu());
+        sidebar.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context, componentScope) : new SimpleMenu());
         sidebar.setSide(castDefault(source.getSide(), () -> p.resolve(property("n2o.api.sidebar.side"), Side.class)));
         sidebar.setDefaultState(castDefault(source.getDefaultState(), SidebarState.maxi));
         sidebar.setToggledState(castDefault(source.getToggledState(),

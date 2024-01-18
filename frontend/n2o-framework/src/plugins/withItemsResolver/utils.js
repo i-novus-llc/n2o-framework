@@ -5,10 +5,21 @@ import { libAsterisk } from '../Menu/helpers'
 
 export const EXPRESSION_SYMBOL = ':'
 
-const resolveItem = (item, datasourceModel) => {
+const resolveItem = (item, datasourceModels, datasource) => {
+    const { datasource: childrenDataSource } = item
+
+    let datasourceModel = null
+
+    if (childrenDataSource) {
+        datasourceModel = datasourceModels[childrenDataSource]?.[0]
+    } else {
+        datasourceModel = datasourceModels[datasource]?.[0]
+    }
+
     if (isEmpty(datasourceModel)) { return item }
 
     let newHref = item.href
+    let newTitle = item.title
 
     if (newHref) {
         const pathVariables = Object.entries(item.pathMapping)
@@ -32,16 +43,27 @@ const resolveItem = (item, datasourceModel) => {
         })
     }
 
+    if (newTitle) {
+        const { title } = propsResolver({ title: newTitle }, datasourceModel)
+
+        newTitle = title
+    }
+
     let newItems = []
 
     if (item.items) {
-        newItems = item.items.map(i => resolveItem(i, datasourceModel))
+        newItems = item.items.map(i => resolveItem(i, datasourceModels, childrenDataSource || datasource))
     }
 
-    return { ...item, ...(item.items && { items: newItems }), ...(item.href && { href: newHref }) }
+    return { ...item,
+        ...(item.items && { items: newItems }),
+        ...(item.href && { href: newHref }),
+        ...(item.title && { title: newTitle }),
+    }
 }
 
-export const resolveItems = (items, models) => items.map(item => resolveItem(item, models))
+export const resolveItems = (items, datasourceModels, datasource) => items
+    .map(item => resolveItem(item, datasourceModels, datasource))
 
 export const resolveExpression = (location, path) => {
     if (!location || !path) { return {} }

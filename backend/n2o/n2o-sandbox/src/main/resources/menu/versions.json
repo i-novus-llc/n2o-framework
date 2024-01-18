@@ -23,6 +23,10 @@
         {
           "templateId": "versions/7.26/normalize_date_time",
           "name": "Функции нормализации даты и времени"
+        },
+        {
+          "templateId": "versions/7.26/sub_menu_name_resolve",
+          "name": "Разрешение выражений в элементах меню"
         }
       ]
     },

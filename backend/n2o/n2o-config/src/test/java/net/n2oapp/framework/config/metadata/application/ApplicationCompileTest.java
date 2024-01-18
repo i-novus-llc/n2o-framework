@@ -173,4 +173,17 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
         assertThat(ds3.getDependencies().get(0).getOn(), is("models.resolve['ds1']"));
 
     }
+
+    @Test
+    void datasourceSizeWithHeaderSidebar() {
+        Application application = compile("net/n2oapp/framework/config/metadata/application/datasourceSizeWithHeaderSidebar.application.xml")
+                .get(new ApplicationContext("datasourceSizeWithHeaderSidebar"));
+        StandardDatasource ds = (StandardDatasource) application.getDatasources().get("ds1");
+        assertThat(ds.getId(), is("ds1"));
+        assertThat(ds.getProvider().getSize(), is(1));
+
+        ds = (StandardDatasource) application.getDatasources().get("ds2");
+        assertThat(ds.getId(), is("ds2"));
+        assertThat(ds.getProvider().getSize(), is(1));
+    }
 }

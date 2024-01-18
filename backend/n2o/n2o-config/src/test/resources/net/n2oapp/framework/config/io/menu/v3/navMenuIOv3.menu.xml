@@ -42,7 +42,8 @@
                    src="StaticMenuItem"
                    class="class"
                    style="background-color: blue"
-                   icon="fa fa-user">
+                   icon="fa fa-user"
+                   datasource="test">
             <a href="/profile" target="application"/>
         </menu-item>
         <menu-item name="Сообщения"
@@ -59,5 +60,6 @@
     </dropdown-menu>
     <dropdown-menu id="messages"
                    name="Сообщения"
-                   icon="fa fa-bell"/>
+                   icon="fa fa-bell"
+                   datasource="test"/>
 </nav>

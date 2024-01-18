@@ -7,6 +7,7 @@ import net.n2oapp.framework.autotest.api.collection.Menu;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.header.DropdownMenuItem;
+import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -37,7 +38,7 @@ public class MenuAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
-                new N2oControlsPack(), new N2oActionsPack());
+                new N2oControlsPack(), new N2oActionsPack(), new N2oAllDataPack());
     }
 
     @Test
@@ -324,5 +325,47 @@ public class MenuAT extends AutoTestBase {
         menu = page.header().extra();
         menu.anchor(0).shouldHaveLabel("fullname");
         menu.anchor(0).shouldNotBeClickable();
+    }
+
+    @Test
+    void resolveName() {
+        setJsonPath("net/n2oapp/framework/autotest/application/menu/header/resolve_name/");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/resolve_name/app.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/resolve_name/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/resolve_name/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/resolve_name/test2.query.xml")
+        );
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        SimpleHeader header = page.header();
+        Sidebar sidebar = page.sidebar();
+
+        header.shouldHaveBrandName("Хедер");
+
+        Menu menu = page.header().nav();
+        testMenu(menu);
+
+        menu = header.extra();
+        testMenu(menu);
+
+        menu = sidebar.nav();
+        testMenu(menu);
+
+        menu = sidebar.extra();
+        testMenu(menu);
+    }
+
+    private void testMenu(Menu menu) {
+        menu.anchor(0).shouldHaveLabel("test1");
+        menu.anchor(1).shouldHaveLabel("test2");
+        menu.dropdown(2).shouldHaveLabel("type1");
+        menu.dropdown(2).click();
+        menu.dropdown(2).item(0).shouldHaveLabel("test1");
+        menu.dropdown(2).item(1).shouldHaveLabel("test2");
+        menu.dropdown(3).shouldHaveLabel("type2");
+        menu.dropdown(3).click();
+        menu.dropdown(3).item(0).shouldHaveLabel("test2");
+        menu.dropdown(3).item(1).shouldHaveLabel("test1");
     }
 }

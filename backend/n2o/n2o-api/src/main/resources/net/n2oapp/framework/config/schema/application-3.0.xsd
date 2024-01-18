@@ -145,7 +145,7 @@
         </xs:attribute>
         <xs:attribute name="title" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Название в заголовке</xs:documentation>
+                <xs:documentation>Название в заголовке. Поддерживаются плейсхолдеры</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="home-page-url" type="xs:string">
@@ -161,6 +161,11 @@
         <xs:attribute name="sidebar-toggled-icon" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Иконка скрытия боковой панели, если не задана, значит кнопки не будет. Иконка из https://fontawesome.com/v6/icons/</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор источника данных.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>
