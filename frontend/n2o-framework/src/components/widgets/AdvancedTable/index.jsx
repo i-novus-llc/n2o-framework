@@ -7,7 +7,7 @@ import { createContext, useContext as useContextSelector } from 'use-context-sel
 import { N2OPagination } from '../Table/N2OPagination'
 import WidgetLayout from '../StandardWidget'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { dataSourceErrors, dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { Selection, TableActions, TableContainer } from '../../Table'
 import { withSecurityList } from '../../../core/auth/withSecurity'
@@ -57,6 +57,7 @@ const AdvancedTableContainer = (props) => {
 
         return model ? model.id : null
     })
+    const filterErrors = useSelector(dataSourceErrors(datasource, ModelPrefix.filter))
 
     const { place = 'bottomLeft' } = paging
     const pagination = {
@@ -171,6 +172,7 @@ const AdvancedTableContainer = (props) => {
                 >
                     {isInit ? (
                         <TableContainer
+                            filterErrors={filterErrors}
                             filterValue={filterModel}
                             refContainerElem={tableContainerElem}
                             actionListener={actionListener}
