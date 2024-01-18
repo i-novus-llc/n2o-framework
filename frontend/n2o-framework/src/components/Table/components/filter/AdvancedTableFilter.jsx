@@ -68,7 +68,7 @@ class AdvancedTableFilter extends Component {
     }
 
     render() {
-        const { children, field } = this.props
+        const { children, field, error } = this.props
         const { filterOpen, value } = this.state
         const { component, control, ...componentProps } = field
 
@@ -89,6 +89,7 @@ class AdvancedTableFilter extends Component {
                             onSearchClick={this.onSearchClick}
                             onResetClick={this.onResetClick}
                             component={component}
+                            error={error}
                             componentProps={{ ...componentProps, control: { ...control, value } }}
                         />
                     </DropdownMenu>
@@ -104,6 +105,7 @@ AdvancedTableFilter.propTypes = {
     onFilter: PropTypes.func,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     field: PropTypes.object,
+    error: PropTypes.object,
 }
 
 AdvancedTableFilter.defaultProps = {

@@ -1,21 +1,3 @@
-import { ValidationResult } from '../../../../core/validation/types'
-
-export function getValidationClass(message: ValidationResult): string | false {
-    if (!message) {
-        return false
-    }
-
-    if (message.severity === 'success') {
-        return 'is-valid'
-    }
-
-    if (message.severity === 'warning') {
-        return 'has-warning'
-    }
-
-    return 'is-invalid'
-}
-
 const INDEX_PLACEHOLDER = 'index'
 
 export const modifyOn = (

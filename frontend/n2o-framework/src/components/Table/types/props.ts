@@ -3,6 +3,7 @@ import { FC, RefObject, VFC } from 'react'
 
 import { Selection, TableActions } from '../enum'
 import { SortDirection } from '../../../core/datasource/const'
+import { Severity } from '../../../core/validation/types'
 
 import { Data, DataItem, ExpandedRows, SelectedRows } from './general'
 import { Row } from './row'
@@ -37,6 +38,7 @@ export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
             row?: Row
         }
     }
+    filterErrors: Record<string, Array<{ text: string, severity: Severity }>>
 }
 
 export type TableProps = {
