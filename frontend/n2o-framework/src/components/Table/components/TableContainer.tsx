@@ -90,6 +90,7 @@ TableContainer.defaultProps = {
     expandedRows: [],
     selectedRows: [],
     actionListener: () => {},
+    filterErrors: {},
 }
 
 TableContainer.displayName = 'TableContainer'
