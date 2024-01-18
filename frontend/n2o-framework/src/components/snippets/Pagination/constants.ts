@@ -48,6 +48,7 @@ export interface Pagination {
     prev?: boolean,
     next?: boolean,
     loading?: boolean,
+    visible?: boolean
 }
 
 export interface Total {
