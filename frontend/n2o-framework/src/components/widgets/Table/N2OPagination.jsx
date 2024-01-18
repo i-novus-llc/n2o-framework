@@ -21,15 +21,10 @@ export const N2OPagination = (props) => {
         loading,
         hasNext,
         count,
-        visible = true,
     } = props
     const { getComponent } = useContext(FactoryContext)
     const showCount = propShowCount || !isEmpty(datasource)
     const calculatedHasNext = count ? hasNext : (!loading && hasNext)
-
-    if (!visible) {
-        return null
-    }
 
     const Pagination = getComponent('Pagination', SNIPPETS)
 
