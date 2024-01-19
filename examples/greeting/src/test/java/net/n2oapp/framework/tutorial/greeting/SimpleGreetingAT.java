@@ -5,6 +5,7 @@ import io.qameta.allure.selenide.AllureSelenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,6 +49,6 @@ public class SimpleGreetingAT {
         inputText.clear();
         inputText.setValue("Иван");
         page.widget(FormWidget.class).toolbar().bottomLeft().button("Отправить").click();
-        page.alerts().alert(0).shouldHaveText("Привет, Иван");
+        page.alerts(Alert.Placement.topLeft).alert(0).shouldHaveText("Привет, Иван");
     }
 }
