@@ -3,7 +3,7 @@
     <operations>
         <operation id="create" success-text="Автомобиль добавлен в базу">
             <invocation>
-                <sql>INSERT INTO cars (id, name, price) VALUES (null, :name, :price);</sql>
+                <sql>INSERT INTO cars (name, price) VALUES (:name, :price);</sql>
             </invocation>
             <in>
                 <field id="name"/>

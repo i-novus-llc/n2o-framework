@@ -1,20 +1,19 @@
 CREATE TABLE IF NOT EXISTS car (
-  id int auto_increment PRIMARY KEY,
+  id INTEGER PRIMARY KEY auto_increment,
   name CHAR(50),
-  price INT8,
-  year DATE
+  price INTEGER
 );
 
-INSERT INTO car VALUES (null, 'Audi', 60000, '2007-01-01');
-INSERT INTO car VALUES (null, 'BMW', 64000, '2008-01-01');
-INSERT INTO car VALUES (null, 'Mercedes Benz', 53000, '2013-01-01');
-INSERT INTO car VALUES (null, 'Toyota', 94000, '1981-01-01');
-INSERT INTO car VALUES (null, 'Honda', 161000, '2014-01-01');
-INSERT INTO car VALUES (null, 'Mazda', 40000, '1994-01-01');
-INSERT INTO car VALUES (null, 'Nissan', 52000, '2012-01-01');
-INSERT INTO car VALUES (null, 'Renault', 60000, '2013-01-01');
-INSERT INTO car VALUES (null, 'Peugeot', 65000, '2014-01-01');
-INSERT INTO car VALUES (null, 'Citroen', 67000, '2012-01-01');
-INSERT INTO car VALUES (null, 'Ford', 77000, '2014-01-01');
-INSERT INTO car VALUES (null, 'Chevrolet', 32000, '2015-01-01');
-INSERT INTO car VALUES (null, 'Opel', 21000, '2010-01-01');
+INSERT INTO car(name, price) VALUES ('Audi', 60000);
+INSERT INTO car(name, price) VALUES ('BMW', 64000);
+INSERT INTO car(name, price) VALUES ('Mercedes Benz', 53000);
+INSERT INTO car(name, price) VALUES ('Toyota', 94000);
+INSERT INTO car(name, price) VALUES ('Honda', 161000);
+INSERT INTO car(name, price) VALUES ('Mazda', 40000);
+INSERT INTO car(name, price) VALUES ('Nissan', 52000);
+INSERT INTO car(name, price) VALUES ('Renault', 60000);
+INSERT INTO car(name, price) VALUES ('Peugeot', 65000);
+INSERT INTO car(name, price) VALUES ('Citroen', 67000);
+INSERT INTO car(name, price) VALUES ('Ford', 77000);
+INSERT INTO car(name, price) VALUES ('Chevrolet', 32000);
+INSERT INTO car(name, price) VALUES ('Opel', 21000);
