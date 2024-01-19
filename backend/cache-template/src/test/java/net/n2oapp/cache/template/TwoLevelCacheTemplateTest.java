@@ -1,28 +1,26 @@
 package net.n2oapp.cache.template;
 
-import net.n2oapp.context.StaticSpringContext;
 import net.sf.ehcache.Element;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-/**
- * User: iryabov
- * Date: 30.03.13
- * Time: 10:52
- */
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration("test-two-level-cache-context.xml")
+@Import(CacheTestConfig.class)
 public class TwoLevelCacheTemplateTest {
+
+    @Autowired
+    private CacheManager cacheManager;
 
     @Test
     void testFirstCacheMissAndSecondCacheMiss() {
-        CacheManager cacheManager = StaticSpringContext.getBean(CacheManager.class);
         TwoLevelCacheTemplate<Integer, String, String> twoLevelCacheTemplate = new TwoLevelCacheTemplate<>();
         twoLevelCacheTemplate.setCacheManager(cacheManager);
         String value = twoLevelCacheTemplate.execute("first", "second", 1, new TwoLevelCacheCallback<String, String>() {
@@ -37,12 +35,11 @@ public class TwoLevelCacheTemplateTest {
             }
 
         });
-        assert "test".equals(value);
+        assertEquals("test", value);
     }
 
     @Test
     void testFirstCacheMissAndSecondCacheHit() {
-        CacheManager cacheManager = StaticSpringContext.getBean(CacheManager.class);
         TwoLevelCacheTemplate<Integer, String, String> twoLevelCacheTemplate = new TwoLevelCacheTemplate<>();
         twoLevelCacheTemplate.setCacheManager(cacheManager);
         cacheManager.getCache("second").put(1, "test");
@@ -58,12 +55,11 @@ public class TwoLevelCacheTemplateTest {
             }
 
         });
-        assert "test".equals(value);
+        assertEquals("test", value);
     }
 
     @Test
     void testFirstCacheHit() {
-        CacheManager cacheManager = StaticSpringContext.getBean(CacheManager.class);
         TwoLevelCacheTemplate<Integer, String, String> twoLevelCacheTemplate = new TwoLevelCacheTemplate<>();
         twoLevelCacheTemplate.setCacheManager(cacheManager);
         cacheManager.getCache("first").put(1, "test");
@@ -79,32 +75,25 @@ public class TwoLevelCacheTemplateTest {
             }
 
         });
-        assert "test".equals(value);
+        assertEquals("test", value);
     }
 
     @Test
-    @Disabled
-    void testWriteBehindPutSyncEvictSync() throws InterruptedException {
-        CacheManager cacheManager = StaticSpringContext.getBean(CacheManager.class);
+    void testWriteBehindPutSyncEvictSync() {
         Cache cache = cacheManager.getCache("writeBehindCache");
         net.sf.ehcache.Cache nativeCache = (net.sf.ehcache.Cache) cache.getNativeCache();
         System.out.println("cache put:" + "test");
         nativeCache.putWithWriter(new Element(1, "test"));
         System.out.println("cache get:" + cache.get(1).get());
-        System.out.println("sleep:" + 2 + "s");
-        Thread.sleep(2000);
+
         System.out.println("cache evict:" + 1);
         System.out.println("cache get:" + cache.get(1).get());
         nativeCache.removeWithWriter(1);
         System.out.println("cache get:" + cache.get(1));
-        System.out.println("sleep:" + 2 + "s");
-        Thread.sleep(2000);
     }
 
     @Test
-    @Disabled
-    void testWriteBehindPutEvictSync() throws InterruptedException {
-        CacheManager cacheManager = StaticSpringContext.getBean(CacheManager.class);
+    void testWriteBehindPutEvictSync() {
         Cache cache = cacheManager.getCache("writeBehindCache");
         net.sf.ehcache.Cache nativeCache = (net.sf.ehcache.Cache) cache.getNativeCache();
         System.out.println("cache put:" + "test");
@@ -112,7 +101,5 @@ public class TwoLevelCacheTemplateTest {
         System.out.println("cache get:" + cache.get(1).get());
         System.out.println("cache evict:" + 1);
         nativeCache.removeWithWriter(1);
-        System.out.println("sleep:" + 2 + "s");
-        Thread.sleep(2000);
     }
 }

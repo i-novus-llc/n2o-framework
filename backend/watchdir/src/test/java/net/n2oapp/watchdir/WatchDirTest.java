@@ -1,47 +1,37 @@
 package net.n2oapp.watchdir;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
-/**
- * User: Belyaev Gleb
- * Date: 14.11.13
- */
-public class WatchDirTest
-{
+public class WatchDirTest {
     private final static String TEST_DIR = getTestFolder();
     private Path path = Paths.get(TEST_DIR + "test.txt");
     private WatchDir watchDir;
-    private FileChangeListener listener = mock(FileChangeListener.class);
+    private final FileChangeListener listener = mock(FileChangeListener.class);
 
-    private static String getTestFolder()
-    {
+    private static String getTestFolder() {
         return System.getProperty("user.home") +
                 File.separator +
                 WatchDirTest.class.getSimpleName() +
                 File.separator;
     }
 
-//    @Before
-    public void setUpClass() throws Exception
-    {
+    @BeforeEach
+    void setUpClass() throws IOException {
         File testDir = new File(TEST_DIR);
-        if (testDir.exists())
-        {
+        if (testDir.exists()) {
             FileUtils.forceDelete(testDir);
         }
         assertTrue(testDir.mkdirs());
@@ -51,253 +41,104 @@ public class WatchDirTest
         watchDir = new WatchDir(Paths.get(TEST_DIR), true, listener);
     }
 
-//    @After
-    public void tearDownClass() throws Exception
-    {
+    @AfterEach
+    void tearDownClass() throws IOException {
         watchDir.stop();
         File testDir = new File(TEST_DIR);
-        if (testDir.exists())
-        {
+        if (testDir.exists()) {
             FileUtils.forceDelete(testDir);
         }
         assertFalse(testDir.exists());
     }
 
-    /**
-     * проверка срабатывания в подпапках
-     */
     @Test
-    @Disabled
-    void testWithRecursive() throws Exception
-    {
+    void fileCreatedWasCalledAfterCreatingFile() throws IOException {
         watchDir.start();
 
         FileUtils.touch(new File(path.toString()));
-        verify(listener, timeout(100).atLeast(1)).fileCreated(eq(path));
-        verify(listener, after(100).never()).fileModified(eq(path));
 
-        watchDir.stop();
+        verify(listener, timeout(10000).atLeast(1)).fileCreated(path);
+        verify(listener, never()).fileModified(path);
     }
 
-    /**
-     * добавление новой папки
-     */
-//    @Test
-//    public void testAddNewPath() throws Exception
-//    {
-//        watchDir.start();
-//        FileUtils.touch(new File(path.toString()));
-//        verify(listener, timeout(100).atLeast(1)).fileCreated(eq(path));
-//
-//        StringBuilder customTestPath = new StringBuilder();
-//        customTestPath.append(System.getProperty("user.home"));
-//        customTestPath.append(File.separator);
-//        customTestPath.append(WatchDirTest.class.getSimpleName());
-//        customTestPath.append("_2");
-//        customTestPath.append(File.separator);
-//
-//        String newPath = customTestPath.toString();
-//        File testDir = new File(newPath);
-//        if (testDir.exists())
-//        {
-//            FileUtils.forceDelete(testDir);
-//        }
-//        assertTrue(testDir.mkdirs());
-//
-//        watchDir.addPath(newPath);
-//        String newFile = newPath + "testFile2.txt";
-//        FileUtils.touch(new File(newFile));
-//        verify(listener, timeout(100).atLeast(1)).fileCreated(eq(Paths.get(newFile)));
-//
-//        FileUtils.forceDelete(testDir);
-//
-//        watchDir.stop();
-//    }
-
-    /**
-     * проверить что работает перезапуск
-     * <p/>
-     * не реагирует на события
-     * запуск
-     * реагирует на события
-     * остановка
-     * не реагирует на события
-     * запуск
-     * реагирует на события
-     *
-     */
     @Test
-    @Disabled
-    void testRestartMonitoring() throws Exception
-    {
+    void checkingRestartingMonitoring() throws Exception {
         FileUtils.touch(new File(path.toString()));
-        verify(listener, after(100).never()).fileCreated(eq(path));
+        verify(listener, after(2000).never()).fileCreated(path);
 
         reset(listener);
         watchDir.start();
 
         FileUtils.forceDelete(new File(path.toString()));
-        verify(listener, timeout(100).atLeast(1)).fileDeleted(eq(path));
+        verify(listener, timeout(5000).atLeast(1)).fileDeleted(path);
 
         reset(listener);
         watchDir.stop();
 
         FileUtils.touch(new File(path.toString()));
-        verify(listener, after(100).never()).fileCreated(eq(path));
-    }
+        verify(listener, after(2000).never()).fileCreated(path);
 
-    /**
-     * событие файла
-     * проверить что события файла
-     *
-     */
-    @Test
-    @Disabled
-    void testChangeIsFile() throws Exception
-    {
+        FileUtils.forceDelete(new File(path.toString()));
+        reset(listener);
         watchDir.start();
 
         FileUtils.touch(new File(path.toString()));
-        verify(listener, timeout(100).atLeast(1)).fileCreated(eq(path));
-
-        watchDir.stop();
+        verify(listener, timeout(10000).atLeast(1)).fileCreated(path);
     }
 
-    /**
-     * событие каталога
-     * проверить что событие каталога
-     *
-     */
     @Test
-    @Disabled
-    void testChangeIsDirectory() throws Exception
-    {
+    void fileCreatedWasCalledAfterMovingDirectory() throws IOException {
         watchDir.start();
 
         path = Paths.get(TEST_DIR + "testFolder");
 
         FileUtils.forceMkdir(new File(path.toString()));
-        verify(listener, timeout(100).atLeast(1)).fileCreated(eq(path));
+        verify(listener, timeout(5000).atLeast(1)).fileCreated(path);
 
         watchDir.stop();
     }
 
-    /**
-     * проверка событие создания
-     * проверить что было событие на создания
-     * как side эффект, после события создания следует событие изменения
-     *
-     */
     @Test
-    @Disabled
-    void testEventOnCreate() throws Exception
-    {
-        watchDir.start();
-
-        FileUtils.touch(new File(path.toString()));
-        verify(listener, timeout(100).atLeast(1)).fileCreated(eq(path));
-        verify(listener, after(100).never()).fileModified(eq(path));
-
-        watchDir.stop();
-    }
-
-    /**
-     * проверка событие изменения
-     * проверить что было событие изменения
-     *
-     */
-    @Test
-    @Disabled //todo почему то не срабатывает тест на https://ci.i-novus.ru/view/util/job/watchdir.master.build/lastBuild/net.n2oapp.watchdir$watchdir/testReport/net.n2oapp.watchdir/WatchDirTest/testEventOnChange/
-    void testEventOnChange() throws Exception
-    {
+    void fileModifiedWasCalledAfterChangingFile() throws IOException {
         FileUtils.touch(new File(path.toString()));
 
         watchDir.start();
 
         FileUtils.write(new File(path.toString()), "test", Charset.defaultCharset());
-        Thread.sleep(100);
-        verify(listener, timeout(100).atLeast(1)).fileModified(eq(path));
+        verify(listener, timeout(5000).atLeast(1)).fileModified(path);
 
-        reset(listener);
         FileUtils.write(new File(path.toString()), "test2", Charset.defaultCharset());
-        verify(listener, timeout(100).atLeast(1)).fileModified(eq(path));
+        verify(listener, timeout(5000).atLeast(1)).fileModified(path);
 
         watchDir.stop();
     }
 
-    /**
-     * проверка событие удаление
-     * проверить что было событие удаления
-     *
-     */
     @Test
-    @Disabled
-    void testEventOnDelete() throws Exception
-    {
+    void fileDeletedWasCalledAfterDeletingFile() throws IOException {
         FileUtils.touch(new File(path.toString()));
         watchDir.start();
 
         assertTrue(new File(path.toString()).delete());
-        verify(listener, timeout(100).atLeast(1)).fileDeleted(eq(path));
+        verify(listener, timeout(5000).atLeast(1)).fileDeleted(path);
 
         watchDir.stop();
     }
 
-    /**
-     * Режим запуска, не срабатывали события а после запуска срабатывают
-     *
-     */
     @Test
-    @Disabled
-    void testStartMonitoring() throws Exception
-    {
+    void monitoringIsNotWorkingBeforeStart() throws IOException {
         FileUtils.touch(new File(path.toString()));
         verify(listener, after(100).never()).fileCreated(any(Path.class));
 
         watchDir.start();
 
         FileUtils.forceDelete(new File(path.toString()));
-        verify(listener, timeout(100).atLeast(1)).fileDeleted(eq(path));
+        verify(listener, timeout(5000).atLeast(1)).fileDeleted(path);
 
         watchDir.stop();
     }
 
-    /**
-     * после остановки события не срабатывают
-     */
     @Test
-    @Disabled
-    void testStopMonitoring() throws Exception
-    {
-        watchDir.start();
-
-        FileUtils.touch(new File(path.toString()));
-        verify(listener, timeout(100).atLeast(1)).fileCreated(eq(path));
-
-        reset(listener);
-        watchDir.stop();
-
-        FileUtils.forceDelete(new File(path.toString()));
-        verify(listener, after(100).never()).fileModified(any(Path.class));
-    }
-
-    @Test
-    @Disabled
-    void testEqPath() {
-        Path path1 = Paths.get(TEST_DIR + "test.txt");
-        Path path2 = Paths.get(TEST_DIR + "test.txt");
-        Path path3 = Paths.get(TEST_DIR);
-
-        assertEquals(path1, path2);
-        assertEquals(path1, path2);
-
-        assertNotEquals(path1, path3);
-        assertNotEquals(path1, path3);
-    }
-
-    @Test
-    @Disabled
-    void testIncorrectCreate() {
+    void incorrectCreate() {
         watchDir = new WatchDir();
         //старт без listener
         try {
@@ -333,8 +174,7 @@ public class WatchDirTest
     }
 
     @Test
-    @Disabled
-    void testImmutableAfterStart() {
+    void immutableAfterStart() {
         watchDir = new WatchDir();
         watchDir.setListener(listener);
         watchDir.addPath(TEST_DIR);

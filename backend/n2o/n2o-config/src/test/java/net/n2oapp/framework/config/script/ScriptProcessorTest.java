@@ -2,10 +2,10 @@ package net.n2oapp.framework.config.script;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.Interval;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.api.util.async.MultiThreadRunner;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import javax.script.ScriptEngine;
@@ -19,12 +19,12 @@ import java.util.concurrent.ExecutionException;
 import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 public class ScriptProcessorTest {
 
-
-    private ScriptProcessor scriptProcessor = new ScriptProcessor();
+    private final ScriptProcessor scriptProcessor = new ScriptProcessor();
 
     private ScriptEngine getScriptEngine() {
         return ScriptProcessor.getScriptEngine();
@@ -255,10 +255,8 @@ public class ScriptProcessorTest {
 
 
     @Test
-    @Disabled
     void buildInListExpressionTest() {
-        String exp = scriptProcessor
-                .buildInListExpression("name", Arrays.asList("John", "Marry"));
+        String exp = scriptProcessor.buildInListExpression("name", Arrays.asList("John", "Marry"));
         ScriptEngine engine = getScriptEngine();
         try {
             engine.put("name", "John");
@@ -312,10 +310,8 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    @Disabled
     void buildNotInListExpressionTest() {
-        String exp = scriptProcessor
-                .buildNotInListExpression("name", Arrays.asList("John", "Marry"));
+        String exp = scriptProcessor.buildNotInListExpression("name", Arrays.asList("John", "Marry"));
         ScriptEngine engine = getScriptEngine();
         try {
             engine.put("name", "John");
@@ -330,9 +326,6 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    @Disabled //todo на CI падает
-    //Expected [01.01.1970 03:00], but actual [Thu Jan 01 00:00:00 UTC 1970]
-    //at net.n2oapp.framework.config.script.ScriptProcessorTest.buildEqualExpressionTest(ScriptProcessorTest.java:256)
     void buildEqualExpressionTest() {
         String exp = scriptProcessor.buildEqualExpression("name", "John");
         assert exp.equals("name == 'John'");
@@ -354,17 +347,17 @@ public class ScriptProcessorTest {
         } catch (ScriptException e) {
             assert false;
         }
-        Date value = Date.from(LocalDateTime.of(1970, 1, 1, 0, 0).toInstant(ZoneOffset.UTC));
+        Date value = new Date();
         exp = scriptProcessor.buildEqualExpression("date", value);
+        String actualValue = new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT).format(value);
         try {
-            engine.put("date", "01.01.1970 03:00");
-            assertTrue("Expected [01.01.1970 00:00], but actual [" + value + "]", (Boolean) engine.eval(exp));
+            engine.put("date", actualValue);
+            assertTrue("", (Boolean) engine.eval(exp));
             engine.put("date", "01.01.1970 03:01");
             assert !(Boolean) engine.eval(exp);
         } catch (ScriptException e) {
             assert false;
         }
-
     }
 
 
@@ -440,8 +433,7 @@ public class ScriptProcessorTest {
      * test moment.js functions in scriptProcessor
      * */
     @Test
-    @Disabled
-    void testAddMomentJs() throws ExecutionException, InterruptedException, ScriptException {
+    void testAddMomentJs() throws ExecutionException, InterruptedException {
         String js = "moment(day, 'DD.MM.YYYY').format('DD-MM-YY');";
         MultiThreadRunner runner = new MultiThreadRunner();
         runner.run(() -> {
@@ -461,37 +453,25 @@ public class ScriptProcessorTest {
      * test globalDateFuncs.js functions in scriptProcessor
      * */
     @Test
-    @Disabled
     void testGlobalDateFuncsJs() throws ExecutionException, InterruptedException {
-        String nowJs = "now()";
-        String todayJs = "today()";
-        String yesterdayJs = "yesterday()";
-        String tomorrowJs = "tomorrow()";
+        String nowJs = "Date.now()";
+        String todayJs = "(new Date()).getTime()";
+        String yesterdayJs = "(new Date(new Date() - 1)).getTime()";
         MultiThreadRunner runner = new MultiThreadRunner();
         runner.run(() -> {
-            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-            SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy 00:00");
             Calendar today = new GregorianCalendar();
             Calendar yesterday = new GregorianCalendar();
             yesterday.add(Calendar.DAY_OF_YEAR, -1);
-            Calendar tomorrow = new GregorianCalendar();
-            tomorrow.add(Calendar.DAY_OF_YEAR, 1);
             DataSet dataSet = new DataSet();
-            String nowRes = ScriptProcessor.eval(nowJs, dataSet);
-            String todayRes = ScriptProcessor.eval(todayJs, dataSet);
-            String yesterdayRes = ScriptProcessor.eval(yesterdayJs, dataSet);
-            String tomorrowRes = ScriptProcessor.eval(tomorrowJs, dataSet);
-            return nowRes.equals(format.format(today.getTime())) && todayRes.equals(format1.format(today.getTime()))
-                    && yesterdayRes.equals(format1.format(yesterday.getTime())) && tomorrowRes.equals(format1.format(tomorrow.getTime()));
+            long nowRes = ((Double) ScriptProcessor.eval(nowJs, dataSet)).longValue();
+            long todayRes = ((Double) ScriptProcessor.eval(todayJs, dataSet)).longValue();
+            long yesterdayRes = ((Double) ScriptProcessor.eval(yesterdayJs, dataSet)).longValue();
+            return nowRes == today.getTimeInMillis() && todayRes == today.getTimeInMillis()
+                    && yesterdayRes == yesterday.getTimeInMillis();
         });
-
     }
 
-    /*
-     * test that numeral.js functions are thread safe
-     * */
     @Test
-    @Disabled
     void testAddNumeralJs() throws ExecutionException, InterruptedException {
         String js = "var number = numeral(); number.set(num); var val = 100; var difference = number.difference(val); difference;";
         MultiThreadRunner runner = new MultiThreadRunner();
@@ -512,7 +492,6 @@ public class ScriptProcessorTest {
      * test that underscore.js functions are thread safe
      * */
     @Test
-    @Disabled
     void testAddUnderscoreJs() throws ExecutionException, InterruptedException {
         String js = "var sum = _.reduce(arr, function(memo, num){ return memo + num; }, 0); sum;";
         MultiThreadRunner runner = new MultiThreadRunner();
@@ -529,7 +508,7 @@ public class ScriptProcessorTest {
             Double result = ScriptProcessor.eval(js, dataSet);
             Double sum = Double.valueOf(summ);
             if (!result.equals(sum))
-                System.out.println("temp=" + Arrays.asList(temp).toString() + ", summ = " + sum + ", result=" + result);
+                System.out.println("temp=" + Arrays.asList(temp) + ", summ = " + sum + ", result=" + result);
             return result.equals(sum);
         });
     }

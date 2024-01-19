@@ -1,50 +1,53 @@
 package net.n2oapp.properties;
 
-import org.junit.jupiter.api.Disabled;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
-/**
- * @author operehod
- * @since 05.06.2015
- */
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 public class ReloadablePropertiesTest {
 
     @Test
-    @Disabled
-    void test() throws Exception {
+    void checkingExistingPropertiesThanUpdatingThemAndCreatingNew() {
         ReloadableProperties properties = new ReloadableProperties(new ClassPathResource("prop1.properties"));
         properties.setCacheTime(1);
-        assert properties.getResource().getFilename().equals("prop1.properties");
-        assert properties.getProperty("test.one").equals("one");
-        assert properties.getProperty("test.two").equals("error");
-        assert properties.getProperty("test.three").equals("error");
+        assertEquals("prop1.properties", properties.getResource().getFilename());
+        assertEquals("one", properties.getProperty("test.one"));
+        assertEquals("error", properties.getProperty("test.two"));
+        assertEquals("error", properties.getProperty("test.three"));
+
         //меняем исходный файл
         properties.setResource(new ClassPathResource("prop2.properties"));
-        assert properties.getResource().getFilename().equals("prop2.properties");
+        assertEquals("prop2.properties", properties.getResource().getFilename());
+
         //properties не меняются
-        assert properties.getProperty("test.one").equals("one");
-        assert properties.getProperty("test.two").equals("error");
-        assert properties.getProperty("test.three").equals("error");
-        //ждем полторый секунды
-        Thread.sleep(1500);
+        assertEquals("one", properties.getProperty("test.one"));
+        assertEquals("error", properties.getProperty("test.two"));
+        assertEquals("error", properties.getProperty("test.three"));
+
+        //ждем полторы секунды, пока не поменяются проперти
+        Awaitility.await()
+                .atMost(1500, TimeUnit.MILLISECONDS)
+                .until(()-> "two".equals(properties.getProperty("test.two")));
+
         //properties поменялись
-        assert properties.getResource().getFilename().equals("prop2.properties");
-        assert properties.getProperty("test.two").equals("two");
-        assert properties.getProperty("test.three").equals("three");
-        assert properties.getProperty("test.four").equals("four");
+        assertEquals("prop2.properties", properties.getResource().getFilename());
+        assertEquals("two", properties.getProperty("test.two"));
+        assertEquals("three", properties.getProperty("test.three"));
+        assertEquals("four", properties.getProperty("test.four"));
 
         properties.updateProperty("newProperty", "newValue");
-        Thread.sleep(1500);
-        assert properties.getProperty("newProperty").equals("newValue");
+        assertEquals("newValue", properties.getProperty("newProperty"));
     }
 
     @Test
-    @Disabled
-    void testFileNotExist() throws InterruptedException {
+    void checkingPropertiesIfFileNotExist() {
         FileSystemResource fileSystemResource = new FileSystemResource(System.getProperty("user.home") + File.separator + "test.properties");
         fileSystemResource.getFile().deleteOnExit();
 
@@ -52,13 +55,10 @@ public class ReloadablePropertiesTest {
         properties.setCacheTime(1);
         properties.updateProperty("newProperty", "newValue");
 
-        Thread.sleep(1500);
-        assert properties.getProperty("newProperty").equals("newValue");
+        assertEquals("newValue", properties.getProperty("newProperty"));
 
         properties.removeProperty("newProperty");
-        Thread.sleep(1500);
 
-        assert properties.getProperty("newProperty") == null;
-
+        assertNull(properties.getProperty("newProperty"));
     }
 }

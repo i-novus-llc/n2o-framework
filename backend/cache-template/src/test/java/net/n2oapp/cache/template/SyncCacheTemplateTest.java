@@ -1,7 +1,6 @@
 package net.n2oapp.cache.template;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.cache.CacheManager;
 
@@ -22,7 +21,7 @@ public class SyncCacheTemplateTest {
     }
 
     @Test
-    public void testBase() {
+    void testBase() {
         MockCache cache = new MockCache();
         when(cacheManager.getCache("test")).thenReturn(cache);
         CacheTemplate<String, String> cacheTemplate = new SyncCacheTemplate<>(cacheManager);
@@ -43,34 +42,21 @@ public class SyncCacheTemplateTest {
     }
 
     @Test
-    @Disabled
-    public void testAsync() {
+    void testAsync() {
         MockCache cache = new MockCache();
         when(cacheManager.getCache("test")).thenReturn(cache);
         CacheTemplate<String, String> cacheTemplate = new SyncCacheTemplate<>(cacheManager);
 
-        Runnable test = () -> {
-            cacheTemplate.execute("test", "test1", () -> {
-                try {
-                    Thread.sleep(200);
-                    return "value" + Thread.currentThread().getId();
-                } catch (InterruptedException ignored) {
-                    return null;
-                }
-            });
-        };
+        Runnable test = () -> cacheTemplate.execute("test", "test1", () -> "value" + Thread.currentThread().getId());
 
         Set<Thread> threads = new HashSet<>();
         int max = 10;
-        IntStream.range(0, max).forEach((i) -> {
-            threads.add(new Thread(test));
-        });
+        IntStream.range(0, max).forEach((i) -> threads.add(new Thread(test)));
         threads.forEach(Thread::start);
         threads.forEach((thread) -> {
             try {
                 thread.join();
-            } catch (InterruptedException e) {
-            }
+            } catch (InterruptedException ignored) {}
         });
         assertEquals(1, cache.getPut());
         assertEquals(max - 1, cache.getHit());
@@ -78,5 +64,4 @@ public class SyncCacheTemplateTest {
         //2 раза промахнулся тот кто вставил (сначала до синхрона, потом во время синхрона)
         //(max - 1) все остальные вне синхрона, в синхроне у них попадание
     }
-
 }
