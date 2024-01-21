@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Проверка очистки всех полей">
+    <form id="main">
+        <datasource id="mainDs"/>
+        <toolbar>
+            <button label="Clear" enabled="true">
+                <clear model="resolve"/>
+            </button>
+        </toolbar>
+
+        <fields>
+            <row>
+                <col size="4">
+                    <checkbox id="checkbox" default-value="true"/>
+                    <date-time id="dateTime" default-value="2024-01-12T22:55:55"/>
+                    <input-money id="inputMoney" default-value="333"/>
+                    <input-text id="inputText" default-value="value"/>
+                    <masked-input id="maskedInput" mask="+7 (999) 999-99-99" default-value="+7 (999) 999-99-99"/>
+                    <number-picker id="numberPicker" default-value="5"/>
+                </col>
+                <col size="4">
+                    <date-interval id="dateInterval">
+                        <default-value begin="10.01.2024" end="12.01.2024"/>
+                    </date-interval>
+                    <interval-field id="range" label="range">
+                        <begin>
+                            <input-text id="start-range" domain="integer" default-value="3" max="5" min="0"/>
+                        </begin>
+                        <end>
+                            <input-text id="end-range" domain="integer" default-value="5" max="5" min="0"/>
+                        </end>
+                    </interval-field>
+                    <checkbox-group id="checkboxGroup">
+                        <options>
+                            <option id="1" name="test"/>
+                        </options>
+                    </checkbox-group>
+                    <input-select id="input-select">
+                        <default-value id="1" name="1"/>
+                    </input-select>
+                    <select id="simple-select">
+                        <default-value id="1" name="1"/>
+                    </select>
+                    <input-select-tree id="inputSelectTree">
+                        <default-value id="1" name="1"/>
+                    </input-select-tree>
+                    <radio-group id="radioGroup">
+                        <options>
+                            <option id="1" name="test"/>
+                        </options>
+                    </radio-group>
+                    <code-editor id="codeEditor" default-value="value"/>
+                </col>
+                <col size="4">
+                    <password id="password" default-value="value"/>
+                    <slider id="slider"/>
+                    <text-area id="textArea" default-value="value"/>
+                    <text-editor id="textEditor" default-value="value"/>
+                    <time-picker id="timePicker" default-value="02 ч 03 мин 05 сек"/>
+                    <auto-complete id="autoComplete"/>
+                    <output-list id="outputList" default-value="value"/>
+                    <output-text id="outputText" default-value="value"/>
+                </col>
+            </row>
+        </fields>
+    </form>
+</simple-page>

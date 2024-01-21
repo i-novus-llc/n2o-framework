@@ -52,6 +52,11 @@ public class N2oRadioGroup extends N2oControl implements RadioGroup {
         radioInput().asFixedIterable().stream().forEach(el -> el.parent().$(".n2o-input").shouldBe(Condition.disabled));
     }
 
+    @Override
+    public void shouldBeUnchecked(String label, Duration... duration) {
+        should(Condition.or("", Condition.not(Condition.exist), Condition.not(Condition.text(label))), element().$(".checked span"), duration);
+    }
+
     protected ElementsCollection radioInput() {
         return element().$$(".n2o-radio-input");
     }
