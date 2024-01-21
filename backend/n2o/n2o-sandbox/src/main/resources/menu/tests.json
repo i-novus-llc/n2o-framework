@@ -976,8 +976,8 @@
           "name": "TimePickerAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/control/all_fields_cleanable",
-          "name": "CleanableFieldsAT"
+          "templateId": "net/n2oapp/framework/autotest/control/all_cleanable",
+          "name": "AllFieldsCleanableAT"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/markdown/button",

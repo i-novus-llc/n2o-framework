@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Класс проверки компонентов-полей на их очистку
  */
-public class CleanableFieldsAT extends AutoTestBase {
+public class AllFieldsCleanableAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -43,7 +43,7 @@ public class CleanableFieldsAT extends AutoTestBase {
     @Test
     void allFieldsAreCleanable() {
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/all_fields_cleanable/index.page.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/control/all_cleanable/index.page.xml")
         );
 
         SimplePage page = open(SimplePage.class);
