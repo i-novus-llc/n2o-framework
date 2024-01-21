@@ -36,6 +36,8 @@ public interface RadioGroup extends Control {
      */
     void shouldHaveType(RadioType type);
 
+    void shouldBeUnchecked(String label, Duration... duration);
+
     enum RadioType {
         DEFAULT,
         BTN,
