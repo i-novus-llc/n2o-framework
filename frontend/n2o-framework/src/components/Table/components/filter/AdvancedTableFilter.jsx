@@ -7,6 +7,8 @@ import { Dropdown, DropdownToggle, DropdownMenu, Badge, Button } from 'reactstra
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableFilterPopup from './AdvancedTableFilterPopup'
 
+const DEFAULT_WIDTH = '250px'
+
 /**
  * Компонент заголовок с фильтрацией
  * @param id - id колонки === фильтра
@@ -67,15 +69,29 @@ class AdvancedTableFilter extends Component {
         this.toggleFilter()
     }
 
+    createPopUpStyle = (fieldStyle) => {
+        if (isEmpty(fieldStyle)) { return { minWidth: DEFAULT_WIDTH, maxWidth: DEFAULT_WIDTH } }
+
+        const { width = DEFAULT_WIDTH, minWidth = DEFAULT_WIDTH, maxWidth } = fieldStyle
+
+        return { width, minWidth, maxWidth: maxWidth || width }
+    }
+
     render() {
         const { children, field, error } = this.props
         const { filterOpen, value } = this.state
-        const { component, control, ...componentProps } = field
+        const { component, control, style, ...componentProps } = field
+
+        const popUpStyle = this.createPopUpStyle(style)
 
         return (
             <>
                 {children}
-                <Dropdown className="n2o-advanced-table-filter-btn" isOpen={filterOpen} toggle={this.toggleFilter}>
+                <Dropdown
+                    className="n2o-advanced-table-filter-btn"
+                    isOpen={filterOpen}
+                    toggle={this.toggleFilter}
+                >
                     <DropdownToggle tag="div">
                         <Button color="link" size="sm">
                             <i className="fa fa-filter" />
@@ -90,7 +106,8 @@ class AdvancedTableFilter extends Component {
                             onResetClick={this.onResetClick}
                             component={component}
                             error={error}
-                            componentProps={{ ...componentProps, control: { ...control, value } }}
+                            componentProps={{ ...componentProps, style, control: { ...control, value } }}
+                            style={popUpStyle}
                         />
                     </DropdownMenu>
                 </Dropdown>
