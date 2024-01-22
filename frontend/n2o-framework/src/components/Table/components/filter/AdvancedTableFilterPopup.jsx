@@ -32,6 +32,7 @@ function AdvancedTableFilterPopup({
     component,
     componentProps,
     error,
+    style,
 }) {
     const onKeyDown = useCallback((event) => {
         if (event.key === 'Enter') {
@@ -41,7 +42,7 @@ function AdvancedTableFilterPopup({
 
     return (
         <>
-            <div className="n2o-advanced-table-filter-dropdown-popup">
+            <div className="n2o-advanced-table-filter-dropdown-popup" style={style}>
                 {component ? (
                     React.createElement(component, {
                         ...componentProps,
