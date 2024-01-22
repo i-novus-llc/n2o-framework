@@ -18,6 +18,11 @@ public interface InputText extends Control {
     void setValue(String value);
 
     /**
+     * Нажатие кнопки 'enter'
+     */
+    void pressEnter();
+
+    /**
      * Очистка поля
      */
     void clear();

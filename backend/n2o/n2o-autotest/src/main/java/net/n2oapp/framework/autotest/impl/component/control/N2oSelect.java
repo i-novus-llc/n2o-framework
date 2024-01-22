@@ -29,6 +29,11 @@ public class N2oSelect extends N2oControl implements Select {
     }
 
     @Override
+    public void pressEnter() {
+        element().parent().pressEnter();
+    }
+
+    @Override
     public void click() {
         selectedItemsContainer().click();
     }

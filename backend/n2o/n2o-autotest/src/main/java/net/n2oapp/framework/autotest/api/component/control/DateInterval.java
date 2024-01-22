@@ -157,4 +157,10 @@ public interface DateInterval extends Control, PopupControl {
      * @param seconds секунды
      */
     void endTimeSetValue(String hours, String minutes, String seconds);
+
+    /**
+     * Нажатие кнопки 'enter'
+     */
+    void pressEnter();
+
 }

@@ -190,6 +190,11 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         lastInputElement().shouldBe(Condition.disabled);
     }
 
+    @Override
+    public void pressEnter() {
+        lastInputElement().pressEnter();
+    }
+
     protected SelenideElement firstInputElement() {
         return element().$(".n2o-date-input-first input");
     }
