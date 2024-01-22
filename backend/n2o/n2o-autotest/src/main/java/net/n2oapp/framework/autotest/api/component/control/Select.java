@@ -22,6 +22,11 @@ public interface Select extends Control, PopupControl {
     void setValue(String value);
 
     /**
+     * Нажатие кнопки 'enter'
+     */
+    void pressEnter();
+
+    /**
      * Очистка поля ввода
      */
     void clear();

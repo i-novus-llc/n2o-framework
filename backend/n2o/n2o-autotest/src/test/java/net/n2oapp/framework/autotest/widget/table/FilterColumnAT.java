@@ -76,48 +76,21 @@ public class FilterColumnAT extends AutoTestBase {
 
         rows.shouldHaveSize(4);
 
-        // проверка фильтрации через текстовое поле
-        header2.openFilterDropdown();
         InputText header2Input = header2.filterControl(InputText.class);
-        header2Input.click();
-        header2Input.setValue("1");
-        header2.clickSearchButton();
-        rows.shouldHaveSize(2);
-        rows.row(0).cell(0).shouldHaveText("1");
-        rows.row(1).cell(0).shouldHaveText("2");
-        header2.openFilterDropdown();
-        header2.clickResetButton();
-        rows.shouldHaveSize(4);
-
-        // проверка фильтрации через списковое поле
-        header3.openFilterDropdown();
         Select header3Input = header3.filterControl(Select.class);
-        header3Input.openPopup();
-        header3Input.dropdown().selectItem(0);
-        header3.clickSearchButton();
-        rows.shouldHaveSize(2);
-        rows.row(0).cell(0).shouldHaveText("1");
-        rows.row(1).cell(0).shouldHaveText("4");
-        header3.openFilterDropdown();
-        header3.clickResetButton();
-        rows.shouldHaveSize(4);
-
-        // проверка фильтрации через интервальное поле
-        header4.openFilterDropdown();
         DateInterval header4Input = header4.filterControl(DateInterval.class);
 
-        header4Input.shouldBeClosed();
-        header4Input.setValueInBegin("01.01.2019");
-        header4Input.setValueInEnd("01.01.2021");
-        header4Input.shouldBeOpened();
-        header4.clickSearchButton();
-        header4Input.shouldBeClosed();
-        rows.shouldHaveSize(2);
-        rows.row(0).cell(0).shouldHaveText("2");
-        rows.row(1).cell(0).shouldHaveText("3");
-        header4.openFilterDropdown();
-        header4.clickResetButton();
-        rows.shouldHaveSize(4);
+        // проверка фильтрации через текстовое поле с нажатием на кнопку "Искать" или с нажатием Enter
+        testInputTextFilter(rows, header2, header2Input, header2::clickSearchButton);
+        testInputTextFilter(rows, header2, header2Input, header2Input::pressEnter);
+
+        // проверка фильтрации через списковое поле с нажатием на кнопку "Искать" или с нажатием Enter
+        testSelectFilter(rows, header3, header3Input, header3::clickSearchButton);
+        testSelectFilter(rows, header3, header3Input, header3Input::pressEnter);
+
+        // проверка фильтрации через интервальное поле с нажатием на кнопку "Искать" или с нажатием Enter
+        testDateIntervalFilter(rows, header4, header4Input, header4::clickSearchButton);
+        testDateIntervalFilter(rows, header4, header4Input, header4Input::pressEnter);
 
         // два фильтра одновременно
         header2.openFilterDropdown();
@@ -136,5 +109,47 @@ public class FilterColumnAT extends AutoTestBase {
         rows.shouldHaveSize(2);
         rows.row(0).cell(0).shouldHaveText("1");
         rows.row(1).cell(0).shouldHaveText("4");
+    }
+
+    private static void testInputTextFilter(TableWidget.Rows rows, TableFilterHeader header, InputText headerInput, Runnable runnable) {
+        header.openFilterDropdown();
+        headerInput.click();
+        headerInput.setValue("1");
+        runnable.run();
+        rows.shouldHaveSize(2);
+        rows.row(0).cell(0).shouldHaveText("1");
+        rows.row(1).cell(0).shouldHaveText("2");
+        header.openFilterDropdown();
+        header.clickResetButton();
+        rows.shouldHaveSize(4);
+    }
+
+    private static void testSelectFilter(TableWidget.Rows rows, TableFilterHeader header, Select headerInput, Runnable runnable) {
+        header.openFilterDropdown();
+        headerInput.openPopup();
+        headerInput.dropdown().selectItem(0);
+        runnable.run();
+        rows.shouldHaveSize(2);
+        rows.row(0).cell(0).shouldHaveText("1");
+        rows.row(1).cell(0).shouldHaveText("4");
+        header.openFilterDropdown();
+        header.clickResetButton();
+        rows.shouldHaveSize(4);
+    }
+
+    private static void testDateIntervalFilter(TableWidget.Rows rows, TableFilterHeader header, DateInterval headerInput, Runnable runnable) {
+        header.openFilterDropdown();
+        headerInput.shouldBeClosed();
+        headerInput.setValueInBegin("01.01.2019");
+        headerInput.setValueInEnd("01.01.2021");
+        headerInput.shouldBeOpened();
+        runnable.run();
+        headerInput.shouldBeClosed();
+        rows.shouldHaveSize(2);
+        rows.row(0).cell(0).shouldHaveText("2");
+        rows.row(1).cell(0).shouldHaveText("3");
+        header.openFilterDropdown();
+        header.clickResetButton();
+        rows.shouldHaveSize(4);
     }
 }

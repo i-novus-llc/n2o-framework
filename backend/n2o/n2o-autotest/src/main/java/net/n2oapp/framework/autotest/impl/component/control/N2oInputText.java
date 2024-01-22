@@ -31,6 +31,11 @@ public class N2oInputText extends N2oControl implements InputText {
     }
 
     @Override
+    public void pressEnter() {
+        inputElement().pressEnter();
+    }
+
+    @Override
     public void click() {
         inputElement().click();
     }
