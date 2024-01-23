@@ -13,8 +13,8 @@ import java.util.Collection;
 @Component
 public class FileStorageController implements StorageController {
 
-    @Value("${n2o.sandbox.url}/files")
-    private String requestUrl;
+    @Value("${n2o.sandbox.url}")
+    private String sandboxUrl;
     private RestTemplate restTemplate;
 
     public FileStorageController() {
@@ -23,7 +23,11 @@ public class FileStorageController implements StorageController {
 
     @Override
     public ListResponse getList() {
-        return restTemplate.getForObject(requestUrl + LIST_PREFIX, FileListResponse.class);
+        return restTemplate.getForObject(String.format("%s/files%s", sandboxUrl, LIST_PREFIX), FileListResponse.class);
+    }
+
+    public ListResponse getList(String storeKey) {
+        return restTemplate.getForObject(String.format("%s/stores/%s/files%s", sandboxUrl, storeKey, LIST_PREFIX), FileListResponse.class);
     }
 
     @Getter
