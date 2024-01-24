@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { pure } from 'recompose'
 import PropTypes from 'prop-types'
 import { Button } from 'reactstrap'
+import classNames from 'classnames'
 
 import InputText from '../../../controls/InputText/InputText'
 
@@ -17,6 +18,12 @@ import InputText from '../../../controls/InputText/InputText'
  * @constructor
  */
 
+const validationMap = {
+    'is-valid': 'text-success',
+    'is-invalid': 'text-danger',
+    'has-warning': 'text-warning',
+}
+
 function AdvancedTableFilterPopup({
     value,
     onChange,
@@ -24,19 +31,43 @@ function AdvancedTableFilterPopup({
     onResetClick,
     component,
     componentProps,
+    error,
 }) {
-    const onKeyDown = (event) => {
-        if (event.key === 'Enter') { onSearchClick() }
-    }
+    const onKeyDown = useCallback((event) => {
+        if (event.key === 'Enter') {
+            onSearchClick()
+        }
+    }, [onSearchClick])
 
     return (
         <>
-            <div className="n2o-advanced-table-filter-dropdown-popup">
+            <div className="n2o-advanced-table-filter-dropdown-popup n2o-form-group">
                 {component ? (
-                    React.createElement(component, { ...componentProps, value, onChange, onKeyDown, popupPlacement: 'right' })
+                    React.createElement(component, {
+                        ...componentProps,
+                        value,
+                        onChange,
+                        onKeyDown,
+                        popupPlacement: 'right',
+                        className: error.validationClass,
+                    })
                 ) : (
-                    <InputText value={value} onChange={onChange} onKeyDown={onKeyDown} />
+                    <InputText
+                        className={error.validationClass}
+                        value={value}
+                        onChange={onChange}
+                        onKeyDown={onKeyDown}
+                    />
                 )}
+                {error?.message?.text ? (
+                    <div className={classNames(
+                        'n2o-validation-message',
+                        validationMap[error.validationClass],
+                    )}
+                    >
+                        {error?.message?.text}
+                    </div>
+                ) : null}
             </div>
             <div className="n2o-advanced-table-filter-dropdown-buttons">
                 <Button color="primary" size="sm" onClick={onSearchClick}>Искать</Button>
@@ -53,6 +84,7 @@ AdvancedTableFilterPopup.propTypes = {
     onSearchClick: PropTypes.func,
     onResetClick: PropTypes.func,
     componentProps: PropTypes.object,
+    error: PropTypes.object,
 }
 
 AdvancedTableFilterPopup.defaultProps = {

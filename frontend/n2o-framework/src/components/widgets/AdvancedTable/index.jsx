@@ -11,14 +11,15 @@ import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { FactoryContext } from '../../../core/factory/context'
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { dataSourceErrors, dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { getContainerColumns } from '../../../ducks/columns/selectors'
-import { SelectionType, TableActions, TableContainer } from '../../Table'
+import { Selection, TableActions, TableContainer } from '../../Table'
 import { useCheckAccess } from '../../../core/auth/SecurityController'
 import { withSecurityList } from '../../../core/auth/withSecurity'
 import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 import { useChangeFilter } from '../../Table/hooks/useChangeFilter'
+import { useOnActionMethod } from '../hooks/useOnActionMethod'
 
 import { useExpandAllRows } from './hooks/useExpandAllRows'
 import { useResolveCellsVisible } from './hooks/useResolveCellsVisible'
@@ -38,6 +39,7 @@ const AdvancedTableContainer = (props) => {
     const [expandedRows, setExpandedRows] = useState([])
     const columnsState = useSelector(getContainerColumns(id))
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
+    const filterModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.filter))
     const selectedRows = useSelector((state) => {
         const models = dataSourceModelByPrefixSelector(datasource, ModelPrefix.selected)(state) || EMPTY_ARRAY
 
@@ -47,12 +49,12 @@ const AdvancedTableContainer = (props) => {
 
         return EMPTY_ARRAY
     })
-
     const focusedRowValue = useSelector((state) => {
         const model = dataSourceModelByPrefixSelector(datasource, ModelPrefix.active)(state)
 
         return model ? model.id : null
     })
+    const filterErrors = useSelector(dataSourceErrors(datasource, ModelPrefix.filter))
 
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
@@ -96,6 +98,7 @@ const AdvancedTableContainer = (props) => {
 
     const { setActiveModel, setMultiModel, unsetMultiModel } = useTableActionReactions(datasource)
     const onFilter = useChangeFilter(datasource)
+    const onRowClickAction = useOnActionMethod(id, tableConfig?.body?.row?.click)
     const actionListener = useCallback((action, payload) => {
         switch (action) {
             case TableActions.toggleExpandRow: {
@@ -134,6 +137,12 @@ const AdvancedTableContainer = (props) => {
                 break
             }
 
+            case TableActions.onRowClick: {
+                onRowClickAction(payload.model)
+
+                break
+            }
+
             case TableActions.onChangeFilter: {
                 onFilter(payload.model)
 
@@ -144,8 +153,8 @@ const AdvancedTableContainer = (props) => {
                 break
             }
         }
-    }, [setActiveModel, setMultiModel, unsetMultiModel])
-    const isNeedSetResolveModel = table.rowSelection !== SelectionType.None && defaultTo(table.autoSelect, true)
+    }, [onFilter, onRowClickAction, setActiveModel, setMultiModel, unsetMultiModel])
+    const isNeedSetResolveModel = table.rowSelection !== Selection.None && defaultTo(table.autoSelect, true)
 
     useEffect(() => {
         if (isNeedSetResolveModel && datasourceModel) {
@@ -171,6 +180,8 @@ const AdvancedTableContainer = (props) => {
         >
             {isInit ? (
                 <TableContainer
+                    filterErrors={filterErrors}
+                    filterValue={filterModel}
                     actionListener={actionListener}
                     hasSecurityAccess={hasSecurityAccess}
                     childrenToggleState={children}
@@ -178,7 +189,6 @@ const AdvancedTableContainer = (props) => {
                     data={datasourceModel}
                     cells={resolvedCells}
                     tableConfig={tableConfig}
-                    id={id}
                     isTextWrap={table.textWrap}
                     selectedRows={selectedRows}
                     expandedRows={expandedRows}

@@ -15,8 +15,9 @@ import propsResolver from '../../../../utils/propsResolver'
 import { getModelByPrefixAndNameSelector } from '../../../../ducks/models/selectors'
 import { useFormContext } from '../../../core/FormProvider'
 import { setFieldSubmit } from '../../../../ducks/datasource/store'
+import { getValidationClass } from '../../../../core/utils/getValidationClass'
 
-import { getValidationClass, modifyOn, replaceIndex, resolveControlIndexes } from './utils'
+import { modifyOn, replaceIndex, resolveControlIndexes } from './utils'
 
 const useReduxField = ({ name: fieldName, ...fieldProps }) => {
     const dispatch = useDispatch()

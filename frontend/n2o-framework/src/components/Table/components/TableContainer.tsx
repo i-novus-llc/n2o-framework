@@ -2,7 +2,7 @@ import React, { useMemo, VFC } from 'react'
 
 import { TableWidgetContainerProps } from '../types/props'
 import { TableActionsProvider } from '../provider/TableActions'
-import { SelectionType } from '../enum'
+import { Selection } from '../enum'
 import { getAllValuesByKey } from '../utils'
 import { TableRefProps } from '../provider/TableRefProps'
 
@@ -12,7 +12,6 @@ import Table from './basic'
 
 export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
     const {
-        id,
         tableConfig,
         data,
         sorting,
@@ -28,7 +27,7 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
     } = props
     const { width, height, rowSelection, body, header } = tableConfig
     const areAllRowsSelected = useMemo(() => {
-        if (rowSelection === SelectionType.Checkbox && data.length) {
+        if (rowSelection === Selection.Checkbox && data.length) {
             const allRowsId = getAllValuesByKey(data, { keyToIterate: 'children', keyToExtract: 'id' })
 
             return allRowsId.every(id => selectedRows.includes(id))
@@ -39,10 +38,7 @@ export const TableContainer: VFC<TableWidgetContainerProps> = (props) => {
 
     return (
         <TableRefProps value={props}>
-            <TableActionsProvider
-                actionListener={actionListener}
-                widgetId={id}
-            >
+            <TableActionsProvider actionListener={actionListener}>
                 <div
                     data-text-wrap={isTextWrap}
                     className="table-container"
@@ -92,6 +88,7 @@ TableContainer.defaultProps = {
     expandedRows: [],
     selectedRows: [],
     actionListener: () => {},
+    filterErrors: {},
 }
 
 TableContainer.displayName = 'TableContainer'

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, TdHTMLAttributes, VFC } from 'react'
 
-import { SelectionType } from '../enum'
+import { Selection } from '../enum'
 
 export type Cell = {
     id: string
@@ -9,7 +9,7 @@ export type Cell = {
     component: VFC<any>
     elementAttributes?: Partial<TdHTMLAttributes<HTMLTableCellElement>>
     treeExpandedCell?: boolean
-    selection: SelectionType
+    selection: Selection
 }
 
 export type HeaderCell = {

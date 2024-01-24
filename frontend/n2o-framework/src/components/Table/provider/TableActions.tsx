@@ -2,33 +2,29 @@
 import React, { FC, useMemo } from 'react'
 import { createContext, useContext } from 'use-context-selector'
 
-import { useOnActionMethod } from '../../widgets/hooks/useOnActionMethod'
 import { TableActions } from '../enum'
 
-type TTableActionContextValue = {
+type TableActionContextValue = {
     toggleExpandRow(rowValue: string, isOpen: boolean): void
     selectRows(rowValues: string[]): void
     deselectRows(rowValues: string[]): void
     selectSingleRow(rowValue: string): void
     setFocusOnRow(rowValue: string | null, model?: any): void
-    onDispatchRowAction(rowClickAction: Record<string, any>, model: any): void
+    onRowClick(model: any): void
     onChangeFilter(model: Record<string, any>): void
 }
 
-const tableActionsContext = createContext<TTableActionContextValue | null>(null)
+const tableActionsContext = createContext<TableActionContextValue | null>(null)
 
-type TTableActionsProviderProps = {
+type TableActionsProviderProps = {
     actionListener(action: TableActions, payload: any): void
-    widgetId: string
 }
 
-export const TableActionsProvider: FC<TTableActionsProviderProps> = ({
+export const TableActionsProvider: FC<TableActionsProviderProps> = ({
     actionListener,
     children,
-    widgetId,
 }) => {
-    const onRowClickAction = useOnActionMethod(widgetId)
-    const methods = useMemo<TTableActionContextValue>(() => ({
+    const methods = useMemo<TableActionContextValue>(() => ({
         toggleExpandRow(rowValue, isOpen) {
             actionListener(TableActions.toggleExpandRow, { rowValue, isOpen })
         },
@@ -44,13 +40,13 @@ export const TableActionsProvider: FC<TTableActionsProviderProps> = ({
         setFocusOnRow(rowValue, model) {
             actionListener(TableActions.setFocusOnRow, { rowValue, model })
         },
-        onDispatchRowAction(rowClickAction, model) {
-            onRowClickAction(model, rowClickAction)
+        onRowClick(model) {
+            actionListener(TableActions.onRowClick, { model })
         },
         onChangeFilter(model) {
             actionListener(TableActions.onChangeFilter, { model })
         },
-    }), [actionListener, onRowClickAction])
+    }), [actionListener])
 
     return (
         <tableActionsContext.Provider value={{ ...methods }}>
