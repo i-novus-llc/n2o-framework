@@ -9,7 +9,7 @@ import { Input } from './Input'
 
 import '../styles/controls/InputText.scss'
 
-type InputTextProps = TBaseProps & TBaseInputProps<string> & {
+type InputTextProps = TBaseProps & TBaseInputProps<string | null> & {
     active?: boolean,
     inputRef?: Ref<HTMLInputElement>,
     length?: number,
@@ -44,7 +44,10 @@ export class InputTextComponent extends Component<InputTextProps> {
         const target = e.target as HTMLInputElement
 
         if (isFunction(onChange)) {
-            onChange(target.value)
+            const { value } = target
+            const currentValue = value === '' ? null : value
+
+            onChange(currentValue)
         }
     }
 
