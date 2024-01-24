@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, VFC } from 'react'
 
 import { RowResolverProps } from '../types/props'
-import { SelectionType } from '../enum'
+import { Selection } from '../enum'
 import { useTableActions } from '../provider/TableActions'
 
 import { CellContainer } from './CellContainer'
@@ -25,17 +25,15 @@ export const RowResolver: VFC<RowResolverProps> = (props) => {
         rowIndex,
         ...otherProps
     } = props
-    const { setFocusOnRow, onDispatchRowAction } = useTableActions()
+    const { setFocusOnRow, onRowClick } = useTableActions()
 
     const { style, ...otherElementAttributes } = elementAttributes || {}
-    const hasSelection = selection !== SelectionType.None
+    const hasSelection = selection !== Selection.None
     const hasRowAction = click && hasSecurityAccess
 
     const onClickRowAction = useCallback((data) => {
-        if (click) {
-            onDispatchRowAction(click, data)
-        }
-    }, [click, onDispatchRowAction])
+        onRowClick(data)
+    }, [onRowClick])
     const onSelection = useCallback((data) => {
         setFocusOnRow(data.id, data)
     }, [setFocusOnRow])

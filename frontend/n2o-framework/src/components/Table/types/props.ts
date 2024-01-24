@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, VFC } from 'react'
 
-import { SelectionType, TableActions } from '../enum'
+import { Selection, TableActions } from '../enum'
 import { SortDirection } from '../../../core/datasource/const'
+import { Severity } from '../../../core/validation/types'
 
 import { Data, DataItem, ExpandedRows, SelectedRows } from './general'
 import { Row } from './row'
@@ -27,7 +28,7 @@ export type TableWidgetContainerProps = {
     tableConfig: {
         width?: string
         height?: string
-        rowSelection: SelectionType
+        rowSelection: Selection
         header: {
             row?: Row
         }
@@ -35,6 +36,7 @@ export type TableWidgetContainerProps = {
             row?: Row
         }
     }
+    filterErrors: Partial<Record<string, Array<{ text: string, severity: Severity }>>>
 }
 
 export type TableProps = {
@@ -43,7 +45,7 @@ export type TableProps = {
     rowRenderFieldKey: string
     selectedKey: string
     treeDataKey: string
-    selection: SelectionType
+    selection: Selection
     tableId: string
     headerCell: HeaderCell[]
     bodyCell: Cell[]
@@ -66,7 +68,7 @@ export type TableBodyProps ={
 }
 
 export type TableHeaderProps = {
-    selection: SelectionType
+    selection: Selection
     areAllRowsSelected?: boolean
     cells: TableProps['headerCell']
     row: TableProps['headerRow']
@@ -90,7 +92,7 @@ export type TableHeaderCellProps = {
 export type SelectionCellProps = {
     rowValue: string
     isSelectedRow: boolean
-    selection: SelectionType
+    selection: Selection
     model: DataItem
     isTreeExpanded: boolean
     hasExpandedButton: boolean
@@ -106,7 +108,7 @@ export type CustomCellComponentProps = {
     isTreeExpanded: boolean
     hasExpandedButton: boolean
     rowValue: any
-    selection?: SelectionType
+    selection?: Selection
 }
 
 export type ExpandButtonProps = {
@@ -141,7 +143,7 @@ export type DataRowProps = {
 
 export type HeaderFilterProps = {
     id: string
-} & Required<Pick<HeaderCell, 'filterField'>>
+} & Pick<HeaderCell, 'filterField'>
 
 export type CellContainerProps = {
     isSelectedRow: boolean

@@ -12,7 +12,6 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = (props) => {
     const {
         component: Component,
         id,
-        filterField,
         sortingDirection,
         colSpan,
         rowSpan,
@@ -20,6 +19,7 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = (props) => {
         icon,
         resizable,
         elementAttributes = {},
+        filterField,
         ...rest
     } = props
 
