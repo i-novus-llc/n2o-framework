@@ -248,10 +248,36 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
 
     /**
      * Выбор даты, прокидывается в инпут
-     * @todo объеденить методы select и onInputChange в 1 метод
+     * @todo объединить методы select и onInputChange в 1 метод
      */
     onInputChange: OnInputChangeHandler = (date, inputName, callback?) => {
         const { inputs } = this.state
+
+        const singleDate = inputs[DateTimeControlName.DEFAULT_NAME]
+
+        if (date && singleDate === undefined) {
+            if (inputName === DateTimeControlName.BEGIN) {
+                const end = inputs[DateTimeControlName.END]
+
+                if (date.isAfter(end)) {
+                    this.setState({
+                        inputs: { [DateTimeControlName.BEGIN]: date, [DateTimeControlName.END]: null },
+                    }, () => this.onChange(inputName))
+
+                    return
+                }
+            }
+
+            const begin = inputs[DateTimeControlName.BEGIN]
+
+            if (date.isBefore(begin)) {
+                this.setState({
+                    inputs: { [DateTimeControlName.BEGIN]: null, [DateTimeControlName.END]: date },
+                }, () => this.onChange(inputName))
+
+                return
+            }
+        }
 
         this.setState(
             {
