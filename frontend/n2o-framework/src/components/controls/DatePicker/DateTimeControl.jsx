@@ -25,6 +25,12 @@ export const ControlType = {
     DATE_INTERVAL: 'date-interval',
 }
 
+export const DateTimeControlName = {
+    BEGIN: 'begin',
+    DEFAULT_NAME: 'singleDate',
+    END: 'end',
+}
+
 /**
  * Компонент DateTimeControl
  * @reactProps {string} type
@@ -225,6 +231,32 @@ class DateTimeControl extends React.Component {
      */
     onInputChange(date, inputName, callback = null) {
         const { inputs } = this.state
+
+        const singleDate = inputs[DateTimeControlName.DEFAULT_NAME]
+
+        if (date && singleDate === undefined) {
+            if (inputName === DateTimeControlName.BEGIN) {
+                const end = inputs[DateTimeControlName.END]
+
+                if (date.isAfter(end)) {
+                    this.setState({
+                        inputs: { [DateTimeControlName.BEGIN]: date, [DateTimeControlName.END]: null },
+                    }, () => this.onChange(inputName))
+
+                    return
+                }
+            }
+
+            const begin = inputs[DateTimeControlName.BEGIN]
+
+            if (date.isBefore(begin)) {
+                this.setState({
+                    inputs: { [DateTimeControlName.BEGIN]: null, [DateTimeControlName.END]: date },
+                }, () => this.onChange(inputName))
+
+                return
+            }
+        }
 
         this.setState(
             {
