@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { select, takeEvery, cancel } from 'redux-saga/effects'
+import { cancel, select, takeEvery } from 'redux-saga/effects'
 
 // @ts-ignore ignore import error from js file
 import { dataProviderResolver } from '../../core/dataProviderResolver'
@@ -11,6 +11,7 @@ import { getModelSelector } from '../models/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
 import { DataSourceState } from '../datasource/DataSource'
 import { State } from '../State'
+import { ProviderType } from '../datasource/Provider'
 
 import { UTILS_PREFIX } from './constants'
 import { EffectWrapper } from './utils/effectWrapper'
@@ -108,8 +109,27 @@ export function* effect({ payload }: Action<string, Payload>) {
     const state: State = yield select()
 
     const dataSource: DataSourceState = yield select(dataSourceByIdSelector(exportDatasource))
-    const { provider, paging, sorting = {} } = dataSource
-    const { url: resolvedURL } = dataProviderResolver(state, provider, {
+    const { paging, provider, sorting = {} } = dataSource
+
+    /* HACK! когда используется inherited ds в таблице,
+       при этом url для экспорта должен строится со Своим datasource id */
+    let inheritedProvider = null
+
+    if (provider && provider.type === ProviderType.inherited) {
+        const { sourceDs } = provider
+        const parentDs: DataSourceState = yield select(dataSourceByIdSelector(sourceDs))
+
+        const { provider: parentProvider } = parentDs
+
+        if (parentProvider) {
+            const { url: parentUrl } = parentProvider
+
+            /* получаем inherited url и заменяем в нем datasource id */
+            inheritedProvider = { ...parentProvider, url: parentUrl.replace(sourceDs, exportDatasource) }
+        }
+    }
+
+    const { url: resolvedURL } = dataProviderResolver(state, inheritedProvider || provider, {
         size: type[PARAM_KEY] === 'page' ? paging.size : allLimit,
         page: type[PARAM_KEY] === 'page' ? paging.page : 1,
         sorting,
