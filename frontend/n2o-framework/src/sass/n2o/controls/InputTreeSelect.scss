@@ -367,6 +367,17 @@
                 background-color: $gray-100;
             }
 
+            .n2o-select-tree-tree-treenode-disabled {
+                .n2o-select-tree-content-wrapper {
+                    opacity: 0.65;
+                }
+
+                .n2o-select-tree-tree-node-content-wrapper:hover {
+                    cursor: default;
+                    background-color: white;
+                }
+            }
+
             .n2o-select-tree-tree-title {
                 width: 100%;
             }
