@@ -13,6 +13,8 @@ export enum FilterType {
 
 export interface Provider {
     type: ProviderType
+    sourceDs: string
+    url: string
 }
 
 export interface Filter {
