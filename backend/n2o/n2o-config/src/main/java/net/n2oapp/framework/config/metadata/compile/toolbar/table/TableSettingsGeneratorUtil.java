@@ -82,14 +82,14 @@ public class TableSettingsGeneratorUtil {
     public static N2oButton generateExport(N2oToolbar toolbar, CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String datasourceId = widgetScope == null ? null : widgetScope.getDatasourceId();
-        String widgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
+        String clientWidgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
         String pageId = p.getScope(PageScope.class).getPageId();
         String exportPage = p.resolve(property("n2o.api.generate.button.export.page"), String.class);
         String exportUrl = p.resolve(property("n2o.api.generate.button.export.url"), String.class);
         String allLimit = p.resolve(property("n2o.api.generate.button.export.all_limit"), String.class);
         String configDatasource = DatasourceUtil.getClientDatasourceId(
                 "exportModalDs",
-                pageId.equals("_") ? exportPage : pageId + "_" + exportPage,
+                (pageId.equals("_") ? exportPage : pageId + "_" + exportPage) + "_" + clientWidgetId,
                 p);
         String exportDatasource = DatasourceUtil.getClientDatasourceId(
                 datasourceId,
@@ -105,7 +105,7 @@ public class TableSettingsGeneratorUtil {
         Map<String, String> payload = new HashMap<>();
         payload.put("baseURL", exportUrl);
         payload.put("exportDatasource", exportDatasource);
-        payload.put("widgetId", widgetId);
+        payload.put("widgetId", clientWidgetId);
         payload.put("configDatasource", configDatasource);
         payload.put("allLimit", allLimit);
         downloadAction.setPayload(payload);
@@ -124,7 +124,7 @@ public class TableSettingsGeneratorUtil {
         N2oShowModal showModalAction = new N2oShowModal();
         showModalAction.setToolbars(new N2oToolbar[]{modalToolbar});
         showModalAction.setPageId(exportPage);
-        showModalAction.setRoute("/" + exportPage);
+        showModalAction.setRoute("/" + exportPage + "_" + clientWidgetId);
 
         N2oButton exportButton = new N2oButton();
         fillButton(exportButton, toolbar.getIsGeneratedForSubMenu(), "export", p);
