@@ -94,6 +94,7 @@ function InputSelectTree({
     parentFieldId,
     valueFieldId,
     labelFieldId,
+    enabledFieldId,
     iconFieldId,
     imageFieldId,
     badge,
@@ -138,19 +139,25 @@ function InputSelectTree({
         }
         const items = options || []
         const itemsByID = [...items].reduce(
-            (acc, item) => ({
-                ...acc,
-                [item[valueFieldId as keyof TOption]]: {
-                    ...item,
-                    key: item[valueFieldId as keyof TOption],
-                    value: item[valueFieldId as keyof TOption],
-                    title: item.formattedTitle || visiblePartPopup(item, popupProps),
-                    ...(ajax && { isLeaf: !item[hasChildrenFieldId as keyof TOption] }),
-                    children: [],
-                    /* игнорирование встроенного параметра из rc-tree-select, иконку отрисовывает visiblePartPopup */
-                    icon: null,
-                },
-            }),
+            (acc, item) => {
+                const enabled = item[enabledFieldId as keyof TOption]
+                const disabled = typeof enabled === 'boolean' ? !enabled : false
+
+                return ({
+                    ...acc,
+                    [item[valueFieldId as keyof TOption]]: {
+                        ...item,
+                        key: item[valueFieldId as keyof TOption],
+                        value: item[valueFieldId as keyof TOption],
+                        disabled,
+                        title: item.formattedTitle || visiblePartPopup(item, popupProps),
+                        ...(ajax && { isLeaf: !item[hasChildrenFieldId as keyof TOption] }),
+                        children: [],
+                        /* игнорирование встроенного параметра из rc-tree-select, иконку отрисовывает visiblePartPopup */
+                        icon: null,
+                    },
+                })
+            },
             {},
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ) as any
@@ -389,6 +396,10 @@ type Props = {
      * Значение ключа label в данных
      */
     labelFieldId: string,
+    /**
+     * Значение доступности элемента в данных
+     */
+    enabledFieldId: string,
     /**
      * Флаг анимации загрузки
      */
