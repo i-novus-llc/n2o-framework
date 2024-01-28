@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +25,7 @@ public class TabsValidator extends AbstractRegionValidator<N2oTabsRegion> {
             throw new N2oMetadataValidationException("В регионе <tabs> отсутствуют вкладки <tab>");
 
         if (source.getDatasourceId() != null)
-            ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p.getScope(DatasourceIdsScope.class),
+            ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
                     String.format("Регион <tabs> ссылается на несуществующий источник данных '%s'", source.getDatasourceId()));
 
         Arrays.stream(source.getTabs()).forEach(tab -> this.validateTab(tab, p));
@@ -34,7 +33,7 @@ public class TabsValidator extends AbstractRegionValidator<N2oTabsRegion> {
 
     private void validateTab(N2oTabsRegion.Tab source, SourceProcessor p) {
         if (source.getDatasource() != null)
-            ValidationUtils.checkDatasourceExistence(source.getDatasource(), p.getScope(DatasourceIdsScope.class),
+            ValidationUtils.checkDatasourceExistence(source.getDatasource(), p,
                     String.format(
                             "Вкладка %s ссылается на несуществующий источник данных %s",
                             getIdOrEmptyString(source.getName()),

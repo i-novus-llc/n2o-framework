@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FieldsScope;
@@ -44,8 +43,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
         }
         checkDefaultValues(source);
         checkDependencies(source);
-        DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
-        checkRefDatasource(source, datasourceIdsScope);
+        checkRefDatasource(source, p);
         if (widgetScope != null)
             checkWhiteListValidation(source, widgetScope, p);
         if (source.getToolbar() != null)
@@ -120,11 +118,10 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
      * Проверка существования ссылки на источник данных поля
      *
      * @param source             Поле
-     * @param datasourceIdsScope Скоуп источников данных
      */
-    private void checkRefDatasource(N2oField source, DatasourceIdsScope datasourceIdsScope) {
+    private void checkRefDatasource(N2oField source, SourceProcessor p) {
         if (source.getRefDatasourceId() != null && PageRef.THIS.equals(source.getRefPage())) {
-            ValidationUtils.checkDatasourceExistence(source.getRefDatasourceId(), datasourceIdsScope,
+            ValidationUtils.checkDatasourceExistence(source.getRefDatasourceId(), p,
                     String.format("В ссылке на источник данных поля %s содержится несуществующий источник данных '%s'",
                             ValidationUtils.getIdOrEmptyString(source.getId()), source.getRefDatasourceId()));
         }

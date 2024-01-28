@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oSearchablePage;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
-import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -68,6 +67,8 @@ public class SearchablePageValidator implements SourceValidator<N2oSearchablePag
      * @param errorMessage       Сообщение об ошибке
      */
     private void checkDatasourceLink(String datasourceId, DatasourceIdsScope datasourceIdsScope, String errorMessage) {
-        ValidationUtils.checkDatasourceExistence(datasourceId, datasourceIdsScope, errorMessage);
+        if (datasourceIdsScope == null || !datasourceIdsScope.contains(datasourceId)) {
+            throw new N2oMetadataValidationException(errorMessage);
+        }
     }
 }

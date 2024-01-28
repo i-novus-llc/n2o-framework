@@ -3,16 +3,12 @@ package net.n2oapp.framework.config.metadata.validation.standard.menu;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.compile.enums.Color;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.EnumUtils;
-
-import static java.util.Objects.nonNull;
 
 /**
  * Валидатор простого меню навигации
@@ -33,7 +29,7 @@ public class SimpleMenuValidator extends TypedMetadataValidator<N2oSimpleMenu> {
         if (dropdownMenu.getName() == null)
             throw new N2oMetadataValidationException("Не задан 'name' для <dropdown-menu>");
         if (dropdownMenu.getDatasourceId() != null)
-            ValidationUtils.checkDatasourceExistence(dropdownMenu.getDatasourceId(), p.getScope(DatasourceIdsScope.class),
+            ValidationUtils.checkDatasourceExistence(dropdownMenu.getDatasourceId(), p,
                     String.format("<dropdown-menu name=%s> ссылается на несуществующий источник данных %s",
                             ValidationUtils.getIdOrEmptyString(dropdownMenu.getName()),
                             ValidationUtils.getIdOrEmptyString(dropdownMenu.getDatasourceId())));
@@ -45,7 +41,7 @@ public class SimpleMenuValidator extends TypedMetadataValidator<N2oSimpleMenu> {
             throw new N2oMetadataValidationException("Не задан 'name' для <menu-item>");
 
         if (menuItem.getDatasourceId() != null)
-            ValidationUtils.checkDatasourceExistence(menuItem.getDatasourceId(), p.getScope(DatasourceIdsScope.class),
+            ValidationUtils.checkDatasourceExistence(menuItem.getDatasourceId(), p,
                     String.format("<menu-item name=%s> ссылается на несуществующий источник данных %s",
                             ValidationUtils.getIdOrEmptyString(menuItem.getName()),
                             ValidationUtils.getIdOrEmptyString(menuItem.getDatasourceId())));
