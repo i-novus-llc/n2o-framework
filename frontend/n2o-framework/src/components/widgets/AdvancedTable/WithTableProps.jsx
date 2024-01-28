@@ -28,11 +28,25 @@ export function WithTableProps(Component) {
         const [columnsState, changeColumnParam, switchTableParameter] = useColumnsState(cells.header, id, state)
         const resolvedCells = useResolveCellsVisible(cells, columnsState)
 
+        /* HACK! omit body.row.security */
+        /* обход стандартного механизма checkSecurityAndRender из FactoryProvider */
+        /* т.к. не имеет смысла скрывать все rows в таблице, вместо этого используется hasSecurityAccess */
         const tableConfig = useMemo(() => {
-            const config = omit(table, ['autoSelect', 'autoFocus', 'textWrap', 'header.cells', 'body.cells'])
+            const config = omit(table, [
+                'autoSelect',
+                'autoFocus',
+                'textWrap',
+                'header.cells',
+                'body.cells',
+                'body.row.security',
+            ])
 
+            /* WARNING! Неявное место, здесь собирается RowComponent по src */
             return resolveProps(config)
         }, [resolveProps, table])
+
+        /* доступность action по rowClick */
+        const hasSecurityAccess = check(tableConfig.body?.row?.security)
 
         const paginationVisible = useMemo(() => {
             if (datasourceModelLength === 0) {
@@ -44,8 +58,6 @@ export function WithTableProps(Component) {
             )
         },
         [columnsState, datasourceModelLength])
-
-        const hasSecurityAccess = check(tableConfig.body?.row?.security)
 
         return (
             <Component
