@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.metadata.validation.standard.action;
 
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
@@ -42,9 +42,9 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                             " ссылается на несуществующую в объекте " + source.getObjectId() + " операцию " + source.getSubmitOperationId()));
         }
         PageScope pageScope = p.getScope(PageScope.class);
-        DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
-        checkRefreshWidgetDatasourceIds(source, pageScope, datasourceIdsScope);
+        checkRefreshWidgetDatasourceIds(source, pageScope, p);
 
+        DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
         if (source.getDatasources() != null && datasourceIdsScope != null) {
             DatasourceIdsScope actionDatasourceScope = new DatasourceIdsScope(datasourceIdsScope);
             Arrays.stream(source.getDatasources())
@@ -74,14 +74,13 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
      *
      * @param source             Действие открытие страницы
      * @param pageScope          Скоуп страницы
-     * @param datasourceIdsScope Скоуп источников данных
      */
-    private void checkRefreshWidgetDatasourceIds(N2oAbstractPageAction source, PageScope pageScope,
-                                                 DatasourceIdsScope datasourceIdsScope) {
+    private void checkRefreshWidgetDatasourceIds(N2oAbstractPageAction source, PageScope pageScope, SourceProcessor p) {
         if (source.getRefreshDatasourceIds() == null)
             return;
         String[] refreshDatasourceIds = source.getRefreshDatasourceIds();
         boolean isNotDatasource = false;
+        DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
         if (refreshDatasourceIds.length == 1) {
             if (datasourceIdsScope != null && !datasourceIdsScope.contains(refreshDatasourceIds[0]))
                 isNotDatasource = true;
@@ -91,7 +90,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                                 ValidationUtils.getIdOrEmptyString(refreshDatasourceIds[0])));
         } else if (datasourceIdsScope != null) {
             for (String datasourceId : refreshDatasourceIds) {
-                ValidationUtils.checkDatasourceExistence(datasourceId, datasourceIdsScope,
+                ValidationUtils.checkDatasourceExistence(datasourceId, p,
                         String.format("Атрибут \"refresh-datasources\" ссылается на несуществующий источник данных %s",
                                 ValidationUtils.getIdOrEmptyString(datasourceId)));
             }

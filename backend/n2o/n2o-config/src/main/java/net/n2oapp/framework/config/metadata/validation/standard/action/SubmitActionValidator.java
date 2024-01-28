@@ -2,11 +2,11 @@ package net.n2oapp.framework.config.metadata.validation.standard.action;
 
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oSubmitAction;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.datasource.Submittable;
-import net.n2oapp.framework.api.metadata.action.N2oSubmitAction;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
@@ -30,12 +31,11 @@ public class SubmitActionValidator implements SourceValidator<N2oSubmitAction>, 
 
     @Override
     public void validate(N2oSubmitAction source, SourceProcessor p) {
-        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         String datasourceId = getDatasourceId(source, componentScope);
 
         if (datasourceId != null) {
-            checkDatasourceById(datasourceId, dataSourcesScope);
+            checkDatasourceById(datasourceId, p);
         } else {
             N2oStandardDatasource datasource = getFirstNotNull(componentScope, N2oWidget.class, N2oWidget::getDatasource);
             if (datasource != null)
@@ -52,12 +52,12 @@ public class SubmitActionValidator implements SourceValidator<N2oSubmitAction>, 
         return getFirstNotNull(componentScope, DatasourceIdAware.class, DatasourceIdAware::getDatasourceId);
     }
 
-    private void checkDatasourceById(String datasourceId, DataSourcesScope dataSourcesScope) {
-        if (!dataSourcesScope.containsKey(datasourceId))
-            throw new N2oMetadataValidationException("Атрибут 'datasource' действия <submit> ссылается на несуществующий источник данных");
-
-        N2oAbstractDatasource datasource = dataSourcesScope.get(datasourceId);
-        checkDatasourceByInstance(datasource);
+    private void checkDatasourceById(String datasourceId, SourceProcessor p) {
+        ValidationUtils.checkDatasourceExistence(datasourceId, p,
+                "Атрибут 'datasource' действия <submit> ссылается на несуществующий источник данных");
+        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+        if (dataSourcesScope != null)
+            checkDatasourceByInstance(dataSourcesScope.get(datasourceId));
     }
 
     private void checkDatasourceByInstance(@Nonnull N2oAbstractDatasource datasource) {

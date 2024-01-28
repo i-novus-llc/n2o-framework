@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
@@ -21,8 +20,6 @@ public class ListFieldValidator implements SourceValidator<N2oListField>, Source
     @Override
     public void validate(N2oListField field, SourceProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
-
         p.checkForExists(field.getQueryId(), N2oQuery.class,
                 String.format("Поле '%s' ссылается на несуществующую выборку '%s'",
                         field.getId(), field.getQueryId()));
@@ -38,12 +35,12 @@ public class ListFieldValidator implements SourceValidator<N2oListField>, Source
                     String.format("Поле '%s' использует ссылку на источник данных и элемент '<options>' одновременно", field.getId()));
 
         if (field.getDatasourceId() != null) {
-            checkDatasource(field, datasourceIdsScope, widgetScope);
+            checkDatasource(field, widgetScope, p);
         }
     }
 
-    private void checkDatasource(N2oListField source, DatasourceIdsScope datasourceIdsScope, WidgetScope widgetScope) {
-        ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), datasourceIdsScope,
+    private void checkDatasource(N2oListField source, WidgetScope widgetScope, SourceProcessor p) {
+        ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
                 String.format("Указан несуществующий источник данных %s для поля %s виджета %s",
                         ValidationUtils.getIdOrEmptyString(source.getDatasourceId()),
                         ValidationUtils.getIdOrEmptyString(source.getId()),

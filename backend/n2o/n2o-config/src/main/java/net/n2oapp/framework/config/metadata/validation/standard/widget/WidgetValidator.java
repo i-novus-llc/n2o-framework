@@ -68,7 +68,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         }
 
         if (nonNull(source.getDatasourceId())) {
-            checkDatasource(source, datasourceIdsScope);
+            checkDatasource(source, p);
         }
 
         checkDependencies(source);
@@ -142,11 +142,10 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
      * Проверка существования источника данных, на который ссылается виджет
      *
      * @param n2oWidget Виджет
-     * @param scope     Скоуп источников данных
      */
-    private void checkDatasource(N2oWidget n2oWidget, DatasourceIdsScope scope) {
+    private void checkDatasource(N2oWidget n2oWidget, SourceProcessor p) {
         if (n2oWidget.getDatasourceId() != null)
-            ValidationUtils.checkDatasourceExistence(n2oWidget.getDatasourceId(), scope,
+            ValidationUtils.checkDatasourceExistence(n2oWidget.getDatasourceId(), p,
                 String.format("Виджет %s cсылается на несуществующий источник данных '%s'",
                         ValidationUtils.getIdOrEmptyString(n2oWidget.getId()), n2oWidget.getDatasourceId()));
         if (nonNull(n2oWidget.getDatasource()) && nonNull(n2oWidget.getDatasourceId()))

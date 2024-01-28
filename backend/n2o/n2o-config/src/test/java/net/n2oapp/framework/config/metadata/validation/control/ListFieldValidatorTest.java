@@ -4,11 +4,13 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
+import net.n2oapp.framework.config.metadata.validation.standard.control.ListFieldValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.FieldSetRowValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.SetFieldSetValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.page.SimplePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.control.ListFieldValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование валидатора списковых полей
  */
-public class ListFieldValidatorTest extends SourceValidationTestBase {
+class ListFieldValidatorTest extends SourceValidationTestBase {
     
     @Override
     @BeforeEach
@@ -31,8 +33,8 @@ public class ListFieldValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
-        builder.validators(new FormValidator(), new FieldSetRowValidator(),
+        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oPagesPack());
+        builder.validators(new SimplePageValidator(), new FormValidator(), new FieldSetRowValidator(),
                 new SetFieldSetValidator(), new ListFieldValidator());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank2.query.xml"));
     }
@@ -74,6 +76,6 @@ public class ListFieldValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/list/checkDatasourceExistence.page.xml"));
-        assertEquals("Указан несуществующий источник данных 'test' для поля 'select' виджета 'checkDatasourceExistence'", exception.getMessage());
+        assertEquals("Указан несуществующий источник данных 'test' для поля 'select' виджета 'form'", exception.getMessage());
     }
 }

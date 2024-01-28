@@ -58,19 +58,6 @@ public final class ValidationUtils {
     /**
      * Проверка наличия источника данных по указанному идентификатору
      *
-     * @param dsId               Идентификатор проверямого источника данных
-     * @param datasourceIdsScope Скоуп источников данных
-     * @param msg                Сообщение об ошибке
-     */
-    public static void checkDatasourceExistence(String dsId, DatasourceIdsScope datasourceIdsScope, String msg) {
-        if (datasourceIdsScope == null || !datasourceIdsScope.contains(dsId)) {
-            throw new N2oMetadataValidationException(msg);
-        }
-    }
-
-    /**
-     * Проверка наличия источника данных по указанному идентификатору
-     *
      * @param dsId Идентификатор проверямого источника данных
      * @param p    Процессор исходных метаданных
      * @param msg  Сообщение об ошибке
@@ -99,9 +86,9 @@ public final class ValidationUtils {
      */
     public static void checkDatasourceExistenceInTag(String dsId, SourceProcessor p, @Nonnull String tag) {
         if (dsId != null) {
-            ValidationUtils.checkDatasourceExistence(dsId, p.getScope(DatasourceIdsScope.class),
+            checkDatasourceExistence(dsId, p,
                     String.format("Тег %s в атрибуте 'datasource' ссылается на несуществующий источник данных %s",
-                            tag, dsId));
+                    tag, dsId));
         }
     }
 
