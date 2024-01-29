@@ -32,6 +32,7 @@ function AdvancedTableFilterPopup({
     component,
     componentProps,
     error,
+    style,
 }) {
     const onKeyDown = useCallback((event) => {
         if (event.key === 'Enter') {
@@ -41,7 +42,7 @@ function AdvancedTableFilterPopup({
 
     return (
         <>
-            <div className="n2o-advanced-table-filter-dropdown-popup n2o-form-group">
+            <div className="n2o-advanced-table-filter-dropdown-popup" style={style}>
                 {component ? (
                     React.createElement(component, {
                         ...componentProps,
@@ -49,25 +50,28 @@ function AdvancedTableFilterPopup({
                         onChange,
                         onKeyDown,
                         popupPlacement: 'right',
-                        className: error.validationClass,
+                        touched: true,
+                        ...error,
                     })
                 ) : (
-                    <InputText
-                        className={error.validationClass}
-                        value={value}
-                        onChange={onChange}
-                        onKeyDown={onKeyDown}
-                    />
-                )}
-                {error?.message?.text ? (
-                    <div className={classNames(
-                        'n2o-validation-message',
-                        validationMap[error.validationClass],
-                    )}
-                    >
-                        {error?.message?.text}
+                    <div className="n2o-form-group">
+                        <InputText
+                            className={error.validationClass}
+                            value={value}
+                            onChange={onChange}
+                            onKeyDown={onKeyDown}
+                        />
+                        {error?.message?.text ? (
+                            <div className={classNames(
+                                'n2o-validation-message',
+                                validationMap[error.validationClass],
+                            )}
+                            >
+                                {error?.message?.text}
+                            </div>
+                        ) : null}
                     </div>
-                ) : null}
+                )}
             </div>
             <div className="n2o-advanced-table-filter-dropdown-buttons">
                 <Button color="primary" size="sm" onClick={onSearchClick}>Искать</Button>
