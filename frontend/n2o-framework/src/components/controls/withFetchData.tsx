@@ -27,46 +27,60 @@ import { Alert } from '../../ducks/alerts/Alerts'
 import { FETCH_TYPE } from '../../core/widget/const'
 import { GLOBAL_KEY } from '../../ducks/alerts/constants'
 
-type Props = {
-    data: unknown[],
-    dataProvider: object,
-    datasource: string,
-    datasourceModel: [],
-    caching: boolean,
-    fetch: string,
-    size: number,
-    valueFieldId: string,
-    sortFieldId: string,
-    addAlert(obj: object): void,
-    fetchError(obj: object): void,
-    fetchData(obj: object): void,
-    setFilter(obj: object): void,
-    setRef(): void,
+interface Props {
+    data: unknown[]
+    dataProvider: { quickSearchParam: string }
+    datasource: string
+    datasourceModel: []
+    caching: boolean
+    fetch: string
+    size: number
+    valueFieldId: string
+    sortFieldId: string
+    searchMinLength: number
+    searchMinLengthHint?: string
+    value: Record<string, string> | null
+    addAlert(obj: object): void
+    fetchError(obj: object): void
+    fetchData(obj: object): void
+    setFilter(obj: object): void
+    setRef(): void
 }
 
-type State = {
-    data: Props['data'],
-    loading: boolean,
-    count: number,
-    size: Props['size'],
-    page: number,
+export type SearchMinLengthHint = false | true
+
+interface State {
+    data: Props['data']
+    loading: boolean
+    count: number
+    size: Props['size']
+    page: number
     abortController?: AbortController | null
+    searchMinLengthHint: SearchMinLengthHint
+    quickSearchParam: string
 }
+
+export type getSearchMinLengthHintType = (
+    customHint?: string,
+    component?: React.ComponentType
+) => null | string | JSX.Element
 
 type WrappedComponentProps = Pick<Props, 'valueFieldId' | 'sortFieldId'> & Pick<State, 'loading' | 'count' | 'size' | 'page'> & {
-    options: Props['data'],
-    fetchData(params: object, concat: boolean): void,
+    options: Props['data']
+    fetchData(params: Record<string, string>, merge: boolean, cacheReset?: boolean): void
     ref: Props['setRef']
+    getSearchMinLengthHint: getSearchMinLengthHintType
+    quickSearchParam: string
 }
 
-type Paging = {
-    count: number,
-    size: number,
+interface Paging {
+    count: number
+    size: number
     page: number
 }
 
-type Error = {
-    response: Response,
+interface Error {
+    response: Response
     body: string
 }
 
@@ -81,6 +95,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
     class WithFetchData extends Component<Props, State> {
         constructor(props: Props) {
             super(props)
+            const { dataProvider } = this.props
 
             this.state = {
                 data: [],
@@ -88,6 +103,8 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                 count: 0,
                 size: props.size,
                 page: 1,
+                searchMinLengthHint: false,
+                quickSearchParam: dataProvider?.quickSearchParam || 'search',
             }
 
             this.fetchData = this.fetchData.bind(this)
@@ -169,9 +186,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
             try { errorMessage = JSON.parse(errorMessage) } catch (e) { /**/ }
             const messages = get(errorMessage, 'meta.alert.messages', null)
 
-            if (messages) {
-                this.addAlertMessage(messages)
-            }
+            if (messages) { this.addAlertMessage(messages) }
         }
 
         /**
@@ -186,9 +201,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
             const { store } = this.context
             const { abortController } = this.state
 
-            if (abortController) {
-                abortController.abort()
-            }
+            if (abortController) { abortController.abort() }
 
             const {
                 basePath,
@@ -257,6 +270,34 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
             })
         }
 
+        getSearchMinLengthHint = (hint?: string, component?: React.ComponentType): null | string | JSX.Element => {
+            const { searchMinLengthHint } = this.state
+
+            if (!searchMinLengthHint) { return null }
+
+            if (hint && !component) { return hint }
+            if (hint && component) {
+                const Component = component
+
+                return <Component>{hint}</Component>
+            }
+
+            const {
+                searchMinLength,
+                searchMinLengthHint: propsSearchMinLengthHint,
+            } = this.props
+
+            const defaultHint = `Введите не менее ${searchMinLength} символов`
+
+            if (component) {
+                const Component = component
+
+                return <Component>{propsSearchMinLengthHint || defaultHint}</Component>
+            }
+
+            return propsSearchMinLengthHint || defaultHint
+        }
+
         /**
          * Получает данные с сервера
          * @param extraParams - параметры запроса
@@ -265,9 +306,26 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
          * @returns {Promise<void>}
          * @private
          */
-        async fetchData(extraParams = {}, merge = false, cacheReset = false) {
-            const { dataProvider, fetchError, datasource } = this.props
-            const { data } = this.state
+        async fetchData(extraParams: Record<string, string> = {}, merge = false, cacheReset = false): Promise<void> {
+            const {
+                dataProvider,
+                fetchError,
+                datasource,
+                searchMinLength,
+            } = this.props
+            const { data, quickSearchParam } = this.state
+
+            if (searchMinLength) {
+                const value = extraParams[quickSearchParam]
+
+                if (!value || value?.length < searchMinLength) {
+                    this.setState({ searchMinLengthHint: true })
+
+                    return
+                }
+
+                this.setState({ searchMinLengthHint: false })
+            }
 
             if (datasource) {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -305,14 +363,12 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
         componentWillUnmount() {
             const { abortController } = this.state
 
-            if (abortController) {
-                abortController.abort()
-            }
+            if (abortController) { abortController.abort() }
         }
 
         render() {
             const { valueFieldId, sortFieldId, setRef } = this.props
-            const { data, loading, count, size, page } = this.state
+            const { data, loading, count, size, page, quickSearchParam } = this.state
 
             return (
                 <WrappedComponent
@@ -327,6 +383,8 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                     sortFieldId={sortFieldId}
                     fetchData={this.fetchData}
                     ref={setRef}
+                    getSearchMinLengthHint={this.getSearchMinLengthHint}
+                    quickSearchParam={quickSearchParam}
                 />
             )
         }

@@ -1,4 +1,4 @@
-import { RefObject } from 'react'
+import React, { RefObject } from 'react'
 
 export enum Filter {
     endsWith = 'endsWith',
@@ -20,3 +20,8 @@ export type TOption = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Ref = RefObject<any>
+
+export type getSearchMinLengthHintType = (
+    customHint?: string,
+    component?: React.ComponentType
+) => null | string | JSX.Element

@@ -515,7 +515,7 @@ type Props = {
     /**
      * Неактивные данные
      */
-    disabledValues: [],
+    disabledValues?: Array<string | number>,
     /**
      * Значение
      */

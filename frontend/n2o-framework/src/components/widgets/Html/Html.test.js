@@ -31,7 +31,7 @@ it('right html with placeholders', () => {
             data={{ name: 'Tom', second: 'Sower', test: 'test' }}
         />,
     )
-    console.log('Point!', wrapper.html())
+
     expect(wrapper.html()).toEqual("<div class=\"test\"><h1 class=\"test\">Tom : Sower</h1></div>")
 })
 

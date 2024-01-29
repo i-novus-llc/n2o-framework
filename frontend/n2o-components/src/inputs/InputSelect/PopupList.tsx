@@ -78,6 +78,8 @@ type Props = {
     style?: object,
     valueFieldId: string
     multiSelect?: boolean
+    searchMinLengthHint?: string | null | JSX.Element
+    disabledValues?: Array<string | number>,
 }
 
 type State = {
