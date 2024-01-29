@@ -15,7 +15,7 @@ import { PopupList, BadgeType } from './PopupList'
 import { InputContent } from './InputContent'
 import { getValueArray } from './utils'
 import { DEFAULT_POPUP_HEIGHT, MEASURE } from './constants'
-import { Filter, Ref, TOption } from './types'
+import { Filter, Ref, TOption, getSearchMinLengthHintType } from './types'
 
 const DEFAULT_DATA_SEARCH_DELAY = 400
 
@@ -298,15 +298,15 @@ export class InputSelect extends React.Component<Props, State> {
      * @private
      */
     setIsExpanded = (isExpanded: Props['isExpanded']) => {
-        const { disabled, onToggle, caching } = this.props
-        const { prevModel } = this.state
+        const { disabled, onToggle, caching, quickSearchParam } = this.props
+        const { prevModel, input } = this.state
 
         if (!isExpanded || disabled) {
             return null
         }
 
         this.setState({ isExpanded, inputFocus: isExpanded }, () => {
-            const { page, fetchData, value = [], model = {} } = this.props
+            const { page, fetchData, searchMinLength, value = [], model = {} } = this.props
 
             if (isEmpty(value) || page === 1 || !caching) {
                 const updatedModel = !isEqual(model, prevModel)
@@ -319,18 +319,12 @@ export class InputSelect extends React.Component<Props, State> {
                 */
                 const cacheReset = !isEmpty(model) && updatedModel
 
-                if (updatedModel) {
-                    this.setState({ prevModel: model })
-                }
+                if (updatedModel) { this.setState({ prevModel: model }) }
 
                 const getCurrentPage = (cacheReset: boolean, caching?: boolean, page?: number) => {
-                    if (cacheReset) {
-                        return 1
-                    }
+                    if (cacheReset) { return 1 }
 
-                    if (caching && page) {
-                        return page
-                    }
+                    if (caching && page) { return page }
 
                     return 1
                 }
@@ -343,7 +337,11 @@ export class InputSelect extends React.Component<Props, State> {
                 */
                 const concat = cacheReset ? false : caching || false
 
-                fetchData({ page: currentPage }, concat, cacheReset)
+                const extraParams: Record<string, unknown> = { page: currentPage }
+
+                if (searchMinLength) { extraParams[quickSearchParam] = input }
+
+                fetchData(extraParams, concat, cacheReset)
             }
         })
 
@@ -603,6 +601,7 @@ export class InputSelect extends React.Component<Props, State> {
             count,
             filter,
             sortFieldId,
+            getSearchMinLengthHint,
         } = this.props
         const {
             value: stateValue,
@@ -619,6 +618,7 @@ export class InputSelect extends React.Component<Props, State> {
         const needAddFilter = (!isEmpty(filter) || sorting) && !find(stateValue, item => item[labelFieldId] === input)
 
         const popUpStyle = { maxHeight: `${popUpMaxHeight}${MEASURE}` }
+        const searchMinLengthHint = getSearchMinLengthHint()
 
         return (
             <div
@@ -722,6 +722,7 @@ export class InputSelect extends React.Component<Props, State> {
                             popUpItemRef={this.popUpItemRef}
                             style={popUpStyle}
                             multiSelect={multiSelect}
+                            searchMinLengthHint={searchMinLengthHint}
                         >
                             <div className="n2o-alerts">
                                 {alerts?.map(alert => (
@@ -764,6 +765,7 @@ export class InputSelect extends React.Component<Props, State> {
         options: [],
         value: {},
         className: '',
+        quickSearchParam: 'search',
         onSearch() {},
         onSelect() {},
         onToggle() {},
@@ -774,6 +776,7 @@ export class InputSelect extends React.Component<Props, State> {
         onBlur() {},
         onDismiss() {},
         setFilter() {},
+        getSearchMinLengthHint() { return null },
         model: {},
     } as Props
 }
@@ -812,7 +815,8 @@ type Props = {
     disabledValues: [],
     enabledFieldId: string,
     expandPopUp: boolean,
-    fetchData(extraParams: { page: number }, concat: boolean, cacheReset: boolean): void,
+    getSearchMinLengthHint: getSearchMinLengthHintType,
+    fetchData(extraParams: Record<string, unknown>, concat: boolean, cacheReset: boolean): void,
     /**
      * Варианты фильтрации
      */
@@ -919,6 +923,8 @@ type Props = {
      * Ключ id в данных
      */
     valueFieldId: string
+    quickSearchParam: string
+    searchMinLength?: number
 }
 
 type State = {

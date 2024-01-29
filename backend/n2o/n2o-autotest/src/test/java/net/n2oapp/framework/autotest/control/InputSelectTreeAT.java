@@ -119,15 +119,15 @@ public class InputSelectTreeAT extends AutoTestBase {
                 .fields().field("Input-select-tree min-length=4").control(InputSelectTree.class);
         inputSelectTree.openPopup();
         DropDownTree dropdown = inputSelectTree.dropdown();
-        dropdown.shouldHaveItems(3);
+        dropdown.shouldHaveItems(0);
 
         dropdown.setValue("a");
-        dropdown.shouldHaveItems(3);
+        dropdown.shouldHaveItems(0);
 
         dropdown.clear();
         inputSelectTree.openPopup();
         dropdown.setValue("aud");
-        dropdown.shouldHaveItems(3);
+        dropdown.shouldHaveItems(0);
 
         dropdown.clear();
         inputSelectTree.openPopup();
@@ -195,7 +195,7 @@ public class InputSelectTreeAT extends AutoTestBase {
 
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        
+
         Fields fields = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields();
         StandardButton uncheck = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class).toolbar().topRight().button("uncheck");
         InputSelectTree selectedLessThanTwo = fields.field("Дерево с ограничением отображения выбранных = 2").control(InputSelectTree.class);
