@@ -74,6 +74,26 @@
         padding: 2px;
     }
 
+    .n2o-select-tree-multiple {
+        .n2o-select-tree-tree-treenode-disabled {
+            .n2o-select-tree-content-wrapper {
+                opacity: 0.65;
+            }
+
+            .n2o-select-tree-tree-node-content-wrapper:hover {
+                cursor: default;
+                background-color: white;
+            }
+
+            .custom-control-label::before {
+                user-select: none;
+                background-color: $gray-100;
+                border: $checkbox-border;
+                box-shadow: none;
+            }
+        }
+    }
+
     .n2o-select-tree-tree-node-content-wrapper-normal,
     .n2o-select-tree-tree-node-content-wrapper-open,
     .n2o-select-tree-tree-node-content-wrapper-close {
