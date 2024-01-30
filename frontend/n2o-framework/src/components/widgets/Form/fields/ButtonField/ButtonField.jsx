@@ -3,19 +3,33 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import StandardButton from '../../../../buttons/StandardButton/StandardButton'
+import { FieldAlignmentBlock } from '../FieldAlignmentBlock'
 
-function ButtonField({ className, style, visible, ...rest }) {
+function ButtonField({ className, style, noLabelBlock, children, visible = true, ...rest }) {
+    if (!visible) { return null }
+
+    const { labelPosition } = rest
+
+    const isTopLabelPosition = labelPosition === 'top' || labelPosition === 'top-right' || labelPosition === 'top-left'
+    const isTopAlign = !noLabelBlock && isTopLabelPosition
+
     return (
-        visible && (
-            <div className={classNames('n2o-button-field n2o-form-group', className)}>
-                <StandardButton {...rest} style={style} className={className} />
+        <>
+            <FieldAlignmentBlock visible={isTopAlign} />
+            <div style={style} className={classNames('n2o-button-field n2o-form-group', className)}>
+                {children || <StandardButton {...rest} className={className} />}
+                <div className="n2o-validation-message" />
             </div>
-        )
+        </>
     )
 }
 
 ButtonField.propTypes = {
     visible: PropTypes.bool,
+    noLabelBlock: PropTypes.bool,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    children: React.Children,
 }
 
 ButtonField.defaultProps = {
