@@ -175,47 +175,37 @@ public class DatasourceAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        //проверка, что имя и валидная дата сохранены
+        validationManyForm(page, "Сергей", dateTimeFormatter.format(LocalDate.now().minusDays(1)), "Данные сохранены", 1);
+
+        //проверка, что сохранение не происходит при существующем имени
+        validationManyForm(page, "Сергей", dateTimeFormatter.format(LocalDate.now().minusDays(1)), "Имя Сергей уже существует", 1);
+
+        //проверка, что сохранение происходит при новом имени
+        validationManyForm(page, "Артем", dateTimeFormatter.format(LocalDate.now().minusDays(1)), "Данные сохранены", 2);
+
+        //проверка, что сохранение не происходит при невалидной дате
+        validationManyForm(page, "Иван", dateTimeFormatter.format(LocalDate.now().plusDays(1)), "Дата рождения не может быть в будущем", 2);
+    }
+
+    private void validationManyForm(StandardPage page, String name, String date, String alertMessage, Integer rowsSizeExpected) {
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
         InputText nameInput = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class)
                 .fields().field("Наименование").control(InputText.class);
         DateInput birthdayInput = page.regions().region(0, SimpleRegion.class).content().widget(2, FormWidget.class)
                 .fields().field("Дата рождения").control(DateInput.class);
         Button createButton = page.toolbar().bottomLeft().button("Создать");
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
-        nameInput.click();
-        nameInput.setValue("Сергей");
-        birthdayInput.setValue(formatter.format(LocalDate.now().plusDays(1)));
-        createButton.click();
         Alert alert = page.alerts(Alert.Placement.top).alert(0);
-        alert.shouldExists();
-        alert.shouldHaveText("Дата рождения не может быть в будущем");
-        table.columns().rows().shouldNotHaveRows();
 
         nameInput.click();
-        nameInput.setValue("Сергей");
-        birthdayInput.setValue(formatter.format(LocalDate.now().minusDays(10)));
+        nameInput.setValue(name);
+        birthdayInput.clickCalendarButton();
+        birthdayInput.setValue(date);
         createButton.click();
         alert.shouldExists();
-        alert.shouldHaveText("Данные сохранены");
-        table.columns().rows().shouldHaveSize(1);
-
-        nameInput.click();
-        nameInput.setValue("Сергей");
-        birthdayInput.setValue(formatter.format(LocalDate.now().minusDays(10)));
-        createButton.click();
-        alert.shouldExists();
-        alert.shouldHaveText("Имя Сергей уже существует");
-        table.columns().rows().shouldHaveSize(1);
-
-        nameInput.click();
-        nameInput.setValue("Артем");
-        birthdayInput.setValue(formatter.format(LocalDate.now().minusDays(10)));
-        createButton.click();
-        alert.shouldExists();
-        alert.shouldHaveText("Данные сохранены");
-        table.columns().rows().shouldHaveSize(2);
+        alert.shouldHaveText(alertMessage);
+        table.columns().rows().shouldHaveSize(rowsSizeExpected);
     }
 
     /**
