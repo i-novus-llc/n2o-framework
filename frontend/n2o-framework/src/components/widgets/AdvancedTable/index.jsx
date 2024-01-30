@@ -34,7 +34,7 @@ const AdvancedTableContainer = (props) => {
     const {
         id, disabled, toolbar, datasource, className, setPage, loading, fetchData,
         style, paging, filter, table, size, count, page, sorting, children, hasNext, isInit,
-        setResolve,
+        setResolve, datasourceModelLength,
     } = props
     const [expandedRows, setExpandedRows] = useState([])
     const columnsState = useSelector(getContainerColumns(id))
@@ -77,7 +77,14 @@ const AdvancedTableContainer = (props) => {
         return config
     }, [resolveProps, table])
 
-    const paginationVisible = useMemo(() => Object.values(columnsState).some(column => column.visible), [columnsState])
+    const columnsMeta = useMemo(() => Object.values(columnsState), [columnsState])
+
+    const paginationVisible = useMemo(() => {
+        if (datasourceModelLength === 0) { return false }
+
+        return columnsMeta.some(column => column.visible)
+    },
+    [datasourceModelLength, columnsMeta])
     const hasSecurityAccess = useCheckAccess(tableConfig.body?.row?.security)
 
     const { place = 'bottomLeft' } = paging

@@ -29,7 +29,7 @@ export const COUNT_BY_REQUEST = 'by-request'
 export type showCountType = 'always' | 'by-request' | 'never' | boolean
 type onSelectType = (page: number, withCount?: boolean) => void
 
-export interface IPagination {
+export interface Pagination {
     className: string,
     style: object,
     showSinglePage: boolean,
@@ -48,9 +48,10 @@ export interface IPagination {
     prev?: boolean,
     next?: boolean,
     loading?: boolean,
+    visible?: boolean
 }
 
-export interface ITotal {
+export interface Total {
     total?: string | number | null,
     title?: string,
     className?: string,
@@ -58,7 +59,7 @@ export interface ITotal {
     visible: boolean,
 }
 
-export interface ISelect {
+export interface Select {
     title?: string | number | null,
     onClick?(): void,
     style?: object,
@@ -69,7 +70,7 @@ export interface ISelect {
     visible?: boolean,
 }
 
-export interface IPages {
+export interface Pages {
     pages: number[],
     activePage: number,
     onSelect: onSelectType,
@@ -82,7 +83,7 @@ export interface IPages {
     visible: boolean,
 }
 
-export interface IExtraPage {
+export interface ExtraPage {
     visible: boolean,
     page: number | undefined,
     onSelect: onSelectType,

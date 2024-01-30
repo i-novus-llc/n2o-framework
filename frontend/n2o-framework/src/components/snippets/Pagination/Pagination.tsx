@@ -8,13 +8,13 @@ import {
     TOTAL_TITLE,
     PAGE_LINK_CLASS,
     COUNT_NEVER,
-    IPagination,
+    Pagination as PaginationProps,
 } from './constants'
 import { usePagination, getTotalPages } from './usePagination'
 import { Pages } from './Pages'
 import { getTotalVisibility } from './helpers'
 
-export function Pagination(props: IPagination) {
+export function Pagination(props: PaginationProps) {
     const {
         className,
         showCount,
@@ -30,23 +30,21 @@ export function Pagination(props: IPagination) {
         nextLabel = null,
         prev = true,
         next = true,
-        hasNext = false,
+        hasNext: propsHasNext = false,
         loading = false,
+        visible = true,
     } = props
 
     const total = count ? `${TOTAL} ${count}` : null
     const totalPages = getTotalPages(count, size)
     const totalVisible = getTotalVisibility(showCount, showLast, count)
-    const totalClick = () => {
-        onSelect(activePage, true)
-    }
+    const totalClick = () => { onSelect(activePage, true) }
 
+    const hasNext = totalPages !== undefined && totalPages > 1 && activePage === 1 ? true : propsHasNext
     const { pages = [], extraFirst, extraEnd } = usePagination(totalPages, activePage, hasNext, showLast)
 
     const getNextDisabled = () => {
-        if (totalPages) {
-            return activePage === totalPages
-        }
+        if (totalPages) { return activePage === totalPages }
 
         return !hasNext
     }
@@ -54,23 +52,17 @@ export function Pagination(props: IPagination) {
     const nextDisabled = getNextDisabled()
 
     const prevClick = () => {
-        if (!prevDisabled) {
-            onSelect(activePage - 1, showLast)
-        }
+        if (!prevDisabled) { onSelect(activePage - 1, showLast) }
     }
 
     const nextClick = () => {
-        if (!nextDisabled) {
-            onSelect(activePage + 1, showLast)
-        }
+        if (!nextDisabled) { onSelect(activePage + 1, showLast) }
     }
 
     const multiplePages = pages.length > 1
     const pagesVisible = showSinglePage ? pages.length > 0 : multiplePages
 
-    if (!pagesVisible && showCount === COUNT_NEVER) {
-        return null
-    }
+    if (!visible || (!pagesVisible && showCount === COUNT_NEVER)) { return null }
 
     return (
         <section className={classNames('pagination-container d-inline-flex', className)}>
