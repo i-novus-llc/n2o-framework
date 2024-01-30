@@ -359,13 +359,13 @@ public class InputSelectAT extends AutoTestBase {
                 .fields().field("Input-select min-length=3").control(InputSelect.class);
         inputSelect.openPopup();
         DropDown dropdown = inputSelect.dropdown();
-        dropdown.shouldHaveOptions(3);
+        dropdown.shouldHaveOptions(0);
 
         inputSelect.setValue("a");
-        dropdown.shouldHaveOptions(3);
+        dropdown.shouldHaveOptions(0);
 
         inputSelect.setValue("au");
-        dropdown.shouldHaveOptions(3);
+        dropdown.shouldHaveOptions(0);
 
         inputSelect.setValue("aud");
         dropdown.shouldHaveOptions(1);

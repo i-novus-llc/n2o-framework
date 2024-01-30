@@ -114,15 +114,15 @@ public class InputSelectTreeAT extends AutoTestBase {
                 .fields().field("Input-select-tree min-length=4").control(InputSelectTree.class);
         inputSelectTree.openPopup();
         DropDownTree dropdown = inputSelectTree.dropdown();
-        dropdown.shouldHaveItems(3);
+        dropdown.shouldHaveItems(0);
 
         dropdown.setValue("a");
-        dropdown.shouldHaveItems(3);
+        dropdown.shouldHaveItems(0);
 
         dropdown.clear();
         inputSelectTree.openPopup();
         dropdown.setValue("aud");
-        dropdown.shouldHaveItems(3);
+        dropdown.shouldHaveItems(0);
 
         dropdown.clear();
         inputSelectTree.openPopup();
