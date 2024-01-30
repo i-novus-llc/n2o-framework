@@ -57,12 +57,8 @@ type State = {
 }
 
 function getSelected(value: Props['value']) {
-    if (Array.isArray(value)) {
-        return value
-    }
-    if (!isEmpty(value)) {
-        return [value]
-    }
+    if (Array.isArray(value)) { return value }
+    if (!isEmpty(value)) { return [value] }
 
     return []
 }
@@ -87,17 +83,6 @@ class SelectComponent extends React.Component<Props, State> {
 
         this.control = null
         this.n2oSelectRef = createRef()
-
-        this.handleButtonClick = this.handleButtonClick.bind(this)
-        this.handleInputChange = this.handleInputChange.bind(this)
-        this.handleInputFocus = this.handleInputFocus.bind(this)
-        this.hideOptionsList = this.hideOptionsList.bind(this)
-        this.handleItemSelect = this.handleItemSelect.bind(this)
-        this.removeSelectedItem = this.removeSelectedItem.bind(this)
-        this.clearSelected = this.clearSelected.bind(this)
-        this.handleSearchButton = this.handleSearchButton.bind(this)
-        this.handleOnBlur = this.handleOnBlur.bind(this)
-        this.setControlRef = this.setControlRef.bind(this)
     }
 
     componentDidMount() {
@@ -164,9 +149,7 @@ class SelectComponent extends React.Component<Props, State> {
                 return find(mapOptions(initial, idType), option)
             })
 
-            this.setState({
-                selected,
-            })
+            this.setState({ selected })
         }
     }
 
@@ -175,19 +158,16 @@ class SelectComponent extends React.Component<Props, State> {
      * @param item - элемент
      * @private
      */
-    removeSelectedItem(item: TOption) {
+    removeSelectedItem = (item: TOption) => {
         const { valueFieldId, onChange } = this.props
         const { selected: stateSelected } = this.state
         const selected = typeof stateSelected !== 'string' ? stateSelected.filter(
             i => i[valueFieldId] !== item[valueFieldId as keyof TOption],
         ) : stateSelected
 
-        this.setState({
-            selected,
-        })
-        if (onChange) {
-            onChange(selected)
-        }
+        this.setState({ selected })
+
+        if (onChange) { onChange(selected) }
     }
 
     /**
@@ -201,42 +181,32 @@ class SelectComponent extends React.Component<Props, State> {
 
         if (isExpanded === newIsExpanded) { return }
 
-        this.setState(
-            {
-                isExpanded: newIsExpanded,
-            },
-            newIsExpanded ? fetchData({ page: 1 }) : onClose,
-        )
+        this.setState({ isExpanded: newIsExpanded },
+            newIsExpanded ? fetchData({ page: 1 }) : onClose)
     }
 
     /**
      * Обрабатывает нажатие на кнопку
      * @private
      */
-    handleButtonClick() {
+    handleButtonClick = () => {
         const { disabled } = this.props
         const { isExpanded } = this.state
 
-        if (!disabled) {
-            this.changePopUpVision(!isExpanded)
-        }
+        if (!disabled) { this.changePopUpVision(!isExpanded) }
     }
 
     /**
      * Обрабатывает форкус на инпуте
      * @private
      */
-    handleInputFocus() {
-        this.changePopUpVision(true)
-    }
+    handleInputFocus = () => this.changePopUpVision(true)
 
     /**
      * Скрывает popUp
      * @private
      */
-    hideOptionsList() {
-        this.changePopUpVision(false)
-    }
+    hideOptionsList = () => this.changePopUpVision(false)
 
     /**
      * Уставнавливает новое значение инпута
@@ -244,24 +214,20 @@ class SelectComponent extends React.Component<Props, State> {
      * @private
      */
     setNewValue(newValue: State['value']) {
-        this.setState({
-            value: newValue,
-        })
+        this.setState({ value: newValue })
     }
 
     /**
      * Удаляет выбранные элементы
      * @private
      */
-    clearSelected(e: Event) {
+    clearSelected = (e: Event) => {
         e.stopPropagation()
         e.preventDefault()
 
         const { disabled, onChange, onBlur } = this.props
 
-        if (disabled) {
-            return
-        }
+        if (disabled) { return }
 
         this.setState({
             selected: [],
@@ -307,9 +273,7 @@ class SelectComponent extends React.Component<Props, State> {
             value = selected
         }
 
-        this.setState({
-            selected,
-        })
+        this.setState({ selected })
 
         if (onChange) {
             onChange(value)
@@ -322,17 +286,13 @@ class SelectComponent extends React.Component<Props, State> {
      * @param newValue - новое значение
      * @private
      */
-    handleInputChange(newValue: string) {
+    handleInputChange = (newValue: string) => {
         const { searchByTap, onChange, onInput, resetOnBlur } = this.props
 
         this.setNewValue(newValue)
 
-        if (!searchByTap) {
-            this.handleDataSearch(newValue)
-        }
-        if (!resetOnBlur) {
-            onChange(newValue)
-        }
+        if (!searchByTap) { this.handleDataSearch(newValue) }
+        if (!resetOnBlur) { onChange(newValue) }
         onInput(newValue)
     }
 
@@ -340,7 +300,7 @@ class SelectComponent extends React.Component<Props, State> {
      * Обрабатывает поиск по нажатию
      * @private
      */
-    handleSearchButton() {
+    handleSearchButton = () => {
         const { value } = this.state
 
         this.handleDataSearch(value)
@@ -353,10 +313,7 @@ class SelectComponent extends React.Component<Props, State> {
     clearSearchField() {
         const { options } = this.props
 
-        this.setState({
-            value: '',
-            options,
-        })
+        this.setState({ value: '', options })
     }
 
     /**
@@ -364,14 +321,12 @@ class SelectComponent extends React.Component<Props, State> {
      * @param item - элемент массива options
      * @private
      */
-    handleItemSelect(item: TOption) {
+    handleItemSelect = (item: TOption) => {
         const { closePopupOnSelect } = this.props
 
         this.insertSelected(item)
 
-        if (closePopupOnSelect) {
-            this.hideOptionsList()
-        }
+        if (closePopupOnSelect) { this.hideOptionsList() }
 
         this.clearSearchField()
 
@@ -390,10 +345,7 @@ class SelectComponent extends React.Component<Props, State> {
         const { resetOnBlur, options } = this.props
 
         if (resetOnBlur && !selected) {
-            this.setState({
-                value: '',
-                options,
-            })
+            this.setState({ value: '', options })
         }
     }
 
@@ -411,14 +363,12 @@ class SelectComponent extends React.Component<Props, State> {
         }
     }
 
-    handleOnBlur(e: FocusEvent<HTMLDivElement>) {
+    handleOnBlur = (e: FocusEvent<HTMLDivElement>) => {
         e.preventDefault()
         this.handleResetOnBlur()
     }
 
-    setControlRef(el: HTMLButtonElement) {
-        this.control = el
-    }
+    setControlRef = (el: HTMLButtonElement) => { this.control = el }
 
     renderPlaceholder() {
         const {
@@ -458,9 +408,7 @@ class SelectComponent extends React.Component<Props, State> {
         const { labelFieldId, placeholder = '' } = this.props
         const { selected } = this.state
 
-        if (isEmpty(selected)) {
-            return placeholder
-        }
+        if (isEmpty(selected)) { return placeholder }
 
         const [selectedElement] = selected
 
@@ -489,6 +437,8 @@ class SelectComponent extends React.Component<Props, State> {
             cleanable,
             style,
             onKeyDown,
+            size,
+            count,
         } = this.props
         const inputSelectStyle = { width: '100%', ...style }
 
@@ -555,6 +505,8 @@ class SelectComponent extends React.Component<Props, State> {
                             onRemoveItem={this.removeSelectedItem}
                             format={format}
                             loading={loading}
+                            size={size}
+                            count={count}
                         />
                     </>
                 </Popup>
@@ -590,109 +542,110 @@ class SelectComponent extends React.Component<Props, State> {
     } as Props
 }
 
-type Props = {
+interface Props {
     /**
      * Данные для badge
      */
-    badge?: BadgeType,
-    className?: string,
-    cleanable: boolean,
-    closePopupOnSelect: boolean,
-    descriptionFieldId: string,
+    badge?: BadgeType
+    className?: string
+    cleanable: boolean
+    closePopupOnSelect: boolean
+    descriptionFieldId: string
     /**
      * Флаг активности
      */
-    disabled: boolean,
+    disabled: boolean
     /**
      * Ключ enabled в данных
      */
-    enabledFieldId: string,
-    fetchData(arg: object): () => void,
+    enabledFieldId: string
+    fetchData(arg: object): () => void
     /**
      * Фильтрация
      */
-    filter?: Filter,
+    filter?: Filter
     /**
      * Формат
      */
-    format?: string,
-    groupFieldId: string,
+    format?: string
+    groupFieldId: string
     /**
      * Флаг наличия поиска
      */
-    hasSearch: boolean,
+    hasSearch: boolean
     /**
      * Ключ icon в данных
      */
-    iconFieldId: string,
+    iconFieldId: string
     /**
      * Ключ image в данных
      */
-    imageFieldId: string,
-    initial?: string | number,
+    imageFieldId: string
+    initial?: string | number
     /**
      * Ключ label в данных
      */
-    labelFieldId: string,
+    labelFieldId: string
     /**
      * Флаг загрузки
      */
     loading: boolean,
-    onBlur(arg: Props['value']): void,
+    onBlur(arg: Props['value']): void
     /**
      * Callback на изменение
      */
-    onChange(arg: TOption | TOption[] | null | string): void,
+    onChange(arg: TOption | TOption[] | null | string): void
     /**
      * Callback на закрытие попапа
      */
-    onClose(): void,
+    onClose(): void
     /**
      * Callback при вводе в инпут
      */
-    onInput(input: string): void,
-    onKeyDown?(evt: KeyboardEvent<HTMLButtonElement>): void,
+    onInput(input: string): void
+    onKeyDown?(evt: KeyboardEvent<HTMLButtonElement>): void
     /**
      * Callback на поиск
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onSearch(input: State['input'], delay?: boolean, callback?: any): void,
+    onSearch(input: State['input'], delay?: boolean, callback?: any): void
     /**
      * Данные
      */
-    options: TOption[],
-    page?: number,
+    options: TOption[]
+    page?: number
     /**
      * Placeholder контрола
      */
-    placeholder?: string,
+    placeholder?: string
     /**
      * Сброс значения при потере фокуса
      */
-    resetOnBlur: boolean,
+    resetOnBlur: boolean
     /**
      * Поиск по нажатию кнопки
      */
-    searchByTap: boolean,
-    selectFormat?: string,
-    selectFormatFew?: string,
-    selectFormatMany?: string,
-    selectFormatOne?: string,
+    searchByTap: boolean
+    selectFormat?: string
+    selectFormatFew?: string
+    selectFormatMany?: string
+    selectFormatOne?: string
     /**
      * Ключ image в данных
      */
-    statusFieldId: string,
-    style?: object,
-    type?: string,
+    statusFieldId: string
+    style?: object
+    type?: string
     /**
      * Значение
      */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value: any,
+    value: unknown
     /**
      * Ключ id в данных
      */
     valueFieldId: string
+    size?: number
+    count?: number
 }
 
 export const Select = onClickOutside(SelectComponent)
