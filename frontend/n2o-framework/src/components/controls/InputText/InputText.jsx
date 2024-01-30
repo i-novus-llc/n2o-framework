@@ -44,9 +44,16 @@ class InputText extends React.Component {
 
     onChange = (e) => {
         const { onChange } = this.props
+        const { target } = e
 
         if (isFunction(onChange)) {
-            onChange(e.target.value)
+            const { value } = target
+
+            onChange(value)
+
+            const currentValue = value === '' ? null : value
+
+            onChange(currentValue)
         }
     };
 
