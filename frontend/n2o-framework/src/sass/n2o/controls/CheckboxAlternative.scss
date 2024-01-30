@@ -16,6 +16,7 @@
             right: $checkbox-position-right;
             bottom: $checkbox-position-bottom;
             width: $checkbox-width;
+            min-width: $checkbox-width;
             height: $checkbox-height;
             background-color: $checkbox-background-color;
             border: $checkbox-border;
@@ -35,6 +36,7 @@
                 right: $checkbox-position-right;
                 bottom: $checkbox-position-bottom;
                 width: $checkbox-width;
+                min-width: $checkbox-width;
                 height: $checkbox-height;
             }
         }
