@@ -69,6 +69,7 @@ export function PopupItems({
     renderIfEmpty,
     popUpItemRef,
     multiSelect,
+    searchMinLengthHint,
 }: Props) {
     /* FIXME, костыль для выбора элементов с помощью keyup / keydown, сложности с focus в InputSelect.
          Отвечает за scroll к последнему active элементу, нужно для lazy load см. в PopUpList */
@@ -238,6 +239,9 @@ export function PopupItems({
 
     // eslint-disable-next-line consistent-return
     const renderMenu = (options: Props['options']) => {
+        if (searchMinLengthHint) {
+            return <DropdownItem header>{searchMinLengthHint}</DropdownItem>
+        }
         if (!loading && options.length === 0 && !renderIfEmpty) {
             return null
         }
@@ -275,6 +279,7 @@ type Props = {
     statusFieldId: string,
     valueFieldId: string
     multiSelect: boolean
+    searchMinLengthHint: string | null | JSX.Element
 }
 
 PopupItems.defaultProps = {
@@ -296,4 +301,5 @@ PopupItems.defaultProps = {
     imageFieldId: '',
     groupFieldId: '',
     multiSelect: false,
+    searchMinLengthHint: null,
 } as Props

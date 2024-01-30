@@ -12,7 +12,7 @@ import classNames from 'classnames'
 import { withTranslation } from 'react-i18next'
 import onClickOutsideHOC from 'react-onclickoutside'
 
-import { TOption } from '../InputSelect/types'
+import { TOption, getSearchMinLengthHintType } from '../InputSelect/types'
 import { Icon } from '../../display/Icon'
 import { InlineSpinner } from '../../layouts/Spinner/InlineSpinner'
 import { Checkbox } from '../Checkbox/Checkbox'
@@ -114,8 +114,10 @@ function InputSelectTree({
     maxTagTextLength,
     maxTagCount,
     searchMinLength,
+    getSearchMinLengthHint,
     disabled = false,
 }: Props) {
+    const searchMinLengthHint = getSearchMinLengthHint()
     const treeExpandedKeys = useRef<Array<string | number>>([])
     const [searchValue, setSearchValue] = useState('');
 
@@ -275,6 +277,18 @@ function InputSelectTree({
         return `${t('selected')}: ${options.length}`
     }, [maxTagCount])
 
+    const getNotFoundContent = () => {
+        if (searchMinLengthHint) {
+            return searchMinLengthHint
+        }
+
+        if (loading) {
+            return <InlineSpinner />
+        }
+
+        return notFoundContent
+    }
+
     return (
         <div className={classNames(
             'n2o-select-tree-container',
@@ -307,7 +321,7 @@ function InputSelectTree({
                 onTreeExpand={onTreeExpand}
                 showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
                 getPopupContainer={getPopupContainer}
-                notFoundContent={loading ? <InlineSpinner /> : notFoundContent}
+                notFoundContent={getNotFoundContent()}
                 placeholder={searchValue ? null : placeholder}
                 disabled={disabled}
                 searchValue={searchValue}
@@ -458,6 +472,7 @@ type Props = {
      * Минимальное кол-во символов до фильтрации
      */
     searchMinLength?: number
+    getSearchMinLengthHint: getSearchMinLengthHintType
 }
 
 export { TreeNode, InputSelectTree }
