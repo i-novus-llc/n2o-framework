@@ -46,73 +46,91 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         Toolbar toolbar = new Toolbar();
         List<Group> groups = new ArrayList<>();
         int groupIndex = 0;
+        String toolbarPlace = getPlace(source, p);
 
-        ToolbarPlaceScope toolbarPlaceScope = p.getScope(ToolbarPlaceScope.class);
-        String defaultPlace = toolbarPlaceScope != null ? toolbarPlaceScope.getPlace() :
-                p.resolve(property("n2o.api.widget.toolbar.place"), String.class);
-        String place = castDefault(source.getPlace(), defaultPlace);
+        fillGroups(source, context, p, groups, groupIndex, toolbarPlace);
+        if (ArrayUtils.isNotEmpty(source.getGenerate()))
+            groups.add(compileGeneratedButtons(source, context, p, groupIndex, toolbarPlace));
 
-        groupIndex = initGenerate(source, context, p, groups, groupIndex, place);
-        initGroups(source, context, p, groups, place, groupIndex);
-
-        if (!groups.isEmpty())
-            toolbar.put(place, groups);
+        if (groups.size() != 0) {
+            toolbar.put(toolbarPlace, groups);
+        }
 
         return toolbar;
     }
 
-    private int initGenerate(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p, List<Group> groups, int groupIndex, String place) {
-        if (!ArrayUtils.isEmpty(source.getGenerate())) {
-            Group group = initGroup(source, place, groupIndex++);
-            List<AbstractButton> generatedButtons = generateButtons(source, source, buttonGeneratorFactory, context, p);
-            group.setButtons(generatedButtons);
-            groups.add(group);
-        }
-
-        return groupIndex;
-    }
-
-    private void initGroups(N2oToolbar toolbar, CompileContext<?, ?> context, CompileProcessor p, List<Group> groups, String place, int gi) {
-        if (toolbar.getItems() == null)
+    private void fillGroups(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p, List<Group> groups, int groupIndex, String toolbarPlace) {
+        if (ArrayUtils.isEmpty(source.getItems()))
             return;
 
-        Boolean buttonGrouping = isGrouping(p);
-        int i = 0;
-        while (i < toolbar.getItems().length) {
-            Group gr = initGroup(toolbar, place, gi++);
-            List<AbstractButton> buttons = new ArrayList<>();
-            ToolbarItem item = toolbar.getItems()[i];
-            if (item instanceof N2oGroup) {
-                N2oGroup group = (N2oGroup) item;
-                if (!ArrayUtils.isEmpty(group.getGenerate())) {
-                    buttons.addAll(generateButtons(group, toolbar, buttonGeneratorFactory, context, p));
-                } else if (group.getItems() != null) {
-                    for (GroupItem it : group.getItems()) {
-                        buttons.add(p.compile(it, context, toolbar));
-                    }
-                }
-                i++;
+        List<ToolbarItem> toolbarItems = List.of(source.getItems());
+        int itemIndex = 0;
+        while (itemIndex < toolbarItems.size()) {
+            Group group = initGroup(source, toolbarPlace, groupIndex++);
+            if (toolbarItems.get(itemIndex) instanceof N2oGroup) {
+                group.setButtons(compileButtonsOfGroup(source, context, p, (N2oGroup) toolbarItems.get(itemIndex)));
+                itemIndex++;
             } else {
-                while (i < toolbar.getItems().length && !(toolbar.getItems()[i] instanceof N2oGroup)) {
-                    buttons.add(p.compile(toolbar.getItems()[i], context, toolbar));
-                    i++;
-                    if (!buttonGrouping) break;
-                }
+                itemIndex = compileSingleButtons(source, context, p, toolbarItems, group, itemIndex);
             }
-            gr.setButtons(buttons);
-            groups.add(gr);
+            groups.add(group);
         }
     }
 
-    private Group initGroup(N2oToolbar source, String place, int gi) {
-        Group group = new Group(place + gi);
+    private int compileSingleButtons(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p, List<ToolbarItem> toolbarItems, Group group, int itemIndex) {
+        List<AbstractButton> buttons = new ArrayList<>();
+        boolean shouldBeGrouped = Boolean.FALSE.equals(shouldBeGrouped(p));
+
+        while (itemIndex < toolbarItems.size() && !(toolbarItems.get(itemIndex) instanceof N2oGroup)) {
+            buttons.add(p.compile(toolbarItems.get(itemIndex), context, source));
+            itemIndex++;
+            if (shouldBeGrouped) break;
+        }
+        group.setButtons(buttons);
+
+        return itemIndex;
+    }
+
+    private ArrayList<AbstractButton> compileButtonsOfGroup(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p, N2oGroup item) {
+        ArrayList<AbstractButton> result = new ArrayList<>();
+        if (ArrayUtils.isNotEmpty(item.getGenerate())) {
+            result.addAll(generateButtons(item, source, buttonGeneratorFactory, context, p));
+        }
+        if (item.getItems() == null)
+            return result;
+        for (int i = 0; i < item.getItems().length; i++) {
+            result.add(p.compile(item.getItems()[i], context, source));
+        }
+
+        return result;
+    }
+
+    private Group compileGeneratedButtons(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p, int groupIndex, String toolbarPlace) {
+        Group group = initGroup(source, toolbarPlace, groupIndex);
+        List<AbstractButton> generatedButtons = generateButtons(source, source, buttonGeneratorFactory, context, p);
+        group.setButtons(generatedButtons);
+
+        return group;
+    }
+
+    private Group initGroup(N2oToolbar source, String place, Integer groupIndex) {
+        Group group = new Group(place + groupIndex);
         group.setClassName(source.getCssClass());
         group.setStyle(StylesResolver.resolveStyles(source.getStyle()));
 
         return group;
     }
 
-    private Boolean isGrouping(CompileProcessor p) {
+    private static String getPlace(N2oToolbar source, CompileProcessor p) {
+        ToolbarPlaceScope toolbarPlaceScope = p.getScope(ToolbarPlaceScope.class);
+        String defaultPlace = toolbarPlaceScope != null
+                ? toolbarPlaceScope.getPlace()
+                : p.resolve(property("n2o.api.widget.toolbar.place"), String.class);
+
+        return castDefault(source.getPlace(), defaultPlace);
+    }
+
+    private Boolean shouldBeGrouped(CompileProcessor p) {
         Object buttonGrouping = p.resolve(property("n2o.api.toolbar.grouping"));
 
         return buttonGrouping instanceof Boolean ? (Boolean) buttonGrouping : true;

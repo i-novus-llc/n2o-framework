@@ -1,11 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
@@ -125,5 +125,14 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         Submenu button = (Submenu) f.getToolbar().get("bottomLeft").get(0).getButtons().get(2);
         PerformButton item = button.getSubMenu().get(0);
         assertThat(item.getId(), is("tesId10"));
+    }
+
+    @Test
+    void generatedButtonsComeAfterButtonsInToolbar() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generatedButtonsComeAfterButtonsInToolbar.page.xml")
+                .get(new PageContext("generatedButtonsComeAfterButtonsInToolbar"));
+        Toolbar toolbar = page.getWidget().getToolbar();
+        assertThat(toolbar.getGroups().get(0).getButtons().get(0).getLabel(), is("Сохранить"));
+        assertThat(toolbar.getGroups().get(1).getButtons().get(0).getLabel(), is("Закрыть"));
     }
 }
