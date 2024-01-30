@@ -47,7 +47,7 @@ public class DemoIntegrationAT {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
-        System.setProperty("selenide.headless", "10000");
+        System.setProperty("selenide.timeout", "20000");
 
         headless = true;
         browserSize = "1920x1200";
