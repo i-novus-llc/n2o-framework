@@ -56,14 +56,14 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
                 .getPageName(), is("Пустой объект для unit тестов - Изменение"));
 
         assertThat(form.getToolbar().size(), is(2));
-        assertThat(form.getToolbar().get("topLeft").get(0).getButtons().size(), is(3));
-        assertThat(form.getToolbar().get("topLeft").get(1).getButtons().size(), is(1));
+        assertThat(form.getToolbar().get("topLeft").get(0).getButtons().size(), is(1));
+        assertThat(form.getToolbar().get("topLeft").get(1).getButtons().size(), is(3));
         assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().size(), is(1));
-        List<String> buttonsId = form.getToolbar().get("topLeft").get(0)
+        List<String> buttonsId = form.getToolbar().get("topLeft").get(1)
                 .getButtons().stream().map(AbstractButton::getId).collect(Collectors.toList());
-        List<String> buttonsLabel = form.getToolbar().get("topLeft").get(0)
+        List<String> buttonsLabel = form.getToolbar().get("topLeft").get(1)
                 .getButtons().stream().map(AbstractButton::getLabel).collect(Collectors.toList());
-        List<Action> buttonsAction = form.getToolbar().get("topLeft").get(0)
+        List<Action> buttonsAction = form.getToolbar().get("topLeft").get(1)
                 .getButtons().stream().map(AbstractButton::getAction).collect(Collectors.toList());
 
 
