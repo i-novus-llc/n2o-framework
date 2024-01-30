@@ -3,33 +3,24 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import StandardButton from '../../../../buttons/StandardButton/StandardButton'
-import { useFormContext } from '../../../../core/FormProvider'
 import { FieldAlignmentBlock } from '../FieldAlignmentBlock'
 
-function ButtonField({ className, style, visible, noLabelBlock, ...rest }) {
+function ButtonField({ className, style, noLabelBlock, children, visible = true, ...rest }) {
+    if (!visible) { return null }
+
     const { labelPosition } = rest
-    const { prefix, formName } = useFormContext()
 
     const isTopLabelPosition = labelPosition === 'top' || labelPosition === 'top-right' || labelPosition === 'top-left'
     const isTopAlign = !noLabelBlock && isTopLabelPosition
 
     return (
-        visible && (
-            <>
-                <FieldAlignmentBlock visible={isTopAlign} />
-                <div
-                    className={classNames('n2o-button-field n2o-form-group', className)}
-                >
-                    <StandardButton
-                        {...rest}
-                        style={style}
-                        className={className}
-                        entityKey={`${formName}/${prefix}`}
-                    />
-                    <div className="n2o-validation-message" />
-                </div>
-            </>
-        )
+        <>
+            <FieldAlignmentBlock visible={isTopAlign} />
+            <div style={style} className={classNames('n2o-button-field n2o-form-group', className)}>
+                {children || <StandardButton {...rest} className={className} />}
+                <div className="n2o-validation-message" />
+            </div>
+        </>
     )
 }
 
