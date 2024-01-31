@@ -25,7 +25,7 @@ public class N2oTableFilterHeader extends N2oTableSimpleHeader implements TableF
 
     @Override
     public void clickSearchButton() {
-        buttons().find(Condition.text("Искать")).click();
+        buttons().find(Condition.text("Найти")).click();
     }
 
     @Override
