@@ -2,7 +2,7 @@
 import { TdHTMLAttributes, FC, VFC } from 'react'
 
 export type Row = {
-    click?: Record<string, any>
+    click?: { enablingCondition?: string, [key: string]: unknown }
     component?: VFC<any>
     elementAttributes?: Partial<TdHTMLAttributes<HTMLTableRowElement>>
     hasSelect?: boolean
