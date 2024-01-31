@@ -41,21 +41,17 @@ export function WithTableProps(Component) {
                 'body.row.security',
             ])
 
-            /* WARNING! Неявное место, здесь собирается RowComponent по src */
+            /* WARNING! Неявное место, здесь собирается RowComponent (кастомизация) по src */
             return resolveProps(config)
         }, [resolveProps, table])
 
-        /* доступность action по rowClick */
+        /* есть ли права для выполнения действия "rowClick" для всех строк */
         const hasSecurityAccess = check(tableConfig.body?.row?.security)
 
         const paginationVisible = useMemo(() => {
-            if (datasourceModelLength === 0) {
-                return false
-            }
+            if (datasourceModelLength === 0) { return false }
 
-            return !columnsState.every(
-                column => !column.visibleState || !column.visible,
-            )
+            return !columnsState.every(column => !column.visibleState || !column.visible)
         },
         [columnsState, datasourceModelLength])
 
