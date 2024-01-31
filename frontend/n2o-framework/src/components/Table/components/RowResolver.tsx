@@ -21,23 +21,19 @@ export const RowResolver: VFC<RowResolverProps> = (props) => {
         isTreeExpanded,
         hasExpandedButton,
         selection,
-        hasSecurityAccess,
         click,
         rowIndex,
         ...otherProps
     } = props
     const { setFocusOnRow, onRowClick } = useTableActions()
     const { onShowOverlay, onHideOverlay } = useToolbarOverlay()
-    const onClickRowAction = useCallback((data) => {
-        onRowClick(data)
-    }, [onRowClick])
-    const onSelection = useCallback((data) => {
-        setFocusOnRow(data.id, data)
-    }, [setFocusOnRow])
+
+    const onClickRowAction = useCallback((data) => { onRowClick(data) }, [onRowClick])
+    const onSelection = useCallback((data) => { setFocusOnRow(data.id, data) }, [setFocusOnRow])
 
     const { style, ...otherElementAttributes } = elementAttributes || {}
     const hasSelection = selection !== Selection.None
-    const hasRowAction = click && hasSecurityAccess
+    const hasRowAction = typeof click !== 'undefined'
 
     const mergedStyle = useMemo(() => ({
         '--deep-level': treeDeepLevel,
@@ -45,9 +41,7 @@ export const RowResolver: VFC<RowResolverProps> = (props) => {
     }), [treeDeepLevel, style])
 
     const onMouseEnter = useCallback((event: MouseEvent) => {
-        if (onShowOverlay) {
-            onShowOverlay(event, data)
-        }
+        if (onShowOverlay) { onShowOverlay(event, data) }
     }, [onShowOverlay, data])
 
     return (
