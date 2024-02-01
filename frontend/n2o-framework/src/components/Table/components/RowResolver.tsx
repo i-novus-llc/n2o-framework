@@ -20,23 +20,18 @@ export const RowResolver: VFC<RowResolverProps> = (props) => {
         isTreeExpanded,
         hasExpandedButton,
         selection,
-        hasSecurityAccess,
         click,
         rowIndex,
         ...otherProps
     } = props
     const { setFocusOnRow, onRowClick } = useTableActions()
 
+    const onClickRowAction = useCallback((data) => { onRowClick(data) }, [onRowClick])
+    const onSelection = useCallback((data) => { setFocusOnRow(data.id, data) }, [setFocusOnRow])
+
     const { style, ...otherElementAttributes } = elementAttributes || {}
     const hasSelection = selection !== Selection.None
-    const hasRowAction = click && hasSecurityAccess
-
-    const onClickRowAction = useCallback((data) => {
-        onRowClick(data)
-    }, [onRowClick])
-    const onSelection = useCallback((data) => {
-        setFocusOnRow(data.id, data)
-    }, [setFocusOnRow])
+    const hasRowAction = typeof click !== 'undefined'
 
     const mergedStyle = useMemo(() => ({
         '--deep-level': treeDeepLevel,
