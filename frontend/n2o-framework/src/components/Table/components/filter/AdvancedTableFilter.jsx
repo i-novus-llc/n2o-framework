@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { pure } from 'recompose'
 import isEmpty from 'lodash/isEmpty'
-import { Dropdown, DropdownToggle, DropdownMenu, Badge, Button } from 'reactstrap'
+import { Dropdown, DropdownToggle, DropdownMenu, Button, Badge } from 'reactstrap'
+import classNames from 'classnames'
 
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableFilterPopup from './AdvancedTableFilterPopup'
@@ -37,7 +38,15 @@ class AdvancedTableFilter extends Component {
     toggleFilter = () => {
         const { filterOpen } = this.state
 
-        this.setState({ filterOpen: !filterOpen })
+        this.setState({ filterOpen: !filterOpen }, () => {
+            const { filterOpen, value: stateValue } = this.state
+
+            if (filterOpen) {
+                const { value: reduxValue } = this.props
+
+                this.setState({ value: reduxValue || stateValue })
+            }
+        })
     }
 
     onChangeFilter = value => this.setState({ value })
@@ -78,11 +87,19 @@ class AdvancedTableFilter extends Component {
     }
 
     render() {
-        const { children, field, error } = this.props
+        const { children, field, error, value: reduxValue } = this.props
         const { filterOpen, value } = this.state
         const { component, control, style, ...componentProps } = field
 
         const popUpStyle = this.createPopUpStyle(style)
+
+        const filtered = this.check(reduxValue)
+        const filled = this.check(value)
+
+        const badgeClassName = classNames(
+            'n2o-advanced-table-filter-badge',
+            { hollow: !filtered && filled },
+        )
 
         return (
             <>
@@ -95,7 +112,7 @@ class AdvancedTableFilter extends Component {
                     <DropdownToggle tag="div">
                         <Button color="link" size="sm">
                             <i className="fa fa-filter" />
-                            {this.check(value) && <Badge className="n2o-advanced-table-filter-badge" color="primary" />}
+                            {(filtered || filled) && <Badge className={badgeClassName} color="primary" />}
                         </Button>
                     </DropdownToggle>
                     <DropdownMenu className="n2o-advanced-table-filter-dropdown" tag="div" positionFixed>
