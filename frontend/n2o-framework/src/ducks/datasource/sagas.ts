@@ -4,7 +4,6 @@ import {
     fork,
     cancel,
     delay,
-    debounce,
 } from 'redux-saga/effects'
 import type { Task } from 'redux-saga'
 
@@ -130,10 +129,5 @@ export default (apiProvider: unknown) => [
     takeEvery(reset, function* resetModels({ payload: { id } }: ResetDatasourceAction) {
         yield put(clearModel({ prefixes: Object.values(ModelPrefix), key: id }))
     }),
-    debounce(400, [
-        updateModel,
-        appendFieldToArray,
-        removeFieldFromArray,
-        copyFieldArray,
-    ], autoSubmit),
+    ...autoSubmit,
 ]

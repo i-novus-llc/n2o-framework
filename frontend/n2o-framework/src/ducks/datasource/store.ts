@@ -29,8 +29,12 @@ import type {
 } from './Actions'
 import type { DataSourceState } from './DataSource'
 import { DataSource } from './DataSource'
-import type { Provider, QueryResult } from './Provider'
-import { ProviderType } from './Provider'
+import {
+    Provider,
+    QueryResult,
+    ProviderType,
+    SubmitProvider,
+} from './Provider'
 
 const initialState: Record<string, DataSourceState> = {}
 
@@ -348,7 +352,7 @@ const datasource = createSlice({
         },
 
         submit: {
-            prepare(id: string, provider?, meta = {}) {
+            prepare(id: string, provider?: SubmitProvider, meta = {}) {
                 return ({
                     payload: { id, provider },
                     meta,
