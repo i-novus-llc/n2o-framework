@@ -74,7 +74,7 @@ function AdvancedTableFilterPopup({
                 )}
             </div>
             <div className="n2o-advanced-table-filter-dropdown-buttons">
-                <Button color="primary" size="sm" onClick={onSearchClick}>Искать</Button>
+                <Button color="primary" size="sm" onClick={onSearchClick}>Найти</Button>
                 <Button size="sm" onClick={onResetClick}>Сбросить</Button>
             </div>
         </>
