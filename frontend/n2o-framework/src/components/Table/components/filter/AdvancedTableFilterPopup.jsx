@@ -51,6 +51,7 @@ function AdvancedTableFilterPopup({
                         onKeyDown,
                         popupPlacement: 'right',
                         touched: true,
+                        label: null,
                         ...error,
                     })
                 ) : (
