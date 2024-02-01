@@ -2,7 +2,7 @@ import { select, put } from 'redux-saga/effects'
 import { isEmpty } from 'lodash'
 
 import { dataSourceByIdSelector } from '../selectors'
-import type { ISubmit } from '../Provider'
+import type { SubmitProvider } from '../Provider'
 import { ProviderType } from '../Provider'
 import { submit as submitService } from '../Providers/Service'
 import { submit as submitStorage } from '../Providers/Storage'
@@ -11,14 +11,14 @@ import type { SubmitAction } from '../Actions'
 import type { DataSourceState } from '../DataSource'
 import { submitFail, submitSuccess } from '../store'
 
-type SubmitMethod<TProvider extends ISubmit = ISubmit> = (
+type SubmitMethod<TProvider extends SubmitProvider = SubmitProvider> = (
     id: string,
     provider: TProvider,
     apiProvider: unknown,
 ) => Generator
 
 function getSubmit<
-    TSubmit extends ISubmit,
+    TSubmit extends SubmitProvider,
     TSubmitType extends ProviderType = TSubmit['type']
 >(provider: TSubmitType): SubmitMethod<TSubmit> {
     switch (provider) {
