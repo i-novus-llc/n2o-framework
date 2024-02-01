@@ -3,7 +3,7 @@ import type { DataSourceDependency, SortDirection } from '../../core/datasource/
 import { ModelPrefix } from '../../core/datasource/const'
 import { ValidationsKey, Validation, ValidationResult } from '../../core/validation/types'
 
-import type { Provider, ISubmit, Paging } from './Provider'
+import type { Provider, SubmitProvider, Paging, ServiceSubmit } from './Provider'
 
 export type State = Record<string, DataSourceState>
 
@@ -17,8 +17,8 @@ export interface DataSourceState {
     additionalInfo: object
     loading: boolean
     sorting: Partial<Record<string, SortDirection>>
-    submit?: ISubmit
-    fieldsSubmit: Record<string, Provider>
+    submit?: SubmitProvider
+    fieldsSubmit: Record<string, ServiceSubmit>
     pageId?: string
     // TODO: rename to "messages"
     errors: Record<

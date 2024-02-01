@@ -5,7 +5,7 @@ import { ValidationsKey } from '../../core/validation/types'
 import { Action, Meta } from '../Action'
 
 import type { DataSourceState } from './DataSource'
-import type { Provider, ISubmit, QueryResult } from './Provider'
+import type { Provider, SubmitProvider, QueryResult } from './Provider'
 
 export interface DatasourcePayload {
     id: string
@@ -97,5 +97,5 @@ export type SetFieldSubmitAction = DatasourceAction<{
 
 export type SubmitAction = DatasourceAction<{
     id: string
-    provider?: ISubmit
+    provider?: SubmitProvider
 }, ActionMeta>

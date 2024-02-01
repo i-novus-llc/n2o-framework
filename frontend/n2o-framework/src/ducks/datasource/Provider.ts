@@ -83,11 +83,12 @@ export type Query<TProvider extends Provider> = (
 
 export interface SubmitBase extends Provider {
     auto: boolean
+    // FIXME remove legacy field
+    autoSubmitOn?: 'change' | 'blur'
 }
 
-export interface ServiceSubmit {
+export interface ServiceSubmit extends SubmitBase {
     type: ProviderType.service
-    autoSubmitOn?: 'change' | 'blur'
     url: string
     pathMapping: Record<string, MappingParam>
     queryMapping: Record<string, MappingParam>
@@ -113,4 +114,4 @@ export interface InheritedSubmit extends SubmitBase {
     submitValueExpression?: string
 }
 
-export type ISubmit = StorageSubmit | InheritedSubmit | ServiceSubmit
+export type SubmitProvider = StorageSubmit | InheritedSubmit | ServiceSubmit
