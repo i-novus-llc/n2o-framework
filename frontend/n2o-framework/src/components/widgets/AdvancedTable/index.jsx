@@ -68,6 +68,7 @@ const AdvancedTableContainer = (props) => {
         const config = omit(table, ['autoSelect', 'autoFocus', 'textWrap', 'header.cells', 'body.cells'])
         const hasCustomRow = Boolean(get(config, 'body.row.src'))
 
+        /* WARNING! Неявное место, здесь собирается RowComponent (кастомизация) по src */
         if (hasCustomRow) {
             set(config, 'body.row.component', resolveProps(get(config, 'body.row.src')))
 
@@ -85,6 +86,8 @@ const AdvancedTableContainer = (props) => {
         return columnsMeta.some(column => column.visible)
     },
     [datasourceModelLength, columnsMeta])
+
+    /* есть ли права для выполнения действия "rowClick" для всех строк */
     const hasSecurityAccess = useCheckAccess(tableConfig.body?.row?.security)
 
     const { place = 'bottomLeft' } = paging
