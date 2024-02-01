@@ -27,13 +27,18 @@
 
 .n2o-advanced-table-filter-badge.badge {
     position: absolute;
-    right: 3px;
-    top: 3px;
+    right: 2px;
+    top: 2px;
     display: block;
-    width: 5px;
-    height: 5px;
+    width: 7px;
+    height: 7px;
     padding: 0;
     border-radius: 50%;
+}
+
+.n2o-advanced-table-filter-badge.hollow {
+    background-color: transparent;
+    border: 1.5px solid $primary;
 }
 
 .n2o-advanced-table-expanded-row-content {
