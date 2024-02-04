@@ -3,7 +3,6 @@ import React, { Fragment, VFC } from 'react'
 import { RowsProps } from '../types/props'
 
 import { RowContainer } from './RowContainer'
-import Table from './basic'
 
 export const Rows: VFC<RowsProps> = (props) => {
     const {
@@ -42,19 +41,11 @@ export const Rows: VFC<RowsProps> = (props) => {
                             {...otherProps}
                         />
                         {(hasTreeData && isTreeExpanded) ? (
-                            <Table.Row className="table-row-presentation">
-                                <Table.Cell colSpan={otherProps.cells.length}>
-                                    <Table>
-                                        <Table.Body>
-                                            <Rows
-                                                {...props}
-                                                data={treeData}
-                                                treeDeepLevel={treeDeepLevel + 1}
-                                            />
-                                        </Table.Body>
-                                    </Table>
-                                </Table.Cell>
-                            </Table.Row>
+                            <Rows
+                                {...props}
+                                data={treeData}
+                                treeDeepLevel={treeDeepLevel + 1}
+                            />
                         ) : null}
                     </Fragment>
                 )
