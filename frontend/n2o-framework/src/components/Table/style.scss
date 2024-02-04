@@ -35,21 +35,6 @@
         overflow: visible !important;
     }
 
-    .table-row-presentation > td {
-        padding: 0;
-        border: none;
-    }
-
-    .table-row-presentation {
-        display: contents;
-
-        table > td,
-        tbody > td,
-        thead > td {
-            display: contents;
-        }
-    }
-
     .cell[data-level] {
         padding-left: attr(--data-level px);
 
