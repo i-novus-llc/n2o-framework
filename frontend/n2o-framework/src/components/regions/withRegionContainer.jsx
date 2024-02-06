@@ -78,6 +78,7 @@ export const createRegionContainer = config => (WrappedComponent) => {
                 datasource,
                 activeTabFieldId,
                 parent,
+                visible: true,
             }))
         }
 
