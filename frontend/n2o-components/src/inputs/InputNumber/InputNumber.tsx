@@ -137,7 +137,7 @@ export class InputNumberComponent extends React.Component<InputNumberProps, Inpu
     }
 
     onBlur = () => {
-        const { max = 100, min = 0, onBlur, mode = InputMode.DEFAULT } = this.props
+        const { max = 100, min = 0, onBlur, onChange, mode = InputMode.DEFAULT } = this.props
         const { value: stateValue } = this.state
 
         if (stateValue === '-' && mode !== InputMode.PICKER) {
@@ -149,7 +149,10 @@ export class InputNumberComponent extends React.Component<InputNumberProps, Inpu
         if (!isNil(value) && isValid(value, min, max)) {
             this.setState({ value }, () => onBlur?.(value))
         } else {
-            this.setState({ value: null }, () => onBlur?.(null))
+            this.setState({ value: null }, () => {
+                onBlur?.(null)
+                onChange?.(null)
+            })
         }
     }
 
