@@ -2,19 +2,14 @@ package net.n2oapp.framework.api;
 
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
-import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.lang.Nullable;
-import org.springframework.validation.ValidationUtils;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceNullByEmpty;
 import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceOptional;
 
@@ -388,5 +383,15 @@ public abstract class StringUtils {
 
     public static String prepareSizeAttribute(String value) {
         return NumberUtils.isCreatable(value) ? value.concat("px") : value;
+    }
+
+    /**
+     * Проверка, что текст является значением boolean ("true" или "false")
+     *
+     * @param value Текст
+     * @return true, если является значением boolean, иначе - false
+     */
+    public static boolean isBoolean(String value) {
+        return "true".equals(value) || "false".equals(value);
     }
 }

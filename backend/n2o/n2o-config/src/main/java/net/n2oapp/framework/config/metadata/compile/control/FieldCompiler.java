@@ -29,7 +29,10 @@ import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.script.ScriptParserException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.*;
+import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
@@ -44,6 +47,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
+import static net.n2oapp.framework.api.StringUtils.isBoolean;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
@@ -54,7 +58,7 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
  */
 public abstract class FieldCompiler<D extends Field, S extends N2oField> extends ComponentCompiler<D, S, CompileContext<?, ?>> {
 
-    private final Pattern EXT_EXPRESSION_PATTERN = Pattern.compile(".*\\(.*\\).*");
+    private static final Pattern EXT_EXPRESSION_PATTERN = Pattern.compile(".*\\(.*\\).*");
 
     @Override
     protected String getSrcProperty() {
@@ -63,9 +67,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
         source.setNoLabel(castDefault(source.getNoLabel(),
-                () -> p.resolve(property("n2o.api.control.no_label"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.control.no_label"), String.class)));
         source.setNoLabelBlock(castDefault(source.getNoLabelBlock(),
-                () -> p.resolve(property("n2o.api.control.no_label_block"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.control.no_label_block"), String.class)));
         source.setRefPage(castDefault(source.getRefPage(), PageRef.THIS));
         source.setRefDatasourceId(castDefault(source.getRefDatasourceId(), () -> {
             if (source.getRefPage().equals(PageRef.THIS)) {
@@ -93,7 +97,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         IndexScope idx = p.getScope(IndexScope.class);
         field.setId(castDefault(source.getId(), () -> "f" + idx.get()));
         field.setLabel(initLabel(source, p));
-        field.setNoLabelBlock(source.getNoLabelBlock());
+        field.setNoLabel(isBoolean(source.getNoLabel())
+                ? Boolean.valueOf(source.getNoLabel())
+                : p.resolveJS(source.getNoLabel()));
+        field.setNoLabelBlock(isBoolean(source.getNoLabelBlock())
+                ? Boolean.valueOf(source.getNoLabelBlock())
+                : p.resolveJS(source.getNoLabelBlock()));
         field.setLabelClass(p.resolveJS(source.getLabelClass()));
         field.setHelp(p.resolveJS(source.getHelp()));
         field.setDescription(p.resolveJS(source.getDescription()));
@@ -127,8 +136,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected String initLabel(S source, CompileProcessor p) {
-        if (Boolean.FALSE.equals(source.getNoLabelBlock() || source.getNoLabel()))
+        if (!"true".equals(source.getNoLabel()) && !"true".equals(source.getNoLabelBlock())) {
             return p.resolveJS(source.getLabel());
+        }
         return null;
     }
 

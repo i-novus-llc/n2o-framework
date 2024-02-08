@@ -30,8 +30,8 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
     private String description;
     private String help;
     private String domain;
-    private Boolean noLabel;
-    private Boolean noLabelBlock;
+    private String noLabel;
+    private String noLabelBlock;
     private Validations validations;
     private Boolean copied;
     private String defaultValue;

@@ -128,14 +128,20 @@
                 <xs:documentation>Класс для заголовка поля</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="no-label" type="xs:boolean" default="false">
+        <xs:attribute name="no-label" type="xs:string" default="false">
             <xs:annotation>
-                <xs:documentation>Не отображать заголовок</xs:documentation>
+                <xs:documentation>
+                    Не отображать заголовок.
+                    Поддерживаются плейсхолдеры условия
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="no-label-block" type="xs:boolean" default="false">
+        <xs:attribute name="no-label-block" type="xs:string" default="false">
             <xs:annotation>
-                <xs:documentation>Не отображать блок с заголовком</xs:documentation>
+                <xs:documentation>
+                    Не отображать блок с заголовком.
+                    Поддерживаются плейсхолдеры условия
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">

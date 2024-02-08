@@ -26,7 +26,9 @@ public class Field extends Component {
     @JsonProperty
     private String label;
     @JsonProperty
-    private Boolean noLabelBlock;
+    private Object noLabel;
+    @JsonProperty
+    private Object noLabelBlock;
     @JsonProperty
     private String labelClass;
     @JsonProperty
