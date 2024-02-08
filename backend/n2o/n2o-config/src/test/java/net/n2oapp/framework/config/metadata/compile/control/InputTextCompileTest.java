@@ -91,5 +91,9 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         assertThat(field.getLabel(), nullValue());
         assertThat(field.getNoLabelBlock(), is(true));
         assertThat(field.getLabelClass(), is("testLabelClass"));
+        field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(2).getFields().get(0);
+        assertThat(field.getLabel(), is("InputNumber"));
+        assertThat(field.getNoLabel(), is("`test`"));
+        assertThat(field.getNoLabelBlock(), is("`test`"));
     }
 }

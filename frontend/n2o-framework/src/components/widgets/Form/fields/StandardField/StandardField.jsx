@@ -9,6 +9,7 @@ import { EventHandlersContext } from '@i-novus/n2o-components/lib/inputs/eventHa
 
 import Toolbar from '../../../../buttons/Toolbar'
 import { Spinner } from '../../../../snippets/Spinner/Spinner'
+import propsResolver from '../../../../../utils/propsResolver'
 
 import Control from './Control'
 import Label from './Label'
@@ -84,7 +85,8 @@ class StandardField extends React.Component {
             help,
             toolbar,
             form,
-            noLabelBlock,
+            noLabel: propsNoLabel,
+            noLabelBlock: propsNoLabelBlock,
             model,
             ...props
         } = this.props
@@ -126,6 +128,11 @@ class StandardField extends React.Component {
 
         const fieldId = `field-${props.form}-id`
 
+        const {
+            noLabelBlock = false,
+            noLabel = false,
+        } = propsResolver({ noLabelBlock: propsNoLabelBlock, noLabel: propsNoLabel }, model)
+
         return (
             <div
                 id={fieldId}
@@ -138,7 +145,7 @@ class StandardField extends React.Component {
                 {!noLabelBlock && (
                     <Label
                         id={id}
-                        value={label}
+                        value={noLabel ? null : label}
                         style={extendedLabelStyle}
                         className={classNames(
                             labelClass,
@@ -242,7 +249,8 @@ StandardField.propTypes = {
     containerKey: PropTypes.string,
     dataProvider: PropTypes.object,
     form: PropTypes.string,
-    noLabelBlock: PropTypes.bool,
+    noLabelBlock: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    noLabel: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     value: PropTypes.any,
 }
 

@@ -33,7 +33,7 @@ public class SearchButtonsCompiler extends FieldCompiler<SearchButtons, N2oSearc
     @Override
     public SearchButtons compile(N2oSearchButtons source, CompileContext<?, ?> context, CompileProcessor p) {
         SearchButtons field = new SearchButtons();
-        source.setNoLabel(p.resolve(property("n2o.api.control.search_buttons.no_label"), Boolean.class));
+        source.setNoLabel(p.resolve(property("n2o.api.control.search_buttons.no_label"), String.class));
         field.setSearch(initSearchButton(source, context, p));
         field.setClear(initClearButton(source, context, p));
         compileField(field, source, context, p);

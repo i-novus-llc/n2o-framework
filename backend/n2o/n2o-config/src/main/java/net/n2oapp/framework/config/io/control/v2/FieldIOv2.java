@@ -25,8 +25,8 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
         p.attribute(e, "enabled", m::getEnabled, m::setEnabled);
         p.attribute(e, "label", m::getLabel, m::setLabel);
         p.attribute(e, "label-class", m::getLabelClass, m::setLabelClass);
-        p.attributeBoolean(e, "no-label", m::getNoLabel, m::setNoLabel);
-        p.attributeBoolean(e, "no-label-block", m::getNoLabelBlock, m::setNoLabelBlock);
+        p.attribute(e, "no-label", m::getNoLabel, m::setNoLabel);
+        p.attribute(e, "no-label-block", m::getNoLabelBlock, m::setNoLabelBlock);
         p.attribute(e, "description", m::getDescription, m::setDescription);
         p.attribute(e, "domain", m::getDomain, m::setDomain);
         p.attribute(e, "param", m::getParam, m::setParam);

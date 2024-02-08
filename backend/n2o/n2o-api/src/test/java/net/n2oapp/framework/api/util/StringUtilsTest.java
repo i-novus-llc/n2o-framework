@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.n2oapp.framework.api.StringUtils.isBoolean;
 import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -137,5 +138,14 @@ public class StringUtilsTest {
         assertThat(prepareSizeAttribute("100.5"), is("100.5px"));
         assertThat(prepareSizeAttribute(""), is(""));
         assertThat(prepareSizeAttribute(null), nullValue());
+    }
+
+    @Test
+    void testIsBoolean() {
+        assertThat(isBoolean("true"), is(true));
+        assertThat(isBoolean("false"), is(true));
+        assertThat(isBoolean("test"), is(false));
+        assertThat(isBoolean("1"), is(false));
+        assertThat(isBoolean(null), is(false));
     }
 }
