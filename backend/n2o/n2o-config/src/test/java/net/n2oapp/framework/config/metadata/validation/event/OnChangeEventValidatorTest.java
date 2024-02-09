@@ -52,4 +52,12 @@ public class OnChangeEventValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/testDatasourceExistence.page.xml"));
         assertEquals("Событие <on-change> ссылается на несуществующий источник данных 'test'", exception.getMessage());
     }
+
+    @Test
+    void actionsAreNotExist() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/event/actionsAreNotExist.page.xml"));
+        assertEquals("В событии <on-change> 'withOutActions' не заданы действия", exception.getMessage());
+    }
 }
