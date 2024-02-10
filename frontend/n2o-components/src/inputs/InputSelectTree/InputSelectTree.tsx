@@ -139,6 +139,9 @@ function InputSelectTree({
             labelFieldId,
             badge,
         }
+
+        if (searchMinLengthHint) { return [] }
+
         const items = options || []
         const itemsByID = [...items].reduce(
             (acc, item) => {
