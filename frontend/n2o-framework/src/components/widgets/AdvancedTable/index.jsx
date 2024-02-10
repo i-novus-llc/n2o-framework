@@ -3,11 +3,14 @@ import { defaultTo } from 'lodash'
 import { useSelector } from 'react-redux'
 import { compose } from 'recompose'
 import { createContext, useContext as useContextSelector } from 'use-context-selector'
+import isEmpty from 'lodash/isEmpty'
 
 import { N2OPagination } from '../Table/N2OPagination'
 import WidgetLayout from '../StandardWidget'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
-import { dataSourceErrors, dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import {
+    dataSourceModelByPrefixSelector,
+} from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { Selection, TableActions, TableContainer } from '../../Table'
 import { withSecurityList } from '../../../core/auth/withSecurity'
@@ -16,6 +19,8 @@ import { ToolbarOverlay } from '../../Table/provider/ToolbarOverlay'
 import { useChangeFilter } from '../../Table/hooks/useChangeFilter'
 import { useOnActionMethod } from '../hooks/useOnActionMethod'
 import { getTableParam } from '../../../ducks/table/selectors'
+import evalExpression from '../../../utils/evalExpression'
+import { getValidationClass } from '../../../core/utils/getValidationClass'
 
 import { useExpandAllRows } from './hooks/useExpandAllRows'
 import { useTableActionReactions } from './hooks/useTableActionReactions'
@@ -31,7 +36,7 @@ const EmptyComponent = () => (
 const AdvancedTableContainer = (props) => {
     const {
         id, disabled, toolbar, datasource, className, setPage, loading,
-        fetchData, style, paging, table, size, count,
+        fetchData, style, paging, table, size, count, validations,
         page, sorting, children, hasNext, isInit, setResolve,
         changeColumnParam, columnsState, tableConfig, switchTableParam,
         resolvedFilter, hasSecurityAccess, resolvedCells, paginationVisible,
@@ -39,6 +44,7 @@ const AdvancedTableContainer = (props) => {
 
     const tableContainerElem = useRef(null)
     const [expandedRows, setExpandedRows] = useState([])
+    const [filterErrors, setFilterErrors] = useState({})
 
     const textWrap = useSelector(getTableParam(id, 'textWrap'))
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
@@ -46,9 +52,7 @@ const AdvancedTableContainer = (props) => {
     const selectedRows = useSelector((state) => {
         const models = dataSourceModelByPrefixSelector(datasource, ModelPrefix.selected)(state) || EMPTY_ARRAY
 
-        if (models.length) {
-            return models.map(({ id }) => id)
-        }
+        if (models.length) { return models.map(({ id }) => id) }
 
         return EMPTY_ARRAY
     })
@@ -57,7 +61,27 @@ const AdvancedTableContainer = (props) => {
 
         return model ? model.id : null
     })
-    const filterErrors = useSelector(dataSourceErrors(datasource, ModelPrefix.filter))
+
+    const validateFilterField = useCallback((id, model, reset = false) => {
+        const validation = validations[id]
+
+        if (isEmpty(validation)) { return true }
+
+        const isValid = validation.every(({ expression }) => evalExpression(expression, model))
+
+        if (isValid || reset) {
+            setFilterErrors({ ...filterErrors, [id]: null })
+
+            return isValid
+        }
+
+        const [{ text, severity }] = validation
+        const message = { text, severity }
+
+        setFilterErrors({ ...filterErrors, [id]: { message, validationClass: getValidationClass(message) } })
+
+        return isValid
+    }, [filterErrors, validations])
 
     const { place = 'bottomLeft' } = paging
     const pagination = {
@@ -127,14 +151,10 @@ const AdvancedTableContainer = (props) => {
 
                 break
             }
-            default: {
-                break
-            }
+            default: { break }
         }
     }, [onRowClickAction, setActiveModel, setMultiModel, unsetMultiModel, onFilter])
-    const onClickToolbarActionButton = useCallback((model) => {
-        setActiveModel(model)
-    }, [setActiveModel])
+    const onClickToolbarActionButton = useCallback((model) => { setActiveModel(model) }, [setActiveModel])
     const isNeedSetResolveModel = table.rowSelection !== Selection.None && defaultTo(table.autoSelect, true)
 
     useEffect(() => {
@@ -172,7 +192,6 @@ const AdvancedTableContainer = (props) => {
                 >
                     {isInit ? (
                         <TableContainer
-                            filterErrors={filterErrors}
                             filterValue={filterModel}
                             refContainerElem={tableContainerElem}
                             actionListener={actionListener}
@@ -187,6 +206,8 @@ const AdvancedTableContainer = (props) => {
                             expandedRows={expandedRows}
                             focusedRowValue={focusedRowValue}
                             EmptyContent={<EmptyComponent />}
+                            validateFilterField={validateFilterField}
+                            filterErrors={filterErrors}
                         />
                     ) : null}
                 </WidgetLayout>
@@ -199,9 +220,7 @@ AdvancedTableContainer.displayName = 'AdvancedTableWidget'
 
 export const AdvancedTableWidget = compose(
     WidgetHOC,
-)(
-    withSecurityList(WithTableProps(AdvancedTableContainer), 'table.header.cells'),
-)
+)(withSecurityList(WithTableProps(AdvancedTableContainer), 'table.header.cells'))
 
 export const useTableWidget = () => {
     const context = useContextSelector(tableWidgetContext)

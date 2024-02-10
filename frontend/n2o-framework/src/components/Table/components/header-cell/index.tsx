@@ -20,6 +20,8 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = (props) => {
         icon,
         resizable,
         elementAttributes = {},
+        validateFilterField,
+        filterError,
         ...rest
     } = props
 
@@ -39,7 +41,14 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = (props) => {
             <div className="n2o-advanced-table-header-cell-content">
                 <Icon name={icon} visible={typeof icon === 'string'} />
                 <Component {...rest} sorting={sortingDirection} />
-                {filterField && <HeaderFilter id={id} filterField={filterField} />}
+                {filterField && (
+                    <HeaderFilter
+                        id={id}
+                        filterField={filterField}
+                        validateFilterField={validateFilterField}
+                        filterError={filterError}
+                    />
+                )}
             </div>
             {resizable && <div className="resizeTrigger" onMouseDown={onMouseDownResizeCell} />}
         </Table.HeaderCell>

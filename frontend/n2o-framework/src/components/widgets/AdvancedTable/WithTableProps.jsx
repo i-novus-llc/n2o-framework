@@ -5,6 +5,8 @@ import { useStore } from 'react-redux'
 import { useCheckAccess as check } from '../../../core/auth/SecurityController'
 import { FactoryContext } from '../../../core/factory/context'
 import { StandardFieldset } from '../Form/fieldsets'
+import { dataSourceValidationSelector } from '../../../ducks/datasource/selectors'
+import { ValidationsKey } from '../../../core/validation/types'
 
 import { useColumnsState } from './hooks/useColumnsState'
 import { useResolveCellsVisible } from './hooks/useResolveCellsVisible'
@@ -14,7 +16,7 @@ export function WithTableProps(Component) {
         const { getState } = useStore()
         const state = getState()
 
-        const { filter, id, table, datasourceModelLength } = props
+        const { filter, id, table, datasourceModelLength, datasource } = props
         const { resolveProps } = useContext(FactoryContext)
         const { header, body } = table
 
@@ -55,6 +57,8 @@ export function WithTableProps(Component) {
         },
         [columnsState, datasourceModelLength])
 
+        const validations = dataSourceValidationSelector(datasource, ValidationsKey.FilterValidations)(state) || {}
+
         return (
             <Component
                 {...props}
@@ -66,6 +70,7 @@ export function WithTableProps(Component) {
                 resolvedCells={resolvedCells}
                 paginationVisible={paginationVisible}
                 switchTableParam={switchTableParameter}
+                validations={validations}
             />
         )
     }

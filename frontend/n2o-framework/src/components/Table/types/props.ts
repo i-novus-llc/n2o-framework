@@ -9,6 +9,21 @@ import { Data, DataItem, ExpandedRows, SelectedRows } from './general'
 import { Row } from './row'
 import { Cell, HeaderCell } from './cell'
 
+export interface Validation {
+    enablingConditions: string[]
+    expression: string
+    on: string[]
+    severity: Severity
+    text: string
+    type: string
+    validationKey: string
+}
+
+interface FieldError {
+    message: { severity: Severity, text: string }
+    validationClass: 'is-valid' | 'has-warning' | 'is-invalid'
+}
+
 export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
     hasSecurityAccess: boolean
     filterValue?: Record<string, any>
@@ -38,7 +53,8 @@ export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
             row?: Row
         }
     }
-    filterErrors: Record<string, Array<{ text: string, severity: Severity }>>
+    validateFilterField(id: string, model: Record<string, unknown>, reset?: boolean): void
+    filterErrors: Record<string, FieldError>
 }
 
 export type TableProps = {
@@ -74,6 +90,8 @@ export type TableHeaderProps = {
     areAllRowsSelected?: boolean
     cells: TableProps['headerCell']
     row: TableProps['headerRow']
+    validateFilterField: TableWidgetContainerProps['validateFilterField']
+    filterErrors: TableWidgetContainerProps['filterErrors']
 } & Pick<TableProps, 'sorting'>
 
 export type CheckboxHeaderCellProps = {
@@ -89,6 +107,8 @@ export type TableHeaderCellProps = {
     multiHeader?: boolean
     sortingDirection?: string
     resizable?: boolean
+    validateFilterField: TableWidgetContainerProps['validateFilterField']
+    filterError: FieldError
 } & Pick<HeaderCell, 'elementAttributes' | 'filterField'>
 
 export type SelectionCellProps = {
@@ -145,6 +165,8 @@ export type DataRowProps = {
 
 export type HeaderFilterProps = {
     id: string
+    validateFilterField: TableWidgetContainerProps['validateFilterField']
+    filterError: FieldError
 } & Required<Pick<HeaderCell, 'filterField'>>
 
 export type CellContainerProps = {

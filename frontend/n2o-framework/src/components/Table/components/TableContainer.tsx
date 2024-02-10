@@ -25,6 +25,8 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = (p
         errorComponent,
         EmptyContent,
         refContainerElem,
+        validateFilterField,
+        filterErrors,
     } = props
     const { width, height, rowSelection, body, header } = tableConfig
     const areAllRowsSelected = useMemo(() => {
@@ -53,6 +55,8 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = (p
                             row={header.row}
                             cells={cells.header}
                             areAllRowsSelected={areAllRowsSelected}
+                            validateFilterField={validateFilterField}
+                            filterErrors={filterErrors}
                         />
 
                         {errorComponent ? (
@@ -90,7 +94,6 @@ TableContainer.defaultProps = {
     expandedRows: [],
     selectedRows: [],
     actionListener: () => {},
-    filterErrors: {},
 }
 
 TableContainer.displayName = 'TableContainer'

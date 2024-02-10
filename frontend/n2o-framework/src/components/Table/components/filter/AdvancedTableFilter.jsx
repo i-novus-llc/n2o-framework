@@ -24,6 +24,7 @@ class AdvancedTableFilter extends Component {
         this.state = {
             value: props.value || null,
             filterOpen: false,
+            touched: false,
         }
     }
 
@@ -35,8 +36,29 @@ class AdvancedTableFilter extends Component {
 
     check = value => typeof value === 'number' || !isEmpty(value)
 
+    touch = (props) => {
+        if (typeof props === 'boolean') {
+            this.setState({ touched: props })
+
+            return
+        }
+
+        const { touched } = this.state
+
+        if (!touched) { this.setState({ touched: true }) }
+    }
+
+    validate = (reset = false) => {
+        const { validateFilterField, id } = this.props
+        const { value } = this.state
+
+        return validateFilterField(id, { [id]: value }, reset)
+    }
+
     toggleFilter = () => {
         const { filterOpen } = this.state
+
+        if (filterOpen) { this.touch(false) }
 
         this.setState({ filterOpen: !filterOpen }, () => {
             const { filterOpen, value: stateValue } = this.state
@@ -49,7 +71,12 @@ class AdvancedTableFilter extends Component {
         })
     }
 
-    onChangeFilter = value => this.setState({ value })
+    onBlur = () => {
+        this.touch()
+        this.validate()
+    }
+
+    onChangeFilter = value => this.setState({ value }, () => this.validate(true))
 
     onResetFilter = () => {
         const { value } = this.state
@@ -57,7 +84,11 @@ class AdvancedTableFilter extends Component {
         if (this.check(value)) {
             const { id, onFilter } = this.props
 
-            this.setState({ value: '' }, () => onFilter({ id, value: '' }))
+            const isValid = this.validate()
+
+            this.setState({ value: '' }, () => {
+                if (isValid) { onFilter({ id, value: '' }) }
+            })
         }
     }
 
@@ -69,13 +100,22 @@ class AdvancedTableFilter extends Component {
     }
 
     onSearchClick = () => {
-        this.onSetFilter()
-        this.toggleFilter()
+        const isValid = this.validate()
+
+        this.touch()
+
+        if (isValid) {
+            this.onSetFilter()
+            this.toggleFilter()
+        }
     }
 
     onResetClick = () => {
         this.onResetFilter()
-        this.toggleFilter()
+
+        const { error } = this.props
+
+        if (!error) { this.toggleFilter() }
     }
 
     createPopUpStyle = (fieldStyle) => {
@@ -87,8 +127,8 @@ class AdvancedTableFilter extends Component {
     }
 
     render() {
-        const { children, field, error, value: reduxValue } = this.props
-        const { filterOpen, value } = this.state
+        const { children, field, value: reduxValue, error } = this.props
+        const { filterOpen, value, touched } = this.state
         const { component, control, style, ...componentProps } = field
 
         const popUpStyle = this.createPopUpStyle(style)
@@ -118,11 +158,13 @@ class AdvancedTableFilter extends Component {
                     <DropdownMenu className="n2o-advanced-table-filter-dropdown" tag="div" positionFixed>
                         <AdvancedTableFilterPopup
                             value={value}
+                            touched={touched}
                             onChange={this.onChangeFilter}
+                            onBlur={this.onBlur}
                             onSearchClick={this.onSearchClick}
                             onResetClick={this.onResetClick}
                             component={component}
-                            error={error}
+                            error={touched ? error : {}}
                             componentProps={{ ...componentProps, style, control: { ...control, value } }}
                             style={popUpStyle}
                         />
@@ -139,7 +181,6 @@ AdvancedTableFilter.propTypes = {
     onFilter: PropTypes.func,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     field: PropTypes.object,
-    error: PropTypes.object,
 }
 
 AdvancedTableFilter.defaultProps = {
