@@ -335,13 +335,13 @@ export class InputSelect extends React.Component<Props, State> {
                    иначе при очередном открытии InputSelect будет получена конкретная часть list последнего page из cache.
                    Во время префильтрации, ненужно мержить данные из cache
                 */
-                const concat = cacheReset ? false : caching || false
+                const merge = cacheReset ? false : caching || false
 
                 const extraParams: Record<string, unknown> = { page: currentPage }
 
                 if (searchMinLength) { extraParams[quickSearchParam] = input }
 
-                fetchData(extraParams, concat, cacheReset)
+                fetchData(extraParams, merge, cacheReset)
             }
         })
 
