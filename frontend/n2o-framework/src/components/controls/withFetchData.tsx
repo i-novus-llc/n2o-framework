@@ -200,6 +200,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
         fetchDataProvider(dataProvider: object, extraParams = {}, cacheReset = false) {
             const { store } = this.context
             const { abortController } = this.state
+            const { caching } = this.props
 
             if (abortController) { abortController.abort() }
 
@@ -215,11 +216,9 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                 extraParams,
             }
 
-            const cached = this.findResponseInCache(params)
+            const cached = caching ? this.findResponseInCache(params) : null
 
-            if (cached && !cacheReset) {
-                return cached
-            }
+            if (cached && !cacheReset) { return cached }
 
             const controller = new AbortController()
 
@@ -227,9 +226,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
 
             return apiCaller(
                 { headers: headersParams, query: { ...queryParams, ...extraParams } },
-                {
-                    basePath,
-                },
+                { basePath },
                 controller.signal,
             ).then((response: Response) => {
                 cachingStore.add({ basePath, queryParams, extraParams }, response)
