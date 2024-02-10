@@ -13,6 +13,8 @@ export const TableHeader = memo<TableHeaderProps>(({
     areAllRowsSelected,
     cells,
     sorting,
+    validateFilterField,
+    filterErrors,
 }) => {
     const rows = useMemo(() => parseHeaderRows(cells), [cells])
 
@@ -32,6 +34,8 @@ export const TableHeader = memo<TableHeaderProps>(({
                         <TableHeaderCell
                             key={cell.id}
                             sortingDirection={cell.sortingParam ? sorting[cell.sortingParam] : undefined}
+                            validateFilterField={validateFilterField}
+                            filterError={filterErrors[cell.id] || null}
                             {...cell}
                         />
                     ))}
