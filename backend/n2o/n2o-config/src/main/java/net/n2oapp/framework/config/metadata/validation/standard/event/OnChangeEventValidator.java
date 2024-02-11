@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.event.N2oOnChangeEvent;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,5 +25,7 @@ public class OnChangeEventValidator extends TypedMetadataValidator<N2oOnChangeEv
             throw new N2oMetadataValidationException("В событии <on-change> не задан атрибут 'datasource'");
         ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
                 String.format("Событие <on-change> ссылается на несуществующий источник данных '%s'", source.getDatasourceId()));
+        if (ArrayUtils.isEmpty(source.getActions()))
+            throw new N2oMetadataValidationException(String.format("В событии <on-change> %s не заданы действия", ValidationUtils.getIdOrEmptyString(source.getId())));
     }
 }
