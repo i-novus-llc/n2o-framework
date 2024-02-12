@@ -10,7 +10,8 @@ import java.util.Set;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class SyncCacheTemplateTest {
 
@@ -22,7 +23,7 @@ public class SyncCacheTemplateTest {
     }
 
     @Test
-    public void testBase() {
+    void testBase() {
         MockCache cache = new MockCache();
         when(cacheManager.getCache("test")).thenReturn(cache);
         CacheTemplate<String, String> cacheTemplate = new SyncCacheTemplate<>(cacheManager);
@@ -44,7 +45,7 @@ public class SyncCacheTemplateTest {
 
     @Test
     @Disabled
-    public void testAsync() {
+    void testAsync() {
         MockCache cache = new MockCache();
         when(cacheManager.getCache("test")).thenReturn(cache);
         CacheTemplate<String, String> cacheTemplate = new SyncCacheTemplate<>(cacheManager);

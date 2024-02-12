@@ -15,6 +15,9 @@ export interface Provider {
     type: ProviderType
     sourceDs: string
     url: string
+    sourceField?: string
+    sourceModel?: ModelPrefix
+    sorting?: Record<string, unknown>
 }
 
 export interface Filter {
