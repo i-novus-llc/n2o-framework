@@ -17,22 +17,19 @@ import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
-import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import net.n2oapp.framework.config.util.StylesResolver;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.StringUtils.hasLink;
-import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
@@ -54,8 +51,8 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         SimpleMenu simpleMenu = new SimpleMenu();
         List<MenuItem> items = new ArrayList<>();
         simpleMenu.setProperties(p.mapAttributes(source));
-        IndexScope idx = nonNull(p.getScope(IndexScope.class)) ? p.getScope(IndexScope.class) : new IndexScope(1);
-        if (nonNull(source.getMenuItems())) {
+        IndexScope idx = castDefault(p.getScope(IndexScope.class), () -> new IndexScope(1));
+        if (ArrayUtils.isNotEmpty(source.getMenuItems())) {
             for (N2oSimpleMenu.AbstractMenuItem mi : source.getMenuItems())
                 items.add(createMenuItem(mi, p, context, idx));
         }
@@ -81,7 +78,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
 
         compiled.setTitle(p.resolveJS(source.getName()));
 
-        if (nonNull(source.getDatasourceId()))
+        if (source.getDatasourceId() != null)
             compiled.setDatasource(source.getDatasourceId());
         else if (p.getScope(ComponentScope.class) != null) {
             compiled.setDatasource(p.getScope(ComponentScope.class).unwrap(DatasourceIdAware.class).getDatasourceId());
@@ -90,7 +87,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         if (source instanceof N2oSimpleMenu.MenuItem) {
             menuItem((N2oSimpleMenu.MenuItem) source, compiled, p, context);
         } else if (source instanceof N2oSimpleMenu.DropdownMenuItem) {
-            dropdownMenu((N2oSimpleMenu.DropdownMenuItem) source, compiled, p, context, idx);
+            initDropdownMenu((N2oSimpleMenu.DropdownMenuItem) source, compiled, p, context, idx);
         }
 
         compiled.setProperties(p.mapAttributes(source));
@@ -104,9 +101,9 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         compiled.setClassName(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setPageId(initPageId(source.getAction()));
-        if (isNull(source.getName()))
+        if (source.getName() == null)
             compiled.setTitle(p.resolveJS(initDefaultName(source.getAction(), p)));
-        if (nonNull(source.getAction())) {
+        if (source.getAction() != null) {
             Action action = p.compile(
                     source.getAction(),
                     context,
@@ -129,14 +126,14 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     }
 
     private String initSrc(String src, N2oAction action, CompileProcessor p) {
-        if (nonNull(src))
+        if (src != null)
             return src;
-        else if (action instanceof N2oAnchor || action instanceof N2oOpenPage)
+        if (action instanceof N2oAnchor || action instanceof N2oOpenPage)
             return p.resolve(property("n2o.api.menu.item.link.src"), String.class);
-        else if (nonNull(action))
+        if (action != null)
             return p.resolve(property("n2o.api.menu.item.action.src"), String.class);
-        else
-            return p.resolve(property("n2o.api.menu.item.static.src"), String.class);
+
+        return p.resolve(property("n2o.api.menu.item.static.src"), String.class);
     }
 
     private String initPageId(N2oAction action) {
@@ -145,18 +142,17 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
 
     private String initDefaultName(N2oAction action, CompileProcessor p) {
         String pageId = initPageId(action);
-        if (isNull(pageId))
-            return null;
-        N2oPage page = p.getSource(pageId, N2oPage.class);
-        return page.getName();
+
+        return pageId == null
+                ? null
+                : p.getSource(pageId, N2oPage.class).getName();
     }
 
-    private void dropdownMenu(N2oSimpleMenu.DropdownMenuItem source, MenuItem item, CompileProcessor p, ApplicationContext context, IndexScope idx) {
-        item.setSrc(p.resolve(property("n2o.api.menu.item.dropdown.src"), String.class));
+    private void initDropdownMenu(N2oSimpleMenu.DropdownMenuItem source, MenuItem item, CompileProcessor p, ApplicationContext context, IndexScope idx) {
+        item.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.menu.item.dropdown.src"), String.class)));
         ArrayList<MenuItem> subItems = new ArrayList<>();
         for (N2oSimpleMenu.AbstractMenuItem subItem : source.getMenuItems()) {
-            if (isNull(subItem.getDatasourceId()) && !isNull(source.getDatasourceId()))
-                subItem.setDatasourceId(source.getDatasourceId());
+            subItem.setDatasourceId(castDefault(subItem.getDatasourceId(), source.getDatasourceId()));
             subItems.add(createMenuItem(subItem, p, context, idx));
         }
         item.setSubItems(subItems);
