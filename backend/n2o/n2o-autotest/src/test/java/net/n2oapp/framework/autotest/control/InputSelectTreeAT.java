@@ -265,11 +265,11 @@ public class InputSelectTreeAT extends AutoTestBase {
     }
 
     @Test
-    void checkEnabledFieldId() {
-        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/disabledOptionsCannotBeClickable");
+    void testEnabledFieldId() {
+        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/enabled_field_id");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/disabledOptionsCannotBeClickable/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/disabledOptionsCannotBeClickable/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/enabled_field_id/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/enabled_field_id/test.query.xml")
         );
 
         StandardPage page = open(StandardPage.class);

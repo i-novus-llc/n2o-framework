@@ -217,7 +217,7 @@ class SelectAT extends AutoTestBase {
     }
 
     @Test
-    void checkEnabledFieldId() {
+    void testEnabledFieldId() {
         setJsonPath("net/n2oapp/framework/autotest/control/select/enabled_field_id");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/enabled_field_id/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select/enabled_field_id/test.query.xml"));
@@ -227,13 +227,13 @@ class SelectAT extends AutoTestBase {
 
         Select single = page.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields().field("single").control(Select.class);
         Select checkboxes = page.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields().field("checkboxes").control(Select.class);
-        enabledFieldID(single);
+        checkEnabledFieldID(single);
         single.shouldSelected("name1");
-        enabledFieldID(checkboxes);
+        checkEnabledFieldID(checkboxes);
         checkboxes.shouldSelected(1);
     }
 
-    private void enabledFieldID(Select select) {
+    private void checkEnabledFieldID(Select select) {
         select.openPopup();
         select.dropdown().item(0).shouldBeEnabled();
         select.dropdown().item(1).shouldBeDisabled();
