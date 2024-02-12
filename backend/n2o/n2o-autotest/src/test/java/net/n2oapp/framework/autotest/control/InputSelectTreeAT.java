@@ -263,4 +263,59 @@ public class InputSelectTreeAT extends AutoTestBase {
         selectedLessThanTwo.dropdown().item(3).shouldBeSelected();
         uncheck.click();
     }
+
+    @Test
+    void checkEnabledFieldId() {
+        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/disabledOptionsCannotBeClickable");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/disabledOptionsCannotBeClickable/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/disabledOptionsCannotBeClickable/test.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        InputSelectTree singleTree = page.regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(0, FormWidget.class)
+                .fieldsets()
+                .fieldset(0, SimpleFieldSet.class)
+                .fields()
+                .field("Сингл")
+                .control(InputSelectTree.class);
+        InputSelectTree multiTree = page.regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(0, FormWidget.class)
+                .fieldsets()
+                .fieldset(0, SimpleFieldSet.class)
+                .fields()
+                .field("мульти")
+                .control(InputSelectTree.class);
+
+        singleTree.click();
+        singleTree.dropdown().item(0).shouldBeDisabled();
+        singleTree.dropdown().item(0).expand();
+        singleTree.dropdown().item(1).shouldBeDisabled();
+        singleTree.dropdown().item(1).click();
+        singleTree.shouldBeEmpty();
+        singleTree.dropdown().item(1).expand();
+        singleTree.dropdown().item(2).shouldBeEnabled();
+        singleTree.dropdown().item(2).click();
+        singleTree.shouldHaveValue("child1");
+
+        multiTree.click();
+        multiTree.dropdown().item(0).shouldBeDisabled();
+        multiTree.dropdown().item(0).expand();
+        multiTree.dropdown().item(1).shouldBeDisabled();
+        multiTree.dropdown().item(1).click();
+        multiTree.shouldBeEmpty();
+        multiTree.dropdown().item(1).expand();
+        multiTree.dropdown().item(2).shouldBeEnabled();
+        multiTree.dropdown().item(2).click();
+        multiTree.dropdown().item(3).shouldBeEnabled();
+        multiTree.dropdown().item(3).click();
+        multiTree.shouldSelectedMulti(new String[]{"child1", "child2"});
+    }
 }

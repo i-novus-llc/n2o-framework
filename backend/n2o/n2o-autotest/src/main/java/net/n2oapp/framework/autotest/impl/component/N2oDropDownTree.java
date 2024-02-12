@@ -76,6 +76,11 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
             switcher().shouldHave(Condition.cssClass(String.format("%s_close", SWITCHER)));
         }
 
+        @Override
+        public void click() {
+            element().click();
+        }
+
         public void shouldHaveValue(String value, Duration... duration) {
             should(Condition.text(value), duration);
         }

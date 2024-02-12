@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "jsonNodeName": "parent1",
+    "enabled": false
+  },
+  {
+    "id": 11,
+    "jsonNodeName": "parent2",
+    "parentKey": 1,
+    "enabled": false
+  },
+  {
+    "id": 111,
+    "jsonNodeName": "child1",
+    "parentKey": 11
+  },
+  {
+    "id": 112,
+    "jsonNodeName": "child2",
+    "parentKey": 11
+  },
+  {
+    "id": 113,
+    "jsonNodeName": "child3",
+    "parentKey": 11
+  }
+]

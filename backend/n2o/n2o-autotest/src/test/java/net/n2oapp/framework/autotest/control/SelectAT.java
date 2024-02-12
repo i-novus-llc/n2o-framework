@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.control;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.control.Select;
+import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -16,7 +17,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест компонента выбора из выпадающего списка
  */
-public class SelectAT extends AutoTestBase {
+class SelectAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -37,7 +38,7 @@ public class SelectAT extends AutoTestBase {
     }
 
     @Test
-    public void testSelect() {
+    void testSelect() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -91,7 +92,7 @@ public class SelectAT extends AutoTestBase {
     }
 
     @Test
-    public void testCheckboxesType() {
+    void testCheckboxesType() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/checkboxes/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -123,7 +124,7 @@ public class SelectAT extends AutoTestBase {
     }
 
     @Test
-    public void testSelectFormat() {
+    void testSelectFormat() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/format/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -169,7 +170,7 @@ public class SelectAT extends AutoTestBase {
     }
 
     @Test
-    public void testReadFromQuery() {
+    void testReadFromQuery() {
         setJsonPath("net/n2oapp/framework/autotest/control/select/query");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/query/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select/query/test.query.xml"));
@@ -213,5 +214,30 @@ public class SelectAT extends AutoTestBase {
         input2.shouldSelected("Объектов 2 шт");
         input2.clear();
         input2.shouldBeEmpty();
+    }
+
+    @Test
+    void checkEnabledFieldId() {
+        setJsonPath("net/n2oapp/framework/autotest/control/select/enabled_field_id");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/enabled_field_id/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/select/enabled_field_id/test.query.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        Select single = page.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields().field("single").control(Select.class);
+        Select checkboxes = page.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields().field("checkboxes").control(Select.class);
+        enabledFieldID(single);
+        single.shouldSelected("name1");
+        enabledFieldID(checkboxes);
+        checkboxes.shouldSelected(1);
+    }
+
+    private void enabledFieldID(Select select) {
+        select.openPopup();
+        select.dropdown().item(0).shouldBeEnabled();
+        select.dropdown().item(1).shouldBeDisabled();
+        select.dropdown().item(2).shouldBeDisabled();
+        select.dropdown().selectItem(0);
     }
 }

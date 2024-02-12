@@ -928,6 +928,10 @@
           "name": "SelectAT. testCheckboxesType"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/control/select/enabled_field_id",
+          "name": "SelectAT. checkEnabledFieldId"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/control/select_tree/simple",
           "name": "InputSelectTreeAT. inputSelectTreeTest"
         },
@@ -946,6 +950,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/control/select_tree/checking_strategy",
           "name": "InputSelectTreeAT. testCheckingStrategy"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select_tree/disabledOptionsCannotBeClickable",
+          "name": "InputSelectTreeAT. checkEnabledFieldId"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/slider",

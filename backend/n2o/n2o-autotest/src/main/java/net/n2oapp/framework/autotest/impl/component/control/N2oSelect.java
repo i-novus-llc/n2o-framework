@@ -44,6 +44,11 @@ public class N2oSelect extends N2oControl implements Select {
     }
 
     @Override
+    public void shouldSelected(int count, Duration... duration) {
+        should(Condition.text(String.format("Объектов %d шт", count)), selectedItemsContainer(), duration);
+    }
+
+    @Override
     public void clear() {
         clearIcon().hover().shouldBe(Condition.visible).click();
     }
