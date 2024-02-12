@@ -27,7 +27,8 @@ import java.util.Queue;
  */
 public final class ValidationUtils {
 
-    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    private static final SimpleDateFormat SIMPLE_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     private ValidationUtils() {
     }
@@ -88,7 +89,7 @@ public final class ValidationUtils {
         if (dsId != null) {
             checkDatasourceExistence(dsId, p,
                     String.format("Тег %s в атрибуте 'datasource' ссылается на несуществующий источник данных %s",
-                    tag, dsId));
+                            tag, dsId));
         }
     }
 
@@ -200,11 +201,18 @@ public final class ValidationUtils {
     }
 
     public static void checkDate(String date, String message) {
-        try {
-            SIMPLE_DATE_FORMAT.parseObject(date);
-        } catch (ParseException e) {
+        if (!(isValidDateByFormat(date, SIMPLE_DATETIME_FORMAT) || isValidDateByFormat(date, SIMPLE_DATE_FORMAT))) {
             throw new N2oMetadataValidationException(message);
         }
+    }
+
+    private static boolean isValidDateByFormat(String date, SimpleDateFormat dateFormat) {
+        try {
+            dateFormat.parseObject(date);
+        } catch (ParseException ex) {
+            return false;
+        }
+        return true;
     }
 
     private static void checkTest(N2oConditionBranch branch, SourceProcessor p, @Nonnull String tag) {

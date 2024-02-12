@@ -1,5 +1,5 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
     <fields>
-        <date-time id="test" default-value="24.02.1998"/>
+        <date-time id="test" max="24.02.1998"/>
     </fields>
 </form>
