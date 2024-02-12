@@ -1,8 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { compose, setDisplayName } from 'recompose'
 import classNames from 'classnames'
 import pick from 'lodash/pick'
+import isEmpty from 'lodash/isEmpty'
 
 import { Panel, Collapse } from '../../snippets/Collapse/Collapse'
 import withWidgetProps from '../withWidgetProps'
@@ -19,7 +21,7 @@ import { RegionContent } from '../RegionContent'
 
 function ListRegion(props) {
     const { collapsible, getWidgetProps, className, style, disabled, expand,
-        isVisible, hasSeparator, label, pageId, content = [] } = props
+        isVisible, hasSeparator, label, pageId, regionsState, content = [] } = props
 
     const collapseProps = pick(props, 'destroyInactivePanel', 'accordion')
     const panelProps = pick(props, [
@@ -32,10 +34,18 @@ function ListRegion(props) {
         'content',
         'isVisible',
         'pageId',
+        'regionsState',
     ])
 
     const visible = content.some((meta = {}) => {
-        const { id } = meta
+        const { id, tabs } = meta
+
+        if (tabs) {
+            if (isEmpty(regionsState) || !regionsState[id]) { return false }
+
+            return regionsState[id].visible
+        }
+
         const { visible = true } = getWidgetProps(id) || {}
 
         return visible
@@ -93,4 +103,5 @@ export { ListRegion }
 export default compose(
     setDisplayName('ListRegion'),
     withWidgetProps,
+    connect(({ regions }) => ({ regionsState: regions })),
 )(ListRegion)

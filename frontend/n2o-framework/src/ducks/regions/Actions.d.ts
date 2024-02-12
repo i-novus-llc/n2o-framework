@@ -30,8 +30,14 @@ export type SetRegionServiceInfoPayload = {
     serviceInfo: ServiceInfo
 }
 
+export type SetRegionVisibilityPayload = {
+    regionId: string
+    visible: boolean
+}
+
 export type RegisterRegion = Action<string, RegisterRegionPayload>
 export type UnregisterRegion = Action<string, { regionId: string }>
 export type SetActiveRegionEntity = Action<string, SetActiveRegionEntityPayload>
 export type SetTabInvalid = Action<string, SetTabInvalidPayload>
 export type SetRegionServiceInfo = Action<string, SetRegionServiceInfoPayload>
+export type SetRegionVisibility = Action<string, SetRegionVisibilityPayload>
