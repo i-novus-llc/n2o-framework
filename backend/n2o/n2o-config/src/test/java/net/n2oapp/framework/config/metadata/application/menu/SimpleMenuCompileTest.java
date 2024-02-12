@@ -95,7 +95,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         // dropdown 1 -> dropdown
         MenuItem subDropdownItem = dropdownMenu.getSubItems().get(0);
         assertThat(subDropdownItem.getId(), is("mi5"));
-        assertThat(subDropdownItem.getSrc(), is("DropdownMenuItem"));
+        assertThat(subDropdownItem.getSrc(), is("AnySrc"));
         assertThat(subDropdownItem.getTitle(), is("Отделы"));
         assertThat(subDropdownItem.getSubItems().size(), is(2));
 

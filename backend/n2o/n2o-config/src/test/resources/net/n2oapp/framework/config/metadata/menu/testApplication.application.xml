@@ -22,7 +22,9 @@
                            name="Виктория"
                            image="/static/users/vika91.png"
                            image-shape="circle">
-                <dropdown-menu name="Отделы">
+                <dropdown-menu name="Отделы"
+                               src="AnySrc"
+                >
                     <menu-item name="Отдел разработки">
                         <a href="/developers" target="application"/>
                     </menu-item>

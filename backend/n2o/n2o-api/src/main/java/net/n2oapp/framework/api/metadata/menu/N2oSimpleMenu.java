@@ -49,6 +49,7 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
         private String datasourceId;
         private String icon;
         private String image;
+        private String src;
         private ShapeType imageShape;
         @ExtAttributesSerializer
         private Map<N2oNamespace, Map<String, String>> extAttributes;
@@ -61,7 +62,6 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
     @Setter
     public static class MenuItem extends AbstractMenuItem implements BadgeAware {
 
-        private String src;
         private String cssClass;
         private String style;
         private String badge;
