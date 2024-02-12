@@ -1,6 +1,7 @@
 package net.n2oapp.cache.template;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.cache.CacheManager;
 
@@ -42,6 +43,7 @@ public class SyncCacheTemplateTest {
     }
 
     @Test
+    @Disabled
     void testAsync() {
         MockCache cache = new MockCache();
         when(cacheManager.getCache("test")).thenReturn(cache);

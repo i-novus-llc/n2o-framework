@@ -52,9 +52,74 @@ public class ExportController extends AbstractController {
 
     public GetDataResponse getData(String path, Map<String, String[]> params, UserContext user) {
         GetDataResponse data = dataController.getData(path, params, user);
+        leaveDataByParentId(data, params.get("parent_id"));
+        leaveDataBySourceField(data, params.get("source_field_id"));
         leaveShowedFields(data, params.get("show"));
 
         return data;
+    }
+
+    /**
+     * Метод оставляет родительские данные, которые соответствуют переданному значению.
+     * Это используется при экспорте вложенных данных, которые зависят от родителя.
+     * Пример json:
+     * [
+     *     {
+     *          id: 1,
+     *          child: {
+     *              id: 1,
+     *              name: 2
+     *          }
+     *     },
+     *     {
+     *         id: 2,
+     *         child: {
+     *              id: 1,
+     *              name: 3
+     *         }
+     *     }
+     * ]
+     * Если будет передан 'parent-id' равный 1, то останется только родитель с id=1, соответственно и останутся его потомки.
+     * Иначе оставляет исходные данные.
+     */
+    private void leaveDataByParentId(GetDataResponse data, String[] parentIds) {
+        if (parentIds == null)
+            return;
+        data.setList(
+                data.getList().stream()
+                        .filter(dataSet -> Objects.nonNull(dataSet.get("id")))
+                        .filter(dataSet -> dataSet.get("id").toString().equals(parentIds[0]))
+                        .collect(Collectors.toList())
+        );
+    }
+
+    /**
+     * Оставляет в данных второй уровень сложности
+     * Пример json:
+     * {
+     *     id: 1,
+     *     child: [
+     *          {
+     *              id: 1,
+     *              name: 1
+     *          },
+     *          {
+     *              id: 2,
+     *              name: 2
+     *          }
+     *     ]
+     * }
+     * При переданном sourceFieldId равным 'child' останутся данные, вложенные по ключу child.
+     * Иначе оставляет исходные данные.
+     *
+     * @param sourceFieldId - ключ для нахождения второго уровня вложенности
+     */
+    private void leaveDataBySourceField(GetDataResponse data, String[] sourceFieldId) {
+        if (sourceFieldId == null)
+            return;
+        ArrayList<DataSet> dataSets = new ArrayList<>();
+        data.getList().forEach(ds -> dataSets.addAll((List<DataSet>)ds.getList(sourceFieldId[0])));
+        data.setList(dataSets);
     }
 
     public Map<String, String> getHeaders(String path, Map<String, String[]> params) {
@@ -105,6 +170,9 @@ public class ExportController extends AbstractController {
                 .flatKeySet()
                 .stream()
                 .filter(f -> !showed.contains(f))
+                .map(ignored -> ignored.contains(".")
+                        ? ignored.substring(0, ignored.indexOf("."))
+                        : ignored)
                 .collect(Collectors.toList());
         dataResponse.getList().forEach(data -> ignore.forEach(data::remove));
     }
