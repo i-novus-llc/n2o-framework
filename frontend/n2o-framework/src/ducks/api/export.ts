@@ -11,7 +11,7 @@ import { getModelSelector } from '../models/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
 import { DataSourceState } from '../datasource/DataSource'
 import { State } from '../State'
-import { ProviderType } from '../datasource/Provider'
+import { Provider, ProviderType } from '../datasource/Provider'
 
 import { UTILS_PREFIX } from './constants'
 import { EffectWrapper } from './utils/effectWrapper'
@@ -21,6 +21,9 @@ const ATTRIBUTES_ERROR = 'Ошибка экспорта, payload содержи�
 const PARAMS_ERROR = 'Ошибка экспорта, не передан формат или кодировка'
 const SHOW = 'show'
 const PARAM_KEY = 'id'
+const INHERITED_SOURCE_FIELD_ID = 'source_field_id'
+const PARENT_ROW_ID = 'parent_id'
+const SORTING = 'sorting'
 
 export type Payload = {
     exportDatasource: string
@@ -82,6 +85,12 @@ interface ExportConfig {
     }
 }
 
+interface InheritedExtraParams {
+    [INHERITED_SOURCE_FIELD_ID]?: string
+    [PARENT_ROW_ID]?: string | number
+    [SORTING]?: Record<string, unknown>
+}
+
 export function* effect({ payload }: Action<string, Payload>) {
     const { exportDatasource, configDatasource, baseURL, widgetId, allLimit = 1000 } = payload
 
@@ -111,9 +120,11 @@ export function* effect({ payload }: Action<string, Payload>) {
     const dataSource: DataSourceState = yield select(dataSourceByIdSelector(exportDatasource))
     const { paging, provider, sorting = {} } = dataSource
 
-    /* HACK! когда используется inherited ds в таблице,
-       при этом url для экспорта должен строится со Своим datasource id */
-    let inheritedProvider = null
+    /* Исключение для inherited ds в таблице,
+       необходимо подкидывать extra query params
+       и заменять provider на родительский */
+    let inheritedProvider: Provider | null = null
+    const extraParams: InheritedExtraParams = {}
 
     if (provider && provider.type === ProviderType.inherited) {
         const { sourceDs } = provider
@@ -122,23 +133,37 @@ export function* effect({ payload }: Action<string, Payload>) {
         const { provider: parentProvider } = parentDs
 
         if (parentProvider) {
-            const { url: parentUrl } = parentProvider
+            const { sourceField, sourceModel } = provider
 
-            /* получаем inherited url и заменяем в нем datasource id */
-            inheritedProvider = { ...parentProvider, url: parentUrl.replace(sourceDs, exportDatasource) }
+            inheritedProvider = { ...parentProvider }
+
+            const { sorting } = parentProvider
+
+            extraParams[INHERITED_SOURCE_FIELD_ID] = sourceField
+
+            if (type.id === 'page') {
+                const { id }: { id: string | number } = yield select(getModelSelector(`models.${sourceModel}.${sourceDs}`))
+
+                extraParams[PARENT_ROW_ID] = id
+            }
+
+            extraParams[SORTING] = sorting
         }
     }
 
-    const { url: resolvedURL } = dataProviderResolver(state, inheritedProvider || provider, {
-        size: type[PARAM_KEY] === 'page' ? paging.size : allLimit,
-        page: type[PARAM_KEY] === 'page' ? paging.page : 1,
-        sorting,
-    })
+    const { url: resolvedURL } = dataProviderResolver(
+        state,
+        inheritedProvider || provider,
+        {
+            size: type[PARAM_KEY] === 'page' ? paging.size : allLimit,
+            page: type[PARAM_KEY] === 'page' ? paging.page : 1,
+            sorting,
+            ...extraParams,
+        },
+    )
 
     const columns: Columns = yield select(getTableColumns(widgetId))
-
     const showed = getShowedColumns(columns)
-
     const exportURL = createExportUrl(resolvedURL, baseURL, format, charset, showed)
 
     window.open(exportURL, '_blank')
