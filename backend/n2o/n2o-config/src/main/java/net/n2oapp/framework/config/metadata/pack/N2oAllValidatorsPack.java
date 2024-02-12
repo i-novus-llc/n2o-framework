@@ -52,7 +52,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new CardsValidator(), new ListWidgetValidator(), new TabsValidator(), new ScrollspyValidator(), new SwitchCellValidator(),
                 new LinkCellValidator(), new BadgeCellValidator(), new IconCellValidator(), new EditCellValidator(),
                 new ToolbarCellValidator(), new ListCellValidator(), new MultiColumnValidator(), new SimpleColumnValidator(),
-                new FilterColumnValidator(), new BlockValidator(),
+                new FilterColumnValidator(), new BlockValidator(), new DateIntervalValidator(),
                 new ProgressBarCellValidator(), new PanelRegionValidator(), new CustomRegionValidator(), new LineRegionValidator(),
                 new ProgressValidator(), new StatusValidator(), new AlertFieldValidator());
     }

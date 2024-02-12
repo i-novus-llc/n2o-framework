@@ -6,7 +6,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
-import net.n2oapp.framework.config.metadata.validation.standard.control.DateTimeValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.control.DateIntervalValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.control.FieldValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.datasource.StandardDatasourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class DateTimeValidatorTest extends SourceValidationTestBase {
+class DateIntervalValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach
@@ -34,30 +34,38 @@ class DateTimeValidatorTest extends SourceValidationTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
         builder.validators(new PageValidator(), new StandardPageValidator(), new WidgetValidator(), new BasePageValidator(),
-                new StandardDatasourceValidator(), new FormValidator(), new FieldValidator(), new DateTimeValidator());
+                new StandardDatasourceValidator(), new FormValidator(), new FieldValidator(), new DateIntervalValidator());
     }
 
     @Test
-    void testDefaultValue() {
+    void testDefaultValueBegin() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/field/dateTime/testDefValueDateTime.page.xml"));
-        assertEquals("Значение 'default-value' поля 'test' виджета 'testDefValueDateTime' должно иметь формат yyyy-MM-dd HH:mm:ss или yyyy-MM-dd", exception.getMessage());
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/dateInterval/testDefValueBeginDateInterval.page.xml"));
+        assertEquals("Значение 'begin' поля 'test' виджета 'testDefValueBeginDateInterval' должно иметь формат yyyy-MM-dd HH:mm:ss или yyyy-MM-dd", exception.getMessage());
+    }
+
+    @Test
+    void testDefaultValueEnd() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/dateInterval/testDefValueEndDateInterval.page.xml"));
+        assertEquals("Значение 'end' поля 'test' виджета 'testDefValueEndDateInterval' должно иметь формат yyyy-MM-dd HH:mm:ss или yyyy-MM-dd", exception.getMessage());
     }
 
     @Test
     void testMin() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/field/dateTime/testMinDateTime.page.xml"));
-        assertEquals("Значение 'min' поля 'test' виджета 'testMinDateTime' должно иметь формат yyyy-MM-dd HH:mm:ss или yyyy-MM-dd", exception.getMessage());
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/dateInterval/testMinDateInterval.page.xml"));
+        assertEquals("Значение 'min' поля 'test' виджета 'testMinDateInterval' должно иметь формат yyyy-MM-dd HH:mm:ss или yyyy-MM-dd", exception.getMessage());
     }
 
     @Test
     void testMax() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/field/dateTime/testMaxDateTime.page.xml"));
-        assertEquals("Значение 'max' поля 'test' виджета 'testMaxDateTime' должно иметь формат yyyy-MM-dd HH:mm:ss или yyyy-MM-dd", exception.getMessage());
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/dateInterval/testMaxDateInterval.page.xml"));
+        assertEquals("Значение 'max' поля 'test' виджета 'testMaxDateInterval' должно иметь формат yyyy-MM-dd HH:mm:ss или yyyy-MM-dd", exception.getMessage());
     }
 }

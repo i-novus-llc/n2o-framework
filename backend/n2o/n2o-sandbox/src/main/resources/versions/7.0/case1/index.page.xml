@@ -83,7 +83,7 @@
                     </date-time>
                     <date-interval id="date" label="Интервал времени" date-format="DD.MM.YYYY" time-format="HH:mm"
                                    description="Должно быть с 01.01.2019 00:00 по 31.12.2019 23:59">
-                        <default-value begin="2019.01.01 00:00:00" end="2019.12.31 23:59:59"/>
+                        <default-value begin="2019-01-01 00:00:00" end="2019-12-31 23:59:59"/>
                     </date-interval>
                 </row>
             </set>

@@ -229,7 +229,7 @@
             <xs:extension base="controlDefinition">
                 <xs:attribute name="default-value" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Зависимость от полей</xs:documentation>
+                        <xs:documentation>Значение по умолчанию</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1510,12 +1510,12 @@
                 </xs:attribute>
                 <xs:attribute name="max" use="optional" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Максимальная дата возможная для выбора.</xs:documentation>
+                        <xs:documentation>Максимальная дата возможная для выбора. Должна быть указана в формате ISO 8601(yyyy-MM-dd HH:mm:ss или yyyy-MM-dd).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="min" use="optional" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Минимальная дата возможная для выбора.</xs:documentation>
+                        <xs:documentation>Минимальная дата возможная для выбора. Должна быть указана в формате ISO 8601(yyyy-MM-dd HH:mm:ss или yyyy-MM-dd).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="utc" type="xs:boolean" default="false" use="optional">
@@ -1584,17 +1584,22 @@
                 </xs:attribute>
                 <xs:attribute name="max" use="optional" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Максимальная дата возможная для выбора.</xs:documentation>
+                        <xs:documentation>Максимальная дата возможная для выбора. Должна быть указана в формате ISO 8601(yyyy-MM-dd HH:mm:ss или yyyy-MM-dd).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="min" use="optional" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Минимальная дата возможная для выбора.</xs:documentation>
+                        <xs:documentation>Минимальная дата возможная для выбора. Должна быть указана в формате ISO 8601(yyyy-MM-dd HH:mm:ss или yyyy-MM-dd).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="utc" use="optional" default="false" type="xs:boolean">
                     <xs:annotation>
                         <xs:documentation>Всемирное координированное время.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="default-value" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Значение по умолчанию. Должно быть указано в формате ISO 8601(yyyy-MM-dd HH:mm:ss или yyyy-MM-dd).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
