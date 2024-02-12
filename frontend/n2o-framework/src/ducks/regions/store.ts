@@ -8,7 +8,14 @@ import { State as StoreState } from '../State'
 
 import RegionResolver from './RegionResolver'
 import { State } from './Regions'
-import { RegisterRegion, SetActiveRegionEntity, SetTabInvalid, UnregisterRegion, SetRegionServiceInfo } from './Actions'
+import {
+    RegisterRegion,
+    SetActiveRegionEntity,
+    SetTabInvalid,
+    UnregisterRegion,
+    SetRegionServiceInfo,
+    SetRegionVisibility,
+} from './Actions'
 
 /**
  * Начальный стейт
@@ -21,6 +28,7 @@ const defaultState = {
     datasource: null,
     tabs: [],
     serviceInfo: {},
+    visible: true,
 }
 
 const initialState: State = {}
@@ -111,6 +119,20 @@ const regionsSlice = createSlice({
                 }
             },
         },
+
+        setRegionVisibility: {
+            prepare(regionId, visible) {
+                return ({
+                    payload: { regionId, visible },
+                })
+            },
+
+            reducer(state, action: SetRegionVisibility) {
+                const { regionId, visible } = action.payload
+
+                state[regionId].visible = visible
+            },
+        },
     },
 })
 
@@ -122,6 +144,7 @@ export const {
     SET_ACTIVE_REGION_ENTITY: setActiveRegion,
     SET_TAB_INVALID: setTabInvalid,
     SET_REGION_SERVICE_INFO: setRegionServiceInfo,
+    setRegionVisibility,
 } = regionsSlice.actions
 
 export const MAP_URL = 'n2o/regions/MAP_URL'
