@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.api.component;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
 
 import java.time.Duration;
@@ -59,12 +60,14 @@ public interface DropDownTree extends Component {
 
         @Override
         default void shouldBeEnabled() {
-            throw new UnsupportedOperationException();
+            element().shouldNotHave(Condition.cssClass("n2o-select-tree-tree-treenode-disabled"));
         }
 
         @Override
         default void shouldBeDisabled() {
-            throw new UnsupportedOperationException();
+            element().shouldHave(Condition.cssClass("n2o-select-tree-tree-treenode-disabled"));
         }
+
+        void click();
     }
 }

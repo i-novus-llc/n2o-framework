@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Проверка недоступности опций при заданом enabled-field-id параметре"
+>
+
+    <datasources>
+        <datasource id="attributes" query-id="test"/>
+    </datasources>
+
+    <regions>
+        <form>
+            <fields>
+                <input-select-tree id="addAttribute"
+                                   parent-field-id="parentKey"
+                                   datasource="attributes"
+                                   label-field-id="jsonNodeName"
+                                   label="Сингл"
+                                   max-tag-text-length="30"
+                                   enabled-field-id="enabled"
+                                   checking-strategy="child"
+                                   required="true"
+                                   search-filter-id="jsonNodeName"
+                />
+                <input-select-tree id="addAttribute2"
+                                   parent-field-id="parentKey"
+                                   datasource="attributes"
+                                   label-field-id="jsonNodeName"
+                                   label="Мульти"
+                                   max-tag-text-length="30"
+                                   enabled-field-id="enabled"
+                                   checking-strategy="child"
+                                   required="true"
+                                   search-filter-id="jsonNodeName"
+                                   checkboxes="true"
+                />
+            </fields>
+        </form>
+    </regions>
+</page>

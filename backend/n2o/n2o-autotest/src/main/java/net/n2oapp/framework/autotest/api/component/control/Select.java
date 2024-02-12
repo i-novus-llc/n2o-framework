@@ -48,6 +48,12 @@ public interface Select extends Control, PopupControl {
     void shouldSelected(String value, Duration... duration);
 
     /**
+     * Проверка количества выбранных опций с ожидаемым значением. Используется в случае type=checkbox
+     * @param count ожидаемое значение
+     */
+    void shouldSelected(int count, Duration... duration);
+
+    /**
      * @return выпадающий список для автотестирования
      */
     DropDown dropdown();
