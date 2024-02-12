@@ -55,6 +55,7 @@ public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu>, Badg
 
     private void dropDownMenu(Element e, N2oSimpleMenu.DropdownMenuItem m, IOProcessor p) {
         p.attribute(e, "id", m::getId, m::setId);
+        p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "name", m::getName, m::setName);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "image", m::getImage, m::setImage);
