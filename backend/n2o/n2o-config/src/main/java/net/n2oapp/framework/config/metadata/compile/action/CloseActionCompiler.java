@@ -26,6 +26,9 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefau
  */
 @Component
 public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, N2oCloseAction> {
+
+    private static final String DIALOG_PAGE_ID = "dialog";
+
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oCloseAction.class;
@@ -33,57 +36,73 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
 
     @Override
     public AbstractAction compile(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (context instanceof ModalPageContext || context instanceof DialogContext) {
-            initDefaults(source, context, p);
-            CloseAction closeAction = new CloseAction();
-            compileAction(closeAction, source, p);
-            closeAction.setType(p.resolve(property("n2o.api.action.close.type"), String.class));
-            closeAction.setMeta(initMeta(source, context, p));
-            CloseActionPayload payload = new CloseActionPayload();
-            if (context instanceof ModalPageContext) {
-                payload.setPageId(((PageContext) context).getClientPageId());
-                payload.setPrompt(castDefault(source.getPrompt(), () -> ((PageContext) context).getUnsavedDataPromptOnClose(),() -> true));
-            } else {
-                payload.setPageId(((DialogContext) context).getParentPageId());
-            }
-            closeAction.setPayload(payload);
-            return closeAction;
+        return context instanceof ModalPageContext || context instanceof DialogContext
+                ? getCloseAction(source, context, p)
+                : getLinkAction(source, context, p);
+    }
+
+    private static LinkActionImpl getLinkAction(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
+        N2oAnchor anchor = new N2oAnchor();
+        if (isRedirectable(source)) {
+            anchor.setHref(source.getRedirectUrl());
+            anchor.setTarget(source.getRedirectTarget());
+        } else if (context instanceof PageContext) {
+            String backRoute = ((PageContext) context).getParentRoute();
+            anchor.setHref(castDefault(backRoute, "/"));
+            anchor.setTarget(Target.application);
         } else {
-            N2oAnchor anchor = new N2oAnchor();
-            if (source.getRedirectUrl() != null) {
-                anchor.setHref(source.getRedirectUrl());
-                anchor.setTarget(source.getRedirectTarget());
-            } else if (context instanceof PageContext) {
-                String backRoute = ((PageContext) context).getParentRoute();
-                anchor.setHref(castDefault(backRoute, "/"));
-                anchor.setTarget(Target.application);
-            } else {
-                anchor.setHref("/");
-                anchor.setTarget(Target.application);
-            }
-            LinkActionImpl compiled = p.compile(anchor, context);
-            compiled.setRestore(Boolean.TRUE);
-            return compiled;
+            anchor.setHref("/");
+            anchor.setTarget(Target.application);
         }
+        LinkActionImpl compiled = p.compile(anchor, context);
+        compiled.setRestore(Boolean.TRUE);
+
+        return compiled;
+    }
+
+    private CloseAction getCloseAction(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
+        initDefaults(source, context, p);
+        CloseAction closeAction = new CloseAction();
+        compileAction(closeAction, source, p);
+        closeAction.setType(p.resolve(property("n2o.api.action.close.type"), String.class));
+        closeAction.setMeta(initMeta(source, context, p));
+        closeAction.setPayload(initPayload(source, context));
+
+        return closeAction;
+    }
+
+    private static CloseActionPayload initPayload(N2oCloseAction source, CompileContext<?, ?> context) {
+        CloseActionPayload payload = new CloseActionPayload();
+        if (context instanceof ModalPageContext) {
+            payload.setPageId(((PageContext) context).getClientPageId());
+            payload.setPrompt(castDefault(source.getPrompt(), () -> ((PageContext) context).getUnsavedDataPromptOnClose(), () -> true));
+        } else {
+            payload.setPageId(DIALOG_PAGE_ID);
+        }
+
+        return payload;
     }
 
     private MetaSaga initMeta(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
         MetaSaga meta = new MetaSaga();
-        boolean refresh = castDefault(source.getRefresh(),
+        boolean isRefreshable = castDefault(source.getRefresh(),
                 () -> p.resolve(property("n2o.api.action.close.refresh_on_close"), Boolean.class));
-        boolean redirect = source.getRedirectUrl() != null;
-        if (!redirect && (context instanceof ModalPageContext))
+        if (Boolean.FALSE.equals(isRedirectable(source)) && (context instanceof ModalPageContext))
             meta.setModalsToClose(1);
-        if (refresh) {
+        if (isRefreshable) {
             meta.setRefresh(new RefreshSaga());
             if (context instanceof PageContext)
                 meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSourceIds());
         }
-        if (redirect) {
+        if (isRedirectable(source)) {
             meta.setRedirect(new RedirectSaga());
             meta.getRedirect().setPath(source.getRedirectUrl());
             meta.getRedirect().setTarget(source.getRedirectTarget());
         }
         return meta;
+    }
+
+    private static boolean isRedirectable(N2oCloseAction source) {
+        return source.getRedirectUrl() != null;
     }
 }
