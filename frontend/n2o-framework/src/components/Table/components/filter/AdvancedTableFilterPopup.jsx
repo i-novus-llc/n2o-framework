@@ -26,7 +26,9 @@ const validationMap = {
 
 function AdvancedTableFilterPopup({
     value,
+    touched,
     onChange,
+    onBlur,
     onSearchClick,
     onResetClick,
     component,
@@ -48,9 +50,10 @@ function AdvancedTableFilterPopup({
                         ...componentProps,
                         value,
                         onChange,
+                        onBlur,
                         onKeyDown,
                         popupPlacement: 'right',
-                        touched: true,
+                        touched,
                         label: null,
                         ...error,
                     })
