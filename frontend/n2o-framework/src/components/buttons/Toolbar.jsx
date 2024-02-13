@@ -10,9 +10,8 @@ import classNames from 'classnames'
 
 import { Factory } from '../../core/factory/Factory'
 import { BUTTONS } from '../../core/factory/factoryLevels'
-import { Tooltip } from '../snippets/Tooltip/TooltipHOC'
 
-function Toolbar({ className, toolbar, entityKey, onClick, hint, placement }) {
+function Toolbar({ className, toolbar, entityKey, onClick }) {
     const { className: toolbarClassName, style, id } = toolbar[0] || {}
 
     const handleClick = (e) => {
@@ -39,20 +38,14 @@ function Toolbar({ className, toolbar, entityKey, onClick, hint, placement }) {
         return newProps
     }
 
-    const renderButtons = (buttonProps, i) => {
-        const { hint: buttonHint, hintPosition } = buttonProps
-
-        return (
-            <Tooltip hint={buttonHint || hint} placement={hintPosition || placement}>
-                <Factory
-                    key={getButtonKey(buttonProps, i)}
-                    level={BUTTONS}
-                    {...remapButtons(buttonProps)}
-                    entityKey={entityKey}
-                />
-            </Tooltip>
-        )
-    }
+    const renderButtons = (buttonProps, i) => (
+        <Factory
+            key={getButtonKey(buttonProps, i)}
+            level={BUTTONS}
+            {...remapButtons(buttonProps)}
+            entityKey={entityKey}
+        />
+    )
     const renderBtnGroup = (toolbarProps) => {
         const { buttons } = toolbarProps
 

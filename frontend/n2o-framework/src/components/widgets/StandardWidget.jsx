@@ -123,10 +123,10 @@ class StandardWidget extends React.Component {
             <div className={classes} style={style}>
                 {filter.filterPlace === PLACES.left && this.renderSection(PLACES.left)}
                 <div className="n2o-standard-widget-layout-center">
-                    <div>
+                    <div className="n2o-standard-widget-layout-center-filter">
                         {filter.filterPlace === PLACES.top && this.renderSection(PLACES.top)}
                     </div>
-                    <div className="d-flex justify-content-between">
+                    <div className="d-flex justify-content-between n2o-standard-widget-layout-toolbar-toolbar-container n2o-standard-widget-layout-toolbar-toolbar-container-top">
                         <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--left">
                             {this.renderSection(PLACES.topLeft)}
                         </div>
@@ -137,13 +137,12 @@ class StandardWidget extends React.Component {
                             {this.renderSection(PLACES.topRight)}
                         </div>
                     </div>
-                    <div>
+                    <div className="n2o-standard-widget-layout-content">
                         <Spinner loading={loading} type="cover">
                             {childrenWithProps}
                         </Spinner>
-
                     </div>
-                    <div className="d-flex justify-content-between">
+                    <div className="d-flex justify-content-between n2o-standard-widget-layout-toolbar-toolbar-container n2o-standard-widget-layout-toolbar-container-bottom">
                         <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--left">
                             {this.renderSection(PLACES.bottomLeft)}
                         </div>
@@ -153,9 +152,6 @@ class StandardWidget extends React.Component {
                         <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--right">
                             {this.renderSection(PLACES.bottomRight)}
                         </div>
-                    </div>
-                    <div>
-                        <div />
                     </div>
                 </div>
                 <div className="n2o-standard-widget-layout-aside n2o-standard-widget-layout-aside--right">
