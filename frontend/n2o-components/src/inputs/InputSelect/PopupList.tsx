@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import classNames from 'classnames'
 import isEqual from 'lodash/isEqual'
 import invoke from 'lodash/invoke'
@@ -50,9 +50,9 @@ type Props = {
     count?: number,
     descriptionFieldId?: string,
     enabledFieldId?: string,
+    disabledValues?: Array<string | number>
     fetchData(arg: object, concat?: boolean, cacheReset?: boolean): void,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    filterValue?: any,
+    filterValue?: Record<string, unknown>,
     format?: string,
     groupFieldId: string,
     hasCheckboxes: boolean,
@@ -79,14 +79,13 @@ type Props = {
     valueFieldId: string
     multiSelect?: boolean
     searchMinLengthHint?: string | null | JSX.Element
-    disabledValues?: Array<string | number>,
 }
 
 type State = {
     menuElement: HTMLDivElement | null
 }
 
-export class PopupList extends React.Component<Props, State> {
+export class PopupList extends Component<Props, State> {
     constructor(props: Props) {
         super(props)
         this.state = {

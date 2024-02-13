@@ -334,6 +334,8 @@ const datasource = createSlice({
 
                 datasource.fieldsSubmit[field] = {
                     ...propsProvider,
+                    // @ts-ignore FIXME разобраться с типизацией
+                    //  (непонятно почему может быть разный type, если ожидается строго service)
                     type: propsProvider.type || ProviderType.service,
                 }
             },
@@ -347,7 +349,7 @@ const datasource = createSlice({
                 })
             },
             reducer(state, action: { payload: { datasource: string, options: unknown } }) {
-                // экшн приходит с сервера. в сагах надо сделать просто ремап
+                // Экшен приходит с сервера. В сагах надо сделать просто ремап
             },
         },
 

@@ -48,13 +48,8 @@ export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknow
     try {
         const { provider, components }: DataSourceState = yield select(dataSourceByIdSelector(id))
 
-        if (!provider) {
-            throw new Error('Can\'t request data with empty provider')
-        }
-
-        if (!components.length) {
-            throw new Error('Unnecessary request for datasource with empty components list ')
-        }
+        if (!provider) { throw new Error('Can\'t request data with empty provider') }
+        if (!components.length) { throw new Error('Unnecessary request for datasource with empty components list ') }
 
         const filtersIsValid: boolean = yield call(
             validate,
@@ -68,9 +63,7 @@ export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknow
             ),
         )
 
-        if (!filtersIsValid) {
-            throw new Error('Invalid filters, request canceled')
-        }
+        if (!filtersIsValid) { throw new Error('Invalid filters, request canceled') }
 
         const query = getQuery(provider.type)
 

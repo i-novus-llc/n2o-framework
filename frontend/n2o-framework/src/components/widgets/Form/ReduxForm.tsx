@@ -8,11 +8,8 @@ import { FormProvider } from '../../core/FormProvider'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { ValidationsKey } from '../../../core/validation/types'
 
-// @ts-ignore ignore import error from js file
 import ReduxField from './ReduxField'
-// @ts-ignore ignore import error from js file
 import { flatFields, getAutoFocusId } from './utils'
-// @ts-ignore ignore import error from js file
 import Fieldset from './Fieldset'
 
 /**
@@ -89,6 +86,7 @@ const ReduxForm: FC<ReduxFormProps> & { Field: JSX.Element } = (props) => {
     )
 }
 
+// @ts-ignore import from js file
 ReduxForm.Field = ReduxField
 
 export default ReduxForm

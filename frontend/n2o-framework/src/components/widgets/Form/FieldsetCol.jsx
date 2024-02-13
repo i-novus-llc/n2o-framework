@@ -9,7 +9,7 @@ import { SecurityController } from '../../../core/auth/SecurityController'
 
 import ReduxField from './ReduxField'
 // eslint-disable-next-line import/no-cycle
-import FieldsetContainer from './Fieldset'
+import { FieldsetContainer } from './Fieldset'
 
 function FieldsetColComponent({
     col,
@@ -68,6 +68,7 @@ function FieldsetColComponent({
                 {fieldsets &&
                     fieldsets.map((fieldset, i) => {
                         const { name: fieldsetName, ...rest } = fieldset
+
                         const key = `set${i}`
                         const name = parentName ? `${parentName}.${fieldsetName}` : fieldsetName
 

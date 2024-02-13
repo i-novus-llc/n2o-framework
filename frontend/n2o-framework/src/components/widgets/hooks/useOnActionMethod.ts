@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import merge from 'deepmerge'
@@ -7,12 +6,11 @@ import { useDispatch, useStore } from 'react-redux'
 
 import { ModelPrefix } from '../../../core/datasource/const'
 import evalExpression from '../../../utils/evalExpression'
-// @ts-ignore - отсутствуют типы
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
 
-type ActionFunc = (model: any) => void
+type ActionFunc = (model: never) => void
 
-export const useOnActionMethod = <Action extends Record<string, any>>(modelsId: string, config?: Action) => {
+export const useOnActionMethod = <Action extends Record<string, never>>(modelsId: string, config?: Action) => {
     const store = useStore()
     const dispatch = useDispatch()
 
@@ -55,17 +53,15 @@ export const useOnActionMethod = <Action extends Record<string, any>>(modelsId: 
                     },
                 }) : state
 
-                const { url: compiledUrl } = dataProviderResolver(updatedState, {
-                    url,
-                    pathMapping,
-                    queryMapping,
-                })
+                // @ts-ignore import from js file
+                const { url: compiledUrl } = dataProviderResolver(updatedState, { url, pathMapping, queryMapping })
 
                 if (target === 'application') {
                     dispatch(push(compiledUrl))
                 } else if (target === '_blank') {
                     window.open(compiledUrl)
                 } else {
+                    // @ts-ignore import from js file
                     window.location = compiledUrl
                 }
             }

@@ -6,9 +6,7 @@ import {
 import isEqual from 'lodash/isEqual'
 import type { Task } from 'redux-saga'
 
-// @ts-ignore ignore import error from js file
 import { FETCH_WIDGET_DATA } from '../../../../core/api'
-// @ts-ignore ignore import error from js file
 import fetchSaga from '../../../../sagas/fetch'
 import { REQUEST_CACHE_TIMEOUT } from '../../../../constants/time'
 
@@ -57,6 +55,7 @@ export function* fetch<TData = unknown>(datasource: string, provider: DataProvid
     }
 
     const { basePath, baseQuery, headersParams } = provider
+    // @ts-ignore import from js file
     const worker: Task = yield fork(fetchSaga, FETCH_WIDGET_DATA, {
         basePath,
         baseQuery,
@@ -72,6 +71,7 @@ export function* fetch<TData = unknown>(datasource: string, provider: DataProvid
 
             return /* Promise.reject(new Error('Abort')) */
         }
+        // @ts-ignore import from js file
         requestInfo.timer = setTimeout(() => {
             delete requestMap[datasource]
         }, REQUEST_CACHE_TIMEOUT)

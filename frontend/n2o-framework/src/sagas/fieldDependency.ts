@@ -20,9 +20,7 @@ import {
     registerFieldExtra,
     dangerouslySetFieldValue,
 } from '../ducks/form/store'
-// @ts-ignore ignore import error from js file
 import { FETCH_VALUE } from '../core/api'
-// @ts-ignore ignore import error from js file
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { evalResultCheck } from '../utils/evalResultCheck'
 import { startValidate } from '../ducks/datasource/store'
@@ -82,10 +80,8 @@ export function* fetchValue(
         yield delay(300)
         yield put(setFieldLoading(formName, field, true))
         const state: State = yield select()
-        const { url, headersParams, baseQuery } = dataProviderResolver(
-            state,
-            dataProvider,
-        )
+        // @ts-ignore import from js file
+        const { url, headersParams, baseQuery } = dataProviderResolver(state, dataProvider)
 
         if (isEqual(baseQuery, FetchValueCache.get(fetchValueKey))) {
             return

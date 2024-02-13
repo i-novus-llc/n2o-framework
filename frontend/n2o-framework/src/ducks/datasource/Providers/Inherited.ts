@@ -8,6 +8,7 @@ import { setModel, removeModel } from '../../models/store'
 import evalExpression from '../../../utils/evalExpression'
 import { State } from '../../State'
 import { DataSourceState } from '../DataSource'
+import { DefaultModels } from '../../models/Models'
 
 import { applyFilter } from './storage/applyFilter'
 import { applySorting } from './storage/applySorting'
@@ -20,14 +21,14 @@ export function* submit(id: string, {
     targetField,
     submitValueExpression,
 }: InheritedSubmit) {
-    const sourceModel: object = yield select(getModelByPrefixAndNameSelector(prefix, id))
-    const targetModel: object = yield select(getModelByPrefixAndNameSelector(prefix, targetId))
-    let source: void | object = sourceModel
+    const sourceModel: DefaultModels = yield select(getModelByPrefixAndNameSelector(prefix, id))
+    const targetModel: DefaultModels = yield select(getModelByPrefixAndNameSelector(prefix, targetId))
+    let source: DefaultModels | void = sourceModel
 
     if (submitValueExpression) {
         const target = targetField ? get(targetModel, targetField) : targetModel
 
-        source = evalExpression<object | void>(submitValueExpression, {
+        source = evalExpression(submitValueExpression, {
             source: sourceModel,
             target,
         })

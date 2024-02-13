@@ -20,13 +20,10 @@ import {
 } from '../ducks/widgets/selectors'
 import { getModelByPrefixAndNameSelector } from '../ducks/models/selectors'
 import { validate as validateDatasource } from '../core/validation/validate'
-// @ts-ignore ignore import error from js file
 import { dataProviderResolver } from '../core/dataProviderResolver'
-// @ts-ignore ignore import error from js file
 import { FETCH_INVOKE_DATA } from '../core/api'
 import { setModel } from '../ducks/models/store'
 import { disablePage, enablePage } from '../ducks/pages/store'
-// @ts-ignore ignore import error from js file
 import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { disableWidget, enableWidget } from '../ducks/widgets/store'
 import { resolveButton } from '../ducks/toolbar/sagas'
@@ -88,11 +85,8 @@ export function* fetchInvoke(
     const state: State = yield select()
 
     const submitForm = get(dataProvider, 'submitForm', true)
-    const {
-        basePath: path,
-        formParams,
-        headersParams,
-    } = yield dataProviderResolver(state, dataProvider)
+    // @ts-ignore import from js file
+    const { basePath: path, formParams, headersParams } = yield dataProviderResolver(state, dataProvider)
 
     const createModelRequest = ({ id, ...data }: { id: string }) => {
         const modelRequest = {
@@ -112,10 +106,8 @@ export function* fetchInvoke(
 
     const modelRequest = Array.isArray(model) ? model.map(createModelRequest) : createModelRequest(model || {})
 
-    // @ts-ignore проблема с типизацией saga
-    return yield call(
-        fetchSaga,
-        FETCH_INVOKE_DATA,
+    // @ts-ignore import from js file
+    return yield call(fetchSaga, FETCH_INVOKE_DATA,
         {
             basePath: path,
             baseQuery: {},
@@ -123,8 +115,7 @@ export function* fetchInvoke(
             headers: headersParams,
             model: modelRequest,
         },
-        apiProvider,
-    )
+        apiProvider)
 }
 
 export function* handleFailInvoke(
@@ -173,7 +164,7 @@ function* enable(pageId: string, widgets: string[], buttons: ButtonContainer, bu
  * вызов экшена
  */
 
-interface HandleInvokePayload {
+export interface HandleInvokePayload {
     datasource: string
     model: ModelPrefix
     dataProvider: { submitForm?: boolean, optimistic?: boolean }
@@ -181,7 +172,7 @@ interface HandleInvokePayload {
     widgetId?: string
 }
 
-interface HandleInvokeMeta {
+export interface HandleInvokeMeta {
     success: metaPropsType
     fail: metaPropsType
 }
@@ -189,7 +180,7 @@ interface HandleInvokeMeta {
 // eslint-disable-next-line complexity
 export function* handleInvoke(
     apiProvider: unknown,
-    action: { payload: HandleInvokePayload, meta: HandleInvokeMeta },
+    action: { payload: HandleInvokePayload, meta?: HandleInvokeMeta },
 ) {
     const {
         datasource,
@@ -259,7 +250,7 @@ export function* handleInvoke(
         const errorMeta = get(err, 'json.meta', {})
 
         yield* handleFailInvoke(
-            action.meta.fail || {},
+            action?.meta?.fail || {},
             datasource,
             errorMeta,
         )

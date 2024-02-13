@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import get from 'lodash/get'
 import { ButtonDropdownProps } from 'reactstrap'
 
-// @ts-ignore ignore import error from js file
 import { WithDataSource } from '../../../core/datasource/WithDataSource'
 import { getFromSource, metaPropsType } from '../../utils'
 import { DataSourceModels } from '../../../core/datasource/const'

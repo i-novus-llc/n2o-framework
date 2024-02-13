@@ -11,7 +11,7 @@ type FieldPath = ModelsPayload & {
 }
 
 export type SetModelAction = Action<string, ModelsPayload & {
-    model?: Record<string, unknown> | null
+    model?: Record<string, unknown> | Array<Record<string, unknown>> | null
     isDefault?: boolean
 }>
 

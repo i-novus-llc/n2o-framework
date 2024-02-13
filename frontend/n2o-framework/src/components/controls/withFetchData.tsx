@@ -10,16 +10,11 @@ import omit from 'lodash/omit'
 import isEmpty from 'lodash/isEmpty'
 
 import { State as Store } from '../../ducks/State'
-// @ts-ignore import from js file
 import cachingStore from '../../utils/cacher'
-// @ts-ignore import from js file
 import { fetchInputSelectData, FETCH_CONTROL_VALUE } from '../../core/api'
-// @ts-ignore import from js file
 import { addAlert } from '../../ducks/alerts/store'
-// @ts-ignore import from js file
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { fetchError } from '../../actions/fetch'
-// @ts-ignore import from js file
 import { WithDataSource } from '../../core/widget/WithDataSource'
 import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
@@ -27,7 +22,7 @@ import { Alert } from '../../ducks/alerts/Alerts'
 import { FETCH_TYPE } from '../../core/widget/const'
 import { GLOBAL_KEY } from '../../ducks/alerts/constants'
 
-interface Props {
+export interface Props {
     data: unknown[]
     dataProvider: { quickSearchParam: string }
     datasource: string
@@ -65,7 +60,7 @@ export type getSearchMinLengthHintType = (
     component?: React.ComponentType
 ) => null | string | JSX.Element
 
-type WrappedComponentProps = Pick<Props, 'valueFieldId' | 'sortFieldId'> & Pick<State, 'loading' | 'count' | 'size' | 'page'> & {
+export type WrappedComponentProps = Pick<Props, 'valueFieldId' | 'sortFieldId'> & Pick<State, 'loading' | 'count' | 'size' | 'page'> & {
     options: Props['data']
     fetchData(params: Record<string, string>, merge: boolean, cacheReset?: boolean): void
     ref: Props['setRef']
@@ -208,6 +203,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                 basePath,
                 baseQuery: queryParams,
                 headersParams,
+                // @ts-ignore import from js file
             } = dataProviderResolver(store.getState(), dataProvider)
 
             const params = {
@@ -226,6 +222,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
 
             return apiCaller(
                 { headers: headersParams, query: { ...queryParams, ...extraParams } },
+                // @ts-ignore import from js file
                 { basePath },
                 controller.signal,
             ).then((response: Response) => {

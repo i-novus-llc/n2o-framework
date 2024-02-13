@@ -60,9 +60,7 @@ export function* flowDefaultModels(config: DefaultModels) {
     const state: State = yield select()
     const initialModels = compareAndResolve(config, state)
 
-    if (!isEmpty(initialModels)) {
-        yield put(combineModels(initialModels))
-    }
+    if (!isEmpty(initialModels)) { yield put(combineModels(initialModels)) }
 
     const observableModels = pickBy(
         config,
@@ -84,10 +82,7 @@ export function* flowDefaultModels(config: DefaultModels) {
                 observableModels,
                 cfg => !isEqual(get(oldState, cfg.link), get(newState, cfg.link)),
             )
-            const newModels = compareAndResolve(
-                changedModels,
-                newState,
-            )
+            const newModels = compareAndResolve(changedModels, newState)
 
             if (!isEmpty(newModels)) {
                 yield put(combineModels(newModels))

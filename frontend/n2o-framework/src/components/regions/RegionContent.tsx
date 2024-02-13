@@ -5,7 +5,6 @@ import map from 'lodash/map'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 
-// @ts-ignore ignore import error from js file
 import { Factory } from '../../core/factory/Factory'
 import { WIDGETS } from '../../core/factory/factoryLevels'
 import { ContentMeta } from '../../ducks/regions/Regions'
@@ -68,6 +67,7 @@ export function RegionContent(props: Props) {
                         level={WIDGETS}
                         key={index}
                         {...meta}
+                        // @ts-ignore import from js file
                         pageId={pageId}
                         className={className}
                         fetchOnInit={fetchOnInit}

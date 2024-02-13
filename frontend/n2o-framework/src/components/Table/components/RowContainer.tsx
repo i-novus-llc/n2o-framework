@@ -1,7 +1,6 @@
 import React, { memo, useMemo } from 'react'
 
 import { RowContainerProps } from '../types/props'
-// @ts-ignore - отсутствуют типы
 import propsResolver from '../../../utils/propsResolver'
 import evalExpression from '../../../utils/evalExpression'
 import { Row } from '../types/row'
@@ -28,6 +27,7 @@ export const RowContainer = memo<RowContainerProps>((props) => {
     } = props
 
     const resolvedElementAttributes = useMemo(() => (
+        // @ts-ignore import from js file
         propsResolver(elementAttributes, data) || {}
     ), [elementAttributes, data])
 

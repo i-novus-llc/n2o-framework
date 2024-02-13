@@ -1,7 +1,6 @@
 import isEmpty from 'lodash/isEmpty'
 
 import { parseExpression } from '../../utils/evalExpression'
-// @ts-ignore ignore import error from js file
 import propsResolver from '../../utils/propsResolver'
 
 export const textResolver = (
@@ -20,6 +19,7 @@ export const textResolver = (
         return null
     }
 
+    // @ts-ignore import from js file
     const { text: resolvedText } = propsResolver({ text }, model)
 
     return resolvedText

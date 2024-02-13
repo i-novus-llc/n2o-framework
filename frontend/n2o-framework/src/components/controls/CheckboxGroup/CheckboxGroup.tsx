@@ -127,7 +127,7 @@ export class CheckboxGroup extends React.Component<Props> {
         onBlur: () => {},
         fetchData: () => {},
         disabled: false,
-    } as Props
+    } as unknown as Props
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -31,7 +31,7 @@ export function EffectWrapper<
                 return (yield effect(...args)) as ReturnType<typeof effect>
             }
 
-            yield put(startOperation(type, operationId))
+            yield put(startOperation(type, operationId, {}))
 
             // TODO тут скорее всего надо удалить текущий operationId перед вызовом
             const result: ReturnType<typeof effect> = yield effect(...args)
