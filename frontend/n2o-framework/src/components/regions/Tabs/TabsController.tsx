@@ -1,12 +1,15 @@
-import React, { ComponentType, CSSProperties } from 'react'
+import React, { ComponentType, CSSProperties, useEffect } from 'react'
+import { Dispatch } from 'redux'
 import { useStore } from 'react-redux'
 import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
+import get from 'lodash/get'
 
 import { State as RegionsState, TabMeta } from '../../../ducks/regions/Regions'
 import { DataSourceModels } from '../../../core/datasource/const'
 import { ServiceInfo } from '../../../ducks/regions/Actions'
 import { State as WidgetsState } from '../../../ducks/widgets/Widgets'
+import { setRegionVisibility } from '../../../ducks/regions/store'
 
 import { create } from './helpers'
 
@@ -38,6 +41,7 @@ interface Tabs extends Props {
     serviceInfo: ServiceInfo
     widgetsState: WidgetsState
     regionsState: RegionsState
+    dispatch: Dispatch
 }
 
 export function TabsController<TProps extends Tabs>(Component: ComponentType<TProps>): ComponentType<TProps> {
@@ -46,7 +50,7 @@ export function TabsController<TProps extends Tabs>(Component: ComponentType<TPr
         const state = getState()
 
         const {
-            tabs: tabsMeta, id: regionId, pageId, activeEntity: active,
+            tabs: tabsMeta, dispatch, id: regionId, pageId, activeEntity: active,
             lazy, serviceInfo, widgetsState, regionsState,
             className, maxHeight, style = {}, scrollbar = true,
         } = props
@@ -64,9 +68,21 @@ export function TabsController<TProps extends Tabs>(Component: ComponentType<TPr
 
         const tabs = create(tabsMeta, regionParams, state)
 
-        if (isEmpty(tabs)) {
-            return null
-        }
+        useEffect(() => {
+            if (
+                isEmpty(regionsState) ||
+                isEmpty(widgetsState) ||
+                isEmpty(serviceInfo) ||
+                isEmpty(tabs)
+            ) { return }
+
+            const visible = tabs.some(({ visible }) => visible)
+            const reduxVisible = get(regionsState, `${regionId}.visible`, true)
+
+            if (visible !== reduxVisible) { dispatch(setRegionVisibility(regionId, visible)) }
+        }, [tabs])
+
+        if (isEmpty(tabs)) { return null }
 
         const contentStyle = maxHeight ? { maxHeight } : {}
         const contentClassName = classNames({ scrollable: maxHeight, 'scroll-hidden': maxHeight && !scrollbar })

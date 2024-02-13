@@ -40,8 +40,8 @@ export interface ContentMeta {
     fetchOnInit: boolean
     tabs?: Tab[]
     visible?: boolean
-    datasource: string,
-    form?: {fieldsets: string[]},
+    datasource: string
+    form?: {fieldsets: string[]}
 }
 
 export interface Region {
@@ -58,6 +58,7 @@ export interface Region {
         regionId: string
         tabId: string
     }
+    visible: boolean
 }
 
 export type State = {
