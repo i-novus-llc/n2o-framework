@@ -45,6 +45,9 @@ export function resolve(code) {
  *
  * //- {fio: "Иванов Иван Иванович"}
  */
+/* FIXME после типизации propsResolver
+    нужно поправить все файлы где он используется
+    @ts-ignore import from js file */
 export default function propsResolver(
     props,
     data = {},

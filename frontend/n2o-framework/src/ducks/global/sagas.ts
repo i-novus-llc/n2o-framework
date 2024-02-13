@@ -2,9 +2,7 @@ import { call, put, takeEvery, select } from 'redux-saga/effects'
 import get from 'lodash/get'
 
 import { userLogin } from '../user/store'
-// @ts-ignore ignore import error from js file
 import { FETCH_APP_CONFIG, CHANGE_LOCALE as CHANGE_LOCALE_API } from '../../core/api'
-// @ts-ignore ignore import error from js file
 import fetchSaga from '../../sagas/fetch'
 import { addAlert } from '../alerts/store'
 
@@ -29,6 +27,7 @@ export function* getConfig(apiProvider: unknown, action: { payload: { params: ob
             locale: yield select(localeSelector),
             ...action.payload.params,
         }
+        // @ts-ignore import from js file
         const config: Global = yield call(fetchSaga, FETCH_APP_CONFIG, params, apiProvider)
 
         if (config.user) {
@@ -36,6 +35,7 @@ export function* getConfig(apiProvider: unknown, action: { payload: { params: ob
         }
         yield put(requestConfigSuccess(config))
         yield put(setReady())
+        // @ts-ignore import from js file
     } catch ({ json, stack }) {
         const stacktrace = get(json, 'meta.alert.messages[0].stacktrace', stack)
         const alert = get(json, 'meta.alert.messages[0]', null)
@@ -67,6 +67,7 @@ export function* changeLocale(apiProvider: unknown, action: { payload: { locale:
     try {
         const locale = get(action, 'payload.locale')
 
+        // @ts-ignore import from js file
         yield call(fetchSaga, CHANGE_LOCALE_API, locale, apiProvider)
         window.location.reload()
     } catch (err) {

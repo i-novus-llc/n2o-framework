@@ -7,21 +7,20 @@ import { dataSourceByIdSelector } from '../selectors'
 import type { QueryOptions, QueryResult, ServiceProvider, ServiceSubmit } from '../Provider'
 import type { State as GlobalState } from '../../State'
 import type { DataSourceState } from '../DataSource'
-// @ts-ignore ignore import error from js file
-import { handleInvoke } from '../../../sagas/actionsImpl'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { mapQueryToUrl } from '../../pages/sagas/restoreFilters'
+import { HandleInvokePayload, handleInvoke } from '../../../sagas/actionsImpl'
 
 import { fetch } from './service/fetch'
 
 export function* submit(id: string, provider: ServiceSubmit, apiProvider: unknown) {
     const { pageId }: DataSourceState = yield select(dataSourceByIdSelector(id))
-    const action = {
+    const action: { payload: HandleInvokePayload } = {
         payload: {
             datasource: id,
             dataProvider: provider,
             model: ModelPrefix.active,
-            pageId,
+            pageId: pageId || '',
         },
     }
 

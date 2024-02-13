@@ -47,11 +47,8 @@ export function* openPageEffect({ payload }: Action<string, OpenPagePayload>) {
             throw new Error(INVALID_URL_MESSAGE)
         }
     } else {
-        const { url: dataProviderUrl } = dataProviderResolver(state, {
-            url,
-            pathMapping,
-            queryMapping,
-        })
+        // @ts-ignore import from js file
+        const { url: dataProviderUrl } = dataProviderResolver(state, { url, pathMapping, queryMapping })
 
         compiledUrl = dataProviderUrl
     }
@@ -64,10 +61,13 @@ export function* openPageEffect({ payload }: Action<string, OpenPagePayload>) {
     }
 
     if (target === 'application') {
+        // @ts-ignore import from js file
         yield put(push(compiledUrl))
     } else if (target === '_blank') {
+        // @ts-ignore import from js file
         window.open(compiledUrl)
     } else {
+        // @ts-ignore import from js file
         window.location = compiledUrl
     }
 }

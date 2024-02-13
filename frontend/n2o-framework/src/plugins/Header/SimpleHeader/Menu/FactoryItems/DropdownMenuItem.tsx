@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { Dropdown } from '../NavItems/Dropdown/Dropdown'
-import { IDropdownContextItem } from '../Item'
+import { DropdownContextItem } from '../Item'
 
-export function DropdownMenuItem(props: IDropdownContextItem) {
+export function DropdownMenuItem(props: DropdownContextItem) {
     const { item, active, from, className, direction } = props
 
     return (

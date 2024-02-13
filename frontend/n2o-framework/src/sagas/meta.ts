@@ -13,7 +13,6 @@ import isEmpty from 'lodash/isEmpty'
 import { insertDialog, destroyOverlays } from '../ducks/overlays/store'
 import { id } from '../utils/id'
 import { CALL_ALERT_META } from '../constants/meta'
-// @ts-ignore ignore import error from js file
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { addAlert, addMultiAlerts } from '../ducks/alerts/store'
 import { CLOSE_BUTTON_PATH, DEFAULT_CLOSE_BUTTON, GLOBAL_KEY, STORE_KEY_PATH, PLACEMENT } from '../ducks/alerts/constants'
@@ -125,17 +124,15 @@ export function* redirectEffect(action: RedirectEffect) {
 
         const state: State = yield select()
 
-        const { url: newUrl } = dataProviderResolver(state, {
-            url: path,
-            pathMapping,
-            queryMapping,
-        })
+        // @ts-ignore import from js file
+        const { url: newUrl } = dataProviderResolver(state, { url: path, pathMapping, queryMapping })
 
         if (target === 'application') {
             yield clearOnSuccessEffect(action)
             yield put(push(newUrl))
             yield put(destroyOverlays(action.meta.modalsToClose))
         } else if (target === 'self') {
+            // @ts-ignore import from js file
             window.location = newUrl
         } else {
             window.open(newUrl)

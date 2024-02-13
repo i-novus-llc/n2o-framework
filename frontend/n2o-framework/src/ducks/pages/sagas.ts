@@ -14,12 +14,9 @@ import queryString from 'query-string'
 import { get, isEqual, cloneDeep } from 'lodash'
 
 import { destroyOverlay } from '../overlays/store'
-// @ts-ignore ignore import error from js file
 import { FETCH_PAGE_METADATA } from '../../core/api'
-// @ts-ignore ignore import error from js file
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { setGlobalLoading, changeRootPage } from '../global/store'
-// @ts-ignore ignore import error from js file
 import fetchSaga from '../../sagas/fetch'
 import {
     clearModel,
@@ -65,18 +62,15 @@ export function* getMetadata(apiProvider: unknown, action: MetadataRequest) {
         yield put(setGlobalLoading(true))
 
         const { search } = yield select(getLocation)
-        /* FIXME */
+
         let resolveProvider: { url: string, headersParams: object } = { url: '', headersParams: {} }
 
         if (!isEmpty(mapping)) {
             const state: State = yield select()
             const extraQueryParams = rootPage && queryString.parse(search)
 
-            resolveProvider = dataProviderResolver(
-                state,
-                { url, ...mapping },
-                extraQueryParams,
-            )
+            // @ts-ignore import from js file
+            resolveProvider = dataProviderResolver(state, { url, ...mapping }, extraQueryParams)
 
             url = resolveProvider.url
         } else if (rootPage) {
@@ -84,6 +78,7 @@ export function* getMetadata(apiProvider: unknown, action: MetadataRequest) {
         }
 
         const metadata: Metadata = yield call(
+            // @ts-ignore import from js file
             fetchSaga,
             FETCH_PAGE_METADATA,
             { pageUrl: url, headers: resolveProvider.headersParams },

@@ -12,13 +12,14 @@ import { updateModel, setModel } from '../../models/store'
 import { State as DatasourceState } from '../DataSource'
 import { State as GlobalState } from '../../State'
 import { RegisterAction } from '../Actions'
+import { DefaultModels } from '../../models/Models'
 
 /**
  * @param {String} id
  * @param {DataSourceDependency} dependency
  * @param model
  */
-export function* resolveDependency(id: string, dependency: DataSourceDependency, model: unknown) {
+export function* resolveDependency(id: string, dependency: DataSourceDependency, model: DefaultModels) {
     const { type } = dependency
 
     switch (type) {
@@ -39,7 +40,7 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
             if (targetField) {
                 yield put(updateModel(targetPrefix, id, targetField, model))
             } else {
-                yield put(setModel(targetPrefix, id, model as object))
+                yield put(setModel(targetPrefix, id, model))
             }
 
             if (submit) {

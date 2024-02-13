@@ -10,7 +10,6 @@ import {
 } from 'lodash'
 
 import evalExpression from '../../utils/evalExpression'
-// @ts-ignore ignore import error from js file
 import { defaultApiProvider, FETCH_VALIDATE } from '../api'
 import { isEmptyModel } from '../../utils/isEmptyModel'
 
@@ -81,6 +80,7 @@ export function constraint<
     TOptions extends { signal?: AbortSignal }
 >(fieldId: TKey, values: TData, { signal, ...options }: TOptions): Promise<boolean> {
     if (!isEmpty(values[fieldId])) {
+        // @ts-ignore import from js file
         return defaultApiProvider[FETCH_VALIDATE](options, signal)
     }
 

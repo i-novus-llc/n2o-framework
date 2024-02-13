@@ -317,7 +317,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     dispatch,
 )
 
-const FieldsetContainer = connect(
+export const FieldsetContainer = connect(
     null,
     mapDispatchToProps,
 )(Fieldset)

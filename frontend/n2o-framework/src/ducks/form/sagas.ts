@@ -172,15 +172,8 @@ export const formPluginSagas = [
         delete validateFields[datasource]
 
         if (!isEmpty(fields)) {
-            yield put(
-                startValidate(
-                    datasource,
-                    form.validationKey,
-                    prefix,
-                    fields,
-                    { blurValidation: true },
-                ),
-            )
+            // @ts-ignore FIXME разобраться TS2554: Expected 1 arguments, but got 5
+            yield put(startValidate(datasource, form.validationKey, prefix, fields, { blurValidation: true }))
         }
     }),
     debounce(200, [
@@ -200,15 +193,8 @@ export const formPluginSagas = [
         delete validateFields[datasource]
 
         if (!isEmpty(fields)) {
-            yield put(
-                startValidate(
-                    datasource,
-                    form.validationKey,
-                    prefix,
-                    fields,
-                    { blurValidation: true },
-                ),
-            )
+            // @ts-ignore FIXME разобраться TS2554: Expected 1 arguments, but got 5
+            yield put(startValidate(datasource, form.validationKey, prefix, fields, { blurValidation: true }))
         }
     }),
     debounce(200, [
@@ -223,15 +209,8 @@ export const formPluginSagas = [
         delete validateFields[datasource]
 
         if (!isEmpty(fields)) {
-            yield put(
-                startValidate(
-                    datasource,
-                    validationKey,
-                    modelPrefix,
-                    fields,
-                    { blurValidation: true },
-                ),
-            )
+            // @ts-ignore FIXME разобраться TS2554: Expected 1 arguments, but got 5
+            yield put(startValidate(datasource, validationKey, modelPrefix, fields, { blurValidation: true }))
         }
     }),
 ]

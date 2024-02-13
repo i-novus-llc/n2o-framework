@@ -2,10 +2,10 @@ import React from 'react'
 import omit from 'lodash/omit'
 import classNames from 'classnames'
 
-import { IContextItem } from '../../../../CommonMenuTypes'
+import { ContextItem } from '../../../../CommonMenuTypes'
 import { LinkBody } from '../NavItems/Links/LinkBody'
 
-export function StaticMenuItem(props: IContextItem) {
+export function StaticMenuItem(props: ContextItem) {
     const { item, className } = props
     const { style } = item
 

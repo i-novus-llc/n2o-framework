@@ -1,7 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 import { cancel, select, takeEvery } from 'redux-saga/effects'
 
-// @ts-ignore ignore import error from js file
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { dataSourceByIdSelector } from '../datasource/selectors'
 import { getTableColumns } from '../table/selectors'
@@ -151,6 +150,7 @@ export function* effect({ payload }: Action<string, Payload>) {
         }
     }
 
+    // @ts-ignore import from js file
     const { url: resolvedURL } = dataProviderResolver(
         state,
         inheritedProvider || provider,

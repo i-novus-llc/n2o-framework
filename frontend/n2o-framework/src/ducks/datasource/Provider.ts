@@ -69,7 +69,7 @@ export interface Paging {
     count: number
 }
 
-export interface QueryResult<TModel extends object = object> {
+export interface QueryResult<TModel extends object = Record<string, unknown>> {
     list: TModel[]
     additionalInfo?: object
     paging: Paging

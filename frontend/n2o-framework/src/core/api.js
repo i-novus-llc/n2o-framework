@@ -13,6 +13,9 @@ import queryString from 'query-string'
 import request from '../utils/request'
 import { generateFlatQuery } from '../tools/helpers'
 
+/* FIXME после типизации api
+    нужно поправить все файлы где он используется
+    @ts-ignore import from js file */
 export const API_PREFIX = 'n2o'
 export const BASE_PATH_METADATA = '/page'
 export const BASE_PATH_DATA = '/data/'

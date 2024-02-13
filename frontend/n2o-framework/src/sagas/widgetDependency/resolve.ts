@@ -2,7 +2,6 @@ import reduce from 'lodash/reduce'
 import { call, put } from 'redux-saga/effects'
 
 import { disableWidget, enableWidget, hideWidget, showWidget } from '../../ducks/widgets/store'
-// @ts-ignore ignore import error from js file
 import propsResolver from '../../utils/propsResolver'
 import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
 
@@ -15,6 +14,7 @@ export const reduceFunction = (isTrue: boolean, { model, config }: Model) => isT
  */
 
 export function* resolveVisible(widgetId: string, model: OptionsType) {
+    // @ts-ignore import from js file
     const visible = reduce(model, reduceFunction, true)
 
     if (visible) {
@@ -28,6 +28,7 @@ export function* resolveVisible(widgetId: string, model: OptionsType) {
  * Резолв активности
  */
 export function* resolveEnabled(widgetId: string, model: OptionsType) {
+    // @ts-ignore import from js file
     const enabled = reduce(model, reduceFunction, true)
 
     if (enabled) {

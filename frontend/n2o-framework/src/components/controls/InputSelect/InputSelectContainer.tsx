@@ -4,7 +4,6 @@ import { InputSelectComponent as InputSelect } from '@i-novus/n2o-components/lib
 import { TOption, Filter } from '@i-novus/n2o-components/lib/inputs/InputSelect/types'
 import { BadgeType } from '@i-novus/n2o-components/lib/inputs/InputSelect/PopupList'
 
-// @ts-ignore import from js file
 import propsResolver from '../../../utils/propsResolver'
 import listContainer from '../listContainer'
 
@@ -79,6 +78,7 @@ class InputSelectContainer extends React.Component<Props, State> {
 
         if (format) {
             formattedOptions = options
+                // @ts-ignore import from js file
                 .map(option => ({ ...option, formattedTitle: propsResolver({ format }, option).format }))
         }
 

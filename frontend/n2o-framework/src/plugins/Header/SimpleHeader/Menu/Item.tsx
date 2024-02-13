@@ -24,6 +24,7 @@ export function Item(props: ItemProps) {
 
     return (
         <NavItemContainer
+            // @ts-ignore import from js file WithDataSource
             itemProps={props}
             active={active}
             datasource={datasource}

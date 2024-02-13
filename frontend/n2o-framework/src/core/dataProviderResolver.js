@@ -21,6 +21,9 @@ import { clearEmptyParams } from './api'
  * @returns
  */
 
+/* FIXME после типизации dataProviderResolver
+    нужно поправить все файлы где он используется
+    @ts-ignore import from js file */
 export function dataProviderResolver(state, dataProvider, query, options) {
     const {
         url,

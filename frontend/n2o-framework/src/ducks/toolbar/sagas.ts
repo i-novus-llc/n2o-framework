@@ -6,12 +6,8 @@ import some from 'lodash/some'
 import uniqueId from 'lodash/uniqueId'
 import printJS from 'print-js'
 
-// @ts-ignore ignore import error from js file
 import { dataProviderResolver } from '../../core/dataProviderResolver'
-// @ts-ignore ignore import error from js file
-// eslint-disable-next-line import/no-cycle
 import { resolveConditions } from '../../sagas/conditions'
-// @ts-ignore ignore import error from js file
 import request from '../../utils/request'
 import { State } from '../State'
 import { SequenceMeta, creator as sequence, finisher as sequenceEnd } from '../api/action/sequence'
@@ -156,11 +152,8 @@ function* print(action: Print) {
         }
 
         if (url) {
-            const { url: printUrl } = yield dataProviderResolver(state, {
-                url,
-                pathMapping,
-                queryMapping,
-            })
+            // @ts-ignore import from js file
+            const { url: printUrl } = yield dataProviderResolver(state, { url, pathMapping, queryMapping })
 
             if (type === PrintType.TEXT) {
                 const text: string = yield request(printUrl, {}, { parseJson: false })
