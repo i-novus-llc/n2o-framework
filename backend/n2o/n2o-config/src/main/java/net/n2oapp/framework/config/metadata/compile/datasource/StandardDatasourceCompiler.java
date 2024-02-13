@@ -41,6 +41,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.FiltersScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
+import net.n2oapp.framework.config.util.QueryContextUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -309,7 +310,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         }
         queryContext.setMessagesForm(compiled.getId());
         queryContext.setQuerySize(source.getSize());
-        queryContext.setSortingMap(initSortingMap(query));
+        queryContext.setSortingMap(QueryContextUtil.initSortingMap(query));
 
         SubModelsScope subModelsScope = p.getScope(SubModelsScope.class);
         if (subModelsScope != null) {
@@ -322,18 +323,6 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         }
 
         return queryContext;
-    }
-
-    private Map<String, String> initSortingMap(CompiledQuery query) {
-        Map<String, String> sortingMap = new HashMap<>();
-        for (QuerySimpleField sortingField : query.getSortingFields()) {
-            sortingMap.put(
-                    SORTING + RouteUtil.normalizeParam(sortingField.getId()),
-                    sortingField.getId()
-            );
-        }
-
-        return sortingMap;
     }
 
     private ClientDataProvider initSubmit(N2oStandardDatasource source, StandardDatasource compiled, CompiledObject compiledObject,
