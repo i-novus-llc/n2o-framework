@@ -11,7 +11,7 @@
                 <requiring>true</requiring>
             </dependencies>
         </input-text>
-        <multi-set>
+        <multi-set id="ms">
             <field id="test1">
                 <!-- should be ignored -->
                 <dependencies>

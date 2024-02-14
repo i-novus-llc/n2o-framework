@@ -88,7 +88,15 @@ public class FieldSetValidatorTest extends SourceValidationTestBase {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testEmptyMultiSet.widget.xml"));
-        assertEquals("Мультифилдсет  виджета 'testEmptyMultiSet' имеет пустое тело", exception.getMessage());
+        assertEquals("Мультифилдсет 'empty' виджета 'testEmptyMultiSet' имеет пустое тело", exception.getMessage());
+    }
+
+    @Test
+    void testMultisetWithoutId() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testMultisetWithoutId.widget.xml"));
+        assertEquals("Мультифилдсет виджета 'testMultisetWithoutId' не имеет идентификатора", exception.getMessage());
     }
 
     @Test

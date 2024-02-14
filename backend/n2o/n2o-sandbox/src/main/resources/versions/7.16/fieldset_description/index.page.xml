@@ -9,7 +9,7 @@
             <line label="Заголовок" description="Подзаголовок">
                 <input-text id="field2"/>
             </line>
-            <multi-set label="Заголовок" description="Подзаголовок">
+            <multi-set id="ms" label="Заголовок" description="Подзаголовок">
                 <input-text id="field3"/>
             </multi-set>
         </fields>
