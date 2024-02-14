@@ -11,7 +11,7 @@
             </col>
         </row>
         <line>
-            <multi-set>
+            <multi-set id="ms">
                 <row>
                     <col>
                         <input-text id="test1">
