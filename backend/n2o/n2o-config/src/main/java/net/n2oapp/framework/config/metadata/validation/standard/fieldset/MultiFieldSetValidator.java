@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.validation.standard.fieldset;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
@@ -19,6 +20,9 @@ public class MultiFieldSetValidator implements SourceValidator<N2oMultiFieldSet>
 
     @Override
     public void validate(N2oMultiFieldSet source, SourceProcessor p) {
+        if (StringUtils.isEmpty(source.getId()))
+            throw new N2oMetadataValidationException(String.format("Мультифилдсет виджета %s не имеет идентификатора",
+                    ValidationUtils.getIdOrEmptyString(p.getScope(WidgetScope.class).getWidgetId())));
         if (source.getItems() == null)
             throw new N2oMetadataValidationException(String.format("Мультифилдсет %s виджета %s имеет пустое тело",
                     ValidationUtils.getIdOrEmptyString(source.getId()),

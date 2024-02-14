@@ -16,7 +16,7 @@
                     <input-select id="selectMulti" label="Множественный выбор" type="checkboxes"/>
                 </row>
             </line>
-            <multi-set label="Мультисет" help="{multisetHelp}"
+            <multi-set id="ms" label="Мультисет" help="{multisetHelp}"
                        add-label="Добавить участника" first-children-label="Участник">
                 <row>
                     <input-text id="name" label="Имя"/>
