@@ -5,6 +5,7 @@ import { TableActionsProvider } from '../provider/TableActions'
 import { Selection } from '../enum'
 import { getAllValuesByKey } from '../utils'
 import { TableRefProps } from '../provider/TableRefProps'
+import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../../utils/emptyTypes'
 
 import { TableHeader } from './TableHeader'
 import { TableBody } from './TableBody'
@@ -91,9 +92,10 @@ TableContainer.defaultProps = {
     data: [],
     hasSecurityAccess: true,
     focusedRowValue: null,
-    expandedRows: [],
-    selectedRows: [],
+    expandedRows: EMPTY_ARRAY,
+    selectedRows: EMPTY_ARRAY,
     actionListener: () => {},
+    filterErrors: EMPTY_OBJECT,
 }
 
 TableContainer.displayName = 'TableContainer'

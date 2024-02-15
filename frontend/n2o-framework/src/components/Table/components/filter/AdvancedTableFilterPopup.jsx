@@ -100,6 +100,7 @@ AdvancedTableFilterPopup.defaultProps = {
     onSearchClick: () => {},
     onResetClick: () => {},
     componentProps: {},
+    error: {},
 }
 
 export { AdvancedTableFilterPopup }
