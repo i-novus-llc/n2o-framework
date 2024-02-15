@@ -54,7 +54,7 @@ export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
         }
     }
     validateFilterField(id: string, model: Record<string, unknown>, reset?: boolean): void
-    filterErrors: Record<string, FieldError>
+    filterErrors?: Record<string, FieldError>
 }
 
 export type TableProps = {
@@ -91,7 +91,7 @@ export type TableHeaderProps = {
     cells: TableProps['headerCell']
     row: TableProps['headerRow']
     validateFilterField: TableWidgetContainerProps['validateFilterField']
-    filterErrors: TableWidgetContainerProps['filterErrors']
+    filterErrors?: TableWidgetContainerProps['filterErrors']
 } & Pick<TableProps, 'sorting'>
 
 export type CheckboxHeaderCellProps = {
@@ -108,7 +108,7 @@ export type TableHeaderCellProps = {
     sortingDirection?: string
     resizable?: boolean
     validateFilterField: TableWidgetContainerProps['validateFilterField']
-    filterError: FieldError
+    filterError?: FieldError
 } & Pick<HeaderCell, 'elementAttributes' | 'filterField'>
 
 export type SelectionCellProps = {
@@ -166,7 +166,7 @@ export type DataRowProps = {
 export type HeaderFilterProps = {
     id: string
     validateFilterField: TableWidgetContainerProps['validateFilterField']
-    filterError: FieldError
+    filterError?: FieldError
 } & Required<Pick<HeaderCell, 'filterField'>>
 
 export type CellContainerProps = {
