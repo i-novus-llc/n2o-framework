@@ -35,7 +35,7 @@ export const TableHeader = memo<TableHeaderProps>(({
                             key={cell.id}
                             sortingDirection={cell.sortingParam ? sorting[cell.sortingParam] : undefined}
                             validateFilterField={validateFilterField}
-                            filterError={filterErrors[cell.id] || null}
+                            filterError={filterErrors?.[cell.id]}
                             {...cell}
                         />
                     ))}
