@@ -43,8 +43,15 @@ function* collectSaga({ payload }: ModelAction) {
 
 function* submitSaga() {
     for (const { key, provider } of Object.values(buffer)) {
-        // @ts-ignore FIXME разобраться почему ругается на количество аргументов
-        yield put(submit(key, provider))
+        const datasource: DataSourceState = yield select(dataSourceByIdSelector(key))
+
+        if (!isEmpty(datasource)) {
+            // @ts-ignore FIXME разобраться почему ругается на количество аргументов
+            yield put(submit(key, provider))
+        } else {
+            // eslint-disable-next-line no-console
+            console.warn('Can\'t auto-submit after destroy datasource')
+        }
     }
 
     buffer = {}
