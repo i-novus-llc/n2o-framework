@@ -10,6 +10,9 @@ import { FETCH_TRIGGER } from './constants'
 // FIXME временное решение для fieldDependency type fetch, вызывает _fetchData компонента
 //  config формируется в файле ReduxField
 //  FETCH_TRIGGER подкладывает saga fieldDependency
+/**
+ * @type {Function}
+ */
 export default config => (WrappedComponent) => {
     class FetchDependency extends Component {
         setComponentRef = (el) => {

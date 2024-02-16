@@ -10,6 +10,10 @@ import { FETCH_TYPE } from './const'
 /**
  * ХОК для получения параметров в виджет из DataSource и методов взаимодействия с ним
  */
+
+/**
+ * @type {Function}
+ */
 export const WidgetHOC = (WidgetComponent) => {
     /**
      * Обёртка, осуществляющая запрос за данными при смене видимости виджета

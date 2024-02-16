@@ -22,6 +22,9 @@ export const InitMetadataContext = React.createContext({
  * НОС - создает зависимость
  *
  */
+/**
+ * @type {Function} ReturnedComponent
+ */
 export const dependency = (WrappedComponent) => {
     class UniversalDependency extends React.Component {
         constructor(props) {

@@ -1,34 +1,27 @@
 {
-    "compilerOptions": {
-        "skipLibCheck": true,
-        "noImplicitAny": true,
-        "sourceMap": false,
-        "diagnostics": true,
-        "importHelpers": true,
-        "target": "ES2020",
-        "module": "ES2020",
-        "esModuleInterop": true,
-        "lib": [
-            "DOM",
-            "ESNext"
-        ],
-        "locale": "ru",
-        "strict": true,
-        "pretty": true,
-        "types": ["tslib"],
-        "moduleResolution": "Node",
-        "allowSyntheticDefaultImports": true,
-        "jsx": "react",
-        // Ensure that .d.ts files are created by tsc, but not .js files
-        "declaration": true,
-        "emitDeclarationOnly": true,
-        "rootDir": "./src",
-        "outDir": "./lib",
-        // Ensure that Babel can safely transpile files in the TypeScript project
-        "isolatedModules": true,
-        "baseUrl": "./"
-    },
-    "include": [
-        "./src"
-    ]
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "diagnostics": true,
+    "importHelpers": true,
+    "target": "ES2015",
+    "module": "ESNext",
+    "noEmitOnError": false,
+    "outDir": "lib",
+    "esModuleInterop": true,
+    "lib": ["DOM", "ESNext"],
+    "locale": "ru",
+    "strict": true,
+    "pretty": true,
+    "types": ["tslib"],
+    "declaration" : true,
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
+    "allowJs" : true,
+    "baseUrl": "./",
+    "skipLibCheck" : true
+  },
+  "include" : ["src"],
+  "exclude": ["node_modules"]
 }

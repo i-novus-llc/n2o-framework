@@ -60,4 +60,7 @@ TreeWidget.propTypes = {
     placeholder: PropTypes.string,
 }
 
+/**
+ * @type ConnectedWidget
+ */
 export default WidgetHOC(WithActiveModel(TreeWidget))

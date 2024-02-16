@@ -1,5 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck ошибка генерации d.ts FIXME типизировать
+import React, { FC } from 'react'
 import { connect, ReactReduxContext } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import omit from 'lodash/omit'
@@ -23,7 +24,7 @@ import { ModelPrefix } from '../../core/datasource/const'
  * @param WrappedComponent - оборачиваемый компонент
  */
 
-function withGetWidget(WrappedComponent) {
+function withGetWidget(WrappedComponent: FC) {
     class WithGetWidget extends React.Component {
         constructor(props) {
             super(props)
@@ -32,7 +33,7 @@ function withGetWidget(WrappedComponent) {
             this.getWidgetProps = this.getWidgetProps.bind(this)
         }
 
-        getWidget(pageId, widgetId) {
+        getWidget(pageId: string, widgetId: string) {
             const { store } = this.context
             const state = store.getState()
 
@@ -42,7 +43,7 @@ function withGetWidget(WrappedComponent) {
             ])
         }
 
-        getWidgetProps(widgetId) {
+        getWidgetProps(widgetId: string) {
             const { widgets, widgetsDatasource } = this.props
 
             return {
@@ -62,16 +63,6 @@ function withGetWidget(WrappedComponent) {
                 />
             )
         }
-    }
-
-    WithGetWidget.propTypes = {
-        pages: PropTypes.object,
-        widgetsDatasource: PropTypes.object,
-        widgets: PropTypes.object,
-        hideWidget: PropTypes.func,
-        showWidget: PropTypes.func,
-        disableWidget: PropTypes.func,
-        enableWidget: PropTypes.func,
     }
 
     WithGetWidget.contextType = ReactReduxContext
@@ -99,4 +90,4 @@ function withGetWidget(WrappedComponent) {
     )(WithGetWidget)
 }
 
-export default withGetWidget
+export default withGetWidget as never

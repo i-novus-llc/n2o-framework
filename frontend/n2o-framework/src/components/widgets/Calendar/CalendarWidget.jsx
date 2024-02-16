@@ -50,4 +50,7 @@ CalendarWidget.propTypes = {
     calendar: PropTypes.any,
 }
 
+/**
+ * @type ConnectedWidget
+ */
 export default WidgetHOC(WithActiveModel(CalendarWidget))

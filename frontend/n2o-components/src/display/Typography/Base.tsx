@@ -16,7 +16,6 @@ import isNil from 'lodash/isNil'
 import isPlainObject from 'lodash/isPlainObject'
 
 import { TBaseProps } from '../../types'
-// @ts-ignore import from js file
 import { parseFormatter } from '../../utils/parseFormatter'
 
 import { delay, wrapTags, ICON_STYLE } from './utils'
@@ -33,6 +32,7 @@ const EndTag = () => (
                 return children
             }
 
+            // @ts-ignore import from js file
             const parseText = parseFormatter(text, format)
 
             // если text передан как object, он попадет в render и уронит приложение

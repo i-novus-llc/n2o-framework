@@ -82,4 +82,7 @@ TilesWidget.propTypes = {
     height: PropTypes.number,
 }
 
+/**
+ * @type ConnectedWidget
+ */
 export default WidgetHOC(WithActiveModel(TilesWidget))

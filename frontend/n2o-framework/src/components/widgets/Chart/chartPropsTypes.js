@@ -210,6 +210,9 @@ export const linesTypes = PropTypes.arrayOf(
     }),
 )
 
+/**
+ * @type nominalTypeHack
+ */
 export const areasTypes = PropTypes.arrayOf(
     PropTypes.shape({
         ...linesTypes,

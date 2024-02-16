@@ -2,7 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { TBaseProps } from '../types'
-// @ts-ignore import from js file
 import { parseFormatter } from '../utils/parseFormatter'
 
 type Props = TBaseProps & {
@@ -13,6 +12,9 @@ type Props = TBaseProps & {
 }
 
 export function Text({ text, format, preLine, className, ...rest }: Props) {
+    // @ts-ignore import from js file
+    const parsedText = parseFormatter(text, format)
+
     return (
         <span
             className={classNames('n2o-snippet', className, {
@@ -20,7 +22,7 @@ export function Text({ text, format, preLine, className, ...rest }: Props) {
             })}
             {...rest}
         >
-            {parseFormatter(text, format)}
+            {parsedText}
         </span>
     )
 }

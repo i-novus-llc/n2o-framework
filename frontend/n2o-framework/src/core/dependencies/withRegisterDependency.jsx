@@ -4,6 +4,9 @@ import PropTypes from 'prop-types'
 
 import { registerFieldDependency } from '../../ducks/form/store'
 
+/**
+ * @type {Function} ReturnedComponent
+ */
 export default (Component) => {
     class DependencyContainer extends React.Component {
         constructor(props) {

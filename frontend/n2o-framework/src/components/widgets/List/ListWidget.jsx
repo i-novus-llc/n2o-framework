@@ -113,4 +113,7 @@ ListWidget.defaultProps = {
     hasSelect: false,
 }
 
+/**
+ * @type ConnectedWidget
+ */
 export default WidgetHOC(WithActiveModel(ListWidget))

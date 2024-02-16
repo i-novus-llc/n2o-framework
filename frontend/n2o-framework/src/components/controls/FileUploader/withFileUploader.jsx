@@ -16,7 +16,9 @@ import evalExpression, { parseExpression } from '../../../utils/evalExpression'
 import { id } from '../../../utils/id'
 
 import { deleteFile, everyIsValid, post } from './utils'
-
+/**
+ * @type {Function} ReturnedComponent
+ */
 const FileUploaderControl = (WrappedComponent) => {
     class ReturnedComponent extends Component {
         constructor(props) {

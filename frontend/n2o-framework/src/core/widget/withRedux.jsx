@@ -16,7 +16,13 @@ import { reduxTypes } from './propTypes'
 /**
  * ХОК для подключения виджета к redux
  */
+/**
+ * @type {Function}
+ */
 export const withRedux = (WidgetComponent) => {
+    /**
+     * @type ConnectedWidget
+     */
     class ConnectedWidget extends Component {
         componentDidMount() {
             const { dispatch, ...props } = this.props

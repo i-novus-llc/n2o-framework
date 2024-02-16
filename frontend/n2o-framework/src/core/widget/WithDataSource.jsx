@@ -11,6 +11,9 @@ import { ModelPrefix } from '../datasource/const'
 import { FETCH_TYPE } from './const'
 import { DataSourceContext, METHODS } from './context'
 
+/**
+ * @type {Function}
+ */
 export const WithDatasourceLifeCycle = (Component) => {
     class WithDatasourceLifeCycle extends React.Component {
         componentDidMount() {

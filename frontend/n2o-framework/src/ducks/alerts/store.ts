@@ -5,7 +5,7 @@ import { ALLOWED_ALERTS_QUANTITY } from './constants'
 import { State } from './Alerts'
 import { Add, AddMulti, Remove, RemoveAll, StopRemoving } from './Actions'
 
-const initialState: State = {}
+export const initialState: State = {}
 
 const alertsSlice = createSlice({
     name: 'n2o/alerts',
