@@ -85,4 +85,7 @@ ChartWidget.propTypes = {
     chart: PropTypes.arrayOf(PropTypes.shape({})),
 }
 
+/**
+ * @type ConnectedWidget
+ */
 export default WidgetHOC(ChartWidget)

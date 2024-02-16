@@ -27,7 +27,7 @@ type State = {
 }
 
 export class Spinner extends Component<Props, State> {
-    timeoutId: number | null
+    timeoutId: NodeJS.Timeout | null
 
     unmounted: boolean | null
 

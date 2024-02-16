@@ -54,4 +54,7 @@ DropZone.propTypes = {
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 }
 
+/**
+ * @type ReturnedComponent
+ */
 export default withFileUploader(DropZone)

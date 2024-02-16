@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck ошибка генерации d.ts FIXME типизировать
 import React from 'react'
 import PropTypes from 'prop-types'
 import BaseCollapse from 'rc-collapse'
@@ -21,9 +23,6 @@ const expandIcon = ({ isActive }, collapsible) => (collapsible ? (
 /**
  * Компонент Collapse
  * @param {string | array} activeKey - активный ключ панели (При совпадении с ключами Panel происходит открытие последней)
- * @param {string | array} defaultActiveKey - активный ключ по умолчанию
- * @param {boolean} destroyInactivePanel - при закрытии панели удалить внутреннее содержимое.
- * @param {boolean} accordion - включить режим accordion (При открытии панели захлопнуть предыдущую панель)
  * @param {boolean} collapsible - флаг выключения возможности сворачивания
  * @returns {*}
  * @constructor
@@ -87,4 +86,4 @@ Collapse.defaultProps = {
 }
 
 export { Panel }
-export default Collapse
+export default Collapse as never

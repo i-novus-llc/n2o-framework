@@ -111,4 +111,7 @@ Form.contextTypes = {
     store: PropTypes.object,
 }
 
+/**
+ * @type ConnectedWidget
+ */
 export const FormWidget = WidgetHOC(Form)

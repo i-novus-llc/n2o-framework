@@ -59,4 +59,7 @@ Widget.propTypes = {
     html: PropTypes.string,
 }
 
+/**
+ * @type ConnectedWidget
+ */
 export const HtmlWidget = WidgetHOC(Widget)

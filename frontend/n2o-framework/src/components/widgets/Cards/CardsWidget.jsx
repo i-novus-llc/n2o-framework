@@ -70,4 +70,7 @@ CardsWidget.propTypes = {
     verticalAlign: PropTypes.string,
 }
 
+/**
+ * @type ConnectedWidget
+ */
 export default WidgetHOC(WithActiveModel(CardsWidget))
