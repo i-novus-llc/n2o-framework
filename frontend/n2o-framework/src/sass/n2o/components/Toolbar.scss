@@ -6,7 +6,7 @@
 }
 
 .buttons-toolbar {
-    .btn-group {
+    .btn-group:not(:last-of-type) {
         margin-right: 0.5rem;
     }
 }

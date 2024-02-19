@@ -19,21 +19,43 @@
 }
 
 .n2o-standard-widget-layout-toolbar {
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
 }
 
-.n2o-standard-widget-layout-toolbar--left .btn-group {
-    flex-wrap: wrap;
+.n2o-standard-widget-layout-toolbar:empty,
+.n2o-standard-widget-layout-center-filter:empty {
+    display: none;
+}
+
+.n2o-standard-widget-layout-toolbar--left {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    align-items: start;
+
+    .btn-group {
+        flex-wrap: wrap;
+    }
+}
+
+.n2o-standard-widget-layout-toolbar--center {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    align-items: center;
 }
 
 .n2o-standard-widget-layout-toolbar--right {
     display: flex;
-    flex-shrink: 0;
-    justify-content: flex-end;
-    align-items: flex-end;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    align-items: end;
 
     .btn-group {
         flex-wrap: wrap;
         justify-content: flex-end;
     }
+}
+
+.n2o-standard-widget-layout-toolbar-wrapper {
+    row-gap: 0.5rem;
 }
