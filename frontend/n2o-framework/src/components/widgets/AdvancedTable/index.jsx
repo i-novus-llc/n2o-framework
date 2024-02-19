@@ -188,7 +188,7 @@ const AdvancedTableContainer = (props) => {
                     style={style}
                     fetchData={fetchData}
                     loading={loading}
-                    {...pagination}
+                    pagination={pagination}
                 >
                     {isInit ? (
                         <TableContainer

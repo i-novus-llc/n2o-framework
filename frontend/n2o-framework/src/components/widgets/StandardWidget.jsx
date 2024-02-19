@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Children, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { pure, compose } from 'recompose'
@@ -34,137 +34,117 @@ const PLACES = {
  * @reactProps {boolean} disabled - флаг активности
  * @reactProps {node} children - элемент потомок компонента StandardWidget
  */
-class StandardWidget extends React.Component {
-    // eslint-disable-next-line consistent-return
-    renderSection(place) {
-        const { widgetId, toolbar, filter, fetchData, datasource } = this.props
-
-        const filterProps = {
-            ...filter,
-            fieldsets: filter.filterFieldsets,
-        }
-
-        switch (place) {
-            case PLACES.top:
-            case PLACES.left:
-            case PLACES.right: {
-                return (
-                    <WidgetFilters
-                        widgetId={widgetId}
-                        fetchData={fetchData}
-                        datasource={datasource}
-                        {...filterProps}
-                    />
-                )
-            }
-            case PLACES.topLeft:
-            case PLACES.topRight:
-            case PLACES.topCenter:
-            case PLACES.bottomLeft:
-            case PLACES.bottomRight:
-            case PLACES.bottomCenter: {
-                const { [place]: propsPlace } = this.props
-                const hasPropsPlace = propsPlace && React.isValidElement(propsPlace)
-                const toolbarClassNames = classNames(
-                    'd-flex flex-column',
-                    {
-                        'flex-column': place.includes(PLACES.bottom),
-                        'flex-column-reverse': place.includes(PLACES.top),
-                        'align-items-center': place.toLowerCase().includes(PLACES.center),
-                        'align-items-end': place.toLowerCase().includes(PLACES.right),
-                    },
-                )
-                const currentToolbar = toolbar[place]
-
-                return (
-                    <div className={toolbarClassNames}>
-                        {hasPropsPlace && (
-                            <div className={`m${place.includes(PLACES.top) ? 't' : 'b'}-2`}>
-                                {propsPlace}
-                            </div>
-                        )}
-                        <Toolbar toolbar={currentToolbar} entityKey={widgetId} />
-                    </div>
-                )
-            }
-            default:
-                break
-        }
-    }
-
-    render() {
-        const {
-            disabled,
-            filter,
-            className,
-            style,
-            children,
-            loading,
-            error,
-        } = this.props
-
-        const classes = classNames([
-            className,
-            'n2o-standard-widget-layout',
-            { 'n2o-disabled': disabled },
-        ])
-
-        const errorComponent = isEmpty(error) ? null : <ErrorContainer error={error} />
-
-        const childrenWithProps = React.Children.map(children, (child) => {
-            if (React.isValidElement(child)) {
-                return React.cloneElement(child, { errorComponent })
-            }
-
-            return child
-        })
+const StandardWidget = (props) => {
+    const {
+        widgetId, toolbar, filter,
+        fetchData, datasource, pagination,
+        disabled, className, style,
+        children, loading, error,
+    } = props
+    const renderToolbar = useCallback((place) => {
+        const paginationComponent = pagination[place]
+        const currentToolbar = toolbar[place]
+        const toolbarClassNames = classNames(
+            'd-flex',
+            'flex-column',
+            'n2o-standard-widget-layout-toolbar-wrapper',
+            `n2o-standard-widget-layout-toolbar--${place.toLowerCase().replace(/(bottom)|(top)/, '')}`,
+            {
+                'flex-column-reverse': place.includes(PLACES.top),
+            },
+        )
 
         return (
-            <div className={classes} style={style}>
-                {filter.filterPlace === PLACES.left && this.renderSection(PLACES.left)}
-                <div className="n2o-standard-widget-layout-center">
-                    <div className="n2o-standard-widget-layout-center-filter">
-                        {filter.filterPlace === PLACES.top && this.renderSection(PLACES.top)}
-                    </div>
-                    <div className="d-flex justify-content-between n2o-standard-widget-layout-toolbar-toolbar-container n2o-standard-widget-layout-toolbar-toolbar-container-top">
-                        <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--left">
-                            {this.renderSection(PLACES.topLeft)}
-                        </div>
-                        <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--center">
-                            {this.renderSection(PLACES.topCenter)}
-                        </div>
-                        <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--right">
-                            {this.renderSection(PLACES.topRight)}
-                        </div>
-                    </div>
-                    <div className="n2o-standard-widget-layout-content">
-                        <Spinner loading={loading} type="cover">
-                            {childrenWithProps}
-                        </Spinner>
-                    </div>
-                    <div className="d-flex justify-content-between n2o-standard-widget-layout-toolbar-toolbar-container n2o-standard-widget-layout-toolbar-container-bottom">
-                        <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--left">
-                            {this.renderSection(PLACES.bottomLeft)}
-                        </div>
-                        <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--center">
-                            {this.renderSection(PLACES.bottomCenter)}
-                        </div>
-                        <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--right">
-                            {this.renderSection(PLACES.bottomRight)}
-                        </div>
-                    </div>
+            currentToolbar || paginationComponent ? (
+                <div className={toolbarClassNames} key={place}>
+                    {paginationComponent}
+                    {currentToolbar ? <Toolbar toolbar={currentToolbar} entityKey={widgetId} /> : null}
                 </div>
-                <div className="n2o-standard-widget-layout-aside n2o-standard-widget-layout-aside--right">
-                    {filter.filterPlace === PLACES.right && this.renderSection(PLACES.right)}
-                </div>
-            </div>
+            ) : null
         )
-    }
+    }, [pagination, toolbar, widgetId])
+
+    const filterComponent = (
+        <WidgetFilters
+            widgetId={widgetId}
+            fetchData={fetchData}
+            datasource={datasource}
+            fieldsets={filter.filterFieldsets}
+            {...filter}
+        />
+    )
+
+    const { topToolbars, bottomToolbars } = useMemo(() => ({
+        topToolbars: [
+            renderToolbar(PLACES.topLeft),
+            renderToolbar(PLACES.topCenter),
+            renderToolbar(PLACES.topRight),
+        ].filter(Boolean),
+        bottomToolbars: [
+            renderToolbar(PLACES.bottomLeft),
+            renderToolbar(PLACES.bottomCenter),
+            renderToolbar(PLACES.bottomRight),
+        ].filter(Boolean),
+    }), [renderToolbar])
+
+    const classes = classNames([
+        className,
+        'n2o-standard-widget-layout',
+        { 'n2o-disabled': disabled },
+    ])
+
+    const errorComponent = isEmpty(error) ? null : <ErrorContainer error={error} />
+
+    const childrenWithError = Children.map(children, (child) => {
+        if (React.isValidElement(child)) {
+            return React.cloneElement(child, { errorComponent })
+        }
+
+        return child
+    })
+
+    return (
+        <div className={classes} style={style}>
+            {filter.filterPlace === PLACES.left ? (
+                <div className="n2o-standard-widget-layout-aside n2o-standard-widget-layout-aside--left">
+                    {filterComponent}
+                </div>
+            ) : null}
+            <div className="n2o-standard-widget-layout-center">
+                {filter.filterPlace === PLACES.top ? (
+                    <div className="n2o-standard-widget-layout-center-filter">
+                        {filterComponent}
+                    </div>
+                ) : null}
+                {topToolbars.length ? (
+                    <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar-top">
+                        {topToolbars}
+                    </div>
+                ) : null}
+                <div className="n2o-standard-widget-layout-content">
+                    <Spinner loading={loading} type="cover">
+                        {childrenWithError}
+                    </Spinner>
+                </div>
+                {bottomToolbars.length ? (
+                    <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar-bottom">
+                        {bottomToolbars}
+                    </div>
+                ) : null}
+            </div>
+            {filter.filterPlace === PLACES.right ? (
+                <div className="n2o-standard-widget-layout-aside n2o-standard-widget-layout-aside--right">
+                    {filterComponent}
+                </div>
+            ) : null}
+        </div>
+    )
 }
 
 StandardWidget.defaultProps = {
     toolbar: {},
     filter: {},
+    pagination: {},
 }
 
 StandardWidget.propTypes = {
@@ -174,33 +154,12 @@ StandardWidget.propTypes = {
     datasource: PropTypes.string,
     toolbar: PropTypes.object,
     filter: PropTypes.object,
-    filterModel: PropTypes.object,
     error: PropTypes.object,
-    setFilter: PropTypes.func,
     fetchData: PropTypes.func,
     disabled: PropTypes.bool,
-    left: PropTypes.element,
-    top: PropTypes.element,
-    topLeft: PropTypes.oneOfType([PropTypes.bool, PropTypes.array, PropTypes.node]),
-    topCenter: PropTypes.oneOfType([PropTypes.bool, PropTypes.array, PropTypes.node]),
-    topRight: PropTypes.oneOfType([PropTypes.bool, PropTypes.array, PropTypes.node]),
-    bottomLeft: PropTypes.oneOfType([
-        PropTypes.bool,
-        PropTypes.array,
-        PropTypes.node,
-    ]),
-    bottomCenter: PropTypes.oneOfType([
-        PropTypes.bool,
-        PropTypes.array,
-        PropTypes.node,
-    ]),
-    bottomRight: PropTypes.oneOfType([
-        PropTypes.bool,
-        PropTypes.array,
-        PropTypes.node,
-    ]),
     children: PropTypes.node,
     loading: PropTypes.bool,
+    pagination: PropTypes.object,
 }
 
 const mapStateToProps = createStructuredSelector({

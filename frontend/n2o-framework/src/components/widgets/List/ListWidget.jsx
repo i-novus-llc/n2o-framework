@@ -69,7 +69,7 @@ function ListWidget(props) {
             datasource={datasource}
             toolbar={toolbar}
             filter={resolvedFilter}
-            {...pagination}
+            pagination={pagination}
             className={className}
             style={style}
             loading={loading}
