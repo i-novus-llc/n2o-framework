@@ -89,6 +89,7 @@ const overlaysSlice = createSlice({
                     visible,
                     mode,
                     type: 'page',
+                    id: name,
                     props: { ...action.payload },
                 })
             },
