@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TdHTMLAttributes, FC, VFC } from 'react'
+import { FC, VFC } from 'react'
 
 export type Row = {
     click?: { enablingCondition?: string, [key: string]: unknown }
     component?: VFC<any>
-    elementAttributes?: Partial<TdHTMLAttributes<HTMLTableRowElement>>
+    elementAttributes?: Record<string, any>
     hasSelect?: boolean
     security?: Record<string, any>
     overlay?: {

@@ -25,7 +25,7 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = (props) => {
         ...rest
     } = props
 
-    const { className } = elementAttributes
+    const { className, alignment, ...otherElementAttributes } = elementAttributes
     const cellRef = useRef<HTMLTableCellElement>(null)
     const onMouseDownResizeCell = useMouseDownResize(cellRef)
 
@@ -35,7 +35,8 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = (props) => {
             ref={cellRef}
             colSpan={colSpan}
             rowSpan={rowSpan}
-            {...elementAttributes}
+            align={alignment}
+            {...otherElementAttributes}
             className={classNames(className, { 'n2o-advanced-table-header-text-center': multiHeader })}
         >
             <div className="n2o-advanced-table-header-cell-content">
