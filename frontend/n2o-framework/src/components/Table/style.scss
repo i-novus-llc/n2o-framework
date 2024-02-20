@@ -112,6 +112,20 @@
             width: 30px;
         }
     }
+
+    .cell[align="right"] {
+        .cell-content,
+        .n2o-advanced-table-header-cell-content {
+            justify-content: flex-end;
+        }
+    }
+
+    .cell[align="center"] {
+        .cell-content,
+        .n2o-advanced-table-header-cell-content {
+            justify-content: center;
+        }
+    }
 }
 
 .n2o-advanced-table-filter-btn {
