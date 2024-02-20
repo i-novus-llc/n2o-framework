@@ -15,12 +15,16 @@ export const CellContainer = memo<CellContainerProps>((props) => {
         isTreeExpanded,
         rowValue,
         rowIndex,
+        alignment,
         ...otherProps
     } = props
     const resolvedProps = useMemo(() => propsResolver(otherProps, otherProps.model, ['toolbar', 'security', 'model']), [otherProps])
 
     return (
-        <Table.Cell className={otherProps.id === 'selectionCell' ? 'cell-selection' : ''}>
+        <Table.Cell
+            className={otherProps.id === 'selectionCell' ? 'cell-selection' : ''}
+            align={alignment}
+        >
             <div className="cell-content">
                 {cellIndex === 0 && hasExpandedButton && (
                     <ExpandButton
