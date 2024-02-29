@@ -48,6 +48,8 @@ export default {
     accessDenied: 'Доступ запрещён',
     innerAppError: 'Внутренняя ошибка приложения',
     badGateway: 'Неверный ответ от восходящего сервера',
+    serviceUnavailable: 'Ведутся сервисные работы',
+    networkError: 'Возникли проблемы с интернетом, попробуйте обновить страницу',
     routerError:
         'Нужно добавить {{page}} в компонент {{n2o}} или включить {{embeddedRouting}}.',
     pagesNotConfigured: 'Страницы не настроены',
