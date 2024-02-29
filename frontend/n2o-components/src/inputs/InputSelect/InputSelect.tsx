@@ -602,6 +602,7 @@ export class InputSelect extends React.Component<Props, State> {
             filter,
             sortFieldId,
             getSearchMinLengthHint,
+            quickSearchParam,
         } = this.props
         const {
             value: stateValue,
@@ -619,6 +620,8 @@ export class InputSelect extends React.Component<Props, State> {
 
         const popUpStyle = { maxHeight: `${popUpMaxHeight}${MEASURE}` }
         const searchMinLengthHint = getSearchMinLengthHint()
+
+        const filterValue = { [quickSearchParam || labelFieldId]: input }
 
         return (
             <div
@@ -698,9 +701,7 @@ export class InputSelect extends React.Component<Props, State> {
                             page={page}
                             size={size}
                             count={count}
-                            filterValue={{
-                                [labelFieldId]: input,
-                            }}
+                            filterValue={filterValue}
                             needAddFilter={needAddFilter}
                             options={options}
                             valueFieldId={valueFieldId}
