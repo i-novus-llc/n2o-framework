@@ -33,26 +33,53 @@ const BadGatewayPage = () => (
     </>
 )
 
+const ServiceUnavailablePage = () => (
+    <>
+        <DocumentTitle htmlTitle={translation.serviceUnavailable} />
+        <ErrorPage status={503} error={translation.serviceUnavailable} />
+    </>
+)
+
+const NetworkErrorPage = () => (
+    <>
+        <DocumentTitle htmlTitle={translation.networkError} />
+        <ErrorPage status={null} error={translation.networkError} />
+    </>
+)
+
+const InternalErrorPage = (props) => {
+    const { error } = props
+    const { text } = error
+
+    return (
+        <>
+            <DocumentTitle htmlTitle={text} />
+            <ErrorPage status={null} error={text} />
+        </>
+    )
+}
 const defaultComponents = {
     403: ForbiddenPage,
     404: NotFoundPage,
     500: ServerErrorPage,
     502: BadGatewayPage,
+    503: ServiceUnavailablePage,
+    networkError: NetworkErrorPage,
+    internalError: InternalErrorPage,
 }
 
 /* example config = {404: CustomComponent} */
-export const errorTemplates = (config = {}) => {
+export const errorTemplates = (config = {}, isOnline) => {
     const components = {
         ...defaultComponents,
         ...config,
     }
 
     return (error) => {
-        if (error.status) {
-            return components[error.status]
-        }
+        if (error.status) { return components[error.status] }
+        if (!isOnline) { return components.networkError }
 
-        return undefined
+        return components.internalError
     }
 }
 
