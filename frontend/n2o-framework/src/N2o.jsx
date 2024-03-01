@@ -31,6 +31,7 @@ const { version } = packageJson
 class N2o extends Component {
     constructor(props) {
         super(props)
+        this.state = { isOnline: true }
         const config = {
             security: props.security,
             messages: props.messages,
@@ -51,6 +52,20 @@ class N2o extends Component {
         return pick(this.props, factoryPoints)
     }
 
+    componentDidMount() {
+        window.addEventListener('offline', this.handleOffline)
+        window.addEventListener('online', this.handleOnline)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('offline', this.handleOffline)
+        window.removeEventListener('online', this.handleOnline)
+    }
+
+    handleOffline = () => { this.setState({ isOnline: false }) }
+
+    handleOnline = () => { this.setState({ isOnline: true }) }
+
     render() {
         const {
             security,
@@ -59,16 +74,17 @@ class N2o extends Component {
             children,
             i18n,
             locales: customLocales = {},
-            defaultErrorPages,
+            extraDefaultErrorPages,
         } = this.props
 
-        const config = this.generateConfig()
+        const { isOnline } = this.state
 
-        const handlers = [defaultErrorPages]
+        const config = this.generateConfig()
+        const handlers = [errorTemplates(extraDefaultErrorPages, isOnline)]
 
         return (
             <Provider store={this.store}>
-                <ErrorHandlersProvider value={handlers}>
+                <ErrorHandlersProvider value={handlers} isOnline={isOnline}>
                     <SecurityProvider {...security}>
                         <FactoryProvider config={config} securityBlackList={['actions']}>
                             <Application
@@ -76,9 +92,7 @@ class N2o extends Component {
                                 locales={locales}
                                 customLocales={customLocales}
                                 realTimeConfig={realTimeConfig}
-                                render={() => (
-                                    <Router embeddedRouting={embeddedRouting}>{children}</Router>
-                                )}
+                                render={() => <Router embeddedRouting={embeddedRouting}>{children}</Router>}
                             />
                         </FactoryProvider>
                     </SecurityProvider>
@@ -138,7 +152,7 @@ const EnhancedN2O = compose(
         defaultTemplate: Template,
         defaultBreadcrumb: DefaultBreadcrumb,
         defaultPage: 'StandardPage',
-        defaultErrorPages: errorTemplates(),
+        extraDefaultErrorPages: {},
         defaultTooltip: Tooltip,
         formats: {
             dateFormat: 'YYYY-MM-DD',
@@ -173,7 +187,7 @@ const EnhancedN2O = compose(
                 PropTypes.element,
                 PropTypes.node,
             ]),
-            defaultErrorPages: PropTypes.arrayOf(
+            extraDefaultErrorPages: PropTypes.arrayOf(
                 PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
             ),
             defaultTooltip: PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
@@ -184,7 +198,7 @@ const EnhancedN2O = compose(
             defaultTemplate: props.defaultTemplate,
             defaultBreadcrumb: props.defaultBreadcrumb,
             defaultPage: props.defaultPage,
-            defaultErrorPages: props.defaultErrorPages,
+            extraDefaultErrorPages: props.extraDefaultErrorPages,
             defaultTooltip: props.defaultTooltip,
             markdownFieldMappers: props.markdownFieldMappers,
             version,
