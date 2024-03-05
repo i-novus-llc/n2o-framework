@@ -46,7 +46,6 @@
     "tsc-clean:lib": "tsc --build --clean",
     "start": "node scripts/run.js",
     "server": "node scripts/dev-server/dev-server.js",
-    "prepublishOnly": "yarn run build",
     "test": "jest --noStackTrace --coverage --silent ./src",
     "test:watch": "jest --watch --noStackTrace",
     "test:hook": "jest --bail --findRelatedTests",

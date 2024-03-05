@@ -30,7 +30,6 @@
     "clean:lib": "rimraf ./lib/",
     "clean": "yarn run clean:lib && rimraf ./node_modules/",
     "start": "node scripts/run.js",
-    "prepublishOnly": "yarn run build",
     "test": "jest --noStackTrace --silent ./src",
     "eslint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
     "eslint:fix": "eslint --ext .js,.jsx,.ts,.tsx --fix ./src",
