@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
+import net.n2oapp.framework.api.metadata.meta.event.OnChangeEvent;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,12 @@ import static net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil.ge
 public class StandardPageBinder extends PageBinder<StandardPage> {
     @Override
     public StandardPage bind(StandardPage page, BindProcessor p) {
+        if (page.getEvents() != null) {
+            page.getEvents().forEach(event -> {
+                if (event instanceof OnChangeEvent && (((OnChangeEvent) event).getAction() != null))
+                        p.bind(((OnChangeEvent) event).getAction());
+            });
+        }
         if (page.getToolbar() != null) {
             for (List<Group> grp : page.getToolbar().values()) {
                 grp.forEach(g -> {
