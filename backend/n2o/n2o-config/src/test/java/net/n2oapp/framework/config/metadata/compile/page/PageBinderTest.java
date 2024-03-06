@@ -8,9 +8,12 @@ import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
+import net.n2oapp.framework.api.metadata.meta.event.OnChangeEvent;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -40,7 +43,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.getEnvironment().getContextProcessor().set("test", "Test");
         builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oPagesPack(),
-                new N2oWidgetsPack(), new N2oRegionsPack(), new N2oCellsPack());
+                new N2oWidgetsPack(), new N2oRegionsPack(), new N2oCellsPack(), new N2oActionsPack());
     }
 
     @Test
@@ -284,5 +287,14 @@ public class PageBinderTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("param0", "1"));
         assertThat(((StandardDatasource) page.getDatasources().get("p_w_form_w1")).getSubmit().getUrl(), containsString("/p/w/1/form"));
         assertThat(((StandardDatasource) page.getDatasources().get("p_w_form_w1")).getProvider().getUrl(), containsString("/p/w/1/form"));
+    }
+
+    @Test
+    void eventsBinder() {
+        ReadCompileBindTerminalPipeline pipeline =bind("net/n2oapp/framework/config/metadata/compile/page/testEventActionBinder.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModel.query.xml");
+        PageContext context = new PageContext("testEventActionBinder", "/p/w/:id/view");
+        StandardPage page = (StandardPage) pipeline.get(context, new DataSet().add("id", "3"));
+        assertThat(((ShowModal) ((OnChangeEvent) page.getEvents().get(0)).getAction()).getPayload().getPageUrl(), is("/p/w/3/view/modal"));
     }
 }
