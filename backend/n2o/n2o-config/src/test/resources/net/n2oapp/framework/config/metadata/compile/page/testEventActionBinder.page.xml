@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Вторая страница">
+    <datasources>
+        <datasource id="ds" query-id="testSubModel">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+        </datasource>
+    </datasources>
+    <events>
+        <on-change datasource="ds">
+            <show-modal page-id="modal" route="/modal"/>
+        </on-change>
+    </events>
+    <regions>
+        <form datasource="ds"/>
+    </regions>
+</page>
