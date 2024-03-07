@@ -38,7 +38,7 @@
     "docs:build": "cd docs && yarn run build"
   },
   "devDependencies": {
-    "@jsdevtools/npm-publish": "^1.4.3",
+    "@jsdevtools/npm-publish": "3.0.1",
     "@types/react-dom": "^18.2.7",
     "concurrently": "^3.5.1",
     "cross-env": "^5.2.0",
