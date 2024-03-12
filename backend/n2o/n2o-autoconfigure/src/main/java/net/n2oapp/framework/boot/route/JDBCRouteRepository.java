@@ -1,11 +1,10 @@
-package net.n2oapp.framework.boot.route.jdbc;
+package net.n2oapp.framework.boot.route;
 
+import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.config.register.ConfigRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,9 +19,8 @@ import java.util.stream.Collectors;
 /**
  * Сохранение и загрузка данных RouteRegister в реляционную БД
  */
+@Slf4j
 public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, CompileContext> {
-
-    private static final Logger logger = LoggerFactory.getLogger(JDBCRouteRepository.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -43,9 +41,9 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
         if (cnt < 1) {
             jdbcTemplate.update(insertSQL, UUID.randomUUID().toString(), key.getUrlMatching(),
                     key.getCompiledClass().getName(), serialValue);
-            logger.info(String.format("Inserted route: '%s' to [%s]", value, key.getUrlMatching()));
+            log.info(String.format("Inserted route: '%s' to [%s]", value, key.getUrlMatching()));
         } else {
-            logger.info(String.format("Updated route: '%s' to [%s]", value, key.getUrlMatching()));
+            log.info(String.format("Updated route: '%s' to [%s]", value, key.getUrlMatching()));
         }
 
         return value;
@@ -65,7 +63,7 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
         Map<RouteInfoKey, CompileContext> result = resultSet.stream().collect(Collectors.toMap(this::getKey, row ->
                 (CompileContext) SerializationUtils.deserialize((byte[]) row.get("context")), (a, b) -> b));
 
-        logger.info(String.format("Returned %s routes.", result.size()));
+        log.info(String.format("Returned %s routes.", result.size()));
         return result;
     }
 
@@ -76,7 +74,7 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
                     " (id uuid PRIMARY KEY, url char(255), class char(255), context binary)";
 
             jdbcTemplate.execute(createTableSQL);
-            logger.info(String.format("Created table %s.", tableName));
+            log.info(String.format("Created table %s.", tableName));
         }
     }
 
