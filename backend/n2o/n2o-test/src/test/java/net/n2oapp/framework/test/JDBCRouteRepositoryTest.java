@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.boot.N2oSqlAutoConfiguration;
-import net.n2oapp.framework.boot.route.jdbc.JDBCRouteRepository;
+import net.n2oapp.framework.boot.route.JDBCRouteRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -27,7 +26,7 @@ import static org.hamcrest.Matchers.*;
         "spring.datasource.password=sa"})
 @EnableAutoConfiguration(exclude = N2oSqlAutoConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class JDBCRouteRepositoryTest {
+class JDBCRouteRepositoryTest {
 
     @Autowired
     JDBCRouteRepository repository;
@@ -39,7 +38,7 @@ public class JDBCRouteRepositoryTest {
     private JdbcTemplate jdbcTemplate;
 
     @Test
-    public void testRepositorySynchronize() {
+    void testRepositorySynchronize() {
         assertThat(repository, notNullValue());
         assertThat(routeRegister, notNullValue());
 
@@ -107,11 +106,8 @@ public class JDBCRouteRepositoryTest {
 
     private int getRouterSize() {
         int i = 0;
-        Iterator iter = routeRegister.iterator();
-        while (iter.hasNext()) {
-            iter.next();
+        for (Map.Entry<RouteInfoKey, CompileContext> entry : routeRegister)
             i++;
-        }
         return i;
     }
 }

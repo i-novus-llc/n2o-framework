@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.boot.N2oSqlAutoConfiguration;
-import net.n2oapp.framework.boot.route.jdbc.RedisRouteRepository;
+import net.n2oapp.framework.boot.route.RedisRouteRepository;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 
-import java.util.Iterator;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.*;
         })
 @EnableAutoConfiguration(exclude = N2oSqlAutoConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class RedisRouteRepositoryTest {
+class RedisRouteRepositoryTest {
 
     @Autowired
     private RedisRouteRepository repository;
@@ -43,7 +43,7 @@ public class RedisRouteRepositoryTest {
     private String HASH_KEY;
 
     @Test
-    public void testRepositorySynchronize() {
+    void testRepositorySynchronize() {
         assertThat(repository, notNullValue());
         assertThat(routeRegister, notNullValue());
         routeRegister.clearAll();
@@ -52,9 +52,9 @@ public class RedisRouteRepositoryTest {
         assertThat(getRecordCount(), is(0));
 
         String testUrl = "/test/route";
-        CompileContext context = new PageContext("page");
+        CompileContext<?, ?> context = new PageContext("page");
 
-        // cинхронизация после добавления в routeRegister
+        // синхронизация после добавления в routeRegister
         RouteInfoKey testRouteKey = new RouteInfoKey(testUrl, context.getCompiledClass());
         routeRegister.addRoute(testUrl, context);
         assertThat(getRouterSize(), is(1));
@@ -100,11 +100,8 @@ public class RedisRouteRepositoryTest {
 
     private Integer getRouterSize() {
         int i = 0;
-        Iterator iter = routeRegister.iterator();
-        while (iter.hasNext()) {
-            iter.next();
+        for (Map.Entry<RouteInfoKey, CompileContext> entry : routeRegister)
             i++;
-        }
         return i;
     }
 }
