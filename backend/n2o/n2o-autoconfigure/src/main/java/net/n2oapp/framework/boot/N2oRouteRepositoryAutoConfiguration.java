@@ -2,8 +2,8 @@ package net.n2oapp.framework.boot;
 
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.register.route.RouteInfoKey;
-import net.n2oapp.framework.boot.route.jdbc.JDBCRouteRepository;
-import net.n2oapp.framework.boot.route.jdbc.RedisRouteRepository;
+import net.n2oapp.framework.boot.route.JDBCRouteRepository;
+import net.n2oapp.framework.boot.route.RedisRouteRepository;
 import net.n2oapp.framework.config.register.ConfigRepository;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
