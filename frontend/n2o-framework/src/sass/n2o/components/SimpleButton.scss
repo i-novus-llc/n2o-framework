@@ -15,6 +15,14 @@
     }
 }
 
+.btn-badge-position--left .n2o-btn-badge {
+    order: -1;
+}
+
+.btn-badge-position--right .n2o-btn-badge {
+    order: 1;
+}
+
 .btn.btn-rounded {
     min-width: 38px;
 }

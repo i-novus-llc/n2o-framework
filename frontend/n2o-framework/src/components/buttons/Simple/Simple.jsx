@@ -7,8 +7,8 @@ import cn from 'classnames'
 
 import { Icon } from '../../snippets/Icon/Icon'
 import { Badge } from '../../snippets/Badge/Badge'
-import { isBadgeLeftPosition, isBadgeRightPosition } from '../../snippets/Badge/utils'
 import { dataSourceLoadingSelector } from '../../../ducks/datasource/selectors'
+import { Position } from '../../snippets/Badge/enums'
 
 const convertCounter = count => (count > 100 ? '99+' : count)
 
@@ -32,12 +32,7 @@ const SimpleButtonBody = ({
     forwardedRef,
     ...rest
 }) => {
-    const { text, position } = badge || {}
-
-    const badgeStyle = {
-        marginLeft: isBadgeRightPosition(position) && 8,
-        marginRight: isBadgeLeftPosition(position) && 8,
-    }
+    const { text, position = Position.Right } = badge || {}
 
     const needBadge = !isEmpty(badge) || typeof count === 'number'
     const currentDisabled = dataSourceIsLoading || disabled
@@ -60,6 +55,7 @@ const SimpleButtonBody = ({
                     'with-badge': badge && (text || typeof count === 'number'),
                     'with-label': label,
                     'with-icon': icon,
+                    [`btn-badge-position--${position}`]: position,
                 })}
                 {...rest}
             >
@@ -71,7 +67,6 @@ const SimpleButtonBody = ({
                         text={text || convertCounter(count)}
                         hasMargin={false}
                         color={badge?.color || 'primary'}
-                        style={badgeStyle}
                         className="n2o-btn-badge"
                     />
                 )}
@@ -111,6 +106,7 @@ SimpleButtonBody.propTypes = {
     dataSourceIsLoading: PropTypes.func,
 }
 
+SimpleButtonBody.displayName = 'SimpleButtonBody'
 SimpleButtonBody.defaultProps = {
     tag: 'button',
     rounded: false,
