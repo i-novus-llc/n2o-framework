@@ -45,8 +45,9 @@ function withListContainer(WrappedComponent) {
          * Совершает вызов апи с параметрами
          * @param optionalParams {object} - дополнительные параметра запроса
          * @param concat {boolean} - флаг добавления новых данных к текущим
+         * @param cacheReset {boolean} - флаг принудительного сбрасывания cache в withFetchData
          */
-        const callApiWithParams = (optionalParams = {}, concat = false) => {
+        const callApiWithParams = (optionalParams = {}, concat = false, cacheReset = false) => {
             const sortId = sortFieldId || valueFieldId || labelFieldId
 
             const params = {
@@ -56,7 +57,7 @@ function withListContainer(WrappedComponent) {
                 ...optionalParams,
             }
 
-            _fetchData(params, concat)
+            _fetchData(params, concat, cacheReset)
         }
 
         /**

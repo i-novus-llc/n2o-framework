@@ -147,15 +147,15 @@ export default (Field) => {
 
         /**
          * мэппинг сообщений
-         * @returns {string}
+         * @returns {JSX.Element}
          */
 
         render() {
-            const { mapProps } = this.props
+            const { mapProps, model } = this.props
 
             const props = mapProps(this.props)
 
-            return <Field {...props} />
+            return <Field {...props} model={model} />
         }
     }
 
@@ -175,6 +175,7 @@ export default (Field) => {
         registerFieldExtra,
         parentIndex: PropTypes.number,
         validation: PropTypes.any,
+        model: PropTypes.object,
     }
 
     const mapStateToProps = (state, ownProps) => {
