@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
@@ -20,8 +21,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.nullValue;
 
 /**
  * Тестирование компиляции кнопки с выпадающим меню
@@ -88,8 +91,12 @@ public class SubMenuCompileTest extends SourceCompileTestBase {
         assertThat(condition.getModelLink(), is("models.resolve['testSubMenu_table']"));
 
         subMenu = (Submenu) toolbar.getButton("testSubMenu_mi5");
+        assertThat(subMenu.getIcon(), is("fa fa-plus"));
+        assertThat(subMenu.getIconPosition(), is(Position.RIGHT));
         assertThat(subMenu.getSubMenu().get(0).getModel(), is(ReduxModel.datasource));
         assertThat(subMenu.getSubMenu().get(0).getDatasource(), is("testSubMenu_table"));
+        assertThat(subMenu.getSubMenu().get(0).getIcon(), is("fa fa-pencil"));
+        assertThat(subMenu.getSubMenu().get(0).getIconPosition(), is(Position.RIGHT));
         assertThat(subMenu.getSubMenu().get(1).getModel(), is(ReduxModel.resolve));
         assertThat(subMenu.getSubMenu().get(1).getDatasource(), is("testSubMenu_ds"));
 

@@ -15,7 +15,7 @@
             </nav>
             <extra-menu>
                 <menu-item name="Внешняя ссылка">
-                    <a href="http://example.com" icon="fa fa-hand-peace-o"/>
+                    <a href="http://example.com"/>
                 </menu-item>
             </extra-menu>
         </sidebar>

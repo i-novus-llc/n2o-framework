@@ -19,13 +19,13 @@ type OutputTextProps = TBaseProps & {
     format?: string
     icon?: string
     preLine: boolean
-    textPlace?: string
+    iconPosition?: string
     type?: RenderComponentsType
     value: string
 }
 
 export const OutputText = memo(({
-    textPlace = 'left',
+    iconPosition = 'left',
     type,
     className = 'n2o',
     style,
@@ -58,7 +58,7 @@ export const OutputText = memo(({
 
     return (
         <div
-            className={classNames('n2o-output-text', className, textPlace, {
+            className={classNames('n2o-output-text', className, iconPosition, {
                 'n2o-output-text--ellipsis': (ellipsis || expandable === true) && !isOpen,
                 'n2o-output-text--expandable': (expandable && isOpen) || isNumber(expandable),
             })}

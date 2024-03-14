@@ -16,7 +16,8 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |---------------------|---------------------------------------------------------------------------|--------------------------------|--------------------------|
 |id                   |Строка                                                                     |Идентификатор кнопки            |Вычисляется из `action-id`|
 |label                |Строка                                                                     |Заголовок кнопки                |                          |
-|icon                 |[Класс иконки](https://fontawesome.com/v6/icons/)                        |Иконка                          |                          |
+|icon                 |[Класс иконки](https://fontawesome.com/v6/icons/)                          |Иконка                          |                          |
+|icon-position        |left right                                                                 |Позиция иконки относительно заголовка кнопки|left          |
 |src                  |Строка                                                                     |React компонент кнопки          |                          |
 |class                |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples)|Класс компонента кнопки         |                          |
 |style                |CSS свойство                                                               |Стиль компонента кнопки         |                          |
@@ -41,6 +42,8 @@ http://n2oapp.net/framework/config/schema/button-2.0
 ```yaml
 #Позиция по умолчанию подсказки для кнопки
 n2o.api.button.tooltip_position=bottom
+#Позиция иконки относительно заголовка кнопки
+n2o.api.button.icon_position=left
 #Позиция значка для кнопки
 n2o.api.button.badge.position=right
 #Форма значка для кнопки

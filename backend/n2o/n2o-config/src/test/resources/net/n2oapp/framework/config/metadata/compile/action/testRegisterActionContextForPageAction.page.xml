@@ -1,9 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" route="/page" name="first"
-      object-id="testActionContext">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" route="/page" name="first">
+    <datasources>
+        <datasource id="ds" query-id="testActionContext" object-id="testActionContext"/>
+    </datasources>
     <regions>
         <panel place="single">
-            <form id="testActionContext" query-id="testActionContext">
+            <form id="testActionContext" datasource="ds">
                 <fields>
                     <input-text id="id" required="true"/>
                     <input-text id="name">
@@ -18,15 +20,13 @@
         </panel>
     </regions>
     <actions>
-        <action id="save" widget-id="testActionContext">
-            <invoke operation-id="create" widget-id="testActionContext" route="/:test">
+        <action id="save">
+            <invoke operation-id="create" object-id="testActionContext" route="/:test">
                 <path-param name="test" value="testValue"/>
             </invoke>
         </action>
     </actions>
     <toolbar>
-        <button action-id="save"/>
+        <button action-id="save" datasource="ds"/>
     </toolbar>
-
 </page>
-

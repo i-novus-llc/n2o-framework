@@ -209,9 +209,9 @@
                         <xs:documentation>Класс иконки из https://fontawesome.com/v6/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="position" type="positionType" use="optional">
+                <xs:attribute name="position" type="positionType" default="left">
                     <xs:annotation>
-                        <xs:documentation>Расположение.</xs:documentation>
+                        <xs:documentation>Позиция иконки относительно текста</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

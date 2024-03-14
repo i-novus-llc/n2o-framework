@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Проверка компиляции последовательности действий
  */
-public class MultiActionCompileTest extends SourceCompileTestBase {
+class MultiActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach
@@ -96,14 +96,14 @@ public class MultiActionCompileTest extends SourceCompileTestBase {
 
         MultiAction multiAction = (MultiAction) page.getWidget().getToolbar().getButton("b1").getAction();
         assertThat(((InvokeAction) multiAction.getPayload().getActions().get(0)).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/testDefaultDataproviderRoutes/multi3"));
+                is("n2o/data/testDefaultDataproviderRoutes/multi1"));
         assertThat(((InvokeAction) multiAction.getPayload().getActions().get(1)).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/testDefaultDataproviderRoutes/multi4"));
+                is("n2o/data/testDefaultDataproviderRoutes/multi2"));
 
         multiAction = (MultiAction) page.getWidget().getToolbar().getButton("b2").getAction();
         assertThat(((InvokeAction) multiAction.getPayload().getActions().get(0)).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/testDefaultDataproviderRoutes/act_multi0"));
+                is("n2o/data/testDefaultDataproviderRoutes/multi4"));
         assertThat(((InvokeAction) multiAction.getPayload().getActions().get(1)).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/testDefaultDataproviderRoutes/act_multi1"));
+                is("n2o/data/testDefaultDataproviderRoutes/multi5"));
     }
 }

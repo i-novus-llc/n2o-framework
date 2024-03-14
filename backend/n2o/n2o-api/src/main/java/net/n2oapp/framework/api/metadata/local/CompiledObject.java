@@ -37,9 +37,6 @@ public class CompiledObject implements Compiled, IdAware {
     private String appName;
     private String moduleName;
     private String serviceName;
-
-    private List<Validation> fieldValidations;
-
     public Map<String, AbstractParameter> getObjectFieldsMap() {
         return objectFieldsMap;
     }

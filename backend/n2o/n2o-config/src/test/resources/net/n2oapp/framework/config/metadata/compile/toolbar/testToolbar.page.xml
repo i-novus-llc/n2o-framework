@@ -3,7 +3,7 @@
     <form>
         <datasource object-id="utBlank"/>
         <actions>
-            <action id="testActionId1" name="name" icon="icon">
+            <action id="testActionId1">
                 <invoke operation-id="update"/>
             </action>
         </actions>

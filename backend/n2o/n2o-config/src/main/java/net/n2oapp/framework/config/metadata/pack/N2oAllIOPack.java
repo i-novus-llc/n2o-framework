@@ -5,9 +5,7 @@ import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.config.io.application.ApplicationIOv2;
 import net.n2oapp.framework.config.io.application.ApplicationIOv3;
 import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv3;
-import net.n2oapp.framework.config.io.menu.ExtraMenuIOv2;
 import net.n2oapp.framework.config.io.menu.ExtraMenuIOv3;
-import net.n2oapp.framework.config.io.menu.NavMenuIOv2;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv4;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
@@ -21,8 +19,6 @@ public class N2oAllIOPack implements MetadataPack<XmlIOBuilder<? extends XmlIOBu
     public void build(XmlIOBuilder<? extends XmlIOBuilder<?>> b) {
         b.ios(
                 new ApplicationIOv2(),
-                new NavMenuIOv2(),
-                new ExtraMenuIOv2(),
                 new ApplicationIOv3(),
                 new SidebarIOv3(),
                 new NavMenuIOv3(),

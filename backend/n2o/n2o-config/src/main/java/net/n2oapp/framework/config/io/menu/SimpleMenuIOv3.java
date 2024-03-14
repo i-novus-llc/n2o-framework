@@ -5,8 +5,9 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
-import net.n2oapp.framework.config.io.common.BadgeAwareIO;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
+import net.n2oapp.framework.config.io.common.BadgeAwareIO;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
@@ -45,6 +46,7 @@ public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu>, Badg
         p.attribute(e, "style", m::getStyle, m::setStyle);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
+        p.attributeEnum(e, "icon-position", m::getIconPosition, m::setIconPosition, Position.class);
         p.attribute(e, "image", m::getImage, m::setImage);
         p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ShapeType.class);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
@@ -58,6 +60,7 @@ public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu>, Badg
         p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "name", m::getName, m::setName);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
+        p.attributeEnum(e, "icon-position", m::getIconPosition, m::setIconPosition, Position.class);
         p.attribute(e, "image", m::getImage, m::setImage);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ShapeType.class);

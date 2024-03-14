@@ -8,11 +8,11 @@ import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionAction;
 import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -22,8 +22,10 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.nullValue;
 
 /**
  * Тестирование компиляции базовой кнопки
@@ -45,7 +47,7 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
 
     @Test
     void testButton() {
-       StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testButton.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testButton.page.xml")
                 .get(new PageContext("testButton"));
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
@@ -65,10 +67,12 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(btn.getLabel(), is(nullValue()));
         assertThat(btn.getDatasource(), is(nullValue()));
         assertThat(btn.getIcon(), is("fa fa-pencil"));
+        assertThat(btn.getIconPosition(), is(Position.RIGHT));
 
         btn = page.getToolbar().getButton("btn3");
         assertThat(btn.getLabel(), is("load"));
         assertThat(btn.getIcon(), is("fa fa-download"));
+        assertThat(btn.getIconPosition(), is(Position.LEFT));
 
         btn = page.getToolbar().getButton("btn4");
         assertThat(btn.getHint(), is("`description`"));
@@ -93,7 +97,7 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(confirm.getPayload().getCancel().getColor(), is(Color.secondary.name()));
 
         btn = page.getToolbar().getButton("btn8");
-        confirm = (ConfirmAction)  btn.getAction();
+        confirm = (ConfirmAction) btn.getAction();
 
         assertThat(confirm.getPayload().getTitle(), is("Предупреждение"));
         assertThat(confirm.getPayload().getText(), is("Подтвердите действие"));

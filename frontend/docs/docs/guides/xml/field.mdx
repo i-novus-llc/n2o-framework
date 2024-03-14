@@ -743,16 +743,16 @@ n2o.api.control.output_list.separator=' '
 
 **Атрибуты**
 
-|Наименование|Тип             |Описание                               |Значение по умолчанию|
-|------------|----------------|---------------------------------------|---------------------|
-|icon        |[Класс иконки](https://fontawesome.com/v6/icons/)|Иконка                    |
-|format      |Строка          |Формат выводимого текста               |                     |
-|position    |left right      |Расположение иконки относительно текста|left                 |
+|Наименование |Тип             |Описание                               |Значение по умолчанию|
+|------------ |----------------|---------------------------------------|---------------------|
+|icon         |[Класс иконки](https://fontawesome.com/v6/icons/)  |Иконка                    |
+|icon-position|left right      |Позиция иконки относительно текста     |left                 |
+|format       |Строка          |Формат выводимого текста               |                     |
 
 **Настройки**
 ```yaml
-# Расположение иконки относительно текста
-n2o.api.control.output_text.position=left
+#Позиция иконки относительно текста
+n2o.api.control.output_text.icon_position=left
 # Три точки в конце, когда текст уходит за рамки строки
 n2o.api.control.output_text.ellipsis=false
 # true/false - вставить в конце строки "Подробнее"
@@ -762,7 +762,7 @@ n2o.api.control.output_text.expandable=false
 
 **Пример**
 ```xml
-<output-text id="text" icon="fa fa-plus" position="right" format="number 0,0.00"/>
+<output-text id="text" icon="fa fa-plus" icon-position="right" format="number 0,0.00"/>
 ```
 <Sandbox height={120} projectId="uxcomponents_output_fields_output_text" />
 

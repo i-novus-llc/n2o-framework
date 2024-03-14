@@ -16,9 +16,12 @@ import { textPlaceTypes } from './cellTypes'
  * @reactProps {string} id - id ячейки
  * @reactProps {object} model - модель строки
  * @reactProps {string} icon - класс иконки
- * @reactProps {string} textPlace - расположение текста
+ * @reactProps {string} iconPosition - расположение кнопки относительно текста
  */
-function IconCell({ id, model, visible, icon, textPlace, forwardedRef }) {
+function IconCell({ id, model, visible, icon, iconPosition, forwardedRef }) {
+    if (!visible) {
+        return null
+    }
     const text = get(model, id)
 
     return (
@@ -26,18 +29,12 @@ function IconCell({ id, model, visible, icon, textPlace, forwardedRef }) {
             <div
                 ref={forwardedRef}
                 className={classNames('icon-cell-container', {
-                    'icon-cell-container__with-tooltip': !isUndefined(
-                        model.tooltipFieldId,
-                    ),
-                    'icon-cell-container__text-left': textPlace === textPlaceTypes.LEFT,
+                    'icon-cell-container__with-tooltip': !isUndefined(model.tooltipFieldId),
+                    'icon-cell-container__text-left': iconPosition === textPlaceTypes.RIGHT,
                 })}
             >
                 {icon && <Icon name={icon} />}
-                {text && (
-                    <div className="n2o-cell-text">
-                        <Text text={text} />
-                    </div>
-                )}
+                {text && <div className="n2o-cell-text"><Text text={text} /></div>}
             </div>
         )
     )
@@ -59,7 +56,7 @@ IconCell.propTypes = {
     /**
      * Местоположение текста
      */
-    textPlace: PropTypes.oneOf(Object.values(textPlaceTypes)),
+    iconPosition: PropTypes.oneOf(Object.values(textPlaceTypes)),
     /**
      * Флаг видимости
      */
@@ -67,7 +64,7 @@ IconCell.propTypes = {
 }
 
 IconCell.defaultProps = {
-    textPlace: textPlaceTypes.RIGHT,
+    iconPosition: textPlaceTypes.LEFT,
     visible: true,
 }
 

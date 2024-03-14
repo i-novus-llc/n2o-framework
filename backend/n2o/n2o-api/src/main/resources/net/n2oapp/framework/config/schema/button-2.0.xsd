@@ -27,6 +27,11 @@
                         <xs:documentation>Иконка кнопки из https://fontawesome.com/v6/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="icon-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>Позиция иконки относительно заголовка кнопки</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="color" type="bs:buttonColorDefinition">
                     <xs:annotation>
                         <xs:documentation>Цвет кнопки.</xs:documentation>

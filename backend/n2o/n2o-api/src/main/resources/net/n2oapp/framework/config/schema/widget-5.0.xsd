@@ -102,11 +102,6 @@
                 <xs:documentation>Стиль компонента виджета</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="icon" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Иконка виджета из https://fontawesome.com/v6/icons/</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="visible" type="xs:boolean">
             <xs:annotation>
                 <xs:documentation>Видимость виджета.</xs:documentation>
@@ -150,33 +145,6 @@
                 <xs:attribute name="id" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Идентификатор действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="name" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Наименование.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="icon" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Иконка действия из https://fontawesome.com/v6/icons/</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="visible" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Видимость действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="enabled" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Доступность действий.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="model" type="act:clientModel">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель выполнения действия
-                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

@@ -44,7 +44,6 @@ public class ChartWidgetCompileTest extends SourceCompileTestBase {
         assertThat(chart.getComponent().getWidth(), is("600px"));
         assertThat(chart.getComponent().getHeight(), is("400px"));
         assertThat(chart.getComponent().getSize(), is(20));
-        assertThat(chart.getIcon(), is("icon"));
         assertThat(chart.getStyle().size(), is(1));
         assertThat(chart.getStyle().get("color"), is("red"));
     }

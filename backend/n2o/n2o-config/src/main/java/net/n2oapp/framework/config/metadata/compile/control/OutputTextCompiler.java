@@ -32,8 +32,8 @@ public class OutputTextCompiler extends StandardFieldCompiler<OutputText, N2oOut
     @Override
     public StandardField<OutputText> compile(N2oOutputText source, CompileContext<?, ?> context, CompileProcessor p) {
         OutputText outputText = new OutputText();
-        outputText.setPosition(castDefault(source.getIconPosition(),
-                () -> p.resolve(property("n2o.api.control.output_text.position"), Position.class)));
+        outputText.setIconPosition(castDefault(source.getIconPosition(),
+                () -> p.resolve(property("n2o.api.control.output_text.icon_position"), Position.class)));
         outputText.setEllipsis(p.resolve(property("n2o.api.control.output_text.ellipsis"), Boolean.class));
         outputText.setExpandable(p.resolve(property("n2o.api.control.output_text.expandable"), Object.class));
         outputText.setIcon(p.resolveJS(source.getIcon()));

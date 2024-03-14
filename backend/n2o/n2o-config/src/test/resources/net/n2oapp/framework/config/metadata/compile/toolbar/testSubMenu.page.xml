@@ -11,8 +11,8 @@
                     <sub-menu generate="create, update" show-toggle-icon="false" visible="false" enabled="false"/>
                     <sub-menu enabled="{name != null}" visible="{name != null}" datasource="form" model="filter"/>
                     <sub-menu enabled="{name != null}" visible="{name != null}"/>
-                    <sub-menu model="datasource">
-                        <menu-item label="menu-item1"/>
+                    <sub-menu model="datasource" icon="fa fa-plus" icon-position="right">
+                        <menu-item label="menu-item1" icon="fa fa-pencil" icon-position="right"/>
                         <menu-item label="menu-item1" model="resolve" datasource="ds"/>
                         <menu-item generate="close"/>
                     </sub-menu>

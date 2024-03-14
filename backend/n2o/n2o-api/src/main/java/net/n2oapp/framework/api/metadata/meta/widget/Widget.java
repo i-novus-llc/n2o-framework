@@ -18,8 +18,6 @@ import java.util.Set;
 public abstract class Widget<T extends WidgetComponent> extends Component implements CompiledRegionItem {
     @JsonProperty
     private String id;
-    @JsonProperty
-    private String icon;
     //need for access transformer
     private String objectId;
     protected T component;

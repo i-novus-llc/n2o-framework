@@ -16,7 +16,7 @@
                 datasource="table" tooltip-position="right" class="Button" style="color:red;" description="hint">
             <invoke operation-id="delete"/>
         </button>
-        <button id="btn2" icon="fa fa-pencil"/>
+        <button id="btn2" icon="fa fa-pencil" icon-position="right"/>
         <button id="btn3" label="load" icon="fa fa-download"/>
         <button id="btn4" description="{description}"/>
         <button id="btn6" model="datasource"/>
