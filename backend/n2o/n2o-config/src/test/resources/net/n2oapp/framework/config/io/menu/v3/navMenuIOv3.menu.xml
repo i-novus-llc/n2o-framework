@@ -7,6 +7,7 @@
                style="background-color: blue"
                datasource="ds1"
                icon="fa fa-bell"
+               icon-position="right"
                badge="2"
                badge-color="warning"
                badge-position="left"
@@ -61,5 +62,6 @@
     <dropdown-menu id="messages"
                    name="Сообщения"
                    icon="fa fa-bell"
+                   icon-position="right"
                    datasource="test"/>
 </nav>

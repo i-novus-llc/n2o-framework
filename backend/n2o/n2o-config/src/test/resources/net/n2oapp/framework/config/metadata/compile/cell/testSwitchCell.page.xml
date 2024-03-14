@@ -8,7 +8,7 @@
                         <badge text="text" format="format"/>
                     </case>
                     <case value="type2">
-                        <icon text="text" icon="icon" position="right"/>
+                        <icon text="text" icon="icon" position="left"/>
                     </case>
                     <default>
                         <text format="format" subtext-field-id="field1"/>

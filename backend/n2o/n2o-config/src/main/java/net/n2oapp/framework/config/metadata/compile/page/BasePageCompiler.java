@@ -336,10 +336,9 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
     private void compileToolbarAndAction(StandardPage compiled, S source, PageContext context, CompileProcessor p,
                                          MetaActions metaActions, PageIndexScope pageIndexScope, Object... scopes) {
-        actionsToToolbar(source, metaActions);
+        compiled.setToolbar(compileToolbar(source, "n2o.api.page.toolbar.place", context, p,
+                metaActions, new ComponentScope(source), pageIndexScope, scopes));
         compileMetaActions(source, context, p, pageIndexScope, metaActions, scopes);
-        compiled.setToolbar(compileToolbar(source, "n2o.api.page.toolbar.place", context, p, metaActions,
-                metaActions, metaActions, new ComponentScope(source), pageIndexScope, scopes));
     }
 
 

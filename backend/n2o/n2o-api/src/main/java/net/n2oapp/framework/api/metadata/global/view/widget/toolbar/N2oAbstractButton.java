@@ -20,6 +20,7 @@ public abstract class N2oAbstractButton extends N2oComponent implements GroupIte
     private String id;
     private String label;
     private String icon;
+    private Position iconPosition;
     private String badge;
     private String badgeColor;
     private Position badgePosition;

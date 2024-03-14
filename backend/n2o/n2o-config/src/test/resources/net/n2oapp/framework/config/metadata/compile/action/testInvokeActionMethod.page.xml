@@ -3,7 +3,7 @@
     <table
             query-id="testActionContext">
         <actions>
-            <action id="testDefault" model="filter">
+            <action id="testDefault">
                 <invoke operation-id="create"/>
             </action>
             <action id="testPut">

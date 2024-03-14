@@ -13,6 +13,7 @@ import { FactoryComponent } from '../../../../../CommonMenuTypes'
 import { ITEM_SRC } from '../../../../../constants'
 import { FactoryContext } from '../../../../../../core/factory/context'
 import { FactoryLevels } from '../../../../../../core/factory/factoryLevels'
+import { ICON_POSITIONS } from '../../../../../../components/snippets/IconContainer/IconContainer'
 
 export function Dropdown(props: DropdownProps) {
     const [isOpen, setOpen] = useState(false)
@@ -34,6 +35,7 @@ export function Dropdown(props: DropdownProps) {
         recursiveClose = true,
         onItemClick = () => {},
         level = 0,
+        iconPosition = ICON_POSITIONS.LEFT,
     } = props
 
     if (!items.length) {
@@ -49,7 +51,13 @@ export function Dropdown(props: DropdownProps) {
             tag="li"
         >
             <DropdownToggle className={classNames({ 'dropdown-item': level > 0 })} caret>
-                <LinkBody imageSrc={imageSrc} icon={icon} title={title} imageShape={imageShape} />
+                <LinkBody
+                    imageSrc={imageSrc}
+                    icon={icon}
+                    title={title}
+                    imageShape={imageShape}
+                    iconPosition={iconPosition}
+                />
             </DropdownToggle>
             <DropdownMenu flip className={classNames(`menu-level-${level}`, { nested })}>
                 {items.map((item) => {
@@ -72,6 +80,7 @@ export function Dropdown(props: DropdownProps) {
                                 recursiveClose={recursiveClose}
                                 onItemClick={onItemClick}
                                 direction="right"
+                                iconPosition={iconPosition}
                                 nested
                             />
                         )

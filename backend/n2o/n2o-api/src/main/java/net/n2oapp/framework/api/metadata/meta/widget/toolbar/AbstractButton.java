@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 
 import java.util.HashMap;
@@ -27,6 +28,8 @@ public abstract class AbstractButton extends Component implements IdAware {
     private String label;
     @JsonProperty
     private String icon;
+    @JsonProperty
+    private Position iconPosition;
     @JsonProperty
     private String color;
     @JsonProperty

@@ -1,7 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oConditionBranch;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oElseBranchAction;
@@ -13,7 +11,7 @@ import net.n2oapp.framework.api.metadata.aware.ToolbarsAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
@@ -30,12 +28,10 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
@@ -65,22 +61,6 @@ public class ActionCompileStaticProcessor {
     }
 
     /**
-     * Передача свойств метадействия в кнопки тулбара
-     *
-     * @param source      Компонент, содержащая метадействия и тулбар
-     * @param metaActions Карта собранных действий
-     */
-    public static <T extends ActionBarAware & ToolbarsAware> void actionsToToolbar(T source, MetaActions metaActions) {
-        if (source.getActions() == null || source.getToolbars() == null)
-            return;
-        for (N2oToolbar toolbar : source.getToolbars()) {
-            if (toolbar.getItems() == null) continue;
-            ToolbarItem[] toolbarItems = toolbar.getItems();
-            copyActionForToolbarItem(metaActions, toolbarItems);
-        }
-    }
-
-    /**
      * Компиляция метадействий
      *
      * @param source  Компонент, содержащая метадействия
@@ -92,7 +72,6 @@ public class ActionCompileStaticProcessor {
                                           PageIndexScope pageIndexScope, Object... scopes) {
         if (source.getActions() != null) {
             for (ActionBar a : source.getActions()) {
-                a.setModel(castDefault(a.getModel(), ReduxModel.resolve));
                 initMultiActionIds(a.getN2oActions(), "act_multi", p, pageIndexScope);
                 // TODO - don't compile, only init id if necessary
                 compileAction(a.getN2oActions(), null, context, p, new ComponentScope(a), pageIndexScope, scopes);
@@ -221,37 +200,6 @@ public class ActionCompileStaticProcessor {
             PageIndexScope indexScope = castDefault(pageIndexScope, () -> p.getScope(PageIndexScope.class));
             Arrays.stream(actions).filter(ActionCompileStaticProcessor::isNotFailConditions)
                     .forEach(action -> action.setId(castDefault(action.getId(), prefix + indexScope.get())));
-        }
-    }
-
-    private static void copyActionForToolbarItem(Map<String, ActionBar> actionMap, ToolbarItem[] toolbarItems) {
-        for (ToolbarItem item : toolbarItems) {
-            if (item instanceof N2oButton) {
-                copyAction((N2oButton) item, actionMap);
-            } else if (item instanceof N2oSubmenu) {
-                for (N2oButton subItem : ((N2oSubmenu) item).getMenuItems()) {
-                    copyAction(subItem, actionMap);
-                }
-            } else if (item instanceof N2oGroup) {
-                copyActionForToolbarItem(actionMap, ((N2oGroup) item).getItems());
-            }
-        }
-    }
-
-    private static void copyAction(N2oButton item, Map<String, ActionBar> actionMap) {
-        if (isEmpty(item.getActions()) && item.getActionId() != null) {
-            ActionBar actionsBar = actionMap.get(item.getActionId());
-            if (actionsBar == null) {
-                throw new N2oException(String.format("Toolbar has reference to nonexistent action by actionId %s!", item.getActionId()));
-            }
-            if (item.getModel() == null)
-                item.setModel(actionsBar.getModel());
-            if (item.getDatasourceId() == null)
-                item.setDatasourceId(actionsBar.getDatasourceId());
-            if (item.getLabel() == null)
-                item.setLabel(actionsBar.getLabel());
-            if (item.getIcon() == null)
-                item.setIcon(actionsBar.getIcon());
         }
     }
 

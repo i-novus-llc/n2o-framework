@@ -7,7 +7,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись компонента вывода однострочного текста  версии 3.0
+ * Чтение/запись компонента вывода однострочного текста версии 3.0
  */
 @Component
 public class OutputTextIOv3 extends PlainFieldIOv3<N2oOutputText> {
@@ -17,7 +17,7 @@ public class OutputTextIOv3 extends PlainFieldIOv3<N2oOutputText> {
         super.io(e, m, p);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "format", m::getFormat, m::setFormat);
-        p.attributeEnum(e, "position", m::getIconPosition, m::setIconPosition, Position.class);
+        p.attributeEnum(e, "icon-position", m::getIconPosition, m::setIconPosition, Position.class);
     }
 
     @Override

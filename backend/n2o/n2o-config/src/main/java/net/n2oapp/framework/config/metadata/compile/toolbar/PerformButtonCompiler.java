@@ -88,10 +88,10 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
                 () -> p.resolve(property("n2o.api.button.src"), String.class)));
         source.setRounded(castDefault(source.getRounded(),
                 () -> p.resolve(property("n2o.api.button.rounded"), Boolean.class)));
+        source.setActions(initActions(source, p));
         boolean validate = initValidate(source, source.getDatasourceId());
         source.setValidate(validate);
         source.setValidateDatasourceIds(initValidateDatasources(source, validate, source.getDatasourceId()));
-        source.setActions(initActions(source, p));
     }
 
     private String[] initValidateDatasources(N2oButton source, boolean validate, String datasource) {

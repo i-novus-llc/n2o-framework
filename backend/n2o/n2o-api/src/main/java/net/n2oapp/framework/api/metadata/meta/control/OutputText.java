@@ -21,6 +21,6 @@ public class OutputText extends Control {
     private Object expandable;
     @JsonProperty
     private String format;
-    @JsonProperty("textPlace")
-    private Position position;
+    @JsonProperty
+    private Position iconPosition;
 }

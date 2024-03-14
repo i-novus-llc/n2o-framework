@@ -17,6 +17,7 @@ import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
@@ -67,6 +68,8 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         source.setId(castDefault(source.getId(), "mi" + idx.get()));
         compiled.setId(source.getId());
         compiled.setIcon(source.getIcon());
+        compiled.setIconPosition(castDefault(source.getIconPosition(),
+                () -> p.resolve(property("n2o.api.menu.item.icon_position"), Position.class)));
         compiled.setImageSrc(p.resolveJS(source.getImage()));
         compiled.setImageShape(source.getImageShape());
 
@@ -149,7 +152,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     }
 
     private void initDropdownMenu(N2oSimpleMenu.DropdownMenuItem source, MenuItem item, CompileProcessor p, ApplicationContext context, IndexScope idx) {
-        item.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.menu.item.dropdown.src"), String.class)));
+        item.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.menu.dropdown.src"), String.class)));
         ArrayList<MenuItem> subItems = new ArrayList<>();
         for (N2oSimpleMenu.AbstractMenuItem subItem : source.getMenuItems()) {
             subItem.setDatasourceId(castDefault(subItem.getDatasourceId(), source.getDatasourceId()));

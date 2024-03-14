@@ -39,7 +39,6 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
         p.attributeBoolean(e, "fetch-on-init", m::getFetchOnInit, m::setFetchOnInit);
         p.attributeInteger(e, "size", m::getSize, m::setSize);
         p.attributeEnum(e, "upload", m::getUpload, m::setUpload, DefaultValuesMode.class);
-        p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attributeBoolean(e, "auto-focus", m::getAutoFocus, m::setAutoFocus);
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionBar::new, this::action);
         p.childrenByEnum(e, "pre-filters", m::getPreFilters, m::setPreFilters, N2oPreFilter::getType,
@@ -51,12 +50,6 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
 
     private void action(Element e, ActionBar a, IOProcessor p) {
         p.attribute(e, "id", a::getId, a::setId);
-        p.attribute(e, "name", a::getLabel, a::setLabel);
-        p.attribute(e, "icon", a::getIcon, a::setIcon);
-        p.attribute(e, "widget-id", a::getWidgetId, a::setWidgetId);
-        p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModel.class);
-        p.attribute(e, "visible", a::getVisible, a::setVisible);
-        p.attribute(e, "enabled", a::getEnabled, a::setEnabled);
         p.anyChildren(e, null, a::getN2oActions, a::setN2oActions, p.anyOf(N2oAction.class), actionDefaultNamespace);
     }
 

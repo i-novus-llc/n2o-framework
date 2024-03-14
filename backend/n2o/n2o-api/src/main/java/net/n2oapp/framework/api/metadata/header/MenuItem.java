@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -26,6 +27,8 @@ public class MenuItem extends Component implements Compiled, PropertiesAware, Id
     private String title;
     @JsonProperty
     private String icon;
+    @JsonProperty
+    private Position iconPosition;
     @JsonProperty
     private String imageSrc;
     @JsonProperty

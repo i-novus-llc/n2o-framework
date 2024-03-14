@@ -68,12 +68,6 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
 
     private void action(Element e, ActionBar a, IOProcessor p) {
         p.attribute(e, "id", a::getId, a::setId);
-        p.attribute(e, "name", a::getLabel, a::setLabel);
-        p.attribute(e, "datasource", a::getDatasourceId, a::setDatasourceId);
-        p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModel.class);
-        p.attribute(e, "icon", a::getIcon, a::setIcon);
-        p.attribute(e, "visible", a::getVisible, a::setVisible);
-        p.attribute(e, "enabled", a::getEnabled, a::setEnabled);
         p.anyChildren(e, null, a::getN2oActions, a::setN2oActions, p.anyOf(N2oAction.class), actionDefaultNamespace);
     }
 }

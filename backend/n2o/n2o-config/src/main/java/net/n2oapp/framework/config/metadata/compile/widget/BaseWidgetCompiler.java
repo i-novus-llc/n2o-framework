@@ -63,7 +63,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
         compiled.setSrc(initSrc(source, p));
-        compiled.setIcon(source.getIcon());
         compiled.setFetchOnInit(castDefault(source.getFetchOnInit(), true));
         compiled.setFetchOnVisibility(castDefault(source.getFetchOnVisibility(), true));
         compileComponent(compiled, source, p);
@@ -139,10 +138,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     protected void compileToolbarAndAction(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
                                            WidgetScope widgetScope, MetaActions metaActions,
                                            CompiledObject object, ValidationScope validationScope) {
-        actionsToToolbar(source, metaActions);
-        compileMetaActions(source, context, p, p.getScope(PageIndexScope.class), metaActions, widgetScope, object, validationScope);
         compiled.setToolbar(compileToolbar(source, "n2o.api.widget.toolbar.place", context, p, object,
                 metaActions, widgetScope, validationScope));
+        compileMetaActions(source, context, p, p.getScope(PageIndexScope.class), metaActions, widgetScope, object, validationScope);
     }
 
     protected void addParamRoutes(WidgetParamScope paramScope, CompileContext<?, ?> context, CompileProcessor p) {

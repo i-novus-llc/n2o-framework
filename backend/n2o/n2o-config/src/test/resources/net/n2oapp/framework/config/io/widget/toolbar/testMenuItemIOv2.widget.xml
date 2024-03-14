@@ -2,11 +2,11 @@
 <table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
     <toolbar>
         <sub-menu id="menu1" color="primary" class="class" datasource="table" model="resolve"
-                  visible="false" enabled="false" description="desc" generate="crud" icon="icon" show-toggle-icon="false"
+                  visible="false" enabled="false" description="desc" generate="crud" icon="icon" icon-position="right" show-toggle-icon="false"
                   src="src" style="color: red" tooltip-position="right" badge="badge" badge-color="color"
                   badge-position="left" badge-shape="square" badge-image="/static/candidate.png"
                   badge-image-position="right" badge-image-shape="square">
-            <menu-item id="btn" datasource="table" model="resolve" icon="icon" color="primary"
+            <menu-item id="btn" datasource="table" model="resolve" icon="icon" icon-position="right" color="primary"
                 visible="true" enabled="true" validate="true" action-id="test" class="test" style="test"
                 description="desc" tooltip-position="right" disable-on-empty-model="false"
                 rounded="true" src="test" badge="badge" badge-color="color"

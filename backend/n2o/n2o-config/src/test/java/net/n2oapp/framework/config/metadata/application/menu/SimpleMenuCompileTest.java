@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertActionPayload;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -64,6 +65,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getSrc(), is("LinkMenuItem"));
         assertThat(menuItem.getTitle(), is("Уведомления"));
         assertThat(menuItem.getIcon(), is("fa fa-bell"));
+        assertThat(menuItem.getIconPosition(), is(Position.RIGHT));
         assertThat(menuItem.getBadge().getText(), is("2"));
         assertThat(menuItem.getBadge().getColor(), is("warning"));
         assertThat(menuItem.getDatasource(), is("ds1"));
@@ -111,6 +113,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(subMenuItem.getSrc(), is("LinkMenuItem"));
         assertThat(subMenuItem.getTitle(), is("Профиль"));
         assertThat(subMenuItem.getIcon(), is("fa fa-user"));
+        assertThat(subMenuItem.getIconPosition(), is(Position.RIGHT));
         assertThat(subMenuItem.getHref(), is("/profile"));
 
 
@@ -118,6 +121,13 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         dropdownMenu = menu.getItems().get(4);
         assertThat(dropdownMenu.getTitle(), is("Сообщения"));
         assertThat(dropdownMenu.getIcon(), is("fa fa-bell"));
+        assertThat(dropdownMenu.getIconPosition(), is(Position.RIGHT));
+
+        // dropdown 3 icon-position default value
+        dropdownMenu = menu.getItems().get(5);
+        assertThat(dropdownMenu.getTitle(), is("Добавить"));
+        assertThat(dropdownMenu.getIcon(), is("fa fa-plus"));
+        assertThat(dropdownMenu.getIconPosition(), is(Position.LEFT));
     }
 
     @Test

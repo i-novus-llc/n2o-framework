@@ -1384,9 +1384,9 @@
                         <xs:documentation>Иконка из https://fontawesome.com/v6/icons/</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="position" type="positionType" default="left">
+                <xs:attribute name="icon-position" type="positionType" default="left">
                     <xs:annotation>
-                        <xs:documentation>Расположение иконки относительно текста.</xs:documentation>
+                        <xs:documentation>Позиция иконки относительно текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="format" type="xs:string">

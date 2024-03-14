@@ -4,7 +4,7 @@
         <nav>
             <menu-item id="notif"
                        name="Уведомления"
-                       icon="fa fa-bell"
+                       icon="fa fa-bell" icon-position="right"
                        badge="2"
                        badge-color="warning"
                        datasource="ds1">
@@ -33,13 +33,16 @@
                     </menu-item>
                 </dropdown-menu>
                 <menu-item name="Профиль"
-                           icon="fa fa-user">
+                           icon="fa fa-user" icon-position="right">
                     <a href="/profile" target="application"/>
                 </menu-item>
             </dropdown-menu>
             <dropdown-menu id="messages"
                            name="Сообщения"
-                           icon="fa fa-bell"/>
+                           icon="fa fa-bell" icon-position="right"/>
+            <dropdown-menu id="add"
+                           name="Добавить"
+                           icon="fa fa-plus"/>
         </nav>
         <extra-menu>
             <menu-item name="Экстра-меню"

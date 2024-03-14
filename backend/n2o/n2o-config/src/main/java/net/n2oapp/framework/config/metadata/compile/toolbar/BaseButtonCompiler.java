@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractB
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
@@ -39,6 +40,8 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         button.setId(source.getId());
         button.setProperties(p.mapAttributes(source));
         button.setIcon(source.getIcon());
+        button.setIconPosition(castDefault(source.getIconPosition(),
+                () -> p.resolve(property("n2o.api.button.icon_position"), Position.class)));
         button.setLabel(p.resolveJS(source.getLabel()));
         button.setDatasource(DatasourceUtil.getClientDatasourceId(source.getDatasourceId(), p));
         button.setClassName(source.getCssClass());

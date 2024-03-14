@@ -27,7 +27,7 @@
             <extra-menu>
                 <dropdown-menu label="#{username}" image="#{image}">
                 <menu-item>
-                    <a label="Test" href="https://ya.ru/" icon="test-icon" target="newWindow"/>
+                    <a label="Test" href="https://ya.ru/" target="newWindow"/>
                 </menu-item>
                 </dropdown-menu>
             </extra-menu>

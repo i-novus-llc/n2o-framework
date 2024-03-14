@@ -65,6 +65,11 @@
                 <xs:documentation>Иконка выпадающего меню из https://fontawesome.com/v6/icons/</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="icon-position" type="positionType" default="left">
+            <xs:annotation>
+                <xs:documentation>Позиция иконки относительно наименования выпадающего меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="image" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Путь к изображению</xs:documentation>
@@ -126,6 +131,11 @@
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Иконка компонента меню из https://fontawesome.com/v6/icons/</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>Позиция иконки относительно наименования меню</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="badge" type="xs:integer">

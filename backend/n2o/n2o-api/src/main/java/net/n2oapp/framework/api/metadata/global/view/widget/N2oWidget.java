@@ -63,7 +63,6 @@ public abstract class N2oWidget extends N2oMetadata
     private DefaultValuesMode upload;
     @Deprecated
     private String dependsOn;
-    private String icon;
     @Deprecated
     private String masterFieldId;
     @Deprecated

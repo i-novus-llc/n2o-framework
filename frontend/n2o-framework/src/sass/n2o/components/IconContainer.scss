@@ -1,0 +1,8 @@
+.n2o-icon-container {
+    display: flex;
+    align-items: center;
+}
+
+.n2o-icon-container.right-icon {
+    flex-flow: row-reverse;
+}

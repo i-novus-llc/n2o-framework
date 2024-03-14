@@ -48,6 +48,7 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
         private String name;
         private String datasourceId;
         private String icon;
+        private Position iconPosition;
         private String image;
         private String src;
         private ShapeType imageShape;

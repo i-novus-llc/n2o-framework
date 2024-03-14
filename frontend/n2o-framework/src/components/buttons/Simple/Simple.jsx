@@ -3,12 +3,13 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import { Button } from 'reactstrap'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 import { Icon } from '../../snippets/Icon/Icon'
 import { Badge } from '../../snippets/Badge/Badge'
 import { dataSourceLoadingSelector } from '../../../ducks/datasource/selectors'
 import { Position } from '../../snippets/Badge/enums'
+import { IconContainer, ICON_POSITIONS } from '../../snippets/IconContainer/IconContainer'
 
 const convertCounter = count => (count > 100 ? '99+' : count)
 
@@ -29,15 +30,16 @@ const SimpleButtonBody = ({
     className,
     badge,
     dataSourceIsLoading,
+    iconPosition,
     forwardedRef,
     ...rest
 }) => {
+    if (!visible) { return null }
     const { text, position = Position.Right } = badge || {}
 
     const needBadge = !isEmpty(badge) || typeof count === 'number'
-    const currentDisabled = dataSourceIsLoading || disabled
 
-    return visible ? (
+    return (
         <div ref={forwardedRef}>
             <Button
                 id={id}
@@ -46,8 +48,8 @@ const SimpleButtonBody = ({
                 color={color}
                 outline={outline}
                 onClick={onClick}
-                disabled={currentDisabled}
-                className={cn(className, {
+                disabled={dataSourceIsLoading || disabled}
+                className={classNames(className, {
                     'btn-rounded': rounded && !label,
                     'btn-disabled': disabled,
                     'btn-rounded__with-content': rounded && label,
@@ -59,8 +61,10 @@ const SimpleButtonBody = ({
                 })}
                 {...rest}
             >
-                {icon && <Icon name={icon} className="n2o-btn-icon" />}
-                {children || label}
+                <IconContainer icon={icon} iconPosition={iconPosition}>
+                    {icon && <Icon name={icon} className="n2o-btn-icon" />}
+                    {children || label}
+                </IconContainer>
                 {needBadge && (
                     <Badge
                         {...badge}
@@ -72,7 +76,7 @@ const SimpleButtonBody = ({
                 )}
             </Button>
         </div>
-    ) : null
+    )
 }
 
 SimpleButtonBody.propTypes = {
@@ -104,6 +108,7 @@ SimpleButtonBody.propTypes = {
     badge: PropTypes.object,
     tooltipTriggerRef: PropTypes.func,
     dataSourceIsLoading: PropTypes.func,
+    iconPosition: PropTypes.string,
 }
 
 SimpleButtonBody.displayName = 'SimpleButtonBody'
@@ -111,6 +116,7 @@ SimpleButtonBody.defaultProps = {
     tag: 'button',
     rounded: false,
     visible: true,
+    iconPosition: ICON_POSITIONS.LEFT,
     onClick: () => {},
 }
 

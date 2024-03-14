@@ -3,6 +3,7 @@ import { ButtonDropdownProps } from 'reactstrap'
 
 import NavItemContainer from '../NavItemContainer'
 import { Item as ItemProps, Common, ContextItemCommon } from '../../../CommonMenuTypes'
+import { ICON_POSITIONS } from '../../../../components/snippets/IconContainer/IconContainer'
 
 export interface Dropdown extends Common {
     items: ItemProps[]
@@ -12,6 +13,7 @@ export interface Dropdown extends Common {
     onItemClick?(): void
     level?: number
     from?: 'HEADER' | 'SIDEBAR'
+    iconPosition?: ICON_POSITIONS
 }
 
 export interface DropdownContextItem extends ContextItemCommon {

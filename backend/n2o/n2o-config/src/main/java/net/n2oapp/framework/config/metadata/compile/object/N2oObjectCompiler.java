@@ -58,12 +58,6 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiled.setValidations(initValidations(source, compiled, context, p));
         compiled.setValidationsMap(initValidationsMap(compiled.getValidations()));
         initOperationsMap(source, compiled, context, p);
-
-        if (context instanceof ActionContext) {
-            ActionContext actionContext = (ActionContext) context;
-            if (actionContext.getValidations() != null)
-                compiled.setFieldValidations(actionContext.getValidations());
-        }
         return compiled;
     }
 

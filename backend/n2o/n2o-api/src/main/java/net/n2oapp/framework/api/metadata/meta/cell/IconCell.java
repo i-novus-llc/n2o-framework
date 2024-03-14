@@ -15,6 +15,6 @@ public class IconCell extends AbstractCell {
     private String icon;
     @JsonProperty
     private String text;
-    @JsonProperty("textPlace")
+    @JsonProperty("iconPosition")
     private Position position;
 }

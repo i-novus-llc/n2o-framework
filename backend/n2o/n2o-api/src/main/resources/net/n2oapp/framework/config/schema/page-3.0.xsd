@@ -319,52 +319,6 @@
                         <xs:documentation>Идентификатор действия.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="name" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Наименование.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="route" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>URL действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="icon" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Иконка действия из https://fontawesome.com/v6/icons/</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="hotkey" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Горячая клавиша вызова.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="visible" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Видимость действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="enabled" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Доступность действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="model" type="clientModel">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель, над которой выполнится действие.
-                            Если модель пустая, то действие будет заблокировано.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="widget-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор виджета над которым будет выполнена операция.
-                            По умолчанию главный виджет страницы(если он один).
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
