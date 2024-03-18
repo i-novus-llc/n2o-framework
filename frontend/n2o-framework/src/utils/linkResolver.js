@@ -37,25 +37,22 @@ export function resolveLinksRecursively(object = {}, state = {}) {
  * @param [params.value]
  * @returns {*}
  */
-export default function linkResolver(state, { link, value }) {
+export default function linkResolver(state, { link, value }, evalContext = {}) {
     if (!link && isNil(value)) { return undefined }
     if (isBoolean(value)) { return value }
     if (isNumber(value)) { return value }
 
-    let context = get(state, link)
+    const model = get(state, link)
 
-    if (isUndefined(value) && link) { return context }
+    if (isUndefined(value) && link) { return model }
 
-    const isMulti = link && link.startsWith('models.multi')
     const json = JSON.stringify(value)
 
-    context = isMulti && context ? Object.values(context) : context
-
     return JSON.parse(json, (k, val) => {
-        const parsedValue = parseExpression(val)
+        const expression = parseExpression(val)
 
-        if (parsedValue) {
-            return evalExpression(parsedValue, context)
+        if (expression) {
+            return evalExpression(expression, model, evalContext)
         }
 
         return val

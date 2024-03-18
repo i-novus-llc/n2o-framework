@@ -4,7 +4,7 @@ import { compose, withHandlers, withProps } from 'recompose'
 import get from 'lodash/get'
 import classNames from 'classnames'
 
-import propsResolver from '../../../../../utils/propsResolver'
+import { useResolved } from '../../../../../core/Expression/useResolver'
 import Toolbar from '../../../../buttons/Toolbar'
 import withCell from '../../withCell'
 import DefaultCell from '../DefaultCell'
@@ -35,6 +35,7 @@ function ButtonsCell({
     placement = 'bottom',
 }) {
     const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`
+    const resolverToolbar = useResolved(toolbar, model)
 
     if (!visible) {
         return null
@@ -47,7 +48,7 @@ function ButtonsCell({
             <Toolbar
                 className="n2o-buttons-cell"
                 entityKey={key}
-                toolbar={propsResolver(toolbar, model)}
+                toolbar={resolverToolbar}
                 onClick={onResolve}
                 placement={placement}
                 hint={hint}

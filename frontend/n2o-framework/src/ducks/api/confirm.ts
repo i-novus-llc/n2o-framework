@@ -6,7 +6,8 @@ import isEmpty from 'lodash/isEmpty'
 
 import { insert } from '../overlays/store'
 import { Meta } from '../Action'
-import evalExpression, { parseExpression } from '../../utils/evalExpression'
+import { executeExpression } from '../../core/Expression/execute'
+import { parseExpression } from '../../core/Expression/parse'
 // @ts-ignore ignore import error from js file
 import linkResolver from '../../utils/linkResolver'
 import { State } from '../State'
@@ -29,7 +30,11 @@ export const creator = createAction(
     (payload: Payload, meta: Meta) => ({ payload, meta }),
 )
 
-const resolveConditions = (model: Record<string, unknown>, condition?: string | boolean) => {
+const resolveConditions = (
+    model: Record<string, unknown>,
+    condition?: string | boolean,
+    ctx?: Record<string, unknown>,
+) => {
     if (!condition) {
         return true
     }
@@ -42,12 +47,15 @@ const resolveConditions = (model: Record<string, unknown>, condition?: string | 
 
     const expression = parseExpression(condition)
 
-    if (expression) { return evalExpression(expression, model) }
+    if (expression) { return executeExpression(expression, model, ctx) }
 
     return false
 }
 
-function* resolve(props: Pick<Payload, 'modelLink' | 'condition' | 'text'>) {
+function* resolve(
+    props: Pick<Payload, 'modelLink' | 'condition' | 'text'>,
+    ctx?: Record<string, unknown>,
+) {
     const { modelLink } = props
 
     if (!modelLink) { return props }
@@ -56,7 +64,7 @@ function* resolve(props: Pick<Payload, 'modelLink' | 'condition' | 'text'>) {
     const model: Record<string, unknown> = get(state, modelLink)
     const { condition } = props
 
-    if (!resolveConditions(model, condition)) { return {} }
+    if (!resolveConditions(model, condition, ctx)) { return {} }
 
     const { text } = props
     const resolvedText: string = linkResolver(state, { link: modelLink, value: text })
@@ -67,13 +75,13 @@ function* resolve(props: Pick<Payload, 'modelLink' | 'condition' | 'text'>) {
 /* TODO OverlaysRefactoring убрать передаваемый type */
 export function* effect({ payload, meta, type: actionType }: ReturnType<typeof creator>) {
     const { name, mode, visible = true, type = 'confirm', ...props } = payload
-    const { target, buttonId, key, operationId = null } = meta
+    const { target, buttonId, key, operationId = null, evalContext } = meta
 
     if (operationId) {
         yield put(startOperation(actionType, operationId, { key, buttonId }))
     }
 
-    const resolved: Record<string, unknown> = yield resolve(props)
+    const resolved: Record<string, unknown> = yield resolve(props, evalContext)
 
     const resolvedProps = {
         ...resolved, target, operation: { id: operationId, type: actionType, buttonId, key },

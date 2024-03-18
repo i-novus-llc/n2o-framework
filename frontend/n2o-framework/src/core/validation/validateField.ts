@@ -42,7 +42,7 @@ export async function validateField<
             if (!valid) {
                 const expression = parseExpression(validation.text)
                 const text = expression
-                    ? evalExpression(expression, model) as string
+                    ? evalExpression<string>(expression, model) || ''
                     : validation.text
 
                 errors.push({

@@ -19,7 +19,7 @@ export function resolveText(text?: string): string | null {
     const expression = parseExpression(text)
 
     if (expression) {
-        const value = evalExpression(expression)
+        const value = evalExpression(expression, {})
 
         if (typeof value === 'string' || typeof value === 'number') {
             return String(value)

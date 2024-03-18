@@ -22,14 +22,16 @@ export const finisher = createAction(
 
 export function* effect({ payload, meta }: ReturnType<typeof creator>) {
     const { actions } = payload
-    const { target, key, buttonId } = meta
+    const { target, key, buttonId, evalContext } = meta
 
     for (const action of actions) {
-        const resultAction: Action | ErrorAction = yield waitOperation(mergeMeta(action, { target, key, buttonId }))
+        const resultAction: Action | ErrorAction = yield waitOperation(
+            mergeMeta(action, { target, key, buttonId, evalContext }),
+        )
 
         if (resultAction.type === failOperation.type) { yield cancel() }
         if (resultAction.error) { throw new Error(resultAction.error) }
     }
 
-    yield put(finisher({}, { target, key, buttonId }))
+    yield put(finisher({}, { target, key, buttonId, evalContext }))
 }

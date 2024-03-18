@@ -190,7 +190,7 @@ n2o.api.fieldset.line.badge.image_shape=circle
 
 ### &lt;multi-set&gt;
 
-Филдсет с динамическим числом групп полей.
+Филдсет с динамическим числом полей (мультисет)
 
 **Атрибуты**
 
@@ -211,19 +211,18 @@ n2o.api.fieldset.line.badge.image_shape=circle
 
 **Настройки**
 ```yaml
-#Значения по умолчанию для MultiFieldset
 #Удаление первого элемента
-n2o.api.fieldset.multi-set.can_remove_first_item=false
+n2o.api.fieldset.multi-set.can_remove_first_item = false
 #Добавление новых филдсетов
-n2o.api.fieldset.multi-set.can_add=true
+n2o.api.fieldset.multi-set.can_add = true
 #Удаление новых филдсетов
-n2o.api.fieldset.multi-set.can_remove=true
+n2o.api.fieldset.multi-set.can_remove = true
 #Копирование филдсета в новый (вместе с данными)
-n2o.api.fieldset.multi-set.can_copy=false
+n2o.api.fieldset.multi-set.can_copy = false
 #Удаление всех добавленных филдсетов
-n2o.api.fieldset.multi-set.can_remove_all=false
+n2o.api.fieldset.multi-set.can_remove_all = false
 #Генерация уникального ключа для каждого филдсета.
-n2o.api.fieldset.multi-set.generate_primary_key=false
+n2o.api.fieldset.multi-set.generate_primary_key = false
 ```
 
 **Пример**
@@ -241,7 +240,7 @@ n2o.api.fieldset.multi-set.generate_primary_key=false
 ```
 
 :::note
-Идентификатор мультифилдсета `id` задает название спискового поля, в котором будут храниться все добавленные группы полей.
+Идентификатор мультисета `id` задает название спискового поля, в котором будут храниться все добавленные группы полей.
 
 ```xml
 <multi-set id="members">
@@ -260,19 +259,41 @@ n2o.api.fieldset.multi-set.generate_primary_key=false
 :::
 
 :::note
-Любые зависимости и валидации полей внутри мульти филдсета необходимо задавать с помощью переменной `index`.
-Индекс определяет текущую группу полей мультифилдсета.
+Любые зависимости и валидации полей внутри мультисета необходимо задавать с помощью переменной `index`.
+Индекс определяет текущую группу полей мультисета.
 
 ```xml
 <multi-set id="members">
-   <input-text id="firstName"/>
-   <input-text id="lastName">
-      <dependencies>
-          <visibility on="members[index].firstName">members[index].firstName != null</visibility>
-      </dependencies>
-   </input-text>
-   ...
+    <input-text id="firstName"/>
+    <input-text id="lastName">
+        <dependencies>
+            <visibility on="members[index].firstName">
+               members[index].firstName != null
+           </visibility>
+        </dependencies>
+    </input-text>
 </multi-set>
 ```
 
 :::
+
+#### Вложенные мультисеты
+
+Обращение к внутреннему контексту в выражениях вложенных мультисетов осуществляется с помощью цепочки индексов `$index_N`,
+где N - соответствует уровню вложенного мультисета.
+
+```xml
+set[index].inner_set1[$index_1]...inner_setN[$index_N].field
+```
+:::note
+Для мультисета верхнего уровня используется `index` или `$index_0`.
+:::
+
+**Пример**
+```xml
+<multi-set id="groups" children-label="Группа {index}">
+    <multi-set id="persons" children-label="Участник {index}.{$index_1}">
+        <input-text id="name" label="{index}.{$index_1} Имя"/>
+    </multi-set>
+</multi-set>
+```

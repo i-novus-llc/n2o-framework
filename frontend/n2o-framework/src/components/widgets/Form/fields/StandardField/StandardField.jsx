@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import omit from 'lodash/omit'
@@ -9,7 +9,7 @@ import { EventHandlersContext } from '@i-novus/n2o-components/lib/inputs/eventHa
 
 import Toolbar from '../../../../buttons/Toolbar'
 import { Spinner } from '../../../../snippets/Spinner/Spinner'
-import propsResolver from '../../../../../utils/propsResolver'
+import { useResolved } from '../../../../../core/Expression/useResolver'
 
 import Control from './Control'
 import Label from './Label'
@@ -51,161 +51,157 @@ import { FieldActionsPropTypes } from './FieldPropTypes'
  *             description="Введите расстояние от пункта А до пункта Б"
  *             style={display: 'inline-block'}/>
  */
-class StandardField extends React.Component {
-    static contextType = EventHandlersContext
+function StandardField({
+    id,
+    value,
+    visible,
+    label,
+    control,
+    description,
+    measure,
+    required,
+    className,
+    labelPosition,
+    labelAlignment,
+    labelWidth,
+    style,
+    fieldActions,
+    loading,
+    autoFocus,
+    labelStyle,
+    labelClass,
+    validationClass,
+    onChange,
+    onFocus,
+    onBlur,
+    placeholder,
+    touched,
+    message,
+    colLength,
+    help,
+    toolbar,
+    form,
+    noLabel: propsNoLabel,
+    noLabelBlock: propsNoLabelBlock,
+    model,
+    ...rest
+}) {
+    const eventHandlerContext = useContext(EventHandlersContext)
 
-    render() {
-        const {
-            id,
-            value,
-            visible,
-            label,
-            control,
-            description,
-            measure,
-            required,
-            className,
-            labelPosition,
-            labelAlignment,
-            labelWidth,
-            style,
-            fieldActions,
-            loading,
-            autoFocus,
-            labelStyle,
-            labelClass,
-            validationClass,
-            onChange,
-            onFocus,
-            onBlur,
-            placeholder,
-            touched,
-            message,
-            colLength,
-            help,
-            toolbar,
-            form,
-            noLabel: propsNoLabel,
-            noLabelBlock: propsNoLabelBlock,
-            model,
-            ...props
-        } = this.props
+    const {
+        noLabelBlock = false,
+        noLabel = false,
+    } = useResolved({ noLabelBlock: propsNoLabelBlock, noLabel: propsNoLabel }, model)
 
-        if (!visible) {
-            return null
+    if (!visible) {
+        return null
+    }
+
+    const validationMap = {
+        'is-valid': 'text-success',
+        'is-invalid': 'text-danger',
+        'has-warning': 'text-warning',
+    }
+
+    const getLabelWidthPixels = (labelWidth) => {
+        switch (labelWidth) {
+            case 'default':
+                return 180
+            case 'min' || '100%':
+                return undefined
+            default:
+                return labelWidth
         }
+    }
 
-        const validationMap = {
-            'is-valid': 'text-success',
-            'is-invalid': 'text-danger',
-            'has-warning': 'text-warning',
+    const labelWidthPixels = getLabelWidthPixels(labelWidth)
+
+    const styleHelper = labelWidthPixels && colLength > 1
+        ? {
+            maxWidth: `calc(100% - ${labelWidthPixels})`,
         }
+        : { width: '100%' }
 
-        const getLabelWidthPixels = (labelWidth) => {
-            switch (labelWidth) {
-                case 'default':
-                    return 180
-                case 'min' || '100%':
-                    return undefined
-                default:
-                    return labelWidth
-            }
-        }
+    const extendedLabelStyle = {
+        width: labelWidthPixels,
+        flex: labelWidthPixels ? 'none' : undefined,
+        ...labelStyle,
+    }
 
-        const labelWidthPixels = getLabelWidthPixels(labelWidth)
+    const fieldId = `field-${rest.form}-id`
 
-        const styleHelper = labelWidthPixels && colLength > 1
-            ? {
-                maxWidth: `calc(100% - ${labelWidthPixels})`,
-            }
-            : { width: '100%' }
-
-        const extendedLabelStyle = {
-            width: labelWidthPixels,
-            flex: labelWidthPixels ? 'none' : undefined,
-            ...labelStyle,
-        }
-
-        const fieldId = `field-${props.form}-id`
-
-        const {
-            noLabelBlock = false,
-            noLabel = false,
-        } = propsResolver({ noLabelBlock: propsNoLabelBlock, noLabel: propsNoLabel }, model)
-
-        return (
-            <div
-                id={fieldId}
-                className={classNames('n2o-form-group', 'form-group', className, {
-                    [`label-${labelPosition}`]: labelPosition,
-                    'n2o-form-group--disabled': loading,
-                })}
-                style={style}
-            >
-                {!noLabelBlock && (
-                    <Label
-                        id={id}
-                        value={noLabel ? null : label}
-                        style={extendedLabelStyle}
-                        className={classNames(
-                            labelClass,
-                            { [`label-alignment-${labelAlignment}`]: labelAlignment },
-                            'n2o-label',
-                        )}
-                        required={required}
+    return (
+        <div
+            id={fieldId}
+            className={classNames('n2o-form-group', 'form-group', className, {
+                [`label-${labelPosition}`]: labelPosition,
+                'n2o-form-group--disabled': loading,
+            })}
+            style={style}
+        >
+            {!noLabelBlock && (
+                <Label
+                    id={id}
+                    value={noLabel ? null : label}
+                    style={extendedLabelStyle}
+                    className={classNames(
+                        labelClass,
+                        { [`label-alignment-${labelAlignment}`]: labelAlignment },
+                        'n2o-label',
+                    )}
+                    required={required}
+                    help={help}
+                    needStub
+                />
+            )}
+            <div style={styleHelper}>
+                <div
+                    className={classNames('form-container', {
+                        'form-container_with-toolbar': toolbar,
+                    })}
+                >
+                    <Control
+                        placeholder={placeholder}
+                        visible={visible}
+                        autoFocus={autoFocus}
+                        {...eventHandlerContext}
+                        onBlur={onBlur}
+                        onFocus={onFocus}
+                        onChange={onChange}
                         help={help}
-                        needStub
-                    />
-                )}
-                <div style={styleHelper}>
-                    <div
-                        className={classNames('form-container', {
-                            'form-container_with-toolbar': toolbar,
+                        {...omit(rest, ['dataProvider', 'containerKey', 'controlClass', 'controlStyle'])}
+                        {...control}
+                        value={has(model, id) ? value : get(control, 'value', null)}
+                        className={classNames(control.className, {
+                            [validationClass]: validationClass && touched,
+                            'form-control__with-toolbar': toolbar,
                         })}
-                    >
-                        <Control
-                            placeholder={placeholder}
-                            visible={visible}
-                            autoFocus={autoFocus}
-                            {...this.context}
-                            onBlur={onBlur}
-                            onFocus={onFocus}
-                            onChange={onChange}
-                            help={help}
-                            {...omit(props, ['dataProvider', 'containerKey', 'controlClass', 'controlStyle'])}
-                            {...control}
-                            value={has(model, id) ? value : get(control, 'value', null)}
-                            className={classNames(control.className, {
-                                [validationClass]: validationClass && touched,
-                                'form-control__with-toolbar': toolbar,
-                            })}
-                            model={model}
+                        model={model}
+                    />
+                    {toolbar && (
+                        <Toolbar
+                            className="n2o-page-actions__form-toolbar"
+                            toolbar={toolbar}
+                            entityKey={form}
                         />
-                        {toolbar && (
-                            <Toolbar
-                                className="n2o-page-actions__form-toolbar"
-                                toolbar={toolbar}
-                                entityKey={form}
-                            />
-                        )}
-                        <Measure value={measure} />
-                        <FieldActions actions={fieldActions} />
-                        {loading && (
-                            <Spinner
-                                className="n2o-form-group__spinner align-self-center"
-                                type="inline"
-                                size="sm"
-                            />
-                        )}
-                    </div>
-                    <Description value={description} />
-                    <div className={classNames('n2o-validation-message', validationMap[validationClass])}>
-                        {touched && message && message.text}
-                    </div>
+                    )}
+                    <Measure value={measure} />
+                    <FieldActions actions={fieldActions} />
+                    {loading && (
+                        <Spinner
+                            className="n2o-form-group__spinner align-self-center"
+                            type="inline"
+                            size="sm"
+                        />
+                    )}
+                </div>
+                <Description value={description} />
+                <div className={classNames('n2o-validation-message', validationMap[validationClass])}>
+                    {touched && message && message.text}
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 StandardField.propTypes = {

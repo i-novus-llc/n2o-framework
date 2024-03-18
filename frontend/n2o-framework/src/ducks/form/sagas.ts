@@ -84,6 +84,7 @@ export const formPluginSagas = [
             // @ts-ignore разобраться с типами
             meta.prevState,
         ) as Record<string, unknown> | null
+        // @ts-ignore разобраться с типами
         const fields = diffKeys(model, prevModel)
 
         if (!validateFields[datasource]) {

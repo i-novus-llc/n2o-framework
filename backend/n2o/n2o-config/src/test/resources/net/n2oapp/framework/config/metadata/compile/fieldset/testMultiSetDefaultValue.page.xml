@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Multi-set. Зависимости полей друг от друга">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <multi-set
+                        id="groups"
+                        label="Список групп"
+                        add-label="Добавить группу"
+                        children-label="Группа {index}"
+                        can-remove="false">
+                    <row>
+                        <input-text id="id" default-value="{$.uuid()}"/>
+                        <input-text id="name" default-value="test"/>
+                        <select id="type">
+                            <default-value id="1"/>
+                            <options>
+                                <option id="1" name="type1"/>
+                                <option id="2" name="type2"/>
+                                <option id="3" name="type3"/>
+                            </options>
+                        </select>
+                        <date-interval id="date">
+                            <default-value begin="2024.01.01" end="2024.01.31"/>
+                        </date-interval>
+                    </row>
+
+                    <multi-set
+                            id="persons"
+                            label="Список участников"
+                            add-label="Добавить участника"
+                            can-remove="false"
+                    >
+                        <row>
+                            <input-text id="id" default-value="{$.uuid()}"/>
+                            <input-text id="name" default-value="test"/>
+                            <select id="type">
+                                <default-value id="1"/>
+                                <options>
+                                    <option id="1" name="type1"/>
+                                    <option id="2" name="type2"/>
+                                    <option id="3" name="type3"/>
+                                </options>
+                            </select>
+                            <date-interval id="date">
+                                <default-value begin="2024.01.01" end="2024.01.31"/>
+                            </date-interval>
+                        </row>
+                    </multi-set>
+                </multi-set>
+            </fields>
+        </form>
+    </regions>
+</page>

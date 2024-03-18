@@ -1,6 +1,26 @@
 /* eslint-disable camelcase */
 import { ValidationsKey } from '../../core/validation/types'
-import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
+import { ModelPrefix } from '../../core/datasource/const'
+
+export enum FieldDependencyTypes {
+    visible = 'visible',
+    enabled = 'enabled',
+    fetch = 'fetch',
+    setValue = 'setValue',
+    reset = 'reset',
+    required = 'required',
+    reRender = 'reRender',
+    fetchValue = 'fetchValue',
+}
+
+export type FieldDependency = {
+    type: FieldDependencyTypes
+    expression?: string
+    applyOnInit?: boolean
+    on?: string[]
+    dataProvider?: unknown
+    valueFieldId?: string
+}
 
 export type Field = {
     isInit: boolean
@@ -13,24 +33,20 @@ export type Field = {
     disabled_set: boolean
     message: string | null
     filter: unknown // TODO: добавить тип
-    dependency: Array<{
-        type: DEPENDENCY_TYPES
-        expression: string
-        applyOnInit: boolean
-        on: string[]
-    }>
+    dependency: FieldDependency[]
     required: boolean
     loading: boolean
     touched?: boolean
-    parentIndex?: number
     fetchTrigger?: number
+    // FIXME костыль для прокидыания контекста из компонента для саг, придумать способ лучше
+    ctx?: Record<string, unknown>
 }
 
 export type Form = {
     isInit: boolean
     formName: string
     datasource: string
-    modelPrefix: string
+    modelPrefix: ModelPrefix
     validationKey: ValidationsKey
     dirty: boolean
     fields: Record<string, Field>

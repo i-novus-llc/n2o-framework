@@ -3,8 +3,7 @@ import get from 'lodash/get'
 
 import { guid } from '../../utils/id'
 import { addMultiAlerts } from '../alerts/store'
-// @ts-ignore ignore import error from js file
-import propsResolver from '../../utils/propsResolver'
+import { propsResolver } from '../../core/Expression/propsResolver'
 import { State } from '../State'
 import { AddMulti } from '../alerts/Actions'
 
@@ -24,8 +23,9 @@ export const API_ALERTS_ADD = `${ALERTS_PREFIX}add`
  * @param action
  * @returns {Generator<*, void, *>}
  */
-function* alertsResolver(action: AddMulti) {
-    const { alerts, key } = action.payload
+function* alertsResolver({ payload, meta = {} }: AddMulti) {
+    const { alerts, key } = payload
+    const { evalContext } = meta
     const state: State = yield select()
 
     const preparedAlerts = alerts.map((alert) => {
@@ -36,7 +36,7 @@ function* alertsResolver(action: AddMulti) {
         if (modelLink) {
             const model = get(state, modelLink)
 
-            resolvedAlert = propsResolver(alert, model)
+            resolvedAlert = propsResolver(alert, model, evalContext)
         } else {
             resolvedAlert = alert
         }

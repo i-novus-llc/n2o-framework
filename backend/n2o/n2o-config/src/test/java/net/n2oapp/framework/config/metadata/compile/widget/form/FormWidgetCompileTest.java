@@ -47,7 +47,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тест сборки формы
  */
-public class FormWidgetCompileTest extends SourceCompileTestBase {
+class FormWidgetCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -139,22 +139,6 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(validations.get(10).getId(), is("Condition3"));
         assertThat(validations.get(10).getSide(), is(nullValue()));
-
-        validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testField3");
-        assertThat(validations.get(0).getEnablingConditions(), hasItem("testField2 == 'test'"));
-        assertThat(validations.get(0).getEnablingConditions(), hasItem("testField3 == 'test'"));
-        assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
-
-        validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testField4");
-        assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("(function(){return typeof testField != 'undefined' && testField != null && testField == 2}).call(this)"));
-        assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
-
-        validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testInterval.begin");
-        assertThat(validations.size(), is(1));
-        assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("typeof testIntervalBegin == 'undefined'"));
-        validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("testInterval.end");
-        assertThat(validations.size(), is(1));
-        assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("typeof testIntervalEnd == 'undefined'"));
     }
 
     @Test

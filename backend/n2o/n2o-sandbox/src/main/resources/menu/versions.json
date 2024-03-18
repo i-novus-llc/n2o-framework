@@ -15,6 +15,10 @@
         {
           "templateId": "versions/7.27/clear_button",
           "name": "Кнопка сброса в фильтрах таблицы"
+        },
+        {
+          "templateId": "versions/7.27/nested_multiset",
+          "name": "Вложенный мультисет"
         }
       ]
     },

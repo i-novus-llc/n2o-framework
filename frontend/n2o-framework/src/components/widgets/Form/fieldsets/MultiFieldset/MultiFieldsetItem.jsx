@@ -1,124 +1,75 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import isEmpty from 'lodash/isEmpty'
-import map from 'lodash/map'
-import { Button } from 'reactstrap'
+
+import { useResolved } from '../../../../../core/Expression/useResolver'
 
 import { MultiFieldsetItemToolbar } from './MultiFieldsetItemToolbar'
 
-function MultiFieldsetItem({
-    fields,
+export function MultiFieldsetItem({
+    index,
     render,
     rows,
     parentName,
-    addButtonLabel,
-    removeAllButtonLabel,
-    needAddButton,
     needRemoveButton,
-    needRemoveAllButton,
     needCopyButton,
     canRemoveFirstItem,
-    resolvePlaceholder,
-    onAddField,
     onRemoveField,
-    onRemoveAll,
     onCopyField,
     enabled,
     disabled: propsDisabled,
+    label: propsLabel,
+    model,
 }) {
     const disabled = propsDisabled || !enabled
+    const label = useResolved(propsLabel, model)
 
     return (
-        <>
-            {map(fields, (field, index) => {
-                const label = resolvePlaceholder(index)
-
-                return (
-                    <div className="n2o-multi-fieldset__container">
-                        <div className="n2o-multi-fieldset__item">
-                            <section className="n2o-multi-fieldset__item-top-section">
-                                <div className={classNames('n2o-multi-fieldset__label', { empty: !label })}>
-                                    {label}
-                                </div>
-                                <MultiFieldsetItemToolbar
-                                    needCopyButton={needCopyButton}
-                                    needRemoveButton={needRemoveButton}
-                                    disabled={!enabled}
-                                    index={index}
-                                    canRemoveFirstItem={canRemoveFirstItem}
-                                    onRemoveField={onRemoveField}
-                                    onCopyField={onCopyField}
-                                />
-                            </section>
-                            {render(rows, {
-                                parentName: `${parentName}[${index}]`,
-                                parentIndex: index,
-                                multiSetDisabled: disabled,
-                            })}
-                        </div>
+        <div className="n2o-multi-fieldset__container">
+            <div className="n2o-multi-fieldset__item">
+                <section className="n2o-multi-fieldset__item-top-section">
+                    <div className={classNames('n2o-multi-fieldset__label', { empty: !label })}>
+                        {label}
                     </div>
-                )
-            })}
-            <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--common">
-                {needAddButton && (
-                    <Button
-                        className="n2o-multi-fieldset__add"
-                        onClick={onAddField}
+                    <MultiFieldsetItemToolbar
+                        needCopyButton={needCopyButton}
+                        needRemoveButton={needRemoveButton}
                         disabled={!enabled}
-                    >
-                        <i className="fa fa-plus mr-1" />
-                        {addButtonLabel}
-                    </Button>
-                )}
-                {!isEmpty(fields) && needRemoveAllButton && (
-                    <Button
-                        className="n2o-multi-fieldset__remove-all"
-                        onClick={onRemoveAll}
-                        disabled={!enabled}
-                    >
-                        <i className="fa fa-trash mr-1" />
-                        {removeAllButtonLabel}
-                    </Button>
-                )}
+                        index={index}
+                        canRemoveFirstItem={canRemoveFirstItem}
+                        onRemoveField={onRemoveField}
+                        onCopyField={onCopyField}
+                    />
+                </section>
+                {render(rows, {
+                    parentName: `${parentName}[${index}]`,
+                    multiSetDisabled: disabled,
+                })}
             </div>
-        </>
+        </div>
     )
 }
 
 MultiFieldsetItem.propTypes = {
-    fields: PropTypes.object,
+    index: PropTypes.number,
     render: PropTypes.func,
     rows: PropTypes.array,
-    addButtonLabel: PropTypes.string,
-    removeAllButtonLabel: PropTypes.string,
-    needAddButton: PropTypes.bool,
     needRemoveButton: PropTypes.bool,
-    needRemoveAllButton: PropTypes.bool,
     needCopyButton: PropTypes.bool,
     canRemoveFirstItem: PropTypes.bool,
     parentName: PropTypes.string,
-    resolvePlaceholder: PropTypes.func,
-    onAddField: PropTypes.func,
+    label: PropTypes.string,
     onRemoveField: PropTypes.func,
-    onRemoveAll: PropTypes.func,
     onCopyField: PropTypes.func,
     enabled: PropTypes.bool,
+    model: PropTypes.any,
 }
 
 const defaultComponentProps = {
     render: () => {},
     rows: [],
-    fields: [],
-    addButtonLabel: 'Добавить',
-    removeAllButtonLabel: 'Удалить все',
-    needAddButton: true,
-    needRemoveButton: true,
-    needRemoveAllButton: false,
     needCopyButton: false,
     canRemoveFirstItem: false,
 }
 
 MultiFieldsetItem.defaultProps = defaultComponentProps
-
-export default MultiFieldsetItem

@@ -3,7 +3,6 @@ import { push } from 'connected-react-router'
 
 import withActionButton from '../withActionButton'
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
-import mappingProps from '../Simple/mappingProps'
 
 function isModifiedEvent(event) {
     return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
@@ -34,11 +33,10 @@ export const withLinkAction = compose(
         },
     }),
     mapProps(props => ({
-        ...mappingProps(props),
         url: props.url,
         href: props.url,
-        target: props.target,
         tag: 'a',
+        ...props,
     })),
 )
 

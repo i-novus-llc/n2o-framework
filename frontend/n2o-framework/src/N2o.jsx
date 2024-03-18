@@ -25,6 +25,8 @@ import locales from './locales'
 import { Tooltip } from './components/snippets/Tooltip/Tooltip'
 import { ErrorHandlersProvider } from './core/error/Container'
 import '@fortawesome/fontawesome-free/css/all.css'
+import { ExpressionContext } from './core/Expression/Context'
+import functions from './utils/functions'
 
 const { version } = packageJson
 
@@ -40,9 +42,6 @@ class N2o extends Component {
             apiProvider: props.apiProvider,
             factories: this.generateConfig(),
         }
-
-        // eslint-disable-next-line no-underscore-dangle
-        window._n2oEvalContext = props.evalContext
 
         this.store = configureStore(props.initialState, history, config)
         globalFnDate.addFormat(props.formats)
@@ -74,6 +73,7 @@ class N2o extends Component {
             children,
             i18n,
             locales: customLocales = {},
+            evalContext,
             extraDefaultErrorPages,
         } = this.props
 
@@ -82,21 +82,30 @@ class N2o extends Component {
         const config = this.generateConfig()
         const handlers = [errorTemplates(extraDefaultErrorPages, isOnline)]
 
+        const context = {
+            // eslint-disable-next-line no-underscore-dangle
+            ...(window._n2oEvalContext || {}),
+            ...functions,
+            ...(evalContext || {}),
+        }
+
         return (
             <Provider store={this.store}>
-                <ErrorHandlersProvider value={handlers} isOnline={isOnline}>
-                    <SecurityProvider {...security}>
-                        <FactoryProvider config={config} securityBlackList={['actions']}>
-                            <Application
-                                i18n={i18n}
-                                locales={locales}
-                                customLocales={customLocales}
-                                realTimeConfig={realTimeConfig}
-                                render={() => <Router embeddedRouting={embeddedRouting}>{children}</Router>}
-                            />
-                        </FactoryProvider>
-                    </SecurityProvider>
-                </ErrorHandlersProvider>
+                <ExpressionContext.Provider value={context}>
+                    <ErrorHandlersProvider value={handlers} isOnline={isOnline}>
+                        <SecurityProvider {...security}>
+                            <FactoryProvider config={config} securityBlackList={['actions']}>
+                                <Application
+                                    i18n={i18n}
+                                    locales={locales}
+                                    customLocales={customLocales}
+                                    realTimeConfig={realTimeConfig}
+                                    render={() => <Router embeddedRouting={embeddedRouting}>{children}</Router>}
+                                />
+                            </FactoryProvider>
+                        </SecurityProvider>
+                    </ErrorHandlersProvider>
+                </ExpressionContext.Provider>
             </Provider>
         )
     }

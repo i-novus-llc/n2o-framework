@@ -10,7 +10,6 @@ Enzyme.configure({ adapter: new Adapter() });
 global.shallow = shallow;
 global.render = render;
 global.mount = mount;
-global._n2oEvalContext = {};
 
 console.error = message => {
   // throw new Error(message);

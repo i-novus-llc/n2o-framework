@@ -8,7 +8,8 @@ import { Action, Meta } from '../Action'
 import { State as GlobalState } from '../State'
 // @ts-ignore ignore import error from js file
 import { dataProviderResolver } from '../../core/dataProviderResolver'
-import evalExpression, { parseExpression } from '../../utils/evalExpression'
+import { executeExpression } from '../../core/Expression/execute'
+import { parseExpression } from '../../core/Expression/parse'
 
 import { EffectWrapper } from './utils/effectWrapper'
 import { PAGE_PREFIX, INVALID_URL_MESSAGE } from './constants'
@@ -30,10 +31,11 @@ export const openPagecreator = createAction(
     }),
 )
 
-export function* openPageEffect({ payload }: Action<string, OpenPagePayload>) {
+export function* openPageEffect({ payload, meta = {} }: Action<string, OpenPagePayload>) {
     const state: GlobalState = yield select()
 
     const { url, pathMapping, queryMapping, target, modelLink, restore = false } = payload
+    const { evalContext } = meta
 
     let compiledUrl = null
 
@@ -41,7 +43,7 @@ export function* openPageEffect({ payload }: Action<string, OpenPagePayload>) {
         const model = get(state, modelLink)
         const parsedExpressionUrl = parseExpression(url)
 
-        compiledUrl = parsedExpressionUrl ? evalExpression(parsedExpressionUrl, model) : url
+        compiledUrl = parsedExpressionUrl ? executeExpression(parsedExpressionUrl, model, evalContext) : url
 
         if (isUndefined(compiledUrl)) {
             throw new Error(INVALID_URL_MESSAGE)

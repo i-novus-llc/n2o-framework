@@ -1,6 +1,8 @@
 import { Action } from '../Action'
 import type { ModelPrefix } from '../../core/datasource/const'
 
+import { State } from './Models'
+
 export interface ModelsPayload {
     prefix: ModelPrefix
     key: string
@@ -10,8 +12,10 @@ type FieldPath = ModelsPayload & {
     field: string
 }
 
-export type SetModelAction = Action<string, ModelsPayload & {
-    model?: Record<string, unknown> | Array<Record<string, unknown>> | null
+export type SetModelAction<Prefix extends ModelPrefix = ModelPrefix.active> = Action<string, ModelsPayload & {
+    model: Prefix extends (ModelPrefix.source | ModelPrefix.selected)
+        ? Array<Record<string, unknown>>
+        : Record<string, unknown>
     isDefault?: boolean
 }>
 
@@ -38,7 +42,7 @@ export type ClearModelAction = Action<string, {
 }>
 
 export type MergeModelAction = Action<string, {
-    combine: Record<ModelPrefix, Record<string, object | object[]>>
+    combine: Partial<State>
 }>
 
 export type CopyAction = Action<string, {

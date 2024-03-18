@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { compose, withHandlers, pure, mapProps } from 'recompose'
 import { Col } from 'reactstrap'
 import get from 'lodash/get'
 
-import evalExpression, { parseExpression } from '../../../utils/evalExpression'
 import { SecurityController } from '../../../core/auth/SecurityController'
+import { ExpressionContext } from '../../../core/Expression/Context'
+import { executeExpression } from '../../../core/Expression/execute'
+import { parseExpression } from '../../../core/Expression/parse'
 
 import ReduxField from './ReduxField'
 // eslint-disable-next-line import/no-cycle
@@ -23,7 +25,6 @@ function FieldsetColComponent({
     modelPrefix,
     form,
     parentName,
-    parentIndex,
     colVisible,
     disabled,
     autoSubmit,
@@ -55,7 +56,6 @@ function FieldsetColComponent({
                                 modelPrefix={modelPrefix}
                                 name={name}
                                 parentName={parentName}
-                                parentIndex={parentIndex}
                                 disabled={disabled}
                                 autoSubmit={autoSubmit}
                                 onChange={onChange}
@@ -79,7 +79,6 @@ function FieldsetColComponent({
                                 name={name}
                                 form={form}
                                 parentName={parentName}
-                                parentIndex={parentIndex}
                                 disabled={disabled}
                                 autoSubmit={autoSubmit}
                                 activeModel={activeModel}
@@ -95,15 +94,23 @@ function FieldsetColComponent({
     )
 }
 
+const withContext = (Context, mapper) => Component => (props) => {
+    const contextValue = useContext(Context)
+    const mappedValue = mapper(contextValue)
+
+    return (<Component {...props} {...mappedValue} />)
+}
+
 const enhance = compose(
     pure,
+    withContext(ExpressionContext, evalContext => ({ evalContext })),
     withHandlers({
         resolveVisible: props => () => {
             const visible = get(props, 'col.visible')
             const expression = parseExpression(visible)
 
             if (expression) {
-                return evalExpression(expression, props.activeModel)
+                return executeExpression(expression, props.activeModel, props.evalContext)
             } if (visible === true) {
                 return true
             }
@@ -130,7 +137,6 @@ FieldsetColComponent.propTypes = {
     modelPrefix: PropTypes.string,
     form: PropTypes.string,
     parentName: PropTypes.string,
-    parentIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     colVisible: PropTypes.bool,
     disabled: PropTypes.bool,
     autoSubmit: PropTypes.bool,

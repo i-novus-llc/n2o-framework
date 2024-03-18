@@ -27,12 +27,12 @@ export const creator = createAction(
 
 export function* effect({ payload, meta }: ReturnType<typeof creator>) {
     const { datasource, model: modelPrefix, defaultAction, cases, valueFieldId } = payload
-    const { target } = meta
+    const { target, evalContext } = meta
     const model: object = yield select(getModelByPrefixAndNameSelector(modelPrefix, datasource))
     const action = cases[get(model, valueFieldId)] || defaultAction
 
     if (!isEmpty(action)) {
-        const resultAction: Action | ErrorAction = yield waitOperation(mergeMeta(action, { target }))
+        const resultAction: Action | ErrorAction = yield waitOperation(mergeMeta(action, { target, evalContext }))
 
         if (resultAction.error) {
             throw new Error(resultAction.error)

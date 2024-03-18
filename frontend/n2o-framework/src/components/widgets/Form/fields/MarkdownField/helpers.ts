@@ -54,7 +54,10 @@ export function parseExpression(value: string): string {
     return value.substring(1, value.length - 1)
 }
 
-export function resolveExpressions<TProps extends Record<string, unknown>>(props: TProps, model: object): TProps {
+export function resolveExpressions<TProps extends Record<string, unknown>>(
+    props: TProps,
+    model: Record<string, unknown>,
+): TProps {
     const entries = Object.entries(props)
     const newEntries = entries.map(([key, value]) => {
         if (hasExpression(value)) {

@@ -10,7 +10,7 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 
-import evalExpression from '../utils/evalExpression'
+import { executeExpression } from '../core/Expression/execute'
 import { makeFormByName, makeFormsByModel } from '../ducks/form/selectors'
 import {
     setFieldDisabled,
@@ -37,50 +37,28 @@ import { addAlert } from '../ducks/alerts/store'
 import { GLOBAL_KEY } from '../ducks/alerts/constants'
 import { ModelPrefix } from '../core/datasource/const'
 import { FETCH_TRIGGER } from '../core/dependencies/constants'
-import { State } from '../ducks/State'
+import { State as GlobalState } from '../ducks/State'
+import { Form, Field, FieldDependency } from '../ducks/form/types'
+import { RegisterFieldAction } from '../ducks/form/Actions'
+import { SetModelAction } from '../ducks/models/Actions'
 
 import fetchSaga from './fetch'
 
 const FetchValueCache = new Map()
 
-interface ModifyDependency {
-    type?: string
-    expression?: string
-    applyOnInit?: boolean
-    on?: string[]
-    dataProvider?: unknown
-    valueFieldId?: string
-}
-
-interface ModifyField {
-    dependency: ModifyDependency[]
-}
-
-interface ModifyForm {
-    formName: string
-    datasource: string
-    modelPrefix: ModelPrefix
-    fields: ModifyField[]
-}
-
-interface ModifyField {
-    parentIndex: string | number
-    required?: boolean
-}
-
 export function* fetchValue(
     values: Record<string, unknown>,
-    { formName, datasource, modelPrefix }: ModifyForm,
+    { formName, datasource, modelPrefix }: Form,
     field: string,
-    { dataProvider, valueFieldId = '' }: ModifyDependency,
+    { dataProvider, valueFieldId = '' }: FieldDependency,
 ) {
     const fetchValueKey = `${formName}.${field}`
 
     try {
         yield delay(300)
         yield put(setFieldLoading(formName, field, true))
-        const state: State = yield select()
-        // @ts-ignore import from js file
+        const state: GlobalState = yield select()
+        // @ts-ignore ignore js file typing
         const { url, headersParams, baseQuery } = dataProviderResolver(state, dataProvider)
 
         if (isEqual(baseQuery, FetchValueCache.get(fetchValueKey))) {
@@ -128,21 +106,16 @@ export function* fetchValue(
 }
 
 export function* modify(
-    form: ModifyForm,
+    form: Form,
     values: Record<string, unknown>,
     fieldName: string,
-    field: ModifyField,
-    dependency: ModifyDependency = {},
+    field: Field,
+    dependency: FieldDependency,
 ) {
     const { formName, datasource, modelPrefix } = form
     const { type, expression } = dependency
-    const { parentIndex } = field
-    const context = {
-        ...values,
-        index: typeof parentIndex === 'number' ? parentIndex : values.index,
-    }
 
-    const evalResult: boolean | void = expression ? evalExpression(expression, context) : undefined
+    const evalResult = expression && executeExpression<unknown>(expression, values, field.ctx)
 
     switch (type) {
         case 'enabled': {
@@ -176,7 +149,7 @@ export function* modify(
             break
         }
         case 'required': {
-            const currentRequired = field.required === true
+            const currentRequired = field.required
             const nextRequired = Boolean(evalResult)
 
             if (currentRequired === nextRequired) {
@@ -221,7 +194,7 @@ export function* modify(
 }
 
 interface ShouldBeResolved {
-    dependency: ModifyDependency
+    dependency: FieldDependency
     actionType: string
     actionField: string
     currentField: string
@@ -259,7 +232,7 @@ const shouldBeResolved = ({ dependency, actionType, actionField, currentField }:
 }
 
 export function* checkAndModify(
-    form: ModifyForm,
+    form: Form,
     values: Record<string, unknown>,
     fieldName: string,
     actionType: string,
@@ -298,7 +271,7 @@ export function* resolveOnUpdateModel({ type, meta, payload }: ResolveOnUpdateMo
     const { key: datasource, field, prefix } = meta
 
     const formValue: Record<string, unknown> = yield select(getModelByPrefixAndNameSelector(prefix, datasource))
-    const forms: ModifyForm[] = yield select(makeFormsByModel(datasource, prefix))
+    const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
 
     for (const form of forms) {
         const fieldName = type === registerFieldExtra.type ? payload.fieldName : field
@@ -317,17 +290,12 @@ export function* resolveOnUpdateModel({ type, meta, payload }: ResolveOnUpdateMo
     }
 }
 
-interface ResolveOnItitPayload {
-    formName: string
-    fieldName: string
-}
-
-export function* resolveOnInit({ type, payload }: { type: string, payload: ResolveOnItitPayload }) {
+export function* resolveOnInit({ type, payload }: RegisterFieldAction) {
     yield delay(16)
 
     const { formName, fieldName } = payload
 
-    const form: ModifyForm = yield select(makeFormByName(formName))
+    const form: Form = yield select(makeFormByName(formName))
     const formValue: Record<string, unknown> =
         yield select(getModelByPrefixAndNameSelector(form.modelPrefix, form.datasource))
 
@@ -344,14 +312,7 @@ export function* resolveOnInit({ type, payload }: { type: string, payload: Resol
     )
 }
 
-interface ResolveOnSetModelPayload {
-    prefix: ModelPrefix
-    key: string
-    model: Record<string, unknown>
-    isDefault: boolean
-}
-
-function* resolveOnSetModel({ payload, meta }: { payload: ResolveOnSetModelPayload, meta: { prevState: State } }) {
+function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
     const { prefix, key: datasource, model, isDefault } = payload
 
     if (prefix === ModelPrefix.source || prefix === ModelPrefix.selected || !model) {
@@ -359,7 +320,8 @@ function* resolveOnSetModel({ payload, meta }: { payload: ResolveOnSetModelPaylo
     }
 
     const { prevState } = meta
-    const forms: ModifyForm[] = yield select(makeFormsByModel(datasource, prefix))
+    const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
+    // @ts-ignore FIXME: Поправить типы
     const prevModel = getModelByPrefixAndNameSelector(prefix, datasource)(prevState || {})
 
     for (const form of forms) {
@@ -400,9 +362,7 @@ function* resolveOnSetModel({ payload, meta }: { payload: ResolveOnSetModelPaylo
 }
 
 export const fieldDependencySagas = [
-    takeEvery([
-        registerFieldExtra,
-    ], resolveOnInit),
+    takeEvery(registerFieldExtra, resolveOnInit),
     takeEvery([
         updateModel,
         appendFieldToArray,

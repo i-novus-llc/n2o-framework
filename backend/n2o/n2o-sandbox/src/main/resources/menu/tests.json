@@ -701,6 +701,26 @@
         {
           "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/update_parent_index",
           "name": "MultiFieldSetAT. checkUpdateParentIndex"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/nested_multiset/indexes_in_labels",
+          "name": "NestedMultiFieldSetAT. checkIndexesInLabels"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/nested_multiset/default_values",
+          "name": "NestedMultiFieldSetAT. checkDefaultValues"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/nested_multiset/dependencies",
+          "name": "NestedMultiFieldSetAT. checkDependencies"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/nested_multiset/conditions",
+          "name": "NestedMultiFieldSetAT. checkConditions"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/nested_multiset/validations",
+          "name": "NestedMultiFieldSetAT. checkValidations"
         }
       ]
     },

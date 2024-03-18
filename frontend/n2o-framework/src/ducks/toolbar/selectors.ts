@@ -78,32 +78,6 @@ export const isDisabledSelector = (state: State, containerId: string, buttonId: 
 )
 
 /**
- * Селектор размера
- * @param {Object.<string, any>} state стейт стора
- * @param {string} containerId - id контейнера кнопок
- * @param {string} buttonId - id кнопки
- * @return {string}
- */
-export const sizeSelector = (
-    state: State,
-    containerId: string,
-    buttonId: string,
-) => buttonSelector(state, containerId, buttonId).size
-
-/**
- * Селектор цвета
- * @param {Object.<string, any>} state стейт стора
- * @param {string} containerId - id контейнера кнопок
- * @param {string} buttonId - id кнопки
- * @return {string}
- */
-export const colorSelector = (
-    state: State,
-    containerId: string,
-    buttonId: string,
-) => buttonSelector(state, containerId, buttonId).color
-
-/**
  * Селектор счетчика
  * @param {Object.<string, any>} state стейт стора
  * @param {string} containerId - id контейнера кнопок
@@ -115,32 +89,6 @@ export const countSelector = (
     containerId: string,
     buttonId: string,
 ) => buttonSelector(state, containerId, buttonId).count
-
-/**
- * Селектор тайтла
- * @param {Object.<string, any>} state стейт стора
- * @param {string} containerId - id контейнера кнопок
- * @param {string} buttonId - id кнопки
- * @return {string}
- */
-export const titleSelector = (
-    state: State,
-    containerId: string,
-    buttonId: string,
-) => buttonSelector(state, containerId, buttonId).title
-
-/**
- * Селектор подсказки кнопки
- * @param {Object.<string, any>} state стейт стора
- * @param {string} containerId - id контейнера кнопок
- * @param {string} buttonId - id кнопки
- * @return {string}
- */
-export const hintSelector = (
-    state: State,
-    containerId: string,
-    buttonId: string,
-) => buttonSelector(state, containerId, buttonId).hint
 
 /**
  * Селектор сообщения
@@ -156,57 +104,6 @@ export const messageSelector = (
 ) => buttonSelector(state, containerId, buttonId).message
 
 /**
- * Селектор расположения подсказки
- * @param {Object.<string, any>} state стейт стора
- * @param {string} containerId - id контейнера кнопок
- * @param {string} buttonId - id кнопки
- * @return {any}
- */
-
-export const hintPositionSelector = (state: State, containerId: string, buttonId: string) => (
-    buttonSelector(state, containerId, buttonId).hintPosition
-)
-
-/**
- * Селектор иконки
- * @param {Object.<string, any>} state стейт стора
- * @param {string} containerId - id контейнера кнопок
- * @param {string} buttonId - id кнопки
- * @return {string}
- */
-export const iconSelector = (
-    state: State,
-    containerId: string,
-    buttonId: string,
-) => buttonSelector(state, containerId, buttonId).icon
-
-/**
- * Селектор стиля
- * @param {Object.<string, any>} state стейт стора
- * @param {string} containerId - id контейнера кнопок
- * @param {string} buttonId - id кнопки
- * @return {CSSStyleDeclaration}
- */
-export const styleSelector = (
-    state: State,
-    containerId: string,
-    buttonId: string,
-) => buttonSelector(state, containerId, buttonId).style
-
-/**
- * Селектор css-класса
- * @param {Object.<string, any>} state стейт стора
- * @param {string} containerId - id контейнера кнопок
- * @param {string} buttonId - id кнопки
- * @return {string}
- */
-export const classSelector = (
-    state: State,
-    containerId: string,
-    buttonId: string,
-) => buttonSelector(state, containerId, buttonId).className
-
-/**
  * Селектор загружаются ли данные
  * @param {Object.<string, any>} state стейт стора
  * @param {string} containerId - id контейнера кнопок
@@ -218,16 +115,3 @@ export const isLoading = (
     containerId: string,
     buttonId: string,
 ) => buttonSelector(state, containerId, buttonId).loading
-
-/**
- * Селектор ошибки кнопки
- * @param {Object.<string, any>} state стейт стора
- * @param {string} containerId - id контейнера кнопок
- * @param {string} buttonId - id кнопки
- * @return {any}
- */
-export const errorSelector = (
-    state: State,
-    containerId: string,
-    buttonId: string,
-) => buttonSelector(state, containerId, buttonId).error

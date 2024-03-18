@@ -7,7 +7,7 @@ import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
 
 import { Model, OptionsType } from './WidgetTypes'
 
-export const reduceFunction = (isTrue: boolean, { model, config }: Model) => isTrue && propsResolver(`\`${config?.condition}\``, model)
+export const reduceFunction = (isTrue: boolean, { model, config }: Model) => isTrue && propsResolver<boolean>(`\`${config?.condition}\``, model)
 
 /**
  * Резолв видимости

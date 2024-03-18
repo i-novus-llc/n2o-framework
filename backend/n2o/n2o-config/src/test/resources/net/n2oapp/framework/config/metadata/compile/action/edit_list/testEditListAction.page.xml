@@ -6,7 +6,7 @@
     </datasources>
     <toolbar>
         <button id="b1">
-            <edit-list operation="create" datasource="ds1" model="multi" list-field-id="test1"
+            <edit-list operation="create" datasource="ds1" model="multi" list-field-id="groups[{idx}]"
                        item-datasource="ds2" item-model="filter" item-field-id="test2" primary-key="name"/>
         </button>
         <button id="b2" datasource="ds2">

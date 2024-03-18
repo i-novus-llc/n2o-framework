@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Проверка валидации полей во вложенном multi-set">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <checkbox id="check"/>
+
+                <multi-set
+                        id="groups"
+                        label="Список групп"
+                        add-label="Добавить группу"
+                        children-label="Группа {index}"
+                        can-add="true"
+                        can-copy="false"
+                        can-remove="false"
+                        can-remove-all="false"
+                        can-remove-first="false">
+                    <row>
+                        <checkbox id="firstLevelCheck"/>
+                        <input-text id="field1"
+                                    description="Валидация от внешнего поля">
+                            <validations>
+                                <condition message="Заполните поле"
+                                           on="check">
+                                    return check
+                                </condition>
+                            </validations>
+                        </input-text>
+                        <input-text id="field2"
+                                    description="Валидация от поля 1-го уровня">
+                            <validations>
+                                <condition message="Заполните поле"
+                                           on="groups[index].firstLevelCheck">
+                                    return groups[index].firstLevelCheck
+                                </condition>
+                            </validations>
+                        </input-text>
+                    </row>
+
+                    <multi-set
+                            id="persons"
+                            label="Список участников"
+                            add-label="Добавить участника"
+                            can-add="true"
+                            can-copy="false"
+                            can-remove="false"
+                            can-remove-all="false"
+                            can-remove-first="false"
+                    >
+                        <row>
+                            <checkbox id="secondLevelCheck"/>
+                            <input-text id="field1"
+                                        description="Валидация от внешнего поля">
+                                <validations>
+                                    <condition message="Заполните поле"
+                                               on="check">
+                                        return check
+                                    </condition>
+                                </validations>
+                            </input-text>
+                            <input-text id="field2"
+                                        description="Валидация от поля 1-го уровня">
+                                <validations>
+                                    <condition message="Заполните поле"
+                                               on="groups[index].firstLevelCheck">
+                                        return groups[index].firstLevelCheck
+                                    </condition>
+                                </validations>
+                            </input-text>
+                            <input-text id="field3"
+                                        description="Валидация от поля 2-го уровня">
+                                <validations>
+                                    <condition message="Заполните поле"
+                                               on="groups[index].persons[$index_1].secondLevelCheck">
+                                        return groups[index].persons[$index_1].secondLevelCheck
+                                    </condition>
+                                </validations>
+                            </input-text>
+                        </row>
+                    </multi-set>
+                </multi-set>
+            </fields>
+        </form>
+    </regions>
+
+    <toolbar place="topLeft">
+        <button label="Validate" validate="true" validate-datasources="ds1"/>
+    </toolbar>
+</page>

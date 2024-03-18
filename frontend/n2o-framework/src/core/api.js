@@ -1,16 +1,13 @@
 import isMap from 'lodash/isMap'
 import isPlainObject from 'lodash/isPlainObject'
 import isFunction from 'lodash/isFunction'
-import pickBy from 'lodash/pickBy'
-import isObject from 'lodash/isObject'
-import isEmpty from 'lodash/isEmpty'
-import isNil from 'lodash/isNil'
 import defaultTo from 'lodash/defaultTo'
 import flatten from 'flat'
 import invariant from 'invariant'
 import queryString from 'query-string'
 
 import request from '../utils/request'
+import { clearEmptyParams } from '../utils/clearEmptyParams'
 import { generateFlatQuery } from '../tools/helpers'
 
 /* FIXME после типизации api
@@ -31,20 +28,6 @@ export const FETCH_VALIDATE = 'FETCH_VALIDATE'
 export const FETCH_VALUE = 'FETCH_VALUE'
 export const FETCH_CONTROL_VALUE = 'FETCH_CONTROL_VALUE'
 export const CHANGE_LOCALE = 'CHANGE_LOCALE'
-
-/**
- * Удаляет все пустые значения в параметрах запроса
- * @param obj
- * @returns {*}
- */
-export function clearEmptyParams(obj) {
-    return pickBy(obj, (value) => {
-        if (isNil(value)) { return false }
-        if (isObject(value)) { return !isEmpty(value) }
-
-        return true
-    })
-}
 
 /**
  * функция генератор Api Provider

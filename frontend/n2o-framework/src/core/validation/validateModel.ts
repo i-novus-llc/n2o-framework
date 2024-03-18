@@ -1,8 +1,5 @@
-import { get } from 'lodash'
-
-import { INDEX_REGEXP } from './const'
 import type { Validation, ValidationResult } from './types'
-import { filterByFields, isMulti, keyToRegexp } from './utils'
+import { filterByFields, getCtxByModel, getCtxFromField, isMulti, keyToRegexp } from './utils'
 import { validateField, hasError as checkErrors } from './validateField'
 
 const validateSimple = async (
@@ -31,15 +28,12 @@ const validateMulti = async (
     validationList: Validation[],
     signal?: AbortSignal,
 ): Promise<void> => {
-    const fieldArrayName: string = validationKey.split(INDEX_REGEXP)?.[0]
-    const arrayFieldValue: object[] = get(model, fieldArrayName, [])
+    const list = getCtxByModel(validationKey, model)
 
-    for (let index = 0; index < arrayFieldValue.length; index++) {
-        const fieldName = validationKey.replaceAll(INDEX_REGEXP, `[${index}]`)
-
+    for (const [fieldName, ctx] of list) {
         await validateSimple(
             allMessages,
-            { ...model, index },
+            { ...ctx, ...model },
             fieldName,
             validationList,
             signal,
@@ -58,14 +52,12 @@ const validateMultiByFields = async (
     const findIndexRegexp = keyToRegexp(validationKey)
 
     for (const field of fields) {
-        const match = field.match(findIndexRegexp)
+        const ctx = getCtxFromField(field, findIndexRegexp)
 
-        if (match) {
-            const [, index] = match
-
+        if (ctx) {
             await validateSimple(
                 allMessages,
-                { ...model, index },
+                { ...ctx, ...model },
                 field,
                 validationList,
                 signal,
@@ -90,7 +82,7 @@ export const validateModel = async (
     for (const [validationKey, validationList] of entries) {
         if (isMulti(validationKey)) {
             if (fields?.length) {
-                // Валидация всех строк мультисета
+                // Валидация конерктных строк мультисета
                 await validateMultiByFields(
                     allMessages,
                     model,
@@ -100,7 +92,7 @@ export const validateModel = async (
                     signal,
                 )
             } else {
-                // Валидация конерктных строк мультисета
+                // Валидация всех строк мультисета
                 await validateMulti(
                     allMessages,
                     model,

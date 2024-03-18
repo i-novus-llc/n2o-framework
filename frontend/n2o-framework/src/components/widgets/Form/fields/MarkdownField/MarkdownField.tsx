@@ -12,7 +12,7 @@ import { useHtmlResolver } from '../../../../../utils/useHtmlResolver'
 import { markdownFieldMapper } from './markdownFieldMapper'
 import { MarkdownFieldMappers, Actions, Model } from './helpers'
 
-interface MarkdownField {
+interface MarkdownFieldProps {
     visible: boolean
     content: string
     action?: AnyAction
@@ -24,7 +24,7 @@ interface MarkdownField {
     className: string
 }
 
-export function MarkdownFieldBody(props: MarkdownField): ReactElement | null {
+export function MarkdownFieldBody(props: MarkdownFieldProps): ReactElement | null {
     const {
         visible,
         content,

@@ -8,11 +8,12 @@ import { setModel, removeModel } from '../../models/store'
 import evalExpression from '../../../utils/evalExpression'
 import { State } from '../../State'
 import { DataSourceState } from '../DataSource'
-import { DefaultModels } from '../../models/Models'
 
 import { applyFilter } from './storage/applyFilter'
 import { applySorting } from './storage/applySorting'
 import { applyPaging } from './storage/applyPaging'
+
+type Model = Record<string, unknown> | Array<Record<string, unknown>>
 
 export function* submit(id: string, {
     model: prefix,
@@ -21,14 +22,14 @@ export function* submit(id: string, {
     targetField,
     submitValueExpression,
 }: InheritedSubmit) {
-    const sourceModel: DefaultModels = yield select(getModelByPrefixAndNameSelector(prefix, id))
-    const targetModel: DefaultModels = yield select(getModelByPrefixAndNameSelector(prefix, targetId))
-    let source: DefaultModels | void = sourceModel
+    const sourceModel: Model | void = yield select(getModelByPrefixAndNameSelector(prefix, id))
+    const targetModel: Model | void = yield select(getModelByPrefixAndNameSelector(prefix, targetId))
+    let source = sourceModel
 
     if (submitValueExpression) {
         const target = targetField ? get(targetModel, targetField) : targetModel
 
-        source = evalExpression(submitValueExpression, {
+        source = evalExpression<Model>(submitValueExpression, {
             source: sourceModel,
             target,
         })
@@ -58,7 +59,7 @@ export function* query(id: string, {
     const datasource: DataSourceState = yield select(dataSourceByIdSelector(id))
     const { sorting, paging: { size, page } } = datasource
 
-    const sourceModel: object | void = yield select(getModelByPrefixAndNameSelector(prefix, datasourceId))
+    const sourceModel: Model | void = yield select(getModelByPrefixAndNameSelector(prefix, datasourceId))
     const sourceData = cloneDeep(sourceField ? get(sourceModel, sourceField) : sourceModel)
 
     if (!sourceData) {

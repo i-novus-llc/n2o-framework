@@ -7,7 +7,7 @@ import { Item, FactoryComponent } from '../CommonMenuTypes'
 import { DataSourceModels } from '../../core/datasource/const'
 import { FactoryContext } from '../../core/factory/context'
 import { FactoryLevels } from '../../core/factory/factoryLevels'
-import { parseExpression } from '../../utils/evalExpression'
+import { parseExpression } from '../../core/Expression/parse'
 
 interface SidebarItemContainer {
     className?: string

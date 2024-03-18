@@ -4,8 +4,8 @@ import { Tooltip, TooltipHocProps } from '../snippets/Tooltip/TooltipHOC'
 
 interface Props extends TooltipHocProps {
     Component?: ComponentType<TooltipHocProps>
-    hint: string
-    placement: string
+    hint?: string
+    placement?: string
 }
 
 export function ActionButton(props: Props) {

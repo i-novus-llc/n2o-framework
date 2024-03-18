@@ -1,21 +1,9 @@
 import React, { memo, useMemo } from 'react'
 
 import { RowContainerProps } from '../types/props'
-import propsResolver from '../../../utils/propsResolver'
-import evalExpression from '../../../utils/evalExpression'
-import { Row } from '../types/row'
+import { useResolved, useResolver } from '../../../core/Expression/useResolver'
 
 import { RowResolver } from './RowResolver'
-
-const resolveClick = (click: Row['click'], data: RowContainerProps['data']) => {
-    if (typeof click === 'undefined') { return click }
-
-    const { enablingCondition } = click
-
-    if (!enablingCondition || evalExpression(enablingCondition, data)) { return click }
-
-    return undefined
-}
 
 export const RowContainer = memo<RowContainerProps>((props) => {
     const {
@@ -25,18 +13,26 @@ export const RowContainer = memo<RowContainerProps>((props) => {
         hasSecurityAccess,
         ...rest
     } = props
+    const resolveProps = useResolver()
+    const resolvedElementAttributes = useResolved(elementAttributes, data)
+    const resolvedClick = useMemo(() => {
+        if (!hasSecurityAccess) { return undefined }
 
-    const resolvedElementAttributes = useMemo(() => (
-        // @ts-ignore import from js file
-        propsResolver(elementAttributes, data) || {}
-    ), [elementAttributes, data])
+        if (typeof click === 'undefined') { return click }
+
+        const { enablingCondition } = click
+
+        if (!enablingCondition || resolveProps(`\`${enablingCondition}\``, data)) { return click }
+
+        return undefined
+    }, [hasSecurityAccess, click, data, resolveProps])
 
     return (
         <RowResolver
             {...rest}
             data={data}
             elementAttributes={resolvedElementAttributes}
-            click={hasSecurityAccess ? resolveClick(click, data) : undefined}
+            click={resolvedClick}
             hasSecurityAccess={hasSecurityAccess}
         />
     )

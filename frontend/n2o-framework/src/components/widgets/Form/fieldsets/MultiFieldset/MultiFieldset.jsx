@@ -1,16 +1,16 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
+import { Button } from 'reactstrap'
+import { isEmpty, isNil } from 'lodash'
 
-import evalExpression, {
-    parseExpression,
-} from '../../../../../utils/evalExpression'
-import { resolveExpression } from '../../utils'
-import propsResolver from '../../../../../utils/propsResolver'
 import HelpPopover from '../../fields/StandardField/HelpPopover'
 import { withFieldsetHeader } from '../withFieldsetHeader'
 import { useFieldArray } from '../../../../core/FormProvider'
+import { useResolved } from '../../../../../core/Expression/useResolver'
+import { ArrayFieldProvider } from '../../../../../core/datasource/ArrayField/ArrayFieldProvider'
+import { RowProvider } from '../../../../../core/datasource/ArrayField/RowProvider'
 
-import MultiFieldsetItem from './MultiFieldsetItem'
+import { MultiFieldsetItem } from './MultiFieldsetItem'
 
 function MultiFieldset({
     name,
@@ -23,9 +23,16 @@ function MultiFieldset({
     primaryKey = 'id',
     firstChildrenLabel,
     childrenLabel,
+    needAddButton,
+    addButtonLabel,
+    removeAllButtonLabel,
+    needRemoveAllButton,
     ...props
 }) {
-    const isEnabled = useMemo(() => resolveExpression(enabledExpression, activeModel), [activeModel, enabledExpression])
+    const isEnabled = useResolved(
+        isNil(enabledExpression) ? true : enabledExpression,
+        activeModel,
+    )
     const { fields, append, remove, copy } = useFieldArray({
         name,
         primaryKey: generatePrimaryKey ? primaryKey : undefined,
@@ -35,37 +42,51 @@ function MultiFieldset({
         remove(canRemoveFirstItem ? 0 : 1, fields.length)
     }, [canRemoveFirstItem, fields.length, remove])
 
-    const resolvePlaceholder = useCallback((index) => {
-        const context = { ...activeModel, index }
-        const expression = parseExpression(childrenLabel)
-
-        if (firstChildrenLabel && index === 0) {
-            return propsResolver(firstChildrenLabel, context)
-        }
-
-        if (expression) {
-            return evalExpression(expression, context)
-        }
-
-        return childrenLabel
-    }, [activeModel, childrenLabel, firstChildrenLabel])
-
     return (
-        <div className="n2o-multi-fieldset">
-            {help && !label && <HelpPopover help={help} />}
-            <MultiFieldsetItem
-                {...props}
-                resolvePlaceholder={resolvePlaceholder}
-                onAddField={append}
-                onRemoveField={remove}
-                onCopyField={copy}
-                onRemoveAll={onRemoveAll}
-                fields={fields}
-                parentName={name}
-                enabled={isEnabled}
-                canRemoveFirstItem={canRemoveFirstItem}
-            />
-        </div>
+        <ArrayFieldProvider>
+            <div className="n2o-multi-fieldset">
+                {help && !label && <HelpPopover help={help} />}
+                {fields.map((field, index) => (
+                    <RowProvider index={index}>
+                        <MultiFieldsetItem
+                            {...props}
+                            index={index}
+                            model={activeModel}
+                            label={firstChildrenLabel && index === 0 ? firstChildrenLabel : childrenLabel}
+                            onAddField={append}
+                            onRemoveField={remove}
+                            onCopyField={copy}
+                            onRemoveAll={onRemoveAll}
+                            parentName={name}
+                            enabled={isEnabled}
+                            canRemoveFirstItem={canRemoveFirstItem}
+                        />
+                    </RowProvider>
+                ))}
+                <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--common">
+                    {needAddButton && (
+                        <Button
+                            className="n2o-multi-fieldset__add"
+                            onClick={append}
+                            disabled={!isEnabled}
+                        >
+                            <i className="fa fa-plus mr-1" />
+                            {addButtonLabel}
+                        </Button>
+                    )}
+                    {!isEmpty(fields) && needRemoveAllButton && (
+                        <Button
+                            className="n2o-multi-fieldset__remove-all"
+                            onClick={onRemoveAll}
+                            disabled={!isEnabled}
+                        >
+                            <i className="fa fa-trash mr-1" />
+                            {removeAllButtonLabel}
+                        </Button>
+                    )}
+                </div>
+            </div>
+        </ArrayFieldProvider>
     )
 }
 
@@ -81,6 +102,18 @@ MultiFieldset.propTypes = {
     primaryKey: PropTypes.bool,
     firstChildrenLabel: PropTypes.string,
     childrenLabel: PropTypes.string,
+    addButtonLabel: PropTypes.string,
+    removeAllButtonLabel: PropTypes.string,
+    needAddButton: PropTypes.bool,
+    needRemoveAllButton: PropTypes.bool,
+}
+
+MultiFieldset.defaultProps = {
+    addButtonLabel: 'Добавить',
+    removeAllButtonLabel: 'Удалить все',
+    needAddButton: true,
+    needRemoveAllButton: false,
+    canRemoveFirstItem: false,
 }
 
 export default withFieldsetHeader(MultiFieldset)

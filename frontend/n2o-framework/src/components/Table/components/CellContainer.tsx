@@ -1,7 +1,6 @@
-import React, { memo, useMemo } from 'react'
+import React, { memo } from 'react'
 
-// @ts-ignore - отсутствуют типы
-import propsResolver from '../../../utils/propsResolver'
+import { useResolved } from '../../../core/Expression/useResolver'
 import { CellContainerProps } from '../types/props'
 
 import Table from './basic'
@@ -18,7 +17,7 @@ export const CellContainer = memo<CellContainerProps>((props) => {
         alignment,
         ...otherProps
     } = props
-    const resolvedProps = useMemo(() => propsResolver(otherProps, otherProps.model, ['toolbar', 'security', 'model']), [otherProps])
+    const resolvedProps = useResolved(otherProps, otherProps.model, ['toolbar', 'security', 'model'])
 
     return (
         <Table.Cell

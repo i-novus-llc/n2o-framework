@@ -9,7 +9,6 @@ import { isEmpty, isEqual } from 'lodash'
 
 import { Filter } from '../snippets/Filter/Filter'
 import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selectors'
-import propsResolver from '../../utils/propsResolver'
 import { ModelPrefix } from '../../core/datasource/const'
 import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { setModel } from '../../ducks/models/store'
@@ -53,11 +52,7 @@ const WidgetFilters = (props) => {
      */
     const modifiedFilterFieldsets = useMemo(() => modelLinkMapper(propsFilterFieldsets), [propsFilterFieldsets])
     const filterFieldsets = fetchOnChange ? propsFilterFieldsets : modifiedFilterFieldsets
-    const fieldsKeys = useMemo(() => {
-        const resolved = Object.values(propsResolver(fieldsets) || {})
-
-        return getFieldsKeys(resolved)
-    }, [fieldsets])
+    const fieldsKeys = useMemo(() => getFieldsKeys(fieldsets), [fieldsets])
     const visible = useSelector(makeWidgetFilterVisibilitySelector(widgetId))
     const reduxFormFilter = useSelector(getModelByPrefixAndNameSelector(modelPrefix, datasource))
     const filterMessages = useSelector(dataSourceErrors(datasource, ModelPrefix.filter))

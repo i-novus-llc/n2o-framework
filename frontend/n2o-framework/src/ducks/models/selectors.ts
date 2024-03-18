@@ -59,16 +59,27 @@ const makeModelsByPrefixSelector = (prefix: ModelPrefix) => createSelector(
     modelsState => modelsState[prefix] || {},
 )
 
+type Model = Record<string, unknown>
+type ModelTypeByPrefix<P extends ModelPrefix> = P extends ModelPrefix.source | ModelPrefix.selected ? Model[] : Model
+
 /**
  * Селектор-генератор для получения конкретной модели
  */
-const getModelByPrefixAndNameSelector =
-    (prefix: ModelPrefix, fieldKey: string, defaultValue?: unknown) => createSelector(
+function getModelByPrefixAndNameSelector<
+    Prefix extends ModelPrefix,
+    R extends ModelTypeByPrefix<Prefix> = ModelTypeByPrefix<Prefix>
+>(
+    prefix: Prefix,
+    fieldKey: string,
+    defaultValue?: R,
+) {
+    return createSelector(
         [
             makeModelsByPrefixSelector(prefix),
         ],
-        prefixModelsState => prefixModelsState[fieldKey] || defaultValue,
+        prefixModelsState => (prefixModelsState[fieldKey] || defaultValue) as R,
     )
+}
 
 export {
     modelsSelector,

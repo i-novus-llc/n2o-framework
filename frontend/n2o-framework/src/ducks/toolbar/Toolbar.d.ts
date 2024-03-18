@@ -1,33 +1,33 @@
 import React from 'react'
 
-import { Condition } from '../../sagas/conditions'
-
+export interface Condition {
+    expression: string
+    modelLink: string
+    message?: string
+}
 export interface Conditions {
     enabled: Condition[]
     visible: Condition[]
 }
 
 export interface RegisterButtonProps {
-    count: number | null
-    resolveEnabled: boolean
-    visible: boolean
-    disabled: boolean
-    containerKey: string
-    conditions: Conditions
-    hintPosition: string
+    buttonId: string
+    key: string
+    initialState: Omit<ButtonState, 'buttonId' | 'key'>
 }
 
-export type IButton = {
+export type ButtonState = {
     isInit: boolean
     visible: boolean
-    size: string | null
-    color: string | null
-    title: string | null
-    hint: string | null
-    icon: string | null
+    label?: string
+    size?: string
+    color?: string
+    title?: string
+    hint?: string
+    icon?: string
     disabled: boolean
     loading: boolean
-    error: string | null
+    error?: string
     conditions?: Conditions
     key: string
     buttonId: string
@@ -36,12 +36,8 @@ export type IButton = {
     className?: string
     hintPosition?: string
     style?: React.CSSProperties
-    resolveEnabled?: {
-        modelLink: string
-        on: string[]
-    }
 }
 
-export type ButtonContainer = Record<string, IButton>
+export type ButtonContainer = Record<string, ButtonState>
 
 export type State = Record<string, ButtonContainer>

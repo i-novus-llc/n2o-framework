@@ -9,8 +9,7 @@ import startsWith from 'lodash/startsWith'
 import flatten from 'flat'
 
 import linkResolver from '../utils/linkResolver'
-
-import { clearEmptyParams } from './api'
+import { clearEmptyParams } from '../utils/clearEmptyParams'
 
 /**
  * Получение разрешенных параметров dataProvider
@@ -24,6 +23,13 @@ import { clearEmptyParams } from './api'
 /* FIXME после типизации dataProviderResolver
     нужно поправить все файлы где он используется
     @ts-ignore import from js file */
+/**
+ * @param {object} state
+ * @param {object} dataProvider
+ * @param {object} [query]
+ * @param {object} [options]
+ * @returns {{baseQuery: (*), basePath: string, formParams: {}, headersParams: {}, url: string}}
+ */
 export function dataProviderResolver(state, dataProvider, query, options) {
     const {
         url,

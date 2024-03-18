@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty'
 import omit from 'lodash/omit'
 import classNames from 'classnames'
 
-import propsResolver from '../../../../../utils/propsResolver'
+import { useResolved } from '../../../../../core/Expression/useResolver'
 import { Image } from '../../../../snippets/Image/Image'
 import { ImageInfo } from '../../../../snippets/Image/ImageInfo'
 import withCell from '../../withCell'
@@ -57,7 +57,6 @@ function ImageCell(props) {
     } = props
 
     const src = get(model, fieldKey)
-    const isEmptyModel = isEmpty(model)
 
     const hasStatuses = !isEmpty(statuses)
     const hasInfo = title || description
@@ -69,9 +68,7 @@ function ImageCell(props) {
         description,
     }
 
-    const resolveProps = isEmptyModel
-        ? defaultImageProps
-        : propsResolver(defaultImageProps, model)
+    const resolvedProps = useResolved(defaultImageProps, model)
 
     const wrapperProps = {
         url,
@@ -110,8 +107,8 @@ function ImageCell(props) {
                     textPosition={textPosition}
                     width={width}
                     height={height}
-                    {...omit(resolveProps, ['title', 'description'])}
-                    src={resolveProps.data || resolveProps.url}
+                    {...omit(resolvedProps, ['title', 'description'])}
+                    src={resolvedProps.data || resolvedProps.url}
                 />
                 {hasStatuses && (
                     <div className="n2o-image-statuses">
