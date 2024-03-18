@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { ITEM_SRC } from '../constants'
-import { parseExpression } from '../../utils/evalExpression'
+import { parseExpression } from '../../core/Expression/parse'
 
 export const getCurrentTitle = (isMiniView?: boolean, icon?: string, title?: string, imageSrc?: string) => {
     if (!title) {

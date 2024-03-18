@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { HeaderCell } from '../../../Table/types/cell'
 import { getAllValuesByKey } from '../../../Table/utils'
-import { resolveConditions, Condition } from '../../../../sagas/conditions'
+import { resolveConditions } from '../../../../sagas/conditions'
 import { registerTableColumn, changeTableColumnParam, switchTableParam } from '../../../../ducks/table/store'
+import { Condition } from '../../../../ducks/toolbar/Toolbar'
 import { getTableColumns } from '../../../../ducks/table/selectors'
 import { State } from '../../../../ducks/State'
 

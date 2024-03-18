@@ -76,6 +76,11 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
     }
 
     @Override
+    public void clickAddButton(String label) {
+        addButton(label).click();
+    }
+
+    @Override
     public void shouldHaveRemoveAllButton() {
         removeAllButton().shouldBe(Condition.exist);
     }
@@ -101,6 +106,10 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
 
     protected SelenideElement addButton() {
         return element().$(".n2o-multi-fieldset__add.btn");
+    }
+
+    protected SelenideElement addButton(String label) {
+        return element().$$(".n2o-multi-fieldset__add.btn").find(Condition.text(label));
     }
 
     protected SelenideElement removeAllButton() {

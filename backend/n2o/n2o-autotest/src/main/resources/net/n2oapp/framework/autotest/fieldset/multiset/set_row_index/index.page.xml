@@ -3,9 +3,6 @@
              name="Страница для автотеста проверяющего установку index филдсета в поля филдсета">
     <form>
         <fields>
-            <input-text id="index">
-
-            </input-text>
             <multi-set id="legalauthenticator" children-label="{index}">
                 <row>
                     <output-text id="test_1"

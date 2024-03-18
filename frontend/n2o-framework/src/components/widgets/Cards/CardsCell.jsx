@@ -6,7 +6,7 @@ import classNames from 'classnames'
 
 import { Factory } from '../../../core/factory/Factory'
 import { CELLS } from '../../../core/factory/factoryLevels'
-import propsResolver from '../../../utils/propsResolver'
+import { useResolved } from '../../../core/Expression/useResolver'
 /**
  * Строка Cards
  * @reactProps {string} className - имя css класса
@@ -15,7 +15,7 @@ import propsResolver from '../../../utils/propsResolver'
  */
 function CardsCell(props) {
     const { component, model, dispatch, onResolve } = props
-    const resolvedProps = propsResolver({
+    const resolvedProps = useResolved({
         ...omit(props, ['model', 'dispatch', 'onResolve']),
         ...omit(component, ['src']),
     }, model)

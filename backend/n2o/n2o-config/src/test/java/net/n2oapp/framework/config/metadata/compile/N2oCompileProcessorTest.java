@@ -30,7 +30,7 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 
-public class N2oCompileProcessorTest extends N2oTestBase {
+class N2oCompileProcessorTest extends N2oTestBase {
 
     @Override
     @BeforeEach
@@ -162,6 +162,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         context.setQueryRouteMapping(queryMapping);
         DataSet data = new DataSet();
         data.put("param", "Joe");
+        data.put("idx", "2");
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
 
         // совпадают модель и виджет
@@ -183,6 +184,10 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         // не совпадает модель
         resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.filter, "widgetId"));
         assertThat(resultText, is("Hello, {name}"));
+
+        // разрешение из параметров url
+        resultText = processor.resolveTextByParams("groups[{idx}]");
+        assertThat(resultText, is("groups[2]"));
 
         // нет данных (на null или пустую строку не заменяется)
         processor = new N2oCompileProcessor(builder.getEnvironment(), context, new DataSet());

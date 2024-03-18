@@ -1,7 +1,6 @@
-import { compose, mapProps } from 'recompose'
+import { compose } from 'recompose'
 
 import withActionButton from '../withActionButton'
-import mappingProps from '../Simple/mappingProps'
 
 export const withPerformAction = compose(
     withActionButton({
@@ -21,7 +20,6 @@ export const withPerformAction = compose(
             }
         },
     }),
-    mapProps(props => mappingProps(props)),
 )
 
 export default withPerformAction

@@ -4,7 +4,7 @@ import { select } from 'redux-saga/effects'
 
 import { Action, ErrorAction, Meta } from '../../Action'
 import { ModelPrefix } from '../../../core/datasource/const'
-import evalExpression from '../../../utils/evalExpression'
+import { executeExpression } from '../../../core/Expression/execute'
 import { getModelByPrefixAndNameSelector } from '../../models/selectors'
 import { ACTIONS_PREFIX } from '../constants'
 import { waitOperation } from '../utils/waitOperation'
@@ -28,12 +28,12 @@ export const creator = createAction(
 
 export function* effect({ payload, meta }: ReturnType<typeof creator>) {
     const { datasource, model: modelPrefix, condition, success, fail } = payload
-    const { target } = meta
-    const model: object = yield select(getModelByPrefixAndNameSelector(modelPrefix, datasource))
-    const action = evalExpression(condition, model) ? success : fail
+    const { target, evalContext } = meta
+    const model: Record<string, unknown> = yield select(getModelByPrefixAndNameSelector(modelPrefix, datasource))
+    const action = executeExpression(condition, model, evalContext) ? success : fail
 
     if (!isEmpty(action)) {
-        const resultAction: Action | ErrorAction = yield waitOperation(mergeMeta(action, { target }))
+        const resultAction: Action | ErrorAction = yield waitOperation(mergeMeta(action, { target, evalContext }))
 
         if (resultAction.error) {
             throw new Error(resultAction.error)

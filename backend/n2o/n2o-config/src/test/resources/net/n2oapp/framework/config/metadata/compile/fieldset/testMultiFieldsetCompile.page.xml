@@ -9,6 +9,28 @@
                        primary-key="pk" generate-primary-key="true">
             </multi-set>
             <multi-set src="test" children-label="{members[index].name}"/>
+            <multi-set id="set1" can-add="false" label="set 1">
+                <!-- Поля 1-го уровня -->
+                <input-text id="input_1" label="input 1 valid"/>
+                <input-text id="input_2" label="input 2 invalid">
+                    <validations>
+                        <condition id="set1_input1" message="invalid">
+                            return false
+                        </condition>
+                    </validations>
+                </input-text>
+                <multi-set id="set2" can-add="false">
+                    <!-- Поля 2-го уровня -->
+                    <input-text id="input_1" label="input 1 invalid">
+                        <validations>
+                            <condition id="set2_input1" message="invalid">
+                                return false
+                            </condition>
+                        </validations>
+                    </input-text>
+                    <input-text id="input_2" label="input 2 valid"/>
+                </multi-set>
+            </multi-set>
         </fields>
     </form>
 </simple-page>

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Пример для тестирования значений полей по умолчанию у Multi-set с вложенным Multi-set">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <multi-set
+                        id="groups"
+                        label="Список групп"
+                        add-label="Добавить группу"
+                        children-label="Группа {index}"
+                        can-add="true"
+                        can-copy="false"
+                        can-remove="false"
+                        can-remove-all="false"
+                        can-remove-first="false">
+                    <row>
+                        <input-text id="index" default-value="{$index_0}"/>
+                        <input-text id="id" default-value="{$.uuid()}"/>
+                        <input-text id="name" default-value="parentTest"/>
+                        <select id="type">
+                            <default-value id="1"/>
+                            <options>
+                                <option id="1" name="parentType1"/>
+                                <option id="2" name="parentType2"/>
+                                <option id="3" name="parentType3"/>
+                            </options>
+                        </select>
+                        <date-interval id="date">
+                            <default-value begin="2024-12-12" end="2024-12-13"/>
+                        </date-interval>
+                    </row>
+
+                    <multi-set
+                            id="persons"
+                            label="Список участников"
+                            add-label="Добавить участника"
+                            can-add="true"
+                            can-copy="false"
+                            can-remove="false"
+                            can-remove-all="false"
+                            can-remove-first="false"
+                    >
+                        <row>
+                            <input-text id="index" default-value="{$index_1}"/>
+                            <input-text id="id" default-value="{$.uuid()}"/>
+                            <input-text id="name" default-value="childTest"/>
+                            <select id="type">
+                                <default-value id="1"/>
+                                <options>
+                                    <option id="1" name="childType1"/>
+                                    <option id="2" name="childType2"/>
+                                    <option id="3" name="childType3"/>
+                                </options>
+                            </select>
+                            <date-interval id="date">
+                                <default-value begin="2024-01-01" end="2024-01-31"/>
+                            </date-interval>
+                        </row>
+                    </multi-set>
+                </multi-set>
+            </fields>
+        </form>
+    </regions>
+</page>

@@ -78,5 +78,5 @@ export type ChangeButtonClass = Action<string, ChangeButtonClassPayload>
 export type ChangeButtonStyle = Action<string, ChangeButtonStylePayload>
 export type ChangeButtonDisabled = Action<string, ChangeButtonStyleDisabledPayload>
 export type ToggleButtonParam = Action<string, ToolbarCommon>
-export type RegisterButton = Action<string, RegisterButtonProps & ToolbarCommon>
+export type RegisterButton = Action<string, RegisterButtonProps>
 export type Print = Action<string, PrintPayload>

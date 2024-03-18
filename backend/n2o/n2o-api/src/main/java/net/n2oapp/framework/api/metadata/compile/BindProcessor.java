@@ -113,6 +113,14 @@ public interface BindProcessor {
     String resolveText(String text, List<ModelLink> links);
 
     /**
+     * Заменить в тексте плейсхолдеры на значения из параметров url
+     *
+     * @param text Текст с плейсхолдерами {}
+     * @return Текст со значениями вместо плейсхолдеров
+     */
+    String resolveTextByParams(String text);
+
+    /**
      * Заменить в строке плейсхолдеры {...} на значения, кроме исключений
      *
      * @param url Строка с плейсхолдерами

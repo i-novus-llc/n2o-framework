@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useContext, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import isBoolean from 'lodash/isBoolean'
 import get from 'lodash/get'
-import map from 'lodash/map'
 import isNil from 'lodash/isNil'
 import { isEmpty } from 'lodash'
 
@@ -11,13 +10,15 @@ import {
     makeFieldByName, messageSelector,
 } from '../../../../ducks/form/selectors'
 import { registerFieldExtra, unRegisterExtraField } from '../../../../ducks/form/store'
-import propsResolver from '../../../../utils/propsResolver'
 import { getModelByPrefixAndNameSelector } from '../../../../ducks/models/selectors'
 import { useFormContext } from '../../../core/FormProvider'
 import { setFieldSubmit } from '../../../../ducks/datasource/store'
 import { getValidationClass } from '../../../../core/utils/getValidationClass'
+import { useResolved } from '../../../../core/Expression/useResolver'
+import { useDispatch } from '../../../../core/Redux/useDispatch'
+import { ArrayFieldContext } from '../../../../core/datasource/ArrayField/Context'
 
-import { modifyOn, replaceIndex, resolveControlIndexes } from './utils'
+import { modifyDependencies, replaceIndex, resolveControlIndexes } from './utils'
 
 const useReduxField = ({ name: fieldName, ...fieldProps }) => {
     const dispatch = useDispatch()
@@ -56,7 +57,8 @@ const useValidation = (fieldName) => {
 }
 
 const useParentIndex = (props) => {
-    const { parentIndex, parentName, model, subMenu, control, action, dependency } = props
+    const { parentName, model, subMenu, control, action, dependency } = props
+    const multiContext = useContext(ArrayFieldContext)
 
     const resolvedModel = useMemo(() => {
         if (isNil(parentName)) {
@@ -64,40 +66,32 @@ const useParentIndex = (props) => {
         }
 
         return {
+            // Для дальнейшего доступа значения модели в полях через model[fieldName], без прокидывания parentName и прочего
             ...get(model, parentName),
-            index: parentIndex,
             ...model,
         }
-    }, [model, parentIndex, parentName])
+    }, [model, parentName])
     const resolvedProps = useMemo(() => {
-        if (isNil(parentIndex)) {
+        if (isEmpty(multiContext)) {
             return props
         }
 
         return {
             ...props,
-            control: control && resolveControlIndexes(control, parentIndex),
-            action: action && replaceIndex(action, parentIndex),
-            subMenu: subMenu && subMenu.map((option) => {
+            control: control && resolveControlIndexes(control, multiContext),
+            action: action && replaceIndex(action, multiContext),
+            subMenu: subMenu?.map((option) => {
                 const { action } = option
 
                 if (action) {
-                    option.action = replaceIndex(action, parentIndex)
+                    option.action = replaceIndex(action, multiContext)
                 }
 
                 return option
             }),
-            dependency: map(dependency, (dep) => {
-                const newDep = { ...dep }
-
-                if (newDep.on) {
-                    newDep.on = modifyOn(newDep.on, parentIndex)
-                }
-
-                return newDep
-            }),
+            dependency: modifyDependencies(dependency, multiContext),
         }
-    }, [action, control, dependency, parentIndex, props, subMenu])
+    }, [action, control, dependency, multiContext, props, subMenu])
 
     return {
         ...resolvedProps,
@@ -105,16 +99,16 @@ const useParentIndex = (props) => {
     }
 }
 
-const useResolvedProps = ({ input, meta, model, ...rest }) => useMemo(() => {
-    const pr = propsResolver(rest, model, ['toolbar', 'html', 'content', 'meta'])
+const useResolvedProps = ({ input, meta, model, ...rest }) => {
+    const resolved = useResolved(rest, model, ['toolbar', 'html', 'content', 'meta'])
 
     return {
-        ...pr,
+        ...resolved,
         ...meta,
         model,
         ...input,
     }
-}, [input, meta, model, rest])
+}
 
 const useAutosave = (id, dataProvider) => {
     const { datasource } = useFormContext()
@@ -141,7 +135,7 @@ export default (Field) => {
         })
         const {
             visible, disabled, enabled, multiSetDisabled,
-            parentIndex, validation, required, dependency,
+            validation, required, dependency,
             name,
         } = withIndex
         // FIXME разобраться со всеми disabled/enabled, привести всё к единному виду
@@ -154,7 +148,6 @@ export default (Field) => {
             disabled: disabledToRegister && enabled === false,
             visible_field: visible,
             disabled_field: disabledToRegister,
-            parentIndex,
             dependency,
             required,
             validation,
@@ -181,7 +174,6 @@ export default (Field) => {
         id: PropTypes.string,
         mapProps: PropTypes.func,
         input: PropTypes.object,
-        parentIndex: PropTypes.number,
     }
 
     return FieldContainer

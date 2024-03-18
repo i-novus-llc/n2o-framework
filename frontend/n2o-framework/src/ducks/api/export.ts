@@ -150,9 +150,9 @@ export function* effect({ payload }: Action<string, Payload>) {
         }
     }
 
-    // @ts-ignore import from js file
     const { url: resolvedURL } = dataProviderResolver(
         state,
+        // @ts-ignore FIXME ругается на тип аргумента
         inheritedProvider || provider,
         {
             size: type[PARAM_KEY] === 'page' ? paging.size : allLimit,

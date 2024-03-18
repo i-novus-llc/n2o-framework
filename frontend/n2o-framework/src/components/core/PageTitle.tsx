@@ -2,9 +2,9 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 
 import { ModelPrefix } from '../../core/datasource/const'
+import propsResolver from '../../utils/propsResolver'
 
 import { useModel } from './hooks/useModel'
-import { textResolver } from './textResolver'
 
 interface PageTitleProps {
     title?: string,
@@ -27,7 +27,7 @@ export function PageTitle({
     const model = useModel(datasource, modelPrefix)
 
     if (title) {
-        const resolvedTitle = textResolver(model, title) || ''
+        const resolvedTitle = propsResolver(title, model) || ''
 
         if (titleLayout) {
             return (
@@ -39,7 +39,7 @@ export function PageTitle({
     }
 
     if (htmlTitle) {
-        const resolvedTitle = textResolver(model, htmlTitle) || ''
+        const resolvedTitle = propsResolver(htmlTitle, model) || ''
 
         return <Helmet title={resolvedTitle} />
     }

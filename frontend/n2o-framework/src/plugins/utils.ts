@@ -3,7 +3,8 @@ import get from 'lodash/get'
 import merge from 'lodash/merge'
 
 import { dataProviderResolver } from '../core/dataProviderResolver'
-import { resolveItem } from '../utils/propsResolver'
+// @ts-ignore ignore import error from js file
+import propsResolver from '../utils/propsResolver'
 import { DataSourceModels } from '../core/datasource/const'
 
 import { Item } from './CommonMenuTypes'
@@ -35,11 +36,12 @@ export const getFromSource = (
         .reduce((acc: metaPropsType, value: metaPropsType) => ({ ...acc, ...value }), {})
 
     if (models && !isEmpty(models.datasource)) {
-        return merge(resolveItem(props, initialModel), resolveItem(props, models.datasource))
+        // @ts-ignore FIXME разобраться с типами
+        return merge(propsResolver(props, initialModel), propsResolver(props, models.datasource))
     }
 
     if (datasource in datasources) {
-        return resolveItem(props, initialModel)
+        return propsResolver(props, initialModel)
     }
 
     return props

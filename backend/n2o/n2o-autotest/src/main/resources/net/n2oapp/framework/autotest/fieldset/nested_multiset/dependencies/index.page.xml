@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Вложенный мультисет. Зависимости полей друг от друга. Enabling">
+    <regions>
+        <form>
+            <fields>
+                <checkbox id="globalCheckbox" label="global checkbox"/>
+
+                <multi-set id="parent" can-add="true" add-label="add parent set" label="parent set">
+                    <row>
+                        <checkbox id="parentCheckbox" label="parent checkbox"/>
+                        <input-text id="parentInput1" label="on global">
+                            <dependencies>
+                                <enabling on="globalCheckbox">
+                                    !globalCheckbox
+                                </enabling>
+                            </dependencies>
+                        </input-text>
+                        <input-text id="parentInput2" label="on parent">
+                            <dependencies>
+                                <enabling on="parent[index].parentCheckbox">
+                                    !parent[index].parentCheckbox
+                                </enabling>
+                            </dependencies>
+                        </input-text>
+                    </row>
+
+                    <multi-set id="child" can-add="true" add-label="add child set" label="child set">
+                        <row>
+                            <checkbox id="childCheckbox" label="child checkbox"/>
+                            <input-text id="childInput1" label="on global">
+                                <dependencies>
+                                    <enabling on="globalCheckbox">
+                                        !globalCheckbox
+                                    </enabling>
+                                </dependencies>
+                            </input-text>
+                            <input-text id="childInput2" label="on parent">
+                                <dependencies>
+                                    <enabling on="parent[index].parentCheckbox">
+                                        !parent[index].parentCheckbox
+                                    </enabling>
+                                </dependencies>
+                            </input-text>
+                            <input-text id="childInput3" label="on child">
+                                <dependencies>
+                                    <enabling on="parent[index].child[$index_1].childCheckbox">
+                                        !parent[index].child[$index_1].childCheckbox
+                                    </enabling>
+                                </dependencies>
+                            </input-text>
+                        </row>
+                    </multi-set>
+                </multi-set>
+            </fields>
+        </form>
+    </regions>
+</page>

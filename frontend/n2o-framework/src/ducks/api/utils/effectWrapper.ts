@@ -49,6 +49,7 @@ export function EffectWrapper<
                     message,
                 ))
             } else {
+                // eslint-disable-next-line no-console
                 console.warn(`Saga effect<${action.type}> error: ${message}`)
             }
         }

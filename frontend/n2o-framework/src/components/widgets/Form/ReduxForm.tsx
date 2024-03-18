@@ -10,7 +10,7 @@ import { ValidationsKey } from '../../../core/validation/types'
 
 import ReduxField from './ReduxField'
 import { flatFields, getAutoFocusId } from './utils'
-import Fieldset from './Fieldset'
+import { FieldsetContainer as Fieldset } from './Fieldset'
 
 /**
  *

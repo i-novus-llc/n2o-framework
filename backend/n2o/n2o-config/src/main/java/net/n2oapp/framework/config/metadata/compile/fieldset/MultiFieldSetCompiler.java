@@ -19,7 +19,7 @@ public class MultiFieldSetCompiler extends AbstractFieldSetCompiler<MultiFieldSe
     @Override
     public MultiFieldSet compile(N2oMultiFieldSet source, CompileContext<?, ?> context, CompileProcessor p) {
         MultiFieldSet fieldSet = new MultiFieldSet();
-        MultiFieldSetScope multiFieldSetScope = new MultiFieldSetScope(source.getId());
+        MultiFieldSetScope multiFieldSetScope = new MultiFieldSetScope(source.getId(), p.getScope(MultiFieldSetScope.class));
         compileFieldSet(fieldSet, source, context, p, multiFieldSetScope);
         fieldSet.setChildrenLabel(p.resolveJS(source.getChildrenLabel()));
         fieldSet.setFirstChildrenLabel(p.resolveJS(source.getFirstChildrenLabel()));

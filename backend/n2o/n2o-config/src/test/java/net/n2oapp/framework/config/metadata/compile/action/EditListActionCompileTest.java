@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование компиляции действия редактирования записи списка
  */
-public class EditListActionCompileTest extends SourceCompileTestBase {
+class EditListActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach
@@ -48,7 +48,7 @@ public class EditListActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getPrimaryKey(), is("name"));
         assertThat(action.getPayload().getList().getDatasource(), is("testEditListAction_ds1"));
         assertThat(action.getPayload().getList().getModel(), is(ReduxModel.multi));
-        assertThat(action.getPayload().getList().getField(), is("test1"));
+        assertThat(action.getPayload().getList().getField(), is("groups[{idx}]"));
         assertThat(action.getPayload().getItem().getDatasource(), is("testEditListAction_ds2"));
         assertThat(action.getPayload().getItem().getModel(), is(ReduxModel.filter));
         assertThat(action.getPayload().getItem().getField(), is("test2"));

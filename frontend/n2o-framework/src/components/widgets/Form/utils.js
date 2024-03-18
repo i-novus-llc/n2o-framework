@@ -1,15 +1,10 @@
-import get from 'lodash/get'
 import map from 'lodash/map'
-import reduce from 'lodash/reduce'
-import set from 'lodash/set'
-import merge from 'lodash/merge'
 import has from 'lodash/has'
 import each from 'lodash/each'
 import isObjectLike from 'lodash/isObjectLike'
 import isNil from 'lodash/isNil'
-import isBoolean from 'lodash/isBoolean'
 
-import evalExpression, { parseExpression } from '../../../utils/evalExpression'
+import { propsResolver } from '../../../core/Expression/propsResolver'
 
 /**
  * Возвращает id первового поля, на котором может быть установлен автофокус
@@ -51,6 +46,7 @@ export function flatFields(obj, fields) {
 }
 
 export const getFieldsKeys = (fieldsets) => {
+    /** @type {string[]} */
     const keys = []
 
     const mapFields = (fields, name) => {
@@ -76,45 +72,15 @@ export const getFieldsKeys = (fieldsets) => {
     return keys
 }
 
-const pickByPath = (object, arrayToPath) => reduce(
-    arrayToPath,
-    // eslint-disable-next-line consistent-return
-    (o, p) => {
-        if (has(object, p)) {
-            return set(o, p, get(object, p))
-        }
-    },
-    {},
-)
-
-export const setWatchDependency = (state, props, dependencyType) => {
-    const { dependency, form, modelPrefix } = props
-
-    const pickByReRender = (acc, { type, on }) => {
-        if (on && type === dependencyType) {
-            const formOn = map(on, item => ['models', modelPrefix, form, item].join('.'))
-
-            return merge(acc, pickByPath(state, formOn))
-        }
-
-        return acc
-    }
-
-    return reduce(dependency, pickByReRender, {})
-}
-
 /**
  * @param {string|boolean} [value]
  * @param {object} model
  * @return {boolean}
  */
-export const resolveExpression = (value, model) => {
+export const resolveExpression = (value, model, context) => {
     if (isNil(value)) {
         return true
     }
-    if (isBoolean(value)) {
-        return value
-    }
 
-    return evalExpression(parseExpression(value), model)
+    return propsResolver(value, model, context)
 }

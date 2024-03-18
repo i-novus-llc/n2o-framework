@@ -78,8 +78,7 @@ class InputSelectContainer extends React.Component<Props, State> {
 
         if (format) {
             formattedOptions = options
-                // @ts-ignore import from js file
-                .map(option => ({ ...option, formattedTitle: propsResolver({ format }, option).format }))
+                .map(option => ({ ...option, formattedTitle: propsResolver<string | undefined>(format, option) }))
         }
 
         return (

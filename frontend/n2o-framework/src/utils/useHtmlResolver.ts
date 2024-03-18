@@ -1,10 +1,14 @@
 import isEmpty from 'lodash/isEmpty'
+import { useContext } from 'react'
 
 import { Model } from '../components/widgets/Form/fields/MarkdownField/helpers'
-
-import evalExpression, { parseExpression } from './evalExpression'
+import { ExpressionContext } from '../core/Expression/Context'
+import { parseExpression } from '../core/Expression/parse'
+import { executeExpression } from '../core/Expression/execute'
 
 export const useHtmlResolver = (html: string, model: Model) => {
+    const evalContext = useContext(ExpressionContext)
+
     if (!html) {
         return null
     }
@@ -19,5 +23,5 @@ export const useHtmlResolver = (html: string, model: Model) => {
         return null
     }
 
-    return evalExpression(parsedExpression.replace(/\n/g, '\\n'), model)
+    return executeExpression(parsedExpression.replace(/\n/g, '\\n'), model, evalContext)
 }

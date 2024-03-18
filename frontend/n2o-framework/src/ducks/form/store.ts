@@ -6,14 +6,13 @@ import { removeFieldFromArray, updateModel } from '../models/store'
 import { RemoveFieldFromArrayAction } from '../models/Actions'
 
 import { getDefaultField, getDefaultState } from './FormPlugin'
-import { Field, Form, FormsState } from './types'
+import { Form, FormsState } from './types'
 import {
     BlurFieldAction,
     DangerouslySetFieldValue,
     FocusFieldAction,
     RegisterAction,
     RegisterFieldAction,
-    RegisterFieldDependencyAction,
     RemoveAction,
     SetDirtyPayload,
     SetFieldDisabledAction,
@@ -90,12 +89,13 @@ const formSlice = createSlice({
                 })
             },
 
-            reducer(state, { payload }: RegisterFieldAction) {
+            reducer(state, { payload, meta = {} }: RegisterFieldAction) {
                 const { formName, fieldName, initialState = {} } = payload
                 const formState = {
                     ...getDefaultField(),
                     ...initialState,
                     isInit: true,
+                    ctx: meta.evalContext,
                 }
                 const fieldPath = createFieldPath(formName, fieldName)
                 const registeredInfo = get(state, fieldPath, {})
@@ -154,26 +154,6 @@ const formSlice = createSlice({
 
                 field.visible_field = visible
                 field.visible = field.visible_field && field.visible_set
-            },
-        },
-
-        REGISTER_DEPENDENCY: {
-            prepare(formName: string, fieldName: string, dependency: Field['dependency']) {
-                return ({
-                    payload: { formName, fieldName, dependency },
-                    meta: { formName, fieldName },
-                })
-            },
-
-            reducer(state, action: RegisterFieldDependencyAction) {
-                const { formName, fieldName, dependency } = action.payload
-                // const field = state[formName]?.fields[fieldName]
-
-                // if (!field) { return warnNonExistent(name, 'dependency') }
-                //
-                // field.dependency = dependency
-                // TODO: Если все работает, раскоментировать верхний варриант и попробовать еще раз
-                set(state, [formName, 'fields', fieldName, 'dependency'], dependency)
             },
         },
 
@@ -394,6 +374,11 @@ const formSlice = createSlice({
                 const deleteCount = deleteAll ? groupedFields.length - start : 1
                 let i = start
 
+                // Котыль для синхронизации контекста строки
+                const ctxMap = Object.fromEntries(Object.entries(form.fields)
+                    .filter(([fieldName]) => fieldName.startsWith(`${field}[`))
+                    .map(([key, field]) => [key, field.ctx]))
+
                 for (; i < start + deleteCount; i += 1) {
                     // eslint-disable-next-line no-loop-func
                     groupedFields[i]?.forEach((fieldName) => {
@@ -411,7 +396,8 @@ const formSlice = createSlice({
                         const destKey = `${field}[${newIndex}].${fieldName}`
 
                         form.fields[destKey] = form.fields[sourceKey]
-                        form.fields[destKey].parentIndex = newIndex
+                        form.fields[destKey].ctx = ctxMap[destKey]
+
                         delete form.fields[sourceKey]
                     })
                 }
@@ -435,7 +421,6 @@ export const {
     setMultiFieldVisible,
     setMultiFieldDisabled,
     dangerouslySetFieldValue,
-    REGISTER_DEPENDENCY: registerFieldDependency,
     BLUR: handleBlur,
     FOCUS: handleFocus,
     TOUCH: handleTouch,

@@ -69,10 +69,6 @@ export type SetMultiFieldVisibleAction = FieldsAction<{
     visible: boolean
 }>
 
-export type RegisterFieldDependencyAction = FieldAction<{
-    dependency: Field['dependency']
-}>
-
 export type SetDirtyPayload = FormAction<{
     formName: string
     data: boolean

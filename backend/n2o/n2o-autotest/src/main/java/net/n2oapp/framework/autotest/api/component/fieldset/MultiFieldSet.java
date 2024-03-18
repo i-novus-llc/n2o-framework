@@ -51,6 +51,12 @@ public interface MultiFieldSet extends FieldSet {
     void clickAddButton();
 
     /**
+     * Клик на кнопку добавления филдсета
+     * @param label название кнопки
+     */
+    void clickAddButton(String label);
+
+    /**
      * Проверка наличия кнопки удаления всех филдсетов
      */
     void shouldHaveRemoveAllButton();

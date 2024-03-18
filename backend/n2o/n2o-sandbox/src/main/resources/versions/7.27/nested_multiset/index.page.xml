@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Вложенный мультисет">
+    <datasources>
+        <datasource id="ds"/>
+        <datasource id="modalDs"/>
+    </datasources>
+
+    <regions>
+        <form datasource="ds">
+            <fields>
+                <multi-set
+                        id="groups"
+                        label="Список групп"
+                        add-label="Добавить группу"
+                        children-label="Группа {(index + 1)}"
+                        can-remove="false">
+                    <multi-set
+                            id="persons"
+                            label="Список участников"
+                            children-label="Участник {(index + 1)}.{($index_1 + 1)}"
+                            can-add="false"
+                            can-remove="false"
+                    >
+                        <row>
+                            <output-text id="name" label="Имя"/>
+                            <button label="Изменить">
+                                <set-value target-datasource="modalDs">
+                                    groups[index].persons[$index_1]
+                                </set-value>
+                                <show-modal page-id="update" route="/update">
+                                    <params>
+                                        <query-param name="parentIdx" value="{index}"/>
+                                    </params>
+                                </show-modal>
+                            </button>
+                        </row>
+                    </multi-set>
+
+                    <button label="Добавить участника">
+                        <show-modal page-id="add" route="/add">
+                            <params>
+                                <query-param name="parentIdx" value="{index}"/>
+                            </params>
+                        </show-modal>
+                    </button>
+                </multi-set>
+            </fields>
+        </form>
+    </regions>
+</page>

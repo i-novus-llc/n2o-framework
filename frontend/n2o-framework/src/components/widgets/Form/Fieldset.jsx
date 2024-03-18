@@ -6,18 +6,17 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { isNil } from 'lodash'
 
 import {
     setMultiFieldVisible,
     setMultiFieldDisabled,
 } from '../../../ducks/form/store'
-import propsResolver from '../../../utils/propsResolver'
-import { parseExpression } from '../../../utils/evalExpression'
+import { WithPropsResolver } from '../../../core/Expression/withResolver'
 import { FormContext } from '../../core/FormProvider/provider'
 
 // eslint-disable-next-line import/no-cycle
 import FieldsetRow from './FieldsetRow'
-import { resolveExpression } from './utils'
 
 /**
  * Компонент - филдсет формы
@@ -108,16 +107,14 @@ class Fieldset extends React.Component {
     }
 
     componentDidUpdate() {
-        const { visible, enabled, activeModel, parentIndex } = this.props
+        const { visible, enabled, activeModel, propsResolver } = this.props
         const {
             enabled: enabledFromState,
             visible: visibleFromState,
         } = this.state
 
-        const extendedActiveModel = { index: parentIndex, ...activeModel }
-
-        const newEnabled = resolveExpression(enabled, extendedActiveModel)
-        const newVisible = resolveExpression(visible, extendedActiveModel)
+        const newEnabled = isNil(enabled) || propsResolver(enabled, activeModel)
+        const newVisible = isNil(visible) || propsResolver(visible, activeModel)
 
         if (!isEqual(newEnabled, enabledFromState)) {
             this.setEnabled(newEnabled)
@@ -152,6 +149,7 @@ class Fieldset extends React.Component {
     }
 
     calculateAllFields(rows) {
+        /** @type {string[]} */
         let fields = []
 
         each(rows, (row) => {
@@ -216,13 +214,13 @@ class Fieldset extends React.Component {
             component: ElementType,
             children,
             parentName,
-            parentIndex,
             label,
             description,
             type,
             childrenLabel,
             activeModel,
             help,
+            propsResolver,
             ...rest
         } = this.props
 
@@ -241,8 +239,8 @@ class Fieldset extends React.Component {
             'd-none': !visible,
         })
 
-        const resolvedLabel = activeModel ? propsResolver(label, activeModel) : label
-        const resolvedHelp = activeModel && parseExpression(help) ? propsResolver(help, activeModel) : help
+        const resolvedLabel = propsResolver(label, activeModel)
+        const resolvedHelp = propsResolver(help, activeModel)
 
         return (
             <ElementType
@@ -257,7 +255,7 @@ class Fieldset extends React.Component {
                 activeModel={activeModel}
                 description={description}
                 {...rest}
-                render={(rows, props = { parentName, parentIndex }) => {
+                render={(rows, props = { parentName }) => {
                     this.fields = this.calculateAllFields(rows)
 
                     return rows?.map((row, id) => this.renderRow(id, row, props))
@@ -293,13 +291,13 @@ Fieldset.propTypes = {
     modelPrefix: PropTypes.string,
     type: PropTypes.string,
     parentName: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    parentIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     activeModel: PropTypes.object,
     style: PropTypes.object,
     autoSubmit: PropTypes.bool,
     help: PropTypes.string,
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
+    propsResolver: PropTypes.func,
 }
 
 Fieldset.defaultProps = {
@@ -317,9 +315,9 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     dispatch,
 )
 
-export const FieldsetContainer = connect(
+const Connected = connect(
     null,
     mapDispatchToProps,
 )(Fieldset)
 
-export default FieldsetContainer
+export const FieldsetContainer = WithPropsResolver(Connected)

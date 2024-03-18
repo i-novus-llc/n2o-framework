@@ -709,7 +709,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         page = open(SimplePage.class);
         page.shouldExists();
 
-        MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
+        MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(0, MultiFieldSet.class);
 
         fieldset.clickAddButton();
 

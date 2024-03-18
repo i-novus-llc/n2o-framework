@@ -58,7 +58,7 @@ class DropdownButton extends React.Component {
     render() {
         const {
             subMenu, entityKey, className,
-            showToggleIcon, toolbar, tooltipTriggerRef,
+            showToggleIcon, tooltipTriggerRef,
             getStoreButtons, actionCallback, ...rest
         } = this.props
 
@@ -124,7 +124,6 @@ class DropdownButton extends React.Component {
 DropdownButton.propTypes = {
     id: PropTypes.any,
     className: PropTypes.string,
-    toolbar: PropTypes.any,
     subMenu: PropTypes.array,
     showToggleIcon: PropTypes.bool,
     tooltipTriggerRef: PropTypes.func,

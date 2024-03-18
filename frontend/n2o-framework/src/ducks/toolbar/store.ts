@@ -227,45 +227,34 @@ const toolbarSlice = createSlice({
             },
         },
 
-        REGISTER_BUTTON: {
+        registerButton: {
             prepare(
-                key,
+                containerId,
                 buttonId,
-                {
-                    count,
-                    resolveEnabled,
-                    visible,
-                    disabled,
-                    containerKey,
-                    conditions,
-                    hintPosition,
-                },
+                initialState,
             ) {
                 return ({
                     payload: {
-                        key,
+                        key: containerId,
                         buttonId,
-                        count,
-                        resolveEnabled,
-                        visible,
-                        disabled,
-                        containerKey,
-                        conditions,
-                        hintPosition,
+                        initialState,
                     },
                 })
             },
 
             reducer(state, action: RegisterButton) {
-                const { key, buttonId } = action.payload
+                const { key, buttonId, initialState } = action.payload
 
                 if (!state[key]) {
                     state[key] = {}
                 }
 
-                /* FIXME */
-                // @ts-ignore ignore поправить типы
-                state[key][buttonId] = { ...ButtonResolver.defaultState, ...action.payload }
+                state[key][buttonId] = {
+                    buttonId,
+                    key,
+                    ...ButtonResolver.defaultState,
+                    ...initialState,
+                }
             },
         },
 
@@ -327,7 +316,7 @@ export const {
     CHANGE_BUTTON_STYLE: changeButtonStyle,
     CHANGE_BUTTON_TITLE: changeButtonTitle,
     CHANGE_BUTTON_VISIBILITY: changeButtonVisibility,
-    REGISTER_BUTTON: registerButton,
+    registerButton,
     REMOVE_BUTTON: removeButton,
     REMOVE_BUTTONS: removeAllButtons,
     TOGGLE_BUTTON_DISABLED: toggleButtonDisabled,

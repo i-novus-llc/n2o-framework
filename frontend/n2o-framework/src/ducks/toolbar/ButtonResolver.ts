@@ -22,17 +22,8 @@ class ButtonResolver {
         return ({
             isInit: true,
             visible: true,
-            count: 0,
-            size: null,
-            color: null,
-            title: null,
-            hint: null,
-            message: null,
-            icon: null,
             disabled: false,
             loading: false,
-            error: null,
-            conditions: null,
         })
     }
 }

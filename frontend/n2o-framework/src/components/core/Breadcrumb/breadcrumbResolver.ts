@@ -1,8 +1,8 @@
-import { textResolver } from '../textResolver'
+import propsResolver from '../../../utils/propsResolver'
 
 import { breadcrumb } from './const'
 
 export const breadcrumbResolver = (
-    model: object| object[],
+    model: Record<string, unknown> | Array<Record<string, unknown>>,
     breadcrumb: breadcrumb,
-): breadcrumb => breadcrumb.map(({ label, ...rest }) => ({ label: textResolver(model, label), ...rest }))
+): breadcrumb => breadcrumb.map(({ label, ...rest }) => ({ label: propsResolver(label, model), ...rest }))

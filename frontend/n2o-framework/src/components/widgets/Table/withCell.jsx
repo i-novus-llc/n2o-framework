@@ -1,8 +1,9 @@
 import React, { useCallback, useContext } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { isEmpty, isEqual } from 'lodash'
 import PropTypes from 'prop-types'
 
+import { useDispatch } from '../../../core/Redux/useDispatch'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { DataSourceContext } from '../../../core/widget/context'
 import { ModelPrefix } from '../../../core/datasource/const'

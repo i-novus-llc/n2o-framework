@@ -6,11 +6,11 @@ import isEmpty from 'lodash/isEmpty'
 import isNil from 'lodash/isNil'
 import omit from 'lodash/omit'
 
-import propsResolver from '../../../../../utils/propsResolver'
 import { Image } from '../../../../snippets/Image/Image'
 import { ImageInfo } from '../../../../snippets/Image/ImageInfo'
 import ImageStatuses from '../../../Table/cells/ImageCell/ImageStatuses'
 import { ActionWrapper } from '../../../../buttons/StandardButton/ActionWrapper'
+import { useResolved } from '../../../../../core/Expression/useResolver'
 
 /**
  * Компонент Image фомы
@@ -57,9 +57,7 @@ function ImageField(props) {
         description,
     }
 
-    const resolveProps = isEmpty(model)
-        ? defaultImageProps
-        : propsResolver(defaultImageProps, model)
+    const resolvedProps = useResolved(defaultImageProps, model)
 
     return (
         <div
@@ -93,8 +91,8 @@ function ImageField(props) {
                         textPosition={textPosition}
                         width={width}
                         height={height}
-                        {...omit(resolveProps, ['title', 'description'])}
-                        src={resolveProps.data || resolveProps.url}
+                        {...omit(resolvedProps, ['title', 'description'])}
+                        src={resolvedProps.data || resolvedProps.url}
                     />
                     {hasStatuses && (
                         <ImageStatuses

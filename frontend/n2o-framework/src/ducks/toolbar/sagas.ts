@@ -1,19 +1,15 @@
-import { call, put, select, takeEvery } from 'redux-saga/effects'
-import get from 'lodash/get'
-import filter from 'lodash/filter'
-import every from 'lodash/every'
-import some from 'lodash/some'
+import { put, select, takeEvery } from 'redux-saga/effects'
 import uniqueId from 'lodash/uniqueId'
 import printJS from 'print-js'
 
 import { dataProviderResolver } from '../../core/dataProviderResolver'
+// eslint-disable-next-line import/no-cycle
 import { resolveConditions } from '../../sagas/conditions'
 import request from '../../utils/request'
 import { State } from '../State'
 import { SequenceMeta, creator as sequence, finisher as sequenceEnd } from '../api/action/sequence'
 import { failOperation, startOperation, successOperation } from '../api/Operation'
 
-import { getContainerButtons } from './selectors'
 import {
     DEFAULT_PRINT_ERROR_MESSAGE,
     DEFAULT_PRINT_INCOMPATIBLE_BROWSER_MESSAGE,
@@ -21,7 +17,8 @@ import {
     PrintType,
 } from './constants'
 import { changeButtonDisabled, changeButtonMessage, changeButtonVisibility } from './store'
-import { IButton } from './Toolbar'
+import { buttonSelector } from './selectors'
+import { ButtonState } from './Toolbar'
 import { Print } from './Actions'
 
 /**
@@ -29,8 +26,11 @@ import { Print } from './Actions'
  * @param button
  * @return
  */
-export function* resolveButton(button: IButton) {
+export function* resolveButton({ buttonId, key }: Pick<ButtonState, 'buttonId' | 'key'>) {
     const state: State = yield select()
+    const button: ButtonState | void = yield select(buttonSelector, key, buttonId)
+
+    if (!button) { return }
 
     if (button.conditions) {
         const { visible, enabled } = button.conditions
@@ -41,7 +41,6 @@ export function* resolveButton(button: IButton) {
             yield put(
                 changeButtonVisibility(button.key, button.buttonId, nextVisible),
             )
-            yield call(setParentVisibleIfAllChildChangeVisible, button)
         }
 
         if (enabled) {
@@ -57,40 +56,6 @@ export function* resolveButton(button: IButton) {
                     ),
                 )
             }
-        }
-    }
-
-    if (button.resolveEnabled) {
-        const { modelLink, on } = button.resolveEnabled
-        const modelOnLink = get(state, modelLink, {})
-        const nextEnabled = on.some(o => modelOnLink[o])
-
-        yield put(changeButtonDisabled(button.key, button.buttonId, !nextEnabled))
-    }
-}
-
-/**
- * Функция для мониторинга изменения видимости родителя списка
- * @param key
- * @param buttonId
- */
-export function* setParentVisibleIfAllChildChangeVisible({ key, buttonId }: { key: string, buttonId: string }) {
-    const buttons: IButton[] = yield select(getContainerButtons(key))
-    const currentBtn = get(buttons, buttonId)
-    const parentId = get(currentBtn, 'parentId')
-
-    if (parentId) {
-        const currentBtnGroup = filter(buttons, ['parentId', parentId])
-
-        const isAllChildHidden = every(currentBtnGroup, ['visible', false])
-        const isAllChildVisible = some(currentBtnGroup, ['visible', true])
-        const isParentVisible = get(buttons, [parentId, 'visible'], false)
-
-        if (isAllChildHidden && isParentVisible) {
-            yield put(changeButtonVisibility(key, parentId, false))
-        }
-        if (isAllChildVisible && !isParentVisible) {
-            yield put(changeButtonVisibility(key, parentId, true))
         }
     }
 }
@@ -135,6 +100,7 @@ function* print(action: Print) {
 
         const onError = (text: string) => (err: unknown) => {
             alert(text)
+            // eslint-disable-next-line no-console
             console.error(err)
         }
 
@@ -178,6 +144,7 @@ function* print(action: Print) {
 
         printJS(printConfig)
     } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(err)
     }
 }

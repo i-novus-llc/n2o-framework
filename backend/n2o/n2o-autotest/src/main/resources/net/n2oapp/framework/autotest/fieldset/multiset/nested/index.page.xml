@@ -4,7 +4,7 @@
         <fields>
             <multi-set id="members1">
                 <input-text id="name"/>
-                <multi-set id="members2" children-label="Участник {(index + 1)}" add-label="Добавить участника"
+                <multi-set id="members2" children-label="Участник {($index_1 + 1)}" add-label="Добавить участника"
                            can-remove-all="true" can-copy="true" remove-all-label="Удалить всех участников">
                     <input-text id="name2"/>
                 </multi-set>

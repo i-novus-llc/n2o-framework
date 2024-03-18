@@ -514,6 +514,14 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     @Override
+    public String resolveTextByParams(String text) {
+        if (LINK_RESOLVER.hasPlaceHolders(text)) {
+            return LINK_RESOLVER.resolve(text,  ps -> params.get(ps));
+        }
+        return text;
+    }
+
+    @Override
     public <T extends Source> void validate(T metadata, Object... scope) {
         if (metadata == null)
             return;

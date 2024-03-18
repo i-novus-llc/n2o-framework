@@ -276,7 +276,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     protected void initValidations(S source, Field field, CompileContext<?, ?> context, CompileProcessor p) {
         List<Validation> validations = new ArrayList<>();
         Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class) != null ? p.getScope(FieldSetVisibilityScope.class).getConditions() : Collections.emptySet();
-        String fieldId = p.getScope(MultiFieldSetScope.class) == null ? field.getId() : p.getScope(MultiFieldSetScope.class).getId() + "[index]." + field.getId();
+        String fieldId = getIdWithMultisetPrefix(field.getId(), p);
         validations.addAll(initRequiredValidation(fieldId, field, source, p, visibilityConditions));
         validations.addAll(initInlineValidations(fieldId, source, context, p, visibilityConditions));
 
@@ -448,6 +448,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         ModelsScope defaultValues = p.getScope(ModelsScope.class);
         if (defaultValues != null && defaultValues.hasModels()) {
             Object defValue;
+            String controlId = getIdWithMultisetPrefix(control.getId(), p);
             if (source.getDefaultValue() != null) {
                 defValue = p.resolve(source.getDefaultValue(), source.getDomain());
             } else {
@@ -464,7 +465,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     if (isExternalExpression((String) defValue))
                         defaultValue.setObserve(false);
                     defaultValue.setParam(source.getParam());
-                    defaultValues.add(control.getId(), defaultValue);
+                    defaultValues.add(controlId, defaultValue);
                 } else {
                     SubModelQuery subModelQuery = findSubModelQuery(control.getId(), p);
                     ModelLink modelLink = getDefaultValueModelLink(source, context, p);
@@ -483,12 +484,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     modelLink.setValue(defValue);
                     modelLink.setSubModelQuery(subModelQuery);
                     modelLink.setParam(source.getParam());
-                    defaultValues.add(control.getId(), modelLink);
+                    defaultValues.add(controlId, modelLink);
                 }
             } else if (PageRef.PARENT.equals(source.getRefPage()) || source.getRefFieldId() != null) {
                 ModelLink modelLink = getDefaultValueModelLink(source, context, p);
                 modelLink.setParam(source.getParam());
-                defaultValues.add(control.getId(), modelLink);
+                defaultValues.add(controlId, modelLink);
             }
         }
     }
@@ -572,5 +573,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         if (widgetScope != null)
             return widgetScope.getDatasourceId();
         return null;
+    }
+
+    private String getIdWithMultisetPrefix(String fieldId, CompileProcessor p) {
+        return p.getScope(MultiFieldSetScope.class) == null ? fieldId : p.getScope(MultiFieldSetScope.class).getPathWithIndexes() + "." + fieldId;
     }
 }

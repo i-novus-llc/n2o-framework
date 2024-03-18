@@ -12,7 +12,8 @@ import isFunction from 'lodash/isFunction'
 import has from 'lodash/has'
 import find from 'lodash/find'
 
-import evalExpression, { parseExpression } from '../../../utils/evalExpression'
+import { WithPropsResolver } from '../../../core/Expression/withResolver'
+import { parseExpression } from '../../../core/Expression/parse'
 import { id } from '../../../utils/id'
 
 import { deleteFile, everyIsValid, post } from './utils'
@@ -136,15 +137,17 @@ const FileUploaderControl = (WrappedComponent) => {
          * @returns {*}
          */
         resolveUrl(url) {
-            const expression = parseExpression(url)
-
-            if (!expression) {
+            if (!parseExpression(url)) {
                 return url
             }
+
+            const { propsResolver } = this.props
+
+            // TODO разобраться что-за контексст такой тут ожидается
             const { _reduxForm } = this.context
             const { resolveModel } = _reduxForm
 
-            return evalExpression(expression, resolveModel)
+            return propsResolver(url, resolveModel)
         }
 
         /**
@@ -692,9 +695,10 @@ const FileUploaderControl = (WrappedComponent) => {
         model: PropTypes.object,
         fieldKey: PropTypes.string,
         t: PropTypes.func,
+        propsResolver: PropTypes.func,
     }
 
-    return ReturnedComponent
+    return WithPropsResolver(ReturnedComponent)
 }
 
 export default FileUploaderControl

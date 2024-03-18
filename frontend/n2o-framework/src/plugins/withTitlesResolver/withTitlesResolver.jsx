@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { resolveTitles } from './utils'
+import { useResolved } from '../../core/Expression/useResolver'
 
 export const withTitlesResolver = (Component) => {
     const WithTitlesResolver = (props) => {
         const { logo, subtitle, datasourceModel } = props
 
         const { title } = logo
-        const { title: resolvedTitle, subtitle: resolvedSubtitle } = resolveTitles({ title, subtitle }, datasourceModel)
+        const { title: resolvedTitle, subtitle: resolvedSubtitle } = useResolved({ title, subtitle }, datasourceModel)
 
         return (
             <Component

@@ -8,14 +8,14 @@ import entries from 'lodash/entries'
 import isObject from 'lodash/isObject'
 
 import { EffectWrapper } from '../api/utils/effectWrapper'
-import evalExpression from '../../utils/evalExpression'
+import { executeExpression } from '../../core/Expression/execute'
 
 import type { State as ModelsState } from './Models'
 import { copyModel, setModel, updateModel } from './store'
 import { getModelByPrefixAndNameSelector, modelsSelector } from './selectors'
 import { CopyAction } from './Actions'
 
-export function* copyAction({ payload }: CopyAction) {
+export function* copyAction({ payload, meta = {} }: CopyAction) {
     const { target, source, mode = 'replace', sourceMapper: expression } = payload
     const state: ModelsState = yield select(modelsSelector)
     let sourceModel = get(state, values(source).join('.'))
@@ -29,7 +29,9 @@ export function* copyAction({ payload }: CopyAction) {
     const treePath = includes(target.field, '.')
 
     if (expression) {
-        sourceModel = evalExpression(expression, sourceModel)
+        const { evalContext } = meta
+
+        sourceModel = executeExpression(expression, sourceModel, evalContext)
     }
 
     if (mode === 'merge') {
