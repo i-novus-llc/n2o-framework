@@ -13,7 +13,7 @@ function SwitchCell({
     switchDefault,
     ...props
 }) {
-    const currentCellType = model[switchFieldId]
+    const currentCellType = get(model, switchFieldId)
     const cellProps = get(switchList, currentCellType, switchDefault)
 
     return <Factory level={CELLS} model={model} {...props} {...cellProps} />
