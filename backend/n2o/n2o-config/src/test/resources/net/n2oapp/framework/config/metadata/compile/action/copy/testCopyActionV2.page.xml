@@ -27,7 +27,7 @@
                   target-model="resolve"
                   target-field-id="targetId"
                   target-page="parent"
-                  close-on-success="false"/>
+                  close-on-success="true"/>
         </button>
     </toolbar>
 </page>

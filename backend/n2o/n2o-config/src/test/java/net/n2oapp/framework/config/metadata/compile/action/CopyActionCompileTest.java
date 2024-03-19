@@ -61,7 +61,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getTarget().getField(), nullValue());
         assertThat(action.getPayload().getTarget().getPrefix(), is("filter"));
         assertThat(action.getPayload().getMode(), is(CopyMode.merge));
-        assertThat(action.getMeta().getModalsToClose(), is(1));
+        assertThat(action.getMeta().getModalsToClose(), is(0));
 
         action = (CopyAction) table.getToolbar().getButton("btn").getAction();
         assertThat(action.getType(), is("n2o/models/COPY"));
@@ -72,7 +72,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getTarget().getKey(), is("modal_table2"));
         assertThat(action.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(action.getPayload().getMode(), is(CopyMode.replace));
-        assertThat(action.getMeta().getModalsToClose(), is(1));
+        assertThat(action.getMeta().getModalsToClose(), is(0));
 
         action = (CopyAction) page.getToolbar().getButton("pageBtn").getAction();
         assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
@@ -95,7 +95,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(copyInPage.getPayload().getTarget().getField(), nullValue());
         assertThat(copyInPage.getPayload().getTarget().getPrefix(), is("resolve"));
         assertThat(copyInPage.getPayload().getMode(), is(CopyMode.merge));
-        assertThat(copyInPage.getMeta().getModalsToClose(), is(1));
+        assertThat(copyInPage.getMeta().getModalsToClose(), is(0));
 
         CopyAction copyInPage2 = (CopyAction) page.findButton("copyInPage2").getAction();
         assertThat(copyInPage2.getType(), is("n2o/models/COPY"));
@@ -106,6 +106,6 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(copyInPage2.getPayload().getTarget().getField(), is("targetId"));
         assertThat(copyInPage2.getPayload().getTarget().getPrefix(), is("resolve"));
         assertThat(copyInPage2.getPayload().getMode(), is(CopyMode.replace));
-        assertThat(copyInPage2.getMeta().getModalsToClose(), is(0));
+        assertThat(copyInPage2.getMeta().getModalsToClose(), is(1));
     }
 }

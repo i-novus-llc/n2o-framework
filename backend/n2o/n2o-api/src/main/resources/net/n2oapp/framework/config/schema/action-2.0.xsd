@@ -816,7 +816,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="close-on-success" type="xs:boolean" default="true">
+                <xs:attribute name="close-on-success" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>
                             Закрыть окно после успешного копирования данных

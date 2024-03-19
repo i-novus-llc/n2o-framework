@@ -256,13 +256,13 @@ n2o.api.action.confirm.cancel_color = secondary
 |target-model      |resolve edit filter multi datasource |Модель, в которую производится копирование                           |resolve               |
 |target-datasource |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, в который производится копирование.<br/>Задайте [parent-datasource](../xml/datasource#parent-datasource) для ссылки на источник родительской страницы |Значение `source-datasource` |
 |target-field-id   |Строка                               |Идентификатор поля, в которое производится копирование               |Вся модель            |
-|close-on-success  |true false                           |Закрыть окно после успешного копирования данных                      |true                  |
+|close-on-success  |true false                           |Закрыть окно после успешного копирования данных                      |false                  |
 |mode              |merge replace add                    |Тип слияния данных:<br/>`merge` - за основу берется модель target, значения из source копируются с заменой<br/>`replace` - за основу берется модель source<br/>`add` - используется для массивов. За основу берется массив target, к нему добавляются все записи из source массива |merge |
 
 **Настройки**
 ```yaml
 #Закрыть окно после успешного копирования данных
-n2o.api.action.copy.close_on_success = true
+n2o.api.action.copy.close_on_success = false
 ```
 
 **Пример**
