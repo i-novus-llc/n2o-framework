@@ -230,9 +230,9 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
                 {
                     inputs: { ...inputs, ...inputValue() },
                     isPopUpVisible:
-            inputName === DateTimeControlName.BEGIN ||
-            inputName === DateTimeControlName.END ||
-            !close,
+                        inputName === DateTimeControlName.BEGIN ||
+                        inputName === DateTimeControlName.END ||
+                        !close,
                 },
                 () => {
                     this.onChange(inputName)
@@ -289,6 +289,11 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
 
     onInputBlur = (date: Moment | null, inputName: string) => {
         const { onBlur } = this.props
+        const { isPopUpVisible } = this.state
+
+        if (isPopUpVisible) {
+            return
+        }
 
         this.onInputChange(date, inputName, () => onBlur?.(this.getValue(inputName)))
     }
