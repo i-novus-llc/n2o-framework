@@ -23,12 +23,14 @@ type DatePickerProps = TBaseProps & TBaseInputProps<DatePickerValue> & {
     timeFormat: string
 }
 
-export const DatePicker = ({ value, defaultValue, configLocale = 'ru', ...props }: DatePickerProps) => (
-    <DateTimeControl
-        strategy="fixed"
-        {...props}
-        configLocale={configLocale}
-        value={value || defaultValue || ''}
-        type="date-picker"
-    />
-)
+export const DatePicker = ({ value, defaultValue, configLocale = 'ru', ...props }: DatePickerProps) => {
+    return (
+        <DateTimeControl
+            strategy="fixed"
+            {...props}
+            configLocale={configLocale}
+            value={value || defaultValue || ''}
+            type="date-picker"
+        />
+    )
+}

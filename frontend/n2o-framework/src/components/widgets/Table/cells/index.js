@@ -13,8 +13,7 @@ import CheckboxCell from './CheckboxCell/CheckboxCell'
 import CollapsedCell from './CollapsedCell/CollapsedCell'
 // eslint-disable-next-line import/no-named-as-default
 import ButtonsCell from './ButtonsCell/ButtonsCell'
-// eslint-disable-next-line import/no-named-as-default
-import EditableCell from './EditableCell/EditableCell'
+import { EditableCell } from './EditableCell'
 // eslint-disable-next-line import/no-named-as-default
 import RatingCell from './RatingCell/RatingCell'
 import StatusCell from './StatusCell/StatusCell'

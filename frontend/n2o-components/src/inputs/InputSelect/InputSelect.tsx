@@ -275,6 +275,7 @@ export class InputSelect extends React.Component<Props, State> {
     clearSelected = () => {
         const { onChange, onBlur } = this.props
 
+
         this.setState({ value: [], input: '' }, () => {
             onChange(this.getValue())
             onBlur(this.getValue())
@@ -711,9 +712,7 @@ export class InputSelect extends React.Component<Props, State> {
                             badge={badge}
                             statusFieldId={statusFieldId}
                             descriptionFieldId={descriptionFieldId}
-                            onSelect={(item) => {
-                                this.handleItemSelect(item)
-                            }}
+                            onSelect={this.handleItemSelect}
                             selected={stateValue}
                             groupFieldId={groupFieldId}
                             enabledFieldId={enabledFieldId}
