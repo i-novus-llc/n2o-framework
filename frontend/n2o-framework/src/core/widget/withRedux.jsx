@@ -10,6 +10,8 @@ import {
     makeWidgetByIdSelector,
 } from '../../ducks/widgets/selectors'
 import { removeAllAlerts } from '../../ducks/alerts/store'
+import { getModelSelector } from '../../ducks/models/selectors'
+import { ModelPrefix } from '../datasource/const'
 
 import { reduxTypes } from './propTypes'
 
@@ -38,10 +40,13 @@ export const withRedux = (WidgetComponent) => {
         }
 
         componentWillUnmount() {
-            const { id, dispatch } = this.props
+            const { id, dispatch, datasourceModelLength } = this.props
 
             dispatch(removeAllAlerts(id))
-            dispatch(removeWidget(id))
+
+            const savedProps = datasourceModelLength > 0 ? { isInit: false, fetchOnInit: true } : null
+
+            dispatch(removeWidget(id, savedProps))
         }
 
         render() {
@@ -65,11 +70,13 @@ export const withRedux = (WidgetComponent) => {
          * @return {WidgetReduxTypes}
          */
         (state, props) => {
-            const { parent, dependency } = props
+            const { parent, dependency, datasource } = props
             const reduxProps = makeWidgetByIdSelector(props.id)(state)
+            const model = getModelSelector(`models.${ModelPrefix.source}.${datasource}`)(state) || []
+            const datasourceModelLength = model.length
 
             /* FIXME костыль для табов, нужно пересмотреть */
-            if (!parent || dependency) { return { ...props, ...reduxProps } }
+            if (!parent || dependency) { return { ...props, ...reduxProps, datasourceModelLength } }
 
             const { fetch } = props
 

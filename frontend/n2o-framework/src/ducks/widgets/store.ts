@@ -220,16 +220,19 @@ const widgetSlice = createSlice({
 
         REMOVE: {
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(widgetId) {
+            prepare(widgetId, savedProps) {
                 return ({
-                    payload: { widgetId },
+                    payload: { widgetId, savedProps },
                 })
             },
 
             reducer(state, action: Toggle) {
                 const { payload } = action
+                const { widgetId, savedProps } = payload
 
-                delete state[payload.widgetId]
+                delete state[widgetId]
+
+                if (savedProps) { state[widgetId] = savedProps }
             },
         },
     },
