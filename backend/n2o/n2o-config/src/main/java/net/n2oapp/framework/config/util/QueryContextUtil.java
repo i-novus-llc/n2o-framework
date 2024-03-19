@@ -1,16 +1,22 @@
 package net.n2oapp.framework.config.util;
 
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
  * Утилита по работе с QueryContext
  */
 public class QueryContextUtil {
+
+    private static final String SORTING = "sorting.";
 
     /**
      * Создание QueryContext для RouteRegister
@@ -28,6 +34,19 @@ public class QueryContextUtil {
             return e;
         }).collect(Collectors.toList());
         contextForRegister.setFilters(filters);
+        contextForRegister.setSortingMap(initSortingMap(query));
         return contextForRegister;
+    }
+
+    public static Map<String, String> initSortingMap(CompiledQuery query) {
+        Map<String, String> sortingMap = new HashMap<>();
+        for (QuerySimpleField sortingField : query.getSortingFields()) {
+            sortingMap.put(
+                    SORTING + RouteUtil.normalizeParam(sortingField.getId()),
+                    sortingField.getId()
+            );
+        }
+
+        return sortingMap;
     }
 }

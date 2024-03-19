@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.control.list.ListType;
+import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.Select;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -9,14 +10,13 @@ import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -81,6 +81,10 @@ public class SelectCompileTest extends SourceCompileTestBase {
         assertThat(select.getType(), is(ListType.SINGLE));
         assertThat(select.getDatasource(), is("testSelect_test"));
         assertThat(select.getData(), nullValue());
+
+        QueryContext queryCtx = ((QueryContext)route("/test", CompiledQuery.class));
+        assertThat(queryCtx, notNullValue());
+        assertThat(queryCtx.getSortingMap().get("sorting.name"), is("name"));
     }
 
     @Test
