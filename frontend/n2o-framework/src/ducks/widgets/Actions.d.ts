@@ -1,6 +1,8 @@
 import { Action } from '../Action'
 import { Table } from '../table/Table'
 
+import { Widget } from './Widgets'
+
 export type RegisterPayload = {
     widgetId: string
     initProps: { type: string, table?: Table }
@@ -16,6 +18,7 @@ export type ResolvePayload = {
 export type TogglePayload = {
     widgetId: string
     id?: string
+    savedProps?: Widget | null
 }
 
 export type ChangeFilterVisibilityPayload = {
