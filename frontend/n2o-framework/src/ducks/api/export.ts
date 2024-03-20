@@ -141,11 +141,9 @@ export function* effect({ payload }: Action<string, Payload>) {
 
             extraParams[INHERITED_SOURCE_FIELD_ID] = sourceField
 
-            if (type.id === 'page') {
-                const { id }: { id: string | number } = yield select(getModelSelector(`models.${sourceModel}.${sourceDs}`))
+            const { id }: { id: string | number } = yield select(getModelSelector(`models.${sourceModel}.${sourceDs}`))
 
-                extraParams[PARENT_ROW_ID] = id
-            }
+            extraParams[PARENT_ROW_ID] = id
 
             extraParams[SORTING] = sorting
         }
