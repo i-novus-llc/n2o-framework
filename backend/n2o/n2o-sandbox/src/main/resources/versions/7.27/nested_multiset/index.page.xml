@@ -14,7 +14,8 @@
                         label="Список групп"
                         add-label="Добавить группу"
                         children-label="Группа {(index + 1)}"
-                        can-remove="false">
+                        can-remove="false"
+                        generate-primary-key="true">
                     <multi-set
                             id="persons"
                             label="Список участников"
@@ -34,6 +35,19 @@
                                     </params>
                                 </show-modal>
                             </button>
+
+                            <button label="Удалить"
+                                    icon="fa fa-trash"
+                                    color="danger">
+                                <edit-list operation="delete"
+                                           datasource="ds"
+                                           model="resolve"
+                                           item-datasource="ds"
+                                           item-model="resolve"
+                                           list-field-id="groups[index].persons"
+                                           item-field-id="groups[index].persons[$index_1]"
+                                />
+                            </button>
                         </row>
                     </multi-set>
 
@@ -43,6 +57,18 @@
                                 <query-param name="parentIdx" value="{index}"/>
                             </params>
                         </show-modal>
+                    </button>
+                    <button label="Удалить группу"
+                            icon="fa fa-trash"
+                            color="danger">
+                        <edit-list operation="delete"
+                                   datasource="ds"
+                                   model="resolve"
+                                   item-datasource="ds"
+                                   item-model="resolve"
+                                   list-field-id="groups"
+                                   item-field-id="groups[index]"
+                        />
                     </button>
                 </multi-set>
             </fields>
