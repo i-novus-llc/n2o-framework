@@ -32,7 +32,7 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
         p.attribute(e, "help", m::getHelp, m::setHelp);
         p.child(e, null, "toolbar", m::getToolbar, m::setToolbar, new FieldToolbarIOv2());
         p.anyChildren(e, "dependencies", m::getDependencies, m::setDependencies, p.oneOf(N2oField.Dependency.class)
-                .add("enabling", N2oField.EnablingDependency.class, this::dependency)
+                .add("enabling", N2oField.EnablingDependency.class, this::enablingDependency)
                 .add("visibility", N2oField.VisibilityDependency.class, this::visibilityDependency)
                 .add("requiring", N2oField.RequiringDependency.class, this::dependency)
                 .add("set-value", N2oField.SetValueDependency.class, this::dependency)
@@ -50,6 +50,11 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
         p.attributeArray(e, "on", ",", t::getOn, t::setOn);
         p.attributeBoolean(e, "apply-on-init", t::getApplyOnInit, t::setApplyOnInit);
         p.text(e, t::getValue, t::setValue);
+    }
+
+    private void enablingDependency(Element e, N2oField.EnablingDependency t, IOProcessor p) {
+        dependency(e, t, p);
+        p.attribute(e, "message", t::getMessage, t::setMessage);
     }
 
     private void visibilityDependency(Element e, N2oField.VisibilityDependency t, IOProcessor p) {

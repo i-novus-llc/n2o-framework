@@ -6,7 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 
 /**
- * Клиентская молель зависимости обновления модели для поля ввода
+ * Клиентская модель зависимости обновления модели для поля ввода
  */
 @Getter
 @Setter

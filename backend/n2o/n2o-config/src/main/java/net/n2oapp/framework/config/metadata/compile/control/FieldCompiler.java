@@ -151,9 +151,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     protected void compileDependencies(Field field, S source, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getDependencies() != null) {
             for (N2oField.Dependency d : source.getDependencies()) {
-                ControlDependency dependency = d instanceof N2oField.FetchValueDependency ?
-                        compileFetchDependency(d, context, p) :
-                        compileControlDependency(field, d, p);
+                ControlDependency dependency = compileControlDependency(field, d, p, context);
                 addToField(dependency, field, d, p);
             }
         }
@@ -184,11 +182,21 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
-    private ControlDependency compileControlDependency(Field field, N2oField.Dependency source, CompileProcessor p) {
+    private ControlDependency compileControlDependency(Field field, N2oField.Dependency source, CompileProcessor p, CompileContext<?, ?> context) {
         ControlDependency dependency = new ControlDependency();
-        if (source instanceof N2oField.EnablingDependency)
-            dependency.setType(ValidationType.enabled);
-        else if (source instanceof N2oField.RequiringDependency)
+
+        if (source instanceof N2oField.FetchValueDependency) {
+            FetchValueDependency fetchValueDependency = new FetchValueDependency();
+            fetchValueDependency.setType(ValidationType.fetchValue);
+            fetchValueDependency.setValueFieldId(((N2oField.FetchValueDependency) source).getValueFieldId());
+            fetchValueDependency.setDataProvider(compileFetchDependencyDataProvider((N2oField.FetchValueDependency) source, context, p));
+            return fetchValueDependency;
+        } else if (source instanceof N2oField.EnablingDependency) {
+            EnablingDependency enablingDependency = new EnablingDependency();
+            enablingDependency.setType(ValidationType.enabled);
+            enablingDependency.setMessage(((N2oField.EnablingDependency) source).getMessage());
+            dependency = enablingDependency;
+        } else if (source instanceof N2oField.RequiringDependency)
             dependency.setType(ValidationType.required);
         else if (source instanceof N2oField.VisibilityDependency) {
             dependency.setType(ValidationType.visible);
@@ -211,14 +219,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             }
         }
         dependency.setExpression(ScriptProcessor.resolveFunction(source.getValue()));
-        return dependency;
-    }
-
-    private FetchValueDependency compileFetchDependency(N2oField.Dependency d, CompileContext<?, ?> context, CompileProcessor p) {
-        FetchValueDependency dependency = new FetchValueDependency();
-        dependency.setType(ValidationType.fetchValue);
-        dependency.setValueFieldId(((N2oField.FetchValueDependency) d).getValueFieldId());
-        dependency.setDataProvider(compileFetchDependencyDataProvider((N2oField.FetchValueDependency) d, context, p));
         return dependency;
     }
 
