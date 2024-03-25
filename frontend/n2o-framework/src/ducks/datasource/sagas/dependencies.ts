@@ -40,7 +40,7 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
             if (targetField) {
                 yield put(updateModel(targetPrefix, id, targetField, model))
             } else {
-                yield put(setModel(targetPrefix, id, model))
+                yield put(setModel(targetPrefix, id, model as Record<string, unknown>))
             }
 
             if (submit) {

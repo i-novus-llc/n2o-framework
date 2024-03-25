@@ -20,6 +20,7 @@ export type FieldDependency = {
     on?: string[]
     dataProvider?: unknown
     valueFieldId?: string
+    message?: string
 }
 
 export type Field = {

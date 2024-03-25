@@ -123,7 +123,10 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
         private Boolean applyOnInit;
     }
 
+    @Getter
+    @Setter
     public static class EnablingDependency extends Dependency {
+        private String message;
     }
 
     public static class RequiringDependency extends Dependency {

@@ -18,6 +18,7 @@ import {
     SetFieldDisabledAction,
     SetFieldLoadingAction,
     SetFieldRequiredAction,
+    SetFieldTooltipAction,
     SetFieldVisibleAction,
     SetMultiFieldDisabledAction,
     SetMultiFieldVisibleAction,
@@ -154,6 +155,24 @@ const formSlice = createSlice({
 
                 field.visible_field = visible
                 field.visible = field.visible_field && field.visible_set
+            },
+        },
+
+        setFieldTooltip: {
+            prepare(formName: string, fieldName: string, tooltip: string | null) {
+                return ({
+                    payload: { formName, fieldName, tooltip },
+                })
+            },
+
+            reducer(state, action: SetFieldTooltipAction) {
+                const { formName, fieldName, tooltip } = action.payload
+
+                const field = get(state, createFieldPath(formName, fieldName))
+
+                if (!field) { return warnNonExistent(fieldName, 'tooltip') }
+
+                field.tooltip = tooltip
             },
         },
 
@@ -418,6 +437,7 @@ export const {
     setFieldVisible,
     setFieldRequired,
     setFieldLoading,
+    setFieldTooltip,
     setMultiFieldVisible,
     setMultiFieldDisabled,
     dangerouslySetFieldValue,

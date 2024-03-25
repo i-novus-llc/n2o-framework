@@ -19,6 +19,9 @@
                         <path-param name="param2" value="1"/>
                         <query-param name="param3" value="{field3}"/>
                     </a>
+                    <dependencies>
+                        <enabling on="url" message="test message">test == null</enabling>
+                    </dependencies>
                 </button>
                 <button id="btn2" action-id="act1" icon="fa fa-pencil"/>
                 <button id="btn3" label="load" icon="fa fa-download"/>
