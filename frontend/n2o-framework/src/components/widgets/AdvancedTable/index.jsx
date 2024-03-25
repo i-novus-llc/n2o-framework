@@ -47,7 +47,9 @@ const AdvancedTableContainer = (props) => {
     const [filterErrors, setFilterErrors] = useState({})
 
     const textWrap = useSelector(getTableParam(id, 'textWrap'))
-    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
+    const datasourceModel = useSelector(state => (
+        dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state) || EMPTY_ARRAY
+    ))
     const filterModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.filter))
     const selectedRows = useSelector((state) => {
         const models = dataSourceModelByPrefixSelector(datasource, ModelPrefix.selected)(state) || EMPTY_ARRAY
