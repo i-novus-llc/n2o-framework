@@ -16,8 +16,6 @@ import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 
-import java.util.Objects;
-
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
@@ -65,7 +63,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
 
     @Override
     protected String initLabel(S source, CompileProcessor p) {
-        if (!Objects.equals(Boolean.TRUE, source.getNoLabel())) {
+        if (!Boolean.TRUE.equals(source.getNoLabel())) {
             String label = super.initLabel(source, p);
 
             FieldSetScope scope = p.getScope(FieldSetScope.class);
