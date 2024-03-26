@@ -10,8 +10,9 @@ import classNames from 'classnames'
 
 import { Factory } from '../../core/factory/Factory'
 import { BUTTONS } from '../../core/factory/factoryLevels'
+import { Tooltip } from '../snippets/Tooltip/TooltipHOC'
 
-function Toolbar({ className, toolbar, entityKey, onClick, tooltipTriggerRef = null }) {
+function Toolbar({ className, toolbar, entityKey, onClick, hint, placement }) {
     const { className: toolbarClassName, style, id } = toolbar[0] || {}
 
     const handleClick = (e) => {
@@ -38,16 +39,20 @@ function Toolbar({ className, toolbar, entityKey, onClick, tooltipTriggerRef = n
         return newProps
     }
 
-    const renderButtons = (buttonProps, i) => (
-        <Factory
-            key={getButtonKey(buttonProps, i)}
-            level={BUTTONS}
-            {...remapButtons(buttonProps)}
-            entityKey={entityKey}
-            tooltipTriggerRef={tooltipTriggerRef}
-        />
-    )
+    const renderButtons = (buttonProps, i) => {
+        const { hint: buttonHint, hintPosition } = buttonProps
 
+        return (
+            <Tooltip hint={buttonHint || hint} placement={hintPosition || placement}>
+                <Factory
+                    key={getButtonKey(buttonProps, i)}
+                    level={BUTTONS}
+                    {...remapButtons(buttonProps)}
+                    entityKey={entityKey}
+                />
+            </Tooltip>
+        )
+    }
     const renderBtnGroup = (toolbarProps) => {
         const { buttons } = toolbarProps
 
@@ -95,7 +100,6 @@ Toolbar.propTypes = {
     entityKey: PropTypes.string,
     onClick: PropTypes.func,
     className: PropTypes.string,
-    tooltipTriggerRef: PropTypes.func,
 }
 
 Toolbar.defaultProps = {

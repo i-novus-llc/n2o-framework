@@ -3,8 +3,8 @@
         <input-text id="field" no-label-block="true"
                     enabled="{type == 'test1'}" visible="{type == 'test2'}" required="{type == 'test3'}">
             <dependencies>
-                <enabling on="type">type.id == 1</enabling>
-                <enabling on="type2">type.id == 2</enabling>
+                <enabling on="type" message="test message">type.id == 1</enabling>
+                <enabling on="type2" message="test message2">type.id == 2</enabling>
                 <visibility on="type" reset="false">type.id == 1</visibility>
                 <set-value on="type">if (type.id == 1) return "Test";</set-value>
                 <requiring on="type">type.id == 1</requiring>

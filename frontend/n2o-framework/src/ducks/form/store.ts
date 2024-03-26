@@ -19,6 +19,7 @@ import {
     SetFieldDisabledAction,
     SetFieldLoadingAction,
     SetFieldRequiredAction,
+    SetFieldTooltipAction,
     SetFieldVisibleAction,
     SetMultiFieldDisabledAction,
     SetMultiFieldVisibleAction,
@@ -174,6 +175,24 @@ const formSlice = createSlice({
                 // field.dependency = dependency
                 // TODO: Если все работает, раскоментировать верхний варриант и попробовать еще раз
                 set(state, [formName, 'fields', fieldName, 'dependency'], dependency)
+            },
+        },
+
+        setFieldTooltip: {
+            prepare(formName: string, fieldName: string, tooltip: string | null) {
+                return ({
+                    payload: { formName, fieldName, tooltip },
+                })
+            },
+
+            reducer(state, action: SetFieldTooltipAction) {
+                const { formName, fieldName, tooltip } = action.payload
+
+                const field = get(state, createFieldPath(formName, fieldName))
+
+                if (!field) { return warnNonExistent(fieldName, 'tooltip') }
+
+                field.tooltip = tooltip
             },
         },
 
@@ -432,6 +451,7 @@ export const {
     setFieldVisible,
     setFieldRequired,
     setFieldLoading,
+    setFieldTooltip,
     setMultiFieldVisible,
     setMultiFieldDisabled,
     dangerouslySetFieldValue,

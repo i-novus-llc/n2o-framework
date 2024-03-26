@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <form id="form" object-id="testCell">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form id="form">
+        <datasource object-id="testCell"/>
         <fields>
             <row>
                 <input-text id="test1">
                     <dependencies>
-                        <enabling on="test1">test1 == null</enabling>
+                        <enabling on="test1" message="test message">test1 == null</enabling>
                         <requiring on="test2">test2 == null</requiring>
                         <visibility on="test3" reset="true">test3 == null</visibility>
                         <visibility on="test4">test4 == null</visibility>

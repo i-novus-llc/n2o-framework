@@ -5,10 +5,11 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
-import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
+import net.n2oapp.framework.api.metadata.meta.control.EnablingDependency;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -54,6 +55,10 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getColor(), is("danger"));
         assertThat(field.getValidate().get(0), is("testButtonFieldCompile_ds"));
         assertThat(field.getDatasource(), is("testButtonFieldCompile_ds"));
+        assertThat(field.getDependencies().get(0).getExpression(), is("test == null"));
+        assertThat(field.getDependencies().get(0).getOn().get(0), is("url"));
+        assertThat(field.getDependencies().get(0).getType(), is(ValidationType.enabled));
+        assertThat(((EnablingDependency) field.getDependencies().get(0)).getMessage(), is("test message"));
 
         assertThat(((LinkAction) field.getAction()).getUrl(), is("/testButtonFieldCompile/test2/:param1/:param2?param3=:param3"));
         assertThat(((LinkAction) field.getAction()).getTarget(), is(Target.application));

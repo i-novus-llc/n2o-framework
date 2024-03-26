@@ -6,6 +6,8 @@ export interface FormPayload {
     formName: string
 }
 
+export type Tooltip = string | null
+
 export type FormAction<
     TPayload extends FormPayload,
     TMeta extends Meta = Meta
@@ -47,6 +49,10 @@ export type SetFieldRequiredAction = FieldAction<{
 
 export type SetFieldVisibleAction = FieldAction<{
     visible: boolean
+}>
+
+export type SetFieldTooltipAction = FieldAction<{
+    tooltip: Tooltip
 }>
 
 export type DangerouslySetFieldValue = FieldAction<{

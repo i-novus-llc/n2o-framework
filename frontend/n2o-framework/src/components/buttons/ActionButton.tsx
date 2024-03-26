@@ -1,18 +1,23 @@
 import React, { ComponentType } from 'react'
 
-import { TooltipHOC, TooltipHocProps } from '../snippets/Tooltip/TooltipHOC'
+import { Tooltip, TooltipHocProps } from '../snippets/Tooltip/TooltipHOC'
+import { Tooltip as TooltipType } from '../../ducks/form/Actions'
 
 interface Props extends TooltipHocProps {
-    Component?: ComponentType
-    componentProps: Record<string, unknown>
+    Component?: ComponentType<TooltipHocProps>
+    hint?: string
+    placement?: string
+    tooltip?: TooltipType
 }
 
-function ActionButtonBody(props: Props) {
-    const { Component, componentProps } = props
+export function ActionButton(props: Props) {
+    const { Component, hint, placement, tooltip = null } = props
 
     if (!Component) { return null }
 
-    return <Component {...componentProps} />
+    return (
+        <Tooltip placement={placement} hint={tooltip || hint}>
+            <Component {...props} />
+        </Tooltip>
+    )
 }
-
-export const ActionButton = TooltipHOC(ActionButtonBody)

@@ -19,6 +19,7 @@ import {
     setFieldLoading,
     registerFieldExtra,
     dangerouslySetFieldValue,
+    setFieldTooltip,
 } from '../ducks/form/store'
 // @ts-ignore ignore import error from js file
 import { FETCH_VALUE } from '../core/api'
@@ -153,6 +154,16 @@ export function* modify(
             const nextEnabled = Boolean(evalResult)
 
             yield put(setFieldDisabled(formName, fieldName, !nextEnabled))
+
+            if (nextEnabled) {
+                yield put(setFieldTooltip(formName, fieldName, null))
+
+                break
+            }
+
+            const { message } = dependency
+
+            if (message) { yield put(setFieldTooltip(formName, fieldName, message)) }
 
             break
         }
