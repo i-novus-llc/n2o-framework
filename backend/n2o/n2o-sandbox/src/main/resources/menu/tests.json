@@ -972,6 +972,14 @@
           "name": "TimePickerAT"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/control/button_field/simple",
+          "name": "ButtonFieldAT. testSimple"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/button_field/enabling_message",
+          "name": "ButtonFieldAT. testEnablingMessage"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/markdown/button",
           "name": "MarkdownAT. buttonCompile"
         },

@@ -2,7 +2,7 @@ import React from 'react'
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
 
-import { ExtendedTooltipComponent } from '../../snippets/Tooltip/TooltipHOC'
+import { Tooltip } from '../../snippets/Tooltip/TooltipHOC'
 
 export default function withTooltip(Component) {
     /**
@@ -27,12 +27,9 @@ export default function withTooltip(Component) {
         }
 
         return (
-            <ExtendedTooltipComponent
-                Component={Component}
-                {...props}
-                hint={hint}
-                placement={placement || 'bottom'}
-            />
+            <Tooltip hint={hint} placement={placement || 'bottom'}>
+                <Component {...props} />
+            </Tooltip>
         )
     }
 }

@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.api.component.badge;
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.BadgePosition;
 import net.n2oapp.framework.autotest.BadgeShape;
+import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.Component;
 
 import java.time.Duration;
@@ -14,14 +15,14 @@ public interface Badge extends Component {
     /**
      * Проверка наличия баджа внутри элемента
      */
-    default void badgeShouldBeExists() {
+    default void badgeShouldExists() {
         element().$(".n2o-badge").shouldBe(Condition.exist);
     }
 
     /**
      * Проверка отсутствия баджа внутри элемента
      */
-    default void badgeShouldNotBeExists() {
+    default void badgeShouldNotExists() {
         element().$(".n2o-badge").shouldNotBe(Condition.visible);
     }
 
@@ -78,4 +79,14 @@ public interface Badge extends Component {
     default void badgeShouldNotHaveText(Duration... duration) {
         should(Condition.empty, element().$(".n2o-badge"), duration);
     }
+
+    /**
+     * Проверка цвета на соответствие
+     * @param color ожидаемый цвет баджа
+     */
+    default void badgeShouldHaveColor(Colors color){
+        element().$(".n2o-badge")
+                .shouldHave(Condition.cssClass(String.format("badge-%s", color.name().toLowerCase())));
+    }
+
 }

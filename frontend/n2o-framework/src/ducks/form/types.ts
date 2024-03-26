@@ -18,6 +18,7 @@ export type Field = {
         expression: string
         applyOnInit: boolean
         on: string[]
+        message?: string
     }>
     required: boolean
     loading: boolean

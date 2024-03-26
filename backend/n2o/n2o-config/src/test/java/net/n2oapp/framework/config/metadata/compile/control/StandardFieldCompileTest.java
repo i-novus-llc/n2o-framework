@@ -75,6 +75,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(0).getExpression(), is("test1 == null"));
         assertThat(field.getDependencies().get(0).getOn().get(0), is("test1"));
         assertThat(field.getDependencies().get(0).getType(), is(ValidationType.enabled));
+        assertThat(((EnablingDependency) field.getDependencies().get(0)).getMessage(), is("test message"));
 
         assertThat(field.getDependencies().get(1).getExpression(), is("test2 == null"));
         assertThat(field.getDependencies().get(1).getOn().get(0), is("test2"));

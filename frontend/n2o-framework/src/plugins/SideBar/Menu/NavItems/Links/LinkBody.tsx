@@ -1,7 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { NavItemImage } from '../../../../../components/snippets/NavItemImage/NavItemImage'
+import { NavItemImage } from '@i-novus/n2o-components/lib/display/NavItemImage'
+
 import { Badge } from '../../../../../components/snippets/Badge/Badge'
 import { Item } from '../../../../CommonMenuTypes'
 import { Icon, Title, getCurrentTitle, needRender } from '../../../utils'

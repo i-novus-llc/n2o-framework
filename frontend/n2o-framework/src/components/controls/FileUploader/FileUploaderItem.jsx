@@ -4,7 +4,7 @@ import { Progress } from 'reactstrap'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 
-import { ExtendedTooltipComponent } from '../../snippets/Tooltip/TooltipHOC'
+import { Tooltip } from '../../snippets/Tooltip/TooltipHOC'
 import { Spinner } from '../../snippets/Spinner/Spinner'
 
 import { convertSize } from './utils'
@@ -25,7 +25,7 @@ function FileUploaderItem(props) {
 
     const error = (!isEmpty(file.error) || !isEmpty(file.response)) && (file.response || file.error)
 
-    const Component = () => (
+    const Component = ({ forwardedRef }) => (
         <a
             title={file.name}
             href={file.link}
@@ -36,7 +36,7 @@ function FileUploaderItem(props) {
                 'n2o-file-uploader-item-error': file.error,
             })}
         >
-            <span className="n2o-file-uploader-file-name">{file.name}</span>
+            <span ref={forwardedRef} className="n2o-file-uploader-file-name">{file.name}</span>
             {file.link && (
                 <i className=" n2o-file-uploader-external-link fa fa-external-link" />
             )}
@@ -46,11 +46,7 @@ function FileUploaderItem(props) {
     return (
         <div className="n2o-file-uploader-files-item">
             <span className="n2o-file-uploader-files-item-info">
-                <ExtendedTooltipComponent
-                    Component={Component}
-                    hint={error}
-                    placement="bottom"
-                />
+                <Tooltip hint={error} placement="bottom"><Component /></Tooltip>
                 <span className={classNames('n2o-file-uploader-item-size', { showSize })}>
                     {showSize && <span className="ml-2 n2o-file-uploader__size">{convertSize(file.size)}</span>}
                     {!disabled && (
