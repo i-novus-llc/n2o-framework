@@ -17,6 +17,7 @@ import { parseExpression } from '../../../core/Expression/parse'
 import { id } from '../../../utils/id'
 
 import { deleteFile, everyIsValid, post } from './utils'
+
 /**
  * @type {Function} ReturnedComponent
  */
@@ -99,14 +100,11 @@ const FileUploaderControl = (WrappedComponent) => {
         }
 
         mapFiles(files) {
-            if (!files) { return }
-            let currentFiles = []
-
-            if (!isArray(files)) {
-                currentFiles = [files]
-            } else {
-                currentFiles = files
+            if (!files) {
+                return
             }
+
+            const currentFiles = isArray(files) ? files : [files]
 
             // eslint-disable-next-line consistent-return
             return currentFiles.map(file => this.fileAdapter(file))
@@ -178,34 +176,28 @@ const FileUploaderControl = (WrappedComponent) => {
             }
         }
 
-        /**
-         * Загрузка файлов в state
-         * @param files
-         */
-
-        handleDrop(files) {
-            const { onChange, autoUpload, onBlur } = this.props
+        handleDrop(data) {
+            const { onChange, autoUpload, onBlur, multi } = this.props
             const { files: stateFiles } = this.state
+            const preparedFiles = data.map((file) => {
+                file.id = id()
+                file.percentage = 0
+
+                return file
+            })
+            const files = multi ? [...stateFiles, ...preparedFiles] : preparedFiles
 
             this.setState(
                 {
-                    files: [
-                        ...stateFiles,
-                        ...files.map((file) => {
-                            file.id = id()
-                            file.percentage = 0
-
-                            return file
-                        }),
-                    ],
+                    files,
                     uploaderClass: null,
                 },
                 () => {
                     if (autoUpload) {
-                        this.startUpload(files)
+                        this.startUpload(data)
                     } else {
-                        onChange(files)
-                        onBlur(files)
+                        onChange(data)
+                        onBlur(data)
                     }
                 },
             )
@@ -399,7 +391,9 @@ const FileUploaderControl = (WrappedComponent) => {
                     if (isFunction(uploadRequest)) {
                         uploadRequest(formData, onProgress, onUpload, onError)
                     } else {
-                        this.requests[file.id] = post(
+                        this.requests[file.id] = undefined
+
+                        post(
                             url,
                             formData,
                             onProgress,
@@ -504,15 +498,16 @@ const FileUploaderControl = (WrappedComponent) => {
                 // eslint-disable-next-line array-callback-return
                 ...files.map((file) => {
                     if (file.id === id) {
-                        let formattedError = null
+                        let formattedError
 
                         if (onError) {
                             formattedError = onError(error)
                         } else {
-                            formattedError =
-                get(error, `response.data[${responseFieldId}]`, null) ||
-                error.message ||
-                error.status
+                            formattedError = (
+                                get(error, `response.data[${responseFieldId}]`, null) ||
+                                error.message ||
+                                error.status
+                            )
                         }
 
                         file.error = formattedError
