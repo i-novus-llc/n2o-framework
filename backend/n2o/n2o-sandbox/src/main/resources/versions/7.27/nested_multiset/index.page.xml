@@ -3,7 +3,7 @@
       name="Вложенный мультисет">
     <datasources>
         <datasource id="ds"/>
-        <datasource id="modalDs"/>
+        <datasource id="itemDs"/>
     </datasources>
 
     <regions>
@@ -26,7 +26,7 @@
                         <row>
                             <output-text id="name" label="Имя"/>
                             <button label="Изменить">
-                                <set-value target-datasource="modalDs">
+                                <set-value target-datasource="itemDs">
                                     groups[index].persons[$index_1]
                                 </set-value>
                                 <show-modal page-id="update" route="/update">
