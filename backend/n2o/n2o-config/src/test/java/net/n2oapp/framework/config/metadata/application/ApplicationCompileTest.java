@@ -74,6 +74,7 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
         assertThat(application.getFooter().getTextLeft(), is("`'LeftText\\n'+name`"));
         assertThat(application.getFooter().getClassName(), is("footer-class"));
         assertThat(application.getFooter().getStyle().get("backgroundColor"), is("primary"));
+        assertThat(application.getFooter().getProperties().get("attr"), is("extAttr"));
     }
 
     @Test
