@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Component;
 
+import java.util.Map;
+
 /**
  * Клиентская модель подвала (footer)
  */
@@ -15,4 +17,5 @@ public class Footer extends Component {
     private String textRight;
     @JsonProperty
     private String textLeft;
+    private Map<String, Object> properties;
 }

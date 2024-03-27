@@ -33,6 +33,7 @@ public class FooterIO extends ComponentIO<N2oFooter> {
         p.attributeBoolean(e, "visible", m::getVisible, m::setVisible);
         p.attribute(e, "right-text", m::getRightText, m::setRightText);
         p.attribute(e, "left-text", m::getLeftText, m::setLeftText);
+        p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 
 

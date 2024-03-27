@@ -15,7 +15,6 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
@@ -133,6 +132,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         footer.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         footer.setTextRight(p.resolveJS(source.getRightText()));
         footer.setTextLeft(p.resolveJS(source.getLeftText()));
+        footer.setProperties(p.mapAttributes(source));
         return footer;
     }
 
