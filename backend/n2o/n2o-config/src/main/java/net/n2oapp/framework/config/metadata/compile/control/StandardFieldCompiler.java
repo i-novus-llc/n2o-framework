@@ -63,7 +63,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
 
     @Override
     protected String initLabel(S source, CompileProcessor p) {
-        if (!"true".equals(source.getNoLabel()) && !"true".equals(source.getNoLabelBlock())) {
+        if (!"true".equals(source.getNoLabel())) {
             String label = p.resolveJS(source.getLabel());
 
             FieldSetScope scope = p.getScope(FieldSetScope.class);
