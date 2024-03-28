@@ -9,10 +9,13 @@ interface Props {
     search: SearchProps
     clear: ClearProps
     model: Record<string, unknown>
+    visible?: boolean
 }
 
 export function FilterButtons(props: Props) {
-    const { search, clear, model } = props
+    const { search, clear, model, visible = true } = props
+
+    if (!visible) { return null }
 
     return (
         <ButtonGroup>

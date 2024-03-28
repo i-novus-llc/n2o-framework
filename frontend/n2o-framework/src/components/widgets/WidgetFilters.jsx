@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useMemo, createContext } from 'react'
 import { useDispatch, useSelector, useStore } from 'react-redux'
+import classNames from 'classnames'
 import difference from 'lodash/difference'
 import map from 'lodash/map'
 import unset from 'lodash/unset'
 import cloneDeep from 'lodash/cloneDeep'
 import { isEmpty, isEqual } from 'lodash'
 
-import { Filter } from '../snippets/Filter/Filter'
 import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
 import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { setModel } from '../../ducks/models/store'
-import { failValidate, reset } from '../../ducks/datasource/store'
+import { failValidate, reset as dataSourceReset } from '../../ducks/datasource/store'
 import { ValidationsKey } from '../../core/validation/types'
 import { dataSourceErrors } from '../../ducks/datasource/selectors'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
@@ -36,15 +36,15 @@ const WidgetFilters = (props) => {
         blackResetList,
         filterFieldsets: propsFilterFieldsets,
         datasource,
-        hideButtons = false,
+        style,
         fetchOnClear = true,
     } = props
 
     const { getState } = useStore()
     const dispatch = useDispatch()
     /*
-     * временно заиспользовал edit модель, чтобы не сетить в фильтр пока явно не нажата кнопка "поиск"
-     * хак не имеет смысла, когда включено автообновление по мере ввода
+     * временно использовал edit модель, чтобы не сетить в фильтр пока явно не нажата кнопка "поиск"
+     * хак не имеет смысла, когда включено авто обновление по мере ввода
      */
     const modelPrefix = fetchOnChange ? ModelPrefix.filter : ModelPrefix.edit
     /*
@@ -70,19 +70,17 @@ const WidgetFilters = (props) => {
     }, [datasource, dispatch, getState, modelPrefix, reduxFilterModel])
 
     const clearDatasourceModel = useCallback(() => {
-        dispatch(reset(datasource))
+        dispatch(dataSourceReset(datasource))
     }, [dispatch, datasource])
 
-    const handleFilter = useCallback((forceUpdate) => {
+    const search = useCallback((forceUpdate) => {
         if (modelPrefix === ModelPrefix.edit) {
             dispatch(setModel(ModelPrefix.filter, datasource, reduxFormFilter))
         }
         fetchData({ page: 1 }, forceUpdate)
     }, [dispatch, fetchData, datasource, modelPrefix, reduxFormFilter])
 
-    const handleFilterByFilter = useCallback(() => handleFilter(true), [handleFilter])
-
-    const handleReset = useCallback(() => {
+    const reset = useCallback(() => {
         const filterModel = getModelByPrefixAndNameSelector(modelPrefix, datasource)(getState())
         const newReduxForm = cloneDeep(filterModel)
         const resetList = difference(
@@ -109,14 +107,12 @@ const WidgetFilters = (props) => {
         blackResetList, dispatch, fetchData, clearDatasourceModel,
     ])
 
-    const handleResetByFilter = useCallback(() => handleReset(), [handleReset])
-
     useEffect(() => {
         if (fetchOnChange && reduxFormFilter) { fetchData({ page: 1 }) }
     }, [fetchData, reduxFormFilter, fetchOnChange])
 
     /*
-     * Хак чтобы скопировать валидацию с фильтр-модели, когда запрос делается не по изменению формы
+     * Хак, чтобы скопировать валидацию с фильтр-модели, когда запрос делается не по изменению формы
      * прим: сброс фильтров, apply-on-init
      */
     useEffect(() => {
@@ -130,15 +126,18 @@ const WidgetFilters = (props) => {
         }
     }, [datasource, dispatch, filterMessages, getState, modelPrefix])
 
+    const onKeyDown = useCallback((e) => {
+        if (e.key === 'Enter') {
+            e.stopPropagation()
+            e.preventDefault()
+
+            search(e)
+        }
+    }, [search])
+
     return (
-        <WidgetFilterContext.Provider value={{ search: handleFilter, reset: handleReset }}>
-            <Filter
-                style={{ display: visible ? '' : 'none' }}
-                visible={visible}
-                hideButtons={hideButtons}
-                onSearch={handleFilterByFilter}
-                onReset={handleResetByFilter}
-            >
+        <WidgetFilterContext.Provider value={{ search, reset }}>
+            <div onKeyDown={onKeyDown} className={classNames('n2o-filter', { 'd-none': !visible })} style={style}>
                 <ReduxForm
                     name={widgetId}
                     datasource={datasource}
@@ -147,7 +146,7 @@ const WidgetFilters = (props) => {
                     fields={fieldsKeys}
                     validationKey={ValidationsKey.FilterValidations}
                 />
-            </Filter>
+            </div>
         </WidgetFilterContext.Provider>
     )
 }
@@ -157,7 +156,6 @@ WidgetFilters.propTypes = {
     fieldsets: PropTypes.array,
     blackResetList: PropTypes.array,
     fetchData: PropTypes.func,
-    hideButtons: PropTypes.bool,
     fetchOnChange: PropTypes.bool,
     datasource: PropTypes.string,
     filterFieldsets: PropTypes.array,

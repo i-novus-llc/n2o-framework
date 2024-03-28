@@ -48,9 +48,7 @@
                                          target-model="filter"
                             />
                         </button>
-                        <button label="Сбросить">
-                            <clear model="filter"/>
-                        </button>
+                        <clear-button label="Сбросить"/>
                     </row>
                 </set>
             </filters>
