@@ -123,7 +123,8 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         //sells
         assertThat(table.getComponent().getBody().getCells().size(), is(7));
 
-        assertThat(((AbstractCell) table.getComponent().getBody().getCells().get(0)).getElementAttributes().get("style"), is("marginLeft:10px"));
+        assertThat(((AbstractCell) table.getComponent().getBody().getCells().get(0)).getElementAttributes().get("style"), notNullValue());
+        assertThat(((Map<String, String>) (((AbstractCell) table.getComponent().getBody().getCells().get(0)).getElementAttributes().get("style"))).get("marginLeft"), is("10px"));
         assertThat(((TextCell) table.getComponent().getBody().getCells().get(0)).getElementAttributes().get("className"), is("`test == 1 ? 'css1' : test == 2 ? 'css2' : 'css3'`"));
         assertThat(((TextCell) table.getComponent().getBody().getCells().get(0)).getFormat(), is("password"));
         assertThat(table.getComponent().getBody().getCells().get(2).getId(), is("cell2"));
