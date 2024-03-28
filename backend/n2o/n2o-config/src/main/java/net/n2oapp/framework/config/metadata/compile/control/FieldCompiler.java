@@ -127,7 +127,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected String initLabel(S source, CompileProcessor p) {
-        if (Boolean.FALSE.equals(source.getNoLabelBlock() || source.getNoLabel()))
+        if (!Boolean.TRUE.equals(source.getNoLabel()))
             return p.resolveJS(source.getLabel());
         return null;
     }
