@@ -320,12 +320,17 @@ class AutoComplete extends React.Component<Props, State> {
             tags,
             maxTagTextLength,
             onDismiss,
+            size,
+            count,
+            quickSearchParam,
         } = this.props
         const needAddFilter = !find(value, item => item[labelFieldId] === input)
         const filteredOptions = filter(
             options,
             item => includes(item[labelFieldId as keyof TOption], input) || isEmpty(input),
         )
+
+        const filterValue = isEmpty(input) ? {} : { [quickSearchParam || labelFieldId]: input }
 
         return (
             <div
@@ -403,7 +408,6 @@ class AutoComplete extends React.Component<Props, State> {
                                         activeValueId={activeValueId}
                                         setActiveValueId={this.setActiveValueId}
                                         fetchData={fetchData}
-                                        page={page}
                                         needAddFilter={needAddFilter}
                                         options={filteredOptions}
                                         valueFieldId={valueFieldId}
@@ -418,6 +422,11 @@ class AutoComplete extends React.Component<Props, State> {
                                         hasCheckboxes={hasCheckboxes}
                                         format={format}
                                         renderIfEmpty={false}
+                                        loading={loading}
+                                        page={page}
+                                        size={size}
+                                        count={count}
+                                        filterValue={filterValue}
                                     >
                                         <div className="n2o-alerts">
                                             {alerts?.map(alert => (
@@ -602,6 +611,9 @@ type Props = {
     onDismiss(id: string | number): void,
     flip: boolean,
     page?: number,
+    size?: number,
+    count?: number,
+    quickSearchParam?: string,
 }
 
 export { AutoComplete }
