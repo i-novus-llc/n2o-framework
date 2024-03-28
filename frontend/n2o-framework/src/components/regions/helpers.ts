@@ -111,7 +111,7 @@ export const checkTabAvailability = (
         check(tab, VISIBLE, state)
 }
 
-export const getTabMetaById = (tabId: string, tabs: TabMeta[]) => tabs.find(({ id }) => id === tabId)
+export const getTabMetaById = (tabId: string, tabs: TabMeta[]) => tabs?.find(({ id }) => id === tabId)
 
 export const getTabReduxMeta = (regionsState: RegionsState, regionId: string, tabId: string) => {
     const { tabs } = regionsState[regionId]
