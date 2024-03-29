@@ -87,11 +87,9 @@ export const createRegionContainer = config => (WrappedComponent) => {
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])
 
-        /** Эффект автовыбора активной вкладки TabsRegion **/
+        /** Эффект авто выбора активной вкладки TabsRegion **/
         useEffect(() => {
-            if (!prepared || !routable) {
-                return
-            }
+            if (isEmpty(tabs) || !prepared || !routable) { return }
 
             const delay = setTimeout(() => {
                 const state = getState()
@@ -99,7 +97,7 @@ export const createRegionContainer = config => (WrappedComponent) => {
                 if (isModelDependency) {
                     const model = resolveModel[datasource]
 
-                    /** Автовыбор первой видимой вкладки + setResolve если model не существует (initial) **/
+                    /** Авто выбор первой видимой вкладки + setResolve если model не существует (initial) **/
                     if (isEmpty(model) || model[activeTabFieldId] === undefined) {
                         setFirstAvailableTab(
                             service,
