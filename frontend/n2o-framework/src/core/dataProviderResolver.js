@@ -51,6 +51,7 @@ export function dataProviderResolver(state, dataProvider, query, options) {
         ...queryParams,
         ...queryString.parse(queryFromUrl),
     }
+
     const isAbsolutePath = startsWith(url, ':')
     const isRelativePath = startsWith(url, '.')
 
@@ -61,7 +62,18 @@ export function dataProviderResolver(state, dataProvider, query, options) {
         path = `${pathname}${pathname.endsWith('/') ? '' : '/'}${hash}`
     }
 
-    let basePath = pathToRegexp.compile(path)(pathParams)
+    let basePath
+
+    try {
+        basePath = pathToRegexp.compile(path)(pathParams)
+    } catch (error) {
+        if (isEmpty(pathParams)) { throw error }
+
+        throw new Error(`Не удалось сформировать URL для запроса.
+        Не переданы обязательные параметры:
+        ${Object.entries(pathParams).filter(([, value]) => isNil(value)).map(([key, value]) => `${key}=${value}`).join(', ')}`)
+    }
+
     let compiledUrl = basePath
 
     if (!isEmpty(queryParams) || !isEmpty(query) || !isEmpty(queryFromUrl) || size) {
