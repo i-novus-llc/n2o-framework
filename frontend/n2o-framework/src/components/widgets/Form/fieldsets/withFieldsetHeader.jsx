@@ -19,10 +19,11 @@ export function withFieldsetHeader(Component) {
         enabled,
         activeModel,
         render,
+        visible,
         ...rest
     }) {
         return (
-            <div className={classes} style={style}>
+            <div className={classNames(classes, { 'd-none': visible === false })} style={style}>
                 {(needLabel || needDescription) && (
                     <div className="n2o-fieldset__label-container">
                         {needLabel && (
@@ -52,6 +53,7 @@ export function withFieldsetHeader(Component) {
                     activeModel={activeModel}
                     description={description}
                     {...rest}
+                    visible={visible}
                     render={render}
                     help={help}
                 />
