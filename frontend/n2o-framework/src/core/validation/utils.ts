@@ -4,7 +4,7 @@ import { ContextType } from '../datasource/ArrayField/Context'
 
 import { INDEX_REGEXP } from './const'
 
-export const keyToRegexp = (validationKey: string) => new RegExp(validationKey.replace(
+export const keyToRegexp = (validationKey: string) => new RegExp(`^${validationKey}`.replace(
     INDEX_REGEXP,
     '\\[(\\d+)].',
 ))
