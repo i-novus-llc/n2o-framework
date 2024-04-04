@@ -13,26 +13,23 @@ type RowProviderProps = {
  * Компоеннт-обёртка над строками мультисета для добавления индекса строки в контекст выполнения экспрешенов
  */
 export function RowProvider({ index, children }: RowProviderProps) {
-    const evalContext = useContext(ExpressionContext)
-    const multiContext = useContext(ArrayFieldContext)
+    const currentValue = useContext(ArrayFieldContext)
     const depth = useContext(DepthContext)
 
-    const nextCtx = useMemo(() => {
-        const multi: ContextType = {
-            ...multiContext,
+    const nextValue = useMemo(() => {
+        const contextValue: ContextType = {
+            ...currentValue,
             [`$index_${depth}`]: index,
         }
 
-        if (depth === 0) { multi.index = index }
+        if (depth === 0) { contextValue.index = index }
 
-        const expression = { ...evalContext, ...multi }
-
-        return { multi, expression }
-    }, [depth, evalContext, index, multiContext])
+        return contextValue
+    }, [depth, index, currentValue])
 
     return (
-        <ExpressionContext.Provider value={nextCtx.expression}>
-            <ArrayFieldContext.Provider value={nextCtx.multi}>
+        <ExpressionContext.Provider value={nextValue}>
+            <ArrayFieldContext.Provider value={nextValue}>
                 {children}
             </ArrayFieldContext.Provider>
         </ExpressionContext.Provider>
