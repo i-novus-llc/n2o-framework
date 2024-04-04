@@ -1144,7 +1144,7 @@ n2o.api.widget.toolbar.place=topLeft
 |next-label  |Строка                                                        |Текст кнопки "Следующая страница"                              |                                              |
 |next-icon   |[Класс иконки](https://fontawesome.com/v6/icons/)           |Иконка кнопки "Следующая страница"                             |fa fa-angle-right                             |
 |show-last   |true false                                                    |Показать/скрыть кнопку с номером последней страницы.           |true                                          |
-|show-count  |always never by-request                                       |Показать общее количество записей                              |always если show-last="true", never если false|
+|show-count  |always never by-request                                       |Показать общее количество записей                              |always                                        |
 |place       |topLeft topRight bottomLeft bottomRight topCenter bottomCenter|Место расположения пагинации                                   |bottomLeft                                    |
 |class       |CSS класс                                                     |Класс компонента пагинации                                     |                                              |
 |style       |CSS свойство                                                  |Стиль компонента пагинации                                     |                                              |
@@ -1152,23 +1152,25 @@ n2o.api.widget.toolbar.place=topLeft
 **Настройки**
 ```yaml
 #Показать/скрыть кнопку быстрого перехода на предыдущую страницу
-n2o.api.widget.list.paging.prev=false
+n2o.api.widget.list.paging.prev = false
 #Показать/скрыть кнопку быстрого перехода на следующую страницу
-n2o.api.widget.list.paging.next=false
+n2o.api.widget.list.paging.next = false
 #Показать/скрыть кнопку с номером последней страницы
-n2o.api.widget.list.paging.show_last=true
+n2o.api.widget.list.paging.show_last = true
+#Показать общее количество записей
+n2o.api.widget.list.paging.show_count = always
 #Наименование кнопки "Предыдущая страница"
-n2o.api.widget.list.paging.prev_label=
+n2o.api.widget.list.paging.prev_label =
 #Иконка кнопки "Предыдущая страница"
-n2o.api.widget.list.paging.prev_icon=fa fa-angle-left
+n2o.api.widget.list.paging.prev_icon = fa fa-angle-left
 #Наименование кнопки "Следующая страница"
-n2o.api.widget.list.paging.next_label=
+n2o.api.widget.list.paging.next_label =
 #Иконка кнопки "Следующая страница"
-n2o.api.widget.list.paging.next_icon=fa fa-angle-right
+n2o.api.widget.list.paging.next_icon = fa fa-angle-right
 #CSS класс, который будет добавлен к виджету
-n2o.api.widget.list.paging.className=
+n2o.api.widget.list.paging.className =
 #Место расположения пагинации
-n2o.api.widget.list.paging.place=bottomLeft
+n2o.api.widget.list.paging.place = bottomLeft
 ```
 
 **Пример**

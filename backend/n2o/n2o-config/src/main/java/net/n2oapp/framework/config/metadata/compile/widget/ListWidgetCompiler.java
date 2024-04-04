@@ -46,9 +46,9 @@ public class ListWidgetCompiler extends BaseListWidgetCompiler<ListWidget, N2oLi
         compileList(source, listWidget, context, widgetActions, p, widgetScope, widgetActions, object);
         if (source.getRows() != null) {
             listWidget.setRows(new Rows());
-            listWidget.setRowClick(compileRowClick(source, context, p, widgetScope, object, widgetActions));
+            listWidget.setRowClick(compileRowClick(source, context, p, widgetScope, object));
         }
-        listWidget.setPaging(compilePaging(listWidget, source, p.resolve(property("n2o.api.widget.list.size"), Integer.class), p));
+        listWidget.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.list.size"), Integer.class), p));
         return listWidget;
     }
 
