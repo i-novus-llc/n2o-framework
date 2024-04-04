@@ -61,7 +61,7 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
         for (N2oBlock block : source.getContent())
             tls.add(compileBlock(block, context, p, object, widgetScope, widgetActions));
         tiles.setTile(tls);
-        tiles.setPaging(compilePaging(tiles, source, p.resolve(property("n2o.api.widget.tiles.size"), Integer.class), p));
+        tiles.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.tiles.size"), Integer.class), p));
         return tiles;
     }
 

@@ -93,7 +93,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         component.setHeight(prepareSizeAttribute(source.getHeight()));
         component.setTextWrap(castDefault(source.getTextWrap(), p.resolve(property("n2o.api.widget.table.text_wrap"), Boolean.class)));
         component.getBody().setRow(initRows(source, context, p, object, widgetScope, widgetActions, component));
-        table.setPaging(compilePaging(table, source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p));
+        table.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p));
         table.setChildren(castDefault(source.getChildren(), () -> p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggle.class)));
         component.setAutoSelect(castDefault(source.getAutoSelect(), () -> p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
 
@@ -121,7 +121,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
             source.getRows().getColor().setResolvedCases(resolvedCases);
             row.getElementAttributes().put("className", buildSwitchExpression(source.getRows().getColor()));
         }
-        row.setClick(compileRowClick(source, context, p, widgetScope, object, widgetActions));
+        row.setClick(compileRowClick(source, context, p, widgetScope, object));
         row.setOverlay(compileRowOverlay(source, context, p, widgetScope, new PageIndexScope(source.getId())));
 
         return row;
