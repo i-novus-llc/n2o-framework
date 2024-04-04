@@ -198,6 +198,8 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     private void initDefaultSearchButtons(N2oTable source) {
         if (source.getFilters() == null)
             return;
+        if (source.getFilters().getFetchOnChange() != null && source.getFilters().getFetchOnChange())
+            return;
         List<N2oField> searchButtons = new ArrayList<>();
         findSearchButtons(source.getFilters().getItems(), searchButtons);
         if (!searchButtons.isEmpty())
