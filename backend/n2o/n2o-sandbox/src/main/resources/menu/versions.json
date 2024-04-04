@@ -19,6 +19,10 @@
         {
           "templateId": "versions/7.27/nested_multiset",
           "name": "Вложенный мультисет"
+        },
+        {
+          "templateId": "versions/7.27/additional_info",
+          "name": "Доступ к дополнительной информации"
         }
       ]
     },
