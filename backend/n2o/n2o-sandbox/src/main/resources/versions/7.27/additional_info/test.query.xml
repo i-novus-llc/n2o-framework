@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list
+        additional-mapping="#this.?[['isNew'] == true].size()"
+    >
+        <test file="test.json" operation="findAll"/>
+    </list>
+    <filters>
+        <eq field-id="isNew" filter-id="isNew">
+            
+        </eq>
+    </filters>
+    <fields>
+        <field id="id"/>
+        <field id="price" domain="integer"/>
+        <field id="name" domain="integer"/>
+        <field id="isNew" domain="boolean"/>
+    </fields>
+</query>

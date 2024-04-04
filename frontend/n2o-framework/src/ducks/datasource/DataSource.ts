@@ -14,7 +14,7 @@ export interface DataSourceState {
     components: string[]
     dependencies: DataSourceDependency[]
     paging: Paging
-    additionalInfo: object
+    additionalInfo: unknown
     loading: boolean
     sorting: Partial<Record<string, SortDirection>>
     submit?: SubmitProvider
@@ -40,7 +40,7 @@ export class DataSource {
                 size: 1,
                 count: 0,
             },
-            additionalInfo: {},
+            additionalInfo: undefined,
             loading: false,
             sorting: {},
             errors: {
