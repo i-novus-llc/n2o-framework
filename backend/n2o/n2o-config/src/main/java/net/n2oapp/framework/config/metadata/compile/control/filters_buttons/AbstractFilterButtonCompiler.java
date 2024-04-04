@@ -5,9 +5,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.filter_buttons.N2oFilterButtonField;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.control.filters_buttons.AbstractFilterButtonField;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.control.FieldCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
