@@ -204,7 +204,9 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
             return;
         SourceComponent[] items = new SourceComponent[source.getFilters().getItems().length + 1];
         System.arraycopy(source.getFilters().getItems(), 0, items, 0, items.length - 1);
-        items[items.length - 1] = new N2oSearchButtons();
+        N2oSearchButtons defaultSearchButtons = new N2oSearchButtons();
+        defaultSearchButtons.setNoLabelBlock("true");
+        items[items.length - 1] = defaultSearchButtons;
         source.getFilters().setItems(items);
     }
 
