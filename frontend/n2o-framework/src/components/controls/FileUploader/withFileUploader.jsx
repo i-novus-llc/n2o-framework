@@ -141,7 +141,7 @@ const FileUploaderControl = (WrappedComponent) => {
 
             const { propsResolver } = this.props
 
-            // TODO разобраться что-за контексст такой тут ожидается
+            // TODO разобраться что-за контекст такой тут ожидается
             const { _reduxForm } = this.context
             const { resolveModel } = _reduxForm
 
