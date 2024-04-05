@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.compile.enums.Color;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Button;
-import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -77,9 +76,11 @@ public class ButtonValidator implements SourceValidator<Button>, SourceClassAwar
      * @param attributeName имя атрибута
      */
     private static void checkColor(String color, String attributeName) {
-        if (color != null && !Objects.equals(color, "link")
-                && !color.startsWith("outline")
-                && !EnumUtils.isValidEnum(Color.class, color)) {
+        if (color != null &&
+                !StringUtils.isLink(color) &&
+                !Objects.equals(color, "link") &&
+                !color.startsWith("outline") &&
+                !EnumUtils.isValidEnum(Color.class, color)) {
             throw new N2oMetadataValidationException(
                     String.format("Кнопка использует недопустимое значение атрибута %s=\"%s\"", attributeName, color)
             );
