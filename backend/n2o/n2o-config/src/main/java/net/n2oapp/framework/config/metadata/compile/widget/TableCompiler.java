@@ -175,7 +175,11 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     private AbstractTable.Filter initFilter(Table compiled, N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
                                             WidgetScope widgetScope, CompiledQuery widgetQuery, CompiledObject object,
                                             Object... scopes) {
-        initDefaultSearchButtons(source);
+        List<N2oField> searchButtons = new ArrayList<>();
+        if (source.getFilters() != null)
+            findSearchButtons(source.getFilters().getItems(), searchButtons);
+        if (searchButtons.isEmpty())
+            initDefaultSearchButtons(source);
         List<FieldSet> fieldSets = initFieldSets(source.getFilters() == null ? null : source.getFilters().getItems(),
                 context, p, widgetScope, widgetQuery, object, scopes);
         if (fieldSets.isEmpty()) {
@@ -185,8 +189,6 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         filter.setFilterFieldsets(fieldSets);
         filter.setFilterButtonId("filter");
         filter.setFetchOnClear(castDefault(source.getFilters().getFetchOnClear(), () -> p.resolve(property("n2o.api.widget.table.fetch_on_clear"), Boolean.class)));
-        List<N2oField> searchButtons = new ArrayList<>();
-        findSearchButtons(source.getFilters().getItems(), searchButtons);
         filter.setBlackResetList(initBlackResetList(searchButtons));
         filter.setFilterPlace(castDefault(source.getFilters().getPlace(), FilterPosition.TOP));
         filter.setFetchOnChange(castDefault(source.getFilters().getFetchOnChange(), () -> p.resolve(property("n2o.api.widget.table.fetch_on_change"), Boolean.class)));
@@ -196,8 +198,6 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     }
 
     private void initDefaultSearchButtons(N2oTable source) {
-        if (source.getFilters() == null)
-            return;
         if (source.getFilters().getFetchOnChange() != null && source.getFilters().getFetchOnChange())
             return;
         List<N2oField> searchButtons = new ArrayList<>();
