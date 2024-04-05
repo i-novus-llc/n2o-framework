@@ -37,7 +37,9 @@ public class ButtonValidator implements SourceValidator<Button>, SourceClassAwar
         checkDatasource(source, p);
         checkValidateDatasource(source, p);
 
-        checkColor(source);
+        if (source.getColor() != null)
+            checkColor(source);
+
         if (source instanceof BadgeAware)
             checkBadgeColor(source);
 
@@ -68,11 +70,13 @@ public class ButtonValidator implements SourceValidator<Button>, SourceClassAwar
      * Проверка использования допустимого значения атрибута цвета
      */
     private void checkColor(Button source) {
-        if (source.getColor() != null && !Objects.equals(source.getColor(), "link")
-                && !source.getColor().startsWith("outline")
-                && !EnumUtils.isValidEnum(Color.class, source.getColor())) {
+        String color = source.getColor();
+        boolean isIncorrectColor = !Objects.equals(color, "link")
+                && !color.startsWith("outline")
+                && !EnumUtils.isValidEnum(Color.class, color);
+        if (isIncorrectColor && !StringUtils.isLink(color)) {
             throw new N2oMetadataValidationException(
-                    String.format("Кнопка %s использует недопустимое значение атрибута color=\"%s\"", getLabelOrId(source), source.getColor())
+                    String.format("Кнопка %s использует недопустимое значение атрибута color=\"%s\"", getLabelOrId(source), color)
             );
         }
     }
