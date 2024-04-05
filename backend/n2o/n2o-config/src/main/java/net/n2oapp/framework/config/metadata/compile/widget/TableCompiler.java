@@ -1,7 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.*;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
+import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -198,7 +201,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     }
 
     private void initDefaultSearchButtons(N2oTable source) {
-        if (source.getFilters().getFetchOnChange() != null && source.getFilters().getFetchOnChange())
+        if (source.getFilters() == null || Boolean.TRUE.equals(source.getFilters().getFetchOnChange()))
             return;
         List<N2oField> searchButtons = new ArrayList<>();
         findSearchButtons(source.getFilters().getItems(), searchButtons);
