@@ -52,6 +52,7 @@ export function* fetchValue(
     { formName, datasource, modelPrefix }: Form,
     field: string,
     { dataProvider, valueFieldId = '' }: FieldDependency,
+    evalContext: Record<string, unknown>,
 ) {
     const fetchValueKey = `${formName}.${field}`
 
@@ -60,7 +61,7 @@ export function* fetchValue(
         yield put(setFieldLoading(formName, field, true))
         const state: GlobalState = yield select()
         // @ts-ignore ignore js file typing
-        const { url, headersParams, baseQuery } = dataProviderResolver(state, dataProvider)
+        const { url, headersParams, baseQuery } = dataProviderResolver(state, { ...dataProvider, evalContext })
 
         if (isEqual(baseQuery, FetchValueCache.get(fetchValueKey))) {
             return
@@ -113,7 +114,7 @@ export function* modify(
     field: Field,
     dependency: FieldDependency,
 ) {
-    const { formName, datasource, modelPrefix } = form
+    const { formName, datasource, modelPrefix, fields } = form
     const { type, expression } = dependency
 
     const evalResult = expression && executeExpression<unknown>(expression, values, field.ctx)
@@ -181,7 +182,9 @@ export function* modify(
             break
         }
         case 'fetchValue': {
-            yield fork(fetchValue, values, form, fieldName, dependency)
+            const { ctx = {} } = fields[fieldName]
+
+            yield fork(fetchValue, values, form, fieldName, dependency, ctx)
 
             break
         }
