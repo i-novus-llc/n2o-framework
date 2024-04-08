@@ -38,12 +38,13 @@ export function dataProviderResolver(state, dataProvider, query, options) {
         headersMapping,
         formMapping,
         size,
+        evalContext = {},
     } = dataProvider
     const { origin, pathname, query: queryFromUrl = {}, hash } = urlParse(url)
-    const pathParams = getParams(pathMapping, state)
-    const queryParams = getParams(queryMapping, state)
-    const headersParams = getParams(headersMapping, state)
-    const formParams = getParams(formMapping, state)
+    const pathParams = getParams(pathMapping, state, evalContext)
+    const queryParams = getParams(queryMapping, state, evalContext)
+    const headersParams = getParams(headersMapping, state, evalContext)
+    const formParams = getParams(formMapping, state, evalContext)
 
     const baseQuery = {
         ...query,
@@ -109,11 +110,11 @@ export function dataProviderResolver(state, dataProvider, query, options) {
     }
 }
 
-export function getParams(mapping, state) {
+export function getParams(mapping, state, evalContext = {}) {
     const params = {}
 
     each(mapping, (options, key) => {
-        const value = linkResolver(state, options)
+        const value = linkResolver(state, options, evalContext)
         const { required } = options
 
         params[key] = !isNil(value) ? value : undefined
