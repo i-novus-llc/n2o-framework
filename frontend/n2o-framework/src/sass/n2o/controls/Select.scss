@@ -1,3 +1,9 @@
+.n2o-input-select.readonly-select {
+    .valueText:hover {
+        cursor: pointer;
+    }
+}
+
 .N2O-select-dropdown-search {
     width: 100%;
     display: inline-block;

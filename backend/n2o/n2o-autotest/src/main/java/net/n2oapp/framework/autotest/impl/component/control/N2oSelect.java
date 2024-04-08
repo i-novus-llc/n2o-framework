@@ -40,12 +40,12 @@ public class N2oSelect extends N2oControl implements Select {
 
     @Override
     public void shouldSelected(String value, Duration... duration) {
-        should(Condition.text(value), selectedItemsContainer(), duration);
+        should(Condition.value(value), selectedItemsContainer().$(".valueText"), duration);
     }
 
     @Override
     public void shouldSelected(int count, Duration... duration) {
-        should(Condition.text(String.format("Объектов %d шт", count)), selectedItemsContainer(), duration);
+        should(Condition.value(String.format("Объектов %d шт", count)), selectedItemsContainer().$(".valueText"), duration);
     }
 
     @Override
