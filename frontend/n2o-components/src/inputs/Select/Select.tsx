@@ -47,7 +47,6 @@ const selectType = {
 }
 
 type State = {
-    hasCheckboxes: boolean,
     input?: string
     isExpanded: boolean,
     options?: TOption[],
@@ -66,6 +65,8 @@ function getSelected(value: Props['value']) {
 class SelectComponent extends React.Component<Props, State> {
     private control: null | HTMLButtonElement = null
 
+    readonly hasCheckboxes: boolean
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     n2oSelectRef: RefObject<any>
 
@@ -78,11 +79,11 @@ class SelectComponent extends React.Component<Props, State> {
             isExpanded: false,
             options,
             selected: getSelected(value),
-            hasCheckboxes: type === selectType.CHECKBOXES,
         }
 
         this.control = null
         this.n2oSelectRef = createRef()
+        this.hasCheckboxes = type === selectType.CHECKBOXES
     }
 
     componentDidMount() {
@@ -264,11 +265,11 @@ class SelectComponent extends React.Component<Props, State> {
      */
     insertSelected(item: TOption) {
         const { onChange, onBlur } = this.props
-        const { selected: stateSelected, hasCheckboxes } = this.state
+        const { selected: stateSelected } = this.state
         let selected = [item]
         let value: TOption | TOption[] = item
 
-        if (hasCheckboxes) {
+        if (this.hasCheckboxes) {
             selected = [...(stateSelected || []), item]
             value = selected
         }
@@ -370,7 +371,12 @@ class SelectComponent extends React.Component<Props, State> {
 
     setControlRef = (el: HTMLButtonElement) => { this.control = el }
 
-    renderPlaceholder() {
+    getPlaceholder = () => {
+        const { selected } = this.state
+        const count = selected.length
+
+        if (count < 1) { return '' }
+
         const {
             selectFormat = 'Объектов {size} шт',
             selectFormatOne = '',
@@ -378,33 +384,23 @@ class SelectComponent extends React.Component<Props, State> {
             selectFormatMany = '',
         } = this.props
 
-        const { selected, hasCheckboxes } = this.state
-        const selectedCount = selected.length
-        let text
-
         if (
             !isEmpty(selectFormatOne) &&
             !isEmpty(selectFormatFew) &&
-            !isEmpty(selectFormatMany) &&
-            selectedCount >= 1 &&
-            hasCheckboxes
+            !isEmpty(selectFormatMany)
         ) {
-            text = getNoun(
-                selectedCount,
+            return getNoun(
+                count,
                 selectFormatOne,
                 selectFormatFew,
                 selectFormatMany,
-            ).replace('{size}', `${selectedCount}`)
-        } else if (selectedCount >= 1 && hasCheckboxes) {
-            text = selectFormat.replace('{size}', `${selectedCount}`)
-        } else {
-            text = null
+            ).replace('{size}', `${count}`)
         }
 
-        return text
+        return selectFormat.replace('{size}', `${count}`)
     }
 
-    renderValue() {
+    getValue = () => {
         const { labelFieldId, placeholder = '' } = this.props
         const { selected } = this.state
 
@@ -442,13 +438,14 @@ class SelectComponent extends React.Component<Props, State> {
         } = this.props
         const inputSelectStyle = { width: '100%', ...style }
 
-        const { selected, isExpanded, hasCheckboxes, value, options } = this.state
+        const { selected, isExpanded, value, options } = this.state
 
         const title = get(first(selected), `${labelFieldId}`)
+        const inputValue = this.hasCheckboxes ? this.getPlaceholder() : this.getValue()
 
         return (
             <div
-                className="n2o-input-select"
+                className="n2o-input-select readonly-select"
                 title={title}
                 style={inputSelectStyle}
                 onBlur={this.handleOnBlur}
@@ -466,13 +463,7 @@ class SelectComponent extends React.Component<Props, State> {
                         selected={selected}
                         onClearClick={this.clearSelected}
                     >
-                        <span className="valueText">
-                            {
-                                hasCheckboxes
-                                    ? this.renderPlaceholder()
-                                    : this.renderValue()
-                            }
-                        </span>
+                        <input className="valueText" type="text" value={inputValue} readOnly />
                     </InputSelectGroup>
                 </Button>
                 <Popup isExpanded={isExpanded} inputSelect={this.n2oSelectRef.current}>
@@ -501,7 +492,7 @@ class SelectComponent extends React.Component<Props, State> {
                             isExpanded={isExpanded}
                             selected={selected}
                             groupFieldId={groupFieldId}
-                            hasCheckboxes={hasCheckboxes}
+                            hasCheckboxes={this.hasCheckboxes}
                             onRemoveItem={this.removeSelectedItem}
                             format={format}
                             loading={loading}
