@@ -1,17 +1,15 @@
 package net.n2oapp.framework.config.metadata.validation.standard.widget;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTiles;
-import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
 @Component
-public class TilesValidator implements SourceValidator<N2oTiles>, SourceClassAware {
+public class TilesValidator extends ListWidgetValidator<N2oTiles> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -20,6 +18,7 @@ public class TilesValidator implements SourceValidator<N2oTiles>, SourceClassAwa
 
     @Override
     public void validate(N2oTiles source, SourceProcessor p) {
+        super.validate(source, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), source.getDatasource());
         if (source.getContent() != null)
             Arrays.stream(source.getContent()).forEach(col -> p.validate(col, widgetScope));

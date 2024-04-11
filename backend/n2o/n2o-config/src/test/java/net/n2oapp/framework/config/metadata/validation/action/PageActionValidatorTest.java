@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class PageActionValidatorTest extends SourceValidationTestBase {
+class PageActionValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach
@@ -22,8 +22,9 @@ public class PageActionValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack(), new N2oCellsPack(), new N2oObjectsPack(),
-            new N2oAllValidatorsPack());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(),
+                new N2oActionsPack(), new N2oCellsPack(), new N2oObjectsPack(),
+                new N2oAllValidatorsPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"));
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/action/page/blankObject.object.xml"));
