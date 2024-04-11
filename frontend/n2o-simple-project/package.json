@@ -4,35 +4,35 @@
   "private": true,
   "homepage": ".",
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "eject": "react-scripts eject",
+    "start": "yarn setupProxy && vite",
+    "build:dev": "yarn setupProxy && vite build",
+    "build": "yarn setupProxy && vite build --mode production",
+    "preview": "yarn setupProxy && vite preview",
+    "lint": "eslint src/",
+    "setupProxy": "node ./scripts/setupProxy",
     "clean": "rimraf ./build/ && rimraf ./node_modules/"
   },
   "dependencies": {
-    "n2o-framework": "*"
+    "n2o-framework": "*",
+    "redux-thunk": "^2.4.2"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.9.2",
     "react-scripts": "4.0.1",
-    "@craco/craco": "^6.4.5",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "typescript": "*",
+    "vite": "^4.3.9",
+    "@vitejs/plugin-react": "^4.0.0",
+    "vite-bundle-visualizer": "^0.7.0",
+    "vite-plugin-svgr": "^3.2.0"
   },
   "peerDependencies": {
-    "@craco/craco": "*",
     "react": "*",
     "react-dom": "*"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

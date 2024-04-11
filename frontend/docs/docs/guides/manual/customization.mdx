@@ -27,7 +27,7 @@ description: ""
 ````
 npm init react-app frontend
 ````
-Эта команда создаст папку frontend, в ней создаст необходимые для начала работы файлы и папки, включая index.js.
+Эта команда создаст папку frontend, в ней создаст необходимые для начала работы файлы и папки, включая index.tsx.
 
 Перейдите в папку `/frontend`:
 
@@ -44,7 +44,7 @@ yarn add n2o-framework
 Далее необходимо удалить лишние файлы, созданные после инициализации. Удалите файлы `App.css`, `App.js`, `App.test.js`, `logo.svg`,
 `reportWebVitals.js`.
 
-Отредактируйте файл `/frontend/src/index.js`. Он должен выглядеть следующим образом:
+Отредактируйте файл `/frontend/src/index.tsx`. Он должен выглядеть следующим образом:
 
 ````jsx
 import React from 'react';
@@ -133,7 +133,7 @@ const config = {
 ```
 :::
 
-```jsx title="frontend/src/index.js"
+```jsx title="frontend/src/index.tsx"
 import React from "react";
 import N2O from "n2o-framework";
 import authProvider from "n2o-framework/lib/core/auth/authProvider";
@@ -221,7 +221,7 @@ export function CustomSidebar(config) {
 </application>
 ```
 Передача кастомных компонентов в свойство `templates` конфигурационного объекта
-```jsx {1-3,7-11} title="frontend/src/index.js"
+```jsx {1-3,7-11} title="frontend/src/index.tsx"
 import CustomHeader from "./components/plugins/CustomHeader";
 import CustomSidebar from "./components/plugins/CustomSidebar";
 import CustomFooter from "./components/plugins/CustomFooter";
@@ -251,9 +251,9 @@ ReactDOM.render(
 В папке `components` разделить компоненты по типам кастомизаций, например: `/pages`, `/widgets`, `/cells`.
 В каждой из этих папок будут находиться:
 - папки с кастомными компонентами
-- файл `index.js`, в котором будут экспортироваться эти компоненты
+- файл `index.tsx`, в котором будут экспортироваться эти компоненты
 
-```js title="frontend/src/components/pages/index.js"
+```js title="frontend/src/components/pages/index.tsx"
 import HelloPage from './HelloPage/HelloPage.js';
 
 export default {
@@ -262,7 +262,7 @@ export default {
 ```
 В config объект передать импортированные наборы компонентов:
 
-```js title="frontend/src/index.js"
+```js title="frontend/src/index.tsx"
 import pages from './components/pages';
 
 const config = {
@@ -342,9 +342,9 @@ yarn add sass --dev
 ```
 После этого файл `index.css`, расположенный в папке `src` проекта, необходимо переименовать в `index.scss`.
 
-Чтобы передать управление стилями проекту, необходимо отредактировать директивы `import` в файле `index.js`:
+Чтобы передать управление стилями проекту, необходимо отредактировать директивы `import` в файле `index.tsx`:
 
-```js title="src/index.js"
+```js title="src/index.tsx"
 //import 'n2o-framework/dist/n2o.css';  // эту директиву необходимо удалить
 import './index.scss';                  // файл index.css необходимо переименовать в index.scss
 ...
@@ -399,12 +399,12 @@ import './index.scss';                  // файл index.css необходим
 
 :::note
 Хорошей практикой будет создать папку `reducers` в `frontend/src` для размещения в ней всех ваших reducers.
-Импорт в config вашего App (`app/src/App.jsx`) производить из общего файла импорта index.js
+Импорт в config вашего App (`app/src/App.jsx`) производить из общего файла импорта index.tsx
 :::
 
 Ключ в config должен быть customReducers
 
-```js title="index.js"
+```js title="index.tsx"
 import { customReducer1 } from './reducers/custom1/store'
 import { customReducer2 } from './reducers/custom2/store'
 
@@ -416,12 +416,12 @@ export const customReducers = { custom1: customReducer, custom2: customReducer2 
 
 :::note
 Хорошей практикой будет создать папку `sagas` в `frontend/src` для размещения в ней всех ваших sagas.
-Импорт в config вашего App (`app/src/App.jsx`) производить из общего файла импорта index.js
+Импорт в config вашего App (`app/src/App.jsx`) производить из общего файла импорта index.tsx
 :::
 
 Ключ в config должен быть customSagas
 
-```js title="index.js"
+```js title="index.tsx"
 import { saga } from './sagas/action1/saga1'
 import { saga2 } from './sagas/action2/saga2'
 

@@ -24,6 +24,12 @@ const config = {
 
 ReactDOM.render(<N2O {...createFactoryConfig(config)} />, document.getElementById('n2o'));
 
+declare global {
+    interface Window {
+        SERVICE_WORKER_PATH: string;
+    }
+}
+
 if (navigator && navigator.serviceWorker) {
   navigator.serviceWorker.register(window.SERVICE_WORKER_PATH).then(() => {
     console.info('ServiceWorker installing success');

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/png"/>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000"/>
+    <title>Simple Project</title>
+    <script>
+        // Используется из docusaurus для скрытия ненужных хедера, бредкрамба и футера
+        window.N2O_ELEMENT_VISIBILITY = {
+            header: true,
+            breadcrumb: true,
+            footer: true,
+        }
+
+        window.N2O_WARNING_WATCHER = true;
+
+        window.onmessage = function (event) {
+            if (event.data && event.data.type === 'SET_N2O_ELEMENT_VISIBILITY') {
+                window.N2O_ELEMENT_VISIBILITY = {
+                    ...window.N2O_ELEMENT_VISIBILITY,
+                    ...event.data.payload,
+                }
+            }
+        };
+    </script>
+</head>
+<body>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="n2o"></div>
+<script type="module" src="src/index.tsx"></script>
+</body>
+</html>
