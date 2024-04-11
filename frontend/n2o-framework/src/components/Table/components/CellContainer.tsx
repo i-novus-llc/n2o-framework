@@ -15,6 +15,7 @@ export const CellContainer = memo<CellContainerProps>((props) => {
         rowValue,
         rowIndex,
         alignment,
+        style,
         ...otherProps
     } = props
     const resolvedProps = useResolved(otherProps, otherProps.model, ['toolbar', 'security', 'model'])
@@ -23,6 +24,7 @@ export const CellContainer = memo<CellContainerProps>((props) => {
         <Table.Cell
             className={otherProps.id === 'selectionCell' ? 'cell-selection' : ''}
             align={alignment}
+            style={style}
         >
             <div className="cell-content">
                 {cellIndex === 0 && hasExpandedButton && (
