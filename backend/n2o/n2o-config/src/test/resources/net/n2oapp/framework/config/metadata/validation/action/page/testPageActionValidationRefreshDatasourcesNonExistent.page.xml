@@ -5,12 +5,12 @@
         <datasource id="ds2" object-id="utBlank"/>
     </datasources>
     <regions>
-        <widget>
+        <form>
             <toolbar>
                 <button>
                     <show-modal page-id="utBlank" refresh-datasources="ds1,ds2,ds3"/>
                 </button>
             </toolbar>
-        </widget>
+        </form>
     </regions>
 </page>

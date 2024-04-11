@@ -13,7 +13,6 @@ import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageVal
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class InputTextValidatorTest extends SourceValidationTestBase {
+class InputTextValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach
@@ -33,7 +32,7 @@ public class InputTextValidatorTest extends SourceValidationTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
-        builder.validators(new PageValidator(), new StandardPageValidator(), new WidgetValidator(), new BasePageValidator(),
+        builder.validators(new PageValidator(), new StandardPageValidator(), new BasePageValidator(),
                 new StandardDatasourceValidator(), new FormValidator(), new FieldValidator(), new InputTextValidator());
     }
 

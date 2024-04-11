@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.validation.standard.widget;
 
-import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
@@ -13,11 +12,10 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,34 +23,34 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 /**
  * Валидатор виджета
  */
-@Component
-public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassAware {
+public abstract class WidgetValidator<T extends N2oWidget> implements SourceValidator<T>, SourceClassAware {
 
     @Override
-    public void validate(N2oWidget source, SourceProcessor p) {
+    public void validate(T source, SourceProcessor p) {
         MetaActions pageActions = p.getScope(MetaActions.class);
         checkActionIds(source, pageActions, p);
-        MetaActions allMetaActions = joinMetaActions(pageActions, source.getActions(), p);
+        MetaActions allMetaActions = getAllMetaActions(pageActions, source.getActions(), p);
 
-        DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
         ComponentScope componentScope = new ComponentScope(source);
-        if (nonNull(source.getDatasource())) {
+        if (source.getDatasource() != null) {
             WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasource(), null, (N2oCompileProcessor) p);
-            p.validate(source.getDatasource(), widgetScope, datasourceIdsScope);
+            p.validate(source.getDatasource(), widgetScope);
+
+            DataSourcesScope datasourcesScope = p.getScope(DataSourcesScope.class);
+            if (datasourcesScope != null && !datasourcesScope.containsKey(source.getDatasource().getId()))
+                datasourcesScope.put(source.getDatasource().getId(), source.getDatasource());
         }
 
-        if (nonNull(source.getToolbars())) {
+        if (source.getToolbars() != null) {
             List<N2oButton> menuItems = new ArrayList<>();
             for (N2oToolbar toolbar : source.getToolbars()) {
-                if (nonNull(toolbar.getItems())) {
+                if (toolbar.getItems() != null) {
                     for (ToolbarItem item : toolbar.getItems()) {
                         if (item instanceof N2oButton) {
                             menuItems.add((N2oButton) item);
@@ -62,12 +60,13 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
                     }
                 }
             }
-            p.safeStreamOf(menuItems).forEach(menuItem -> p.validate(menuItem, datasourceIdsScope, componentScope,
-                    allMetaActions));
-            p.checkIdsUnique(menuItems, String.format("Кнопка '%s' встречается более чем один раз в виджете '%s'", "%s", source.getId()));
+            p.safeStreamOf(menuItems).forEach(menuItem ->
+                    p.validate(menuItem, componentScope, allMetaActions));
+            p.checkIdsUnique(menuItems,
+                    String.format("Кнопка '%s' встречается более чем один раз в виджете '%s'", "%s", source.getId()));
         }
 
-        if (nonNull(source.getDatasourceId())) {
+        if (source.getDatasourceId() != null) {
             checkDatasource(source, p);
         }
 
@@ -78,8 +77,8 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         checkEmptyToolbar(source);
     }
 
-    private static void checkEmptyToolbar(N2oWidget source) {
-        if (nonNull(source.getToolbars()))
+    private void checkEmptyToolbar(T source) {
+        if (source.getToolbars() != null)
             for (N2oToolbar toolbar : source.getToolbars()) {
                 if (toolbar.getItems() == null && toolbar.getGenerate() == null)
                     throw new N2oMetadataValidationException(
@@ -88,7 +87,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
             }
     }
 
-    private void checkDependencies(N2oWidget source) {
+    private void checkDependencies(T source) {
         if (source.getDependencies() != null) {
             Arrays.stream(source.getDependencies()).forEach(dependency ->
                     ValidationUtils.checkEmptyDependency(dependency,
@@ -97,9 +96,9 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         }
     }
 
-    private MetaActions joinMetaActions(MetaActions pageActions, ActionBar[] widgetActions, SourceProcessor p) {
+    protected MetaActions getAllMetaActions(MetaActions pageActions, ActionBar[] widgetActions, SourceProcessor p) {
         MetaActions result = new MetaActions();
-        if (nonNull(pageActions))
+        if (pageActions != null)
             result.putAll(pageActions);
         result.putAll(p.safeStreamOf(widgetActions)
                 .collect(Collectors.toMap(ActionBar::getId, Function.identity())));
@@ -113,7 +112,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
      * @param pageActions Скоуп действий страницы
      * @param p           Процессор исходных метаданных
      */
-    private void checkActionIds(N2oWidget source, MetaActions pageActions, SourceProcessor p) {
+    private void checkActionIds(T source, MetaActions pageActions, SourceProcessor p) {
         if (isEmpty(source.getActions()))
             return;
         ActionBar[] widgetActions = source.getActions();
@@ -127,7 +126,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         p.checkIdsUnique(widgetActions,
                 String.format("Действие '%s' встречается более чем один раз в метаданной виджета '%s'", "%s", source.getId()));
 
-        if (isNull(pageActions))
+        if (pageActions == null)
             return;
         for (ActionBar widgetAction : widgetActions) {
             if (pageActions.containsKey(widgetAction.getId()))
@@ -140,23 +139,16 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
 
     /**
      * Проверка существования источника данных, на который ссылается виджет
-     *
-     * @param n2oWidget Виджет
      */
-    private void checkDatasource(N2oWidget n2oWidget, SourceProcessor p) {
-        if (n2oWidget.getDatasourceId() != null)
-            ValidationUtils.checkDatasourceExistence(n2oWidget.getDatasourceId(), p,
-                String.format("Виджет %s cсылается на несуществующий источник данных '%s'",
-                        ValidationUtils.getIdOrEmptyString(n2oWidget.getId()), n2oWidget.getDatasourceId()));
-        if (nonNull(n2oWidget.getDatasource()) && nonNull(n2oWidget.getDatasourceId()))
+    private void checkDatasource(T widget, SourceProcessor p) {
+        if (widget.getDatasourceId() != null)
+            ValidationUtils.checkDatasourceExistence(widget.getDatasourceId(), p,
+                    String.format("Виджет %s cсылается на несуществующий источник данных '%s'",
+                            ValidationUtils.getIdOrEmptyString(widget.getId()), widget.getDatasourceId()));
+        if (widget.getDatasource() != null && widget.getDatasourceId() != null)
             throw new N2oMetadataValidationException(
                     String.format("Виджет '%s' использует внутренний источник и ссылку на источник данных одновременно",
-                            n2oWidget.getId())
+                            widget.getId())
             );
-    }
-
-    @Override
-    public Class<? extends Source> getSourceClass() {
-        return N2oWidget.class;
     }
 }

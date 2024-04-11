@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
-    <widget>
+    <form>
         <toolbar>
             <button>
                 <open-page page-id="utBlank"  route="test/:id">
@@ -10,5 +10,5 @@
                 </open-page>
             </button>
         </toolbar>
-    </widget>
+    </form>
 </simple-page>

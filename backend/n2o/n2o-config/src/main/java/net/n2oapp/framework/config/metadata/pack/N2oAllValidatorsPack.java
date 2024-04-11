@@ -36,7 +36,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
     public void build(N2oApplicationBuilder b) {
         b.validators(new ObjectValidator(), new QueryValidator(), new PageValidator(),
                 new ApplicationValidator(), new SimpleMenuValidator(), new SidebarValidator(),
-                new WidgetValidator(), new ListFieldValidator(), new SetFieldSetValidator(),
+                new ListFieldValidator(), new SetFieldSetValidator(),
                 new FieldSetColumnValidator(), new FieldSetRowValidator(), new FormValidator(),
                 new TableValidator(), new PageActionValidator(), new InvokeActionValidator(), new SetValueValidator(),
                 new AlertActionValidator(), new ClearActionValidator(), new CopyActionValidator(), new ConfirmActionValidator(),
@@ -49,7 +49,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new MultiFieldSetValidator(), new JavaDataProviderValidator(), new ButtonValidator(), new SubMenuValidator(),
                 new SubmitActionValidator(), new CustomActionValidator(), new ActionsAwareValidator(), new SwitchActionValidator(),
                 new EditListActionValidator(), new OnChangeEventValidator(), new MarkdownValidator(), new TilesValidator(),
-                new CardsValidator(), new ListWidgetValidator(), new TabsValidator(), new ScrollspyValidator(), new SwitchCellValidator(),
+                new CardsValidator(), new TabsValidator(), new ScrollspyValidator(), new SwitchCellValidator(),
                 new LinkCellValidator(), new BadgeCellValidator(), new IconCellValidator(), new EditCellValidator(),
                 new ToolbarCellValidator(), new ListCellValidator(), new MultiColumnValidator(), new SimpleColumnValidator(),
                 new FilterColumnValidator(), new BlockValidator(), new DateIntervalValidator(),

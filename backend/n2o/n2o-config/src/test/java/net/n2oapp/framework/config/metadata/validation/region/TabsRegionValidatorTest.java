@@ -10,7 +10,6 @@ import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPag
 import net.n2oapp.framework.config.metadata.validation.standard.regions.ScrollspyValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.regions.TabsValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class TabsRegionValidatorTest extends SourceValidationTestBase {
+class TabsRegionValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach
@@ -31,7 +30,7 @@ public class TabsRegionValidatorTest extends SourceValidationTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack());
         builder.validators(new StandardPageValidator(), new ScrollspyValidator(),
-                new TabsValidator(), new WidgetValidator(), new StandardDatasourceValidator());
+                new TabsValidator(), new FormValidator(), new StandardDatasourceValidator());
     }
 
     @Test
