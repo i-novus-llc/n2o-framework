@@ -31,7 +31,7 @@ import { FieldActionsPropTypes } from './FieldPropTypes'
  * @reactProps {boolean} required - обязательное / необязательное поле
  * @reactProps {boolean} disabled - контрол доступен только для чтения / нет
  * @reactProps {boolean} enabled - контрол активирован / нет
- * @reactProps {string|element} control - строка с названием компонента (тем, которое указано в мэпе index.js) или элемент
+ * @reactProps {string|element} control - строка с названием компонента (тем, которое указано в мэпе index.tsx) или элемент
  * @reactProps {string} description - описание поля (находится под контролом)
  * @reactProps {string} measure - единица измерения, находится после контрола (например, км, кг, л)
  * @reactProps {object} style - объект с css-стилями для поля

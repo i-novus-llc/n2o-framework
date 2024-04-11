@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "diagnostics": true,
+        "importHelpers": true,
+        "target" : "ES2015",
+        "module": "ESNext",
+        "noEmitOnError": false,
+        "outDir": "lib",
+        "esModuleInterop": true,
+        "lib": ["DOM", "ESNext"],
+        "locale": "ru",
+        "strict": true,
+        "pretty": true,
+        "types": ["tslib"],
+        "moduleResolution": "Node",
+        "allowSyntheticDefaultImports": true,
+        "jsx": "react",
+        "allowJs" : true,
+        "baseUrl": "./",
+        "skipLibCheck" : true
+    },
+  "include" : ["src", "vite.config.ts"],
+  "exclude": ["node_modules"]
+}
