@@ -28,6 +28,26 @@ public class N2oSelect extends N2oControl implements Select {
         selectedItemsContainer().$(".input").setValue(value);
     }
 
+    @Deprecated
+    public void expand() {
+        openPopup();
+    }
+
+    @Deprecated
+    public void collapse() {
+        closePopup();
+    }
+
+    @Deprecated
+    public void shouldBeExpanded() {
+        shouldBeOpened();
+    }
+
+    @Deprecated
+    public void shouldBeCollapsed() {
+        shouldBeClosed();
+    }
+
     @Override
     public void click() {
         selectedItemsContainer().click();
@@ -35,7 +55,7 @@ public class N2oSelect extends N2oControl implements Select {
 
     @Override
     public void shouldSelected(String value, Duration... duration) {
-        should(Condition.text(value), selectedItemsContainer(), duration);
+        should(Condition.value(value), selectedItemsContainer().$(".valueText"), duration);
     }
 
     @Override
@@ -87,26 +107,6 @@ public class N2oSelect extends N2oControl implements Select {
     @Override
     public DropDown dropdown() {
         return N2oSelenide.component(element().parent().parent().$(".n2o-dropdown-control"), DropDown.class);
-    }
-
-    @Deprecated
-    public void expand() {
-        openPopup();
-    }
-
-    @Deprecated
-    public void collapse() {
-        closePopup();
-    }
-
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
-    }
-
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
     }
 
     protected SelenideElement selectPopUp() {
