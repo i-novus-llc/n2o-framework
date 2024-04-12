@@ -11,7 +11,7 @@ import {
 import isEmpty from 'lodash/isEmpty'
 import { getLocation } from 'connected-react-router'
 import queryString from 'query-string'
-import { get, isEqual, cloneDeep } from 'lodash'
+import { get, isEqual } from 'lodash'
 
 import { destroyOverlay } from '../overlays/store'
 import { FETCH_PAGE_METADATA } from '../../core/api'
@@ -28,6 +28,8 @@ import {
 import { modelsSelector } from '../models/selectors'
 import { DefaultModels } from '../models/Models'
 import { State } from '../State'
+import { mergeMeta } from '../api/utils/mergeMeta'
+import { DEFAULT_CONTEXT } from '../../utils/evalExpression'
 
 import { pagesSelector } from './selectors'
 import {
@@ -166,7 +168,8 @@ export function* watchEvents() {
             }
 
             if (!isEqual(value, prevValue)) {
-                yield put(cloneDeep(action))
+                // FIXME костыльный проброс контекста
+                yield put(mergeMeta(action, { evalContext: DEFAULT_CONTEXT }))
             }
         }
     }

@@ -53,10 +53,8 @@ function MultiFieldset({
                             index={index}
                             model={activeModel}
                             label={firstChildrenLabel && index === 0 ? firstChildrenLabel : childrenLabel}
-                            onAddField={append}
                             onRemoveField={remove}
                             onCopyField={copy}
-                            onRemoveAll={onRemoveAll}
                             parentName={name}
                             enabled={isEnabled}
                             canRemoveFirstItem={canRemoveFirstItem}

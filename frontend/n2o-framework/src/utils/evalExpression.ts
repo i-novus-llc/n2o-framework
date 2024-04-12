@@ -5,6 +5,13 @@ import functions from './functions'
 
 export { parseExpression } from '../core/Expression/parse'
 
+export const DEFAULT_CONTEXT = {
+    ...functions,
+    // @ts-ignore _n2oEvalContext задаётся где-то в App. FIXME: переделать на явную передачу контекста
+    // eslint-disable-next-line no-underscore-dangle
+    ...window._n2oEvalContext,
+}
+
 /**
  * Выполняет JS выражение
  * @param expression {String} - Выражение, которое нужно выполнить
@@ -17,9 +24,7 @@ export function evalExpression<ExpectedResult>(
     model: object,
     ctx: Record<string, unknown> = {},
 ): ExpectedResult | void {
-    // @ts-ignore _n2oEvalContext задаётся где-то в App. FIXME: переделать на явную передачу контекста
-    // eslint-disable-next-line no-underscore-dangle
-    const context = { ...functions, ...window._n2oEvalContext, ...ctx }
+    const context = { ...DEFAULT_CONTEXT, ...ctx }
 
     return executeExpression<ExpectedResult, void>(expression, model, context)
 }
