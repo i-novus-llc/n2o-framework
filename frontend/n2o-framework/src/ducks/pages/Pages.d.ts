@@ -1,9 +1,8 @@
-import { Action } from 'redux'
-
 import { ModelPrefix } from '../../core/datasource/const'
 import { Crumb } from '../../components/core/Breadcrumb/const'
 import { DataSourceState } from '../datasource/DataSource'
 import { DefaultModels } from '../models/Models'
+import { Action } from '../Action'
 
 import { Routes } from './sagas/types'
 

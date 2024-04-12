@@ -2,8 +2,7 @@ import { Resolve, propsResolver as resolver } from '../core/Expression/propsReso
 
 // @ts-ignore ignore import error from js file
 import warning from './warning'
-// @ts-ignore ignore import error from js file
-import functions from './functions'
+import { DEFAULT_CONTEXT } from './evalExpression'
 
 warning('"./utils/propsResolver" is deprecated, use "./core/Expression/useResolver"')
 
@@ -37,9 +36,5 @@ export default function propsResolver<
     model: Record<string, unknown> | Array<Record<string, unknown>> = {},
     ignoreKeys: string[] = [],
 ) {
-    // @ts-ignore _n2oEvalContext задаётся где-то в App. FIXME: переделать на явную передачу контекста
-    // eslint-disable-next-line no-underscore-dangle
-    const context = { ...functions, ...window._n2oEvalContext }
-
-    return resolver<Resolved>(props, model, context, ignoreKeys)
+    return resolver<Resolved>(props, model, DEFAULT_CONTEXT, ignoreKeys)
 }
