@@ -118,7 +118,7 @@ public class ExportController extends AbstractController {
         if (sourceFieldId == null)
             return;
         ArrayList<DataSet> dataSets = new ArrayList<>();
-        data.getList().forEach(ds -> dataSets.addAll((List<DataSet>)ds.getList(sourceFieldId[0])));
+        data.getList().forEach(ds -> dataSets.addAll((List<DataSet>) ds.getList(sourceFieldId[0])));
         data.setList(dataSets);
     }
 
@@ -131,7 +131,10 @@ public class ExportController extends AbstractController {
         ArrayList<String> resolvedHeaders = new ArrayList<>();
         if (!data.isEmpty())
             for (String key : data.get(0).flatKeySet())
-                resolvedHeaders.add(headers.get(key));
+                if (key.contains("."))
+                    resolvedHeaders.add(key);
+                else
+                    resolvedHeaders.add(headers.get(key));
 
         return resolvedHeaders;
     }
@@ -170,9 +173,6 @@ public class ExportController extends AbstractController {
                 .flatKeySet()
                 .stream()
                 .filter(f -> !showed.contains(f))
-                .map(ignored -> ignored.contains(".")
-                        ? ignored.substring(0, ignored.indexOf("."))
-                        : ignored)
                 .collect(Collectors.toList());
         dataResponse.getList().forEach(data -> ignore.forEach(data::remove));
     }

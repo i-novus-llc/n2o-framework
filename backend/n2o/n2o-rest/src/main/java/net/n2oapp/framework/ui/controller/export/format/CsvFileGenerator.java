@@ -20,8 +20,8 @@ import java.util.function.UnaryOperator;
 @Component
 public class CsvFileGenerator implements FileGenerator {
 
-    private char CSV_SEPARATOR = ';';
-    private final String FILE_FORMAT = "csv";
+    private static final String FILE_FORMAT = "csv";
+    private char csvSeparator = ';';
 
     @Override
     public byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data, List<String> headers) {
@@ -32,7 +32,7 @@ public class CsvFileGenerator implements FileGenerator {
 
             FileWriter fileWriter = new FileWriter(fullFileName, Charset.forName(charset));
             CSVWriter writer = new CSVWriter(
-                    fileWriter, CSV_SEPARATOR,
+                    fileWriter, csvSeparator,
                     '\'',
                     '\'',
                     ICSVWriter.DEFAULT_LINE_END
@@ -57,7 +57,7 @@ public class CsvFileGenerator implements FileGenerator {
     }
 
     public void setSeparator(char separator) {
-        this.CSV_SEPARATOR = separator;
+        this.csvSeparator = separator;
     }
 
     private List<String[]> resolveToCsvFormat(List<DataSet> data, List<String> headers) {
