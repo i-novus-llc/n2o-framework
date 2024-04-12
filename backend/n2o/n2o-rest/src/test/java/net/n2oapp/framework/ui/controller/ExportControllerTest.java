@@ -9,15 +9,12 @@ import org.junit.jupiter.api.Test;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-public class ExportControllerTest extends DataControllerTestBase {
+class ExportControllerTest extends DataControllerTestBase {
 
     private final FileGeneratorFactory factory = new FileGeneratorFactory(List.of(new CsvFileGenerator()));
 
@@ -30,14 +27,17 @@ public class ExportControllerTest extends DataControllerTestBase {
         body1.put("id", 1);
         body1.put("name", "test1");
         body1.put("list", Arrays.asList(1, 2, 3));
+        body1.put("type", Map.of("name", "test1"));
 
         body2.put("id", 2);
         body2.put("name", "test2");
         body2.put("list", Arrays.asList(1, 2, 3));
+        body2.put("type", Map.of("name", "test2"));
 
         body3.put("id", 3);
         body3.put("name", "test3");
         body3.put("list", Arrays.asList(1, 2, 3));
+        body3.put("type", Map.of("name", "test3"));
 
         List<DataSet> list = new ArrayList<>();
         list.add(body1);
@@ -49,13 +49,14 @@ public class ExportControllerTest extends DataControllerTestBase {
         headers.put("id", "Идентификатор");
         headers.put("name", "Наименование");
         headers.put("list", "Список");
+        headers.put("type.name", "Тип");
         ExportResponse export = exportController.export(list, "csv", "UTF-8", headers);
 
         String act = new String(export.getFile(), StandardCharsets.UTF_8);
-        String exp = "\"Идентификатор\";\"Наименование\";\"Список\"\n" +
-                "1;\"test1\";[1, 2, 3]\n" +
-                "2;\"test2\";[1, 2, 3]\n" +
-                "3;\"test3\";[1, 2, 3]\n";
+        String exp = "\"Идентификатор\";\"Наименование\";\"Список\";\"Тип\"\n" +
+                "1;\"test1\";[1, 2, 3];\"test1\"\n" +
+                "2;\"test2\";[1, 2, 3];\"test2\"\n" +
+                "3;\"test3\";[1, 2, 3];\"test3\"\n";
 
         assertThat(act, is(exp));
         assertThat(export.getCharacterEncoding(), is("UTF-8"));
