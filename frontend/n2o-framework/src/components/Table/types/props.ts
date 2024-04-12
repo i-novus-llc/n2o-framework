@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, RefObject, TdHTMLAttributes, VFC } from 'react'
+import { FC, RefObject, TdHTMLAttributes, VFC, CSSProperties } from 'react'
 
 import { Selection, TableActions } from '../enum'
 import { SortDirection } from '../../../core/datasource/const'
@@ -178,4 +178,5 @@ export type CellContainerProps = {
     isTreeExpanded: boolean
     rowIndex: RowContainerProps['rowIndex']
     alignment?: TdHTMLAttributes<HTMLTableCellElement>['align']
+    style?: CSSProperties
 } & Omit<Cell, 'elementAttributes'>
