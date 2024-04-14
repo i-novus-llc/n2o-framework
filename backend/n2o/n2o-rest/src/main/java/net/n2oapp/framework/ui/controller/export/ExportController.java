@@ -52,9 +52,9 @@ public class ExportController extends AbstractController {
 
     public GetDataResponse getData(String path, Map<String, String[]> params, UserContext user) {
         GetDataResponse data = dataController.getData(path, params, user);
-        leaveDataByParentId(data, params.get("parent_id"));
-        leaveDataBySourceField(data, params.get("source_field_id"));
-        leaveShowedFields(data, params.get("show"));
+        initDataByParentId(data, params.get("parent_id"));
+        initDataBySourceField(data, params.get("source_field_id"));
+        initShowedFields(data, params.get("show"));
 
         return data;
     }
@@ -82,7 +82,7 @@ public class ExportController extends AbstractController {
      * Если будет передан 'parent-id' равный 1, то останется только родитель с id=1, соответственно и останутся его потомки.
      * Иначе оставляет исходные данные.
      */
-    private void leaveDataByParentId(GetDataResponse data, String[] parentIds) {
+    private void initDataByParentId(GetDataResponse data, String[] parentIds) {
         if (parentIds == null)
             return;
         data.setList(
@@ -114,7 +114,7 @@ public class ExportController extends AbstractController {
      *
      * @param sourceFieldId - ключ для нахождения второго уровня вложенности
      */
-    private void leaveDataBySourceField(GetDataResponse data, String[] sourceFieldId) {
+    private void initDataBySourceField(GetDataResponse data, String[] sourceFieldId) {
         if (sourceFieldId == null)
             return;
         ArrayList<DataSet> dataSets = new ArrayList<>();
@@ -131,7 +131,7 @@ public class ExportController extends AbstractController {
         ArrayList<String> resolvedHeaders = new ArrayList<>();
         if (!data.isEmpty())
             for (String key : data.get(0).flatKeySet())
-                if (key.contains("."))
+                if (key.contains(".") && !headers.containsKey(key))
                     resolvedHeaders.add(key);
                 else
                     resolvedHeaders.add(headers.get(key));
@@ -163,17 +163,16 @@ public class ExportController extends AbstractController {
      * @param dataResponse - данные для экспорта
      * @param showedFields - имена отображаемых полей
      */
-    private void leaveShowedFields(GetDataResponse dataResponse, String[] showedFields) {
+    private void initShowedFields(GetDataResponse dataResponse, String[] showedFields) {
         if (dataResponse.getList().isEmpty() || StringUtils.isEmpty(showedFields))
             return;
 
-        Set<String> showed = Set.of(showedFields);
-        List<String> ignore = dataResponse.getList()
-                .get(0)
-                .flatKeySet()
-                .stream()
-                .filter(f -> !showed.contains(f))
-                .collect(Collectors.toList());
-        dataResponse.getList().forEach(data -> ignore.forEach(data::remove));
+        for (int i = 0; i < dataResponse.getList().size(); i++) {
+            DataSet dataSet = dataResponse.getList().get(i);
+            DataSet orderedItem = new DataSet();
+            for (String key : showedFields)
+                orderedItem.put(key, dataSet.get(key));
+            dataResponse.getList().set(i, orderedItem);
+        }
     }
 }
