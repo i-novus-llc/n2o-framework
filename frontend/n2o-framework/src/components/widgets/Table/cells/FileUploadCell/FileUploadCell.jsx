@@ -7,7 +7,7 @@ import classNames from 'classnames'
 
 import FileUploader from '../../../../controls/FileUploader/FileUploader'
 import withFileUploader from '../../../../controls/FileUploader/withFileUploader'
-import DefaultCell from '../DefaultCell'
+import { DefaultCell } from '../DefaultCell'
 
 function FileUploadCellComponent(props) {
     const { multi, files, t, showSize, label, uploadIcon, deleteIcon, className, disabled } = props

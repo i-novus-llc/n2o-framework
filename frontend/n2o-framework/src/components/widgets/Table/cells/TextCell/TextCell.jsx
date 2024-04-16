@@ -25,16 +25,15 @@ function TextCell({
     subTextFieldKey,
     subTextFormat,
     visible,
+    forwardedRef,
     ...rest
 }) {
     const mainText = model && get(model, fieldKey || id)
 
-    if ((!Number.isFinite(mainText) && !mainText) || !visible) {
-        return null
-    }
+    if ((!Number.isFinite(mainText) && !mainText) || !visible) { return null }
 
     return (
-        <div className="d-inline-flex flex-column">
+        <div className="d-inline-flex flex-column" ref={forwardedRef}>
             <div
                 className={classNames('icon-cell-container', {
                     'icon-cell-container__with-tooltip': !isUndefined(
