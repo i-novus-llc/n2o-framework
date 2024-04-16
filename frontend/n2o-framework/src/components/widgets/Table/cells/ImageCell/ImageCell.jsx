@@ -12,7 +12,7 @@ import { ImageInfo } from '../../../../snippets/Image/ImageInfo'
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
 import { ActionWrapper } from '../../../../buttons/StandardButton/ActionWrapper'
-import DefaultCell from '../DefaultCell'
+import { DefaultCell } from '../DefaultCell'
 
 import ImageStatuses from './ImageStatuses'
 import imageShapes from './imageShapes'
@@ -54,6 +54,7 @@ function ImageCell(props) {
         target,
         url,
         statuses = [],
+        forwardedRef,
     } = props
 
     const src = get(model, fieldKey)
@@ -81,7 +82,8 @@ function ImageCell(props) {
 
     return (
         <DefaultCell
-            tag="span"
+            forwardedRef={forwardedRef}
+            tag="div"
             disabled={disabled}
             className={classNames(
                 'n2o-image-cell-container',
@@ -123,10 +125,7 @@ function ImageCell(props) {
             </ActionWrapper>
             {hasInfo && (
                 <ActionWrapper {...wrapperProps}>
-                    <ImageInfo
-                        title={title}
-                        description={description}
-                    />
+                    <ImageInfo title={title} description={description} />
                 </ActionWrapper>
             )}
         </DefaultCell>

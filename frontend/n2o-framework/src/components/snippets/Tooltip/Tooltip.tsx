@@ -17,6 +17,7 @@ export function Tooltip(props: TooltipProps) {
     const { ref } = (children as TooltipProps['TooltipChildren'])?.props?.children
 
     if (!ref && typeof children === 'object' && 'ref' in children) {
+        // @ts-ignore ругается WebStorm билд ts с этим проходит
         content = cloneElement(children, { ref: tooltipRef, tooltipClose: close })
     }
 

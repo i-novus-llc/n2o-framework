@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-prop-types */
 import React from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
@@ -25,98 +24,94 @@ import { Shape } from '../../../../snippets/Badge/enums'
  * @example
  * <BadgeCell model={model} filedKey={'name'} text="info"/>
  */
-class BadgeCell extends React.Component {
-    /**
-   * Базовый рендер
-   */
-    render() {
-        const {
-            id,
-            model,
-            fieldKey,
-            placement,
-            text,
-            format,
-            badgeFormat,
-            visible,
-            className,
-            shape,
-        } = this.props
+function BadgeCell(props) {
+    const {
+        id,
+        model,
+        fieldKey,
+        placement,
+        text,
+        format,
+        badgeFormat,
+        visible,
+        className,
+        shape,
+        forwardedRef,
+    } = props
 
-        const badgeStyle = {
-            order: placement === 'right' ? 1 : -1,
-            marginLeft: placement === 'right' && 5,
-            marginRight: placement === 'left' && 5,
-        }
-        const badgeText = get(model, fieldKey || id)
+    if (!visible) { return null }
 
-        return (
-            visible && (
-                <span className="d-inline-flex">
-                    <Text text={text} format={format} />
-                    {!isNil(badgeText) && (
-                        <Badge
-                            {...resolveBadgeProps(
-                                {
-                                    ...this.props,
-                                    fieldId: fieldKey || id,
-                                },
-                                model,
-                            )}
-                            text={(
-                                <Text
-                                    title={badgeText}
-                                    text={badgeText}
-                                    className={className}
-                                    format={badgeFormat}
-                                />
-                            )}
-                            style={badgeStyle}
-                            shape={shape || Shape.Square}
+    const badgeStyle = {
+        order: placement === 'right' ? 1 : -1,
+        marginLeft: placement === 'right' && 5,
+        marginRight: placement === 'left' && 5,
+    }
+    const badgeText = get(model, fieldKey || id)
+
+    return (
+        <span className="d-inline-flex" ref={forwardedRef}>
+            <Text text={text} format={format} />
+            {!isNil(badgeText) && (
+                <Badge
+                    {...resolveBadgeProps(
+                        {
+                            ...props,
+                            fieldId: fieldKey || id,
+                        },
+                        model,
+                    )}
+                    text={(
+                        <Text
+                            title={badgeText}
+                            text={badgeText}
+                            className={className}
+                            format={badgeFormat}
                         />
                     )}
-                </span>
-            )
-        )
-    }
+                    style={badgeStyle}
+                    shape={shape || Shape.Square}
+                />
+            )}
+        </span>
+    )
 }
 
 BadgeCell.propTypes = {
     /**
-   * ID ячейки
-   */
+     * ID ячейки
+     */
     id: PropTypes.string,
     /**
-   * Ключ значения в данных
-   */
+     * Ключ значения в данных
+     */
     fieldKey: PropTypes.string,
     /**
-   * Модель данных
-   */
+     * Модель данных
+     */
     model: PropTypes.object,
     /**
-   * Расположение текста
-   */
+     * Расположение текста
+     */
     placement: PropTypes.oneOf(['left', 'right']),
     /**
-   * Текст
-   */
+     * Текст
+     */
     text: PropTypes.string,
     /**
-   * Формат
-   */
+     * Формат
+     */
     format: PropTypes.string,
     /**
-   * Форма баджа
-   */
+     * Форма баджа
+     */
     shape: PropTypes.string,
     /**
-   * Формат баджа
-   */
+     * Формат баджа
+     */
     badgeFormat: PropTypes.string,
     /**
-   * Цвет баджа
-   */
+     * Цвет баджа
+     */
     color: PropTypes.oneOf([
         'secondary',
         'primary',
@@ -126,20 +121,20 @@ BadgeCell.propTypes = {
         'info',
     ]),
     /**
-   * Ключ картинки баджа в данных
-   */
+     * Ключ картинки баджа в данных
+     */
     imageFieldId: PropTypes.string,
     /**
-   * Расположение картинки баджа
-   */
+     * Расположение картинки баджа
+     */
     imagePosition: PropTypes.string,
     /**
-   * Форма картинки баджа
-   */
+     * Форма картинки баджа
+     */
     imageShape: PropTypes.string,
     /**
-   * Флаг видимости
-   */
+     * Флаг видимости
+     */
     visible: PropTypes.bool,
     className: PropTypes.string,
 }

@@ -6,7 +6,8 @@ import { Tooltip } from '../../snippets/Tooltip/TooltipHOC'
 
 export default function withTooltip(Component) {
     /**
-     * HOC, оборачивает Cell добавляя Tooltip
+     * HOC, оборачивает Cell добавляя Tooltip,
+     * дает компоненту forwardedRef для установки tooltip trigger
      * @param WrappedComponent оборачиваемый компонент
      * @param model модель данных
      * @param hint подсказка - тело тултипа

@@ -6,7 +6,7 @@ import get from 'lodash/get'
 import { Text } from '../../../../snippets/Text/Text'
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
-import DefaultCell from '../DefaultCell'
+import { DefaultCell } from '../DefaultCell'
 
 import { View } from './VIew'
 import { Control } from './Control'

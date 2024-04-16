@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import { useResolved } from '../../../../../core/Expression/useResolver'
 import Toolbar from '../../../../buttons/Toolbar'
 import withCell from '../../withCell'
-import DefaultCell from '../DefaultCell'
+import { DefaultCell } from '../DefaultCell'
 
 /**
  *
