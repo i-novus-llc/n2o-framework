@@ -74,27 +74,17 @@ export function parseFormatter(data, typeAndformat = false) {
                 format: /(0{3}[ .-]?){3}0{2}/,
             },
             format(value, formatString) {
-                if (!value || !formatString) {
-                    return ''
+                const str = value?.toString().split('') || []
+
+                if (str.length !== 11) { return str }
+
+                let formated = ''
+
+                for (const char of formatString) {
+                    formated += char === '0' ? str.shift() : char
                 }
 
-                function normalize(snilsNumber) {
-                    return snilsNumber.toString().replace(
-                        /^[\d\s]*(\d{3})[ .-](\d{3})[ .-](\d{3})[ .-](\d{2})$/,
-                        '$1$2$3$4',
-                    )
-                }
-
-                function format(snilsNumber, formatString) {
-                    snilsNumber = normalize(snilsNumber)
-                    for (let i = 0, l = snilsNumber.length; i < l; i++) {
-                        formatString = formatString.replace('0', snilsNumber[i])
-                    }
-
-                    return formatString
-                }
-
-                return format(value, formatString)
+                return formated
             },
         })
     }
@@ -106,8 +96,8 @@ export function parseFormatter(data, typeAndformat = false) {
 
     if (
         isNil(data) ||
-    !typeAndformat ||
-    (str === '' && typeAndFormat[0] !== 'dateFromNow')
+        !typeAndformat ||
+        (str === '' && typeAndFormat[0] !== 'dateFromNow')
     ) { return data }
 
     if (!typeAndFormat.length) { return null }
