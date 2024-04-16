@@ -1,4 +1,4 @@
-import React, { FocusEvent, KeyboardEvent, RefObject, createRef } from 'react'
+import React, { FocusEvent, RefObject, createRef } from 'react'
 import onClickOutside from 'react-onclickoutside'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
@@ -8,12 +8,14 @@ import find from 'lodash/find'
 import { Button } from 'reactstrap'
 
 import { InputSelectGroup } from '../InputSelect/InputSelectGroup'
-import { Filter, TOption } from '../InputSelect/types'
-import { BadgeType, PopupList } from '../InputSelect/PopupList'
+import { TOption } from '../InputSelect/types'
+import { PopupList } from '../InputSelect/PopupList'
+import { WithPopUpHeight } from '../WithPopUpHeight'
 
 import { getNoun } from './utils'
 import { Popup } from './Popup'
 import { N2OSelectInput } from './SelectInput'
+import { State, Props } from './types'
 
 /**
  * N2OSelect
@@ -44,15 +46,6 @@ import { N2OSelectInput } from './SelectInput'
 const selectType = {
     SINGLE: 'single',
     CHECKBOXES: 'checkboxes',
-}
-
-type State = {
-    input?: string
-    isExpanded: boolean,
-    options?: TOption[],
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    selected: any[]
-    value: string
 }
 
 function getSelected(value: Props['value']) {
@@ -435,6 +428,8 @@ class SelectComponent extends React.Component<Props, State> {
             onKeyDown,
             size,
             count,
+            popUpItemRef,
+            popUpStyle,
         } = this.props
         const inputSelectStyle = { width: '100%', ...style }
 
@@ -498,6 +493,8 @@ class SelectComponent extends React.Component<Props, State> {
                             loading={loading}
                             size={size}
                             count={count}
+                            popUpItemRef={popUpItemRef}
+                            style={popUpStyle}
                         />
                     </>
                 </Popup>
@@ -530,113 +527,9 @@ class SelectComponent extends React.Component<Props, State> {
         onClose() {},
         onBlur() {},
         onKeyDown() {},
+        popUpItemRef: null,
+        popUpStyle: {},
     } as Props
 }
 
-interface Props {
-    /**
-     * Данные для badge
-     */
-    badge?: BadgeType
-    className?: string
-    cleanable: boolean
-    closePopupOnSelect: boolean
-    descriptionFieldId: string
-    /**
-     * Флаг активности
-     */
-    disabled: boolean
-    /**
-     * Ключ enabled в данных
-     */
-    enabledFieldId: string
-    fetchData(arg: object): () => void
-    /**
-     * Фильтрация
-     */
-    filter?: Filter
-    /**
-     * Формат
-     */
-    format?: string
-    groupFieldId: string
-    /**
-     * Флаг наличия поиска
-     */
-    hasSearch: boolean
-    /**
-     * Ключ icon в данных
-     */
-    iconFieldId: string
-    /**
-     * Ключ image в данных
-     */
-    imageFieldId: string
-    initial?: string | number
-    /**
-     * Ключ label в данных
-     */
-    labelFieldId: string
-    /**
-     * Флаг загрузки
-     */
-    loading: boolean,
-    onBlur(arg: Props['value']): void
-    /**
-     * Callback на изменение
-     */
-    onChange(arg: TOption | TOption[] | null | string): void
-    /**
-     * Callback на закрытие попапа
-     */
-    onClose(): void
-    /**
-     * Callback при вводе в инпут
-     */
-    onInput(input: string): void
-    onKeyDown?(evt: KeyboardEvent<HTMLButtonElement>): void
-    /**
-     * Callback на поиск
-     */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onSearch(input: State['input'], delay?: boolean, callback?: any): void
-    /**
-     * Данные
-     */
-    options: TOption[]
-    page?: number
-    /**
-     * Placeholder контрола
-     */
-    placeholder?: string
-    /**
-     * Сброс значения при потере фокуса
-     */
-    resetOnBlur: boolean
-    /**
-     * Поиск по нажатию кнопки
-     */
-    searchByTap: boolean
-    selectFormat?: string
-    selectFormatFew?: string
-    selectFormatMany?: string
-    selectFormatOne?: string
-    /**
-     * Ключ image в данных
-     */
-    statusFieldId: string
-    style?: object
-    type?: string
-    /**
-     * Значение
-     */
-    value: unknown
-    /**
-     * Ключ id в данных
-     */
-    valueFieldId: string
-    size?: number
-    count?: number
-}
-
-export const Select = onClickOutside(SelectComponent)
+export const Select = WithPopUpHeight(onClickOutside(SelectComponent) as never)

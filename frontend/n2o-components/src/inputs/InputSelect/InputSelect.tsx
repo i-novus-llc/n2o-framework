@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, createRef } from 'react'
+import React, { createRef } from 'react'
 import classNames from 'classnames'
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap'
 import onClickOutside from 'react-onclickoutside'
@@ -9,13 +9,13 @@ import omit from 'lodash/omit'
 
 import { Alert } from '../../display/Alerts/Alert'
 import { isEmptyModel } from '../../utils/isEmptyModel'
+import { WithPopUpHeight } from '../WithPopUpHeight'
 
 import { InputSelectGroup } from './InputSelectGroup'
-import { PopupList, BadgeType } from './PopupList'
+import { PopupList } from './PopupList'
 import { InputContent } from './InputContent'
 import { getValueArray } from './utils'
-import { DEFAULT_POPUP_HEIGHT, MEASURE } from './constants'
-import { Filter, Ref, TOption, getSearchMinLengthHintType } from './types'
+import { Filter, Ref, TOption, Props, State } from './types'
 
 const DEFAULT_DATA_SEARCH_DELAY = 400
 
@@ -60,8 +60,6 @@ const DEFAULT_DATA_SEARCH_DELAY = 400
 export class InputSelect extends React.Component<Props, State> {
     inputHeightRef: Ref
 
-    popUpItemRef: Ref
-
     textAreaRef: Ref
 
     inputRef: Ref | undefined
@@ -78,14 +76,12 @@ export class InputSelect extends React.Component<Props, State> {
             isExpanded: false,
             value: valueArray,
             activeValueId: null,
-            popUpMaxHeight: DEFAULT_POPUP_HEIGHT,
             prevModel: {},
             options,
             input,
         }
 
         this.inputHeightRef = React.createRef()
-        this.popUpItemRef = createRef()
         this.textAreaRef = createRef()
     }
 
@@ -109,39 +105,6 @@ export class InputSelect extends React.Component<Props, State> {
 
         if (!isEmpty(state)) {
             this.setState(state)
-        }
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        const { popUpMaxHeight } = this.state
-        const { size, count } = this.props
-
-        // контроль макс высоты и скрола с подгрузкой данных
-        const overSize = count !== undefined && size !== undefined && count > 0 && count > size
-
-        if (popUpMaxHeight && ((popUpMaxHeight < DEFAULT_POPUP_HEIGHT) || !overSize)) {
-            return
-        }
-
-        const { options } = this.props
-
-        if (!isEqual(options, prevProps.options)) {
-            const popUpItem = this.popUpItemRef.current
-
-            if (!popUpItem) {
-                return
-            }
-
-            const popUpItemHeight = popUpItem.offsetHeight
-            const calculatedMaxHeight = size !== undefined ? size * popUpItemHeight - 10 : -1
-
-            if (calculatedMaxHeight > DEFAULT_POPUP_HEIGHT) {
-                this.setState({ popUpMaxHeight: DEFAULT_POPUP_HEIGHT })
-
-                return
-            }
-
-            this.setState({ popUpMaxHeight: calculatedMaxHeight })
         }
     }
 
@@ -274,7 +237,6 @@ export class InputSelect extends React.Component<Props, State> {
      */
     clearSelected = () => {
         const { onChange, onBlur } = this.props
-
 
         this.setState({ value: [], input: '' }, () => {
             onChange(this.getValue())
@@ -604,6 +566,8 @@ export class InputSelect extends React.Component<Props, State> {
             sortFieldId,
             getSearchMinLengthHint,
             quickSearchParam,
+            popUpItemRef,
+            popUpStyle,
         } = this.props
         const {
             value: stateValue,
@@ -612,14 +576,11 @@ export class InputSelect extends React.Component<Props, State> {
             inputFocus,
             activeValueId,
             options,
-            popUpMaxHeight,
         } = this.state
         const inputSelectStyle = { width: '100%', cursor: 'text', ...style }
 
         const sorting = !isEmpty(sortFieldId) && !isEmpty(input)
         const needAddFilter = (!isEmpty(filter) || sorting) && !find(stateValue, item => item[labelFieldId] === input)
-
-        const popUpStyle = { maxHeight: `${popUpMaxHeight}${MEASURE}` }
         const searchMinLengthHint = getSearchMinLengthHint()
 
         const filterValue = { [quickSearchParam || labelFieldId]: input }
@@ -719,7 +680,7 @@ export class InputSelect extends React.Component<Props, State> {
                             hasCheckboxes={hasCheckboxes}
                             onRemoveItem={this.removeSelectedItem}
                             format={format}
-                            popUpItemRef={this.popUpItemRef}
+                            popUpItemRef={popUpItemRef}
                             style={popUpStyle}
                             multiSelect={multiSelect}
                             searchMinLengthHint={searchMinLengthHint}
@@ -778,168 +739,9 @@ export class InputSelect extends React.Component<Props, State> {
         setFilter() {},
         getSearchMinLengthHint() { return null },
         model: {},
+        popUpItemRef: null,
+        popUpStyle: {},
     } as Props
 }
 
-type Props = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    alerts?: any[],
-    /**
-     * Авто фокусировка на селекте
-     */
-    autoFocus: boolean,
-    /**
-     * Данные для badge
-     */
-    badge?: BadgeType,
-    /**
-     * Флаг кэширования запросов,
-     * если false лист при открытии селекта всегда запрашиватся заного т.е. с page = 1
-     */
-    caching?: boolean,
-    className: string,
-    /**
-     * Флаг закрытия попапа при выборе
-     */
-    closePopupOnSelect: boolean,
-    count?: number,
-    datasource?: string,
-    descriptionFieldId: string,
-    /**
-     * Флаг активности
-     */
-    disabled: boolean,
-    /**
-     * Неактивные данные
-     */
-    disabledValues: [],
-    enabledFieldId: string,
-    expandPopUp: boolean,
-    getSearchMinLengthHint: getSearchMinLengthHintType,
-    fetchData(extraParams: Record<string, unknown>, concat: boolean, cacheReset: boolean): void,
-    /**
-     * Варианты фильтрации
-     */
-    filter: Filter | boolean,
-    /**
-     * Формат
-     */
-    format?: string,
-    /**
-     * Поле для группировки
-     */
-    groupFieldId: string,
-    /**
-     * Флаг наличия чекбоксов в селекте
-     */
-    hasCheckboxes: boolean,
-    /**
-     * Ключ icon в данных
-     */
-    iconFieldId: string,
-    /**
-     * Ключ image в данных
-     */
-    imageFieldId: string,
-    isExpanded?: boolean,
-    /**
-     * Ключ label в данных
-     */
-    labelFieldId: string,
-    /**
-     * Флаг загрузки
-     */
-    loading: boolean,
-    /**
-     * Максимальная длина текста в тэге, до усечения
-     */
-    maxTagTextLength?: number,
-    maxTagCount?: number,
-    model: Record<string, unknown>,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    models?: any,
-    /**
-     * Мульти выбор значений
-     */
-    multiSelect: boolean,
-    onBlur(arg: TOption | TOption[] | null): void,
-    /**
-     * Callback на изменение
-     */
-    onChange(arg: TOption | TOption[] | null): void,
-    /**
-     * Callback на закрытие
-     */
-    onClose(): void,
-    onDismiss(arg: string): void,
-    onInput(input: State['input']): void,
-    onKeyDown?(evt: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>): void,
-    /**
-     * Callback на поиск
-     */
-    onSearch(input: State['input'], delay: Props['throttleDelay']): void,
-    /**
-     * Callback на выбор
-     */
-    onSelect(item: TOption): void,
-    /**
-     * Callback на переключение
-     */
-    onToggle(arg: boolean): void,
-    openOnFocus?: boolean,
-    /**
-     * Массив данных
-     */
-    options: TOption[],
-    page?: number,
-    /**
-     * Placeholder контрола
-     */
-    placeholder?: string,
-    /**
-     * Флаг авто размера попапа
-     */
-    popupAutoSize: boolean,
-    /**
-     * Фича, при которой сбрасывается значение контрола, если оно не выбрано из popup
-     */
-    resetOnBlur: boolean,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setFilter(arg: Pick<any, number | symbol>): void,
-    size?: number,
-    /**
-     * Ключ сортировки в данных
-     */
-    sortFieldId: string,
-    statusFieldId: string,
-    style: object,
-    throttleDelay?: number,
-    /**
-     * Значение
-     */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value: any,
-    /**
-     * Ключ id в данных
-     */
-    valueFieldId: string
-    quickSearchParam: string
-    searchMinLength?: number
-}
-
-type State = {
-    activeValueId?: string | number | null,
-    caching?: boolean,
-    input?: string,
-    inputFocus?: boolean,
-    isExpanded?: boolean,
-    isInputSelected?: boolean,
-    isPopupFocused?: boolean,
-    options?: Props['options'],
-    popUpMaxHeight?: number,
-    prevModel?: Record<string, unknown>,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value?: any[]
-}
-
-export const InputSelectComponent = onClickOutside(InputSelect)
+export const InputSelectComponent = WithPopUpHeight(onClickOutside(InputSelect) as never)

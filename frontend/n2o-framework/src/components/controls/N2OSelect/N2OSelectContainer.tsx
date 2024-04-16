@@ -39,13 +39,8 @@ function N2OSelectContainer(props: Props) {
     const { filter, loading } = props
     const filterType = filter === 'server' ? false : filter
 
-    return (
-        <Select
-            {...props}
-            filter={filterType as Filter}
-            loading={loading}
-        />
-    )
+    // @ts-ignore FIXME нужно привести типы в порядок, объеденить с i select
+    return <Select {...props} filter={filterType as Filter} loading={loading} />
 }
 
 type Props = {

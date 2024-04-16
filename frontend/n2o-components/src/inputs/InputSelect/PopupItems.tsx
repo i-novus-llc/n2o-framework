@@ -13,6 +13,7 @@ import { isBadgeLeftPosition, isBadgeRightPosition, resolveBadgeProps } from '..
 import { Checkbox } from '../Checkbox/Checkbox'
 import { Shape } from '../../display/Badge/enums'
 
+import { PopUpProps, TOption } from './types'
 import { Props as InputContentProps } from './InputContent'
 import {
     groupData,
@@ -20,7 +21,6 @@ import {
 } from './utils'
 import { UNKNOWN_GROUP_FIELD_ID } from './constants'
 import { BadgeType } from './PopupList'
-import { Ref, TOption } from './types'
 import { PopupIcon, PopupImage } from './snippets'
 
 /**
@@ -272,7 +272,7 @@ type Props = {
     onRemoveItem: InputContentProps['onRemoveItem'],
     onSelect: InputContentProps['onSelect'],
     options: InputContentProps['options'],
-    popUpItemRef?: Ref,
+    popUpItemRef?: PopUpProps['popUpItemRef'],
     renderIfEmpty: boolean,
     selected: InputContentProps['selected'],
     setActiveValueId: InputContentProps['setActiveValueId'],

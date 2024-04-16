@@ -78,10 +78,12 @@ class InputSelectContainer extends React.Component<Props, State> {
 
         if (format) {
             formattedOptions = options
+                // @ts-ignore ругается на типы в propsResolver
                 .map(option => ({ ...option, formattedTitle: propsResolver<string | undefined>(format, option) }))
         }
 
         return (
+            // @ts-ignore FIXME нужно привести типы в порядок, объеденить с select
             <InputSelect
                 {...this.props}
                 options={formattedOptions}
