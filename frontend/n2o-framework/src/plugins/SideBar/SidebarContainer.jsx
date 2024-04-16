@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import 'whatwg-fetch'
 import { compose } from 'recompose'
 import isArray from 'lodash/isArray'
 
