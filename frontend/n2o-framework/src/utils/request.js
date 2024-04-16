@@ -1,5 +1,3 @@
-import 'whatwg-fetch'
-
 import { ResponseStatus } from '../constants/ResponseStatus'
 
 import RequestError from './RequestError'
