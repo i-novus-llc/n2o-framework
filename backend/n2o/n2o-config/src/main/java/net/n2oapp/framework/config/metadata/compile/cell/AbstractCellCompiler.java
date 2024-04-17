@@ -19,7 +19,7 @@ import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initActions;
-import static net.n2oapp.framework.config.util.StylesResolver.resolveStylesToString;
+import static net.n2oapp.framework.config.util.StylesResolver.resolveStyles;
 
 
 /**
@@ -45,7 +45,7 @@ public abstract class AbstractCellCompiler<D extends AbstractCell, S extends N2o
         if (source.getCssClass() != null)
             compiled.getElementAttributes().put("className", p.resolveJS(source.getCssClass()));
         if (source.getStyle() != null)
-            compiled.getElementAttributes().put("style", resolveStylesToString(source.getStyle()));
+            compiled.getElementAttributes().put("style", resolveStyles(source.getStyle()));
         compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
         compiled.setProperties(p.mapAndResolveAttributes(source));
         return compiled;

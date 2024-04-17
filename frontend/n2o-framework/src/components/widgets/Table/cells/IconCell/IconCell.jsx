@@ -18,7 +18,7 @@ import { textPlaceTypes } from './cellTypes'
  * @reactProps {string} icon - класс иконки
  * @reactProps {string} textPlace - расположение текста
  */
-function IconCell({ id, model, visible, icon, textPlace, forwardedRef }) {
+function IconCell({ id, model, visible, icon, textPlace, forwardedRef, style }) {
     const text = get(model, id)
 
     return (
@@ -32,7 +32,7 @@ function IconCell({ id, model, visible, icon, textPlace, forwardedRef }) {
                     'icon-cell-container__text-left': textPlace === textPlaceTypes.LEFT,
                 })}
             >
-                {icon && <Icon name={icon} />}
+                {icon && <Icon name={icon} style={style} />}
                 {text && (
                     <div className="n2o-cell-text">
                         <Text text={text} />

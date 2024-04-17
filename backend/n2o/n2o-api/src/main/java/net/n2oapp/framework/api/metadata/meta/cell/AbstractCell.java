@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,5 +26,5 @@ public abstract class AbstractCell implements Cell, JsonPropertiesAware {
     @JsonProperty
     private String tooltipFieldId;
     @JsonProperty
-    private Map<String, String> elementAttributes = new HashMap<>();
+    private Map<String, Object> elementAttributes = new HashMap<>();
 }
