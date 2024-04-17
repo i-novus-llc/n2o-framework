@@ -59,3 +59,8 @@
 .n2o-standard-widget-layout-toolbar-wrapper {
     row-gap: 0.5rem;
 }
+
+// Селектор скрывает блоки тулбара, если в них есть кнопки или пагинация, но в данный момент они visible=false
+.n2o-standard-widget-layout-toolbar:not(:has([data-has-visible-buttons="true"])):not(:has(.pagination-container)) {
+    display: none;
+}
