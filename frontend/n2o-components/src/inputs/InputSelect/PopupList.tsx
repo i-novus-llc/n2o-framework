@@ -8,7 +8,7 @@ import { Position, Shape } from '../../display/Badge/enums'
 
 import { PopupItems } from './PopupItems'
 import { isBottom } from './utils'
-import { Ref, TOption } from './types'
+import { TOption, PopUpProps } from './types'
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -66,7 +66,7 @@ type Props = {
     onSelect(item: TOption): void,
     options?: TOption[],
     page?: number,
-    popUpItemRef?: Ref,
+    popUpItemRef?: PopUpProps['popUpItemRef'],
     renderIfEmpty?: boolean,
     scheduleUpdate?(): void,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
