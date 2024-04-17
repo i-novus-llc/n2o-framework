@@ -24,7 +24,7 @@ export const getContainerButtons = (containerId: string) => createSelector(
  * @param {string} containerId id контейнера кнопок
  * @return {Object.<string, any>}
  */
-const buttonsContainerSelector = (
+export const buttonsContainerSelector = (
     state: State,
     containerId: string,
 ) => toolbarSelector(state)[containerId] || EMPTY_OBJECT
