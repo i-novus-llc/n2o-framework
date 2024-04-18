@@ -8,7 +8,7 @@ import { parseFormatter } from '../utils/parseFormatter'
 type Props = TBaseProps & {
     format: string,
     // формат времени
-    preLine: boolean,
+    preLine?: boolean,
     text: string // флаг переноса текста
 }
 

@@ -9,7 +9,7 @@ import classNames from 'classnames'
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
 import StandardButton from '../../../../buttons/StandardButton/StandardButton'
-import DefaultCell from '../DefaultCell'
+import { DefaultCell } from '../DefaultCell'
 
 import { LinkCellType } from './linkCellTypes'
 

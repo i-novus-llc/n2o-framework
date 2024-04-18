@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
 
-// eslint-disable-next-line import/no-named-as-default
-import StatusText from '../../../../snippets/StatusText/StatusText'
+import { StatusText } from '../../../../snippets/StatusText/StatusText'
 import withTooltip from '../../withTooltip'
 
 /**
@@ -25,11 +24,15 @@ function StatusCell(props) {
         model,
         fieldKey,
         textPosition,
+        forwardedRef,
     } = props
+
+    if (!visible) { return null }
+
     const statusText = get(model, fieldKey || id)
 
-    return visible ? (
-        <div className="d-inline-flex">
+    return (
+        <div ref={forwardedRef} className="d-inline-flex">
             <StatusText
                 text={statusText}
                 textPosition={textPosition}
@@ -37,24 +40,24 @@ function StatusCell(props) {
                 className={className}
             />
         </div>
-    ) : null
+    )
 }
 
 StatusCell.propTypes = {
     /**
-   * ID ячейки
-   */
+     * ID ячейки
+     */
     id: PropTypes.string,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Ключ значения в данных
-   */
+     * Ключ значения в данных
+     */
     fieldKey: PropTypes.string,
     /**
-   * Модель данных
+     * Модель данных
    */
     model: PropTypes.object,
     /**

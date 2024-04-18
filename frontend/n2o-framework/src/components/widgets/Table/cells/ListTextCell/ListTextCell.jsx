@@ -2,12 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, setDisplayName } from 'recompose'
 import get from 'lodash/get'
-import first from 'lodash/first'
 import map from 'lodash/map'
 import isArray from 'lodash/isArray'
 
 import withCell from '../../withCell'
-import DefaultCell from '../DefaultCell'
+import { DefaultCell } from '../DefaultCell'
 import getNoun from '../../../../../utils/getNoun'
 import { Tooltip } from '../../../../snippets/Tooltip/TooltipHOC'
 
@@ -28,38 +27,31 @@ function ListTextCell(props) {
         placement,
     } = props
 
-    const tooltipList = get(model, fieldKey)
-    const singleElement = tooltipList.length === 1
-    const nullElements = tooltipList.length === 0
+    const list = get(model, fieldKey)
 
-    const validTooltipList = model && fieldKey && isArray(tooltipList)
-    const listLength = validTooltipList ? tooltipList.length : 0
+    if (list.length === 0) { return <DefaultCell disabled={disabled} className="list-text-cell" /> }
+
+    const tooltipVisible = model && fieldKey && isArray(list)
+    const listLength = tooltipVisible ? list.length : 0
 
     const currentLabel = getNoun(listLength, oneLabel || label, fewLabel || label, manyLabel || label)
 
-    const hint = validTooltipList ? map(tooltipList, (tooltipItem, index) => (
-        <div
-            key={index}
-            className="list-text-cell__tooltip-container__body"
-        >
-            {tooltipItem}
-        </div>
-    )) : null
-
-    if (nullElements) {
-        return <DefaultCell disabled={disabled} className="list-text-cell" />
-    }
+    const hint = map(list, (item, index) => (
+        <div key={index} className="list-text-cell__tooltip-container__body">{item}</div>
+    ))
 
     return (
         <DefaultCell disabled={disabled} className="list-text-cell">
-            {singleElement ? first(tooltipList) : (
-                <Tooltip hint={hint} placement={placement} trigger={trigger}>
-                    <ListTextCellTrigger
-                        label={replacePlaceholder(currentLabel, listLength)}
-                        labelDashed={labelDashed}
-                    />
-                </Tooltip>
-            )}
+            {list.length === 1 ? list[0]
+                : (
+                    <Tooltip hint={tooltipVisible ? hint : null} placement={placement} trigger={trigger}>
+                        <ListTextCellTrigger
+                            label={replacePlaceholder(currentLabel, listLength)}
+                            labelDashed={labelDashed}
+                        />
+                    </Tooltip>
+                )
+            }
         </DefaultCell>
     )
 }

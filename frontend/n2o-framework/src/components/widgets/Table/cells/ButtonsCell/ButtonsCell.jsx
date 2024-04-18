@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import propsResolver from '../../../../../utils/propsResolver'
 import Toolbar from '../../../../buttons/Toolbar'
 import withCell from '../../withCell'
-import DefaultCell from '../DefaultCell'
+import { DefaultCell } from '../DefaultCell'
 
 /**
  *
