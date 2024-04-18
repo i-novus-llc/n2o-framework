@@ -65,7 +65,7 @@ public class DateFormatNormalizer {
      */
     public static String dateWithOutput(String dateStr, String outputFormat) {
         if (dateStr == null) {
-            return "";
+            return null;
         }
 
         if (isValidDate(dateStr, DEFAULT_FORMATTER)) {
@@ -86,7 +86,7 @@ public class DateFormatNormalizer {
      */
     public static String dateWithInputAndOutput(String dateStr, String inputFormat, String outputFormat) {
         if (dateStr == null) {
-            return "";
+            return null;
         }
         Optional<String> optional = formatWithLocalDate(dateStr, inputFormat, outputFormat);
         return optional.orElse(dateStr);
