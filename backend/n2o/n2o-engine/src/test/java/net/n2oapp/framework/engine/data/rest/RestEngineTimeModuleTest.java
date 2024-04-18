@@ -2,7 +2,6 @@ package net.n2oapp.framework.engine.data.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
-
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -11,13 +10,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RestEngineTimeModuleTest {
+class RestEngineTimeModuleTest {
 
     @Test
     void testSerializeDates() throws ParseException, IOException {
@@ -31,7 +29,7 @@ public class RestEngineTimeModuleTest {
         model.put("ld", LocalDate.parse("01.09.2017", localDateFormatter));
         model.put("ldt", LocalDateTime.parse("01.09.2017 12:00", localDateTimeFormatter));
 
-        Map<String, Object> result = new ObjectMapper().readValue(mapper.writeValueAsString(model), Map.class);
+        Map<?, ?> result = new ObjectMapper().readValue(mapper.writeValueAsString(model), Map.class);
         assertEquals(result.get("date"), "1988-11-01T00:00:00");
         assertEquals(result.get("ld"), "2017-09-01");
         assertEquals(result.get("id"), 1);
@@ -51,15 +49,15 @@ public class RestEngineTimeModuleTest {
         map.put("dateLength", "1234567890");
         map.put("ignore", "01.01.1000");
 
-        Map res;
+        Map<?, ?> res;
         res = mapper.readValue(new ObjectMapper().writeValueAsString(map), Map.class);
-        assertEquals(Date.class, res.get("date").getClass());
-        assertEquals(Date.class, res.get("localDate1").getClass());
-        assertEquals(Date.class, res.get("localDate2").getClass());
-        assertEquals(Date.class, res.get("localDate3").getClass());
-        assertEquals(String.class, res.get("notdate").getClass());
-        assertEquals(String.class, res.get("dateLength").getClass());
-        assertEquals(String.class, res.get("ignore").getClass());
+        assertEquals("2017-01-01T00:00:00", res.get("date"));
+        assertEquals("2017-01-01", res.get("localDate1"));
+        assertEquals("2017-01-01T12:00:00", res.get("localDate2"));
+        assertEquals("2017-01-01T12:00:00", res.get("localDate3"));
+        assertEquals("not date", res.get("notdate"));
+        assertEquals("1234567890", res.get("dateLength"));
+        assertEquals("01.01.1000", res.get("ignore"));
     }
 
     @Test
@@ -75,20 +73,17 @@ public class RestEngineTimeModuleTest {
         map.put("invalidDate2", "2050-13-15");
         map.put("invalidDate3", "2020-00-15");
 
-        Map res = createObjectMapper().readValue(new ObjectMapper().writeValueAsString(map), Map.class);
+        Map<?, ?> res = createObjectMapper().readValue(new ObjectMapper().writeValueAsString(map), Map.class);
 
         assertEquals("8-800-3007300", res.get("phone"));
         assertEquals(String.class, res.get("phone").getClass());
 
-        assertEquals(Date.class, res.get("validDate1").getClass());
-        assertEquals(Date.class, res.get("validDate2").getClass());
-        assertEquals(Date.class, res.get("validDate3").getClass());
+        assertEquals("2100-11-30", res.get("validDate1"));
+        assertEquals("1-1-1", res.get("validDate2"));
+        assertEquals("1945-02-02", res.get("validDate3"));
 
-        assertEquals(String.class, res.get("invalidDate1").getClass());
-        assertEquals("1980-11-31", res.get("invalidDate1"));
-        assertEquals(String.class, res.get("invalidDate2").getClass());
+        assertEquals("1980-11-30", res.get("invalidDate1"));
         assertEquals("2050-13-15", res.get("invalidDate2"));
-        assertEquals(String.class, res.get("invalidDate3").getClass());
         assertEquals("2020-00-15", res.get("invalidDate3"));
     }
 

@@ -41,14 +41,15 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
     private RestTemplate restTemplate;
     private ObjectMapper objectMapper;
     private ResponseExtractor<ResponseEntity<Object>> responseExtractor;
+    @Setter
     private String baseRestUrl;
 
-    @Value("${n2o.engine.rest.forward-headers:}")
     @Setter
+    @Value("${n2o.engine.rest.forward-headers:}")
     private String forwardHeaders;
 
-    @Value("${n2o.engine.rest.forward-cookies:}")
     @Setter
+    @Value("${n2o.engine.rest.forward-cookies:}")
     private String forwardCookies;
 
     public SpringRestDataProviderEngine(RestTemplate restTemplate, ObjectMapper objectMapper) {
@@ -73,19 +74,16 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         return N2oRestDataProvider.class;
     }
 
-    public void setBaseRestUrl(String baseRestUrl) {
-        this.baseRestUrl = baseRestUrl;
-    }
-
     @Override
     public Object invoke(N2oRestDataProvider invocation, Map<String, Object> data) {
         String query = invocation.getQuery();
         if (query == null)
             throw new N2oException("query mustn't be null");
         query = query.trim();
-        final HttpMethod method = invocation.getMethod() == null ? HttpMethod.GET : HttpMethod.resolve(invocation.getMethod().name());
-        Map<String, Object> args = new HashMap<>();
-        data.forEach(args::put);
+        final HttpMethod method = invocation.getMethod() != null ?
+                HttpMethod.resolve(invocation.getMethod().name()) :
+                HttpMethod.GET;
+        Map<String, Object> args = new HashMap<>(data);
         if (!query.contains("http")) {
             if (!query.startsWith("/")) {
                 query = "/" + query;
@@ -223,7 +221,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
     }
 
     private static class N2oResponseExtractor implements ResponseExtractor<ResponseEntity<Object>> {
-        private ObjectMapper mapper;
+        private final ObjectMapper mapper;
 
         public N2oResponseExtractor(ObjectMapper objectMapper) {
             this.mapper = objectMapper;
