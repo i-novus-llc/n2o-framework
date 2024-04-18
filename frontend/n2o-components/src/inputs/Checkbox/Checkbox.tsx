@@ -27,13 +27,12 @@ export type Props = TBaseProps & TBaseInputProps<any> & {
     inline?: boolean, // Флаг рендера label в одну строку с контролом
     label?: string,
     onClick?(): void,
-    tabIndex?: number
+    tabIndex?: number,
+    forwardedRef?: React.RefObject<HTMLDivElement>,
 }
 
 export class Checkbox extends React.Component<Props> {
-    state = {
-        id: '',
-    }
+    state = { id: '' }
 
     componentDidMount(): void {
         this.setState({ id: uniqueId('checkbox-') })
@@ -53,18 +52,20 @@ export class Checkbox extends React.Component<Props> {
             onFocus,
             onChange,
             onBlur,
+            forwardedRef,
         } = this.props
 
         const { id } = this.state
 
         return (
             <div
+                ref={forwardedRef}
                 style={style}
                 className={classNames(
+                    className,
                     'custom-control',
                     'custom-checkbox',
                     'n2o-checkbox',
-                    className,
                     {
                         'custom-control-inline': inline,
                         'd-flex': help,
@@ -85,9 +86,7 @@ export class Checkbox extends React.Component<Props> {
                     tabIndex={tabIndex}
                     label={label}
                 />
-                <label className="custom-control-label" htmlFor={id}>
-                    {label}
-                </label>
+                <label className="custom-control-label" htmlFor={id}>{label}</label>
                 {help && <HelpPopover help={help} />}
             </div>
         )

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import uniqueId from 'lodash/uniqueId'
@@ -16,89 +16,80 @@ import withTooltip from '../../withTooltip'
  * @reactProps {string} amountToGroup - количество элементов для группировки
  */
 
-class CollapsedCell extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            collapsed: true,
-        }
+function CollapsedCell(props) {
+    const [collapsed, setCollapsed] = useState(true)
 
-        this.changeVisibility = this.changeVisibility.bind(this)
-    }
+    const { visible } = props
 
-    changeVisibility(e) {
+    if (!visible) { return null }
+
+    const {
+        model,
+        fieldKey,
+        color,
+        amountToGroup,
+        labelFieldId,
+        forwardedRef,
+    } = props
+
+    const changeVisibility = (e) => {
         e.stopPropagation()
         e.preventDefault()
-        this.setState(prevState => ({ collapsed: !prevState.collapsed }))
+
+        setCollapsed(!collapsed)
     }
 
-    render() {
-        const {
-            model,
-            fieldKey,
-            color,
-            amountToGroup,
-            labelFieldId,
-            visible,
-        } = this.props
-        const { collapsed } = this.state
+    const data = model[fieldKey] || []
+    const items = collapsed ? data.slice(0, amountToGroup) : data
+    const text = collapsed ? 'еще' : 'скрыть'
 
-        const data = model[fieldKey] || []
-        const items = collapsed ? data.slice(0, amountToGroup) : data
-        const isButtonNeeded = data.length > amountToGroup
-        const buttonTitle = collapsed ? 'еще' : 'скрыть'
-        const labelClasses = classNames('badge', `badge-${color}`)
-
-        return (
-            visible && (
-                <>
-                    {map(items, item => (
-                        <React.Fragment key={uniqueId('collapsed-cell')}>
-                            <span className={labelClasses}>
-                                {isString(item) ? item : get(item, labelFieldId)}
-                            </span>
-                            {' '}
-                        </React.Fragment>
-                    ))}
-                    {isButtonNeeded && (
-                        <button
-                            type="button"
-                            onClick={this.changeVisibility}
-                            className="collapsed-cell-control link-button"
-                        >
-                            {buttonTitle}
-                        </button>
-                    )}
-                </>
-            )
-        )
-    }
+    return (
+        <section ref={forwardedRef}>
+            {map(items, item => (
+                <React.Fragment key={uniqueId('collapsed-cell')}>
+                    <span className={classNames('badge', `badge-${color}`)}>
+                        {isString(item) ? item : get(item, labelFieldId)}
+                    </span>
+                    {' '}
+                </React.Fragment>
+            ))}
+            {data.length > amountToGroup && (
+                <button
+                    type="button"
+                    onClick={changeVisibility}
+                    className="collapsed-cell-control link-button"
+                >
+                    {text}
+                </button>
+            )}
+        </section>
+    )
 }
 
 CollapsedCell.propTypes = {
     /**
-   * Модель даных
-   */
+     * Модель даных
+     */
     model: PropTypes.object.isRequired,
     /**
-   * Ключ значения из модели
-   */
+     * Ключ значения из модели
+     */
     fieldKey: PropTypes.string.isRequired,
     /**
-   * Цвет
-   */
+     * Цвет
+     */
     color: PropTypes.string,
     /**
-   * Количество элементов для группировки
-   */
+     * Количество элементов для группировки
+     */
     amountToGroup: PropTypes.number,
     /**
-   * Ключ label из модели
-   */
+     * Ключ label из модели
+     */
     labelFieldId: PropTypes.string,
     /**
-   * Флаг видимости
-   */
+     * Флаг видимости
+     */
     visible: PropTypes.bool,
 }
 

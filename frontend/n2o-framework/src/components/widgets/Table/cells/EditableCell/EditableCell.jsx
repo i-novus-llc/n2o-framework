@@ -12,7 +12,7 @@ import set from 'lodash/set'
 import { Text } from '../../../../snippets/Text/Text'
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
-import DefaultCell from '../DefaultCell'
+import { DefaultCell } from '../DefaultCell'
 
 import withActionsEditableCell from './withActionsEditableCell'
 /**
