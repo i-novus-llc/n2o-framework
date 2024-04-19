@@ -22,6 +22,10 @@
     text-overflow: ellipsis;
 }
 
+.table-container[data-text-wrap="false"] .cell .cell-content .tooltip .tooltip-inner {
+    white-space: break-spaces;
+}
+
 .table-container .n2o-advanced-table-filter-dropdown-buttons button {
     justify-content: center;
 }
