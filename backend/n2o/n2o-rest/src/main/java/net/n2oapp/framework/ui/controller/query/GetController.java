@@ -63,7 +63,9 @@ public abstract class GetController implements ControllerTypeAware {
      * и возвращаем её в качестве результата
      */
     private CollectionPage<DataSet> executeAdditionalRequest(QueryRequestInfo requestInfo, CollectionPage<DataSet> pageData) {
-        if (CollectionUtils.isEmpty(pageData.getCollection()) && pageData.getCriteria().getPage() > 1) {
+        if (CollectionUtils.isEmpty(pageData.getCollection()) &&
+                pageData.getCount() != 0 &&
+                pageData.getCriteria().getPage() > 1) {
             requestInfo.getCriteria().setPage((int) Math.ceil((double) pageData.getCount() / pageData.getCriteria().getSize()));
             pageData = queryProcessor.execute(requestInfo.getQuery(), requestInfo.getCriteria());
         }
