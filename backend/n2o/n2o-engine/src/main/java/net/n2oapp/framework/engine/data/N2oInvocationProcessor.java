@@ -19,7 +19,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
-import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.util.MappingProcessor;
 import org.springframework.beans.BeansException;
@@ -34,8 +33,7 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.engine.util.ArgumentsInvocationUtil.mapToArgs;
 import static net.n2oapp.framework.engine.util.MapInvocationUtil.mapToMap;
-import static net.n2oapp.framework.engine.util.MappingProcessor.normalizeValue;
-import static net.n2oapp.framework.engine.util.MappingProcessor.outMap;
+import static net.n2oapp.framework.engine.util.MappingProcessor.*;
 
 /**
  * Процессор вызова процедур
@@ -150,9 +148,6 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                 value = tryToNormalize(value, parameter, inDataSet, parentData, applicationContext);
             resultDataSet.put(parameter.getId(), value);
         });
-        // remove not enabled data
-        invocationParameters.stream().filter(parameter -> !isMappingEnabled(parameter, inDataSet))
-                .forEach(parameter -> resultDataSet.remove(parameter.getId()));
         // normalize children
         invocationParameters.stream()
                 .filter(parameter -> parameter instanceof ObjectReferenceField &&
@@ -167,8 +162,9 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                         parameter -> applySwitch(resultDataSet, (ObjectSimpleField) parameter)
                 );
         // mapping
-        invocationParameters.stream().filter(parameter -> parameter instanceof ObjectReferenceField
-                        && ((ObjectReferenceField) parameter).getFields() != null && ((ObjectReferenceField) parameter).getEntityClass() != null)
+        invocationParameters.stream().filter(parameter -> parameter instanceof ObjectReferenceField &&
+                        ((ObjectReferenceField) parameter).getFields() != null &&
+                        ((ObjectReferenceField) parameter).getEntityClass() != null)
                 .forEach(parameter -> MappingProcessor.mapParameter((ObjectReferenceField) parameter, resultDataSet));
         return resultDataSet;
     }
@@ -233,10 +229,6 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
             throw e;
         }
         return value;
-    }
-
-    private boolean isMappingEnabled(AbstractParameter inParam, DataSet inDataSet) {
-        return inParam.getEnabled() == null || ScriptProcessor.evalForBoolean(inParam.getEnabled(), inDataSet);
     }
 
     @Override

@@ -34,6 +34,7 @@ public class FieldMapping {
         this.enabled = enabled;
     }
 
+
     public Map<String, FieldMapping> getChildMapping() {
         return childMapping;
     }
