@@ -4,13 +4,14 @@ import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static net.n2oapp.framework.engine.util.MappingProcessor.isMappingEnabled;
 
 /**
  * Утилитный класс, служащий для преобразования данных вызова в Map
@@ -30,24 +31,27 @@ public class MapInvocationUtil {
         validateMapping(mapping);
         Map<String, Object> result = new DataSet();
 
-        for (Map.Entry<String, FieldMapping> map : mapping.entrySet()) {
-            Object data = dataSet.get(map.getKey());
-            if (map.getValue() != null) {
-                if (!(map.getValue().getEnabled() == null || ScriptProcessor.evalForBoolean(map.getValue().getEnabled(), dataSet)))
+        for (Map.Entry<String, FieldMapping> entry : mapping.entrySet()) {
+            Object data = dataSet.get(entry.getKey());
+            if (entry.getValue() != null) {
+                if (!isMappingEnabled(entry.getValue().getEnabled(), dataSet))
                     continue;
-                String fieldMapping = map.getValue().getMapping() != null ? map.getValue().getMapping() : Placeholders.spel(map.getKey());
-                if (map.getValue().getChildMapping() != null && data != null) {
+                String fieldMapping = entry.getValue().getMapping() != null ?
+                        entry.getValue().getMapping() :
+                        Placeholders.spel(entry.getKey());
+
+                if (entry.getValue().getChildMapping() != null && data != null) {
                     if (data instanceof Collection) {
                         DataList list = new DataList();
                         for (Object obj : (Collection<?>) data)
-                            list.add(mapToMap((DataSet) obj, map.getValue().getChildMapping()));
-                        MappingProcessor.inMap(result, map.getKey(), fieldMapping, list);
+                            list.add(mapToMap((DataSet) obj, entry.getValue().getChildMapping()));
+                        MappingProcessor.inMap(result, entry.getKey(), fieldMapping, list);
                     } else if (data instanceof DataSet)
-                        MappingProcessor.inMap(result, map.getKey(), fieldMapping, mapToMap((DataSet) data, map.getValue().getChildMapping()));
+                        MappingProcessor.inMap(result, entry.getKey(), fieldMapping, mapToMap((DataSet) data, entry.getValue().getChildMapping()));
                 } else
-                    MappingProcessor.inMap(result, map.getKey(), fieldMapping, data);
+                    MappingProcessor.inMap(result, entry.getKey(), fieldMapping, data);
             } else {
-                MappingProcessor.inMap(result, map.getKey(), Placeholders.spel(map.getKey()), data);
+                MappingProcessor.inMap(result, entry.getKey(), Placeholders.spel(entry.getKey()), data);
             }
         }
         return result;

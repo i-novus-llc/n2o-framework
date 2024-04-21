@@ -29,6 +29,7 @@ import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.exception.N2oUniqueRequestNotFoundException;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -127,7 +128,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         criteria.setSize(1);
         if (selection.getType().equals(N2oQuery.Selection.Type.list)) {
             CollectionPage<DataSet> page = preparePageResult(result, query, selection, criteria);
-            if (isNull(page.getCollection()) || page.getCollection().size() == 0) {
+            if (CollectionUtils.isEmpty(page.getCollection())) {
                 throw new N2oRecordNotFoundException();
             }
             if (page.getCollection().size() != 1) {

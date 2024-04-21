@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.engine.data.normalize.NormalizerCollector;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import org.springframework.beans.factory.BeanFactory;
@@ -112,9 +113,15 @@ public class MappingProcessor {
      * @param dataSet   исходные данные
      */
     public static void mapParameter(ObjectReferenceField parameter, DataSet dataSet) {
+        if (dataSet.containsKey(parameter.getId()) && !isMappingEnabled(parameter.getEnabled(), dataSet)) {
+            dataSet.remove(parameter.getId());
+            return;
+        }
+
         Object data = dataSet.get(parameter.getId());
         if (data == null)
             return;
+
         if (parameter.getClass().equals(ObjectReferenceField.class)) {
             dataSet.put(parameter.getId(), mapChildParameters(parameter, (DataSet) data));
         } else {
@@ -134,12 +141,16 @@ public class MappingProcessor {
     public static Object mapChildParameters(ObjectReferenceField parameter, DataSet dataSet) {
         Object instance;
         try {
-            instance = Class.forName(parameter.getEntityClass()).newInstance();
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            instance = Class.forName(parameter.getEntityClass()).getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
             throw new N2oException(e);
         }
 
         for (AbstractParameter childParam : (parameter).getFields()) {
+            if (!isMappingEnabled(childParam.getEnabled(), dataSet)) {
+                dataSet.remove(childParam.getId());
+                continue;
+            }
             String target = childParam.getMapping() != null ? childParam.getMapping() : childParam.getId();
             try {
                 writeParser.parseExpression(target).setValue(instance, dataSet.get(childParam.getId()));
@@ -233,5 +244,16 @@ public class MappingProcessor {
         } catch (Exception e) {
             throw new N2oSpelException(condition, e);
         }
+    }
+
+    /**
+     * Проверка условия доступности выполнения маппинга
+     *
+     * @param enabled   Условие доступности
+     * @param inDataSet Исходные данные
+     * @return Возвращает true, если маппинг разрешено выполнить, иначе - false
+     */
+    public static boolean isMappingEnabled(String enabled, DataSet inDataSet) {
+        return enabled == null || ScriptProcessor.evalForBoolean(enabled, inDataSet);
     }
 }

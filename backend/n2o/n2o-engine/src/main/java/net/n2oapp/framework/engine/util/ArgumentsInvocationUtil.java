@@ -7,9 +7,9 @@ import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.CriteriaConstructor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -72,7 +72,7 @@ public class ArgumentsInvocationUtil {
      */
     public static Object[] mapToArgs(N2oArgumentsInvocation invocation, DataSet dataSet,
                                      Map<String, FieldMapping> inMapping, DomainProcessor domainProcessor) {
-        if (invocation.getArguments() == null || invocation.getArguments().length == 0)
+        if (ArrayUtils.isEmpty(invocation.getArguments()))
             return null;
 
         Object[] result = instantiateArguments(invocation.getArguments());

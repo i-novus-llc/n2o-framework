@@ -170,29 +170,21 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    void testEntityMapping() {
-        testDefaultValue();
-        testNormalizing();
-        testMappingCondition();
-        testFullMapping();
-    }
-
-    @Test
-    void testMappingCondition() {
-        N2oJavaDataProvider method = new N2oJavaDataProvider();
-        method.setMethod("methodReturnedEntity");
-        method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
+    void testMappingEnabledWithArgumentsInvocationProvider() {
+        N2oJavaDataProvider provider = new N2oJavaDataProvider();
+        provider.setMethod("methodReturnedEntity");
+        provider.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
 
         Argument entityTypeArgument = new Argument();
         entityTypeArgument.setName("argument");
         entityTypeArgument.setClassName("net.n2oapp.framework.engine.util.TestEntity");
         entityTypeArgument.setType(Argument.Type.ENTITY);
-        method.setArguments(new Argument[]{entityTypeArgument});
+        provider.setArguments(new Argument[]{entityTypeArgument});
 
         DataSet dataSet = new DataSet();
         DataSet inDataSet = new DataSet();
         inDataSet.put("name", "testName");
-        inDataSet.put("id", 123);
+        inDataSet.put("id", 1);
         dataSet.put("entity", inDataSet);
 
         List<AbstractParameter> inMapping = new ArrayList<>();
@@ -202,12 +194,12 @@ public class InvocationProcessorTest {
         param.setEnabled("entity.id != null");
         param.setEntityClass("net.n2oapp.framework.engine.util.TestEntity$InnerEntity");
         ObjectSimpleField inParam1 = new ObjectSimpleField();
-        inParam1.setId("name");
-        inParam1.setMapping("valueStr");
+        inParam1.setId("id");
+        inParam1.setMapping("valueInt");
         ObjectSimpleField inParam2 = new ObjectSimpleField();
-        inParam2.setId("id");
-        inParam2.setMapping("valueInt");
-        param.setFields(new AbstractParameter[]{inParam1, inParam2});
+        inParam2.setId("name");
+        inParam2.setMapping("valueStr");
+        param.setFields(new AbstractParameter[]{inParam2, inParam1});
         inMapping.add(param);
 
         List<AbstractParameter> outMapping = new ArrayList<>();
@@ -216,16 +208,92 @@ public class InvocationProcessorTest {
         outParam.setMapping("#this");
         outMapping.add(outParam);
 
-        DataSet resultDataSet = invocationProcessor.invoke(method, dataSet, inMapping, outMapping);
-
-
-        assertThat(((TestEntity) resultDataSet.get("result")).getInnerObj().getValueInt(), is(123));
+        DataSet resultDataSet = invocationProcessor.invoke(provider, dataSet, inMapping, outMapping);
+        assertThat(((TestEntity) resultDataSet.get("result")).getInnerObj().getValueInt(), is(1));
         assertThat(((TestEntity) resultDataSet.get("result")).getInnerObj().getValueStr(), is("testName"));
 
         inDataSet.put("id", null);
-        dataSet.put("entity", inDataSet);
-        resultDataSet = invocationProcessor.invoke(method, dataSet, inMapping, outMapping);
+        resultDataSet = invocationProcessor.invoke(provider, dataSet, inMapping, outMapping);
         assertThat(((TestEntity) resultDataSet.get("result")).getInnerObj(), is(nullValue()));
+
+        // маппинг нескольких полей в одно поле по условию enabled
+        // id == 2: name2 -> valueStr
+        inDataSet.put("id", 2);
+        inDataSet.put("name2", "testName2");
+        inParam2.setEnabled("id == 1");
+
+        ObjectSimpleField inParam3 = new ObjectSimpleField();
+        inParam3.setId("name2");
+        inParam3.setMapping("valueStr");
+        inParam3.setEnabled("id == 2");
+        param.setFields(new AbstractParameter[]{inParam1, inParam2, inParam3});
+
+        resultDataSet = invocationProcessor.invoke(provider, dataSet, inMapping, outMapping);
+        assertThat(((TestEntity) resultDataSet.get("result")).getInnerObj().getValueInt(), is(2));
+        assertThat(((TestEntity) resultDataSet.get("result")).getInnerObj().getValueStr(), is("testName2"));
+
+        //id == 1: name -> valueStr
+        inDataSet.put("id", 1);
+        resultDataSet = invocationProcessor.invoke(provider, dataSet, inMapping, outMapping);
+        assertThat(((TestEntity) resultDataSet.get("result")).getInnerObj().getValueInt(), is(1));
+        assertThat(((TestEntity) resultDataSet.get("result")).getInnerObj().getValueStr(), is("testName"));
+    }
+
+    @Test
+    void testMappingEnabledWithMapInvocationProvider() {
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setOperation(N2oTestDataProvider.Operation.echo);
+
+        DataSet dataSet = new DataSet();
+        DataSet inDataSet = new DataSet();
+        inDataSet.put("name", "testName");
+        inDataSet.put("id", 1);
+        dataSet.put("entity", inDataSet);
+
+        List<AbstractParameter> inMapping = new ArrayList<>();
+        ObjectReferenceField param = new ObjectReferenceField();
+        param.setId("entity");
+        param.setMapping("['innerObj']");
+        ObjectSimpleField inParam1 = new ObjectSimpleField();
+        inParam1.setId("id");
+        inParam1.setMapping("['valueInt']");
+        ObjectSimpleField inParam2 = new ObjectSimpleField();
+        inParam2.setId("name");
+        inParam2.setMapping("['valueStr']");
+        param.setFields(new AbstractParameter[]{inParam2, inParam1});
+        inMapping.add(param);
+
+        List<AbstractParameter> outMapping = new ArrayList<>();
+        ObjectSimpleField outParam = new ObjectSimpleField();
+        outParam.setId("result");
+        outParam.setMapping("#this");
+        outMapping.add(outParam);
+
+        DataSet resultDataSet = invocationProcessor.invoke(provider, dataSet, inMapping, outMapping);
+        assertThat((((DataSet) ((DataSet) resultDataSet.get("result")).get("innerObj")).get("valueInt")), is(1));
+        assertThat((((DataSet) ((DataSet) resultDataSet.get("result")).get("innerObj")).get("valueStr")), is("testName"));
+
+        // маппинг нескольких полей в одно поле по условию enabled
+        // id == 2: name2 -> valueStr
+        inDataSet.put("id", 2);
+        inDataSet.put("name2", "testName2");
+        inParam2.setEnabled("id == 1");
+
+        ObjectSimpleField inParam3 = new ObjectSimpleField();
+        inParam3.setId("name2");
+        inParam3.setMapping("['valueStr']");
+        inParam3.setEnabled("id == 2");
+        param.setFields(new AbstractParameter[]{inParam1, inParam2, inParam3});
+
+        resultDataSet = invocationProcessor.invoke(provider, dataSet, inMapping, outMapping);
+        assertThat((((DataSet) ((DataSet) resultDataSet.get("result")).get("innerObj")).get("valueInt")), is(2));
+        assertThat((((DataSet) ((DataSet) resultDataSet.get("result")).get("innerObj")).get("valueStr")), is("testName2"));
+
+        //id == 1: name -> valueStr
+        inDataSet.put("id", 1);
+        resultDataSet = invocationProcessor.invoke(provider, dataSet, inMapping, outMapping);
+        assertThat((((DataSet) ((DataSet) resultDataSet.get("result")).get("innerObj")).get("valueInt")), is(1));
+        assertThat((((DataSet) ((DataSet) resultDataSet.get("result")).get("innerObj")).get("valueStr")), is("testName"));
     }
 
     @Test
