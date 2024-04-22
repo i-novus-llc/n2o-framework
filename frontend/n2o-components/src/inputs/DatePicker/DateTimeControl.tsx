@@ -270,7 +270,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
 
             const begin = inputs[DateTimeControlName.BEGIN]
 
-            if (date.isBefore(begin)) {
+            if (inputName === 'end' && date.isBefore(begin)) {
                 this.setState({
                     inputs: { [DateTimeControlName.BEGIN]: null, [DateTimeControlName.END]: date },
                 }, () => this.onChange(inputName))
