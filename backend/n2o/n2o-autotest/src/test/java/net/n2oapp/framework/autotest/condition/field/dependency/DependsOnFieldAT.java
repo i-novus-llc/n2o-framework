@@ -179,7 +179,7 @@ public class DependsOnFieldAT extends AutoTestBase {
         select.shouldSelected("second");
         onAnyField.shouldHaveValue(increment(value, 2));
         onFieldset.shouldHaveValue(increment(value, 2));
-        onInput.shouldHaveValue(increment(value, 1));
+        onInput.shouldHaveValue(value);
         onSelect.shouldHaveValue(increment(value, 1));
 
         inputInFieldset.setValue("2");
@@ -187,14 +187,15 @@ public class DependsOnFieldAT extends AutoTestBase {
         String value2 = onAnyField.element().getText();
         onFieldset.shouldHaveValue(value2);
         // wasn't changed
-        onInput.shouldHaveValue(increment(value, 1));
+        onInput.shouldHaveValue(value);
         // wasn't changed
         onSelect.shouldHaveValue(increment(value, 1));
 
         resetFieldsetBtn.click();
         onAnyField.shouldHaveValue(increment(value2, 1));
         onFieldset.shouldHaveValue(increment(value2, 1));
-        onInput.shouldHaveValue(increment(value2, 1));
+        // wasn't changed
+        onInput.shouldHaveValue(value);
 
         resetFieldBtn.click();
         onAnyField.shouldHaveValue(increment(value2, 2));

@@ -154,7 +154,7 @@ export function* modify(
             break
         }
         case 'reset': {
-            if (values[fieldName] !== null && evalResultCheck(evalResult)) {
+            if (values?.[fieldName] !== null && evalResultCheck(evalResult)) {
                 yield put(updateModel(modelPrefix, datasource, fieldName, null))
             }
 
@@ -207,64 +207,29 @@ export function* modify(
     }
 }
 
-interface ShouldBeResolved {
-    dependency: FieldDependency
-    actionType: string
-    actionField: string
-    currentField: string
-}
+const isParentFieldOf = (field: string, path: string) => (
+    path.startsWith(`${field}.`) || // path: "field.inner", field: "field"
+    path.startsWith(`${field}[`) // path: "field[index]", field: "field"
+)
+const shouldBeResolved = (
+    dependency: FieldDependency,
+    actionField: string,
+    model: Record<string, unknown>,
+    prevModel: Record<string, unknown>,
+) => {
+    const { on } = dependency
 
-const shouldBeResolved = ({ dependency, actionType, actionField, currentField }: ShouldBeResolved) => {
-    const { applyOnInit, on } = dependency
-    const isChangeAction = [
-        updateModel.type,
-        appendFieldToArray.type,
-        removeFieldFromArray.type,
-        copyFieldArray.type,
-    ].some(type => type === actionType)
-
-    // apply on init
-    if (applyOnInit && ((
-        actionField === currentField &&
-        actionType === registerFieldExtra.type
-    ))) { return true }
-
-    // apply on change
-    /*
-     * условие 2 нужно чтобы стрелть событиями когда обновлённое поле это объект,
-     * а подписка на внутренее значение
-     * update({ field: { id: 1 } }) on=['field.id'] => fieldName="field"
-     * из-за этого условия стреляют лишние зависимости: on=['field.count']
-     * FIXME: Переделать на реальное сравнение изменения вложенных полей
-     */
-    return isChangeAction && on?.some(dependencyField => (
-        dependencyField === actionField || // full equality
-        dependencyField.startsWith(`${actionField}.`) || // fieldName: "field", on: "field.id"
-        actionField.startsWith(`${dependencyField}.`) || // fieldName: "field.inner", on: "field"
-        actionField.startsWith(`${dependencyField}[`) // fieldName: "field[index]", on: "field"
+    return on?.some(dependencyField => (
+        // Путь полностью совпал
+        dependencyField === actionField ||
+        // подписка на внешнее поле, изменилось внутренее: field="field[index].id", on="field"
+        isParentFieldOf(dependencyField, actionField) ||
+        // Подписка на внутрнее поле, изменилось внешнее: field="field", on="field[index].id"
+        (
+            isParentFieldOf(actionField, dependencyField) &&
+            !isEqual(get(model, dependencyField), get(prevModel, dependencyField))
+        )
     ))
-}
-
-export function* checkAndModify(
-    form: Form,
-    values: Record<string, unknown>,
-    fieldName: string,
-    actionType: string,
-) {
-    for (const [fieldId, field] of Object.entries(form.fields)) {
-        if (field.dependency) {
-            for (const dep of field.dependency) {
-                if (shouldBeResolved({
-                    actionField: fieldName,
-                    actionType,
-                    currentField: fieldId,
-                    dependency: dep,
-                })) {
-                    yield fork(modify, form, values, fieldId, field, dep)
-                }
-            }
-        }
-    }
 }
 
 interface ResolveOnUpdateModel {
@@ -273,57 +238,70 @@ interface ResolveOnUpdateModel {
         key: string
         field: string
         prefix: ModelPrefix
+        prevState: GlobalState
     }
     payload: {
         fieldName: string
+        value: Record<string, unknown>
     }
 }
 
 export function* resolveOnUpdateModel({ type, meta, payload }: ResolveOnUpdateModel) {
     yield delay(16)
 
-    const { key: datasource, field, prefix } = meta
+    const { key: datasource, field, prefix, prevState } = meta
 
-    const formValue: Record<string, unknown> = yield select(getModelByPrefixAndNameSelector(prefix, datasource))
+    // the updated model
+    const { value } = payload
+    // prev model
+    const prevValue = get(prevState, `models.${prefix}.${datasource}.${field}`)
+
+    if (isEqual(value, prevValue)) { return }
+
+    const model: Record<string, unknown> = yield select(getModelByPrefixAndNameSelector(prefix, datasource))
+    // @ts-ignore FIXME: Поправить типы
+    const prevModel: Record<string, unknown> = getModelByPrefixAndNameSelector(prefix, datasource)(prevState || {})
     const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
 
     for (const form of forms) {
         const fieldName = type === registerFieldExtra.type ? payload.fieldName : field
 
-        if (isEmpty(form.fields)) {
-            return
-        }
+        if (isEmpty(form.fields)) { return }
 
-        yield call(
-            checkAndModify,
-            form,
-            formValue || {},
-            fieldName,
-            type,
-        )
+        for (const [fieldId, field] of Object.entries(form.fields)) {
+            if (field.dependency) {
+                for (const dep of field.dependency) {
+                    if (shouldBeResolved(dep, fieldName, model, prevModel)) {
+                        yield fork(modify, form, model, fieldId, field, dep)
+                    }
+                }
+            }
+        }
     }
 }
 
-export function* resolveOnInit({ type, payload }: RegisterFieldAction) {
+export function* resolveOnInit({ payload }: RegisterFieldAction) {
     yield delay(16)
 
     const { formName, fieldName } = payload
 
     const form: Form = yield select(makeFormByName(formName))
-    const formValue: Record<string, unknown> =
+    const model: Record<string, unknown> =
         yield select(getModelByPrefixAndNameSelector(form.modelPrefix, form.datasource))
 
-    if (isEmpty(form.fields)) {
-        return
-    }
+    if (isEmpty(form.fields)) { return }
 
-    yield call(
-        checkAndModify,
-        form,
-        formValue || {},
-        fieldName,
-        type,
-    )
+    for (const [fieldId, field] of Object.entries(form.fields)) {
+        if (field.dependency) {
+            for (const dependency of field.dependency) {
+                const { applyOnInit } = dependency
+
+                if ((fieldName === fieldId) && applyOnInit) {
+                    yield fork(modify, form, model, fieldId, field, dependency)
+                }
+            }
+        }
+    }
 }
 
 function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
