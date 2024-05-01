@@ -12,16 +12,15 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 import static net.n2oapp.watchdir.WatchDirTestUtil.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
 /**
  * На момент начала тестов создана папка: /dir
  * Слушатель повешан на /
  * Цель: проверить, что события внутри папки /dir ловятся
+ *
  * @author iryabov
  * @since 04.12.2015
  */
@@ -32,8 +31,7 @@ public class WatchDirRecursiveOnStartTest {
 
 
     @BeforeEach
-    void setUpClass() throws Exception
-    {
+    void setUpClass() throws Exception {
         createTestDir();
         assertTrue(new File(SUB_DIR).mkdirs());
         reset(listener);
@@ -41,18 +39,17 @@ public class WatchDirRecursiveOnStartTest {
     }
 
     @AfterEach
-    void tearDownClass() throws Exception
-    {
+    void tearDownClass() throws Exception {
         watchDir.stop();
         clearTestDir();
     }
 
     /**
      * Создаём пустую папку
-     *  /dir/sub
+     * /dir/sub
      * Ожидаем события:
-     *  create : /dir/sub
-     *  modify : /dir
+     * create : /dir/sub
+     * modify : /dir
      */
     @Test
     @Disabled
@@ -60,7 +57,7 @@ public class WatchDirRecursiveOnStartTest {
         //создание пустой подпапки
         watchDir.start();
         assertTrue(new File(SUB2_DIR).mkdir());
-        
+
         verify(listener, timeout(200).atLeast(1)).fileCreated(eq(Paths.get(SUB2_DIR)));
         verify(listener, never()).fileModified(any(Path.class));
         verify(listener, never()).fileDeleted(any(Path.class));
@@ -69,10 +66,10 @@ public class WatchDirRecursiveOnStartTest {
 
     /**
      * Создаём папку с файлом
-     *  /dir/sub
-     *  /dir/sub/test.txt
+     * /dir/sub
+     * /dir/sub/test.txt
      * Ожидаем события:
-     *  create: /dir/sub
+     * create: /dir/sub
      **/
     @Test
     @Disabled
@@ -81,7 +78,7 @@ public class WatchDirRecursiveOnStartTest {
         watchDir.start();
         assertTrue(new File(SUB2_DIR).mkdir());
         FileUtils.touch(new File(SUB2_FILE1));
-        
+
         verify(listener, timeout(200).atLeast(1)).fileCreated(eq(Paths.get(SUB2_DIR)));
         //папка не была известна до этого, поэтому изменения файлов в ней не ловятся
         verify(listener, never()).fileCreated(eq(Paths.get(SUB2_FILE1)));
@@ -91,12 +88,12 @@ public class WatchDirRecursiveOnStartTest {
 
     /**
      * В папке /dir/sub создаём:
-     *  /dir/sub/test.txt
+     * /dir/sub/test.txt
      * Пишем в файл
-     *  /dir/sub/test.txt
+     * /dir/sub/test.txt
      * Ожидаем события:
-     *  create : /dir/sub/test.txt
-     *  modify : /dir/sub
+     * create : /dir/sub/test.txt
+     * modify : /dir/sub
      */
     @Test
     @Disabled
@@ -117,15 +114,16 @@ public class WatchDirRecursiveOnStartTest {
 
     /**
      * Создана папка /dir/sub с двумя файлами
-     *  /dir/sub/test1.txt
-     *  /dir/sub/test2.txt
+     * /dir/sub/test1.txt
+     * /dir/sub/test2.txt
      * Удаляем папку
-     *  /dir/sub
+     * /dir/sub
      * Ожидаем события:
-     *  delete : /dir/sub
+     * delete : /dir/sub
      **/
     @Test
-    @Disabled //не стабильно удаляется папка
+    @Disabled
+    //не стабильно удаляется папка
     void testDeleteSubDir() throws IOException {
         //удаление подпапки с файлом
         assertTrue(new File(SUB2_DIR).mkdir());
@@ -134,7 +132,7 @@ public class WatchDirRecursiveOnStartTest {
         watchDir.start();
 //        assertTrue(new File(SUB2_DIR).delete());
         assertTrue(new File(SUB2_DIR).delete());
-        
+
         //при удалении папки, сначала удаляются файлы внутри неё, поэтому регистрируется событие изменения
         verify(listener, after(200).never()).fileModified(eq(Paths.get(SUB2_DIR)));
         verify(listener, atLeast(1)).fileDeleted(eq(Paths.get(SUB2_DIR)));
@@ -145,10 +143,10 @@ public class WatchDirRecursiveOnStartTest {
     /**
      * Создана пустая папка /dir/sub
      * Удаляем папку
-     *  /dir/sub
+     * /dir/sub
      * Ожидаем события:
-     *  delete : /dir/sub
-     *  modify : /dir
+     * delete : /dir/sub
+     * modify : /dir
      **/
     @Test
     @Disabled
@@ -157,7 +155,7 @@ public class WatchDirRecursiveOnStartTest {
         assertTrue(new File(SUB2_DIR).mkdir());
         watchDir.start();
         FileUtils.forceDelete(new File(SUB2_DIR));
-        
+
         verify(listener, after(200).never()).fileModified(eq(Paths.get(SUB_DIR)));
         verify(listener, timeout(200).atLeast(1)).fileDeleted(eq(Paths.get(SUB2_DIR)));
         watchDir.stop();

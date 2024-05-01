@@ -11,8 +11,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.mockito.Matchers.eq;
-
 import static net.n2oapp.watchdir.WatchDirTestUtil.*;
 import static org.mockito.Mockito.*;
 
@@ -27,16 +25,14 @@ public class WatchDirSkipTest {
 
 
     @BeforeEach
-    void setUpClass() throws Exception
-    {
+    void setUpClass() throws Exception {
         createTestDir();
         reset(listener);
         watchDir = new WatchDir(Paths.get(TEST_DIR), true, listener);
     }
 
     @AfterEach
-    void tearDownClass() throws Exception
-    {
+    void tearDownClass() throws Exception {
         watchDir.stop();
         clearTestDir();
     }

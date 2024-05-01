@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.data.ActionInvocationEngine;
 import net.n2oapp.framework.api.data.ArgumentsInvocationEngine;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
@@ -22,16 +23,16 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleFie
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.util.MappingProcessor;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.engine.util.ArgumentsInvocationUtil.mapToArgs;
 import static net.n2oapp.framework.engine.util.MapInvocationUtil.mapToMap;
 import static net.n2oapp.framework.engine.util.MappingProcessor.normalizeValue;
@@ -111,7 +112,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
             } else {
                 ObjectSimpleField simpleField = (ObjectSimpleField) parameter;
                 resolveOutField(simpleField, resultDataSet, parentDataSet, value);
-                if (nonNull(simpleField.getN2oSwitch()))
+                if (simpleField.getN2oSwitch() != null)
                     applySwitch(resultDataSet, simpleField);
             }
         }
@@ -160,12 +161,8 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                 .forEach(parameter -> normalizeInnerFields((ObjectReferenceField) parameter, resultDataSet));
         //switch
         invocationParameters.stream()
-                .filter(
-                        parameter -> parameter instanceof ObjectSimpleField && nonNull(((ObjectSimpleField) parameter).getN2oSwitch())
-                )
-                .forEach(
-                        parameter -> applySwitch(resultDataSet, (ObjectSimpleField) parameter)
-                );
+                .filter(parameter -> parameter instanceof ObjectSimpleField && ((ObjectSimpleField) parameter).getN2oSwitch() != null)
+                .forEach(parameter -> applySwitch(resultDataSet, (ObjectSimpleField) parameter));
         // mapping
         invocationParameters.stream().filter(parameter -> parameter instanceof ObjectReferenceField
                         && ((ObjectReferenceField) parameter).getFields() != null && ((ObjectReferenceField) parameter).getEntityClass() != null)
@@ -200,7 +197,9 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
      * @param inDataSet  Входящие данные вызова
      */
     private void prepareInValues(Collection<AbstractParameter> parameters, DataSet inDataSet) {
-        if (isNull(inDataSet)) return;
+        if (inDataSet == null)
+            return;
+
         for (AbstractParameter parameter : parameters) {
             if (parameter instanceof ObjectSimpleField) {
                 ObjectSimpleField simpleField = (ObjectSimpleField) parameter;
@@ -211,14 +210,36 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                 value = domainProcessor.deserialize(value, simpleField.getDomain());
                 inDataSet.put(simpleField.getId(), value);
             } else if (parameter instanceof ObjectReferenceField) {
+                Object value = inDataSet.get(parameter.getId());
+                if (value == null)
+                    continue;
+
                 if (parameter.getClass().equals(ObjectReferenceField.class))
-                    prepareInValues(Arrays.asList(((ObjectReferenceField) parameter).getFields()),
-                            (DataSet) inDataSet.get(parameter.getId()));
-                else
-                    for (Object dataSet : Objects.requireNonNullElse((Collection) inDataSet.get(parameter.getId()), Collections.emptyList()))
-                        prepareInValues(Arrays.asList(((ObjectReferenceField) parameter).getFields()), (DataSet) dataSet);
+                    prepareComplexInValues(parameter, value, "<reference>");
+                else {
+                    // auto cast to collection if not collection
+                    if (!(value instanceof Collection)) {
+                        DataList list = new DataList();
+                        list.add(value);
+                        inDataSet.put(parameter.getId(), list);
+                    }
+
+                    for (Object dataSet : (Collection<?>) inDataSet.get(parameter.getId()))
+                        prepareComplexInValues(parameter, dataSet, "<list>");
+                }
             }
         }
+    }
+
+    private void prepareComplexInValues(AbstractParameter parameter, Object dataSet, String parameterType) {
+        if (!(dataSet instanceof DataSet)) {
+            throw new N2oException(
+                    String.format("Значение поля '%s' не предназначено для использования с %s",
+                            parameter.getId(), parameterType));
+        }
+        AbstractParameter[] fields = ((ObjectReferenceField) parameter).getFields();
+        if (fields != null)
+            prepareInValues(Arrays.asList(fields), (DataSet) dataSet);
     }
 
     private Object tryToNormalize(Object value,
@@ -246,7 +267,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
@@ -260,7 +281,9 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     private DataSet extractFields(Object source, Map<String, FieldMapping> fieldsMapping) {
         DataSet result = new DataSet();
         for (Map.Entry<String, FieldMapping> map : fieldsMapping.entrySet()) {
-            String fieldMapping = map.getValue().getMapping() != null ? map.getValue().getMapping() : Placeholders.spel(map.getKey());
+            String fieldMapping = map.getValue().getMapping() != null
+                    ? map.getValue().getMapping()
+                    : Placeholders.spel(map.getKey());
             outMap(result, source, map.getKey(), fieldMapping, null, contextProcessor);
             if (map.getValue().getChildMapping() != null) {
                 Object value = result.get(map.getKey());

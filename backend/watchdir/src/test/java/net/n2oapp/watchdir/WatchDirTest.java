@@ -9,39 +9,26 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-/**
- * User: Belyaev Gleb
- * Date: 14.11.13
- */
-public class WatchDirTest
-{
+public class WatchDirTest {
     private final static String TEST_DIR = getTestFolder();
     private Path path = Paths.get(TEST_DIR + "test.txt");
     private WatchDir watchDir;
     private FileChangeListener listener = mock(FileChangeListener.class);
 
-    private static String getTestFolder()
-    {
+    private static String getTestFolder() {
         return System.getProperty("user.home") +
                 File.separator +
                 WatchDirTest.class.getSimpleName() +
                 File.separator;
     }
 
-//    @Before
-    public void setUpClass() throws Exception
-    {
+    //    @Before
+    public void setUpClass() throws Exception {
         File testDir = new File(TEST_DIR);
-        if (testDir.exists())
-        {
+        if (testDir.exists()) {
             FileUtils.forceDelete(testDir);
         }
         assertTrue(testDir.mkdirs());
@@ -51,13 +38,11 @@ public class WatchDirTest
         watchDir = new WatchDir(Paths.get(TEST_DIR), true, listener);
     }
 
-//    @After
-    public void tearDownClass() throws Exception
-    {
+    //    @After
+    public void tearDownClass() throws Exception {
         watchDir.stop();
         File testDir = new File(TEST_DIR);
-        if (testDir.exists())
-        {
+        if (testDir.exists()) {
             FileUtils.forceDelete(testDir);
         }
         assertFalse(testDir.exists());
@@ -68,8 +53,7 @@ public class WatchDirTest
      */
     @Test
     @Disabled
-    void testWithRecursive() throws Exception
-    {
+    void testWithRecursive() throws Exception {
         watchDir.start();
 
         FileUtils.touch(new File(path.toString()));
@@ -124,12 +108,10 @@ public class WatchDirTest
      * не реагирует на события
      * запуск
      * реагирует на события
-     *
      */
     @Test
     @Disabled
-    void testRestartMonitoring() throws Exception
-    {
+    void testRestartMonitoring() throws Exception {
         FileUtils.touch(new File(path.toString()));
         verify(listener, after(100).never()).fileCreated(eq(path));
 
@@ -149,12 +131,10 @@ public class WatchDirTest
     /**
      * событие файла
      * проверить что события файла
-     *
      */
     @Test
     @Disabled
-    void testChangeIsFile() throws Exception
-    {
+    void testChangeIsFile() throws Exception {
         watchDir.start();
 
         FileUtils.touch(new File(path.toString()));
@@ -166,12 +146,10 @@ public class WatchDirTest
     /**
      * событие каталога
      * проверить что событие каталога
-     *
      */
     @Test
     @Disabled
-    void testChangeIsDirectory() throws Exception
-    {
+    void testChangeIsDirectory() throws Exception {
         watchDir.start();
 
         path = Paths.get(TEST_DIR + "testFolder");
@@ -186,12 +164,10 @@ public class WatchDirTest
      * проверка событие создания
      * проверить что было событие на создания
      * как side эффект, после события создания следует событие изменения
-     *
      */
     @Test
     @Disabled
-    void testEventOnCreate() throws Exception
-    {
+    void testEventOnCreate() throws Exception {
         watchDir.start();
 
         FileUtils.touch(new File(path.toString()));
@@ -204,12 +180,11 @@ public class WatchDirTest
     /**
      * проверка событие изменения
      * проверить что было событие изменения
-     *
      */
     @Test
-    @Disabled //todo почему то не срабатывает тест на https://ci.i-novus.ru/view/util/job/watchdir.master.build/lastBuild/net.n2oapp.watchdir$watchdir/testReport/net.n2oapp.watchdir/WatchDirTest/testEventOnChange/
-    void testEventOnChange() throws Exception
-    {
+    @Disabled
+    //todo почему то не срабатывает тест на https://ci.i-novus.ru/view/util/job/watchdir.master.build/lastBuild/net.n2oapp.watchdir$watchdir/testReport/net.n2oapp.watchdir/WatchDirTest/testEventOnChange/
+    void testEventOnChange() throws Exception {
         FileUtils.touch(new File(path.toString()));
 
         watchDir.start();
@@ -228,12 +203,10 @@ public class WatchDirTest
     /**
      * проверка событие удаление
      * проверить что было событие удаления
-     *
      */
     @Test
     @Disabled
-    void testEventOnDelete() throws Exception
-    {
+    void testEventOnDelete() throws Exception {
         FileUtils.touch(new File(path.toString()));
         watchDir.start();
 
@@ -245,12 +218,10 @@ public class WatchDirTest
 
     /**
      * Режим запуска, не срабатывали события а после запуска срабатывают
-     *
      */
     @Test
     @Disabled
-    void testStartMonitoring() throws Exception
-    {
+    void testStartMonitoring() throws Exception {
         FileUtils.touch(new File(path.toString()));
         verify(listener, after(100).never()).fileCreated(any(Path.class));
 
@@ -267,8 +238,7 @@ public class WatchDirTest
      */
     @Test
     @Disabled
-    void testStopMonitoring() throws Exception
-    {
+    void testStopMonitoring() throws Exception {
         watchDir.start();
 
         FileUtils.touch(new File(path.toString()));
