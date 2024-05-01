@@ -13,8 +13,6 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
 /**
@@ -27,8 +25,7 @@ public class WatchDir2Test {
     private WatchDir watchDir;
     private FileChangeListener listener = mock(FileChangeListener.class);
 
-    private static String getTestFolder()
-    {
+    private static String getTestFolder() {
         StringBuilder customTestPath = new StringBuilder();
         customTestPath.append(System.getProperty("user.home"));
         customTestPath.append(File.separator);
@@ -38,11 +35,9 @@ public class WatchDir2Test {
     }
 
     @BeforeEach
-    void setUpClass() throws Exception
-    {
+    void setUpClass() throws Exception {
         File testDir = new File(TEST_DIR);
-        if (testDir.exists())
-        {
+        if (testDir.exists()) {
             FileUtils.forceDelete(testDir);
         }
         assertTrue(testDir.mkdirs());
@@ -52,12 +47,10 @@ public class WatchDir2Test {
     }
 
     @AfterEach
-    void tearDownClass() throws Exception
-    {
+    void tearDownClass() throws Exception {
         watchDir.stop();
         File testDir = new File(TEST_DIR);
-        if (testDir.exists())
-        {
+        if (testDir.exists()) {
             FileUtils.forceDelete(testDir);
         }
         assertFalse(testDir.exists());
@@ -68,12 +61,11 @@ public class WatchDir2Test {
      */
     @Disabled
     @Test
-    void testEventOnCreate() throws Exception
-    {
+    void testEventOnCreate() throws Exception {
         watchDir.start();
 
         FileUtils.touch(new File(path.toString()));
-        
+
         verify(listener, timeout(200).atLeast(1)).fileCreated(eq(path));
         verify(listener, never()).fileModified(any(Path.class));
         verify(listener, never()).fileDeleted(any(Path.class));
@@ -83,12 +75,10 @@ public class WatchDir2Test {
 
     /**
      * проверить, что было событие на изменение и только
-     *
      */
     @Disabled
     @Test
-    void testEventOnChange() throws Exception
-    {
+    void testEventOnChange() throws Exception {
         FileUtils.touch(new File(path.toString()));
 
         watchDir.start();
@@ -103,12 +93,10 @@ public class WatchDir2Test {
 
     /**
      * проверить, что было событие удаления
-     *
      */
     @Disabled
     @Test
-    void testEventOnDelete() throws Exception
-    {
+    void testEventOnDelete() throws Exception {
         FileUtils.touch(new File(path.toString()));
         watchDir.start();
 
@@ -123,8 +111,7 @@ public class WatchDir2Test {
 
     @Disabled
     @Test
-    void testChangeDir() throws Exception
-    {
+    void testChangeDir() throws Exception {
         String dir = TEST_DIR + "dir" + File.separator;
 
         //создание пустой папки

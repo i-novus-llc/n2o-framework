@@ -28,8 +28,7 @@ import java.util.*;
 
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -805,7 +804,7 @@ public class InvocationProcessorTest {
         invocation.setResultMapping("['organization']");
         invocation.setOperation(N2oTestDataProvider.Operation.echo);
 
-        //List
+        //Reference
         ObjectReferenceField refField = new ObjectReferenceField();
         refField.setId("organization");
 
@@ -847,7 +846,7 @@ public class InvocationProcessorTest {
         invocation.setResultNormalize("['organization']");
         invocation.setOperation(N2oTestDataProvider.Operation.echo);
 
-        //List
+        //Reference
         ObjectReferenceField refField = new ObjectReferenceField();
         refField.setId("organization");
 
@@ -889,7 +888,7 @@ public class InvocationProcessorTest {
         invocation.setResultNormalize("['organization']");
         invocation.setOperation(N2oTestDataProvider.Operation.echo);
 
-        //List
+        //Reference
         ObjectReferenceField refField = new ObjectReferenceField();
         refField.setId("organization");
 
@@ -934,6 +933,28 @@ public class InvocationProcessorTest {
 
         assertThat(result.getInteger("myId"), is(1));
         assertThat(result.getString("myName"), is("case_out"));
+    }
+
+    @Test
+    void testAutoCastObjectToListField() {
+        N2oTestDataProvider invocation = new N2oTestDataProvider();
+        invocation.setOperation(N2oTestDataProvider.Operation.echo);
+
+        //List
+        ObjectListField listParam = new ObjectListField();
+        listParam.setId("entities");
+
+        //DATA
+        DataSet innerDataSet = new DataSet();
+        innerDataSet.put("id", 1);
+        innerDataSet.put("name", "test1");
+        DataSet dataSet = new DataSet("entities", innerDataSet);
+
+        DataSet result = invocationProcessor.invoke(invocation, dataSet, List.of(listParam), null);
+
+        assertThat(result.get("entities"), instanceOf(DataList.class));
+        assertThat(((DataSet) ((DataList) result.get("entities")).get(0)).get("id"), is(1));
+        assertThat(((DataSet) ((DataList) result.get("entities")).get(0)).get("name"), is("test1"));
     }
 
     static class SqlInvocationEngine implements MapInvocationEngine<N2oSqlDataProvider> {

@@ -164,8 +164,7 @@ public class InputSelectTreeAT extends AutoTestBase {
         inputSelectTree2.selectOption(6);
         inputSelectTree2.shouldSelectedMulti(new String[]{"Александр ...", "Александр ...", "Александр ...", "+ 1..."});
         inputSelectTree2.selectOption(10);
-        inputSelectTree2.selectOption(11);
-        inputSelectTree2.shouldSelectedMulti(new String[]{"Александр ...", "Александр ...", "Александр ...", "+ 3..."});
+        inputSelectTree2.shouldSelectedMulti(new String[]{"Александр ...", "Александр ...", "Александр ...", "+ 2..."});
         inputSelectTree2.click();
 
         inputSelectTree3.click();
