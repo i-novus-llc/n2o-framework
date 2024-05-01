@@ -285,7 +285,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                     for (Object obj : (Collection<?>) value)
                         list.add(extractFields(obj, map.getValue().getChildMapping()));
                     result.put(map.getKey(), list);
-                } else
+                } else if (value != null)
                     result.put(map.getKey(), extractFields(value, map.getValue().getChildMapping()));
             }
         }
