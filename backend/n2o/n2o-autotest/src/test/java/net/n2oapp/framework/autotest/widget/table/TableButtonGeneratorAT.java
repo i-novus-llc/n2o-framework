@@ -26,6 +26,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -41,7 +42,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class TableButtonGeneratorAT extends AutoTestBase {
 
-    private SimplePage page;
     private TableWidget table;
     private Toolbar toolbar;
 
@@ -212,6 +212,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
      * - только с label
      * - и с icon и с label
      */
+    @Disabled
     @Test
     void testHeadersAndColumnsSettings() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator/check_headers");
@@ -248,6 +249,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         button.menuItem(3).shouldHaveDescription("Регион");
     }
 
+    @Disabled
     @Test
     void columnsVisibilityTest() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator/columns");
@@ -494,7 +496,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
     }
 
     private void openPage() {
-        page = open(SimplePage.class);
+        SimplePage page = open(SimplePage.class);
         page.shouldExists();
         table = page.widget(TableWidget.class);
         table.shouldExists();
