@@ -23,6 +23,10 @@
         {
           "templateId": "versions/7.27/additional_info",
           "name": "Доступ к дополнительной информации"
+        },
+        {
+          "templateId": "versions/7.27/badge_in_fieldset",
+          "name": "Badge в филдсетах"
         }
       ]
     },

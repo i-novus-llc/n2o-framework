@@ -31,6 +31,8 @@
                     <input-text id="input_2" label="input 2 valid"/>
                 </multi-set>
             </multi-set>
+            <multi-set id="testBadge1" label="testBadge" badge="{test}"/>
+            <multi-set id="testBadge2" label="testBadge" badge="text" badge-position="left" badge-shape="circle" badge-image="test" badge-image-position="right" badge-image-shape="square"/>
         </fields>
     </form>
 </simple-page>

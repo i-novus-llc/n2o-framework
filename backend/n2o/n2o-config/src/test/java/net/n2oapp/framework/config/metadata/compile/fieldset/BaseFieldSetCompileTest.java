@@ -9,7 +9,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -49,7 +48,7 @@ public class BaseFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(fieldSet.getLabelWidth(), is("30px"));
         assertThat(fieldSet.getVisible(), is(true));
         assertThat(fieldSet.getEnabled(), is(false));
-        assertThat(fieldSet.getJsonProperties().get("codeVerified"), CoreMatchers.is("`emailSender.status=='send'`"));
+        assertThat(fieldSet.getJsonProperties().get("codeVerified"), is("`emailSender.status=='send'`"));
 
 
         fieldSet = ((Form) page.getWidget()).getComponent().getFieldsets().get(1);
@@ -65,6 +64,23 @@ public class BaseFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(fieldSet.getEnabled(), nullValue());
         assertThat(fieldSet.getLabelWidth(), nullValue());
         assertThat(fieldSet.getJsonProperties(), nullValue()) ;
+
+        fieldSet = ((Form) page.getWidget()).getComponent().getFieldsets().get(2);
+
+        assertThat(fieldSet.getBadge().getText(), is("`test`"));
+        assertThat(fieldSet.getBadge().getPosition().getId(), is("right"));
+        assertThat(fieldSet.getBadge().getShape().getId(), is("square"));
+        assertThat(fieldSet.getBadge().getImagePosition().getId(), is("left"));
+        assertThat(fieldSet.getBadge().getImageShape().getId(), is("circle"));
+
+        fieldSet = ((Form) page.getWidget()).getComponent().getFieldsets().get(3);
+
+        assertThat(fieldSet.getBadge().getText(), is("text"));
+        assertThat(fieldSet.getBadge().getPosition().getId(), is("left"));
+        assertThat(fieldSet.getBadge().getShape().getId(), is("circle"));
+        assertThat(fieldSet.getBadge().getImage(), is("test"));
+        assertThat(fieldSet.getBadge().getImagePosition().getId(), is("right"));
+        assertThat(fieldSet.getBadge().getImageShape().getId(), is("square"));
 
     }
 }

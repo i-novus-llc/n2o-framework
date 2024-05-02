@@ -1,0 +1,9 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <fields>
+        <multi-set id="set" badge-color="red">
+            <col size="3">
+
+            </col>
+        </multi-set>
+    </fields>
+</form>

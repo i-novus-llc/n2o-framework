@@ -8,21 +8,19 @@ import { Required } from './Required'
 
 /**
  * Лейбел поля
- * @param {string} id - уникальный индефикатор
- * @param {string|element} value - текст/элемент лейбела
- * @param {boolean} required - поле обязательное(к лейбелу добавляется звездочка) или нет
- * @param {string} className - дополнительный класс стиля
- * @param {string} style - дополнительный dom стиль
- * @param {string} help - подсказка
- * @param {object} props - остальные пропсы
- * @example
- * <Label value='Телефон'/ required={true} />
  */
 
-const Label = ({ id, value, required, className, style, help, needStub = false }) => {
-    if (!value && !needStub) {
-        return null
-    }
+const Label = ({
+    id,
+    value,
+    required,
+    className,
+    style,
+    help,
+    needStub = false,
+    visible = true,
+}) => {
+    if (!visible || (!value && !needStub)) { return null }
 
     const newProps = {
         className: classNames('col-form-label', className),

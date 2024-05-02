@@ -114,6 +114,41 @@
                         <xs:documentation>Подсказка.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Значок филдсета.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-color" type="bs:colorDefinition">
+                    <xs:annotation>
+                        <xs:documentation>Цвет значка. Возможно использование плейсхолдеров.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-shape" type="shapeType" default="square">
+                    <xs:annotation>
+                        <xs:documentation>Форма значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-position" type="positionType" default="right">
+                    <xs:annotation>
+                        <xs:documentation>Позиция значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за картинку в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>Позиция картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>Форма картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:anyAttribute>
                     <xs:annotation>
                         <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -152,41 +187,6 @@
                 <xs:attribute name="expand" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Исходное раскрытие филдсета.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Значок филдсета.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-color" type="bs:colorDefinition">
-                    <xs:annotation>
-                        <xs:documentation>Цвет значка. Возможно использование плейсхолдеров.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-shape" type="shapeType" default="square">
-                    <xs:annotation>
-                        <xs:documentation>Форма значка</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-position" type="positionType" default="right">
-                    <xs:annotation>
-                        <xs:documentation>Позиция значка</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-image" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за картинку в значке</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-image-position" type="positionType" default="left">
-                    <xs:annotation>
-                        <xs:documentation>Позиция картинки в значке</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
-                    <xs:annotation>
-                        <xs:documentation>Форма картинки в значке</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

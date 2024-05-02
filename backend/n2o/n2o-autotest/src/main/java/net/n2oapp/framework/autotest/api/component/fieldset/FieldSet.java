@@ -1,13 +1,14 @@
 package net.n2oapp.framework.autotest.api.component.fieldset;
 
 import net.n2oapp.framework.autotest.api.component.Component;
+import net.n2oapp.framework.autotest.api.component.badge.Badge;
 
 import java.time.Duration;
 
 /**
  * Филдсет для автотестирования
  */
-public interface FieldSet extends Component, Help {
+public interface FieldSet extends Component, Help, Badge {
     /**
      * Проверка того, что филдсет пустой
      */

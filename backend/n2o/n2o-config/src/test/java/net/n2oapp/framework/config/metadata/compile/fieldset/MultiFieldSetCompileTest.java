@@ -12,7 +12,6 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -85,6 +84,21 @@ class MultiFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(validations.size(), is(1));
         assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("(function(){return false}).call(this)"));
         assertThat(validations.get(0).getMessage(), is("invalid"));
+
+        multiFieldSet = (MultiFieldSet) fieldsets.get(3);
+        assertThat(multiFieldSet.getBadge().getText(), is("`test`"));
+        assertThat(multiFieldSet.getBadge().getPosition().getId(), is("right"));
+        assertThat(multiFieldSet.getBadge().getShape().getId(), is("square"));
+        assertThat(multiFieldSet.getBadge().getImagePosition().getId(), is("left"));
+        assertThat(multiFieldSet.getBadge().getImageShape().getId(), is("circle"));
+
+        multiFieldSet = (MultiFieldSet) fieldsets.get(4);
+        assertThat(multiFieldSet.getBadge().getText(), is("text"));
+        assertThat(multiFieldSet.getBadge().getPosition().getId(), is("left"));
+        assertThat(multiFieldSet.getBadge().getShape().getId(), is("circle"));
+        assertThat(multiFieldSet.getBadge().getImage(), is("test"));
+        assertThat(multiFieldSet.getBadge().getImagePosition().getId(), is("right"));
+        assertThat(multiFieldSet.getBadge().getImageShape().getId(), is("square"));
     }
 
     @Test
@@ -92,15 +106,15 @@ class MultiFieldSetCompileTest extends SourceCompileTestBase {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/fieldset/testMultiSetDefaultValue.page.xml")
                 .get(new PageContext("testMultiSetDefaultValue"));
 
-        assertThat(page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].id").getValue(), CoreMatchers.is("`$.uuid()`"));
-        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].date").getValue()).getValues().get("begin"), CoreMatchers.is("2024.01.01"));
-        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].date").getValue()).getValues().get("end"), CoreMatchers.is("2024.01.31"));
-        assertThat(page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].name").getValue(), CoreMatchers.is("test"));
-        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].type").getValue()).getValues().get("id"), CoreMatchers.is(1));
-        assertThat(page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].id").getValue(), CoreMatchers.is("`$.uuid()`"));
-        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].date").getValue()).getValues().get("begin"), CoreMatchers.is("2024.01.01"));
-        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].date").getValue()).getValues().get("end"), CoreMatchers.is("2024.01.31"));
-        assertThat(page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].name").getValue(), CoreMatchers.is("test"));
-        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].type").getValue()).getValues().get("id"), CoreMatchers.is(1));
+        assertThat(page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].id").getValue(), is("`$.uuid()`"));
+        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].date").getValue()).getValues().get("begin"), is("2024.01.01"));
+        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].date").getValue()).getValues().get("end"), is("2024.01.31"));
+        assertThat(page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].name").getValue(), is("test"));
+        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].type").getValue()).getValues().get("id"), is(1));
+        assertThat(page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].id").getValue(), is("`$.uuid()`"));
+        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].date").getValue()).getValues().get("begin"), is("2024.01.01"));
+        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].date").getValue()).getValues().get("end"), is("2024.01.31"));
+        assertThat(page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].name").getValue(), is("test"));
+        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].type").getValue()).getValues().get("id"), is(1));
     }
 }

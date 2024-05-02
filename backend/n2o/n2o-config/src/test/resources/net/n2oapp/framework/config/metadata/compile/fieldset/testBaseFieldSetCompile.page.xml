@@ -7,6 +7,8 @@
                  field-label-align="right" field-label-width="30" visible="true" enabled="false"
                  test:codeVerified="{emailSender.status=='send'}"/>
             <set/>
+            <set label="testBadge" badge="{test}"/>
+            <set label="testBadge" badge="text" badge-position="left" badge-shape="circle" badge-image="test" badge-image-position="right" badge-image-shape="square"/>
         </fields>
     </form>
 </simple-page>

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import CollapseFieldset from '../CollapseFieldset/CollapseFieldSet'
 import TitleFieldset from '../TitleFieldset/TitleFieldset'
 import { withFieldsetHeader } from '../withFieldsetHeader'
-import { useResolved } from '../../../../../core/Expression/useResolver'
 
 function LineFieldset(props) {
     const {
@@ -19,11 +18,9 @@ function LineFieldset(props) {
         help,
         disabled,
         collapsible,
-        badge: badgeProps,
-        activeModel,
+        badge,
     } = props
 
-    const badge = useResolved(badgeProps, activeModel)
     const commonProps = {
         render,
         rows,
@@ -36,9 +33,7 @@ function LineFieldset(props) {
         badge,
     }
 
-    if (collapsible) {
-        return <CollapseFieldset {...commonProps} type={type} expand={expand} />
-    }
+    if (collapsible) { return <CollapseFieldset {...commonProps} type={type} expand={expand} /> }
 
     return <TitleFieldset {...commonProps} />
 }

@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
+import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 
@@ -40,6 +41,8 @@ public abstract class FieldSet extends Component implements Compiled {
     private Object enabled;
     @JsonProperty
     private ControlDependency[] dependency;
+    @JsonProperty
+    private Badge badge;
 
     @Getter
     @Setter

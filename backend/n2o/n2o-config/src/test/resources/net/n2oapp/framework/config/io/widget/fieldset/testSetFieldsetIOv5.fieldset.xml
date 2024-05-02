@@ -4,7 +4,9 @@
      style="margin-left:10px;width:300px" description="description"
      id="fieldset" src="test" class="test" label="label" ref-id="id"
      field-label-align="left" field-label-location="top" help="Это филдсет"
-     field-label-width="30" visible="true" enabled="true" depends-on="test">
+     field-label-width="30" visible="true" enabled="true" depends-on="test"
+     badge="test" badge-position="left" badge-color="success" badge-image="test"
+     badge-image-position="right" badge-image-shape="rounded" badge-shape="circle">
     <row class="test1" ext:attr="extAttr">
         <col class="test1">
             <input-text id="test"/>

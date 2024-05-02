@@ -15,10 +15,6 @@ import static net.n2oapp.framework.autotest.N2oSelenide.component;
  * Филдсет с динамическим числом полей для автотестирования
  */
 public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
-    @Override
-    public SelenideElement element() {
-        return super.element().$(".n2o-multi-fieldset");
-    }
 
     @Override
     public void shouldHaveLabel(String label, Duration... duration) {
@@ -101,28 +97,27 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
     }
 
     protected SelenideElement label() {
-        return element().parent().$(".n2o-fieldset__label");
+        return element().$(".n2o-fieldset__label");
     }
 
     protected SelenideElement addButton() {
-        return element().$(".n2o-multi-fieldset__add.btn");
+        return innerElement().$(".n2o-multi-fieldset__add.btn");
     }
 
     protected SelenideElement addButton(String label) {
-        return element().$$(".n2o-multi-fieldset__add.btn").find(Condition.text(label));
+        return innerElement().$$(".n2o-multi-fieldset__add.btn").find(Condition.text(label));
     }
 
     protected SelenideElement removeAllButton() {
-        return element().$(".n2o-multi-fieldset__remove-all.btn");
-    }
-
-    @Override
-    protected SelenideElement description() {
-        //ToDo нужно ли переопределять этот метод, если он есть у N2oFieldSet
-        return element().parent().$(".n2o-fieldset__description");
+        return innerElement().$(".n2o-multi-fieldset__remove-all.btn");
     }
 
     protected ElementsCollection items() {
-        return element().$$(".n2o-multi-fieldset__item");
+        return innerElement().$$(".n2o-multi-fieldset__item");
     }
+
+    protected SelenideElement innerElement() {
+        return super.element().$(".n2o-multi-fieldset");
+    }
+
 }

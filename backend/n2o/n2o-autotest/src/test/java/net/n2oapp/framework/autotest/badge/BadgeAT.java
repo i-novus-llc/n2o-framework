@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.badge;
 
 import net.n2oapp.framework.autotest.BadgePosition;
 import net.n2oapp.framework.autotest.BadgeShape;
+import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.collection.FieldSets;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
@@ -12,6 +13,8 @@ import net.n2oapp.framework.autotest.api.component.control.InputSelectTree;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.fieldset.LineFieldSet;
+import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
+import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -222,7 +225,7 @@ public class BadgeAT extends AutoTestBase {
 
     @Test
     public void testLineFieldset() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/badge/fieldset/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/badge/fieldset/line/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
@@ -237,6 +240,7 @@ public class BadgeAT extends AutoTestBase {
         fieldset.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
         fieldset.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
         fieldset.badgeShouldHaveImageShape(BadgeShape.SQUARE);
+        fieldset.badgeShouldHaveColor(Colors.DANGER);
 
         fieldset = fieldsets.fieldset(2, LineFieldSet.class);
         fieldset.badgeShouldNotExists();
@@ -246,6 +250,64 @@ public class BadgeAT extends AutoTestBase {
         fieldset.fields().field("count").control(InputText.class).setValue("54");
         fieldset.badgeShouldHaveText("54");
         fieldset.fields().field("count").control(InputText.class).clear();
+        fieldset.badgeShouldNotExists();
+    }
+    @Test
+    public void testSimpleFieldset() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/badge/fieldset/simple/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
+
+        SimpleFieldSet fieldset = fieldsets.fieldset(0, SimpleFieldSet.class);
+        fieldset.badgeShouldHaveText("12");
+        fieldset.badgeShouldHaveShape(BadgeShape.ROUNDED);
+
+        fieldset = fieldsets.fieldset(1, SimpleFieldSet.class);
+        fieldset.badgeShouldHaveText("Humburg");
+        fieldset.badgeShouldHaveShape(BadgeShape.SQUARE);
+        fieldset.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
+        fieldset.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
+        fieldset.badgeShouldHaveImageShape(BadgeShape.SQUARE);
+        fieldset.badgeShouldHaveColor(Colors.DANGER);
+
+        fieldset = fieldsets.fieldset(2, SimpleFieldSet.class);
+        fieldset.badgeShouldNotExists();
+        fieldset.fields().field("count").control(InputText.class).setValue("27");
+        fieldset.badgeShouldHaveText("27");
+        fieldset.fields().field("count").control(InputText.class).setValue("54");
+        fieldset.badgeShouldHaveText("54");
+        fieldset.fields().field("count").control(InputText.class).clear();
+        fieldset.badgeShouldNotExists();
+    }
+
+    @Test
+    public void testMultiFieldset() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/badge/fieldset/multi/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
+
+        MultiFieldSet fieldset = fieldsets.fieldset(0, MultiFieldSet.class);
+        fieldset.badgeShouldHaveText("12");
+        fieldset.badgeShouldHaveShape(BadgeShape.ROUNDED);
+
+        fieldset = fieldsets.fieldset(1, MultiFieldSet.class);
+        fieldset.badgeShouldHaveText("Humburg");
+        fieldset.badgeShouldHaveShape(BadgeShape.SQUARE);
+        fieldset.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
+        fieldset.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
+        fieldset.badgeShouldHaveImageShape(BadgeShape.SQUARE);
+        fieldset.badgeShouldHaveColor(Colors.DANGER);
+
+        fieldset = fieldsets.fieldset(2, MultiFieldSet.class);
+        fieldset.badgeShouldNotExists();
+        fieldset.clickAddButton();
+        fieldset.item(0).fields().field("count").control(InputText.class).setValue("27");
+        fieldset.badgeShouldHaveText("27");
+        fieldset.item(0).fields().field("count").control(InputText.class).setValue("54");
+        fieldset.badgeShouldHaveText("54");
+        fieldset.item(0).fields().field("count").control(InputText.class).clear();
         fieldset.badgeShouldNotExists();
     }
 }
