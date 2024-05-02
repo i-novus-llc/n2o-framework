@@ -25,16 +25,8 @@ function ListRegion(props) {
 
     const collapseProps = pick(props, 'destroyInactivePanel', 'accordion')
     const panelProps = pick(props, [
-        'type',
-        'forceRender',
-        'collapsible',
-        'expand',
-        'hasSeparator',
-        'label',
-        'content',
-        'isVisible',
-        'pageId',
-        'regionsState',
+        'type', 'forceRender', 'collapsible', 'expand', 'hasSeparator',
+        'label', 'content', 'isVisible', 'pageId', 'regionsState',
     ])
 
     const visible = content.some((meta = {}) => {
@@ -103,5 +95,6 @@ export { ListRegion }
 export default compose(
     setDisplayName('ListRegion'),
     withWidgetProps,
-    connect(({ regions }) => ({ regionsState: regions })),
+    // widgetsState - тригер, нужен для расчета видимости виджетов в регионе
+    connect(({ regions, widgets }) => ({ regionsState: regions, widgetsState: widgets })),
 )(ListRegion)
