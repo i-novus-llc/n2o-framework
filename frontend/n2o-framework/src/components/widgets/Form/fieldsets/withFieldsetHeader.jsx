@@ -1,50 +1,43 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import Label from '../fields/StandardField/Label'
-import HelpPopover from '../fields/StandardField/HelpPopover'
+import { useResolved } from '../../../../core/Expression/useResolver'
+
+import { FieldsetHeader } from './FieldsetHeader'
 
 export function withFieldsetHeader(Component) {
-    function WithFieldsetHeaderComponent({
-        classes,
-        style,
-        needLabel,
-        needDescription,
-        description,
-        label,
-        help,
-        type,
-        childrenLabel,
-        enabled,
-        activeModel,
-        render,
-        visible,
-        ...rest
-    }) {
+    function WithFieldsetHeaderComponent(props) {
+        const {
+            classes,
+            style,
+            needLabel,
+            needDescription,
+            description,
+            label,
+            help,
+            type,
+            childrenLabel,
+            enabled,
+            activeModel,
+            render,
+            visible,
+            badge: badgeProps,
+            ...rest
+        } = props
+
+        const badge = useResolved(badgeProps, activeModel)
+
         return (
             <div className={classNames(classes, { 'd-none': visible === false })} style={style}>
-                {(needLabel || needDescription) && (
-                    <div className="n2o-fieldset__label-container">
-                        {needLabel && (
-                            <Label
-                                className={classNames(
-                                    'n2o-fieldset__label', { 'with-description': description },
-                                )}
-                                value={label}
-                            />
-                        )}
-                        {help && <HelpPopover help={help} />}
-                        {needDescription && (
-                            <Label
-                                className={classNames(
-                                    'n2o-fieldset__description', { 'line-description': type === 'line' },
-                                )}
-                                value={description}
-                            />
-                        )}
-                    </div>
-                )}
+                <FieldsetHeader
+                    visible={type !== 'line' && (needLabel || needDescription || badge)}
+                    label={label}
+                    needLabel={needLabel}
+                    description={description}
+                    needDescription={needDescription}
+                    badge={badge}
+                    help={help}
+                />
                 <Component
                     childrenLabel={childrenLabel}
                     enabled={enabled}
@@ -52,6 +45,7 @@ export function withFieldsetHeader(Component) {
                     type={type}
                     activeModel={activeModel}
                     description={description}
+                    badge={badge}
                     {...rest}
                     visible={visible}
                     render={render}
@@ -59,21 +53,6 @@ export function withFieldsetHeader(Component) {
                 />
             </div>
         )
-    }
-
-    WithFieldsetHeaderComponent.propTypes = {
-        classes: PropTypes.string,
-        style: PropTypes.object,
-        needLabel: PropTypes.bool,
-        needDescription: PropTypes.bool,
-        description: PropTypes.string,
-        label: PropTypes.string,
-        help: PropTypes.string,
-        type: PropTypes.string,
-        childrenLabel: PropTypes.string,
-        enabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-        activeModel: PropTypes.object,
-        render: PropTypes.func,
     }
 
     return WithFieldsetHeaderComponent

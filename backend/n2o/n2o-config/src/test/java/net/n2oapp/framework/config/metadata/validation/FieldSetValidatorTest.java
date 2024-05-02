@@ -76,11 +76,27 @@ public class FieldSetValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void testColor() {
+    void testSetFieldSetBadgeColor() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testSetFieldSetBadgeColor.widget.xml"));
+        assertEquals("Филдсет <set> использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
+    }
+
+    @Test
+    void testLineFieldSetBadgeColor() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testLineFieldSetBadgeColor.widget.xml"));
         assertEquals("Филдсет <line> использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
+    }
+
+    @Test
+    void testMultiFieldSetBadgeColor() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/fieldset/testMultiFieldSetBadgeColor.widget.xml"));
+        assertEquals("Филдсет <multi-set> использует недопустимое значение атрибута badge-color=\"red\"", exception.getMessage());
     }
 
     @Test

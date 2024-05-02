@@ -1211,8 +1211,16 @@
           "name": "BadgeAT. testCell"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/badge/fieldset",
+          "templateId": "net/n2oapp/framework/autotest/badge/fieldset/simple",
+          "name": "BadgeAT. testSimpleFieldset"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/badge/fieldset/line",
           "name": "BadgeAT. testLineFieldset"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/badge/fieldset/multi",
+          "name": "BadgeAT. testMultiFieldset"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/badge/menu",

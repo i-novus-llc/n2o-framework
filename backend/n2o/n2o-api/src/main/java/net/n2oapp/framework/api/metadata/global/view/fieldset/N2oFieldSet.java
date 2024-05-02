@@ -7,7 +7,10 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 
 import java.util.Map;
 
@@ -17,7 +20,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttributesAware, SourceComponent, FieldsetItem {
+public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttributesAware, SourceComponent, FieldsetItem, BadgeAware {
     private FieldsetItem[] items;
     private String label;
     private String description;
@@ -32,6 +35,13 @@ public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttrib
     private String visible;
     private String enabled;
     private String help;
+    private String badge;
+    private String badgeColor;
+    private Position badgePosition;
+    private ShapeType badgeShape;
+    private String badgeImage;
+    private Position badgeImagePosition;
+    private ShapeType badgeImageShape;
     @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;
 

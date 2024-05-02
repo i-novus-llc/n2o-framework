@@ -18,22 +18,41 @@ http://n2oapp.net/framework/config/schema/fieldset-5.0
 
 **Атрибуты**
 
-|Наименование        |Тип            |Описание                                |Значение по умолчанию|
-|--------------------|---------------|----------------------------------------|---------------------|
-|id                  |Строка         |Идентификатор филдсета                  |                     |
-|ref-id              |Ссылка         |Ссылка на файл филдсета                 |                     |
-|src                 |Строка         |React компонент филдсета                |                     |
-|class               |CSS класс      |Класс компонента филдсета               |                     |
-|style               |CSS свойство   |Стиль компонента филдсета               |                     |
-|label               |Строка         |Заголовок филдсета                      |                     |
-|description         |Строка         |Подзаголовок филдсета                   |                     |
-|field-label-location|left top       |Расположение лейблов                    |top                  |
-|field-label-align   |left right     |Выравнивание лейблов                    |left                 |
-|field-label-width   |Строка         |Ширина лейблов. Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px` |default              |
-|visible             |Выражение      |Условие видимости                       |true                 |
-|enabled             |Выражение      |Условие доступности                     |true                 |
-|depends-on          |Строка         |Список полей, от которых зависит филдсет|                     |
-|help                |Строка         |Подсказка                               |                     |
+|Наименование        |Тип                     |Описание                                |Значение по умолчанию|
+|--------------------|------------------------|----------------------------------------|---------------------|
+|id                  |Строка                  |Идентификатор филдсета                  |                     |
+|ref-id              |Ссылка                  |Ссылка на файл филдсета                 |                     |
+|src                 |Строка                  |React компонент филдсета                |                     |
+|class               |CSS класс               |Класс компонента филдсета               |                     |
+|style               |CSS свойство            |Стиль компонента филдсета               |                     |
+|label               |Строка                  |Заголовок филдсета                      |                     |
+|description         |Строка                  |Подзаголовок филдсета                   |                     |
+|field-label-location|left top                |Расположение лейблов                    |top                  |
+|field-label-align   |left right              |Выравнивание лейблов                    |left                 |
+|field-label-width   |Строка                  |Ширина лейблов. Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px` |default              |
+|visible             |Выражение               |Условие видимости                       |true                 |
+|enabled             |Выражение               |Условие доступности                     |true                 |
+|depends-on          |Строка                  |Список полей, от которых зависит филдсет|                     |
+|help                |Строка                  |Подсказка                               |                     |
+|badge               |Строка                  |Значок филдсета                         |true                 |
+|badge-color         |primary secondary success danger warning info light dark|Цвет значка. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры) |                     |
+|badge-shape         |rounded circle square   |Форма значка                            |square               |
+|badge-position      |left right              |Позиция значка                          |right                |
+|badge-image         |Строка                  |Картинка в значке                       |                     |
+|badge-image-shape   |rounded circle square   |Форма картинки в значке                 |circle               |
+|badge-image-position|left right              |Позиция картинки в значке               |left                 |
+
+**Настройки**
+```yaml
+#Значение по умолчанию для позиции бейджа филдсета
+n2o.api.fieldset.badge.position=right
+#Значение по умолчанию формы бейджа филдсета
+n2o.api.fieldset.badge.shape=square
+#Значение по умолчанию для позиции картинки в значке бейджа филдсета
+n2o.api.fieldset.badge.image_position=left
+#Значение по умолчанию формы картинки в значке бейджа филдсета
+n2o.api.fieldset.badge.image_shape=circle
+```
 
 **Тело**<br/>
 Список [полей](../xml/field)<br/>
@@ -152,13 +171,6 @@ http://n2oapp.net/framework/config/schema/fieldset-5.0
 |collapsible          |true false              |Возможность раскрытия и сворачивания филдсета|true                 |
 |has-separator        |true false              |Наличие горизонтального делителя             |true                 |
 |expand               |true false              |Исходное раскрытие филдсета                  |true                 |
-|badge                |Строка                  |Значок филдсета                              |true                 |
-|badge-color          |primary secondary success danger warning info light dark |Цвет значка. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры) |                     |
-|badge-shape          |rounded circle square   |Форма значка                                 |circle               |
-|badge-position       |left right              |Позиция значка                               |right                |
-|badge-image          |Строка                  |Картинка в значке                            |                     |
-|badge-image-shape    |rounded circle square   |Форма картинки в значке                      |circle               |
-|badge-image-position |left right              |Позиция картинки в значке                    |left                 |
 
 **Настройки**
 ```yaml
@@ -168,14 +180,6 @@ n2o.api.fieldset.line.collapsible=true
 n2o.api.fieldset.line.has_separator=true
 #Значение по умолчанию для исходного состояния раскрытия филдсета <line>
 n2o.api.fieldset.line.expand=true
-#src филдсета с динамическим числом полей
-n2o.api.fieldset.line.badge.position=right
-#Значение по умолчанию для позиции бейджа филдсета <line>
-n2o.api.fieldset.line.badge.shape=square
-#Значение по умолчанию формы бейджа филдсета <line>
-n2o.api.fieldset.line.badge.image_position=left
-#Значение по умолчанию картинки в значке бейджа филдсета <line>
-n2o.api.fieldset.line.badge.image_shape=circle
 ```
 
 **Пример**

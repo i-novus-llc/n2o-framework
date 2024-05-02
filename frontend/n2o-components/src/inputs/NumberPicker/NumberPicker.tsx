@@ -32,8 +32,8 @@ export const NumberPicker = ({
     onKeyDown,
 }: NumberPickerProps) => {
     const [isFocused, setFocus] = useState(false)
-    const isDecreaseBtnDisabled = disabled || (!isNull(value) && min >= value)
-    const isIncreaseBtnDisabled = disabled || (!isNull(value) && max <= value)
+    const isDecreaseBtnDisabled = disabled || (!isNull(value) && min >= Number(value))
+    const isIncreaseBtnDisabled = disabled || (!isNull(value) && max <= Number(value))
 
     // Не ставим крайние значения, пока поле в фокусе
     const parsedValue = isFocused ? value : parseValue(value, min, max)

@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
@@ -25,6 +26,8 @@ import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2oFieldSet>
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
+    private static final String PROPERTY_PREFIX = "n2o.api.fieldset";
+
     protected void compileFieldSet(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p, Object... scopes) {
         compiled.setLabel(p.resolveJS(source.getLabel()));
         compiled.setDescription(source.getDescription());
@@ -32,6 +35,7 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAndResolveAttributes(source));
         compiled.setHelp(p.resolveJS(source.getHelp()));
+        compiled.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
 
         if (source.getFieldLabelLocation() != null) {
             compiled.setLabelPosition(FieldSet.LabelPosition.map(source.getFieldLabelLocation(), source.getFieldLabelAlign()));

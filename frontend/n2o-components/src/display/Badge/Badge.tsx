@@ -72,13 +72,9 @@ export const Badge = React.memo((props: Props) => {
         </ReactstrapBadge>
     )
 
-    if (!visible && children) {
-        return <>{children}</>
-    }
+    if (!visible && children) { return <>{children}</> }
 
-    if (!children) {
-        return <BadgeComponent />
-    }
+    if (!children) { return <BadgeComponent /> }
 
     return (
         <div className={badgeContainerClassNames}>

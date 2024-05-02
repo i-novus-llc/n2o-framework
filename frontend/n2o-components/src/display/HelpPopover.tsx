@@ -4,7 +4,7 @@ import { UncontrolledPopover, PopoverBody, PopoverProps } from 'reactstrap'
 import { id } from '../utils/id'
 
 type Props = {
-    help: string,
+    help: string | null,
     icon: string,
     placement: PopoverProps['placement']
 }
@@ -30,9 +30,7 @@ export class HelpPopover extends React.Component<Props> {
     render() {
         const { help, placement, icon } = this.props
 
-        if (!help) {
-            return null
-        }
+        if (!help) { return null }
 
         return (
             <div className="n2o-popover">

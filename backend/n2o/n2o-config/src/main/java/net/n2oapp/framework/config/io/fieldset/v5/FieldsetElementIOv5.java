@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
+import net.n2oapp.framework.config.io.common.BadgeAwareIO;
 import net.n2oapp.framework.config.io.control.v3.ControlIOv3;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -11,7 +12,7 @@ import org.jdom2.Namespace;
 /**
  * Чтение\запись филдсета версии 5.0
  */
-public abstract class FieldsetElementIOv5<T extends N2oFieldSet> implements NamespaceIO<T> {
+public abstract class FieldsetElementIOv5<T extends N2oFieldSet> implements NamespaceIO<T>, BadgeAwareIO<N2oFieldSet> {
     private static final Namespace fieldsetDefaultNamespace = FieldsetIOv5.NAMESPACE;
     private static final Namespace controlDefaultNamespace = ControlIOv3.NAMESPACE;
 
@@ -33,6 +34,7 @@ public abstract class FieldsetElementIOv5<T extends N2oFieldSet> implements Name
         p.attributeArray(e, "depends-on", ",", fs::getDependsOn, fs::setDependsOn);
         p.anyChildren(e, null, fs::getItems, fs::setItems, p.anyOf(FieldsetItem.class), fieldsetDefaultNamespace, controlDefaultNamespace);
         p.anyAttributes(e, fs::getExtAttributes, fs::setExtAttributes);
+        badge(e, fs, p);
     }
 
 

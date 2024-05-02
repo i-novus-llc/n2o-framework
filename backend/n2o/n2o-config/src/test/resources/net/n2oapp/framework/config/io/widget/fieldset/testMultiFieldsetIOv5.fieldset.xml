@@ -7,7 +7,9 @@
            label="Заголовок" children-label="Участник {index}" first-children-label="Участник" description="description"
            add-label="Добавить участника" remove-all-label="Удалить всех участников"
            can-remove-first="true" can-add="false" can-remove="false" can-remove-all="true" can-copy="true"
-           primary-key="pk" generate-primary-key="true">
+           primary-key="pk" generate-primary-key="true"
+           badge="test" badge-position="left" badge-color="success" badge-image="test"
+           badge-image-position="right" badge-image-shape="rounded" badge-shape="circle">
     <row class="test1" style="margin-left:10px;width:300px" ext:attr="extAttr">
         <col class="test1" style="margin-left:10px;width:300px" visible="{a==b}">
             <input-text id="test"/>
