@@ -112,6 +112,15 @@
         align-items: center;
         justify-content: center;
         border-radius: 4px;
+
+        &:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid #005fccff;
+        }
     }
 
     .extra-page-item {
