@@ -11,13 +11,15 @@ export function Select(props: SelectProps) {
     }
 
     return (
-        <div
+        <button
+            type="button"
             onClick={onClick}
             style={style}
             className={classNames(className, { active, disabled })}
+            disabled={disabled}
         >
             {icon && <i className={icon} />}
             {title && <span className="title">{title}</span>}
-        </div>
+        </button>
     )
 }

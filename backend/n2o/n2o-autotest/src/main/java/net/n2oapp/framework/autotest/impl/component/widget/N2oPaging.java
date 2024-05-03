@@ -251,11 +251,11 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     protected SelenideElement firstPage() {
-        return element().$$(pagesLocator.concat( " > div")).first();
+        return element().$$(pagesLocator.concat( " > .page-item, .extra-page-item")).first();
     }
 
     protected SelenideElement lastPage() {
-       return element().$$(pagesLocator.concat( " > div")).last();
+       return element().$$(pagesLocator.concat( " > .page-item, .extra-page-item")).last();
     }
 
     protected SelenideElement countButton() {
