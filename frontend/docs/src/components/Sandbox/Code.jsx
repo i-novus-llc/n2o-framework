@@ -1,14 +1,13 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import Highlight, { defaultProps } from 'prism-react-renderer'
-import oceanicNext from 'prism-react-renderer/themes/oceanicNext'
+import { Highlight, themes } from 'prism-react-renderer'
 
 import { getFileLang } from './utils'
 import styles from './sandbox.module.scss'
 
 const CodeBody = ({ fileName, source }) => (
-    <Highlight {...defaultProps} code={source} theme={oceanicNext} language={getFileLang(fileName)}>
+    <Highlight code={source} theme={themes.oceanicNext} language={getFileLang(fileName)}>
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
             <pre className={classnames(className, styles.code)} style={style}>
             {tokens.map((line, i) => {

@@ -45,7 +45,7 @@ module.exports = {
             }
         },
         prism: {
-            theme: require('prism-react-renderer/themes/oceanicNext'),
+            theme: require('prism-react-renderer').themes.oceanicNext,
         },
         navbar: {
             title: CONFIG.navbarTitle || '',
