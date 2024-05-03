@@ -7,6 +7,7 @@ import classNames from 'classnames'
 import { useTableWidget } from '../../widgets/AdvancedTable'
 import { getTableParam } from '../../../ducks/table/selectors'
 import { VISIBLE_STATE, IS_DEFAULT_COLUMNS } from '../../../ducks/table/constants'
+import { useReduxButton } from '../useReduxButton'
 
 /**
  * Дропдаун для скрытия/показа колонок в таблице
@@ -42,6 +43,8 @@ export const ToggleColumn = (props) => {
 
         switchTableParam(widgetId, IS_DEFAULT_COLUMNS)
     }, [columnsState.length])
+
+    useReduxButton(props)
 
     function getLabel(label, icon, columnId) {
         if (!label && !icon) { return columnId }
