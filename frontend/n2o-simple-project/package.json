@@ -4,8 +4,8 @@
   "private": true,
   "homepage": ".",
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider craco start",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider craco build",
     "eject": "react-scripts eject",
     "clean": "rimraf ./build/ && rimraf ./node_modules/"
   },
@@ -16,6 +16,7 @@
     "@babel/runtime": "^7.9.2",
     "react-scripts": "4.0.1",
     "@craco/craco": "^6.4.5",
+    "cross-env": "^7.0.3",
     "rimraf": "^3.0.2"
   },
   "peerDependencies": {

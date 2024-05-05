@@ -350,20 +350,20 @@ n2o.api.query.field.is_sorted = false
 
 **Значения выражений по умолчанию для разных провайдеров**
 
-|Наименование       |test                          | mongo                                  |
-|-------------------|------------------------------|----------------------------------------|
-|&lt;eq&gt;         |fieldId :eq :filterId         |{'fieldId' : filterId}                  |
-|&lt;notEq&gt;      |fieldId :notEq :filterId      |{'fieldId': {$ne: '#filterId'}}         |
-|&lt;more&gt;       |fieldId :more :filterId       |{'fieldId': {$gte: '#filterId'}}        |
-|&lt;less&gt;       |fieldId :less :filterId       |{'fieldId': {$lte: '#filterId'}}        |
-|&lt;like&gt;       |fieldId :like :filterId       |{'fieldId': {$regex: '.\*#filterId.*'}} |
-|&lt;in&gt;         |fieldId :in :filterId         |{'fieldId': {$in: '#filterId'}}         |
-|&lt;notIn&gt;      |fieldId :notIn :filterId      |{'fieldId': {$nin: '#filterId'}}        |
-|&lt;contains&gt;   |fieldId :contains :filterId   |-                                       |
-|&lt;isNull&gt;     |fieldId :isNull :filterId     |-                                       |
-|&lt;isNotNull&gt;  |fieldId :isNotNull :filterId  |-                                       |
-|&lt;eqOrIsNull&gt; |fieldId :eqOrIsNull :filterId |-                                       |
-|&lt;likeStart&gt;  |-                             |{'fieldId': {$regex: '#filterId.*'}}    |
+|Наименование       |test                          | mongo                                   |
+|-------------------|------------------------------|-----------------------------------------|
+|&lt;eq&gt;         |fieldId :eq :filterId         |\{'fieldId' : filterId}                  |
+|&lt;notEq&gt;      |fieldId :notEq :filterId      |\{'fieldId': \{$ne: '#filterId'}}        |
+|&lt;more&gt;       |fieldId :more :filterId       |\{'fieldId': \{$gte: '#filterId'}}       |
+|&lt;less&gt;       |fieldId :less :filterId       |\{'fieldId': \{$lte: '#filterId'}}       |
+|&lt;like&gt;       |fieldId :like :filterId       |\{'fieldId': \{$regex: '.\*#filterId.*'}}|
+|&lt;in&gt;         |fieldId :in :filterId         |\{'fieldId': \{$in: '#filterId'}}        |
+|&lt;notIn&gt;      |fieldId :notIn :filterId      |\{'fieldId': \{$nin: '#filterId'}}       |
+|&lt;contains&gt;   |fieldId :contains :filterId   |-                                        |
+|&lt;isNull&gt;     |fieldId :isNull :filterId     |-                                        |
+|&lt;isNotNull&gt;  |fieldId :isNotNull :filterId  |-                                        |
+|&lt;eqOrIsNull&gt; |fieldId :eqOrIsNull :filterId |-                                        |
+|&lt;likeStart&gt;  |-                             |\{'fieldId': \{$regex: '#filterId.*'}}   |
 
 **Базовые атрибуты**
 

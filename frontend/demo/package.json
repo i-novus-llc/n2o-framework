@@ -4,20 +4,20 @@
   "private": true,
   "homepage": ".",
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider node scripts/start.js",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider node scripts/build.js",
     "server": "node server/dev.js",
     "clean": "rimraf ./build/ && rimraf ./node_modules/"
   },
   "dependencies": {
     "@atlaskit/select": "^1.2.0",
     "@atlaskit/table-tree": "^1.0.0",
-    "@babel/core": "7.9.0",
+    "@babel/core": "7.24.5",
     "@svgr/webpack": "4.3.3",
     "babel-jest": "^24.9.0",
     "babel-loader": "8.1.0",
     "babel-plugin-named-asset-import": "^0.3.6",
-    "babel-preset-react-app": "^9.1.2",
+    "babel-preset-react-app": "10.0.1",
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
     "css-loader": "3.4.2",
@@ -66,6 +66,7 @@
     "@babel/runtime": "^7.9.2",
     "body-parser": "^1.19.0",
     "core-js": "^3.6.5",
+    "cross-env": "^7.0.3",
     "rimraf": "^3.0.2"
   },
   "peerDependencies": {
