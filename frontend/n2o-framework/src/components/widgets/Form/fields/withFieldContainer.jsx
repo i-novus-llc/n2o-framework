@@ -17,6 +17,7 @@ import { getValidationClass } from '../../../../core/utils/getValidationClass'
 import { useResolved } from '../../../../core/Expression/useResolver'
 import { useDispatch } from '../../../../core/Redux/useDispatch'
 import { ArrayFieldContext } from '../../../../core/datasource/ArrayField/Context'
+import { getDefaultField } from '../../../../ducks/form/FormPlugin'
 
 import { modifyDependencies, replaceIndex, resolveControlIndexes } from './utils'
 
@@ -37,7 +38,14 @@ const useReduxField = ({ name: fieldName, ...fieldProps }) => {
         dispatch(unRegisterExtraField(formName, fieldName))
     }, [formName, fieldName, dispatch])
 
-    return field
+    if (field.isInit) {
+        return field
+    }
+
+    return {
+        ...getDefaultField(),
+        ...fieldProps,
+    }
 }
 
 const useModel = () => {
