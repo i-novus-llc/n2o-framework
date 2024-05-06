@@ -19,6 +19,21 @@ const typesFunctions = {
     },
     dateFromNow: ({ format }) => moment().format(format),
     time: ({ data, format }) => moment(data, 'HH:mm:ss').format(format),
+    snils: ({ data }) => snils(data),
+}
+
+function snils(value, formatString = '000-000-000 00') {
+    const str = value?.toString().split('') || []
+
+    if (str.length !== 11) { return str }
+
+    let formated = ''
+
+    for (const char of formatString) {
+        formated += char === '0' ? str.shift() : char
+    }
+
+    return formated
 }
 
 /**
@@ -73,19 +88,7 @@ export function parseFormatter(data, typeAndformat = false) {
             regexps: {
                 format: /(0{3}[ .-]?){3}0{2}/,
             },
-            format(value, formatString) {
-                const str = value?.toString().split('') || []
-
-                if (str.length !== 11) { return str }
-
-                let formated = ''
-
-                for (const char of formatString) {
-                    formated += char === '0' ? str.shift() : char
-                }
-
-                return formated
-            },
+            format: snils,
         })
     }
 
