@@ -41,9 +41,7 @@ export function RegionContent(props: Props) {
         TabsRegion: tabSubContentClass,
     }
 
-    if (isEmpty(content)) {
-        return null
-    }
+    if (isEmpty(content)) { return null }
 
     return (
         <div className={className}>
