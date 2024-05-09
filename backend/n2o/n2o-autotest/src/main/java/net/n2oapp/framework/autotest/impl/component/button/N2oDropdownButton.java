@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.button;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import net.n2oapp.framework.autotest.N2oSelenide;
@@ -9,7 +10,7 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 public class N2oDropdownButton extends N2oButton implements DropdownButton {
     @Override
     public void shouldHaveItems(int count) {
-        menuItems().shouldHaveSize(count);
+        menuItems().shouldHave(CollectionCondition.size(count));
     }
 
     @Override

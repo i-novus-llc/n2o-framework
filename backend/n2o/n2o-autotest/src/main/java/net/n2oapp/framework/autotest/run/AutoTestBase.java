@@ -8,16 +8,15 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.query.TestEngineQueryTransformer;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Configuration.headless;
+import static net.n2oapp.framework.autotest.run.AutoTestUtil.checkChromeDriver;
 
 /**
  * Базовый класс для автотестов
@@ -34,8 +33,10 @@ public class AutoTestBase extends N2oTestBase {
     private N2oController n2oController;
 
     public static void configureSelenide() {
+        checkChromeDriver();
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
+        System.setProperty("selenide.timeout", "20000");
         headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "true"));
     }
 

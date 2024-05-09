@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.Pills;
@@ -11,7 +12,7 @@ public class N2oPills extends N2oControl implements Pills {
 
     @Override
     public void shouldBeEmpty() {
-        element().$$(".nav-link.active").shouldHaveSize(0);
+        element().$$(".nav-link.active").shouldHave(CollectionCondition.size(0));
     }
 
     @Override

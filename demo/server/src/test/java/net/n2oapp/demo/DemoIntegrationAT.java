@@ -1,34 +1,36 @@
 package net.n2oapp.demo;
 
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import net.n2oapp.demo.model.ProtoClient;
 import net.n2oapp.demo.model.ProtoContacts;
 import net.n2oapp.demo.model.ProtoPage;
 import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import static com.codeborne.selenide.Configuration.*;
+import static com.codeborne.selenide.Configuration.browserSize;
+import static com.codeborne.selenide.Configuration.headless;
+import static net.n2oapp.framework.autotest.run.AutoTestUtil.checkChromeDriver;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = DemoApplication.class, properties = {"n2o.i18n.enabled=false", "n2o.i18n.default-locale=ru"},
+@SpringBootTest(
+        classes = DemoApplication.class,
+        properties = {"n2o.i18n.enabled=false", "n2o.i18n.default-locale=ru"},
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DemoIntegrationAT {
@@ -40,18 +42,20 @@ public class DemoIntegrationAT {
 
     @BeforeAll
     public static void configure() {
+        checkChromeDriver();
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
+        System.setProperty("selenide.timeout", "20000");
 
         headless = true;
         browserSize = "1920x1200";
-        timeout = 10000;
     }
 
     @BeforeEach
     public void openProtoPage() {
-        protoPage = Selenide.open("http://localhost:" + port, ProtoPage.class);
+        N2oSelenide.open("http://localhost:" + port, LeftRightPage.class);
+        protoPage = new ProtoPage();
         protoPage.shouldBeClientsPage();
     }
 
