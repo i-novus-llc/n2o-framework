@@ -15,6 +15,12 @@ import net.n2oapp.framework.autotest.impl.component.application.N2oSidebar;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
 import org.openqa.selenium.WebElement;
 
+import javax.annotation.Nonnull;
+import java.time.Duration;
+
+import static com.codeborne.selenide.CheckResult.Verdict.ACCEPT;
+import static com.codeborne.selenide.CheckResult.Verdict.REJECT;
+
 /**
  * Страница для автотестирования
  */
@@ -162,7 +168,7 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void shouldBeVisible() {
-            element.isDisplayed();
+            element.shouldBe(Condition.visible);
         }
 
         @Override
@@ -178,7 +184,7 @@ public class N2oPage extends N2oComponent implements Page {
         @Override
         public void shouldBeClosed(long timeOut) {
             if (element.$(".modal-header .modal-title").exists())
-                element.$(".modal-header .modal-title").waitWhile(Condition.exist, timeOut);
+                element.$(".modal-header .modal-title").shouldBe(Condition.exist, Duration.ofMillis(timeOut));
         }
     }
 
@@ -191,7 +197,7 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void shouldBeVisible() {
-            element.isDisplayed();
+            element.shouldBe(Condition.visible);
         }
 
         @Override
@@ -207,7 +213,7 @@ public class N2oPage extends N2oComponent implements Page {
         @Override
         public void shouldBeClosed(long timeOut) {
             if (element.$(".popover-header .popover-body").exists())
-                element.$(".popover-header .popover-body").waitWhile(Condition.exist, timeOut);
+                element.$(".popover-header .popover-body").shouldBe(Condition.exist, Duration.ofMillis(timeOut));
         }
     }
 
@@ -236,7 +242,7 @@ public class N2oPage extends N2oComponent implements Page {
         @Override
         public void shouldHaveText(String... text) {
             ElementsCollection items = element.$$(".list-text-cell__tooltip-container__body, .tooltip-inner");
-            items.shouldHaveSize(text.length);
+            items.shouldHave(CollectionCondition.size(text.length));
             if (text.length != 0)
                 items.shouldHave(CollectionCondition.texts(text));
         }
@@ -250,14 +256,12 @@ public class N2oPage extends N2oComponent implements Page {
             this.regex = regex;
         }
 
-        @Override
-        public boolean apply(Driver driver, WebElement element) {
-            return driver.url().matches(regex);
-        }
 
+        @Nonnull
         @Override
-        public String actualValue(Driver driver, WebElement element) {
-            return driver.url();
+        public CheckResult check(Driver driver, WebElement element) {
+            boolean result = driver.url().matches(regex);
+            return new CheckResult(result ? ACCEPT : REJECT, null);
         }
 
         @Override

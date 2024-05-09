@@ -1,5 +1,6 @@
 import isFunction from 'lodash/isFunction'
 import React, { createRef } from 'react'
+import { focus } from 'redux-form'
 import { compose, setDisplayName } from 'recompose'
 import PropTypes from 'prop-types'
 import onClickOutside from 'react-onclickoutside'
@@ -260,6 +261,21 @@ class InputSelect extends React.Component {
     hidePopUp = () => {
         this.setInputFocus(false)
         this.setState({ isExpanded: false })
+    }
+
+    onChevronClick = (event) => {
+        const { isExpanded } = this.state
+
+        if (isExpanded) {
+            event.preventDefault()
+            event.stopPropagation()
+
+            this.hidePopUp()
+        } else {
+            const { dispatch, form, id } = this.props
+
+            dispatch(focus(form, id))
+        }
     }
 
     /**
@@ -618,7 +634,7 @@ class InputSelect extends React.Component {
                     <DropdownToggle tag="div" className="n2o-input-select__toggle">
                         <InputSelectGroup
                             isExpanded={isExpanded}
-                            hidePopUp={this.hidePopUp}
+                            onChevronClick={this.onChevronClick}
                             loading={loading}
                             selected={stateValue}
                             input={input}
@@ -868,6 +884,9 @@ InputSelect.propTypes = {
     size: PropTypes.number,
     page: PropTypes.number,
     data: PropTypes.object,
+    dispatch: PropTypes.func,
+    form: PropTypes.string,
+    id: PropTypes.string,
 }
 
 InputSelect.defaultProps = {
@@ -896,6 +915,7 @@ InputSelect.defaultProps = {
     onChange() {},
     onScrollEnd() {},
     onBlur() {},
+    dispatch() {},
 }
 
 export { InputSelect }

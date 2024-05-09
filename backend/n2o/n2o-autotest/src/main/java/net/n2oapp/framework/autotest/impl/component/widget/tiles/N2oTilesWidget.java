@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.widget.tiles;
 
+import com.codeborne.selenide.CollectionCondition;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.tiles.Tile;
@@ -18,7 +19,7 @@ public class N2oTilesWidget extends N2oStandardWidget implements TilesWidget {
 
     @Override
     public void shouldHaveItems(int count) {
-        element().$$(".n2o-tiles__item").shouldHaveSize(count);
+        element().$$(".n2o-tiles__item").shouldHave(CollectionCondition.size(count));
     }
 
     @Override

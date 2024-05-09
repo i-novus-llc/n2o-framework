@@ -54,16 +54,16 @@ public class ListAT extends AutoTestBase {
         page.shouldExists();
 
         ListWidget listWidget = page.widget(ListWidget.class);
-        listWidget.shouldHaveSize(10);
+        listWidget.shouldHaveSize(8);
         listWidget.content(0).body(TextCell.class).textShouldHave("body1");
         listWidget.content(0).leftTop(ImageCell.class).srcShouldBe(getBaseUrl() + "/favicon.ico");
         listWidget.content(0).leftBottom(TextCell.class).textShouldHave("leftBottom1");
         listWidget.content(0).subHeader(BadgeCell.class).colorShouldBe(Colors.SUCCESS);
         listWidget.paging().totalElementsShouldBe(11);
         listWidget.paging().selectNext();
-        listWidget.shouldHaveSize(1);
+        listWidget.shouldHaveSize(3);
         listWidget.paging().selectPrev();
-        listWidget.shouldHaveSize(10);
+        listWidget.shouldHaveSize(8);
 
         listWidget.content(0).click();
         SimplePage openPage = N2oSelenide.page(SimplePage.class);

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.fieldset;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
@@ -28,7 +29,7 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
 
     @Override
     public void shouldHaveItems(int count) {
-        element().$$(".n2o-multi-fieldset__item").shouldHaveSize(count);
+        element().$$(".n2o-multi-fieldset__item").shouldHave(CollectionCondition.size(count));
     }
 
     @Override

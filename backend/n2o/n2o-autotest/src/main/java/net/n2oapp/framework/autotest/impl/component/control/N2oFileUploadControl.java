@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.control.FileUploadControl;
 
@@ -39,7 +40,7 @@ public class N2oFileUploadControl extends N2oControl implements FileUploadContro
 
     @Override
     public void uploadFilesShouldBe(int size) {
-        element().parent().$$(".n2o-file-uploader-files-item").shouldHaveSize(size);
+        element().parent().$$(".n2o-file-uploader-files-item").shouldHave(CollectionCondition.size(size));
     }
 
     @Override

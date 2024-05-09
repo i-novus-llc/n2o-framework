@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.cell;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.cell.ListCell;
 
@@ -9,7 +10,7 @@ import net.n2oapp.framework.autotest.api.component.cell.ListCell;
 public class N2oListCell extends N2oCell implements ListCell {
     @Override
     public void shouldHaveSize(int size) {
-        element().$$(".badge").shouldHaveSize(size);
+        element().$$(".badge").shouldHave(CollectionCondition.size(size));
     }
 
     @Override

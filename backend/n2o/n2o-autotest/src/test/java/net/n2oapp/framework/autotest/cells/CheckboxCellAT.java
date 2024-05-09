@@ -53,12 +53,11 @@ public class CheckboxCellAT extends AutoTestBase {
         rows.row(0).cell(col, CheckboxCell.class).shouldBeChecked();
         rows.row(1).cell(col, CheckboxCell.class).shouldBeUnchecked();
         rows.row(2).cell(col, CheckboxCell.class).shouldBeUnchecked();
+        rows.row(2).cell(col, CheckboxCell.class).shouldBeDisabled();
         rows.row(0).cell(col, CheckboxCell.class).setChecked(false);
         rows.row(1).cell(col, CheckboxCell.class).setChecked(true);
-        rows.row(2).cell(col, CheckboxCell.class).setChecked(true);
         rows.row(0).cell(col, CheckboxCell.class).shouldBeUnchecked();
         rows.row(1).cell(col, CheckboxCell.class).shouldBeChecked();
-        rows.row(2).cell(col, CheckboxCell.class).shouldBeUnchecked();
     }
 
 }

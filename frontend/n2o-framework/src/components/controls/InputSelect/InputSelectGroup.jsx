@@ -37,7 +37,7 @@ function InputSelectGroup({
     children,
     inputFocus,
     onClearClick,
-    hidePopUp,
+    onChevronClick,
     disabled,
     setSelectedItemsRef,
     withoutButtons,
@@ -52,7 +52,7 @@ function InputSelectGroup({
     const renderButton = loading => (
         <Spinner type="inline" loading={loading} size="sm">
             <i
-                onClick={hidePopUp}
+                onClick={onChevronClick}
                 className="fa fa-chevron-down"
                 aria-hidden="true"
             />
@@ -113,7 +113,7 @@ InputSelectGroup.propTypes = {
     multiSelect: PropTypes.bool,
     disabled: PropTypes.bool,
     onClearClick: PropTypes.func,
-    hidePopUp: PropTypes.func,
+    onChevronClick: PropTypes.func,
     cleanable: PropTypes.bool,
     withoutButtons: PropTypes.bool,
     setSelectedItemsRef: PropTypes.func,
@@ -125,7 +125,7 @@ InputSelectGroup.defaultProps = {
     multiSelect: false,
     loading: false,
     withoutButtons: false,
-    hidePopUp: () => {},
+    onChevronClick: () => {},
 }
 
 export default InputSelectGroup
