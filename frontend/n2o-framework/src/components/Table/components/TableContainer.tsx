@@ -79,7 +79,7 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = (p
                         )}
 
                         {!errorComponent && EmptyContent && data.length === 0 ? (
-                            <Table.Cell colSpan={cells.body.length}>{EmptyContent}</Table.Cell>
+                            <Table.Cell className="empty_content" colSpan={cells.body.length}>{EmptyContent}</Table.Cell>
                         ) : null}
                     </Table>
                 </div>
