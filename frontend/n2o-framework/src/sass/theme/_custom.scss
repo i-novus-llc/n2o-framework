@@ -10,6 +10,18 @@
     }
 }
 
+// Верстка разделителя пустой таблицы для FF, почему то при collapsed ячейках перестает рисовать border
+@-moz-document url-prefix() {
+    .cell.empty_content {
+        padding: 0 !important;
+
+        div {
+            padding: 0.3rem var(--padding-aside-cell);
+            border-top: 1px solid #78909c;
+        }
+    }
+}
+
 .page-link {
     margin: 0 0.1rem;
 }
