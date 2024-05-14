@@ -177,8 +177,8 @@ public class DependsOnFieldAT extends AutoTestBase {
         final OutputText onSelect = fieldsetFields.field("on=field.multiSet[index].select").control(OutputText.class);
 
         select.shouldSelected("second");
-        onAnyField.shouldHaveValue(increment(value, 2));
-        onFieldset.shouldHaveValue(increment(value, 2));
+        onAnyField.shouldHaveValue(increment(value, 1));
+        onFieldset.shouldHaveValue(increment(value, 1));
         onInput.shouldHaveValue(value);
         onSelect.shouldHaveValue(increment(value, 1));
 

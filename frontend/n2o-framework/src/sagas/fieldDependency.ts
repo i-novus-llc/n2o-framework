@@ -247,8 +247,6 @@ interface ResolveOnUpdateModel {
 }
 
 export function* resolveOnUpdateModel({ type, meta, payload }: ResolveOnUpdateModel) {
-    yield delay(16)
-
     const { key: datasource, field, prefix, prevState } = meta
 
     // the updated model
