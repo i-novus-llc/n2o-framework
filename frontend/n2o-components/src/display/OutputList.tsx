@@ -1,5 +1,6 @@
 import React from 'react'
 import map from 'lodash/map'
+import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 
 import { TBaseInputProps, TBaseProps } from '../types'
@@ -8,7 +9,7 @@ import { OutputListItem } from './OutputListItem'
 
 import '../styles/components/OutputList.scss'
 
-type OutputListProps = TBaseProps & TBaseInputProps<Array<Record<string, unknown>>> & {
+type Props = TBaseProps & TBaseInputProps<Array<Record<string, unknown>>> & {
     direction?: 'row' | 'column',
     labelFieldId?: string,
     linkFieldId?: string,
@@ -16,21 +17,12 @@ type OutputListProps = TBaseProps & TBaseInputProps<Array<Record<string, unknown
     target?: string
 }
 
-export const OutputList = ({ value = [], className, direction = 'column', ...rest }: OutputListProps) => {
-    const directionClassName = `n2o-output-list--${direction}`
+export const OutputList = ({ className, direction = 'column', value = [], ...rest }: Props) => (
+    <ul className={classNames('n2o-output-list', className, `n2o-output-list--${direction}`)}>
+        {map(value, (item, index) => {
+            if (isEmpty(item)) { return null }
 
-    return (
-        <ul
-            className={classNames('n2o-output-list', className, directionClassName)}
-        >
-            {map(value, (item, index) => (
-                <OutputListItem
-                    key={index}
-                    {...rest}
-                    {...item}
-                    isLast={index === value.length - 1}
-                />
-            ))}
-        </ul>
-    )
-}
+            return <OutputListItem key={index} {...rest} {...item} isLast={index === value.length - 1} />
+        })}
+    </ul>
+)
