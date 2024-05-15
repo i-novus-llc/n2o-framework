@@ -43,6 +43,7 @@ export function Pages(props: PagesProps) {
 
                 return (
                     <Select
+                        key={page}
                         title={page}
                         onClick={setPage}
                         className={PAGE_LINK_CLASS}
