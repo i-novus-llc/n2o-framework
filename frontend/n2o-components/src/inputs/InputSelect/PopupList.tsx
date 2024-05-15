@@ -32,66 +32,68 @@ import { TOption, PopUpProps } from './types'
  * @reactProps {function} handleMouseLeave - обработчик для события onMouseLeave
  */
 
-export type BadgeType = {
-    colorFieldId: string,
-    fieldId: string,
-    imageFieldId: string,
-    imagePosition: Position,
-    imageShape: Shape,
-    position: Position,
+export interface BadgeType {
+    colorFieldId: string
+    fieldId: string
+    imageFieldId: string
+    imagePosition: Position
+    imageShape: Shape
+    position: Position
     shape: Shape
 }
 
-type Props = {
-    activeValueId?: string | number | null,
-    autocomplete?: boolean,
-    badge?: BadgeType,
-    children?: React.ReactNode,
-    count?: number,
-    descriptionFieldId?: string,
-    enabledFieldId?: string,
+interface Props {
+    activeValueId?: string | number | null
+    autocomplete?: boolean
+    badge?: BadgeType
+    children?: React.ReactNode
+    count?: number
+    descriptionFieldId?: string
+    enabledFieldId?: string
     disabledValues?: Array<string | number>
-    fetchData(arg: object, concat?: boolean, cacheReset?: boolean): void,
-    filterValue?: Record<string, unknown>,
-    format?: string,
-    groupFieldId: string,
-    hasCheckboxes: boolean,
-    iconFieldId: string,
-    imageFieldId: string,
-    isExpanded?: boolean,
-    labelFieldId: string,
-    loading?: boolean,
-    needAddFilter?: boolean,
-    onRemoveItem?(item: TOption): void,
-    onSelect(item: TOption): void,
-    options?: TOption[],
-    page?: number,
-    popUpItemRef?: PopUpProps['popUpItemRef'],
-    renderIfEmpty?: boolean,
-    scheduleUpdate?(): void,
+    fetchData(arg: object, concat?: boolean, cacheReset?: boolean): void
+    filterValue?: Record<string, unknown>
+    format?: string
+    groupFieldId: string
+    hasCheckboxes: boolean
+    iconFieldId: string
+    imageFieldId: string
+    isExpanded?: boolean
+    labelFieldId: string
+    loading?: boolean
+    needAddFilter?: boolean
+    onRemoveItem?(item: TOption): void
+    onSelect(item: TOption): void
+    options?: TOption[]
+    page?: number
+    popUpItemRef?: PopUpProps['popUpItemRef']
+    renderIfEmpty?: boolean
+    scheduleUpdate?(): void
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    selected?: any[],
-    setActiveValueId?(id: string | null): void,
-    setMenuElement?(): void,
-    size?: number,
-    statusFieldId?: string,
-    style?: object,
+    selected?: any[]
+    setActiveValueId?(id: string | null): void
+    setMenuElement?(): void
+    size?: number
+    statusFieldId?: string
+    style?: object
     valueFieldId: string
     multiSelect?: boolean
     searchMinLengthHint?: string | null | JSX.Element
 }
 
-type State = {
-    menuElement: HTMLDivElement | null
-}
+interface State { menuElement: HTMLDivElement | null }
 
-export class PopupList extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props)
-        this.state = {
-            menuElement: null,
+export class PopupList extends Component<Props> {
+    state: State = { menuElement: null }
+
+    onScroll = (e: Event) => {
+        const { needAddFilter, filterValue, fetchData, page, size, count, loading } = this.props
+
+        if (isBottom(e.target as Element) && !loading && (page && size && count) && (page * size < count)) {
+            const filter = needAddFilter ? filterValue : {}
+
+            fetchData({ page: page + 1, ...filter }, true)
         }
-        this.setMenuElement = this.setMenuElement.bind(this)
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
@@ -110,36 +112,13 @@ export class PopupList extends Component<Props, State> {
     componentWillUnmount() {
         const { menuElement } = this.state
 
-        if (menuElement) {
-            menuElement.removeEventListener(
-                'scroll',
-                this.onScroll,
-            )
-        }
+        if (menuElement) { menuElement.removeEventListener('scroll', this.onScroll) }
     }
 
-    onScroll = (e: Event) => {
-        const { needAddFilter, filterValue, fetchData, page, size, count, loading } = this.props
-
-        if (isBottom(e.target as Element) && !loading && (page && size && count) && (page * size < count)) {
-            const filter = needAddFilter ? filterValue : {}
-
-            fetchData({ page: page + 1, ...filter }, true)
-        }
-    }
-
-    setMenuElement(newMenuElement: State['menuElement']) {
-        this.setState({
-            menuElement: newMenuElement,
-        })
-    }
+    setMenuElement = (menuElement: State['menuElement']) => { this.setState({ menuElement }) }
 
     render() {
-        const {
-            children,
-            style,
-            ...rest
-        } = this.props
+        const { children, style, ...rest } = this.props
 
         return (
             <div className="n2o-pop-up__wrapper">
