@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
@@ -6,10 +6,11 @@ import { Button } from 'reactstrap'
 import classNames from 'classnames'
 
 import { Icon } from '../../snippets/Icon/Icon'
-import { Badge } from '../../snippets/Badge/Badge'
 import { dataSourceLoadingSelector } from '../../../ducks/datasource/selectors'
 import { Position } from '../../snippets/Badge/enums'
 import { IconContainer, ICON_POSITIONS } from '../../snippets/IconContainer/IconContainer'
+import { FactoryContext } from '../../../core/factory/context'
+import { FactoryLevels } from '../../../core/factory/factoryLevels'
 
 const convertCounter = count => (count > 100 ? '99+' : count)
 
@@ -34,10 +35,13 @@ const SimpleButtonBody = ({
     forwardedRef,
     ...rest
 }) => {
+    const { getComponent } = useContext(FactoryContext)
+    const FactoryBadge = getComponent('Badge', FactoryLevels.SNIPPETS)
+
     if (!visible) { return null }
     const { text, position = Position.Right } = badge || {}
 
-    const needBadge = !isEmpty(badge) || typeof count === 'number'
+    const needBadge = FactoryBadge && (!isEmpty(badge) || typeof count === 'number')
 
     return (
         <div ref={forwardedRef}>
@@ -66,7 +70,7 @@ const SimpleButtonBody = ({
                     {children || label}
                 </IconContainer>
                 {needBadge && (
-                    <Badge
+                    <FactoryBadge
                         {...badge}
                         text={text || convertCounter(count)}
                         hasMargin={false}

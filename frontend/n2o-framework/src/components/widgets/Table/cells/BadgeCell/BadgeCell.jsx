@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 
 import { Text } from '../../../../snippets/Text/Text'
-import { Badge } from '../../../../snippets/Badge/Badge'
 import { resolveBadgeProps } from '../../../../snippets/Badge/utils'
 import withTooltip from '../../withTooltip'
 import { Shape } from '../../../../snippets/Badge/enums'
+import { FactoryContext } from '../../../../../core/factory/context'
+import { FactoryLevels } from '../../../../../core/factory/factoryLevels'
 
 /**
  * Ячейка таблицы типа бейдж
@@ -39,6 +40,9 @@ function BadgeCell(props) {
         forwardedRef,
     } = props
 
+    const { getComponent } = useContext(FactoryContext)
+    const FactoryBadge = getComponent('Badge', FactoryLevels.SNIPPETS)
+
     if (!visible) { return null }
 
     const badgeStyle = {
@@ -51,8 +55,8 @@ function BadgeCell(props) {
     return (
         <span className="d-inline-flex" ref={forwardedRef}>
             <Text text={text} format={format} />
-            {!isNil(badgeText) && (
-                <Badge
+            {FactoryBadge && !isNil(badgeText) && (
+                <FactoryBadge
                     {...resolveBadgeProps(
                         {
                             ...props,
