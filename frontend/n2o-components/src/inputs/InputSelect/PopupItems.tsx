@@ -194,11 +194,11 @@ export function PopupItems({
                         <DropdownItem
                             className={cx('n2o-eclipse-content__description', {
                                 'n2o-eclipse-content__description-with-icon':
-                                !hasCheckboxes && get(item, iconFieldId),
+                                    !hasCheckboxes && get(item, iconFieldId),
                                 'n2o-eclipse-content__description-with-checkbox':
-                                hasCheckboxes && !get(item, iconFieldId),
+                                    hasCheckboxes && !get(item, iconFieldId),
                                 'n2o-eclipse-content__description-with-icon-checkbox':
-                                hasCheckboxes && get(item, iconFieldId),
+                                    hasCheckboxes && get(item, iconFieldId),
                             })}
                             header
                         >

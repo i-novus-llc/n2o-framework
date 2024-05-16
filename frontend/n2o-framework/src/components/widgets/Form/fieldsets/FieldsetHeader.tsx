@@ -1,10 +1,12 @@
 import classNames from 'classnames'
-import React from 'react'
+import React, { useContext } from 'react'
 
-import { Badge, Props as BadgeProps } from '@i-novus/n2o-components/lib/display/Badge/Badge'
+import { Props as BadgeProps } from '@i-novus/n2o-components/lib/display/Badge/Badge'
 
 import HelpPopover from '../fields/StandardField/HelpPopover'
 import Label from '../fields/StandardField/Label'
+import { FactoryLevels } from '../../../../core/factory/factoryLevels'
+import { FactoryContext } from '../../../../core/factory/context'
 
 interface Props {
     visible: boolean
@@ -27,13 +29,19 @@ export function FieldsetHeader(props: Props) {
         help,
     } = props
 
+    const { getComponent } = useContext(FactoryContext)
+
     if (!visible) { return null }
+
+    const FactoryBadge = getComponent('Badge', FactoryLevels.SNIPPETS)
 
     return (
         <div className={classNames('n2o-fieldset__label-container', { 'with-badge': !!badge })}>
-            <Badge {...badge} visible={!!badge}>
-                <Label visible={needLabel} className={classNames('n2o-fieldset__label', { 'with-description': description })} value={label} />
-            </Badge>
+            {FactoryBadge && (
+                <FactoryBadge {...badge} visible={!!badge}>
+                    <Label visible={needLabel} className={classNames('n2o-fieldset__label', { 'with-description': description })} value={label} />
+                </FactoryBadge>
+            )}
             <HelpPopover help={(needLabel || needDescription) ? help : null} />
             <Label visible={needDescription} className="n2o-fieldset__description" value={description} />
         </div>

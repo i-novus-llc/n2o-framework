@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Panel as BasePanel } from 'rc-collapse'
 import classNames from 'classnames'
 
 import Label from '../../widgets/Form/fields/StandardField/Label'
 import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover'
-import { Badge } from '../Badge/Badge'
+import { FactoryContext } from '../../../core/factory/context'
+import { FactoryLevels } from '../../../core/factory/factoryLevels'
 
 /**
  * Панель Collapse
@@ -25,11 +26,16 @@ import { Badge } from '../Badge/Badge'
 function PanelHeader({ header, help, description, badge }) {
     const title = typeof header === 'string' ? header : null
 
+    const { getComponent } = useContext(FactoryContext)
+    const FactoryBadge = getComponent('Badge', FactoryLevels.SNIPPETS)
+
     return (
         <div className="n2o-panel-header-container">
-            <Badge {...badge} visible={!!badge}>
-                <span title={title} className="n2o-panel-header-text">{header}</span>
-            </Badge>
+            {FactoryBadge && (
+                <FactoryBadge {...badge} visible={!!badge}>
+                    <span title={title} className="n2o-panel-header-text">{header}</span>
+                </FactoryBadge>
+            )}
             <HelpPopover help={help} />
             <Label className="n2o-fieldset__description" value={description} />
         </div>

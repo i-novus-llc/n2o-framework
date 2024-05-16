@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import HelpPopover from '../../fields/StandardField/HelpPopover'
 import { withFieldsetHeader } from '../withFieldsetHeader'
 import DefaultFieldset from '../DefaultFieldset'
-import { Badge } from '../../../../snippets/Badge/Badge'
+import { FactoryContext } from '../../../../../core/factory/context'
+import { FactoryLevels } from '../../../../../core/factory/factoryLevels'
 
 function TitleFieldset({
     render,
@@ -18,12 +19,17 @@ function TitleFieldset({
     disabled,
     badge,
 }) {
+    const { getComponent } = useContext(FactoryContext)
+    const FactoryBadge = getComponent('Badge', FactoryLevels.SNIPPETS)
+
     return (
         <DefaultFieldset disabled={disabled} className="title-fieldset">
             <div className={classNames('title-fieldset-header', { [className]: className })}>
-                <Badge {...badge} visible={!!badge}>
-                    {label && <span className="title-fieldset-text">{label}</span>}
-                </Badge>
+                {FactoryBadge && (
+                    <FactoryBadge {...badge} visible={!!badge}>
+                        {label && <span className="title-fieldset-text">{label}</span>}
+                    </FactoryBadge>
+                )}
                 <HelpPopover help={help} />
                 {subTitle && <small className="text-muted title-fieldset-subtitle">{subTitle}</small>}
                 {showLine && <div className="title-fieldset-line" />}
