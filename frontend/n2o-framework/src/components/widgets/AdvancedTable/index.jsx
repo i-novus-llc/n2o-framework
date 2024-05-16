@@ -33,6 +33,8 @@ const EmptyComponent = () => (
     <div className="d-flex justify-content-center text-muted">Нет данных для отображения</div>
 )
 
+const defaultDataMapper = data => data
+
 const AdvancedTableContainer = (props) => {
     const {
         id, disabled, toolbar, datasource, className, setPage, loading,
@@ -40,6 +42,7 @@ const AdvancedTableContainer = (props) => {
         page, sorting, children, hasNext, isInit, setResolve,
         changeColumnParam, columnsState, tableConfig, switchTableParam,
         resolvedFilter, hasSecurityAccess, resolvedCells, paginationVisible,
+        dataMapper = defaultDataMapper, components,
     } = props
 
     const tableContainerElem = useRef(null)
@@ -47,9 +50,13 @@ const AdvancedTableContainer = (props) => {
     const [filterErrors, setFilterErrors] = useState({})
 
     const textWrap = useSelector(getTableParam(id, 'textWrap'))
-    const datasourceModel = useSelector(state => (
-        dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state) || EMPTY_ARRAY
-    ))
+    const datasourceModel = useSelector((state) => {
+        const model = (
+            dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state) || EMPTY_ARRAY
+        )
+
+        return dataMapper(model)
+    })
     const filterModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.filter))
     const selectedRows = useSelector((state) => {
         const models = dataSourceModelByPrefixSelector(datasource, ModelPrefix.selected)(state) || EMPTY_ARRAY
@@ -210,6 +217,7 @@ const AdvancedTableContainer = (props) => {
                             EmptyContent={<EmptyComponent />}
                             validateFilterField={validateFilterField}
                             filterErrors={filterErrors}
+                            components={components}
                         />
                     ) : null}
                 </WidgetLayout>

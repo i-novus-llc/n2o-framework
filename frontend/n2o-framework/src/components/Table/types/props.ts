@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, RefObject, TdHTMLAttributes, VFC, CSSProperties } from 'react'
+import { FC, RefObject, TdHTMLAttributes, CSSProperties, ReactNode } from 'react'
 
 import { Selection, TableActions } from '../enum'
 import { SortDirection } from '../../../core/datasource/const'
@@ -34,8 +34,8 @@ export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
     expandedRows: ExpandedRows
     selectedRows: SelectedRows
     actionListener(action: TableActions, payload: any): void
-    errorComponent?: VFC
-    EmptyContent?: VFC
+    errorComponent?: ReactNode
+    EmptyContent?: ReactNode
     refContainerElem?: RefObject<T>
     cells: {
         body: Cell[]
@@ -55,6 +55,13 @@ export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
     }
     validateFilterField(id: string, model: Record<string, unknown>, reset?: boolean): void
     filterErrors?: Record<string, FieldError>
+    components?: {
+        /*
+            Компонент который будет являться контейнером для всей ячейки. Внутри необходимо реализовать рендер компонента ячейки.
+            Может быть полезен если на прикладе нужно реализовать какой то кастомный рендер всей ячейки, а не только конкретного ее типа
+        */
+        CellContainer: FC<CellContainerProps>
+    }
 }
 
 export type TableProps = {
