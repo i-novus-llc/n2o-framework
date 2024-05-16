@@ -51,6 +51,11 @@ export const dataSourcePageSelector = (sourceId: string) => createSelector(
     state => state.page,
 )
 
+export const dataSourcePageIdSelector = (sourceId: string) => createSelector(
+    dataSourceByIdSelector(sourceId),
+    state => state.pageId,
+)
+
 export const dataSourceSortingSelector = (sourceId: string) => createSelector(
     dataSourceByIdSelector(sourceId),
     state => state.sorting,

@@ -104,17 +104,13 @@ export const defaultApiProvider = {
             signal: abortSignal,
         },
     ),
-    [FETCH_VALIDATE]: (options, abortSignal) => request(
-        [
-            API_PREFIX,
-            BASE_PATH_VALIDATION,
-            '?',
-            queryString.stringify(
-                flatten(clearEmptyParams(options), { safe: true }),
-            ),
-        ].join(''),
-        { signal: abortSignal },
-    ),
+    [FETCH_VALIDATE]: (options, abortSignal, pagePath, body = {}, headers = {}) => request([API_PREFIX, BASE_PATH_VALIDATION, pagePath].join(''),
+        {
+            method: options.baseMethod || 'POST',
+            signal: abortSignal,
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json', ...headers },
+        }),
     [FETCH_VALUE]: ({ url, headers }, abortSignal) => request(url, { headers, signal: abortSignal }),
     [CHANGE_LOCALE]: (locale, abortSignal) => request([API_PREFIX, BASE_PATH_LOCALE_CHANGE].join(''), {
         method: 'POST',

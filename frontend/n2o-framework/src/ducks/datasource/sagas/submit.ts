@@ -30,7 +30,6 @@ function getSubmit<
     }
 }
 
-// eslint-disable-next-line consistent-return
 export function* submitSaga(apiProvider: unknown, { meta, payload }: SubmitAction) {
     const { id, provider } = payload
 

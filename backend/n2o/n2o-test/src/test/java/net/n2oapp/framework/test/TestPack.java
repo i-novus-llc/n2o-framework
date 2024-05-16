@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
 
@@ -49,7 +50,9 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/test/graphql/pagination", getTestGraphqlQueryContext("testGraphqlPagination", "/test/graphql/pagination")),
                 new RouteInfo("/test/graphql/sorting", getTestGraphqlQueryContext("testGraphqlSorting", "/test/graphql/sorting")),
                 new RouteInfo("/test/graphql/hierarchicalSelect", getTestGraphqlQueryContext("testGraphqlHierarchicalSelect", "/test/graphql/hierarchicalSelect")),
-                new RouteInfo("/test/graphql/enums", getTestGraphqlQueryContext("testGraphqlEnums", "/test/graphql/enums")));
+                new RouteInfo("/test/graphql/enums", getTestGraphqlQueryContext("testGraphqlEnums", "/test/graphql/enums")),
+                // validation
+                new RouteInfo("/create", new PageContext("testConstraintValidation", "/create")));
     }
 
     private QueryContext getTestQueryContext(String testQuery, String s) {

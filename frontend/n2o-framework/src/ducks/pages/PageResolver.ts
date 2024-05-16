@@ -17,6 +17,7 @@ class PageResolver {
             error: false,
             disabled: false,
             status: null,
+            pageUrl: null,
         })
     }
 }

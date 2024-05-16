@@ -2,10 +2,11 @@ import { put, select, delay, fork } from 'redux-saga/effects'
 import { isEmpty, isEqual, pick } from 'lodash'
 import { Task } from 'redux-saga'
 
-import { dataSourceErrors, dataSourceModelByPrefixSelector, dataSourceValidationSelector } from '../selectors'
+import { dataSourceErrors, dataSourceModelByPrefixSelector, dataSourceValidationSelector, dataSourcePageIdSelector } from '../selectors'
 import { failValidate, resetValidation } from '../store'
 import type { StartValidateAction } from '../Actions'
 import { hasError, validateModel } from '../../../core/validation/validateModel'
+import { makePageUrlByIdSelector } from '../../pages/selectors'
 
 type AsyncValidation = {
     fields: string[]
@@ -43,14 +44,22 @@ export function* validate({ payload, meta }: StartValidateAction) {
     // после blur валидация срабатывает раньше, чем сетится модель, поэтому тут временный костылек
     yield delay(16)
 
-    const model: ReturnType<typeof dataSourceModelByPrefixSelector> =
+    const model: Record<string, unknown> =
             yield select(dataSourceModelByPrefixSelector(id, prefix))
     const abortController = new AbortController()
+    const pageId: string = yield select(dataSourcePageIdSelector(id))
+    const pageUrl: string = yield select(makePageUrlByIdSelector(pageId))
 
     const currentProcess: AsyncValidation = {
         fields: fields2Validate,
         abortController,
-        task: yield fork(validateModel, model, validation, fields2Validate, abortController.signal),
+        task: yield fork(validateModel, model, validation,
+            {
+                fields: fields2Validate,
+                signal: abortController.signal,
+                datasourceId: id,
+                pageUrl,
+            }),
     }
 
     asyncValidations[id] = currentProcess

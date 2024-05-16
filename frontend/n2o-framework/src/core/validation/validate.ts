@@ -4,7 +4,9 @@ import { Dispatch } from 'redux'
 import {
     dataSourceModelByPrefixSelector,
     dataSourceValidationSelector,
+    dataSourcePageIdSelector,
 } from '../../ducks/datasource/selectors'
+import { makePageUrlByIdSelector } from '../../ducks/pages/selectors'
 import { failValidate, resetValidation } from '../../ducks/datasource/store'
 import type { State as GlobalState } from '../../ducks/State'
 import { ModelPrefix } from '../datasource/const'
@@ -20,7 +22,7 @@ import { ValidationsKey } from './types'
  * @param {Function} dispatch
  * @param {boolean} touched
  * @returns {boolean}
- * TODO переместить из ядра. Получается ядро завсит от редакса, а редакс от ядра
+ * TODO переместить из ядра. Получается ядро зависит от редакса, а редакс от ядра
  */
 
 export const validate = async (
@@ -36,10 +38,13 @@ export const validate = async (
     )(state)
     const model = dataSourceModelByPrefixSelector(datasourceId, prefix)(state)
 
-    // @ts-ignore поправить типы
+    // @ts-ignore FIXME кол-во аргументов
     dispatch(resetValidation(datasourceId, [], prefix))
 
-    const messages = await validateModel(model, validation)
+    const pageId = dataSourcePageIdSelector(datasourceId)(state) || ''
+    const pageUrl = makePageUrlByIdSelector(pageId)(state)
+
+    const messages = await validateModel(model, validation, { datasourceId, pageUrl })
 
     if (!isEmpty(messages)) {
         // @ts-ignore поправить типы

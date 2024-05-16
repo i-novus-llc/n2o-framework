@@ -12,6 +12,7 @@ export type MetadataRequestPayload = {
 export type MetadataSuccessPayload = {
     pageId: string
     json: Metadata
+    pageUrl: string
 }
 
 export type MetadataFailPayload = {

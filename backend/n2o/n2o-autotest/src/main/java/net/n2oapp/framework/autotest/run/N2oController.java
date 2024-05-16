@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.config.AppConfig;
 import net.n2oapp.framework.api.config.ConfigBuilder;
 import net.n2oapp.framework.api.data.DomainProcessor;
+import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
@@ -25,6 +26,7 @@ import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
+import net.n2oapp.framework.ui.controller.action.ValidationController;
 import net.n2oapp.framework.ui.controller.export.ExportController;
 import net.n2oapp.framework.ui.controller.export.format.CsvFileGenerator;
 import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
@@ -56,6 +58,7 @@ public class N2oController {
     private N2oOperationProcessor operationProcessor;
     private ConfigBuilder<AppConfig> configBuilder;
     private DomainProcessor domainProcessor;
+    private InvocationProcessor serviceProvider;
     private static final String DEFAULT_APP_ID = "default";
 
     @Value("${n2o.config.path}")
@@ -67,13 +70,15 @@ public class N2oController {
     @Autowired
     public N2oController(DataProcessingStack dataProcessingStack, AlertMessageBuilder messageBuilder,
                          QueryProcessor queryProcessor, N2oOperationProcessor operationProcessor,
-                         DomainProcessor domainProcessor, AlertMessagesConstructor messagesConstructor) {
+                         DomainProcessor domainProcessor, AlertMessagesConstructor messagesConstructor,
+                         InvocationProcessor serviceProvider) {
         this.queryProcessor = queryProcessor;
         this.dataProcessingStack = dataProcessingStack;
         this.messageBuilder = messageBuilder;
         this.operationProcessor = operationProcessor;
         this.domainProcessor = domainProcessor;
         this.messagesConstructor = messagesConstructor;
+        this.serviceProvider = serviceProvider;
     }
 
     @GetMapping("/n2o/config")
@@ -115,6 +120,16 @@ public class N2oController {
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
         dataController.setMessageBuilder(messageBuilder);
         SetDataResponse dataResponse = dataController.setData(path, request.getParameterMap(), getHeaders(request), getBody(body), null);
+        return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
+    }
+
+    @PostMapping(path = {"/n2o/validation/**", "/n2o/validation/", "/n2o/validation"})
+    public ResponseEntity<ValidationDataResponse> validateData(@RequestBody Object body,
+                                                               HttpServletRequest request) {
+        String path = getPath(request, "/n2o/validation");
+        DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
+        dataController.setMessageBuilder(messageBuilder);
+        ValidationDataResponse dataResponse = dataController.validateData(path, getBody(body));
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 
@@ -180,6 +195,7 @@ public class N2oController {
                 subModelsProcessor, messageBuilder, messagesConstructor));
         beans.put("operationController", new OperationController(dataProcessingStack,
                 operationProcessor, messageBuilder, environment, messagesConstructor));
+        beans.put("validationController", new ValidationController(serviceProvider, domainProcessor));
         beans.put("mergeValuesController", new MergeValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
                 messageBuilder));
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,

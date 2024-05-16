@@ -1,6 +1,7 @@
 package net.n2oapp.framework.mvc.n2o;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
@@ -10,6 +11,7 @@ import net.n2oapp.framework.api.user.StaticUserContext;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteNotFoundException;
 import net.n2oapp.framework.mvc.cache.ClientCacheTemplate;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -21,7 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * Абстракция для сервлетов N2O.
@@ -114,6 +116,31 @@ public abstract class N2oServlet extends HttpServlet {
 
     protected void safeDoDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
+    }
+
+    protected Object getRequestBody(HttpServletRequest request) {
+        try {
+            if (request.getReader() == null) return new DataSet();
+            String body = IOUtils.toString(request.getReader()).trim();
+            if (body.startsWith("[")) {
+                return objectMapper.<List<DataSet>>readValue(body,
+                        objectMapper.getTypeFactory().constructCollectionType(List.class, DataSet.class)
+                );
+            }
+            return objectMapper.readValue(body, DataSet.class);
+        } catch (IOException e) {
+            throw new N2oException(e);
+        }
+    }
+
+    protected Map<String, String[]> getHeaders(HttpServletRequest req) {
+        Map<String, String[]> result = new HashMap<>();
+        Enumeration<String> iter = req.getHeaderNames();
+        while (iter.hasMoreElements()) {
+            String name = iter.nextElement();
+            result.put(name, new String[]{req.getHeader(name)});
+        }
+        return result;
     }
 
     @SuppressWarnings("ThrowableResultOfMethodCallIgnored")

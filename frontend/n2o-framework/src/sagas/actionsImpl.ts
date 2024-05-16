@@ -177,6 +177,10 @@ export interface HandleInvokeMeta {
     fail: metaPropsType
 }
 
+interface ErrorFields {
+    [key: string]: Record<string, unknown>
+}
+
 // eslint-disable-next-line complexity
 export function* handleInvoke(
     apiProvider: unknown,
@@ -199,6 +203,8 @@ export function* handleInvoke(
     const widgets = Object.entries(allWidgets)
         .filter(([, widget]) => widget?.datasource === datasource)
         .map(([key]) => key)
+
+    let errorFields: ErrorFields = {}
 
     try {
         if (!dataProvider) {
@@ -229,6 +235,8 @@ export function* handleInvoke(
             ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
             : yield call(fetchInvoke, dataProvider, model, apiProvider)
 
+        errorFields = get(response, 'meta.messages.fields', {})
+
         const meta = merge(action.meta?.success || {}, response.meta || {})
         const { submitForm } = dataProvider
 
@@ -249,26 +257,26 @@ export function* handleInvoke(
 
         const errorMeta = get(err, 'json.meta', {})
 
+        errorFields = get(errorMeta, 'messages.fields', {})
+
         yield* handleFailInvoke(
             action?.meta?.fail || {},
             datasource,
             errorMeta,
         )
 
-        if (errorMeta.messages) {
-            const fields: Record<string, unknown> = {}
-
-            for (const [fieldName, error] of Object.entries(errorMeta.messages.fields)) {
-                fields[fieldName] = Array.isArray(error) ? error : [error]
-            }
-
-            // @ts-ignore FIXME непонял как поправить
-            yield put(failValidate(datasource, fields, modelPrefix, { touched: true }))
-        }
-
         yield enable(pageId, widgets, buttons, buttonIds)
 
         throw err
+    } finally {
+        const fields: Record<string, unknown> = {}
+
+        for (const [fieldName, error] of Object.entries(errorFields)) {
+            fields[fieldName] = Array.isArray(error) ? error : [error]
+        }
+
+        // @ts-ignore FIXME непонял как поправить
+        yield put(failValidate(datasource, fields, modelPrefix, { touched: true }))
     }
 }
 

@@ -19,12 +19,12 @@ import java.util.List;
  */
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class N2oResponse {
     /**
      * Мета информация
      */
     @JsonProperty
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private MetaSaga meta;
     @JsonIgnore
     private int status = 200;

@@ -11,6 +11,20 @@
                 <validations white-list="uniqueName2"/>
             </input-text>
             <input-text id="name3" label="Last name"/>
+            <input-text id="address" label="Address">
+                <validations>
+                    <constraint id="uniqueAddress" severity="warning"
+                                message="Адрес {address} уже существует"
+                                result="#this == null">
+                        <invocation>
+                            <test file="address.json" operation="findOne"/>
+                        </invocation>
+                        <in>
+                            <field id="address"/>
+                        </in>
+                    </constraint>
+                </validations>
+            </input-text>
         </fields>
         <toolbar place="bottomLeft">
             <button id="create" label="Create">

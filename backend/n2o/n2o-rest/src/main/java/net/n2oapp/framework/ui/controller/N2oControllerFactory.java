@@ -2,12 +2,10 @@ package net.n2oapp.framework.ui.controller;
 
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.rest.*;
-import net.n2oapp.framework.api.ui.ActionRequestInfo;
-import net.n2oapp.framework.api.ui.ActionResponseInfo;
-import net.n2oapp.framework.api.ui.QueryRequestInfo;
-import net.n2oapp.framework.api.ui.QueryResponseInfo;
+import net.n2oapp.framework.api.ui.*;
 import net.n2oapp.framework.config.factory.BaseMetadataFactory;
 import net.n2oapp.framework.ui.controller.action.SetController;
+import net.n2oapp.framework.ui.controller.action.ValidationController;
 import net.n2oapp.framework.ui.controller.query.GetController;
 
 import java.util.Map;
@@ -35,6 +33,13 @@ public class N2oControllerFactory extends BaseMetadataFactory implements Control
     public SetDataResponse execute(ActionRequestInfo request, ActionResponseInfo response) {
         BiPredicate<ControllerTypeAware, ?> predicate = (controller, something) -> ControllerType.operation == controller.getControllerType();
         SetController controller = (SetController) produce(predicate, null);
+        return controller.execute(request, response);
+    }
+
+    @Override
+    public ValidationDataResponse execute(ValidationRequestInfo request, ValidationResponseInfo response) {
+        BiPredicate<ControllerTypeAware, ?> predicate = (controller, something) -> ControllerType.validation == controller.getControllerType();
+        ValidationController controller = (ValidationController) produce(predicate, null);
         return controller.execute(request, response);
     }
 }

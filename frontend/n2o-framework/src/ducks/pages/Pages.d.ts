@@ -37,6 +37,7 @@ export interface Page {
     status: number | null
     metadata: Metadata
     spinner?: boolean
+    pageUrl: string | null
 }
 
 export type State = Record<string, Page>

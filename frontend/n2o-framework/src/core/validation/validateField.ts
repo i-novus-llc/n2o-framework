@@ -1,3 +1,5 @@
+import get from 'lodash/get'
+
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
 
 import { presets } from './presets'
@@ -5,21 +7,28 @@ import { VALIDATION_SEVERITY_PRIORITY as SEVERITY_PRIORITY } from './const'
 import type { Validation, ValidationResult } from './types'
 import { Severity } from './types'
 
-export async function validateField<
-    TData extends object = object,
-    TKey extends keyof TData = keyof TData
->(
-    field: TKey,
-    model: TData,
+export interface ValidateField {
+    allMessages: Record<string, ValidationResult[]>,
+    model: { index?: string | number },
+    validationKey: string,
+    fields?: string[]
     validationList: Validation[],
     signal?: AbortSignal,
-): Promise<ValidationResult[]> {
+    datasourceId?: string,
+    pageUrl?: string | null,
+}
+
+export async function validateField(options: ValidateField): Promise<ValidationResult[]> {
     const errors: ValidationResult[] = []
+
+    const {
+        validationKey, model, validationList,
+        signal, datasourceId, pageUrl } = options
 
     const validations = validationList.filter((validation) => {
         if (typeof presets[validation.type] !== 'function') {
             // eslint-disable-next-line no-console
-            console.warn(`Validation error: not found preset for type="${validation.type}", field="${String(field)}"`)
+            console.warn(`Validation error: not found preset for type="${validation.type}", field="${String(validationKey)}"`)
 
             return false
         }
@@ -37,18 +46,22 @@ export async function validateField<
         const validationFunction = presets[validation.type]
 
         try {
-            const valid = await validationFunction(field, model, { ...validation, signal })
+            const valid = await validationFunction(
+                validationKey, model, { ...validation, signal, datasourceId, pageUrl },
+            )
 
-            if (!valid) {
+            if (typeof valid !== 'boolean') {
+                const { text, severity } = valid
+
+                errors.push({ text, severity })
+            } else if (!valid) {
                 const expression = parseExpression(validation.text)
+                const currentModel = get(model, validationKey, null) ? model : { ...model, [validationKey]: '' }
                 const text = expression
-                    ? evalExpression<string>(expression, model) || ''
+                    ? evalExpression<string>(expression, currentModel) || ''
                     : validation.text
 
-                errors.push({
-                    text,
-                    severity: validation.severity,
-                })
+                errors.push({ text, severity: validation.severity })
             }
         } catch (error) {
             // eslint-disable-next-line no-console
@@ -60,5 +73,5 @@ export async function validateField<
 }
 
 export const hasError = (messages: ValidationResult[]): boolean => messages.some(message => (
-    message.severity === Severity.danger || message.severity === Severity.warning
+    message.severity === Severity.danger
 ))

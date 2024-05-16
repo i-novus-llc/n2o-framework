@@ -4,5 +4,6 @@ public enum ControllerType {
     query,
     defaults,
     merge,
-    operation
+    operation,
+    validation
 }
