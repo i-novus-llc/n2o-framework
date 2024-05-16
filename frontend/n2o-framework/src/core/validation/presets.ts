@@ -1,24 +1,21 @@
-import {
-    isEmpty,
-    isNumber,
-    isUndefined,
-    isNull,
-    isNaN,
-    isString,
-    isObject,
-    get,
-} from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import isNumber from 'lodash/isNumber'
+import isUndefined from 'lodash/isUndefined'
+import isNull from 'lodash/isNull'
+import isNaN from 'lodash/isNaN'
+import isString from 'lodash/isString'
+import isObject from 'lodash/isObject'
+import get from 'lodash/get'
 
 import evalExpression from '../../utils/evalExpression'
 import { defaultApiProvider, FETCH_VALIDATE } from '../api'
 import { isEmptyModel } from '../../utils/isEmptyModel'
 
-import type { ValidateFunction } from './types'
+import type { ValidateFunction, ValidationResult } from './types'
 import { ValidationTypes } from './types'
 
 /**
  * Валидация того, что email
- * @returns {boolean}
  */
 export function email<
     TData extends object,
@@ -42,16 +39,10 @@ export function required<
 >(fieldId: TKey, values: TData, options: TOptions): boolean {
     const value = get(values, fieldId) // get, т.к. в качестве field может прийти путь
 
-    if (options.expression && !evalExpression(options.expression, values)) {
-        return true
-    }
+    if (options.expression && !evalExpression(options.expression, values)) { return true }
 
-    if (isObject(value)) {
-        return !isEmptyModel(value)
-    }
-    if (isString(value)) {
-        return value !== ''
-    }
+    if (isObject(value)) { return !isEmptyModel(value) }
+    if (isString(value)) { return value !== '' }
 
     return (
         !isUndefined(value) &&
@@ -64,27 +55,44 @@ export function required<
  * Валидация js-condition
  */
 export function condition<
-    TData extends object,
-    TKey extends keyof TData,
     TOptions extends { expression: string }
->(fieldId: TKey, values: TData, options: TOptions): boolean {
+>(fieldId: string, values: Record<string, unknown>, options: TOptions) {
     return !!evalExpression(options.expression, values)
 }
 
 /**
  * Валидация с отправкой запроса на сервер
  */
-export function constraint<
-    TData extends object,
-    TKey extends keyof TData,
-    TOptions extends { signal?: AbortSignal }
->(fieldId: TKey, values: TData, { signal, ...options }: TOptions): Promise<boolean> {
-    if (!isEmpty(values[fieldId])) {
-        // @ts-ignore import from js file
-        return defaultApiProvider[FETCH_VALIDATE](options, signal)
-    }
 
-    return Promise.reject(new Error('is empty value'))
+interface Options {
+    signal?: AbortSignal
+    datasourceId?: string
+    validationKey?: string
+    pageUrl?: string | null
+}
+
+export function constraint<TData extends object, TKey extends keyof TData>(
+    fieldId: TKey, data: TData, { signal, datasourceId, validationKey, pageUrl }: Options,
+): Promise<ValidationResult> | boolean {
+    const body = { data, datasourceId, validationId: validationKey }
+
+    const pagePath = pageUrl || ''
+
+    return defaultApiProvider[FETCH_VALIDATE]({ baseMethod: 'POST' }, signal, pagePath, body)
+        // @ts-ignore import from js file
+        .then((response: ValidationResult) => {
+            if (isEmpty(response)) { return true }
+
+            return response
+        }).catch(() => {
+            if (signal) {
+                const { aborted } = signal
+
+                return aborted
+            }
+
+            return false
+        })
 }
 
 /**
@@ -113,7 +121,7 @@ export function minLength<
 }
 
 /**
- * Валиадация максимальной длины
+ * Валидация максимальной длины
  */
 export function maxLength<
     TData extends object,

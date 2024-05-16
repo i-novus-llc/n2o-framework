@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.validation.message;
+package net.n2oapp.framework.autotest.validation.constraint;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.collection.Fields;
@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест сообщений об ограничениях
  */
-public class ConstraintValidationMessageAT extends AutoTestBase {
+public class ConstraintValidationAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -38,10 +38,10 @@ public class ConstraintValidationMessageAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
 
-        setJsonPath("net/n2oapp/framework/autotest/validation/message/constraint");
+        setJsonPath("net/n2oapp/framework/autotest/validation/constraint");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/validation/message/constraint/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/validation/message/constraint/test.object.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/validation/constraint/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/validation/constraint/test.object.xml"));
     }
 
     @Test
@@ -67,29 +67,40 @@ public class ConstraintValidationMessageAT extends AutoTestBase {
         input3.click();
         input3.setValue("test");
 
-        form.toolbar().bottomLeft().button("Create").click();
         firstName.shouldHaveValidationMessage(Condition.text("Имя test уже существует"));
         middleName.shouldHaveValidationMessage(Condition.text("Имя test уже существует"));
 
         input1.click();
         input1.clear();
-        firstName.shouldHaveValidationMessage(Condition.empty);
+        firstName.shouldHaveValidationMessage(Condition.text("Имя уже существует"));
         middleName.shouldHaveValidationMessage(Condition.text("Имя test уже существует"));
 
         input1.click();
-        input1.setValue("name");
-        form.toolbar().bottomLeft().button("Create").click();
+        input1.setValue("newName");
         firstName.shouldHaveValidationMessage(Condition.empty);
         middleName.shouldHaveValidationMessage(Condition.text("Имя test уже существует"));
 
         input2.click();
         input2.clear();
-        middleName.shouldHaveValidationMessage(Condition.empty);
+        middleName.shouldHaveValidationMessage(Condition.text("Имя уже существует"));
         input2.click();
-        input2.setValue("name");
-        form.toolbar().bottomLeft().button("Create").click();
+        input2.setValue("newName");
+        middleName.shouldHaveValidationMessage(Condition.empty);
+
+        // проверка constraint валидации по мере ввода
+        StandardField address = fields.field("Address");
+        InputText input4 = address.control(InputText.class);
+        input4.click();
+        input4.setValue("addr");
+        address.shouldHaveValidationMessage(Condition.empty);
+        input4.setValue("address");
+        address.shouldHaveValidationMessage(Condition.text("Адрес address уже существует"));
         firstName.shouldHaveValidationMessage(Condition.empty);
         middleName.shouldHaveValidationMessage(Condition.empty);
+        form.toolbar().bottomLeft().button("Create").click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
+        address.shouldHaveValidationMessage(Condition.text("Адрес address уже существует"));
+        input4.setValue("address0");
+        address.shouldHaveValidationMessage(Condition.empty);
     }
 }

@@ -38,7 +38,7 @@ public class OperationController extends SetController {
                                AlertMessageBuilder messageBuilder,
                                MetadataEnvironment environment,
                                AlertMessagesConstructor messagesConstructor) {
-        super(dataProcessingStack, operationProcessor, environment);
+        super(dataProcessingStack, operationProcessor);
         this.messageBuilder = messageBuilder;
         this.environment = environment;
         this.messagesConstructor = messagesConstructor;

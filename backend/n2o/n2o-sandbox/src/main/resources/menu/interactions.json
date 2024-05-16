@@ -261,6 +261,10 @@
           "name": "Список валидаций прикрепленных к полю"
         },
         {
+          "templateId": "interactions/validation/dynamic_constraint",
+          "name": "Серверная валидация по мере ввода данных"
+        },
+        {
           "templateId": "interactions/validation/in_js_file",
           "name": "Валидация в отдельном js файле"
         }

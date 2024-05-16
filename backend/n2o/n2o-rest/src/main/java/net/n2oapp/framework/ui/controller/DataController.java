@@ -3,15 +3,16 @@ package net.n2oapp.framework.ui.controller;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
-import net.n2oapp.framework.api.metadata.meta.saga.*;
+import net.n2oapp.framework.api.metadata.meta.saga.LoadingSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.PollingSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
-import net.n2oapp.framework.api.ui.ActionRequestInfo;
-import net.n2oapp.framework.api.ui.ActionResponseInfo;
-import net.n2oapp.framework.api.ui.QueryRequestInfo;
-import net.n2oapp.framework.api.ui.QueryResponseInfo;
+import net.n2oapp.framework.api.rest.ValidationDataResponse;
+import net.n2oapp.framework.api.ui.*;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
@@ -52,6 +53,11 @@ public class DataController extends AbstractController {
         SetDataResponse result = controllerFactory.execute(requestInfo, responseInfo);
         resolveMeta(requestInfo, result, responseInfo.getSuccess());
         return result;
+    }
+
+    public ValidationDataResponse validateData(String path, Object body) {
+        ValidationRequestInfo validationRequestInfo = createValidationRequestInfo(path, body);
+        return controllerFactory.execute(validationRequestInfo, new ValidationResponseInfo());
     }
 
     private void resolveMeta(ActionRequestInfo requestInfo, SetDataResponse response, Boolean success) {

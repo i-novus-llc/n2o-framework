@@ -34,7 +34,6 @@
             <in>
                 <field id="name2"/>
             </in>
-
         </constraint>
     </validations>
 </object>

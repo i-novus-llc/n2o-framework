@@ -94,7 +94,7 @@ export function* getMetadata(apiProvider: unknown, action: MetadataRequest) {
 
         if (metadata.id) {
             yield put(setStatus(metadata.id, 200))
-            yield put(metadataSuccess(metadata.id, metadata))
+            yield put(metadataSuccess(metadata.id, metadata, pageUrl))
         }
 
         // @ts-ignore проблемы с типизацией saga

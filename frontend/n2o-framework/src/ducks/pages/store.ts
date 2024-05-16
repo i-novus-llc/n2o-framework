@@ -21,7 +21,7 @@ const pageSlice = createSlice({
             },
 
             reducer(state, action: MetadataRequest) {
-                const { pageId } = action.payload
+                const { pageId, pageUrl } = action.payload
 
                 if (!state[pageId]) {
                     state[pageId] = PageResolver.defaultState
@@ -30,18 +30,19 @@ const pageSlice = createSlice({
                 state[pageId].loading = true
                 state[pageId].error = false
                 state[pageId].metadata = {}
+                state[pageId].pageUrl = pageUrl
             },
         },
 
         METADATA_SUCCESS: {
-            prepare(pageId, json) {
+            prepare(pageId, json, pageUrl) {
                 return ({
-                    payload: { pageId, json },
+                    payload: { pageId, json, pageUrl },
                 })
             },
 
             reducer(state, action: MetadataSuccess) {
-                const { pageId, json } = action.payload
+                const { pageId, json, pageUrl } = action.payload
 
                 if (!state[pageId]) {
                     state[pageId] = PageResolver.defaultState
@@ -50,6 +51,7 @@ const pageSlice = createSlice({
                 state[pageId].loading = false
                 state[pageId].error = false
                 state[pageId].metadata = json
+                state[pageId].pageUrl = pageUrl
             },
         },
 

@@ -24,6 +24,8 @@ export interface ExtraValidationConfig {
     min: number
     max: number
     signal?: AbortSignal
+    datasourceId?: string
+    pageId?: string
 }
 
 export interface Validation extends ExtraValidationConfig {
@@ -39,7 +41,19 @@ export interface ValidationResult {
     text: string
 }
 
-export type ValidateFunction = <
-    TData extends object = object,
-    TKey extends keyof TData = keyof TData
-> (key: TKey, values: TData, config: ExtraValidationConfig) => boolean | Promise<boolean>
+export type ValidateFunction = (
+    key: string,
+    values: Record<string, unknown>,
+    config: {
+        severity: Severity;
+        expression: string;
+        min: number;
+        enablingConditions: string[];
+        max: number;
+        datasourceId: string | undefined;
+        text: string;
+        type: ValidationTypes;
+        pageUrl?: string | null;
+        signal: AbortSignal | undefined;
+        on: string[]
+    }) => boolean | Promise<boolean | ValidationResult>

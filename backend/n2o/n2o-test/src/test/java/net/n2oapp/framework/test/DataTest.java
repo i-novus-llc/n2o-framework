@@ -2,9 +2,11 @@ package net.n2oapp.framework.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
+import net.n2oapp.framework.api.rest.ValidationDataResponse;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -31,7 +33,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = "spring.main.allow-bean-definition-overriding=true")
-public class DataTest {
+class DataTest {
 
     @LocalServerPort
     private int port;
@@ -40,7 +42,7 @@ public class DataTest {
      * Проверка возврата диалога в ответе на invoke
      */
     @Test
-    public void testDialog() throws IOException {
+    void testDialog() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/testDialog";
@@ -59,7 +61,7 @@ public class DataTest {
     }
 
     @Test
-    public void testJavaDataQuery4() {
+    void testJavaDataQuery4() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/java/v4";
         String fooResourceUrl = "http://localhost:" + port + queryPath + "?size=10&page=1&sorting.value=desc";
@@ -85,7 +87,7 @@ public class DataTest {
     }
 
     @Test
-    public void sqlQuery4() {
+    void sqlQuery4() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/sql/v4";
         String fooResourceUrl = "http://localhost:" + port + queryPath + "?size=10&page=1&sorting.value=desc";
@@ -112,7 +114,7 @@ public class DataTest {
     }
 
     @Test
-    public void testSqlQueryWithValidations() throws IOException {
+    void testSqlQueryWithValidations() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "http://localhost:" + port + "/n2o/data/test/sql/validation";
@@ -144,7 +146,7 @@ public class DataTest {
     }
 
     @Test
-    public void restQuery4() {
+    void restQuery4() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "http://localhost:" + port + "/n2o/data/test/rest/v4";
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(queryPath + "?size=10&page=2&sorting.value=desc", GetDataResponse.class);
@@ -169,7 +171,7 @@ public class DataTest {
     }
 
     @Test
-    public void javaSpringQuery4() {
+    void javaSpringQuery4() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/java/spring/v4";
         // String fooResourceUrl = "http://localhost:" + port + queryPath + "?size=10&page=1&sorting.value=desc";
@@ -185,7 +187,7 @@ public class DataTest {
     }
 
     @Test
-    public void javaStaticQuery4() {
+    void javaStaticQuery4() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/java/static/v4";
         // String fooResourceUrl = "http://localhost:" + port + queryPath + "?size=10&page=1&sorting.value=desc";
@@ -201,7 +203,7 @@ public class DataTest {
     }
 
     @Test
-    public void sqlInvokeWithValidations() throws Exception {
+    void sqlInvokeWithValidations() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/invoke/action";
@@ -238,7 +240,28 @@ public class DataTest {
     }
 
     @Test
-    public void masterDetailQuery() {
+    void testFieldConstraintValidation() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        RestTemplate restTemplate = new RestTemplate();
+        String queryPath = "/n2o/validation/create";
+        String fooResourceUrl = "http://localhost:" + port + queryPath;
+        ValidationRequest validationRequest = new ValidationRequest("create_ds1", "checkUniqueName", new Request(null, "Больница №1", null, null));
+        ValidationDataResponse response = restTemplate.postForObject(fooResourceUrl, validationRequest, ValidationDataResponse.class);
+        assertThat(response.getStatus(), is(200));
+
+        try {
+            restTemplate.postForObject(fooResourceUrl, validationRequest, ValidationDataResponse.class);
+        } catch (HttpServerErrorException e) {
+            ValidationDataResponse resp = mapper.readValue(e.getResponseBodyAsByteArray(), ValidationDataResponse.class);
+            assertThat(resp.getField(), is("name"));
+            assertThat(resp.getId(), is("checkUniqueName"));
+            assertThat(resp.getText(), is("Организация с таким именем уже существует в системе"));
+            assertThat(resp.getSeverity(), is("danger"));
+        }
+    }
+
+    @Test
+    void masterDetailQuery() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/master/1/detail";
         String fooResourceUrl = "http://localhost:" + port + queryPath + "?size=10&page=1&sorting.value=desc";
@@ -252,7 +275,7 @@ public class DataTest {
     }
 
     @Test
-    public void testResolveSubModels() {
+    void testResolveSubModels() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/subModels";
         String fooResourceUrl = "http://localhost:" + port + queryPath;
@@ -266,7 +289,7 @@ public class DataTest {
     }
 
     @Test
-    public void testAdditionalInfo() {
+    void testAdditionalInfo() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/testAdditionalInfo";
         String fooResourceUrl = "http://localhost:" + port + queryPath;
@@ -289,6 +312,19 @@ public class DataTest {
             this.name = name;
             this.surname = surname;
             this.birthdate = birthdate;
+        }
+    }
+
+    @Getter
+    public static class ValidationRequest {
+        String datasourceId;
+        String validationId;
+        Request data;
+
+        public ValidationRequest(String datasourceId, String validationId, Request data) {
+            this.datasourceId = datasourceId;
+            this.validationId = validationId;
+            this.data = data;
         }
     }
 

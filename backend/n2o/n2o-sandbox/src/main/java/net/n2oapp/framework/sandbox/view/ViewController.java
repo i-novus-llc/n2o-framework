@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
+import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.application.Application;
@@ -46,6 +47,7 @@ import net.n2oapp.framework.sandbox.templates.TemplateModel;
 import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
+import net.n2oapp.framework.ui.controller.action.ValidationController;
 import net.n2oapp.framework.ui.controller.export.ExportController;
 import net.n2oapp.framework.ui.controller.export.format.CsvFileGenerator;
 import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
@@ -118,6 +120,8 @@ public class ViewController {
     private ProjectTemplateHolder templatesHolder;
     @Autowired
     private ExternalFilesLoader externalFilesLoader;
+    @Autowired
+    private InvocationProcessor serviceProvider;
 
     private final List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers;
 
@@ -309,6 +313,28 @@ public class ViewController {
         }
     }
 
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = {"/view/{projectId}/n2o/validation/**", "/view/{projectId}/n2o/validation/", "/view/{projectId}/n2o/validation"})
+    public ResponseEntity<ValidationDataResponse> validateData(@PathVariable(value = "projectId") String projectId,
+                                                               @RequestBody Object body,
+                                                               HttpServletRequest request) {
+        try {
+            ThreadLocalProjectId.setProjectId(projectId);
+            N2oApplicationBuilder builder = getBuilder(projectId);
+            getIndex(builder);
+            getMenu(builder);
+            String path = getPath(request, "/n2o/validation");
+            DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()),
+                    builder.getEnvironment());
+            dataController.setMessageBuilder(messageBuilder);
+            ValidationDataResponse dataResponse = dataController.validateData(path, getBody(body));
+            return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
+        } finally {
+            sandboxContext.refresh();
+            ThreadLocalProjectId.clear();
+        }
+    }
+
     /**
      * Обработчик исключений N2O
      */
@@ -481,6 +507,7 @@ public class ViewController {
                 subModelsProcessor, messageBuilder, messagesConstructor));
         beans.put("operationController", new OperationController(dataProcessingStack,
                 operationProcessor, messageBuilder, environment, messagesConstructor));
+        beans.put("validationController", new ValidationController(serviceProvider, domainProcessor));
         beans.put("mergeValuesController", new MergeValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
                 messageBuilder));
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,

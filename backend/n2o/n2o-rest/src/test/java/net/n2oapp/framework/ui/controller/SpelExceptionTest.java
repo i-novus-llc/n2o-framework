@@ -85,7 +85,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
         AlertMessageBuilder messageBuilder = new AlertMessageBuilder(builder.getEnvironment().getMessageSource(), null);
         N2oAlertMessagesConstructor messagesConstructor = new N2oAlertMessagesConstructor(messageBuilder);
 
-        testSetController = new TestSetController(dataProcessingStack, operationProcessor, builder.getEnvironment());
+        testSetController = new TestSetController(dataProcessingStack, operationProcessor);
         getController = new QueryController(dataProcessingStack, queryProcessor, null,
                 messageBuilder, messagesConstructor);
 

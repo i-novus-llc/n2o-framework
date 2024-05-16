@@ -18,6 +18,7 @@ import net.n2oapp.framework.ui.servlet.AppConfigServlet;
 import net.n2oapp.framework.ui.servlet.ExposedResourceBundleMessageSource;
 import net.n2oapp.framework.ui.servlet.ModifiedClientCacheTemplate;
 import net.n2oapp.framework.ui.servlet.data.DataServlet;
+import net.n2oapp.framework.ui.servlet.data.ValidationDataServlet;
 import net.n2oapp.framework.ui.servlet.page.PageServlet;
 import net.n2oapp.framework.ui.servlet.table.ExportServlet;
 import org.springframework.beans.factory.annotation.Value;
@@ -86,6 +87,15 @@ public class N2oServletConfiguration {
         dataServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
         dataServlet.setMessageBuilder(messageBuilder);
         return new ServletRegistrationBean(dataServlet, n2oApiUrl + "/data/*");
+    }
+
+    @Bean
+    public ServletRegistrationBean validationServlet(DataController controller,
+                                                     AlertMessageBuilder messageBuilder) {
+        ValidationDataServlet validationDataServlet = new ValidationDataServlet(controller);
+        validationDataServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
+        validationDataServlet.setMessageBuilder(messageBuilder);
+        return new ServletRegistrationBean(validationDataServlet, n2oApiUrl + "/validation/*");
     }
 
     @Bean

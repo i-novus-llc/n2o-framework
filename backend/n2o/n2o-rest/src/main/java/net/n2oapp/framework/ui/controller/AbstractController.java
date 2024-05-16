@@ -1,47 +1,44 @@
 package net.n2oapp.framework.ui.controller;
 
-import net.n2oapp.criteria.api.SortingDirection;
 import net.n2oapp.criteria.api.Sorting;
+import net.n2oapp.criteria.api.SortingDirection;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
-import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
+import net.n2oapp.framework.api.ui.ValidationRequestInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import static net.n2oapp.framework.mvc.n2o.N2oServlet.USER;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class AbstractController {
     private MetadataRouter router;
     private MetadataEnvironment environment;
     private AlertMessageBuilder messageBuilder;
 
-    public AbstractController(MetadataEnvironment environment) {
+    protected AbstractController(MetadataEnvironment environment) {
         this.environment = environment;
         this.router = new N2oRouter(environment, environment.getReadCompilePipelineFunction().apply(new N2oPipelineSupport(environment)));
     }
 
-    public AbstractController(MetadataEnvironment environment, MetadataRouter router) {
+    protected AbstractController(MetadataEnvironment environment, MetadataRouter router) {
         this.environment = environment;
         this.router = router;
     }
@@ -98,6 +95,26 @@ public abstract class AbstractController {
         requestInfo.setMessagePosition(actionCtx.getMessagePosition());
         requestInfo.setMessagePlacement(actionCtx.getMessagePlacement());
         requestInfo.setMessagesForm(actionCtx.getMessagesForm());
+        return requestInfo;
+    }
+
+    protected ValidationRequestInfo createValidationRequestInfo(String path,
+                                                                Object body) {
+        PageContext pageContext = (PageContext) router.get(path, Page.class, null);
+        DataSet queryData = pageContext.getParams(path, null);
+        Page page = environment.getReadCompileBindTerminalPipelineFunction()
+                .apply(new N2oPipelineSupport(environment))
+                .get(pageContext, queryData);
+        DataSet data = convertToDataSet(body);
+        ValidationRequestInfo requestInfo = new ValidationRequestInfo();
+        String datasourceId = (String) data.get("datasourceId");
+        String validationId = (String) data.get("validationId");
+        if (datasourceId == null || validationId == null)
+            throw new IllegalArgumentException("For validation you should set datasourceId and validationId");
+        if (page.getDatasources() == null || page.getDatasources().get(datasourceId) == null)
+            throw new IllegalArgumentException(String.format("Datasource by id=%s not found", datasourceId));
+        requestInfo.setValidation(getValidationById(page.getDatasources().get(datasourceId).getValidations(), validationId));
+        requestInfo.setData(data.getDataSet("data"));
         return requestInfo;
     }
 
@@ -215,15 +232,9 @@ public abstract class AbstractController {
         return requestInfo;
     }
 
-    private UserContext getUser(HttpServletRequest req) {
-        UserContext user = (UserContext) req.getAttribute(USER);
-        if (user == null)
-            throw new IllegalStateException("User is not initialized");
-        return user;
-    }
-
-    private <D extends Compiled> CompileContext<D, ?> getRoutingResult(HttpServletRequest req, Class<D> compiledClass) {
-        String path = req.getPathInfo();
-        return router.get(path, compiledClass, req.getParameterMap());
+    private Validation getValidationById(Map<String, List<Validation>> validations, String validationId) {
+        Optional<Validation> validation = validations.values().stream().flatMap(List::stream).collect(Collectors.toList())
+                .stream().filter(v -> v.getId().equals(validationId)).findFirst();
+        return validation.orElse(null);
     }
 }
