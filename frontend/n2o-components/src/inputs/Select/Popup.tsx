@@ -9,11 +9,11 @@ import classNames from 'classnames'
  * @reactProps {string} expandPopUp - флаг видимости попапа
  */
 
-type Props = {
-    children: ReactNode,
-    expandPopUp?: string,
+interface Props {
+    children: ReactNode
+    expandPopUp?: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    inputSelect: any,
+    inputSelect: any
     isExpanded: boolean
 }
 
@@ -22,9 +22,7 @@ enum Direction {
     up = 'up'
 }
 
-type State = {
-    direction: Direction
-}
+interface State { direction: Direction }
 
 export class Popup extends React.Component<Props, State> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,49 +30,35 @@ export class Popup extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props)
-
-        this.state = {
-            direction: Direction.down,
-        }
-
+        this.state = { direction: Direction.down }
         this.popUpListRef = createRef()
     }
 
     componentDidUpdate(prevProps: Props) {
         const { isExpanded } = this.props
 
-        if (isExpanded && prevProps.isExpanded !== isExpanded) {
-            this.updateDirection()
-        }
+        if (isExpanded && prevProps.isExpanded !== isExpanded) { this.updateDirection() }
     }
 
     updateDirection = () => {
         const { inputSelect } = this.props
 
-        if (!inputSelect) {
-            return null
-        }
+        if (!inputSelect) { return null }
 
         const documentHeight = window.innerHeight ||
                 document.documentElement.clientHeight ||
                 document.body.clientHeight
 
         if (documentHeight - inputSelect.getBoundingClientRect().bottom < this.popUpListRef.current.offsetHeight) {
-            this.setState({
-                direction: Direction.up,
-            })
-        } else {
-            this.setState({
-                direction: Direction.down,
-            })
+            this.setState({ direction: Direction.up })
+
+            return null
         }
+
+        this.setState({ direction: Direction.down })
 
         return null
     }
-
-    /**
-     * Рендер
-     */
 
     render() {
         const { isExpanded, children, expandPopUp, inputSelect } = this.props
@@ -86,7 +70,7 @@ export class Popup extends React.Component<Props, State> {
             : {}
 
         return (
-            <Dropdown direction={direction}>
+            <Dropdown isOpen={isExpanded} direction={direction}>
                 <DropdownMenu
                     className={classNames(
                         'dropdown-menu',
