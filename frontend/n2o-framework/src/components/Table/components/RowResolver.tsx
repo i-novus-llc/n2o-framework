@@ -4,6 +4,7 @@ import { RowResolverProps } from '../types/props'
 import { Selection } from '../enum'
 import { useTableActions } from '../provider/TableActions'
 import { useToolbarOverlay } from '../provider/ToolbarOverlay'
+import { useTableRefProps } from '../provider/TableRefProps'
 
 import { CellContainer } from './CellContainer'
 import { DataRow } from './DataRow'
@@ -30,6 +31,9 @@ export const RowResolver: VFC<RowResolverProps> = (props) => {
 
     const onClickRowAction = useCallback((data) => { onRowClick(data) }, [onRowClick])
     const onSelection = useCallback((data) => { setFocusOnRow(data.id, data) }, [setFocusOnRow])
+
+    const tableProps = useTableRefProps()
+    const CellComponentContainer = tableProps.current.components?.CellContainer || CellContainer
 
     const { style, ...otherElementAttributes } = elementAttributes || {}
     const hasSelection = selection !== Selection.None
@@ -65,7 +69,7 @@ export const RowResolver: VFC<RowResolverProps> = (props) => {
                 elementAttributes,
                 ...cellProps
             }, index) => (
-                <CellContainer
+                <CellComponentContainer
                     key={cellProps.id}
                     cellIndex={index}
                     hasExpandedButton={hasExpandedButton}

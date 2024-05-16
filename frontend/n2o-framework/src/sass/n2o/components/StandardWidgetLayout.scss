@@ -19,13 +19,19 @@
 }
 
 .n2o-standard-widget-layout-toolbar {
-    display: grid;
+    display: none;
     grid-template-columns: repeat(3, auto);
 }
 
 .n2o-standard-widget-layout-toolbar:empty,
 .n2o-standard-widget-layout-center-filter:empty {
     display: none;
+}
+
+// Селектор включает отображение блоков тулбара, если в них есть кнопки или пагинация
+.n2o-standard-widget-layout-toolbar:has(.pagination-container),
+.n2o-standard-widget-layout-toolbar:has(.btn-group:not(:empty)) {
+    display: grid;
 }
 
 .n2o-standard-widget-layout-toolbar--left {
@@ -58,9 +64,4 @@
 
 .n2o-standard-widget-layout-toolbar-wrapper {
     row-gap: 0.5rem;
-}
-
-// Селектор скрывает блоки тулбара, если в них есть кнопки или пагинация, но в данный момент они visible=false
-.n2o-standard-widget-layout-toolbar:not(:has([data-has-visible-buttons="true"])):not(:has(.pagination-container)) {
-    display: none;
 }

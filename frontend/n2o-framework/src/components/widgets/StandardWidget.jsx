@@ -2,7 +2,7 @@ import React, { Children, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { pure, compose } from 'recompose'
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { isEmpty } from 'lodash'
 
@@ -10,7 +10,6 @@ import Toolbar from '../buttons/Toolbar'
 import { Spinner } from '../snippets/Spinner/Spinner'
 import { dataSourceError } from '../../ducks/datasource/selectors'
 import { ErrorContainer } from '../../core/error/Container'
-import { buttonsContainerSelector } from '../../ducks/toolbar/selectors'
 
 import WidgetFilters from './WidgetFilters'
 
@@ -42,7 +41,6 @@ const StandardWidget = (props) => {
         disabled, className, style,
         children, loading, error,
     } = props
-    const buttonsState = useSelector(state => buttonsContainerSelector(state, widgetId))
     const renderToolbar = useCallback((place) => {
         const paginationComponent = pagination[place]
         const currentToolbar = toolbar[place]
@@ -55,19 +53,16 @@ const StandardWidget = (props) => {
                 'flex-column-reverse': place.includes(PLACES.top),
             },
         )
-        const someButtonIsVisible = currentToolbar?.some(({ buttons }) => (
-            buttons.some(({ id }) => buttonsState[id]?.visible)
-        ))
 
         return (
             currentToolbar || paginationComponent ? (
-                <div className={toolbarClassNames} key={place} data-has-visible-buttons={someButtonIsVisible}>
+                <div className={toolbarClassNames} key={place}>
                     {paginationComponent}
                     {currentToolbar ? <Toolbar toolbar={currentToolbar} entityKey={widgetId} /> : null}
                 </div>
             ) : null
         )
-    }, [pagination, toolbar, widgetId, buttonsState])
+    }, [pagination, toolbar, widgetId])
 
     const filterComponent = (
         <WidgetFilters

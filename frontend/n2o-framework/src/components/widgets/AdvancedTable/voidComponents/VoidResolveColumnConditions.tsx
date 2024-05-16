@@ -33,7 +33,7 @@ export const VoidResolveColumnConditions: VFC<Props> = ({ columnsState, changeCo
                 changeColumnParam(widgetId, columnId, 'visible', resolvedVisibility)
             }
         })
-    }, [changeColumnParam, getState, models])
+    }, [changeColumnParam, getState, models, widgetId])
 
     return null
 }
