@@ -15,6 +15,14 @@
     white-space: nowrap;
 }
 
+.cell-content {
+    .tooltip {
+        .arrow {
+            overflow: visible !important;
+        }
+    }
+}
+
 .table-container[data-text-wrap="false"] .cell .cell-content *,
 .table-container[data-text-wrap="false"] .n2o-advanced-table-header-title {
     white-space: nowrap;
