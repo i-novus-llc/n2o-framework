@@ -66,10 +66,7 @@ export class Checkbox extends React.Component<Props> {
                     'custom-control',
                     'custom-checkbox',
                     'n2o-checkbox',
-                    {
-                        'custom-control-inline': inline,
-                        'd-flex': help,
-                    },
+                    { 'custom-control-inline': inline, 'd-flex': help },
                 )}
                 onClick={onClick}
             >
@@ -86,7 +83,7 @@ export class Checkbox extends React.Component<Props> {
                     tabIndex={tabIndex}
                     label={label}
                 />
-                <label className="custom-control-label" htmlFor={id}>{label}</label>
+                <label className={classNames('custom-control-label', { disabled })} htmlFor={id}>{label}</label>
                 {help && <HelpPopover help={help} />}
             </div>
         )
