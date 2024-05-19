@@ -43,9 +43,11 @@ function ListWidget(props) {
         page,
         setPage,
         loading,
+        datasourceModelLength,
     } = props
     const { place = 'bottomLeft' } = paging
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
+
     const pagination = {
         [place]: (
             <N2OPagination
@@ -55,6 +57,7 @@ function ListWidget(props) {
                 activePage={page}
                 datasource={datasourceModel}
                 setPage={setPage}
+                visible={datasourceModelLength > 0}
             />
         ),
     }
@@ -86,6 +89,7 @@ function ListWidget(props) {
                 hasSelect={hasSelect}
                 placeholder={placeholder}
                 rows={rows}
+                datasourceModelLength={datasourceModelLength}
             />
         </WidgetLayout>
     )
