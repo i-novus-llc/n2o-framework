@@ -16,17 +16,16 @@ import CardsContainer from './CardsContainer'
 
 function CardsWidget(props) {
     const {
-        id: widgetId,
-        datasource,
-        toolbar, disabled, className,
-        style, filter, paging, loading,
-        cards, verticalAlign, height,
-        size, count, page, setPage,
+        id: widgetId, datasource, toolbar,
+        disabled, className, style, filter,
+        paging, loading, cards, verticalAlign, height,
+        size, count, page, setPage, datasourceModelLength,
     } = props
     const { place = 'bottomLeft' } = paging
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
+
     const pagination = {
         [place]: (
             <N2OPagination
@@ -36,6 +35,7 @@ function CardsWidget(props) {
                 activePage={page}
                 datasource={datasourceModel}
                 setPage={setPage}
+                visible={datasourceModelLength > 0}
             />
         ),
     }
@@ -57,6 +57,7 @@ function CardsWidget(props) {
                 cards={cards}
                 align={verticalAlign}
                 height={height}
+                datasourceModelLength={datasourceModelLength}
             />
         </WidgetLayout>
     )
