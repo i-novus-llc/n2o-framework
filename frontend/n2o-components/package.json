@@ -60,7 +60,7 @@
     "rc-switch": "4.1.0",
     "rc-tree-select": "5.11.0",
     "react": "17.0.2",
-    "react-ace": "9.3.0",
+    "react-ace": "11.0.1",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "17.0.2",
     "react-draft-wysiwyg": "1.15.0",
