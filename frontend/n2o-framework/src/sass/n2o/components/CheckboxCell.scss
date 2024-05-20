@@ -11,3 +11,11 @@
         }
     }
 }
+
+.custom-checkbox .custom-control-label:hover {
+    cursor: pointer;
+}
+
+.custom-checkbox .custom-control-label.disabled:hover {
+    cursor: default;
+}
