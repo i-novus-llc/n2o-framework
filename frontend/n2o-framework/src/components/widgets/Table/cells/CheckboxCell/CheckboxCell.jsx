@@ -15,29 +15,28 @@ import { push } from 'connected-react-router'
 
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
-// eslint-disable-next-line import/no-named-as-default
-import Checkbox from '../../../../controls/Checkbox/Checkbox'
+import { Checkbox } from '../../../../controls/Checkbox/Checkbox'
 
 function CheckboxCell({
-    visible,
-    disabled,
     checked,
     handleClick,
     handleChange,
+    visible = true,
+    disabled = false,
     ...rest
 }) {
+    if (!visible) { return null }
+
     return (
-        visible && (
-            <Checkbox
-                className="сheckbox-сell"
-                inline
-                onClick={handleClick}
-                onChange={handleChange}
-                disabled={disabled}
-                checked={checked}
-                {...omit(rest, ['id', 'fieldKey', 'model'])}
-            />
-        )
+        <Checkbox
+            className="сheckbox-сell"
+            inline
+            onClick={handleClick}
+            onChange={handleChange}
+            disabled={disabled}
+            checked={checked}
+            {...omit(rest, ['id', 'fieldKey', 'model'])}
+        />
     )
 }
 
@@ -64,11 +63,6 @@ CheckboxCell.propTypes = {
     visible: PropTypes.bool,
 }
 
-CheckboxCell.defaultProps = {
-    visible: true,
-    disabled: false,
-}
-
 export { CheckboxCell }
 export default compose(
     setDisplayName('CheckboxCell'),
@@ -80,9 +74,7 @@ export default compose(
         ({ model, fieldKey, id }) => model && get(model, fieldKey || id),
     ),
     withHandlers({
-        handleClick: () => (e) => {
-            e.stopPropagation()
-        },
+        handleClick: () => (e) => { e.stopPropagation() },
         handleChange: ({
             callAction,
             setChecked,
@@ -98,28 +90,26 @@ export default compose(
             // TODO сделать единый redirect func для кнопок, ячеек, linkImpl, meta saga итд.
             //  разобраться с синтаксисом, прим. где-то _self, а где-то self
             const direct = () => {
-                if (!url) {
-                    return null
-                }
+                if (!url) { return null }
 
                 if (target === 'application') {
                     dispatch(push(url))
-                } else if (target === '_blank') {
-                    window.open(url)
-                } else {
-                    window.location = url
+
+                    return null
                 }
+
+                if (target === '_blank') {
+                    window.open(url)
+
+                    return null
+                }
+
+                window.location = url
 
                 return null
             }
 
-            const data = set(
-                {
-                    ...model,
-                },
-                fieldKey || id,
-                checked,
-            )
+            const data = set({ ...model }, fieldKey || id, checked)
 
             setChecked(checked)
             callAction(data)
