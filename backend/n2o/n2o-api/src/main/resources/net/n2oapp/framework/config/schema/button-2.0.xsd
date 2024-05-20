@@ -34,7 +34,7 @@
                 </xs:attribute>
                 <xs:attribute name="color" type="bs:buttonColorDefinition">
                     <xs:annotation>
-                        <xs:documentation>Цвет кнопки.</xs:documentation>
+                        <xs:documentation>Цвет кнопки. Возможно использование плейсхолдеров</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="badge" type="xs:string">

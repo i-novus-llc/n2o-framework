@@ -116,9 +116,13 @@ export default function withActionButton({ onClick = emptyHandler }: { onClick?:
     return (WrappedComponent: Parameters<typeof ActionButton>[0]['Component']) => {
         function WithActionButton(props: ActionButtonProps) {
             const reduxProps = useReduxButton(props)
+            const { color } = props
+
             const withExtendedAction = useAction({
                 ...props,
                 ...reduxProps,
+                // color может зависеть от model, расчитывает Toolbar
+                color,
             }, onClick)
 
             const { model: prefix, datasource } = props

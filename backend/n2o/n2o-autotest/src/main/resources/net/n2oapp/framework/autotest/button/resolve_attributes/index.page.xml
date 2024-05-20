@@ -19,9 +19,10 @@
         <toolbar place="topLeft">
             <!-- саб-меню с заголовком -->
             <sub-menu label="{unreadOnly ? 'Непрочитанные' : 'Все'}"
-                      description="{unreadOnly ? 'Непрочитанные' : 'Все'}"
+                      description="{unreadOnly ? 'text2' : 'text1'}"
+                      tooltip-position="bottom"
                       model="filter"
-                      color="link">
+                      color="{unreadOnly ? 'danger' : 'success'}">
                 <menu-item label="Непрочитанные">
                     <set-value to="unreadOnly">
                         true
@@ -35,10 +36,10 @@
                     <refresh />
                 </menu-item>
             </sub-menu>
-            <button label="{unreadOnly ? 'Непрочитанные' : 'Все'}"
-                  description="{unreadOnly ? 'Непрочитанные' : 'Все'}"
+            <button label="{unreadOnly ? 'Unread' : 'All'}"
+                  description="{unreadOnly ? 'value2' : 'value1'}"
                   model="filter"
-                  color="link">
+                  color="{unreadOnly ? 'warning' : 'primary'}">
             </button>
         </toolbar>
     </list>

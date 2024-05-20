@@ -21,11 +21,6 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
     }
 
     @Override
-    public void shouldHaveDescription(String description, Duration... duration) {
-        should(Condition.text(description), duration);
-    }
-
-    @Override
     public void shouldHaveItems(int count) {
         menuItems().shouldHave(CollectionCondition.size(count));
     }

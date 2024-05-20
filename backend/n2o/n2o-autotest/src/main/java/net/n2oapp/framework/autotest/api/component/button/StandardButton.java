@@ -1,8 +1,5 @@
 package net.n2oapp.framework.autotest.api.component.button;
 
-import net.n2oapp.framework.autotest.Colors;
-import net.n2oapp.framework.autotest.api.component.Tooltip;
-
 import java.time.Duration;
 
 /**
@@ -33,19 +30,4 @@ public interface StandardButton extends Button {
      */
     void shouldNotHaveIcon();
 
-    /**
-     * Проверка цвета кнопки на соответствие ожидаемому значению
-     * @param color ожидаемый цвет кнопки
-     */
-    void shouldHaveColor(Colors color);
-
-    /**
-     * Наведение мыши на кнопку
-     */
-    void hover();
-
-    /**
-     * @return Компонент тултип для автотестирования
-     */
-    Tooltip tooltip();
 }

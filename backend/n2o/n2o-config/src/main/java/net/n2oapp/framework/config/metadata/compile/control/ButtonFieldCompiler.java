@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
-import net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil;
 import net.n2oapp.framework.config.util.DatasourceUtil;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +33,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         ButtonField field = new ButtonField();
         initDefaults(source, context, p);
         compileField(field, source, context, p);
-        field.setColor(source.getColor());
+        field.setColor(p.resolveJS(source.getColor()));
         field.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
         initItem(field, source, context, p);
         return field;
