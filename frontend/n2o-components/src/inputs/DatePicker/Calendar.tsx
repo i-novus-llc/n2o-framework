@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import isNull from 'lodash/isNull'
-import moment, { Moment, MomentInput, unitOfTime } from 'moment/moment'
-import cx from 'classnames'
+import moment, { isMoment, Moment, MomentInput, unitOfTime } from 'moment/moment'
+import classNames from 'classnames'
 
 import { Day } from './Day'
 import { CalendarHeader } from './CalendarHeader'
@@ -12,7 +12,7 @@ import {
     addTime, objFromTime,
 } from './utils'
 import { ControlType } from './DateTimeControl'
-import { CalendarType, Time } from './types'
+import { CalendarType, DateTimeControlName, Time } from './types'
 
 import '../../styles/components/Calendar.scss'
 
@@ -129,6 +129,10 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         const { displayesMonth } = this.state
 
         this.setState({ displayesMonth: displayesMonth.add(1, 'months') })
+    }
+
+    setMonth = (month: Moment) => {
+        this.setState({ displayesMonth: month })
     }
 
     prevYear = () => {
@@ -277,16 +281,12 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         const { value, hasDefaultTime, timeFormat, t } = this.props
 
         if (hasDefaultTime) {
-            if (value) {
-                return value.format(timeFormat)
-            }
+            if (value) { return value.format(timeFormat) }
 
             return '00:00:00'
         }
 
-        if (t) {
-            return t('chooseTime')
-        }
+        if (t) { return t('chooseTime') }
 
         return null
     }
@@ -340,9 +340,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
         const isActive = (className: string, item: string | number, i: number) => {
             if (!value) { return false }
-            if (className !== 'month-item') {
-                return item === value.year()
-            }
+            if (className !== 'month-item') { return item === value.year() }
 
             return i === value.month()
         }
@@ -350,7 +348,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
         return list.map((item, i) => (
             <div
-                className={cx('n2o-calendar-body-item', className, {
+                className={classNames('n2o-calendar-body-item', className, {
                     active: isActive(className, item, i),
                     'other-decade': isOtherDecade(i),
                 })}
@@ -378,6 +376,20 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     componentDidUpdate() {
         const { calendarType } = this.state
+        const { type, inputName } = this.props
+
+        // Логика переключения end до 1ого доступноного месяца, относительно begin
+        if (type === ControlType.DATE_INTERVAL && inputName === DateTimeControlName.END) {
+            const { values } = this.props
+            const beginDisplayesMonth = values[DateTimeControlName.BEGIN]
+            const { displayesMonth } = this.state
+
+            if (isMoment(beginDisplayesMonth) && displayesMonth.isBefore(beginDisplayesMonth, 'month')) {
+                const diffInMonths = beginDisplayesMonth.diff(displayesMonth, 'months')
+
+                this.setState({ displayesMonth: displayesMonth.add(diffInMonths, 'months') })
+            }
+        }
 
         if (calendarType === CalendarType.TIME_PICKER) {
             if (this.minuteRef) {
@@ -427,7 +439,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     <div className="n2o-calendar-picker hour-picker">
                         {Array.from(new Array(24), (val, index) => (
                             <div
-                                className={cx('n2o-calendar-time-unit', {
+                                className={classNames('n2o-calendar-time-unit', {
                                     active: index === hours,
                                 })}
                                 onClick={() => this.setTimeUnit(index, 'hours')}
@@ -440,7 +452,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     <div className="n2o-calendar-picker minute-picker">
                         {Array.from(new Array(60), (val, index) => (
                             <div
-                                className={cx('n2o-calendar-time-unit', {
+                                className={classNames('n2o-calendar-time-unit', {
                                     active: index === minutes,
                                 })}
                                 ref={index === minutes ? this.setMinuteRef : null}
@@ -453,7 +465,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     <div className="n2o-calendar-picker second-picker">
                         {Array.from(new Array(60), (val, index) => (
                             <div
-                                className={cx('n2o-calendar-time-unit', {
+                                className={classNames('n2o-calendar-time-unit', {
                                     active: index === seconds,
                                 })}
                                 ref={index === seconds ? this.setSecondRef : null}
@@ -486,15 +498,11 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     renderBody(type: string) {
         switch (type) {
-            case CalendarType.BY_MONTHS:
-                return this.renderByMonths()
-            case CalendarType.BY_YEARS:
-                return this.renderByYears()
-            case CalendarType.TIME_PICKER:
-                return this.renderTimePicker()
+            case CalendarType.BY_MONTHS: return this.renderByMonths()
+            case CalendarType.BY_YEARS: return this.renderByYears()
+            case CalendarType.TIME_PICKER: return this.renderTimePicker()
             case CalendarType.BY_DAYS:
-            default:
-                return this.renderByDays()
+            default: return this.renderByDays()
         }
     }
 
@@ -503,11 +511,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         const { timeFormat } = this.props
 
         return (
-            <div
-                className={cx('n2o-calendar', {
-                    time: timeFormat,
-                })}
-            >
+            <div className={classNames('n2o-calendar', { time: timeFormat })}>
                 {this.renderHeader()}
                 {this.renderBody(calendarType)}
             </div>
