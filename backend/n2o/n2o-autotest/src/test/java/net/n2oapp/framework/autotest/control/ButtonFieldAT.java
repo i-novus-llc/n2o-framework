@@ -60,6 +60,19 @@ public class ButtonFieldAT extends AutoTestBase {
         buttonField.badgeShouldHaveImageShape(BadgeShape.CIRCLE);
         buttonField.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
         buttonField.badgeShouldHavePosition(BadgePosition.LEFT);
+
+
+        buttonField = page.widget(FormWidget.class).fields().field("Кнопка-поле1", ButtonField.class);
+        buttonField.shouldExists();
+        buttonField.shouldHaveColor(Colors.SUCCESS);
+
+        Checkbox checkbox = page.widget(FormWidget.class).fields().field("Checkbox1").control(Checkbox.class);
+        checkbox.shouldExists();
+        checkbox.shouldNotBeChecked();
+        checkbox.setChecked(true);
+        buttonField.shouldHaveColor(Colors.DANGER);
+        checkbox.setChecked(false);
+        buttonField.shouldHaveColor(Colors.SUCCESS);
     }
 
     @Test

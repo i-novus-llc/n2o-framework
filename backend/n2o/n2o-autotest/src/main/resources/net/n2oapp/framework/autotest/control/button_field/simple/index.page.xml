@@ -19,6 +19,12 @@
                     tooltip-position="top"
                     rounded="true"
             />
+            <checkbox label="Checkbox1" id="clicked"/>
+            <button
+                    id="button1"
+                    label="Кнопка-поле1"
+                    color="{clicked ? 'danger' : 'success'}"
+            />
         </fields>
     </form>
 </simple-page>

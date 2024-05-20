@@ -13,7 +13,7 @@
             <fields>
                 <hidden id="url" default-value="https://example.com"/>
                 <button id="btn1" badge="{badge}" badge-color="{color}" label="delete"
-                        color="danger" datasource="ds">
+                        color="{name}" datasource="ds">
                     <a href="test2/:param1/:param2?param3=:param3" target="application">
                         <path-param name="param1" value="{field1}"/>
                         <path-param name="param2" value="1"/>

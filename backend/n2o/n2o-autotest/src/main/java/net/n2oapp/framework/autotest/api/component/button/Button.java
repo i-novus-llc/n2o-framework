@@ -1,12 +1,13 @@
 package net.n2oapp.framework.autotest.api.component.button;
 
+import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.badge.Badge;
-import net.n2oapp.framework.autotest.api.component.Component;
 
 /**
  * Кнопка для автотестирования
  */
-public interface Button extends Component, Badge {
+public interface Button extends Badge {
     /**
      * Проверка на не доступность клика по кнопке
      */
@@ -21,4 +22,21 @@ public interface Button extends Component, Badge {
      * Клик по кнопке
      */
     void click();
+
+    /**
+     * Наведение мыши на кнопку
+     */
+    void hover();
+
+    /**
+     * @return Компонент тултип для автотестирования
+     */
+    Tooltip tooltip();
+
+    /**
+     * Проверка цвета кнопки на соответствие ожидаемому значению
+     * @param color ожидаемый цвет кнопки
+     */
+    void shouldHaveColor(Colors color);
+
 }

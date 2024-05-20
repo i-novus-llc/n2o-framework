@@ -12,7 +12,7 @@
     </regions>
 
     <toolbar>
-        <button id="btn1" label="delete" badge="{badge}" badge-color="{color}" color="danger"
+        <button id="btn1" label="delete" badge="{badge}" badge-color="{color}" color="{name}"
                 datasource="table" tooltip-position="right" class="Button" style="color:red;" description="hint">
             <invoke operation-id="delete"/>
         </button>

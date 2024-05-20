@@ -1,8 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.field;
 
 import net.n2oapp.framework.autotest.BadgePosition;
-import net.n2oapp.framework.autotest.Colors;
-import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 
 /**
@@ -15,22 +13,6 @@ public interface ButtonField extends Field, Button {
      * @param iconName ожидаемый класс иконки
      */
     void shouldHaveIcon(String iconName);
-
-    /**
-     * Проверка цвета кнопки на соответствие ожидаемому значению
-     * @param color ожидаемый цвет кнопки
-     */
-    void shouldHaveColor(Colors color);
-
-    /**
-     * Наведение мыши на кнопку
-     */
-    void hover();
-
-    /**
-     * @return Компонент тултип для автотестирования
-     */
-    Tooltip tooltip();
 
     /**
      * Проверка соответствия позиции подсказки

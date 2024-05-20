@@ -54,7 +54,7 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         AbstractButton btn = page.getToolbar().getButton("btn1");
         assertThat(btn.getLabel(), is("delete"));
         assertThat(btn.getIcon(), is(nullValue()));
-        assertThat(btn.getColor(), is("danger"));
+        assertThat(btn.getColor(), is("`name`"));
         assertThat(btn.getHintPosition(), is("right"));
         assertThat(btn.getClassName(), is("Button"));
         assertThat(btn.getStyle().size(), is(1));

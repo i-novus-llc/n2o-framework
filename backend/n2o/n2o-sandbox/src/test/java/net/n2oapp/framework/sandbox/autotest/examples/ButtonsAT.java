@@ -94,7 +94,7 @@ public class ButtonsAT extends AutoTestBase {
         buttonWithTooltip.shouldExists();
         buttonWithTooltip.shouldBeEnabled();
         buttonWithTooltip.shouldHaveLabel("Подсказка");
-        buttonWithTooltip.element().hover();
+        buttonWithTooltip.hover();
         Tooltip tooltip = buttonWithTooltip.tooltip();
         tooltip.shouldExists();
         tooltip.shouldHaveText(new String[]{"Эта подсказка появляется сверху"});

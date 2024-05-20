@@ -21,11 +21,6 @@ public interface DropdownButton extends Button {
     void shouldHaveLabel(String label, Duration... duration);
 
     /**
-     * Проверка описания на соответствие
-     * @param text ожидаемый текст описания
-     */
-    void shouldHaveDescription(String text, Duration... duration);
-    /**
      * Возвращает первую стандартную кнопку, метка которой соответствует ожидаемому
      * @param label ожидаемая метка кнопки
      * @return Стандартная кнопка для автотестирования
