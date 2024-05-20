@@ -10,6 +10,14 @@
             left: 0;
         }
     }
+
+    .bs-tooltip-auto[x-placement^=bottom] {
+        left: -5px !important;
+    }
+
+    .bs-tooltip-auto[x-placement^=bottom] .arrow {
+        left: -5px !important;
+    }
 }
 
 .custom-checkbox .custom-control-label:hover {
