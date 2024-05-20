@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { isNil } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 
 import {
     setMultiFieldVisible,
@@ -98,12 +99,12 @@ class Fieldset extends React.Component {
         this.setEnabled = this.setEnabled.bind(this)
         this.renderRow = this.renderRow.bind(this)
 
-        this.state = {
-            visible: true,
-            enabled: true,
-        }
+        this.state = { visible: true, enabled: true }
 
         this.fields = []
+        // параметры visible всех полей филдcета
+        // необходимо для того, чтобы отличить hidden филдсет (n2o-fieldset empty)
+        this.fieldsVisibility = []
     }
 
     componentDidUpdate() {
@@ -149,25 +150,28 @@ class Fieldset extends React.Component {
     }
 
     calculateAllFields(rows) {
-        /** @type {string[]} */
-        let fields = []
+        /** @type {{fieldsVisibility: *[], fields: *[]}} */
+        const info = { fields: [], fieldsVisibility: [] }
 
         each(rows, (row) => {
             each(row.cols, (col) => {
                 if (col.fieldsets) {
                     each(col.fieldsets, (fieldset) => {
-                        fields = concat(fields, this.calculateAllFields(fieldset.rows))
+                        info.fields = concat(info.fields, this.calculateAllFields(fieldset.rows))
                     })
                 } else if (col.fields) {
                     each(col.fields, (field) => {
-                        fields.push(field.id)
+                        info.fields.push(field.id)
+                        info.fieldsVisibility.push(field.visible)
                     })
                 }
             })
         })
 
-        return fields
+        return info
     }
+
+    checkGlobalFieldVisibility = fieldsVisibility => fieldsVisibility.some(visible => visible)
 
     renderRow(rowId, row, props) {
         const {
@@ -237,6 +241,7 @@ class Fieldset extends React.Component {
 
         const classes = classNames('n2o-fieldset', className, {
             'd-none': !visible,
+            empty: !isEmpty(this.fieldsVisibility) && !this.checkGlobalFieldVisibility(this.fieldsVisibility),
         })
 
         const resolvedLabel = propsResolver(label, activeModel)
@@ -256,7 +261,10 @@ class Fieldset extends React.Component {
                 description={description}
                 {...rest}
                 render={(rows, props = { parentName }) => {
-                    this.fields = this.calculateAllFields(rows)
+                    const { fields, fieldsVisibility } = this.calculateAllFields(rows)
+
+                    this.fields = fields
+                    this.fieldsVisibility = fieldsVisibility
 
                     return rows?.map((row, id) => this.renderRow(id, row, props))
                 }}
