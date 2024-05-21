@@ -231,11 +231,15 @@
         <xs:annotation>
             <xs:documentation>Группа кнопок.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="generate" type="tableGenerateDefinition">
-            <xs:annotation>
-                <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
+        <xs:complexContent>
+            <xs:extension base="tool:groupDefinition">
+                <xs:attribute name="generate" type="tableGenerateDefinition">
+                    <xs:annotation>
+                        <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="tableReferenceDefinition">
