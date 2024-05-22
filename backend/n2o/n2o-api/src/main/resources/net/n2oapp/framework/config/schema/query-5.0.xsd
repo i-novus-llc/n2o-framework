@@ -195,7 +195,7 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseFieldDefinition">
-                <xs:element name="switch" type="switchDefinition"/>
+                <xs:element name="switch" type="switchDefinition" minOccurs="0"/>
                 <xs:attribute name="name" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
