@@ -249,7 +249,7 @@ class Fieldset extends React.Component {
 
         return (
             <ElementType
-                classes={classes}
+                className={classes}
                 style={style}
                 needLabel={needLabel}
                 needDescription={needDescription}

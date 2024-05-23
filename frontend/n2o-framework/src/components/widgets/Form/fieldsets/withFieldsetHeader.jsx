@@ -8,7 +8,7 @@ import { FieldsetHeader } from './FieldsetHeader'
 export function withFieldsetHeader(Component) {
     function WithFieldsetHeaderComponent(props) {
         const {
-            classes,
+            className,
             style,
             needLabel,
             needDescription,
@@ -28,7 +28,7 @@ export function withFieldsetHeader(Component) {
         const badge = useResolved(badgeProps, activeModel)
 
         return (
-            <div className={classNames(classes, { 'd-none': visible === false })} style={style}>
+            <div className={classNames(className, { 'd-none': visible === false })} style={style}>
                 <FieldsetHeader
                     visible={type !== 'line' && (needLabel || needDescription || badge)}
                     label={label}
