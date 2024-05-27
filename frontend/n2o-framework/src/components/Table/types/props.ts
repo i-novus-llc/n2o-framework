@@ -176,6 +176,12 @@ export type HeaderFilterProps = {
     filterError?: FieldError
 } & Required<Pick<HeaderCell, 'filterField'>>
 
+type SwitchCellProps = {
+    switchFieldId?: any
+    switchList?: object
+    switchDefault?: { elementAttributes?: Record<string, any> }
+}
+
 export type CellContainerProps = {
     isSelectedRow: boolean
     model: DataItem
@@ -186,4 +192,4 @@ export type CellContainerProps = {
     rowIndex: RowContainerProps['rowIndex']
     alignment?: TdHTMLAttributes<HTMLTableCellElement>['align']
     style?: CSSProperties
-} & Omit<Cell, 'elementAttributes'>
+} & Omit<Cell, 'elementAttributes'> & SwitchCellProps
