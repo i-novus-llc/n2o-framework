@@ -28,7 +28,7 @@ export const TableHeader = memo<TableHeaderProps>(({
                         </Table.HeaderCell>
                     ) : null}
                     {selection === Selection.Radio ? (
-                        <Table.HeaderCell key={selection} />
+                        <Table.HeaderCell key={selection} className="cell-selection" />
                     ) : null}
                     {columns.map(cell => (
                         <TableHeaderCell
