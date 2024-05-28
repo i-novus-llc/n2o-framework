@@ -37,13 +37,17 @@ public class ScriptProcessor {
     private static volatile ScriptEngine scriptEngine;
     private static String MOMENT_JS;
 
-    private static Pattern functionPattern = Pattern.compile("function\\s*\\(\\)[\\s\\S]*");
+    private static final Pattern FUNCTION_PATTERN = Pattern.compile("function\\s*\\(\\)[\\s\\S]*");
+    private static final Pattern TERNARY_IN_LINK_PATTERN = Pattern.compile(".*\\{.*\\?.*:.*\\}.*");
 
     public static String resolveLinks(String text) {
         if (text == null)
             return null;
         if (hasLink(text)) {
             String expr = text;
+            if (TERNARY_IN_LINK_PATTERN.matcher(expr).matches()) {
+                expr = expr.replaceAll("\\{", "{(").replaceAll("}", ")}");
+            }
             if (expr.contains("${")) {
                 while (expr.contains("${")) {
                     int idx = expr.indexOf("}", expr.indexOf("${"));
@@ -97,7 +101,7 @@ public class ScriptProcessor {
         if (trimmedText.startsWith("(function")) {
             return text;
         }
-        if (functionPattern.matcher(trimmedText).matches()) {
+        if (FUNCTION_PATTERN.matcher(trimmedText).matches()) {
             return String.format("(%s).call(this)", trimmedText);
         }
         if (trimmedText.contains("return ")) {
