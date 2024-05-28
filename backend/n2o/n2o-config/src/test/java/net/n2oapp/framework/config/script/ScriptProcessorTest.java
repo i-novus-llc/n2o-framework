@@ -11,15 +11,13 @@ import org.junit.jupiter.api.Test;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 public class ScriptProcessorTest {
@@ -40,6 +38,7 @@ public class ScriptProcessorTest {
         assertThat(ScriptProcessor.resolveLinks("`test`"), is("`test`"));
         assertThat(ScriptProcessor.resolveLinks("true"), is("true"));
         assertThat(ScriptProcessor.resolveLinks("false"), is("false"));
+        assertThat(ScriptProcessor.resolveLinks("Hello, {test == 1 ? 2 : test == 2 ? 3 : 4} . {test == 1 ? 2 : 3}"), is("`'Hello, '+(test == 1 ? 2 : test == 2 ? 3 : 4)+' . '+(test == 1 ? 2 : 3)`"));
     }
 
     @Test
@@ -112,7 +111,7 @@ public class ScriptProcessorTest {
 
         cases.put(3, "{name == 'Нина' ? 'black' : 'white'}");
         assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch),
-                is("`status == 1 ? 'blue' : status == 2 ? 'red' : status == 3 ? name == 'Нина' ? 'black' : 'white' : 'gray'`"));
+                is("`status == 1 ? 'blue' : status == 2 ? 'red' : status == 3 ? (name == 'Нина' ? 'black' : 'white') : 'gray'`"));
 
         cases = new HashMap<>();
         cases.put("ok", "blue");
