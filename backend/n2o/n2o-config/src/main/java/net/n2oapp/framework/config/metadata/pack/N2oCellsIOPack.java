@@ -14,7 +14,6 @@ public class N2oCellsIOPack implements MetadataPack<XmlIOBuilder<?>> {
                 new CheckboxCellElementIOv2(),
                 new LinkCellElementIOv2(),
                 new ProgressBarCellElementIOv2(),
-                new CheckboxCellElementIOv2(),
                 new ImageCellElementIOv2(),
                 new EditCellElementIOv2(),
                 new BadgeCellElementIOv2(),
@@ -24,7 +23,6 @@ public class N2oCellsIOPack implements MetadataPack<XmlIOBuilder<?>> {
                 new IconCellElementIOv2(),
                 new RatingCellElementIOv2(),
                 new SwitchCellElementIOv2(),
-                new RatingCellElementIOv2(),
                 new TooltipListCellElementIOv2(),
                 new FileUploadCellElementIOv2());
     }

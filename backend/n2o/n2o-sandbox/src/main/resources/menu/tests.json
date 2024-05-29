@@ -596,6 +596,14 @@
         {
           "templateId": "net/n2oapp/framework/autotest/cells/tooltip_list",
           "name": "TooltipListCellAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/edit/simple",
+          "name": "EditCellAT. testSimple"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/edit/offline",
+          "name": "EditCellAT. testOffline"
         }
       ]
     },

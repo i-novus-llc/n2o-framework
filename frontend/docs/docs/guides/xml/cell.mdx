@@ -128,10 +128,6 @@ n2o.api.cell.badge.image_shape=circle
 <Sandbox height={250} projectId="uxcomponents_cells_checkbox" />
 
 
-
-
-
-
 ### &lt;edit&gt; {#edit}
 Редактирование значения.
 
@@ -140,16 +136,13 @@ n2o.api.cell.badge.image_shape=circle
 |Наименование|Тип                                                                                    |Описание                                                                    |Значение по умолчанию|
 |------------|---------------------------------------------------------------------------------------|----------------------------------------------------------------------------|---------------------|
 |action-id   |Ссылка на [действие страницы](../xml/page#actions) или [виджета](../xml/widget#actions)|Ссылка на действие виджета, которое выполнятся при завершении редактирования|                     |
-|type        |inline popup                                                                           |Расположение                                                                |inline               |
 |format      |Строка                                                                                 |Формат текста                                                               |                     |
 |enabled     |true false                                                                             |Условие доступности                                                         |true                 |
 
 **Настройки**
 ```yaml
-#Расположение
-n2o.api.cell.edit.type=inline
 #Доступность для редактирования
-n2o.api.cell.edit.enabled=true
+n2o.api.cell.edit.enabled = true
 ```
 
 **Тело**<br/>
@@ -159,16 +152,17 @@ n2o.api.cell.edit.enabled=true
 &lt;field&gt; - [Произвольный React компонент](../xml/field#field)<br/>
 &lt;action&gt; - [Список действий](#action)
 
+:::note
+Указание `id` в `input-select` является обязательным, в отличие от других видов полей
+:::
+
 **Пример**
 
 ```xml
-<edit action-id="create,update" type="popup">
-  <date-time id="birthday"/>
+<edit action-id="create,update">
+  <date-time/>
 </edit>
 ```
-
-
-
 
 
 ### &lt;file-upload&gt; {#file-upload-cell}

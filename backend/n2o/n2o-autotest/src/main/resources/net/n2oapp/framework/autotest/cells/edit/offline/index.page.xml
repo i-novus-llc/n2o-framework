@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Редактируемые ячейки. Offline режим">
+    <table>
+        <datasource query-id="test"/>
+        <toolbar>
+            <button label="Отправить" model="filter">
+                <invoke operation-id="update" message-on-success="false">
+                    <form-param id="id" value="1"/>
+                    <form-param id="list" value="{this}" model="datasource"/>
+                </invoke>
+            </button>
+        </toolbar>
+        <columns>
+            <column text-field-id="id" label="№"/>
+            <column text-field-id="name" label="Фамилия И.О">
+                <edit>
+                    <input-text/>
+                </edit>
+            </column>
+            <column text-field-id="date" label="Дата рождения">
+                <edit format="date DD.MM.YYYY">
+                    <date-time/>
+                </edit>
+            </column>
+            <column text-field-id="gender.name" label="Пол">
+                <edit>
+                    <input-select id="gender">
+                        <options>
+                            <option id="1" name="мужской"/>
+                            <option id="2" name="женский"/>
+                        </options>
+                    </input-select>
+                </edit>
+            </column>
+        </columns>
+    </table>
+</simple-page>
