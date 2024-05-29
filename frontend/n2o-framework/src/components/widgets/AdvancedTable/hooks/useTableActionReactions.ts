@@ -46,15 +46,25 @@ export const useTableActionReactions = (datasourceId: string) => {
         store.dispatch(setModel(ModelPrefix.selected, datasourceId, newMulti))
     }, [datasourceId, store])
 
-    const setActiveModelAfterChangeFocusedRow = useCallback((model) => {
+    const setActiveModel = useCallback((model) => {
         if (model) {
             store.dispatch(setModel(ModelPrefix.active, datasourceId, model))
         }
     }, [datasourceId, store])
 
+    const updateDatasource = useCallback((model: Record<string, any>, rowIndex: number) => {
+        const state = store.getState()
+        const datasource = (dataSourceModelByPrefixSelector(datasourceId, ModelPrefix.source)(state) as any[]) || []
+        const newDatasource = datasource?.map((data, index) => (index === rowIndex ? model : data)) || []
+
+        setActiveModel(model)
+        store.dispatch(setModel(ModelPrefix.source, datasourceId, newDatasource))
+    }, [datasourceId, store, setActiveModel])
+
     return ({
         setMultiModel: setMultiModelAfterChangeSelectedRows,
         unsetMultiModel: unsetMultiModelAfterChangeSelectedRows,
-        setActiveModel: setActiveModelAfterChangeFocusedRow,
+        setActiveModel,
+        updateDatasource,
     })
 }

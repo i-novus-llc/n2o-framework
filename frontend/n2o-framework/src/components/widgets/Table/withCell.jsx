@@ -1,13 +1,10 @@
-import React, { useCallback, useContext } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useCallback, useContext, useRef } from 'react'
 import { isEmpty, isEqual } from 'lodash'
 import PropTypes from 'prop-types'
 
 import { useDispatch } from '../../../core/Redux/useDispatch'
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { DataSourceContext } from '../../../core/widget/context'
-import { ModelPrefix } from '../../../core/datasource/const'
-import { setModel } from '../../../ducks/models/store'
+import { useTableActions } from '../../Table'
 
 /**
  * HOC для оборачивания Cell
@@ -18,48 +15,46 @@ import { setModel } from '../../../ducks/models/store'
 export default function WithCell(WrappedComponent) {
     function WithCellComponent({
         action: defaultAction,
-        model,
         datasource,
+        rowIndex,
+        model,
         ...rest
     }) {
         const dispatch = useDispatch()
+        const { onUpdateModel } = useTableActions()
         const { setResolve } = useContext(DataSourceContext)
-        const list = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
-        const updateDatasource = useCallback((newModel) => {
-            // TODO костыль для быстрого решения, по хорошему вынести в таблицу и ячейка ничего не должна знать о моделях
-            const newList = list.map((model) => {
-                if (model.id === newModel.id) {
-                    return newModel
-                }
+        /**
+         * FIXME:
+         *  ref и проверка на равенство моделей является костылем т.к. Событие callAction стрелят например на клик
+         *  по кнопки тулбара. Вероятно это ошибка и требуется разобраться с тем, когда должен стрелять метод callAction
+         */
+        const modelRef = useRef(model)
 
-                return model
-            })
+        modelRef.current = model
 
-            return setModel(ModelPrefix.source, datasource, newList)
-        }, [datasource, list])
-        const callAction = useCallback((newModel) => {
-            setResolve(newModel)
+        const callAction = useCallback((actionModel) => {
+            setResolve(actionModel)
 
-            if (isEmpty(defaultAction)) {
-                if (!isEqual(model, newModel)) {
-                    updateDatasource(newModel)
-                }
+            if (isEmpty(defaultAction) && !isEqual(actionModel, modelRef.current)) {
+                onUpdateModel(actionModel, rowIndex)
             } else {
                 dispatch(defaultAction)
             }
-        }, [setResolve, defaultAction, model, updateDatasource, dispatch])
+        }, [setResolve, defaultAction, onUpdateModel, rowIndex, dispatch])
 
         return (
             <WrappedComponent
                 resolveWidget={setResolve}
                 callAction={callAction}
                 action={defaultAction}
-                model={model}
                 dispatch={dispatch}
+                model={model}
                 {...rest}
             />
         )
     }
+
+    WithCellComponent.displayName = `withCellComponent(${WrappedComponent?.displayName || 'UnknownCellComponent'})`
 
     WithCellComponent.propTypes = {
         action: PropTypes.object,

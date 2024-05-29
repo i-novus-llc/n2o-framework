@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотесты компонента ввода с выбором в выпадающем списке в виде дерева
  */
-public class InputSelectTreeAT extends AutoTestBase {
+class InputSelectTreeAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {

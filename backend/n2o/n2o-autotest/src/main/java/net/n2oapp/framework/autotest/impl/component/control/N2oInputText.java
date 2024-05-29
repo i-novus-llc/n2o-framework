@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import org.openqa.selenium.Keys;
 
 import java.time.Duration;
 
@@ -15,19 +16,25 @@ public class N2oInputText extends N2oControl implements InputText {
     @Override
     public void shouldBeEmpty() {
         SelenideElement input = inputElement();
-        if (input.exists()) input.shouldBe(Condition.empty);
-        else cellInputElement().shouldBe(Condition.empty);
+        if (input.exists())
+            input.shouldBe(Condition.empty);
+        else
+            editCellElement().shouldBe(Condition.empty);
     }
 
     @Override
     public String getValue() {
         SelenideElement input = inputElement();
-        return input.exists() ? input.getValue() : cellInputElement().text();
+        return input.exists() ? input.getValue() : editCellElement().text();
     }
 
     @Override
     public void setValue(String value) {
-        inputElement().setValue(value);
+        if (editCellInputElement().exists()) {
+            editCellInputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+            editCellInputElement().pressEnter();
+        } else
+            inputElement().setValue(value);
     }
 
     @Override
@@ -52,7 +59,7 @@ public class N2oInputText extends N2oControl implements InputText {
         if (input.exists())
             should(Condition.exactValue(value), input, duration);
         else
-            should(Condition.selectedText(value), cellInputElement(), duration);
+            should(Condition.text(value), editCellElement(), duration);
     }
 
     @Override
@@ -63,7 +70,7 @@ public class N2oInputText extends N2oControl implements InputText {
         if (input.exists())
             input.shouldHave(condition);
         else
-            cellInputElement().shouldHave(condition);
+            editCellElement().shouldHave(condition);
     }
 
     @Override
@@ -94,7 +101,11 @@ public class N2oInputText extends N2oControl implements InputText {
         return element().shouldBe(Condition.exist).parent().$(".n2o-input");
     }
 
-    protected SelenideElement cellInputElement() {
+    protected SelenideElement editCellInputElement() {
+        return element().$(".n2o-advanced-table-edit-control");
+    }
+
+    protected SelenideElement editCellElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
     }
 

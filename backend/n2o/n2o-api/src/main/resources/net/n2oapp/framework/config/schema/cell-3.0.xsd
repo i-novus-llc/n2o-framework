@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/cell-3.0"
            xmlns:acn="http://n2oapp.net/framework/config/schema/action-2.0"
-           xmlns:ctr2="http://n2oapp.net/framework/config/schema/control-3.0"
+           xmlns:ctr="http://n2oapp.net/framework/config/schema/control-3.0"
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
            xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -146,7 +146,7 @@
                         <xs:documentation>Адрес URL открываемой страницы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target" type="acn:aType">
+                <xs:attribute name="target" type="acn:targetType">
                     <xs:annotation>
                         <xs:documentation>Сценарий открытия ссылки.</xs:documentation>
                     </xs:annotation>
@@ -270,7 +270,7 @@
                     <xs:documentation>Изображение.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="statuses" type="ctr2:statusesType" minOccurs="0"/>
+                    <xs:element name="statuses" type="ctr:statusesType" minOccurs="0"/>
                     <xs:element name="action" type="acn:actions" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="width" type="xs:string">
@@ -330,29 +330,56 @@
                     <xs:documentation>Редактирование значения.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence maxOccurs="1" minOccurs="1">
-                    <xs:element name="input-text" type="ctr2:controlInputTextDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="date-time" type="ctr2:controlDatePickerDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="input-select" type="ctr2:controlInputSelectDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="field" type="ctr2:fieldCustom" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="input-text" minOccurs="0" maxOccurs="unbounded">
+                        <xs:complexType>
+                            <xs:complexContent>
+                                <xs:restriction base="ctr:controlInputTextDefinition">
+                                    <xs:attribute name="id" type="xs:string" use="prohibited"/>
+                                </xs:restriction>
+                            </xs:complexContent>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="date-time" minOccurs="0" maxOccurs="unbounded">
+                        <xs:complexType>
+                            <xs:complexContent>
+                                <xs:restriction base="ctr:controlDatePickerDefinition">
+                                    <xs:attribute name="id" type="xs:string" use="prohibited"/>
+                                </xs:restriction>
+                            </xs:complexContent>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="input-select" minOccurs="0" maxOccurs="unbounded">
+                        <xs:complexType>
+                            <xs:complexContent>
+                                <xs:restriction base="ctr:controlInputSelectDefinition">
+                                    <xs:attribute name="id" type="xs:string" use="required"/>
+                                </xs:restriction>
+                            </xs:complexContent>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="field" minOccurs="0" maxOccurs="unbounded">
+                        <xs:complexType>
+                            <xs:complexContent>
+                                <xs:restriction base="ctr:fieldCustom">
+                                    <xs:attribute name="id" type="xs:string" use="prohibited"/>
+                                </xs:restriction>
+                            </xs:complexContent>
+                        </xs:complexType>
+                    </xs:element>
                     <xs:element name="action" type="acn:actions" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
-                <xs:attribute name="action-id" type="xs:string" use="optional">
+                <xs:attribute name="action-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Действие виджета, которое выполнится при завершении редактирования.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="format" type="xs:string" use="optional">
+                <xs:attribute name="format" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Формат текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="type" type="editType" use="optional" default="inline">
-                    <xs:annotation>
-                        <xs:documentation>Расположение.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="enabled" type="xs:string" use="optional" default="true">
+                <xs:attribute name="enabled" type="xs:string"  default="true">
                     <xs:annotation>
                         <xs:documentation>Доступность для редактирования.</xs:documentation>
                     </xs:annotation>

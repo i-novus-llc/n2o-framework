@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.EditType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oEditCell;
 import net.n2oapp.framework.api.metadata.meta.cell.EditCell;
@@ -34,21 +33,25 @@ public class EditCellCompiler extends AbstractCellCompiler<EditCell, N2oEditCell
         if (source.getN2oField() != null) {
             Field control = p.compile(source.getN2oField(), context);
             if (control instanceof StandardField) {
-                cell.setControl(((StandardField) control).getControl());
+                ComponentScope columnScope = p.getScope(ComponentScope.class);
+                String columnTextFieldId = null;
+                if (columnScope != null) {
+                    AbstractColumn column = columnScope.unwrap(AbstractColumn.class);
+                    if (column != null) {
+                        columnTextFieldId = column.getTextFieldId();
+                    }
+                }
+                StandardField<?> field = (StandardField<?>) control;
+                if (field.getControl().getId() == null)
+                    field.getControl().setId(columnTextFieldId);
+                cell.setControl(field.getControl());
             } else {
                 cell.setControl(control);
             }
-            ComponentScope columnScope = p.getScope(ComponentScope.class);
-            AbstractColumn column = null;
-            if (columnScope != null)
-                column = columnScope.unwrap(AbstractColumn.class);
-            cell.setEditFieldId(castDefault(control.getId(), column != null ? column.getTextFieldId() : null));
         }
-
         cell.setFormat(source.getFormat());
-        cell.setEditType(castDefault(source.getEditType(),
-                () -> p.resolve(property("n2o.api.cell.edit.type"), EditType.class)));
-        cell.setEnabled(castDefault(p.resolveJS(source.getEnabled(), Boolean.class),
+        cell.setEnabled(castDefault(
+                p.resolveJS(source.getEnabled(), Boolean.class),
                 () -> p.resolve(property("n2o.api.cell.edit.enabled"), Boolean.class)));
         return cell;
     }
