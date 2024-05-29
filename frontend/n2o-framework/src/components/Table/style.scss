@@ -45,6 +45,10 @@
     .checkbox-cell {
         display: flex;
         overflow: visible !important;
+
+        .custom-checkbox .custom-control-label {
+            cursor: pointer;
+        }
     }
 
     .cell[data-level] {

@@ -384,8 +384,6 @@ export class InputSelect extends React.Component<Props, State> {
                 options,
             }),
             () => {
-                selectCallback()
-
                 if (this.inputRef) {
                     this.inputRef.current.focus()
                 }
@@ -393,6 +391,8 @@ export class InputSelect extends React.Component<Props, State> {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 (this.textAreaRef as any).focus()
                 this.setInputFocus(true)
+
+                selectCallback()
             },
         )
 

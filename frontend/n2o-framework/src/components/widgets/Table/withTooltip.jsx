@@ -13,18 +13,12 @@ export default function withTooltip(Component) {
      * @param hint подсказка - тело тултипа
      * @param tooltipFieldId ключ по которому резолвится Tooltip и берется hint
      */
-    return function Wrapper(props) {
+    function Wrapper(props) {
         const { model = {}, placement, tooltipFieldId } = props
         const hint = get(model, tooltipFieldId, null)
 
         if (!hint) {
             return <Component {...props} />
-        }
-
-        Wrapper.propTypes = {
-            model: PropTypes.object,
-            placement: PropTypes.object,
-            tooltipFieldId: PropTypes.string,
         }
 
         return (
@@ -33,4 +27,14 @@ export default function withTooltip(Component) {
             </Tooltip>
         )
     }
+
+    Wrapper.displayName = `withTooltip(${Component?.displayName || 'UnknownComponent'})`
+
+    Wrapper.propTypes = {
+        model: PropTypes.object,
+        placement: PropTypes.object,
+        tooltipFieldId: PropTypes.string,
+    }
+
+    return Wrapper
 }
