@@ -9,7 +9,7 @@
         <columns>
             <column text-field-id="test">
                 <edit format="formatTest" action-id="actionTest">
-                    <input-text id="test"/>
+                    <input-text/>
                 </edit>
             </column>
         </columns>

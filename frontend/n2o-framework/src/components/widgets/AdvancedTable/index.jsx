@@ -108,7 +108,7 @@ const AdvancedTableContainer = (props) => {
         ),
     }
 
-    const { setActiveModel, setMultiModel, unsetMultiModel } = useTableActionReactions(datasource)
+    const { setActiveModel, setMultiModel, unsetMultiModel, updateDatasource } = useTableActionReactions(datasource)
     const onFilter = useChangeFilter(datasource)
     const onRowClickAction = useOnActionMethod(id, tableConfig?.body?.row?.click)
     const actionListener = useCallback((action, payload) => {
@@ -160,9 +160,16 @@ const AdvancedTableContainer = (props) => {
 
                 break
             }
+
+            case TableActions.onUpdateModel: {
+                updateDatasource(payload.model, payload.rowIndex)
+
+                break
+            }
+
             default: { break }
         }
-    }, [onRowClickAction, setActiveModel, setMultiModel, unsetMultiModel, onFilter])
+    }, [setMultiModel, unsetMultiModel, setActiveModel, onRowClickAction, onFilter, updateDatasource])
     const onClickToolbarActionButton = useCallback((model) => { setActiveModel(model) }, [setActiveModel])
     const isNeedSetResolveModel = table.rowSelection !== Selection.None && defaultTo(table.autoSelect, true)
 

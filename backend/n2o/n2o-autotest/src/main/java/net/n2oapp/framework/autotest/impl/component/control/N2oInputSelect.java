@@ -39,9 +39,15 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public void shouldHaveValue(String value, Duration... duration) {
-        should(Condition.value(value), input(), duration);
+        if (input().exists())
+            should(Condition.value(value), input(), duration);
+        else
+            should(Condition.text(value), cellInputElement(), duration);
     }
 
+    protected SelenideElement cellInputElement() {
+        return element().$(".n2o-editable-cell .n2o-editable-cell-text");
+    }
     @Override
     public void shouldSelectedMulti(String[] values, Duration... duration) {
         if (values.length != 0) {

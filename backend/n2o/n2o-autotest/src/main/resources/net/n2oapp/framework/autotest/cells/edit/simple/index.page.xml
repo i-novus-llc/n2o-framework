@@ -2,12 +2,13 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Редактируемые ячейки">
     <table selection="none">
-        <datasource query-id="data" object-id="data" size="3"/>
+        <datasource query-id="test"/>
         <actions>
             <action id="update">
                 <invoke operation-id="update" message-on-success="false"/>
             </action>
         </actions>
+
         <columns>
             <column text-field-id="id" label="№"/>
             <column text-field-id="name" label="Фамилия И.О">
@@ -17,7 +18,17 @@
             </column>
             <column text-field-id="date">
                 <edit action-id="update" format="date DD.MM.YYYY">
-                    <date-time date-format="DD.MM.YYYY"/>
+                    <date-time/>
+                </edit>
+            </column>
+            <column text-field-id="gender.name" label="Пол">
+                <edit action-id="update">
+                    <input-select id="gender">
+                        <options>
+                            <option id="1" name="мужской"/>
+                            <option id="2" name="женский"/>
+                        </options>
+                    </input-select>
                 </edit>
             </column>
         </columns>

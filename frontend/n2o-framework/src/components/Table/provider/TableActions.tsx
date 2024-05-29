@@ -12,9 +12,35 @@ type TableActionContextValue = {
     setFocusOnRow(rowValue: string | null, model?: any): void
     onRowClick(model: any): void
     onChangeFilter(model: Record<string, any>): void
+    onUpdateModel(model: Record<string, any>, rowIndex: number): void
 }
 
-const tableActionsContext = createContext<TableActionContextValue | null>(null)
+const tableActionsContext = createContext<TableActionContextValue>({
+    toggleExpandRow() {
+        console.warn('Need an implementation method')
+    },
+    selectRows() {
+        console.warn('Need an implementation method')
+    },
+    deselectRows() {
+        console.warn('Need an implementation method')
+    },
+    selectSingleRow() {
+        console.warn('Need an implementation method')
+    },
+    setFocusOnRow() {
+        console.warn('Need an implementation method')
+    },
+    onRowClick() {
+        console.warn('Need an implementation method')
+    },
+    onChangeFilter() {
+        console.warn('Need an implementation method')
+    },
+    onUpdateModel() {
+        console.warn('Need an implementation method')
+    },
+})
 
 type TableActionsProviderProps = {
     actionListener(action: TableActions, payload: any): void
@@ -46,6 +72,9 @@ export const TableActionsProvider: FC<TableActionsProviderProps> = ({
         onChangeFilter(model) {
             actionListener(TableActions.onChangeFilter, { model })
         },
+        onUpdateModel(model, rowIndex) {
+            actionListener(TableActions.onUpdateModel, { model, rowIndex })
+        },
     }), [actionListener])
 
     return (
@@ -64,7 +93,7 @@ export const useTableActions = () => {
     const context = useContext(tableActionsContext)
 
     if (!context) {
-        throw Error('useTableActions must be used in TableActionsProvider')
+        console.warn('useTableActions must be used in TableActionsProvider')
     }
 
     return context

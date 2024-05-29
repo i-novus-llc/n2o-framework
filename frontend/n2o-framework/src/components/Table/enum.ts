@@ -28,5 +28,6 @@ export const enum TableActions {
     selectSingleRow = 'selectSingleRow',
     setFocusOnRow = 'setFocusOnRow',
     onRowClick = 'onRowClick',
-    onChangeFilter = 'onChangeFilter'
+    onChangeFilter = 'onChangeFilter',
+    onUpdateModel = 'onUpdateModel',
 }

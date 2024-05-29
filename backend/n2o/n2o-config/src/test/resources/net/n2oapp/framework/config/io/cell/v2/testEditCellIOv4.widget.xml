@@ -3,8 +3,8 @@
     <columns>
         <column text-field-id="test">
             <edit src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
-                      action-id="update" enabled="false" type="popup" format="test">
-                <input-text id="field"/>
+                      action-id="update" format="test" enabled="false">
+                <input-text/>
             </edit>
         </column>
     </columns>

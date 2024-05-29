@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Component;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.EditType;
 
 /**
  * Клиентская модель редактируемой ячейки таблицы
@@ -16,10 +15,6 @@ public class EditCell extends ActionCell {
     private Component control;
     @JsonProperty
     private String format;
-    @JsonProperty
-    private String editFieldId;
-    @JsonProperty
-    private EditType editType;
     @JsonProperty("editable")
     private Object enabled;
 }

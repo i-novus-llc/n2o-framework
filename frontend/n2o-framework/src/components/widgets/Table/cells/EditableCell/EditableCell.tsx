@@ -13,22 +13,21 @@ import { Control } from './Control'
 
 // eslint-disable-next-line
 const Cell: VFC<any> = (props) => {
-    const [isEditing, setIsEditing] = useState(false)
     const {
-        id,
         visible,
         control,
         editable,
         disabled,
         format,
         fieldKey,
-        editFieldId,
         model,
         callAction,
     } = props
-    const field = fieldKey || id
-    const viewValue = useMemo(() => get(model, field), [model, field])
-    const controlValue = useMemo(() => get(model, editFieldId), [model, editFieldId])
+
+    const controlId = control.id
+    const [isEditing, setIsEditing] = useState(false)
+    const viewValue = useMemo(() => get(model, fieldKey), [model, fieldKey])
+    const controlValue = useMemo(() => get(model, controlId), [model, controlId])
     const modelRef = useRef(model)
 
     modelRef.current = model
@@ -44,12 +43,12 @@ const Cell: VFC<any> = (props) => {
     }, [])
 
     const handleChange = useCallback((value) => {
-        if (model?.[editFieldId] === value) {
+        if (model?.[controlId] === value) {
             return
         }
 
-        callAction({ ...model, [editFieldId]: value })
-    }, [callAction, editFieldId, model])
+        callAction({ ...model, [controlId]: value })
+    }, [callAction, controlId, model])
 
     if (!visible) {
         return null
