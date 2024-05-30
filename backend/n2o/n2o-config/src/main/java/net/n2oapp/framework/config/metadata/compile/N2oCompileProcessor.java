@@ -382,24 +382,24 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         Optional<String> res = Optional.empty();
         if (context != null) {
             if (strongCompare) {
-                res = getValueIfPossible(link, res, kv -> kv.getValue().equalsNormalizedLink(link));
+                res = getValueIfPossible(res, kv -> kv.getValue().equalsNormalizedLink(link));
             } else {
-                res = getValueIfPossible(link, res, kv -> kv.getValue().equalsLink(link));
+                res = getValueIfPossible(res, kv -> kv.getValue().equalsLink(link));
             }
         }
         Object value = null;
         if (res.isPresent()) {
             value = params.get(res.get());
-        } else if (link instanceof ModelLink && ((ModelLink) link).getParam() != null) {
-            if (observable || !((ModelLink) link).isObserve())
-                value = params.get(((ModelLink) link).getParam());
+        } else if (link instanceof ModelLink && ((ModelLink) link).getParam() != null &&
+                (observable || !((ModelLink) link).isObserve())) {
+            value = params.get(((ModelLink) link).getParam());
         }
         if (value == null)
             return link;
         return createLink(link, value);
     }
 
-    private Optional<String> getValueIfPossible(BindLink link, Optional<String> res,
+    private Optional<String> getValueIfPossible(Optional<String> res,
                                                 Predicate<Map.Entry<String, ModelLink>> filter) {
         if (context.getQueryRouteMapping() != null) {
             res = context.getQueryRouteMapping().entrySet().stream().filter(filter).map(Map.Entry::getKey).findAny();
@@ -438,7 +438,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         if (link.getValue() == null) return link;
         if (link.getValue() instanceof Collection) {
             if (!link.getSubModelQuery().isMulti())
-                throw new N2oException("Sub model [" + link.getSubModelQuery().getSubModel() + "] must be multi for value " + link.getValue());
+                throw new N2oException("Sub model [" + link.getSubModelQuery().getFullName() + "] must be multi for value " + link.getValue());
             List<DataSet> dataList = new ArrayList<>();
             for (Object o : (List<?>) link.getValue()) {
                 if (o instanceof DefaultValues) {
