@@ -265,8 +265,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         SubModelsScope subModelsScope = p.getScope(SubModelsScope.class);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (subModelsScope != null && widgetScope != null && subModelsScope.get(widgetScope.getDatasourceId()) != null) {
+            String fullFieldId = getIdWithMultisetPrefix(fieldId, p);
             return subModelsScope.get(widgetScope.getDatasourceId()).stream()
-                    .filter(subModelQuery -> fieldId.equals(subModelQuery.getSubModel()))
+                    .filter(subModelQuery -> fullFieldId.equals(subModelQuery.getFullName()))
                     .findAny()
                     .orElse(null);
         }

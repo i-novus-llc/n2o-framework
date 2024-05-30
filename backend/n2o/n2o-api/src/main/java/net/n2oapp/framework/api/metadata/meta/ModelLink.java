@@ -83,9 +83,13 @@ public class ModelLink extends BindLink {
         String result = null;
         String fieldValue = getFieldValue();
         if (fieldId != null) result = fieldId;
-        if (fieldValue != null)
-            if (result != null) result += "." + fieldValue;
-            else result = fieldValue;
+        if (fieldValue != null) {
+            if (result != null) {
+                result += "." + fieldValue;
+            } else {
+                result = fieldValue;
+            }
+        }
         return result;
     }
 
@@ -126,7 +130,7 @@ public class ModelLink extends BindLink {
     @JsonIgnore
     public ModelLink getSubModelLink() {
         if (subModelQuery == null) return null;
-        return new ModelLink(getModel(), getDatasource(), subModelQuery.getSubModel());
+        return new ModelLink(getModel(), getDatasource(), subModelQuery.getFullName());
     }
 
 
@@ -149,12 +153,12 @@ public class ModelLink extends BindLink {
 
         String thisFieldId = this.getFieldId();
         if (this.getSubModelQuery() != null)
-            thisFieldId = this.getSubModelQuery().getSubModel();
+            thisFieldId = this.getSubModelQuery().getFullName();
         thisSubModelQueryLink = createBindLink(this.getModel(), this.getDatasource(), thisFieldId);
 
         String thatFieldId = that.getFieldId();
         if (that.getSubModelQuery() != null)
-            thatFieldId = that.getSubModelQuery().getSubModel();
+            thatFieldId = that.getSubModelQuery().getFullName();
         thatSubModelQueryLink = createBindLink(that.getModel(), that.getDatasource(), thatFieldId);
 
         if (thisSubModelQueryLink.length() > thatSubModelQueryLink.length())
