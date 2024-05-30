@@ -3,7 +3,7 @@
                  name="Моя страница"
                  object-id="object"
                  route="test"
-                 modal-size="lg" show-title="true">
+                 show-title="true">
     <search-bar class="n2o-search-bar" placeholder="Поиск"
                 search-filter-id="test1" search-widget-id="test2" search-param="q"/>
     <regions>

@@ -876,6 +876,10 @@
           "name": "Модальное окно"
         },
         {
+          "templateId": "uxcomponents/modal/modal_size",
+          "name": "Размеры модального окна"
+        },
+        {
           "templateId": "uxcomponents/modal/modal_with_scroll",
           "name": "Модальное окно со скроллом"
         },

@@ -3,7 +3,6 @@
                      name="Моя страница"
                      object-id="object"
                      route="test"
-                     modal-size="lg"
                      scroll-top-button="true">
     <top fixed="true" offset="100">
         <tabs>

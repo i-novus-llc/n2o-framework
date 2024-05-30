@@ -3,7 +3,7 @@
                  name="Моя страница"
                  object-id="object"
                  route="test"
-                 modal-size="lg" show-title="true">
+                 show-title="true">
     <datasources>
         <datasource id="ds1" query-id="test" object-id="test" default-values-mode="query">
             <dependencies>

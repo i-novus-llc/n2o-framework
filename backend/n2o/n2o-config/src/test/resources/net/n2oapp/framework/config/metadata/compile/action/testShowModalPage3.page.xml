@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      modal-size="sm" name="Модальное окно" object-id="testShowModal">
+      name="Модальное окно" object-id="testShowModal">
     <regions>
         <region place="left">
             <form id="main" default-values-query-id="testShowModal">

@@ -3,7 +3,7 @@
                  name="Моя страница"
                  object-id="object"
                  route="test"
-                 modal-size="lg" show-title="true">
+                 show-title="true">
     <left width="70%">
         <tabs>
             <tab>

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="name" show-title="true" title="title" html-title="tab title" datasource="ds1" model="datasource"
-      src="Page" class="testClass" route="/page" style="width:300px" modal-size="lg">
+      src="Page" class="testClass" route="/page" style="width:300px">
     <breadcrumbs>
         <crumb label="Первая страница" path="/"/>
         <crumb label="Вторая страница" path="/page2"/>

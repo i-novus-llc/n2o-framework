@@ -25,7 +25,6 @@ public abstract class AbstractPageElementIOv4<T extends N2oPage> implements Name
         p.attribute(e, "style", m::getStyle, m::setStyle);
         p.attribute(e, "object-id", m::getObjectId, m::setObjectId);
         p.attribute(e, "route", m::getRoute, m::setRoute);
-        p.attribute(e, "modal-size", m::getModalSize, m::setModalSize);
         p.attributeBoolean(e, "show-title", m::getShowTitle, m::setShowTitle);
         p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModel.class);
         p.hasElement(e, "breadcrumbs", m::getHasBreadcrumbs, m::setHasBreadcrumbs);

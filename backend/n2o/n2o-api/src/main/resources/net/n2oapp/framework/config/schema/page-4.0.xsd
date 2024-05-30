@@ -53,11 +53,6 @@
                 <xs:documentation>URL страницы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="modal-size" type="ac:modalSize">
-            <xs:annotation>
-                <xs:documentation>Размер модального окна, если страница открыта в модальном окне.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="show-title" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Отображение заголовка страницы</xs:documentation>
@@ -138,12 +133,6 @@
                 <xs:attribute name="route" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL страницы.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="modal-size" type="ac:modalSize">
-                    <xs:annotation>
-                        <xs:documentation>Размер модального окна, если страница открыта в модальном окне.
-                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="show-title" type="xs:boolean" default="false">
