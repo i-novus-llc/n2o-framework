@@ -25,7 +25,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class QueryCompileTest extends SourceCompileTestBase {
+class QueryCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach
@@ -89,7 +89,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
         CompileContext compile = builder.route("/testSubModel/w", CompiledQuery.class, null);
         CompiledQuery query = pipeline.get((QueryContext) compile);
         assertThat(query.getSubModelQueries().size(), is(1));
-        assertThat(query.getSubModelQueries().get(0).getSubModel(), is("field"));
+        assertThat(query.getSubModelQueries().get(0).getFullName(), is("field"));
         assertThat(query.getSubModelQueries().get(0).getQueryId(), is("testSubModel"));
     }
 

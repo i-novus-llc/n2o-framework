@@ -36,10 +36,11 @@ public class CheckboxGroupCompiler extends ListControlCompiler<CheckboxGroup, N2
     }
 
     @Override
-    protected ModelLink compileLinkOnSet(StandardField<CheckboxGroup> control, N2oCheckboxGroup source, WidgetScope widgetScope) {
+    protected ModelLink compileLinkOnSet(StandardField<CheckboxGroup> control, N2oCheckboxGroup source,
+                                         WidgetScope widgetScope, CompileProcessor p) {
         ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getClientDatasourceId());
         onSet.setParam(source.getParam());
-        onSet.setSubModelQuery(createSubModel(source, control.getControl().getData()));
+        onSet.setSubModelQuery(createSubModel(source, control.getControl().getData(), p));
         onSet.setValue(ScriptProcessor.resolveExpression(String.format("{%s*.id}", source.getId())));
         return onSet;
     }

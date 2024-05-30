@@ -148,12 +148,12 @@ class PageBinderTest extends SourceCompileTestBase {
             List<SubModelQuery> subModelQueries = invocation.getArgument(0);
             DataSet data = invocation.getArgument(1);
             if (subModelQueries.get(0).isMulti()) {
-                List<DataSet> list = (List<DataSet>) data.get(subModelQueries.get(0).getSubModel());
+                List<DataSet> list = (List<DataSet>) data.get(subModelQueries.get(0).getFullName());
                 for (DataSet item : list) {
                     item.put("name", "test" + item.get("id"));
                 }
             } else {
-                data.put(subModelQueries.get(0).getSubModel() + ".name", "test" + data.get(subModelQueries.get(0).getSubModel() + ".id"));
+                data.put(subModelQueries.get(0).getFullName() + ".name", "test" + data.get(subModelQueries.get(0).getSubModel() + ".id"));
             }
             return null;
         }).when(subModelsProcessor).executeSubModels(anyList(), any());
