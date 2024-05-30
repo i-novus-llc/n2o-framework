@@ -29,7 +29,7 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ValidationProcessorTest {
+class ValidationProcessorTest {
 
     /**
      * Проверка сортировки валидаций. Заданы все типы SeverityType, Field/Widget, тип валидации
@@ -448,6 +448,11 @@ public class ValidationProcessorTest {
         DataSet ds1 = new DataSet();
         ds1.put("id", null);
         ds1.put("name", "Ivan");
+        DataList orgs = new DataList();
+        DataSet org = new DataSet();
+        org.put("id", 11);
+        orgs.add(org);
+        ds1.put("orgs", orgs);
         DataSet ds2 = new DataSet();
         ds2.put("id", 1);
         ds2.put("name", "Peter");
@@ -469,14 +474,22 @@ public class ValidationProcessorTest {
         Validation mandatory2 = mandatoryValidation("members[index].name", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
         ((MandatoryValidation) mandatory2).setField(f2);
 
+        StandardField f3 = new StandardField();
+        f3.setControl(new InputText());
+        f3.getControl().setId("orgs");
+        Validation mandatory3 = mandatoryValidation("members[index].orgs[$index_1].name", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
+        ((MandatoryValidation) mandatory3).setField(f3);
+
         CompiledObject.Operation operation = new CompiledObject.Operation();
-        operation.setValidationList(Arrays.asList(mandatory1, mandatory2));
+        operation.setValidationList(Arrays.asList(mandatory1, mandatory2, mandatory3));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
 
         List<FailInfo> fails = processor.validate(info, beforeOperation);
-        assertThat(fails.size(), is(1));
+        assertThat(fails.size(), is(2));
         assertThat(fails.get(0).getFieldId(), is("members[0].id"));
         assertThat(fails.get(0).getMessage(), is("Field members[0].id required"));
+        assertThat(fails.get(1).getFieldId(), is("members[0].orgs[0].name"));
+        assertThat(fails.get(1).getMessage(), is("Field members[0].orgs[0].name required"));
     }
 
     @Test
