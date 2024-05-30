@@ -31,6 +31,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -180,6 +181,7 @@ public class N2oEngineConfiguration {
         SpringRestDataProviderEngine springRestDataProviderEngine = new SpringRestDataProviderEngine(
                 restTemplate(builder, httpMessageConverter(restObjectMapper)),
                 restObjectMapper, loggingHandlers);
+
         springRestDataProviderEngine.setBaseRestUrl(baseRestUrl);
         return springRestDataProviderEngine;
     }
@@ -223,7 +225,11 @@ public class N2oEngineConfiguration {
     }
 
     private RestTemplate restTemplate(RestTemplateBuilder builder, MappingJackson2HttpMessageConverter converter) {
-        return builder.messageConverters(converter).build();
+        DefaultUriBuilderFactory builderFactory = new DefaultUriBuilderFactory();
+        builderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.TEMPLATE_AND_VALUES);
+        RestTemplate restTemplate = builder.messageConverters(converter).build();
+        restTemplate.setUriTemplateHandler(builderFactory);
+        return restTemplate;
     }
 
 }
