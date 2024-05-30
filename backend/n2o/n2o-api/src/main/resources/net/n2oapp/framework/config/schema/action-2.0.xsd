@@ -418,7 +418,9 @@
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="sm"/>
+            <xs:enumeration value="md"/>
             <xs:enumeration value="lg"/>
+            <xs:enumeration value="xl"/>
         </xs:restriction>
     </xs:simpleType>
 

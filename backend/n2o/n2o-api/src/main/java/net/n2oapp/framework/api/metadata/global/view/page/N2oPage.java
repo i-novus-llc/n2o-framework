@@ -27,7 +27,6 @@ public abstract class N2oPage extends N2oMetadata implements NameAware, Extensio
     private String src;
     private String objectId;
     private String route;
-    private String modalSize;
     private Boolean showTitle;
     private String cssClass;
     private String style;
