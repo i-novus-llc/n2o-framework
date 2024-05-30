@@ -47,12 +47,12 @@ public class ConditionValidation extends Validation {
         return Arrays.stream(expressionOn).collect(Collectors.toSet());
     }
 
-    private DataSet getCopiedDataSet (DataSet dataSet, DomainProcessor domainProcessor) {
+    private DataSet getCopiedDataSet(DataSet dataSet, DomainProcessor domainProcessor) {
         DataSet copiedDataSet = new DataSet(dataSet);
         getExpressionsOn().forEach(key -> {
             Object value = dataSet.get(key);
             copiedDataSet.put(key, (value instanceof Date) ?
-                domainProcessor.serialize(value) : value);
+                    domainProcessor.serialize(value) : value);
         });
         return copiedDataSet;
     }
