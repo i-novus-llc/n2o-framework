@@ -17,6 +17,7 @@ import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
+import net.n2oapp.framework.config.metadata.compile.fieldset.MultiFieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -47,7 +48,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setCaching(castDefault(source.getCache(), () -> p.resolve(property("n2o.api.control.list.cache"), Boolean.class)));
         listControl.setEnabledFieldId(source.getEnabledFieldId());
         listControl.setBadge(BadgeUtil.compileReferringBadge(source, PROPERTY_PREFIX, p));
-        listControl.setSize(castDefault(listControl.getSize(), () -> source.getSize(),
+        listControl.setSize(castDefault(listControl.getSize(), source::getSize,
                 () -> p.resolve(property("n2o.api.control.list.size"), Integer.class)));
         initSubModel(source, listControl.getData(), p);
         return compileStandardField(listControl, source, context, p);
@@ -86,17 +87,17 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         String id = control.getId() + ".id";
         WidgetScope modelsScope = p.getScope(WidgetScope.class);
         if (modelsScope != null) {
-            ModelLink onSet = compileLinkOnSet(control, source, modelsScope);
+            ModelLink onSet = compileLinkOnSet(control, source, modelsScope, p);
             ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getClientDatasourceId(), modelsScope.getModel(), id,
                     colon(source.getParam()));
             paramScope.addQueryMapping(source.getParam(), onGet, onSet);
         }
     }
 
-    protected ModelLink compileLinkOnSet(StandardField<T> control, S source, WidgetScope widgetScope) {
+    protected ModelLink compileLinkOnSet(StandardField<T> control, S source, WidgetScope widgetScope, CompileProcessor p) {
         ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getClientDatasourceId(), control.getId());
         onSet.setParam(source.getParam());
-        onSet.setSubModelQuery(createSubModel(source, control.getControl().getData()));
+        onSet.setSubModelQuery(createSubModel(source, control.getControl().getData(),p));
         onSet.setValue("`id`");
         return onSet;
     }
@@ -127,11 +128,13 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         if (scope == null || widgetScope == null)
             return;
         if (source.getQueryId() != null || data != null)
-            scope.add(createSubModel(source, data), widgetScope.getDatasourceId());
+            scope.add(createSubModel(source, data, p), widgetScope.getDatasourceId());
     }
 
-    protected SubModelQuery createSubModel(N2oListField item, List<Map<String, Object>> data) {
+    protected SubModelQuery createSubModel(N2oListField item, List<Map<String, Object>> data, CompileProcessor p) {
+        MultiFieldSetScope multiFieldSetScope = p.getScope(MultiFieldSetScope.class);
         return new SubModelQuery(
+                multiFieldSetScope == null ? null : multiFieldSetScope.getPathWithIndexes(),
                 item.getId(),
                 item.getQueryId(),
                 item.getValueFieldId() != null ? item.getValueFieldId() : "id",

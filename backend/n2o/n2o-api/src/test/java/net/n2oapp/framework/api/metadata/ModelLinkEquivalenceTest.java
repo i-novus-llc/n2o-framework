@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ModelLinkEquivalenceTest {
+class ModelLinkEquivalenceTest {
 
     @Test
     void testSimple() {
@@ -19,42 +19,37 @@ public class ModelLinkEquivalenceTest {
 
     @Test
     void testEquals() {
-        ModelLink withSubModelQuery1 = new ModelLink(ReduxModel.resolve, "widget", "field.id");
-        SubModelQuery subModelQuery1 = new SubModelQuery("field", "queryId", "id", "name", false, null);
+        ModelLink withSubModelQuery1 = new ModelLink(ReduxModel.resolve, "widget", "multi[index].field.id");
+        SubModelQuery subModelQuery1 = new SubModelQuery("multi[index]", "field", "queryId", "id", "name", false,null);
         withSubModelQuery1.setSubModelQuery(subModelQuery1);
 
         ModelLink withSubModelQuery2 = new ModelLink(ReduxModel.resolve, "widget");
         SubModelQuery subModelQuery2 = new SubModelQuery(null, "queryId", "id", "name", false, null);
-        withSubModelQuery2.setValue("`field.id`");
+        withSubModelQuery2.setValue("`multi[index].field.id`");
         withSubModelQuery2.setSubModelQuery(subModelQuery2);
 
         ModelLink modelLink1 = new ModelLink(ReduxModel.resolve, "widget");
-        modelLink1.setValue("`field.name`");
-        ModelLink modelLink2 = new ModelLink(ReduxModel.resolve, "widget", "field");
-        ModelLink modelLink3 = new ModelLink(ReduxModel.resolve, "widget", "field.name");
-        ModelLink modelLink4 = new ModelLink(ReduxModel.resolve, "widget", "field");
+        modelLink1.setValue("`multi[index].field.name`");
+        ModelLink modelLink2 = new ModelLink(ReduxModel.resolve, "widget", "multi[index].field");
+        ModelLink modelLink3 = new ModelLink(ReduxModel.resolve, "widget", "multi[index].field.name");
 
         assertFalse(withSubModelQuery1.equalsLink(modelLink1));
         assertTrue(withSubModelQuery1.equalsLink(modelLink2));
         assertTrue(withSubModelQuery1.equalsLink(modelLink3));
-        assertTrue(withSubModelQuery1.equalsLink(modelLink4));
 
         assertTrue(withSubModelQuery2.equalsLink(modelLink1));
         assertFalse(withSubModelQuery2.equalsLink(modelLink2));
         assertFalse(withSubModelQuery2.equalsLink(modelLink3));
-        assertFalse(withSubModelQuery2.equalsLink(modelLink4));
 
         assertFalse(modelLink1.equalsLink(withSubModelQuery1));
         assertTrue(modelLink2.equalsLink(withSubModelQuery1));
         assertTrue(modelLink3.equalsLink(withSubModelQuery1));
-        assertTrue(modelLink4.equalsLink(withSubModelQuery1));
 
         assertTrue(modelLink1.equalsLink(withSubModelQuery2));
         assertFalse(modelLink2.equalsLink(withSubModelQuery2));
         assertFalse(modelLink3.equalsLink(withSubModelQuery2));
-        assertFalse(modelLink4.equalsLink(withSubModelQuery2));
 
-        assertTrue(modelLink3.equalsLink(modelLink4));
+        assertTrue(modelLink3.equalsLink(modelLink2));
     }
 
     @Test
@@ -62,10 +57,6 @@ public class ModelLinkEquivalenceTest {
         ModelLink withSubModelQuery1 = new ModelLink(ReduxModel.resolve, "widget", "field.id");
         SubModelQuery subModelQuery1 = new SubModelQuery("field", "queryId", "id", "name", false, null);
         withSubModelQuery1.setSubModelQuery(subModelQuery1);
-
-        ModelLink withSubModelQuery2 = new ModelLink(ReduxModel.resolve, "widget");
-        SubModelQuery subModelQuery2 = new SubModelQuery(null, "queryId", "id", "name", false, null);
-        withSubModelQuery2.setSubModelQuery(subModelQuery2);
 
         ModelLink withSubModelQuery3 = new ModelLink(ReduxModel.resolve, "widget", "id");
         SubModelQuery subModelQuery3 = new SubModelQuery(null, "queryId", null, null, false, null);
