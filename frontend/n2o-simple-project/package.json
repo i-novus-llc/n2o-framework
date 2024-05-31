@@ -17,7 +17,7 @@
     "redux-thunk": "^2.4.2"
   },
   "devDependencies": {
-    "react-scripts": "4.0.1",
+    "react-scripts": "5.0.0",
     "rimraf": "^3.0.2",
     "typescript": "*",
     "vite": "^4.3.9",
