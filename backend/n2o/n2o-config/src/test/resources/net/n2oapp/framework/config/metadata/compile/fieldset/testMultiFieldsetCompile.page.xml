@@ -31,7 +31,16 @@
                     <input-text id="input_2" label="input 2 valid"/>
                 </multi-set>
             </multi-set>
-            <multi-set id="testBadge1" label="testBadge" badge="{test}"/>
+            <multi-set id="testBadge1" label="testBadge" badge="{test}"
+                       children-label="{label1}"
+                       first-children-label="{label2}"
+                       add-label="{label3}"
+                       remove-all-label="{label4}"
+                       can-add="{value == 1}"
+                       can-copy="{value == 2}"
+                       can-remove="{value == 3}"
+                       can-remove-all="{value == 4}"
+                       can-remove-first="{value == 5}"/>
             <multi-set id="testBadge2" label="testBadge" badge="text" badge-position="left" badge-shape="circle" badge-image="test" badge-image-position="right" badge-image-shape="square"/>
         </fields>
     </form>

@@ -711,6 +711,10 @@
           "name": "MultiFieldSetAT. checkUpdateParentIndex"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/resolve_attributes",
+          "name": "MultiFieldSetAT. testResolveAttributes"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/fieldset/nested_multiset/indexes_in_labels",
           "name": "NestedMultiFieldSetAT. checkIndexesInLabels"
         },

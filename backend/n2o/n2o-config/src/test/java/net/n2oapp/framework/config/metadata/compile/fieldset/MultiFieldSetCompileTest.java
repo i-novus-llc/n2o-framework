@@ -91,6 +91,15 @@ class MultiFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(multiFieldSet.getBadge().getShape().getId(), is("square"));
         assertThat(multiFieldSet.getBadge().getImagePosition().getId(), is("left"));
         assertThat(multiFieldSet.getBadge().getImageShape().getId(), is("circle"));
+        assertThat(multiFieldSet.getChildrenLabel(), is("`label1`"));
+        assertThat(multiFieldSet.getFirstChildrenLabel(), is("`label2`"));
+        assertThat(multiFieldSet.getAddButtonLabel(), is("`label3`"));
+        assertThat(multiFieldSet.getRemoveAllButtonLabel(), is("`label4`"));
+        assertThat(multiFieldSet.getNeedAddButton(), is("`value == 1`"));
+        assertThat(multiFieldSet.getNeedCopyButton(), is("`value == 2`"));
+        assertThat(multiFieldSet.getNeedRemoveButton(), is("`value == 3`"));
+        assertThat(multiFieldSet.getNeedRemoveAllButton(), is("`value == 4`"));
+        assertThat(multiFieldSet.getCanRemoveFirstItem(), is("`value == 5`"));
 
         multiFieldSet = (MultiFieldSet) fieldsets.get(4);
         assertThat(multiFieldSet.getBadge().getText(), is("text"));
