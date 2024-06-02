@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 /**
  * Автотест для проверки вложенного мультисета
  */
-public class NestedMultiFieldSetAT extends AutoTestBase {
+class NestedMultiFieldSetAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -111,7 +111,7 @@ public class NestedMultiFieldSetAT extends AutoTestBase {
         nestedMultiset.item(0).fields().field("index").control(InputText.class).shouldHaveValue("0");
         String nestedChildItemZeroId = nestedMultiset.item(0).fields().field("id").control(InputText.class).getValue();
         nestedMultiset.item(0).fields().field("name").control(InputText.class).shouldHaveValue("childTest");
-//        nestedMultiset.item(0).fields().field("type").control(Select.class).shouldHaveValue("childType1");
+        nestedMultiset.item(0).fields().field("type").control(Select.class).shouldHaveValue("childType1");
         nestedMultiset.item(0).fields().field("date").control(DateInterval.class).beginShouldHaveValue("01.01.2024");
         nestedMultiset.item(0).fields().field("date").control(DateInterval.class).endShouldHaveValue("31.01.2024");
 
@@ -121,7 +121,7 @@ public class NestedMultiFieldSetAT extends AutoTestBase {
         nestedMultiset.item(1).fields().field("index").control(InputText.class).shouldHaveValue("1");
         String nestedChildItemOneId = nestedMultiset.item(1).fields().field("id").control(InputText.class).getValue();
         nestedMultiset.item(1).fields().field("name").control(InputText.class).shouldHaveValue("childTest");
-//        nestedMultiset.item(1).fields().field("type").control(Select.class).shouldHaveValue("childType1");
+        nestedMultiset.item(1).fields().field("type").control(Select.class).shouldHaveValue("childType1");
         nestedMultiset.item(1).fields().field("date").control(DateInterval.class).beginShouldHaveValue("01.01.2024");
         nestedMultiset.item(1).fields().field("date").control(DateInterval.class).endShouldHaveValue("31.01.2024");
 
@@ -147,7 +147,7 @@ public class NestedMultiFieldSetAT extends AutoTestBase {
         secondNestedMultiset.item(0).fields().field("index").control(InputText.class).shouldHaveValue("0");
         String secondNestedChildItemZeroId = secondNestedMultiset.item(0).fields().field("id").control(InputText.class).getValue();
         secondNestedMultiset.item(0).fields().field("name").control(InputText.class).shouldHaveValue("childTest");
-//        secondNestedMultiset.item(0).fields().field("type").control(Select.class).shouldHaveValue("childType1");
+        secondNestedMultiset.item(0).fields().field("type").control(Select.class).shouldHaveValue("childType1");
         secondNestedMultiset.item(0).fields().field("date").control(DateInterval.class).beginShouldHaveValue("01.01.2024");
         secondNestedMultiset.item(0).fields().field("date").control(DateInterval.class).endShouldHaveValue("31.01.2024");
 
@@ -157,7 +157,7 @@ public class NestedMultiFieldSetAT extends AutoTestBase {
         secondNestedMultiset.item(1).fields().field("index").control(InputText.class).shouldHaveValue("1");
         String secondNestedChildItemOneId = nestedMultiset.item(1).fields().field("id").control(InputText.class).getValue();
         secondNestedMultiset.item(1).fields().field("name").control(InputText.class).shouldHaveValue("childTest");
-//        secondNestedMultiset.item(1).fields().field("type").control(Select.class).shouldHaveValue("childType1");
+        secondNestedMultiset.item(1).fields().field("type").control(Select.class).shouldHaveValue("childType1");
         secondNestedMultiset.item(1).fields().field("date").control(DateInterval.class).beginShouldHaveValue("01.01.2024");
         secondNestedMultiset.item(1).fields().field("date").control(DateInterval.class).endShouldHaveValue("31.01.2024");
 
