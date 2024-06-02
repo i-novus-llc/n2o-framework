@@ -6,6 +6,7 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.FieldSets;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
@@ -17,6 +18,7 @@ import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -54,7 +56,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testAdd() {
+    void testAdd() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/add/index.page.xml"));
 
         page = open(SimplePage.class);
@@ -103,7 +105,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testRemove() {
+    void testRemove() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/remove/index.page.xml"));
 
         page = open(SimplePage.class);
@@ -177,7 +179,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testCopy() {
+    void testCopy() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/copy/index.page.xml"));
 
         page = open(SimplePage.class);
@@ -221,7 +223,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testNestedMultiFieldSet() {
+    void testNestedMultiFieldSet() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/nested/index.page.xml"));
 
         page = open(SimplePage.class);
@@ -269,7 +271,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testQueryData() {
+    void testQueryData() {
         setJsonPath("net/n2oapp/framework/autotest/fieldset/multiset/query_data");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/query_data/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/query_data/test.query.xml"));
@@ -314,7 +316,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testDependencies() {
+    void testDependencies() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/dependencies/index.page.xml"));
 
         page = open(SimplePage.class);
@@ -350,7 +352,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testVisible() {
+    void testVisible() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/visible/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -373,7 +375,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testEnabled() {
+    void testEnabled() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/enabled/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -395,7 +397,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testModalToModal() {
+    void testModalToModal() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/modal_to_modal/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/modal_to_modal/update.page.xml"));
 
@@ -457,7 +459,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testFiltering() {
+    void testFiltering() {
         setJsonPath("net/n2oapp/framework/autotest/fieldset/multiset/filtering");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/filtering/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/filtering/test.query.xml"));
@@ -494,10 +496,10 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testValidation() {
+    void testValidation() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validation/index.page.xml"));
 
-        Configuration.headless=false;
+        Configuration.headless = false;
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -549,7 +551,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testValidationOnClear() {
+    void testValidationOnClear() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validation_when_clean/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -613,7 +615,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testCreateMany() {
+    void testCreateMany() {
         setJsonPath("net/n2oapp/framework/autotest/fieldset/multiset/create_many");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/create_many/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/create_many/add.page.xml"),
@@ -646,7 +648,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testLabelResolve() {
+    void testLabelResolve() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/label_resolve/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);
@@ -676,7 +678,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void deleteItemWithSetValue() {
+    void deleteItemWithSetValue() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/set_value/index.page.xml"));
 
         page = open(SimplePage.class);
@@ -703,7 +705,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void setRowIndexInFields() {
+    void setRowIndexInFields() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/set_row_index/index.page.xml"));
 
         page = open(SimplePage.class);
@@ -755,7 +757,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void checkUpdateParentIndex() {
+    void checkUpdateParentIndex() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/update_parent_index/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);
@@ -788,5 +790,64 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         zero.shouldHaveValue("0");
         one.shouldHaveValue("1");
+    }
+
+    @Test
+    void testResolveAttributes() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/resolve_attributes/index.page.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
+
+        Fields fields = form.fieldsets().fieldset(0, SimpleFieldSet.class).fields();
+        Checkbox canAdd = fields.field("canAdd").control(Checkbox.class);
+        Checkbox canCopy = fields.field("canCopy").control(Checkbox.class);
+        Checkbox canRemove = fields.field("canRemove").control(Checkbox.class);
+        Checkbox canRemoveFirst = fields.field("canRemoveFirst").control(Checkbox.class);
+        Checkbox canRemoveAll = fields.field("canRemoveAll").control(Checkbox.class);
+        InputText labelValue = fields.field("labelValue").control(InputText.class);
+
+        MultiFieldSet fieldset = form.fieldsets().fieldset(1, MultiFieldSet.class);
+
+        canAdd.shouldNotBeChecked();
+        fieldset.shouldNotHaveAddButton();
+        canAdd.setChecked(true);
+        fieldset.shouldHaveAddButton();
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+
+        canCopy.shouldNotBeChecked();
+        fieldset.item(0).shouldNotHaveCopyButton();
+        fieldset.item(1).shouldNotHaveCopyButton();
+        canCopy.setChecked(true);
+        fieldset.item(0).shouldHaveCopyButton();
+        fieldset.item(1).shouldHaveCopyButton();
+
+        canRemove.shouldNotBeChecked();
+        canRemoveFirst.shouldNotBeChecked();
+        fieldset.item(0).shouldNotHaveRemoveButton();
+        fieldset.item(1).shouldNotHaveRemoveButton();
+        canRemove.setChecked(true);
+        fieldset.item(0).shouldNotHaveRemoveButton();
+        fieldset.item(1).shouldHaveRemoveButton();
+        canRemoveFirst.setChecked(true);
+        fieldset.item(0).shouldHaveRemoveButton();
+
+        canRemoveAll.shouldNotBeChecked();
+        fieldset.shouldNotHaveRemoveAllButton();
+        canRemoveAll.setChecked(true);
+        fieldset.shouldHaveRemoveAllButton();
+
+        labelValue.shouldHaveValue("defaultValue");
+        fieldset.item(0).shouldHaveLabel("defaultValue");
+        fieldset.item(1).shouldHaveLabel("defaultValue");
+        fieldset.addButtonShouldHaveLabel("defaultValue");
+        fieldset.removeAllButtonShouldHaveLabel("defaultValue");
+        labelValue.setValue("newValue");
+        fieldset.item(0).shouldHaveLabel("newValue");
+        fieldset.item(1).shouldHaveLabel("newValue");
+        fieldset.addButtonShouldHaveLabel("newValue");
+        fieldset.removeAllButtonShouldHaveLabel("newValue");
     }
 }

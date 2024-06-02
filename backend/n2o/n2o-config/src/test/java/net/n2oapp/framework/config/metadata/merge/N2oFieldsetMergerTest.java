@@ -109,11 +109,11 @@ public class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getChildrenLabel(), is("childrenLabel"));
         assertThat(fieldSet.getFirstChildrenLabel(), is("firstChildrenLabel"));
         assertThat(fieldSet.getRemoveAllButtonLabel(), is("removeAllLabel"));
-        assertThat(fieldSet.getCanAdd(), is(false));
-        assertThat(fieldSet.getCanCopy(), is(false));
-        assertThat(fieldSet.getCanRemove(), is(false));
-        assertThat(fieldSet.getCanRemoveAll(), is(false));
-        assertThat(fieldSet.getCanRemoveFirst(), is(false));
+        assertThat(fieldSet.getCanAdd(), is("false"));
+        assertThat(fieldSet.getCanCopy(), is("false"));
+        assertThat(fieldSet.getCanRemove(), is("false"));
+        assertThat(fieldSet.getCanRemoveAll(), is("false"));
+        assertThat(fieldSet.getCanRemoveFirst(), is("false"));
         assertThat(fieldSet.getItems().length, is(1));
         assertThat(((N2oField) fieldSet.getItems()[0]).getId(), is("parentField"));
 
@@ -125,11 +125,11 @@ public class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getChildrenLabel(), is("p_childrenLabel"));
         assertThat(fieldSet.getFirstChildrenLabel(), is("p_firstChildrenLabel"));
         assertThat(fieldSet.getRemoveAllButtonLabel(), is("p_removeAllLabel"));
-        assertThat(fieldSet.getCanAdd(), is(true));
-        assertThat(fieldSet.getCanCopy(), is(true));
-        assertThat(fieldSet.getCanRemove(), is(true));
-        assertThat(fieldSet.getCanRemoveAll(), is(true));
-        assertThat(fieldSet.getCanRemoveFirst(), is(true));
+        assertThat(fieldSet.getCanAdd(), is("true"));
+        assertThat(fieldSet.getCanCopy(), is("true"));
+        assertThat(fieldSet.getCanRemove(), is("true"));
+        assertThat(fieldSet.getCanRemoveAll(), is("true"));
+        assertThat(fieldSet.getCanRemoveFirst(), is("true"));
         assertThat(fieldSet.getItems().length, is(1));
         assertThat(((N2oField) fieldSet.getItems()[0]).getId(), is("parentField"));
     }
