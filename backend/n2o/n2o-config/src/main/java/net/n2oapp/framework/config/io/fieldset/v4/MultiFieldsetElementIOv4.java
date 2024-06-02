@@ -18,11 +18,11 @@ public class MultiFieldsetElementIOv4 extends FieldsetElementIOv4<N2oMultiFieldS
         p.attribute(e, "first-children-label", fs::getFirstChildrenLabel, fs::setFirstChildrenLabel);
         p.attribute(e, "add-label", fs::getAddButtonLabel, fs::setAddButtonLabel);
         p.attribute(e, "remove-all-label", fs::getRemoveAllButtonLabel, fs::setRemoveAllButtonLabel);
-        p.attributeBoolean(e, "can-remove-first", fs::getCanRemoveFirst, fs::setCanRemoveFirst);
-        p.attributeBoolean(e, "can-add", fs::getCanAdd, fs::setCanAdd);
-        p.attributeBoolean(e, "can-remove", fs::getCanRemove, fs::setCanRemove);
-        p.attributeBoolean(e, "can-remove-all", fs::getCanRemoveAll, fs::setCanRemoveAll);
-        p.attributeBoolean(e, "can-copy", fs::getCanCopy, fs::setCanCopy);
+        p.attribute(e, "can-remove-first", fs::getCanRemoveFirst, fs::setCanRemoveFirst);
+        p.attribute(e, "can-add", fs::getCanAdd, fs::setCanAdd);
+        p.attribute(e, "can-remove", fs::getCanRemove, fs::setCanRemove);
+        p.attribute(e, "can-remove-all", fs::getCanRemoveAll, fs::setCanRemoveAll);
+        p.attribute(e, "can-copy", fs::getCanCopy, fs::setCanCopy);
     }
 
     @Override

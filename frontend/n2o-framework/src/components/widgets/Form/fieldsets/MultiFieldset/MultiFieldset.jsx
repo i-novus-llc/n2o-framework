@@ -13,34 +13,42 @@ import { RowProvider } from '../../../../../core/datasource/ArrayField/RowProvid
 import { MultiFieldsetItem } from './MultiFieldsetItem'
 
 function MultiFieldset({
-    name,
-    enabled: enabledExpression,
     activeModel,
-    label,
-    help,
-    canRemoveFirstItem = false,
-    generatePrimaryKey,
-    primaryKey = 'id',
-    firstChildrenLabel,
+    addButtonLabel: addButtonLabelExpression,
+    canRemoveFirstItem: canRemoveFirstItemExpression,
     childrenLabel,
-    needAddButton,
-    addButtonLabel,
-    removeAllButtonLabel,
-    needRemoveAllButton,
+    enabled: enabledExpression,
+    firstChildrenLabel,
+    generatePrimaryKey,
+    help,
+    label,
+    name,
+    needAddButton: needToAddButtonExpression,
+    needRemoveAllButton: needToRemoveAllButtonsExpression,
+    primaryKey = 'id',
+    removeAllButtonLabel: removeAllButtonsLabelExpression,
     ...props
 }) {
     const isEnabled = useResolved(
         isNil(enabledExpression) ? true : enabledExpression,
         activeModel,
     )
+
+    const labelAddButton = useResolved(addButtonLabelExpression, activeModel)
+    const labelRemoveAllButtons = useResolved(removeAllButtonsLabelExpression, activeModel)
+
+    const isFirstItemCanBeRemoved = useResolved(canRemoveFirstItemExpression, activeModel)
+    const isNeedToAddButton = useResolved(needToAddButtonExpression, activeModel)
+    const isNeedToRemoveAllButtons = useResolved(needToRemoveAllButtonsExpression, activeModel)
+
     const { fields, append, remove, copy } = useFieldArray({
         name,
         primaryKey: generatePrimaryKey ? primaryKey : undefined,
     })
 
     const onRemoveAll = useCallback(() => {
-        remove(canRemoveFirstItem ? 0 : 1, fields.length)
-    }, [canRemoveFirstItem, fields.length, remove])
+        remove(isFirstItemCanBeRemoved ? 0 : 1, fields.length)
+    }, [isFirstItemCanBeRemoved, fields.length, remove])
 
     return (
         <ArrayFieldProvider>
@@ -57,29 +65,29 @@ function MultiFieldset({
                             onCopyField={copy}
                             parentName={name}
                             enabled={isEnabled}
-                            canRemoveFirstItem={canRemoveFirstItem}
+                            canRemoveFirstItem={isFirstItemCanBeRemoved}
                         />
                     </RowProvider>
                 ))}
                 <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--common">
-                    {needAddButton && (
+                    {isNeedToAddButton && (
                         <Button
                             className="n2o-multi-fieldset__add"
                             onClick={append}
                             disabled={!isEnabled}
                         >
                             <i className="fa fa-plus mr-1" />
-                            {addButtonLabel}
+                            {labelAddButton}
                         </Button>
                     )}
-                    {!isEmpty(fields) && needRemoveAllButton && (
+                    {!isEmpty(fields) && isNeedToRemoveAllButtons && (
                         <Button
                             className="n2o-multi-fieldset__remove-all"
                             onClick={onRemoveAll}
                             disabled={!isEnabled}
                         >
                             <i className="fa fa-trash mr-1" />
-                            {removeAllButtonLabel}
+                            {labelRemoveAllButtons}
                         </Button>
                     )}
                 </div>
@@ -89,29 +97,29 @@ function MultiFieldset({
 }
 
 MultiFieldset.propTypes = {
-    name: PropTypes.string,
-    enabled: PropTypes.string,
-    visible: PropTypes.string,
     activeModel: PropTypes.object,
-    label: PropTypes.string,
-    help: PropTypes.string,
-    canRemoveFirstItem: PropTypes.bool,
-    generatePrimaryKey: PropTypes.bool,
-    primaryKey: PropTypes.bool,
-    firstChildrenLabel: PropTypes.string,
-    childrenLabel: PropTypes.string,
     addButtonLabel: PropTypes.string,
+    canRemoveFirstItem: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    childrenLabel: PropTypes.string,
+    enabled: PropTypes.string,
+    firstChildrenLabel: PropTypes.string,
+    generatePrimaryKey: PropTypes.bool,
+    help: PropTypes.string,
+    label: PropTypes.string,
+    name: PropTypes.string,
+    needAddButton: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    needRemoveAllButton: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    primaryKey: PropTypes.bool,
     removeAllButtonLabel: PropTypes.string,
-    needAddButton: PropTypes.bool,
-    needRemoveAllButton: PropTypes.bool,
+    visible: PropTypes.string,
 }
 
 MultiFieldset.defaultProps = {
     addButtonLabel: 'Добавить',
-    removeAllButtonLabel: 'Удалить все',
+    canRemoveFirstItem: false,
     needAddButton: true,
     needRemoveAllButton: false,
-    canRemoveFirstItem: false,
+    removeAllButtonLabel: 'Удалить все',
 }
 
 export default withFieldsetHeader(MultiFieldset)
