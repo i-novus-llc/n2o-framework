@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="MultiFieldSetAT.testResolveAttributes">
+    <regions>
+        <form>
+            <fields>
+                <row>
+                    <checkbox id="canAdd" label="canAdd"/>
+                    <checkbox id="canCopy" label="canCopy"/>
+                    <checkbox id="canRemove" label="canRemove"/>
+                    <checkbox id="canRemoveFirst" label="canRemoveFirst"/>
+                    <checkbox id="canRemoveAll" label="canRemoveAll"/>
+                    <input-text id="labelValue" label="labelValue" default-value="defaultValue"/>
+                </row>
+                <multi-set id="members"
+                           can-add="{canAdd}"
+                           can-copy="{canCopy}"
+                           can-remove="{canRemove}"
+                           can-remove-first="{canRemoveFirst}"
+                           can-remove-all="{canRemoveAll}"
+                           add-label="{labelValue}"
+                           children-label="{labelValue}"
+                           remove-all-label="{labelValue}"
+                           first-children-label="{labelValue}">
+                    <input-text id="name"/>
+                </multi-set>
+            </fields>
+        </form>
+    </regions>
+</page>

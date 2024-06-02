@@ -208,7 +208,7 @@
                     <xs:annotation>
                         <xs:documentation>
                             Заголовок дочерних элементов.
-                            С помощью {index} можно управлять нумерацией.
+                            С помощью {index} можно управлять нумерацией. Возможно использование плейсхолдеров.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -216,43 +216,43 @@
                     <xs:annotation>
                         <xs:documentation>
                             Заголовок первого дочернего элемента.
-                            Для возможности отображать без нумерации.
+                            Для возможности отображать без нумерации. Возможно использование плейсхолдеров.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="add-label" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Заголовок кнопки добавления.</xs:documentation>
+                        <xs:documentation>Заголовок кнопки добавления. Возможно использование плейсхолдеров.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="remove-all-label" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Заголовок кнопки удаления всех добавленных филдсетов.</xs:documentation>
+                        <xs:documentation>Заголовок кнопки удаления всех добавленных филдсетов. Возможно использование плейсхолдеров.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="can-remove-first" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Возможность удаления первого элемента.</xs:documentation>
+                        <xs:documentation>Возможность удаления первого элемента. Возможно использование плейсхолдеров</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="can-add" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Возможность добавления новых филдсетов.</xs:documentation>
+                        <xs:documentation>Возможность добавления новых филдсетов. Возможно использование плейсхолдеров</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="can-remove" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Возможность удаления новых филдсетов.</xs:documentation>
+                        <xs:documentation>Возможность удаления новых филдсетов. Возможно использование плейсхолдеров</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="can-remove-all" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Возможность удаления всех добавленных филдсетов.</xs:documentation>
+                        <xs:documentation>Возможность удаления всех добавленных филдсетов. Возможно использование плейсхолдеров</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="can-copy" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Возможность копирования филдсета в новый (вместе с данными).</xs:documentation>
+                        <xs:documentation>Возможность копирования филдсета в новый (вместе с данными). Возможно использование плейсхолдеров</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="primary-key" type="xs:string">
