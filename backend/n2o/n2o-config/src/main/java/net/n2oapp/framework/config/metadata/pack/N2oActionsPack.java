@@ -12,6 +12,7 @@ import net.n2oapp.framework.config.metadata.compile.action.condition.ConditionAc
 import net.n2oapp.framework.config.metadata.compile.action.condition.ElseBranchActionCompiler;
 import net.n2oapp.framework.config.metadata.compile.action.condition.ElseIfBranchActionCompiler;
 import net.n2oapp.framework.config.metadata.compile.action.condition.IfBranchActionCompiler;
+import net.n2oapp.framework.config.metadata.compile.cell.SwitchCellBinder;
 import net.n2oapp.framework.config.metadata.compile.cell.ToolbarCellBinder;
 import net.n2oapp.framework.config.metadata.compile.control.CustomFieldBinder;
 
@@ -82,6 +83,7 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new CustomFieldBinder(),
                 new ToolbarCellBinder(),
                 new SubMenuBinder(),
+                new SwitchCellBinder(),
                 new PrintActionBinder(),
                 new ButtonFieldBinder(),
                 new ActionComponentBinder());
