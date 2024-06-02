@@ -21,15 +21,15 @@ public class MultiFieldSet extends FieldSet {
     @JsonProperty
     private String removeAllButtonLabel;
     @JsonProperty
-    private Boolean canRemoveFirstItem;
+    private Object needAddButton;
     @JsonProperty
-    private Boolean needAddButton;
+    private Object needCopyButton;
     @JsonProperty
-    private Boolean needRemoveButton;
+    private Object needRemoveButton;
     @JsonProperty
-    private Boolean needCopyButton;
+    private Object needRemoveAllButton;
     @JsonProperty
-    private Boolean needRemoveAllButton;
+    private Object canRemoveFirstItem;
     @JsonProperty
     private String primaryKey;
     @JsonProperty

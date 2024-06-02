@@ -13,11 +13,11 @@ public class N2oMultiFieldSet extends N2oFieldSet {
     private String firstChildrenLabel;
     private String addButtonLabel;
     private String removeAllButtonLabel;
-    private Boolean canRemoveFirst;
-    private Boolean canAdd;
-    private Boolean canRemove;
-    private Boolean canRemoveAll;
-    private Boolean canCopy;
+    private String canAdd;
+    private String canCopy;
+    private String canRemove;
+    private String canRemoveAll;
+    private String canRemoveFirst;
     private String primaryKey;
     private Boolean generatePrimaryKey;
 }

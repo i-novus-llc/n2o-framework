@@ -7,22 +7,25 @@ import { useResolved } from '../../../../../core/Expression/useResolver'
 import { MultiFieldsetItemToolbar } from './MultiFieldsetItemToolbar'
 
 export function MultiFieldsetItem({
-    index,
-    render,
-    rows,
-    parentName,
-    needRemoveButton,
-    needCopyButton,
     canRemoveFirstItem,
-    onRemoveField,
-    onCopyField,
-    enabled,
     disabled: propsDisabled,
+    enabled,
+    index,
     label: propsLabel,
     model,
+    needCopyButton: needToCopyButtonExpression,
+    needRemoveButton: needToRemoveButtonExpression,
+    onCopyField,
+    onRemoveField,
+    parentName,
+    render,
+    rows,
 }) {
     const disabled = propsDisabled || !enabled
     const label = useResolved(propsLabel, model)
+
+    const isNeedToCopyButton = useResolved(needToCopyButtonExpression, model)
+    const isNeedToRemoveButton = useResolved(needToRemoveButtonExpression, model)
 
     return (
         <div className="n2o-multi-fieldset__container">
@@ -32,8 +35,8 @@ export function MultiFieldsetItem({
                         {label}
                     </div>
                     <MultiFieldsetItemToolbar
-                        needCopyButton={needCopyButton}
-                        needRemoveButton={needRemoveButton}
+                        needCopyButton={isNeedToCopyButton}
+                        needRemoveButton={isNeedToRemoveButton}
                         disabled={!enabled}
                         index={index}
                         canRemoveFirstItem={canRemoveFirstItem}
@@ -51,25 +54,26 @@ export function MultiFieldsetItem({
 }
 
 MultiFieldsetItem.propTypes = {
+    canRemoveFirstItem: PropTypes.bool,
+    enabled: PropTypes.bool,
     index: PropTypes.number,
+    label: PropTypes.string,
+    model: PropTypes.any,
+    needCopyButton: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    needRemoveButton: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    onCopyField: PropTypes.func,
+    onRemoveField: PropTypes.func,
+    parentName: PropTypes.string,
     render: PropTypes.func,
     rows: PropTypes.array,
-    needRemoveButton: PropTypes.bool,
-    needCopyButton: PropTypes.bool,
-    canRemoveFirstItem: PropTypes.bool,
-    parentName: PropTypes.string,
-    label: PropTypes.string,
-    onRemoveField: PropTypes.func,
-    onCopyField: PropTypes.func,
-    enabled: PropTypes.bool,
-    model: PropTypes.any,
 }
 
 const defaultComponentProps = {
+    canRemoveFirstItem: false,
+    needCopyButton: false,
+    needRemoveButton: true,
     render: () => {},
     rows: [],
-    needCopyButton: false,
-    canRemoveFirstItem: false,
 }
 
 MultiFieldsetItem.defaultProps = defaultComponentProps
