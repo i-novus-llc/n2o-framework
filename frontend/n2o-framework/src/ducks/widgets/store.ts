@@ -11,9 +11,9 @@ import {
     Toggle,
 } from './Actions'
 
-const initialState: State = {}
+export const initialState: State = {}
 
-const widgetSlice = createSlice({
+export const widgetSlice = createSlice({
     name: 'n2o/widgets',
     initialState,
     reducers: {
