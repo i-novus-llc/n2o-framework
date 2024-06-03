@@ -1,9 +1,4 @@
-FROM adoptopenjdk/openjdk14:alpine-slim
-
-LABEL maintainer="iryabov@i-novus.ru"
-
-RUN apk add tzdata
-ENV TZ=Europe/Moscow
+FROM openjdk:17
 
 EXPOSE 8080
 
