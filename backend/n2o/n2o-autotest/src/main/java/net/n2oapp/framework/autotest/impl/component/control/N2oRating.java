@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;

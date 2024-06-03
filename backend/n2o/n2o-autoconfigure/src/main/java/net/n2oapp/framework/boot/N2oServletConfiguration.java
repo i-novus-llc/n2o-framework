@@ -22,17 +22,17 @@ import net.n2oapp.framework.ui.servlet.data.ValidationDataServlet;
 import net.n2oapp.framework.ui.servlet.page.PageServlet;
 import net.n2oapp.framework.ui.servlet.table.ExportServlet;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
 import java.util.Optional;
 
-@Configuration
+@AutoConfiguration
 public class N2oServletConfiguration {
     @Value("${n2o.application.id:}")
     private String applicationId;

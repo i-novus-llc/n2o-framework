@@ -1,20 +1,23 @@
 package net.n2oapp.cache.template;
 
-import net.sf.ehcache.Element;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
+import org.springframework.boot.autoconfigure.cache.CacheType;
+import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.cache.CacheManager;
-import org.springframework.context.annotation.Import;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
-@Import(CacheTestConfig.class)
-public class TwoLevelCacheTemplateTest {
+@TestPropertySource(properties = { "spring.cache.jcache.config=classpath:ehcache.xml" })
+@EnableCaching
+@AutoConfigureCache(cacheProvider = CacheType.JCACHE)
+class TwoLevelCacheTemplateTest {
 
     @Autowired
     private CacheManager cacheManager;
@@ -76,30 +79,5 @@ public class TwoLevelCacheTemplateTest {
 
         });
         assertEquals("test", value);
-    }
-
-    @Test
-    void testWriteBehindPutSyncEvictSync() {
-        Cache cache = cacheManager.getCache("writeBehindCache");
-        net.sf.ehcache.Cache nativeCache = (net.sf.ehcache.Cache) cache.getNativeCache();
-        System.out.println("cache put:" + "test");
-        nativeCache.putWithWriter(new Element(1, "test"));
-        System.out.println("cache get:" + cache.get(1).get());
-
-        System.out.println("cache evict:" + 1);
-        System.out.println("cache get:" + cache.get(1).get());
-        nativeCache.removeWithWriter(1);
-        System.out.println("cache get:" + cache.get(1));
-    }
-
-    @Test
-    void testWriteBehindPutEvictSync() {
-        Cache cache = cacheManager.getCache("writeBehindCache");
-        net.sf.ehcache.Cache nativeCache = (net.sf.ehcache.Cache) cache.getNativeCache();
-        System.out.println("cache put:" + "test");
-        nativeCache.putWithWriter(new Element(1, "test"));
-        System.out.println("cache get:" + cache.get(1).get());
-        System.out.println("cache evict:" + 1);
-        nativeCache.removeWithWriter(1);
     }
 }

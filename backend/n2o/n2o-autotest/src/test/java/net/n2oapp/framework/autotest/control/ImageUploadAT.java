@@ -25,7 +25,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Автотесты поля загрузки изображений
  */
-public class ImageUploadAT extends AutoTestBase {
+class ImageUploadAT extends AutoTestBase {
 
     private SimplePage simplePage;
 
@@ -57,7 +57,7 @@ public class ImageUploadAT extends AutoTestBase {
     }
 
     @Test
-    public void defaultImageUploadTest() {
+    void defaultImageUploadTest() {
         ImageUploadControl imageUpload = getFields().field("imageUpload1").control(ImageUploadControl.class);
         imageUpload.shouldBeEnabled();
         fileStoreController.clearFileStore();
@@ -80,7 +80,7 @@ public class ImageUploadAT extends AutoTestBase {
     }
 
     @Test
-    public void oneImageUploadTest() {
+    void oneImageUploadTest() {
         ImageUploadControl imageUpload = getFields().field("imageUpload2").control(ImageUploadControl.class);
         imageUpload.shouldBeEnabled();
         fileStoreController.clearFileStore();
@@ -92,7 +92,7 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.uploadAreaShouldHaveHeight(200);
 
         // загрузка файла с неразрешенным расширением
-        imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/fileupload/index.page.xml");
+        imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/file_upload/index.page.xml");
         // загрузка не произошла
         imageUpload.shouldHaveSize(0);
         assertThat(fileStoreController.getFileStore().size(), is(0));
@@ -116,7 +116,7 @@ public class ImageUploadAT extends AutoTestBase {
     }
 
     // убрали аннатоцию тест, потому что у selenide есть баг с загрузкой нескольких файлов и тест конфликтует с FileUploadAT
-    public void multiImageUploadTest() {
+    void multiImageUploadTest() {
         ImageUploadControl imageUpload = getFields().field("imageUpload3").control(ImageUploadControl.class);
         imageUpload.shouldBeEnabled();
         fileStoreController.clearFileStore();

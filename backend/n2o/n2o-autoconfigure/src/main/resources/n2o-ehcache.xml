@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ehcache updateCheck="false" monitoring="off"
-         dynamicConfig="true"
-         name="n2o.config">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.ehcache.org/v3"
+        xsi:schemaLocation="
+            http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
+
 
     <!-- кеш собранных метаданных -->
-    <cache name="n2o.compiled"
-           maxElementsInMemory="5000">
+    <cache alias="n2o.compiled">
+        <resources>
+            <heap unit="entries">5000</heap>
+        </resources>
     </cache>
 
     <!-- кеш глобальных метаданных -->
-    <cache name="n2o.source"
-           maxElementsInMemory="10000">
+    <cache alias="n2o.source">
+        <resources>
+            <heap unit="entries">10000</heap>
+        </resources>
     </cache>
 
     <!-- кеш клиентских метаданных -->
-    <cache name="n2o.client"
-           maxElementsInMemory="10000">
+    <cache alias="n2o.client">
+        <resources>
+            <heap unit="entries">10000</heap>
+        </resources>
     </cache>
 
-    <cache name="n2o.context"
-           maxElementsInMemory="10000">
+    <cache alias="n2o.context">
+        <resources>
+            <heap unit="entries">10000</heap>
+        </resources>
     </cache>
-
-
-</ehcache>
+</config>

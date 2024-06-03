@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.collection;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
@@ -51,7 +51,7 @@ public interface Cells extends ComponentsCollection {
      * @param componentClass возвращаемый тип ячейки
      * @return Компонент ячейка для автотестирования
      */
-    <T extends Cell> T cell(Condition findBy, Class<T> componentClass);
+    <T extends Cell> T cell(WebElementCondition findBy, Class<T> componentClass);
 
     /**
      * Клик по строке с ячейками

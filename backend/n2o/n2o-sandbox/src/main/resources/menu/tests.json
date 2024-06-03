@@ -542,11 +542,11 @@
           "name": "CheckboxCellAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/cells/fileupload/simple",
+          "templateId": "net/n2oapp/framework/autotest/cells/file_upload/simple",
           "name": "FileUploadCellAT. oneFileUploadTest"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/cells/fileupload/multi",
+          "templateId": "net/n2oapp/framework/autotest/cells/file_upload/multi",
           "name": "FileUploadCellAT. multiFileUploadTest"
         },
         {
@@ -792,15 +792,15 @@
           "name": "FieldToolbarAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/control/fileupload",
+          "templateId": "net/n2oapp/framework/autotest/control/file_upload",
           "name": "FileUploadAT. wrongRestTest"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/control/fileupload",
+          "templateId": "net/n2oapp/framework/autotest/control/file_upload",
           "name": "FileUploadAT. oneFileUploadTest"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/control/fileupload/cleanable",
+          "templateId": "net/n2oapp/framework/autotest/control/file_upload/cleanable",
           "name": "FileUploadAT. fileUploaderCleanable"
         },
         {

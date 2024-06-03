@@ -40,7 +40,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -51,14 +51,14 @@ public class N2oController {
 
     private N2oApplicationBuilder builder;
 
-    private DataProcessingStack dataProcessingStack;
-    private AlertMessageBuilder messageBuilder;
-    private AlertMessagesConstructor messagesConstructor;
-    private QueryProcessor queryProcessor;
-    private N2oOperationProcessor operationProcessor;
+    private final DataProcessingStack dataProcessingStack;
+    private final AlertMessageBuilder messageBuilder;
+    private final AlertMessagesConstructor messagesConstructor;
+    private final QueryProcessor queryProcessor;
+    private final N2oOperationProcessor operationProcessor;
     private ConfigBuilder<AppConfig> configBuilder;
-    private DomainProcessor domainProcessor;
-    private InvocationProcessor serviceProvider;
+    private final DomainProcessor domainProcessor;
+    private final InvocationProcessor serviceProvider;
     private static final String DEFAULT_APP_ID = "default";
 
     @Value("${n2o.config.path}")

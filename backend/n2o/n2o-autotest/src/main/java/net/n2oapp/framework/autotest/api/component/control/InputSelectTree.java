@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
-import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.WebElementsCondition;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
 import net.n2oapp.framework.autotest.api.component.PopupControl;
 
@@ -54,7 +54,7 @@ public interface InputSelectTree extends Control, PopupControl {
      * Проверка того, что опция отображаемые опции соответствуют условию
      * @param condition проверяемое условие
      */
-    void shouldDisplayedOptions(CollectionCondition condition);
+    void shouldDisplayedOptions(WebElementsCondition condition);
 
     /**
      * Выбор опции по номеру

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.field;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.control.Control;
@@ -38,7 +38,7 @@ public interface StandardField extends Field {
      * Проверка соответствия метки условию
      * @param condition ожидаемое условие
      */
-    void shouldHaveLabelBy(Condition condition, Duration... duration);
+    void shouldHaveLabelBy(WebElementCondition condition, Duration... duration);
 
     /**
      * Проверка положения метки
@@ -50,6 +50,6 @@ public interface StandardField extends Field {
      * Проверка сообщения валидации на соответствие условию
      * @param condition ожидаемое условие
      */
-    void shouldHaveValidationMessage(Condition condition, Duration... duration);
+    void shouldHaveValidationMessage(WebElementCondition condition, Duration... duration);
 
 }

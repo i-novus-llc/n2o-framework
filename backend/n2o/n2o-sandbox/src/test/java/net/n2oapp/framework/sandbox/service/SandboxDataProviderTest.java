@@ -6,7 +6,6 @@ import com.github.tomakehurst.wiremock.http.JvmProxyConfigurer;
 import lombok.SneakyThrows;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
-import net.n2oapp.framework.boot.N2oMongoAutoConfiguration;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
@@ -21,9 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
@@ -107,7 +103,7 @@ class SandboxDataProviderTest {
                 "]")));
 
         ResponseEntity<GetDataResponse> response = viewController.getData("myProjectId", request);
-        assertThat(response.getStatusCodeValue(), is(200));
+        assertThat(response.getStatusCode().value(), is(200));
         assertThat(response.getBody().getPaging().getCount(), is(4));
         assertThat(response.getBody().getList().get(0).get("id"), is(1L));
         assertThat(response.getBody().getList().get(1).get("id"), is(2L));
@@ -151,7 +147,7 @@ class SandboxDataProviderTest {
 
         ResponseEntity<SetDataResponse> response = viewController.setData("myProjectId",
                 new LinkedHashMap<>(Map.of("name", "name3", "id", 3)), request);
-        assertThat(response.getStatusCodeValue(), is(200));
+        assertThat(response.getStatusCode().value(), is(200));
         assertThat(response.getBody().getData().get("id"), is(3));
         assertThat(response.getBody().getData().get("name"), is("name3"));
         assertThat(response.getBody().getMeta().getAlert().getMessages().get(0).getText(), is("Данные сохранены"));

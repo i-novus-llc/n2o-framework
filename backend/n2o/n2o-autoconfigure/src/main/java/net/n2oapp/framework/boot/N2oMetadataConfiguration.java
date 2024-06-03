@@ -21,11 +21,11 @@ import net.n2oapp.properties.io.PropertiesInfoCollector;
 import net.n2oapp.watchdir.WatchDir;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -36,7 +36,7 @@ import java.util.*;
 /**
  * Конфигурация сборки и хранения метаданных
  */
-@Configuration
+@AutoConfiguration
 @EnableCaching
 @Import(N2oEnvironmentConfiguration.class)
 public class N2oMetadataConfiguration {

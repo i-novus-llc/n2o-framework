@@ -1,8 +1,13 @@
 package net.n2oapp.framework.test;
 
 import net.n2oapp.criteria.api.CollectionPage;
+import net.n2oapp.framework.api.data.OperationExceptionHandler;
 import net.n2oapp.framework.test.engine.TestCriteria;
 import net.n2oapp.framework.test.engine.TestRow;
+import org.camunda.bpm.engine.ProcessEngine;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -12,9 +17,7 @@ import java.util.List;
 
 @RestController
 public class TestRestController {
-
-
-    @RequestMapping(value = "/test/rest", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(value = "/test/rest/", produces = "application/json")
     @ResponseBody
     public CollectionPage<TestRow> list(@RequestParam("page") Integer page, @RequestParam("size") Integer size,
                                         @RequestParam("sort") String sorting) {

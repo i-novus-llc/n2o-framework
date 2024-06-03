@@ -300,7 +300,7 @@ public class N2oPage extends N2oComponent implements Page {
 
     }
 
-    static class UrlMatch extends Condition {
+    static class UrlMatch extends WebElementCondition {
 
         private final String regex;
 

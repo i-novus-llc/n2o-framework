@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.impl.collection;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Menu;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
@@ -18,7 +18,7 @@ public class N2oMenu extends N2oComponentsCollection implements Menu {
     }
 
     @Override
-    public AnchorMenuItem anchor(Condition findBy) {
+    public AnchorMenuItem anchor(WebElementCondition findBy) {
         return item(findBy, AnchorMenuItem.class);
     }
 
@@ -28,7 +28,7 @@ public class N2oMenu extends N2oComponentsCollection implements Menu {
     }
 
     @Override
-    public DropdownMenuItem dropdown(Condition findBy) {
+    public DropdownMenuItem dropdown(WebElementCondition findBy) {
         return item(findBy, DropdownMenuItem.class);
     }
 
@@ -38,7 +38,7 @@ public class N2oMenu extends N2oComponentsCollection implements Menu {
     }
 
     @Override
-    public <T extends MenuItem> T item(Condition condition, Class<T> componentClass) {
+    public <T extends MenuItem> T item(WebElementCondition condition, Class<T> componentClass) {
         return N2oSelenide.component(elements().findBy(condition), componentClass);
     }
 }

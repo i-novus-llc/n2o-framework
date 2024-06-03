@@ -1,9 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.button;
 
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -31,7 +28,7 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
     }
 
     @Override
-    public StandardButton menuItem(Condition by) {
+    public StandardButton menuItem(WebElementCondition by) {
         return N2oSelenide.component(menuItems().findBy(by), N2oStandardButton.class);
     }
 

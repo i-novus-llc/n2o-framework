@@ -9,7 +9,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.web.context.ServletContextAware;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import static net.n2oapp.properties.reader.PropertiesReader.getPropertiesFromClasspath;
 import static net.n2oapp.properties.reader.PropertiesReader.getReloadableFromClasspath;

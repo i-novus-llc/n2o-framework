@@ -25,7 +25,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Автотесты поля загрузки файлов
  */
-public class FileUploadAT extends AutoTestBase {
+class FileUploadAT extends AutoTestBase {
 
     private SimplePage simplePage;
 
@@ -59,7 +59,7 @@ public class FileUploadAT extends AutoTestBase {
 
     @Test
     void wrongRestTest() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/fileupload/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/file_upload/index.page.xml"));
 
         simplePage = open(SimplePage.class);
         simplePage.shouldExists();
@@ -75,7 +75,7 @@ public class FileUploadAT extends AutoTestBase {
 
     @Test
     void oneFileUploadTest() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/fileupload/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/file_upload/index.page.xml"));
 
         simplePage = open(SimplePage.class);
         simplePage.shouldExists();
@@ -96,7 +96,7 @@ public class FileUploadAT extends AutoTestBase {
         assertThat(fileStoreController.getFileStore().size(), is(0));
 
         // загрузка файла с неразрешенным расширением
-        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/fileupload/index.page.xml");
+        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/file_upload/index.page.xml");
         // Есть вывод ошибки
         fileUpload.shouldHaveUploadFiles(1);
         // загрузка не произошла
@@ -106,7 +106,7 @@ public class FileUploadAT extends AutoTestBase {
 
     // убрали аннатоцию тест, потому что у selenide есть баг с загрузкой нескольких файлов и тест конфликтует с FileUploadCellAT
     void serialTwoFileUploadTest() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/fileupload/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/file_upload/index.page.xml"));
 
         simplePage = open(SimplePage.class);
         simplePage.shouldExists();
@@ -135,8 +135,8 @@ public class FileUploadAT extends AutoTestBase {
     @Test
     void fileUploaderCleanable() {
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/fileupload/cleanable/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/fileupload/cleanable/test.object.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/control/file_upload/cleanable/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/file_upload/cleanable/test.object.xml")
         );
 
         simplePage = open(SimplePage.class);

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.collection;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.header.DropdownMenuItem;
 import net.n2oapp.framework.autotest.api.component.header.MenuItem;
@@ -35,7 +35,7 @@ public interface Menu extends ComponentsCollection {
      * @param findBy условие поиска
      * @return Компонент кнопка с ссылкой для автотестирования
      */
-    AnchorMenuItem anchor(Condition findBy);
+    AnchorMenuItem anchor(WebElementCondition findBy);
 
     /**
      * <p>
@@ -63,7 +63,7 @@ public interface Menu extends ComponentsCollection {
      * @param findBy условие поиска
      * @return Кнопка с выпадающим списком для автотестирования
      */
-    DropdownMenuItem dropdown(Condition findBy);
+    DropdownMenuItem dropdown(WebElementCondition findBy);
 
     /**
      * <p>
@@ -93,5 +93,5 @@ public interface Menu extends ComponentsCollection {
      * @param componentClass тип возвращаемой кнопки
      * @return Кнопка из меню для автотестирования
      */
-    <T extends MenuItem> T item(Condition findBy, Class<T> componentClass);
+    <T extends MenuItem> T item(WebElementCondition findBy, Class<T> componentClass);
 }

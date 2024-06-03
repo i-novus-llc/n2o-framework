@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.collection;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.region.Region;
 
 /**
@@ -35,5 +35,5 @@ public interface Regions extends ComponentsCollection {
      * @param componentClass возвращаемый тип региона
      * @return Компонент регион для автотестирования
      */
-    <T extends Region> T region(Condition findBy, Class<T> componentClass);
+    <T extends Region> T region(WebElementCondition findBy, Class<T> componentClass);
 }

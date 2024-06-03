@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
 
 import java.time.Duration;
@@ -93,7 +94,7 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
             element().shouldNotHave(Condition.cssClass(SELECTED_NODE));
         }
 
-        private Condition isExpanded() {
+        private WebElementCondition isExpanded() {
             return Condition.cssClass(String.format("%s_open", SWITCHER));
         }
 

@@ -3,9 +3,9 @@ package net.n2oapp.framework.mvc.callback;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.mvc.exception.ControllerArgumentException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**

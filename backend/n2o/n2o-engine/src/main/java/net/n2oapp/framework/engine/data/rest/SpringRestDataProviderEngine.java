@@ -31,6 +31,7 @@ import java.util.function.BinaryOperator;
 
 import static java.util.Collections.emptyList;
 import static net.n2oapp.framework.engine.data.QueryUtil.*;
+import static org.springframework.http.HttpMethod.GET;
 
 /**
  * Сервис вызова Spring RestTemplate
@@ -81,8 +82,8 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
             throw new N2oException("query mustn't be null");
         query = query.trim();
         final HttpMethod method = invocation.getMethod() != null ?
-                HttpMethod.resolve(invocation.getMethod().name()) :
-                HttpMethod.GET;
+                HttpMethod.valueOf(invocation.getMethod().name()) :
+                GET;
         Map<String, Object> args = new HashMap<>(data);
         if (!query.contains("http")) {
             if (!query.startsWith("/")) {
@@ -128,21 +129,12 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
 
         log.debug("Execute REST query: " + finalQuery);
         try {
-            ResponseEntity<Object> result;
-            switch (method) {
-                case GET:
-                    result = exchange(finalQuery, method, headers);
-                    break;
-                case DELETE:
-                case POST:
-                case PUT:
-                case PATCH:
-                    result = exchange(finalQuery, method, args, headers);
-                    break;
-                default:
-                    throw new UnsupportedOperationException("Method " + method.name() + " unsupported");
-            }
-            loggingHandlers.forEach(handler -> handler.handle(result.getStatusCodeValue(), method, finalQuery.toString(), headers));
+            ResponseEntity<Object> result = switch (method.name()) {
+                case "GET" -> exchange(finalQuery, method, headers);
+                case "DELETE", "POST", "PUT", "PATCH" -> exchange(finalQuery, method, args, headers);
+                default -> throw new UnsupportedOperationException("Method " + method.name() + " unsupported");
+            };
+            loggingHandlers.forEach(handler -> handler.handle(result.getStatusCode().value(), method, finalQuery.toString(), headers));
             return result.getBody();
         } catch (RestClientResponseException e) {
             loggingHandlers.forEach(handler -> handler.handleError(e, method, finalQuery.toString(), headers));
@@ -243,7 +235,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
                 else
                     data = mapper.readValue(result, Object.class);
             }
-            return ResponseEntity.status(response.getRawStatusCode()).headers(response.getHeaders()).body(data);
+            return ResponseEntity.status(response.getStatusCode().value()).headers(response.getHeaders()).body(data);
         }
     }
 }

@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.field;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
@@ -41,7 +42,7 @@ public class N2oStandardField extends N2oField implements StandardField {
     }
 
     @Override
-    public void shouldHaveLabelBy(Condition condition, Duration... duration) {
+    public void shouldHaveLabelBy(WebElementCondition condition, Duration... duration) {
         should(condition, element().$("label"), duration);
     }
 
@@ -51,7 +52,7 @@ public class N2oStandardField extends N2oField implements StandardField {
     }
 
     @Override
-    public void shouldHaveValidationMessage(Condition condition, Duration... duration) {
+    public void shouldHaveValidationMessage(WebElementCondition condition, Duration... duration) {
         should(condition, element().$(".n2o-validation-message"), duration);
     }
 

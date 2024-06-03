@@ -1,15 +1,15 @@
 package net.n2oapp.framework.ui.servlet.data;
 
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.mvc.n2o.N2oServlet;
 import net.n2oapp.framework.ui.controller.DataController;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**

@@ -41,7 +41,7 @@
     "sandboxUrl": "${sandboxUrl}",
     "n2oSandboxUrl": "${n2oSandboxUrl}",
     "n2oVersionUrl": "${n2oVersionUrl}",
-    "n2oVersion": "${version}",
+    "n2oVersion": "${project.version}",
     "next": "${next}",
     "docusaurusUrl": "${docusaurusUrl}"
 }

@@ -70,7 +70,7 @@ public class FieldsWidthAndMarginAT extends AutoTestBase {
     }
 
 
-    static class FieldWidthCondition extends Condition {
+    static class FieldWidthCondition extends WebElementCondition {
         public FieldWidthCondition() {
             super("isFieldWidthSame");
         }
@@ -90,7 +90,7 @@ public class FieldsWidthAndMarginAT extends AutoTestBase {
         }
     }
 
-    static class MarginBetweenFieldsCondition extends Condition {
+    static class MarginBetweenFieldsCondition extends WebElementCondition {
         private final WebElement nextField;
 
         public MarginBetweenFieldsCondition(WebElement nextField) {

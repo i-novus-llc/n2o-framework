@@ -2,7 +2,7 @@ package net.n2oapp.framework.mvc.exception;
 
 import net.n2oapp.framework.api.exception.N2oException;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * User: iryabov

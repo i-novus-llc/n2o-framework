@@ -12,8 +12,8 @@ import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.application.N2oSidebar;
 import net.n2oapp.framework.api.metadata.compile.*;
-import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -56,6 +56,7 @@ import net.n2oapp.framework.config.register.route.StubRouteRepository;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
@@ -73,7 +74,7 @@ import java.util.Optional;
 
 import static java.util.Arrays.asList;
 
-@Configuration
+@AutoConfiguration
 @ComponentScan(basePackages = {"net.n2oapp.framework.config"}, lazyInit = true)
 public class N2oEnvironmentConfiguration {
     @Bean

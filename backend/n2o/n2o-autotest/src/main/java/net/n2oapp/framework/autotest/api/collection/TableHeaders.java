@@ -1,8 +1,8 @@
 package net.n2oapp.framework.autotest.api.collection;
 
-import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.autotest.api.component.widget.table.TableSimpleHeader;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableHeader;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableSimpleHeader;
 
 /**
  * Заголовки столбцов таблицы для автотестирования
@@ -35,7 +35,7 @@ public interface TableHeaders extends ComponentsCollection {
      * @param findBy условие поиска
      * @return Компонент простой заголовок столбца таблицы для автотестирования
      */
-    TableSimpleHeader header(Condition findBy);
+    TableSimpleHeader header(WebElementCondition findBy);
 
     /**
      * <p>
@@ -65,5 +65,5 @@ public interface TableHeaders extends ComponentsCollection {
      * @param componentClass возвращаемый тип заголовока
      * @return Компонент заголовок столбца таблицы для автотестирования
      */
-    <T extends TableHeader> T header(Condition findBy, Class<T> componentClass);
+    <T extends TableHeader> T header(WebElementCondition findBy, Class<T> componentClass);
 }

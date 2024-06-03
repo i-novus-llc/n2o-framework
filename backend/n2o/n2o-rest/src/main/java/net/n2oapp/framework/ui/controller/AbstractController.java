@@ -1,5 +1,7 @@
 package net.n2oapp.framework.ui.controller;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.api.SortingDirection;
 import net.n2oapp.criteria.dataset.DataSet;
@@ -26,11 +28,12 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
+@Setter
 public abstract class AbstractController {
     private MetadataRouter router;
     private MetadataEnvironment environment;
+    @Getter
     private AlertMessageBuilder messageBuilder;
 
     protected AbstractController(MetadataEnvironment environment) {
@@ -41,22 +44,6 @@ public abstract class AbstractController {
     protected AbstractController(MetadataEnvironment environment, MetadataRouter router) {
         this.environment = environment;
         this.router = router;
-    }
-
-    public void setEnvironment(MetadataEnvironment environment) {
-        this.environment = environment;
-    }
-
-    public void setRouter(MetadataRouter router) {
-        this.router = router;
-    }
-
-    public AlertMessageBuilder getMessageBuilder() {
-        return messageBuilder;
-    }
-
-    public void setMessageBuilder(AlertMessageBuilder messageBuilder) {
-        this.messageBuilder = messageBuilder;
     }
 
     @SuppressWarnings("unchecked")
@@ -148,7 +135,7 @@ public abstract class AbstractController {
             return (DataSet) body;
         else if (body instanceof List) {
             DataSet dataSet = new DataSet("$list", body);
-            dataSet.put("$count", ((List) body).size());
+            dataSet.put("$count", ((List<?>) body).size());
             return dataSet;
         }
         return new DataSet((Map<? extends String, ?>) body);
@@ -233,8 +220,8 @@ public abstract class AbstractController {
     }
 
     private Validation getValidationById(Map<String, List<Validation>> validations, String validationId) {
-        Optional<Validation> validation = validations.values().stream().flatMap(List::stream).collect(Collectors.toList())
-                .stream().filter(v -> v.getId().equals(validationId)).findFirst();
+        Optional<Validation> validation = validations.values().stream().flatMap(List::stream)
+                .filter(v -> v.getId().equals(validationId)).findFirst();
         return validation.orElse(null);
     }
 }

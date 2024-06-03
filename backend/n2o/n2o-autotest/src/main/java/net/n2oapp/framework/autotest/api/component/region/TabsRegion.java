@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.region;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.Component;
 
 import java.time.Duration;
@@ -22,7 +22,7 @@ public interface TabsRegion extends Region {
      * @param by услвоие поиска
      * @return Компонент вкладка для автотестирования
      */
-    TabItem tab(Condition by);
+    TabItem tab(WebElementCondition by);
 
     /**
      * Проверка количества вкладок

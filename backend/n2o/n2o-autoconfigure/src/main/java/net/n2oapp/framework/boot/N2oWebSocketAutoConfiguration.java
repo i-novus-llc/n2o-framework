@@ -10,9 +10,9 @@ import net.n2oapp.framework.boot.stomp.N2oWebSocketController;
 import net.n2oapp.framework.boot.stomp.WebSocketController;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -20,7 +20,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
-@Configuration
+@AutoConfiguration
 @EnableWebSocketMessageBroker
 @ConditionalOnClass(WebSocketMessageBrokerConfigurer.class)
 @Import(N2oWebSocketHandshakeHandlerConfiguration.class)

@@ -45,11 +45,11 @@ public class FileUploadCellAT extends AutoTestBase {
     }
 
     @Test
-    public void oneFileUploadTest() {
-        setJsonPath("net/n2oapp/framework/autotest/cells/fileupload/simple");
+    void oneFileUploadTest() {
+        setJsonPath("net/n2oapp/framework/autotest/cells/file_upload/simple");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/simple/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/simple/index.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/cells/file_upload/simple/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/file_upload/simple/index.page.xml"));
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
         TableWidget tableWidget = simplePage.widget(TableWidget.class);
@@ -60,7 +60,7 @@ public class FileUploadCellAT extends AutoTestBase {
         fileStoreController.clearFileStore();
 
         // загрузка файла с неразрешенным расширением
-        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/cells/fileupload/simple/index.page.xml");
+        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/cells/file_upload/simple/index.page.xml");
         // Есть вывод ошибки
         fileUpload.shouldHaveSize(1);
         // загрузка не произошла
@@ -81,11 +81,11 @@ public class FileUploadCellAT extends AutoTestBase {
     }
 
     // убрали аннатоцию тест, потому что у selenide есть баг с загрузкой нескольких файлов и тест конфликтует с FileUploadAT
-    public void multiFileUploadTest() {
-        setJsonPath("net/n2oapp/framework/autotest/cells/fileupload/multi");
+    void multiFileUploadTest() {
+        setJsonPath("net/n2oapp/framework/autotest/cells/file_upload/multi");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/multi/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/multi/index.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/cells/file_upload/multi/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/file_upload/multi/index.page.xml"));
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
         TableWidget tableWidget = simplePage.widget(TableWidget.class);
@@ -108,6 +108,4 @@ public class FileUploadCellAT extends AutoTestBase {
         fileUpload.shouldHaveSize(1);
         assertThat(fileStoreController.getFileStore().size(), is(1));
     }
-
-
 }

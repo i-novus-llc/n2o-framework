@@ -56,11 +56,7 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
     }
 
     public <T extends SourceMetadata> T read(String id, String xml) {
-        try {
-            return read(id, IOUtils.toInputStream(xml, "UTF-8"));
-        } catch (IOException e) {
-            throw new N2oException(e);
-        }
+        return read(id, IOUtils.toInputStream(xml, "UTF-8"));
     }
 
     @SuppressWarnings("unchecked")

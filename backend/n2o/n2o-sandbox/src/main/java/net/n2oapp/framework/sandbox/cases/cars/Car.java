@@ -3,7 +3,7 @@ package net.n2oapp.framework.sandbox.cases.cars;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "cars")

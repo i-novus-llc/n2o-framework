@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.collection;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.Button;
@@ -17,7 +18,7 @@ public class N2oToolbar extends N2oComponentsCollection implements Toolbar {
     }
 
     @Override
-    public StandardButton button(Condition findBy) {
+    public StandardButton button(WebElementCondition findBy) {
         return button(findBy, StandardButton.class);
     }
 
@@ -27,7 +28,7 @@ public class N2oToolbar extends N2oComponentsCollection implements Toolbar {
     }
 
     @Override
-    public DropdownButton dropdown(Condition findBy) {
+    public DropdownButton dropdown(WebElementCondition findBy) {
         return button(findBy, DropdownButton.class);
     }
 
@@ -42,7 +43,7 @@ public class N2oToolbar extends N2oComponentsCollection implements Toolbar {
     }
 
     @Override
-    public <T extends Button> T button(Condition findBy, Class<T> componentClass) {
+    public <T extends Button> T button(WebElementCondition findBy, Class<T> componentClass) {
         return N2oSelenide.component(elements().findBy(findBy), componentClass);
     }
 }

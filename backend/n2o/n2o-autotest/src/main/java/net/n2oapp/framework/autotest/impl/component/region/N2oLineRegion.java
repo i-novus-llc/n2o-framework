@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.region;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.region.LineRegion;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
@@ -63,7 +64,7 @@ public class N2oLineRegion extends N2oRegion implements LineRegion {
         return element().$(".rc-collapse-item");
     }
 
-    private Condition expandedContentCondition() {
+    private WebElementCondition expandedContentCondition() {
         return Condition.cssClass("rc-collapse-item-active");
     }
 }

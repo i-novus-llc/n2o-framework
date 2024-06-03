@@ -15,7 +15,7 @@
     </parent>
 
     <properties>
-        <selenide.version>6.17.0</selenide.version>
+        <selenide.version>7.3.1</selenide.version>
     </properties>
 
     <dependencies>
@@ -85,7 +85,11 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>${junit-jupiter.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.flapdoodle.embed</groupId>
+            <artifactId>de.flapdoodle.embed.mongo.spring3x</artifactId>
         </dependency>
 
         <dependency>

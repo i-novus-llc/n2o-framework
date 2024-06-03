@@ -1,9 +1,7 @@
 package net.n2oapp.framework.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.client.MongoClients;
+import de.flapdoodle.embed.mongo.config.Net;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataList;
@@ -17,9 +15,8 @@ import org.bson.Document;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,22 +39,25 @@ import static org.hamcrest.Matchers.notNullValue;
 @SpringBootTest(
         classes = TestMongoConfiguration.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = {"spring.main.allow-bean-definition-overriding=true", "spring.data.mongodb.database=dbName"})
+        properties = {"spring.data.mongodb.database=dbName"})
 @DirtiesContext
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class MongodbDataProviderEngineTest {
+class MongodbDataProviderEngineTest {
     @Autowired
     private MongoDbDataProviderEngine engine;
     private N2oMongoDbDataProvider provider;
+
+    @Autowired
+    MongoTemplate mongoTemplate;
+
+    @Autowired
+    Net mongoNet;
 
     private String collectionName = "user";
 
     @LocalServerPort
     private int appPort;
-
-    @Value("${local.mongo.port}")
-    private String port;
 
     private String id;
 
@@ -66,17 +66,12 @@ public class MongodbDataProviderEngineTest {
     public void init() {
         engine.setMapper(mongoObjectMapper());
 
+        //создаем коллекцию
         provider = new N2oMongoDbDataProvider();
         provider.setCollectionName(collectionName);
         provider.setDatabaseName("dbName");
-        provider.setConnectionUrl("mongodb://localhost:" + port);
+        provider.setConnectionUrl("mongodb://localhost:" + mongoNet.getPort());
 
-        ConnectionString connectionString = new ConnectionString("mongodb://localhost:" + port);
-        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
-                .applyConnectionString(connectionString)
-                .build();
-
-        MongoTemplate mongoTemplate = new MongoTemplate(MongoClients.create(mongoClientSettings), "dbName");
         mongoTemplate.dropCollection(collectionName);
         mongoTemplate.createCollection(collectionName);
         mongoTemplate.getCollection(collectionName).insertMany(TestUserBuilder.testData());

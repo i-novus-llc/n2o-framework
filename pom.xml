@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>2.7.5</version>
+        <version>3.2.2</version>
     </parent>
 
     <groupId>net.n2oapp.framework</groupId>
@@ -33,28 +33,31 @@
     </scm>
 
     <properties>
-        <java.version>11</java.version>
-        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
-        <maven.source.version>3.2.0</maven.source.version>
-        <maven.failsafe.version>2.22.2</maven.failsafe.version>
-        <maven.javadoc.version>3.2.0</maven.javadoc.version>
-        <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
-
-        <lombok.version>1.18.22</lombok.version>
+        <java.version>17</java.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <junit-jupiter.version>5.5.2</junit-jupiter.version>
-        <allure-junit5.version>2.13.3</allure-junit5.version>
-        <selenium.version>4.11.0</selenium.version>
-        <h2.version>1.4.200</h2.version>
+        <maven.source.version>3.3.0</maven.source.version>
+        <maven.javadoc.version>3.5.0</maven.javadoc.version>
+        <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <versions-maven-plugin.version>2.15.0</versions-maven-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
+        <maven.failsafe.version>2.22.2</maven.failsafe.version>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
 
-        <httpclient5.version>5.2.1</httpclient5.version>
-        <webdrivermanager.version>5.3.2</webdrivermanager.version>
+        <lombok.version>1.18.22</lombok.version>
+        <allure-junit5.version>2.27.0</allure-junit5.version>
+        <selenium.version>4.20.0</selenium.version>
+        <h2.version>1.4.200</h2.version>
+        <httpclient5.version>5.3.1</httpclient5.version>
+        <webdrivermanager.version>5.8.0</webdrivermanager.version>
     </properties>
 
     <build>
@@ -102,7 +105,7 @@
                         <execution>
                             <id>attach-sources</id>
                             <goals>
-                                <goal>jar-no-fork</goal>
+                                <goal>jar</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -129,14 +132,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -191,7 +186,6 @@
             </plugin>
         </plugins>
     </build>
-
 
     <profiles>
         <profile>
@@ -298,16 +292,12 @@
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>${maven-gpg-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -327,7 +317,7 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.13</version>
+                        <version>${nexus-staging-maven-plugin.version}</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
@@ -340,5 +330,4 @@
             </build>
         </profile>
     </profiles>
-
 </project>

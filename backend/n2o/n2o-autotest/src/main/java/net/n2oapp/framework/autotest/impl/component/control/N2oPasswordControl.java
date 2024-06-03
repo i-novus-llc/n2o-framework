@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.control.PasswordControl;
 
 import java.time.Duration;
@@ -46,7 +47,7 @@ public class N2oPasswordControl extends N2oControl implements PasswordControl {
 
     @Override
     public void shouldHavePlaceholder(String value) {
-        Condition condition = Condition.attribute("placeholder", value);
+        WebElementCondition condition = Condition.attribute("placeholder", value);
         SelenideElement input = inputElement();
 
         if (input.exists())
@@ -66,7 +67,7 @@ public class N2oPasswordControl extends N2oControl implements PasswordControl {
     @Override
     public void shouldHaveVisiblePassword() {
         SelenideElement input = inputElement();
-        Condition condition = Condition.attribute("type", "text");
+        WebElementCondition condition = Condition.attribute("type", "text");
         if (input.exists())
             input.shouldHave(condition);
         else
@@ -76,7 +77,7 @@ public class N2oPasswordControl extends N2oControl implements PasswordControl {
     @Override
     public void shouldNotHaveVisiblePassword() {
         SelenideElement input = inputElement();
-        Condition condition = Condition.attribute("type", "password");
+        WebElementCondition condition = Condition.attribute("type", "password");
 
         if (input.exists())
             input.shouldHave(condition);

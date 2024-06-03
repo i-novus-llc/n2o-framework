@@ -6,15 +6,15 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Import;
 import redis.embedded.RedisServer;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 
 @TestConfiguration
 @Import(RedisAutoConfiguration.class)
 public class TestRedisConfiguration {
     private RedisServer redisServer;
 
-    public TestRedisConfiguration(@Value("${spring.redis.port}") int port) {
+    public TestRedisConfiguration(@Value("${spring.data.redis.port}") int port) {
         this.redisServer = RedisServer.builder()
                 .port(port)
                 .setting("maxmemory 128M")

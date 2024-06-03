@@ -13,7 +13,8 @@
 
     <validations>
         <condition id="check1" severity="danger" on="test"
-                   message="Сработала серверная валидация">false
+                   message="Сработала серверная валидация">
+            false
         </condition>
     </validations>
 </object>

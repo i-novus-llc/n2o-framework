@@ -12,6 +12,13 @@
             <button label="Алерт 2">
                 <alert text="Алерт 2" placement="top" timeout="10000"/>
             </button>
+
+            <button label="Алерт 3">
+                <alert text="Алерт 3" placement="bottom" timeout="10000"/>
+            </button>
+            <button label="Алерт 4">
+                <alert text="Алерт 4" placement="bottom" timeout="10000"/>
+            </button>
         </toolbar>
     </form>
 </simple-page>
