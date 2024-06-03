@@ -1,13 +1,3 @@
 # Environment Post Processors
 org.springframework.boot.env.EnvironmentPostProcessor=\
 net.n2oapp.framework.boot.N2oPropertiesPostProcessor
-
-# Auto Configurations
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-net.n2oapp.framework.boot.N2oFrameworkAutoConfiguration,\
-net.n2oapp.framework.boot.N2oSqlAutoConfiguration,\
-net.n2oapp.framework.boot.N2oMongoAutoConfiguration,\
-net.n2oapp.framework.boot.N2oAccessAutoConfiguration,\
-net.n2oapp.framework.boot.N2oCamundaAutoConfiguration,\
-net.n2oapp.framework.boot.N2oRouteRepositoryAutoConfiguration,\
-net.n2oapp.framework.boot.N2oWebSocketAutoConfiguration

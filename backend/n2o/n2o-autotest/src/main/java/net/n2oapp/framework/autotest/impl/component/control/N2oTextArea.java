@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.control.TextArea;
 
 import java.time.Duration;
@@ -27,7 +28,7 @@ public class N2oTextArea extends N2oControl implements TextArea {
 
     @Override
     public void shouldHaveValue(String value, Duration... duration) {
-        Condition condition = value == null || value.isEmpty() ? Condition.empty : Condition.text(value);
+        WebElementCondition condition = value == null || value.isEmpty() ? Condition.empty : Condition.text(value);
         should(condition, duration);
     }
 

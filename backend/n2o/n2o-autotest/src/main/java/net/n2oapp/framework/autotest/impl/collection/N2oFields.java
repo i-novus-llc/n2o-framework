@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.collection;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.field.Field;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
@@ -15,7 +16,7 @@ public class N2oFields extends N2oComponentsCollection implements Fields {
     }
 
     @Override
-    public StandardField field(Condition findBy) {
+    public StandardField field(WebElementCondition findBy) {
         return field(findBy, StandardField.class);
     }
 
@@ -30,7 +31,7 @@ public class N2oFields extends N2oComponentsCollection implements Fields {
     }
 
     @Override
-    public <T extends Field> T field(Condition findBy, Class<T> componentClass) {
+    public <T extends Field> T field(WebElementCondition findBy, Class<T> componentClass) {
         return component(elements().findBy(findBy), componentClass);
     }
 

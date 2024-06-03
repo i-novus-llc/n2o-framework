@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Проверка визуального удаления загружаемых файлов при очистки модели">
-    <form name="Форма c валидацией" object-id="test">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Проверка визуального удаления загружаемых файлов при очистки модели">
+    <form name="Форма c валидацией">
+        <datasource object-id="test"/>
         <fields>
             <row>
                 <input-text id="field1" label="Обязательное поле" required="true"/>

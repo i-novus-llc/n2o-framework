@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.collection;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.field.Field;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.snippet.Snippet;
@@ -35,7 +35,7 @@ public interface Fields extends ComponentsCollection {
      * @param findBy условие поиска
      * @return Стандартное поле формы для автотестирования
      */
-    StandardField field(Condition findBy);
+    StandardField field(WebElementCondition findBy);
 
     /**
      * <p>
@@ -78,7 +78,7 @@ public interface Fields extends ComponentsCollection {
      * @param componentClass возвращаемый тип элемента
      * @return Компонент поле для автотестирования
      */
-    <T extends Field> T field(Condition findBy, Class<T> componentClass);
+    <T extends Field> T field(WebElementCondition findBy, Class<T> componentClass);
 
     /**
      * <p>

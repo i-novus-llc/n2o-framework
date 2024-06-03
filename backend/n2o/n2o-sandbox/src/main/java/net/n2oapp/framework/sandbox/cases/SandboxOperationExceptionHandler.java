@@ -16,7 +16,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.boot.graphql.N2oGraphQlException;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.NonUniqueResultException;
+import jakarta.persistence.NonUniqueResultException;
 
 @Component
 public class SandboxOperationExceptionHandler implements OperationExceptionHandler {

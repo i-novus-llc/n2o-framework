@@ -1,13 +1,12 @@
 package net.n2oapp.framework.ui.servlet.data;
 
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import net.n2oapp.framework.api.rest.ValidationDataResponse;
 import net.n2oapp.framework.mvc.n2o.N2oServlet;
 import net.n2oapp.framework.ui.controller.DataController;
 import org.springframework.http.MediaType;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**

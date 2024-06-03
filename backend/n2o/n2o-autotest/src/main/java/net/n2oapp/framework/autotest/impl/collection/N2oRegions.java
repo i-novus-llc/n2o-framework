@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.impl.collection;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.collection.Regions;
 import net.n2oapp.framework.autotest.api.component.region.Region;
 
@@ -12,7 +12,7 @@ public class N2oRegions extends N2oComponentsCollection implements Regions {
         return component(elements().get(index), componentClass);
     }
 
-    public <T extends Region> T region(Condition findBy, Class<T> componentClass) {
+    public <T extends Region> T region(WebElementCondition findBy, Class<T> componentClass) {
         return component(elements().findBy(findBy), componentClass);
     }
 }

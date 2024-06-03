@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.fieldset;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.fieldset.LineFieldSet;
@@ -82,7 +83,7 @@ public class N2oLineFieldSet extends N2oFieldSet implements LineFieldSet {
         return element().$(".rc-collapse-content-box");
     }
 
-    private Condition expandedContentCondition() {
+    private WebElementCondition expandedContentCondition() {
         return Condition.cssClass("rc-collapse-item-active");
     }
 

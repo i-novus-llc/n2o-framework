@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.user.StaticUserContext;
 import net.n2oapp.framework.ui.context.ConcurrentMapContextEngine;
 import net.n2oapp.framework.ui.context.SessionContextEngine;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +15,7 @@ import org.springframework.web.context.request.RequestContextListener;
 /**
  * Конфигурация пользовательского контекста
  */
-@Configuration
+@AutoConfiguration
 @ImportResource("classpath*:META-INF/n2o-context-ext-context.xml")
 public class N2oContextConfiguration {
     @ConditionalOnMissingBean

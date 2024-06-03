@@ -12,8 +12,10 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
@@ -56,7 +58,7 @@ class DataTest {
             Map<String, Object> dialog = (Map<String, Object>) ((Map<String, Object>) result.get("meta")).get("dialog");
             assertThat(dialog.get("title"), is("Registration accept"));
             assertThat(dialog.get("text"), is("Are you sure?"));
-            assertThat(((HashMap<String, Object>)((ArrayList)((Map<String, Object>) dialog.get("toolbar")).get("bottomRight")).get(0)).size(), is(2));
+            assertThat(((HashMap<String, Object>) ((ArrayList) ((Map<String, Object>) dialog.get("toolbar")).get("bottomRight")).get(0)).size(), is(2));
         }
     }
 

@@ -18,25 +18,22 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Контроллер файлового хранилища для автотестов
  */
+@Getter
 @RestController
 public class FileStoreController {
 
-    private List<FileModel> fileStore = Collections.synchronizedList(new ArrayList<>());
+    private final List<FileModel> fileStore = Collections.synchronizedList(new ArrayList<>());
 
     public void clearFileStore() {
         fileStore.clear();
     }
 
-    public List<FileModel> getFileStore() {
-        return fileStore;
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "files")
+    @PostMapping("/files")
     public ResponseEntity<FileModel> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         return new ResponseEntity<>(storeFile(file), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "multi")
+    @PostMapping("/multi")
     public ResponseEntity<List<FileModel>> uploadMultiFile(@RequestParam("file") MultipartFile[] file) throws IOException {
         List<FileModel> result = new ArrayList<>();
         for (MultipartFile mf : file) {
@@ -45,8 +42,8 @@ public class FileStoreController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "files/{id}")
-    public void deleteFile(@PathVariable String id) {
+    @DeleteMapping("/files/{id}")
+    public void deleteFile(@PathVariable("id") String id) {
         for (FileModel fs : fileStore) {
             if (id.equals(fs.id)) {
                 fileStore.remove(fs);

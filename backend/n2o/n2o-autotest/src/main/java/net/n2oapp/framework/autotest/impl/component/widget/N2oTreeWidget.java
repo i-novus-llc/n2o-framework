@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.widget;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.widget.TreeWidget;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
@@ -55,7 +56,7 @@ public class N2oTreeWidget extends N2oStandardWidget implements TreeWidget {
             switcher().shouldHave(Condition.cssClass(String.format("%s_close", SWITCHER)));
         }
 
-        private Condition isExpanded() {
+        private WebElementCondition isExpanded() {
             return Condition.cssClass(String.format("%s_open", SWITCHER));
         }
 

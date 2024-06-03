@@ -9,6 +9,7 @@ import net.n2oapp.framework.config.compile.pipeline.operation.SourceCacheOperati
 import net.n2oapp.framework.ui.servlet.ExposedResourceBundleMessageSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -16,7 +17,6 @@ import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfigura
 import org.springframework.cache.CacheManager;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.util.StringUtils;
@@ -30,7 +30,7 @@ import java.util.Locale;
 /**
  * Конфигурация сообщений локализации
  */
-@Configuration
+@AutoConfiguration
 @AutoConfigureAfter(MessageSourceAutoConfiguration.class)
 public class N2oMessagesConfiguration {
 

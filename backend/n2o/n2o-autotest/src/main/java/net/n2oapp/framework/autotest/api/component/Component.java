@@ -1,9 +1,6 @@
 package net.n2oapp.framework.autotest.api.component;
 
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import net.n2oapp.framework.api.exception.N2oException;
 
 import java.time.Duration;
@@ -40,7 +37,7 @@ public interface Component extends Element {
      */
     void shouldHaveCssClass(String cssClass);
 
-    default SelenideElement should(Condition condition, Duration... duration) {
+    default SelenideElement should(WebElementCondition condition, Duration... duration) {
         if (duration.length > 1) {
             throw new N2oException("Expected duration length 1 or less, but received %d" + duration.length);
         }
@@ -51,7 +48,7 @@ public interface Component extends Element {
         return element().should(condition);
     }
 
-    default SelenideElement should(Condition condition, SelenideElement element, Duration... duration) {
+    default SelenideElement should(WebElementCondition condition, SelenideElement element, Duration... duration) {
         if (duration.length > 1) {
             throw new N2oException("Expected duration length 1 or less, but received %d" + duration.length);
         }
@@ -62,7 +59,7 @@ public interface Component extends Element {
         return element.should(condition);
     }
 
-    default ElementsCollection should(CollectionCondition condition, ElementsCollection element, Duration... duration) {
+    default ElementsCollection should(WebElementsCondition condition, ElementsCollection element, Duration... duration) {
         if (duration.length == 1) {
             return element.should(condition, duration[0]);
         } else {

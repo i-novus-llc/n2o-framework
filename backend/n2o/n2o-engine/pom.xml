@@ -14,11 +14,16 @@
     </parent>
 
     <dependencies>
-
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-api</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

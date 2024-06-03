@@ -1,9 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component;
 
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 
@@ -43,7 +40,7 @@ public class N2oDropDown extends N2oComponent implements DropDown {
                 .click();
     }
 
-    public void selectItemBy(Condition by) {
+    public void selectItemBy(WebElementCondition by) {
         items().findBy(by).click();
     }
 

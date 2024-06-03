@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nonnull;
 import java.time.Duration;
+import java.util.stream.StreamSupport;
 
 /**
  * Регион в виде вкладок для автотестирования
@@ -44,7 +45,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
     }
 
     @Override
-    public TabItem tab(Condition by) {
+    public TabItem tab(WebElementCondition by) {
         return new N2oTabItem(navItem().findBy(by));
     }
 
@@ -61,11 +62,11 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
             ElementsCollection nestingElements = elm.$$(".tabs__content--single.active .tabs__content--single.active > div > .nested-content");
             ElementsCollection firstLevelElements = elm.$$(".tabs__content--single.active > div > .nested-content")
-                .filter(new Condition("shouldBeFirstLevelElement") {
+                .filter(new WebElementCondition("shouldBeFirstLevelElement") {
                         @Nonnull
                         @Override
                         public CheckResult check(Driver driver, WebElement element) {
-                            boolean result = !nestingElements.contains(element);
+                            boolean result = StreamSupport.stream(nestingElements.spliterator(), false).noneMatch(element::equals);
                             return new CheckResult(result ? CheckResult.Verdict.ACCEPT : CheckResult.Verdict.REJECT, null);
                         }
                     });

@@ -1,9 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
 import net.n2oapp.framework.autotest.api.component.control.InputSelectTree;
@@ -67,7 +64,7 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
     }
 
     @Override
-    public void shouldDisplayedOptions(CollectionCondition condition) {
+    public void shouldDisplayedOptions(WebElementsCondition condition) {
         dropdownElement().$$(OPTION_LOCATOR).shouldHave(condition);
     }
 

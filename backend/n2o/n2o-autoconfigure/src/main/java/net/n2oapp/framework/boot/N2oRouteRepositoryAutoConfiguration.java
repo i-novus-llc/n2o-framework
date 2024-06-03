@@ -5,17 +5,17 @@ import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.boot.route.JDBCRouteRepository;
 import net.n2oapp.framework.boot.route.RedisRouteRepository;
 import net.n2oapp.framework.config.register.ConfigRepository;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
-@Configuration
+@AutoConfiguration
 @AutoConfigureBefore(N2oEnvironmentConfiguration.class)
 public class N2oRouteRepositoryAutoConfiguration {
 

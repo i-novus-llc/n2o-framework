@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.control.InputMoneyControl;
 
 import java.time.Duration;
@@ -49,7 +50,7 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
 
     @Override
     public void shouldHavePlaceholder(String value) {
-        Condition condition = Condition.attribute("placeholder", value);
+        WebElementCondition condition = Condition.attribute("placeholder", value);
         SelenideElement input = inputElement();
 
         if (input.exists())

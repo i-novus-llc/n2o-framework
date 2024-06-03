@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.control.MaskedInput;
 
 import java.time.Duration;
@@ -45,7 +46,7 @@ public class N2oMaskedInput extends N2oControl implements MaskedInput {
 
     @Override
     public void shouldHavePlaceholder(String value) {
-        Condition condition = Condition.attribute("placeholder", value);
+        WebElementCondition condition = Condition.attribute("placeholder", value);
         SelenideElement input = inputElement();
 
         if (input.exists())

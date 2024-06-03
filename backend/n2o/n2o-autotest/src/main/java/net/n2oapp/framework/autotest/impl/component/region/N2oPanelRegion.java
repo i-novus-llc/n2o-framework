@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.region;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
@@ -79,7 +80,7 @@ public class N2oPanelRegion extends N2oRegion implements PanelRegion {
         return element().$("button.collapse-toggle");
     }
 
-    private Condition collapsedCondition() {
+    private WebElementCondition collapsedCondition() {
         return Condition.cssClass("collapse-toggle--up");
     }
 

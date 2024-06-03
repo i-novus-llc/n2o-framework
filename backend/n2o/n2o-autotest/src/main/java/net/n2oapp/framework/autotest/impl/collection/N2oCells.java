@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.collection;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
@@ -25,7 +26,7 @@ public class N2oCells extends N2oComponentsCollection implements Cells {
     }
 
     @Override
-    public <T extends Cell> T cell(Condition findBy, Class<T> componentClass) {
+    public <T extends Cell> T cell(WebElementCondition findBy, Class<T> componentClass) {
         return component(elements().findBy(findBy), componentClass);
     }
 

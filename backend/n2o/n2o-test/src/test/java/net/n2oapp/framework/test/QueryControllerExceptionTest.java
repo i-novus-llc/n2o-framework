@@ -36,9 +36,9 @@ import static org.hamcrest.Matchers.is;
  */
 @SpringBootTest(properties = {"n2o.ui.message.dev-mode=true"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class QueryControllerExceptionTest {
+class QueryControllerExceptionTest {
 
-    private static WireMockServer mockServer = new WireMockServer();
+    private static final WireMockServer mockServer = new WireMockServer();
     @Autowired
     private QueryController queryController;
     private N2oApplicationBuilder builder;
@@ -77,7 +77,7 @@ public class QueryControllerExceptionTest {
 
 
     @Test
-    public void testGraphQlException() {
+    void testGraphQlException() {
         CompiledQuery query = builder.read().compile().get(new QueryContext("testGraphQlException"));
         QueryRequestInfo requestInfo = new QueryRequestInfo();
         requestInfo.setQuery(query);
@@ -91,7 +91,7 @@ public class QueryControllerExceptionTest {
     }
 
     @Test
-    public void testSqlException() {
+    void testSqlException() {
         CompiledQuery query = builder.read().compile().get(new QueryContext("testSqlException"));
         QueryRequestInfo requestInfo = new QueryRequestInfo();
         requestInfo.setQuery(query);
@@ -106,7 +106,7 @@ public class QueryControllerExceptionTest {
     }
 
     @Test
-    public void testRestException() {
+    void testRestException() {
         CompiledQuery query = builder.read().compile().get(new QueryContext("testRestException"));
         QueryRequestInfo requestInfo = new QueryRequestInfo();
         requestInfo.setQuery(query);

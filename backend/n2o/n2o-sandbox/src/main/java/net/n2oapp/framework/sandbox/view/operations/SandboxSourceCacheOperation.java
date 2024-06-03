@@ -75,10 +75,6 @@ public class SandboxSourceCacheOperation<S extends SourceMetadata> extends Metad
         this.metadataRegister = environment.getMetadataRegister();
     }
 
-    public void setCacheTemplate(CacheTemplate cacheTemplate) {
-        this.cacheTemplate = cacheTemplate;
-    }
-
     private String getKey(String id, Class<? extends SourceMetadata> sourceClass) {
         return projectId + "." + id + "." + sourceClass.getSimpleName();
     }

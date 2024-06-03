@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import org.openqa.selenium.Keys;
 
@@ -126,7 +127,7 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void shouldHavePlaceholder(String value) {
-        Condition condition = Condition.attribute("placeholder", value);
+        WebElementCondition condition = Condition.attribute("placeholder", value);
 
         SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(condition);

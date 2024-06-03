@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.control.DateInterval;
 
 import java.time.Duration;
@@ -46,7 +47,7 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
 
     @Override
     public void beginShouldHaveValue(String value, Duration... duration) {
-        Condition condition = value == null || value.isEmpty() ? Condition.empty : Condition.value(value);
+        WebElementCondition condition = value == null || value.isEmpty() ? Condition.empty : Condition.value(value);
         SelenideElement element = element().$(".n2o-date-input-first input");
 
         should(condition, element, duration);
@@ -54,7 +55,7 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
 
     @Override
     public void endShouldHaveValue(String value, Duration... duration) {
-        Condition condition = value == null || value.isEmpty() ? Condition.empty : Condition.value(value);
+        WebElementCondition condition = value == null || value.isEmpty() ? Condition.empty : Condition.value(value);
         SelenideElement element = element().$(".n2o-date-input-last input");
 
         should(condition, element, duration);

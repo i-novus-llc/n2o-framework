@@ -64,7 +64,7 @@ public class N2oDrawer extends N2oComponent implements Drawer {
         element().click();
     }
 
-    static class StyleAttribute extends Condition {
+    static class StyleAttribute extends WebElementCondition {
         private final String attributeName;
         private final String expectedAttributeValue;
 

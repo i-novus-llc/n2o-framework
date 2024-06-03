@@ -7,8 +7,8 @@ import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.mvc.n2o.N2oServlet;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**

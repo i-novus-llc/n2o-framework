@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.collection;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -35,7 +35,7 @@ public interface Toolbar extends ComponentsCollection {
      * @param findBy условие поиска
      * @return Компонент стандартная кнопка для автотестирования
      */
-    StandardButton button(Condition findBy);
+    StandardButton button(WebElementCondition findBy);
 
     /**
      * <p>
@@ -62,7 +62,7 @@ public interface Toolbar extends ComponentsCollection {
      * @param findBy условие поиска
      * @return Компонент кнопка с выпадающим списком для автотестирования
      */
-    DropdownButton dropdown(Condition findBy);
+    DropdownButton dropdown(WebElementCondition findBy);
 
     /**
      * <p>
@@ -92,7 +92,7 @@ public interface Toolbar extends ComponentsCollection {
      * @param componentClass возвращаемый тип
      * @return Компонент кнопка для автотестирования
      */
-    <T extends Button> T button(Condition findBy, Class<T> componentClass);
+    <T extends Button> T button(WebElementCondition findBy, Class<T> componentClass);
 
     /**
      * <p>

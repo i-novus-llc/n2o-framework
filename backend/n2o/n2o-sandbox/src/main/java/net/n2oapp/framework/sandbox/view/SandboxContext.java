@@ -7,7 +7,7 @@ import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.api.component;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.badge.Badge;
 
@@ -41,7 +42,7 @@ public interface DropDown extends Component {
      * Выбор элемента из выпадающего списка по условию
      * @param by условие выбора
      */
-    void selectItemBy(Condition by);
+    void selectItemBy(WebElementCondition by);
 
     /**
      * Множественный выбор элементов из выпадающего списка по номерам

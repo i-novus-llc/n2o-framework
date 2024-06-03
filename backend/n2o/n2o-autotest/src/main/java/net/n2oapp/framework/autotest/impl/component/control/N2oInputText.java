@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import org.openqa.selenium.Keys;
 
@@ -64,7 +65,7 @@ public class N2oInputText extends N2oControl implements InputText {
 
     @Override
     public void shouldHavePlaceholder(String placeholder) {
-        Condition condition = Condition.attribute("placeholder", placeholder);
+        WebElementCondition condition = Condition.attribute("placeholder", placeholder);
         SelenideElement input = inputElement();
 
         if (input.exists())

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.button;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 
 import java.time.Duration;
 
@@ -32,7 +32,7 @@ public interface DropdownButton extends Button {
      * @param by условие поиска
      * @return Стандартная кнопка для автотестирования
      */
-    StandardButton menuItem(Condition by);
+    StandardButton menuItem(WebElementCondition by);
 
     /**
      * Возвращает стандартную кнопку по индексу

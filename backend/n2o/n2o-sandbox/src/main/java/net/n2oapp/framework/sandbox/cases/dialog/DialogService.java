@@ -2,7 +2,7 @@ package net.n2oapp.framework.sandbox.cases.dialog;
 
 import org.springframework.stereotype.Service;
 
-import javax.persistence.NonUniqueResultException;
+import jakarta.persistence.NonUniqueResultException;
 
 @Service
 public class DialogService {

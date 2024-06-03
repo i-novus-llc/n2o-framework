@@ -1,9 +1,9 @@
 package net.n2oapp.framework.autotest.impl.collection;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.collection.TableHeaders;
-import net.n2oapp.framework.autotest.api.component.widget.table.TableSimpleHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableHeader;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableSimpleHeader;
 
 import static net.n2oapp.framework.autotest.N2oSelenide.component;
 
@@ -16,7 +16,7 @@ public class N2oTableHeaders extends N2oComponentsCollection implements TableHea
         return header(index, TableSimpleHeader.class);
     }
 
-    public TableSimpleHeader header(Condition findBy) {
+    public TableSimpleHeader header(WebElementCondition findBy) {
         return header(findBy, TableSimpleHeader.class);
     }
 
@@ -24,7 +24,7 @@ public class N2oTableHeaders extends N2oComponentsCollection implements TableHea
         return component(elements().get(index), componentClass);
     }
 
-    public <T extends TableHeader> T header(Condition findBy, Class<T> componentClass) {
+    public <T extends TableHeader> T header(WebElementCondition findBy, Class<T> componentClass) {
         return component(elements().findBy(findBy), componentClass);
     }
 }

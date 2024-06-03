@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Страница загрузки изображений"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Тестирование image-upload"
              route="/pageRoute">
-    <form query-id="files">
+    <form>
+        <datasource query-id="files"/>
         <fields>
             <image-upload label="imageUpload1" id="files"
                           label-field-id="fileName" value-field-id="id" url-field-id="url"

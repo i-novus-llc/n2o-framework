@@ -300,7 +300,7 @@ public class SpelExceptionTest extends DataControllerTestBase{
         queryRequestInfo.setSize(1);
         queryRequestInfo.setData(new DataSet());
         N2oSpelException exception = Assertions.assertThrows(N2oSpelException.class, () -> getController.executeQuery(queryRequestInfo, new QueryResponseInfo()));
-        String exceptionMessage = "Spel expression conversion error with #this.toUpperCase( of field 'name' from metadata testQuery.query.xml.";
+        String exceptionMessage = "Spel expression conversion error with null of field 'name' from metadata testQuery.query.xml.";
         Assertions.assertTrue(exception.getMessage().startsWith(exceptionMessage));
     }
 

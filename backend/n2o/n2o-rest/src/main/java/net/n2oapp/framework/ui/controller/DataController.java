@@ -26,7 +26,7 @@ import static net.n2oapp.framework.engine.util.MappingProcessor.resolveCondition
  */
 public class DataController extends AbstractController {
 
-    private ControllerFactory controllerFactory;
+    private final ControllerFactory controllerFactory;
 
     public DataController(ControllerFactory controllerFactory,
                           MetadataEnvironment environment) {
