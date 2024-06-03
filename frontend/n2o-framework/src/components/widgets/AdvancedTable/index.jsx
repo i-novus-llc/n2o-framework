@@ -35,7 +35,7 @@ const EmptyComponent = () => (
 
 const defaultDataMapper = data => data
 
-const AdvancedTableContainer = (props) => {
+export const AdvancedTableContainer = (props) => {
     const {
         id, disabled, toolbar, datasource, className, setPage, loading,
         fetchData, style, paging, table, size, count, validations,
@@ -233,11 +233,13 @@ const AdvancedTableContainer = (props) => {
     )
 }
 
-AdvancedTableContainer.displayName = 'AdvancedTableWidget'
+AdvancedTableContainer.displayName = 'AdvancedTableContainer'
 
 export const AdvancedTableWidget = compose(
     WidgetHOC,
 )(withSecurityList(WithTableProps(AdvancedTableContainer), 'table.header.cells'))
+
+AdvancedTableWidget.displayName = 'AdvancedTableWidget'
 
 export const useTableWidget = () => {
     const context = useContextSelector(tableWidgetContext)
