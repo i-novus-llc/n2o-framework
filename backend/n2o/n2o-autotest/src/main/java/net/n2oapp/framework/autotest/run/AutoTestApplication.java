@@ -2,7 +2,6 @@ package net.n2oapp.framework.autotest.run;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.security.auth.UserPrincipal;
-import de.flapdoodle.embed.mongo.spring.autoconfigure.EmbeddedMongoAutoConfiguration;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.ui.N2oAlertMessagesConstructor;
@@ -37,7 +36,7 @@ import java.util.Map;
         N2oMetadataConfiguration.class})
 @SpringBootApplication(exclude = {N2oFrameworkAutoConfiguration.class,
         RedisAutoConfiguration.class, N2oMongoAutoConfiguration.class,
-        MongoAutoConfiguration.class, EmbeddedMongoAutoConfiguration.class})
+        MongoAutoConfiguration.class})
 @ComponentScan("net/n2oapp/framework/autotest")
 public class AutoTestApplication {
 

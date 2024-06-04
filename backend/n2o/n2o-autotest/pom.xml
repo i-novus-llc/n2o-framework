@@ -88,11 +88,6 @@
         </dependency>
 
         <dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo.spring3x</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-commons</artifactId>
             <scope>test</scope>
