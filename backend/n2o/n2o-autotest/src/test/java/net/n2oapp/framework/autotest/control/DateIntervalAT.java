@@ -85,6 +85,15 @@ public class DateIntervalAT extends AutoTestBase {
         dateInterval.clickEndDay("1");
         dateInterval.endCurrentMonthShouldHaveValue("Март");
         dateInterval.endShouldHaveValue("01.03.2020");
+
+        dateInterval.clickBeginMonthNextButton();
+        dateInterval.clickBeginMonthNextButton();
+        dateInterval.clickBeginMonthNextButton();
+        dateInterval.clickBeginMonthNextButton();
+        dateInterval.beginCurrentMonthShouldHaveValue("Апрель");
+        dateInterval.clickBeginDay("14");
+        dateInterval.endCurrentMonthShouldHaveValue("Апрель");
+
     }
 
     @Test
