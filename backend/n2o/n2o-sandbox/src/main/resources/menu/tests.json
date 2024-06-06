@@ -1219,6 +1219,10 @@
           "name": "BadgeAT. testButton"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/badge/button_field",
+          "name": "BadgeAT. testButtonField"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/badge/cell",
           "name": "BadgeAT. testCell"
         },

@@ -1,26 +1,45 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-             name="Ячейка badge">
-    <table selection="none">
-        <datasource query-id="test"/>
-        <columns>
-            <column text-field-id="id" label="№"/>
-            <column text-field-id="fio" label="Фамилия И.О." sorting-direction="desc"/>
-            <column text-field-id="birthdate" label="Дата рождения"/>
-            <column text-field-id="project" label="Проект">
-                <badge text="test"
-                       image-field-id="image"
-                       shape="rounded"
-                       image-position="right"
-                       image-shape="rounded"
-                >
-                    <switch value-field-id="project">
-                        <case value="Проект 1">success</case>
-                        <case value="Проект 2">warning</case>
-                        <case value="Проект 3">danger</case>
-                    </switch>
-                </badge>
-            </column>
-        </columns>
-    </table>
-</simple-page>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Ячейка badge">
+    <datasources>
+        <datasource id="ds" query-id="test"/>
+    </datasources>
+    <regions>
+        <table selection="none" datasource="ds">
+            <columns>
+                <column text-field-id="id" label="№"/>
+                <column text-field-id="fio" label="Фамилия И.О." sorting-direction="desc"/>
+                <column text-field-id="birthdate" label="Дата рождения"/>
+                <column text-field-id="project" label="Проект">
+                    <badge text="test"
+                           image-field-id="image"
+                           shape="rounded"
+                           image-position="right"
+                           image-shape="rounded"
+                    >
+                        <switch value-field-id="project">
+                            <case value="Проект 1">success</case>
+                            <case value="Проект 2">warning</case>
+                            <case value="Проект 3">danger</case>
+                        </switch>
+                    </badge>
+                </column>
+                <column text-field-id="project2" label="Проект">
+                    <badge text="test"
+                           image-field-id="image"
+                           shape="rounded"
+                           image-position="left"
+                           image-shape="rounded"
+                           position="left"
+                    >
+                        <switch value-field-id="project">
+                            <case value="Проект 1">success</case>
+                            <case value="Проект 2">warning</case>
+                            <case value="Проект 3">danger</case>
+                        </switch>
+                    </badge>
+                </column>
+            </columns>
+        </table>
+    </regions>
+</page>

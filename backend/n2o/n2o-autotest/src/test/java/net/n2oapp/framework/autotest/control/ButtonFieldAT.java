@@ -52,15 +52,6 @@ public class ButtonFieldAT extends AutoTestBase {
         buttonField.tooltip().shouldExists();
         buttonField.tooltip().shouldHaveText(new String[]{"description"});
         buttonField.tooltipShouldHavePosition("top");
-        buttonField.badgeShouldExists();
-        buttonField.badgeShouldHaveText("badge");
-        buttonField.badgeShouldHaveColor(Colors.SECONDARY);
-        buttonField.badgeShouldHaveShape(BadgeShape.SQUARE);
-        buttonField.badgeShouldHaveImage("static/roma.png");
-        buttonField.badgeShouldHaveImageShape(BadgeShape.CIRCLE);
-        buttonField.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
-        buttonField.badgeShouldHavePosition(BadgePosition.LEFT);
-
 
         buttonField = page.widget(FormWidget.class).fields().field("Кнопка-поле1", ButtonField.class);
         buttonField.shouldExists();

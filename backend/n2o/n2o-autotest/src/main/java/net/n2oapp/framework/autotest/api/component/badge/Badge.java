@@ -46,6 +46,17 @@ public interface Badge extends Component {
     }
 
     /**
+     * Проверка позиции баджа на соответствие ожидаемой позиции
+     * @param position ожидаемая позиция баджа
+     */
+    default void badgeShouldHavePosition(BadgePosition position) {
+        if (position.equals(BadgePosition.LEFT))
+            element().$$("span").get(0).shouldHave(Condition.cssClass("badge"));
+        else
+            element().$$("span").get(1).shouldHave(Condition.cssClass("badge"));
+    }
+
+    /**
      * Проверка картинки внутри баджа на соответствие ожидаемой форме
      * @param shape ожидаемая форма картинки
      */

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Кнопка-поле. Проверка всех кнопочных атрибутов">
+    <form>
+        <fields>
+            <button
+                    id="button"
+                    label="Кнопка-поле"
+                    icon="fa fa-search"
+                    color="primary"
+                    badge="badge"
+                    badge-color="secondary"
+                    badge-shape="square"
+                    badge-position="left"
+                    badge-image="static/roma.png"
+                    badge-image-shape="circle"
+                    badge-image-position="right"
+                    description="description"
+                    tooltip-position="top"
+                    rounded="true"
+            />
+            <button
+                    id="button2"
+                    label="Кнопка-поле 2"
+                    icon="fa fa-search"
+                    color="primary"
+                    badge="badge"
+                    badge-color="secondary"
+                    badge-shape="square"
+                    badge-position="right"
+                    badge-image="static/roma.png"
+                    badge-image-shape="circle"
+                    badge-image-position="right"
+                    description="description"
+                    tooltip-position="top"
+                    rounded="true"
+            />
+        </fields>
+    </form>
+</simple-page>
+

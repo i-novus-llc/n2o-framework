@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.button;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.BadgePosition;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 
 import java.time.Duration;
@@ -29,5 +30,10 @@ public class N2oStandardButton extends N2oButton implements StandardButton {
     @Override
     public void shouldNotHaveIcon() {
             element().$("i").shouldNot(Condition.exist);
+    }
+
+    @Override
+    public void badgeShouldHavePosition(BadgePosition position) {
+        shouldHaveCssClass(position.name("btn-badge-position--"));
     }
 }
