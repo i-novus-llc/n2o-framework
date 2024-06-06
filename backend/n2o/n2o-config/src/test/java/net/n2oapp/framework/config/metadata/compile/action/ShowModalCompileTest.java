@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.action.ModalSize;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
@@ -26,7 +27,6 @@ import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshPayload;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -90,7 +90,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         ShowModalPayload payload = ((ShowModal) table.getToolbar().getButton("create").getAction()).getPayload();
         //create
         assertThat(payload.getPageUrl(), is("/p/create"));
-        assertThat(payload.getSize(), is("sm"));
+        assertThat(payload.getSize(), is(ModalSize.sm));
         assertThat(payload.getScrollable(), is(true));
         assertThat(payload.getPageId(), is("p_create"));
         assertThat(payload.getPrompt(), is(false));
@@ -150,7 +150,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         //update
         assertThat(payload.getPageUrl(), is("/p/:id/update"));
-        assertThat(payload.getSize(), is("lg"));
+        assertThat(payload.getSize(), is(ModalSize.lg));
         assertThat(payload.getPrompt(), is(false));
         assertThat(payload.getHasHeader(), is(true));
         assertThat(payload.getBackdrop(), is("static"));
