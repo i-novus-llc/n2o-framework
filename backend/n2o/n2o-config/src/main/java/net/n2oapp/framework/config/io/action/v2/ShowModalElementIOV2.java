@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io.action.v2;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.action.ModalSize;
 import net.n2oapp.framework.api.metadata.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.control.PageRef;
@@ -17,7 +18,7 @@ public class ShowModalElementIOV2 extends AbstractOpenPageElementIOV2<N2oShowMod
     @Override
     public void io(Element e, N2oShowModal sm, IOProcessor p) {
         super.io(e, sm, p);
-        p.attribute(e, "modal-size", sm::getModalSize, sm::setModalSize);
+        p.attributeEnum(e, "modal-size", sm::getModalSize, sm::setModalSize, ModalSize.class);
         p.attributeBoolean(e, "scrollable", sm::getScrollable, sm::setScrollable);
         p.attributeBoolean(e, "has-header", sm::getHasHeader, sm::setHasHeader);
         p.attribute(e, "class", sm::getClassName, sm::setClassName);

@@ -1,9 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.ModalSize;
+import net.n2oapp.framework.api.metadata.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModalPayload;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
@@ -44,7 +45,7 @@ public class ShowModalCompiler extends AbstractModalCompiler<ShowModal, N2oShowM
     protected void compilePayload(N2oShowModal source, ShowModal showModal, PageContext pageContext, CompileProcessor p) {
         ShowModalPayload payload = showModal.getPayload();
         payload.setSize(castDefault(source.getModalSize(),
-                () -> p.resolve(property("n2o.api.action.show_modal.size"), String.class)));
+                () -> p.resolve(property("n2o.api.action.show_modal.size"), ModalSize.class)));
         payload.setScrollable(castDefault(source.getScrollable(),
                 () -> p.resolve(property("n2o.api.action.show_modal.scrollable"), Boolean.class)));
         payload.setCloseButton(true);

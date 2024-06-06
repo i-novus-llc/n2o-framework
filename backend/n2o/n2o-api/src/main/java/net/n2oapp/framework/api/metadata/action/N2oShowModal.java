@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oShowModal extends N2oAbstractPageAction {
-    private String modalSize;
+    private ModalSize modalSize;
     private Boolean scrollable;
     private Boolean hasHeader;
     private String className;

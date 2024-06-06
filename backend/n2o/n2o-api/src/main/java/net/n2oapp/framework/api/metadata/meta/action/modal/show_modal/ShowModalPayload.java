@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.action.modal.show_modal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.action.ModalSize;
 import net.n2oapp.framework.api.metadata.meta.action.modal.ModalPayload;
 
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.Map;
 @Setter
 public class ShowModalPayload extends ModalPayload {
     @JsonProperty
-    private String size;
+    private ModalSize size;
     @JsonProperty
     private Boolean scrollable;
     @JsonProperty
