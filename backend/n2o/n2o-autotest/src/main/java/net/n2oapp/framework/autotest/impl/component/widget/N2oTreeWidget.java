@@ -4,6 +4,7 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebElementCondition;
+import net.n2oapp.framework.autotest.BadgePosition;
 import net.n2oapp.framework.autotest.api.component.widget.TreeWidget;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
@@ -54,6 +55,14 @@ public class N2oTreeWidget extends N2oStandardWidget implements TreeWidget {
         @Override
         public void shouldBeCollapsed() {
             switcher().shouldHave(Condition.cssClass(String.format("%s_close", SWITCHER)));
+        }
+
+        @Override
+        public void badgeShouldHavePosition(BadgePosition position) {
+            if (position.equals(BadgePosition.LEFT))
+                element().$(".n2o-rc-tree-label").shouldHave(Condition.cssValue("order", "1"));
+            else
+                element().$(".n2o-rc-tree-label").shouldHave(Condition.cssValue("order", "0"));
         }
 
         private WebElementCondition isExpanded() {

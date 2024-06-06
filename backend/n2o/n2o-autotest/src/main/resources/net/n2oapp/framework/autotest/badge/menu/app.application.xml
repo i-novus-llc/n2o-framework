@@ -14,6 +14,18 @@
             >
                 <open-page  page-id="test" route="/test"/>
             </menu-item>
+            <menu-item id="notif2"
+                       icon="fa fa-bell"
+                       badge="2"
+                       badge-color="danger"
+                       badge-position="left"
+                       badge-shape="square"
+                       badge-image="static/hamburg-3846525__340.jpg"
+                       badge-image-position="right"
+                       badge-image-shape="square"
+            >
+                <open-page  page-id="test" route="/test"/>
+            </menu-item>
         </nav>
     </header>
 </application>
