@@ -68,3 +68,9 @@
     height: 100%;
     padding: 0;
 }
+
+.n2o-editable-cell-control {
+    .n2o-advanced-table-edit-control {
+        padding-left: 0.75rem !important;
+    }
+}
