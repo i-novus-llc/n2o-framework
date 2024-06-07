@@ -40,4 +40,6 @@ export interface ConfirmProps {
     operation: { id: string, type: string, key: string, buttonId: string }
     className?: string
     size: 'lg' | 'sm'
+    datasource?: string
+    model?: string
 }

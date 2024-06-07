@@ -1,7 +1,12 @@
 import React from 'react'
+import get from 'lodash/get'
+import { useStore } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import classNames from 'classnames'
+
+import { parseExpression } from '../../core/Expression/parse'
+import evalExpression from '../../utils/evalExpression'
 
 import { ConfirmProps } from './Confirm'
 import { useConfirmEffects } from './useConfirmEffects'
@@ -9,22 +14,28 @@ import { useConfirmEffects } from './useConfirmEffects'
 export function ConfirmDialog({
     size,
     title,
-    text,
+    text: propsText,
     ok,
     cancel,
     closeButton,
     className,
     id,
     operation,
+    datasource,
+    model,
     reverseButtons = false,
 }: ConfirmProps) {
     const { t } = useTranslation()
     const { onConfirm, onDeny } = useConfirmEffects(id, operation)
+    const { getState } = useStore()
+    const { models } = getState()
 
     const { label: okLabel, color: okColor = 'primary' } = ok || {}
     const { label: cancelLabel, color: cancelColor } = cancel || {}
 
     const hasHeader = title || closeButton
+    const expression = parseExpression(propsText)
+    const text = expression ? evalExpression(expression, get(models, `${model}.${datasource}`)) as string : propsText
 
     return (
         <Modal
@@ -39,9 +50,7 @@ export function ConfirmDialog({
             {text && <ModalBody>{text}</ModalBody>}
             <ModalFooter>
                 <ButtonGroup className={classNames({ 'flex-row-reverse': reverseButtons })}>
-                    <Button onClick={onConfirm} color={okColor}>
-                        {okLabel || t('confirm')}
-                    </Button>
+                    <Button onClick={onConfirm} color={okColor}>{okLabel || t('confirm')}</Button>
                     <Button onClick={onDeny} color={cancelColor}>{cancelLabel || t('deny')}</Button>
                 </ButtonGroup>
             </ModalFooter>
