@@ -7,19 +7,25 @@ const Size = {
     2: 'MB',
 }
 
+const MESSAGE = 'Ошибка загрузки файла'
+
 export function post(url, file, onProgress, onUpload, onError, cancelSource) {
     axios
         .post(url, file, {
             cancelToken: cancelSource.token,
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+            headers: { 'Content-Type': 'multipart/form-data' },
             onUploadProgress: onProgress,
         })
-        .then((response) => {
-            onUpload(response)
-        })
+        .then((response) => { onUpload(response) })
         .catch((error) => {
+            if (error?.response) {
+                const { statusText, status } = error.response
+
+                onError(new Error(`${MESSAGE}: ${statusText || status}`))
+
+                return
+            }
+
             onError(error)
         })
 }
