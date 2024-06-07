@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.enums.Color;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
@@ -42,6 +43,8 @@ public class ConfirmActionCompilerTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getStyle().get("pageBreakBefore"), CoreMatchers.is("avoid"));
         assertThat(testAction.getPayload().getStyle().get("paddingTop"), CoreMatchers.is("0"));
         assertThat(testAction.getPayload().getMode(), is(ConfirmType.MODAL));
+        assertThat(testAction.getPayload().getModel(), is(ReduxModel.resolve));
+        assertThat(testAction.getPayload().getDatasource(), is("testConfirmAction_ds"));
         assertThat(testAction.getPayload().getCloseButton(), is(false));
         assertThat(testAction.getPayload().getReverseButtons(), is(false));
         assertThat(testAction.getPayload().getOk().getLabel(), is("test"));
