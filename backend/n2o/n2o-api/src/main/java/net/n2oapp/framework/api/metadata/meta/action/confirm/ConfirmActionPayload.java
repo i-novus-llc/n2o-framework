@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
 
@@ -27,6 +28,12 @@ public class ConfirmActionPayload implements ActionPayload {
 
     @JsonProperty
     private ConfirmType mode;
+
+    @JsonProperty
+    private String datasource;
+
+    @JsonProperty
+    private ReduxModel model;
 
     @JsonProperty
     private Boolean closeButton;

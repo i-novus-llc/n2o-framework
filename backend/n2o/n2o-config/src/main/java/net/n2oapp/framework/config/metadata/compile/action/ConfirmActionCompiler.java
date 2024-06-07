@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static net.n2oapp.framework.config.util.StylesResolver.resolveStyles;
 
 /**
@@ -35,6 +36,8 @@ public class ConfirmActionCompiler extends AbstractActionCompiler<ConfirmAction,
         compiled.getPayload().setStyle(resolveStyles(source.getStyle()));
         compiled.getPayload().setMode(castDefault(source.getType(),  p.resolve(property("n2o.api.action.confirm.mode"), ConfirmType.class)));
         compiled.getPayload().setCloseButton(castDefault(source.getCloseButton(), p.resolve(property("n2o.api.action.confirm.close_button"), Boolean.class)));
+        compiled.getPayload().setModel(getLocalModel(p));
+        compiled.getPayload().setDatasource(getClientDatasourceId(getLocalDatasourceId(p), p));
         if (source.getConfirmButtons() != null && source.getConfirmButtons().length == 2) {
             if (source.getConfirmButtons()[0] instanceof N2oConfirmAction.OkButton) {
                 compiled.getPayload().setReverseButtons(false);
