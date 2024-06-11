@@ -448,22 +448,7 @@ ReactDOM.render(
 );
 ```
 
-Для расширения существующих объектов данных из n2o store необходимо использовать функцию
-
-```js
-export const reducersManager = (state, action, n2oSlice, customSlice) => {
-    const { type } = action
-    const { actions = {}, name } = customSlice
-
-    const customActions = Object.keys(actions).map(action => `${name}/${action}`)
-
-    if (customActions.includes(type)) {
-        return customSlice.reducer(state, action)
-    }
-
-    return n2oSlice(state, action)
-}
-```
+Для расширения существующих объектов данных из n2o store необходимо создать расширенный объект данных.
 
 :::note
 Не является безопасной практикой.
@@ -472,27 +457,30 @@ export const reducersManager = (state, action, n2oSlice, customSlice) => {
 :::
 
 Пример.
-Чтобы расширить объект page, выполняем импорт pages reducers из n2o-framework.
-Создаем slice используя name из n2o (префикс n2o/ +  reducerName)
-Применяем reducersManager передав в него нужные данные.
-
+Чтобы расширить объект page.
+1) Выполняем импорт pageSlice из n2o-framework.
+2) Выполняем импорт initialState из n2o-framework.
+3) Создаем slice в качестве name указываем pageSlice.name
+4) Добавляем значение initialState
+5) В поле reducers необходимо сделать спред всех редюсеров pageSlice.caseReducers.
 
 :::note
 Список reducers можно увидеть по пути `n2o-framework/lib/reducers`
 :::
 
 ```js
-import pages from 'n2o-framework/lib/ducks/pages/store'
+import { pageSlice, initialState } from 'n2o-framework/lib/ducks/pages/store'
 
-const pagesSlice = createSlice({
-   name: 'n2o/pages',
-   initialState: {},
+const extendedPagesSlice = createSlice({
+   name: pageSlice.name,
+   initialState,
    reducers: {
-    // ... ваша логика
+      ...pageSlice.caseReducers,
+      // ... ваша логика
    }
 })
 
-export const pagesReducers = (state, action) => reducersManager(state, action, pages, pagesSlice)
+export const pagesReducers = extendedPagesSlice.reducer
 ```
 
 При экспорте, в customReducers, необходимо использовать ключ reducer из n2o-framework.

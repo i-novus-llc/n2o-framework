@@ -17,7 +17,7 @@ import type {
     RemoveFieldFromArrayAction,
 } from './Actions'
 
-const initialState: State = {
+export const initialState: State = {
     datasource: {},
     filter: {},
     multi: {}, // selected
@@ -25,7 +25,7 @@ const initialState: State = {
     edit: {},
 }
 
-const modelsSlice = createSlice({
+export const modelsSlice = createSlice({
     name: 'n2o/models',
     initialState,
     reducers: {

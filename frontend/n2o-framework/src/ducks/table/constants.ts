@@ -1,9 +1,7 @@
-import { State, Table } from './Table'
+import { Table } from './Table'
 
 export const VISIBLE_STATE = 'visibleState'
 export const IS_DEFAULT_COLUMNS = 'isDefaultColumns'
-
-export const initialState: State = {}
 
 export const getDefaultColumnState = () => ({
     isInit: true,

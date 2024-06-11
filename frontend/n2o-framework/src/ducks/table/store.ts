@@ -10,9 +10,12 @@ import {
     RegisterTableColumn,
     SwitchTableColumnParam,
 } from './Actions'
-import { getDefaultColumnState, getDefaultTableState, initialState } from './constants'
+import { getDefaultColumnState, getDefaultTableState } from './constants'
+import { State } from './Table'
 
-const tableSlice = createSlice({
+export const initialState: State = {}
+
+export const tableSlice = createSlice({
     name: 'n2o/table',
     initialState,
     reducers: {

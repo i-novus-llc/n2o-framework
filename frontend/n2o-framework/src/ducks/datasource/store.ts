@@ -36,9 +36,9 @@ import {
     SubmitProvider,
 } from './Provider'
 
-const initialState: Record<string, DataSourceState> = {}
+export const initialState: Record<string, DataSourceState> = {}
 
-const datasource = createSlice({
+export const datasource = createSlice({
     name: 'n2o/datasource',
     initialState,
     reducers: {
