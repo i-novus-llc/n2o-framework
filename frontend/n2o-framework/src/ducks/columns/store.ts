@@ -12,9 +12,9 @@ import {
     ToggleColumnVisibility,
 } from './Actions'
 
-const initialState: State = {}
+export const initialState: State = {}
 
-const columnsSlice = createSlice({
+export const columnsSlice = createSlice({
     name: 'n2o/columns',
     initialState,
     reducers: {

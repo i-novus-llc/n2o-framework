@@ -7,7 +7,7 @@ import { Add, AddMulti, Remove, RemoveAll, StopRemoving } from './Actions'
 
 export const initialState: State = {}
 
-const alertsSlice = createSlice({
+export const alertsSlice = createSlice({
     name: 'n2o/alerts',
     initialState,
     reducers: {
