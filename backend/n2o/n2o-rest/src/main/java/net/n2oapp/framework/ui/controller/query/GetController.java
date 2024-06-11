@@ -1,5 +1,6 @@
 package net.n2oapp.framework.ui.controller.query;
 
+import lombok.Getter;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.QueryProcessor;
@@ -17,13 +18,14 @@ import org.springframework.util.CollectionUtils;
 /**
  * Абстрактный контроллер получения данных
  */
+@Getter
 public abstract class GetController implements ControllerTypeAware {
 
     private static final String METADATA_FILE_EXTENSION = ".query.xml";
-    private DataProcessingStack dataProcessingStack;
-    private QueryProcessor queryProcessor;
-    private SubModelsProcessor subModelsProcessor;
-    private AlertMessageBuilder messageBuilder;
+    private final DataProcessingStack dataProcessingStack;
+    private final QueryProcessor queryProcessor;
+    private final SubModelsProcessor subModelsProcessor;
+    private final AlertMessageBuilder messageBuilder;
 
 
     protected GetController(DataProcessingStack dataProcessingStack,
@@ -72,7 +74,6 @@ public abstract class GetController implements ControllerTypeAware {
         return pageData;
     }
 
-    @SuppressWarnings("unchecked")
     private void executeSubModelsRequest(QueryRequestInfo requestInfo, CollectionPage<DataSet> page) {
         if (!page.getCollection().isEmpty() && requestInfo.isSubModelsExists() && requestInfo.getSize() == 1) {
             DataSet dataSet = page.getCollection().iterator().next();
@@ -80,19 +81,4 @@ public abstract class GetController implements ControllerTypeAware {
         }
     }
 
-    public DataProcessingStack getDataProcessingStack() {
-        return dataProcessingStack;
-    }
-
-    public QueryProcessor getQueryProcessor() {
-        return queryProcessor;
-    }
-
-    public SubModelsProcessor getSubModelsProcessor() {
-        return subModelsProcessor;
-    }
-
-    public AlertMessageBuilder getMessageBuilder() {
-        return messageBuilder;
-    }
 }

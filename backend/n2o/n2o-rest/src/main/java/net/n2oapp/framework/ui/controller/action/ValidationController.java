@@ -10,17 +10,15 @@ import net.n2oapp.framework.api.ui.ValidationRequestInfo;
 import net.n2oapp.framework.api.ui.ValidationResponseInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 
 /**
  * Контроллер получения выборки данных
  */
-@Controller
 public class ValidationController implements ControllerTypeAware {
 
     private static final Logger logger = LoggerFactory.getLogger(ValidationController.class);
-    private InvocationProcessor serviceProvider;
-    private DomainProcessor domainProcessor;
+    private final InvocationProcessor serviceProvider;
+    private final DomainProcessor domainProcessor;
 
     public ValidationController(InvocationProcessor serviceProvider,
                                 DomainProcessor domainProcessor) {

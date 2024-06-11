@@ -12,14 +12,12 @@ import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
-import org.springframework.stereotype.Controller;
 
 import java.util.Set;
 
 /**
  * Контроллер получения данных для копирования
  */
-@Controller
 public class MergeValuesController extends DefaultValuesController {
     public MergeValuesController(DataProcessingStack dataProcessingStack,
                                  QueryProcessor queryProcessor,
@@ -52,7 +50,6 @@ public class MergeValuesController extends DefaultValuesController {
     }
 
 
-    @SuppressWarnings("unchecked")
     private static void merge(DataSet defaultModel, DataSet queryModel, Set<String> fieldsToCopy) {
         if (fieldsToCopy != null) {
             defaultModel.merge(queryModel);

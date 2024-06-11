@@ -11,13 +11,13 @@ import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 
 /**
- * Абстрактый контроллер записи данных
+ * Абстрактный контроллер записи данных
  */
 public abstract class SetController implements ControllerTypeAware {
 
     private static final String METADATA_FILE_EXTENSION = ".object.xml";
-    private DataProcessingStack dataProcessingStack;
-    private N2oOperationProcessor actionProcessor;
+    private final DataProcessingStack dataProcessingStack;
+    private final N2oOperationProcessor actionProcessor;
 
     public SetController(DataProcessingStack dataProcessingStack,
                          N2oOperationProcessor actionProcessor) {
@@ -27,7 +27,6 @@ public abstract class SetController implements ControllerTypeAware {
 
     public abstract SetDataResponse execute(ActionRequestInfo requestScope, ActionResponseInfo responseInfo);
 
-    @SuppressWarnings("unchecked")
     protected DataSet handleActionRequest(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo) {
         DataSet inDataSet = requestInfo.getData();
         dataProcessingStack.processAction(requestInfo, responseInfo, inDataSet);
