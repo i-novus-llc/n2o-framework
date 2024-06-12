@@ -80,7 +80,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>${jococo-maven-plugin.version}</version>
+                    <version>${jacoco-maven-plugin.version}</version>
                     <configuration>
                         <destFile>${project.build.directory}/jacoco.exec</destFile>
                     </configuration>
