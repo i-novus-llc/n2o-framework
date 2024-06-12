@@ -1,5 +1,6 @@
 package net.n2oapp.framework.ui.controller.action;
 
+import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.exception.N2oException;
@@ -16,22 +17,18 @@ import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
 /**
  * Выполняет действия(action), пришедшие с клиента
  */
-@Controller
+@Slf4j
 public class OperationController extends SetController {
 
-    private AlertMessageBuilder messageBuilder;
-    private AlertMessagesConstructor messagesConstructor;
-    private static final Logger logger = LoggerFactory.getLogger(OperationController.class);
-    private MetadataEnvironment environment;
+    private final AlertMessageBuilder messageBuilder;
+    private final AlertMessagesConstructor messagesConstructor;
+    private final MetadataEnvironment environment;
 
     public OperationController(DataProcessingStack dataProcessingStack,
                                N2oOperationProcessor operationProcessor,
@@ -61,7 +58,7 @@ public class OperationController extends SetController {
         } catch (N2oException e) {
             SetDataResponse response = constructFailSetDataResponse(e, requestInfo);
             responseInfo.setSuccess(false);
-            logger.error(String.format("Error response %d %s: %s", response.getStatus(), e.getSeverity(),
+            log.error(String.format("Error response %d %s: %s", response.getStatus(), e.getSeverity(),
                     e.getUserMessage() != null ? e.getUserMessage() : e.getMessage()), e);
             return response;
         }
@@ -105,6 +102,17 @@ public class OperationController extends SetController {
     private Dialog compileDialog(N2oDialog n2oDialog, ActionRequestInfo<DataSet> requestInfo) {
         String route = requestInfo.getContext().getRoute(null) + normalize(
                 n2oDialog.getRoute() != null ? n2oDialog.getRoute() : n2oDialog.getId());
+        DialogContext context = getDialogContext(n2oDialog, requestInfo, route);
+        N2oPipelineSupport pipelineSupport = new N2oPipelineSupport(environment);
+        Dialog dialog = environment.getCompilePipelineFunction()
+                .apply(pipelineSupport)
+                .get(n2oDialog, context);
+        dialog = environment.getBindPipelineFunction().apply(pipelineSupport)
+                .get(dialog, context, requestInfo.getQueryData());
+        return dialog;
+    }
+
+    private static DialogContext getDialogContext(N2oDialog n2oDialog, ActionRequestInfo<DataSet> requestInfo, String route) {
         DialogContext context = new DialogContext(route, n2oDialog.getId());
         ActionContext actionContext = (ActionContext) requestInfo.getContext();
         context.setPathRouteMapping(actionContext.getPathRouteMapping());
@@ -116,13 +124,7 @@ public class OperationController extends SetController {
         context.setParentRefresh(actionContext.getRefresh());
         if (requestInfo.getObject() != null)
             context.setObjectId(requestInfo.getObject().getId());
-        N2oPipelineSupport pipelineSupport = new N2oPipelineSupport(environment);
-        Dialog dialog = environment.getCompilePipelineFunction()
-                .apply(pipelineSupport)
-                .get(n2oDialog, context);
-        dialog = environment.getBindPipelineFunction().apply(pipelineSupport)
-                .get(dialog, context, requestInfo.getQueryData());
-        return dialog;
+        return context;
     }
 
     @Override
