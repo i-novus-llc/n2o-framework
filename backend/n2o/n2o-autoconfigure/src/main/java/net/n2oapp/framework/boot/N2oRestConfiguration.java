@@ -1,18 +1,28 @@
 package net.n2oapp.framework.boot;
 
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.data.DomainProcessor;
+import net.n2oapp.framework.api.data.InvocationProcessor;
+import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.ui.N2oAlertMessagesConstructor;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
+import net.n2oapp.framework.engine.data.N2oOperationProcessor;
+import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
+import net.n2oapp.framework.ui.controller.action.OperationController;
 import net.n2oapp.framework.ui.controller.action.SetController;
 import net.n2oapp.framework.ui.controller.action.ValidationController;
 import net.n2oapp.framework.ui.controller.export.ExportController;
 import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 import net.n2oapp.framework.ui.controller.query.GetController;
+import net.n2oapp.framework.ui.controller.query.MergeValuesController;
+import net.n2oapp.framework.ui.controller.query.QueryController;
+import net.n2oapp.framework.ui.controller.query.SimpleDefaultValuesController;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -44,6 +54,46 @@ public class N2oRestConfiguration {
         controllers.putAll(getControllers);
         controllers.putAll(validationControllers);
         return new N2oControllerFactory(controllers);
+    }
+
+    @Bean
+    QueryController queryController(DataProcessingStack dataProcessingStack,
+                                    QueryProcessor queryProcessor,
+                                    SubModelsProcessor subModelsProcessor,
+                                    AlertMessageBuilder messageBuilder,
+                                    AlertMessagesConstructor messagesConstructor) {
+        return new QueryController(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder, messagesConstructor);
+    }
+
+    @Bean
+    MergeValuesController mergeValuesController(DataProcessingStack dataProcessingStack,
+                                                QueryProcessor queryProcessor,
+                                                SubModelsProcessor subModelsProcessor,
+                                                AlertMessageBuilder messageBuilder) {
+        return new MergeValuesController(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder);
+    }
+
+    @Bean
+    public SimpleDefaultValuesController simpleDefaultValuesController(DataProcessingStack dataProcessingStack,
+                                                                       QueryProcessor queryProcessor,
+                                                                       SubModelsProcessor subModelsProcessor,
+                                                                       AlertMessageBuilder messageBuilder) {
+        return new SimpleDefaultValuesController(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder);
+    }
+
+    @Bean
+    public OperationController operationController(DataProcessingStack dataProcessingStack,
+                                                   N2oOperationProcessor operationProcessor,
+                                                   AlertMessageBuilder messageBuilder,
+                                                   MetadataEnvironment environment,
+                                                   AlertMessagesConstructor messagesConstructor) {
+        return new OperationController(dataProcessingStack, operationProcessor, messageBuilder, environment, messagesConstructor);
+    }
+
+    @Bean
+    public ValidationController validationController(InvocationProcessor serviceProvider,
+                                                     DomainProcessor domainProcessor) {
+        return new ValidationController(serviceProvider, domainProcessor);
     }
 
     @Bean
