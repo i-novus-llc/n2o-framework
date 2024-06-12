@@ -9,7 +9,7 @@ import { MetadataFail, MetadataRequest, MetadataSuccess, Reset, SetPageLoading, 
 
 export const initialState: State = {}
 
-const pageSlice = createSlice({
+export const pageSlice = createSlice({
     name: 'n2o/pages',
     initialState,
     reducers: {

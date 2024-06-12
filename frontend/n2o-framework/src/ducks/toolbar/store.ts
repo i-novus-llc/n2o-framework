@@ -13,9 +13,9 @@ import {
     ChangeButtonStyle, ChangeButtonTitle, ChangeButtonVisibility, RegisterButton, ToggleButtonParam,
 } from './Actions'
 
-const initialState: State = {}
+export const initialState: State = {}
 
-const toolbarSlice = createSlice({
+export const toolbarSlice = createSlice({
     name: 'n2o/toolbar',
     initialState,
     reducers: {

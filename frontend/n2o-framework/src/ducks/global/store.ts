@@ -14,7 +14,7 @@ export const initialState: Global = {
     breadcrumbs: {},
 }
 
-const globalSlice = createSlice({
+export const globalSlice = createSlice({
     name: 'n2o/global',
     initialState,
     reducers: {

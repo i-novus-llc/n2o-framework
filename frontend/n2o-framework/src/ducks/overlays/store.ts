@@ -5,11 +5,11 @@ import { CLOSE } from './constants'
 import { State } from './Overlays'
 import { InsertOverlay, Insert, Remove } from './Actions'
 
-const initialState: State = []
+export const initialState: State = []
 
 /* TODO OverlaysRefactoring перевести все действия открытия overlays на action insert,
     сделать уникальные mode для выбора src, убрать type */
-const overlaysSlice = createSlice({
+export const overlaysSlice = createSlice({
     name: 'n2o/overlays',
     initialState,
     reducers: {

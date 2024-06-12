@@ -31,8 +31,9 @@ const defaultState = {
     visible: true,
 }
 
-const initialState: State = {}
-const regionsSlice = createSlice({
+export const initialState: State = {}
+
+export const regionsSlice = createSlice({
     name: 'n2o/regions',
     initialState,
     reducers: {

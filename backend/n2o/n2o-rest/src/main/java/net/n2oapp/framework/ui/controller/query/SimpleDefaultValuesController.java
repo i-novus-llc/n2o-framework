@@ -5,12 +5,10 @@ import net.n2oapp.framework.api.rest.ControllerType;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
-import org.springframework.stereotype.Controller;
 
 /**
  * Контроллер получения данных для значений по умолчанию
  */
-@Controller
 public class SimpleDefaultValuesController extends DefaultValuesController {
 
     public SimpleDefaultValuesController(DataProcessingStack dataProcessingStack,

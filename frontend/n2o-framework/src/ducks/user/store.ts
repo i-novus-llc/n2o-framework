@@ -15,7 +15,7 @@ import { UserLogin } from './Actions'
 /**
  * @type User.store
  */
-const initialState: State = {
+export const initialState: State = {
     id: null,
     name: null,
     roles: [],
@@ -23,7 +23,7 @@ const initialState: State = {
     inProgress: false,
 }
 
-const userSlice = createSlice({
+export const userSlice = createSlice({
     name: 'n2o/auth',
     initialState,
     reducers: {

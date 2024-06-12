@@ -36,10 +36,11 @@ const warnNonExistent = (field: string, property: string) => console.warn(`Attem
  */
 
 const createFieldPath = (formName: string, fieldName: string) => ([formName, 'fields', fieldName])
-const initialState: FormsState = {}
+
+export const initialState: FormsState = {}
 
 /* eslint-disable consistent-return */
-const formSlice = createSlice({
+export const formSlice = createSlice({
     name: 'n2o/form',
     initialState,
     reducers: {
