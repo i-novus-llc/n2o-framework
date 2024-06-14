@@ -38,7 +38,7 @@ public class N2oCalendarMonthView extends N2oStandardCalendarView implements Cal
 
     @Override
     public void clickOnDay(String day) {
-        dateCells().findBy(Condition.text(day)).$("a").click();
+        dateCells().findBy(Condition.text(day)).$("button").click();
     }
 
     protected ElementsCollection dateCells() {

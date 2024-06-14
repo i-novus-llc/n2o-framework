@@ -2,7 +2,7 @@ import isMap from 'lodash/isMap'
 import isPlainObject from 'lodash/isPlainObject'
 import isFunction from 'lodash/isFunction'
 import defaultTo from 'lodash/defaultTo'
-import flatten from 'flat'
+import { flatten } from 'flat'
 import invariant from 'invariant'
 import queryString from 'query-string'
 

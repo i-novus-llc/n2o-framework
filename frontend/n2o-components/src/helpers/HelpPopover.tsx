@@ -1,6 +1,5 @@
 import React, { memo } from 'react'
-import { UncontrolledPopover, PopoverBody } from 'reactstrap'
-import type { Placement } from 'popper.js'
+import { UncontrolledPopover, PopoverBody, PopoverProps } from 'reactstrap'
 import Dompurify from 'dompurify'
 
 import { id } from '../utils/id'
@@ -8,7 +7,7 @@ import { id } from '../utils/id'
 interface Props {
     help: string
     icon?: string
-    placement?: Placement
+    placement?: PopoverProps['placement']
 }
 export const HelpPopover = memo(
     ({ help, placement = 'right', icon = 'fa fa-question-circle' }: Props) => {
