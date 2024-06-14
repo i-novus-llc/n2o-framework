@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "n2o-framework": "7.16.0",
-    "prop-types": "^15.6.2",
+    "prop-types": "^15.8.1",
     "re-resizable": "^4.11.0",
     "react": "^16.8.6",
     "react-copy-to-clipboard": "^5.0.1",

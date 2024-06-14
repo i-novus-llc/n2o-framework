@@ -6,7 +6,7 @@ import includes from 'lodash/includes'
 import each from 'lodash/each'
 import isNil from 'lodash/isNil'
 import startsWith from 'lodash/startsWith'
-import flatten from 'flat'
+import { flatten } from 'flat'
 
 import linkResolver from '../utils/linkResolver'
 import { clearEmptyParams } from '../utils/clearEmptyParams'

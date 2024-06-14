@@ -25,7 +25,7 @@
     "compile:n2o-components-lib:watch": "yarn workspace @i-novus/n2o-components compile:lib:watch",
     "start:demo": "yarn workspace n2o-simple-project run start",
     "lint": "yarn workspace n2o-framework run lint",
-    "clean": "yarn workspace n2o-simple-project clean && yarn workspace n2o-framework clean && rimraf ./node_modules/",
+    "clean": "yarn workspace n2o-simple-project clean && yarn workspace n2o-framework clean && yarn workspace @i-novus/n2o-components clean && rimraf ./node_modules/",
     "test": "yarn workspace n2o-framework run test",
     "test:n2o": "yarn workspace n2o-framework run test",
     "test:n2o:generate-output": "yarn workspace n2o-framework run test:generate-output",
@@ -37,9 +37,9 @@
   "devDependencies": {
     "@jsdevtools/npm-publish": "3.0.1",
     "@types/react-dom": "^18.2.7",
-    "concurrently": "^3.5.1",
+    "concurrently": "^8.2.2",
     "cross-env": "^5.2.0",
-    "rimraf": "^3.0.2",
-    "sass": "^1.55.0"
+    "rimraf": "5.0.7",
+    "sass": "^1.77.5"
   }
 }
