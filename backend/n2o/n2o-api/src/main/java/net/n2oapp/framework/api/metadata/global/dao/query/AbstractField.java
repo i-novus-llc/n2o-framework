@@ -18,7 +18,7 @@ public abstract class AbstractField implements Source, IdAware {
     private String selectExpression;
     private Boolean isSelected;
 
-    public AbstractField(AbstractField field) {
+    protected AbstractField(AbstractField field) {
         this.id = field.getId();
         this.mapping = field.getMapping();
         this.normalize = field.getNormalize();
@@ -27,7 +27,7 @@ public abstract class AbstractField implements Source, IdAware {
         this.absoluteId = field.getAbsoluteId();
     }
 
-    public AbstractField() {
+    protected AbstractField() {
     }
 
     @Override
