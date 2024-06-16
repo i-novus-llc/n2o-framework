@@ -10,8 +10,9 @@ public interface ArgumentsInvocationEngine<T extends N2oArgumentsInvocation> ext
 
     /**
      * Выполнение операции
+     *
      * @param invocation source модель action-a
-     * @param data входные данные
+     * @param data       входные данные
      * @return данные после выполнения операции
      */
     Object invoke(T invocation, Object[] data);
