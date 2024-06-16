@@ -10,6 +10,7 @@ import Toolbar from '../buttons/Toolbar'
 import { Spinner } from '../snippets/Spinner/Spinner'
 import { dataSourceError } from '../../ducks/datasource/selectors'
 import { ErrorContainer } from '../../core/error/Container'
+import { COUNT_NEVER } from '../snippets/Pagination/constants'
 
 import WidgetFilters from './WidgetFilters'
 
@@ -63,6 +64,9 @@ const StandardWidget = (props) => {
             ) : null
         )
     }, [pagination, toolbar, widgetId])
+    const { showCount } = props
+
+    const withCount = showCount !== COUNT_NEVER
 
     const filterComponent = (
         <WidgetFilters
@@ -70,6 +74,7 @@ const StandardWidget = (props) => {
             fetchData={fetchData}
             datasource={datasource}
             fieldsets={filter.filterFieldsets}
+            withCount={withCount}
             {...filter}
         />
     )

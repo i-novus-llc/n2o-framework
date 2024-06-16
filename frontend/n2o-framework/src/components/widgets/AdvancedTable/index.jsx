@@ -92,7 +92,7 @@ export const AdvancedTableContainer = (props) => {
         return isValid
     }, [filterErrors, validations])
 
-    const { place = 'bottomLeft' } = paging
+    const { place = 'bottomLeft', showCount } = paging
     const pagination = {
         [place]: (
             <N2OPagination
@@ -104,6 +104,8 @@ export const AdvancedTableContainer = (props) => {
                 datasource={datasourceModel}
                 setPage={setPage}
                 visible={paginationVisible}
+                showCount={showCount}
+                loading={loading}
             />
         ),
     }
@@ -205,6 +207,7 @@ export const AdvancedTableContainer = (props) => {
                     fetchData={fetchData}
                     loading={loading}
                     pagination={pagination}
+                    showCount={showCount}
                 >
                     {isInit ? (
                         <TableContainer
