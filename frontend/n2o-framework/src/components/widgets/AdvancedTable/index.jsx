@@ -42,7 +42,7 @@ export const AdvancedTableContainer = (props) => {
         page, sorting, children, hasNext, isInit, setResolve,
         changeColumnParam, columnsState, tableConfig, switchTableParam,
         resolvedFilter, hasSecurityAccess, resolvedCells, paginationVisible,
-        dataMapper = defaultDataMapper, components,
+        dataMapper = defaultDataMapper, components, setFilter,
     } = props
 
     const tableContainerElem = useRef(null)
@@ -109,7 +109,7 @@ export const AdvancedTableContainer = (props) => {
     }
 
     const { setActiveModel, setMultiModel, unsetMultiModel, updateDatasource } = useTableActionReactions(datasource)
-    const onFilter = useChangeFilter(datasource)
+    const onFilter = useChangeFilter(setFilter, datasource)
     const onRowClickAction = useOnActionMethod(id, tableConfig?.body?.row?.click)
     const actionListener = useCallback((action, payload) => {
         switch (action) {
