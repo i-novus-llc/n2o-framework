@@ -157,7 +157,10 @@ class Fieldset extends React.Component {
             each(row.cols, (col) => {
                 if (col.fieldsets) {
                     each(col.fieldsets, (fieldset) => {
-                        info.fields = concat(info.fields, this.calculateAllFields(fieldset.rows))
+                        const subInfo = this.calculateAllFields(fieldset.rows)
+
+                        info.fields = concat(info.fields, subInfo.fields)
+                        info.fieldsVisibility = concat(info.fieldsVisibility, subInfo.fieldsVisibility)
                     })
                 } else if (col.fields) {
                     each(col.fields, (field) => {
