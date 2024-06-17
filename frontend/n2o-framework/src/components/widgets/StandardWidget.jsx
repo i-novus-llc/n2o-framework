@@ -8,6 +8,7 @@ import { isEmpty } from 'lodash'
 
 import Toolbar from '../buttons/Toolbar'
 import { Spinner } from '../snippets/Spinner/Spinner'
+import { COUNT_NEVER } from '../snippets/Pagination/constants'
 import { dataSourceError } from '../../ducks/datasource/selectors'
 import { ErrorContainer } from '../../core/error/Container'
 
@@ -37,7 +38,9 @@ const PLACES = {
 class StandardWidget extends React.Component {
     // eslint-disable-next-line consistent-return
     renderSection(place) {
-        const { widgetId, toolbar, filter, fetchData, datasource } = this.props
+        const { widgetId, toolbar, filter, fetchData, datasource, showCount } = this.props
+
+        const withCount = showCount !== COUNT_NEVER
 
         const filterProps = {
             ...filter,
@@ -53,6 +56,7 @@ class StandardWidget extends React.Component {
                         widgetId={widgetId}
                         fetchData={fetchData}
                         datasource={datasource}
+                        withCount={withCount}
                         {...filterProps}
                     />
                 )

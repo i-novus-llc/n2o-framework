@@ -8,13 +8,13 @@ import {
     TOTAL_TITLE,
     PAGE_LINK_CLASS,
     COUNT_NEVER,
-    Pagination as PaginationProps,
+    Props,
 } from './constants'
 import { usePagination, getTotalPages } from './usePagination'
 import { Pages } from './Pages'
-import { getTotalVisibility } from './helpers'
+import { getTotalVisibility, getHasNext } from './helpers'
 
-export function Pagination(props: PaginationProps) {
+export function Pagination(props: Props) {
     const {
         className,
         showCount,
@@ -40,7 +40,13 @@ export function Pagination(props: PaginationProps) {
     const totalVisible = getTotalVisibility(showCount, showLast, count)
     const totalClick = () => { onSelect(activePage, true) }
 
-    const hasNext = totalPages !== undefined && totalPages > 1 && activePage === 1 ? true : propsHasNext
+    const hasNext = getHasNext({
+        loading,
+        totalPages,
+        activePage,
+        propsHasNext,
+    })
+
     const { pages = [], extraFirst, extraEnd } = usePagination(totalPages, activePage, hasNext, showLast)
 
     const getNextDisabled = () => {
