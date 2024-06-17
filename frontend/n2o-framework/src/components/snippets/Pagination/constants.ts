@@ -29,25 +29,25 @@ export const COUNT_BY_REQUEST = 'by-request'
 export type showCountType = 'always' | 'by-request' | 'never' | boolean
 type onSelectType = (page: number, withCount?: boolean) => void
 
-export interface Pagination {
-    className: string,
-    style: object,
-    showSinglePage: boolean,
-    showLast: boolean,
-    showCount: showCountType,
-    count?: number,
-    hasNext?: boolean,
-    maxPages: number,
-    size: number,
-    onSelect: onSelectType,
-    activePage: number,
-    prevIcon?: string,
-    nextIcon?: string,
-    prevLabel?: string | null,
-    nextLabel?: string | null,
-    prev?: boolean,
-    next?: boolean,
-    loading?: boolean,
+export interface Props {
+    className: string
+    style: object
+    showSinglePage: boolean
+    showLast: boolean
+    showCount: showCountType
+    count?: number
+    hasNext?: boolean
+    maxPages: number
+    size: number
+    onSelect: onSelectType
+    activePage: number
+    prevIcon?: string
+    nextIcon?: string
+    prevLabel?: string | null
+    nextLabel?: string | null
+    prev?: boolean
+    next?: boolean
+    loading?: boolean
     visible?: boolean
 }
 

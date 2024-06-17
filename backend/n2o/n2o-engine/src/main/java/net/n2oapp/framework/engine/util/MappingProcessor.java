@@ -24,7 +24,7 @@ import java.util.*;
  * Утилитный класс для маппинга данных.
  */
 public class MappingProcessor {
-    private final static ExpressionParser writeParser = new SpelExpressionParser(new SpelParserConfiguration(true, true));
+    private static final ExpressionParser writeParser = new SpelExpressionParser(new SpelParserConfiguration(true, true));
     private static final ExpressionParser readParser = new SpelExpressionParser(new SpelParserConfiguration(false, false));
     private static final Map<String, Object> registeredFunctions = new HashMap<>(NormalizerCollector.collect());
 
