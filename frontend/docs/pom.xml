@@ -10,8 +10,6 @@
     </parent>
 
     <artifactId>docusaurus</artifactId>
-    <name>docusaurus</name>
-    <packaging>jar</packaging>
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>

@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>frontend</artifactId>
-    <packaging>jar</packaging>
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
