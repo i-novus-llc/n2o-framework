@@ -4,7 +4,6 @@ import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.templates.TemplateModel;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
@@ -31,18 +30,21 @@ public class IndexPageHandler {
 
     @Value("${server.servlet.context-path:/}")
     private String servletContext;
-    @Autowired
-    private SandboxRestClient restClient;
-    @Autowired
-    private ProjectTemplateHolder templatesHolder;
+    private final SandboxRestClient restClient;
+    private final ProjectTemplateHolder templatesHolder;
 
     private static final String RELATIVE_PATH = "./";
     private static final String HREF_PATTERN = "href=\"";
     private static final String SRC_PATTERN = "src=\"";
     private static final String VIEW_INDEX_HTML = "META-INF/resources/index.html";
 
+    public IndexPageHandler(SandboxRestClient restClient, ProjectTemplateHolder templatesHolder) {
+        this.restClient = restClient;
+        this.templatesHolder = templatesHolder;
+    }
+
     @CrossOrigin(origins = "*")
-    @GetMapping("/view/{projectId}/")
+    @GetMapping({"/view/{projectId}/", "/view/{projectId}"})
     public ResponseEntity<Resource> getIndex(@PathVariable(value = "projectId") String projectId) {
         TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
         if (templateModel == null && !restClient.isProjectExists(projectId))
