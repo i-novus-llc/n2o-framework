@@ -1,6 +1,8 @@
 package net.n2oapp.framework.sandbox.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextEngine;
@@ -55,9 +57,6 @@ import net.n2oapp.framework.ui.controller.query.MergeValuesController;
 import net.n2oapp.framework.ui.controller.query.QueryController;
 import net.n2oapp.framework.ui.controller.query.SimpleDefaultValuesController;
 import net.n2oapp.framework.ui.servlet.AppConfigJsonWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -70,7 +69,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -82,11 +80,9 @@ import static net.n2oapp.framework.sandbox.utils.FileUtil.findFilesByUri;
 import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+@Slf4j
 @RestController
 public class ViewController {
-
-    private Logger logger = LoggerFactory.getLogger(ViewController.class);
-
     @Value("${n2o.version:unknown}")
     private String n2oVersion;
     @Value("${n2o.config.path}")
@@ -94,66 +90,80 @@ public class ViewController {
     @Value("${spring.messages.basename:messages}")
     private String messageBundleBasename;
 
-    @Autowired
-    private DataProcessingStack dataProcessingStack;
-    @Autowired
-    private AlertMessageBuilder messageBuilder;
-    @Autowired
-    private QueryProcessor queryProcessor;
-    @Autowired
-    private N2oOperationProcessor operationProcessor;
-    @Autowired
-    private Environment environment;
-    @Autowired
-    private AlertMessagesConstructor messagesConstructor;
-    @Autowired
-    private RouteRegister projectRouteRegister;
-    @Autowired
-    private ContextEngine sandboxContext;
-    @Autowired
-    private SandboxPropertyResolver propertyResolver;
-    @Autowired
-    private SandboxRestClient restClient;
-    @Autowired
-    private XsdSchemaParser schemaParser;
-    @Autowired
-    private ProjectTemplateHolder templatesHolder;
-    @Autowired
-    private ExternalFilesLoader externalFilesLoader;
-    @Autowired
-    private InvocationProcessor serviceProvider;
-
+    private final DataProcessingStack dataProcessingStack;
+    private final AlertMessageBuilder messageBuilder;
+    private final QueryProcessor queryProcessor;
+    private final N2oOperationProcessor operationProcessor;
+    private final Environment environment;
+    private final AlertMessagesConstructor messagesConstructor;
+    private final RouteRegister projectRouteRegister;
+    private final ContextEngine sandboxContext;
+    private final SandboxPropertyResolver propertyResolver;
+    private final SandboxRestClient restClient;
+    private final XsdSchemaParser schemaParser;
+    private final ProjectTemplateHolder templatesHolder;
+    private final ExternalFilesLoader externalFilesLoader;
+    private final InvocationProcessor serviceProvider;
+    private final MessageSourceAccessor messageSourceAccessor;
+    private final N2oDynamicMetadataProviderFactory dynamicMetadataProviderFactory;
+    private final ObjectMapper objectMapper;
+    private final DomainProcessor domainProcessor;
     private final List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers;
-
-    private MessageSourceAccessor messageSourceAccessor;
-    private N2oDynamicMetadataProviderFactory dynamicMetadataProviderFactory;
-    private ObjectMapper objectMapper;
-    private DomainProcessor domainProcessor;
     private static final String DEFAULT_APP_ID = "default";
 
-    public ViewController(Optional<Map<String, DynamicMetadataProvider>> providers, ObjectMapper objectMapper,
-                          @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor, List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers) {
-        this.messageSourceAccessor = messageSourceAccessor;
+    public ViewController(DataProcessingStack dataProcessingStack,
+                          AlertMessageBuilder messageBuilder,
+                          QueryProcessor queryProcessor,
+                          N2oOperationProcessor operationProcessor,
+                          Environment environment,
+                          AlertMessagesConstructor messagesConstructor,
+                          RouteRegister projectRouteRegister,
+                          ContextEngine sandboxContext,
+                          SandboxPropertyResolver propertyResolver,
+                          SandboxRestClient restClient,
+                          XsdSchemaParser schemaParser,
+                          ProjectTemplateHolder templatesHolder,
+                          ExternalFilesLoader externalFilesLoader,
+                          InvocationProcessor serviceProvider,
+                          Optional<Map<String, DynamicMetadataProvider>> providers,
+                          ObjectMapper objectMapper,
+                          @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
+                          List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers) {
+        this.dataProcessingStack = dataProcessingStack;
+        this.messageBuilder = messageBuilder;
+        this.queryProcessor = queryProcessor;
+        this.operationProcessor = operationProcessor;
+        this.environment = environment;
+        this.messagesConstructor = messagesConstructor;
+        this.projectRouteRegister = projectRouteRegister;
+        this.sandboxContext = sandboxContext;
+        this.propertyResolver = propertyResolver;
+        this.restClient = restClient;
+        this.schemaParser = schemaParser;
+        this.templatesHolder = templatesHolder;
+        this.externalFilesLoader = externalFilesLoader;
+        this.serviceProvider = serviceProvider;
         this.dynamicMetadataProviderFactory = new N2oDynamicMetadataProviderFactory(providers.orElse(Collections.emptyMap()));
         this.objectMapper = objectMapper;
         this.domainProcessor = new DomainProcessor(objectMapper);
+        this.messageSourceAccessor = messageSourceAccessor;
         this.applicationBuilderConfigurers = applicationBuilderConfigurers;
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/n2o/version")
+    @GetMapping({"/n2o/version", "/n2o/version/"})
     public String getVersion() {
         return n2oVersion;
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/n2o/templates/{fileName}")
+    @GetMapping({"/n2o/templates/{fileName}", "/n2o/templates/{fileName}/"})
     public String getTemplateFile(@PathVariable String fileName) {
         return getTemplate(fileName);
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/n2o/schemas")
+    @GetMapping({"/n2o/schemas", "/n2o/schemas/"})
     public ResponseEntity<Resource> loadSchema(@RequestParam(name = "name") String schemaNamespace) throws IOException {
         Resource schema = schemaParser.getSchema(schemaNamespace);
         return ResponseEntity.ok()
@@ -163,7 +173,7 @@ public class ViewController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping({"/view/{projectId}/n2o/config"})
+    @GetMapping({"/view/{projectId}/n2o/config", "/view/{projectId}/n2o/config/"})
     public Map<String, Object> getConfig(@PathVariable(value = "projectId") String projectId) {
         Map<String, Object> addedValues = new HashMap<>();
         addedValues.put("project", projectId);
@@ -188,7 +198,7 @@ public class ViewController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping({"/view/{projectId}/n2o/page/**", "/view/{projectId}/n2o/page/", "/view/{projectId}/n2o/page"})
+    @GetMapping({"/view/{projectId}/n2o/page/**", "/view/{projectId}/n2o/page", "/view/{projectId}/n2o/page/"})
     public Page getPage(@PathVariable(value = "projectId") String projectId,
                         HttpServletRequest request) {
         try {
@@ -211,8 +221,7 @@ public class ViewController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping({"/view/{projectId}/n2o/export/**", "/view/{projectId}/n2o/export/", "/view/{projectId}/n2o/export"})
-    @ResponseBody
+    @GetMapping({"/view/{projectId}/n2o/export/**", "/view/{projectId}/n2o/export", "/view/{projectId}/n2o/export/"})
     public ResponseEntity<byte[]> export(@PathVariable(value = "projectId") String projectId, HttpServletRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
@@ -251,7 +260,7 @@ public class ViewController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
+    @GetMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data", "/view/{projectId}/n2o/data/"})
     public ResponseEntity<GetDataResponse> getData(@PathVariable(value = "projectId") String projectId,
                                                    HttpServletRequest request) {
         try {
@@ -272,7 +281,7 @@ public class ViewController {
     }
 
     @CrossOrigin(origins = "*")
-    @PutMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
+    @PutMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data", "/view/{projectId}/n2o/data/"})
     public ResponseEntity<SetDataResponse> putData(@PathVariable(value = "projectId") String projectId,
                                                    @RequestBody Object body,
                                                    HttpServletRequest request) {
@@ -280,7 +289,7 @@ public class ViewController {
     }
 
     @CrossOrigin(origins = "*")
-    @DeleteMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
+    @DeleteMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data", "/view/{projectId}/n2o/data/"})
     public ResponseEntity<SetDataResponse> deleteData(@PathVariable(value = "projectId") String projectId,
                                                       @RequestBody Object body,
                                                       HttpServletRequest request) {
@@ -288,7 +297,7 @@ public class ViewController {
     }
 
     @CrossOrigin(origins = "*")
-    @PostMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
+    @PostMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data", "/view/{projectId}/n2o/data/"})
     public ResponseEntity<SetDataResponse> setData(@PathVariable(value = "projectId") String projectId,
                                                    @RequestBody Object body,
                                                    HttpServletRequest request) {
@@ -314,7 +323,7 @@ public class ViewController {
     }
 
     @CrossOrigin(origins = "*")
-    @PostMapping(path = {"/view/{projectId}/n2o/validation/**", "/view/{projectId}/n2o/validation/", "/view/{projectId}/n2o/validation"})
+    @PostMapping(path = {"/view/{projectId}/n2o/validation/**", "/view/{projectId}/n2o/validation", "/view/{projectId}/n2o/validation/"})
     public ResponseEntity<ValidationDataResponse> validateData(@PathVariable(value = "projectId") String projectId,
                                                                @RequestBody Object body,
                                                                HttpServletRequest request) {
@@ -352,7 +361,7 @@ public class ViewController {
     }
 
     private N2oResponse initErrorDataResponse(Exception e) {
-        logger.error(e.getMessage(), e);
+        log.error(e.getMessage(), e);
         MetaSaga meta = new MetaSaga();
         meta.setAlert(new AlertSaga());
         meta.getAlert().setMessages(messagesConstructor.constructMessages(e));
@@ -396,10 +405,10 @@ public class ViewController {
 
     private DataSet getBody(Object body) {
         if (body instanceof Map)
-            return new DataSet((Map<? extends String, ?>) body);
+            return new DataSet((Map<String, ?>) body);
         else {
             DataSet dataSet = new DataSet("$list", body);
-            dataSet.put("$count", body != null ? ((List) body).size() : 0);
+            dataSet.put("$count", body != null ? ((List<?>) body).size() : 0);
             return dataSet;
         }
     }
