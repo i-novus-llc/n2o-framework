@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import map from 'lodash/map'
 import isUndefined from 'lodash/isUndefined'
@@ -11,9 +10,8 @@ import classNames from 'classnames'
 
 import { Factory } from '../../core/factory/Factory'
 import { BUTTONS } from '../../core/factory/factoryLevels'
-import { propsResolver } from '../../core/Expression/propsResolver'
 
-function Toolbar({ className, toolbar, entityKey, onClick, models }) {
+function Toolbar({ className, toolbar, entityKey, onClick }) {
     const { className: toolbarClassName, style, id } = toolbar[0] || {}
 
     const handleClick = (e) => {
@@ -37,11 +35,7 @@ function Toolbar({ className, toolbar, entityKey, onClick, models }) {
             set(newProps, 'subMenu', map(subMenu, item => remapButtons(item)))
         }
 
-        const { model, datasource } = newProps
-
-        const context = get(models, `${model}.${datasource}`, null) || get(models, `${model}.${entityKey}`, null)
-
-        return propsResolver(newProps, context)
+        return newProps
     }
 
     const renderButtons = (buttonProps, i) => (
@@ -106,4 +100,4 @@ Toolbar.defaultProps = {
     onClick: () => {},
 }
 
-export default connect(state => ({ models: state?.models }))(Toolbar)
+export default Toolbar
