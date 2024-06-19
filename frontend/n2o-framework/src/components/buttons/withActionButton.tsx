@@ -116,13 +116,10 @@ export default function withActionButton({ onClick = emptyHandler }: { onClick?:
     return (WrappedComponent: Parameters<typeof ActionButton>[0]['Component']) => {
         function WithActionButton(props: ActionButtonProps) {
             const reduxProps = useReduxButton(props)
-            const { color } = props
 
             const withExtendedAction = useAction({
                 ...props,
                 ...reduxProps,
-                // color может зависеть от model, расчитывает Toolbar
-                color,
             }, onClick)
 
             const { model: prefix, datasource } = props
@@ -131,10 +128,11 @@ export default function withActionButton({ onClick = emptyHandler }: { onClick?:
              * как костыль берём его из пропсов только потому что кнопки в форме уже зарезолвены на уровне филда,
              * и если брать редаксовое значение, то не будет работать обновлиние по модели
              */
-            const { hint: propsHint, label: propsLabel } = props
-            const { hint, label } = useResolved<Pick<ActionButtonProps, 'hint' | 'label'>>({
+            const { hint: propsHint, label: propsLabel, color: propsColor } = props
+            const { hint, label, color } = useResolved<Pick<ActionButtonProps, 'hint' | 'label' | 'color'>>({
                 hint: propsHint,
                 label: propsLabel,
+                color: propsColor,
             }, model)
 
             // FIXME проверить нужно ли это и снести, либо описать зачем
@@ -152,6 +150,7 @@ export default function withActionButton({ onClick = emptyHandler }: { onClick?:
                 hint: currentMessage,
                 label,
                 placement: withExtendedAction.hintPosition,
+                color,
                 // url,
             }
 
