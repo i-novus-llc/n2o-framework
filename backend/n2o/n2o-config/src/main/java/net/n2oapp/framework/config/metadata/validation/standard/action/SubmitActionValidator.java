@@ -14,7 +14,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
@@ -55,7 +55,7 @@ public class SubmitActionValidator implements SourceValidator<N2oSubmitAction>, 
     private void checkDatasourceById(String datasourceId, SourceProcessor p) {
         ValidationUtils.checkDatasourceExistence(datasourceId, p,
                 "Атрибут 'datasource' действия <submit> ссылается на несуществующий источник данных");
-        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+        ValidatorDataSourcesScope dataSourcesScope = p.getScope(ValidatorDataSourcesScope.class);
         if (dataSourcesScope != null)
             checkDatasourceByInstance(dataSourcesScope.get(datasourceId));
     }

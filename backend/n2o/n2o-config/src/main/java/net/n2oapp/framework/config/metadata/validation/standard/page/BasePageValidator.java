@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
@@ -58,7 +58,7 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         PageScope pageScope = new PageScope();
         pageScope.setPageId(page.getId());
         pageScope.setWidgetIds(p.safeStreamOf(widgets).map(N2oMetadata::getId).collect(Collectors.toSet()));
-        DataSourcesScope dataSourcesScope = new DataSourcesScope(
+        ValidatorDataSourcesScope dataSourcesScope = new ValidatorDataSourcesScope(
                 p.safeStreamOf(datasources).collect(Collectors.toMap(N2oAbstractDatasource::getId, Function.identity())));
         DatasourceIdsScope datasourceIdsScope = new DatasourceIdsScope(
                 p.safeStreamOf(datasources).map(N2oAbstractDatasource::getId).collect(Collectors.toSet())
