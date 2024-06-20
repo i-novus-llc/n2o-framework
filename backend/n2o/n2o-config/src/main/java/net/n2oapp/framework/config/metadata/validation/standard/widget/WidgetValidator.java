@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
@@ -42,7 +42,7 @@ public abstract class WidgetValidator<T extends N2oWidget> implements SourceVali
             WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasource(), null, (N2oCompileProcessor) p);
             p.validate(source.getDatasource(), widgetScope);
 
-            DataSourcesScope datasourcesScope = p.getScope(DataSourcesScope.class);
+            ValidatorDataSourcesScope datasourcesScope = p.getScope(ValidatorDataSourcesScope.class);
             if (datasourcesScope != null && !datasourcesScope.containsKey(source.getDatasource().getId()))
                 datasourcesScope.put(source.getDatasource().getId(), source.getDatasource());
         }

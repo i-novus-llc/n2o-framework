@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarPathsScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
@@ -37,7 +37,7 @@ public class SidebarValidator implements SourceValidator<N2oSidebar>, SourceClas
                                 sidebar.getMenu().getRefId()));
             p.validate(sidebar.getExtraMenu(), p.getScope(DatasourceIdsScope.class));
         }
-        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+        ValidatorDataSourcesScope dataSourcesScope = p.getScope(ValidatorDataSourcesScope.class);
 
         if (sidebar.getDatasource() != null) {
             if (sidebar.getDatasourceId() != null)
@@ -50,10 +50,9 @@ public class SidebarValidator implements SourceValidator<N2oSidebar>, SourceClas
                         String.format("Идентификатор %s внутреннего источника данных сайдбара уже используется другим источником данных",
                                 ValidationUtils.getIdOrEmptyString(datasource.getId())));
         }
-        if (sidebar.getDatasourceId() != null &&
-                (dataSourcesScope == null || !dataSourcesScope.containsKey(sidebar.getDatasourceId())))
-            throw new N2oMetadataValidationException(String.format("Сайдбар ссылается на несуществующий источник данных %s",
-                    ValidationUtils.getIdOrEmptyString(sidebar.getDatasourceId())));
+        if (sidebar.getDatasourceId() != null)
+            ValidationUtils.checkDatasourceExistence(sidebar.getDatasourceId(), p,
+                    String.format("Сайдбар ссылается на несуществующий источник данных %s", ValidationUtils.getIdOrEmptyString(sidebar.getDatasourceId())));
 
         checkPath(sidebar, p.getScope(SidebarPathsScope.class));
     }

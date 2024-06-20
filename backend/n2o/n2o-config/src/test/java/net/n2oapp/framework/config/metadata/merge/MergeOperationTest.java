@@ -29,7 +29,6 @@ public class MergeOperationTest extends SourceCompileTestBase {
         builder.packs(new N2oApplicationPack());
         builder.ios(new StandardDatasourceIO());
         builder.compilers(new StandardDatasourceCompiler());
-        builder.validators(new SidebarValidator());
     }
 
     @Test

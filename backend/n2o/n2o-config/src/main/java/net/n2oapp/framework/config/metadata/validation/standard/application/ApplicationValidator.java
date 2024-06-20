@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarPathsScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -36,7 +36,7 @@ public class ApplicationValidator implements SourceValidator<N2oApplication>, So
         p.checkIdsUnique(datasources, String.format("Источник данных '%s' встречается более чем один раз в метаданной приложения %s",
                 "%s", ValidationUtils.getIdOrEmptyString(source.getId())));
 
-        DataSourcesScope dataSourcesScope = new DataSourcesScope();
+        ValidatorDataSourcesScope dataSourcesScope = new ValidatorDataSourcesScope();
         p.safeStreamOf(source.getDatasources()).forEach(d -> dataSourcesScope.put(d.getId(), d));
 
         DatasourceIdsScope datasourceIdsScope = new DatasourceIdsScope(
