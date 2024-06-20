@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import org.springframework.util.StringUtils;
@@ -66,7 +66,7 @@ public final class ValidationUtils {
     //fixme упразднить этот метод с удалением лишних скоупов datasource
     public static void checkDatasourceExistence(String dsId, SourceProcessor p, String msg) {
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
-        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+        ValidatorDataSourcesScope dataSourcesScope = p.getScope(ValidatorDataSourcesScope.class);
 
         //ToDo исправить, после переработки механизма pipeline
         if (dataSourcesScope == null && datasourceIdsScope == null)

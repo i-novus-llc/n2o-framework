@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FieldsScope;
@@ -169,7 +169,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
                             ValidationUtils.getIdOrEmptyString(source.getId()),
                             ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId()))
             );
-        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+        ValidatorDataSourcesScope dataSourcesScope = p.getScope(ValidatorDataSourcesScope.class);
         if (dataSourcesScope != null && dataSourcesScope.get(widgetScope.getDatasourceId()) instanceof N2oStandardDatasource)
             checkDatasourceObject(source, (N2oStandardDatasource) dataSourcesScope.get(widgetScope.getDatasourceId()), widgetScope);
     }
