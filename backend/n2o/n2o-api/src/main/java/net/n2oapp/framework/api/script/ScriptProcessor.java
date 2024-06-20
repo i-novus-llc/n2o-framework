@@ -104,7 +104,7 @@ public class ScriptProcessor {
         if (FUNCTION_PATTERN.matcher(trimmedText).matches()) {
             return String.format("(%s).call(this)", trimmedText);
         }
-        if (trimmedText.contains("return ")) {
+        if (trimmedText.contains("return ") && !trimmedText.contains("(function")) {
             return String.format("(function(){%s}).call(this)", trimmedText);
         } else {
             return trimmedText;
