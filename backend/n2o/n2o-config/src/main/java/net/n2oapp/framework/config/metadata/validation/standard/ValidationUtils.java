@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import org.springframework.util.StringUtils;
 
@@ -65,7 +64,7 @@ public final class ValidationUtils {
      */
     //fixme упразднить этот метод с удалением лишних скоупов datasource
     public static void checkDatasourceExistence(String dsId, SourceProcessor p, String msg) {
-        DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
+        ValidatorDatasourceIdsScope datasourceIdsScope = p.getScope(ValidatorDatasourceIdsScope.class);
         ValidatorDataSourcesScope dataSourcesScope = p.getScope(ValidatorDataSourcesScope.class);
 
         //ToDo исправить, после переработки механизма pipeline
@@ -81,7 +80,7 @@ public final class ValidationUtils {
     /**
      * Проверка наличия источника данных по указанному идентификатору
      *
-     * @param dsId Идентификатор проверямого источника данных
+     * @param dsId Идентификатор проверяемого источника данных
      * @param p    Процессор исходных метаданных
      * @param tag  Название тега, использующего атрибут datasource
      */

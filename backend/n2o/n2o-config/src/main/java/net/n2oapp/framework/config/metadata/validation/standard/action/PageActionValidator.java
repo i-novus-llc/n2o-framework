@@ -10,8 +10,8 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidatorDatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
@@ -44,9 +44,9 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
         PageScope pageScope = p.getScope(PageScope.class);
         checkRefreshWidgetDatasourceIds(source, pageScope, p);
 
-        DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
+        ValidatorDatasourceIdsScope datasourceIdsScope = p.getScope(ValidatorDatasourceIdsScope.class);
         if (source.getDatasources() != null && datasourceIdsScope != null) {
-            DatasourceIdsScope actionDatasourceScope = new DatasourceIdsScope(datasourceIdsScope);
+            ValidatorDatasourceIdsScope actionDatasourceScope = new ValidatorDatasourceIdsScope(datasourceIdsScope);
             Arrays.stream(source.getDatasources())
                     .filter(datasource -> datasource.getId() != null)
                     .forEach(datasource -> actionDatasourceScope.add(datasource.getId()));
@@ -72,15 +72,15 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
     /**
      * Проверка существования виджета\источника для рефреша при открытии модального окна
      *
-     * @param source             Действие открытие страницы
-     * @param pageScope          Скоуп страницы
+     * @param source    Действие открытие страницы
+     * @param pageScope Скоуп страницы
      */
     private void checkRefreshWidgetDatasourceIds(N2oAbstractPageAction source, PageScope pageScope, SourceProcessor p) {
         if (source.getRefreshDatasourceIds() == null)
             return;
         String[] refreshDatasourceIds = source.getRefreshDatasourceIds();
         boolean isNotDatasource = false;
-        DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
+        ValidatorDatasourceIdsScope datasourceIdsScope = p.getScope(ValidatorDatasourceIdsScope.class);
         if (refreshDatasourceIds.length == 1) {
             if (datasourceIdsScope != null && !datasourceIdsScope.contains(refreshDatasourceIds[0]))
                 isNotDatasource = true;

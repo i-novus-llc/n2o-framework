@@ -25,9 +25,8 @@ import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.datasource.ApplicationDatasourceIdsScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.ClientDatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.ParentDatasourceIdsScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.util.List;
@@ -188,8 +187,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         return pageProperty;
     }
 
-    protected void initContextDatasources(DataSourcesScope dataSourcesScope, ApplicationDatasourceIdsScope appDatasourceIdsScope,
-                                          ParentDatasourceIdsScope parentDatasourceIdsScope,
+    protected void initContextDatasources(DataSourcesScope dataSourcesScope, ClientDatasourceIdsScope clientDatasourceIdsScope,
                                           PageScope pageScope, PageContext context, CompileProcessor p) {
         if (context.getDatasources() != null) {
             for (N2oAbstractDatasource ctxDs : context.getDatasources()) {
@@ -199,11 +197,11 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
                 else {
                     ctxDs.setId(dsId);
                     if (ctxDs instanceof N2oApplicationDatasource) {
-                        appDatasourceIdsScope.put(ctxDs.getId(), castDefault(((N2oApplicationDatasource) ctxDs).getSourceDatasource(), ctxDs.getId()));
+                        clientDatasourceIdsScope.put(ctxDs.getId(), castDefault(((N2oApplicationDatasource) ctxDs).getSourceDatasource(), ctxDs.getId()));
                     } else if (ctxDs instanceof N2oParentDatasource) {
                         String sourceDatasourceId = castDefault(((N2oParentDatasource) ctxDs).getSourceDatasource(), ctxDs.getId());
                         if (context.getParentDatasourceIdsMap().containsKey(sourceDatasourceId))
-                            parentDatasourceIdsScope.put(dsId, context.getParentDatasourceIdsMap().get(sourceDatasourceId));
+                            clientDatasourceIdsScope.put(dsId, context.getParentDatasourceIdsMap().get(sourceDatasourceId));
                     }
                     dataSourcesScope.put(dsId, ctxDs);
                 }

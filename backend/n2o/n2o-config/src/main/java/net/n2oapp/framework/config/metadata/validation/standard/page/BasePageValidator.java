@@ -13,9 +13,9 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidatorDatasourceIdsScope;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -60,7 +60,7 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         pageScope.setWidgetIds(p.safeStreamOf(widgets).map(N2oMetadata::getId).collect(Collectors.toSet()));
         ValidatorDataSourcesScope dataSourcesScope = new ValidatorDataSourcesScope(
                 p.safeStreamOf(datasources).collect(Collectors.toMap(N2oAbstractDatasource::getId, Function.identity())));
-        DatasourceIdsScope datasourceIdsScope = new DatasourceIdsScope(
+        ValidatorDatasourceIdsScope datasourceIdsScope = new ValidatorDatasourceIdsScope(
                 p.safeStreamOf(datasources).map(N2oAbstractDatasource::getId).collect(Collectors.toSet())
         );
         MetaActions actionBarScope = new MetaActions(
@@ -90,10 +90,10 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
             for (N2oToolbar toolbar : toolbars) {
                 if (toolbar.getItems() == null && toolbar.getGenerate() == null)
                     throw new N2oMetadataValidationException("Не заданы элементы или атрибут 'generate' в тулбаре страницы");
-                }
+            }
     }
 
-    private void checkDuplicateWidgetIdsInDatasources(List<N2oWidget> widgets, DatasourceIdsScope datasourceIdsScope) {
+    private void checkDuplicateWidgetIdsInDatasources(List<N2oWidget> widgets, ValidatorDatasourceIdsScope datasourceIdsScope) {
         widgets.forEach(n2oWidget -> {
             if (datasourceIdsScope.contains(n2oWidget.getId()))
                 throw new N2oMetadataValidationException(

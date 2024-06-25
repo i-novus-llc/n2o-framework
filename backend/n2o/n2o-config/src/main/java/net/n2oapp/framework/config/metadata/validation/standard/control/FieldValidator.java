@@ -117,7 +117,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
     /**
      * Проверка существования ссылки на источник данных поля
      *
-     * @param source             Поле
+     * @param source Поле
      */
     private void checkRefDatasource(N2oField source, SourceProcessor p) {
         if (source.getRefDatasourceId() != null && PageRef.THIS.equals(source.getRefPage())) {
