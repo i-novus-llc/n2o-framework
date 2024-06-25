@@ -12,24 +12,22 @@ import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 public abstract class AbstractMetaActionValidator<S extends N2oAbstractMetaAction> implements SourceValidator<S>, SourceClassAware {
     @Override
     public void validate(S source, SourceProcessor p) {
-        if (source.getRefreshDatasourceIds() != null) {
-            checkRefreshDatasources(source, p);
-        }
         checkRefreshDatasources(source, p);
     }
 
     /**
      * Проверка существования источника данных, который необходимо обновить после успешного выполнения действия
      *
-     * @param source             Действие вызова операции
+     * @param source Действие вызова операции
      */
     private void checkRefreshDatasources(S source, SourceProcessor p) {
-        if (source.getRefreshDatasourceIds() != null)
-            for (String refreshDs : source.getRefreshDatasourceIds()) {
-                String operation = ValidationUtils.getIdOrEmptyString(source.getOperationId());
-                ValidationUtils.checkDatasourceExistence(refreshDs, p,
-                        String.format("Атрибут \"refresh-datasources\" действия %s ссылается на несуществующий источник данных '%s'",
-                                operation, refreshDs));
-            }
+        if (source.getRefreshDatasourceIds() == null)
+            return;
+        for (String refreshDs : source.getRefreshDatasourceIds()) {
+            String operation = ValidationUtils.getIdOrEmptyString(source.getOperationId());
+            ValidationUtils.checkDatasourceExistence(refreshDs, p,
+                    String.format("Атрибут \"refresh-datasources\" действия %s ссылается на несуществующий источник данных '%s'",
+                            operation, refreshDs));
+        }
     }
 }

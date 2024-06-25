@@ -11,9 +11,9 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidatorDatasourceIdsScope;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -43,7 +43,7 @@ public class StandardPageValidator implements SourceValidator<N2oStandardPage>, 
 
         ValidatorDataSourcesScope dataSourcesScope = new ValidatorDataSourcesScope(
                 p.safeStreamOf(datasources).collect(Collectors.toMap(N2oAbstractDatasource::getId, Function.identity())));
-        DatasourceIdsScope datasourceIdsScope = new DatasourceIdsScope(
+        ValidatorDatasourceIdsScope datasourceIdsScope = new ValidatorDatasourceIdsScope(
                 p.safeStreamOf(datasources).map(N2oAbstractDatasource::getId).collect(Collectors.toSet())
         );
         fillDatasourceIdsScopeByInlineDatasource(widgets, datasourceIdsScope, p);

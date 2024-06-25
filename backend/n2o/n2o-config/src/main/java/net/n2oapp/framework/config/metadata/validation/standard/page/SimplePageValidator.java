@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidatorDatasourceIdsScope;
 import org.springframework.stereotype.Component;
 
 import static java.util.Objects.isNull;
@@ -32,7 +32,7 @@ public class SimplePageValidator implements SourceValidator<N2oSimplePage>, Sour
     }
 
     private void checkDatasource(N2oSimplePage source, SourceProcessor p) {
-        DatasourceIdsScope datasourceIdsScope = new DatasourceIdsScope();
+        ValidatorDatasourceIdsScope datasourceIdsScope = new ValidatorDatasourceIdsScope();
 
         if (nonNull(source.getWidget().getDatasource()) && nonNull(source.getWidget().getDatasource().getId())) {
             if (source.getWidget().getDatasource().getId().equals(source.getWidget().getId()))

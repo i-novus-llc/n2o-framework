@@ -1,12 +1,7 @@
 package net.n2oapp.framework.config.util;
 
-import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
-import net.n2oapp.framework.config.metadata.compile.datasource.ApplicationDatasourceIdsScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.ParentDatasourceIdsScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.ClientDatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
 import java.util.List;
@@ -73,22 +68,16 @@ public class DatasourceUtil {
      *
      * @param datasourceId Идентификатор источника данных
      * @param pageId       Идентификатор страницы
-     * @param appDatasourceIdsScope Список источников данных приложения
-     * @param parentDatasourceIdsScope Список источников данных родительской страницы
+     * @param clientDatasourceIdsScope Список источников данных приложения
      * @return Идентификатор клиентского источника данных
      */
     public static String getClientDatasourceId(String datasourceId, String pageId,
-                                               ApplicationDatasourceIdsScope appDatasourceIdsScope,
-                                               ParentDatasourceIdsScope parentDatasourceIdsScope) {
+                                               ClientDatasourceIdsScope clientDatasourceIdsScope) {
         if (datasourceId == null || pageId == null)
             return datasourceId;
-        // app-datasource
-        if (appDatasourceIdsScope != null && appDatasourceIdsScope.containsKey(datasourceId))
-            return appDatasourceIdsScope.get(datasourceId);
 
-        // parent-datasource
-        if (parentDatasourceIdsScope != null && parentDatasourceIdsScope.containsKey(datasourceId))
-            return parentDatasourceIdsScope.get(datasourceId);
+        if (clientDatasourceIdsScope != null && clientDatasourceIdsScope.containsKey(datasourceId))
+            return clientDatasourceIdsScope.get(datasourceId);
 
         String separator = "_".equals(pageId) ? "" : "_";
         return pageId.concat(separator).concat(datasourceId);
@@ -105,7 +94,6 @@ public class DatasourceUtil {
      */
     public static String getClientDatasourceId(String datasourceId, String pageId, CompileProcessor p) {
         return getClientDatasourceId(datasourceId, pageId,
-                p.getScope(ApplicationDatasourceIdsScope.class),
-                p.getScope(ParentDatasourceIdsScope.class));
+                p.getScope(ClientDatasourceIdsScope.class));
     }
 }
