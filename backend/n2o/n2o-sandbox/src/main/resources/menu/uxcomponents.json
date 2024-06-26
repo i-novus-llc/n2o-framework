@@ -201,11 +201,11 @@
       "name": "HTML виджет",
       "templates": [
         {
-          "templateId": "uxcomponents/widget/html_withDS",
+          "templateId": "uxcomponents/html_widget/html_withDS",
           "name": "Html виджет с плейсхолдером"
         },
         {
-          "templateId": "uxcomponents/widget/in_html_file",
+          "templateId": "uxcomponents/html_widget/in_html_file",
           "name": "Html виджет с контентом в отдельном файле"
         }
       ]
