@@ -15,7 +15,7 @@
     </parent>
 
     <properties>
-        <selenide.version>7.3.1</selenide.version>
+        <selenide.version>7.3.2</selenide.version>
     </properties>
 
     <dependencies>
