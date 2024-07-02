@@ -4,20 +4,22 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import org.apache.commons.lang3.time.DateUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.*;
 
 /**
  * Десериализиует даты, указанных форматов
  */
 public class CustomDateDeserializer extends StdDeserializer<Object> {
 
-    private String[] patterns;
+    private List<DateTimeFormatter> formatters;
     private Set<String> exclusions;
 
     private final JsonDeserializer<?> defaultDeserializer;
@@ -27,16 +29,31 @@ public class CustomDateDeserializer extends StdDeserializer<Object> {
         this.defaultDeserializer = defaultDeserializer;
     }
 
+    public void setPatterns(String[] patterns) {
+        if (ArrayUtils.isEmpty(patterns))
+            return;
+
+        List<DateTimeFormatter> formatters = new ArrayList<>();
+        for (String pattern : patterns)
+            formatters.add(DateTimeFormatter.ofPattern(pattern));
+
+        this.formatters = formatters;
+    }
+
+    public void setExclusions(String[] exclusions) {
+        this.exclusions = new HashSet<>(Arrays.asList(exclusions));
+    }
+
     /**
      * Десериализует строку в дату, если она соответствует указанным форматам, если нет, то вызывается дефолтный десериализатор.
      */
     @Override
     public Object deserialize(JsonParser jsonparser, DeserializationContext context) throws IOException {
         String jsonString = jsonparser.getText();
-        if (patterns == null || exclude(jsonparser.getCurrentName()))
+        if (formatters == null || exclude(jsonparser.getCurrentName()))
             return defaultDeserializer.deserialize(jsonparser, context);
         try {
-            return DateUtils.parseDateStrictly(jsonString, patterns);
+            return tryParse(jsonString);
         } catch (ParseException e) {
             return defaultDeserializer.deserialize(jsonparser, context);
         }
@@ -48,11 +65,39 @@ public class CustomDateDeserializer extends StdDeserializer<Object> {
                 && exclusions.contains(key);
     }
 
-    public void setPatterns(String[] patterns) {
-        this.patterns = patterns;
+    private Object tryParse(String dateStr) throws ParseException {
+        for (DateTimeFormatter formatter : formatters) {
+            try {
+                if (isValidDate(dateStr, formatter))
+                    if (hasTime(dateStr, formatter))
+                        return LocalDateTime
+                                .from(formatter.parse(dateStr))
+                                .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                    else
+                        return LocalDate
+                                .from(formatter.parse(dateStr))
+                                .format(DateTimeFormatter.ISO_LOCAL_DATE);
+            } catch (DateTimeParseException ignored) {
+            }
+        }
+        throw new ParseException("Unable to parse the date: " + dateStr, -1);
     }
 
-    public void setExclusions(String[] exclusions) {
-        this.exclusions = new HashSet<>(Arrays.asList(exclusions));
+    private boolean isValidDate(String dateStr, DateTimeFormatter formatter) {
+        try {
+            formatter.parse(dateStr);
+        } catch (DateTimeParseException | IllegalArgumentException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean hasTime(String dateStr, DateTimeFormatter pattern) {
+        try {
+            LocalDateTime.parse(dateStr, pattern);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }
