@@ -45,6 +45,7 @@ module.exports = {
                 'guides/xml/datasource',
                 'guides/xml/menu',
                 'guides/xml/button',
+                'guides/xml/event',
                 'guides/xml/access',
                 'guides/xml/accesspoint',
                 'guides/xml/processing',

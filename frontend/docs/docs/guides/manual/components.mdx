@@ -362,7 +362,7 @@ __*Виды страниц*__
 |&lt;top-left-right-page&gt;|TopLeftRightPage|[Страница с разметкой регионов "сверху, слева и справа"](../xml/page#top-left-right-page)|
 |&lt;searchable-page&gt;    |SearchablePage  |[Страница с поисковой строкой](../xml/page#searchable-page)                              |
 
-### Хлебные крошки (breadcrumbs)
+### Хлебные крошки (breadcrumbs) {#breadcrumbs}
 
 На любой из вышеуказанных страниц можно разместить навигационную цепочку — хлебные крошки.
 N2O позволяет генерировать хлебные крошки для открываемой страницы автоматически,
@@ -375,8 +375,8 @@ N2O позволяет генерировать хлебные крошки дл
 ```xml title="Автоматическая генерация хлебных крошек на странице"
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-  name="Моя страница">
-  <breadcrumbs/>
+      name="Моя страница">
+    <breadcrumbs/>
 </page>
 ```
 
@@ -385,29 +385,29 @@ N2O позволяет генерировать хлебные крошки дл
 ```xml title="Настройка хлебных крошек страницы"
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-  name="Моя страница">
-      <breadcrumbs>
+      name="Моя страница">
+    <breadcrumbs>
         <crumb label="Первая страница" path="/"/>
         <crumb label="Вторая страница" path="/page2"/>
         <crumb label="Третья страница"/>
-      </breadcrumbs>
+    </breadcrumbs>
 </page>
 ```
 
 ![](./images/breadcrumbs-simple.png)
 
-В атрибуте `path` задается путь внутри приложения, если данный атрибут не указан, то крошка будет некликабельна.
+В атрибуте `path` задается путь внутри приложения, если данный атрибут не указан, то крошка будет некликабельной.
 Также в `path` можно использовать относительные пути с помощью плейсхолдера `../`
 
 ```xml title="Относительные ссылки в path"
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-  name="Моя страница">
-      <breadcrumbs>
+      name="Моя страница">
+    <breadcrumbs>
         <crumb label="Первая страница" path="../../"/>  <!-- 2 пути назад -->
-        <crumb label="Вторая страница" path="../"/>    <!-- 1 путь назад -->
+        <crumb label="Вторая страница" path="../"/>     <!-- 1 путь назад -->
         <crumb label="Третья страница"/>
-      </breadcrumbs>
+    </breadcrumbs>
 </page>
 ```
 
@@ -419,7 +419,7 @@ N2O позволяет генерировать хлебные крошки дл
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       datasource="ds1"
       model="resolve"
-     title="Страница {name}"> <!-- Параметр name разрешается на клиенте с помощью источника данных ds1 -->
+      title="Страница {name}"> <!-- Параметр name разрешается на клиенте с помощью источника данных ds1 -->
     <breadcrumbs>
         <crumb label="Первая страница" path="/"/>
         <crumb label="Вторая страница" path="/:id/page2"/> <!-- Параметр id разрешается согласно параметру пути -->
@@ -441,14 +441,14 @@ N2O позволяет генерировать хлебные крошки дл
     <open-page page-id="page3"
                route="/:person_id/page3"
                page-name="Страница {name}"> <!-- Параметр name разрешается с помощью источника данных buttonDs -->
-       <params>
-           <path-paran name="person_id" value="{id}"/>
-       </params>
-       <breadcrumbs>
-           <crumb label="Первая страница" route="/"/>
-           <crumb label="Вторая страница" route="/:id/page2"/> <!-- Параметр id разрешается согласно параметру пути -->
-           <crumb label="Третья {name} страница"/> <!-- Параметр name разрешается с помощью источника данных buttonDs -->
-       </breadcrumbs>
+        <params>
+            <path-param name="person_id" value="{id}"/>
+        </params>
+        <breadcrumbs>
+            <crumb label="Первая страница" route="/"/>
+            <crumb label="Вторая страница" route="/:id/page2"/> <!-- Параметр id разрешается согласно параметру пути -->
+            <crumb label="Третья {name} страница"/> <!-- Параметр name разрешается с помощью источника данных buttonDs -->
+        </breadcrumbs>
    </open-page>
 </button>
 ```

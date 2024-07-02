@@ -6,7 +6,9 @@
 
     <xs:complexType name="toolbarDefinition">
         <xs:annotation>
-            <xs:documentation>Меню управляющих кнопок виджета.</xs:documentation>
+            <xs:documentation>
+                Меню управляющих кнопок
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="button" type="btn:buttonDefinition" minOccurs="0" maxOccurs="unbounded"/>

@@ -22,7 +22,7 @@ public class CustomControlCompiler extends ComponentCompiler<CustomControl, N2oC
     @Override
     public CustomControl compile(N2oCustomControl source, CompileContext<?, ?> context, CompileProcessor p) {
         CustomControl control = new CustomControl();
-        compileComponent(control, source, context, p);
+        compileComponent(control, source, p);
         return control;
     }
 }

@@ -56,8 +56,9 @@ n2o.application.navigation_layout_fixed=false
 ### &lt;events&gt;
 События.
 
-**Тело**<br/>
-&lt;stomp-event&gt; - [Событие, приходящее через STOMP протокол](#stomp-event)
+**Тело**
+
+&lt;stomp-event&gt; - [Событие, приходящее через STOMP протокол](../xml/event#stomp-event)
 
 **Пример**
 
@@ -70,31 +71,7 @@ n2o.application.navigation_layout_fixed=false
 </application>
 ```
 
-#### &lt;stomp-event&gt;
-Событие, приходящее через STOMP протокол.
 
-**Атрибуты**
-
-|Наименование |Тип            |Описание                                                             |Значение по умолчанию|
-|-------------|---------------|---------------------------------------------------------------------|---------------------|
-|id           |Строка         |Идентификатор события                                                |                     |
-|destination  |Строка         |Место назначения                                                     |                     |
-
-**Тело**<br/>
-&lt;alert&gt; - [Действие уведомления](../xml/action#alert)
-
-**Пример**
-
-```xml
-<?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
-    <events>
-        <stomp-event id="ev1" destination="/notifications">
-            ...
-        </stomp-event>
-    </events>
-</application>
-```
 
 ### &lt;header&gt;
 Шапка.

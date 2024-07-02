@@ -6,12 +6,12 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 
 /**
- * Клиентская модель страницы с единственным виджетом
+ * Клиентская модель <simple-page> - страницы с единственным виджетом
  */
 @Getter
 @Setter
 public class SimplePage extends Page {
+
     @JsonProperty
     private Widget<?> widget;
-
 }

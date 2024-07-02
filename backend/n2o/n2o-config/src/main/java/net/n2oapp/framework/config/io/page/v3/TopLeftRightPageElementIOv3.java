@@ -28,8 +28,8 @@ public class TopLeftRightPageElementIOv3 extends BasePageElementIOv3<N2oTopLeftR
     private void region(Element e, String name,
                         Supplier<SourceComponent[]> itemsGetter, Consumer<SourceComponent[]> itemsSetter,
                         N2oTopLeftRightPage.RegionOptions regionsOptions, IOProcessor p) {
-        p.anyChildren(e, name, itemsGetter, itemsSetter, p.anyOf(SourceComponent.class),
-                getRegionDefaultNamespace(), WidgetIOv4.NAMESPACE);
+        p.anyChildren(e, name, itemsGetter, itemsSetter,
+                p.anyOf(SourceComponent.class), getRegionDefaultNamespace(), WidgetIOv4.NAMESPACE);
         p.childAttribute(e, name, "width", regionsOptions::getWidth, regionsOptions::setWidth);
         p.childAttributeBoolean(e, name, "fixed", regionsOptions::getFixed, regionsOptions::setFixed);
         p.childAttributeInteger(e, name, "offset", regionsOptions::getOffset, regionsOptions::setOffset);

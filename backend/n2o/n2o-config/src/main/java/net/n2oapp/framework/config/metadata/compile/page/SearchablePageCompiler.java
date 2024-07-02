@@ -26,7 +26,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
     @Override
     public SearchablePage compile(N2oSearchablePage source, PageContext context, CompileProcessor p) {
         SearchablePage page = new SearchablePage();
-        initDefaults(source, p);
+        initDefaults(source);
         SearchBarScope searchBarScope = new SearchBarScope(source.getSearchBar().getDatasourceId(), source.getSearchBar().getSearchFilterId());
         searchBarScope.setParam(source.getSearchBar().getSearchParam());
         page = compilePage(source, page, context, p, searchBarScope);
@@ -34,7 +34,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         return page;
     }
 
-    private void initDefaults(N2oSearchablePage source, CompileProcessor p) {
+    private void initDefaults(N2oSearchablePage source) {
         source.setSearchBar(initSearchBar(source.getSearchBar()));
     }
 
@@ -57,16 +57,17 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
     protected SearchablePage.SearchBar compileSearchBar(N2oSearchablePage source, SearchablePage page, CompileProcessor p) {
         SearchablePage.SearchBar searchBar = new SearchablePage.SearchBar();
         searchBar.setClassName(source.getSearchBar().getClassName());
-        searchBar.setTrigger(SearchablePage.SearchBar.TriggerType.valueOf(p.resolve(property("n2o.api.page.searchable.trigger"), String.class)));
+        searchBar.setTrigger(SearchablePage.SearchBar.TriggerType.valueOf(
+                p.resolve(property("n2o.api.page.searchable.trigger"), String.class)));
         searchBar.setPlaceholder(source.getSearchBar().getPlaceholder());
         if (SearchablePage.SearchBar.TriggerType.BUTTON.equals(searchBar.getTrigger())) {
             searchBar.setButton(new SearchablePage.SearchBar.Button());
         } else if (SearchablePage.SearchBar.TriggerType.CHANGE.equals(searchBar.getTrigger())) {
-            searchBar.setThrottleDelay(p.resolve(property("n2o.api.page.searchable.throttle-delay"), Integer.class));
+            searchBar.setThrottleDelay(p.resolve(property("n2o.api.page.searchable.throttle_delay"), Integer.class));
         }
         searchBar.setFieldId(source.getSearchBar().getSearchFilterId());
         String clientDatasourceId = DatasourceUtil.getClientDatasourceId(source.getSearchBar().getDatasourceId(), page.getId(), p);
-        if (!page.getDatasources().keySet().contains(clientDatasourceId))
+        if (!page.getDatasources().containsKey(clientDatasourceId))
             clientDatasourceId = source.getSearchBar().getDatasourceId();
         searchBar.setDatasource(clientDatasourceId);
         return searchBar;

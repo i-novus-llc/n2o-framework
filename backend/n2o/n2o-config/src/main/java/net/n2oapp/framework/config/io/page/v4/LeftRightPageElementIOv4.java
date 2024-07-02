@@ -16,12 +16,12 @@ public class LeftRightPageElementIOv4 extends BasePageElementIOv4<N2oLeftRightPa
     @Override
     public void io(Element e, N2oLeftRightPage m, IOProcessor p) {
         super.io(e, m, p);
-        p.anyChildren(e, "left", m::getLeft, m::setLeft, p.anyOf(SourceComponent.class),
-                getRegionDefaultNamespace(), WidgetIOv5.NAMESPACE);
+        p.anyChildren(e, "left", m::getLeft, m::setLeft,
+                p.anyOf(SourceComponent.class), getRegionDefaultNamespace(), WidgetIOv5.NAMESPACE);
         p.childAttribute(e, "left", "width", m::getLeftWidth, m::setLeftWidth);
 
-        p.anyChildren(e, "right", m::getRight, m::setRight, p.anyOf(SourceComponent.class),
-                getRegionDefaultNamespace(), WidgetIOv5.NAMESPACE);
+        p.anyChildren(e, "right", m::getRight, m::setRight,
+                p.anyOf(SourceComponent.class), getRegionDefaultNamespace(), WidgetIOv5.NAMESPACE);
         p.childAttribute(e, "right", "width", m::getRightWidth, m::setRightWidth);
     }
 

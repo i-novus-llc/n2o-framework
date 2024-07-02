@@ -14,7 +14,6 @@ import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,9 +38,8 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.ios(new SimplePageElementIOv3(), new CustomRegionIOv2(), new HtmlWidgetElementIOv4(),
-                new ButtonIO(), new JavaDataProviderIOv1())
+                        new ButtonIO(), new JavaDataProviderIOv1())
                 .packs(new N2oObjectsPack(), new N2oAllPagesPack())
-                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"))
                 .propertySources("application-test.properties");
     }
 
@@ -57,8 +55,7 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getPageProperty().getHtmlTitle(), is("tab title"));
         assertThat(page.getPageProperty().getDatasource(), is("test_route_w1"));
         assertThat(page.getPageProperty().getModel(), is(ReduxModel.edit));
-        assertThat(page.getWidget(), notNullValue());
-        assertThat(page.getWidget().getClass(), is(equalTo(HtmlWidget.class)));
+        assertThat(page.getWidget(), instanceOf(HtmlWidget.class));
         assertThat(page.getRoutes().getList().size(), is(1));
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/test/route"));
         assertThat(page.getBreadcrumb().get(0).getLabel(), is("tesName"));

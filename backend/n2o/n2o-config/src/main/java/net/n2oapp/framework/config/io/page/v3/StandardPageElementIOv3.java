@@ -17,8 +17,8 @@ public class StandardPageElementIOv3 extends BasePageElementIOv3<N2oStandardPage
     @Override
     public void io(Element e, N2oStandardPage m, IOProcessor p) {
         super.io(e, m, p);
-        p.anyChildren(e, "regions", m::getItems, m::setItems, p.anyOf(SourceComponent.class),
-                getRegionDefaultNamespace(), WidgetIOv4.NAMESPACE);
+        p.anyChildren(e, "regions", m::getItems, m::setItems,
+                p.anyOf(SourceComponent.class), getRegionDefaultNamespace(), WidgetIOv4.NAMESPACE);
     }
 
     @Override

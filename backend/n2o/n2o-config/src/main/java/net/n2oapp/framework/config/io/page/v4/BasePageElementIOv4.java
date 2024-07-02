@@ -18,8 +18,6 @@ import org.jdom2.Namespace;
  * Чтение\запись базовой страницы версии 4.0
  */
 public abstract class BasePageElementIOv4<T extends N2oBasePage> extends AbstractPageElementIOv4<T> {
-    private static final Namespace regionDefaultNamespace = RegionIOv3.NAMESPACE;
-    private static final Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
 
     @Override
     public void io(Element e, T m, IOProcessor p) {
@@ -27,16 +25,18 @@ public abstract class BasePageElementIOv4<T extends N2oBasePage> extends Abstrac
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionBar::new, this::action);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIOv2());
-        p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources, p.anyOf(N2oAbstractDatasource.class), DatasourceIOv1.NAMESPACE);
-        p.anyChildren(e, "events", m::getEvents, m::setEvents, p.anyOf(N2oAbstractEvent.class), AbstractEventIO.NAMESPACE);
+        p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources,
+                p.anyOf(N2oAbstractDatasource.class), DatasourceIOv1.NAMESPACE);
+        p.anyChildren(e, "events", m::getEvents, m::setEvents,
+                p.anyOf(N2oAbstractEvent.class), AbstractEventIO.NAMESPACE);
     }
 
     private void action(Element e, ActionBar a, IOProcessor p) {
         p.attribute(e, "id", a::getId, a::setId);
-        p.anyChildren(e, null, a::getN2oActions, a::setN2oActions, p.anyOf(N2oAction.class), actionDefaultNamespace);
+        p.anyChildren(e, null, a::getN2oActions, a::setN2oActions, p.anyOf(N2oAction.class), ActionIOv2.NAMESPACE);
     }
 
     public Namespace getRegionDefaultNamespace() {
-        return regionDefaultNamespace;
+        return RegionIOv3.NAMESPACE;
     }
 }
