@@ -12,8 +12,7 @@ import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 public abstract class BaseEventCompiler<S extends N2oAbstractEvent, D extends Event>
     implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
-    protected void initEvents(Event event, S source, CompileContext<?, ?> context,
-                              CompileProcessor p) {
+    protected void initEvents(Event event, S source, CompileContext<?, ?> context, CompileProcessor p) {
         event.setId(source.getId());
     }
 }

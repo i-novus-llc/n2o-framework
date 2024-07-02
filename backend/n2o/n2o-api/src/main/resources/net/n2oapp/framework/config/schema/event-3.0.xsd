@@ -6,9 +6,26 @@
     <xs:element name="stomp-event" type="stompEventDefinition"/>
     <xs:element name="on-change" type="onChangeEventDefinition"/>
 
+    <xs:complexType name="baseEventDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Базовый тип события
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор события
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:complexType name="stompEventDefinition">
         <xs:annotation>
-            <xs:documentation>Событие, приходящее через STOMP протокол</xs:documentation>
+            <xs:documentation>
+                Событие, приходящее через STOMP протокол
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseEventDefinition">
@@ -17,60 +34,56 @@
                 </xs:sequence>
                 <xs:attribute name="destination" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Место назначения</xs:documentation>
+                        <xs:documentation>
+                            Место назначения
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="baseEventDefinition">
-        <xs:annotation>
-            <xs:documentation>Базовый тип события</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="id" type="xs:string" use="required">
-            <xs:annotation>
-                <xs:documentation>Идентификатор события.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
     <xs:complexType name="onChangeEventDefinition">
         <xs:annotation>
-            <xs:documentation>Событие изменения модели данных</xs:documentation>
+            <xs:documentation>
+                Событие, срабатывающее при изменении модели данных
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseEventDefinition">
                 <xs:sequence>
                     <xs:group ref="ac:actionsGroup"/>
                 </xs:sequence>
+                <xs:attribute name="id"/>
                 <xs:attribute name="datasource" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Источник данных, в котором будут отслеживаться изменения</xs:documentation>
+                        <xs:documentation>
+                            Источник данных, в котором будут отслеживаться изменения
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="model" type="ac:clientModel" default="resolve">
                     <xs:annotation>
                         <xs:documentation>
                             Модель источника данных, в которой будут отслеживаться изменения
-                            (по умолчанию resolve)
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Поле источника данных, в котором будут отслеживаться изменения
-                            (по умолчанию изменения будут отслеживаться во всех полях модели)
+                            Поле источника данных, в котором будут отслеживаться изменения.
+                            По умолчанию: вся модель
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="action-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Действие страницы, которое будет вызвано при клике по ссылке.</xs:documentation>
+                        <xs:documentation>
+                            Действие страницы, которое будет вызвано при изменении данных
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="id" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

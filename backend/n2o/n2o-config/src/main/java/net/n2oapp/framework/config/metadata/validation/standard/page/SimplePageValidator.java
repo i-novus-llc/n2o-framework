@@ -9,11 +9,8 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.metadata.validation.standard.ValidatorDatasourceIdsScope;
 import org.springframework.stereotype.Component;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
-
 /**
- * Валидатор модели страницы с единственным виджетом
+ * Валидатор страницы с единственным виджетом
  */
 @Component
 public class SimplePageValidator implements SourceValidator<N2oSimplePage>, SourceClassAware {
@@ -25,23 +22,27 @@ public class SimplePageValidator implements SourceValidator<N2oSimplePage>, Sour
 
     @Override
     public void validate(N2oSimplePage source, SourceProcessor p) {
-        if (isNull(source.getWidget()))
+        if (source.getWidget() == null) {
             throw new N2oMetadataValidationException(
                     String.format("Не задан виджет простой страницы '%s'", source.getId()));
+        }
+
         checkDatasource(source, p);
     }
 
     private void checkDatasource(N2oSimplePage source, SourceProcessor p) {
         ValidatorDatasourceIdsScope datasourceIdsScope = new ValidatorDatasourceIdsScope();
 
-        if (nonNull(source.getWidget().getDatasource()) && nonNull(source.getWidget().getDatasource().getId())) {
-            if (source.getWidget().getDatasource().getId().equals(source.getWidget().getId()))
+        if (source.getWidget().getDatasource() != null && source.getWidget().getDatasource().getId() != null) {
+            if (source.getWidget().getDatasource().getId().equals(source.getWidget().getId())) {
                 throw new N2oMetadataValidationException(
                         String.format("Идентификатор виджета '%s' не должен использоваться в качестве идентификатора источника данных",
                                 source.getWidget().getId()));
+            }
             datasourceIdsScope.add(source.getWidget().getDatasource().getId());
-        } else
+        } else {
             datasourceIdsScope.add(source.getWidget().getId());
+        }
 
         p.validate(source.getWidget(), datasourceIdsScope);
     }

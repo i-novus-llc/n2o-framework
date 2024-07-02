@@ -67,7 +67,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         CompiledObject object = initObject(source, p);
         page.setClassName(source.getCssClass());
         page.setStyle(StylesResolver.resolveStyles(source.getStyle()));
-        compileComponent(page, source, context, p);
+        compileComponent(page, source, p);
 
         PageIndexScope pageIndexScope = new PageIndexScope(page.getId());
         PageRoutes pageRoutes = new PageRoutes();

@@ -15,9 +15,6 @@ import org.jdom2.Namespace;
  * Чтение\запись базовой страницы версии 3.0
  */
 public abstract class BasePageElementIOv3<T extends N2oBasePage> implements NamespaceIO<T> {
-    private Namespace regionDefaultNamespace = RegionIOv2.NAMESPACE;
-    private Namespace pageDefaultNamespace = PageIOv3.NAMESPACE;
-    private Namespace actionDefaultNamespace = ActionIOv1.NAMESPACE;
 
     @Override
     public void io(Element e, T m, IOProcessor p) {
@@ -37,19 +34,15 @@ public abstract class BasePageElementIOv3<T extends N2oBasePage> implements Name
 
     private void action(Element e, ActionBar a, IOProcessor p) {
         p.attribute(e, "id", a::getId, a::setId);
-        p.anyChildren(e, null, a::getN2oActions, a::setN2oActions, p.anyOf(N2oAction.class), actionDefaultNamespace);
+        p.anyChildren(e, null, a::getN2oActions, a::setN2oActions, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
     }
 
     @Override
     public String getNamespaceUri() {
-        return pageDefaultNamespace.getURI();
+        return PageIOv3.NAMESPACE.getURI();
     }
 
     public Namespace getRegionDefaultNamespace() {
-        return regionDefaultNamespace;
-    }
-
-    public void setRegionDefaultNamespace(String regionDefaultNamespace) {
-        this.regionDefaultNamespace = Namespace.getNamespace(regionDefaultNamespace);
+        return RegionIOv2.NAMESPACE;
     }
 }

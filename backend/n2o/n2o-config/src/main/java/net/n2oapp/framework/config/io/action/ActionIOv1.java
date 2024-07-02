@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.action.N2oAbstractAction;
 import org.jdom2.Namespace;
 
 /**
- *  Интерфейс  обработчика действий версии 1
+ *  Интерфейс обработчика действий версии 1.0
  */
 public interface ActionIOv1 extends NamespaceUriAware, BaseElementClassAware<N2oAbstractAction> {
     Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/action-1.0");

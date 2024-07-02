@@ -6,28 +6,27 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.widget.v4.WidgetIOv4;
 import org.jdom2.Element;
-import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение\запись страницы с одним виджетом версии 3.0
+ * Чтение\запись страницы с единственным виджетом версии 3.0
  */
 @Component
 public class SimplePageElementIOv3 implements NamespaceIO<N2oSimplePage> {
-    private Namespace widgetDefaultNamespace = WidgetIOv4.NAMESPACE;
 
     @Override
     public void io(Element e, N2oSimplePage m, IOProcessor p) {
         p.attribute(e, "name", m::getName, m::setName);
         p.attribute(e, "title", m::getTitle, m::setTitle);
+        p.attributeBoolean(e, "show-title", m::getShowTitle, m::setShowTitle);
         p.attribute(e, "html-title", m::getHtmlTitle, m::setHtmlTitle);
         p.attribute(e, "route", m::getRoute, m::setRoute);
         p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "class", m::getCssClass, m::setCssClass);
         p.attribute(e, "style", m::getStyle, m::setStyle);
-        p.attributeBoolean(e, "show-title", m::getShowTitle, m::setShowTitle);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
-        p.anyChild(e,null, m::getWidget, m::setWidget, p.anyOf(N2oWidget.class), widgetDefaultNamespace);
+        p.anyChild(e, null, m::getWidget, m::setWidget,
+                p.anyOf(N2oWidget.class), WidgetIOv4.NAMESPACE);
         m.setNamespaceUri(getNamespaceUri());
     }
 
@@ -48,10 +47,6 @@ public class SimplePageElementIOv3 implements NamespaceIO<N2oSimplePage> {
 
     @Override
     public String getNamespaceUri() {
-        return "http://n2oapp.net/framework/config/schema/page-3.0";
-    }
-
-    public void setWidgetDefaultNamespace(String widgetDefaultNamespace) {
-        this.widgetDefaultNamespace = Namespace.getNamespace(widgetDefaultNamespace);
+        return PageIOv3.NAMESPACE.getURI();
     }
 }

@@ -16,9 +16,10 @@ public class SearchablePageElementIOv4 extends BasePageElementIOv4<N2oSearchable
     @Override
     public void io(Element e, N2oSearchablePage m, IOProcessor p) {
         super.io(e, m, p);
-        p.child(e, null, "search-bar", m::getSearchBar, m::setSearchBar, N2oSearchablePage.N2oSearchBar::new, this::searchBar);
-        p.anyChildren(e, "regions", m::getItems, m::setItems, p.anyOf(SourceComponent.class),
-                getRegionDefaultNamespace(), WidgetIOv5.NAMESPACE);
+        p.child(e, null, "search-bar", m::getSearchBar, m::setSearchBar,
+                N2oSearchablePage.N2oSearchBar::new, this::searchBar);
+        p.anyChildren(e, "regions", m::getItems, m::setItems,
+                p.anyOf(SourceComponent.class), getRegionDefaultNamespace(), WidgetIOv5.NAMESPACE);
     }
 
     public void searchBar(Element e, N2oSearchablePage.N2oSearchBar sb, IOProcessor p) {

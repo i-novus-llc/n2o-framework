@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Клиентская модель страницы n2o
+ * Клиентская модель страницы
  */
 @Getter
 @Setter

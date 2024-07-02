@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Абстрактная страница
+ * Исходная модель абстрактной страницы
  */
 @Getter
 @Setter

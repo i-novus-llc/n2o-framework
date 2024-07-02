@@ -85,7 +85,7 @@
 
     <xs:complexType name="eventsDefinition">
         <xs:sequence>
-            <xs:element name="stomp-event" type="ev:stompEventDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="ev:stomp-event" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 

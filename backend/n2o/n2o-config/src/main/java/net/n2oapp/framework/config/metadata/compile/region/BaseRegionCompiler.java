@@ -26,7 +26,7 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefau
 public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> extends ComponentCompiler<D, S, PageContext> {
 
     protected D build(D compiled, S source, CompileProcessor p) {
-        compileComponent(compiled, source, null, p);
+        compileComponent(compiled, source, p);
         compiled.setId(castDefault(source.getId(), createId(p)));
 
         return compiled;
