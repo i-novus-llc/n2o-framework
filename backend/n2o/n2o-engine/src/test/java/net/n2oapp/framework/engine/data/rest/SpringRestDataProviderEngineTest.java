@@ -329,9 +329,9 @@ public class SpringRestDataProviderEngineTest {
 
     @Test
     public void testDateDeserializing() {
-        TestRestTemplate restClient = new TestRestTemplate("{\"date_begin\":\"2018-11-17\"}");
+        TestRestTemplate restClient = new TestRestTemplate("{\"date_begin\":\"17.11.2018\"}");
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModules(new RestEngineTimeModule(new String[]{"yyyy-MM-dd'T'HH:mm:s", "yyyy-MM-dd"}));
+        objectMapper.registerModules(new RestEngineTimeModule(new String[]{"dd.MM.yyyy'T'HH:mm:s", "dd.MM.yyyy"}));
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, objectMapper);
         actionEngine.setBaseRestUrl("http://localhost:8080");
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
@@ -339,7 +339,12 @@ public class SpringRestDataProviderEngineTest {
         Map<String, Object> request = new HashMap<>();
 
         DataSet result = (DataSet) actionEngine.invoke(dataProvider, request);
-        assertThat(result.get("date_begin"), instanceOf(Date.class));
+        assertThat(result.get("date_begin"), is("2018-11-17"));
+
+        restClient = new TestRestTemplate("{\"date_time_begin\":\"17.11.2018T23:59:59\"}");
+        actionEngine = new SpringRestDataProviderEngine(restClient, objectMapper);
+        result = (DataSet) actionEngine.invoke(dataProvider, request);
+        assertThat(result.get("date_time_begin"), is("2018-11-17T23:59:59"));
     }
 
     @Test
