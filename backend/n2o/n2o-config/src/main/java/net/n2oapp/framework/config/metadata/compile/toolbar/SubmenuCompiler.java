@@ -17,8 +17,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -80,7 +80,7 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
 
                         return menuItem;
                     })
-                    .collect(Collectors.toList()));
+                    .toList());
         }
     }
 
@@ -98,8 +98,11 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
                     generatedButtons.stream()
                             .map(b -> (PerformButton) b)
                             .peek(b -> b.setColor(null))
-                            .collect(Collectors.toList())
+                            .toList()
             );
+            if (Arrays.asList(sub.getGenerate()).contains("tableSettings")) {
+                button.setIcon(p.resolve(property("n2o.api.generate.button.tableSettings.icon"), String.class));
+            }
         }
     }
 }
