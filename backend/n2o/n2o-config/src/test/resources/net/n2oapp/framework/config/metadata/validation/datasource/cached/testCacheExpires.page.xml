@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <cached-datasource id="ds1" cache-expires="2d 15h 20m"/>
+        <cached-datasource id="ds2" cache-expires="2d 15h"/>
+        <cached-datasource id="ds3" cache-expires="2d 20m"/>
+        <cached-datasource id="ds4" cache-expires="2d"/>
+        <cached-datasource id="ds5" cache-expires="15h 20m"/>
+        <cached-datasource id="ds6" cache-expires="15h"/>
+        <cached-datasource id="ds7" cache-expires="20m"/>
+    </datasources>
+</page>

@@ -1,10 +1,13 @@
 import type { ModelPrefix } from '../../core/datasource/const'
 import { Meta } from '../Action'
 
+import { Mappings } from './Providers/service/cachedMappings'
+
 export enum ProviderType {
     storage = 'browser',
     service = 'service',
     inherited = 'inherited',
+    cached = 'cached'
 }
 
 export enum FilterType {
@@ -50,8 +53,19 @@ export enum StorageType {
 
 export interface StorageProvider extends Provider {
     type: ProviderType.storage
-    key: string,
+    key: string
     storage: StorageType
+}
+
+export interface CachedProvider extends Provider {
+    type: ProviderType.cached
+    key: string
+    storage: StorageType
+    cacheExpires: string
+    invalidateParams: string[]
+    pathMapping: Record<string, MappingParam>
+    queryMapping: Record<string, MappingParam>
+    size: number
 }
 
 export interface InheritedProvider extends Provider {
@@ -74,6 +88,8 @@ export interface QueryResult<TModel extends object = Record<string, unknown>> {
     additionalInfo?: object
     paging: Paging
     meta?: Meta
+    timestamp?: string
+    cachedMappings?: Mappings
 }
 
 export type QueryOptions = { page?: number }
@@ -85,7 +101,7 @@ export type Query<TProvider extends Provider> = (
     apiProvider: unknown) => unknown
 
 export interface SubmitBase extends Provider {
-    auto: boolean
+    auto?: boolean
     // FIXME remove legacy field
     autoSubmitOn?: 'change' | 'blur'
 }
@@ -108,6 +124,14 @@ export interface StorageSubmit extends SubmitBase {
     model: ModelPrefix
 }
 
+export interface CachedSubmit extends SubmitBase {
+    type: ProviderType.cached
+    key: string
+    storage: StorageType
+    model: ModelPrefix
+    clearCache: boolean
+}
+
 export interface InheritedSubmit extends SubmitBase {
     type: ProviderType.inherited
     model: ModelPrefix
@@ -117,4 +141,4 @@ export interface InheritedSubmit extends SubmitBase {
     submitValueExpression?: string
 }
 
-export type SubmitProvider = StorageSubmit | InheritedSubmit | ServiceSubmit
+export type SubmitProvider = StorageSubmit | InheritedSubmit | ServiceSubmit | CachedSubmit

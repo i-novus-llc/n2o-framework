@@ -4,12 +4,14 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
-import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
+
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkQueryExists;
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 
 /**
  * Валидация списковых компонентов
@@ -20,10 +22,8 @@ public class ListFieldValidator implements SourceValidator<N2oListField>, Source
     @Override
     public void validate(N2oListField field, SourceProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        p.checkForExists(field.getQueryId(), N2oQuery.class,
-                String.format("Поле '%s' ссылается на несуществующую выборку '%s'",
-                        field.getId(), field.getQueryId()));
-
+        checkQueryExists(field.getQueryId(),
+                String.format("Поле %s", getIdOrEmptyString(field.getId())), p);
         if (field.getQueryId() != null && field.getDatasourceId() != null)
             throw new N2oMetadataValidationException(
                     String.format("Поле '%s' использует выборку и ссылку на источник данных одновременно", field.getId()));

@@ -24,6 +24,7 @@ import { ProviderType } from '../Provider'
 import { query as serviceQuery } from '../Providers/Service'
 import { query as storageQuery } from '../Providers/Storage'
 import { query as inheritedQuery } from '../Providers/Inherited'
+import { query as cachedQuery } from '../Providers/Cached'
 import type { DataRequestAction } from '../Actions'
 import type { DataSourceState } from '../DataSource'
 
@@ -38,6 +39,7 @@ function getQuery<
         case ProviderType.service: { return serviceQuery as unknown as Query<Provider> }
         case ProviderType.storage: { return storageQuery as unknown as Query<Provider> }
         case ProviderType.inherited: { return inheritedQuery as unknown as Query<Provider> }
+        case ProviderType.cached: { return cachedQuery as unknown as Query<Provider> }
         default: { return () => { throw new Error(`hasn't implementation for provider type: "${provider}`) } }
     }
 }

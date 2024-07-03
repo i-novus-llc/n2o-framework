@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <cached-datasource id="ds1" storage-type="sessionStorage" storage-key="test_key" size="12"
+                           invalidate-cache-query-params="qp1,qp2" invalidate-cache-path-params="pp1,pp2"
+                           query-id="testDatasourceCompile" object-id="testDataSourceCompile"
+                           cache-expires="1d" route="/test">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+            <submit operation-id="update" clear-cache-after-submit="false" route="/sub" submit-all="false"
+            message-on-fail="false" refresh-on-success="false" message-position="fixed" refresh-datasources="ds1">
+                <form-param id="id" value="{id}"/>
+            </submit>
+        </cached-datasource>
+    </datasources>
+
+</page>

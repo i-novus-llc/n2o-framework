@@ -16,13 +16,13 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения\записи стандартной страницы версии 4.0
  */
-public class StandardPageXmlIOv4Test {
+class StandardPageXmlIOv4Test {
     
     @Test
     void test() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new StandardDatasourceIO(), new BrowserStorageDatasourceIO(), new ApplicationDatasourceIO(),
-                new InheritedDatasourceIO(), new ParentDatasourceIO(),
+                new InheritedDatasourceIO(), new ParentDatasourceIO(), new CachedDatasourceIO(),
                 new StandardPageElementIOv4(), new ShowModalElementIOV2(), new OnChangeEventIO(),
                 new CloseActionElementIOV2(), new ButtonIOv2(), new SubmenuIOv2(),
                 new InvokeActionElementIOV2(), new AlertActionElementIOV2())

@@ -27,9 +27,8 @@ import static net.n2oapp.framework.config.metadata.validation.standard.Validatio
 public class PageActionValidator implements SourceValidator<N2oAbstractPageAction>, SourceClassAware {
     @Override
     public void validate(N2oAbstractPageAction source, SourceProcessor p) {
-        p.checkForExists(source.getObjectId(), N2oObject.class,
-                "Действие открытия страницы " + getIdOrEmptyString(source.getId()) +
-                        " ссылается на несуществующий объект " + source.getObjectId());
+        ValidationUtils.checkForExistsObject(source.getObjectId(),
+                String.format("Действие открытия страницы %s", getIdOrEmptyString(source.getId())), p);
 
         p.checkForExists(source.getPageId(), N2oPage.class,
                 "Действие открытия страницы " + getIdOrEmptyString(source.getId()) +

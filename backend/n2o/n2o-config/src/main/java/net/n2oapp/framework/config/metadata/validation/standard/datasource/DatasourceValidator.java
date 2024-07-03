@@ -1,10 +1,8 @@
 package net.n2oapp.framework.config.metadata.validation.standard.datasource;
 
-import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
-import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -15,7 +13,7 @@ import static net.n2oapp.framework.config.metadata.validation.standard.Validatio
 /**
  * Валидатор источника данных
  */
-public abstract class DatasourceValidator<S extends N2oDatasource> implements SourceValidator<S>, SourceClassAware {
+public abstract class DatasourceValidator<S extends N2oDatasource> extends AbstractDataSourceValidator<S> {
 
     @Override
     public void validate(S source, SourceProcessor p) {
@@ -36,7 +34,7 @@ public abstract class DatasourceValidator<S extends N2oDatasource> implements So
      */
     private void checkDependencies(S datasource, SourceProcessor p) {
         if (datasource.getDependencies() != null) {
-            for (N2oStandardDatasource.Dependency d : datasource.getDependencies()) {
+            for (N2oDatasource.Dependency d : datasource.getDependencies()) {
                 if (d.getOn() == null) {
                     throw new N2oMetadataValidationException(
                             String.format("В зависимости источника данных %s не указан атрибут 'on'",

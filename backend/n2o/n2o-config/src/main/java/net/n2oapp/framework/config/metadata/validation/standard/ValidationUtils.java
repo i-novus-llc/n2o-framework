@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
@@ -90,6 +92,38 @@ public final class ValidationUtils {
                     String.format("Тег %s в атрибуте 'datasource' ссылается на несуществующий источник данных %s",
                             tag, dsId));
         }
+    }
+
+    /**
+     * Проверка существования объекта
+     *
+     * @param objectId         Идентификатор объекта
+     * @param messageFirstPart Первая часть сообщения об ошибке
+     * @param p                Процессор исходных метаданных
+     */
+    public static void checkForExistsObject(String objectId, String messageFirstPart, SourceProcessor p) {
+        p.checkForExists(objectId, N2oObject.class,
+                String.format("%s ссылается на несуществующий объект %s",
+                        messageFirstPart,
+                        getIdOrEmptyString(objectId)));
+    }
+
+    /**
+     * Проверка сущестования выборки
+     *
+     * @param queryId          Идентификатор источника данных
+     * @param messageFirstPart Первая часть сообщения об ошибке
+     * @return Метаданная выборки если она существует, иначе null
+     */
+    public static N2oQuery checkQueryExists(String queryId, String messageFirstPart, SourceProcessor p) {
+        if (queryId != null) {
+            p.checkForExists(queryId, N2oQuery.class,
+                    String.format("%s ссылается на несуществующую выборку %s",
+                            messageFirstPart,
+                            getIdOrEmptyString(queryId)));
+            return p.getOrThrow(queryId, N2oQuery.class);
+        }
+        return null;
     }
 
     /**

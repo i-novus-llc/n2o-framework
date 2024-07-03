@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Кэширующий источник данных. Случай с параметрами">
+    <datasources>
+        <datasource id="ds1" query-id="list">
+        </datasource>
+    </datasources>
+    <regions>
+        <table datasource="ds1">
+            <columns>
+                <column id="id"/>
+                <column id="name"/>
+            </columns>
+
+            <toolbar place="bottomLeft">
+                <button label="Открыть">
+                    <open-page page-id="modal" route="/:person_id/modal">
+                        <params>
+                            <path-param name="person_id" value="{id}" datasource="ds1"/>
+                        </params>
+                    </open-page>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

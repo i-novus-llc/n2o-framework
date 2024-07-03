@@ -25,6 +25,7 @@ public class Submit implements Source {
     private String[] refreshDatasourceIds;
     private SubmitOn submitOn;
     private Boolean submitAll;
+    private Boolean clearCacheAfterSubmit;
 
     @Deprecated
     public String getRefreshWidgetId() {

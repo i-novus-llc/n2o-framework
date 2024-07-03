@@ -17,13 +17,6 @@ type RequestInfo<TData> = {
     timer?: number
 }
 
-/**
- * @typedef {Object} CachedRequest
- * @property {Promise} request
- * @property {Object} provider
- * @property {Object} worker
- * @property {Number} timer
- */
 const requestMap: Record<string, RequestInfo<unknown>> = Object.create(null)
 
 export interface DataProvider {

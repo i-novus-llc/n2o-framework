@@ -77,6 +77,17 @@
                       submit="true" apply-on-init="true"/>
             </dependencies>
         </browser-storage>
+        <cached-datasource id="ds5" query-id="test" size="12" object-id="test" cache-expires="1d"
+                           storage-key="key" storage-type="sessionStorage"
+                           invalidate-cache-path-params="id" invalidate-cache-query-params="name" route="/route">
+            <filters>
+                <eq field-id="id" param="id"/>
+                <in field-id="in" param="in"/>
+            </filters>
+            <submit operation-id="update" refresh-datasources="ds1" message-position="fixed" refresh-on-success="true"
+                    message-on-fail="true" submit-all="true" route="/test" clear-cache-after-submit="true"
+                    message-widget-id="w1" message-placement="bottom" message-on-success="true"/>
+        </cached-datasource>
         <app-datasource id="test"/>
         <inherited-datasource id="ds3" source-field-id="name" source-datasource="ds1" source-model="filter" size="1">
             <fetch-value>test</fetch-value>

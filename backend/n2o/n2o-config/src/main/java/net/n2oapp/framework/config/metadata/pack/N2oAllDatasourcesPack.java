@@ -11,10 +11,13 @@ public class N2oAllDatasourcesPack implements MetadataPack<N2oApplicationBuilder
         b.packs(new N2oDatasourcesV1IOPack());
         b.compilers(new StandardDatasourceCompiler(),
                 new BrowserStorageDatasourceCompiler(),
+                new CachedDatasourceCompiler(),
                 new StompDatasourceCompiler(),
                 new InheritedDatasourceCompiler());
         b.mergers(new N2oStandardDatasourceMerger());
         b.binders(new BrowserStorageDatasourceBinder(),
-                new InheritedDatasourceBinder());
+                new InheritedDatasourceBinder(),
+                new StandardDatasourceBinder(),
+                new CachedDatasourceBinder());
     }
 }

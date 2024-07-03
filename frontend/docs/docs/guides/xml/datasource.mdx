@@ -171,6 +171,69 @@ n2o.api.datasource.browser.submit.auto = true
 </browser-storage>
 ```
 
+### &lt;cached-datasource&gt; {#cached-datasource}
+
+Кэширующий источник данных
+
+**Атрибуты**
+
+|Наименование        |Тип                              |Описание                                |Значение по умолчанию              |Обязательность
+|--------------------|---------------------------------|----------------------------------------|-----------------------------------|--------------
+|id                  |Строка                           |Идентификатор источника данных          |                                   |!
+|query-id            |Ссылка на [выборку](../xml/query)|Идентификатор выборки, на основе которой происходит получение данных  |                      |
+|object-id           |Ссылка на [объект](../xml/object)|Идентификатор объекта                                                 |                      |
+|size                |Число                            |Размер выборки                                                        |10                    |
+|route               |Строка                           |URL получения данных                                                  |                      |
+|storage-type        |sessionStorage localStorage      |Тип хранилища в браузере                                              |                      |
+|storage-key         |Строка                           |Ключ, под которым будут храниться данные. По умолчанию: глобальный идентификатор источника|  |
+|cache-expires       |Строка                           |С какой периодичностью необходимо проверять актуальность кэша. Задается в формате `1d 3h 2m`||
+|invalidate-cache-path-params  |Строка                 |Path параметры, значения которых сравниваются во время проверки актуальности кэша|           |
+|invalidate-cache-query-params |Строка                 |Query параметры, значения которых сравниваются во время проверки актуальности кэша|          |
+
+**Настройки**
+
+```yaml
+#Тип хранилища в браузере
+n2o.api.datasource.cached.storage_type = sessionStorage
+```
+
+**Тело**
+
+&lt;submit&gt; - [Сохранение данных при их изменении](#cached_datasource_submit) <br/>
+&lt;filters&gt; - [Предустановленная фильтрация](../xml/base#filters) <br/>
+
+#### &lt;submit&gt; {#cached_datasource_submit}
+
+Сохранение данных при их изменении
+
+**Атрибуты**
+
+Аналогичны [Отправке полей на сервер при их изменении](../xml/field#submit)
+
+|Наименование             |Тип             |Описание                        |Значение по умолчанию    |
+|-------------------------|----------------|--------------------------------|-------------------------|
+|clear-cache-after-submit |true false      |Очищать кэш после submit        |false                    |
+
+**Настройки**
+
+```yaml
+#Очищать кэш после submit
+n2o.api.datasource.cached.clear_cache_after_submit = false
+```
+
+**Пример**
+
+```xml
+<cached-datasource id="ds1" storage-key="test_key"
+                           invalidate-cache-path-params="person_id"
+                           query-id="person" >
+    <filters>
+        <eq field-id="id" param="person_id"/>
+    </filters>
+    <submit clear-cache-after-submit="true"/>
+</cached-datasource>
+```
+
 ### &lt;inherited-datasource&gt; {#inherited-datasource}
 
 Источник, получающий данные из другого источника

@@ -7,6 +7,7 @@ import { ProviderType } from '../Provider'
 import { submit as submitService } from '../Providers/Service'
 import { submit as submitStorage } from '../Providers/Storage'
 import { submit as submitInherited } from '../Providers/Inherited'
+import { submit as submitCached } from '../Providers/Cached'
 import type { SubmitAction } from '../Actions'
 import type { DataSourceState } from '../DataSource'
 import { submitFail, submitSuccess } from '../store'
@@ -26,6 +27,7 @@ function getSubmit<
         case ProviderType.service: { return submitService as SubmitMethod<TSubmit> }
         case ProviderType.storage: { return submitStorage as SubmitMethod<TSubmit> }
         case ProviderType.inherited: { return submitInherited as SubmitMethod<TSubmit> }
+        case ProviderType.cached: { return submitCached as SubmitMethod<TSubmit> }
         default: { return () => { throw new Error(`hasn't implementation for provider type: "${provider}`) } }
     }
 }
