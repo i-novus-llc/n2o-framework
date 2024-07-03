@@ -31,7 +31,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class TableGeneratorsTest extends SourceCompileTestBase {
+class TableGeneratorsTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach
@@ -64,7 +64,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void generateTableSettings() {
+    void generateTableSettings() {
         PageContext context = new PageContext("table_settings");
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/table_settings.page.xml")
                 .get(context);
@@ -141,6 +141,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         List<AbstractButton> buttons = t.getToolbar().get("topRight").get(0).getButtons();
         assertThat(buttons.size(), is(1));
         assertThat(buttons.get(0), instanceOf(Submenu.class));
+        assertThat(buttons.get(0).getIcon(), is("fa fa-gear"));
 
         List<PerformButton> subMenuButtons = ((Submenu) buttons.get(0)).getSubMenu();
         assertThat(subMenuButtons.get(0).getLabel(), is("Фильтры"));
@@ -170,7 +171,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void generateColumns() {
+    void generateColumns() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/columns.page.xml")
                 .get(new PageContext("columns"));
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
@@ -185,7 +186,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void generateFilters() {
+    void generateFilters() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/filters.page.xml")
                 .get(new PageContext("filters"));
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
@@ -201,7 +202,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void generateRefresh() {
+    void generateRefresh() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/refresh.page.xml")
                 .get(new PageContext("refresh"));
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
@@ -216,7 +217,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void generateResize() {
+    void generateResize() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/resize.page.xml")
                 .get(new PageContext("resize"));
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
@@ -231,7 +232,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void generateWordWrap() {
+    void generateWordWrap() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/wordwrap.page.xml")
                 .get(new PageContext("wordwrap"));
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
@@ -249,7 +250,7 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void generateExport() {
+    void generateExport() {
         PageContext context = new PageContext("export", "/export");
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/export.page.xml")
                 .get(context);
