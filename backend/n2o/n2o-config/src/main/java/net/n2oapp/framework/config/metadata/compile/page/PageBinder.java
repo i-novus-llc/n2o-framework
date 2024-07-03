@@ -14,10 +14,8 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
-import net.n2oapp.framework.config.util.BindUtil;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.StringUtils.hasLink;
 
@@ -155,14 +153,6 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
 
     private void bindDatasources(D page, BindProcessor p) {
         if (page.getDatasources() != null) {
-            List<StandardDatasource> datasources = page.getDatasources().values().stream().
-                    filter(StandardDatasource.class::isInstance).
-                    map(StandardDatasource.class::cast).
-                    collect(Collectors.toList());
-            datasources.stream().filter(ds -> ds.getProvider() != null)
-                    .forEach(ds -> BindUtil.bindDataProvider(ds.getProvider(), p));
-            datasources.stream().filter(ds -> ds.getSubmit() != null)
-                    .forEach(ds -> BindUtil.bindDataProvider(ds.getSubmit(), p));
             page.getDatasources().values().forEach(p::bind);
         }
     }

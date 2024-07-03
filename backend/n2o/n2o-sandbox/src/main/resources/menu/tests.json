@@ -1153,6 +1153,14 @@
           "name": "ParentDatasourceAT. testSourceDatasource"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/datasources/cached_datasource/simple",
+          "name": "CachedDatasourceAT. testSimple"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/cached_datasource/by_params",
+          "name": "CachedDatasourceAT. testPathParams"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/model/field",
           "name": "RefFieldModelAT"
         },

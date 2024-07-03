@@ -14,6 +14,11 @@
             <filters>
                 <eq field-id="id" value="3"/>
             </filters>
+            <submit operation-id="op" route="/new" refresh-datasources="ds1" message-on-fail="false" submit-all="false"
+                    message-position="fixed" message-on-success="false" message-placement="bottom" message-widget-id="cv"
+                    refresh-on-success="false">
+                <form-param id="fdg" value="fd" datasource="ds1" model="datasource"/>
+            </submit>
         </datasource>
         <stomp-datasource id="taskCount" destination="/task/count"/>
         <stomp-datasource id="notifCount" destination="/notif/count">

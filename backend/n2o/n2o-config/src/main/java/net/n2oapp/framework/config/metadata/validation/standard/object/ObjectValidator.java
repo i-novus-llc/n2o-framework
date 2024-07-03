@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.InvocationScope;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
@@ -210,11 +211,10 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
             if (field instanceof ObjectReferenceField) {
                 ObjectReferenceField refField = (ObjectReferenceField) field;
                 if (refField.getReferenceObjectId() != null)
-                    p.checkForExists(refField.getReferenceObjectId(), N2oObject.class,
-                            String.format("Поле %s в объекте %s ссылается на несуществующий объект %s",
+                    ValidationUtils.checkForExistsObject(refField.getReferenceObjectId(),
+                            String.format("Поле %s в объекте %s",
                                     getIdOrEmptyString(refField.getId()),
-                                    getIdOrEmptyString(objectId),
-                                    getIdOrEmptyString(refField.getReferenceObjectId())));
+                                    getIdOrEmptyString(objectId)), p);
                 if (!ArrayUtils.isEmpty(refField.getFields()))
                     checkForExistsReferenceObject(objectId, refField.getFields(), p);
             }

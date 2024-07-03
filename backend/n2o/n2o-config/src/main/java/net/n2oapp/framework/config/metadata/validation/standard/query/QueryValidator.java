@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.validation.standard.query;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
@@ -33,7 +32,8 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
     @Override
     public void validate(N2oQuery n2oQuery, SourceProcessor p) {
         if (nonNull(n2oQuery.getObjectId()))
-            checkForExistsObject(n2oQuery.getId(), n2oQuery.getObjectId(), p);
+            ValidationUtils.checkForExistsObject(n2oQuery.getObjectId(),
+                    String.format("Выборка %s", ValidationUtils.getIdOrEmptyString(n2oQuery.getId())),p);
         if (nonNull(n2oQuery.getFields())) {
             p.safeStreamOf(n2oQuery.getFields()).forEach(field -> checkFieldIdExistence(field, n2oQuery.getId(), p));
             checkForUniqueFields(n2oQuery.getFields(), n2oQuery.getId(), p);
@@ -44,20 +44,6 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
         }
         checkInvocations(n2oQuery, p);
         checkSwitchCase(n2oQuery.getFields());
-    }
-
-    /**
-     * Проверка существования Объекта
-     *
-     * @param queryId  Идентификатор выборки
-     * @param objectId Идентификатор объекта
-     * @param p        Процессор исходных метаданных
-     */
-    private void checkForExistsObject(String queryId, String objectId, SourceProcessor p) {
-        p.checkForExists(objectId, N2oObject.class,
-                String.format("Выборка %s ссылается на несуществующий объект %s",
-                        ValidationUtils.getIdOrEmptyString(queryId),
-                        ValidationUtils.getIdOrEmptyString(objectId)));
     }
 
     /**

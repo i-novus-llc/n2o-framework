@@ -2,6 +2,15 @@
   "name": "Версии",
   "sections": [
     {
+      "name": "7.28",
+      "templates": [
+        {
+          "templateId": "versions/7.28/cached_datasource",
+          "name": "Кэширующий датасурс"
+        }
+      ]
+    },
+    {
       "name": "7.27",
       "templates": [
         {

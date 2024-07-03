@@ -10,6 +10,7 @@ public class N2oDatasourcesV1IOPack implements MetadataPack<XmlIOBuilder<?>> {
         b.ios(new ApplicationDatasourceIO(),
                 new ParentDatasourceIO(),
                 new BrowserStorageDatasourceIO(),
+                new CachedDatasourceIO(),
                 new StandardDatasourceIO(),
                 new StompDatasourceIO(),
                 new InheritedDatasourceIO());

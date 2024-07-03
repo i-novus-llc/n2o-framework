@@ -14,7 +14,7 @@ import { applyPaging } from './storage/applyPaging'
 
 const KEY_PREFIX = 'n2o/datasource/'
 
-const getFullKey = (key: string) => `${KEY_PREFIX}${key}`
+export const getFullKey = (key: string) => `${KEY_PREFIX}${key}`
 
 export function* submit(id: string, { key, model: prefix, storage: storageType }: StorageSubmit) {
     const model: unknown = yield select(getModelByPrefixAndNameSelector(prefix, id))
@@ -78,9 +78,7 @@ export function* query(id: string, { storage: storageType, key }: StorageProvide
 }
 
 export function* clear({ meta }: {
-    meta: {
-        clear?: string
-    }
+    meta: { clear?: string }
 }) {
     const { clear: id } = meta
 
@@ -88,9 +86,7 @@ export function* clear({ meta }: {
 
     const provider: Provider | void = yield select(dataSourceProviderSelector(id))
 
-    if (!provider || provider.type !== ProviderType.storage) {
-        return
-    }
+    if (!provider || provider.type !== ProviderType.storage) { return }
 
     const { storage: storageType, key } = provider as StorageProvider
     const storage = storageType === StorageType.local ? localStorage : sessionStorage

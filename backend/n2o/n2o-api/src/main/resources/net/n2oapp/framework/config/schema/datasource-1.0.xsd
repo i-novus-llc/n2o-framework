@@ -13,6 +13,7 @@
             <xs:element name="inherited-datasource" type="inheritedDatasourceDefinition" minOccurs="0"
                         maxOccurs="unbounded"/>
             <xs:element name="parent-datasource" type="parentDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="cached-datasource" type="cachedDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -22,6 +23,7 @@
     <xs:element name="app-datasource" type="appDatasourceDefinition"/>
     <xs:element name="inherited-datasource" type="inheritedDatasourceDefinition"/>
     <xs:element name="parent-datasource" type="parentDatasourceDefinition"/>
+    <xs:element name="cached-datasource" type="cachedDatasourceDefinition"/>
 
     <xs:complexType name="datasourceDefinition">
         <xs:attribute name="id" type="xs:string" use="required">
@@ -31,6 +33,87 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="cachedDatasourceDefinition">
+        <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>
+                    Кэширующий источник данных, реализует "смежное" поведение datasource и browser-storage
+                </xs:documentation>
+            </xs:annotation>
+            <xs:extension base="datasourceDefinition">
+                <xs:sequence>
+                    <xs:element name="submit" type="datasourceSubmit" minOccurs="0"/>
+                    <xs:element name="filters" type="datasourceFiltersOnlyByParamDefinition" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="object-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор объекта
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="query-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор выборки, на основе которой происходит получение данных
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="route" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            URL получения данных
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="size" type="xs:integer" default="10">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Размер выборки
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="storage-type" type="storageType" default="sessionStorage">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Тип хранилища в браузере
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="storage-key" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Ключ, под которым будут храниться данные.
+                            По умолчанию: глобальный идентификатор источника
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="cache-expires" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            С какой периодичностью необходимо проверять актуальность кэша.
+                            Задается в формате `1d 3h 2m`
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="invalidate-cache-path-params" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Path параметры, значения которых сравниваются во время проверки актуальности кэша
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="invalidate-cache-query-params" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Query параметры, значения которых сравниваются во время проверки актуальности кэша
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="parentDatasourceDefinition">
@@ -665,4 +748,70 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
+
+    <xs:complexType name="datasourceFiltersOnlyByParamDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Предустановленная фильтрация
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="eq" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="in" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="like" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="likeStart" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="isNull" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="contains" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="more" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="less" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="notEq" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="notIn" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="isNotNull" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="filterOnlyParams">
+        <xs:annotation>
+            <xs:documentation>
+                Предустановленная фильтрация поля выборки
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="field-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    Поле, по которому будет фильтрация
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="required" type="xs:boolean">
+            <xs:annotation>
+                <xs:documentation>
+                    Обязательность предустановленного фильтра
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="param" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Имя параметра для фильтрации (в случае, если фильтрация по параметру из url).
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="datasourceSubmit">
+        <xs:complexContent>
+            <xs:extension base="act:submitDefinition">
+                <xs:attribute name="clear-cache-after-submit" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Очищать кэш после submit
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="auto-submit-on" use="prohibited"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
 </xs:schema>

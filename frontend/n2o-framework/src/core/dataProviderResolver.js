@@ -28,7 +28,7 @@ import { clearEmptyParams } from '../utils/clearEmptyParams'
  * @param {object} dataProvider
  * @param {object} [query]
  * @param {object} [options]
- * @returns {{baseQuery: (*), basePath: string, formParams: {}, headersParams: {}, url: string}}
+ * @returns {{baseQuery: (*), basePath: string, queryParams: (*), pathParams: (*), formParams: {}, headersParams: {}, url: string}}
  */
 export function dataProviderResolver(state, dataProvider, query, options) {
     const {
@@ -103,6 +103,7 @@ export function dataProviderResolver(state, dataProvider, query, options) {
 
     return {
         basePath,
+        pathParams,
         baseQuery,
         headersParams,
         formParams,
