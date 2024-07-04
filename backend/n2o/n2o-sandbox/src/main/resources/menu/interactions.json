@@ -216,10 +216,6 @@
           "name": "Фильтрация в дочернем окне"
         },
         {
-          "templateId": "interactions/filters/filterslink",
-          "name": "Фильтрация по ссылке"
-        },
-        {
           "templateId": "interactions/filters/filtersparam",
           "name": "Фильтрация по параметру"
         },
