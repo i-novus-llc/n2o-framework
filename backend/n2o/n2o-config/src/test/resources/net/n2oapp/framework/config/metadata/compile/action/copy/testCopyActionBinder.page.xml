@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+        <datasource id="ds2"/>
+    </datasources>
+    <regions>
+    </regions>
+    <toolbar>
+        <button id="pageBtn">
+            <copy source-model="edit" source-datasource="ds1" source-field-id="groups[{idx}]" mode="replace"
+                  target-model="edit" target-datasource="ds2" target-field-id="dictionary[{idx}].id"/>
+        </button>
+    </toolbar>
+</page>
