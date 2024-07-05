@@ -22,6 +22,7 @@ import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.engine.modules.stack.SpringDataProcessingStack;
 import net.n2oapp.framework.engine.validation.N2oValidationModule;
 import net.n2oapp.framework.engine.validation.engine.ValidationProcessor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -161,35 +162,10 @@ public class N2oEngineConfiguration {
     }
 
     @Bean
-    public JavaDataProviderEngine javaDataProviderEngine(Optional<List<ObjectLocator>> locators,
-                                                         DomainProcessor domainProcessor) {
+    public JavaDataProviderEngine javaDataProviderEngine(Optional<List<ObjectLocator>> locators) {
         JavaDataProviderEngine javaDataProviderEngine = new JavaDataProviderEngine();
-        javaDataProviderEngine.setLocators(locators.orElse(Collections.EMPTY_LIST));
+        javaDataProviderEngine.setLocators(locators.orElse(Collections.emptyList()));
         return javaDataProviderEngine;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public ExternalFilesLoader externalFilesLoader() {
-        return new N2oExternalFilesLoader();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(name = "restDataProviderEngine")
-    public SpringRestDataProviderEngine restDataProviderEngine(RestTemplateBuilder builder, List<RestLoggingHandler> loggingHandlers) {
-        ObjectMapper restObjectMapper = restObjectMapper();
-        SpringRestDataProviderEngine springRestDataProviderEngine = new SpringRestDataProviderEngine(
-                restTemplate(builder, httpMessageConverter(restObjectMapper)),
-                restObjectMapper, loggingHandlers);
-
-        springRestDataProviderEngine.setBaseRestUrl(baseRestUrl);
-        return springRestDataProviderEngine;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public RestLoggingHandler loggingHandler() {
-        return new N2oRestLoggingHandler();
     }
 
     @Bean
@@ -210,26 +186,48 @@ public class N2oEngineConfiguration {
         return new GraphQlDataProviderEngine(restTemplate, mapper);
     }
 
-    private ObjectMapper restObjectMapper() {
+    @Bean
+    @ConditionalOnMissingBean
+    public ExternalFilesLoader externalFilesLoader() {
+        return new N2oExternalFilesLoader();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(name = "restDataProviderEngine")
+    public SpringRestDataProviderEngine restDataProviderEngine(@Qualifier("restProviderRestTemplate") RestTemplate restTemplate,
+                                                               List<RestLoggingHandler> loggingHandlers) {
+        SpringRestDataProviderEngine springRestDataProviderEngine = new SpringRestDataProviderEngine(
+                restTemplate, restProviderObjectMapper(), loggingHandlers);
+
+        springRestDataProviderEngine.setBaseRestUrl(baseRestUrl);
+        return springRestDataProviderEngine;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public RestLoggingHandler loggingHandler() {
+        return new N2oRestLoggingHandler();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(name = "restProviderRestTemplate")
+    public RestTemplate restProviderRestTemplate(RestTemplateBuilder builder) {
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setObjectMapper(new ObjectMapper());
+
+        DefaultUriBuilderFactory builderFactory = new DefaultUriBuilderFactory();
+        builderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.TEMPLATE_AND_VALUES);
+
+        RestTemplate restTemplate = builder.messageConverters(converter).build();
+        restTemplate.setUriTemplateHandler(builderFactory);
+        return restTemplate;
+    }
+
+    public ObjectMapper restProviderObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat(serializingFormat));
         RestEngineTimeModule module = new RestEngineTimeModule(deserializingFormats, exclusionKeys);
         objectMapper.registerModules(module);
         return objectMapper;
     }
-
-    private MappingJackson2HttpMessageConverter httpMessageConverter(ObjectMapper restObjectMapper) {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(restObjectMapper);
-        return converter;
-    }
-
-    private RestTemplate restTemplate(RestTemplateBuilder builder, MappingJackson2HttpMessageConverter converter) {
-        DefaultUriBuilderFactory builderFactory = new DefaultUriBuilderFactory();
-        builderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.TEMPLATE_AND_VALUES);
-        RestTemplate restTemplate = builder.messageConverters(converter).build();
-        restTemplate.setUriTemplateHandler(builderFactory);
-        return restTemplate;
-    }
-
 }
