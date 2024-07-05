@@ -201,7 +201,7 @@
       "name": "HTML виджет",
       "templates": [
         {
-          "templateId": "uxcomponents/html_widget/html_withDS",
+          "templateId": "uxcomponents/html_widget/withDS",
           "name": "Html виджет с плейсхолдером"
         },
         {
