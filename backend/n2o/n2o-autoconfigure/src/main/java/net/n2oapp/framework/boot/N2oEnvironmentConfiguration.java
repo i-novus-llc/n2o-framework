@@ -61,10 +61,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -257,8 +254,7 @@ public class N2oEnvironmentConfiguration {
 
         @Bean
         SourceLoaderFactory sourceLoaderFactory(Map<String, SourceLoader> beans) {
-            N2oSourceLoaderFactory configReaderFactory = new N2oSourceLoaderFactory(beans);
-            return configReaderFactory;
+            return new N2oSourceLoaderFactory(beans);
         }
 
         @Bean
