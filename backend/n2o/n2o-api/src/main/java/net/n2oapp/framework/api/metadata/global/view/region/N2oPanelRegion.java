@@ -9,15 +9,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oPanelRegion extends N2oRegion implements RoutableRegion {
-    private String title;
-    private Boolean collapsible;
     private Boolean header;
+    private String title;
+    private String footerTitle;
+    private Boolean collapsible;
+    private Boolean open;
     private String icon;
     private String color;
-    private Boolean open;
-    private String footerTitle;
-    private String activeParam;
     private Boolean routable;
+    private String activeParam;
 
     @Override
     public String getAlias() {

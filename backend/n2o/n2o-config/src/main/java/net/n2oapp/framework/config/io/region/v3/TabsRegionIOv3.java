@@ -23,8 +23,8 @@ public class TabsRegionIOv3 extends AbstractRegionIOv3<N2oTabsRegion> {
         p.attributeBoolean(e, "scrollbar", r::getScrollbar, r::setScrollbar);
         p.attribute(e, "datasource", r::getDatasourceId, r::setDatasourceId);
         p.attribute(e, "active-tab-field-id", r::getActiveTabFieldId, r::setActiveTabFieldId);
-        p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
         p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
+        p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
         p.children(e, null, "tab", r::getTabs, r::setTabs, N2oTabsRegion.Tab::new, this::tabs);
         p.anyAttributes(e, r::getExtAttributes, r::setExtAttributes);
     }

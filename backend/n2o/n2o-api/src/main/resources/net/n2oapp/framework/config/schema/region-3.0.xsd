@@ -5,18 +5,18 @@
            targetNamespace="http://n2oapp.net/framework/config/schema/region-3.0">
 
     <xs:element name="region" type="simpleRegionDefinition"/>
-    <xs:element name="tabs" type="tabsDefinition"/>
     <xs:element name="line" type="lineDefinition"/>
     <xs:element name="panel" type="panelDefinition"/>
+    <xs:element name="tabs" type="tabsDefinition"/>
     <xs:element name="scrollspy" type="scrollspyDefinition"/>
 
     <xs:complexType name="regionsAndWidgets" abstract="true">
         <xs:sequence>
             <xs:any namespace="##other"/>
             <xs:element name="region" type="simpleRegionDefinition" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="tabs" type="tabsDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="line" type="lineDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="panel" type="panelDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="tabs" type="tabsDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="scrollspy" type="scrollspyDefinition" maxOccurs="unbounded" minOccurs="0"/>
 
             <xs:element name="table" type="wgt:tableReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
@@ -58,14 +58,14 @@
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Класс компонента региона
+                            CSS класс региона
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Стиль компонента региона
+                            СSS стиль страницы
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -139,10 +139,24 @@
                         Регион в виде панели
                     </xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="header" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Наличие заголовка
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="title" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
                             Заголовок панели
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="footer-title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок для подвала региона
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -153,10 +167,10 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="header" type="xs:boolean" default="true">
+                <xs:attribute name="open" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>
-                            Наличие заголовка
+                            Исходное раскрытие панели
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -171,20 +185,6 @@
                     <xs:annotation>
                         <xs:documentation>
                             Цвет панели
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="open" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Исходное раскрытие панели
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="footer-title" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Заголовок для подвала региона
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -233,14 +233,14 @@
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Класс компонента региона
+                    CSS класс региона
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Стиль компонента региона
+                    СSS стиль страницы
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -255,21 +255,6 @@
             <xs:annotation>
                 <xs:documentation>
                     Ленивая загрузка вкладок
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="active-param" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Имя параметра активной вкладки в URL.
-                    По умолчанию: значение `id`
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="routable" type="xs:boolean" default="true">
-            <xs:annotation>
-                <xs:documentation>
-                    Восстановление активных вкладок по URL
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -306,6 +291,21 @@
             <xs:annotation>
                 <xs:documentation>
                     Идентификатор поля, значение которого задает id активной вкладки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="routable" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>
+                    Восстановление активных вкладок по URL
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="active-param" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Имя параметра активной вкладки в URL.
+                    По умолчанию: значение `id`
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -401,14 +401,14 @@
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Класс компонента региона
+                    CSS класс региона
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Стиль компонента региона
+                    СSS стиль страницы
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -539,7 +539,7 @@
     <xs:complexType name="groupDefinition">
         <xs:annotation>
             <xs:documentation>
-                Группировка элементов в меню
+                Группа меню
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
@@ -549,14 +549,14 @@
         <xs:attribute name="id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Идентификатор вложенного меню
+                    Идентификатор группы
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="title" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Заголовок вложенного меню
+                    Заголовок группы
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
