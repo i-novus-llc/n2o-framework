@@ -9,8 +9,7 @@
         <toolbar place="bottomLeft">
             <button label="Изменить">
                 <dependencies>
-                    <visibility datasource="main"
-                                model="resolve">status != 1</visibility>
+                    <visibility model="resolve">status != 1</visibility>
                 </dependencies>
             </button>
         </toolbar>

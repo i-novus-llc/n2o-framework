@@ -9,8 +9,7 @@
         <toolbar place="bottomLeft">
             <button label="Изменить">
                 <dependencies>
-                    <enabling datasource="main"
-                              model="resolve">status != 1</enabling>
+                    <enabling model="resolve">status != 1</enabling>
                 </dependencies>
             </button>
         </toolbar>
