@@ -21,9 +21,9 @@ public class N2oScrollspyRegion extends N2oRegion implements RoutableRegion {
     private String active;
     private String placement;
     private Boolean headlines;
-    private String activeParam;
-    private Boolean routable;
     private String maxHeight;
+    private Boolean routable;
+    private String activeParam;
     private AbstractMenuItem[] menu;
 
     @Override
@@ -86,7 +86,7 @@ public class N2oScrollspyRegion extends N2oRegion implements RoutableRegion {
 
     @Getter
     @Setter
-    public static abstract class AbstractMenuItem implements Source, IdAware, RegionItem {
+    public abstract static class AbstractMenuItem implements Source, IdAware, RegionItem {
         private String id;
         private String title;
     }

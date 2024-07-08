@@ -4,7 +4,9 @@
 
     <xs:simpleType name="colorDefinition">
         <xs:annotation>
-            <xs:documentation>Цвет</xs:documentation>
+            <xs:documentation>
+                Цвет
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="primary"/>
@@ -20,7 +22,9 @@
 
     <xs:simpleType name="buttonColorDefinition">
         <xs:annotation>
-            <xs:documentation>Цвет кнопки</xs:documentation>
+            <xs:documentation>
+                Цвет кнопки
+            </xs:documentation>
         </xs:annotation>
         <xs:union memberTypes="colorDefinition">
             <xs:simpleType>
@@ -33,7 +37,9 @@
 
     <xs:simpleType name="generateDefinition">
         <xs:annotation>
-            <xs:documentation>Варианты генерации стандартных действий.</xs:documentation>
+            <xs:documentation>
+                Варианты генерации стандартных действий
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="crud"/>

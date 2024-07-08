@@ -16,13 +16,13 @@ public class ScrollspyRegionIOv3 extends AbstractRegionIOv3<N2oScrollspyRegion> 
     @Override
     public void io(Element e, N2oScrollspyRegion r, IOProcessor p) {
         super.io(e, r, p);
+        p.attribute(e, "title", r::getTitle, r::setTitle);
         p.attribute(e, "active", r::getActive, r::setActive);
         p.attribute(e, "placement", r::getPlacement, r::setPlacement);
-        p.attribute(e, "title", r::getTitle, r::setTitle);
         p.attributeBoolean(e, "headlines", r::getHeadlines, r::setHeadlines);
-        p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
-        p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
         p.attribute(e, "max-height", r::getMaxHeight, r::setMaxHeight);
+        p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
+        p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
         p.anyChildren(e, null, r::getMenu, r::setMenu, p.oneOf(N2oScrollspyRegion.AbstractMenuItem.class)
             .add("menu-item", N2oScrollspyRegion.MenuItem.class, this::menuItem)
             .add("sub-menu", N2oScrollspyRegion.SubMenuItem.class, this::subMenu)

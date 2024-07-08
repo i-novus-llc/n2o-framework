@@ -13,15 +13,15 @@ public class PanelRegionIOv3 extends BaseRegionIOv3<N2oPanelRegion> {
     @Override
     public void io(Element e, N2oPanelRegion r, IOProcessor p) {
         super.io(e, r, p);
-        p.attribute(e, "title", r::getTitle, r::setTitle);
-        p.attributeBoolean(e, "collapsible", r::getCollapsible, r::setCollapsible);
         p.attributeBoolean(e, "header", r::getHeader, r::setHeader);
+        p.attribute(e, "title", r::getTitle, r::setTitle);
+        p.attribute(e, "footer-title", r::getFooterTitle, r::setFooterTitle);
+        p.attributeBoolean(e, "collapsible", r::getCollapsible, r::setCollapsible);
+        p.attributeBoolean(e, "open", r::getOpen, r::setOpen);
         p.attribute(e, "icon", r::getIcon, r::setIcon);
         p.attribute(e, "color", r::getColor, r::setColor);
-        p.attributeBoolean(e, "open", r::getOpen, r::setOpen);
-        p.attribute(e, "footer-title", r::getFooterTitle, r::setFooterTitle);
-        p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
         p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
+        p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
     }
 
     @Override

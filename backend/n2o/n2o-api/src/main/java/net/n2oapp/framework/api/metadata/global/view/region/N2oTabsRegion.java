@@ -3,7 +3,6 @@ package net.n2oapp.framework.api.metadata.global.view.region;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
-import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
@@ -26,11 +25,11 @@ public class N2oTabsRegion extends N2oRegion implements RegionItem, RoutableRegi
     private Boolean hideSingleTab;
     private String maxHeight;
     private Boolean scrollbar;
-    private Tab[] tabs;
-    private String activeParam;
-    private Boolean routable;
     private String datasourceId;
     private String activeTabFieldId;
+    private Boolean routable;
+    private String activeParam;
+    private Tab[] tabs;
 
     @Getter
     @Setter
