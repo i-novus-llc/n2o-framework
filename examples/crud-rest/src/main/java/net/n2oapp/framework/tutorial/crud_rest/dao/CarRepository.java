@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource(path = "cars")
-public interface CarRepository extends PagingAndSortingRepository<Car, Long> {
+public interface CarRepository extends PagingAndSortingRepository<Car, Long>, CrudRepository<Car, Long> {
     @Query("SELECT s FROM Car s WHERE (:minPrice is null or s.price >= :minPrice) and (:maxPrice is null or s.price <= :maxPrice)")
     Page<Car> findAll(Pageable pageable,
                       @Param("minPrice") Long minPrice,
