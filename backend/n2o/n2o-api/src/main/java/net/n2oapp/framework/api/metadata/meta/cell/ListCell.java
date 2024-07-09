@@ -10,10 +10,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ListCell extends AbstractCell {
-    @JsonProperty
-    private String labelFieldId;
+
     @JsonProperty
     private String color;
     @JsonProperty("amountToGroup")
     private Integer size;
+    @JsonProperty
+    private Boolean inline;
+    @JsonProperty
+    private String separator;
+    @JsonProperty
+    private Cell content;
 }

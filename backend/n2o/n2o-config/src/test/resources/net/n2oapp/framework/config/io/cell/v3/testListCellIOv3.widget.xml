@@ -3,15 +3,39 @@
     <columns>
         <column text-field-id="test">
             <list src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
-                  color="test" size="3" label-field-id="field">
-                <switch value-field-id="type.id">
-                    <case value="1">success</case>
-                    <case value="2">danger</case>
-                    <default>info</default>
-                </switch>
+                  color="test" size="3" label-field-id="field" inline="true" separator=", ">
+                <link/>
+            </list>
+        </column>
+        <column text-field-id="test1">
+            <list src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
+                  color="test" size="3" label-field-id="field" inline="true" separator=", ">
+                <text>
+                    <switch value-field-id="field">
+                        <case value="1">a</case>
+                        <case value="2">b</case>
+                        <case value="3">c</case>
+                    </switch>
+                </text>
             </list>
         </column>
         <column text-field-id="test2">
+            <list>
+                <badge>
+                    <switch value-field-id="type.id">
+                        <case value="1">success</case>
+                        <case value="2">danger</case>
+                        <default>info</default>
+                    </switch>
+                </badge>
+            </list>
+        </column>
+        <column text-field-id="test3">
+            <list>
+                <cell/>
+            </list>
+        </column>
+        <column text-field-id="test4">
             <list/>
         </column>
     </columns>

@@ -22,7 +22,7 @@
                 <badge text="{region}" color="success"/>
             </column>
             <column text-field-id="regionCities" label="Города региона">
-                <list label-field-id="name" size="2" color="success" style="font-size:large;"/>
+                <list label-field-id="name" size="2" color="success" style="font-size:large;" inline="true"/>
             </column>
         </columns>
     </table>

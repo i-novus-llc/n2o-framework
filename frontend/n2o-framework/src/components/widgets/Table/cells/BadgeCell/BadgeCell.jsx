@@ -45,16 +45,11 @@ function BadgeCell(props) {
 
     if (!visible) { return null }
 
-    const badgeStyle = {
-        order: placement === 'right' ? 1 : -1,
-        marginLeft: placement === 'right' && 5,
-        marginRight: placement === 'left' && 5,
-    }
     const badgeText = get(model, fieldKey || id)
 
     return (
-        <span className="d-inline-flex" ref={forwardedRef}>
-            <Text text={text} format={format} />
+        <span className="d-inline-flex badge-cell" ref={forwardedRef}>
+            {text && <Text text={text} format={format} />}
             {FactoryBadge && !isNil(badgeText) && (
                 <FactoryBadge
                     {...resolveBadgeProps(
@@ -72,7 +67,9 @@ function BadgeCell(props) {
                             format={badgeFormat}
                         />
                     )}
-                    style={badgeStyle}
+                    style={{
+                        order: placement === 'right' ? 1 : -1,
+                    }}
                     shape={shape || Shape.Square}
                 />
             )}

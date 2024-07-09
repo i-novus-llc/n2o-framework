@@ -1,9 +1,8 @@
 package net.n2oapp.framework.config.io.cell.v3;
 
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oListCell;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.*;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.cell.v2.SwitchIO;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +18,13 @@ public class ListCellElementIOv3 extends AbstractCellElementIOv3<N2oListCell> {
         p.attribute(e, "color", c::getColor, c::setColor);
         p.attribute(e, "label-field-id", c::getLabelFieldId, c::setLabelFieldId);
         p.attributeInteger(e, "size", c::getSize, c::setSize);
-        p.child(e, null, "switch", c::getN2oSwitch, c::setN2oSwitch, new SwitchIO());
+        p.attributeBoolean(e, "inline", c::getInline, c::setInline);
+        p.attribute(e, "separator", c::getSeparator, c::setSeparator);
+        p.anyChild(e, null, c::getCell, c::setCell, p.oneOf(N2oCell.class)
+                .add("text", N2oTextCell.class, new TextCellElementIOv3())
+                .add("badge", N2oBadgeCell.class, new BadgeCellElementIOv3())
+                .add("link", N2oLinkCell.class, new LinkCellElementIOv3())
+                .add("cell", N2oCustomCell.class, new CustomCellElementIOv3()));
     }
 
     @Override

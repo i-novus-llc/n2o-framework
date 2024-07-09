@@ -6,7 +6,7 @@
         <columns>
             <column text-field-id="name" label="Марка"/>
             <column text-field-id="showrooms" label="Автосалоны">
-                <list label-field-id="name"/>
+                <list label-field-id="name" inline="true"/>
             </column>
         </columns>
     </table>

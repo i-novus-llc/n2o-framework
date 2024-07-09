@@ -16,8 +16,6 @@ import org.junit.jupiter.api.Test;
  */
 public class ListCellAT extends AutoTestBase {
 
-    private TableWidget.Rows rows;
-
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -27,17 +25,6 @@ public class ListCellAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
-        setJsonPath("net/n2oapp/framework/autotest/cells/list");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/cells/list/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/list/testTable.query.xml"));
-
-        SimplePage simplePage = open(SimplePage.class);
-        simplePage.shouldExists();
-
-        rows = simplePage.widget(TableWidget.class).columns().rows();
-        rows.shouldHaveSize(4);
     }
 
     @Override
@@ -48,7 +35,19 @@ public class ListCellAT extends AutoTestBase {
     }
 
     @Test
-    public void listCellTest() {
+    void testSimple() {
+        setJsonPath("net/n2oapp/framework/autotest/cells/list/simple");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/cells/list/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/list/simple/testTable.query.xml"));
+
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        TableWidget.Rows rows;
+        rows = simplePage.widget(TableWidget.class).columns().rows();
+        rows.shouldHaveSize(4);
+
         int col = 0;
         rows.row(0).cell(col, ListCell.class).shouldHaveSize(1);
         rows.row(1).cell(col, ListCell.class).shouldHaveSize(3);
@@ -73,4 +72,59 @@ public class ListCellAT extends AutoTestBase {
         rows.row(3).cell(col, ListCell.class).shouldHaveSize(3);
     }
 
+    @Test
+    void testInnerCells() {
+        setJsonPath("net/n2oapp/framework/autotest/cells/list/inner_cells");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/cells/list/inner_cells/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/list/inner_cells/test.query.xml"));
+
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        TableWidget.Rows rows;
+        rows = simplePage.widget(TableWidget.class).columns().rows();
+        rows.shouldHaveSize(1);
+
+        ListCell cell = rows.row(0).cell(0, ListCell.class);
+        cell.shouldExists();
+        cell.shouldHaveInnerText(0, "text1");
+        cell.shouldHaveInnerText(1, "text2");
+        cell.shouldHaveInnerText(2, "text3");
+        cell.shouldNotBeInline();
+        cell.shouldNotBeExpandable();
+
+        cell = rows.row(0).cell(1, ListCell.class);
+        cell.shouldExists();
+        cell.shouldHaveInnerText(0, "text-1");
+        cell.shouldHaveInnerText(1, "text-2");
+        cell.shouldHaveInnerText(2, "text-3");
+        cell.shouldBeInline();
+        cell.shouldHaveSeparator(", ");
+        cell.shouldNotBeExpandable();
+
+        cell = rows.row(0).cell(2, ListCell.class);
+        cell.shouldExists();
+        cell.shouldNotBeInline();
+        cell.shouldHaveInnerLink(0, "link1");
+        cell.shouldHaveInnerLink(1, "link2");
+        cell.shouldBeExpandable();
+        cell.shouldHaveInnerLinksSize(2);
+        cell.expand();
+        cell.shouldHaveInnerLinksSize(5);
+        cell.shouldHaveInnerLink(2, "link3");
+        cell.shouldHaveInnerLink(3, "link4");
+        cell.shouldHaveInnerLink(4, "link5");
+        cell.shouldHaveHref(0, "https://example.com/");
+        cell.shouldHaveHref(4, "https://mail.ru/");
+
+
+        cell = rows.row(0).cell(3, ListCell.class);
+        cell.shouldExists();
+        cell.shouldNotBeInline();
+        cell.shouldNotBeExpandable();
+        cell.shouldHaveInnerBadgesSize(2);
+        cell.shouldHaveInnerBadge(0, "badge1");
+        cell.shouldHaveInnerBadge(1, "badge2");
+    }
 }

@@ -3,18 +3,15 @@
     <list>
         <test file="test.json"/>
     </list>
-    
+
     <fields>
         <field id="id">
             <select/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
         </field>
-        <field id="name">
+        <field id="fio">
             <select/>
         </field>
-        <field id="image">
+        <field id="links">
             <select/>
         </field>
     </fields>

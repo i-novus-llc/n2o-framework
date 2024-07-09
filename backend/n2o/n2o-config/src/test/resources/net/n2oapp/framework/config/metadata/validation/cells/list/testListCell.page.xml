@@ -4,10 +4,7 @@
         <columns>
             <column>
                 <list>
-                    <switch>
-                        <case value="Заявка одобрена">success</case>
-                        <case value="Заявка на рассмотрении">info</case>
-                    </switch>
+                    <link/>
                 </list>
             </column>
         </columns>

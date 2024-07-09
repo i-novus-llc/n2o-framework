@@ -24,19 +24,12 @@ public class ListCellValidator implements SourceValidator<N2oListCell>, SourceCl
     @Override
     public void validate(N2oListCell source, SourceProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (source.getN2oSwitch() != null) {
-            if (org.apache.commons.lang3.StringUtils.isBlank(source.getN2oSwitch().getValueFieldId()))
-                throw new N2oMetadataValidationException(String.format("Для конструкции <switch> ячейки <list> виджета %s не указано значение 'value-field-id'",
-                        ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
 
-            if (source.getN2oSwitch().getCases() != null)
-                p.safeStreamOf(source.getN2oSwitch().getCases().keySet()).forEach(c -> {
-                    if (c == null)
-                        throw new N2oMetadataValidationException(String.format("Для <case> конструкции <switch> ячейки <list> виджета %s не указано значение 'value'",
-                                ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
-                });
+        if (source.getCell() != null) {
+            p.validate(source.getCell(), widgetScope);
+            if (source.getLabelFieldId() == null)
+                throw new N2oMetadataValidationException("При наличии внутренней ячейки должен быть задан label-field-id в ячейке <list>");
         }
-
         if (source.getColor() != null && !StringUtils.isLink(source.getColor()) &&
                 !EnumUtils.isValidEnum(Color.class, source.getColor())) {
             throw new N2oMetadataValidationException(

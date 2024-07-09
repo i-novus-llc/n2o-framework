@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "fio":  "Иванов П.И.",
+    "links": [
+      {"name":"i-novus.ru", "link": "https://i-novus.ru/"},
+      {"name":"example.com", "link": "https://example.com"},
+      {"name":"dzen.ru", "link": "https://dzen.ru"},
+      {"name":"Ссылка 4"},
+      {"name":"Ссылка 5"},
+      {"name":"Ссылка 6"}
+    ]
+  },
+  {
+    "id": 2,
+    "fio": "Васильев Г.П.",
+    "links": [
+      {"name":"youtube.com", "link": "https://youtube.com"},
+      {"name":"google.ru", "link": "https://google.ru"}
+    ]
+  }
+]

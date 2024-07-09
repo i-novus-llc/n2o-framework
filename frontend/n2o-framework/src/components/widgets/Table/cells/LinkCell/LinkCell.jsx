@@ -10,13 +10,14 @@ import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
 import StandardButton from '../../../../buttons/StandardButton/StandardButton'
 import { DefaultCell } from '../DefaultCell'
+import { EMPTY_OBJECT } from '../../../../../utils/emptyTypes'
 
 import { LinkCellType } from './linkCellTypes'
 
 function LinkCell(props) {
     const {
         widgetId,
-        model = {},
+        model = EMPTY_OBJECT,
         className,
         fieldKey,
         id,
