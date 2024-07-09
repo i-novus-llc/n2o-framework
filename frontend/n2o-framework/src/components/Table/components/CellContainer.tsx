@@ -20,7 +20,7 @@ export const CellContainer = memo<CellContainerProps>((props) => {
         style,
         ...otherProps
     } = props
-    const resolvedProps = useResolved(otherProps, otherProps.model, ['toolbar', 'security', 'model'])
+    const resolvedProps = useResolved(otherProps, otherProps.model, ['toolbar', 'security', 'model', 'content'])
 
     const currentCellType = get(otherProps.model, otherProps.switchFieldId)
     const cellProps = get(otherProps.switchList, currentCellType, otherProps.switchDefault)

@@ -1,0 +1,45 @@
+[
+  {
+    "id": 1,
+    "texts": [
+      { "textField": "text1" },
+      { "textField": "text2" },
+      { "textField": "text3" }
+    ],
+    "textsInline": [
+      { "textField": "text-1" },
+      { "textField": "text-2" },
+      { "textField": "text-3" }
+    ],
+    "links": [
+      {
+        "linkField": "link1",
+        "link": "https://example.com"
+      },
+      {
+        "linkField": "link2",
+        "link": "https://google.com"
+      },
+      {
+        "linkField": "link3",
+        "link": "https://ya.ru"
+      },
+      {
+        "linkField": "link4",
+        "link": "https://dzen.ru"
+      },
+      {
+        "linkField": "link5",
+        "link": "https://mail.ru"
+      }
+    ],
+    "badges": [
+      {
+        "badgeField": "badge1"
+      },
+      {
+        "badgeField": "badge2"
+      }
+    ]
+  }
+]

@@ -160,6 +160,31 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="listLinkDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>Ссылка в ячейке со списком.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="url" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Адрес URL открываемой страницы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target" type="acn:targetType">
+                    <xs:annotation>
+                        <xs:documentation>Сценарий открытия ссылки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Иконка ссылки из https://fontawesome.com/v6/icons/</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="listDefinition">
         <xs:complexContent>
             <xs:extension base="cellDefinition">
@@ -167,23 +192,37 @@
                     <xs:documentation>Ячейка со списком.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="switch" type="switchDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="text" type="textDefinition" minOccurs="0"/>
+                    <xs:element name="badge" type="badgeDefinition" minOccurs="0"/>
+                    <xs:element name="cell" type="customDefinition" minOccurs="0"/>
+                    <xs:element name="link" type="listLinkDefinition" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="color" type="bs:colorDefinition" use="optional">
+                <xs:attribute name="color" type="bs:colorDefinition">
                     <xs:annotation>
                         <xs:documentation>Цвет элементов. Возможно использование плейсхолдеров</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="size" type="xs:string" use="optional">
+                <xs:attribute name="size" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Количество элементов для группировки</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="label-field-id" type="xs:string" use="optional">
+                <xs:attribute name="label-field-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Отображаемое поле в объекте, если столбец - массив объектов.
+                        <xs:documentation>
+                            Отображаемое поле в объекте, если столбец - массив объектов.
                             Если отсутствует, то столбец является массивом строк
                         </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="inline" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Отображение элементов на одной строке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="separator" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Разделитель между элементами</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

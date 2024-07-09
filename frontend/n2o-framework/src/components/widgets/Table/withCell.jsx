@@ -65,5 +65,7 @@ export default function WithCell(WrappedComponent) {
         target: PropTypes.string,
     }
 
+    WithCellComponent.displayName = 'WithCellComponent'
+
     return WithCellComponent
 }

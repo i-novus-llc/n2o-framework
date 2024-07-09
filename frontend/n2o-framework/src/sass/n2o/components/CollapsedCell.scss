@@ -3,3 +3,23 @@
     text-decoration: underline;
     text-decoration-style: dotted;
 }
+
+.collapse-cell-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    .n2o-link-cell {
+        min-height: auto;
+    }
+}
+
+.collapse-cell-content--inline {
+    flex-direction: row;
+    align-items: center;
+}
+
+.collapse-cell-data {
+    display: flex;
+}

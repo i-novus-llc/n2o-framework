@@ -476,8 +476,12 @@
           "name": "Ярлык"
         },
         {
-          "templateId": "uxcomponents/cells/list",
-          "name": "Сворачиваемые ярлыки"
+          "templateId": "uxcomponents/cells/list_text",
+          "name": "Ячейка со списком текста"
+        },
+        {
+          "templateId": "uxcomponents/cells/list_link",
+          "name": "Ячейка со списком ссылок"
         },
         {
           "templateId": "uxcomponents/cells/icon",

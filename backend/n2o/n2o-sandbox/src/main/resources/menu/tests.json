@@ -570,8 +570,12 @@
           "name": "LinkCellAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/cells/list",
-          "name": "ListCellAT"
+          "templateId": "net/n2oapp/framework/autotest/cells/list/simple",
+          "name": "ListCellAT. testSimple"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/list/inner_cells",
+          "name": "ListCellAT. testInnerCells"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/cells/progress",

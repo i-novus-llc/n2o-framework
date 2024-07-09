@@ -18,7 +18,6 @@ public class ListCellElementIOv2 extends AbstractCellElementIOv2<N2oListCell> {
         p.attribute(e, "color", c::getColor, c::setColor);
         p.attribute(e, "label-field-id", c::getLabelFieldId, c::setLabelFieldId);
         p.attributeInteger(e, "size", c::getSize, c::setSize);
-        p.child(e, null, "switch", c::getN2oSwitch, c::setN2oSwitch, new SwitchIO());
     }
 
     @Override

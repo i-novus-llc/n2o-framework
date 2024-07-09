@@ -10,7 +10,7 @@
                     label="Вложенное поле, к которому на нормализации добавляется Поле 1"/>
             <column text-field-id="departments"
                     label="Список, в поле каждого элемента на нормализации добавляется Поле 1">
-                <list label-field-id="name"/>
+                <list label-field-id="name" inline="true"/>
             </column>
         </columns>
 
