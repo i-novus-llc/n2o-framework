@@ -3,13 +3,16 @@
              name="Установка значения в простом поле">
     <form>
         <fields>
-            <input-text id="a"/>
-            <input-text id="b"/>
-            <input-text id="result">
+            <row>
+                <input-text id="a" domain="integer" default-value="0"/>
+                <input-text id="b" domain="integer" default-value="0"/>
+            </row>
+
+            <input-text id="result" label="a + b">
                 <dependencies>
                     <!-- Значение result будет изменено на сумму значений a и b,
                         когда a или b будут изменены -->
-                    <set-value on="a,b">a+b</set-value>
+                    <set-value on="a,b">a + b</set-value>
                 </dependencies>
             </input-text>
         </fields>
