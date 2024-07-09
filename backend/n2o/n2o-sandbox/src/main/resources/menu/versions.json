@@ -7,6 +7,10 @@
         {
           "templateId": "versions/7.28/cached_datasource",
           "name": "Кэширующий датасурс"
+        },
+        {
+          "templateId": "versions/7.28/listcell_with_cell",
+          "name": "Ячейка со списком значений"
         }
       ]
     },
@@ -77,10 +81,6 @@
         {
           "templateId": "versions/7.26/button_field_enabling_message",
           "name": "Кнопка-поле. Сообщение о причине недоступности"
-        },
-        {
-          "templateId": "versions/7.26/listcell_with_cell",
-          "name": "Ячейка со списком значений"
         }
       ]
     },
