@@ -265,6 +265,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
         FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class);
 
         InputSelect input = form.fields().field("Тип документа").control(InputSelect.class);
+        input.shouldExists();
         input.shouldHaveValue("Свидетельство о рождении");
         table.columns().rows().row(1).click();
         input.shouldHaveValue("Документ 1");

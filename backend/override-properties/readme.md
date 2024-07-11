@@ -45,7 +45,7 @@ Properties myProps = PropertiesReader.getPropertiesFromClasspath("META-INF/overr
 How I can override properties from file in filesystem?
 
 ```java
-OverrideProperties fsProps = PropertiesReader.getReloadableFromFilesystem("/env/placeholders.properties", 60);  // reload file every 60 seconds
+OverrideProperties fsProps = PropertiesReader.getReloadableFromFilesystem("/env.properties", 60);  // reload file every 60 seconds
 fsProps.setBaseProperties(myProps);
 ```
 
@@ -54,14 +54,12 @@ fsProps.setBaseProperties(myProps);
 You have 4 levels of configuration:
 * default
 * build
-* environment
 * application
 
 ```java
 WebApplicationProperties appProperties = new WebApplicationProperties(
                 "META-INF/default.properties",
-                "META-INF/build.properties",
-                "placeholders.properties");
+                "META-INF/build.properties");
 appProperties.setServletContext(servletContext); // override [servletPath].properties                
 ```
 
@@ -73,7 +71,6 @@ appProperties.setServletContext(servletContext); // override [servletPath].prope
 <bean id="appProperties" class="net.n2oapp.properties.web.WebApplicationProperties">
     <constructor-arg name="defaultPropertiesName" value="META-INF/default.properties"/>
     <constructor-arg name="buildPropertiesName" value="META-INF/build.properties"/>
-    <constructor-arg name="environmentPropertiesName" value="placeholders.properties"/>
     <property name="webAppEnvironment" ref="webAppEnvironment"/>
 </bean>
 
