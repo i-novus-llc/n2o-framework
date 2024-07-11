@@ -13,8 +13,7 @@ public class WebApplicationPropertiesExample {
 
     public static void main(String[] args) {
         WebApplicationProperties appProps = new WebApplicationProperties("META-INF/default.properties",
-                "META-INF/build.properties",
-                "placeholders.properties");
+                "META-INF/build.properties");
         new StaticProperties().setProperties(appProps);
         System.out.println("level 1 : " + get("level1"));
         System.out.println("level 2 : " + get("level2"));

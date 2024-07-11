@@ -10,7 +10,7 @@ import org.springframework.core.env.PropertiesPropertySource;
 public class N2oPropertiesPostProcessor implements EnvironmentPostProcessor {
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-        WebApplicationProperties n2oProperties = new WebApplicationProperties("META-INF/n2o.properties", "META-INF/n2o-build.properties", "placeholders.properties");
+        WebApplicationProperties n2oProperties = new WebApplicationProperties("META-INF/n2o.properties", "META-INF/n2o-build.properties");
         N2oWebAppEnvironment n2oWebAppEnvironment = new N2oWebAppEnvironment();
         n2oProperties.setEnvironment(n2oWebAppEnvironment);
         n2oWebAppEnvironment.setN2oProperties(n2oProperties);
