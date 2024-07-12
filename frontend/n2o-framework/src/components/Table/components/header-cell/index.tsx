@@ -44,7 +44,7 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = (props) => {
                 <Component {...rest} sorting={sortingDirection} />
                 {filterField && (
                     <HeaderFilter
-                        id={id}
+                        id={filterField.id}
                         filterField={filterField}
                         validateFilterField={validateFilterField}
                         filterError={filterError}
