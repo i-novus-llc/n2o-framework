@@ -1,30 +1,26 @@
 import { useStore } from 'react-redux'
 import { useCallback } from 'react'
-import isEmpty from 'lodash/isEmpty'
-import isNumber from 'lodash/isNumber'
+import set from 'lodash/set'
+import cloneDeep from 'lodash/cloneDeep'
 
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 // @ts-ignore - отсутствует типизация
 import { useDataSourceMethodsContext } from '../../../core/widget/context'
 
-export const useChangeFilter = (id: string) => {
-    const { setFilter, fetchData } = useDataSourceMethodsContext()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const useChangeFilter = (onUpdateFilter: (data: any) => void, id: string) => {
+    const { fetchData } = useDataSourceMethodsContext()
     const store = useStore()
 
     return useCallback((filterData) => {
         const state = store.getState()
-        const filterModel = dataSourceModelByPrefixSelector(id, ModelPrefix.filter)(state)
-        const newFilter = {
-            ...filterModel,
-            [filterData.id]: filterData.value,
-        }
+        const filterModel = dataSourceModelByPrefixSelector(id, ModelPrefix.filter)(state) || {}
+        const newFilter = cloneDeep(filterModel)
 
-        if (isNumber(filterData.value) || !isEmpty(filterData.value)) {
-            newFilter[filterData.id] = filterData.value
-        }
+        set(newFilter, filterData.id, filterData.value)
 
-        setFilter(newFilter)
+        onUpdateFilter(newFilter)
         fetchData()
-    }, [fetchData, id, setFilter, store])
+    }, [fetchData, id, store, onUpdateFilter])
 }
