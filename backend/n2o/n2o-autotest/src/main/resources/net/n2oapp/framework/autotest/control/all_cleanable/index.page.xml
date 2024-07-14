@@ -21,7 +21,7 @@
                 </col>
                 <col size="4">
                     <date-interval id="dateInterval">
-                        <default-value begin="10.01.2024" end="12.01.2024"/>
+                        <default-value begin="2010-01-10" end="2024-01-12"/>
                     </date-interval>
                     <interval-field id="range" label="range">
                         <begin>
@@ -36,10 +36,10 @@
                             <option id="1" name="test"/>
                         </options>
                     </checkbox-group>
-                    <input-select id="input-select">
+                    <input-select id="inputSelect">
                         <default-value id="1" name="1"/>
                     </input-select>
-                    <select id="simple-select">
+                    <select id="s1" label="s1">
                         <default-value id="1" name="1"/>
                     </select>
                     <input-select-tree id="inputSelectTree">

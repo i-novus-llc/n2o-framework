@@ -14,7 +14,7 @@
                     <input-select id="selectMulti" label="Множественный выбор" type="checkboxes"/>
                 </row>
             </line>
-            <multi-set help="{multisetHelp}">
+            <multi-set id="ms1" help="{multisetHelp}">
                 <row>
                     <input-text id="name" label="Имя"/>
                     <input-text id="age" label="Возраст"/>

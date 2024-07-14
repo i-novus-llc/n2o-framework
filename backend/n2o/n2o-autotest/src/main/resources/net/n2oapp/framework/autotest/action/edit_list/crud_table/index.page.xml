@@ -37,7 +37,7 @@
         <form mode="two-models">
             <toolbar>
                 <button label="Добавить документ"
-                        color="tertiary" disable-on-empty-model="false">
+                        color="primary" disable-on-empty-model="false">
                     <show-modal page-id="modal"/>
                 </button>
                 <button label="Сохранить" disable-on-empty-model="false">

@@ -2,6 +2,7 @@
   {
     "id" : 1,
     "name" : "Text",
+    "name2" : "Text2",
     "icon" : "fa fa-plus",
     "url" : "123"
   }

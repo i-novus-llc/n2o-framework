@@ -39,7 +39,7 @@
         <form mode="two-models">
             <toolbar place="bottomLeft">
                 <button class="ButtonAddDocuments btn-small" label="Добавить документ"
-                        color="tertiary" icon="ps-icon-plus-circle" disable-on-empty-model="false">
+                        color="primary" icon="ps-icon-plus-circle" disable-on-empty-model="false">
                     <show-modal page-id="createDoc"/>
                 </button>
             </toolbar>
