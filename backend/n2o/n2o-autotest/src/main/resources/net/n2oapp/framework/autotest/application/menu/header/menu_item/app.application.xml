@@ -3,6 +3,7 @@
     <header title="Хедер">
         <nav>
             <menu-item id="notif"
+                       name="Алерт"
                        icon="fa fa-bell"
                        badge="2"
                        badge-color="danger">

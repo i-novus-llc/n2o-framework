@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
             <input-text id="test"/>
-            <multi-set enabled="false">
+            <multi-set id="m1" enabled="false">
                 <input-text id="field1"/>
             </multi-set>
-            <multi-set enabled="{test == 'test'}">
+            <multi-set id="m2" enabled="{test == 'test'}">
                 <input-text id="field2"/>
             </multi-set>
         </fields>

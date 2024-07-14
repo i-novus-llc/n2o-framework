@@ -59,8 +59,8 @@ public class AllFieldsCleanableAT extends AutoTestBase {
         DateInterval dateInterval = fields.field("dateInterval").control(DateInterval.class);
         IntervalField interval = fields.field("range", IntervalField.class);
         CheckboxGroup checkboxGroup = fields.field("checkboxGroup").control(CheckboxGroup.class);
-        InputSelect inputSelect = fields.field("input-select").control(InputSelect.class);
-        Select select = fields.field("simple-select").control(Select.class);
+        InputSelect inputSelect = fields.field("inputSelect").control(InputSelect.class);
+        Select select = fields.field("s1").control(Select.class);
         InputSelectTree inputSelectTree = fields.field("inputSelectTree").control(InputSelectTree.class);
         RadioGroup radioGroup = fields.field("radioGroup").control(RadioGroup.class);
         CodeEditor codeEditor = fields.field("codeEditor").control(CodeEditor.class);
@@ -79,8 +79,8 @@ public class AllFieldsCleanableAT extends AutoTestBase {
         inputText.shouldHaveValue("value");
         maskedInput.shouldHaveValue("+7 (999) 999-99-99");
         numberPicker.shouldHaveValue("5");
-        dateInterval.beginShouldHaveValue("21.01.2010");
-        dateInterval.endShouldHaveValue("21.01.2012");
+        dateInterval.beginShouldHaveValue("10.01.2010");
+        dateInterval.endShouldHaveValue("12.01.2024");
         interval.shouldExists();
         interval.begin(InputText.class).shouldHaveValue("3");
         interval.end(InputText.class).shouldHaveValue("5");

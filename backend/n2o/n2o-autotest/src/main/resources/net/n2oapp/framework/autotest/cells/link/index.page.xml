@@ -5,7 +5,7 @@
             <column id="c1" label="Text" text-field-id="name">
                 <link url="/{url}"/>
             </column>
-            <column id="c2" label="Text and icon" text-field-id="name">
+            <column id="c2" label="Text and icon" text-field-id="name2">
                 <link icon="{icon}" url="/{url}"/>
             </column>
             <column id="c3" label="Icon">

@@ -42,10 +42,10 @@ public class AppDatasourceAT extends AutoTestBase {
     }
 
     @Test
-    public void testAppDS() {
+    void testAppDS() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/app_datasource/simple");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/simple/side.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/simple/default.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/simple/page2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/simple/test.query.xml"));
@@ -74,7 +74,7 @@ public class AppDatasourceAT extends AutoTestBase {
      * Тестирование Прокидывание разных app-datasource из родительской страницы
      */
     @Test
-    public void testSourceDatasource() {
+    void testSourceDatasource() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/app_datasource/source_datasource");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/source_datasource/default.application.xml"),

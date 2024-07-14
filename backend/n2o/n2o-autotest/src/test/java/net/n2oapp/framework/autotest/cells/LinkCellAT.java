@@ -40,7 +40,7 @@ public class LinkCellAT extends AutoTestBase {
     }
 
     @Test
-    public void linkCellTest() {
+    void linkCellTest() {
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
 
@@ -55,7 +55,7 @@ public class LinkCellAT extends AutoTestBase {
         cell.shouldNotHaveIcon();
 
         cell = rows.row(0).cell(1, LinkCell.class);
-        cell.shouldHaveText("Text");
+        cell.shouldHaveText("Text2");
         cell.shouldHaveHref(getBaseUrl() + "/123");
         cell.shouldHaveIcon("fa-plus");
 
