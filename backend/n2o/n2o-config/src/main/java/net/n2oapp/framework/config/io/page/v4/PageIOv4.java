@@ -11,7 +11,6 @@ import org.jdom2.Namespace;
 public interface PageIOv4 extends NamespaceUriAware, BaseElementClassAware<N2oPage> {
     Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/page-4.0");
 
-
     @Override
     default String getNamespaceUri() {
         return NAMESPACE.getURI();

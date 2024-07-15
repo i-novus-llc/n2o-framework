@@ -21,20 +21,18 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttributesAware, SourceComponent, FieldsetItem, BadgeAware {
-    private FieldsetItem[] items;
-    private String label;
-    private String description;
     private String src;
     private String cssClass;
     private String style;
+    private String label;
+    private String description;
     private FieldLabelLocation fieldLabelLocation;
     private FieldLabelAlign fieldLabelAlign;
     private String fieldLabelWidth;
-    private String dependencyCondition;
-    private String[] dependsOn;
     private String visible;
     private String enabled;
     private String help;
+    private String[] dependsOn;
     private String badge;
     private String badgeColor;
     private Position badgePosition;
@@ -44,6 +42,7 @@ public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttrib
     private ShapeType badgeImageShape;
     @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;
+    private FieldsetItem[] items;
 
     @Override
     public final String getPostfix() {
@@ -54,13 +53,4 @@ public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttrib
     public final Class<? extends N2oMetadata> getSourceBaseClass() {
         return N2oFieldSet.class;
     }
-
-    public enum FieldLabelLocation {
-        top, left, right
-    }
-
-    public enum FieldLabelAlign {
-        left, right
-    }
-
 }

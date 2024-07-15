@@ -36,7 +36,7 @@ public class BadgeUtil {
         badge.setText(p.resolveJS(source.getBadge()));
         badge.setImage(p.resolveJS(source.getBadgeImage()));
         badge.setColor(p.resolveJS(source.getBadgeColor()));
-        setDefaults(badge, source, propertyPrefix, p);
+        compileDefaults(badge, source, propertyPrefix, p);
         return badge;
     }
 
@@ -69,7 +69,7 @@ public class BadgeUtil {
         badge.setFieldId(source.getBadgeFieldId());
         badge.setColorFieldId(source.getBadgeColorFieldId());
         badge.setImageFieldId(source.getBadgeImageFieldId());
-        setDefaults(badge, source, propertyPrefix, p);
+        compileDefaults(badge, source, propertyPrefix, p);
         return badge;
     }
 
@@ -81,7 +81,7 @@ public class BadgeUtil {
      * @param propertyPrefix Префикс свойств значений по умолчанию
      * @param p              Процессор сборки метаданных
      */
-    private static void setDefaults(Badge compiled, BadgeAware source, String propertyPrefix, CompileProcessor p) {
+    private static void compileDefaults(Badge compiled, BadgeAware source, String propertyPrefix, CompileProcessor p) {
         compiled.setShape(castDefault(source.getBadgeShape(),
                 () -> p.resolve(property(propertyPrefix + SHAPE), ShapeType.class)));
         compiled.setPosition(castDefault(source.getBadgePosition(),

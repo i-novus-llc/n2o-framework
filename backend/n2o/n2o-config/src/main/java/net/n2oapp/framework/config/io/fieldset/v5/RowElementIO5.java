@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.control.v3.ControlIOv3;
 import org.jdom2.Element;
-import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,15 +13,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RowElementIO5 implements NamespaceIO<N2oFieldsetRow> {
-    private static final Namespace DEFAULT_NAMESPACE = FieldsetIOv5.NAMESPACE;
-    private static final Namespace controlDefaultNamespace = ControlIOv3.NAMESPACE;
 
     @Override
     public void io(Element e, N2oFieldsetRow row, IOProcessor p) {
         p.attribute(e, "class", row::getCssClass, row::setCssClass);
         p.attribute(e, "style", row::getStyle, row::setStyle);
         p.anyAttributes(e, row::getExtAttributes, row::setExtAttributes);
-        p.anyChildren(e, null, row::getItems, row::setItems, p.anyOf(FieldsetItem.class), DEFAULT_NAMESPACE, controlDefaultNamespace);
+        p.anyChildren(e, null, row::getItems, row::setItems, p.anyOf(FieldsetItem.class), FieldsetIOv5.NAMESPACE, ControlIOv3.NAMESPACE);
     }
 
     @Override

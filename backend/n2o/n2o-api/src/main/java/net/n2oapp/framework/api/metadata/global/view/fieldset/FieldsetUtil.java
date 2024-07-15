@@ -26,8 +26,8 @@ public class FieldsetUtil {
             if (item instanceof N2oFieldsetRow) {
                 fieldArrayList = getAllFieldsInRow((N2oFieldsetRow) item,  fieldArrayList);
             }
-            if (item instanceof N2oFieldsetColumn) {
-                fieldArrayList = getAllFieldsInCol((N2oFieldsetColumn) item, fieldArrayList);
+            if (item instanceof N2oFieldsetCol) {
+                fieldArrayList = getAllFieldsInCol((N2oFieldsetCol) item, fieldArrayList);
 
             }
             if (item instanceof N2oFieldSet) {
@@ -51,8 +51,8 @@ public class FieldsetUtil {
             if (item instanceof N2oField) {
                 fieldArrayList.add((N2oField) item);
             }
-            if (item instanceof N2oFieldsetColumn) {
-                fieldArrayList = getAllFieldsInCol((N2oFieldsetColumn) item, fieldArrayList);
+            if (item instanceof N2oFieldsetCol) {
+                fieldArrayList = getAllFieldsInCol((N2oFieldsetCol) item, fieldArrayList);
             }
             if (item instanceof N2oFieldSet) {
                 fieldArrayList = getAllFields((N2oFieldSet) item, fieldArrayList);
@@ -69,7 +69,7 @@ public class FieldsetUtil {
      * @return ArrayList<N2oField> лист всех fieldов fieldseta
      */
 
-    private static ArrayList<N2oField> getAllFieldsInCol(N2oFieldsetColumn col, ArrayList<N2oField> fieldArrayList) {
+    private static ArrayList<N2oField> getAllFieldsInCol(N2oFieldsetCol col, ArrayList<N2oField> fieldArrayList) {
         for (FieldsetItem item : col.getItems()) {
             if (item instanceof N2oField) {
                 fieldArrayList.add((N2oField) item);

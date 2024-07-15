@@ -18,7 +18,6 @@ public class SimplePageElementIOv4 extends AbstractPageElementIOv4<N2oSimplePage
         super.io(e, m, p);
         p.anyChild(e, null, m::getWidget, m::setWidget,
                 p.anyOf(N2oWidget.class).ignore("breadcrumbs"), WidgetIOv5.NAMESPACE);
-        m.setNamespaceUri(getNamespaceUri());
     }
 
     @Override

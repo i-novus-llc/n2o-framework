@@ -11,13 +11,13 @@ import lombok.Setter;
 public class N2oMultiFieldSet extends N2oFieldSet {
     private String childrenLabel;
     private String firstChildrenLabel;
-    private String addButtonLabel;
-    private String removeAllButtonLabel;
     private String canAdd;
-    private String canCopy;
+    private String addButtonLabel;
     private String canRemove;
-    private String canRemoveAll;
     private String canRemoveFirst;
+    private String canRemoveAll;
+    private String removeAllButtonLabel;
+    private String canCopy;
     private String primaryKey;
     private Boolean generatePrimaryKey;
 }

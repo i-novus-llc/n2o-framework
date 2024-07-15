@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetCol;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
@@ -25,10 +25,10 @@ import java.util.Objects;
  * Компиляция колонки филдсета
  */
 @Component
-public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Column, N2oFieldsetColumn, CompileContext<?, ?>> {
+public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Column, N2oFieldsetCol, CompileContext<?, ?>> {
 
     @Override
-    public FieldSet.Column compile(N2oFieldsetColumn source, CompileContext<?, ?> context, CompileProcessor p) {
+    public FieldSet.Column compile(N2oFieldsetCol source, CompileContext<?, ?> context, CompileProcessor p) {
         FieldSet.Column column = new FieldSet.Column();
         column.setClassName(source.getCssClass());
         column.setStyle(StylesResolver.resolveStyles(source.getStyle()));
@@ -38,7 +38,7 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
         FieldSetVisibilityScope scope = initVisibilityScope(source, p);
         if (source.getItems() != null && source.getItems().length > 0) {
             boolean onlyFields = true;
-            for (SourceComponent item : source.getItems())
+            for (FieldsetItem item : source.getItems())
                 if (!(item instanceof N2oField)) {
                     onlyFields = false;
                     break;
@@ -59,7 +59,7 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
                         i++;
                     } else {
                         N2oSetFieldSet newFieldSet = new N2oSetFieldSet();
-                        List<SourceComponent> fieldSetItems = new ArrayList<>();
+                        List<FieldsetItem> fieldSetItems = new ArrayList<>();
                         while (i < source.getItems().length && !(source.getItems()[i] instanceof N2oFieldSet)) {
                             fieldSetItems.add(source.getItems()[i]);
                             i++;
@@ -78,10 +78,10 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
 
     @Override
     public Class<? extends Source> getSourceClass() {
-        return N2oFieldsetColumn.class;
+        return N2oFieldsetCol.class;
     }
 
-    private FieldSetVisibilityScope initVisibilityScope(N2oFieldsetColumn source, CompileProcessor p) {
+    private FieldSetVisibilityScope initVisibilityScope(N2oFieldsetCol source, CompileProcessor p) {
         FieldSetVisibilityScope scope = new FieldSetVisibilityScope(p.getScope(FieldSetVisibilityScope.class));
         if (source.getVisible() != null && !Objects.equals(source.getVisible(), "true")) {
             String value = p.resolveJS(source.getVisible());

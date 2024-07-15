@@ -16,12 +16,12 @@ public class MultiFieldsetElementIOv4 extends FieldsetElementIOv4<N2oMultiFieldS
         super.io(e, fs, p);
         p.attribute(e, "children-label", fs::getChildrenLabel, fs::setChildrenLabel);
         p.attribute(e, "first-children-label", fs::getFirstChildrenLabel, fs::setFirstChildrenLabel);
-        p.attribute(e, "add-label", fs::getAddButtonLabel, fs::setAddButtonLabel);
-        p.attribute(e, "remove-all-label", fs::getRemoveAllButtonLabel, fs::setRemoveAllButtonLabel);
-        p.attribute(e, "can-remove-first", fs::getCanRemoveFirst, fs::setCanRemoveFirst);
         p.attribute(e, "can-add", fs::getCanAdd, fs::setCanAdd);
+        p.attribute(e, "add-label", fs::getAddButtonLabel, fs::setAddButtonLabel);
         p.attribute(e, "can-remove", fs::getCanRemove, fs::setCanRemove);
+        p.attribute(e, "can-remove-first", fs::getCanRemoveFirst, fs::setCanRemoveFirst);
         p.attribute(e, "can-remove-all", fs::getCanRemoveAll, fs::setCanRemoveAll);
+        p.attribute(e, "remove-all-label", fs::getRemoveAllButtonLabel, fs::setRemoveAllButtonLabel);
         p.attribute(e, "can-copy", fs::getCanCopy, fs::setCanCopy);
     }
 

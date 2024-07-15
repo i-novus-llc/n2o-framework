@@ -30,7 +30,7 @@ public class FieldSetValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.validators(new FormValidator(), new FieldSetRowValidator(), new FieldSetColumnValidator(),
+        builder.validators(new FormValidator(), new FieldSetRowValidator(), new FieldSetColValidator(),
                 new SetFieldSetValidator(), new LineFieldSetValidator(),
                 new MultiFieldSetValidator(), new FieldValidator());
         builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());

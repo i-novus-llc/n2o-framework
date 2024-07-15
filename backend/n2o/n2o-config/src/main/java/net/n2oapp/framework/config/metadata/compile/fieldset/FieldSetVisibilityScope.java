@@ -8,7 +8,7 @@ import java.util.Set;
  * Информация о видимости филдсетов
  */
 public class FieldSetVisibilityScope {
-    private Set<String> conditions = new LinkedHashSet<>();
+    private final Set<String> conditions = new LinkedHashSet<>();
 
     public FieldSetVisibilityScope(FieldSetVisibilityScope parent) {
         if (parent != null)
