@@ -1,10 +1,7 @@
 package net.n2oapp.framework.config.metadata.merge;
 
 import net.n2oapp.framework.api.metadata.control.N2oField;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oLineFieldSet;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oMultiFieldSet;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.*;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.control.v3.plain.InputTextIOv3;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
@@ -43,8 +40,8 @@ public class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getStyle(), is("color:red"));
         assertThat(fieldSet.getDependsOn(), is(new String[]{"a", "b"}));
         assertThat(fieldSet.getDescription(), is("desc"));
-        assertThat(fieldSet.getFieldLabelAlign(), is(N2oFieldSet.FieldLabelAlign.left));
-        assertThat(fieldSet.getFieldLabelLocation(), is(N2oFieldSet.FieldLabelLocation.left));
+        assertThat(fieldSet.getFieldLabelAlign(), is(FieldLabelAlign.LEFT));
+        assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocation.LEFT));
         assertThat(fieldSet.getFieldLabelWidth(), is("100px"));
         assertThat(fieldSet.getHelp(), is("help"));
         assertThat(fieldSet.getSrc(), is("test"));
@@ -65,8 +62,8 @@ public class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getStyle(), is("color:red"));
         assertThat(fieldSet.getDependsOn(), is(new String[]{"a", "b"}));
         assertThat(fieldSet.getDescription(), is("desc"));
-        assertThat(fieldSet.getFieldLabelAlign(), is(N2oFieldSet.FieldLabelAlign.left));
-        assertThat(fieldSet.getFieldLabelLocation(), is(N2oFieldSet.FieldLabelLocation.left));
+        assertThat(fieldSet.getFieldLabelAlign(), is(FieldLabelAlign.LEFT));
+        assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocation.LEFT));
         assertThat(fieldSet.getFieldLabelWidth(), is("100px"));
         assertThat(fieldSet.getHelp(), is("help"));
         assertThat(fieldSet.getSrc(), is("test"));
@@ -100,8 +97,8 @@ public class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getStyle(), is("color:red"));
         assertThat(fieldSet.getDependsOn(), is(new String[]{"a", "b"}));
         assertThat(fieldSet.getDescription(), is("desc"));
-        assertThat(fieldSet.getFieldLabelAlign(), is(N2oFieldSet.FieldLabelAlign.left));
-        assertThat(fieldSet.getFieldLabelLocation(), is(N2oFieldSet.FieldLabelLocation.left));
+        assertThat(fieldSet.getFieldLabelAlign(), is(FieldLabelAlign.LEFT));
+        assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocation.LEFT));
         assertThat(fieldSet.getFieldLabelWidth(), is("100px"));
         assertThat(fieldSet.getHelp(), is("help"));
         assertThat(fieldSet.getSrc(), is("test"));

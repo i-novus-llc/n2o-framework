@@ -11,7 +11,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
- * Компиляция простого филдсета <set/>, <fields/>, <col/>
+ * Компиляция простого филдсета <set/>
  */
 @Component
 public class SetFieldSetCompiler extends AbstractFieldSetCompiler<SetFieldSet, N2oSetFieldSet> {

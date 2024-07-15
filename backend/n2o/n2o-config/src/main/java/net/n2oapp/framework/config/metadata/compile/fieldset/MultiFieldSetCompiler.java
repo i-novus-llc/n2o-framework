@@ -37,7 +37,7 @@ public class MultiFieldSetCompiler extends AbstractFieldSetCompiler<MultiFieldSe
         fieldSet.setNeedRemoveAllButton(castDefault(p.resolveJS(source.getCanRemoveAll(), Boolean.class),
                 () -> p.resolve(property("n2o.api.fieldset.multi_set.can_remove_all"), Boolean.class)));
         fieldSet.setCanRemoveFirstItem(castDefault(p.resolveJS(source.getCanRemoveFirst(), Boolean.class),
-                () -> p.resolve(property("n2o.api.fieldset.multi_set.can_remove_first_item"), Boolean.class)));
+                () -> p.resolve(property("n2o.api.fieldset.multi_set.can_remove_first"), Boolean.class)));
         fieldSet.setPrimaryKey(castDefault(source.getPrimaryKey(), "id"));
         fieldSet.setGeneratePrimaryKey(castDefault(source.getGeneratePrimaryKey(),
                 () -> p.resolve(property("n2o.api.fieldset.multi_set.generate_primary_key"), Boolean.class)));

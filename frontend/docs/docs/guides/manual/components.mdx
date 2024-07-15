@@ -775,6 +775,65 @@ __*Мульти-филдсеты*__
 </form>
 ```
 
+:::note
+Идентификатор мультисета `id` задает название спискового поля, в котором будут храниться все добавленные группы полей.
+
+```xml
+<multi-set id="members">
+   <input-text id="name"/>
+   ...
+</multi-set>
+```
+в модели данных:
+```json
+"members": [
+  { "name": "one", ... },  //первая группа полей
+  { "name": "two", ... },  //вторая группа полей
+  ...
+]
+```
+:::
+
+:::note
+Любые зависимости и валидации полей внутри мультисета необходимо задавать с помощью переменной `index`.
+Индекс определяет текущую группу полей мультисета.
+
+```xml
+<multi-set id="members">
+    <input-text id="firstName"/>
+    <input-text id="lastName">
+        <dependencies>
+            <visibility on="members[index].firstName">
+               members[index].firstName != null
+           </visibility>
+        </dependencies>
+    </input-text>
+</multi-set>
+```
+
+:::
+
+#### Вложенные мультисеты
+
+Обращение к внутреннему контексту в выражениях вложенных мультисетов осуществляется с помощью цепочки индексов `$index_N`,
+где N - соответствует уровню вложенного мультисета.
+
+```xml
+set[index].inner_set1[$index_1]...inner_setN[$index_N].field
+```
+:::note
+Для мультисета верхнего уровня используется `index` или `$index_0`.
+:::
+
+**Пример**
+```xml
+<multi-set id="groups" children-label="Группа {index}">
+    <multi-set id="persons" children-label="Участник {index}.{$index_1}">
+        <input-text id="name" label="{index}.{$index_1} Имя"/>
+    </multi-set>
+</multi-set>
+```
+
 ### Поля ввода {#Input_fields}
 
 Поля ввода - это простейшие компоненты N2O, предназначенные для ввода или вывода различных данных.

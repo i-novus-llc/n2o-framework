@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.fieldset;
 
+import lombok.Getter;
+
 /**
  * Информация о multi-set, в который вложено поле или филдсет
  */
@@ -7,11 +9,13 @@ public class MultiFieldSetScope {
     /**
      * Идентификатор multi-set
      */
-    private String id;
+    @Getter
+    private final String id;
     /**
-     * Переменая для итерирования внутри multi-set, сейчас для первого уровня index, для всех последующих $index_N
+     * Переменная для итерирования внутри multi-set, сейчас для первого уровня index, для всех последующих $index_N
      */
-    private String index;
+    @Getter
+    private final String index;
     /**
      * Индекс вложенности мультисета
      */
@@ -19,7 +23,7 @@ public class MultiFieldSetScope {
     /**
      * Путь до родительского multi-set с индексами
      */
-    private String parentPathWithIndexes;
+    private final String parentPathWithIndexes;
 
     public MultiFieldSetScope(String id, MultiFieldSetScope parent) {
         this.id = id;
@@ -31,14 +35,6 @@ public class MultiFieldSetScope {
             index = "$index_" + idx;
             parentPathWithIndexes = parent.getPathWithIndexes();
         }
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getIndex() {
-        return index;
     }
 
     public String getPathWithIndexes() {

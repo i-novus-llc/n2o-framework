@@ -33,7 +33,9 @@
 
     <xs:complexType name="fieldsetDefinition" abstract="true">
         <xs:annotation>
-            <xs:documentation>Филдсеты.</xs:documentation>
+            <xs:documentation>
+                Филдсет
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="fieldsetsAndControls">
@@ -43,115 +45,157 @@
                 </xs:sequence>
                 <xs:attribute name="id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор филдсета.</xs:documentation>
+                        <xs:documentation>
+                            Идентификатор филдсета
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="ref-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ссылка на файл филдсета.</xs:documentation>
+                        <xs:documentation>
+                            Ссылка на родительский файл филдсета
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>React компонент филдсета.</xs:documentation>
+                        <xs:documentation>
+                            React компонент филдсета
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Класс компонента филдсета.</xs:documentation>
+                        <xs:documentation>
+                            CSS класс филдсета
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль компонента филдсета.</xs:documentation>
+                        <xs:documentation>
+                            СSS стиль филдсета
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="label" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Заголовок филдсета.</xs:documentation>
+                        <xs:documentation>
+                            Заголовок филдсета. Возможно использование плейсхолдеров
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="description" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Подзаголовок филдсета.</xs:documentation>
+                        <xs:documentation>
+                            Подзаголовок филдсета
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="field-label-location" type="locationType">
+                <xs:attribute name="field-label-location" type="locationType" default="top">
                     <xs:annotation>
-                        <xs:documentation>Расположение лейблов.</xs:documentation>
+                        <xs:documentation>
+                            Расположение заголовков внутренних полей
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="field-label-align" type="alignType">
+                <xs:attribute name="field-label-align" type="alignType" default="left">
                     <xs:annotation>
-                        <xs:documentation>Выравнивание лейблов.</xs:documentation>
+                        <xs:documentation>
+                            Выравнивание заголовков внутренних полей
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="field-label-width" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Ширина лейблов в пикселях.
+                            Ширина заголовков внутренних полей в пикселях.
                             Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="visible" type="xs:string">
+                <xs:attribute name="visible" type="xs:string" default="true">
                     <xs:annotation>
-                        <xs:documentation>Условие видимости.</xs:documentation>
+                        <xs:documentation>
+                            Условие видимости. Возможно использование плейсхолдеров
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="enabled" type="xs:string">
+                <xs:attribute name="enabled" type="xs:string" default="true">
                     <xs:annotation>
-                        <xs:documentation>Условие доступности.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="depends-on" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Список полей, от которых зависит филдсет.</xs:documentation>
+                        <xs:documentation>
+                            Условие доступности. Возможно использование плейсхолдеров
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="help" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Подсказка.</xs:documentation>
+                        <xs:documentation>
+                            Подсказка. Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="depends-on" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Список полей (через запятую), от которых зависит филдсет
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="badge" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Значок филдсета.</xs:documentation>
+                        <xs:documentation>
+                            Текст значка. Возможно использование плейсхолдеров
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="badge-color" type="bs:colorDefinition">
                     <xs:annotation>
-                        <xs:documentation>Цвет значка. Возможно использование плейсхолдеров.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-shape" type="shapeType" default="square">
-                    <xs:annotation>
-                        <xs:documentation>Форма значка</xs:documentation>
+                        <xs:documentation>
+                            Цвет значка. Возможно использование плейсхолдеров
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="badge-position" type="positionType" default="right">
                     <xs:annotation>
-                        <xs:documentation>Позиция значка</xs:documentation>
+                        <xs:documentation>
+                            Позиция значка
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-shape" type="shapeType" default="square">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Форма значка
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="badge-image" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за картинку в значке</xs:documentation>
+                        <xs:documentation>
+                            Ссылка на картинку в значке
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="badge-image-position" type="positionType" default="left">
                     <xs:annotation>
-                        <xs:documentation>Позиция картинки в значке</xs:documentation>
+                        <xs:documentation>
+                            Позиция картинки в значке
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
                     <xs:annotation>
-                        <xs:documentation>Форма картинки в значке</xs:documentation>
+                        <xs:documentation>
+                            Форма картинки в значке
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:anyAttribute>
                     <xs:annotation>
-                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                        <xs:documentation>
+                            Возможность подключать любые атрибуты
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:anyAttribute>
             </xs:extension>
@@ -162,7 +206,9 @@
         <xs:complexContent>
             <xs:extension base="fieldsetDefinition">
                 <xs:annotation>
-                    <xs:documentation>Простой филдсет.</xs:documentation>
+                    <xs:documentation>
+                        Простой филдсет
+                    </xs:documentation>
                 </xs:annotation>
             </xs:extension>
         </xs:complexContent>
@@ -172,21 +218,29 @@
         <xs:complexContent>
             <xs:extension base="fieldsetDefinition">
                 <xs:annotation>
-                    <xs:documentation>Филдсет с горизонтальной линией.</xs:documentation>
+                    <xs:documentation>
+                        Филдсет с горизонтальной линией
+                    </xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="collapsible" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>Возможность раскрытия и сворачивания филдсета.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="has-separator" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Отображение горизонтального делителя.</xs:documentation>
+                        <xs:documentation>
+                            Наличие горизонтального делителя
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="collapsible" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Возможность раскрытия и сворачивания филдсета
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="expand" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Исходное раскрытие филдсета.</xs:documentation>
+                        <xs:documentation>
+                            Исходное раскрытие филдсета
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -197,11 +251,15 @@
         <xs:complexContent>
             <xs:extension base="fieldsetDefinition">
                 <xs:annotation>
-                    <xs:documentation>Филдсет с динамическим числом полей.</xs:documentation>
+                    <xs:documentation>
+                        Филдсет с динамическим числом полей
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:attribute name="id" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор филдсета.</xs:documentation>
+                        <xs:documentation>
+                            Идентификатор филдсета
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="children-label" type="xs:string">
@@ -220,60 +278,81 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="add-label" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Заголовок кнопки добавления. Возможно использование плейсхолдеров.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="remove-all-label" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Заголовок кнопки удаления всех добавленных филдсетов. Возможно использование плейсхолдеров.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="can-remove-first" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Возможность удаления первого элемента. Возможно использование плейсхолдеров</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="can-add" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Возможность добавления новых филдсетов. Возможно использование плейсхолдеров</xs:documentation>
+                        <xs:documentation>
+                            Возможность добавления новых элементов. Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="add-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок кнопки добавления. Возможно использование плейсхолдеров
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="can-remove" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Возможность удаления новых филдсетов. Возможно использование плейсхолдеров</xs:documentation>
+                        <xs:documentation>
+                            Возможность удаления элементов. Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="can-remove-first" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Возможность удаления первого элемента. Возможно использование плейсхолдеров
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="can-remove-all" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Возможность удаления всех добавленных филдсетов. Возможно использование плейсхолдеров</xs:documentation>
+                        <xs:documentation>
+                            Возможность удаления всех элементов. Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="remove-all-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок кнопки удаления всех элементов. Возможно использование плейсхолдеров
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="can-copy" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Возможность копирования филдсета в новый (вместе с данными). Возможно использование плейсхолдеров</xs:documentation>
+                        <xs:documentation>
+                            Возможность копирования элемента в новый (вместе с данными).
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="primary-key" type="xs:string">
+                <xs:attribute name="primary-key" type="xs:string" default="id">
                     <xs:annotation>
-                        <xs:documentation>Уникальный ключ каждого филдсета. По умолчанию id.</xs:documentation>
+                        <xs:documentation>
+                            Уникальный ключ каждого элемента.
+                            По умолчанию: id
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="generate-primary-key" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Генерация уникального ключа для каждого филдсета.
-                            Значение guid будет генерироваться в primary-key. По умолчанию false</xs:documentation>
+                        <xs:documentation>
+                            Генерация значения для уникального ключа каждого элемента.
+                            Значение guid будет генерироваться в `primary-key`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
-
     <xs:complexType name="rowDefinition">
         <xs:annotation>
-            <xs:documentation>Строка филдсета.</xs:documentation>
+            <xs:documentation>
+                Строка филдсета
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="fieldsetsAndControls">
@@ -282,17 +361,23 @@
                 </xs:sequence>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Класс компонента строки.</xs:documentation>
+                        <xs:documentation>
+                            CSS класс строки
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль компонента строки.</xs:documentation>
+                        <xs:documentation>
+                            СSS стиль строки
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:anyAttribute>
                     <xs:annotation>
-                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                        <xs:documentation>
+                            Возможность подключать любые атрибуты
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:anyAttribute>
             </xs:extension>
@@ -301,36 +386,48 @@
 
     <xs:complexType name="colDefinition">
         <xs:annotation>
-            <xs:documentation>Столбец филдсета.</xs:documentation>
+            <xs:documentation>
+                Столбец филдсета
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="fieldsetsAndControls">
                 <xs:sequence>
                     <xs:element name="row" type="rowDefinition" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="size" type="xs:integer">
-                    <xs:annotation>
-                        <xs:documentation>Ширина столбца согласно сетке bootstrap (1-12).</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Класс компонента столбца.</xs:documentation>
+                        <xs:documentation>
+                            CSS класс строки
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль компонента столбца.</xs:documentation>
+                        <xs:documentation>
+                            СSS стиль строки
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="visible" type="xs:string">
+                <xs:attribute name="size" type="xs:integer">
                     <xs:annotation>
-                        <xs:documentation>Условие видимости.</xs:documentation>
+                        <xs:documentation>
+                            Ширина столбца согласно сетке bootstrap (1-12)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="visible" type="xs:string" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Условие видимости. Возможно использование плейсхолдеров
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:anyAttribute>
                     <xs:annotation>
-                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                        <xs:documentation>
+                            Возможность подключать любые атрибуты
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:anyAttribute>
             </xs:extension>
@@ -339,7 +436,9 @@
 
     <xs:simpleType name="locationType">
         <xs:annotation>
-            <xs:documentation>Расположение лейблов.</xs:documentation>
+            <xs:documentation>
+                Расположение заголовков внутренних полей
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="left"/>
@@ -350,7 +449,9 @@
 
     <xs:simpleType name="alignType">
         <xs:annotation>
-            <xs:documentation>Выравнивание лейблов.</xs:documentation>
+            <xs:documentation>
+                Выравнивание заголовков внутренних полей
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="left"/>
@@ -360,7 +461,9 @@
 
     <xs:simpleType name="shapeType">
         <xs:annotation>
-            <xs:documentation>Тип формы изображения.</xs:documentation>
+            <xs:documentation>
+                Форма
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="square"/>
@@ -370,6 +473,11 @@
     </xs:simpleType>
 
     <xs:simpleType name="positionType">
+        <xs:annotation>
+            <xs:documentation>
+                Позиция
+            </xs:documentation>
+        </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="left"/>
             <xs:enumeration value="right"/>

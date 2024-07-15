@@ -348,17 +348,17 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="enabled" default="true">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Условие доступности вкладки
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="visible" default="true">
                     <xs:annotation>
                         <xs:documentation>
-                            Условие видимости вкладки
+                            Условие видимости. Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Условие доступности. Возможно использование плейсхолдеров
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

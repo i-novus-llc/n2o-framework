@@ -26,7 +26,6 @@ public class TabsRegionIOv3 extends AbstractRegionIOv3<N2oTabsRegion> {
         p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
         p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
         p.children(e, null, "tab", r::getTabs, r::setTabs, N2oTabsRegion.Tab::new, this::tabs);
-        p.anyAttributes(e, r::getExtAttributes, r::setExtAttributes);
     }
 
     private void tabs(Element e, N2oTabsRegion.Tab t, IOProcessor p) {

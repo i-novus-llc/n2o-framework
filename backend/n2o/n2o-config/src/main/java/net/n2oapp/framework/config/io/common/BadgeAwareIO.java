@@ -18,7 +18,7 @@ public interface BadgeAwareIO<T extends BadgeAware> {
         p.attribute(e, "badge", m::getBadge, m::setBadge);
         p.attribute(e, "badge-color", m::getBadgeColor, m::setBadgeColor);
         p.attribute(e, "badge-image", m::getBadgeImage, m::setBadgeImage);
-        defaults(e, m, p);
+        base(e, m, p);
     }
 
     /**
@@ -28,16 +28,16 @@ public interface BadgeAwareIO<T extends BadgeAware> {
         p.attribute(e, "badge-field-id", m::getBadgeFieldId, m::setBadgeFieldId);
         p.attribute(e, "badge-color-field-id", m::getBadgeColorFieldId, m::setBadgeColorFieldId);
         p.attribute(e, "badge-image-field-id", m::getBadgeImageFieldId, m::setBadgeImageFieldId);
-        defaults(e, m, p);
+        base(e, m, p);
     }
 
     /**
      * Чтение/запись общих свойств
      */
-    private void defaults(Element e, T m, IOProcessor p) {
+    private void base(Element e, T m, IOProcessor p) {
         p.attributeEnum(e, "badge-position", m::getBadgePosition, m::setBadgePosition, Position.class);
-        p.attributeEnum(e, "badge-image-position", m::getBadgeImagePosition, m::setBadgeImagePosition, Position.class);
         p.attributeEnum(e, "badge-shape", m::getBadgeShape, m::setBadgeShape, ShapeType.class);
+        p.attributeEnum(e, "badge-image-position", m::getBadgeImagePosition, m::setBadgeImagePosition, Position.class);
         p.attributeEnum(e, "badge-image-shape", m::getBadgeImageShape, m::setBadgeImageShape, ShapeType.class);
     }
 }

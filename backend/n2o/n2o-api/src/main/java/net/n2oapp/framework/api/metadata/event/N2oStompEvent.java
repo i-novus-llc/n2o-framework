@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.action.N2oAction;
 @Getter
 @Setter
 public class N2oStompEvent extends N2oAbstractEvent {
-
     private String destination;
     private N2oAction action;
 }
