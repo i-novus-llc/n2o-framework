@@ -32,6 +32,19 @@ function CollapsedCell(props) {
         inline = true,
     } = props
 
+    const separatorAsHtml = useMemo(() => {
+        if (separator) {
+            return {
+                __html: separator
+                    .replaceAll(/(<([^>]+)>)/gi, '')
+                    .replaceAll(/\r\n|\r|\n/g, '<br />')
+                    .replaceAll(/ /g, '&nbsp;'),
+            }
+        }
+
+        return null
+    }, [separator])
+
     const toggleIsCollapsed = useCallback((event) => {
         event.stopPropagation()
         event.preventDefault()
@@ -82,7 +95,10 @@ function CollapsedCell(props) {
             {items.map((item, index, self) => (
                 <div className="collapse-cell-data" key={String(index)}>
                     {renderCell(item)}
-                    <>{separator && (index !== self.length - 1) ? separator : null}</>
+                    {separatorAsHtml && (index !== self.length - 1) && (
+                        /* eslint-disable-next-line react/no-danger */
+                        <span className="collapse-cell-data__separator" dangerouslySetInnerHTML={separatorAsHtml} />
+                    )}
                 </div>
             ))}
 
