@@ -93,8 +93,12 @@ public class ScriptProcessorTest {
                 is("gender.id == 1"));
         assertThat(ScriptProcessor.resolveFunction("function helper() {return Math.random();} const a = helper() return a;"),
                 is("(function(){function helper() {return Math.random();} const a = helper() return a;}).call(this)"));
-        assertThat(ScriptProcessor.resolveFunction("{['USER','ADMIN'].some(function(p) { return roles.includes(p) })}"),
-                is("{['USER','ADMIN'].some(function(p) { return roles.includes(p) })}"));
+        assertThat(ScriptProcessor.resolveFunction("['USER','ADMIN'].some(function(p) { return roles.includes(p) })"),
+                is("['USER','ADMIN'].some(function(p) { return roles.includes(p) })"));
+        assertThat(ScriptProcessor.resolveFunction("test.some(function(p) { return roles.includes(p) })"),
+                is("test.some(function(p) { return roles.includes(p) })"));
+        assertThat(ScriptProcessor.resolveFunction(" const result = [...input]; return result.sort(function(first, second) { return first - second });"),
+                is("(function(){const result = [...input]; return result.sort(function(first, second) { return first - second });}).call(this)"));
     }
 
     @Test
