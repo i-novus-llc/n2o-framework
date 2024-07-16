@@ -3,7 +3,7 @@
     <operations>
         <operation id="create" name="Добавить" success-text="Товар добавлен в базу">
             <invocation>
-                <rest method="POST">/data/cars/</rest>
+                <rest method="POST">/data/cars</rest>
             </invocation>
             <in>
                 <field id="name"/>

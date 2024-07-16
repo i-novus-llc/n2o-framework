@@ -3,7 +3,7 @@
     <operations>
         <operation id="create">
             <invocation>
-                <rest method="POST">/data/roles/</rest>
+                <rest method="POST">/data/roles</rest>
             </invocation>
             <in>
                 <field id="name"/>
@@ -15,7 +15,7 @@
         </operation>
         <operation id="update">
             <invocation>
-                <rest method="POST">/data/roles/</rest>
+                <rest method="POST">/data/roles</rest>
             </invocation>
             <in>
                 <field id="id"/>
