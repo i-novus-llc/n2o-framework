@@ -1,9 +1,9 @@
 [
   {
     "id": 1,
-    "name": "name",
-    "surname": "surname",
-    "org": "org1",
-    "org2": "org2"
+    "withoutDefault": "test",
+    "withDefault": "test",
+    "copiedTrue": "test",
+    "copiedFalse": "test"
   }
 ]

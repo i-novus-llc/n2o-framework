@@ -3,12 +3,13 @@
     <list>
         <test operation="findAll" file="test.json"/>
     </list>
+
     <fields>
         <field id="id"/>
-        <field id="name"/>
-        <field id="surname"/>
-        <field id="org"/>
-        <field id="org2"/>
-        <field id="notExistJson"/>
+        <field id="withoutDefault"/>
+        <field id="withDefault"/>
+        <field id="copiedTrue"/>
+        <field id="copiedFalse"/>
+        <field id="notExist"/>
     </fields>
 </query>
