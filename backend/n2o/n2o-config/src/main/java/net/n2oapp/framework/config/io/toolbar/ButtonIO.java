@@ -18,6 +18,8 @@ public class ButtonIO extends AbstractButtonIO<N2oButton> implements ButtonIOAwa
     public void io(Element e, N2oButton b, IOProcessor p) {
         super.io(e, b, p);
         button(e, b, p, actionDefaultNamespace);
+        b.adapterV2();
+
 
         p.attribute(e, "visible", b::getVisible, b::setVisible);
         p.attribute(e, "enabled", b::getEnabled, b::setEnabled);

@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <table object-id="testToolbarCell">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <table>
+        <datasource object-id="testToolbarCell"/>
         <columns>
             <column text-field-id="test">
                 <toolbar>
