@@ -1,5 +1,5 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { useLayoutEffect } from 'react'
+import { connect, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { compose, setDisplayName } from 'recompose'
 import classNames from 'classnames'
@@ -9,6 +9,7 @@ import isEmpty from 'lodash/isEmpty'
 import { Panel, Collapse } from '../../snippets/Collapse/Collapse'
 import withWidgetProps from '../withWidgetProps'
 import { RegionContent } from '../RegionContent'
+import { registerRegion, unregisterRegion } from '../../../ducks/regions/store'
 
 /**
  * Регион Лист
@@ -20,8 +21,23 @@ import { RegionContent } from '../RegionContent'
  */
 
 function ListRegion(props) {
-    const { collapsible, getWidgetProps, className, style, disabled, expand,
+    const { id: regionId, parent, collapsible, getWidgetProps, className, style, disabled, expand,
         isVisible, hasSeparator, label, pageId, regionsState, content = [] } = props
+    const dispatch = useDispatch()
+
+    useLayoutEffect(() => {
+        dispatch(registerRegion(regionId, {
+            regionId,
+            isInit: true,
+            parent,
+            visible: true,
+        }))
+
+        return () => {
+            dispatch(unregisterRegion(regionId))
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const collapseProps = pick(props, 'destroyInactivePanel', 'accordion')
     const panelProps = pick(props, [
