@@ -16,8 +16,8 @@ import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.java.ObjectLocator;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.data.rest.N2oRestLoggingHandler;
+import net.n2oapp.framework.engine.data.rest.RestEngineTimeModule;
 import net.n2oapp.framework.engine.data.rest.SpringRestDataProviderEngine;
-import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.engine.modules.stack.SpringDataProcessingStack;
 import net.n2oapp.framework.engine.validation.N2oValidationModule;
@@ -60,12 +60,6 @@ public class N2oEngineConfiguration {
 
     @Value("${n2o.engine.rest.dateformat.serialize}")
     private String serializingFormat;
-
-    @Value("${n2o.engine.rest.dateformat.deserialize}")
-    private String[] deserializingFormats;
-
-    @Value("${n2o.engine.rest.dateformat.exclusion-keys}")
-    private String[] exclusionKeys;
 
     @Value("${n2o.engine.timeout}")
     private String timeoutInMillis;
@@ -226,7 +220,7 @@ public class N2oEngineConfiguration {
     public ObjectMapper restProviderObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat(serializingFormat));
-        RestEngineTimeModule module = new RestEngineTimeModule(deserializingFormats, exclusionKeys);
+        RestEngineTimeModule module = new RestEngineTimeModule();
         objectMapper.registerModules(module);
         return objectMapper;
     }
