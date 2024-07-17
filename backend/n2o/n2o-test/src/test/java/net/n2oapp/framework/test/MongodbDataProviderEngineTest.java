@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oMongoDbDataProvider;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.boot.mongodb.MongoDbDataProviderEngine;
-import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
+import net.n2oapp.framework.engine.data.rest.RestEngineTimeModule;
 import org.bson.Document;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.*;
@@ -24,10 +24,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -54,8 +51,6 @@ class MongodbDataProviderEngineTest {
     @Autowired
     Net mongoNet;
 
-    private String collectionName = "user";
-
     @LocalServerPort
     private int appPort;
 
@@ -68,6 +63,7 @@ class MongodbDataProviderEngineTest {
 
         //создаем коллекцию
         provider = new N2oMongoDbDataProvider();
+        String collectionName = "user";
         provider.setCollectionName(collectionName);
         provider.setDatabaseName("dbName");
         provider.setConnectionUrl("mongodb://localhost:" + mongoNet.getPort());
@@ -384,17 +380,16 @@ class MongodbDataProviderEngineTest {
     private ObjectMapper mongoObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
-        RestEngineTimeModule module = new RestEngineTimeModule(new String[]{"yyyy-MM-dd'T'hh:mm:ss.SSSZ"});
+        RestEngineTimeModule module = new RestEngineTimeModule();
         objectMapper.registerModules(module);
         return objectMapper;
     }
 
+    // normalize method for testFilters() method
     public static String mapIdIn(DataList ids) {
-        StringBuilder res = new StringBuilder().append("[");
-        for (int i = 0; i < ids.size(); i++)
-            res.append("new ObjectId('").append(ids.get(i)).append("'),");
-        res.deleteCharAt(res.lastIndexOf(","));
-        res.append("]");
+        StringJoiner res = new StringJoiner(",", "[", "]");
+        for (Object o : ids)
+            res.add("new ObjectId('" + o + "')");
         return res.toString();
     }
 }
