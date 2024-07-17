@@ -6,7 +6,7 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import net.n2oapp.framework.boot.mongodb.MongoDbDataProviderEngine;
-import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
+import net.n2oapp.framework.engine.data.rest.RestEngineTimeModule;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -27,11 +27,6 @@ public class N2oMongoAutoConfiguration {
     @Value("${n2o.engine.mongodb.dateformat.serialize}")
     private String serializingFormat;
 
-    @Value("${n2o.engine.mongodb.dateformat.deserialize}")
-    private String[] deserializingFormats;
-
-    @Value("${n2o.engine.mongodb.dateformat.exclusion-keys}")
-    private String[] exclusionKeys;
 
     @Deprecated
     private MongoClient mongo;
@@ -64,7 +59,7 @@ public class N2oMongoAutoConfiguration {
     private ObjectMapper mongoObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat(serializingFormat));
-        RestEngineTimeModule module = new RestEngineTimeModule(deserializingFormats, exclusionKeys);
+        RestEngineTimeModule module = new RestEngineTimeModule();
         objectMapper.registerModules(module);
         return objectMapper;
     }
