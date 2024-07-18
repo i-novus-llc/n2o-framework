@@ -9,7 +9,6 @@ import { compose, setDisplayName } from 'recompose'
 import PanelShortHand from '../../snippets/Panel/PanelShortHand'
 import withRegionContainer from '../withRegionContainer'
 import withWidgetProps from '../withWidgetProps'
-import withSecurity from '../../../core/auth/withSecurity'
 import { RegionContent } from '../RegionContent'
 
 /**
@@ -70,20 +69,7 @@ class PanelRegion extends React.Component {
     async checkPanel(panel) {
         const { tabs } = this.state
 
-        if (panel.security) {
-            const { checkSecurity } = this.props
-            const config = panel.security
-
-            try {
-                await checkSecurity(config)
-
-                this.setState({ tabs: tabs.concat(this.getTab(panel)) })
-            } catch (error) {
-                // ...
-            }
-        } else {
-            this.setState({ tabs: tabs.concat(this.getTab(panel)) })
-        }
+        this.setState({ tabs: tabs.concat(this.getTab(panel)) })
     }
 
     getPanelsWithAccess() {
@@ -182,7 +168,6 @@ PanelRegion.propTypes = {
     dependency: PropTypes.object,
     getWidgetProps: PropTypes.func,
     changeActiveEntity: PropTypes.func,
-    checkSecurity: PropTypes.func,
     activeEntity: PropTypes.any,
     user: PropTypes.any,
 }
@@ -198,6 +183,5 @@ export { PanelRegion }
 export default compose(
     setDisplayName('PanelRegion'),
     withRegionContainer({ listKey: 'panels' }),
-    withSecurity,
     withWidgetProps,
 )(PanelRegion)

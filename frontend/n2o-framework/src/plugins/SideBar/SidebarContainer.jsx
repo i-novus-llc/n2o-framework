@@ -1,9 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'recompose'
-import isArray from 'lodash/isArray'
-
-import withSecurity from '../../core/auth/withSecurity'
 
 // eslint-disable-next-line import/no-named-as-default
 import SideBar from './SideBar'
@@ -11,65 +7,7 @@ import SideBar from './SideBar'
 /**
  * Компонент контейнер для {@link SideBar}
  */
-class SidebarContainer extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            items: [],
-        }
-    }
-
-    // eslint-disable-next-line react/no-deprecated
-    componentWillReceiveProps() {
-        this.getItemsWithAccess()
-    }
-
-    componentDidMount() {
-        this.getItemsWithAccess()
-    }
-
-    async checkItem(item) {
-        const { items } = this.state
-
-        if (item.security) {
-            const { checkSecurity } = this.props
-            const config = item.security
-
-            try {
-                await checkSecurity(config)
-
-                this.setState({ items: items.concat(item) })
-            } catch (error) {
-                // ...
-            }
-        } else {
-            this.setState({ items: items.concat(item) })
-        }
-    }
-
-    getItemsWithAccess() {
-        this.setState(
-            {
-                items: [],
-            },
-            () => this.makeSecure(this.props),
-        )
-    }
-
-    makeSecure(metadata) {
-        const makeSecure = async (items) => {
-            if (isArray(items)) {
-                // eslint-disable-next-line no-restricted-syntax
-                for (const item of items) {
-                    await this.checkItem(item)
-                }
-            }
-        }
-        const { items } = metadata
-
-        makeSecure(items)
-    }
-
+export default class SidebarContainer extends React.Component {
     onMouseEnter = () => {
         const { defaultState, toggledState, onMouseEnter, controlled } = this.props
         const isStaticView = defaultState === toggledState
@@ -93,14 +31,12 @@ class SidebarContainer extends React.Component {
     }
 
     render() {
-        const { items } = this.state
         const { defaultState, toggledState } = this.props
         const isStaticView = defaultState === toggledState
 
         return (
             <SideBar
                 {...this.props}
-                items={items}
                 isStaticView={isStaticView}
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
@@ -111,7 +47,6 @@ class SidebarContainer extends React.Component {
 
 SidebarContainer.propTypes = {
     items: PropTypes.array,
-    checkSecurity: PropTypes.func,
     defaultState: PropTypes.string,
     toggledState: PropTypes.string,
     onMouseEnter: PropTypes.func,
@@ -120,6 +55,4 @@ SidebarContainer.propTypes = {
 
 }
 
-export const SimpleSidebar = compose(withSecurity)(SidebarContainer)
-
-export default compose(withSecurity)(SidebarContainer)
+export const SimpleSidebar = SidebarContainer

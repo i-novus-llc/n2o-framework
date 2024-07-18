@@ -14,19 +14,17 @@ import { FactoryProvider } from './core/factory/FactoryProvider'
 import factoryPoints from './core/factory/factoryPoints'
 import factoryConfigShape from './core/factory/factoryConfigShape'
 import apiProvider from './core/api'
-import SecurityProvider from './core/auth/SecurityProvider'
 import Router from './components/core/Router'
 import Application from './components/core/Application'
 import { Template } from './components/core/templates'
-import { DefaultBreadcrumb } from './components/core/Breadcrumb/DefaultBreadcrumb'
 import globalFnDate from './utils/globalFnDate'
 import { errorTemplates } from './components/errors/errorTemplates'
 import locales from './locales'
-import { Tooltip } from './components/snippets/Tooltip/Tooltip'
 import { ErrorHandlersProvider } from './core/error/Container'
 import '@fortawesome/fontawesome-free/css/all.css'
 import { ExpressionContext } from './core/Expression/Context'
 import functions from './utils/functions'
+import { defaultProvider } from './core/auth/Provider'
 
 const { version } = packageJson
 
@@ -35,7 +33,10 @@ class N2o extends Component {
         super(props)
         this.state = { isOnline: true }
         const config = {
-            security: props.security,
+            security: {
+                provider: defaultProvider,
+                ...props.security,
+            },
             messages: props.messages,
             customReducers: props.customReducers,
             customSagas: props.customSagas,
@@ -67,7 +68,6 @@ class N2o extends Component {
 
     render() {
         const {
-            security,
             realTimeConfig,
             embeddedRouting,
             children,
@@ -93,17 +93,15 @@ class N2o extends Component {
             <Provider store={this.store}>
                 <ExpressionContext.Provider value={context}>
                     <ErrorHandlersProvider value={handlers} isOnline={isOnline}>
-                        <SecurityProvider {...security}>
-                            <FactoryProvider config={config} securityBlackList={['actions']}>
-                                <Application
-                                    i18n={i18n}
-                                    locales={locales}
-                                    customLocales={customLocales}
-                                    realTimeConfig={realTimeConfig}
-                                    render={() => <Router embeddedRouting={embeddedRouting}>{children}</Router>}
-                                />
-                            </FactoryProvider>
-                        </SecurityProvider>
+                        <FactoryProvider config={config} securityBlackList={['actions']}>
+                            <Application
+                                i18n={i18n}
+                                locales={locales}
+                                customLocales={customLocales}
+                                realTimeConfig={realTimeConfig}
+                                render={() => <Router embeddedRouting={embeddedRouting}>{children}</Router>}
+                            />
+                        </FactoryProvider>
                     </ErrorHandlersProvider>
                 </ExpressionContext.Provider>
             </Provider>
@@ -113,22 +111,12 @@ class N2o extends Component {
 
 N2o.propTypes = {
     ...factoryConfigShape,
-    defaultTemplate: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.element,
-        PropTypes.node,
-    ]),
-    defaultBreadcrumb: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.element,
-        PropTypes.node,
-    ]),
     formats: PropTypes.shape({
         dateFormat: PropTypes.string,
         timeFormat: PropTypes.string,
     }),
     security: PropTypes.shape({
-        authProvider: PropTypes.func,
+        provider: PropTypes.func,
         authUrl: PropTypes.string,
     }),
     messages: PropTypes.shape({
@@ -141,7 +129,6 @@ N2o.propTypes = {
     }),
     customReducers: PropTypes.object,
     customSagas: PropTypes.array,
-    customErrorPages: PropTypes.object,
     apiProvider: PropTypes.func,
     realTimeConfig: PropTypes.bool,
     embeddedRouting: PropTypes.bool,
@@ -150,7 +137,6 @@ N2o.propTypes = {
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node,
     ]),
-    version: PropTypes.string,
     locales: PropTypes.object,
     initialState: PropTypes.object,
 }
@@ -159,15 +145,15 @@ const EnhancedN2O = compose(
     withTranslation(),
     defaultProps({
         defaultTemplate: Template,
-        defaultBreadcrumb: DefaultBreadcrumb,
         defaultPage: 'StandardPage',
         extraDefaultErrorPages: {},
-        defaultTooltip: Tooltip,
         formats: {
             dateFormat: 'YYYY-MM-DD',
             timeFormat: 'HH:mm:ss',
         },
-        security: {},
+        security: {
+            provider: defaultProvider,
+        },
         messages: {},
         customReducers: {},
         customSagas: [],
@@ -186,11 +172,6 @@ const EnhancedN2O = compose(
                 PropTypes.element,
                 PropTypes.node,
             ]),
-            defaultBreadcrumb: PropTypes.oneOfType([
-                PropTypes.func,
-                PropTypes.element,
-                PropTypes.node,
-            ]),
             defaultPage: PropTypes.oneOfType([
                 PropTypes.func,
                 PropTypes.element,
@@ -199,16 +180,13 @@ const EnhancedN2O = compose(
             extraDefaultErrorPages: PropTypes.arrayOf(
                 PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
             ),
-            defaultTooltip: PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
             version: PropTypes.string,
             markdownFieldMappers: PropTypes.object,
         },
         props => ({
             defaultTemplate: props.defaultTemplate,
-            defaultBreadcrumb: props.defaultBreadcrumb,
             defaultPage: props.defaultPage,
             extraDefaultErrorPages: props.extraDefaultErrorPages,
-            defaultTooltip: props.defaultTooltip,
             markdownFieldMappers: props.markdownFieldMappers,
             version,
         }),

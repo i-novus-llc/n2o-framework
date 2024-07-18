@@ -30,14 +30,12 @@
           "href": "/",
           "target": "_blank",
           "icon": "fa fa square",
-          "security": {},
           "title": "subMenuItem0",
           "badge": "99+",
           "badgeColor": "warning"
         }
       ],
       "icon": "fa fa square",
-      "security": {},
       "title": "menuItem0"
     }]
   },
@@ -56,12 +54,10 @@
           "target": "_blank",
           "items":[],
           "icon": "fa fa square",
-          "security": {},
           "title": "subMenuItem0"
         }
       ],
       "icon": "fa fa square",
-      "security": {},
       "title": "menuItem0"
     }]
   },

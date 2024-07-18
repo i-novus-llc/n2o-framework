@@ -32,7 +32,6 @@ public class ToolbarAccessTransformer extends BaseAccessTransformer<Toolbar, Com
                                 transfer(menuItem.getAction(), menuItem);
                             }
                         }
-                        merge(b, ((Submenu) b).getSubMenu());
                     }
                 }
             }

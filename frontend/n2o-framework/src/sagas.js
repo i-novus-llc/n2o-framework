@@ -34,7 +34,7 @@ const webSocketConfig = {
 export default function generateSagas(dispatch, config) {
     return function* rootSaga() {
         yield all([
-            ...pagesSagas(config.apiProvider),
+            ...pagesSagas(config.apiProvider, config.security),
             ...widgetsSagas(config.apiProvider),
             ...dataSourceSagas(config.apiProvider),
             ...actionsImplSagas(config.apiProvider, config.factories),
@@ -44,7 +44,7 @@ export default function generateSagas(dispatch, config) {
             ...fieldDependencySagas,
             ...authSagas(config.security),
             ...metaSagas,
-            ...globalSagas(config.apiProvider),
+            ...globalSagas(config.apiProvider, config.security),
             ...conditionsSaga,
             ...widgetDependencySagas,
             ...overlaysSagas,

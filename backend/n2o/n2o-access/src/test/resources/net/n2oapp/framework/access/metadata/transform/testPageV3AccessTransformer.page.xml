@@ -18,7 +18,7 @@
                     </fields>
                 </form>
             </tab>
-            <tab name="accessed for authenticated">
+            <tab name="accessed for all">
                 <form sec:authenticated="true">
                     <fields>
                         <input-text id="field3"/>
@@ -30,48 +30,17 @@
                     </fields>
                 </form>
             </tab>
-            <tab name="accessed with admin role or authenticated">
-                <form sec:authenticated="true" sec:roles="admin">
-                    <fields>
-                        <input-text id="field5"/>
-                    </fields>
-                </form>
-                <form sec:authenticated="false">
-                    <fields>
-                        <input-text id="field6"/>
-                    </fields>
-                </form>
-            </tab>
-            <tab name="accessed with create or edit permissions">
-                <form sec:permissions="create">
-                    <fields>
-                        <input-text id="field7"/>
-                    </fields>
-                </form>
-                <form sec:permissions="edit">
-                    <fields>
-                        <input-text id="field8"/>
-                    </fields>
-                </form>
-            </tab>
         </tabs>
 
-        <line label="accessed with authenticated create permissions or admin role">
-            <line label="accessed with create permission">
-                <form sec:permissions="create">
-                    <fields>
-                        <input-text id="field9"/>
-                    </fields>
-                </form>
-            </line>
-            <form sec:roles="admin">
+        <line label="accessed with admin role" sec:roles="admin">
+            <form>
                 <fields>
                     <input-text id="field10"/>
                 </fields>
             </form>
         </line>
 
-        <line label="accessed with admin role">
+        <line label="accessed for all">
             <form sec:roles="admin">
                 <fields>
                     <input-text id="field11"/>

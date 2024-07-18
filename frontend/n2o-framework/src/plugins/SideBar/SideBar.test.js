@@ -29,7 +29,6 @@ const props = {
                     target: '_blank',
                     items:[],
                     icon: "fa fa-plus",
-                    security: {},
                     title: "subMenuItem0",
                     badge: "badge",
                     badgeColor: "warning"
@@ -41,7 +40,6 @@ const props = {
                     target: '_blank',
                     items:[],
                     icon: "fa fa-square",
-                    security: {},
                     title: "subMenuItem1",
                     badge: "badge",
                     badgeColor: "warning"
@@ -49,7 +47,6 @@ const props = {
 
             ],
             icon: "fa fa-square",
-            security: {},
             title: "menuItem0 test- 1",
         },
             {
@@ -65,7 +62,6 @@ const props = {
                         target: '_blank',
                         items:[],
                         icon: "fa fa-square",
-                        security: {},
                         title: "subMenuItem0",
                         badge: "badge",
                         badgeColor: "warning"
@@ -77,7 +73,6 @@ const props = {
                         target: '_blank',
                         items:[],
                         icon: "fa fa-plus",
-                        security: {},
                         title: "subMenuItem1",
                         badge: "badge",
                         badgeColor: "warning"
@@ -85,7 +80,6 @@ const props = {
 
                 ],
                 icon: "fa fa-pencil",
-                security: {},
                 title: "menuItem test 2",
             }
         ]
@@ -105,12 +99,10 @@ const props = {
                     target: '_blank',
                     items:[],
                     icon: "fa fa-square",
-                    security: {},
                     title: "subMenuItem0",
                 }
             ],
             icon: "fa fa square",
-            security: {},
             title: "menuItem0",
         }]
     },

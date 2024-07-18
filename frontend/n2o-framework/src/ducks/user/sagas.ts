@@ -1,20 +1,22 @@
 import { replace } from 'connected-react-router'
 import { call, put, takeEvery, select } from 'redux-saga/effects'
 
-import { SECURITY_LOGIN, SECURITY_LOGOUT, SECURITY_ERROR } from '../../core/auth/authTypes'
 import { FETCH_ERROR } from '../../constants/fetch'
 // @ts-ignore ignore import error from js file
 import { fetchErrorContinue } from '../../actions/fetch'
 import { getAuthUrl } from '../global/selectors'
 import { Action } from '../Action'
+import { AuthProvider } from '../../core/auth/Provider'
 
 import { userLoginSuccess, userLogoutSuccess } from './store'
 import { USER_LOGIN, USER_LOGOUT } from './constants'
 
 const DEFAULT_AUTH_URL = '/login'
 
-/* FIXME Типизация authProvider */
-interface Config { authProvider(): Promise<boolean>, authUrl?: string }
+interface Config {
+    authUrl?: string
+    provider: AuthProvider
+}
 
 function* redirectOnUnauthorized(authUrl: string & Location) {
     const isUrlExternal = /(https?:\/\/\S+)|(www\.\S+)/g.test(authUrl)
@@ -26,25 +28,24 @@ function* redirectOnUnauthorized(authUrl: string & Location) {
     }
 }
 
-export function* resolveAuth({ authProvider, authUrl = DEFAULT_AUTH_URL }: Config, { type, payload }: Action) {
+export function* resolveAuth({ provider, authUrl = DEFAULT_AUTH_URL }: Config, { type, payload }: Action) {
     const configAuthUrl: string = yield select(getAuthUrl)
 
     switch (type) {
         case USER_LOGIN:
             try {
-                // @ts-ignore проблема с типизацией saga
-                const userPayload: object = yield call(authProvider, SECURITY_LOGIN, payload)
+                const userPayload: object = yield provider.login({ user: payload, authUrl })
 
                 yield put(userLoginSuccess(userPayload))
             } catch (e) {
-                // @ts-ignore проблема с типизацией saga
-                yield call(authProvider, SECURITY_ERROR)
+                // eslint-disable-next-line no-console
+                console.warn(e)
             }
 
             break
         case USER_LOGOUT:
             // @ts-ignore проблема с типизацией saga
-            yield call(authProvider, SECURITY_LOGOUT)
+            yield provider.logout()
             yield put(userLogoutSuccess())
             // @ts-ignore проблема с типизацией saga
             yield call(redirectOnUnauthorized, configAuthUrl || authUrl)
@@ -53,11 +54,10 @@ export function* resolveAuth({ authProvider, authUrl = DEFAULT_AUTH_URL }: Confi
         case FETCH_ERROR:
             try {
                 // @ts-ignore проблема с типизацией saga
-                yield call(authProvider, SECURITY_ERROR, payload.error)
                 yield put(fetchErrorContinue())
             } catch (e) {
                 // @ts-ignore проблема с типизацией saga
-                yield call(authProvider, SECURITY_LOGOUT)
+                yield provider.logout()
                 // @ts-ignore проблема с типизацией saga
                 yield call(redirectOnUnauthorized, configAuthUrl || authUrl)
             }
@@ -73,7 +73,7 @@ export function* callErrorContinue() {
 }
 
 export default (config: Config) => {
-    if (!config.authProvider) { return [takeEvery(FETCH_ERROR, callErrorContinue)] }
+    if (!config.provider) { return [takeEvery(FETCH_ERROR, callErrorContinue)] }
 
     return [
         // @ts-ignore проблема с типизацией saga

@@ -30,7 +30,7 @@ public class SecurityPageBinder implements MetadataBinder<Page>, CompiledClassAw
     @Override
     public Page bind(Page compiled, BindProcessor p) {
         Map<String, Object> properties = compiled.getProperties();
-        if (properties != null && properties.containsKey(SECURITY_PROP_NAME) && ((Security) properties.get(SECURITY_PROP_NAME)).getSecurityMap() != null)
+        if (properties != null && properties.containsKey(SECURITY_PROP_NAME) && properties.get(SECURITY_PROP_NAME) != null)
             securityProvider.checkAccess((Security) properties.get(SECURITY_PROP_NAME), StaticUserContext.getUserContext());
         return compiled;
     }

@@ -8,8 +8,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.*;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import org.springframework.stereotype.Component;
 
-
-
 @Component
 public class ToolbarCellAccessTransformer extends BaseAccessTransformer<ToolbarCell, CompileContext<?, ?>> {
 
@@ -27,7 +25,6 @@ public class ToolbarCellAccessTransformer extends BaseAccessTransformer<ToolbarC
                                 transfer(menuItem.getAction(), menuItem);
                             }
                         }
-                        merge(b, ((Submenu)b).getSubMenu());
                     }
                 }
             }

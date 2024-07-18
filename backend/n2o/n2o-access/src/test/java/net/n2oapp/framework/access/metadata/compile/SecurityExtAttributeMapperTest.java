@@ -1,6 +1,7 @@
 package net.n2oapp.framework.access.metadata.compile;
 
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -32,7 +33,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование сборки атрибутов прав доступа
  */
-public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
+class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach
@@ -53,45 +54,46 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
     void inlineMenu() {
         Application application = compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.application.xml")
                 .get(new ApplicationContext("securityExtAttrMapperTest"));
-        Security.SecurityObject securityObject = new Security.SecurityObject();
+        SecurityObject securityObject = new SecurityObject();
         securityObject.setAnonymous(false);
         securityObject.setAuthenticated(false);
         securityObject.setUsernames(new HashSet<>(Arrays.asList("user")));
         securityObject.setPermissions(new HashSet<>(Arrays.asList("admin", "user")));
         securityObject.setRoles(new HashSet<>(Arrays.asList("admin")));
-        Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
-        securityObjectMap.put("custom", securityObject);
         Security security = new Security();
-        security.setSecurityMap(securityObjectMap);
+        Map<String, SecurityObject> securityObjectMap = new HashMap<>();
+        securityObjectMap.put("custom", securityObject);
+        security.add(securityObjectMap);
         assertThat(application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
-        assertThat(((Security) application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(((Security) application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME))
+                .get(0).get("custom"), is(securityObject));
     }
 
     @Test
     void inlineToolbarAndRegion() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.page.xml")
                 .get(new PageContext("securityExtAttrMapperTest"));
-        Security.SecurityObject securityObject = new Security.SecurityObject();
+        SecurityObject securityObject = new SecurityObject();
         securityObject.setAnonymous(false);
         securityObject.setAuthenticated(false);
         securityObject.setUsernames(new HashSet<>(Arrays.asList("user")));
         securityObject.setPermissions(new HashSet<>(Arrays.asList("admin", "user")));
         securityObject.setRoles(new HashSet<>(Arrays.asList("admin")));
-        Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
-        securityObjectMap.put("custom", securityObject);
         Security security = new Security();
-        security.setSecurityMap(securityObjectMap);
+        Map<String, SecurityObject> securityObjectMap = new HashMap<>();
+        securityObjectMap.put("custom", securityObject);
+        security.add(securityObjectMap);
         assertThat(page.getRegions().get("single").get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
         assertThat(((Security) page.getRegions().get("single").get(0).getProperties().get(SECURITY_PROP_NAME))
-                .getSecurityMap().get("custom"), is(securityObject));
+                .get(0).get("custom"), is(securityObject));
         assertThat(((Widget) page.getRegions().get("single").get(0).getContent().get(0))
                 .getProperties().get(SECURITY_PROP_NAME), is(security));
         assertThat(((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
-                .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
+                .getProperties().get(SECURITY_PROP_NAME)).get(0).get("custom"), is(securityObject));
         assertThat(page.getToolbar().get("bottomRight").get(0).getButtons().get(0)
                 .getProperties().get(SECURITY_PROP_NAME), is(security));
         assertThat(((Security) page.getRegions().get("single").get(0)
-                .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
+                .getProperties().get(SECURITY_PROP_NAME)).get(0).get("custom"), is(securityObject));
     }
 
     @Test
@@ -99,7 +101,7 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         CompiledObject object = compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.object.xml")
                 .get(new ObjectContext("securityExtAttrMapperTest"));
         CompiledObject.Operation operation = object.getOperations().get("create");
-        Security.SecurityObject securityObject = new Security.SecurityObject();
+        SecurityObject securityObject = new SecurityObject();
         securityObject.setPermitAll(true);
         securityObject.setAuthenticated(true);
         securityObject.setDenied(false);
@@ -107,20 +109,20 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         securityObject.setRoles(new HashSet<>(Arrays.asList("role1", "role2")));
         securityObject.setUsernames(new HashSet<>(Arrays.asList("user1")));
         securityObject.setPermissions(new HashSet<>(Arrays.asList("p1", "p2", "p3")));
-        Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
-        securityObjectMap.put("custom", securityObject);
         Security security = new Security();
-        security.setSecurityMap(securityObjectMap);
-
+        Map<String, SecurityObject> securityObjectMap = new HashMap<>();
+        securityObjectMap.put("custom", securityObject);
+        security.add(securityObjectMap);
         assertThat(operation.getProperties().get(SECURITY_PROP_NAME), is(security));
-        assertThat(((Security) operation.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(((Security) operation.getProperties().get(SECURITY_PROP_NAME))
+                .get(0).get("custom"), is(securityObject));
     }
 
     @Test
     void inlineQuery() {
         CompiledQuery query = compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.query.xml")
                 .get(new QueryContext("securityExtAttrMapperTest"));
-        Security.SecurityObject securityObject = new Security.SecurityObject();
+        SecurityObject securityObject = new SecurityObject();
         securityObject.setPermitAll(true);
         securityObject.setAuthenticated(true);
         securityObject.setDenied(false);
@@ -128,12 +130,11 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         securityObject.setRoles(new HashSet<>(Arrays.asList("role1", "role2")));
         securityObject.setUsernames(new HashSet<>(Arrays.asList("user1")));
         securityObject.setPermissions(new HashSet<>(Arrays.asList("p1", "p2", "p3")));
-        Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
-        securityObjectMap.put("custom", securityObject);
         Security security = new Security();
-        security.setSecurityMap(securityObjectMap);
-
+        Map<String, SecurityObject> securityObjectMap = new HashMap<>();
+        securityObjectMap.put("custom", securityObject);
+        security.add(securityObjectMap);
         assertThat(query.getProperties().get(SECURITY_PROP_NAME), is(security));
-        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).get(0).get("custom"), is(securityObject));
     }
 }

@@ -4,7 +4,6 @@ import { compose, withHandlers, pure, mapProps } from 'recompose'
 import { Col } from 'reactstrap'
 import get from 'lodash/get'
 
-import { SecurityController } from '../../../core/auth/SecurityController'
 import { ExpressionContext } from '../../../core/Expression/Context'
 import { executeExpression } from '../../../core/Expression/execute'
 import { parseExpression } from '../../../core/Expression/parse'
@@ -34,63 +33,61 @@ function FieldsetColComponent({
 }) {
     if (!colVisible) { return null }
 
-    const { security, size, className, style, fields, fieldsets } = col
+    const { size, className, style, fields, fieldsets } = col
 
     return (
-        <SecurityController config={security}>
-            <Col xs={size || defaultCol} key={colId} className={className} style={style}>
-                {fields &&
-                    fields.map((field, i) => {
-                        const autoFocus = field.id && autoFocusId && field.id === autoFocusId
-                        const key = `field${i}`
-                        const name = parentName ? `${parentName}.${field.id}` : field.id
+        <Col xs={size || defaultCol} key={colId} className={className} style={style}>
+            {fields &&
+                fields.map((field, i) => {
+                    const autoFocus = field.id && autoFocusId && field.id === autoFocusId
+                    const key = `field${i}`
+                    const name = parentName ? `${parentName}.${field.id}` : field.id
 
-                        return (
-                            <ReduxField
-                                labelPosition={labelPosition}
-                                labelWidth={labelWidth}
-                                labelAlignment={labelAlignment}
-                                key={key}
-                                autoFocus={autoFocus}
-                                form={form}
-                                modelPrefix={modelPrefix}
-                                name={name}
-                                parentName={parentName}
-                                disabled={disabled}
-                                autoSubmit={autoSubmit}
-                                onChange={onChange}
-                                onBlur={onBlur}
-                                multiSetDisabled={multiSetDisabled}
-                                {...field}
-                            />
-                        )
-                    })}
-                {fieldsets &&
-                    fieldsets.map((fieldset, i) => {
-                        const { name: fieldsetName, ...rest } = fieldset
+                    return (
+                        <ReduxField
+                            labelPosition={labelPosition}
+                            labelWidth={labelWidth}
+                            labelAlignment={labelAlignment}
+                            key={key}
+                            autoFocus={autoFocus}
+                            form={form}
+                            modelPrefix={modelPrefix}
+                            name={name}
+                            parentName={parentName}
+                            disabled={disabled}
+                            autoSubmit={autoSubmit}
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            multiSetDisabled={multiSetDisabled}
+                            {...field}
+                        />
+                    )
+                })}
+            {fieldsets &&
+                fieldsets.map((fieldset, i) => {
+                    const { name: fieldsetName, ...rest } = fieldset
 
-                        const key = `set${i}`
-                        const name = parentName ? `${parentName}.${fieldsetName}` : fieldsetName
+                    const key = `set${i}`
+                    const name = parentName ? `${parentName}.${fieldsetName}` : fieldsetName
 
-                        return (
-                            <FieldsetContainer
-                                modelPrefix={modelPrefix}
-                                key={key}
-                                name={name}
-                                form={form}
-                                parentName={parentName}
-                                disabled={disabled}
-                                autoSubmit={autoSubmit}
-                                activeModel={activeModel}
-                                onChange={onChange}
-                                onBlur={onBlur}
-                                multiSetDisabled={multiSetDisabled}
-                                {...rest}
-                            />
-                        )
-                    })}
-            </Col>
-        </SecurityController>
+                    return (
+                        <FieldsetContainer
+                            modelPrefix={modelPrefix}
+                            key={key}
+                            name={name}
+                            form={form}
+                            parentName={parentName}
+                            disabled={disabled}
+                            autoSubmit={autoSubmit}
+                            activeModel={activeModel}
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            multiSetDisabled={multiSetDisabled}
+                            {...rest}
+                        />
+                    )
+                })}
+        </Col>
     )
 }
 

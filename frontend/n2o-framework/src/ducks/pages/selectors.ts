@@ -69,16 +69,6 @@ export const makePageStatusByIdSelected = (pageId: string) => createSelector(
 )
 
 /**
- * Получение свойсва spinner страницы по ee d
- * @param {string} pageId
- * @return {number | undefined}
- */
-export const makePageSpinnerByIdSelected = (pageId: string) => createSelector(
-    makePageByIdSelector(pageId),
-    pageState => pageState?.spinner,
-)
-
-/**
  * Селектор-генератор для получения метеданных страницы по ID
  * @param {string} pageId
  * @return {Object.<string, any> | undefined}

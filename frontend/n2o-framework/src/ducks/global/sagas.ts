@@ -5,6 +5,8 @@ import { userLogin } from '../user/store'
 import { FETCH_APP_CONFIG, CHANGE_LOCALE as CHANGE_LOCALE_API } from '../../core/api'
 import fetchSaga from '../../sagas/fetch'
 import { addAlert } from '../alerts/store'
+import { resolveMetadata } from '../../core/auth/resolveMetadata'
+import { AuthProvider } from '../../core/auth/Provider'
 
 import {
     requestConfigSuccess,
@@ -21,7 +23,11 @@ import { State as Global } from './Global'
  * @param apiProvider
  * @param action
  */
-export function* getConfig(apiProvider: unknown, action: { payload: { params: object } }) {
+export function* getConfig(
+    apiProvider: unknown,
+    authProvider: AuthProvider,
+    action: { payload: { params: object } },
+) {
     try {
         const params: { locale: string } = {
             locale: yield select(localeSelector),
@@ -33,7 +39,10 @@ export function* getConfig(apiProvider: unknown, action: { payload: { params: ob
         if (config.user) {
             yield put(userLogin(config.user))
         }
-        yield put(requestConfigSuccess(config))
+
+        const metadata: object = yield resolveMetadata(config, config.user || {}, ['datasources'], authProvider)
+
+        yield put(requestConfigSuccess(metadata))
         yield put(setReady())
         // @ts-ignore import from js file
     } catch ({ json, stack }) {
@@ -81,9 +90,9 @@ export function* changeLocale(apiProvider: unknown, action: { payload: { locale:
  * @ignore
  */
 /* FIXME */
-export default (apiProvider: unknown) => [
+export default (apiProvider: unknown, security: { provider: AuthProvider }) => [
     // @ts-ignore проблемы с типпизацией
-    takeEvery(requestConfig.type, getConfig, apiProvider),
+    takeEvery(requestConfig.type, getConfig, apiProvider, security.provider),
     // @ts-ignore проблемы с типпизацией
     takeEvery(changeLocaleGlobal.type, changeLocale, apiProvider),
 ]

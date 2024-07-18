@@ -4,7 +4,10 @@
         <object-access object-id="testToolbarAccessTransformer" operations="*"/>
     </user>
     <role id="role">
-        <object-access object-id="testObjectAccessTransformer" operations="*"/>
+        <object-access object-id="testObjectAccessTransformer" operations="create,update"/>
+    </role>
+    <role id="role_delete">
+        <object-access object-id="testObjectAccessTransformer" operations="delete"/>
     </role>
     <role id="admin">
         <object-access object-id="testToolbarAccessTransformer" operations="create"/>

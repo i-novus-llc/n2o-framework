@@ -25,7 +25,6 @@ interface FieldError {
 }
 
 export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
-    hasSecurityAccess: boolean
     filterValue?: Record<string, any>
     sorting: Record<string, SortDirection>
     data: Data
@@ -74,7 +73,6 @@ export type TableProps = {
     tableId: string
     headerCell: HeaderCell[]
     bodyCell: Cell[]
-    hasSecurityAccess: boolean
 }
 & Pick<TableWidgetContainerProps, 'data' | 'sorting' | 'selectedRows' | 'focusedRowValue' | 'expandedRows'>
 
@@ -89,7 +87,6 @@ export type TableBodyProps ={
     expandedRows: TableProps['expandedRows']
     rowRenderFieldKey: TableProps['rowRenderFieldKey']
     data: TableProps['data']
-    hasSecurityAccess: TableProps['hasSecurityAccess']
 }
 
 export type TableHeaderProps = {

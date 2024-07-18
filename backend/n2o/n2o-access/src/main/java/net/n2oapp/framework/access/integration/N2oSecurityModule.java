@@ -70,7 +70,7 @@ public class N2oSecurityModule implements DataProcessing {
     private Security getSecurityObject(PropertiesAware propertiesAware) {
         Map<String, Object> properties = propertiesAware.getProperties();
         if (properties == null || !properties.containsKey(SECURITY_PROP_NAME)
-                || ((Security) properties.get(SECURITY_PROP_NAME)).getSecurityMap() == null)
+                || properties.get(SECURITY_PROP_NAME) == null)
             return null;
         return (Security) properties.get(SECURITY_PROP_NAME);
     }

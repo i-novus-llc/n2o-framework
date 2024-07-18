@@ -1,6 +1,7 @@
 package net.n2oapp.framework.access.metadata.compile;
 
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapper;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class SecurityExtensionAttributeMapper implements ExtensionAttributeMappe
     @Override
     public Map<String, Object> mapAttributes(Map<String, String> attributes, CompileProcessor p) {
         Map<String, Object> result = new HashMap<>();
-        Security.SecurityObject securityObject = new Security.SecurityObject();
+        SecurityObject securityObject = new SecurityObject();
         securityObject.setDenied(attributes.containsKey("denied") ? Boolean.valueOf(attributes.get("denied")) : null);
         securityObject.setPermitAll(attributes.containsKey("permit-all") ? Boolean.valueOf(attributes.get("permit-all")) : null);
         securityObject.setRoles(parseAttributes(attributes.get("roles")));
@@ -28,10 +29,10 @@ public class SecurityExtensionAttributeMapper implements ExtensionAttributeMappe
         securityObject.setUsernames(parseAttributes(attributes.get("usernames")));
         securityObject.setAuthenticated(attributes.containsKey("authenticated") ? Boolean.valueOf(attributes.get("authenticated")) : null);
         securityObject.setAnonymous(attributes.containsKey("anonymous") ? Boolean.valueOf(attributes.get("anonymous")) : null);
-        Map<String, Security.SecurityObject> securityMap = new HashMap<>();
+        List<Map<String, SecurityObject>> security = new Security();
+        Map<String, SecurityObject> securityMap = new HashMap<>();
         securityMap.put("custom", securityObject);
-        Security security = new Security();
-        security.setSecurityMap(securityMap);
+        security.add(securityMap);
         result.put(Security.SECURITY_PROP_NAME, security);
         return result;
     }

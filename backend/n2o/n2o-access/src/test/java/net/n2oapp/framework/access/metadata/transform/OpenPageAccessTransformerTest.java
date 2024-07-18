@@ -3,6 +3,7 @@ package net.n2oapp.framework.access.metadata.transform;
 import net.n2oapp.framework.access.integration.metadata.transform.ToolbarAccessTransformer;
 import net.n2oapp.framework.access.integration.metadata.transform.action.OpenPageAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -28,7 +29,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
+class OpenPageAccessTransformerTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -56,9 +57,9 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new PageContext("testOpenPageAccessTransformer"));
 
-        Map<String, Security.SecurityObject> securityMap = ((Security) page.getToolbar().get("bottomRight")
-                .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap();
-        Security.SecurityObject securityObject = securityMap.get("url");
+        Map<String, SecurityObject> securityMap = ((Security) page.getToolbar().get("bottomRight")
+                .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0);
+        SecurityObject securityObject = securityMap.get("url");
         assertThat(securityObject.getPermissions().size(), is(1));
         assertTrue(securityObject.getPermissions().contains("permission"));
 
@@ -70,18 +71,18 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
 
         List<AbstractButton> buttons = ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().get("topLeft")
                 .get(0).getButtons();
-        securityObject = (((Security) buttons.get(0).getProperties().get(SECURITY_PROP_NAME))).getSecurityMap().get("url");
+        securityObject = (((Security) buttons.get(0).getProperties().get(SECURITY_PROP_NAME))).get(0).get("url");
         assertThat(securityObject.getRoles().size(), is(1));
         assertTrue(securityObject.getRoles().contains("role"));
         assertThat(securityObject.getUsernames(), nullValue());
 
-        securityObject = (((Security) buttons.get(0).getProperties().get(SECURITY_PROP_NAME))).getSecurityMap().get("page");
+        securityObject = (((Security) buttons.get(0).getProperties().get(SECURITY_PROP_NAME))).get(0).get("page");
         assertThat(securityObject.getUsernames(), nullValue());
         assertThat(securityObject.getPermissions(), nullValue());
         assertThat(securityObject.getRoles().size(), is(1));
         assertTrue(securityObject.getRoles().contains("admin"));
 
-        securityObject = (((Security) buttons.get(2).getProperties().get(SECURITY_PROP_NAME))).getSecurityMap().get("url");
+        securityObject = (((Security) buttons.get(2).getProperties().get(SECURITY_PROP_NAME))).get(0).get("url");
         assertThat(securityObject.getUsernames(), nullValue());
         assertThat(securityObject.getRoles(), nullValue());
         assertThat(securityObject.getPermissions().size(), is(1));

@@ -39,7 +39,6 @@ class List extends Component {
                 ? getIndex(props.data, props.selectedId)
                 : null,
             data: props.data,
-            permissions: null,
         }
         this.cache = new CellMeasurerCache({
             fixedWidth: true,
@@ -59,16 +58,10 @@ class List extends Component {
     }
 
     componentDidMount() {
-        const { fetchOnScroll, checkSecurity, rows } = this.props
+        const { fetchOnScroll } = this.props
 
         if (fetchOnScroll) {
             this.listContainer.addEventListener('scroll', this.onScroll, true)
-        }
-
-        if (!isEmpty(rows)) {
-            checkSecurity(rows.security).then((permissions) => {
-                this.setState({ permissions })
-            })
         }
     }
 
@@ -79,8 +72,6 @@ class List extends Component {
             fetchOnScroll,
             maxHeight,
             selectedId,
-            rows,
-            checkSecurity,
         } = this.props
 
         if (!isEqual(prevProps, this.props)) {
@@ -120,12 +111,6 @@ class List extends Component {
                 }
 
                 this.resizeAll()
-            })
-        }
-
-        if (!isEqual(rows, prevProps.rows)) {
-            checkSecurity(rows.security).then((permissions) => {
-                this.setState({ permissions })
             })
         }
     }
@@ -203,7 +188,7 @@ class List extends Component {
           hasSelect,
           rows,
       } = this.props
-      const { data, permissions, selectedIndex } = this.state
+      const { data, selectedIndex } = this.state
       const moreBtn = null
 
       if (index === data.length - 1 && hasMoreButton && !fetchOnScroll) {
@@ -238,7 +223,7 @@ class List extends Component {
                               style={style}
                               divider={divider}
                               selected={selectedIndex === index}
-                              onClick={() => this.onItemClick(index, isEmpty(rows) || permissions)}
+                              onClick={() => this.onItemClick(index, isEmpty(rows) || !rows.disabled)}
                               measure={measure}
                           />
                       ) }
@@ -358,15 +343,8 @@ List.propTypes = {
    * Линия разделитель
    */
     divider: PropTypes.bool,
-    /**
-   * Настройка security
-   */
     rows: PropTypes.object,
     selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    /**
-   * Функция проверки security
-   */
-    checkSecurity: PropTypes.func,
     t: PropTypes.func,
 }
 List.defaultProps = {

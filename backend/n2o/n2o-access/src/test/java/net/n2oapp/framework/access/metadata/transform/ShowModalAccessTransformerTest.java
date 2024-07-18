@@ -3,6 +3,7 @@ package net.n2oapp.framework.access.metadata.transform;
 import net.n2oapp.framework.access.integration.metadata.transform.ToolbarAccessTransformer;
 import net.n2oapp.framework.access.integration.metadata.transform.action.ShowModalAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -25,7 +26,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ShowModalAccessTransformerTest extends SourceCompileTestBase {
+class ShowModalAccessTransformerTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -52,9 +53,9 @@ public class ShowModalAccessTransformerTest extends SourceCompileTestBase {
 
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testShowModalAccessTransformer"));
 
-        Map<String, Security.SecurityObject> securityMap = ((Security) page.getToolbar().get("bottomRight")
-                .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap();
-        Security.SecurityObject securityObject = securityMap.get("page");
+        Map<String, SecurityObject> securityMap = ((Security) page.getToolbar().get("bottomRight")
+                .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0);
+        SecurityObject securityObject = securityMap.get("page");
         assertThat(securityObject.getUsernames(), nullValue());
         assertThat(securityObject.getPermissions(), nullValue());
         assertThat(securityObject.getRoles().size(), is(1));
@@ -63,7 +64,7 @@ public class ShowModalAccessTransformerTest extends SourceCompileTestBase {
         securityMap = ((Security) ((Widget) page.getRegions().get("single")
                 .get(0).getContent().get(0))
                 .getToolbar().get("topLeft").get(0).getButtons().get(0)
-                .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap();
+                .getProperties().get(SECURITY_PROP_NAME)).get(0);
 
         securityObject = securityMap.get("page");
         assertThat(securityObject.getUsernames(), nullValue());

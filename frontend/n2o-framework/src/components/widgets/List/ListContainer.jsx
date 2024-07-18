@@ -9,7 +9,6 @@ import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
 import { connect } from 'react-redux'
 
-import withSecurity from '../../../core/auth/withSecurity'
 import withColumn from '../Table/withColumn'
 import TableCell from '../Table/TableCell'
 import { withWidgetHandlers } from '../hocs/withWidgetHandlers'
@@ -145,7 +144,6 @@ class ListContainer extends React.Component {
             selectedId,
             rows,
             t,
-            checkSecurity,
         } = this.props
 
         return {
@@ -162,7 +160,6 @@ class ListContainer extends React.Component {
             selectedId,
             rows,
             t,
-            checkSecurity,
         }
     }
 
@@ -195,7 +192,6 @@ ListContainer.propTypes = {
     divider: PropTypes.bool,
     rows: PropTypes.object,
     t: PropTypes.func,
-    checkSecurity: PropTypes.func,
     selectedId: PropTypes.string,
     datasourceModel: PropTypes.array,
 }
@@ -219,7 +215,6 @@ const mapStateToProps = (state, { datasource }) => ({
 })
 
 export default compose(
-    withSecurity,
     withTranslation(),
     withWidgetHandlers,
     connect(mapStateToProps),
