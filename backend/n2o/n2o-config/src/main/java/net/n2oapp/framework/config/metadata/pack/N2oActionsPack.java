@@ -53,6 +53,7 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
         b.compilers(new ShowModalCompiler(),
                 new OpenDrawerCompiler(),
                 new InvokeActionCompiler(),
+                new MultiActionCompiler(),
                 new CloseActionCompiler(),
                 new RefreshActionCompiler(),
                 new OpenPageCompiler(),

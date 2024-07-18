@@ -1,6 +1,7 @@
 package net.n2oapp.framework.access.metadata.transform;
 
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.access.metadata.pack.AccessTransformersPack;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
@@ -21,9 +22,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
-public class ButtonFieldAccessTransformerTest extends SourceCompileTestBase {
+class ButtonFieldAccessTransformerTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach
@@ -51,11 +53,11 @@ public class ButtonFieldAccessTransformerTest extends SourceCompileTestBase {
                 .get(new PageContext("testButtonFieldAccessTransformer"));
 
         List<Field> fields = ((Form) page.getRegions().get("single").get(0).getContent().get(0)).getComponent().getFieldsets().get(0)
-                .getRows().stream().map(r -> r.getCols().get(0).getFields().get(0)).collect(Collectors.toList());
+                .getRows().stream().map(r -> r.getCols().get(0).getFields().get(0)).toList();
 
         Field field = fields.get(0);
         assertThat(field.getId(), is("btn01"));
-        Security.SecurityObject secObj = getSecurityObject(field, "object");
+        SecurityObject secObj = getSecurityObject(field, "object");
 
         assertThat(secObj.getDenied(), nullValue());
         assertThat(secObj.getPermitAll(), nullValue());
@@ -113,13 +115,13 @@ public class ButtonFieldAccessTransformerTest extends SourceCompileTestBase {
         assertThat(secObj.getUsernames().iterator().next(), is("user"));
     }
 
-    private Security.SecurityObject getSecurityObject(Field field, String key) {
+    private SecurityObject getSecurityObject(Field field, String key) {
         if (field.getProperties() != null) {
             Object sec = field.getProperties().get("security");
             if (sec != null) {
                 Security secMap = (Security) sec;
-                if (secMap.getSecurityMap().get(key) != null) {
-                    return secMap.getSecurityMap().get(key);
+                if (secMap.get(0).get(key) != null) {
+                    return secMap.get(0).get(key);
                 }
             }
         }

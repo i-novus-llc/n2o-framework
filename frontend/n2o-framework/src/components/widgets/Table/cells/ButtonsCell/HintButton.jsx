@@ -1,12 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import pick from 'lodash/pick'
-import isEmpty from 'lodash/isEmpty'
 import { Button, UncontrolledTooltip } from 'reactstrap'
 
 // eslint-disable-next-line import/no-named-as-default
 import Icon from '../../../../snippets/Icon/Icon'
-import { SecurityController } from '../../../../../core/auth/SecurityController'
 
 import { MODIFIERS, initUid } from './until'
 
@@ -19,7 +17,6 @@ import { MODIFIERS, initUid } from './until'
  * @param icon - Иконка кнопки
  * @param action - Переданное действие
  * @param onClick - функция обработки клика
- * @param security - объект настройки прав
  * @param rest - остальные props
  * @returns {*}
  * @constructor
@@ -32,7 +29,6 @@ function HintButton({
     icon,
     onClick,
     action,
-    security,
     hintPosition,
     ...rest
 }) {
@@ -44,7 +40,7 @@ function HintButton({
         onClick(e, action)
     }
 
-    const render = () => (visible ? (
+    return (visible ? (
         <>
             <Button id={uId} onClick={handleClick(action)} {...otherBtnProps}>
                 {icon && <Icon name={icon} />}
@@ -62,14 +58,6 @@ function HintButton({
             )}
         </>
     ) : null)
-
-    return isEmpty(security) ? (
-        render()
-    ) : (
-        <SecurityController config={security}>
-            {render()}
-        </SecurityController>
-    )
 }
 
 HintButton.propTypes = {
@@ -103,7 +91,6 @@ HintButton.propTypes = {
     icon: PropTypes.string,
     onClick: PropTypes.func,
     action: PropTypes.object,
-    security: PropTypes.object,
     hintPosition: PropTypes.string,
 }
 

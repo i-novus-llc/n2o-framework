@@ -6,5 +6,8 @@
         <operation id="update">
             <invocation/>
         </operation>
+        <operation id="delete">
+            <invocation/>
+        </operation>
     </operations>
 </object>

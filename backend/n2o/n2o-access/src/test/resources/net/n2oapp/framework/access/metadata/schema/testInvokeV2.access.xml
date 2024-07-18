@@ -3,17 +3,13 @@
         <object-access object-id="testObjectAccessTransformer"/>
         <object-access object-id="testToolbarAccessTransformer" operations="*"/>
     </user>
-    <role id="role">
-        <object-access object-id="testObjectAccessTransformer" operations="*"/>
-    </role>
     <role id="admin">
         <object-access object-id="testToolbarAccessTransformer" operations="create"/>
     </role>
     <permission id="permission">
-        <object-access object-id="testObjectAccessTransformer" operations="create"/>
-        <object-access object-id="testToolbarAccessTransformer" operations="*"/>
+        <object-access object-id="testObjectAccessTransformer" operations="create,update"/>
     </permission>
-    <anonymous>
-        <object-access object-id="testObjectAccessTransformer" operations="*"/>
-    </anonymous>
+    <permission id="permission1">
+        <object-access object-id="testObjectAccessTransformer" operations="delete"/>
+    </permission>
 </access>

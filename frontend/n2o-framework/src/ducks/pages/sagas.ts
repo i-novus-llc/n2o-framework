@@ -16,7 +16,7 @@ import { get, isEqual } from 'lodash'
 import { destroyOverlay } from '../overlays/store'
 import { FETCH_PAGE_METADATA } from '../../core/api'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
-import { setGlobalLoading, changeRootPage } from '../global/store'
+import { changeRootPage } from '../global/store'
 import fetchSaga from '../../sagas/fetch'
 import {
     clearModel,
@@ -30,6 +30,9 @@ import { DefaultModels } from '../models/Models'
 import { State } from '../State'
 import { mergeMeta } from '../api/utils/mergeMeta'
 import { DEFAULT_CONTEXT } from '../../utils/evalExpression'
+import { userSelector } from '../user/selectors'
+import { resolveMetadata } from '../../core/auth/resolveMetadata'
+import { AuthProvider } from '../../core/auth/Provider'
 
 import { pagesSelector } from './selectors'
 import {
@@ -56,13 +59,15 @@ function* setDefaultModels(models: DefaultModels, pageId: string) {
  * @param apiProvider
  * @param action
  */
-export function* getMetadata(apiProvider: unknown, action: MetadataRequest) {
+export function* getMetadata(
+    apiProvider: unknown,
+    authProvider: AuthProvider,
+    action: MetadataRequest,
+) {
     const { pageId, rootPage, pageUrl, mapping } = action.payload
     let url: string = pageUrl
 
     try {
-        yield put(setGlobalLoading(true))
-
         const { search } = yield select(getLocation)
 
         let resolveProvider: { url: string, headersParams: object } = { url: '', headersParams: {} }
@@ -79,13 +84,17 @@ export function* getMetadata(apiProvider: unknown, action: MetadataRequest) {
             url += search
         }
 
-        const metadata: Metadata = yield call(
+        const rawMetadata: Metadata = yield call(
             // @ts-ignore import from js file
             fetchSaga,
             FETCH_PAGE_METADATA,
             { pageUrl: url, headers: resolveProvider.headersParams },
             apiProvider,
         )
+        const user: object = yield select(userSelector)
+        const metadata = (yield resolveMetadata(rawMetadata, user, [
+            'action', 'models', 'routes', 'datasources',
+        ], authProvider)) as Metadata
 
         if (rootPage) {
             yield put(changeRootPage(metadata.id))
@@ -128,8 +137,6 @@ export function* getMetadata(apiProvider: unknown, action: MetadataRequest) {
                 err?.json?.meta || {},
             ),
         )
-    } finally {
-        yield put(setGlobalLoading(false))
     }
 }
 
@@ -181,8 +188,8 @@ export function* watchEvents() {
  * Сайд-эффекты для page редюсера
  * @ignore
  */
-export default (apiProvider: unknown) => [
-    takeEvery(metadataRequest, getMetadata, apiProvider),
+export default (apiProvider: unknown, security: { provider: AuthProvider }) => [
+    takeEvery(metadataRequest, getMetadata, apiProvider, security.provider),
     debounce(100, [
         setModel,
         removeModel,

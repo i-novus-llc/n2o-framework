@@ -49,7 +49,7 @@ public class WidgetsAT extends AutoTestBase {
     }
 
     @Test
-    public void testAdminAccess() {
+    void testAdminAccess() {
         setUserInfo(loadUser());
 
         StandardPage page = open(StandardPage.class);
@@ -73,7 +73,7 @@ public class WidgetsAT extends AutoTestBase {
     }
 
     @Test
-    public void testAnonymousAccess() {
+    void testAnonymousAccess() {
         setUserInfo(null);
 
         StandardPage page = open(StandardPage.class);
@@ -82,12 +82,11 @@ public class WidgetsAT extends AutoTestBase {
         page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к виджетам по sec атрибутам");
 
         Regions regions = page.regions();
+        //todo региона должно быть 2 https://jira.i-novus.ru/browse/NNO-10835
         regions.shouldHaveSize(3);
         PanelRegion panel = regions.region(0, PanelRegion.class);
         panel.shouldExists();
         panel.shouldHaveTitle("Доступно всем");
-
-        regions.region(1, TabsRegion.class).shouldHaveSize(0);
 
         LineRegion line = regions.region(2, LineRegion.class);
         line.shouldExists();

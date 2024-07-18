@@ -3,9 +3,10 @@ package net.n2oapp.framework.access.metadata.transform;
 import net.n2oapp.framework.access.integration.metadata.transform.ToolbarCellAccessTransformer;
 import net.n2oapp.framework.access.integration.metadata.transform.action.InvokeActionAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -23,7 +24,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
+class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -47,9 +48,9 @@ public class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testToolbarCellAccessTransformer.page.xml"
         );
         SimplePage page = (SimplePage) pipeline.transform().get(new PageContext("testToolbarCellAccessTransformer"));
-        Security.SecurityObject security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidget()
+        SecurityObject security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidget()
                 .getComponent()).getBody().getCells().get(0)).getToolbar().get(0).getButtons().get(0)
-                .getProperties().get(Security.SECURITY_PROP_NAME)).getSecurityMap().get("object");
+                .getProperties().get(Security.SECURITY_PROP_NAME)).get(0).get("object");
 
         assertThat(security.getRoles().size(), is(1));
         assertTrue(security.getRoles().contains("admin"));
@@ -60,7 +61,7 @@ public class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
 
         security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidget()
                 .getComponent()).getBody().getCells().get(0)).getToolbar().get(0).getButtons().get(2)
-                .getProperties().get(Security.SECURITY_PROP_NAME)).getSecurityMap().get("url");
+                .getProperties().get(Security.SECURITY_PROP_NAME)).get(0).get("url");
 
         assertThat(security.getRoles().size(), is(1));
         assertTrue(security.getRoles().contains("role"));

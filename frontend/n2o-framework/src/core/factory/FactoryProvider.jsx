@@ -6,15 +6,11 @@ import isObject from 'lodash/isObject'
 import isArray from 'lodash/isArray'
 import isString from 'lodash/isString'
 import values from 'lodash/values'
-import isEmpty from 'lodash/isEmpty'
 
-import { SecurityController } from '../auth/SecurityController'
 import { withErrorBoundary } from '../error/withErrorBoundary'
-import { ErrorBoundary } from '../error/Boundary'
 
 import factoryConfigShape from './factoryConfigShape'
 import { NotFoundFactory } from './NotFoundFactory'
-import { ComponentCache } from './ComponentCache'
 import { FactoryContext } from './context'
 
 const ignoreList = ['dataProvider', 'action', 'actions']
@@ -31,8 +27,7 @@ export class FactoryProvider extends Component {
         this.factories = props.config
         this.getComponent = this.getComponent.bind(this)
         this.resolveProps = this.resolveProps.bind(this)
-        this.checkSecurityAndRender = this.checkSecurityAndRender.bind(this)
-        this.componentCache = new ComponentCache()
+        this.componentCache = new WeakMap()
         this.state = {
             contextMethods: {
                 factories: this.factories,
@@ -42,49 +37,27 @@ export class FactoryProvider extends Component {
         }
     }
 
-    checkSecurityAndRender(component = null, config, level) {
-        const { securityBlackList } = this.props
-
-        const configKey = JSON.stringify(config)
-
-        if (this.componentCache.has(component, configKey)) {
-            return this.componentCache.get(component, configKey)
+    withBoundary = (component = null) => {
+        if (this.componentCache.has(component)) {
+            return this.componentCache.get(component)
         }
 
-        if (isEmpty(config) || securityBlackList.includes(level)) {
-            const WithErrorBoundary = withErrorBoundary(component)
+        const WithErrorBoundary = withErrorBoundary(component)
 
-            this.componentCache.set(component, config, WithErrorBoundary)
+        this.componentCache.set(component, WithErrorBoundary)
 
-            return WithErrorBoundary
-        }
-
-        const WithSecurityController = props => (
-            <SecurityController config={config}>
-                <ErrorBoundary>
-                    {React.createElement(component, props)}
-                </ErrorBoundary>
-            </SecurityController>
-        )
-
-        this.componentCache.set(component, configKey, WithSecurityController)
-
-        return WithSecurityController
+        return WithErrorBoundary
     }
 
-    getComponent(src, level, security) {
-        if (level && this.factories[level] && this.factories[level][src]) {
-            return this.checkSecurityAndRender(
-                this.factories[level][src],
-                security,
-                level,
-            )
+    getComponent(src, level) {
+        if (level && this.factories[level]?.[src]) {
+            return this.withBoundary(this.factories[level][src])
         }
         const factories = []
 
-        each(this.factories, (group, level) => {
+        each(this.factories, (group) => {
             if (group && group[src]) {
-                const comp = this.checkSecurityAndRender(group[src], security, level)
+                const comp = this.withBoundary(group[src])
 
                 factories.push(comp)
             }
@@ -105,8 +78,7 @@ export class FactoryProvider extends Component {
                 if (isObject(props[key]) && !ignoreList.includes(key)) {
                     obj[key] = this.resolveProps(props[key], defaultComponent, paramName)
                 } else if (key === 'src') {
-                    obj[paramName] = this.getComponent(props[key], null, props.security) ||
-                        this.checkSecurityAndRender(defaultComponent, props.security)
+                    obj[paramName] = this.getComponent(props[key], null) || defaultComponent
                 } else {
                     obj[key] = props[key]
                 }
@@ -134,12 +106,7 @@ export class FactoryProvider extends Component {
 
 FactoryProvider.propTypes = {
     config: factoryConfigShape.isRequired,
-    securityBlackList: PropTypes.array,
     children: PropTypes.element.isRequired,
-}
-
-FactoryProvider.defaultProps = {
-    securityBlackList: [],
 }
 
 FactoryProvider.childContextTypes = {

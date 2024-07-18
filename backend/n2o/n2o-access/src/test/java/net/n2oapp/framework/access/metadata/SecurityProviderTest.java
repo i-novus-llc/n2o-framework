@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 /**
  * Тесты для {@link SecurityProvider}
  */
-public class SecurityProviderTest {
+class SecurityProviderTest {
 
     private PermissionApi permissionApi;
 
@@ -40,12 +40,12 @@ public class SecurityProviderTest {
                 UnauthorizedException.class,
                 () -> {
                     SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
-                    Security.SecurityObject securityObject = new Security.SecurityObject();
+                    SecurityObject securityObject = new SecurityObject();
                     securityObject.setDenied(true);
-                    Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
-                    securityObjectMap.put("custom", securityObject);
                     Security security = new Security();
-                    security.setSecurityMap(securityObjectMap);
+                    Map<String, SecurityObject> securityObjectMap = new HashMap<>();
+                    securityObjectMap.put("custom", securityObject);
+                    security.add(securityObjectMap);
                     securityProvider.checkAccess(security, null);
                     fail("Expected exception to be thrown");
                 }
@@ -55,13 +55,13 @@ public class SecurityProviderTest {
     @Test
     void checkAccessPermitAll() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
-        Security.SecurityObject securityObject = new Security.SecurityObject();
+        SecurityObject securityObject = new SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(true);
-        Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
+        Map<String, SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
-        security.setSecurityMap(securityObjectMap);
+        security.add(securityObjectMap);
         securityProvider.checkAccess(security, null);
     }
 
@@ -70,15 +70,15 @@ public class SecurityProviderTest {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(false);
-        Security.SecurityObject securityObject = new Security.SecurityObject();
+        SecurityObject securityObject = new SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(false);
         securityObject.setAnonymous(true);
         securityObject.setAuthenticated(false);
-        Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
-        securityObjectMap.put("custom", securityObject);
         Security security = new Security();
-        security.setSecurityMap(securityObjectMap);
+        Map<String, SecurityObject> securityObjectMap = new HashMap<>();
+        securityObjectMap.put("custom", securityObject);
+        security.add(securityObjectMap);
         securityProvider.checkAccess(security, userContext);
         securityObject.setAnonymous(false);
         try {
@@ -94,15 +94,15 @@ public class SecurityProviderTest {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
-        Security.SecurityObject securityObject = new Security.SecurityObject();
+        SecurityObject securityObject = new SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(false);
         securityObject.setAnonymous(true);
         securityObject.setAuthenticated(true);
-        Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
-        securityObjectMap.put("custom", securityObject);
         Security security = new Security();
-        security.setSecurityMap(securityObjectMap);
+        Map<String, SecurityObject> securityObjectMap = new HashMap<>();
+        securityObjectMap.put("custom", securityObject);
+        security.add(securityObjectMap);
         securityProvider.checkAccess(security, userContext);
     }
 
@@ -114,15 +114,15 @@ public class SecurityProviderTest {
                     SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
                     UserContext userContext = new UserContext(new TestContextEngine());
                     when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
-                    Security.SecurityObject securityObject = new Security.SecurityObject();
+                    SecurityObject securityObject = new SecurityObject();
                     securityObject.setDenied(false);
                     securityObject.setPermitAll(false);
                     securityObject.setAnonymous(true);
                     securityObject.setAuthenticated(false);
-                    Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
-                    securityObjectMap.put("custom", securityObject);
                     Security security = new Security();
-                    security.setSecurityMap(securityObjectMap);
+                    Map<String, SecurityObject> securityObjectMap = new HashMap<>();
+                    securityObjectMap.put("custom", securityObject);
+                    security.add(securityObjectMap);
                     securityProvider.checkAccess(security, userContext);
                     fail("Expected exception to be thrown");
                 }
@@ -137,16 +137,16 @@ public class SecurityProviderTest {
         when(permissionApi.hasRole(userContext, "admin")).thenReturn(true);
         when(permissionApi.hasRole(userContext, "role1")).thenReturn(false);
         when(permissionApi.hasRole(userContext, "role2")).thenReturn(false);
-        Security.SecurityObject securityObject = new Security.SecurityObject();
+        SecurityObject securityObject = new SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(false);
         securityObject.setAnonymous(true);
         securityObject.setAuthenticated(false);
         securityObject.setRoles(new HashSet<>(Arrays.asList("role2", "role1", "admin")));
-        Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
-        securityObjectMap.put("custom", securityObject);
         Security security = new Security();
-        security.setSecurityMap(securityObjectMap);
+        Map<String, SecurityObject> securityObjectMap = new HashMap<>();
+        securityObjectMap.put("custom", securityObject);
+        security.add(securityObjectMap);
         try {
             securityProvider.checkAccess(security, userContext);
             fail("Expected exception to be thrown");
@@ -170,16 +170,16 @@ public class SecurityProviderTest {
         when(permissionApi.hasPermission(userContext, "p0")).thenReturn(false);
         when(permissionApi.hasPermission(userContext, "p1")).thenReturn(true);
         when(permissionApi.hasPermission(userContext, "p2")).thenReturn(false);
-        Security.SecurityObject securityObject = new Security.SecurityObject();
+        SecurityObject securityObject = new SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(false);
         securityObject.setAnonymous(true);
         securityObject.setAuthenticated(false);
         securityObject.setPermissions(new HashSet<>(Arrays.asList("p0", "p1", "p2")));
-        Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
-        securityObjectMap.put("custom", securityObject);
         Security security = new Security();
-        security.setSecurityMap(securityObjectMap);
+        Map<String, SecurityObject> securityObjectMap = new HashMap<>();
+        securityObjectMap.put("custom", securityObject);
+        security.add(securityObjectMap);
         try {
             securityProvider.checkAccess(security, userContext);
             fail("Expected exception to be thrown");
@@ -203,16 +203,16 @@ public class SecurityProviderTest {
         when(permissionApi.hasUsername(userContext, "n0")).thenReturn(false);
         when(permissionApi.hasUsername(userContext, "n1")).thenReturn(true);
         when(permissionApi.hasUsername(userContext, "n2")).thenReturn(true);
-        Security.SecurityObject securityObject = new Security.SecurityObject();
+        SecurityObject securityObject = new SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(false);
         securityObject.setAnonymous(true);
         securityObject.setAuthenticated(false);
         securityObject.setUsernames(new HashSet<>(Arrays.asList("n0", "n1", "n2")));
-        Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
-        securityObjectMap.put("custom", securityObject);
         Security security = new Security();
-        security.setSecurityMap(securityObjectMap);
+        Map<String, SecurityObject> securityObjectMap = new HashMap<>();
+        securityObjectMap.put("custom", securityObject);
+        security.add(securityObjectMap);
         try {
             securityProvider.checkAccess(security, userContext);
             fail("Expected exception to be thrown");
@@ -246,15 +246,15 @@ public class SecurityProviderTest {
         when(permissionApi.hasRole(userContext, "r1")).thenReturn(false);
         when(permissionApi.hasPermission(userContext, "p0")).thenReturn(false);
         when(permissionApi.hasPermission(userContext, "p1")).thenReturn(false);
-        Security.SecurityObject securityObject = new Security.SecurityObject();
+        SecurityObject securityObject = new SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(false);
         securityObject.setAnonymous(true);
         securityObject.setAuthenticated(false);
-        Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
+        Map<String, SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
-        security.setSecurityMap(securityObjectMap);
+        security.add(securityObjectMap);
         securityObject.setUsernames(new HashSet<>(Arrays.asList("n0", "n1")));
         securityObject.setPermissions(new HashSet<>(Arrays.asList("p0", "p1")));
         securityObject.setRoles(new HashSet<>(Arrays.asList("r0", "r1")));

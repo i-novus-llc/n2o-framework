@@ -17,7 +17,6 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = (p
         data,
         sorting,
         cells,
-        hasSecurityAccess,
         isTextWrap,
         focusedRowValue,
         expandedRows,
@@ -64,7 +63,6 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = (p
                             <Table.Cell colSpan={cells.body.length}>{errorComponent}</Table.Cell>
                         ) : (
                             <TableBody
-                                hasSecurityAccess={hasSecurityAccess}
                                 focusedRowValue={focusedRowValue}
                                 treeDataKey="children"
                                 selectedKey="id"
@@ -90,7 +88,6 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = (p
 
 TableContainer.defaultProps = {
     data: [],
-    hasSecurityAccess: true,
     focusedRowValue: null,
     expandedRows: EMPTY_ARRAY,
     selectedRows: EMPTY_ARRAY,

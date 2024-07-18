@@ -2,6 +2,7 @@ package net.n2oapp.framework.access.metadata.transform;
 
 import net.n2oapp.framework.access.integration.metadata.transform.WidgetAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -20,7 +21,7 @@ import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class WidgetAccessTransformerTest extends SourceCompileTestBase {
+class WidgetAccessTransformerTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -46,9 +47,9 @@ public class WidgetAccessTransformerTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new PageContext("testPageV2AccessTransformer"));
 
-        Security.SecurityObject securityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
+        SecurityObject securityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
                 .getProperties()
-                .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+                .get(SECURITY_PROP_NAME)).get(0).get("object");
 
         assertThat(securityObject.getPermissions().size(), is(2));
         assertThat(securityObject.getPermissions().contains("permission"), is(true));
@@ -67,8 +68,8 @@ public class WidgetAccessTransformerTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new PageContext("testPageV2AccessTransformer"));
 
-        Security.SecurityObject securityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
-                .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+        SecurityObject securityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
+                .getProperties().get(SECURITY_PROP_NAME)).get(0).get("object");
 
         assertThat(securityObject.getPermissions().size(), is(2));
         assertThat(securityObject.getPermissions().contains("permission"), is(true));

@@ -165,7 +165,6 @@ const menuType = PropTypes.shape(
                 badge: PropTypes.string,
                 badgeColor: PropTypes.string,
                 target: PropTypes.string,
-                security: PropTypes.object,
             }),
         ) },
 )

@@ -3,6 +3,7 @@ package net.n2oapp.framework.access.metadata.transform;
 import net.n2oapp.framework.access.integration.metadata.transform.PageAccessTransformer;
 import net.n2oapp.framework.access.integration.metadata.transform.WidgetAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -21,7 +22,6 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
@@ -31,7 +31,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тестирование трансформации доступа страницы
  */
-public class PageAccessTransformerTest extends SourceCompileTestBase {
+class PageAccessTransformerTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -56,18 +56,18 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
 
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new PageContext("testPageV2AccessTransformer"));
-        Security.SecurityObject regionSecurityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
+        SecurityObject regionSecurityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
                 .getProperties()
                 .get(SECURITY_PROP_NAME))
-                .getSecurityMap()
+                .get(0)
                 .get("object");
 
-        Security.SecurityObject widgetSecurityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
+        SecurityObject widgetSecurityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
                 .getProperties()
-                .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+                .get(SECURITY_PROP_NAME)).get(0).get("object");
         assertThat(regionSecurityObject, equalTo(widgetSecurityObject));
 
-        Security.SecurityObject pageSecurityObject = ((Security) page.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page");
+        SecurityObject pageSecurityObject = ((Security) page.getProperties().get(SECURITY_PROP_NAME)).get(0).get("page");
         assertThat(pageSecurityObject.getRoles(), nullValue());
         assertThat(pageSecurityObject.getPermissions().size(), is(1));
         assertThat(pageSecurityObject.getUsernames(), nullValue());
@@ -90,44 +90,24 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
         assertThat(regions.get(0).getProperties(), nullValue());
 
         List<TabsRegion.Tab> tabItems = ((TabsRegion) regions.get(1)).getItems();
-        // if region has access attributes, child attributes shouldn't merge
-        Security.SecurityObject secProps = getSecurityProperties(tabItems.get(0));
+        // if region has access attributes
+        SecurityObject secProps = getSecurityProperties(tabItems.get(0));
         assertThat(secProps.getAuthenticated(), is(true));
         assertThat(secProps.getRoles(), nullValue());
-        // if one of the child (region or widget) has no access attributes
-        // region will no have too
+        // if region has no access attributes
         assertThat(tabItems.get(1).getProperties(), nullValue());
-        // tab with authenticated and admin roles (from widgets)
-        secProps = getSecurityProperties(tabItems.get(2));
-        assertThat(secProps.getAuthenticated(), is(true));
-        assertThat(secProps.getAnonymous(), is(false));
-        assertThat(secProps.getRoles().size(), is(1));
-        assertThat(secProps.getRoles().contains("admin"), is(true));
-
-        // tab with edit, create permissions (from two widgets)
-        secProps = getSecurityProperties(tabItems.get(3));
-        assertThat(secProps.getPermissions().size(), is(2));
-        assertThat(secProps.getPermissions().containsAll(Arrays.asList("edit", "create")), is(true));
 
         // region with admin role (from widget) and create permission (from nested region)
         LineRegion lineRegion = (LineRegion) regions.get(2);
         secProps = getSecurityProperties(lineRegion);
         assertThat(secProps.getRoles().size(), is(1));
         assertThat(secProps.getRoles().contains("admin"), is(true));
-        assertThat(secProps.getPermissions().size(), is(1));
-        assertThat(secProps.getPermissions().contains("create"), is(true));
-        // nested region with create permission
-        secProps = getSecurityProperties((LineRegion) lineRegion.getContent().get(0));
-        assertThat(secProps.getPermissions().size(), is(1));
-        assertThat(secProps.getPermissions().contains("create"), is(true));
 
-        // line with admin role (from widget)
-        secProps = getSecurityProperties(regions.get(3));
-        assertThat(secProps.getRoles().size(), is(1));
-        assertThat(secProps.getRoles().contains("admin"), is(true));
+        // line for all
+        assertThat(regions.get(3).getProperties(), nullValue());
     }
 
-    private Security.SecurityObject getSecurityProperties(PropertiesAware item) {
-        return ((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom");
+    private SecurityObject getSecurityProperties(PropertiesAware item) {
+        return ((Security) item.getProperties().get(SECURITY_PROP_NAME)).get(0).get("custom");
     }
 }

@@ -28,10 +28,7 @@ export const globalSlice = createSlice({
 
         REQUEST_CONFIG_SUCCESS(state, action) {
             state = Object.assign(state, action.payload)
-        },
-
-        SET_GLOBAL_LOADING(state, { payload }) {
-            state.loading = payload
+            state.loading = false
         },
 
         REQUEST_CONFIG_FAIL: {
@@ -97,5 +94,4 @@ export const {
     REQUEST_CONFIG_FAIL: requestConfigFail,
     REQUEST_CONFIG_SUCCESS: requestConfigSuccess,
     SET_READY: setReady,
-    SET_GLOBAL_LOADING: setGlobalLoading,
 } = globalSlice.actions

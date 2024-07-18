@@ -7,15 +7,16 @@ import net.n2oapp.framework.access.exception.AccessDeniedException;
 import net.n2oapp.framework.access.exception.UnauthorizedException;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityFilters;
+import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFilter;
 import net.n2oapp.framework.access.simple.PermissionApi;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.user.UserContext;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.function.BiPredicate;
-import java.util.stream.Collectors;
 
 /**
  * Сервис для проверки наличия прав доступа у пользователя
@@ -31,22 +32,24 @@ public class SecurityProvider {
 
     /**
      * Проверка есть ли у пользователя из userContext доступ к объекту, права к которуму регулирует security
-     * @param security      права доступа для проверки
-     * @param userContext   информация о пользователе
+     *
+     * @param security    права доступа для проверки
+     * @param userContext информация о пользователе
      */
     public void checkAccess(Security security, UserContext userContext) {
-        if (security == null || security.getSecurityMap() == null)
+        if (CollectionUtils.isEmpty(security))
             return;
-        for (Security.SecurityObject securityObject : security.getSecurityMap().values()) {
+        for (SecurityObject securityObject : security.get(0).values()) {
             check(userContext, securityObject);
         }
     }
 
     /**
      * Сборка ограничений прав доступа актуальных для пользователя из userContext из общего списка фильтров
-     * @param securityFilters   фильтрация объекта
-     * @param userContext       информация о пользователе
-     * @return  список ограничений прав доступа к объекту
+     *
+     * @param securityFilters фильтрация объекта
+     * @param userContext     информация о пользователе
+     * @return список ограничений прав доступа к объекту
      */
     public List<Restriction> collectRestrictions(SecurityFilters securityFilters, UserContext userContext) {
         if (securityFilters == null)
@@ -99,7 +102,7 @@ public class SecurityProvider {
                     .forEach(u -> removeFilters.addAll(securityFilters.getRemoveUserFilters().get(u)));
         }
         filters.removeIf(f -> removeFilters.contains(f.getId()));
-        return filters.stream().map(this::restriction).collect(Collectors.toList());
+        return filters.stream().map(this::restriction).toList();
     }
 
     private Restriction restriction(N2oObjectFilter filter) {
@@ -109,9 +112,10 @@ public class SecurityProvider {
 
     /**
      * Вызывает исключение, если данные не удовлетворяют фильтрам доступа
-     * @param data Данные
+     *
+     * @param data            Данные
      * @param securityFilters Фильтры доступа
-     * @param userContext Контекст пользователя
+     * @param userContext     Контекст пользователя
      */
     public void checkRestrictions(DataSet data, SecurityFilters securityFilters, UserContext userContext) {
         List<Restriction> restrictions = collectRestrictions(securityFilters, userContext);
@@ -135,9 +139,10 @@ public class SecurityProvider {
 
     /**
      * Проверка фильтра по полю
-     * @param fieldId   идентификатор поля
-     * @param realValue     значение
-     * @param securityFilter    фильтр поля
+     *
+     * @param fieldId        идентификатор поля
+     * @param realValue      значение
+     * @param securityFilter фильтр поля
      */
     private void checkByField(String fieldId, Object realValue, Filter securityFilter) {
         if (!securityFilter.check(realValue))
@@ -147,7 +152,7 @@ public class SecurityProvider {
     /**
      * Вызывает исключение, если доступ ограничен
      */
-    private void check(UserContext userContext, Security.SecurityObject securityObject) {
+    private void check(UserContext userContext, SecurityObject securityObject) {
         if (securityObject.getDenied() != null && securityObject.getDenied())
             throw new UnauthorizedException();
         if (securityObject.getPermitAll() != null && securityObject.getPermitAll())

@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { defaultTo } from 'lodash'
 import { useSelector } from 'react-redux'
-import { compose } from 'recompose'
 import { createContext, useContext as useContextSelector } from 'use-context-selector'
 import isEmpty from 'lodash/isEmpty'
 
@@ -13,7 +12,6 @@ import {
 } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { Selection, TableActions, TableContainer } from '../../Table'
-import { withSecurityList } from '../../../core/auth/withSecurity'
 import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 import { ToolbarOverlay } from '../../Table/provider/ToolbarOverlay'
 import { useChangeFilter } from '../../Table/hooks/useChangeFilter'
@@ -41,7 +39,7 @@ export const AdvancedTableContainer = (props) => {
         fetchData, style, paging, table, size, count, validations,
         page, sorting, children, hasNext, isInit, setResolve,
         changeColumnParam, columnsState, tableConfig, switchTableParam,
-        resolvedFilter, hasSecurityAccess, resolvedCells, paginationVisible,
+        resolvedFilter, resolvedCells, paginationVisible,
         dataMapper = defaultDataMapper, components, setFilter,
     } = props
 
@@ -214,7 +212,6 @@ export const AdvancedTableContainer = (props) => {
                             filterValue={filterModel}
                             refContainerElem={tableContainerElem}
                             actionListener={actionListener}
-                            hasSecurityAccess={hasSecurityAccess}
                             childrenToggleState={children}
                             sorting={sorting}
                             data={datasourceModel}
@@ -238,9 +235,7 @@ export const AdvancedTableContainer = (props) => {
 
 AdvancedTableContainer.displayName = 'AdvancedTableContainer'
 
-export const AdvancedTableWidget = compose(
-    WidgetHOC,
-)(withSecurityList(WithTableProps(AdvancedTableContainer), 'table.header.cells'))
+export const AdvancedTableWidget = WidgetHOC(WithTableProps(AdvancedTableContainer))
 
 AdvancedTableWidget.displayName = 'AdvancedTableWidget'
 

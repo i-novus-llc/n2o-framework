@@ -10,13 +10,13 @@ export const RowContainer = memo<RowContainerProps>((props) => {
         elementAttributes,
         data,
         click,
-        hasSecurityAccess,
+        disabled,
         ...rest
     } = props
     const resolveProps = useResolver()
     const resolvedElementAttributes = useResolved(elementAttributes, data)
     const resolvedClick = useMemo(() => {
-        if (!hasSecurityAccess) { return undefined }
+        if (disabled) { return undefined }
 
         if (typeof click === 'undefined') { return click }
 
@@ -25,7 +25,7 @@ export const RowContainer = memo<RowContainerProps>((props) => {
         if (!enablingCondition || resolveProps(`\`${enablingCondition}\``, data)) { return click }
 
         return undefined
-    }, [hasSecurityAccess, click, data, resolveProps])
+    }, [disabled, click, data, resolveProps])
 
     return (
         <RowResolver
@@ -33,7 +33,7 @@ export const RowContainer = memo<RowContainerProps>((props) => {
             data={data}
             elementAttributes={resolvedElementAttributes}
             click={resolvedClick}
-            hasSecurityAccess={hasSecurityAccess}
+            disabled={disabled}
         />
     )
 })

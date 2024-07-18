@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import isEmpty from 'lodash/isEmpty'
 import omit from 'lodash/omit'
 import { compose, pure } from 'recompose'
 import classNames from 'classnames'
@@ -9,7 +8,6 @@ import { createStructuredSelector } from 'reselect'
 
 import propsResolver from '../../../utils/propsResolver'
 import { registerColumn } from '../../../ducks/columns/store'
-import { SecurityController } from '../../../core/auth/SecurityController'
 import {
     isInitSelector,
     isVisibleSelector,
@@ -61,31 +59,24 @@ const withColumn = (WrappedComponent) => {
                 'columnIsInit',
                 'columnVisible',
                 'columnDisabled',
-                'security',
             ])
         }
 
         render() {
-            const { columnVisible, columnDisabled, security, model } = this.props
-            const resolvedProps = propsResolver(this.getPassProps(), model, ['toolbar'])
-            const cellEl = (
-                <WrappedComponent
-                    disabled={columnDisabled}
-                    {...resolvedProps}
-                    className={classNames('n2o-widget-list-cell', resolvedProps.className)}
-                />
-            )
+            const { columnVisible, columnDisabled, model } = this.props
 
             if (!columnVisible) {
                 return null
             }
 
-            return isEmpty(security) ? (
-                cellEl
-            ) : (
-                <SecurityController config={security}>
-                    {cellEl}
-                </SecurityController>
+            const resolvedProps = propsResolver(this.getPassProps(), model, ['toolbar'])
+
+            return (
+                <WrappedComponent
+                    disabled={columnDisabled}
+                    {...resolvedProps}
+                    className={classNames('n2o-widget-list-cell', resolvedProps.className)}
+                />
             )
         }
     }
@@ -105,7 +96,6 @@ const withColumn = (WrappedComponent) => {
         columnDisabled: PropTypes.bool,
         dispatch: PropTypes.func,
         conditions: PropTypes.object,
-        security: PropTypes.object,
         model: PropTypes.object,
     }
 

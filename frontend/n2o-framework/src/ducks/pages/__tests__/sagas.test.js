@@ -25,7 +25,7 @@ import {
 } from '../../models/store'
 import { FETCH_PAGE_METADATA } from '../../../core/api'
 import { FETCH_END, FETCH_START } from '../../../constants/fetch'
-import { changeRootPage, setGlobalLoading } from '../../global/store'
+import { changeRootPage } from '../../global/store'
 import { destroyOverlay } from '../../overlays/store'
 
 import {
@@ -303,7 +303,6 @@ describe.skip('Сага для для наблюдения за изменени
 
             await runSaga(fakeStore, getMetadata, undefined, action)
             await delay(200)
-            expect(dispatched[0].type).toBe(setGlobalLoading.type)
             expect(dispatched[1].type).toBe(FETCH_START)
             expect(dispatched[1].payload.options.pageUrl).toBe(
                 '/testPage?name=Sergey',

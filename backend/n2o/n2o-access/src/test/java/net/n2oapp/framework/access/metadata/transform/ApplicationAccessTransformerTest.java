@@ -2,6 +2,7 @@ package net.n2oapp.framework.access.metadata.transform;
 
 import net.n2oapp.framework.access.integration.metadata.transform.ApplicationAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.Sidebar;
@@ -28,7 +29,7 @@ import static org.hamcrest.Matchers.nullValue;
 /**
  * Тестирование трансформера прав доступа
  */
-public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
+class ApplicationAccessTransformerTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach
@@ -61,30 +62,30 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
         checkMenuItem(application.getSidebars().get(0).getMenu().getItems().get(0));
         checkMenuItem(application.getSidebars().get(0).getExtraMenu().getItems().get(0));
 
-        assertThat(((Security) application.getHeader().getMenu().getItems().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getPermissions().size(), is(1));
-        assertThat(((Security) application.getSidebars().get(0).getMenu().getItems().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getPermissions().size(), is(1));
+        assertThat(((Security) application.getHeader().getMenu().getItems().get(2).getProperties().get(SECURITY_PROP_NAME)).get(0).get("url").getPermissions().size(), is(1));
+        assertThat(((Security) application.getSidebars().get(0).getMenu().getItems().get(2).getProperties().get(SECURITY_PROP_NAME)).get(0).get("url").getPermissions().size(), is(1));
         checkAnchor(application.getHeader().getExtraMenu().getItems().get(2));
         checkAnchor(application.getSidebars().get(0).getExtraMenu().getItems().get(2));
     }
 
     private void checkAnchor(MenuItem menuItem) {
-        assertThat(((Security) menuItem.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getPermissions(), nullValue());
-        assertThat(((Security) menuItem.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getRoles(), nullValue());
-        assertThat(((Security) menuItem.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getUsernames().contains("user"), is(true));
+        assertThat(((Security) menuItem.getProperties().get(SECURITY_PROP_NAME)).get(0).get("url").getPermissions(), nullValue());
+        assertThat(((Security) menuItem.getProperties().get(SECURITY_PROP_NAME)).get(0).get("url").getRoles(), nullValue());
+        assertThat(((Security) menuItem.getProperties().get(SECURITY_PROP_NAME)).get(0).get("url").getUsernames().contains("user"), is(true));
     }
 
     private void checkMenuItem(MenuItem item) {
-        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page").getUsernames().size(), is(1));
-        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page").getUsernames().contains("user"), is(true));
-        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page").getRoles().size(), is(2));
-        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page").getRoles().contains("role"), is(true));
-        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page").getRoles().contains("admin"), is(true));
-        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page").getPermissions(), nullValue());
+        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).get(0).get("page").getUsernames().size(), is(1));
+        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).get(0).get("page").getUsernames().contains("user"), is(true));
+        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).get(0).get("page").getRoles().size(), is(2));
+        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).get(0).get("page").getRoles().contains("role"), is(true));
+        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).get(0).get("page").getRoles().contains("admin"), is(true));
+        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).get(0).get("page").getPermissions(), nullValue());
 
-        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions(), nullValue());
-        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getRoles(), nullValue());
-        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().size(), is(1));
-        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
+        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions(), nullValue());
+        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getRoles(), nullValue());
+        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getUsernames().size(), is(1));
+        assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getUsernames().contains("user"), is(true));
     }
 
     @Test
@@ -97,17 +98,17 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
         Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new ApplicationContext("testApplicationAccessTransformer"));
         Header header = application.getHeader();
-        assertAccess(((Security) header.getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        assertAccess(((Security) header.getMenu().getItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        assertThat(((Security) header.getMenu().getItems().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getRoles().size(), is(1));
-        assertAccess(((Security) header.getExtraMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        assertAccess(((Security) header.getExtraMenu().getItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        assertAccess(((Security) header.getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0));
+        assertAccess(((Security) header.getMenu().getItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0));
+        assertThat(((Security) header.getMenu().getItems().get(2).getProperties().get(SECURITY_PROP_NAME)).get(0).get("url").getRoles().size(), is(1));
+        assertAccess(((Security) header.getExtraMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0));
+        assertAccess(((Security) header.getExtraMenu().getItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0));
         Sidebar sidebar = application.getSidebars().get(0);
-        assertAccess(((Security) sidebar.getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        assertAccess(((Security) sidebar.getMenu().getItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        assertThat(((Security) sidebar.getMenu().getItems().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getRoles().size(), is(1));
-        assertAccess(((Security) sidebar.getExtraMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        assertAccess(((Security) sidebar.getExtraMenu().getItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        assertAccess(((Security) sidebar.getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0));
+        assertAccess(((Security) sidebar.getMenu().getItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0));
+        assertThat(((Security) sidebar.getMenu().getItems().get(2).getProperties().get(SECURITY_PROP_NAME)).get(0).get("url").getRoles().size(), is(1));
+        assertAccess(((Security) sidebar.getExtraMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0));
+        assertAccess(((Security) sidebar.getExtraMenu().getItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0));
     }
 
     @Test
@@ -117,11 +118,11 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testApplicationAccessTransformer.application.xml");
         Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new ApplicationContext("testApplicationAccessTransformer"));
-        checkPermitAll(((Security) application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        checkPermitAll(((Security) application.getSidebars().get(0).getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        checkPermitAll(((Security) application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0));
+        checkPermitAll(((Security) application.getSidebars().get(0).getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0));
     }
 
-    private void checkPermitAll(Map<String, Security.SecurityObject> securityMap) {
+    private void checkPermitAll(Map<String, SecurityObject> securityMap) {
         assertThat(securityMap.get("page").getPermitAll(), is(true));
         assertThat(securityMap.get("page").getAnonymous(), nullValue());
         assertThat(securityMap.get("page").getAuthenticated(), nullValue());
@@ -134,11 +135,11 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testApplicationAccessTransformer.application.xml");
         Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new ApplicationContext("testApplicationAccessTransformer"));
-        checkAnonym(((Security) application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        checkAnonym(((Security) application.getSidebars().get(0).getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        checkAnonym(((Security) application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0));
+        checkAnonym(((Security) application.getSidebars().get(0).getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0));
     }
 
-    private void checkAnonym(Map<String, Security.SecurityObject> securityMap) {
+    private void checkAnonym(Map<String, SecurityObject> securityMap) {
         assertThat(securityMap.get("page").getPermitAll(), nullValue());
         assertThat(securityMap.get("page").getAnonymous(), is(true));
         assertThat(securityMap.get("page").getAuthenticated(), nullValue());
@@ -151,17 +152,17 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testApplicationAccessTransformer.application.xml");
         Application application = (Application) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new ApplicationContext("testApplicationAccessTransformer"));
-        checkAuth(((Security) application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
-        checkAuth(((Security) application.getSidebars().get(0).getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        checkAuth(((Security) application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0));
+        checkAuth(((Security) application.getSidebars().get(0).getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).get(0));
     }
 
-    private void checkAuth(Map<String, Security.SecurityObject> securityMap) {
+    private void checkAuth(Map<String, SecurityObject> securityMap) {
         assertThat(securityMap.get("page").getPermitAll(), nullValue());
         assertThat(securityMap.get("page").getAnonymous(), nullValue());
         assertThat(securityMap.get("page").getAuthenticated(), is(true));
     }
 
-    private void assertAccess(Map<String, Security.SecurityObject> secMap) {
+    private void assertAccess(Map<String, SecurityObject> secMap) {
         assertThat(secMap.get("page").getUsernames().size(), is(1));
         assertThat(secMap.get("page").getUsernames().contains("user"), is(true));
         assertThat(secMap.get("page").getRoles().size(), is(2));

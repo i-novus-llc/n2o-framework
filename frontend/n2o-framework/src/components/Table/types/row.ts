@@ -6,7 +6,6 @@ export type Row = {
     component?: VFC<any>
     elementAttributes?: Record<string, any>
     hasSelect?: boolean
-    security?: Record<string, any>
     overlay?: {
         className?: string
         toolbar: Array<{
@@ -20,4 +19,5 @@ export type Row = {
         }>
         componentAttributes: Record<string, any>
     }
+    disabled?: boolean
 }

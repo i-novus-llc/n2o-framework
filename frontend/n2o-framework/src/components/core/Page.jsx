@@ -17,8 +17,6 @@ import Factory from '../../core/factory/Factory'
 import { PAGES } from '../../core/factory/factoryLevels'
 import {
     makePageDisabledByIdSelector,
-    makePageStatusByIdSelected,
-    pagesSelector,
 } from '../../ducks/pages/selectors'
 import { rootPageSelector } from '../../ducks/global/selectors'
 import { Spinner } from '../snippets/Spinner/Spinner'
@@ -26,7 +24,6 @@ import { ErrorContainer } from '../../core/error/Container'
 
 import withMetadata from './withMetadata'
 import withActions from './withActions'
-import { SimpleTemplate } from './templates'
 // eslint-disable-next-line import/no-cycle
 import Root from './Root'
 
@@ -36,13 +33,9 @@ function Page(props, context) {
         loading,
         defaultTemplate: Template = React.Fragment,
         page,
-        pages,
-        pageId,
         rootPage,
         error,
     } = props
-
-    const spinner = get(pages, `${pageId}.spinner`, {})
 
     const renderDefaultBody = () => {
         const { defaultPage: contextDefaultPage } = context
@@ -65,13 +58,13 @@ function Page(props, context) {
     return rootPage ? (
         <Root>
             <Template>
-                <Spinner type="cover" loading={loading} {...spinner}>
+                <Spinner type="cover" loading={loading}>
                     {page ? React.createElement(page, props) : renderDefaultBody()}
                 </Spinner>
             </Template>
         </Root>
     ) : (
-        <Spinner type="cover" loading={loading} {...spinner}>
+        <Spinner type="cover" loading={loading}>
             {page ? React.createElement(page, props) : renderDefaultBody()}
         </Spinner>
     )
@@ -83,27 +76,17 @@ Page.contextTypes = {
 
 Page.propTypes = {
     metadata: PropTypes.object,
-    spinner: PropTypes.object,
     error: PropTypes.object,
     loading: PropTypes.bool,
-    status: PropTypes.number,
     page: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     defaultTemplate: PropTypes.any,
     rootPage: PropTypes.bool,
-    pages: PropTypes.object,
-    pageId: PropTypes.string,
 }
 
 export { Page }
 
 const mapStateToProps = createStructuredSelector({
     disabled: (state, { pageId }) => makePageDisabledByIdSelector(pageId)(state),
-    status: (state, { pageId, location }) => {
-        const id = pageId || location.pathname
-
-        return makePageStatusByIdSelected(id)(state)
-    },
-    pages: state => pagesSelector(state),
     rootPageId: rootPageSelector,
 })
 
@@ -123,11 +106,6 @@ export default compose(
     branch(({ needMetadata }) => needMetadata, withMetadata),
     branch(({ rootPage }) => rootPage, withActions),
     getContext({
-        defaultBreadcrumb: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.element,
-            PropTypes.node,
-        ]),
         defaultTemplate: PropTypes.oneOfType([
             PropTypes.func,
             PropTypes.element,
@@ -136,7 +114,6 @@ export default compose(
         defaultPage: PropTypes.string,
     }),
     defaultProps({
-        defaultTemplate: SimpleTemplate,
         metadata: {},
         spinner: {},
         loading: false,

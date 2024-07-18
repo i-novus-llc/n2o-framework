@@ -2,14 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import defaultTo from 'lodash/defaultTo'
 import pick from 'lodash/pick'
-import isEmpty from 'lodash/isEmpty'
 import { Button, UncontrolledTooltip } from 'reactstrap'
 import { compose, withState } from 'recompose'
 import { Manager, Reference } from 'react-popper'
 
 // eslint-disable-next-line import/no-named-as-default
 import Icon from '../../../../snippets/Icon/Icon'
-import { SecurityController } from '../../../../../core/auth/SecurityController'
 // eslint-disable-next-line import/no-named-as-default
 import DropdownCustomItem from '../../../../snippets/DropdownCustomItem/DropdownCustomItem'
 
@@ -24,9 +22,7 @@ import HintDropDownBody from './HintDropDownBody'
  * @param icon - Иконка компонента dropdown
  * @param menu - Элементы списка
  * @param onClick - функция обработки клика
- * @param security - объект настройки прав
  * @param resolveWidget - функция реззолва
- * @param security - объект настройки прав
  * @param rest - остальные props
  * @returns {*}
  * @constructor
@@ -41,7 +37,6 @@ function HintDropDown({
     menu,
     icon,
     onClick,
-    security,
     hintPosition,
     positionFixed,
     modifiers,
@@ -63,7 +58,6 @@ function HintDropDown({
         visible,
         icon,
         action,
-        security,
         color,
         ...itemProps
     }) => {
@@ -73,7 +67,7 @@ function HintDropDown({
             onToggleDropdown()
         }
 
-        const renderItem = () => (defaultTo(visible, true) ? (
+        return (defaultTo(visible, true) ? (
             <DropdownCustomItem
                 color={color}
                 onClick={handleClick(action)}
@@ -83,14 +77,6 @@ function HintDropDown({
                 {title}
             </DropdownCustomItem>
         ) : null)
-
-        return isEmpty(security) ? (
-            renderItem()
-        ) : (
-            <SecurityController config={security}>
-                {renderItem()}
-            </SecurityController>
-        )
     }
 
     const onToggleDropdown = (e) => {
@@ -99,7 +85,7 @@ function HintDropDown({
         onToggle(!open)
     }
 
-    const renderDropdown = () => (visible ? (
+    return (visible ? (
         <Manager>
             {hint && (
                 <UncontrolledTooltip
@@ -138,14 +124,6 @@ function HintDropDown({
             />
         </Manager>
     ) : null)
-
-    return isEmpty(security) ? (
-        renderDropdown()
-    ) : (
-        <SecurityController config={security}>
-            {renderDropdown()}
-        </SecurityController>
-    )
 }
 
 HintDropDown.propTypes = {
@@ -188,7 +166,6 @@ HintDropDown.propTypes = {
     onToggle: PropTypes.func,
     icon: PropTypes.string,
     onClick: PropTypes.func,
-    security: PropTypes.object,
     hintPosition: PropTypes.string,
     model: PropTypes.object,
     action: PropTypes.object,

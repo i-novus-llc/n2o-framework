@@ -18,7 +18,7 @@ import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class ObjectAccessTransformerTest extends SourceCompileTestBase {
+class ObjectAccessTransformerTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach
@@ -44,19 +44,19 @@ public class ObjectAccessTransformerTest extends SourceCompileTestBase {
                 .get(new ObjectContext("testObjectAccessTransformer"));
 
         CompiledObject.Operation create = object.getOperations().get("create");
-        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().size(), is(3));
-        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().contains("test"), is(true));
-        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().contains("test2"), is(true));
-        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().contains("test3"), is(true));
-        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getRoles().size(), is(1));
-        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getRoles().contains("role"), is(true));
+        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions().size(), is(3));
+        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions().contains("test"), is(true));
+        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions().contains("test2"), is(true));
+        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions().contains("test3"), is(true));
+        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getRoles().size(), is(1));
+        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getRoles().contains("role"), is(true));
 
         CompiledObject.Operation update = object.getOperations().get("update");
-        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().size(), is(2));
-        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().contains("test"), is(true));
-        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().contains("test3"), is(true));
-        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().size(), is(1));
-        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
+        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions().size(), is(2));
+        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions().contains("test"), is(true));
+        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions().contains("test3"), is(true));
+        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getUsernames().size(), is(1));
+        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getUsernames().contains("user"), is(true));
     }
 
     @Test
@@ -70,21 +70,21 @@ public class ObjectAccessTransformerTest extends SourceCompileTestBase {
                 .get(new ObjectContext("testObjectAccessTransformer"));
 
         CompiledObject.Operation create = object.getOperations().get("create");
-        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().size(), is(3));
-        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().contains("test"), is(true));
-        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().contains("test2"), is(true));
-        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().contains("test3"), is(true));
-        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getRoles().size(), is(1));
-        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getRoles().contains("role"), is(true));
-        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getAnonymous(), is(true));
+        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions().size(), is(3));
+        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions().contains("test"), is(true));
+        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions().contains("test2"), is(true));
+        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions().contains("test3"), is(true));
+        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getRoles().size(), is(1));
+        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getRoles().contains("role"), is(true));
+        assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getAnonymous(), is(true));
 
         CompiledObject.Operation update = object.getOperations().get("update");
-        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().size(), is(2));
-        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().contains("test"), is(true));
-        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().contains("test3"), is(true));
-        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().size(), is(1));
-        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
-        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getAnonymous(), is(true));
+        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions().size(), is(2));
+        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions().contains("test"), is(true));
+        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions().contains("test3"), is(true));
+        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getUsernames().size(), is(1));
+        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getUsernames().contains("user"), is(true));
+        assertThat(((Security) update.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getAnonymous(), is(true));
 
         SecurityFilters updateFilters = (SecurityFilters) update.getProperties().get(SecurityFilters.SECURITY_FILTERS_PROP_NAME);
         assertThat(updateFilters.getRemoveUserFilters().size(), is(1));

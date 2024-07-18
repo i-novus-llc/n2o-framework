@@ -1,8 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import isEmpty from 'lodash/isEmpty'
-
-import { SecurityController } from '../auth/SecurityController'
 
 export function Factory(props, context) {
     const { src, level, security, children, ...rest } = props
@@ -13,13 +10,7 @@ export function Factory(props, context) {
     }
 
     if (component) {
-        return isEmpty(security) ? (
-            React.createElement(component, rest, children)
-        ) : (
-            <SecurityController config={security}>
-                {React.createElement(component, rest, children)}
-            </SecurityController>
-        )
+        return React.createElement(component, rest, children)
     }
 
     if (!src) {

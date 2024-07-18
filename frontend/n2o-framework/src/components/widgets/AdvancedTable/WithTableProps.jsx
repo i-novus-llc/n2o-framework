@@ -2,7 +2,6 @@ import React, { useMemo, useContext } from 'react'
 import omit from 'lodash/omit'
 import { useStore } from 'react-redux'
 
-import { useCheckAccess as check } from '../../../core/auth/SecurityController'
 import { FactoryContext } from '../../../core/factory/context'
 import { StandardFieldset } from '../Form/fieldsets'
 import { dataSourceValidationSelector } from '../../../ducks/datasource/selectors'
@@ -30,9 +29,6 @@ export function WithTableProps(Component) {
         const [columnsState, changeColumnParam, switchTableParameter] = useColumnsState(cells.header, id, state)
         const resolvedCells = useResolveCellsVisible(cells, columnsState)
 
-        /* HACK! omit body.row.security */
-        /* обход стандартного механизма checkSecurityAndRender из FactoryProvider */
-        /* т.к. не имеет смысла скрывать все rows в таблице, вместо этого используется hasSecurityAccess */
         const tableConfig = useMemo(() => {
             const config = omit(table, [
                 'autoSelect',
@@ -40,15 +36,11 @@ export function WithTableProps(Component) {
                 'textWrap',
                 'header.cells',
                 'body.cells',
-                'body.row.security',
             ])
 
             /* WARNING! Неявное место, здесь собирается RowComponent (кастомизация) по src */
             return resolveProps(config)
         }, [resolveProps, table])
-
-        /* есть ли права для выполнения действия "rowClick" для всех строк */
-        const hasSecurityAccess = check(tableConfig.body?.row?.security)
 
         const paginationVisible = useMemo(() => {
             if (datasourceModelLength === 0) { return false }
@@ -66,7 +58,6 @@ export function WithTableProps(Component) {
                 columnsState={columnsState}
                 tableConfig={tableConfig}
                 resolvedFilter={resolvedFilter}
-                hasSecurityAccess={hasSecurityAccess}
                 resolvedCells={resolvedCells}
                 paginationVisible={paginationVisible}
                 switchTableParam={switchTableParameter}
