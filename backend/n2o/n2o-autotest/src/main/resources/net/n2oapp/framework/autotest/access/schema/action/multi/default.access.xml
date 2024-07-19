@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<access xmlns="http://n2oapp.net/framework/config/schema/access-2.0">
+
+    <permission id="update1" name="Редактирование,удаление,создание">
+        <object-access object-id="test1" operations="*"/>
+    </permission>
+
+    <permission id="update2" name="Редактирование,удаление,создание">
+        <object-access object-id="test2" operations="*"/>
+    </permission>
+
+    <permission id="update3" name="Редактирование,удаление,создание">
+        <object-access object-id="test3" operations="*"/>
+    </permission>
+
+    <permission id="update4" name="Редактирование,удаление,создание">
+        <object-access object-id="test4" operations="*"/>
+    </permission>
+</access>

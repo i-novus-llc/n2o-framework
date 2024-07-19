@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Доступ к мультидействию">
+
+    <datasources>
+        <datasource id="user" query-id="test" object-id="test1"/>
+    </datasources>
+
+    <regions>
+        <table datasource="user">
+            <toolbar>
+                <!-- кейс 1 кнопка не должна быть видима, если нет привилегии на "update1" И "update2" -->
+                <button label="Удалить" icon="fa fa-trash" confirm="true">
+                    <invoke operation-id="delete" object-id="test1"/>
+                    <invoke operation-id="delete" object-id="test2"/>
+                </button>
+            </toolbar>
+
+            <columns>
+                <column text-field-id="name"/>
+                <column label="">
+                    <toolbar>
+                        <!--кейс 2 sub-menu должна быть видима, если есть привилегии на ("update" И "update2") ИЛИ ("update3" И "update4") -->
+                        <sub-menu label="(update1 И update2) ИЛИ (update3 И update4)">
+                            <!-- menu не должна быть видима, если нет привилегии на "update" И "update2" -->
+                            <menu-item id="first" label="update1 И update2">
+                                <invoke operation-id="delete" object-id="test1"/>
+                                <invoke operation-id="delete" object-id="test2"/>
+                            </menu-item>
+                            <!-- menu не должна быть видима, если нет привилегии на "update3" И "update4" -->
+                            <menu-item id="second" label="update3 И update4">
+                                <invoke operation-id="delete" object-id="test3"/>
+                                <invoke operation-id="delete" object-id="test4"/>
+                            </menu-item>
+                        </sub-menu>
+                    </toolbar>
+                </column>
+            </columns>
+        </table>
+    </regions>
+</page>

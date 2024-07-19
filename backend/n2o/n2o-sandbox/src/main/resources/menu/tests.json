@@ -11,6 +11,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/access/schema/header",
           "name": "AccessHeaderAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/schema/action/multi",
+          "name": "AccessMultiActionAT"
         }
       ]
     },
