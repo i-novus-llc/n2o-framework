@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ButtonValidatorTest extends SourceValidationTestBase {
+class ButtonValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach
@@ -32,6 +32,14 @@ public class ButtonValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/testButtonDatasourceExistent.page.xml"));
         assertEquals("Кнопка  ссылается на несуществующий источник данных 'ds2'", exception.getMessage());
+    }
+
+    @Test
+    void testCheckDependenciesDatasource() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/button/testButtonDependenciesDatasourceExistent.page.xml"));
+        assertEquals("Атрибут 'datasource' в зависимостях кнопки  ссылается несуществующий источник данных 'ds2'", exception.getMessage());
     }
 
     @Test
