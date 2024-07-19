@@ -5,7 +5,7 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.metadata.validation.standard.action.InvokeActionValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.action.PageActionValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.button.ButtonValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.button.BaseButtonValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.control.FieldValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.datasource.StandardDatasourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class DatasourceLinkValidationTest extends SourceValidationTestBase {
+class DatasourceLinkValidationTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach
@@ -35,7 +35,7 @@ public class DatasourceLinkValidationTest extends SourceValidationTestBase {
                 new N2oControlsPack());
         builder.validators(new PageValidator(), new StandardPageValidator(), new BasePageValidator(),
                 new StandardDatasourceValidator(), new PageActionValidator(), new InvokeActionValidator(),
-                new FormValidator(), new FieldValidator(), new ButtonValidator());
+                new FormValidator(), new FieldValidator(), new BaseButtonValidator());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/link/utDsLinkBlank.page.xml"));
     }
 

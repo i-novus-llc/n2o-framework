@@ -6,7 +6,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
-import net.n2oapp.framework.config.metadata.validation.standard.button.ButtonValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.button.BaseButtonValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.button.SubMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class SubMenuValidatorTest extends SourceValidationTestBase {
+class SubMenuValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach
@@ -29,7 +29,7 @@ public class SubMenuValidatorTest extends SourceValidationTestBase {
         super.configure(builder);
         builder.packs(  new N2oPagesPack(), new N2oRegionsPack(),
                 new N2oWidgetsPack(), new N2oAllDataPack());
-        builder.validators(new BasePageValidator(), new SubMenuValidator(), new ButtonValidator());
+        builder.validators(new BasePageValidator(), new SubMenuValidator(), new BaseButtonValidator());
     }
 
     @Test
