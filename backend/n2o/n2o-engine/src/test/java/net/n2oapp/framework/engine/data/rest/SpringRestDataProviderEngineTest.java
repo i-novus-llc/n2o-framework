@@ -2,7 +2,10 @@ package net.n2oapp.framework.engine.data.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import org.junit.jupiter.api.Test;
@@ -14,8 +17,6 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -26,13 +27,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class SpringRestDataProviderEngineTest {
+class SpringRestDataProviderEngineTest {
+
+    private static final ObjectMapper objectMapper = dataObjectMapper();
     
     @Test
     void testSimple() {
         //самый простой случай
         TestRestTemplate restTemplate = new TestRestTemplate("");
-        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
         dataProvider.setQuery("http://www.example.org/{id}");
         dataProvider.setMethod(N2oRestDataProvider.Method.POST);
@@ -46,7 +49,7 @@ public class SpringRestDataProviderEngineTest {
 
         //случай с повторением параметра
         restTemplate = new TestRestTemplate("");
-        actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         dataProvider = new N2oRestDataProvider();
         dataProvider.setQuery("http://www.example.org/{id}/{id}");
         dataProvider.setMethod(N2oRestDataProvider.Method.POST);
@@ -57,7 +60,7 @@ public class SpringRestDataProviderEngineTest {
     @Test
     void testFails() {
         TestRestTemplate restTemplate = new TestRestTemplate(new MockClientHttpResponse("Error".getBytes(StandardCharsets.UTF_8), HttpStatus.INTERNAL_SERVER_ERROR));
-        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         N2oRestDataProvider invocation = new N2oRestDataProvider();
         invocation.setQuery("http://www.example.org/");
         invocation.setMethod(N2oRestDataProvider.Method.GET);
@@ -79,7 +82,7 @@ public class SpringRestDataProviderEngineTest {
     @Test
     void testHeadersAndCookiesForwarding() {
         TestRestTemplate restTemplate = new TestRestTemplate("1");
-        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         N2oRestDataProvider invocation = new N2oRestDataProvider();
         invocation.setQuery("http://www.example.org/");
         invocation.setForwardedHeaders("testForwardedHeader");
@@ -151,7 +154,7 @@ public class SpringRestDataProviderEngineTest {
     void testResponse() throws UnsupportedEncodingException {
         //response integer
         TestRestTemplate restTemplate = new TestRestTemplate("1");
-        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         N2oRestDataProvider invocation = new N2oRestDataProvider();
         invocation.setQuery("http://www.example.org/");
         invocation.setMethod(N2oRestDataProvider.Method.GET);
@@ -162,7 +165,7 @@ public class SpringRestDataProviderEngineTest {
 
         //response map
         restTemplate = new TestRestTemplate("{\"id\" : \"1\"}");
-        actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         invocation = new N2oRestDataProvider();
         invocation.setQuery("http://www.example.org/");
         invocation.setMethod(N2oRestDataProvider.Method.GET);
@@ -174,7 +177,7 @@ public class SpringRestDataProviderEngineTest {
 
         //response list
         restTemplate = new TestRestTemplate("[{\"id\" : \"1\"}]");
-        actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         invocation = new N2oRestDataProvider();
         invocation.setQuery("http://www.example.org/");
         invocation.setMethod(N2oRestDataProvider.Method.GET);
@@ -187,7 +190,7 @@ public class SpringRestDataProviderEngineTest {
 
         //response empty
         restTemplate = new TestRestTemplate("");
-        actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         invocation = new N2oRestDataProvider();
         invocation.setQuery("http://www.example.org/");
         invocation.setMethod(N2oRestDataProvider.Method.GET);
@@ -200,7 +203,7 @@ public class SpringRestDataProviderEngineTest {
     @Test
     void testReplacePlaceholders() {
         TestRestTemplate restTemplate = new TestRestTemplate("");
-        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
         dataProvider.setMethod(N2oRestDataProvider.Method.POST);
 //        dataProvider.setFiltersSeparator("&");//by default
@@ -229,7 +232,7 @@ public class SpringRestDataProviderEngineTest {
         assertThat(body.get("name"), is("test"));
 
         restTemplate = new TestRestTemplate("");
-        actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         dataProvider = new N2oRestDataProvider();
         dataProvider.setMethod(N2oRestDataProvider.Method.POST);
         dataProvider.setQuery("http://www.example.org/findAll?{filters}");
@@ -268,7 +271,7 @@ public class SpringRestDataProviderEngineTest {
         res.put("id", 1);
         res.put("name", "test");
         TestRestTemplate restTemplate = new TestRestTemplate("");
-        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         actionEngine.setBaseRestUrl("http://localhost:8080");
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
         dataProvider.setMethod(N2oRestDataProvider.Method.POST);
@@ -279,7 +282,7 @@ public class SpringRestDataProviderEngineTest {
 
         //случай без / в url
         restTemplate = new TestRestTemplate("");
-        actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         dataProvider = new N2oRestDataProvider();
         actionEngine.setBaseRestUrl("http://localhost:8080");
         dataProvider.setMethod(N2oRestDataProvider.Method.POST);
@@ -295,7 +298,7 @@ public class SpringRestDataProviderEngineTest {
         req.put("id", 1);
         req.put("name", "test");
         TestRestTemplate restTemplate = new TestRestTemplate("");
-        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
         dataProvider.setQuery("http://www.example.org/{id}");
 
@@ -308,11 +311,6 @@ public class SpringRestDataProviderEngineTest {
     @Test
     void testDateSerializing() {
         TestRestTemplate restClient = new TestRestTemplate("");
-        ObjectMapper objectMapper = new ObjectMapper();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        objectMapper.setDateFormat(dateFormat);
-        objectMapper.registerModule(new JavaTimeModule());
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, objectMapper);
         actionEngine.setBaseRestUrl("http://localhost:8080");
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
@@ -330,7 +328,6 @@ public class SpringRestDataProviderEngineTest {
     @Test
     void testDateDeserializing() {
         TestRestTemplate restClient = new TestRestTemplate("{\"date_begin\":\"17.11.2018\"}");
-        ObjectMapper objectMapper = new ObjectMapper();
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, objectMapper);
         actionEngine.setBaseRestUrl("http://localhost:8080");
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
@@ -349,7 +346,7 @@ public class SpringRestDataProviderEngineTest {
     @Test
     void testListParameters() {
         TestRestTemplate restClient = new TestRestTemplate("");
-        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, new ObjectMapper());
+        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, objectMapper);
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
         dataProvider.setFiltersSeparator("&");
         dataProvider.setQuery("http://www.example.org/path?{filters}");
@@ -371,7 +368,6 @@ public class SpringRestDataProviderEngineTest {
     @Test
     void testEncoding() {
         TestRestTemplate restClient = new TestRestTemplate("");
-        ObjectMapper objectMapper = new ObjectMapper();
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, objectMapper);
         actionEngine.setBaseRestUrl("http://localhost:8080");
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
@@ -393,7 +389,6 @@ public class SpringRestDataProviderEngineTest {
     @Test
     void testUntrimmedUrl() {
         TestRestTemplate restClient = new TestRestTemplate("");
-        ObjectMapper objectMapper = new ObjectMapper();
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, objectMapper);
 
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
@@ -401,5 +396,13 @@ public class SpringRestDataProviderEngineTest {
 
         actionEngine.invoke(dataProvider, new HashMap<>());
         assertThat(restClient.getQuery(), is("http://www.example.org"));
+    }
+
+    private static ObjectMapper dataObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT));
+        objectMapper.getDateFormat().setTimeZone(TimeZone.getTimeZone("UTC"));
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper;
     }
 }

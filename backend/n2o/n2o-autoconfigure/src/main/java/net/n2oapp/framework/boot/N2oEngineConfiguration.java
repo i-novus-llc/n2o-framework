@@ -16,7 +16,6 @@ import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.java.ObjectLocator;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.data.rest.N2oRestLoggingHandler;
-import net.n2oapp.framework.engine.data.rest.RestEngineTimeModule;
 import net.n2oapp.framework.engine.data.rest.SpringRestDataProviderEngine;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.engine.modules.stack.SpringDataProcessingStack;
@@ -34,10 +33,11 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static net.n2oapp.framework.boot.ObjectMapperConstructor.dataObjectMapper;
 
 /**
  * Конфигурация провайдеров данных
@@ -57,9 +57,6 @@ public class N2oEngineConfiguration {
 
     @Value("${n2o.engine.rest.url}")
     private String baseRestUrl;
-
-    @Value("${n2o.engine.rest.dateformat.serialize}")
-    private String serializingFormat;
 
     @Value("${n2o.engine.timeout}")
     private String timeoutInMillis;
@@ -191,7 +188,7 @@ public class N2oEngineConfiguration {
     public SpringRestDataProviderEngine restDataProviderEngine(@Qualifier("restProviderRestTemplate") RestTemplate restTemplate,
                                                                List<RestLoggingHandler> loggingHandlers) {
         SpringRestDataProviderEngine springRestDataProviderEngine = new SpringRestDataProviderEngine(
-                restTemplate, restProviderObjectMapper(), loggingHandlers);
+                restTemplate, dataObjectMapper(), loggingHandlers);
 
         springRestDataProviderEngine.setBaseRestUrl(baseRestUrl);
         return springRestDataProviderEngine;
@@ -207,7 +204,7 @@ public class N2oEngineConfiguration {
     @ConditionalOnMissingBean(name = "restProviderRestTemplate")
     public RestTemplate restProviderRestTemplate(RestTemplateBuilder builder) {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(new ObjectMapper());
+        converter.setObjectMapper(dataObjectMapper());
 
         DefaultUriBuilderFactory builderFactory = new DefaultUriBuilderFactory();
         builderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.TEMPLATE_AND_VALUES);
@@ -215,13 +212,5 @@ public class N2oEngineConfiguration {
         RestTemplate restTemplate = builder.messageConverters(converter).build();
         restTemplate.setUriTemplateHandler(builderFactory);
         return restTemplate;
-    }
-
-    public ObjectMapper restProviderObjectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new SimpleDateFormat(serializingFormat));
-        RestEngineTimeModule module = new RestEngineTimeModule();
-        objectMapper.registerModules(module);
-        return objectMapper;
     }
 }
