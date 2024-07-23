@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oMongoDbDataProvider;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.boot.mongodb.MongoDbDataProviderEngine;
-import net.n2oapp.framework.engine.data.rest.RestEngineTimeModule;
 import org.bson.Document;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.*;
@@ -26,9 +25,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static net.n2oapp.framework.boot.ObjectMapperConstructor.dataObjectMapper;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -59,7 +58,7 @@ public class MongodbDataProviderEngineTest {
 
     @BeforeAll
     public void init() {
-        engine.setMapper(mongoObjectMapper());
+        engine.setMapper(dataObjectMapper());
 
         provider = new N2oMongoDbDataProvider();
         String collectionName = "user";
@@ -379,15 +378,6 @@ public class MongodbDataProviderEngineTest {
             this.id = id;
             this.name = name;
         }
-    }
-
-
-    private ObjectMapper mongoObjectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
-        RestEngineTimeModule module = new RestEngineTimeModule();
-        objectMapper.registerModules(module);
-        return objectMapper;
     }
 
     // normalize method for testFilters() method
