@@ -403,7 +403,7 @@
         <xs:complexContent>
             <xs:extension base="fieldDefinition">
                 <xs:sequence>
-                    <xs:element name="switch" type="switchDefinition"/>
+                    <xs:element name="switch" type="switchDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="param" type="xs:string">
                     <xs:annotation>
