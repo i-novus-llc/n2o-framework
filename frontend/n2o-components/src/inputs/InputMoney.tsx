@@ -92,7 +92,8 @@ export class InputMoney extends React.Component<InputMoneyProps, State> {
         if (onBlur) {
             onBlur(!isNaN(convertedValue) ? convertedValue : null)
         }
-        this.setState({ value: String(convertedValue) })
+
+        this.setState({ value: isNaN(convertedValue) ? '' : String(convertedValue) })
     }
 
     convertToMoney(value: string) {
@@ -157,8 +158,6 @@ export class InputMoney extends React.Component<InputMoneyProps, State> {
             convertedValue += '0'
         }
 
-        this.setState({ value: convertedValue })
-
         return convertedValue
     }
 
@@ -174,7 +173,8 @@ export class InputMoney extends React.Component<InputMoneyProps, State> {
         if (onChange) {
             onChange(!isNaN(convertedValue) ? convertedValue : null)
         }
-        this.setState({ value: String(convertedValue) })
+
+        this.setState({ value: isNaN(convertedValue) ? '' : String(convertedValue) })
     }
 
     getInputMoneyProps() {
