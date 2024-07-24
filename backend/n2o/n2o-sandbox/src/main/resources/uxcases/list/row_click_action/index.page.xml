@@ -41,7 +41,7 @@
                     <show-modal page-id="modal" scrollable="true" submit-operation-id="create"
                                 submit-label="Сохранить">
                         <datasources>
-                            <datasource default-values-mode="defaults"/>
+                            <datasource id="main" default-values-mode="defaults"/>
                         </datasources>
                     </show-modal>
                 </button>
