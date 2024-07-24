@@ -78,7 +78,7 @@ export function* fetchValue(
             ? get(response, 'list', null)
             : get(response, 'list[0]', null)
 
-        const currentModel = isMultiModel ? model : get(model, valueFieldId, {})
+        const currentModel = isMultiModel ? model : get(model, valueFieldId, null)
         const prevFieldValue = get(values, field)
         const nextFieldValue = valueFieldId ? currentModel : model
 
