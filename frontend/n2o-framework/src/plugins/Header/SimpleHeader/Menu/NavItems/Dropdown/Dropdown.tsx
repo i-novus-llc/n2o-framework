@@ -38,9 +38,7 @@ export function Dropdown(props: DropdownProps) {
         iconPosition = ICON_POSITIONS.LEFT,
     } = props
 
-    if (!items.length) {
-        return null
-    }
+    if (!items.length) { return null }
 
     return (
         <DropdownParent
