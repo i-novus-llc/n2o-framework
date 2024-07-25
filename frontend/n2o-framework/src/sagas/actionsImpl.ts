@@ -40,7 +40,7 @@ import { isDirtyForm } from '../ducks/form/selectors'
 
 import fetchSaga from './fetch'
 
-// TODO перенести инвок в datassource
+// TODO перенести инвок в datasource
 
 interface Validate {
     dispatch: Dispatch
@@ -77,6 +77,28 @@ export function* validate({ dispatch, validate }: Validate) {
 
 type FetchInvokeModel = { id: string } | Array<{ id: string }>
 
+const prepareModel = (
+    model: FetchInvokeModel,
+    formParams: object,
+    submitForm?: boolean,
+) => {
+    if (submitForm) {
+        if (Array.isArray(model)) {
+            return model.map(model => ({
+                ...model,
+                ...formParams,
+            }))
+        }
+
+        return {
+            ...model,
+            ...formParams,
+        }
+    }
+
+    return formParams
+}
+
 export function* fetchInvoke(
     dataProvider: { method?: string, submitForm?: boolean, optimistic?: boolean },
     model: FetchInvokeModel,
@@ -85,26 +107,9 @@ export function* fetchInvoke(
     const state: State = yield select()
 
     const submitForm = get(dataProvider, 'submitForm', true)
-    // @ts-ignore import from js file
     const { basePath: path, formParams, headersParams } = yield dataProviderResolver(state, dataProvider)
 
-    const createModelRequest = ({ id, ...data }: { id: string }) => {
-        const modelRequest = {
-            id,
-            ...formParams,
-        }
-
-        if (submitForm) {
-            return {
-                ...data,
-                ...modelRequest,
-            }
-        }
-
-        return modelRequest
-    }
-
-    const modelRequest = Array.isArray(model) ? model.map(createModelRequest) : createModelRequest(model || {})
+    const modelRequest = prepareModel(model, formParams, submitForm)
 
     // @ts-ignore import from js file
     return yield call(fetchSaga, FETCH_INVOKE_DATA,
