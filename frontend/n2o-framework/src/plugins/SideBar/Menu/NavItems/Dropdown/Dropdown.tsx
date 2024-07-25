@@ -39,11 +39,11 @@ export function Dropdown(props: DropdownProps) {
     } = props
     const dropdownId = generateId()
 
-    if (isEmpty(item)) {
-        return null
-    }
+    if (isEmpty(item)) { return null }
 
     const { items = [] } = item
+
+    if (!items.length) { return null }
 
     return (
         <>
