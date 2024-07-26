@@ -17,6 +17,7 @@ interface DropdownWrapperProps {
     id: string
     imageSrc?: string
     imageShape?: string
+    open?: boolean
 }
 
 export function DropdownWrapper(props: DropdownWrapperProps) {
@@ -31,9 +32,10 @@ export function DropdownWrapper(props: DropdownWrapperProps) {
         id,
         imageSrc,
         imageShape,
+        open = false,
     } = props
     const ref = useRef(null)
-    const [isOpen, setOpen] = useState(false)
+    const [isOpen, setOpen] = useState(open)
     const toggle = () => setOpen(!isOpen)
 
     const itemDropdownClass = classNames(
