@@ -27,6 +27,7 @@ export const Form = ({
     form,
     loading,
 }) => {
+    const dispatch = useDispatch()
     const { getState } = useStore()
     const { resolveProps } = useContext(FactoryContext)
     const resolvedForm = useMemo(() => ({
@@ -45,31 +46,27 @@ export const Form = ({
     const activeModel = useMemo(() => (
         modelPrefix === ModelPrefix.edit ? (editModel || resolveModel) : resolveModel
     ), [editModel, modelPrefix, resolveModel])
-    const initialValues = useMemo(() => {
+
+    useEffect(() => {
         const state = getState()
         const resolveModel = getModelByPrefixAndNameSelector(ModelPrefix.active, datasource)(state)
         const editModel = getModelByPrefixAndNameSelector(ModelPrefix.edit, datasource)(state)
         // FIXME: Удалить костыль с добалением resolveModel если нет editModel, после удаления edit из редюсера models
         const activeModel = modelPrefix === ModelPrefix.edit ? (editModel || resolveModel) : resolveModel
 
-        if (isEmpty(activeModel) && isEmpty(datasourceModel)) {
+        const initialValues = isEmpty(activeModel) && isEmpty(datasourceModel)
             // Возвращение null необходимо, поскольку если вернуть undefined redux-toolkit не вызовет экшен
-            return null
-        }
+            ? null
+            : { ...activeModel, ...datasourceModel }
 
-        return { ...activeModel, ...datasourceModel }
-    }, [datasourceModel, datasource, getState, modelPrefix])
-    const fields = useMemo(() => getFieldsKeys(fieldsets), [fieldsets])
-    const dirty = useSelector(isDirtyForm(formName))
-    const dispatch = useDispatch()
-
-    useEffect(() => {
         if (modelPrefix === ModelPrefix.edit) {
             dispatch(setModel(ModelPrefix.edit, datasource, initialValues, true))
         }
 
         dispatch(setModel(ModelPrefix.active, datasource, initialValues, true))
-    }, [dispatch, datasource, initialValues, modelPrefix])
+    }, [datasourceModel, datasource, getState, modelPrefix, dispatch])
+    const fields = useMemo(() => getFieldsKeys(fieldsets), [fieldsets])
+    const dirty = useSelector(isDirtyForm(formName))
 
     return (
         <WidgetLayout
