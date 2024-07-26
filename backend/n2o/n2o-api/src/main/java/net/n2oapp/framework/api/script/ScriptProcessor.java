@@ -39,7 +39,7 @@ public class ScriptProcessor {
 
     private static final Pattern FUNCTION_PATTERN = Pattern.compile("function\\s*\\(\\)[\\s\\S]*");
     private static final Pattern TERNARY_IN_LINK_PATTERN = Pattern.compile(".*\\{.*\\?.*:.*\\}.*");
-    private static final Pattern METHOD_PATTERN = Pattern.compile("^\\[?(\\'?\\w+\\'?\\,?\\s?)+\\]?\\.\\w+\\([\\s\\S]*\\)$");
+    private static final Pattern METHOD_PATTERN = Pattern.compile("^(\\[(\\'?\\w+\\'?\\,?\\s?)+\\]|\\w+)\\.\\w+\\([\\s\\S]*\\)$");
 
     public static String resolveLinks(String text) {
         if (text == null)

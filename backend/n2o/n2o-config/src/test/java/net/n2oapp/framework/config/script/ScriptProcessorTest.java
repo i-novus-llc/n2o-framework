@@ -97,6 +97,8 @@ public class ScriptProcessorTest {
                 is("['USER','ADMIN'].some(function(p) { return roles.includes(p) })"));
         assertThat(ScriptProcessor.resolveFunction("test.some(function(p) { return roles.includes(p) })"),
                 is("test.some(function(p) { return roles.includes(p) })"));
+        assertThat(ScriptProcessor.resolveFunction(" return multi.slice(0, index).concat(multi.slice(index + 1))"),
+                is("(function(){return multi.slice(0, index).concat(multi.slice(index + 1))}).call(this)"));
         assertThat(ScriptProcessor.resolveFunction(" const result = [...input]; return result.sort(function(first, second) { return first - second });"),
                 is("(function(){const result = [...input]; return result.sort(function(first, second) { return first - second });}).call(this)"));
     }
