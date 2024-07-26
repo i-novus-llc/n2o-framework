@@ -2,6 +2,7 @@ import React from 'react'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import classNames from 'classnames'
+import { useLocation } from 'react-router-dom'
 
 import { id as generateId } from '../../../../../utils/id'
 import { NavItemContainer } from '../../../NavItemContainer'
@@ -24,6 +25,15 @@ interface DropdownProps {
     isStaticView: boolean
 }
 
+function hasActiveSubItem(items: Item['items'], location: { pathname: string }): boolean {
+    return items.some((item) => {
+        if (item.href === location.pathname) { return true }
+        if (item.items?.length) { return hasActiveSubItem(item.items, location) }
+
+        return false
+    })
+}
+
 export function Dropdown(props: DropdownProps) {
     const {
         item,
@@ -38,12 +48,15 @@ export function Dropdown(props: DropdownProps) {
         isStaticView,
     } = props
     const dropdownId = generateId()
+    const location = useLocation()
 
     if (isEmpty(item)) { return null }
 
     const { items = [] } = item
 
     if (!items.length) { return null }
+
+    const isOpen = hasActiveSubItem(items, location)
 
     return (
         <>
@@ -53,6 +66,7 @@ export function Dropdown(props: DropdownProps) {
                 showContent={showContent}
                 isMiniView={isMiniView}
                 id={dropdownId}
+                open={isOpen}
             >
                 <div
                     className={classNames(
