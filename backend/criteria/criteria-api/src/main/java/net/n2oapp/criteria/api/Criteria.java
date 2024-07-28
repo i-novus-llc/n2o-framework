@@ -14,7 +14,7 @@ public class Criteria implements Serializable {
     private List<Sorting> sortings;
     private int page = 1;
     private int size = 15;
-    private Integer count;//if you know the total number of records
+    private Integer count;
 
     private Boolean withCount;
 
