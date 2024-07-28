@@ -7,7 +7,13 @@
     </fields>
     <toolbar place="bottomLeft">
       <button label="Открыть страницу">
-        <open-page page-id="{tableName}" datasource="form" model="resolve"/>
+        <if test="tableName == 'test'">
+          <open-page page-id="{tableName}" datasource="form" model="resolve"/>
+        </if>
+        <else>
+          <alert text="Вы пытаетесь открыть несуществующую страницу"
+                 color="warning"/>
+        </else>
       </button>
     </toolbar>
   </form>
