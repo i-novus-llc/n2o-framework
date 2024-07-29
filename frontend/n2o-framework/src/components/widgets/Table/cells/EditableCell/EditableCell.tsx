@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState, type VFC } from 'react'
+import React, { useCallback, useMemo, useRef, useState, type VFC, MouseEvent } from 'react'
 import classNames from 'classnames'
 import { compose } from 'recompose'
 import get from 'lodash/get'
@@ -34,7 +34,8 @@ const Cell: VFC<any> = (props) => {
 
     const isEmpty = !viewValue
 
-    const enableEditing = useCallback(() => {
+    const enableEditing = useCallback((event: MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation()
         setIsEditing(true)
     }, [])
 

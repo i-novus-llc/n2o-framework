@@ -36,7 +36,7 @@ export const Control = ({ control, value, onBlur, onChange }: ControlProps) => {
     }), [handleBlur])
 
     return (
-        <div className="n2o-editable-cell-control">
+        <div className="n2o-editable-cell-control" onClick={event => event.stopPropagation()}>
             <HotKeys keyMap={eventsMap} handlers={handlersMap}>
                 {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {createElement<any>(component, {
