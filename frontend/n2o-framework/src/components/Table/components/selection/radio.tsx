@@ -13,11 +13,13 @@ export const RadioCell: VFC<RadioCellProps> = ({ rowValue, isSelectedRow }) => {
     }, [rowValue, selectSingleRow])
 
     return (
-        <InputRadio
-            className="n2o-advanced-table-row-radio"
-            checked={isSelectedRow}
-            value={rowValue}
-            onChange={onSelect}
-        />
+        <div onClick={event => event.stopPropagation()}>
+            <InputRadio
+                className="n2o-advanced-table-row-radio"
+                checked={isSelectedRow}
+                value={rowValue}
+                onChange={onSelect}
+            />
+        </div>
     )
 }
