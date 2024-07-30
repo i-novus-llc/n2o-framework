@@ -36,7 +36,10 @@ export const CheckboxCell: VFC<CheckboxCellProps> = ({ rowValue, isSelectedRow, 
     }, [rowValue, refProps, selectRows, deselectRows])
 
     return (
-        <div className="checkbox-cell">
+        <div
+            className="checkbox-cell"
+            onClick={event => event.stopPropagation()}
+        >
             <Checkbox
                 inline
                 checked={isSelectedRow}

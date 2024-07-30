@@ -160,7 +160,7 @@ public class TableSelectionAT extends AutoTestBase {
         rows.shouldHaveSize(3);
         rows.shouldBeSelected(0);
         rows.row(1).cell(0, CheckboxCell.class).setChecked(true);
-        rows.shouldBeSelected(1);
+        rows.shouldBeSelected(0);
 
         CheckboxCell cell1 = rows.row(0).cell(0, CheckboxCell.class);
         CheckboxCell cell2 = rows.row(1).cell(0, CheckboxCell.class);
@@ -184,6 +184,7 @@ public class TableSelectionAT extends AutoTestBase {
         cell2.shouldBeUnchecked();
         cell3.shouldBeUnchecked();
 
+        rows.row(1).click();
         StandardButton button = table.toolbar().topLeft().button("Открыть");
         button.shouldBeEnabled();
         button.click();
