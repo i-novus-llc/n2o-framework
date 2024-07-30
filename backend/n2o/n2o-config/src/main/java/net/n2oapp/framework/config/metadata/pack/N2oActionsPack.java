@@ -74,6 +74,7 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ReduxActionBinder(),
                 new LinkActionBinder(),
                 new EditListActionBinder(),
+                new CopyActionBinder(),
                 new ShowModalBinder(),
                 new OpenDrawerBinder(),
                 new MultiActionBinder(),
