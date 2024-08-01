@@ -15,6 +15,7 @@ import { failValidate, startValidate } from '../datasource/store'
 import { FailValidateAction } from '../datasource/Actions'
 import { dataSourceValidationSelector } from '../datasource/selectors'
 import { getModelByPrefixAndNameSelector } from '../models/selectors'
+import { State } from '../State'
 
 import { makeFormByName, makeFormsByModel } from './selectors'
 import {
@@ -36,6 +37,13 @@ const includesField = (validations: Validation[], actionField: string) => valida
         ),
     ),
 )
+
+const getValidationFields = (state: State, id: string) => {
+    const filterValidation = dataSourceValidationSelector(id, ValidationsKey.FilterValidations)(state)
+    const validation = dataSourceValidationSelector(id, ValidationsKey.Validations)(state)
+
+    return Object.keys(filterValidation).length ? filterValidation : validation
+}
 
 function diffKeys <
     TValue extends Record<string, unknown> | undefined | null
@@ -92,10 +100,7 @@ export const formPluginSagas = [
         }
 
         const allValidations: ReturnType<ReturnType<typeof dataSourceValidationSelector>> = yield select(
-            dataSourceValidationSelector(
-                datasource,
-                prefix === ModelPrefix.filter ? ValidationsKey.FilterValidations : ValidationsKey.Validations,
-            ),
+            state => getValidationFields(state, datasource),
         )
 
         fields.forEach((field) => {
@@ -119,7 +124,7 @@ export const formPluginSagas = [
         removeFieldFromArray,
         copyFieldArray,
     ], function* addFieldToBuffer({ meta }) {
-        const { key: datasource, field, prefix } = meta
+        const { key: datasource, field } = meta
 
         if (!validateFields[datasource]) {
             validateFields[datasource] = []
@@ -130,10 +135,7 @@ export const formPluginSagas = [
         }
 
         const allValidations: ReturnType<ReturnType<typeof dataSourceValidationSelector>> = yield select(
-            dataSourceValidationSelector(
-                datasource,
-                prefix === ModelPrefix.filter ? ValidationsKey.FilterValidations : ValidationsKey.Validations,
-            ),
+            state => getValidationFields(state, datasource),
         )
 
         for (const [fieldName, validations] of Object.entries(allValidations || {})) {
