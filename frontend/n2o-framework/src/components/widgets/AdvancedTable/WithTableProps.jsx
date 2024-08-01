@@ -40,7 +40,6 @@ export function WithTableProps(Component) {
                 'textWrap',
                 'header.cells',
                 'body.cells',
-                'body.row.security',
             ])
 
             /* WARNING! Неявное место, здесь собирается RowComponent (кастомизация) по src */
