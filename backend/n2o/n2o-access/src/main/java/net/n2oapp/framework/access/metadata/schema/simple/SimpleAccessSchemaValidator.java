@@ -37,14 +37,14 @@ public class SimpleAccessSchemaValidator extends TypedMetadataValidator<N2oSimpl
     }
 
     private void validate(AccessPoint accessPoint, SourceProcessor p) {
-        if (accessPoint instanceof N2oObjectAccessPoint objectAccessPoint) {
-            checkObjectAccess(objectAccessPoint, p);
+        if (accessPoint instanceof N2oObjectAccessPoint) {
+            checkObjectAccess((N2oObjectAccessPoint) accessPoint, p);
         }
-        if (accessPoint instanceof N2oObjectFiltersAccessPoint objectFiltersAccessPoint) {
-            checkObjectFiltersAccess(objectFiltersAccessPoint);
+        if (accessPoint instanceof N2oObjectFiltersAccessPoint) {
+            checkObjectFiltersAccess((N2oObjectFiltersAccessPoint) accessPoint);
         }
-        if (accessPoint instanceof N2oPageAccessPoint pageAccessPoint) {
-            checkPageAccess(pageAccessPoint, p);
+        if (accessPoint instanceof N2oPageAccessPoint) {
+            checkPageAccess((N2oPageAccessPoint) accessPoint, p);
         }
     }
 
