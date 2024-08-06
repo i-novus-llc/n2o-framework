@@ -12,12 +12,13 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тест валидации схемы доступа
  */
-public class SimpleAccessSchemaValidationTest extends SourceValidationTestBase {
+class SimpleAccessSchemaValidationTest extends SourceValidationTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -41,17 +42,19 @@ public class SimpleAccessSchemaValidationTest extends SourceValidationTestBase {
 
     @Test
     void testInvalid2() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/access/metadata/validation2.access.xml")       
+                () -> validate("net/n2oapp/framework/access/metadata/validation2.access.xml")
         );
+        assertEquals("Объект 'atWrong', заданный в object-access не существует", exception.getMessage());
     }
 
     @Test
     void testInvalid5() {
-        assertThrows(
+        N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/access/metadata/validation5.access.xml")
         );
+        assertEquals("Страница 'notExistingPage', заданная в page-access не существует", exception.getMessage());
     }
 }
