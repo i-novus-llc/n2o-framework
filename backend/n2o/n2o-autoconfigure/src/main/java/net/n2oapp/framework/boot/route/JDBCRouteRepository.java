@@ -39,7 +39,7 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
         int cnt = jdbcTemplate.update(updateSQL, serialValue, key.getUrlMatching(), key.getCompiledClass().getName());
 
         if (cnt < 1) {
-            jdbcTemplate.update(insertSQL, UUID.randomUUID().toString(), key.getUrlMatching(),
+            jdbcTemplate.update(insertSQL, UUID.randomUUID(), key.getUrlMatching(),
                     key.getCompiledClass().getName(), serialValue);
             log.info(String.format("Inserted route: '%s' to [%s]", value, key.getUrlMatching()));
         } else {
@@ -71,7 +71,7 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
     public void createTable() {
         if (createTable) {
             final String createTableSQL = "CREATE TABLE IF NOT EXISTS " + tableName +
-                    " (id uuid PRIMARY KEY, url char(255), class char(255), context binary)";
+                    " (id uuid PRIMARY KEY, url char(255), class char(255), context bytea)";
 
             jdbcTemplate.execute(createTableSQL);
             log.info(String.format("Created table %s.", tableName));
