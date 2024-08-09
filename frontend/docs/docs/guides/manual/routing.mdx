@@ -456,7 +456,7 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 id uuid PRIMARY KEY,
 url char(255),
 class char(255),
-context binary
+context bytea
 ```
 
 4. Для автоматического создания таблицы при старте сервиса необходимо задать настройку `n2o.config.register.jdbc.create-table=true`.
