@@ -17,7 +17,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <n2o.version>7.27.0</n2o.version>
+        <n2o.version>7.28.1</n2o.version>
     </properties>
 
     <dependencies>
