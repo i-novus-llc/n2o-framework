@@ -106,7 +106,7 @@ class JDBCRouteRepositoryTest {
 
     private int getRouterSize() {
         int i = 0;
-        for (Map.Entry<RouteInfoKey, CompileContext> entry : routeRegister)
+        for (var ignored : routeRegister)
             i++;
         return i;
     }
