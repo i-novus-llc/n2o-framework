@@ -11,7 +11,12 @@ interface InsertPayload {
     visible: boolean
     mode: 'modal' | 'popover'
     type: 'page' | 'confirm'
-    props?: { target: string }
+    props?: {
+        target: string
+        operation: {
+            id: string
+        }
+    }
 }
 
 type RemovePayload = {
