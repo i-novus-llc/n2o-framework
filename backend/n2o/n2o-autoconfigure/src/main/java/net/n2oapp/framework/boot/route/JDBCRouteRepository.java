@@ -1,7 +1,7 @@
 package net.n2oapp.framework.boot.route;
 
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.config.register.ConfigRepository;
@@ -10,11 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.SerializationUtils;
 
-import jakarta.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Сохранение и загрузка данных RouteRegister в реляционную БД
@@ -60,8 +59,11 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
         final String selectSQL = "SELECT url, class, context FROM " + tableName;
 
         List<Map<String, Object>> resultSet = jdbcTemplate.queryForList(selectSQL);
-        Map<RouteInfoKey, CompileContext> result = resultSet.stream().collect(Collectors.toMap(this::getKey, row ->
-                (CompileContext) SerializationUtils.deserialize((byte[]) row.get("context")), (a, b) -> b));
+        Map<RouteInfoKey, CompileContext> result = new HashMap<>();
+        for (Map<String, Object> row : resultSet) {
+            CompileContext<?, ?> context = (CompileContext<?, ?>) SerializationUtils.deserialize((byte[]) row.get("context"));
+            result.put(new RouteInfoKey(((String) row.get("url")), context.getCompiledClass()), context);
+        }
 
         log.info(String.format("Returned %s routes.", result.size()));
         return result;
@@ -75,15 +77,6 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
 
             jdbcTemplate.execute(createTableSQL);
             log.info(String.format("Created table %s.", tableName));
-        }
-    }
-
-    private RouteInfoKey getKey(Map<String, Object> map) {
-        try {
-            Class<? extends Compiled> clazz = Class.forName("" + map.get("class")).asSubclass(Compiled.class);
-            return new RouteInfoKey("" + map.get("url"), clazz);
-        } catch (ClassNotFoundException e) {
-            return null;
         }
     }
 }
