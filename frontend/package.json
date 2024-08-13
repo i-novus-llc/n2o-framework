@@ -32,9 +32,11 @@
     "test:n2o:hook": "yarn workspace n2o-framework run test:hook",
     "docs:install": "cd docs && yarn install",
     "docs:start": "cd docs && yarn run start",
-    "docs:build": "cd docs && yarn run build"
+    "docs:build": "cd docs && yarn run build",
+    "postinstall": "license-checker --exclude axe-core"
   },
   "devDependencies": {
+    "@i-novus/license-checker": "0.0.7",
     "@jsdevtools/npm-publish": "3.0.1",
     "@types/react-dom": "^18.2.7",
     "concurrently": "^8.2.2",

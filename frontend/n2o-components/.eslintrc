@@ -13,6 +13,7 @@
   ],
   "ignorePatterns": ["*.test.js", "*.test.jsx"],
   "rules": {
+    "jsx-a11y/control-has-associated-label": 1,
     // without ";"
     "semi": ["error", "never"],
     "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],

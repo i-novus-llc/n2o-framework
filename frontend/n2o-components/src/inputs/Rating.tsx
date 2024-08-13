@@ -111,6 +111,7 @@ export class Rating extends Component<RatingProps, RatingState> {
                         'rating__label--no-pointer': readonly,
                     })}
                     htmlFor={`rating-0-${this.id}`}
+                    aria-label="null-rating"
                 >
 
                     &nbsp;
@@ -130,6 +131,7 @@ export class Rating extends Component<RatingProps, RatingState> {
                         'rating__label--half': !isInteger(index),
                         'rating__label--no-pointer': readonly,
                     })}
+                    aria-label="rating"
                     htmlFor={`rating-${index}-${this.id}`}
                 >
                     <i
