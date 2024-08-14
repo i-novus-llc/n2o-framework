@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "test1",
+    "ref": {
+      "id": 1,
+      "name": "Один"
+    },
+    "birthDate": "1990-01-03"
+  },
+  {
+    "id": 2,
+    "name": "test2",
+    "ref": {
+      "id": 1,
+      "name": "Один"
+    },
+    "birthDate": "1990-02-20"
+  },
+  {
+    "id": 3,
+    "name": "test3",
+    "ref": {
+      "id": 2,
+      "name": "Два"
+    },
+    "birthDate": "1990-03-30"
+  },
+  {
+    "id": 4,
+    "name": "test4",
+    "ref": {
+      "id": 2,
+      "name": "Два"
+    },
+    "birthDate": "1990-04-04"
+  }
+]

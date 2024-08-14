@@ -6,7 +6,6 @@
         <actions>
             <action id="update">
                 <invoke operation-id="update"
-                        refresh-on-submit="false"
                         message-on-success="false"/>
             </action>
         </actions>
