@@ -11,11 +11,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static net.n2oapp.framework.config.util.ControlFilterUtil.getFilters;
+import static net.n2oapp.framework.config.util.FieldCompileUtil.getFilters;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class ControlFilterUtilTest {
+class FieldCompileUtilTest {
 
     @Test
     void testGetFilters() {
@@ -42,26 +42,26 @@ public class ControlFilterUtilTest {
         assertThat(getFilters("name", query).size(), is(1));
 
         List<N2oQuery.Filter> filters = getFilters("gender", query);
-        Set<String> filterIds = filters.stream().map(f -> f.getFilterId()).collect(Collectors.toSet());
+        Set<String> filterIds = filters.stream().map(N2oQuery.Filter::getFilterId).collect(Collectors.toSet());
         assertThat(filters.size(), is(3));
         assertThat(filterIds.contains("gender"), is(true));
         assertThat(filterIds.contains("gender.id"), is(true));
         assertThat(filterIds.contains("gender.name"), is(true));
 
         filters = getFilters("gender.id", query);
-        filterIds = filters.stream().map(f -> f.getFilterId()).collect(Collectors.toSet());
+        filterIds = filters.stream().map(N2oQuery.Filter::getFilterId).collect(Collectors.toSet());
         assertThat(filters.size(), is(2));
         assertThat(filterIds.contains("gender.id"), is(true));
         assertThat(filterIds.contains("gender.id.test"), is(true));
 
         filters = getFilters("parent", query);
-        filterIds = filters.stream().map(f -> f.getFilterId()).collect(Collectors.toSet());
+        filterIds = filters.stream().map(N2oQuery.Filter::getFilterId).collect(Collectors.toSet());
         assertThat(filters.size(), is(2));
         assertThat(filterIds.contains("parent*.id"), is(true));
         assertThat(filterIds.contains("parent*.name"), is(true));
 
         filters = getFilters("parent.id", query);
-        filterIds = filters.stream().map(f -> f.getFilterId()).collect(Collectors.toSet());
+        filterIds = filters.stream().map(N2oQuery.Filter::getFilterId).collect(Collectors.toSet());
         assertThat(filters.size(), is(1));
         assertThat(filterIds.contains("parent.id*.like"), is(true));
     }
