@@ -39,7 +39,7 @@ import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityS
 import net.n2oapp.framework.config.metadata.compile.fieldset.MultiFieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
-import net.n2oapp.framework.config.util.ControlFilterUtil;
+import net.n2oapp.framework.config.util.FieldCompileUtil;
 import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 
 import java.util.*;
@@ -236,7 +236,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             if (query == null)
                 return;
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            List<N2oQuery.Filter> filters = ControlFilterUtil.getFilters(source.getId(), query);
+            List<N2oQuery.Filter> filters = FieldCompileUtil.getFilters(source.getId(), query);
             filters.forEach(f -> {
                 Filter filter = new Filter();
                 filter.setFilterId(f.getFilterId());
