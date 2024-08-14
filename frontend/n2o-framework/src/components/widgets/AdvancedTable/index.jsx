@@ -33,16 +33,14 @@ const EmptyComponent = () => (
 
 const defaultDataMapper = data => data
 
-export const AdvancedTableContainer = (props) => {
-    const {
-        id, disabled, toolbar, datasource, className, setPage, loading,
-        fetchData, style, paging, table, size, count, validations,
-        page, sorting, children, hasNext, isInit, setResolve,
-        changeColumnParam, columnsState, tableConfig, switchTableParam,
-        resolvedFilter, resolvedCells, paginationVisible,
-        dataMapper = defaultDataMapper, components, setFilter,
-    } = props
-
+export const AdvancedTableContainer = ({
+    id, disabled, toolbar, datasource, className, setPage, loading,
+    fetchData, style, paging, table, size, count, validations,
+    page, sorting, children, hasNext, isInit, setResolve,
+    changeColumnParam, columnsState, tableConfig, switchTableParam,
+    resolvedFilter, resolvedCells, paginationVisible,
+    dataMapper = defaultDataMapper, components, setFilter,
+}) => {
     const tableContainerElem = useRef(null)
     const [expandedRows, setExpandedRows] = useState([])
     const [filterErrors, setFilterErrors] = useState({})

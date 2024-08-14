@@ -13,6 +13,7 @@ const setupTextField = (propsOverride) => {
 describe('Проверка компонента TextField', () => {
     it('Должен отрисовать текст', () => {
         const wrapper = setupTextField()
+
         expect(wrapper.find('.n2o-text-field').exists()).toEqual(true)
         expect(wrapper.text()).toEqual('test')
     })
@@ -20,6 +21,7 @@ describe('Проверка компонента TextField', () => {
         const wrapper = setupTextField({
             visible: false,
         })
+
         expect(wrapper.find('.n2o-text-field').exists()).toEqual(false)
     })
     it('Должен отформатировать текст', () => {
@@ -27,6 +29,7 @@ describe('Проверка компонента TextField', () => {
             text: '2019-02-01T00:00:00',
             format: 'date DD.MM.YYYY',
         })
+
         expect(wrapper.text()).toEqual('01.02.2019')
     })
 })

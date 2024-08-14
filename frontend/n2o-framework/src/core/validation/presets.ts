@@ -19,7 +19,7 @@ import { ValidationTypes } from './types'
  */
 export function email<
     TData extends object,
-    TKey extends keyof TData
+    TKey extends keyof TData,
 >(fieldId: TKey, values: TData) {
     const value = values[fieldId]
 
@@ -35,7 +35,7 @@ export function email<
 export function required<
     TData extends object,
     TKey extends keyof TData,
-    TOptions extends { expression: string }
+    TOptions extends { expression: string },
 >(fieldId: TKey, values: TData, options: TOptions): boolean {
     const value = get(values, fieldId) // get, т.к. в качестве field может прийти путь
 
@@ -55,7 +55,7 @@ export function required<
  * Валидация js-condition
  */
 export function condition<
-    TOptions extends { expression: string }
+    TOptions extends { expression: string },
 >(fieldId: string, values: Record<string, unknown>, options: TOptions) {
     return !!evalExpression(options.expression, values)
 }
@@ -71,9 +71,7 @@ interface Options {
     pageUrl?: string | null
 }
 
-export function constraint<TData extends object, TKey extends keyof TData>(
-    fieldId: TKey, data: TData, { signal, datasourceId, validationKey, pageUrl }: Options,
-): Promise<ValidationResult> | boolean {
+export function constraint<TData extends object, TKey extends keyof TData>(fieldId: TKey, data: TData, { signal, datasourceId, validationKey, pageUrl }: Options): Promise<ValidationResult> | boolean {
     const body = { data, datasourceId, validationId: validationKey }
 
     const pagePath = pageUrl || ''
@@ -100,7 +98,7 @@ export function constraint<TData extends object, TKey extends keyof TData>(
  */
 export function integer<
     TData extends object,
-    TKey extends keyof TData
+    TKey extends keyof TData,
 >(fieldId: TKey, values: TData) {
     const value = values[fieldId]
 
@@ -113,7 +111,7 @@ export function integer<
 export function minLength<
     TData extends object,
     TKey extends keyof TData,
-    TOptions extends { min: number }
+    TOptions extends { min: number },
 >(fieldId: TKey, values: TData, options: TOptions) {
     const value = values[fieldId]
 
@@ -126,7 +124,7 @@ export function minLength<
 export function maxLength<
     TData extends object,
     TKey extends keyof TData,
-    TOptions extends { max: number }
+    TOptions extends { max: number },
 >(fieldId: TKey, values: TData, options: TOptions) {
     const value = values[fieldId]
 

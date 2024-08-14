@@ -61,9 +61,7 @@ function ListRegion(props) {
 
     return (
         <div
-            className={classNames(
-                'n2o-list-region', className, { 'n2o-disabled': disabled, 'd-none': !visible },
-            )}
+            className={classNames('n2o-list-region', className, { 'n2o-disabled': disabled, 'd-none': !visible })}
             style={style}
         >
             <Collapse

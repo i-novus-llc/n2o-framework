@@ -43,7 +43,9 @@ export const Icon = ({ icon, title, src, sidebarOpen, hasSubItems }: IconProps):
 
     if (!sidebarOpen && src === ITEM_SRC.DROPDOWN && !hasSubItems) {
         return <>title</>
-    } if (!sidebarOpen && !icon) {
+    }
+
+    if (!sidebarOpen && !icon) {
         const reducedTitle = title.substring(0, 1)
 
         return <span className="n2o-sidebar__item-content-icon">{reducedTitle}</span>

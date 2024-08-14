@@ -1,6 +1,6 @@
 import React from 'react'
 
-export function Required({ required }: {required: boolean}) {
+export function Required({ required }: { required: boolean }) {
     if (!required) {
         return null
     }

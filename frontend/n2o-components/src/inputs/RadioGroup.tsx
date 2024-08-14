@@ -55,23 +55,22 @@ export function RadioGroup({
         inline ? 'n2o-radio-group-inline' : 'n2o-radio-group-vertical',
     )
 
+    if (!visible) { return null }
+
     return (
-        <>
-            {visible && (
-                <section
-                    className={className}
-                    style={style}
-                >
-                    {renderedOptions}
-                </section>
-            )}
-        </>
+        <section
+            className={className}
+            style={style}
+        >
+            {renderedOptions}
+        </section>
     )
 }
 
 RadioGroup.defaultProps = {
     visible: true,
-    onChange: () => {},
+    onChange: () => {
+    },
     disabled: false,
     name: '',
     options: [],

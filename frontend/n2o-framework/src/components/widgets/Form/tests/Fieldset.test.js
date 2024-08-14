@@ -42,6 +42,7 @@ const setup = (storeObj, propOverrides = {}) => {
 describe('<FieldSelts />', () => {
     it('проверяет создание элемента', () => {
         const { wrapper } = setup()
+
         expect(wrapper.find(StandardFieldset).exists()).toBeTruthy()
     })
 })

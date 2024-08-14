@@ -7,8 +7,7 @@ import { SelectionCell } from './selection'
 import { Rows } from './Rows'
 import Table from './basic'
 
-export const TableBody: VFC<TableBodyProps> = (props) => {
-    const { cells, selection, row, ...otherProps } = props
+export const TableBody: VFC<TableBodyProps> = ({ cells, selection, row, ...otherProps }) => {
     const needSelectionComponent = selection === Selection.Radio || selection === Selection.Checkbox
     const resolvedCells = useMemo(() => {
         if (needSelectionComponent) {

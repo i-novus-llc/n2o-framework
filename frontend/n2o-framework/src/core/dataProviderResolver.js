@@ -87,9 +87,7 @@ export function dataProviderResolver(state, dataProvider, query, options) {
 
         compiledUrl = `${compiledUrl}?${queryString
             .stringify(
-                flatten(
-                    clearEmptyParams(params), { safe: true },
-                ),
+                flatten(clearEmptyParams(params), { safe: true }),
             )}`
     }
 

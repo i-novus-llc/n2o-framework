@@ -112,7 +112,10 @@ export function* fetchInvoke(
     const modelRequest = prepareModel(model, formParams, submitForm)
 
     // @ts-ignore import from js file
-    return yield call(fetchSaga, FETCH_INVOKE_DATA,
+    return yield call(
+        // @ts-ignore import from js file
+        fetchSaga,
+        FETCH_INVOKE_DATA,
         {
             basePath: path,
             baseQuery: {},
@@ -120,7 +123,8 @@ export function* fetchInvoke(
             headers: headersParams,
             model: modelRequest,
         },
-        apiProvider)
+        apiProvider,
+    )
 }
 
 export function* handleFailInvoke(
@@ -236,7 +240,7 @@ export function* handleInvoke(
             }
         }
 
-        const response: {meta: metaPropsType, data: {$list: metaPropsType}} = optimistic
+        const response: { meta: metaPropsType, data: { $list: metaPropsType } } = optimistic
             ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
             : yield call(fetchInvoke, dataProvider, model, apiProvider)
 

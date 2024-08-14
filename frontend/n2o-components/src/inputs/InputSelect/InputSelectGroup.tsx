@@ -62,13 +62,7 @@ export function InputSelectGroup({
 
     return (
         <div
-            className={classNames(
-                'n2o-input-container',
-                'form-control',
-                className, {
-                    disabled,
-                },
-            )}
+            className={classNames('n2o-input-container', 'form-control', className, { disabled })}
             onClick={onClick}
         >
             <div className="n2o-input-items">

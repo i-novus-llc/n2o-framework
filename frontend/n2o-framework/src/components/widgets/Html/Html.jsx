@@ -14,15 +14,13 @@ import { useHtmlResolver } from '../../../utils/useHtmlResolver'
  * <Html id="HtmlWidget" url="/test.html"/>
  */
 
-export const Html = (props) => {
-    const {
-        html,
-        data,
-        id,
-        className,
-        loading = false,
-    } = props
-
+export const Html = ({
+    html,
+    data,
+    id,
+    className,
+    loading = false,
+}) => {
     const resolvedHtml = useHtmlResolver(html, data)
 
     if (!resolvedHtml) {
@@ -43,13 +41,6 @@ export const Html = (props) => {
             />
         )
     )
-}
-
-Html.propTypes = {
-    url: PropTypes.string,
-    id: PropTypes.string,
-    html: PropTypes.string,
-    data: PropTypes.object,
 }
 
 export default Html

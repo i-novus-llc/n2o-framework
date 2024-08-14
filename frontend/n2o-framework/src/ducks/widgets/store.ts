@@ -266,8 +266,6 @@ export const showWidgetFilters = (widgetId: string) => changeFiltersVisibility(w
 
 export const hideWidgetFilters = (widgetId: string) => changeFiltersVisibility(widgetId, false)
 
-export const setWidgetMetadata = createAction(
-    SET_WIDGET_METADATA, (pageId: string, widgetId: string, metadata: object) => ({
-        payload: { pageId, widgetId, metadata },
-    }),
-)
+export const setWidgetMetadata = createAction(SET_WIDGET_METADATA, (pageId: string, widgetId: string, metadata: object) => ({
+    payload: { pageId, widgetId, metadata },
+}))

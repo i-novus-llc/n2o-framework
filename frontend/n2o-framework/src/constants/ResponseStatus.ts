@@ -3,5 +3,5 @@ export enum ResponseStatus {
     OK = 200,
     MultipleChoices = 300,
     Redirect = 302,
-    Unauthorized = 401
+    Unauthorized = 401,
 }

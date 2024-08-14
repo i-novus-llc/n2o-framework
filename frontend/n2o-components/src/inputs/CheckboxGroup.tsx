@@ -39,44 +39,33 @@ export const CheckboxGroup: FC<Props> = ({
     onFocus,
 }) => {
     function getDisabled(option: { disabled?: boolean, [key: string]: unknown }) {
-        if (disabled) {
-            return true
-        }
+        if (disabled) { return true }
 
-        if (isNil(option[enabledFieldId])) {
-            return option.disabled
-        }
+        if (isNil(option[enabledFieldId])) { return option.disabled }
 
         return !option[enabledFieldId]
     }
-    const renderedOptions = useMemo(() => options?.map(option => (
-        <Checkbox
-            key={option[valueFieldId]}
-            value={option}
-            label={option[labelFieldId]}
-            checked={!isNull(value) && value && isIncludes(value, option, valueFieldId)}
-            disabled={getDisabled(option)}
-            inline={inline}
-            onChange={onChange}
-            onBlur={onBlur}
-            onFocus={onFocus}
-        />
-    )),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [options, value, valueFieldId, disabled, inline, onChange, onBlur, onFocus])
-
-    return (
-        <>
-            {visible && (
-                <div
-                    className={className}
-                    style={style}
-                >
-                    {renderedOptions}
-                </div>
-            )}
-        </>
+    const renderedOptions = useMemo(
+        () => options?.map(option => (
+            <Checkbox
+                key={option[valueFieldId]}
+                value={option}
+                label={option[labelFieldId]}
+                checked={!isNull(value) && value && isIncludes(value, option, valueFieldId)}
+                disabled={getDisabled(option)}
+                inline={inline}
+                onChange={onChange}
+                onBlur={onBlur}
+                onFocus={onFocus}
+            />
+        )),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [options, value, valueFieldId, disabled, inline, onChange, onBlur, onFocus],
     )
+
+    if (!visible) { return null }
+
+    return <div className={className} style={style}>{renderedOptions}</div>
 }
 
 CheckboxGroup.defaultProps = {

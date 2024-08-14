@@ -83,16 +83,18 @@ describe('dataProviderResolver', () => {
     })
     it('Хеш, как часть роутинга', () => {
         const { url } = dataProviderResolver(state, createDataProvider({
-            url: 'https://i-novus.ru/#/test/:id/:name'
+            url: 'https://i-novus.ru/#/test/:id/:name',
         }), query, options)
+
         expect(url).toBe(
             'https://i-novus.ru/#/test/321/Michael-Jackson?param1=param1Value',
         )
     })
     it('Хеш на элемент', () => {
         const { url } = dataProviderResolver(state, createDataProvider({
-            url: 'https://i-novus.ru/test/:id/:name#main'
+            url: 'https://i-novus.ru/test/:id/:name#main',
         }), query, options)
+
         expect(url).toBe(
             'https://i-novus.ru/test/321/Michael-Jackson?param1=param1Value',
         )
@@ -105,13 +107,13 @@ describe('dataProviderResolver', () => {
                     param1: {
                         value: '`param1`',
                         link: 'models.filter[\'does_not_exist\']',
-                        required: true
+                        required: true,
                     },
                 },
             }), query, options)
             throw new Error('failed test')
         } catch (error) {
-            expect(error.message).toBe(`DataProvider error: "param1" is required`)
+            expect(error.message).toBe('DataProvider error: "param1" is required')
         }
     })
 })

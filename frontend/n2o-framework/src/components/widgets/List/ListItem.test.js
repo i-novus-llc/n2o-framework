@@ -23,6 +23,7 @@ const setup = propsOverride => mount(
 describe('Проверка ListItem', () => {
     it('секции отрисовываются', () => {
         const wrapper = setup()
+
         expect(wrapper.find('.n2o-widget-list-item-left-top').exists()).toEqual(
             true,
         )
@@ -48,6 +49,7 @@ describe('Проверка ListItem', () => {
         const wrapper = setup({
             onClick,
         })
+
         wrapper.find('.n2o-widget-list-item').simulate('click')
         expect(onClick.calledOnce).toEqual(true)
     })

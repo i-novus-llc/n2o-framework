@@ -11,7 +11,7 @@ export const enum CalendarType {
 export const enum DateTimeControlName {
     BEGIN = 'begin',
     DEFAULT_NAME = 'singleDate',
-    END = 'end'
+    END = 'end',
 }
 
 export type DatePickerValue =

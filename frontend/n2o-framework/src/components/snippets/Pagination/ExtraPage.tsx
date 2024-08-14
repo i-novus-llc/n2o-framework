@@ -12,9 +12,7 @@ function Ellipsis({ visible }: { visible: boolean }) {
     return <span className="ellipsis d-flex align-items-md-end">...</span>
 }
 
-export function ExtraPage(props: ExtraPageProps) {
-    const { visible, page, onSelect, ellipsis, showLast, hasNext, disabled = false, canSelect = true } = props
-
+export function ExtraPage({ visible, page, onSelect, ellipsis, showLast, hasNext, disabled = false, canSelect = true }: ExtraPageProps) {
     if (!visible) {
         return null
     }

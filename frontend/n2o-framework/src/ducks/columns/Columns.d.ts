@@ -1,4 +1,4 @@
-import { Condition } from '../../sagas/conditions'
+import { type Condition } from '../../sagas/conditions'
 
 interface Conditions {
     visible?: Condition[]

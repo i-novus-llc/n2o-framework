@@ -104,7 +104,6 @@ const testState = {
 }
 
 describe('Проверка until js', () => {
-
     describe('getFieldsKeys', () => {
         it('правильно мапит ключи', () => {
             expect(getFieldsKeys(fieldsets1)).toEqual([

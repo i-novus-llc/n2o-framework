@@ -175,8 +175,12 @@ export function* modify(
         case 'reRender': {
             yield delay(50)
             yield put(startValidate(
+                datasource,
                 // @ts-ignore FIXME непонял как поправить
-                datasource, ValidationsKey.Validations, modelPrefix, [fieldName], { touched: true },
+                ValidationsKey.Validations,
+                modelPrefix,
+                [fieldName],
+                { touched: true },
             ))
 
             break

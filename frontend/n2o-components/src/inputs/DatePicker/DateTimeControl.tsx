@@ -57,6 +57,9 @@ export const ControlType = {
     DATE_INTERVAL: 'date-interval',
 }
 
+const DEFAULT_DATE_FORMAT = 'DD.MM.YYYY'
+const DEFAULT_OUTPUT_FORMAT = `${DEFAULT_DATE_FORMAT}  HH:mm:ss`
+
 export class DateTimeControl extends React.Component<DateTimeControlProps, DateTimeControlState> {
     format: string
 
@@ -74,11 +77,11 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
         super(props)
         const {
             value,
-            dateFormat = 'DD.MM.YYYY',
+            dateFormat = DEFAULT_DATE_FORMAT,
             configLocale = 'ru',
             timeFormat,
             dateDivider = ' ',
-            outputFormat = 'DD.MM.YYYY HH:mm:ss',
+            outputFormat = DEFAULT_OUTPUT_FORMAT,
             defaultTime = '00:00',
         } = props
 
@@ -115,11 +118,11 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
     componentWillReceiveProps(props: DateTimeControlProps) {
         const {
             value,
-            dateFormat = 'DD.MM.YYYY',
+            dateFormat = DEFAULT_DATE_FORMAT,
             configLocale = 'ru',
             timeFormat,
             dateDivider = ' ',
-            outputFormat = 'DD.MM.YYYY HH:mm:ss',
+            outputFormat = DEFAULT_OUTPUT_FORMAT,
             defaultTime = '00:00',
         } = props
 
@@ -155,7 +158,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
      * Приведение к строке
      */
     dateToString(date: DateType | null) {
-        const { outputFormat = 'DD.MM.YYYY HH:mm:ss', utc } = this.props
+        const { outputFormat = DEFAULT_OUTPUT_FORMAT, utc } = this.props
 
         if (isNull(date) || typeof date === 'string') {
             return date
@@ -211,7 +214,9 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
             const inputValue = () => {
                 if (
                     inputName === DateTimeControlName.BEGIN &&
+                    // eslint-disable-next-line @typescript-eslint/no-use-before-define
                     inputs[DateTimeControlName.END] &&
+                    // eslint-disable-next-line @typescript-eslint/no-use-before-define
                     moment(day).isAfter(inputs[DateTimeControlName.END])
                 ) {
                     return {
@@ -220,9 +225,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
                     }
                 }
 
-                return {
-                    [inputName]: day,
-                }
+                return { [inputName]: day }
             }
             const { inputs } = this.state
 
@@ -378,7 +381,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
      * Приводит min, max к moment объекту, текущему формату
      */
     parseRange(range?: string) {
-        const { dateFormat = 'DD.MM.YYYY' } = this.props
+        const { dateFormat = DEFAULT_DATE_FORMAT } = this.props
 
         // @ts-ignore @fixme не определяется библиотечный метод
         // eslint-disable-next-line no-underscore-dangle
@@ -396,7 +399,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
         if (!isPopUpVisible) { return null }
 
         const { inputs, isTimeSet } = this.state
-        const { max, min, configLocale = 'ru', timeFormat, dateFormat = 'DD.MM.YYYY', type } = this.props
+        const { max, min, configLocale = 'ru', timeFormat, dateFormat = DEFAULT_DATE_FORMAT, type } = this.props
 
         return (
             <PopUp
@@ -444,7 +447,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
             autoFocus,
             openOnFocus = false,
             popupPlacement = 'bottom-start',
-            outputFormat = 'DD.MM.YYYY HH:mm:ss',
+            outputFormat = DEFAULT_OUTPUT_FORMAT,
             strategy = 'absolute',
             max,
             min,

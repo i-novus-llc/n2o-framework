@@ -67,6 +67,7 @@ export const useDatasourceMethods = (id, datasource) => {
             setSorting(field, sorting) {
                 dispatch(setDataSourceSorting(datasource, field, sorting))
             },
+            // eslint-disable-next-line @typescript-eslint/default-param-last
             setPage(page = 1, withCount) {
                 dispatch(changePage(datasource, page, withCount))
             },

@@ -206,15 +206,16 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
                 />
                 {(name === DateTimeControlName.DEFAULT_NAME ||
                     name === DateTimeControlName.END) && (
-                    // eslint-disable-next-line react/button-has-type
-                    <button
-                        disabled={disabled}
-                        onClick={this.onButtonClick}
-                        className="btn n2o-calendar-button"
-                        tabIndex={-1}
-                    >
-                        <i className="fa fa-calendar" aria-hidden="true" />
-                    </button>
+                        <button
+                            type="button"
+                            aria-label="calendar-button"
+                            disabled={disabled}
+                            onClick={this.onButtonClick}
+                            className="btn n2o-calendar-button"
+                            tabIndex={-1}
+                        >
+                            <i className="fa fa-calendar" aria-hidden="true" />
+                        </button>
                 )}
             </div>
         )

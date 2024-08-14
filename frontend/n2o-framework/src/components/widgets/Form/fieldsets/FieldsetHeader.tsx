@@ -1,6 +1,5 @@
 import classNames from 'classnames'
 import React, { useContext } from 'react'
-
 import { Props as BadgeProps } from '@i-novus/n2o-components/lib/display/Badge/Badge'
 
 import HelpPopover from '../fields/StandardField/HelpPopover'
@@ -18,17 +17,15 @@ interface Props {
     help?: string
 }
 
-export function FieldsetHeader(props: Props) {
-    const {
-        visible,
-        badge,
-        label,
-        needLabel,
-        description,
-        needDescription,
-        help,
-    } = props
-
+export function FieldsetHeader({
+    visible,
+    badge,
+    label,
+    needLabel,
+    description,
+    needDescription,
+    help,
+}: Props) {
     const { getComponent } = useContext(FactoryContext)
 
     if (!visible) { return null }

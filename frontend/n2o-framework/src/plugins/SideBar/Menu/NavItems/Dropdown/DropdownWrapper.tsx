@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react'
 import classNames from 'classnames'
-
 import { NavItemImage } from '@i-novus/n2o-components/lib/display/NavItemImage'
 
 import { Tooltip } from '../../../../../components/snippets/Tooltip/TooltipHOC'
@@ -20,20 +19,19 @@ interface DropdownWrapperProps {
     open?: boolean
 }
 
-export function DropdownWrapper(props: DropdownWrapperProps) {
-    const {
-        sidebarOpen,
-        title,
-        children,
-        icon,
-        src,
-        showContent,
-        isMiniView,
-        id,
-        imageSrc,
-        imageShape,
-        open = false,
-    } = props
+export function DropdownWrapper({
+    sidebarOpen,
+    title,
+    children,
+    icon,
+    src,
+    showContent,
+    isMiniView,
+    id,
+    imageSrc,
+    imageShape,
+    open = false,
+}: DropdownWrapperProps) {
     const ref = useRef(null)
     const [isOpen, setOpen] = useState(open)
     const toggle = () => setOpen(!isOpen)

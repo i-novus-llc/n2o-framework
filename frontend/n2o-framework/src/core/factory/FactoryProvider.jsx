@@ -85,7 +85,9 @@ export class FactoryProvider extends Component {
             })
 
             return isArray(props) ? values(obj) : obj
-        } if (isString(props)) {
+        }
+
+        if (isString(props)) {
             return this.getComponent(props) || defaultComponent
         }
 

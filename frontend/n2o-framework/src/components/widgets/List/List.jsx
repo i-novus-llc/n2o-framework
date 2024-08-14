@@ -172,134 +172,134 @@ class List extends Component {
         }, 300)
     }
 
-  resizeAll = () => {
-      this.cache.clearAll()
-      if (this.virtualizer) {
-          // noinspection JSUnresolvedFunction
-          this.virtualizer.recomputeRowHeights()
-      }
-  };
+    resizeAll = () => {
+        this.cache.clearAll()
+        if (this.virtualizer) {
+            // noinspection JSUnresolvedFunction
+            this.virtualizer.recomputeRowHeights()
+        }
+    }
 
-  renderRow({ index, key, style, parent }) {
-      const {
-          divider,
-          hasMoreButton,
-          fetchOnScroll,
-          hasSelect,
-          rows,
-      } = this.props
-      const { data, selectedIndex } = this.state
-      const moreBtn = null
+    renderRow({ index, key, style, parent }) {
+        const {
+            divider,
+            hasMoreButton,
+            fetchOnScroll,
+            hasSelect,
+            rows,
+        } = this.props
+        const { data, selectedIndex } = this.state
+        const moreBtn = null
 
-      if (index === data.length - 1 && hasMoreButton && !fetchOnScroll) {
-          return (
-              <CellMeasurer
-                  key={key}
-                  cache={this.cache}
-                  parent={parent}
-                  columnIndex={0}
-                  rowIndex={index}
-              >
-                  <ListMoreButton style={style} onClick={this.fetchMore} />
-              </CellMeasurer>
-          )
-      }
+        if (index === data.length - 1 && hasMoreButton && !fetchOnScroll) {
+            return (
+                <CellMeasurer
+                    key={key}
+                    cache={this.cache}
+                    parent={parent}
+                    columnIndex={0}
+                    rowIndex={index}
+                >
+                    <ListMoreButton style={style} onClick={this.fetchMore} />
+                </CellMeasurer>
+            )
+        }
 
-      return (
-          <>
-              <CellMeasurer
-                  key={key}
-                  cache={this.cache}
-                  parent={parent}
-                  columnIndex={0}
-                  rowIndex={index}
-              >
-                  {
-                      ({ measure }) => (
-                          <ListItem
-                              {...data[index]}
-                              hasSelect={hasSelect}
-                              key={key}
-                              style={style}
-                              divider={divider}
-                              selected={selectedIndex === index}
-                              onClick={() => this.onItemClick(index, isEmpty(rows) || !rows.disabled)}
-                              measure={measure}
-                          />
-                      ) }
-              </CellMeasurer>
-              {moreBtn}
-          </>
-      )
-  }
+        return (
+            <>
+                <CellMeasurer
+                    key={key}
+                    cache={this.cache}
+                    parent={parent}
+                    columnIndex={0}
+                    rowIndex={index}
+                >
+                    {
+                        ({ measure }) => (
+                            <ListItem
+                                {...data[index]}
+                                hasSelect={hasSelect}
+                                key={key}
+                                style={style}
+                                divider={divider}
+                                selected={selectedIndex === index}
+                                onClick={() => this.onItemClick(index, isEmpty(rows) || !rows.disabled)}
+                                measure={measure}
+                            />
+                        ) }
+                </CellMeasurer>
+                {moreBtn}
+            </>
+        )
+    }
 
-  render() {
-      const { className, maxHeight, t } = this.props
-      const { data } = this.state
+    render() {
+        const { className, maxHeight, t } = this.props
+        const { data } = this.state
 
-      return (
-          <div
-              ref={this.setListContainerRef}
-              className={classNames('n2o-widget-list', className)}
-          >
-              {(!data || isEmpty(data)) && (
-                  <div className="n2o-widget-list--empty-view text-muted">
-                      {t('noData')}
-                  </div>
-              )}
-              {data && !isEmpty(data) && (
-                  <div className="n2o-widget-list-container">
-                      {maxHeight ? (
-                          <AutoSizer style={{ height: '100%' }}>
-                              {({ width }) => (
-                                  <Virtualizer
-                                      ref={this.setVirtualizerRef}
-                                      width={width}
-                                      height={maxHeight}
-                                      deferredMeasurementCache={this.cache}
-                                      rowHeight={this.cache.rowHeight}
-                                      rowRenderer={this.renderRow}
-                                      rowCount={data.length}
-                                      overscanRowCount={5}
-                                  />
-                              )}
-                          </AutoSizer>
-                      ) : (
-                          <WindowScroller
-                              ref={this.setWindowScrollerRef}
-                              scrollElement={window}
-                          >
-                              {({
-                                  height,
-                                  isScrolling,
-                                  onChildScroll,
-                                  scrollTop,
-                              }) => (
-                                  <AutoSizer style={{ height: '100%' }}>
-                                      {({ width }) => (
-                                          <Virtualizer
-                                              ref={this.setVirtualizerRef}
-                                              autoHeight
-                                              height={height}
-                                              isScrolling={isScrolling}
-                                              onScroll={onChildScroll}
-                                              overscanRowCount={5}
-                                              rowCount={data.length}
-                                              rowHeight={this.cache.rowHeight}
-                                              rowRenderer={this.renderRow}
-                                              scrollTop={scrollTop}
-                                              width={width}
-                                          />
-                                      )}
-                                  </AutoSizer>
-                              )}
-                          </WindowScroller>
-                      )}
-                  </div>
-              )}
-          </div>
-      )
-  }
+        return (
+            <div
+                ref={this.setListContainerRef}
+                className={classNames('n2o-widget-list', className)}
+            >
+                {(!data || isEmpty(data)) && (
+                    <div className="n2o-widget-list--empty-view text-muted">
+                        {t('noData')}
+                    </div>
+                )}
+                {data && !isEmpty(data) && (
+                    <div className="n2o-widget-list-container">
+                        {maxHeight ? (
+                            <AutoSizer style={{ height: '100%' }}>
+                                {({ width }) => (
+                                    <Virtualizer
+                                        ref={this.setVirtualizerRef}
+                                        width={width}
+                                        height={maxHeight}
+                                        deferredMeasurementCache={this.cache}
+                                        rowHeight={this.cache.rowHeight}
+                                        rowRenderer={this.renderRow}
+                                        rowCount={data.length}
+                                        overscanRowCount={5}
+                                    />
+                                )}
+                            </AutoSizer>
+                        ) : (
+                            <WindowScroller
+                                ref={this.setWindowScrollerRef}
+                                scrollElement={window}
+                            >
+                                {({
+                                    height,
+                                    isScrolling,
+                                    onChildScroll,
+                                    scrollTop,
+                                }) => (
+                                    <AutoSizer style={{ height: '100%' }}>
+                                        {({ width }) => (
+                                            <Virtualizer
+                                                ref={this.setVirtualizerRef}
+                                                autoHeight
+                                                height={height}
+                                                isScrolling={isScrolling}
+                                                onScroll={onChildScroll}
+                                                overscanRowCount={5}
+                                                rowCount={data.length}
+                                                rowHeight={this.cache.rowHeight}
+                                                rowRenderer={this.renderRow}
+                                                scrollTop={scrollTop}
+                                                width={width}
+                                            />
+                                        )}
+                                    </AutoSizer>
+                                )}
+                            </WindowScroller>
+                        )}
+                    </div>
+                )}
+            </div>
+        )
+    }
 }
 
 List.propTypes = {

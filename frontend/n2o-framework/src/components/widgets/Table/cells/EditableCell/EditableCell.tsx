@@ -12,18 +12,16 @@ import { View } from './VIew'
 import { Control } from './Control'
 
 // eslint-disable-next-line
-const Cell: VFC<any> = (props) => {
-    const {
-        visible,
-        control,
-        editable,
-        disabled,
-        format,
-        fieldKey,
-        model,
-        callAction,
-    } = props
-
+const Cell: VFC<any> = ({
+    visible,
+    control,
+    editable,
+    disabled,
+    format,
+    fieldKey,
+    model,
+    callAction,
+}) => {
     const controlId = control.id
     const [isEditing, setIsEditing] = useState(false)
     const viewValue = useMemo(() => get(model, fieldKey), [model, fieldKey])

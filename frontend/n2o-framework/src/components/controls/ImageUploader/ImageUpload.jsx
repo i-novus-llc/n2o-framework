@@ -7,36 +7,35 @@ import { Button } from 'reactstrap'
 
 import ImageUploaderList from './ImageUploaderList'
 
-function ImageUpload(props) {
-    const {
-        uploading,
-        statusBarColor,
-        onRemove,
-        autoUpload,
-        showSize,
-        showName,
-        disabled,
-        children,
-        onImagesDrop,
-        onDragEnter,
-        onDragLeave,
-        multiple,
-        visible,
-        className,
-        files,
-        componentClass,
-        onStartUpload,
-        uploaderClass,
-        saveBtnStyle,
-        lightbox,
-        listType,
-        imgError,
-        showTooltip,
-        customUploaderSize,
-        canDelete,
-        shape,
-        accept,
-    } = props
+function ImageUpload({
+    uploading,
+    statusBarColor,
+    onRemove,
+    autoUpload,
+    showSize,
+    showName,
+    disabled,
+    children,
+    onImagesDrop,
+    onDragEnter,
+    onDragLeave,
+    multiple,
+    visible,
+    className,
+    files,
+    componentClass,
+    onStartUpload,
+    uploaderClass,
+    saveBtnStyle,
+    lightbox,
+    listType,
+    imgError,
+    showTooltip,
+    customUploaderSize,
+    canDelete,
+    shape,
+    accept,
+}) {
     const showControl = multiple || (!multiple && isEmpty(files))
     const componentClassContainer = `${componentClass}-container`
 
@@ -101,7 +100,7 @@ function ImageUpload(props) {
                     style={saveBtnStyle}
                     onClick={onStartUpload}
                 >
-                    {'Сохранить'}
+                    Сохранить
                 </Button>
             )}
         </div>

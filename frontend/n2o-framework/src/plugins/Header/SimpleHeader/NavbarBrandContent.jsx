@@ -17,6 +17,7 @@ export const NavbarBrandContent = ({ brandImage }) => {
         brandImage
     )
 
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{img}</>
 }
 

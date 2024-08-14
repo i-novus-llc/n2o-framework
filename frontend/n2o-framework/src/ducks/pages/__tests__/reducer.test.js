@@ -3,7 +3,7 @@ import pages, {
     metadataSuccess,
     metadataFail,
     resetPage,
-    setStatus
+    setStatus,
 } from '../store'
 import { SET_WIDGET_METADATA } from '../../widgets/constants'
 
@@ -96,7 +96,7 @@ describe('Тесты pages reducer', () => {
                 },
                 {
                     type: resetPage.type,
-                    payload: 'pageId'
+                    payload: 'pageId',
                 },
             ),
         ).toEqual({

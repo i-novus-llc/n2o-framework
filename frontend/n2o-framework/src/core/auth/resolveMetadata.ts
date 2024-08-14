@@ -46,7 +46,7 @@ async function check(
  * @returns {object} Отфильтрованный объект метаданных
  */
 export async function resolveMetadata<
-    T = unknown
+    T = unknown,
 >(
     metadata: T,
     user: object,

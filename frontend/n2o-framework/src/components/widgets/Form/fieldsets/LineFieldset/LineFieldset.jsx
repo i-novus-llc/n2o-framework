@@ -5,22 +5,20 @@ import CollapseFieldset from '../CollapseFieldset/CollapseFieldSet'
 import TitleFieldset from '../TitleFieldset/TitleFieldset'
 import { withFieldsetHeader } from '../withFieldsetHeader'
 
-function LineFieldset(props) {
-    const {
-        render,
-        rows,
-        type,
-        label,
-        expand,
-        className,
-        hasSeparator,
-        description,
-        help,
-        disabled,
-        collapsible,
-        badge,
-    } = props
-
+function LineFieldset({
+    render,
+    rows,
+    type,
+    label,
+    expand,
+    className,
+    hasSeparator,
+    description,
+    help,
+    disabled,
+    collapsible,
+    badge,
+}) {
     const commonProps = {
         render,
         rows,

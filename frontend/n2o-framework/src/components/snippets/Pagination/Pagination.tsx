@@ -14,27 +14,25 @@ import { usePagination, getTotalPages } from './usePagination'
 import { Pages } from './Pages'
 import { getTotalVisibility, getHasNext } from './helpers'
 
-export function Pagination(props: Props) {
-    const {
-        className,
-        showCount,
-        count,
-        size,
-        onSelect,
-        prevIcon,
-        nextIcon,
-        showSinglePage = true,
-        showLast = true,
-        activePage = 1,
-        prevLabel = null,
-        nextLabel = null,
-        prev = true,
-        next = true,
-        hasNext: propsHasNext = false,
-        loading = false,
-        visible = true,
-    } = props
-
+export function Pagination({
+    className,
+    showCount,
+    count,
+    size,
+    onSelect,
+    prevIcon,
+    nextIcon,
+    showSinglePage = true,
+    showLast = true,
+    activePage = 1,
+    prevLabel = null,
+    nextLabel = null,
+    prev = true,
+    next = true,
+    hasNext: propsHasNext = false,
+    loading = false,
+    visible = true,
+}: Props) {
     const total = count ? `${TOTAL} ${count}` : null
     const totalPages = getTotalPages(count, size)
     const totalVisible = getTotalVisibility(showCount, showLast, count)
@@ -82,7 +80,8 @@ export function Pagination(props: Props) {
             <Select
                 onClick={prevClick}
                 className={classNames(
-                    PAGE_LINK_CLASS, 'prev',
+                    PAGE_LINK_CLASS,
+                    'prev',
                     { 'with-title': prevLabel, 'with-icon': prevIcon },
                 )}
                 disabled={loading || prevDisabled}
@@ -105,7 +104,8 @@ export function Pagination(props: Props) {
             <Select
                 onClick={nextClick}
                 className={classNames(
-                    PAGE_LINK_CLASS, 'next',
+                    PAGE_LINK_CLASS,
+                    'next',
                     { 'with-title': nextLabel, 'with-icon': nextIcon },
                 )}
                 disabled={loading || nextDisabled}

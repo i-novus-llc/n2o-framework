@@ -20,6 +20,18 @@ const renderIcon = (icon, directionIconsInPopUp) => (isString(icon) ? (
     icon
 ))
 
+export const renderDescription = (description, disabled) => (description && disabled ? (
+    <div className="dropdown-header n2o-search-bar__popup_desc-disabled">
+        {description}
+    </div>
+) : (
+    description && (
+        <div className="dropdown-header n2o-search-bar__popup_desc-disabled">
+            {description}
+        </div>
+    )
+))
+
 // eslint-disable-next-line react/prop-types
 export const RenderLink = ({ label, description, icon, href, ...props }) => {
     // eslint-disable-next-line react/prop-types
@@ -60,18 +72,6 @@ export const RenderLink = ({ label, description, icon, href, ...props }) => {
         </div>
     )
 }
-
-export const renderDescription = (description, disabled) => (description && disabled ? (
-    <div className="dropdown-header n2o-search-bar__popup_desc-disabled">
-        {description}
-    </div>
-) : (
-    description && (
-        <div className="dropdown-header n2o-search-bar__popup_desc-disabled">
-            {description}
-        </div>
-    )
-))
 
 export const renderDivider = (props) => {
     const { separateLink } = props

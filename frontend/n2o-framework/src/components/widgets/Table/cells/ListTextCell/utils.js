@@ -15,7 +15,9 @@ export const replacePlaceholder = (label, listLength) => {
 
     if (isUndefined(label)) {
         return listLength
-    } if (hasPlaceholder) {
+    }
+
+    if (hasPlaceholder) {
         return label.replace(/{size}/gm, listLength)
     }
 

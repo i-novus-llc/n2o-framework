@@ -1,110 +1,110 @@
 import React from 'react'
-import {mount} from 'enzyme'
+import { mount } from 'enzyme'
 
 import { SideBar } from './SideBar'
 
 const props = {
-    src: "string",
-    className: "sidebarCustomClass",
+    src: 'string',
+    className: 'sidebarCustomClass',
     style: {},
     logo: {
-        title: "N2O logo",
-        className: "customSimpleHeaderLogoClassName",
+        title: 'N2O logo',
+        className: 'customSimpleHeaderLogoClassName',
         style: {},
-        href: "/",
-        src: "https://avatars0.githubusercontent.com/u/25926683?s=200&v=4",
+        href: '/',
+        src: 'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4',
     },
     menu: {
-        src: "string",
+        src: 'string',
         items: [{
-            id: "menuItem0",
+            id: 'menuItem0',
             type: 'dropdown',
-            href: "/",
+            href: '/',
             target: '_blank',
-            items:[
+            items: [
                 {
-                    id: "subMenuItem0",
+                    id: 'subMenuItem0',
                     type: 'link',
-                    href: "/",
+                    href: '/',
                     target: '_blank',
-                    items:[],
-                    icon: "fa fa-plus",
-                    title: "subMenuItem0",
-                    badge: "badge",
-                    badgeColor: "warning"
+                    items: [],
+                    icon: 'fa fa-plus',
+                    title: 'subMenuItem0',
+                    badge: 'badge',
+                    badgeColor: 'warning',
                 },
                 {
-                    id: "subMenuItem2",
+                    id: 'subMenuItem2',
                     type: 'link',
-                    href: "/",
+                    href: '/',
                     target: '_blank',
-                    items:[],
-                    icon: "fa fa-square",
-                    title: "subMenuItem1",
-                    badge: "badge",
-                    badgeColor: "warning"
-                }
+                    items: [],
+                    icon: 'fa fa-square',
+                    title: 'subMenuItem1',
+                    badge: 'badge',
+                    badgeColor: 'warning',
+                },
 
             ],
-            icon: "fa fa-square",
-            title: "menuItem0 test- 1",
+            icon: 'fa fa-square',
+            title: 'menuItem0 test- 1',
         },
-            {
-                id: "menuItem11",
-                type: 'dropdown',
-                href: "/",
-                target: '_blank',
-                items:[
-                    {
-                        id: "subMenuItem0",
-                        type: 'link',
-                        href: "/",
-                        target: '_blank',
-                        items:[],
-                        icon: "fa fa-square",
-                        title: "subMenuItem0",
-                        badge: "badge",
-                        badgeColor: "warning"
-                    },
-                    {
-                        id: "subMenuItem2",
-                        type: 'link',
-                        href: "/",
-                        target: '_blank',
-                        items:[],
-                        icon: "fa fa-plus",
-                        title: "subMenuItem1",
-                        badge: "badge",
-                        badgeColor: "warning"
-                    }
+        {
+            id: 'menuItem11',
+            type: 'dropdown',
+            href: '/',
+            target: '_blank',
+            items: [
+                {
+                    id: 'subMenuItem0',
+                    type: 'link',
+                    href: '/',
+                    target: '_blank',
+                    items: [],
+                    icon: 'fa fa-square',
+                    title: 'subMenuItem0',
+                    badge: 'badge',
+                    badgeColor: 'warning',
+                },
+                {
+                    id: 'subMenuItem2',
+                    type: 'link',
+                    href: '/',
+                    target: '_blank',
+                    items: [],
+                    icon: 'fa fa-plus',
+                    title: 'subMenuItem1',
+                    badge: 'badge',
+                    badgeColor: 'warning',
+                },
 
-                ],
-                icon: "fa fa-pencil",
-                title: "menuItem test 2",
-            }
-        ]
+            ],
+            icon: 'fa fa-pencil',
+            title: 'menuItem test 2',
+        },
+        ],
     },
     extraMenu: {
-        src: "string",
+        src: 'string',
         items: [{
-            id: "menuItem0",
+            id: 'menuItem0',
             type: 'dropdown',
-            href: "/",
+            href: '/',
             target: '_blank',
-            items:[
+            items: [
                 {
-                    id: "subMenuItem0",
+                    id: 'subMenuItem0',
                     type: 'link',
-                    href: "/",
+                    href: '/',
                     target: '_blank',
-                    items:[],
-                    icon: "fa fa-square",
-                    title: "subMenuItem0",
-                }
+                    items: [],
+                    icon: 'fa fa-square',
+                    title: 'subMenuItem0',
+                },
             ],
-            icon: "fa fa square",
-            title: "menuItem0",
-        }]
+            icon: 'fa fa square',
+            title: 'menuItem0',
+        }],
     },
     side: 'left',
     defaultState: 'mini',
@@ -113,18 +113,20 @@ const props = {
     overlay: false,
 }
 
-const setup = props => shallow(<SideBar {...props}  />)
-const setup2 = props => shallow(<SideBar {...props} controlled={true} sidebarOpen={true}/>)
+const setup = props => shallow(<SideBar {...props} />)
+const setup2 = props => shallow(<SideBar {...props} controlled sidebarOpen />)
 
 describe('Тесты SideBar', () => {
     it('Отрисовка в соответствии с props mini view', () => {
         const wrapper = setup(props)
+
         expect(wrapper.find('.n2o-sidebar').exists()).toEqual(true)
         expect(wrapper.find('.mini').exists()).toEqual(true)
     })
 
     it('Отрисовка в соответствии с props maxi view', () => {
         const wrapper = setup2(props)
+
         expect(wrapper.find('.n2o-sidebar').exists()).toEqual(true)
         expect(wrapper.find('.maxi').exists()).toEqual(true)
     })

@@ -19,38 +19,6 @@ interface Service {
     tabs?: TabMeta[]
 }
 
-export const getFirstAvailableTab = (state: State, service: Service): string | null => {
-    const { tabs = [] } = service
-    const availableTab = tabs.find((tab => checkTabAvailability(service, tab, state)))
-
-    if (availableTab) {
-        const { id } = availableTab
-
-        return id
-    }
-
-    return null
-}
-
-export const setFirstAvailableTab = (
-    service: Service,
-    changeActiveEntity: (id: string) => void,
-    state: State,
-    activeTabFieldId?: string | undefined,
-    setResolve?: (model: Record<string, unknown>) => void | undefined,
-    model?: Record<string, unknown>,
-) => {
-    const firstVisibleTab = getFirstAvailableTab(state, service)
-
-    if (firstVisibleTab) {
-        changeActiveEntity(firstVisibleTab)
-
-        if (setResolve && activeTabFieldId && model) {
-            setResolve({ ...model, [activeTabFieldId]: firstVisibleTab })
-        }
-    }
-}
-
 /* checking by an available parameter (visible or enabled) */
 const check = (tab: TabMeta, param: AvailableParam, state: State) => {
     const availableParam = tab[param]
@@ -109,6 +77,38 @@ export const checkTabAvailability = (
     return hasVisibleWidget &&
         check(tab, ENABLED, state) &&
         check(tab, VISIBLE, state)
+}
+
+export const getFirstAvailableTab = (state: State, service: Service): string | null => {
+    const { tabs = [] } = service
+    const availableTab = tabs.find((tab => checkTabAvailability(service, tab, state)))
+
+    if (availableTab) {
+        const { id } = availableTab
+
+        return id
+    }
+
+    return null
+}
+
+export const setFirstAvailableTab = (
+    service: Service,
+    changeActiveEntity: (id: string) => void,
+    state: State,
+    activeTabFieldId?: string | undefined,
+    setResolve?: (model: Record<string, unknown>) => void | undefined,
+    model?: Record<string, unknown>,
+) => {
+    const firstVisibleTab = getFirstAvailableTab(state, service)
+
+    if (firstVisibleTab) {
+        changeActiveEntity(firstVisibleTab)
+
+        if (setResolve && activeTabFieldId && model) {
+            setResolve({ ...model, [activeTabFieldId]: firstVisibleTab })
+        }
+    }
 }
 
 export const getTabMetaById = (tabId: string, tabs: TabMeta[]) => tabs?.find(({ id }) => id === tabId)

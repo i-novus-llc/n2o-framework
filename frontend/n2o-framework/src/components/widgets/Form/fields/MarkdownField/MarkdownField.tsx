@@ -15,6 +15,7 @@ import { MarkdownFieldMappers, Actions, Model } from './helpers'
 interface MarkdownFieldProps {
     visible: boolean
     content: string
+    // eslint-disable-next-line react/no-unused-prop-types
     action?: AnyAction
     model: Model
     disabled: boolean
@@ -24,18 +25,16 @@ interface MarkdownFieldProps {
     className: string
 }
 
-export function MarkdownFieldBody(props: MarkdownFieldProps): ReactElement | null {
-    const {
-        visible,
-        content,
-        actions = {},
-        model = {},
-        disabled = false,
-        markdownFieldMappers,
-        dispatch,
-        className,
-    } = props
-
+export function MarkdownFieldBody({
+    visible,
+    content,
+    actions = {},
+    model = {},
+    disabled = false,
+    markdownFieldMappers,
+    dispatch,
+    className,
+}: MarkdownFieldProps): ReactElement | null {
     const resolvedMarkdown = useHtmlResolver(content, model)
 
     if (!visible || typeof resolvedMarkdown !== 'string') {

@@ -9,22 +9,21 @@ import { Spinner } from '../../snippets/Spinner/Spinner'
 
 import { convertSize } from './utils'
 
-function FileUploaderItem(props) {
-    const {
-        file,
-        percentage,
-        statusBarColor,
-        onRemove,
-        showSize,
-        disabled,
-        index,
-        loading,
-        autoUpload,
-        deleteIcon,
-    } = props
-
+function FileUploaderItem({
+    file,
+    percentage,
+    statusBarColor,
+    onRemove,
+    showSize,
+    disabled,
+    index,
+    loading,
+    autoUpload,
+    deleteIcon,
+}) {
     const error = (!isEmpty(file.error) || !isEmpty(file.response)) && (file.response || file.error)
 
+    // eslint-disable-next-line react/no-unstable-nested-components
     const Component = ({ forwardedRef }) => (
         <a
             title={file.name}
@@ -35,6 +34,7 @@ function FileUploaderItem(props) {
             className={classNames('n2o-file-uploader-link', {
                 'n2o-file-uploader-item-error': file.error,
             })}
+            rel="noreferrer"
         >
             <span ref={forwardedRef} className="n2o-file-uploader-file-name">{file.name}</span>
             {file.link && (

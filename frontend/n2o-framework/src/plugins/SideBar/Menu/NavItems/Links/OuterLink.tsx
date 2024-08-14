@@ -16,9 +16,7 @@ interface OuterLinkProps {
     forwardedRef?: React.Ref<HTMLAnchorElement>
 }
 
-export function OuterLink(props: OuterLinkProps) {
-    const { href, isStaticView, showContent, sidebarOpen, isMiniView, item, id, forwardedRef } = props
-
+export function OuterLink({ href, isStaticView, showContent, sidebarOpen, isMiniView, item, id, forwardedRef }: OuterLinkProps) {
     return (
         <a id={id} className="n2o-sidebar__item" href={href} ref={forwardedRef}>
             <LinkBody

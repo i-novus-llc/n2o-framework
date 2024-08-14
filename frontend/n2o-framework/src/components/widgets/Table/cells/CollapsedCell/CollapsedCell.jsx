@@ -16,21 +16,19 @@ import propsResolver from '../../../../../utils/propsResolver'
  * @reactProps {string} amountToGroup - количество элементов для группировки
  */
 
-function CollapsedCell(props) {
+function CollapsedCell({
+    model,
+    fieldKey,
+    color,
+    amountToGroup,
+    labelFieldId,
+    content,
+    separator = null,
+    forwardedRef,
+    visible,
+    inline = true,
+}) {
     const [isCollapsed, setIsCollapsed] = useState(true)
-
-    const {
-        model,
-        fieldKey,
-        color,
-        amountToGroup,
-        labelFieldId,
-        content,
-        separator = null,
-        forwardedRef,
-        visible,
-        inline = true,
-    } = props
 
     const separatorAsHtml = useMemo(() => {
         if (separator) {
@@ -93,6 +91,7 @@ function CollapsedCell(props) {
             )}
         >
             {items.map((item, index, self) => (
+                // eslint-disable-next-line react/no-array-index-key
                 <div className="collapse-cell-data" key={String(index)}>
                     {renderCell(item)}
                     {separatorAsHtml && (index !== self.length - 1) && (

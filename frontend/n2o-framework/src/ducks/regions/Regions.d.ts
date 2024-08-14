@@ -41,7 +41,7 @@ export interface ContentMeta {
     tabs?: Tab[]
     visible?: boolean
     datasource: string
-    form?: {fieldsets: string[]}
+    form?: { fieldsets: string[] }
 }
 
 export interface Region {

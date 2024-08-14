@@ -19,7 +19,7 @@ interface Props {
 
 enum Direction {
     down = 'down',
-    up = 'up'
+    up = 'up',
 }
 
 interface State { direction: Direction }

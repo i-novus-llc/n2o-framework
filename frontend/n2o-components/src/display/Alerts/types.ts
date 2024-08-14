@@ -6,12 +6,12 @@ export enum Severity {
     danger = 'danger',
     info = 'info',
     success = 'success',
-    warning = 'warning'
+    warning = 'warning',
 }
 
 export enum AnimationDirection {
     default = 'default',
-    reversed = 'reversed'
+    reversed = 'reversed',
 }
 
 export type AlertProps = TBaseProps & {
@@ -57,11 +57,11 @@ type AlertSectionOwnProps = {
     textClassName?: string;
 }
 
-export type AlertSectionProps = AlertSectionOwnProps & Pick<DefaultAlertProps, 'timestamp'|'closeButton'|'stacktrace'|'stacktraceVisible'|'t'>
+export type AlertSectionProps = AlertSectionOwnProps & Pick<DefaultAlertProps, 'timestamp' | 'closeButton' | 'stacktrace' | 'stacktraceVisible' | 't'>
 
 type AlertWrapperOwnProps = {
     children: ReactNode,
     severity: string
 }
 
-export type AlertWrapperProps = AlertWrapperOwnProps& Pick<DefaultAlertProps, 'className' | 'animate' | 'stacktrace' | 'href' | 'style' | 'animationDirection'>
+export type AlertWrapperProps = AlertWrapperOwnProps & Pick<DefaultAlertProps, 'className' | 'animate' | 'stacktrace' | 'href' | 'style' | 'animationDirection'>

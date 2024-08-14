@@ -45,6 +45,7 @@ describe('withListContainer HOC test', () => {
             labelFieldId: 'label',
             fetchData,
         })
+
         wrapper
             .find('EmptyComponent')
             .props()

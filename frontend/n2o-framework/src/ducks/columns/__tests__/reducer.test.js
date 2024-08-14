@@ -3,8 +3,8 @@ import columns, {
     registerColumn,
     changeColumnVisibility,
     changeColumnDisabled,
-    toggleColumnVisibility
-}  from '../store'
+    toggleColumnVisibility,
+} from '../store'
 
 describe('Тесты columns reducer', () => {
     it('Проверка REGISTER_COLUMN', () => {

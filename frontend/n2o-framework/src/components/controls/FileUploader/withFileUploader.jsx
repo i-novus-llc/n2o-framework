@@ -350,7 +350,8 @@ const FileUploaderControl = (WrappedComponent) => {
 
             this.setState({
                 uploading: reduce(
-                    preparedFilesFromState, (acc, file) => {
+                    preparedFilesFromState,
+                    (acc, file) => {
                         const { id, error } = file
 
                         if (!has(file, 'status')) {

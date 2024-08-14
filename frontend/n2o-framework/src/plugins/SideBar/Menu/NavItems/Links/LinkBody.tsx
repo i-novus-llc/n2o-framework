@@ -1,6 +1,5 @@
 import React from 'react'
 import classNames from 'classnames'
-
 import { NavItemImage } from '@i-novus/n2o-components/lib/display/NavItemImage'
 
 import { Badge } from '../../../../../components/snippets/Badge/Badge'
@@ -14,9 +13,7 @@ export interface ItemContent extends Item {
     isMiniView: boolean
 }
 
-export function LinkBody(props: ItemContent) {
-    const { icon, title, src, sidebarOpen, imageSrc, imageShape, badge, isStaticView, showContent, isMiniView } = props
-
+export function LinkBody({ icon, title, src, sidebarOpen, imageSrc, imageShape, badge, isStaticView, showContent, isMiniView }: ItemContent) {
     const currentTitle = getCurrentTitle(isMiniView, icon, title, imageSrc)
 
     return (
@@ -28,10 +25,7 @@ export function LinkBody(props: ItemContent) {
                     <Title
                         title={currentTitle}
                         className={
-                            classNames(
-                                'n2o-sidebar__item-title',
-                                { visible: isStaticView ? true : showContent },
-                            )
+                            classNames('n2o-sidebar__item-title', { visible: isStaticView ? true : showContent })
                         }
                     />
                 )}

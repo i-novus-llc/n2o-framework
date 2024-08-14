@@ -17,7 +17,7 @@ export function createFunction(args: string[], code: string): ExpressionFunction
     const expressionFunction = expressionCache.get(key)
 
     if (expressionFunction) { return expressionFunction }
-    // eslint-disable-next-line no-new-func
+    // eslint-disable-next-line no-new-func,@typescript-eslint/no-implied-eval
     const creator = new Function(
         'globalContext',
         `with(globalContext) {

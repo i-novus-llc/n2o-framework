@@ -17,16 +17,15 @@ interface ActionProps {
     from: 'HEADER' | 'SIDEBAR'
 }
 
-export function Action(props: ActionProps) {
-    const {
-        item,
-        className,
-        sidebarOpen,
-        isStaticView,
-        showContent,
-        isMiniView,
-        from = 'SIDEBAR',
-    } = props
+export function Action({
+    item,
+    className,
+    sidebarOpen,
+    isStaticView,
+    showContent,
+    isMiniView,
+    from = 'SIDEBAR',
+}: ActionProps) {
     const { id, title, action, style } = item
 
     const dispatch = useDispatch()

@@ -4,7 +4,7 @@ enum UNIT {
     DAYS = 'd',
     HOURS = 'h',
     MINUTES = 'm',
-    SECONDS = 's'
+    SECONDS = 's',
 }
 
 function increaseDuration(duration: Duration, time: string, unit: UNIT) {

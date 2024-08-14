@@ -46,7 +46,7 @@ const getValidationFields = (state: State, id: string) => {
 }
 
 function diffKeys <
-    TValue extends Record<string, unknown> | undefined | null
+    TValue extends Record<string, unknown> | undefined | null,
 >(first: TValue, second: TValue) {
     if (!first || !second) {
         if (first) { return Object.keys(first) }

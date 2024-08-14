@@ -15,10 +15,12 @@ const model = ModelPrefix.active
 describe('Тесты для экшена actionImpl', () => {
     it('Генирирует правильное событие', () => {
         const action = startInvoke(datasource, dataProvider, model, page_id)
+
         expect(action.type).toEqual(START_INVOKE)
     })
     it('Проверяет правильность возвращаемых данных', () => {
         const action = startInvoke(datasource, dataProvider, model, page_id)
+
         expect(action.payload.datasource).toEqual(datasource)
         expect(action.payload.dataProvider).toEqual(dataProvider)
         expect(action.payload.model).toEqual(model)
@@ -26,6 +28,7 @@ describe('Тесты для экшена actionImpl', () => {
     })
     it('Проверяет правильность меты', () => {
         const action = startInvoke(datasource, dataProvider, model, page_id, { refresh: true })
+
         expect(action.meta.refresh).toEqual(true)
     })
 })

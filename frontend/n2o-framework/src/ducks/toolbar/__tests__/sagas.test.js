@@ -3,7 +3,6 @@ import {
     changeButtonMessage,
     changeButtonDisabled,
 } from '../store'
-
 import {
     resolveButton,
 } from '../sagas'
@@ -29,8 +28,10 @@ const setupResolveButton = () => resolveButton({
 describe('Проверка саги toolbar', () => {
     it('Тестирование вызова  экшена на саге', () => {
         const gen = setupResolveButton()
+
         gen.next()
         let { value } = gen.next({ model: { test: 'test' } })
+
         expect(value.payload.action.type).toEqual(changeButtonVisibility.type)
         expect(value.payload.action.payload.visible).toBe(true)
         gen.next()

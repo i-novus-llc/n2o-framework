@@ -12,9 +12,7 @@ interface Props {
     pathname: string
 }
 
-export function Menu(props: Props) {
-    const { pathname, datasources = [], items = [] } = props
-
+export function Menu({ pathname, datasources = [], items = [] }: Props) {
     if (isEmpty(items)) {
         return null
     }

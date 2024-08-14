@@ -647,11 +647,8 @@ export class InputSelect extends React.Component<Props, State> {
                         className={classNames('n2o-input-select__menu', {
                             'n2o-input-select__menu--autosize': popupAutoSize,
                         })}
-                        modifiers={{
-                            offset: {
-                                enabled: true,
-                                offset: `0 ${this.inputHeightRef?.current?.containerRef?.current.clientHeight}px`,
-                            } }}
+                        modifiers={{ offset: { enabled: true,
+                            offset: `0 ${this.inputHeightRef?.current?.containerRef?.current.clientHeight}px` } }}
                     >
                         <PopupList
                             scheduleUpdate={() => {}}

@@ -130,11 +130,11 @@ export const getValueBySearchKey = <
     KeyToSearch extends keyof T,
     KeyToIterate extends keyof T,
 >(data: T[], options: {
-    keyToExtract: KeyToExtract,
-    keyToSearch: KeyToSearch,
-    keyToIterate?: KeyToIterate,
-    equalFunc?(data: T): boolean
-}) => {
+        keyToExtract: KeyToExtract,
+        keyToSearch: KeyToSearch,
+        keyToIterate?: KeyToIterate,
+        equalFunc?(data: T): boolean
+    }) => {
     const { keyToExtract, equalFunc, keyToSearch, keyToIterate = keyToSearch } = options
 
     const defaultEqualFunc = (data: T) => data[keyToSearch] !== undefined

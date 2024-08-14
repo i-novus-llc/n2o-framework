@@ -26,6 +26,7 @@ describe('<Collapse />', () => {
 
     it('проверяет параметр type', () => {
         let wrapper = setup()
+
         expect(wrapper.find('.default').exists()).toBeTruthy()
 
         wrapper = setup({ type: 'line' })

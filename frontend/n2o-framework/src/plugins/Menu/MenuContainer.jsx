@@ -34,7 +34,7 @@ export class MenuContainer extends React.Component {
             ...withSecurityProps(header, headerItems, headerExtraItems, 'header'),
             ...withSecurityProps(sidebar, sidebarItems, sidebarExtraItems, 'sidebar'),
         }
-    };
+    }
 
     render() {
         const { render } = this.props

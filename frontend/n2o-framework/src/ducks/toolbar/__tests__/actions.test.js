@@ -31,6 +31,7 @@ describe('Тесты экшенов toolbar', () => {
     describe('Проверка экшена changeButtonVisible', () => {
         it('Возвращает правильный payload', () => {
             const action = changeButtonVisibility(key, id, true)
+
             expect(action.payload.key).toEqual(key)
             expect(action.payload.buttonId).toEqual(id)
             expect(action.payload.visible).toEqual(true)
@@ -40,6 +41,7 @@ describe('Тесты экшенов toolbar', () => {
     describe('Проверка экшена toggleButtonVisibility', () => {
         it('Возвращает правильный payload', () => {
             const action = toggleButtonVisibility(key, id)
+
             expect(action.payload.key).toEqual(key)
             expect(action.payload.buttonId).toEqual(id)
         })
@@ -48,6 +50,7 @@ describe('Тесты экшенов toolbar', () => {
     describe('Проверка экшена changeButtonDisabled', () => {
         it('Возвращает правильный payload', () => {
             const action = changeButtonDisabled(key, id, false)
+
             expect(action.payload.key).toEqual(key)
             expect(action.payload.buttonId).toEqual(id)
             expect(action.payload.disabled).toEqual(false)
@@ -57,6 +60,7 @@ describe('Тесты экшенов toolbar', () => {
     describe('Проверка экшена toggleButtonDisabled', () => {
         it('Возвращает правильный payload', () => {
             const action = toggleButtonDisabled(key, id)
+
             expect(action.payload.key).toEqual(key)
             expect(action.payload.buttonId).toEqual(id)
         })
@@ -65,6 +69,7 @@ describe('Тесты экшенов toolbar', () => {
     describe('Проверка экшена changeButtonTitle', () => {
         it('Возвращает правильный payload', () => {
             const action = changeButtonTitle(key, id, title)
+
             expect(action.payload.key).toEqual(key)
             expect(action.payload.buttonId).toEqual(id)
             expect(action.payload.title).toEqual(title)
@@ -74,6 +79,7 @@ describe('Тесты экшенов toolbar', () => {
     describe('Проверка экшена changeButtonSize', () => {
         it('Возвращает правильный payload', () => {
             const action = changeButtonSize(key, id, size)
+
             expect(action.payload.key).toEqual(key)
             expect(action.payload.buttonId).toEqual(id)
             expect(action.payload.size).toEqual(size)
@@ -83,6 +89,7 @@ describe('Тесты экшенов toolbar', () => {
     describe('Проверка экшена changeButtonColor', () => {
         it('Возвращает правильный payload', () => {
             const action = changeButtonColor(key, id, color)
+
             expect(action.payload.key).toEqual(key)
             expect(action.payload.buttonId).toEqual(id)
             expect(action.payload.color).toEqual(color)
@@ -92,6 +99,7 @@ describe('Тесты экшенов toolbar', () => {
     describe('Проверка экшена changeButtonCount', () => {
         it('Возвращает правильный payload', () => {
             const action = changeButtonCount(key, id, count)
+
             expect(action.payload.key).toEqual(key)
             expect(action.payload.buttonId).toEqual(id)
             expect(action.payload.count).toEqual(count)
@@ -101,6 +109,7 @@ describe('Тесты экшенов toolbar', () => {
     describe('Проверка экшена changeButtonHint', () => {
         it('Возвращает правильный payload', () => {
             const action = changeButtonHint(key, id, hint)
+
             expect(action.payload.key).toEqual(key)
             expect(action.payload.buttonId).toEqual(id)
             expect(action.payload.hint).toEqual(hint)
@@ -110,6 +119,7 @@ describe('Тесты экшенов toolbar', () => {
     describe('Проверка экшена changeButtonIcon', () => {
         it('Возвращает правильный payload', () => {
             const action = changeButtonIcon(key, id, icon)
+
             expect(action.payload.key).toEqual(key)
             expect(action.payload.buttonId).toEqual(id)
             expect(action.payload.icon).toEqual(icon)
@@ -119,6 +129,7 @@ describe('Тесты экшенов toolbar', () => {
     describe('Проверка экшена changeButtonStyle', () => {
         it('Возвращает правильный payload', () => {
             const action = changeButtonStyle(key, id, style)
+
             expect(action.payload.key).toEqual(key)
             expect(action.payload.buttonId).toEqual(id)
             expect(action.payload.style).toEqual(style)
@@ -128,6 +139,7 @@ describe('Тесты экшенов toolbar', () => {
     describe('Проверка экшена changeButtonClass', () => {
         it('Возвращает правильный payload', () => {
             const action = changeButtonClass(key, id, btnClass)
+
             expect(action.payload.key).toEqual(key)
             expect(action.payload.buttonId).toEqual(id)
             expect(action.payload.className).toEqual(btnClass)
@@ -143,6 +155,7 @@ describe('Тесты экшенов toolbar', () => {
                 disabled: false,
                 conditions: {},
             })
+
             expect(action.payload.key).toEqual(key)
             expect(action.payload.buttonId).toEqual(id)
             expect(action.payload.visible).toEqual(true)

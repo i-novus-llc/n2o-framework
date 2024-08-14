@@ -53,6 +53,12 @@ function HintDropDown({
         'size',
     ])
 
+    const onToggleDropdown = (e) => {
+        if (e) { e.stopPropagation() }
+        resolveWidget(model)
+        onToggle(!open)
+    }
+
     const createDropDownMenu = ({
         title,
         visible,
@@ -77,12 +83,6 @@ function HintDropDown({
                 {title}
             </DropdownCustomItem>
         ) : null)
-    }
-
-    const onToggleDropdown = (e) => {
-        if (e) { e.stopPropagation() }
-        resolveWidget(model)
-        onToggle(!open)
     }
 
     return (visible ? (

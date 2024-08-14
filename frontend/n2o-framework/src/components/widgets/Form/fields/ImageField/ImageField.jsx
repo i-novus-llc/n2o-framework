@@ -26,27 +26,25 @@ import { useResolved } from '../../../../../core/Expression/useResolver'
  * @reactProps {array} statuses - статусы, отображающиеся над img
  */
 
-function ImageField(props) {
-    const {
-        id,
-        url,
-        data,
-        title,
-        description,
-        textPosition,
-        width,
-        height,
-        shape,
-        visible,
-        model,
-        className,
-        statuses = [],
-        pathMapping,
-        queryMapping,
-        target,
-        action,
-    } = props
-
+function ImageField({
+    id,
+    url,
+    data,
+    title,
+    description,
+    textPosition,
+    width,
+    height,
+    shape,
+    visible,
+    model,
+    className,
+    statuses = [],
+    pathMapping,
+    queryMapping,
+    target,
+    action,
+}) {
     const hasStatuses = !isEmpty(statuses)
     const hasInfo = title || description
 

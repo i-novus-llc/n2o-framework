@@ -4,7 +4,7 @@ export enum ButtonType {
     first = 'first',
     last = 'last',
     next = 'next',
-    prev = 'prev'
+    prev = 'prev',
 }
 
 export type GetControlButtonArgs = {
@@ -18,7 +18,7 @@ export type GetControlButtonArgs = {
 
 export enum Direction {
     left = 'left',
-    right = 'right'
+    right = 'right',
 }
 
 export type GetLabelArgs = {

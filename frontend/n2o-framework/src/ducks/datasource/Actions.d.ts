@@ -13,7 +13,7 @@ export interface DatasourcePayload {
 
 export type DatasourceAction<
     TPayload extends DatasourcePayload,
-    TMeta extends Meta = Meta
+    TMeta extends Meta = Meta,
 > = Action<string, TPayload, TMeta>
 
 export type RegisterAction = DatasourceAction<{

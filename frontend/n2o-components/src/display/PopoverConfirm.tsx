@@ -8,7 +8,7 @@ import { TBaseProps } from '../types'
 
 type Props = TBaseProps & {
     // конфиг кнопки подтверждения
-    cancel: { color: string, label: string}, // заголовок PopoverConfirm
+    cancel: { color: string, label: string }, // заголовок PopoverConfirm
     children?: string | Element,
     isOpen: boolean,
     ok: { color: string, label: string },

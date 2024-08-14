@@ -17,8 +17,7 @@ import { useDataSourceMethodsContext } from '../../../../core/widget/context'
  * @reactProps {string} label - Текст заголовка столбца
  * @reactProps {function} onSort - эвент сортировки. Вызывает при смене направления сортировки
  */
-const TextTableHeader = (props) => {
-    const { sortingParam, sorting, label, style } = props
+const TextTableHeader = ({ sortingParam, sorting, label, style }) => {
     const { setSorting } = useDataSourceMethodsContext()
 
     return (

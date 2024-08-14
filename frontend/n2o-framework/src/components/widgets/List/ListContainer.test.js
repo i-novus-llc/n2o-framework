@@ -29,10 +29,10 @@ const setup = propsOverride => mount(
         <ListContainer
             dataProvider={ListWidgetMeta.List.dataProvider}
             list={ListWidgetMeta.List.list}
-            models= {{
-                "datasource": [],
-                "multi": [],
-                "filter": {}
+            models={{
+                datasource: [],
+                multi: [],
+                filter: {},
             }}
             {...propsOverride}
         >
@@ -51,6 +51,7 @@ describe('Проверка ListContainer', () => {
     it('Маппит данные в компоненты', () => {
         const wrapper = setup()
         const ListContainer = wrapper.find('ListContainer')
+
         ListContainer.setState({
             datasource: [
                 {
@@ -70,6 +71,7 @@ describe('Проверка ListContainer', () => {
                 .instance()
                 .resolveProps(ListWidgetMeta.List.list, createFactoryConfig({})),
         )
+
         expect(!isEmpty(mappedData)).toEqual(true)
         expect(React.isValidElement(mappedData[0].leftTop)).toEqual(true)
         expect(React.isValidElement(mappedData[0].leftBottom)).toEqual(true)

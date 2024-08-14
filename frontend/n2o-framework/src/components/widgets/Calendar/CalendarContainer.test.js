@@ -24,6 +24,7 @@ const setup = propsOverride => mount(
 describe('<CalendarContainer />', () => {
     it('отрисовка', () => {
         const wrapper = setup()
+
         expect(wrapper.find(CalendarContainer).exists()).toBe(true)
     })
     // it('срабатывает action на клик по ячейке', () => {

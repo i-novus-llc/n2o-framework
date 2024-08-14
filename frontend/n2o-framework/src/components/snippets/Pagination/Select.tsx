@@ -3,9 +3,7 @@ import classNames from 'classnames'
 
 import { Select as SelectProps } from './constants'
 
-export function Select(props: SelectProps) {
-    const { title, onClick, style, className, active, icon, disabled, visible = true } = props
-
+export function Select({ title, onClick, style, className, active, icon, disabled, visible = true }: SelectProps) {
     if (!visible) {
         return null
     }

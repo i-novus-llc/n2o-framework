@@ -10,7 +10,7 @@ export type Tooltip = string | null
 
 export type FormAction<
     TPayload extends FormPayload,
-    TMeta extends Meta = Meta
+    TMeta extends Meta = Meta,
 > = Action<string, TPayload, TMeta>
 
 export type RegisterAction = FormAction<{

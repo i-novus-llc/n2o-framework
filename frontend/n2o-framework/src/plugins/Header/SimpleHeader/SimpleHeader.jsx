@@ -152,8 +152,7 @@ class SimpleHeader extends React.Component {
 }
 
 const menuType = PropTypes.shape(
-    {
-        src: PropTypes.string,
+    { src: PropTypes.string,
         items: PropTypes.arrayOf(
             PropTypes.shape({
                 id: PropTypes.string.isRequired,

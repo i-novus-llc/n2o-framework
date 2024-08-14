@@ -16,8 +16,7 @@ interface LinkProps {
     showContent: boolean
 }
 
-export function Link(props: LinkProps) {
-    const { item, sidebarOpen, isMiniView, isStaticView, showContent } = props
+export function Link({ item, sidebarOpen, isMiniView, isStaticView, showContent }: LinkProps) {
     const { linkType, href, title } = item
 
     const hint = isMiniView ? title : null

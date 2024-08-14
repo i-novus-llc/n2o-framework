@@ -142,7 +142,7 @@ export function SideBar({
             isMiniView={isMiniView}
             isStaticView={isStaticView}
             datasources={datasources}
-            datasource={(item || {}).datasource || datasource}
+            datasource={item?.datasource || datasource}
             models={models}
             visible
         />
@@ -151,14 +151,7 @@ export function SideBar({
     return (
         <aside
             className={
-                sideBarClasses(
-                    isStaticView,
-                    defaultState,
-                    toggledState,
-                    currentVisible,
-                    side,
-                    className,
-                )
+                sideBarClasses(isStaticView, defaultState, toggledState, currentVisible, side, className)
             }
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}

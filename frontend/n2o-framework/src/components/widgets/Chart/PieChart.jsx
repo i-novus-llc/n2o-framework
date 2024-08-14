@@ -49,7 +49,7 @@ function PieChart({ width, height, margin, pie, data, size }) {
 
     const pieData = mapData.slice(0, size)
 
-    // eslint-disable-next-line react/prop-types
+    // eslint-disable-next-line react/prop-types, react/no-unstable-nested-components
     const CustomTooltip = ({ payload }) => (
         <div className="n2o-pie-chart-custom-tooltip">
             <h4 className="n2o-pie-chart-custom-tooltip__content">

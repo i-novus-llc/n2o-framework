@@ -68,6 +68,7 @@ function getDeleteConfig(url, id) {
 export function deleteFile(url, id) {
     const { deleteUrl, params = {} } = getDeleteConfig(url, id)
 
+    // eslint-disable-next-line
     axios.delete(deleteUrl, { params })
 }
 

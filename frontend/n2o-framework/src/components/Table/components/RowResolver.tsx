@@ -9,23 +9,22 @@ import { useTableRefProps } from '../provider/TableRefProps'
 import { CellContainer } from './CellContainer'
 import { DataRow } from './DataRow'
 
-export const RowResolver: VFC<RowResolverProps> = (props) => {
-    const {
-        component: RowComponent = DataRow,
-        elementAttributes,
-        data,
-        treeDeepLevel,
-        isSelectedRow,
-        isFocused,
-        cells,
-        rowValue,
-        isTreeExpanded,
-        hasExpandedButton,
-        selection,
-        click,
-        rowIndex,
-        ...otherProps
-    } = props
+export const RowResolver: VFC<RowResolverProps> = ({
+    component: RowComponent = DataRow,
+    elementAttributes,
+    data,
+    treeDeepLevel,
+    isSelectedRow,
+    isFocused,
+    cells,
+    rowValue,
+    isTreeExpanded,
+    hasExpandedButton,
+    selection,
+    click,
+    rowIndex,
+    ...otherProps
+}) => {
     const { setFocusOnRow, onRowClick } = useTableActions()
     const { onShowOverlay, onHideOverlay } = useToolbarOverlay()
 

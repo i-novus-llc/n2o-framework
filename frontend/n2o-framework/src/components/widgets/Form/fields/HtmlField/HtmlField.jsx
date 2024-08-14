@@ -16,12 +16,7 @@ export function HtmlField({ id, html, className }) {
         <Html
             id={id}
             html={html}
-            className={
-                classNames(
-                    'n2o-html-field',
-                    className,
-                )
-            }
+            className={classNames('n2o-html-field', className)}
         />
     )
 }

@@ -55,6 +55,7 @@ export const Badge = React.memo((props: Props) => {
         'rounded-pill': imageShape === Shape.Circle || imageShape === Shape.Rounded,
     })
 
+    // eslint-disable-next-line react/no-unstable-nested-components
     const BadgeComponent = () => (
         <ReactstrapBadge
             color={color}
@@ -72,6 +73,7 @@ export const Badge = React.memo((props: Props) => {
         </ReactstrapBadge>
     )
 
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     if (!visible && children) { return <>{children}</> }
 
     if (!children) { return <BadgeComponent /> }

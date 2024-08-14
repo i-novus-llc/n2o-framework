@@ -3,8 +3,8 @@
  */
 
 enum iconPositions {
-    LEFT='left',
-    RIGHT='right',
+    LEFT = 'left',
+    RIGHT = 'right',
 }
 
 export {

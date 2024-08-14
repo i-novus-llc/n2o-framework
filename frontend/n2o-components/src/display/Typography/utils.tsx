@@ -1,9 +1,9 @@
 import React, { FC, ReactNode } from 'react'
 
-export const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
+export const delay = (ms: number) => new Promise((res) => { setTimeout(res, ms) })
 
 type WrapTagsEntries = {
-    [key: string]: (component: FC) => ({ children }: {children: ReactNode}) => ReactNode
+    [key: string]: (component: FC) => ({ children }: { children: ReactNode }) => ReactNode
 }
 
 export const wrapTags: WrapTagsEntries = {

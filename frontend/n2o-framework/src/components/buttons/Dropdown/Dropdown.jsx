@@ -40,16 +40,16 @@ function SubMenu(props) {
 }
 
 class DropdownButton extends React.Component {
-  state = { opened: false, popperKey: 0 }
+    state = { opened: false, popperKey: 0 }
 
-  toggle = () => {
-      let { popperKey } = this.state
-      const { opened } = this.state
+    toggle = () => {
+        let { popperKey } = this.state
+        const { opened } = this.state
 
-      if (!opened) { popperKey += 1 }
+        if (!opened) { popperKey += 1 }
 
-      this.setState({ opened: !opened, popperKey })
-  };
+        this.setState({ opened: !opened, popperKey })
+    }
 
     onClick = () => this.setState({ opened: false })
 

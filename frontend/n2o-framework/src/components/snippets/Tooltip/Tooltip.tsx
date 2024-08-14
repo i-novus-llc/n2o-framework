@@ -2,8 +2,7 @@ import React, { useState, cloneElement, useRef } from 'react'
 import classNames from 'classnames'
 import { Tooltip as Component, TooltipProps } from 'reactstrap'
 
-export function Tooltip(props: TooltipProps) {
-    const { hint, className, placement, delay, trigger, children } = props
+export function Tooltip({ hint, className, placement, delay, trigger, children }: TooltipProps) {
     const tooltipRef = useRef(null)
     const [isOpen, setOpen] = useState(false)
 
@@ -14,6 +13,7 @@ export function Tooltip(props: TooltipProps) {
 
     let content = children
 
+    // eslint-disable-next-line no-unsafe-optional-chaining
     const { ref } = (children as TooltipProps['TooltipChildren'])?.props?.children
 
     if (!ref && typeof children === 'object' && 'ref' in children) {

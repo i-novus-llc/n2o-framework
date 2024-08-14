@@ -13,9 +13,7 @@ interface StaticMenuItemProps {
     className: string
 }
 
-export function StaticMenuItem(props: StaticMenuItemProps) {
-    const { item, className, sidebarOpen, isStaticView, showContent, isMiniView } = props
-
+export function StaticMenuItem({ item, className, sidebarOpen, isStaticView, showContent, isMiniView }: StaticMenuItemProps) {
     return (
         <li className={classNames(className, 'static-menu-item')}>
             <LinkBody

@@ -5,7 +5,7 @@ import { propsResolver, Resolve } from './propsResolver'
 
 export function useResolved<
     Resolved extends Resolve<Prop>,
-    Prop = unknown
+    Prop = unknown,
 >(
     props: Prop,
     model: Record<string, unknown> | Array<Record<string, unknown>>,

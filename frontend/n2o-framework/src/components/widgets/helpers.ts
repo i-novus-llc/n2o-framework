@@ -2,8 +2,8 @@ import isEmpty from 'lodash/isEmpty'
 
 type QueryMapping = Record<string, { link?: string }>
 type DataProviderType = { queryMapping?: QueryMapping }
-type ControlType = {dataProvider?: DataProviderType}
-type FieldType = { control: ControlType}
+type ControlType = { dataProvider?: DataProviderType }
+type FieldType = { control: ControlType }
 type ColType = { fields: FieldType[] }
 type RowType = { cols: ColType[] }
 type Fieldset = { rows: RowType[] }
@@ -47,10 +47,8 @@ function fieldsMapper(fields: FieldType[], replaceOptions: ReplaceOptions) {
 
         const newQueryMapping: QueryMapping = queryMapper(queryMapping, replaceOptions)
 
-        return {
-            ...field,
-            control: {
-                ...control,
+        return { ...field,
+            control: { ...control,
                 dataProvider: {
                     ...dataProvider,
                     queryMapping: newQueryMapping,

@@ -8,6 +8,5 @@ export const layoutContainerClasses = (header, sidebar, fullSizeHeader, fixed, s
         'n2o-layout-full-size-header d-flex flex-column': fullSizeHeader,
         'n2o-layout-full-size-sidebar d-flex': !fullSizeHeader,
         'n2o-layout-fixed': fixed,
-        'flex-row-reverse': !fullSizeHeader && side === 'right',
-    },
+        'flex-row-reverse': !fullSizeHeader && side === 'right' },
 )

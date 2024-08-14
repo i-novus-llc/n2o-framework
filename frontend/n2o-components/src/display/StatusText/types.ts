@@ -1,15 +1,15 @@
 import { TBaseProps } from '../../types'
 
 enum Color {
-    danger= 'danger',
-    dark= 'dark',
-    info= 'info',
-    light= 'light',
+    danger = 'danger',
+    dark = 'dark',
+    info = 'info',
+    light = 'light',
     primary = 'primary',
     secondary = 'secondary',
-    success= 'success',
-    warning= 'warning',
-    white= 'white',
+    success = 'success',
+    warning = 'warning',
+    white = 'white',
 }
 
 export type StatusTextProps = TBaseProps & {

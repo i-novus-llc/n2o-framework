@@ -31,5 +31,5 @@ export enum FactoryLevels {
     OVERLAYS = 'overlays',
     BREADCRUMBS = 'breadcrumbs',
     HEADER_ITEMS = 'headerItems',
-    SIDEBAR_ITEM = 'sidebarItems'
+    SIDEBAR_ITEM = 'sidebarItems',
 }

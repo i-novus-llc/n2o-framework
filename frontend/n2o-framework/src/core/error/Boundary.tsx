@@ -57,6 +57,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps> {
 
         return (
             <ErrorBoundaryContext.Provider value={{ onError: this.onAsyncError }}>
+                {/* @ts-ignore FIXME разобраться в типизации */}
                 <ErrorContainer error={error} onReset={this.reset}>
                     {children}
                 </ErrorContainer>

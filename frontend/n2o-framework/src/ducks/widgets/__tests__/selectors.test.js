@@ -33,7 +33,7 @@ const state = {
                 pathMapping: {},
                 queryMapping: {},
             },
-        }
+        },
     },
     widgets: {
         widget1: {

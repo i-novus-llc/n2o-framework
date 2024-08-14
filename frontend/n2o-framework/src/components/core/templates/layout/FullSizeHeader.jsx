@@ -29,13 +29,11 @@ export function Layout({
     return (
         <LayoutElement className={className}>
             {header}
-            <div className={classNames(
-                'w-100 d-flex flex-grow-1', {
-                    'flex-row': side === 'left',
-                    'flex-row-reverse': side === 'right',
-                    'overflow-auto': fixed,
-                },
-            )}
+            <div className={classNames('w-100 d-flex flex-grow-1', {
+                'flex-row': side === 'left',
+                'flex-row-reverse': side === 'right',
+                'overflow-auto': fixed,
+            })}
             >
                 {sidebar}
                 <ContainerElement className="flex-grow-1 application-body container-fluid">

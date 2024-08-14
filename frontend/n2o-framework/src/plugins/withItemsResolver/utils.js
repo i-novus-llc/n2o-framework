@@ -58,8 +58,7 @@ const resolveItem = (item, datasourceModels, datasource) => {
     return { ...item,
         ...(item.items && { items: newItems }),
         ...(item.href && { href: newHref }),
-        ...(item.title && { title: newTitle }),
-    }
+        ...(item.title && { title: newTitle }) }
 }
 
 export const resolveItems = (items, datasourceModels, datasource) => items

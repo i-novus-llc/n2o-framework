@@ -14,13 +14,11 @@ interface LinkProps {
     item: Item
 }
 
-export function Link(props: LinkProps) {
-    const {
-        active,
-        className: linkClassName,
-        item,
-    } = props
-
+export function Link({
+    active,
+    className: linkClassName,
+    item,
+}: LinkProps) {
     const {
         className: itemClassName,
         href,

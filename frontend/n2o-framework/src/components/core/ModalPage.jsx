@@ -30,31 +30,29 @@ import withOverlayMethods from './withOverlayMethods'
  *  />
  */
 
-function ModalPage(props) {
-    const {
-        entityKey,
-        toolbar,
-        visible,
-        loading,
-        pageUrl,
-        pageId,
-        src,
-        pathMapping,
-        queryMapping,
-        size,
-        disabled,
-        scrollable,
-        prompt,
-        className,
-        backdrop,
-        style,
-        hasHeader,
-        renderFromSrc,
-        closeOverlay,
-        metadata = {},
-        ...modalProps
-    } = props
-
+function ModalPage({
+    entityKey,
+    toolbar,
+    visible,
+    loading,
+    pageUrl,
+    pageId,
+    src,
+    pathMapping,
+    queryMapping,
+    size,
+    disabled,
+    scrollable,
+    prompt,
+    className,
+    backdrop,
+    style,
+    hasHeader,
+    renderFromSrc,
+    closeOverlay,
+    metadata = {},
+    ...modalProps
+}) {
     const { page = {} } = metadata
     const { modalHeaderTitle, datasource, model: modelPrefix = 'resolve' } = page
 

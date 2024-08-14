@@ -6,18 +6,16 @@ interface NotFoundFactoryProps {
     level: string
 }
 
-export function NotFoundFactory(props: NotFoundFactoryProps) {
-    const { src, level } = props
-
+export function NotFoundFactory({ src, level }: NotFoundFactoryProps) {
     /* eslint-disable react/jsx-one-expression-per-line */
     return (
         <Alert color="danger">
 
-      Фабрике не удалось найти компонент:
+            Фабрике не удалось найти компонент:
             {src}
             {' '}
 
-в
+            в
             {level}
         </Alert>
     )

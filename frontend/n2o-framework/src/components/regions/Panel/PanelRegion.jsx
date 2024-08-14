@@ -66,6 +66,7 @@ class PanelRegion extends React.Component {
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     async checkPanel(panel) {
         const { tabs } = this.state
 

@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { PopoverConfirm } from '@i-novus/n2o-components/lib/display/PopoverConfirm'
 
 import { ConfirmProps } from './Confirm'

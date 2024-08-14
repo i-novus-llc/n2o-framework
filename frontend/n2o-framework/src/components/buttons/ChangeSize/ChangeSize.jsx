@@ -14,9 +14,7 @@ import { SIZES } from '../constants'
  * @example
  * <ChangeSize entityKey='TestEntityKey'/>
  */
-function ChangeSizeComponent(props) {
-    const { size: currentSize, icon, label, nested = false } = props
-
+function ChangeSizeComponent({ size: currentSize, icon, label, nested = false }) {
     const { setSize } = useContext(DataSourceContext)
 
     const items = SIZES.map((size, i) => {

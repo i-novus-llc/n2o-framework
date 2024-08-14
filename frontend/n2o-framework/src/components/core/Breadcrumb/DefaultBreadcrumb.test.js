@@ -6,7 +6,6 @@ import configureMockStore from 'redux-mock-store'
 
 import { SimpleBreadcrumb } from './DefaultBreadcrumb'
 
-
 const mockStore = configureMockStore()
 const store = mockStore({ global: { breadcrumbs: {} } })
 
@@ -29,7 +28,7 @@ const setup = (propsOverride) => {
             <Router>
                 <SimpleBreadcrumb {...props} {...propsOverride} />
             </Router>
-        </Provider>
+        </Provider>,
     )
 }
 
@@ -56,7 +55,7 @@ const setup2 = (propsOverride) => {
             <Router>
                 <SimpleBreadcrumb {...props} {...propsOverride} />
             </Router>
-        </Provider>
+        </Provider>,
     )
 }
 

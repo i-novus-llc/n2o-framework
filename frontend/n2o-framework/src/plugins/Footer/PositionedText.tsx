@@ -8,9 +8,7 @@ interface PositionedTextProps {
     position: 'left' | 'right'
 }
 
-export function PositionedText(props: PositionedTextProps) {
-    const { text, position } = props
-
+export function PositionedText({ text, position }: PositionedTextProps) {
     if (!text) {
         return null
     }

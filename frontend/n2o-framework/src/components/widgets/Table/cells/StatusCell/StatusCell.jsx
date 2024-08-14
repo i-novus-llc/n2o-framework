@@ -15,18 +15,16 @@ import withTooltip from '../../withTooltip'
  * <StatusCell model={model} filedKey={'name'} color="info"/>
  */
 
-function StatusCell(props) {
-    const {
-        id,
-        className,
-        visible,
-        color,
-        model,
-        fieldKey,
-        textPosition,
-        forwardedRef,
-    } = props
-
+function StatusCell({
+    id,
+    className,
+    visible,
+    color,
+    model,
+    fieldKey,
+    textPosition,
+    forwardedRef,
+}) {
     if (!visible) { return null }
 
     const statusText = get(model, fieldKey || id)

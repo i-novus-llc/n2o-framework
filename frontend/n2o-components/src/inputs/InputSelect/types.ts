@@ -8,7 +8,7 @@ export enum Filter {
     endsWith = 'endsWith',
     includes = 'includes',
     server = 'server',
-    startsWith = 'startsWith'
+    startsWith = 'startsWith',
 }
 
 export interface TOption {

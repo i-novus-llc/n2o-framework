@@ -7,11 +7,11 @@ export enum ProviderType {
     storage = 'browser',
     service = 'service',
     inherited = 'inherited',
-    cached = 'cached'
+    cached = 'cached',
 }
 
 export enum FilterType {
-    Equal = 'eq'
+    Equal = 'eq',
 }
 
 export interface Provider {

@@ -97,10 +97,12 @@ describe('<AutoCompelte />', () => {
                 options: ['a', 'abc'],
             })
             const textarea = wrapper.find('textarea')
+
             textarea.simulate('click')
             wrapper.update()
 
             const buttons = wrapper.find('button.n2o-eclipse-content')
+
             buttons.first().simulate('click')
 
             textarea.simulate('click')
@@ -116,10 +118,12 @@ describe('<AutoCompelte />', () => {
                 labelFieldId: 'name',
             })
             const textarea = wrapper.find('textarea')
+
             textarea.simulate('click')
             wrapper.update()
 
             const buttons = wrapper.find('button.n2o-eclipse-content')
+
             buttons.first().simulate('click')
 
             textarea.simulate('click')
@@ -142,6 +146,7 @@ describe('<AutoCompelte />', () => {
                 tags: true,
                 value: ['a', 'ab', 'abc'],
             })
+
             expect(wrapper.state().value).toEqual(['a', 'ab', 'abc'])
             wrapper
                 .find('button.close')

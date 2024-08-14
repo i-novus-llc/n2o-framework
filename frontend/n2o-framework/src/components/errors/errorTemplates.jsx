@@ -47,8 +47,7 @@ const NetworkErrorPage = () => (
     </>
 )
 
-const InternalErrorPage = (props) => {
-    const { error } = props
+const InternalErrorPage = ({ error }) => {
     const { text } = error
 
     return (
@@ -69,6 +68,7 @@ const defaultComponents = {
 }
 
 /* example config = {404: CustomComponent} */
+// eslint-disable-next-line @typescript-eslint/default-param-last
 export const errorTemplates = (config = {}, isOnline) => {
     const components = {
         ...defaultComponents,

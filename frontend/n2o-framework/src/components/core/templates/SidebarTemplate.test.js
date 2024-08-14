@@ -3,8 +3,9 @@ import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { mount } from 'enzyme'
 
-import SidebarTemplate from './SidebarTemplate'
 import { makeStore } from '../../../plugins/Header/SimpleHeader/__test__/utils'
+
+import SidebarTemplate from './SidebarTemplate'
 
 const { store } = makeStore()
 
@@ -20,7 +21,7 @@ const setup = (props) => {
 
 describe('<SidebarTemplate />', () => {
     it('компонент должен отрисоваться', () => {
-        const wrapper = setup({items : []})
+        const wrapper = setup({ items: [] })
 
         expect(wrapper.find('.application').exists()).toBeTruthy()
     })

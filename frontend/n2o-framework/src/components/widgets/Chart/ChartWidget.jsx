@@ -28,18 +28,17 @@ const Charts = {
  * Виджет графиков
  * @constructor
  */
-function ChartWidget(props) {
-    const {
-        id: widgetId,
-        datasource,
-        toolbar,
-        disabled,
-        chart,
-        filter,
-        className,
-        style,
-        loading,
-    } = props
+function ChartWidget({
+    id: widgetId,
+    datasource,
+    toolbar,
+    disabled,
+    chart,
+    filter,
+    className,
+    style,
+    loading,
+}) {
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))

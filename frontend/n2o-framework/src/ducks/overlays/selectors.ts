@@ -20,9 +20,7 @@ export const makeOverlayByIndex = (index: number) => createSelector(
 /**
  * Получение оверлей по имени
  */
-const makeOverlayByName = (name: string) => createSelector(
-    [overlaysSelector], overlaysState => overlaysState.find(overlay => overlay.name === name),
-)
+const makeOverlayByName = (name: string) => createSelector([overlaysSelector], overlaysState => overlaysState.find(overlay => overlay.name === name))
 
 /**
  * Получение showPrompt по имени

@@ -32,7 +32,7 @@ import { validate } from './validate'
 
 function getQuery<
     TProvider extends Provider,
-    TProviderType extends ProviderType = TProvider['type']
+    TProviderType extends ProviderType = TProvider['type'],
 >(provider: TProviderType): Query<TProvider> {
     switch (provider) {
         case undefined:
@@ -81,7 +81,7 @@ export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknow
         // @ts-ignore Проблема с типизацией
         yield put(resolveRequest(id, response))
     } catch (error) {
-        const err = error as { message: string, stack: string, json?: { meta: Meta} }
+        const err = error as { message: string, stack: string, json?: { meta: Meta } }
         const errorMeta = err?.json?.meta || {}
 
         if (errorMeta.messages) {

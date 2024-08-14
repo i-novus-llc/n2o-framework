@@ -7,9 +7,9 @@ import { ModelPrefix } from '../../../../../../core/datasource/const'
 import { ButtonField } from '../../ButtonField/ButtonField'
 
 enum Color {
-    danger= 'danger', dark= 'dark', info= 'info',
-    light= 'light', primary = 'primary', secondary = 'secondary',
-    success= 'success', warning= 'warning', white= 'white'
+    danger = 'danger', dark = 'dark', info = 'info',
+    light = 'light', primary = 'primary', secondary = 'secondary',
+    success = 'success', warning = 'warning', white = 'white',
 }
 
 export interface Props {

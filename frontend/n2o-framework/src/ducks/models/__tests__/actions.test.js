@@ -29,6 +29,7 @@ describe('Тесты экшенов models', () => {
     describe('Проверка экшена setModel', () => {
         it('Возвращает правильный payload', () => {
             const action = setModel(prefix, key, model)
+
             expect(action.payload.prefix).toEqual(prefix)
             expect(action.payload.key).toEqual(key)
             expect(action.payload.model).toEqual(model)
@@ -38,6 +39,7 @@ describe('Тесты экшенов models', () => {
     describe('Проверка экшена updateModel', () => {
         it('Возвращает правильный payload', () => {
             const action = updateModel(prefix, key, field, value)
+
             expect(action.payload.prefix).toEqual(prefix)
             expect(action.payload.key).toEqual(key)
             expect(action.payload.field).toEqual(field)
@@ -48,6 +50,7 @@ describe('Тесты экшенов models', () => {
     describe('Проверка экшена removeModel', () => {
         it('Возвращает правильный payload', () => {
             const action = removeModel(prefix, key)
+
             expect(action.payload.prefix).toEqual(prefix)
             expect(action.payload.key).toEqual(key)
         })
@@ -56,6 +59,7 @@ describe('Тесты экшенов models', () => {
     describe('Проверка экшена copyModel', () => {
         it('Возвращает правильный payload', () => {
             const action = copyModel(source, target, { mode: 'replace' })
+
             expect(action.payload.source).toEqual(source)
             expect(action.payload.target).toEqual(target)
             expect(action.payload.mode).toEqual('replace')
@@ -65,6 +69,7 @@ describe('Тесты экшенов models', () => {
     describe('Проверка экшена removeAllModel', () => {
         it('Возвращает правильный payload', () => {
             const action = removeAllModel(key)
+
             expect(action.payload.key).toEqual(key)
         })
     })

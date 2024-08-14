@@ -1,12 +1,11 @@
 import { runSaga } from 'redux-saga'
 
 import { DEPENDENCY_TYPES } from '../core/dependencyTypes'
-
 import {
     disableWidget,
     enableWidget,
     hideWidget,
-    showWidget
+    showWidget,
 } from '../ducks/widgets/store'
 
 import { sortDependency } from './widgetDependency/sortDependency'
@@ -72,7 +71,6 @@ describe('Проверка саги widgetDependency', () => {
     })
 
     describe('resolveDependency', () => {
-
         describe('resolveVisibleDependency', () => {
             it('покажет виджет', async () => {
                 const dispatched = []
@@ -88,6 +86,7 @@ describe('Проверка саги widgetDependency', () => {
                     }),
                     dispatch: action => dispatched.push(action),
                 }
+
                 await runSaga(
                     fakeStore,
                     resolveDependency,
@@ -123,6 +122,7 @@ describe('Проверка саги widgetDependency', () => {
                     }),
                     dispatch: action => dispatched.push(action),
                 }
+
                 await runSaga(
                     fakeStore,
                     resolveDependency,
@@ -153,6 +153,7 @@ describe('Проверка саги widgetDependency', () => {
                     getState: () => ({}),
                     dispatch: action => dispatched.push(action),
                 }
+
                 await runSaga(
                     fakeStore,
                     resolveDependency,
@@ -180,6 +181,7 @@ describe('Проверка саги widgetDependency', () => {
                     getState: () => ({}),
                     dispatch: action => dispatched.push(action),
                 }
+
                 await runSaga(
                     fakeStore,
                     resolveDependency,

@@ -31,28 +31,21 @@ import { FactoryContext } from '../../core/factory/context'
 import { GlobalAlertsConnected } from './GlobalAlerts'
 
 export interface ApplicationProps {
-    i18n: i18n
     ready: boolean
     loading: boolean
-    realTimeConfig: boolean
     locale: string
-    menu: {
-        datasources: Record<string, DataSourceState>
-    }
     error: Error
     render(): React.ReactNode
 }
 
 /* data sources register on the app layer are executing in the meta.js sagas */
-function Application(props: ApplicationProps) {
-    const {
-        ready,
-        locale,
-        loading,
-        error,
-        render,
-    } = props
-
+function Application({
+    ready,
+    locale,
+    loading,
+    error,
+    render,
+}: ApplicationProps) {
     const { getComponent } = useContext(FactoryContext)
     const FactorySpinner = getComponent('Spinner', FactoryLevels.SNIPPETS)
 
@@ -61,6 +54,7 @@ function Application(props: ApplicationProps) {
     return (
         <>
             <GlobalAlertsConnected />
+            {/* @ts-ignore FIXME разобраться в типизации */}
             <ErrorContainer error={error}>
                 <>
                     {!ready && FactorySpinner

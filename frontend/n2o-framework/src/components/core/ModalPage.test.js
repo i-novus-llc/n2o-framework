@@ -21,6 +21,7 @@ const setup = (propOverrides, storeOverrides) => {
         close: false,
         pages: {},
     }
+
     return mount(
         <Provider store={{ ...store, ...storeOverrides }}>
             <FactoryProvider config={createFactoryConfig({})}>
@@ -29,6 +30,7 @@ const setup = (propOverrides, storeOverrides) => {
         </Provider>,
     )
 }
+
 describe.skip('Тесты ModalPage', () => {
     it('CoverSpinner не должен рендериться, если metadata не пуста', () => {
         const wrapper = setup({
@@ -47,6 +49,7 @@ it('Отображается ли окно', () => {
     const wrapper = setup({
         visible: true,
     })
+
     expect(wrapper.find('.modal-content').length).toBe(1)
 })
 

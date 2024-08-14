@@ -1,6 +1,6 @@
 import React from 'react'
 
-export interface Condition {
+export type Condition = {
     expression: string
     modelLink: string
     message?: string
