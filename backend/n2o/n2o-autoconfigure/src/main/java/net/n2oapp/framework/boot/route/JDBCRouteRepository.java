@@ -73,7 +73,7 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
     public void createTable() {
         if (createTable) {
             final String createTableSQL = "CREATE TABLE IF NOT EXISTS " + tableName +
-                    " (id uuid PRIMARY KEY, url char(255), class char(255), context bytea)";
+                    " (id uuid PRIMARY KEY, url varchar(255), class varchar(255), context bytea)";
 
             jdbcTemplate.execute(createTableSQL);
             log.info(String.format("Created table %s.", tableName));
