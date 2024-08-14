@@ -6,25 +6,23 @@ import { useResolved } from '../../../../core/Expression/useResolver'
 import { FieldsetHeader } from './FieldsetHeader'
 
 export function withFieldsetHeader(Component) {
-    function WithFieldsetHeaderComponent(props) {
-        const {
-            className,
-            style,
-            needLabel,
-            needDescription,
-            description,
-            label,
-            help,
-            type,
-            childrenLabel,
-            enabled,
-            activeModel,
-            render,
-            visible,
-            badge: badgeProps,
-            ...rest
-        } = props
-
+    function WithFieldsetHeaderComponent({
+        className,
+        style,
+        needLabel,
+        needDescription,
+        description,
+        label,
+        help,
+        type,
+        childrenLabel,
+        enabled,
+        activeModel,
+        render,
+        visible,
+        badge: badgeProps,
+        ...rest
+    }) {
         const badge = useResolved(badgeProps, activeModel)
 
         return (

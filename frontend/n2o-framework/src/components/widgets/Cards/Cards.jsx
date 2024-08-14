@@ -13,19 +13,17 @@ import { Card } from './Card'
  * @reactProps {string} align - позиция элементов по горизонтали
  * @reactProps {string} datasource - datasource key
  */
-export function Cards(props) {
-    const {
-        cards,
-        className,
-        data,
-        id,
-        onResolve,
-        dispatch,
-        align,
-        height,
-        datasource,
-    } = props
-
+export function Cards({
+    cards,
+    className,
+    data,
+    id,
+    onResolve,
+    dispatch,
+    align,
+    height,
+    datasource,
+}) {
     if (!data?.length || !cards?.length) {
         return null
     }

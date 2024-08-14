@@ -20,7 +20,7 @@ type SubmitMethod<TProvider extends SubmitProvider = SubmitProvider> = (
 
 function getSubmit<
     TSubmit extends SubmitProvider,
-    TSubmitType extends ProviderType = TSubmit['type']
+    TSubmitType extends ProviderType = TSubmit['type'],
 >(provider: TSubmitType): SubmitMethod<TSubmit> {
     switch (provider) {
         case undefined:

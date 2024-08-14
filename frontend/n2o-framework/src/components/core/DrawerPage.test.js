@@ -21,6 +21,7 @@ const setup = (propOverrides, storeOverrides) => {
         close: false,
         pages: {},
     }
+
     return mount(
         <Provider store={{ ...store, ...storeOverrides }}>
             <FactoryProvider config={createFactoryConfig({})}>
@@ -29,6 +30,7 @@ const setup = (propOverrides, storeOverrides) => {
         </Provider>,
     )
 }
+
 describe('Тесты DrawerPage', () => {
     it('CoverSpinner не должен рендериться, если metadata не пуста', () => {
         const wrapper = setup({
@@ -38,6 +40,7 @@ describe('Тесты DrawerPage', () => {
             pages: {},
             loading: false,
         })
+
         setTimeout(() => {
             expect(wrapper.find('.n2o-spinner-container').exists()).toBeFalsy()
         }, 500)

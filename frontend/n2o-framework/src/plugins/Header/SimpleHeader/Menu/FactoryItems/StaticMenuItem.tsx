@@ -5,8 +5,7 @@ import classNames from 'classnames'
 import { ContextItem } from '../../../../CommonMenuTypes'
 import { LinkBody } from '../NavItems/Links/LinkBody'
 
-export function StaticMenuItem(props: ContextItem) {
-    const { item, className } = props
+export function StaticMenuItem({ item, className }: ContextItem) {
     const { style } = item
 
     return (

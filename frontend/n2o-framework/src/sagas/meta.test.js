@@ -40,7 +40,6 @@ const setupAlertEffect = () => {
         },
     }
 
-
     const metaMulti = {
         alert: {
             alertKey: 'Page_Table',
@@ -97,6 +96,7 @@ describe('Сага для перехвата меты, сайд-эффектов
                     },
                 },
             }
+
             await runSaga(fakeStore, redirectEffect, action)
             expect(dispatched[0].type).toBe('@@router/CALL_HISTORY_METHOD')
             expect(dispatched[0].payload.method).toBe('push')
@@ -107,13 +107,15 @@ describe('Сага для перехвата меты, сайд-эффектов
     describe('Проверка саги alertEffect', () => {
         it('Проверяет диспатч экшена создания Alert - ADD', () => {
             const { alert } = setupAlertEffect()
-            let gen= alert.next()
+            const gen = alert.next()
+
             expect(gen.value.payload.action.type).toBe(addAlert.type)
         })
 
         it('Проверяет payload при одном Alert', () => {
             const { alert, meta } = setupAlertEffect()
-            let gen = alert.next()
+            const gen = alert.next()
+
             expect(gen.value.payload.action.payload.key).toEqual('topRight')
             expect(gen.value.payload.action.payload.alerts[0].closeButton).toEqual(
                 meta.alert.messages[0].closeButton,
@@ -137,26 +139,29 @@ describe('Сага для перехвата меты, сайд-эффектов
 
         it('Проверяет подстановку дефолтного значения в key', () => {
             const { alertWithoutPlacement } = setupAlertEffect()
-            let gen = alertWithoutPlacement.next()
-            expect(gen.value.payload.action.payload.key).toBe(GLOBAL_KEY)
+            const gen = alertWithoutPlacement.next()
 
+            expect(gen.value.payload.action.payload.key).toBe(GLOBAL_KEY)
         })
 
         it('Проверяет подстановку placement = GLOBAL_KEY в payload, если его не было в meta', () => {
             const { alertWithoutPlacement } = setupAlertEffect()
-            let gen = alertWithoutPlacement.next()
+            const gen = alertWithoutPlacement.next()
+
             expect(gen.value.payload.action.payload.alerts[0].placement).toBe(GLOBAL_KEY)
         })
 
         it('Проверяет диспатч экшена создания нескольких Alert - ADD_MULTI', () => {
             const { alertsMulti } = setupAlertEffect()
-            let gen= alertsMulti.next()
+            const gen = alertsMulti.next()
+
             expect(gen.value.payload.action.type).toBe(addMultiAlerts.type)
         })
 
         it('Проверяет payload при мультиалертах', () => {
             const { alertsMulti, metaMulti } = setupAlertEffect()
             let gen = alertsMulti.next()
+
             expect(gen.value.payload.action.payload.key).toEqual(metaMulti.alert.messages[0].placement)
             expect(gen.value.payload.action.payload.alerts[0].closeButton).toEqual(
                 metaMulti.alert.messages[0].closeButton,

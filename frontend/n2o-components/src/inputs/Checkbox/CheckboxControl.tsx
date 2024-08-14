@@ -7,9 +7,7 @@ type Props = CheckboxProps & {
 }
 
 export function CheckboxControl(props: Props) {
-    const {
-        defaultUnchecked: propsDefaultUnchecked,
-        onChange: propsOnChange } = props
+    const { defaultUnchecked: propsDefaultUnchecked, onChange: propsOnChange } = props
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         let defaultUnchecked

@@ -15,30 +15,32 @@ type TableActionContextValue = {
     onUpdateModel(model: Record<string, any>, rowIndex: number): void
 }
 
+const MESSAGE = 'Need an implementation method\''
+
 const tableActionsContext = createContext<TableActionContextValue>({
     toggleExpandRow() {
-        console.warn('Need an implementation method')
+        console.warn(MESSAGE)
     },
     selectRows() {
-        console.warn('Need an implementation method')
+        console.warn(MESSAGE)
     },
     deselectRows() {
-        console.warn('Need an implementation method')
+        console.warn(MESSAGE)
     },
     selectSingleRow() {
-        console.warn('Need an implementation method')
+        console.warn(MESSAGE)
     },
     setFocusOnRow() {
-        console.warn('Need an implementation method')
+        console.warn(MESSAGE)
     },
     onRowClick() {
-        console.warn('Need an implementation method')
+        console.warn(MESSAGE)
     },
     onChangeFilter() {
-        console.warn('Need an implementation method')
+        console.warn(MESSAGE)
     },
     onUpdateModel() {
-        console.warn('Need an implementation method')
+        console.warn(MESSAGE)
     },
 })
 

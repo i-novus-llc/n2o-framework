@@ -1,6 +1,5 @@
 import React, { useCallback, useContext } from 'react'
 import flowRight from 'lodash/flowRight'
-
 import { Tabs as TabsControl } from '@i-novus/n2o-components/lib/display/Tabs/Tabs'
 
 // @ts-ignore ignore import error from js file
@@ -27,25 +26,22 @@ interface Tab {
 
 export interface TabsRegionProps extends Props {
     tabs: Tab[]
-    getWidget(): void
-    getWidgetProps(): void
 }
 
-function TabsRegionBody(props: TabsRegionProps) {
-    const {
-        tabs,
-        activeEntity: active,
-        changeActiveEntity: changeActive,
-        className,
-        hideSingleTab,
-        contentStyle,
-        contentClassName,
-        style,
-        datasource,
-        activeTabFieldId,
-        setResolve,
-        resolveModel,
-    } = props
+function TabsRegionBody({
+    tabs,
+    activeEntity: active,
+    changeActiveEntity: changeActive,
+    className,
+    hideSingleTab,
+    contentStyle,
+    contentClassName,
+    style,
+    datasource,
+    activeTabFieldId,
+    setResolve,
+    resolveModel,
+}: TabsRegionProps) {
     const { getComponent } = useContext(FactoryContext)
     const Tabs = getComponent('Tabs', FactoryLevels.SNIPPETS) || TabsControl
 

@@ -4,7 +4,6 @@ import isEqual from 'lodash/isEqual'
 import unionWith from 'lodash/unionWith'
 import isNaN from 'lodash/isNaN'
 import get from 'lodash/get'
-
 import { Props, defaultProps } from '@i-novus/n2o-components/lib/inputs/InputSelectTree/allProps'
 import { InputSelectTreeComponent } from '@i-novus/n2o-components/lib/inputs/InputSelectTree/InputSelectTree'
 import { TOption } from '@i-novus/n2o-components/lib/inputs/InputSelect/types'

@@ -34,6 +34,7 @@ class ReduxField extends React.Component {
     }
 
     setRef(el) {
+        // eslint-disable-next-line react/no-unused-class-component-methods
         this.controlRef = el
     }
 

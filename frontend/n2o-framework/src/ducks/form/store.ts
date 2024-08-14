@@ -400,7 +400,7 @@ export const formSlice = createSlice({
                     .map(([key, field]) => [key, field.ctx]))
 
                 for (; i < start + deleteCount; i += 1) {
-                    // eslint-disable-next-line no-loop-func
+                    // eslint-disable-next-line no-loop-func,@typescript-eslint/no-loop-func
                     groupedFields[i]?.forEach((fieldName) => {
                         const sourceKey = `${field}[${i}].${fieldName}`
 
@@ -409,7 +409,7 @@ export const formSlice = createSlice({
                 }
 
                 for (; i < groupedFields.length; i += 1) {
-                    // eslint-disable-next-line no-loop-func
+                    // eslint-disable-next-line no-loop-func,@typescript-eslint/no-loop-func
                     groupedFields[i]?.forEach((fieldName) => {
                         const newIndex = i - deleteCount
                         const sourceKey = `${field}[${i}].${fieldName}`

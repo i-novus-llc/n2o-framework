@@ -4,20 +4,18 @@ import { Select } from './Select'
 import { ExtraPage } from './ExtraPage'
 import { PAGE_LINK_CLASS, Pages as PagesProps } from './constants'
 
-export function Pages(props: PagesProps) {
-    const {
-        pages,
-        activePage,
-        onSelect,
-        extraFirstVisible,
-        extraLastVisible,
-        lastPage,
-        showLast,
-        hasNext,
-        loading,
-        visible,
-    } = props
-
+export function Pages({
+    pages,
+    activePage,
+    onSelect,
+    extraFirstVisible,
+    extraLastVisible,
+    lastPage,
+    showLast,
+    hasNext,
+    loading,
+    visible,
+}: PagesProps) {
     if (!pages.length || !visible) {
         return null
     }

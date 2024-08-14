@@ -3,10 +3,10 @@ import { Provider } from 'react-redux'
 import { mount } from 'enzyme'
 import mockStore from 'redux-mock-store'
 
-import { OverlayPages } from './OverlayPages'
-
 import FactoryProvider from '../../core/factory/FactoryProvider'
 import createFactoryConfig from '../../core/factory/createFactoryConfig'
+
+import { OverlayPages } from './OverlayPages'
 
 const setup = propsOverride => mount(
     <Provider

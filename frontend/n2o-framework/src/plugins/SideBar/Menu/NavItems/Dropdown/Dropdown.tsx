@@ -34,19 +34,18 @@ function hasActiveSubItem(items: Item['items'], location: { pathname: string }):
     })
 }
 
-export function Dropdown(props: DropdownProps) {
-    const {
-        item,
-        sidebarOpen,
-        showContent,
-        isMiniView,
-        datasources,
-        datasource,
-        models,
-        activeId,
-        level,
-        isStaticView,
-    } = props
+export function Dropdown({
+    item,
+    sidebarOpen,
+    showContent,
+    isMiniView,
+    datasources,
+    datasource,
+    models,
+    activeId,
+    level,
+    isStaticView,
+}: DropdownProps) {
     const dropdownId = generateId()
     const location = useLocation()
 
@@ -59,49 +58,47 @@ export function Dropdown(props: DropdownProps) {
     const isOpen = hasActiveSubItem(items, location)
 
     return (
-        <>
-            <DropdownWrapper
-                {...item}
-                sidebarOpen={sidebarOpen}
-                showContent={showContent}
-                isMiniView={isMiniView}
-                id={dropdownId}
-                open={isOpen}
-            >
-                <div
-                    className={classNames(
-                        'n2o-sidebar__sub-items-container',
-                        {
-                            mini: isMiniView,
-                        },
-                    )
+        <DropdownWrapper
+            {...item}
+            sidebarOpen={sidebarOpen}
+            showContent={showContent}
+            isMiniView={isMiniView}
+            id={dropdownId}
+            open={isOpen}
+        >
+            <div
+                className={classNames(
+                    'n2o-sidebar__sub-items-container',
+                    {
+                        mini: isMiniView,
+                    },
+                )
                     }
-                >
-                    {map(items, (item, i) => (
-                        <div
+            >
+                {map(items, (item, i) => (
+                    <div
+                        key={i}
+                        className={classNames(
+                            'n2o-sidebar__sub-item',
+                            `n2o-sidebar__sub-item--level-${level}`,
+                        )}
+                    >
+                        <NavItemContainer
+                            level={level + 1}
                             key={i}
-                            className={classNames(
-                                'n2o-sidebar__sub-item',
-                                `n2o-sidebar__sub-item--level-${level}`,
-                            )}
-                        >
-                            <NavItemContainer
-                                level={level + 1}
-                                key={i}
-                                activeId={activeId}
-                                itemProps={item}
-                                sidebarOpen={sidebarOpen}
-                                showContent={showContent}
-                                isMiniView={isMiniView}
-                                datasources={datasources}
-                                datasource={datasource}
-                                models={models}
-                                isStaticView={isStaticView}
-                            />
-                        </div>
-                    ))}
-                </div>
-            </DropdownWrapper>
-        </>
+                            activeId={activeId}
+                            itemProps={item}
+                            sidebarOpen={sidebarOpen}
+                            showContent={showContent}
+                            isMiniView={isMiniView}
+                            datasources={datasources}
+                            datasource={datasource}
+                            models={models}
+                            isStaticView={isStaticView}
+                        />
+                    </div>
+                ))}
+            </div>
+        </DropdownWrapper>
     )
 }

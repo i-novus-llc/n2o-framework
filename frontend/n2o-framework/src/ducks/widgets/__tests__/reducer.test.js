@@ -26,7 +26,7 @@ describe('Тесты widget reducer', () => {
                         initProps: {
                             datasource: 'Page.Widget',
                             containerId: 'containerId',
-                            fetch: "always",
+                            fetch: 'always',
                             count: 1,
                             dataProvider: {
                                 url: 'n2o/data',
@@ -54,7 +54,7 @@ describe('Тесты widget reducer', () => {
             'Page.Widget': {
                 datasource: 'Page.Widget',
                 containerId: 'containerId',
-                fetch: "always",
+                fetch: 'always',
                 count: 1,
                 dataProvider: {
                     url: 'n2o/data',
@@ -113,7 +113,7 @@ describe('Тесты widget reducer', () => {
                 {
                     type: showWidget.type,
                     payload: {
-                        widgetId: 'widget'
+                        widgetId: 'widget',
                     },
                 },
             ),
@@ -133,7 +133,7 @@ describe('Тесты widget reducer', () => {
                 {
                     type: hideWidget.type,
                     payload: {
-                        widgetId: 'widget'
+                        widgetId: 'widget',
                     },
                 },
             ),
@@ -153,7 +153,7 @@ describe('Тесты widget reducer', () => {
                 {
                     type: enableWidget.type,
                     payload: {
-                        widgetId: 'widget'
+                        widgetId: 'widget',
                     },
                 },
             ),
@@ -173,7 +173,7 @@ describe('Тесты widget reducer', () => {
                 {
                     type: disableWidget.type,
                     payload: {
-                        widgetId: 'widget'
+                        widgetId: 'widget',
                     },
                 },
             ),
@@ -218,7 +218,7 @@ describe('Тесты widget reducer', () => {
                 {
                     type: toggleWidgetFilters.type,
                     payload: {
-                        widgetId: 'widget'
+                        widgetId: 'widget',
                     },
                 },
             ),
@@ -238,7 +238,7 @@ describe('Тесты widget reducer', () => {
                 {
                     type: resetWidgetState.type,
                     payload: {
-                        widgetId: 'widget'
+                        widgetId: 'widget',
                     },
                 },
             ),
@@ -260,7 +260,7 @@ describe('Тесты widget reducer', () => {
                 {
                     type: setActive.type,
                     payload: {
-                        widgetId: 'widget'
+                        widgetId: 'widget',
                     },
                 },
             ),

@@ -1,7 +1,6 @@
 import React, { ChangeEvent, ReactNode } from 'react'
 import classNames from 'classnames'
 import xorBy from 'lodash/xorBy'
-
 import { CheckboxGroup as CheckboxGroupUIComponent } from '@i-novus/n2o-components/lib/inputs/CheckboxGroup'
 import { InlineSpinner } from '@i-novus/n2o-components/lib/layouts/Spinner/InlineSpinner'
 

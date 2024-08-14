@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
 
-const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
+const delay = (ms: number) => new Promise((res) => { setTimeout(res, ms) })
 
 /**
  * Cover-спиннер (лоадер), перекрывает родительский элемент (родитель должен иметь position НЕ static(relative, fixed, absolute))
@@ -14,7 +14,7 @@ const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
 enum Mode {
     dark = 'dark',
     light = 'light',
-    transparent = 'transparent'
+    transparent = 'transparent',
 }
 
 type Props = {

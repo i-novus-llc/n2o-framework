@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import { BadgeProps } from 'reactstrap'
-
 import { Badge } from '@i-novus/n2o-components/lib/display/Badge/Badge'
 import { NavItemImage } from '@i-novus/n2o-components/lib/display/NavItemImage'
 
@@ -17,9 +16,7 @@ interface LinkBodyProps {
     iconPosition?: ICON_POSITIONS
 }
 
-export function LinkBody(props: LinkBodyProps) {
-    const { imageSrc, icon, title, imageShape, badge, iconPosition = ICON_POSITIONS.LEFT } = props
-
+export function LinkBody({ imageSrc, icon, title, imageShape, badge, iconPosition = ICON_POSITIONS.LEFT }: LinkBodyProps) {
     return (
         <>
             <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />

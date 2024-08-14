@@ -42,6 +42,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена registerWidget ', () => {
         it('Возвращает правильный payload', () => {
             const action = registerWidget(widgetId, initProps)
+
             expect(action.payload.widgetId).toEqual(widgetId)
             expect(action.payload.initProps).toEqual(initProps)
         })
@@ -50,6 +51,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена resolveWidget', () => {
         it('Возвращает правильный payload', () => {
             const action = resolveWidget(widgetId, resolveModel)
+
             expect(action.payload.widgetId).toEqual(widgetId)
             expect(action.payload.model).toEqual(resolveModel)
         })
@@ -58,6 +60,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена removeWidget', () => {
         it('Возвращает правильный payload', () => {
             const action = removeWidget(widgetId)
+
             expect(action.payload.widgetId).toEqual(widgetId)
         })
     })
@@ -65,6 +68,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена showWidget', () => {
         it('Возвращает правильный payload', () => {
             const action = showWidget(widgetId)
+
             expect(action.payload.widgetId).toEqual(widgetId)
         })
     })
@@ -72,6 +76,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена hideWidget', () => {
         it('Возвращает правильный payload', () => {
             const action = hideWidget(widgetId)
+
             expect(action.payload.widgetId).toEqual(widgetId)
         })
     })
@@ -79,6 +84,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена enableWidget', () => {
         it('Возвращает правильный payload', () => {
             const action = enableWidget(widgetId)
+
             expect(action.payload.widgetId).toEqual(widgetId)
         })
     })
@@ -86,6 +92,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена disableWidget', () => {
         it('Возвращает правильный payload', () => {
             const action = disableWidget(widgetId)
+
             expect(action.payload.widgetId).toEqual(widgetId)
         })
     })
@@ -93,6 +100,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена alertAddWidget', () => {
         it('Возвращает правильный payload', () => {
             const action = alertAddWidget(widgetId, alertKey)
+
             expect(action.payload.widgetId).toEqual(widgetId)
             expect(action.payload.alertKey).toEqual(alertKey)
         })
@@ -101,6 +109,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена alertRemoveWidget', () => {
         it('Возвращает правильный payload', () => {
             const action = alertRemoveWidget(widgetId, alertKey)
+
             expect(action.payload.widgetId).toEqual(widgetId)
             expect(action.payload.alertKey).toEqual(alertKey)
         })
@@ -109,6 +118,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена showWidgetFilters', () => {
         it('Возвращает правильный payload', () => {
             const action = showWidgetFilters(widgetId)
+
             expect(action.payload.widgetId).toEqual(widgetId)
             expect(action.payload.isFilterVisible).toEqual(true)
         })
@@ -117,6 +127,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена hideWidgetFilters', () => {
         it('Возвращает правильный payload', () => {
             const action = hideWidgetFilters(widgetId)
+
             expect(action.payload.widgetId).toEqual(widgetId)
             expect(action.payload.isFilterVisible).toEqual(false)
         })
@@ -125,6 +136,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена changeFilterVisibility', () => {
         it('Возвращает правильный payload', () => {
             const action = changeFiltersVisibility(widgetId, false)
+
             expect(action.payload.widgetId).toEqual(widgetId)
             expect(action.payload.isFilterVisible).toEqual(false)
         })
@@ -133,6 +145,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена toggleWidgetFilters', () => {
         it('Возвращает правильный payload', () => {
             const action = toggleWidgetFilters(widgetId)
+
             expect(action.payload.widgetId).toEqual(widgetId)
         })
     })
@@ -140,6 +153,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена resetWidgetState', () => {
         it('Возвращает правильный payload', () => {
             const action = resetWidgetState(widgetId)
+
             expect(action.payload.widgetId).toEqual(widgetId)
         })
     })
@@ -147,6 +161,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена setWidgetMetadata', () => {
         it('Возвращает правильный payload', () => {
             const action = setWidgetMetadata(pageId, widgetId, metadata)
+
             expect(action.payload.pageId).toEqual(pageId)
             expect(action.payload.widgetId).toEqual(widgetId)
             expect(action.payload.metadata).toEqual(metadata)
@@ -156,6 +171,7 @@ describe('Тесты экшенов widgets', () => {
     describe('Проверка экшена setActive', () => {
         it('Возвращает правильный payload', () => {
             const action = setActive(widgetId)
+
             expect(action.payload.widgetId).toEqual(widgetId)
         })
     })

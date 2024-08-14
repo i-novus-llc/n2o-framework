@@ -6,7 +6,7 @@ import { checkPrimaryKey } from './checkPrimaryKey'
 
 export function update<
     TItem extends object,
-    TPrimaryKey extends keyof TItem
+    TPrimaryKey extends keyof TItem,
 >(list: TItem[], item: TItem, primaryKey: TPrimaryKey): TItem[] {
     checkPrimaryKey(item, primaryKey)
 

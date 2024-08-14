@@ -40,6 +40,7 @@ export class HelpPopover extends React.Component<Props> {
                     id={this.fieldId}
                     ref={this.button}
                     type="button"
+                    aria-label="popover-btn"
                 >
                     <i className={icon} />
                 </button>

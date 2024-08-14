@@ -23,7 +23,7 @@ export interface Metadata {
     datasources?: Record<string, DataSourceState>
     /* FIXME */
     regions?: Record<string, object[]>
-    width?: {[key: string]: string}
+    width?: { [key: string]: string }
     page?: { model: string, htmlTitle: string, title: string }
     events?: Events[]
     widget?: string

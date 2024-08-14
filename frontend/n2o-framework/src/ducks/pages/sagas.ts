@@ -112,7 +112,7 @@ export function* getMetadata(
         const err = error as {
             message: string,
             stack: string,
-            json?: { meta: Record<string, unknown>},
+            json?: { meta: Record<string, unknown> },
             status: number | null
         }
 

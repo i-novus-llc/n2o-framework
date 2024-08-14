@@ -1,12 +1,13 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-
-import {ITEM_SRC} from '../constants'
 import { Provider } from 'react-redux'
+import configureMockStore from 'redux-mock-store'
+
+import { ITEM_SRC } from '../constants'
 import FactoryProvider from '../../core/factory/FactoryProvider'
 import createFactoryConfig from '../../core/factory/createFactoryConfig'
-import  { NavItemContainer } from './NavItemContainer'
-import configureMockStore from 'redux-mock-store'
+
+import { NavItemContainer } from './NavItemContainer'
 
 const mockStore = configureMockStore()
 const store = mockStore({})
@@ -30,6 +31,7 @@ describe('Тесты SidebarItemContainer', () => {
                 href: 'testHref',
             },
         })
+
         expect(wrapper.find('Link').exists()).toEqual(true)
     })
     it('Отрисовка Dropdown', () => {
@@ -40,6 +42,7 @@ describe('Тесты SidebarItemContainer', () => {
                 items: [{ title: 'test1', href: '/', linkType: 'inner', src: ITEM_SRC.LINK }],
             },
         })
+
         expect(wrapper.find('DropdownWrapper').exists()).toEqual(true)
     })
 })

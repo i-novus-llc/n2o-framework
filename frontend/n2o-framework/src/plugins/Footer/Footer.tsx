@@ -13,8 +13,7 @@ interface Props {
     style?: CSSProperties
 }
 
-function Footer(props: Props) {
-    const { textRight, textLeft, className, style } = props
+function Footer({ textRight, textLeft, className, style }: Props) {
     const { N2O_ELEMENT_VISIBILITY = {} as ElementVisibility } = window as WindowType
 
     let currentStyle = { ...style }

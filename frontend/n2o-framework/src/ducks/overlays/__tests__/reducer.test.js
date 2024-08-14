@@ -2,7 +2,7 @@ import overlays, {
     insertOverlay,
     destroyOverlay,
     hideOverlay,
-    showOverlay
+    showOverlay,
 } from '../store'
 
 describe('Тесты overlays reducer', () => {
@@ -19,7 +19,7 @@ describe('Тесты overlays reducer', () => {
                     payload: {
                         visible: true,
                         name: 'testName',
-                        mode: 'modal'
+                        mode: 'modal',
                     },
                 },
             ),

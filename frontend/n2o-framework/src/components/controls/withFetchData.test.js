@@ -17,6 +17,7 @@ const EmptyComponent = () => null
 
 const fetchData = fn => (...args) => new Promise((res, rej) => {
     const response = fn(...args)
+
     response.status ? rej(response) : res(response)
 })
 
@@ -73,6 +74,7 @@ describe('fetchData HOC test', () => {
             ...params.query,
             count: 20,
         }))
+
         wrapper
             .find('EmptyComponent')
             .props()
@@ -113,7 +115,7 @@ describe('fetchData HOC test', () => {
 
     it('Обработка серверной ошибки', async () => {
         const { wrapper } = setup({
-            dataProvider: { url: dataUrl }
+            dataProvider: { url: dataUrl },
         }, () => ({
             status: 401,
             response: {
@@ -153,6 +155,7 @@ describe('fetchData HOC test', () => {
             { dataProvider: { url: dataUrl }, caching: true },
             () => {
                 count += 1
+
                 return { list: new Array(12) }
             },
         )
@@ -177,6 +180,7 @@ describe('fetchData HOC test', () => {
             () => {
                 if (!err) {
                     err = true
+
                     return {
                         status: 401,
                         response: {
@@ -195,6 +199,7 @@ describe('fetchData HOC test', () => {
                         },
                     }
                 }
+
                 return {
                     list: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
                 }
@@ -205,8 +210,6 @@ describe('fetchData HOC test', () => {
             .find('EmptyComponent')
             .props()
             .fetchData()
-
-
 
         await delay(400)
 

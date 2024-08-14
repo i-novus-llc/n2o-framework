@@ -63,9 +63,7 @@ function useAction({ validate, ...rest }: UseActionProps, onClick: EventHandler)
         let valid = true
 
         for (const dataSource of validate) {
-            const isDataSourceValid = await validateDatasource(
-                store.getState(), dataSource, ModelPrefix.active, dispatch, true,
-            )
+            const isDataSourceValid = await validateDatasource(store.getState(), dataSource, ModelPrefix.active, dispatch, true)
 
             valid = valid && isDataSourceValid
         }

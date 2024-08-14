@@ -38,7 +38,7 @@ export type ReactMarkdownExtendedProps =
         disabled: boolean,
         action: Action,
         className: string,
-        placement: 'top'|'right'|'bottom'|'left'
+        placement: 'top' | 'right' | 'bottom' | 'left'
     }>
 
 /* для MarkdownField выражение вычисляем с помощью {}, а не `` как в остальных случаях */

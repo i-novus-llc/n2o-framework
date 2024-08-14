@@ -27,9 +27,20 @@ interface Props {
     fetchData(params: object, concat: boolean, cacheReset: boolean): void
 }
 
-type WrappedComponentProps = Omit<Props, 'data' | 'throttleDelay' | 'onOpen' |'onInput' | 'onScrollEnd'>&{
+type WrappedComponentProps = Omit<Props, 'data' | 'throttleDelay' | 'onOpen' | 'onInput' | 'onScrollEnd'> & {
     onSearch(value: string): void,
 }
+
+type OwnProps = {
+    form: string,
+    labelFieldId: string
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const mapStateToProps = (state: any, ownProps: OwnProps) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    alerts: (alertsByKeySelector(`${ownProps.form}.${ownProps.labelFieldId}` as any))(state),
+})
 
 export function withListContainer(WrappedComponent: FC<WrappedComponentProps>) {
     const WithListContainer = ({
@@ -105,16 +116,5 @@ export function withListContainer(WrappedComponent: FC<WrappedComponentProps>) {
 
     return connect(mapStateToProps, null)(WithListContainer)
 }
-
-type OwnProps = {
-    form: string,
-    labelFieldId: string
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mapStateToProps = (state: any, ownProps: OwnProps) => ({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    alerts: (alertsByKeySelector(`${ownProps.form}.${ownProps.labelFieldId}` as any))(state),
-})
 
 export default withListContainer

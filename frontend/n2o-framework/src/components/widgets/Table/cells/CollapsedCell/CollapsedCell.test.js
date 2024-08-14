@@ -27,6 +27,7 @@ const setup = (propOverrides = {}) => {
 describe('<CollapsedCell />', () => {
     it('проверяет создание элемента', () => {
         const { wrapper } = setup()
+
         expect(wrapper.find('span.badge').exists()).toBeTruthy()
     })
 

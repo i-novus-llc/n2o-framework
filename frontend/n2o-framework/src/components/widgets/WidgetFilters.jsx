@@ -27,20 +27,18 @@ export const WidgetFilterContext = createContext({
     reset() {},
 })
 
-const WidgetFilters = (props) => {
-    const {
-        widgetId,
-        fieldsets,
-        fetchData,
-        fetchOnChange,
-        blackResetList,
-        filterFieldsets: propsFilterFieldsets,
-        datasource,
-        style,
-        withCount,
-        fetchOnClear = true,
-    } = props
-
+const WidgetFilters = ({
+    widgetId,
+    fieldsets,
+    fetchData,
+    fetchOnChange,
+    blackResetList,
+    filterFieldsets: propsFilterFieldsets,
+    datasource,
+    style,
+    withCount,
+    fetchOnClear = true,
+}) => {
     const { getState } = useStore()
     const dispatch = useDispatch()
     /*

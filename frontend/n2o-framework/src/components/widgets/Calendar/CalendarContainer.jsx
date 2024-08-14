@@ -120,6 +120,7 @@ export default compose(
                 if (get(e, 'start')) {
                     const dateIsSame = moment(get(e, 'start')).isSame(get(e, 'end'))
                     const currentData = {
+                        // eslint-disable-next-line sonarjs/no-duplicate-string
                         start: moment(get(e, 'start')).format('YYYY-MM-DD HH:mm'),
                         end: dateIsSame
                             ? moment(get(e, 'end'))

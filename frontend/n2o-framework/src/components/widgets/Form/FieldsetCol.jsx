@@ -108,9 +108,9 @@ const enhance = compose(
 
             if (expression) {
                 return executeExpression(expression, props.activeModel, props.evalContext)
-            } if (visible === true) {
-                return true
             }
+
+            if (visible === true) { return true }
 
             return visible !== false
         },

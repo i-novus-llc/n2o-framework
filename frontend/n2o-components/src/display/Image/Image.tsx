@@ -9,13 +9,13 @@ enum TextPosition {
     bottom = 'bottom',
     left = 'left',
     right = 'right',
-    top = 'top'
+    top = 'top',
 }
 
 enum Shape {
     circle = 'circle',
     rounded = 'rounded',
-    square = 'square'
+    square = 'square',
 }
 
 type Props = TBaseProps & {

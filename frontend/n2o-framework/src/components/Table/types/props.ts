@@ -76,7 +76,7 @@ export type TableProps = {
 }
 & Pick<TableWidgetContainerProps, 'data' | 'sorting' | 'selectedRows' | 'focusedRowValue' | 'expandedRows'>
 
-export type TableBodyProps ={
+export type TableBodyProps = {
     row?: Row
     cells: TableProps['bodyCell']
     focusedRowValue: TableProps['focusedRowValue']

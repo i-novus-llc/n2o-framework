@@ -7,9 +7,10 @@ describe('<Sorter />', () => {
         const onSort = jest.fn()
         const wrapper = mount(
             <Sorter sortDirection="NONE" sortingParam="test" onSort={onSort}>
-        Лейбл
+                Лейбл
             </Sorter>,
         )
+
         wrapper.simulate('click')
         expect(onSort).toHaveBeenCalledWith('test', 'ASC')
         wrapper.setProps({ sorting: 'ASC' })
@@ -24,6 +25,7 @@ describe('<Sorter />', () => {
 
     it('проверяет работу title', () => {
         const wrapper = shallow(<Sorter title="Супер">Лейбл</Sorter>)
+
         expect(wrapper.prop('title')).toEqual('Супер')
     })
 })

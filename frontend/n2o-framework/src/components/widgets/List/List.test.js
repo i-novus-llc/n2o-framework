@@ -26,6 +26,7 @@ const setup = (propsOverride) => {
 describe('Проверка List', () => {
     it('Компонент отрисовывается', () => {
         const wrapper = setup()
+
         expect(wrapper.find('.n2o-widget-list').exists()).toEqual(true)
     })
 
@@ -34,6 +35,7 @@ describe('Проверка List', () => {
         const rowItem = wrapper
             .instance()
             .renderRow({ index: 0, key: 0, style: {}, parent: {} })
+
         expect(React.isValidElement(rowItem)).toEqual(true)
     })
 })

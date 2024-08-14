@@ -3,7 +3,7 @@ export type State = {
     ready: boolean
     loading: boolean
     error: object | null
-    locale: 'ru'| 'en'
+    locale: 'ru' | 'en'
     locales?: ['ru', 'en', 'fr']
     messages: Record<string, unknown>
     menu: {

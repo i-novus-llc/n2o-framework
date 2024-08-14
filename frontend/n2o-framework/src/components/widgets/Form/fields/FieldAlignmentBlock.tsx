@@ -4,9 +4,7 @@ type fieldAlignmentBlockType = {
     visible?: boolean
 }
 
-export function FieldAlignmentBlock(props: fieldAlignmentBlockType) {
-    const { visible = true } = props
-
+export function FieldAlignmentBlock({ visible = true }: fieldAlignmentBlockType) {
     if (!visible) {
         return null
     }

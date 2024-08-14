@@ -65,16 +65,19 @@ const setupImageCellWithTooltip = (propsOverride) => {
 describe('<ImageCell />', () => {
     it('проверяет создание тайтла', () => {
         const { wrapper, props } = setupImageCell()
+
         expect(wrapper.find('.n2o-image__info_label').text()).toEqual(props.title)
     })
 
     it('проверяет путь до картинки', () => {
         const { wrapper, props } = setupImageCell()
+
         expect(wrapper.find('img').props().src).toEqual(props.model[props.id])
     })
 
     it('проверяет форму изображения', () => {
         const { wrapper } = setupImageCell()
+
         expect(wrapper.find('img').props().className).toEqual('n2o-image__image')
     })
 

@@ -35,6 +35,7 @@ describe('<ProgressBarCell />', () => {
 
     it('проверяет заполнение прогресс бара', () => {
         const wrapper = shallow(<ProgressBarCell {...props} />)
+
         expect(wrapper.props().model.now).toEqual(props.model[props.id])
     })
 

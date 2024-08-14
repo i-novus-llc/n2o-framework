@@ -19,6 +19,7 @@ describe('Тесты экшенов overlays', () => {
                 pageId: 'page_id',
                 widgetId: 'TableWidget',
             })
+
             expect(action.payload).toMatchObject({
                 mode: 'modal',
                 name: 'MODAL_NAME',
@@ -34,6 +35,7 @@ describe('Тесты экшенов overlays', () => {
     describe('Проверка экшена showOverlay', () => {
         it('Возвращает правильный payload', () => {
             const action = showOverlay(name)
+
             expect(action.payload).toEqual(name)
         })
     })
@@ -41,6 +43,7 @@ describe('Тесты экшенов overlays', () => {
     describe('Проверка экшена hideOverlay', () => {
         it('Возвращает правильный payload', () => {
             const action = hideOverlay(name)
+
             expect(action.payload).toEqual(name)
         })
     })
@@ -48,6 +51,7 @@ describe('Тесты экшенов overlays', () => {
     describe('Проверка экшена closeOverlay', () => {
         it('Возвращает правильный payload', () => {
             const action = closeOverlay('test', true)
+
             expect(action.payload).toEqual({
                 name: 'test',
                 prompt: true,
@@ -58,6 +62,7 @@ describe('Тесты экшенов overlays', () => {
     describe('Проверка экшена showPrompt', () => {
         it('Возвращает правильный payload', () => {
             const action = showPrompt('test')
+
             expect(action.payload).toEqual('test')
         })
     })
@@ -65,6 +70,7 @@ describe('Тесты экшенов overlays', () => {
     describe('Проверка экшена hidePrompt', () => {
         it('Возвращает правильный payload', () => {
             const action = hidePrompt('test')
+
             expect(action.payload).toEqual('test')
         })
     })

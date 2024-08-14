@@ -12,9 +12,7 @@ export interface Link {
     style?: React.CSSProperties
 }
 
-export function InnerLink(props: Link) {
-    const { children, className, active, href, target, style } = props
-
+export function InnerLink({ children, className, active, href, target, style }: Link) {
     return (
         <NavItem>
             <NavLink

@@ -97,6 +97,7 @@ export const defaultApiProvider = {
         {
             method: options.baseMethod || 'POST',
             headers: {
+                // eslint-disable-next-line sonarjs/no-duplicate-string
                 'Content-Type': 'application/json',
                 ...defaultTo(options.headers, {}),
             },
@@ -104,13 +105,15 @@ export const defaultApiProvider = {
             signal: abortSignal,
         },
     ),
-    [FETCH_VALIDATE]: (options, abortSignal, pagePath, body = {}, headers = {}) => request([API_PREFIX, BASE_PATH_VALIDATION, pagePath].join(''),
+    [FETCH_VALIDATE]: (options, abortSignal, pagePath, body = {}, headers = {}) => request(
+        [API_PREFIX, BASE_PATH_VALIDATION, pagePath].join(''),
         {
             method: options.baseMethod || 'POST',
             signal: abortSignal,
             body: JSON.stringify(body),
             headers: { 'Content-Type': 'application/json', ...headers },
-        }),
+        },
+    ),
     [FETCH_VALUE]: ({ url, headers }, abortSignal) => request(url, { headers, signal: abortSignal }),
     [CHANGE_LOCALE]: (locale, abortSignal) => request([API_PREFIX, BASE_PATH_LOCALE_CHANGE].join(''), {
         method: 'POST',
@@ -134,6 +137,7 @@ export const defaultApiProviderEnhanced = handleApi(defaultApiProvider)
  */
 export function fetchInputSelectData(
     options,
+    // eslint-disable-next-line @typescript-eslint/default-param-last
     settings = { apiPrefix: API_PREFIX, basePath: BASE_PATH_DATA },
     abortSignal,
 ) {

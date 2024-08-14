@@ -17,18 +17,18 @@ export const dataSourceByIdSelector = (sourceId: string) => createSelector(
 /* eslint-disable indent */
 export const dataSourceModelsSelector = <
     TModel extends object = object,
-    TFilter extends object = object
+    TFilter extends object = object,
 >(sourceId: string) => createSelector(
     // @ts-ignore Не понятно почему ругается, заглушил для быстрого фикса
-    modelsSelector,
-    (modelsList: ModelsState<TModel, TFilter>) => ({
-        [ModelPrefix.active]: modelsList[ModelPrefix.active][sourceId],
-        [ModelPrefix.edit]: modelsList[ModelPrefix.edit][sourceId],
-        [ModelPrefix.source]: modelsList[ModelPrefix.source][sourceId] || EMPTY_ARRAY,
-        [ModelPrefix.selected]: modelsList[ModelPrefix.selected][sourceId] || EMPTY_ARRAY,
-        [ModelPrefix.filter]: modelsList[ModelPrefix.filter][sourceId] || EMPTY_OBJECT,
-    }),
-)
+        modelsSelector,
+        (modelsList: ModelsState<TModel, TFilter>) => ({
+            [ModelPrefix.active]: modelsList[ModelPrefix.active][sourceId],
+            [ModelPrefix.edit]: modelsList[ModelPrefix.edit][sourceId],
+            [ModelPrefix.source]: modelsList[ModelPrefix.source][sourceId] || EMPTY_ARRAY,
+            [ModelPrefix.selected]: modelsList[ModelPrefix.selected][sourceId] || EMPTY_ARRAY,
+            [ModelPrefix.filter]: modelsList[ModelPrefix.filter][sourceId] || EMPTY_OBJECT,
+        }),
+    )
 /* eslint-enable indent */
 
 export const dataSourceLoadingSelector = (sourceId: string) => createSelector(

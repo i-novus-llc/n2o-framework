@@ -21,22 +21,21 @@ import TilesCell from './TilesCell'
  * @reactProps {string} datasource - datasource key
  */
 
-function Tiles(props) {
-    const {
-        tile,
-        className,
-        data,
-        id,
-        colsSm,
-        colsMd,
-        colsLg,
-        width,
-        tileWidth,
-        tileHeight,
-        onResolve,
-        dispatch,
-        datasource,
-    } = props
+function Tiles({
+    tile,
+    className,
+    data,
+    id,
+    colsSm,
+    colsMd,
+    colsLg,
+    width,
+    tileWidth,
+    tileHeight,
+    onResolve,
+    dispatch,
+    datasource,
+}) {
     const col = calcCols(colsSm, colsMd, colsLg, width)
 
     const renderTilesItem = (element, index) => (

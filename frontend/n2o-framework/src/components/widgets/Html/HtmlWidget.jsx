@@ -21,17 +21,16 @@ import { Html } from './Html'
  * @reactProps {object} datasource
  */
 
-function Widget(props) {
-    const {
-        id,
-        toolbar,
-        className,
-        style,
-        url,
-        html,
-        loading,
-        datasource,
-    } = props
+function Widget({
+    id,
+    toolbar,
+    className,
+    style,
+    url,
+    html,
+    loading,
+    datasource,
+}) {
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))?.[0]
 
     return (

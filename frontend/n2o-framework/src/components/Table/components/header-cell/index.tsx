@@ -8,23 +8,21 @@ import { useMouseDownResize } from '../../hooks/useMouseDownResize'
 
 import { HeaderFilter } from './header-filter'
 
-export const TableHeaderCell: VFC<TableHeaderCellProps> = (props) => {
-    const {
-        component: Component,
-        id,
-        filterField,
-        sortingDirection,
-        colSpan,
-        rowSpan,
-        multiHeader,
-        icon,
-        resizable,
-        elementAttributes = {},
-        validateFilterField,
-        filterError,
-        ...rest
-    } = props
-
+export const TableHeaderCell: VFC<TableHeaderCellProps> = ({
+    component: Component,
+    id,
+    filterField,
+    sortingDirection,
+    colSpan,
+    rowSpan,
+    multiHeader,
+    icon,
+    resizable,
+    elementAttributes = {},
+    validateFilterField,
+    filterError,
+    ...rest
+}) => {
     const { className, alignment, ...otherElementAttributes } = elementAttributes
     const cellRef = useRef<HTMLTableCellElement>(null)
     const onMouseDownResizeCell = useMouseDownResize(cellRef)

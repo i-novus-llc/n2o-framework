@@ -6,7 +6,7 @@ import split from 'lodash/split'
 import moment from 'moment/moment'
 
 export function isDayOff(day) {
-    return [0, 6].indexOf(day.getDay()) !== -1
+    return [0, 6].includes(day.getDay())
 }
 
 export function isCurrentDay(day) {

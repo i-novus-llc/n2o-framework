@@ -53,13 +53,17 @@ export function* validate({ payload, meta }: StartValidateAction) {
     const currentProcess: AsyncValidation = {
         fields: fields2Validate,
         abortController,
-        task: yield fork(validateModel, model, validation,
+        task: yield fork(
+            validateModel,
+            model,
+            validation,
             {
                 fields: fields2Validate,
                 signal: abortController.signal,
                 datasourceId: id,
                 pageUrl,
-            }),
+            },
+        ),
     }
 
     asyncValidations[id] = currentProcess

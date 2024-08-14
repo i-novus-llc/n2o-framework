@@ -3,7 +3,7 @@ import React, { ComponentClass, FunctionComponentFactory } from 'react'
 import { ErrorBoundary } from './Boundary'
 
 export const withErrorBoundary = <
-    TProps extends object
+    TProps extends object,
 >(Component: ComponentClass<TProps> | (FunctionComponentFactory<TProps> & { displayName?: string })) => {
     function WithErrorBoundary(props: TProps) {
         return (

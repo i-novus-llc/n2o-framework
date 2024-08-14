@@ -64,6 +64,8 @@ function Alert(props) {
         return null
     }
 
+    const text = propsText === 0 ? String(propsText) : propsText
+
     if (loader) {
         return (
             <LoaderAlert
@@ -78,7 +80,6 @@ function Alert(props) {
     }
 
     const title = propsTitle === 0 ? String(propsTitle) : propsTitle
-    const text = propsText === 0 ? String(propsText) : propsText
 
     return (
         <DefaultAlert

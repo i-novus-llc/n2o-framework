@@ -45,7 +45,7 @@ describe('тесты на hoc withRegionContainer', () => {
             [regionId]: {
                 regionId,
                 isInit: true,
-                "datasource": null,
+                datasource: null,
                 list: [
                     {
                         id: 'item1',

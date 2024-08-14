@@ -2,14 +2,14 @@ import models, {
     setModel,
     removeModel,
     updateModel,
-    removeAllModel
+    removeAllModel,
 } from '../store'
 
 describe('Тесты models reducer', () => {
     it('Проверка SET', () => {
         expect(
             models(
-                {'prefix': {}},
+                { prefix: {} },
                 {
                     type: setModel.type,
                     payload: {

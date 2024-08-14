@@ -17,8 +17,7 @@ interface NavItemContainerProps {
     direction: ButtonDropdownProps['direction']
 }
 
-const NavItemContainer = (props: NavItemContainerProps) => {
-    const { itemProps, active, datasources, models, direction } = props
+const NavItemContainer = ({ itemProps, active, datasources, models, direction }: NavItemContainerProps) => {
     const datasource = get(itemProps, 'datasource')
 
     const item = getFromSource(itemProps, datasources, models, datasource)

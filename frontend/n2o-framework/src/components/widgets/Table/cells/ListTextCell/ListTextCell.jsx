@@ -13,20 +13,18 @@ import { Tooltip } from '../../../../snippets/Tooltip/TooltipHOC'
 import { ListTextCellTrigger } from './ListTextCellTrigger'
 import { replacePlaceholder } from './utils'
 
-function ListTextCell(props) {
-    const {
-        model,
-        fieldKey,
-        disabled,
-        label,
-        oneLabel,
-        fewLabel,
-        manyLabel,
-        trigger,
-        labelDashed,
-        placement,
-    } = props
-
+function ListTextCell({
+    model,
+    fieldKey,
+    disabled,
+    label,
+    oneLabel,
+    fewLabel,
+    manyLabel,
+    trigger,
+    labelDashed,
+    placement,
+}) {
     const list = get(model, fieldKey)
 
     if (list.length === 0) { return <DefaultCell disabled={disabled} className="list-text-cell" /> }

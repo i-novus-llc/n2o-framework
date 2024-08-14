@@ -42,12 +42,14 @@ export function WithTableProps(Component) {
             return resolveProps(config)
         }, [resolveProps, table])
 
-        const paginationVisible = useMemo(() => {
-            if (datasourceModelLength === 0) { return false }
+        const paginationVisible = useMemo(
+            () => {
+                if (datasourceModelLength === 0) { return false }
 
-            return !columnsState.every(column => !column.visibleState || !column.visible)
-        },
-        [columnsState, datasourceModelLength])
+                return !columnsState.every(column => !column.visibleState || !column.visible)
+            },
+            [columnsState, datasourceModelLength],
+        )
 
         const validations = dataSourceValidationSelector(datasource, ValidationsKey.FilterValidations)(state) || {}
 

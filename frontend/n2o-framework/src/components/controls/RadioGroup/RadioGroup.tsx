@@ -3,7 +3,6 @@ import uniqueId from 'lodash/uniqueId'
 import toString from 'lodash/toString'
 import { isEqual } from 'lodash'
 import classNames from 'classnames'
-
 import { RadioGroup as Group } from '@i-novus/n2o-components/lib/inputs/RadioGroup'
 import { TOption } from '@i-novus/n2o-components/lib/types'
 
@@ -12,7 +11,7 @@ import withFetchData from '../withFetchData'
 
 enum RadioGroupType {
     default = 'default',
-    tabs = 'tabs'
+    tabs = 'tabs',
 }
 
 type Props = {

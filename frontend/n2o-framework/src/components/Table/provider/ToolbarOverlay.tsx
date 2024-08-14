@@ -35,23 +35,6 @@ type OverlayProps<T extends HTMLElement = HTMLElement> = {
 
 const overlayContext = createContext<OverlayContext>({})
 
-export const ToolbarOverlay: FC<OverlayProps> = ({
-    children,
-    overlay,
-    ...props
-}) => (
-    <>
-        {overlay ? (
-            <WithOverlay
-                {...props}
-                overlay={overlay}
-            >
-                {children}
-            </WithOverlay>
-        ) : children}
-    </>
-)
-
 const WithOverlay: FC<Required<OverlayProps>> = ({
     children,
     overlay,
@@ -139,38 +122,58 @@ const WithOverlay: FC<Required<OverlayProps>> = ({
     return (
         <overlayContext.Provider value={methods}>
             {children}
-            {createPortal((
-                <div
-                    ref={overlayContainerRef}
-                    onMouseLeave={methods.onHideOverlay}
-                    onMouseEnter={continueShowOverlay}
-                    className="table-row-overlay"
-                >
-                    {isVisibleOverlay ? (
-                        <div
-                            className={`toolbar-container ${className}`}
-                            onClick={onPinOverlay}
-                        >
-                            {toolbar.map(({ id, buttons }) => (
-                                <React.Fragment key={id}>
-                                    {buttons.map(({ component: ButtonComponent, id, ...props }) => (
-                                        <ButtonComponent
-                                            key={id}
-                                            id={id}
-                                            actionCallback={onClickActionButtonCallback}
-                                            {...props}
-                                        />
-                                    ))}
-                                </React.Fragment>
-                            ))}
-                        </div>
-                    ) : null}
-                </div>
+            {createPortal(
+                (
+                    <div
+                        ref={overlayContainerRef}
+                        onMouseLeave={methods.onHideOverlay}
+                        onMouseEnter={continueShowOverlay}
+                        className="table-row-overlay"
+                    >
+                        {isVisibleOverlay ? (
+                            <div
+                                className={`toolbar-container ${className}`}
+                                onClick={onPinOverlay}
+                            >
+                                {toolbar.map(({ id, buttons }) => (
+                                    <React.Fragment key={id}>
+                                        {buttons.map(({ component: ButtonComponent, id, ...props }) => (
+                                            <ButtonComponent
+                                                key={id}
+                                                id={id}
+                                                actionCallback={onClickActionButtonCallback}
+                                                {...props}
+                                            />
+                                        ))}
+                                    </React.Fragment>
+                                ))}
+                            </div>
+                        ) : null}
+                    </div>
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            ), document.querySelector('#n2o')!)}
+                ), document.querySelector('#n2o')!,
+            )}
         </overlayContext.Provider>
     )
 }
+
+export const ToolbarOverlay: FC<OverlayProps> = ({
+    children,
+    overlay,
+    ...props
+}) => (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    <>
+        {overlay ? (
+            <WithOverlay
+                {...props}
+                overlay={overlay}
+            >
+                {children}
+            </WithOverlay>
+        ) : children}
+    </>
+)
 
 ToolbarOverlay.displayName = 'ToolbarOverlay'
 

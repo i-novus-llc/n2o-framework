@@ -4,8 +4,8 @@ import {
     changeColumnDisabled,
     toggleColumnVisibility,
     setColumnVisible,
-    setColumnHidden
-}  from '../store'
+    setColumnHidden,
+} from '../store'
 
 const widgetId = 'widgetId'
 const columnId = 'columnId'

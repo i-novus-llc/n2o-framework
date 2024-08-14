@@ -9,7 +9,7 @@ import { DataSourceModels } from '../core/datasource/const'
 
 import { Item } from './CommonMenuTypes'
 
-export type metaPropsType = {[key: string]: unknown}
+export type metaPropsType = { [key: string]: unknown }
 
 export const getFromSource = (
     itemProps: Item,

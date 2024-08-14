@@ -20,7 +20,7 @@ type ColumnItem = {
 export type ColumnState = ColumnItem[]
 export type ChangeColumnParam = <
     Key extends keyof ColumnItem,
-    Value extends ColumnItem[Key]
+    Value extends ColumnItem[Key],
 >(widgetId: string, id: string, paramKey: Key, value: Value) => void
 
 export const useColumnsState = (columns: HeaderCell[], widgetId: string, state: State) => {

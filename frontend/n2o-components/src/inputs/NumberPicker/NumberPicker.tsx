@@ -38,16 +38,16 @@ export const NumberPicker = ({
     // Не ставим крайние значения, пока поле в фокусе
     const parsedValue = isFocused ? value : parseValue(value, min, max)
 
+    const handlerChange = (step: number) => {
+        onChange?.(parseValue(Number(value) + step, min, max))
+    }
+
     const increaseBtnClick = () => handlerChange(-step)
     const decreaseBtnClick = () => handlerChange(step)
 
     const onBlur = () => {
         onChange?.(parseValue(value, min, max))
         setFocus(false)
-    }
-
-    const handlerChange = (step: number) => {
-        onChange?.(parseValue(Number(value) + step, min, max))
     }
 
     /*

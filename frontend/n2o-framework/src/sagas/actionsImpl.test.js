@@ -45,6 +45,7 @@ const state = {
         },
     },
 }
+
 fetchMock.restore().post('*', url => ({
     status: 200,
     body: 'test',
@@ -56,7 +57,7 @@ describe('Проверка саги actionsImpl', () => {
             dispatch: action => dispatched.push(action),
             getState: () => ({
                 datasource: {
-                    __patients: {}
+                    __patients: {},
                 },
                 widgets: {
                     __patients: {
@@ -116,6 +117,7 @@ describe('Проверка саги actionsImpl', () => {
 
         const promise = await runSaga(fakeStore, validate, options).toPromise()
         const result = await Promise.resolve(promise)
+
         expect(result).toEqual(true)
     })
 
@@ -123,6 +125,7 @@ describe('Проверка саги actionsImpl', () => {
         const fakeStore = {
             getState: () => state,
         }
+
         api.default = jest.fn(() => Promise.resolve({ response: 'response from server' }))
         const promise = await runSaga(
             fakeStore,
@@ -135,6 +138,7 @@ describe('Проверка саги actionsImpl', () => {
             { payload: { widgetId: '__patients' } },
         ).toPromise()
         const result = await Promise.resolve(promise)
+
         expect(result).toEqual({
             response: 'response from server',
         })

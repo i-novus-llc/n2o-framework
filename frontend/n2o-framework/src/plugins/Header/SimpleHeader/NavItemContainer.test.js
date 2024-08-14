@@ -1,12 +1,13 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-
-import { NavItemContainer } from './NavItemContainer'
-import { ITEM_SRC } from '../../constants'
 import { Provider } from 'react-redux'
+import configureMockStore from 'redux-mock-store'
+
+import { ITEM_SRC } from '../../constants'
 import FactoryProvider from '../../../core/factory/FactoryProvider'
 import createFactoryConfig from '../../../core/factory/createFactoryConfig'
-import configureMockStore from 'redux-mock-store'
+
+import { NavItemContainer } from './NavItemContainer'
 
 const mockStore = configureMockStore()
 const store = mockStore({})
@@ -14,9 +15,9 @@ const store = mockStore({})
 const setup = props => mount(
     <Provider store={store}>
         <FactoryProvider config={createFactoryConfig({})}>
-          <Router>
-            <NavItemContainer {...props} />
-          </Router>
+            <Router>
+                <NavItemContainer {...props} />
+            </Router>
         </FactoryProvider>
     </Provider>,
 )
@@ -31,6 +32,7 @@ describe('Тесты NavItemContainer', () => {
                 items: [{ title: 'test1', href: '/', linkType: 'inner', src: ITEM_SRC.LINK }],
             },
         })
+
         expect(wrapper.find('Dropdown').exists()).toEqual(true)
     })
     it('Link', () => {
@@ -42,6 +44,7 @@ describe('Тесты NavItemContainer', () => {
                 href: 'testHref',
             },
         })
+
         expect(wrapper.find('Link').exists()).toEqual(true)
     })
     it('target = _blank', () => {
@@ -55,6 +58,7 @@ describe('Тесты NavItemContainer', () => {
                 linkType: 'outer',
             },
         })
+
         expect(wrapper.find('OuterLink').props().target).toEqual('_blank')
     })
 })

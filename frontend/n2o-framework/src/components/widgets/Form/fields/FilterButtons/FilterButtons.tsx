@@ -12,9 +12,7 @@ interface Props {
     visible?: boolean
 }
 
-export function FilterButtons(props: Props) {
-    const { search, clear, model, visible = true } = props
-
+export function FilterButtons({ search, clear, model, visible = true }: Props) {
     if (!visible) { return null }
 
     return (

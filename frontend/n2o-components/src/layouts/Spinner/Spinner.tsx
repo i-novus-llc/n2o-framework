@@ -8,7 +8,7 @@ import { TBaseProps } from '../../types'
 
 export enum SpinnerType {
     cover = 'cover',
-    inline = 'inline'
+    inline = 'inline',
 }
 
 type Props = TBaseProps & {

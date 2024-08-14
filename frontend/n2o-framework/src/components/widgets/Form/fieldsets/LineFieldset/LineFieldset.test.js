@@ -21,6 +21,7 @@ describe('Тесты LineFieldset', () => {
         const wrapper = setup({
             visible: true,
         })
+
         expect(wrapper.find('.title-fieldset').exists()).toEqual(true)
     })
     it('Отрисовывается CollapseFieldset', () => {
@@ -34,6 +35,7 @@ describe('Тесты LineFieldset', () => {
             collapsible: true,
             visible: true,
         })
+
         expect(wrapper.find('.n2o-collapse').exists()).toEqual(true)
     })
 })

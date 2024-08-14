@@ -6,7 +6,6 @@ import { USER_LOGIN, USER_LOGOUT } from '../constants'
 import { FETCH_ERROR } from '../../../constants/fetch'
 import { userLoginSuccess, userLogoutSuccess } from '../store'
 import { SECURITY_ERROR } from '../../../core/auth/authTypes'
-
 import { resolveAuth } from '../sagas'
 
 describe('Проверка саги auth', () => {
@@ -20,6 +19,7 @@ describe('Проверка саги auth', () => {
             getState: () => ({ some: 'value' }),
             dispatch: action => dispatched.push(action),
         }
+
         await runSaga(
             fakeStore,
             resolveAuth,
@@ -35,8 +35,9 @@ describe('Проверка саги auth', () => {
         const dispatched = []
         const fakeStore = {
             dispatch: action => dispatched.push(action),
-            getState: () => ({ global: {} })
+            getState: () => ({ global: {} }),
         }
+
         await runSaga(
             fakeStore,
             resolveAuth,
@@ -58,6 +59,7 @@ describe('Проверка саги auth', () => {
             },
             { type: FETCH_ERROR, payload: { error: 'request error' } },
         )
+
         expect(gen.next().value.CALL).toEqual(
             call(authProvider, SECURITY_ERROR, 'request error').CALL,
         )
@@ -73,6 +75,7 @@ describe('Проверка саги auth', () => {
             },
             { type: FETCH_ERROR },
         )
+
         gen.next()
         gen.next()
         expect(gen.next().value.type).toEqual('CALL')

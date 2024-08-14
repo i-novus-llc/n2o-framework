@@ -67,7 +67,7 @@ type ModelTypeByPrefix<P extends ModelPrefix> = P extends ModelPrefix.source | M
  */
 function getModelByPrefixAndNameSelector<
     Prefix extends ModelPrefix,
-    R extends ModelTypeByPrefix<Prefix> = ModelTypeByPrefix<Prefix>
+    R extends ModelTypeByPrefix<Prefix> = ModelTypeByPrefix<Prefix>,
 >(
     prefix: Prefix,
     fieldKey: string,

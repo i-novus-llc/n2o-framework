@@ -157,7 +157,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
             const { addAlert } = this.props
 
             if (isArray(messages)) {
-                messages.map(m => addAlert({ ...m, closeButton: false }))
+                messages.forEach(m => addAlert({ ...m, closeButton: false }))
             } else {
                 addAlert({ ...messages, closeButton: false })
             }
@@ -236,19 +236,21 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
         /**
          *  Обновить данные если запрос успешен
          */
-        setResponseToData({
-            list,
-            count,
-            size,
-            page,
-            paging,
-        }: {
-            list: Props['data'],
-            count: Paging['count'],
-            size: Paging['size'],
-            page: Paging['page'],
-            paging: Paging },
-        merge = false) {
+        setResponseToData(
+            {
+                list,
+                count,
+                size,
+                page,
+                paging,
+            }: {
+                list: Props['data'],
+                count: Paging['count'],
+                size: Paging['size'],
+                page: Paging['page'],
+                paging: Paging },
+            merge = false,
+        ) {
             const { valueFieldId } = this.props
             const { data } = this.state
             const { count: pagingCount, size: pagingSize, page: pagingPage } = paging || {}

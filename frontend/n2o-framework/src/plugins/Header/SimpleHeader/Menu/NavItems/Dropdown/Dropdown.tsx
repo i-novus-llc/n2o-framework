@@ -15,28 +15,26 @@ import { FactoryContext } from '../../../../../../core/factory/context'
 import { FactoryLevels } from '../../../../../../core/factory/factoryLevels'
 import { ICON_POSITIONS } from '../../../../../../components/snippets/IconContainer/IconContainer'
 
-export function Dropdown(props: DropdownProps) {
+export function Dropdown({
+    items,
+    active,
+    title,
+    className,
+    nested,
+    icon,
+    imageSrc,
+    imageShape = 'square',
+    direction = 'down',
+    recursiveClose = true,
+    onItemClick = () => {},
+    level = 0,
+    iconPosition = ICON_POSITIONS.LEFT,
+}: DropdownProps) {
     const [isOpen, setOpen] = useState(false)
 
     const toggle = useCallback(() => setOpen(!isOpen), [isOpen])
     const forceParentClose = useCallback(() => setOpen(false), [setOpen])
     const { getComponent } = useContext(FactoryContext)
-
-    const {
-        items,
-        active,
-        title,
-        className,
-        nested,
-        icon,
-        imageSrc,
-        imageShape = 'square',
-        direction = 'down',
-        recursiveClose = true,
-        onItemClick = () => {},
-        level = 0,
-        iconPosition = ICON_POSITIONS.LEFT,
-    } = props
 
     if (!items.length) { return null }
 

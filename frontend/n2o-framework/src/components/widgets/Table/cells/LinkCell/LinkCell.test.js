@@ -18,6 +18,7 @@ const setupLinkCell = (propsOverride) => {
             tooltip: ['tooltip', 'body'],
         },
     }
+
     return mount(
         <Provider store={configureMockStore()({ toolbar: {}, models: { datasource: {}, resolve: {}, multi: {}, filter: {}, edit: {} } })}>
             <FactoryProvider config={createFactoryConfig()}>
@@ -36,6 +37,7 @@ describe('Тесты LinkCell', () => {
                 name: 'test name',
             },
         })
+
         expect(wrapper.find('Button').exists()).toEqual(true)
     })
     it('Отрисовывается icon', () => {
@@ -43,6 +45,7 @@ describe('Тесты LinkCell', () => {
             icon: 'fa fa-plus',
             type: 'icon',
         })
+
         expect(wrapper.find('.fa.fa-plus').exists()).toEqual(true)
     })
 
@@ -51,6 +54,7 @@ describe('Тесты LinkCell', () => {
             url: '/n2o/test',
             target: 'application',
         })
+
         expect(wrapper.find('a').exists()).toEqual(true)
     })
     it('Отрисовывается ссылка по таргету "self"', () => {
@@ -58,6 +62,7 @@ describe('Тесты LinkCell', () => {
             url: '/n2o/self/test',
             target: 'self',
         })
+
         expect(wrapper.find('a[href="/n2o/self/test"]').exists()).toEqual(true)
     })
     it('Отрисовывается ссылка по таргету "_blank"', () => {
@@ -65,6 +70,7 @@ describe('Тесты LinkCell', () => {
             url: 'https://google.com',
             target: '_blank',
         })
+
         expect(wrapper.find('a[target="_blank"]').exists()).toEqual(true)
     })
 })

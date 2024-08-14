@@ -43,6 +43,9 @@ type CalendarState = {
     tempTimeObj: Time
 }
 
+const TIME_UNIT = 'n2o-calendar-time-unit'
+const MONTH_ITEM = 'month-item'
+
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
     private hourRef: HTMLDivElement | null = null
 
@@ -321,13 +324,13 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
         return (
             <div className="n2o-calendar-body">
-                {this.renderList(moment.localeData(locale).months(), 'month-item')}
+                {this.renderList(moment.localeData(locale).months(), MONTH_ITEM)}
             </div>
         )
     }
 
     onItemClick = (itemType: string, item: string | number, i: number) => {
-        if (itemType === 'month-item') {
+        if (itemType === MONTH_ITEM) {
             this.setDate('month', i)
         } else {
             this.setDate('year', item)
@@ -340,7 +343,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
         const isActive = (className: string, item: string | number, i: number) => {
             if (!value) { return false }
-            if (className !== 'month-item') { return item === value.year() }
+            if (className !== MONTH_ITEM) { return item === value.year() }
 
             return i === value.month()
         }
@@ -439,7 +442,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     <div className="n2o-calendar-picker hour-picker">
                         {Array.from(new Array(24), (val, index) => (
                             <div
-                                className={classNames('n2o-calendar-time-unit', {
+                                className={classNames(TIME_UNIT, {
                                     active: index === hours,
                                 })}
                                 onClick={() => this.setTimeUnit(index, 'hours')}
@@ -452,7 +455,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     <div className="n2o-calendar-picker minute-picker">
                         {Array.from(new Array(60), (val, index) => (
                             <div
-                                className={classNames('n2o-calendar-time-unit', {
+                                className={classNames(TIME_UNIT, {
                                     active: index === minutes,
                                 })}
                                 ref={index === minutes ? this.setMinuteRef : null}
@@ -465,7 +468,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     <div className="n2o-calendar-picker second-picker">
                         {Array.from(new Array(60), (val, index) => (
                             <div
-                                className={classNames('n2o-calendar-time-unit', {
+                                className={classNames(TIME_UNIT, {
                                     active: index === seconds,
                                 })}
                                 ref={index === seconds ? this.setSecondRef : null}

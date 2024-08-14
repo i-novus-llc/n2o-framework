@@ -34,22 +34,22 @@ type ReduxFormProps = {
     validationKey: ValidationsKey
 }
 
-const ReduxForm: FC<ReduxFormProps> & { Field: JSX.Element } = (props) => {
+const ReduxForm: FC<ReduxFormProps> & { Field: JSX.Element } = ({
+    name: formName,
+    datasource,
+    fieldsets,
+    autoFocus,
+    modelPrefix,
+    autoSubmit,
+    className,
+    style,
+    prompt = false,
+    dirty,
+    children,
+    validationKey,
+}) => {
     const { t } = useTranslation()
-    const {
-        name: formName,
-        datasource,
-        fieldsets,
-        autoFocus,
-        modelPrefix,
-        autoSubmit,
-        className,
-        style,
-        prompt = false,
-        dirty,
-        children,
-        validationKey,
-    } = props
+
     const activeModel = useSelector(getModelByPrefixAndNameSelector(modelPrefix, datasource))
 
     const renderFieldSets = useCallback(() => {
@@ -58,6 +58,7 @@ const ReduxForm: FC<ReduxFormProps> & { Field: JSX.Element } = (props) => {
         return fieldsets.map((fieldset, i) => (
             <Fieldset
                 activeModel={activeModel}
+                /* eslint-disable-next-line react/no-array-index-key */
                 key={i.toString()}
                 autoFocusId={autoFocusId}
                 modelPrefix={modelPrefix}

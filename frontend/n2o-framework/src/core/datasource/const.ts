@@ -4,7 +4,7 @@
 export enum SortDirection {
     none = 'NONE',
     asc = 'ASC',
-    desc = 'DESC'
+    desc = 'DESC',
 }
 
 /**
@@ -15,7 +15,7 @@ export enum ModelPrefix {
     selected = 'multi',
     source = 'datasource',
     filter = 'filter',
-    edit = 'edit'
+    edit = 'edit',
 }
 
 export type ModelPrefixes = 'resolve' | 'multi' | 'datasource' | 'filter' | 'edit'

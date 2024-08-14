@@ -5,6 +5,7 @@ import link from './link'
 describe('link', () => {
     it('должен вызывать событие перхода внутри приложения', () => {
         const dispatch = sinon.spy()
+
         link({
             target: 'application',
             dispatch,

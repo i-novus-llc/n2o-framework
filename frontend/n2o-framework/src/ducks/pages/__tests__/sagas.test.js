@@ -14,7 +14,7 @@ import {
     metadataSuccess,
     metadataFail,
     resetPage,
-    setStatus
+    setStatus,
 } from '../store'
 import {
     combineModels,
@@ -27,7 +27,6 @@ import { FETCH_PAGE_METADATA } from '../../../core/api'
 import { FETCH_END, FETCH_START } from '../../../constants/fetch'
 import { changeRootPage } from '../../global/store'
 import { destroyOverlay } from '../../overlays/store'
-
 import {
     watcherDefaultModels,
     flowDefaultModels,
@@ -132,6 +131,7 @@ describe.skip('Сага для для наблюдения за изменени
             )
 
             const value = gen.next()
+
             expect(value.value.type).toBe('PUT')
             expect(value.value.payload.action).toEqual({ link: 'test.id' })
             expect(gen.next().done).toBeTruthy()
@@ -169,18 +169,19 @@ describe.skip('Сага для для наблюдения за изменени
                     queryMapping: {
                         name: {
                             get: {
-                                payload: "",
-                                type: "test",
-                            }
+                                payload: '',
+                                type: 'test',
+                            },
                         },
                     },
                 },
             )
             const value = gen.next()
+
             expect(value.value.type).toBe('PUT')
             expect(value.value.payload.action).toEqual({
-                payload: "",
-                type: "test",
+                payload: '',
+                type: 'test',
             })
             expect(gen.next().done).toBeTruthy()
         })
@@ -231,9 +232,9 @@ describe.skip('Сага для для наблюдения за изменени
                                     queryMapping: {
                                         name: {
                                             get: {
-                                                payload: "",
-                                                type: "test",
-                                            }
+                                                payload: '',
+                                                type: 'test',
+                                            },
                                         },
                                     },
                                 },
@@ -268,10 +269,10 @@ describe.skip('Сага для для наблюдения за изменени
                 queryMapping: {
                     name: {
                         get: {
-                            payload: "",
-                            type: "test",
-                        }
-                    }
+                            payload: '',
+                            type: 'test',
+                        },
+                    },
                 },
             })
             await delay(300)
@@ -389,6 +390,7 @@ describe.skip('Сага для для наблюдения за изменени
     it('Проверяем watcher дефолтных моделей', () => {
         const config = { 'a.b.c': { value: 'test' } }
         const gen = watcherDefaultModels(config)
+
         expect(gen.next().value).toEqual(
             race([call(flowDefaultModels, config), take(resetPage.type)]),
         )
@@ -396,6 +398,7 @@ describe.skip('Сага для для наблюдения за изменени
     })
     it('Проверяем flowDefaultModels - выход без конфига', () => {
         const gen = flowDefaultModels()
+
         expect(gen.next().value).toEqual(false)
         expect(gen.next().done).toEqual(true)
     })
@@ -403,6 +406,7 @@ describe.skip('Сага для для наблюдения за изменени
         const config = { 'a.b.c': { value: 'test' } }
         const state = { a: { b: { c: 1 } } }
         const gen = flowDefaultModels(config)
+
         expect(gen.next().value).toEqual(select())
         expect(gen.next(state).value).toEqual(
             call(compareAndResolve, config, state),
@@ -415,6 +419,7 @@ describe.skip('Сага для для наблюдения за изменени
     it('Проверяем flowDefaultModels - observe без link', () => {
         const config = { 'a.b.c': { value: 'test', observe: true } }
         const gen = flowDefaultModels(config)
+
         gen.next()
         gen.next()
         expect(gen.next().done).toEqual(true)
@@ -423,9 +428,11 @@ describe.skip('Сага для для наблюдения за изменени
         const config = { 'a.b.c': { value: 'test', link: 'z.x.c', observe: true } }
         const state = { z: { x: { c: 1 } } }
         const gen = flowDefaultModels(config)
+
         gen.next()
         gen.next()
         const mockChan = channel()
+
         expect(gen.next().value).toEqual(
             actionChannel([
                 setModel.type,

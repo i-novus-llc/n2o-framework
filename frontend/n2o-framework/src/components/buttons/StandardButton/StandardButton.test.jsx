@@ -22,12 +22,14 @@ describe('<StandardButton />', () => {
     describe('реализация вызова экшена', () => {
         it('Создание', () => {
             const { wrapper } = setup()
+
             expect(wrapper.find('Button').exists()).toBeTruthy()
         })
         it('Вызов экшена', async () => {
             const { wrapper, store } = setup({
                 action: { type: 'n2o/button/Dummy' },
             })
+
             await wrapper.find('Button').simulate('click')
             await delay(100)
             expect(store.getActions()[1]).toEqual({ type: 'n2o/button/Dummy' })
@@ -36,6 +38,7 @@ describe('<StandardButton />', () => {
     describe('реализация ссылки', () => {
         it('Создание', () => {
             const { wrapper } = setup({ url: '/testUrl', target: 'blank' })
+
             expect(wrapper.find('Button').exists()).toBeTruthy()
             expect(wrapper.find('Button').props().tag).toBe('a')
             expect(wrapper.find('Button').props().href).toBe('/testUrl')
@@ -47,6 +50,7 @@ describe('<StandardButton />', () => {
                 target: 'application',
                 action: { type: 'n2o/button/Dummy' },
             })
+
             await wrapper.find('Button').simulate('click')
             await delay(100)
             expect(store.getActions()[1]).toEqual(push('/testUrl'))

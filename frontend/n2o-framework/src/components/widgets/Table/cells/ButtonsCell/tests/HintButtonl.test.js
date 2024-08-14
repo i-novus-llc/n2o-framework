@@ -30,31 +30,37 @@ describe('<HintButton />', () => {
 
     it('Свойство title', () => {
         const { wrapper } = setup({ title: 'test' })
+
         expect(wrapper.find('Button').props().children[1]).toBe('test')
     })
 
     it('Свойство icon', () => {
         const { wrapper } = setup({ icon: 'test' })
+
         expect(wrapper.find('i.test').exists()).toBeTruthy()
     })
 
     it('Свойство visible', () => {
         const { wrapper } = setup({ visible: false })
+
         expect(wrapper.find('Button').length).toBe(0)
     })
 
     it('Свойство disabled', () => {
         const { wrapper } = setup({ disabled: true })
+
         expect(wrapper.find('button.disabled').exists()).toBeTruthy()
     })
 
     it('Свойство size', () => {
         const { wrapper } = setup({ size: 'md' })
+
         expect(wrapper.find('button.btn-md').exists()).toBeTruthy()
     })
 
     it('Свойство color', () => {
         const { wrapper } = setup({ color: 'primary' })
+
         expect(wrapper.find('button.btn-primary').exists()).toBeTruthy()
     })
 
@@ -62,6 +68,7 @@ describe('<HintButton />', () => {
         const mockClick = sinon.spy()
         const mockEvent = { target: {} }
         const { wrapper } = setup({ action: 'test', onClick: mockClick })
+
         wrapper.simulate('click', mockEvent)
         wrapper.update()
         expect(mockClick.calledOnce).toEqual(true)

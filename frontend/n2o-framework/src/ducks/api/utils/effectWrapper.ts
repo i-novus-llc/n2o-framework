@@ -18,7 +18,7 @@ const getErrorMessage = (error: unknown): string => {
  */
 export function EffectWrapper<
     TAction extends Action,
-    TAgs extends [...rest: unknown[], action: TAction]
+    TAgs extends [...rest: unknown[], action: TAction],
 >(effect: (...args: TAgs) => unknown) {
     // eslint-disable-next-line consistent-return
     return function* wrappedEffect(...args: Parameters<typeof effect>) {

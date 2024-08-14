@@ -21,7 +21,8 @@ it('correct string in html (with placeholders)', () => {
             data={{ name: 'Tom', second: 'Sower' }}
         />,
     )
-    expect(wrapper.text()).toBe("Tom : Sower")
+
+    expect(wrapper.text()).toBe('Tom : Sower')
 })
 
 it('right html with placeholders', () => {
@@ -32,7 +33,7 @@ it('right html with placeholders', () => {
         />,
     )
 
-    expect(wrapper.html()).toEqual("<div class=\"test\"><h1 class=\"test\">Tom : Sower</h1></div>")
+    expect(wrapper.html()).toEqual('<div class="test"><h1 class="test">Tom : Sower</h1></div>')
 })
 
 it('right html with placeholders and lines break', () => {
@@ -43,8 +44,8 @@ it('right html with placeholders and lines break', () => {
         />,
     )
 
-    expect(wrapper.html()).toEqual("<span>\n" +
-        "<span>what is my name</span>\n" +
-        "<span>Tom Sower</span>\n" +
-        "</span>")
+    expect(wrapper.html()).toEqual('<span>\n' +
+        '<span>what is my name</span>\n' +
+        '<span>Tom Sower</span>\n' +
+        '</span>')
 })

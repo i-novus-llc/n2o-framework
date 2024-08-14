@@ -7,6 +7,7 @@ const NullComponent = () => null
 
 function setup(props, hocName) {
     const TestComponent = hocs[hocName](NullComponent)
+
     return mount(<TestComponent {...props} />)
 }
 
@@ -28,6 +29,7 @@ describe('Тесты TreeContainer', () => {
             'withWidgetHandlers',
         )
         const props = wrapper.find(NullComponent).props()
+
         expect(props.models.datasource).toEqual(initial.models.datasource)
         expect(props.valueFieldId).toEqual(1)
         expect(props.multiselect).toEqual(false)
@@ -40,6 +42,7 @@ describe('Тесты TreeContainer', () => {
             },
             'withWidgetHandlers',
         )
+
         wrapper
             .find(NullComponent)
             .props()
@@ -55,6 +58,7 @@ describe('Тесты TreeContainer', () => {
             },
             'withWidgetHandlers',
         )
+
         wrapper
             .find(NullComponent)
             .props()

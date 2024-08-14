@@ -31,32 +31,30 @@ import imageShapes from './imageShapes'
  * @reactProps {array} statuses - статусы, отображающиеся над img
  */
 
-function ImageCell(props) {
-    const {
-        title,
-        fieldKey,
-        style,
-        className,
-        model,
-        id,
-        onClick,
-        action,
-        shape,
-        visible,
-        disabled,
-        description,
-        textPosition,
-        width,
-        height,
-        data,
-        pathMapping,
-        queryMapping,
-        target,
-        url,
-        statuses = [],
-        forwardedRef,
-    } = props
-
+function ImageCell({
+    title,
+    fieldKey,
+    style,
+    className,
+    model,
+    id,
+    onClick,
+    action,
+    shape,
+    visible,
+    disabled,
+    description,
+    textPosition,
+    width,
+    height,
+    data,
+    pathMapping,
+    queryMapping,
+    target,
+    url,
+    statuses = [],
+    forwardedRef,
+}) {
     const src = get(model, fieldKey)
 
     const hasStatuses = !isEmpty(statuses)

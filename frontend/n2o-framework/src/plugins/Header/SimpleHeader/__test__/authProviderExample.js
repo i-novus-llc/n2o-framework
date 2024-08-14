@@ -16,13 +16,14 @@ export default (type, params) => {
         case SECURITY_ERROR:
             return Promise.reject()
         case SECURITY_CHECK:
-            if (!isEmpty(params.user && params.user.roles) && !isEmpty(params.config)) {
+            if (!isEmpty(params.user?.roles) && !isEmpty(params.config)) {
                 if (params.user.username === 'admin') {
                     return Promise.resolve(params.user.roles)
                 }
 
                 return Promise.reject()
-            } if (!isEmpty(params.user && params.user.roles)) {
+            }
+            if (!isEmpty(params.user?.roles)) {
                 return Promise.resolve(params.user.roles)
             }
 

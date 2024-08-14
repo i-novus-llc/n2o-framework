@@ -7,6 +7,7 @@ const NullComponent = () => null
 
 const setup = (data, props = {}) => {
     const Wrapper = stringConverter(data)(NullComponent)
+
     return mount(<Wrapper {...props} />)
 }
 
@@ -39,10 +40,12 @@ describe('slider utils', () => {
     describe('stringConverter', () => {
         it('Проброс параметров', () => {
             const wrapper = setup([], { test: 'test' })
+
             expect(wrapper.find(NullComponent).props()).toEqual({ test: 'test' })
         })
         it('Конвертация параметров string', () => {
             const wrapper = setup(['test'], { test: '5.6', stringMode: true })
+
             expect(wrapper.find(NullComponent).props()).toEqual({ test: 5.6 })
         })
         it('Конвертация параметров array', () => {
@@ -50,10 +53,12 @@ describe('slider utils', () => {
                 test: ['56', '5.6'],
                 stringMode: true,
             })
+
             expect(wrapper.find(NullComponent).props()).toEqual({ test: [56, 5.6] })
         })
         it('Конвертация параметров number', () => {
             const wrapper = setup(['test'], { test: 5, stringMode: true })
+
             expect(wrapper.find(NullComponent).props()).toEqual({ test: 5 })
         })
     })

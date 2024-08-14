@@ -49,12 +49,7 @@ export function* fetch<TData = unknown>(datasource: string, provider: DataProvid
 
     const { basePath, baseQuery, headersParams } = provider
     // @ts-ignore import from js file
-    const worker: Task = yield fork(fetchSaga, FETCH_WIDGET_DATA, {
-        basePath,
-        baseQuery,
-        headers: headersParams,
-    },
-    apiProvider)
+    const worker: Task = yield fork(fetchSaga, FETCH_WIDGET_DATA, { basePath, baseQuery, headers: headersParams }, apiProvider)
     const request: Promise<TData> = worker.toPromise()
     const requestInfo: RequestInfo<TData> = { request, provider, worker }
 

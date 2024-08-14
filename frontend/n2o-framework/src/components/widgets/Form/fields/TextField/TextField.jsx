@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-
 import { parseFormatter } from '@i-novus/n2o-components/lib/utils/parseFormatter'
 
 /**

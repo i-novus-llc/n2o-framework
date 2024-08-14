@@ -16,7 +16,8 @@ export function AlertWrapper({
         <div
             className={classNames(
                 'alert n2o-alert',
-                className, {
+                className,
+                {
                     [`alert-${severity}`]: severity,
                     'n2o-alert--animated': animate,
                     'n2o-alert--animated_default': animationDirection === 'default',

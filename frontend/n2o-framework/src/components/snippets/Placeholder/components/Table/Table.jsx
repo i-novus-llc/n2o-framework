@@ -6,7 +6,7 @@ import { mapToNumOrStr } from '../../utils'
 
 export function Table({ cols, rows }) {
     const renderTh = () => (
-        <th>
+        <th aria-label="placeholder-content">
             <div className="n2o-placeholder-content" />
         </th>
     )

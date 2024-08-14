@@ -3,7 +3,7 @@ import { intersection, isEmpty } from 'lodash'
 import { SecurityConfig, UserConfig } from './types'
 
 export interface AuthProvider<
-    TLogin extends object = object
+    TLogin extends object = object,
 > {
     init(user: UserConfig): UserConfig | Promise<UserConfig>
     login(config: TLogin): UserConfig | Promise<UserConfig>

@@ -8,7 +8,7 @@ export enum MetaType {
     Alert = 'alert',
     Clear = 'clear',
     UserDialog = 'userDialog',
-    ValidationMessages = 'messages'
+    ValidationMessages = 'messages',
 }
 
 export interface Meta {

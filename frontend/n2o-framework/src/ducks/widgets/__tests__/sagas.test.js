@@ -2,7 +2,6 @@ import { put } from 'redux-saga/effects'
 
 import { setModel } from '../../models/store'
 import { ModelPrefix } from '../../../core/datasource/const'
-
 import {
     runResolve,
 } from '../sagas'
@@ -18,6 +17,7 @@ describe('Проверка саги widgets', () => {
             },
         }
         const gen = runResolve(action)
+
         expect(gen.next().value.payload).toEqual(
             put(
                 setModel(

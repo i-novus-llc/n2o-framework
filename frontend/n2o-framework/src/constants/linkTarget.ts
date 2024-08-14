@@ -1,5 +1,5 @@
 export enum LinkTarget {
-    Application= 'application',
+    Application = 'application',
     Blank = '_blank',
     Self = '_self',
 }

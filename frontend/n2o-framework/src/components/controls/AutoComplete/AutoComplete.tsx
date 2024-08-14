@@ -12,7 +12,6 @@ import pick from 'lodash/pick'
 import onClickOutside from 'react-onclickoutside'
 import classNames from 'classnames'
 import { Manager, Reference, Popper } from 'react-popper'
-
 import { BadgeType, PopupList } from '@i-novus/n2o-components/lib/inputs/InputSelect/PopupList'
 import { InputContent } from '@i-novus/n2o-components/lib/inputs/InputSelect/InputContent'
 import { InputSelectGroup } from '@i-novus/n2o-components/lib/inputs/InputSelect/InputSelectGroup'
@@ -48,7 +47,7 @@ class AutoComplete extends React.Component<Props, State> {
         this.input = null
     }
 
-    componentDidMount = () => {
+    componentDidMount() {
         const { value, tags } = this.props
 
         if (!isEmpty(value)) {
@@ -61,6 +60,7 @@ class AutoComplete extends React.Component<Props, State> {
         }
     }
 
+    // eslint-disable-next-line
     componentDidUpdate = (prevProps: Props, prevState: State) => {
         const { value, options, tags } = this.props
         const compareListProps = ['options', 'value']

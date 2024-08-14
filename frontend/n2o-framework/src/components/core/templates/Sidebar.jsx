@@ -46,7 +46,7 @@ export const Sidebar = ({ ...props }) => {
                     {
                         [defaultState]: !sidebarOpen && defaultState === 'none',
                         'n2o-sidebar-overlay': overlay,
-                        'overlay-right': overlay && side === 'right',
+                        'overlay-right': side === 'right',
                     },
                 )}
             >

@@ -4,6 +4,7 @@ import intervalPlural from 'i18next-intervalplural-postprocessor'
 
 import resources from './locales'
 
+// eslint-disable-next-line
 i18n
     .use(initReactI18next) // passes i18n down to react-i18next
     .use(intervalPlural)

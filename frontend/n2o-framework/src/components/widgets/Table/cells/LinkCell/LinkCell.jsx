@@ -14,21 +14,19 @@ import { EMPTY_OBJECT } from '../../../../../utils/emptyTypes'
 
 import { LinkCellType } from './linkCellTypes'
 
-function LinkCell(props) {
-    const {
-        widgetId,
-        model = EMPTY_OBJECT,
-        className,
-        fieldKey,
-        id,
-        icon,
-        type,
-        url: propsUrl,
-        disabled,
-        onResolve,
-        ...rest
-    } = props
-
+function LinkCell({
+    widgetId,
+    model = EMPTY_OBJECT,
+    className,
+    fieldKey,
+    id,
+    icon,
+    type,
+    url: propsUrl,
+    disabled,
+    onResolve,
+    ...rest
+}) {
     const { url: modelUrl = '' } = model
 
     const createUrl = () => {

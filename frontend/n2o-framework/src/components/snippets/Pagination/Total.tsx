@@ -3,9 +3,7 @@ import React from 'react'
 import { Select } from './Select'
 import { Total as TotalProps } from './constants'
 
-export function Total(props: TotalProps) {
-    const { total, title, className, onClick, visible } = props
-
+export function Total({ total, title, className, onClick, visible }: TotalProps) {
     if (!visible) {
         return null
     }

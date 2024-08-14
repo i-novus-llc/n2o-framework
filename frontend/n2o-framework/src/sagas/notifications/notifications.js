@@ -57,31 +57,33 @@ export function createSocketChannel(
             stompClient.disconnect()
         }
 
-        stompClient.connect({}, (frame) => {
+        stompClient.connect(
+            {},
+            (frame) => {
             // eslint-disable-next-line no-console
-            console.log(`isConnected: ${frame}`)
-            for (const { destination } of destinations) {
-                if (permanent) {
-                    stompClient.subscribe(`/user${destination}`, doReduxAction(emitter))
-                } else {
-                    const subscribed = stompClient.subscribe(
-                        destination,
-                        subscribeMetadata(emitter, updater, dataSourceId, source),
-                    )
+                console.log(`isConnected: ${frame}`)
+                for (const { destination } of destinations) {
+                    if (permanent) {
+                        stompClient.subscribe(`/user${destination}`, doReduxAction(emitter))
+                    } else {
+                        const subscribed = stompClient.subscribe(
+                            destination,
+                            subscribeMetadata(emitter, updater, dataSourceId, source),
+                        )
 
-                    if (!needToSubscribe) {
-                        subscribed.unsubscribe()
+                        if (!needToSubscribe) {
+                            subscribed.unsubscribe()
+                        }
                     }
+
+                    stompClient.send(destination)
                 }
-
-                stompClient.send(destination)
-            }
-        },
-
-        (errorCallback) => {
+            },
+            (errorCallback) => {
             // eslint-disable-next-line no-console
-            console.log(errorCallback)
-        })
+                console.log(errorCallback)
+            },
+        )
 
         return unsubscribe
     })
@@ -125,6 +127,7 @@ function* connectionExecutor({ dataSourceId, componentId, updater, source, conne
             needToSubscribe = connectedComponents.length > 0
 
             /* user prefix for private messages */
+            // eslint-disable-next-line sonarjs/no-nested-template-literals
             destinations = [{ destination: `/user${get(state, `${source}.${dataSourceId}.provider.destination`)}` }]
         }
 

@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { InputSelectComponent as InputSelect } from '@i-novus/n2o-components/lib/inputs/InputSelect/InputSelect'
 import { TOption, Filter } from '@i-novus/n2o-components/lib/inputs/InputSelect/types'
 import { BadgeType } from '@i-novus/n2o-components/lib/inputs/InputSelect/PopupList'

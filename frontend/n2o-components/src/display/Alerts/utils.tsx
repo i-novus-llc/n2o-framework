@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { AlertSectionProps } from './types'
 
-type TextSegmentPropsType = {className: AlertSectionProps['textClassName']} & Pick<AlertSectionProps, 'text'>
+type TextSegmentPropsType = { className: AlertSectionProps['textClassName'] } & Pick<AlertSectionProps, 'text'>
 
 export const TextSegment = ({ text, className }: TextSegmentPropsType) => {
     if (!text) {
@@ -21,7 +21,7 @@ export const TextSegment = ({ text, className }: TextSegmentPropsType) => {
     )
 }
 
-type TimeStampSegmentPropsType = Pick<AlertSectionProps, 'text'|'timestamp'>
+type TimeStampSegmentPropsType = Pick<AlertSectionProps, 'text' | 'timestamp'>
 
 export const TimeStampSegment = ({ timestamp, text }: TimeStampSegmentPropsType) => {
     if (!timestamp) {
@@ -41,7 +41,7 @@ export const TimeStampSegment = ({ timestamp, text }: TimeStampSegmentPropsType)
         </section>
     )
 }
-type CloseButtonSegmentPropsType = {extended: AlertSectionProps['isSimple']} & Pick<AlertSectionProps, 'closeButton'|'onClick'|'text'|'timestamp'>
+type CloseButtonSegmentPropsType = { extended: AlertSectionProps['isSimple'] } & Pick<AlertSectionProps, 'closeButton' | 'onClick' | 'text' | 'timestamp'>
 
 export const CloseButtonSegment = ({
     closeButton,
@@ -71,7 +71,7 @@ export const CloseButtonSegment = ({
         </section>
     )
 }
-type StacktraceSegmentPropsType = Pick<AlertSectionProps, 'stacktrace'|'onClick'|'stacktraceVisible'|'t'>
+type StacktraceSegmentPropsType = Pick<AlertSectionProps, 'stacktrace' | 'onClick' | 'stacktraceVisible' | 't'>
 
 export const StacktraceSegment = ({ stacktrace, onClick, stacktraceVisible, t }: StacktraceSegmentPropsType) => {
     if (!stacktrace) {

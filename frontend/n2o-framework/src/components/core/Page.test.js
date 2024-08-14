@@ -87,11 +87,13 @@ const setup = (propOverrides) => {
 describe.skip('Тесты Page', () => {
     it('Установка Page', () => {
         const { wrapper } = setup()
+
         expect(wrapper).toBeTruthy()
     })
 
     it('Проверка вызова getMetadata при установке компонента', () => {
         const getMetadata = sinon.spy()
+
         setup({ getMetadata })
         expect(getMetadata.calledOnce).toEqual(true)
         expect(getMetadata.calledWithMatch()).toEqual(true)
@@ -105,6 +107,7 @@ describe.skip('Тесты Page', () => {
             .stub(PageContainer.prototype, 'shouldGetPageMetadata')
             .returns(true)
         const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' })
+
         wrapper.setProps({ metadata: 'test2', reset, getMetadata })
         expect(reset.calledOnce).toEqual(true)
         expect(reset.calledWithMatch('pageId')).toEqual(true)
@@ -120,6 +123,7 @@ describe.skip('Тесты Page', () => {
             .stub(PageContainer.prototype, 'shouldGetPageMetadata')
             .returns(false)
         const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' })
+
         wrapper.setProps({
             metadata: 'test',
             pageUrl: 'newPageUrl',
@@ -213,6 +217,7 @@ describe.skip('Тесты Page', () => {
         const component = shallow(
             <PageContainer pageId="pageId" reset={reset} getMetadata={() => null} />,
         )
+
         component.unmount()
         expect(reset.calledOnce).toEqual(true)
         expect(reset.calledWithMatch('pageId')).toEqual(true)

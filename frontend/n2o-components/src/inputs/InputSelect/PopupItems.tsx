@@ -147,6 +147,10 @@ export function PopupItems({
         }
     }, [setActiveValueId])
 
+    const renderLabel = (item: TOption) => (
+        <span className="n2o-input-select__label text-cropped">{displayTitle(item)}</span>
+    )
+
     const renderSingleItem = (item: TOption, index: string | number) => {
         const {
             fieldId: badgeFieldId,
@@ -210,16 +214,7 @@ export function PopupItems({
         )
     }
 
-    const renderLabel = (item: TOption) => (
-        <span className="n2o-input-select__label text-cropped">{displayTitle(item)}</span>
-    )
-
     const renderSingleItems = (options: Props['options']) => options.map((item, i) => renderSingleItem(item, i))
-    const renderGroupedItems = (options: Props['options'], groupFieldId: Props['groupFieldId']) => {
-        const groupedData = groupData(options, groupFieldId)
-
-        return Object.keys(groupedData).map(key => renderGroup(key, groupedData[key]))
-    }
 
     const renderGroup = (key: string, value: Props['options']) => (
         <React.Fragment key={key}>
@@ -232,6 +227,12 @@ export function PopupItems({
             <DropdownItem divider />
         </React.Fragment>
     )
+
+    const renderGroupedItems = (options: Props['options'], groupFieldId: Props['groupFieldId']) => {
+        const groupedData = groupData(options, groupFieldId)
+
+        return Object.keys(groupedData).map(key => renderGroup(key, groupedData[key]))
+    }
 
     const renderMenuItems = (options: Props['options']) => (groupFieldId
         ? renderGroupedItems(options, groupFieldId)

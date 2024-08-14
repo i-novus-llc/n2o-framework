@@ -11,6 +11,7 @@ import createFactoryConfig from './createFactoryConfig'
 
 const setup = (props) => {
     const store = mockStore()({})
+
     return mount(
         <Provider store={store}>
             <FactoryProvider config={createFactoryConfig({})}>
@@ -26,12 +27,14 @@ describe('Провера Factory', () => {
             src: 'InputText',
             ...InputTextJson,
         })
+
         expect(wrapper.find(InputText).exists()).toEqual(true)
     })
     it('Вернет null, если компонент не найден', () => {
         const wrapper = setup({
             src: 'UnknownSrc',
         })
+
         expect(wrapper.find(Factory).html()).toEqual(null)
     })
 })

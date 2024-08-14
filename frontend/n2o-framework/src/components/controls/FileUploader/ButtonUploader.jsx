@@ -7,9 +7,7 @@ import { compose } from 'recompose'
 import withFileUploader from './withFileUploader'
 import FileUploader from './FileUploader'
 
-function ButtonUploaderChildren(props) {
-    const { children, icon, label, disabled } = props
-
+function ButtonUploaderChildren({ children, icon, label, disabled }) {
     return (
         <div className={classNames('n2o-button-uploader-btn btn btn-secondary', { disabled })}>
             {children || (

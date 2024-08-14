@@ -1,7 +1,7 @@
 export enum Severity {
     danger = 'danger',
     warning = 'warning',
-    success = 'success'
+    success = 'success',
 }
 
 export enum ValidationTypes {
@@ -11,12 +11,12 @@ export enum ValidationTypes {
     constraint = 'constraint',
     integer = 'integer',
     minLength = 'minLength',
-    maxLength = 'maxLength'
+    maxLength = 'maxLength',
 }
 
 export enum ValidationsKey {
     Validations = 'validations',
-    FilterValidations = 'filterValidations'
+    FilterValidations = 'filterValidations',
 }
 
 export interface ExtraValidationConfig {

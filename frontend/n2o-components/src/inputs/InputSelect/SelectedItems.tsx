@@ -17,6 +17,7 @@ const SelectedItem = ({ id, title, callback, maxTagTextLength, disabled }: Selec
         : title
     const button = callback ? (
         <button
+            aria-label="button-close"
             type="button"
             className="close"
             onClick={onClear}

@@ -4,7 +4,7 @@ import { NOT_ARRAY, NOT_FOUND_MESSAGE } from '../const'
 
 export function deleteMany<
     TItem extends object,
-    TPrimaryKey extends keyof TItem
+    TPrimaryKey extends keyof TItem,
 >(list: TItem[], items: TItem[], primaryKey: TPrimaryKey): TItem[] {
     if (!Array.isArray(items)) {
         throw new Error(NOT_ARRAY)

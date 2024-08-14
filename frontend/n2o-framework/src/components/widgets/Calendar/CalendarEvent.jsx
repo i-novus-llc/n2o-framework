@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 import { eventLessHour, isAllDay } from './utils'
 
-const mapStyle = ({ height, top, width } = {}, color, lessHour) => ({
+const mapStyle = (color, lessHour, { height, top, width } = {}) => ({
     position: 'absolute',
     height: `${height}%`,
     top: `${top}%`,

@@ -26,7 +26,7 @@ it('StandardField отрисовывается', () => {
             controlClass="myControlClass"
             placeholder="TEST"
             component={() => null}
-            toolbar={[{buttons: []}]}
+            toolbar={[{ buttons: [] }]}
         />,
     ).root
 

@@ -23,20 +23,19 @@ interface SidebarItemContainer {
     level?: number
 }
 
-export function NavItemContainer(props: SidebarItemContainer) {
-    const {
-        className,
-        itemProps,
-        activeId,
-        sidebarOpen,
-        showContent,
-        isMiniView,
-        isStaticView,
-        datasources,
-        datasource,
-        models,
-        level = 1,
-    } = props
+export function NavItemContainer({
+    className,
+    itemProps,
+    activeId,
+    sidebarOpen,
+    showContent,
+    isMiniView,
+    isStaticView,
+    datasources,
+    datasource,
+    models,
+    level = 1,
+}: SidebarItemContainer) {
     const item = getFromSource(itemProps, datasources, models, datasource)
     const { src } = item
 

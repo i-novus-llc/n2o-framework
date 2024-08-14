@@ -58,15 +58,11 @@ export class InputNumberComponent extends React.Component<InputNumberProps, Inpu
         const ceilValue = Math.trunc(Number(value))
         const isFloat = Number(value) % 1 !== 0
 
-        if (value === null || value === '' || isNaN(toNumber(value))) {
-            return value
-        }
+        if (value === null || value === '' || isNaN(toNumber(value))) { return value }
 
-        if (precision === undefined) {
-            return ceilValue
-        } if (precision === null) {
-            return value
-        }
+        if (precision === undefined) { return ceilValue }
+
+        if (precision === null) { return value }
 
         return isFloat
             ? value
@@ -222,6 +218,7 @@ export class InputNumberComponent extends React.Component<InputNumberProps, Inpu
                     {showButtons && (
                         <div className="n2o-input-number-buttons">
                             <button
+                                aria-label="button-up"
                                 type="button"
                                 onClick={() => this.buttonHandler('up')}
                                 disabled={disabled}
@@ -230,6 +227,7 @@ export class InputNumberComponent extends React.Component<InputNumberProps, Inpu
                                 <i className="fa fa-angle-up" aria-hidden="true" />
                             </button>
                             <button
+                                aria-label="button-down"
                                 type="button"
                                 onClick={() => this.buttonHandler('down')}
                                 disabled={disabled}

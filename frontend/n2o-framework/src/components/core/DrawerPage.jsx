@@ -102,9 +102,7 @@ function DrawerPage(props) {
                                 <Toolbar toolbar={toolbar.bottomCenter} entityKey={entityKey} />
                                 <Toolbar toolbar={toolbar.bottomRight} entityKey={entityKey} />
                             </div>
-                        ) : (
-                            footer
-                        )
+                        ) : (footer)
                     }
                 >
                     <div className={classes}>

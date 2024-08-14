@@ -7,7 +7,7 @@ export { parseExpression } from './parse'
 
 export function executeExpression<
     ExpectedResult,
-    UnexpectedResult = void
+    UnexpectedResult = void,
 >(
     expression: string,
     model: object,
@@ -28,7 +28,7 @@ export function executeExpression<
 
 function execute<
     ExpectedResult,
-    UnexpectedResult = void
+    UnexpectedResult = void,
 >(
     expression: string,
     model: object,

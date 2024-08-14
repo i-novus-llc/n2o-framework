@@ -17,18 +17,16 @@ interface InnerLinkProps {
     forwardedRef?: React.Ref<HTMLAnchorElement>
 }
 
-export function InnerLink(props: InnerLinkProps) {
-    const {
-        href,
-        isMiniView,
-        sidebarOpen,
-        isStaticView,
-        showContent,
-        item,
-        id,
-        forwardedRef,
-    } = props
-
+export function InnerLink({
+    href,
+    isMiniView,
+    sidebarOpen,
+    isStaticView,
+    showContent,
+    item,
+    id,
+    forwardedRef,
+}: InnerLinkProps) {
     return (
         <NavLink
             exact

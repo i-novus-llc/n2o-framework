@@ -137,9 +137,14 @@ const withMetadata = (Component) => {
 
     function mapDispatchToProps(dispatch) {
         return {
-            getMetadata: (pageId, pageUrl, pageMapping, rootPage) => dispatch(metadataRequest(
-                pageId, rootPage, pageUrl, pageMapping,
-            )),
+            getMetadata: (pageId, pageUrl, pageMapping, rootPage) => dispatch(
+                metadataRequest(
+                    pageId,
+                    rootPage,
+                    pageUrl,
+                    pageMapping,
+                ),
+            ),
             reset: pageId => dispatch(resetPage(pageId)),
         }
     }

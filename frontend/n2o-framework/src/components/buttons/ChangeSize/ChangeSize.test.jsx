@@ -13,8 +13,8 @@ const store = configureStore(
             ds1: {
                 paging: {
                     size: 1,
-                }
-            }
+                },
+            },
         },
         widgets: {
             someWidget: {

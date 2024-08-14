@@ -15,6 +15,7 @@ const setupComponent = propsOverride => mount(<CardItem {...props} {...propsOver
 describe('Тесты CardItem', () => {
     it('Передаются props', () => {
         const wrapper = setupComponent()
+
         expect(wrapper.props()).toMatchObject({
             header: 'header',
             meta: 'meta',
@@ -25,6 +26,7 @@ describe('Тесты CardItem', () => {
     })
     it('Отрисовывается и показывает card полученные в props', () => {
         const wrapper = setupComponent()
+
         expect(wrapper.find('.n2o-card').exists()).toEqual(true)
         expect(wrapper.find('.card-title').exists()).toEqual(true)
         expect(wrapper.find('.card-subtitle').exists()).toEqual(true)
@@ -34,12 +36,14 @@ describe('Тесты CardItem', () => {
     })
     it('Отрисовывается children', () => {
         const wrapper = setupComponent({ children: 'test' })
+
         expect(wrapper.find('.n2o-card').contains('test'))
     })
     it('Отрисовывается по orderedItems', () => {
         const wrapper = setupComponent({
             rows: ['image', 'header', 'meta', 'text', 'extra'],
         })
+
         expect(
             wrapper
                 .find('.n2o-card.card')

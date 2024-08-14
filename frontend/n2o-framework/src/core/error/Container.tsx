@@ -52,7 +52,7 @@ export function ErrorContainer({
         return <>{error.toString()}</>
     }, [error, handlers, onReset])
 
-    if (!errorComponent) { return (<>{children}</>) }
+    if (!errorComponent) { return children }
 
     return (
         <div className="n2o-ErrorContainer">

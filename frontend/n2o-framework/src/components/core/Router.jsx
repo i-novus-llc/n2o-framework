@@ -32,7 +32,7 @@ function Router({ embeddedRouting, children }) {
                     &#9888;
                     {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
                     {t('pagesNotConfigured')}
-.
+                    .
                 </p>
                 <p>
                     {t('routerError', {

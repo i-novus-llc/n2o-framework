@@ -20,7 +20,7 @@ import { Checkbox } from '../Checkbox/Checkbox'
 import { TreeNode } from './TreeSelectNode'
 import { visiblePartPopup, getCheckedStrategy } from './until'
 
-const renderSwitcherIcon = ({ isLeaf }: {isLeaf: boolean}) => (isLeaf ? null : <Icon name="fa fa-chevron-right" />)
+const renderSwitcherIcon = ({ isLeaf }: { isLeaf: boolean }) => (isLeaf ? null : <Icon name="fa fa-chevron-right" />)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getPopupContainer = (container: any) => container
 /**
@@ -63,7 +63,7 @@ const getItemByValue = (
 
 function getId<
     TValue extends Record<string, unknown>,
-    FieldId extends keyof TValue
+    FieldId extends keyof TValue,
 >(value: TValue, valueFieldId: FieldId) {
     const numberValue = Number(value[valueFieldId])
 
@@ -72,7 +72,7 @@ function getId<
 
 function mapValue2RC<
     TValue extends Record<string, unknown>,
-    FieldId extends keyof TValue
+    FieldId extends keyof TValue,
 >(value: void | TValue | TValue[], valueFieldId: FieldId) {
     if (!value) { return [] }
     if (isArray(value)) {

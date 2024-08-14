@@ -154,7 +154,7 @@ export class Base extends Component<Props, State> {
         const copiableFragment = (
             <span style={ICON_STYLE}>
                 <CopyToClipboard text={text || ''}>
-                    <button type="button" className="pl-2 link-button" onClick={this.copyLinkClick}>
+                    <button aria-label="link-button" type="button" className="pl-2 link-button" onClick={this.copyLinkClick}>
                         <i className={copyIcon} />
                     </button>
                 </CopyToClipboard>
@@ -163,7 +163,7 @@ export class Base extends Component<Props, State> {
 
         const editableFragment = edit ? null : (
             <span style={ICON_STYLE}>
-                <button type="button" className="pl-2 link-button" onClick={this.editLinkClick}>
+                <button aria-label="link-button" type="button" className="pl-2 link-button" onClick={this.editLinkClick}>
                     <i className="fa fa-pencil" />
                 </button>
             </span>

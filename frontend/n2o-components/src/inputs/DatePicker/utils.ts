@@ -257,15 +257,9 @@ export const hasInsideMixMax = (
 
     if (!max && !min) { return true }
 
-    if (
-        (!max && min && lessOrEqual(min, dateFormat)) ||
-    (max && !min && moreOrEqual(max, dateFormat)) ||
-    (max && min && lessOrEqual(min, dateFormat) && moreOrEqual(max, dateFormat))
-    ) {
-        return true
-    }
-
-    return false
+    return !!((!max && min && lessOrEqual(min, dateFormat)) ||
+        (max && !min && moreOrEqual(max, dateFormat)) ||
+        (max && min && lessOrEqual(min, dateFormat) && moreOrEqual(max, dateFormat)))
 }
 
 export const getDeletedSymbol = (value: string, index: number) => value.substring(index - 1, index)

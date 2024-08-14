@@ -52,8 +52,7 @@ export class Checkbox extends React.Component<Props> {
             onFocus,
             onChange,
             onBlur,
-            forwardedRef,
-        } = this.props
+            forwardedRef } = this.props
 
         const { id } = this.state
 

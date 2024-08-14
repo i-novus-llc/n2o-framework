@@ -38,4 +38,4 @@ export type RegisterTable = Action<string, RegisterTablePayload>
 export type RegisterTableColumn = Action<string, RegisterTableColumnPayload>
 export type ChangeTableColumnParam = Action<string, ChangeTableColumnParamPayload>
 export type ChangeTableParam = Action<string, ChangeTableParamPayload>
-export type SwitchTableColumnParam= Action<string, SwitchTableColumnParamPayload>
+export type SwitchTableColumnParam = Action<string, SwitchTableColumnParamPayload>

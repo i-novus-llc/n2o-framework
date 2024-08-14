@@ -230,6 +230,7 @@ export function InputContent({
     const getPlaceholder = selected.length > 0 ? '' : placeholder
 
     return (
+        // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
             {multiSelect ? (
                 <>

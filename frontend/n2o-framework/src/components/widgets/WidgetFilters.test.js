@@ -36,6 +36,7 @@ const setup = (storeObj, propOverrides = {}) => {
 describe('<WidgetFilters />', () => {
     it('проверяет создание элемента', () => {
         const { wrapper } = setup()
+
         expect(wrapper.find(WidgetFilters).exists()).toBeTruthy()
     })
 })

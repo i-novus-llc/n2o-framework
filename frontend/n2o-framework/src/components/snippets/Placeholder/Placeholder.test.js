@@ -7,6 +7,7 @@ const setup = props => mount(<Placeholder {...props} />)
 describe('Тесты Placeholder', () => {
     it('componentDidUpdate', () => {
         const wrapper = setup({ loading: true })
+
         expect(wrapper.instance().stopRender).toBe(false)
         wrapper.setProps({ loading: false })
         expect(wrapper.instance().stopRender).toBe(true)

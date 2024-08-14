@@ -23,19 +23,17 @@ interface Props {
     tabId: string
 }
 
-export function RegionContent(props: Props) {
-    const {
-        content,
-        tabSubContentClass,
-        pageId,
-        className,
-        active,
-        regionId,
-        tabId,
-        parent = null,
-        lazy = false,
-    } = props
-
+export function RegionContent({
+    content,
+    tabSubContentClass,
+    pageId,
+    className,
+    active,
+    regionId,
+    tabId,
+    parent = null,
+    lazy = false,
+}: Props) {
     const mapClassNames = {
         TabsRegion: tabSubContentClass,
     }

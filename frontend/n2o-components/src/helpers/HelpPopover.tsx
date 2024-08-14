@@ -15,7 +15,7 @@ export const HelpPopover = memo(
 
         return (
             <div className="n2o-popover">
-                <button className="n2o-popover-btn" id={target} type="button">
+                <button aria-label="popover-btn" className="n2o-popover-btn" id={target} type="button">
                     <i className={icon} />
                 </button>
                 <UncontrolledPopover

@@ -4,7 +4,6 @@ import classNames from 'classnames'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
 import has from 'lodash/has'
-
 import { EventHandlersContext } from '@i-novus/n2o-components/lib/inputs/eventHandlersContext'
 
 import Toolbar from '../../../../buttons/Toolbar'

@@ -21,8 +21,7 @@ export interface ValidateField {
 export async function validateField(options: ValidateField): Promise<ValidationResult[]> {
     const errors: ValidationResult[] = []
 
-    const {
-        validationKey, model, validationList,
+    const { validationKey, model, validationList,
         signal, datasourceId, pageUrl } = options
 
     const validations = validationList.filter((validation) => {
@@ -46,9 +45,7 @@ export async function validateField(options: ValidateField): Promise<ValidationR
         const validationFunction = presets[validation.type]
 
         try {
-            const valid = await validationFunction(
-                validationKey, model, { ...validation, signal, datasourceId, pageUrl },
-            )
+            const valid = await validationFunction(validationKey, model, { ...validation, signal, datasourceId, pageUrl })
 
             if (typeof valid !== 'boolean') {
                 const { text, severity } = valid
