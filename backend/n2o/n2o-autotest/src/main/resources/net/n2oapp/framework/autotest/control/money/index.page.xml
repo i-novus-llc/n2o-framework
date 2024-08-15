@@ -4,6 +4,7 @@
         <fields>
             <input-money label="InputMoney" id="money" class="n2o" suffix=" rub" prefix="" thousands-separator=" "
                          decimal-separator=","/>
+            <button label="Кнопка" disable-on-empty-model="false"/>
         </fields>
     </form>
 </simple-page>

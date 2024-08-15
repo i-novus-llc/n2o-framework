@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.InputMoneyControl;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -47,6 +48,10 @@ public class InputMoneyAT extends AutoTestBase {
         inputMoney.shouldBeEnabled();
         inputMoney.shouldHaveValue("");
         inputMoney.shouldHavePlaceholder("");
+
+        inputMoney.setValue("");
+        getFields().field("Кнопка", ButtonField.class).click();
+        inputMoney.shouldHaveValue("");
 
         inputMoney.setValue("100500,999");
         inputMoney.shouldHaveValue("100 500,99 rub");
