@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0"
+             name="Доступ к виджетам по sec атрибутам">
+    <regions>
+        <panel title="Доступно всем">
+            <form/>
+        </panel>
+        <tabs>
+            <tab name="Доступно с ролью admin">
+                <form sec:roles="admin"/>
+            </tab>
+            <tab name="Доступно с правом edit">
+                <form sec:permissions="edit"/>
+            </tab>
+        </tabs>
+        <line label="Доступно анонимам">
+            <form sec:anonymous="true"/>
+        </line>
+    </regions>
+</page>

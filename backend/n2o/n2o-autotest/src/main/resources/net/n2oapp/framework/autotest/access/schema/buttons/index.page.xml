@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Доступ к кнопкам по access схеме">
+    <form>
+        <fields>
+            <hidden id="id" default-value="1"/>
+        </fields>
+        <toolbar>
+            <button id="btn1" label="Доступно всем">
+                <open-page page-id="page1" page-name="Доступно всем"/>
+            </button>
+            <button id="btn2" label="Только с ролью admin">
+                <open-page page-id="page2" page-name="Только с ролью admin"/>
+            </button>
+            <button id="btn3" label="Только с правом edit">
+                <open-page page-id="page3" page-name="Только с правом edit"/>
+            </button>
+            <button id="btn4" label="Только анонимам">
+                <open-page page-id="page4" page-name="Только анонимам"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

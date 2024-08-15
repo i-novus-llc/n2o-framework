@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0"
+             xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
+    <header title="Хедер">
+        <nav>
+            <menu-item name="Доступно всем" sec:permit-all="true">
+                <open-page page-id="menu1"/>
+            </menu-item>
+            <menu-item name="Требуется роль admin" sec:roles="admin">
+                <open-page page-id="menu2"/>
+            </menu-item>
+            <menu-item name="Требуется право edit" sec:permissions="edit">
+                <open-page page-id="menu3"/>
+            </menu-item>
+            <menu-item name="Только анонимам" sec:anonymous="true">
+                <open-page page-id="menu4"/>
+            </menu-item>
+        </nav>
+        <extra-menu>
+            <menu-item name="#{username}">
+                <a href="#"/>
+            </menu-item>
+        </extra-menu>
+    </header>
+</application>
