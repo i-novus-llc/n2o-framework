@@ -5,16 +5,36 @@
       "name": "Права доступа",
       "templates": [
         {
-          "templateId": "net/n2oapp/framework/autotest/access/attributes/fields",
-          "name": "AccessFieldsAT"
+          "templateId": "net/n2oapp/framework/autotest/access/application",
+          "name": "MenuItemAccessAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/access/schema/header",
-          "name": "AccessHeaderAT"
+          "templateId": "net/n2oapp/framework/autotest/access/attributes/fields",
+          "name": "FieldsAccessAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/attributes/buttons",
+          "name": "ButtonsAccessAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/attributes/header",
+          "name": "HeaderAccessAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/attributes/widgets",
+          "name": "WidgetsAccessAT"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/access/schema/action/multi",
-          "name": "AccessMultiActionAT"
+          "name": "MultiActionAccessAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/schema/buttons",
+          "name": "ButtonsAccessAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/schema/header",
+          "name": "HeaderAccessAT"
         }
       ]
     },
@@ -32,10 +52,6 @@
         {
           "templateId": "net/n2oapp/framework/autotest/application/header",
           "name": "SimpleHeaderAT"
-        },
-        {
-          "templateId": "net/n2oapp/framework/autotest/application/menu/access",
-          "name": "MenuItemAccessAT"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/application/menu/header/dropdown",
