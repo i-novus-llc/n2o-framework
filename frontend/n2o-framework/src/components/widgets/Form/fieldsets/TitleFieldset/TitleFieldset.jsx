@@ -7,6 +7,7 @@ import { withFieldsetHeader } from '../withFieldsetHeader'
 import DefaultFieldset from '../DefaultFieldset'
 import { FactoryContext } from '../../../../../core/factory/context'
 import { FactoryLevels } from '../../../../../core/factory/factoryLevels'
+import Label from '../../fields/StandardField/Label'
 
 function TitleFieldset({
     render,
@@ -18,6 +19,8 @@ function TitleFieldset({
     help,
     disabled,
     badge,
+    description,
+    type,
 }) {
     const { getComponent } = useContext(FactoryContext)
     const FactoryBadge = getComponent('Badge', FactoryLevels.SNIPPETS)
@@ -31,6 +34,11 @@ function TitleFieldset({
                     </FactoryBadge>
                 )}
                 <HelpPopover help={help} />
+                <Label
+                    className="n2o-fieldset__description line-description"
+                    value={description}
+                    visible={type === 'line' && description}
+                />
                 {subTitle && <small className="text-muted title-fieldset-subtitle">{subTitle}</small>}
                 {showLine && <div className="title-fieldset-line" />}
             </div>
