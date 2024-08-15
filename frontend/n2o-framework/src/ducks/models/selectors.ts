@@ -59,7 +59,7 @@ const makeModelsByPrefixSelector = (prefix: ModelPrefix) => createSelector(
     modelsState => modelsState[prefix] || {},
 )
 
-type Model = Record<string, unknown>
+export type Model = Record<string, unknown>
 type ModelTypeByPrefix<P extends ModelPrefix> = P extends ModelPrefix.source | ModelPrefix.selected ? Model[] : Model
 
 /**
