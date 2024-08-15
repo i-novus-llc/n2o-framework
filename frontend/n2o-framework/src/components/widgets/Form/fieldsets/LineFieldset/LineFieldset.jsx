@@ -31,6 +31,7 @@ function LineFieldset(props) {
         help,
         disabled,
         badge,
+        type,
     }
 
     if (collapsible) { return <CollapseFieldset {...commonProps} type={type} expand={expand} /> }
