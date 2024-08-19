@@ -39,6 +39,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -48,7 +49,7 @@ import static org.hamcrest.Matchers.notNullValue;
 /**
  * Тестирование компиляции стандартного поля
  */
-public class StandardFieldCompileTest extends SourceCompileTestBase {
+class StandardFieldCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach
@@ -151,7 +152,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(pageContext);
 
-        List<Validation> clientValidations = ((StandardDatasource) page.getDatasources().get("testStandardField_form")).getValidations().get("test3");
+        List<Validation> clientValidations = page.getDatasources().get("testStandardField_form").getValidations().get("test3");
         assertThat(clientValidations.size(), is(2));
 
         ConstraintValidation validation = (ConstraintValidation) clientValidations.get(0);
@@ -204,7 +205,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldInlineValidations.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(pageContext);
-        List<Validation> clientValidations = ((StandardDatasource) page.getDatasources().get("testStandardFieldInlineValidations_form")).getValidations().get("city");
+        List<Validation> clientValidations = page.getDatasources().get("testStandardFieldInlineValidations_form").getValidations().get("city");
         assertThat(clientValidations.size(), is(1));
         assertThat(clientValidations.get(0).getSeverity(), is(SeverityType.danger));
         assertThat(clientValidations.get(0).getMessage(), is("Только Казань"));
@@ -394,13 +395,13 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field3.getRequired(), is(false));
         assertThat(field3.getDependencies().size(), is(3));
         assertThat(field3.getDependencies().get(0).getType(), is(ValidationType.visible));
-        assertThat(field3.getDependencies().get(0).getOn(), is(Arrays.asList("f1")));
+        assertThat(field3.getDependencies().get(0).getOn(), is(List.of("f1")));
         assertThat(field3.getDependencies().get(0).getExpression(), is("f1 == 'test'"));
         assertThat(field3.getDependencies().get(1).getType(), is(ValidationType.enabled));
-        assertThat(field3.getDependencies().get(1).getOn(), is(Arrays.asList("f2")));
+        assertThat(field3.getDependencies().get(1).getOn(), is(List.of("f2")));
         assertThat(field3.getDependencies().get(1).getExpression(), is("f2 == 'test'"));
         assertThat(field3.getDependencies().get(2).getType(), is(ValidationType.required));
-        assertThat(field3.getDependencies().get(2).getOn(), is(Arrays.asList("f3")));
+        assertThat(field3.getDependencies().get(2).getOn(), is(List.of("f3")));
         assertThat(field3.getDependencies().get(2).getExpression(), is("f3 == 'test'"));
 
         Field field4 = rows.get(3).getCols().get(0).getFields().get(0);
@@ -423,9 +424,29 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     void testEnablingConditionValidations() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldEnablingConditionValidations.page.xml")
                 .get(new PageContext("testStandardFieldEnablingConditionValidations", "/p"));
-        List<Validation> validations = ((StandardDatasource) page.getDatasources().get("p_form")).getValidations().get("joe");
+        List<Validation> validations = page.getDatasources().get("p_form").getValidations().get("joe");
         assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("foo==1"));
         assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("bar==2"));
         assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("buz==3"));
+    }
+
+    @Test
+    void testFieldRequiring() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldRequiring.page.xml")
+                .get(new PageContext("testStandardFieldRequiring"));
+        Map<String, List<Validation>> validations = page.getDatasources().get("testStandardFieldRequiring_w1").getValidations();
+        List<FieldSet.Row> rows = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows();
+        Field field1 = rows.get(0).getCols().get(0).getFields().get(0);
+        assertThat(field1.getRequired(), is(true));
+        assertThat(validations.get("f1").get(0).getMessage(), is("Поле обязательно для заполнения"));
+
+        Field field2 = rows.get(1).getCols().get(0).getFields().get(0);
+        assertThat(field2.getRequired(), is(true));
+        assertThat(validations.get("f2").get(0).getMessage(), is("Поле обязательно для заполнения"));
+
+        // если есть mandatory валидация, то она перекрывает стандартную проверку от required
+        Field field3 = rows.get(2).getCols().get(0).getFields().get(0);
+        assertThat(field3.getRequired(), is(true));
+        assertThat(validations.get("f3").get(0).getMessage(), is("Mandatory validation"));
     }
 }

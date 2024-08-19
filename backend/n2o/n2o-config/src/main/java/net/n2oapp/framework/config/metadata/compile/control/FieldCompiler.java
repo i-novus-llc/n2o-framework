@@ -75,8 +75,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             if (source.getRefPage().equals(PageRef.THIS)) {
                 return initLocalDatasourceId(p);
             } else if (source.getRefPage().equals(PageRef.PARENT)) {
-                if (context instanceof PageContext) {
-                    return ((PageContext) context).getParentLocalDatasourceId();
+                if (context instanceof PageContext pageContext) {
+                    return pageContext.getParentLocalDatasourceId();
                 } else {
                     throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found", source.getId()));
                 }
@@ -185,22 +185,22 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     private ControlDependency compileControlDependency(Field field, N2oField.Dependency source, CompileProcessor p, CompileContext<?, ?> context) {
         ControlDependency dependency = new ControlDependency();
 
-        if (source instanceof N2oField.FetchValueDependency) {
+        if (source instanceof N2oField.FetchValueDependency fetchValue) {
             FetchValueDependency fetchValueDependency = new FetchValueDependency();
             fetchValueDependency.setType(ValidationType.fetchValue);
-            fetchValueDependency.setValueFieldId(((N2oField.FetchValueDependency) source).getValueFieldId());
+            fetchValueDependency.setValueFieldId(fetchValue.getValueFieldId());
             fetchValueDependency.setDataProvider(compileFetchDependencyDataProvider((N2oField.FetchValueDependency) source, context, p));
             return fetchValueDependency;
-        } else if (source instanceof N2oField.EnablingDependency) {
+        } else if (source instanceof N2oField.EnablingDependency enabling) {
             EnablingDependency enablingDependency = new EnablingDependency();
             enablingDependency.setType(ValidationType.enabled);
-            enablingDependency.setMessage(((N2oField.EnablingDependency) source).getMessage());
+            enablingDependency.setMessage(enabling.getMessage());
             dependency = enablingDependency;
         } else if (source instanceof N2oField.RequiringDependency)
             dependency.setType(ValidationType.required);
-        else if (source instanceof N2oField.VisibilityDependency) {
+        else if (source instanceof N2oField.VisibilityDependency visibility) {
             dependency.setType(ValidationType.visible);
-            Boolean isResettable = castDefault(((N2oField.VisibilityDependency) source).getReset(),
+            Boolean isResettable = castDefault(visibility.getReset(),
                     () -> p.resolve(property("n2o.api.control.dependency.visibility.reset"), Boolean.class));
             if (Boolean.TRUE.equals(isResettable)) {
                 ControlDependency reset = new ControlDependency();
@@ -275,33 +275,28 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected void initValidations(S source, Field field, CompileContext<?, ?> context, CompileProcessor p) {
-        List<Validation> validations = new ArrayList<>();
         Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class) != null ? p.getScope(FieldSetVisibilityScope.class).getConditions() : Collections.emptySet();
         String fieldId = getIdWithMultisetPrefix(field.getId(), p);
-        validations.addAll(initRequiredValidation(fieldId, field, source, p, visibilityConditions));
-        validations.addAll(initInlineValidations(fieldId, source, context, p, visibilityConditions));
-
+        List<Validation> fieldValidations = initInlineValidations(fieldId, source, context, p, visibilityConditions);
+        List<Validation> validations = new ArrayList<>(fieldValidations);
+        Optional<Validation> mandatory = fieldValidations.stream().filter(MandatoryValidation.class::isInstance).findFirst();
+        if (mandatory.isEmpty()) {
+            Validation requiredValidation = initRequiredValidation(fieldId, field, source, p, visibilityConditions);
+            if (requiredValidation != null)
+                validations.add(requiredValidation);
+        }
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         ValidationScope validationScope = p.getScope(ValidationScope.class);
         if (widgetScope != null && validationScope != null)
             validationScope.addAll(widgetScope.getDatasourceId(), widgetScope.getModel(), validations);
     }
 
-    private List<Validation> initRequiredValidation(String fieldId, Field field, S source, CompileProcessor p, Set<String> visibilityConditions) {
-        List<Validation> result = new ArrayList<>();
+    private Validation initRequiredValidation(String fieldId, Field field, S source, CompileProcessor p, Set<String> visibilityConditions) {
         MomentScope momentScope = p.getScope(MomentScope.class);
         String requiredMessage = momentScope != null
                 && N2oValidation.ServerMoment.beforeQuery.equals(momentScope.getMoment())
                 ? "n2o.required.filter" : "n2o.required.field";
-        if ("true".equals(source.getRequired())) {
-            MandatoryValidation mandatory = new MandatoryValidation(fieldId, p.getMessage(requiredMessage), fieldId);
-            if (momentScope != null)
-                mandatory.setMoment(momentScope.getMoment());
-            mandatory.addEnablingConditions(visibilityConditions);
-            mandatory.addEnablingConditions(collectConditions(source, N2oField.VisibilityDependency.class, N2oField.EnablingDependency.class));
-            result.add(mandatory);
-            field.setRequired(true);
-        } else if (source.containsDependency(N2oField.RequiringDependency.class)) {
+        if (source.containsDependency(N2oField.RequiringDependency.class)) {
             MandatoryValidation mandatory = new MandatoryValidation(fieldId, p.getMessage(requiredMessage), fieldId);
             if (momentScope != null)
                 mandatory.setMoment(momentScope.getMoment());
@@ -315,10 +310,18 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     )
             );
             if (mandatory.getEnablingConditions() != null && !mandatory.getEnablingConditions().isEmpty()) {
-                result.add(mandatory);
+                return mandatory;
             }
+        } else if ("true".equals(source.getRequired())) {
+            MandatoryValidation mandatory = new MandatoryValidation(fieldId, p.getMessage(requiredMessage), fieldId);
+            if (momentScope != null)
+                mandatory.setMoment(momentScope.getMoment());
+            mandatory.addEnablingConditions(visibilityConditions);
+            mandatory.addEnablingConditions(collectConditions(source, N2oField.VisibilityDependency.class, N2oField.EnablingDependency.class));
+            field.setRequired(true);
+            return mandatory;
         }
-        return result;
+        return null;
     }
 
     private List<Validation> initInlineValidations(String fieldId, S source,
@@ -393,12 +396,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             throw new N2oException(String.format("Field %s contains validation reference for nonexistent validation!", fieldId));
         }
         Validation validation = null;
-        if (objectValidation instanceof ConstraintValidation) {
-            validation = new ConstraintValidation((ConstraintValidation) objectValidation);
-        } else if (objectValidation instanceof ConditionValidation) {
-            validation = new ConditionValidation((ConditionValidation) objectValidation);
-        } else if (objectValidation instanceof MandatoryValidation) {
-            validation = new MandatoryValidation((MandatoryValidation) objectValidation);
+        if (objectValidation instanceof ConstraintValidation constraint) {
+            validation = new ConstraintValidation(constraint);
+        } else if (objectValidation instanceof ConditionValidation condition) {
+            validation = new ConditionValidation(condition);
+        } else if (objectValidation instanceof MandatoryValidation mandatory) {
+            validation = new MandatoryValidation(mandatory);
         }
         if (validation == null)
             return null;
@@ -456,8 +459,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 defValue = compileDefValues(source, p);
             }
             if (defValue != null) {
-                if (defValue instanceof String) {
-                    defValue = ScriptProcessor.resolveExpression((String) defValue);
+                if (defValue instanceof String strDefValue) {
+                    defValue = ScriptProcessor.resolveExpression(strDefValue);
                 }
                 if (StringUtils.isJs(defValue)) {
                     ModelLink defaultValue = getDefaultValueModelLink(source, context, p);
@@ -470,12 +473,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 } else {
                     SubModelQuery subModelQuery = findSubModelQuery(control.getId(), p);
                     ModelLink modelLink = getDefaultValueModelLink(source, context, p);
-                    if (defValue instanceof DefaultValues) {
-                        Map<String, Object> values = ((DefaultValues) defValue).getValues();
+                    if (defValue instanceof DefaultValues defVals) {
+                        Map<String, Object> values = defVals.getValues();
                         if (values != null) {
                             for (Map.Entry<String, Object> entry : values.entrySet()) {
-                                if (entry.getValue() instanceof String) {
-                                    Object value = ScriptProcessor.resolveExpression((String) entry.getValue());
+                                if (entry.getValue() instanceof String strValue) {
+                                    Object value = ScriptProcessor.resolveExpression(strValue);
                                     if (value != null)
                                         values.put(entry.getKey(), value);
                                 }
@@ -539,8 +542,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), p);
                 break;
             case PARENT:
-                if (context instanceof PageContext) {
-                    clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), ((PageContext) context).getParentClientPageId(), p);
+                if (context instanceof PageContext pageContext) {
+                    clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), pageContext.getParentClientPageId(), p);
                 } else
                     throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found", source.getId()));
         }

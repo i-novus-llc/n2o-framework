@@ -6,6 +6,8 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatoryValidation;
+import net.n2oapp.framework.api.metadata.meta.control.Field;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
@@ -26,6 +28,15 @@ public class MandatoryValidationCompiler extends BaseValidationCompiler<Mandator
         MandatoryValidation validation = new MandatoryValidation();
         compileValidation(validation, source, p);
         validation.setSeverity(castDefault(source.getSeverity(), SeverityType.danger));
+        if (!"server".equals(source.getSide())) {
+            ComponentScope scope = p.getScope(ComponentScope.class);
+            if (scope != null) {
+                Field field = scope.unwrap(Field.class);
+                if (field != null) {
+                    field.setRequired(true);
+                }
+            }
+        }
         return validation;
     }
 }
