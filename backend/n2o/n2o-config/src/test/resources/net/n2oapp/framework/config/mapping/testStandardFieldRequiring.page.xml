@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <fields>
+            <input-text id="f1" required="true"/>
+            <input-text id="f2" required="true">
+                <dependencies>
+                    <requiring on="f1">true</requiring>
+                </dependencies>
+            </input-text>
+            <input-text id="f3" required="true">
+                <validations>
+                    <mandatory id="reqF3" field-id="f3" message="Mandatory validation"/>
+                </validations>
+            </input-text>
+        </fields>
+    </form>
+</simple-page>
