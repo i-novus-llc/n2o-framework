@@ -31,19 +31,15 @@ function execute<
     UnexpectedResult = void,
 >(
     expression: string,
-    model: object,
+    model: object = {},
     context = {},
     def?: UnexpectedResult,
 ): ExpectedResult | UnexpectedResult {
     try {
-        const argsExtended = Array.isArray(model) ? context : { ...context, ...model }
+        const extendedContext = Array.isArray(model) ? context : { ...context, ...model }
+        const fn = createFunction(expression)
 
-        const entries = Object.entries(argsExtended)
-        const keys = entries.map(arr => arr[0])
-        const values = entries.map(arr => arr[1])
-        const fn = createFunction(keys, expression)
-
-        return fn.apply(model, values) as ExpectedResult
+        return fn.call(model, extendedContext) as ExpectedResult
     } catch (error) {
         warning(
             true,
