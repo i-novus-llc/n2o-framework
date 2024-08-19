@@ -1,32 +1,30 @@
 import net.n2oapp.criteria.api.Criteria;
-import net.n2oapp.criteria.api.SortingDirection;
 import net.n2oapp.criteria.api.Sorting;
-
+import net.n2oapp.criteria.api.SortingDirection;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author iryabov
- * @since 01.12.2015
- */
-public class CriteriaTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+class CriteriaTest {
 
     @Test
     void testSorting() {
         Criteria criteria = new Criteria();
         //check initial setting
         criteria.addSorting(new Sorting("test1", SortingDirection.DESC));
-        assert criteria.getSorting() != null;
-        assert criteria.getSorting().getField().equals("test1");
-        assert criteria.getSorting().getDirection().equals(SortingDirection.DESC);
-        assert criteria.getSortings().size() == 1;
+        assertNotNull(criteria.getSorting());
+        assertEquals("test1", criteria.getSorting().getField());
+        assertEquals(SortingDirection.DESC, criteria.getSorting().getDirection());
+        assertEquals(1, criteria.getSortings().size());
 
         //check re-setting
         criteria.addSorting(new Sorting("test2", SortingDirection.ASC));
-        assert criteria.getSorting() != null;
-        assert criteria.getSorting().getField().equals("test2");
-        assert criteria.getSorting().getDirection().equals(SortingDirection.ASC);
-        assert criteria.getSortings().size() == 2;
-        assert criteria.getSortings().get(1).getField().equals("test1");
-        assert criteria.getSortings().get(1).getDirection().equals(SortingDirection.DESC);
+        assertNotNull(criteria.getSorting());
+        assertEquals("test2", criteria.getSorting().getField());
+        assertEquals(SortingDirection.ASC, criteria.getSorting().getDirection());
+        assertEquals(2, criteria.getSortings().size());
+        assertEquals("test1", criteria.getSortings().get(1).getField());
+        assertEquals(SortingDirection.DESC, criteria.getSortings().get(1).getDirection());
     }
 }
