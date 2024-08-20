@@ -2,9 +2,8 @@ package net.n2oapp.framework.api.data;
 
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 
 import java.util.Collection;
 

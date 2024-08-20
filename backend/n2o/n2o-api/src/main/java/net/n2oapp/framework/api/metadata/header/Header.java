@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.application.Logo;
 
 /**
- * Клиентская модель заголовока приложения
+ * Клиентская модель заголовка приложения
  */
 @Getter
 @Setter

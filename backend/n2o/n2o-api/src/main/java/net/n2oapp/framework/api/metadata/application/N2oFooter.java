@@ -16,14 +16,13 @@ import java.util.Map;
 public class N2oFooter extends N2oComponent {
 
     /**
-     * Текст справа
-     */
-    private String rightText;
-
-    /**
      * Текст слева
      */
     private String leftText;
+    /**
+     * Текст справа
+     */
+    private String rightText;
 
     /**
      * Видимость подвала

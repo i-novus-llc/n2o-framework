@@ -5,12 +5,12 @@ package net.n2oapp.framework.api.metadata.application;
  */
 public enum NavigationLayout {
     /**
-     * заголовок во всю ширину экрана
+     * Шапка во всю ширину экрана
      */
     fullSizeHeader,
 
     /**
-     * боковая панель во всю высоту экрана
+     * Боковая панель во всю высоту экрана
      */
     fullSizeSidebar
 }

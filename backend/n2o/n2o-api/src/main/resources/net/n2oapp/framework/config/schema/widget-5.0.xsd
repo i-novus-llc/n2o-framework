@@ -126,7 +126,7 @@
 
     <xs:complexType name="inlineDatasourceDefinition">
         <xs:annotation>
-            <xs:documentation>Встроенный источник данных виджета.</xs:documentation>
+            <xs:documentation>Встроенный источник данных</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="ds:standardDatasourceDefinition">

@@ -31,28 +31,43 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
     public Sidebar compile(N2oSidebar source, ApplicationContext context, CompileProcessor p) {
         Sidebar sidebar = new Sidebar();
         initDatasource(sidebar, source, p);
-        sidebar.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.sidebar.src"), String.class)));
+        sidebar.setSrc(castDefault(source.getSrc(),
+                () -> p.resolve(property("n2o.api.sidebar.src"), String.class)));
         sidebar.setClassName(source.getCssClass());
         sidebar.setStyle(StylesResolver.resolveStyles(source.getStyle()));
+        sidebar.setProperties(p.mapAttributes(source));
+
+        sidebar.setLogo(initLogo(source, p));
+        sidebar.setPath(source.getPath());
+        sidebar.setSubtitle(p.resolveJS(source.getSubtitle()));
+        ComponentScope componentScope = new ComponentScope(source);
+        sidebar.setMenu(source.getMenu() != null
+                ? p.compile(source.getMenu(), context, componentScope)
+                : new SimpleMenu());
+        sidebar.setExtraMenu(source.getExtraMenu() != null
+                ? p.compile(source.getExtraMenu(), context, componentScope)
+                : new SimpleMenu());
+        sidebar.setSide(castDefault(source.getSide(),
+                () -> p.resolve(property("n2o.api.sidebar.side"), SidebarSide.class)));
+        sidebar.setDefaultState(castDefault(source.getDefaultState(), SidebarState.MAXI));
+        sidebar.setToggledState(castDefault(source.getToggledState(),
+                SidebarState.MAXI.equals(sidebar.getDefaultState())
+                        ? SidebarState.MINI
+                        : SidebarState.MAXI));
+        sidebar.setOverlay(castDefault(source.getOverlay(),
+                () -> p.resolve(property("n2o.api.sidebar.overlay"), Boolean.class)));
+        sidebar.setToggleOnHover(castDefault(source.getToggleOnHover(),
+                () -> p.resolve(property("n2o.api.sidebar.toggle_on_hover"), Boolean.class)));
+        return sidebar;
+    }
+
+    private Logo initLogo(N2oSidebar source, CompileProcessor p) {
         Logo logo = new Logo();
         logo.setTitle(p.resolveJS(source.getTitle()));
         logo.setSrc(source.getLogoSrc());
         logo.setHref(source.getHomePageUrl());
         logo.setClassName(source.getLogoClass());
-        sidebar.setLogo(logo);
-        sidebar.setPath(source.getPath());
-        sidebar.setSubtitle(p.resolveJS(source.getSubtitle()));
-        ComponentScope componentScope = new ComponentScope(source);
-        sidebar.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context, componentScope) : new SimpleMenu());
-        sidebar.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context, componentScope) : new SimpleMenu());
-        sidebar.setSide(castDefault(source.getSide(), () -> p.resolve(property("n2o.api.sidebar.side"), Side.class)));
-        sidebar.setDefaultState(castDefault(source.getDefaultState(), SidebarState.maxi));
-        sidebar.setToggledState(castDefault(source.getToggledState(),
-                SidebarState.maxi.equals(sidebar.getDefaultState()) ? SidebarState.mini : SidebarState.maxi));
-        sidebar.setOverlay(castDefault(source.getOverlay(), () -> p.resolve(property("n2o.api.sidebar.overlay"), Boolean.class)));
-        sidebar.setToggleOnHover(castDefault(source.getToggleOnHover(), () -> p.resolve(property("n2o.api.sidebar.toggle_on_hover"), Boolean.class)));
-        sidebar.setProperties(p.mapAttributes(source));
-        return sidebar;
+        return logo;
     }
 
     private void initDatasource(Sidebar compiled, N2oSidebar source, CompileProcessor p) {

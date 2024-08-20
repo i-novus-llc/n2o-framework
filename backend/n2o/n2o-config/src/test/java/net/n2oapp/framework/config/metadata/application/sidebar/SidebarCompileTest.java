@@ -1,20 +1,18 @@
 package net.n2oapp.framework.config.metadata.application.sidebar;
 
 import net.n2oapp.framework.api.metadata.application.Application;
-import net.n2oapp.framework.api.metadata.application.Side;
+import net.n2oapp.framework.api.metadata.application.SidebarSide;
 import net.n2oapp.framework.api.metadata.application.Sidebar;
 import net.n2oapp.framework.api.metadata.application.SidebarState;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 
 /**
  * Тестирование компиляции бокового меню
@@ -36,29 +34,29 @@ public class SidebarCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void defaultSidebar() {
+    void defaultSidebar() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/sidebar/defaultSidebar.application.xml")
                 .get(new ApplicationContext("defaultSidebar"));
         Sidebar sidebar = application.getSidebars().get(0);
         assertThat(sidebar.getSrc(), is("Sidebar"));
-        assertThat(sidebar.getDefaultState(), is(SidebarState.maxi));
-        assertThat(sidebar.getToggledState(), is(SidebarState.mini));
+        assertThat(sidebar.getDefaultState(), is(SidebarState.MAXI));
+        assertThat(sidebar.getToggledState(), is(SidebarState.MINI));
         assertThat(sidebar.getToggleOnHover(), is(false));
         assertThat(sidebar.getOverlay(), is(false));
-        assertThat(sidebar.getSide(), is(Side.left));
+        assertThat(sidebar.getSide(), is(SidebarSide.LEFT));
     }
 
     @Test
-    public void defaultSidebarSwitchedInHeader() {
+    void defaultSidebarSwitchedInHeader() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/sidebar/defaultSidebarSwitchedInHeader.application.xml")
                 .get(new ApplicationContext("defaultSidebarSwitchedInHeader"));
         Sidebar sidebar = application.getSidebars().get(0);
         assertThat(sidebar.getSrc(), is("Sidebar"));
-        assertThat(sidebar.getDefaultState(), is(SidebarState.none));
-        assertThat(sidebar.getToggledState(), is(SidebarState.maxi));
+        assertThat(sidebar.getDefaultState(), is(SidebarState.NONE));
+        assertThat(sidebar.getToggledState(), is(SidebarState.MAXI));
         assertThat(sidebar.getToggleOnHover(), is(false));
         assertThat(sidebar.getOverlay(), is(false));
-        assertThat(sidebar.getSide(), is(Side.left));
+        assertThat(sidebar.getSide(), is(SidebarSide.LEFT));
     }
 
     @Test
@@ -69,10 +67,10 @@ public class SidebarCompileTest extends SourceCompileTestBase {
                 .get(new ApplicationContext("sidebarWithMenu"));
 
         Sidebar sidebar = application.getSidebars().get(0);
-        assertThat(sidebar.getDefaultState(), is(SidebarState.none));
-        assertThat(sidebar.getToggledState(), is(SidebarState.micro));
+        assertThat(sidebar.getDefaultState(), is(SidebarState.NONE));
+        assertThat(sidebar.getToggledState(), is(SidebarState.MICRO));
         assertThat(sidebar.getToggleOnHover(), is(true));
-        assertThat(sidebar.getSide(), is(Side.right));
+        assertThat(sidebar.getSide(), is(SidebarSide.RIGHT));
         assertThat(sidebar.getOverlay(), is(false));
         assertThat(sidebar.getLogo().getSrc(), is("/logo.png"));
         assertThat(sidebar.getLogo().getClassName(), is("logo-class"));
@@ -88,7 +86,7 @@ public class SidebarCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void externalMenu() {
+    void externalMenu() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/sidebar/sidebarWithExternalMenu.application.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
@@ -103,15 +101,6 @@ public class SidebarCompileTest extends SourceCompileTestBase {
         assertThat(sidebar.getMenu().getItems().get(0).getSubItems().get(0).getProperties().get("testAttr"), is("testAttribute"));
         assertThat(sidebar.getMenu().getItems().get(0).getSubItems().get(0).getJsonProperties().get("testAttr"), is("testAttribute"));
         assertThat(sidebar.getMenu().getItems().get(1).getTitle(), is("headerLabel"));
-    }
-
-
-    @Test
-    void testInvisibleSidebar() {
-        Application application = compile("net/n2oapp/framework/config/metadata/application/sidebar/invisibleSidebar.application.xml")
-                .bind().get(new ApplicationContext("invisibleSidebar"), null);
-
-        assertThat(application.getSidebars().get(0), nullValue());
     }
 
     @Test

@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;

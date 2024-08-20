@@ -8,31 +8,46 @@
     <xs:element name="extra-menu" type="menuDefinition"/>
 
     <xs:complexType name="menuDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Меню
+            </xs:documentation>
+        </xs:annotation>
         <xs:sequence>
             <xs:element name="menu-item" type="menuItemDef" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
-                    <xs:documentation>Компонент меню</xs:documentation>
+                    <xs:documentation>
+                        Компонент меню
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="dropdown-menu" type="dropdownMenuDef" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
-                    <xs:documentation>Выпадающее меню</xs:documentation>
+                    <xs:documentation>
+                        Выпадающее меню
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="ref-id">
-            <xs:annotation>
-                <xs:documentation>Ссылка на родительский файл меню</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="src">
             <xs:annotation>
-                <xs:documentation>React компонент меню</xs:documentation>
+                <xs:documentation>
+                    React компонент меню
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-id">
+            <xs:annotation>
+                <xs:documentation>
+                    Ссылка на родительский файл меню
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
-                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                <xs:documentation>
+                    Возможность подключать любые атрибуты
+                </xs:documentation>
             </xs:annotation>
         </xs:anyAttribute>
     </xs:complexType>

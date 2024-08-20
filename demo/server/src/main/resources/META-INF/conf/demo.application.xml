@@ -5,11 +5,7 @@
                 filter-field-id="surname"
                 url-field-id="url"
                 label-field-id="surname"
-                description-field-id="name"
-
-                advanced-target="application"
-                advanced-url="/search"
-                advanced-param="q"/>
+                description-field-id="name"/>
         <nav>
             <menu-item name="${contacts}">
                 <open-page page-id="ProtoPage" route="/proto"/>

@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.DialogValidation;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;

@@ -28,6 +28,7 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
 
     private String src;
     private String refId;
+
     private AbstractMenuItem[] menuItems;
     @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;
@@ -42,7 +43,7 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
      */
     @Getter
     @Setter
-    public static abstract class AbstractMenuItem implements Source, IdAware, ExtensionAttributesAware, DatasourceIdAware {
+    public abstract static class AbstractMenuItem implements Source, IdAware, ExtensionAttributesAware, DatasourceIdAware {
 
         private String id;
         private String name;

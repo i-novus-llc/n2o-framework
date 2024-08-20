@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.validation.standard.datasource;
 
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -13,7 +12,7 @@ import static net.n2oapp.framework.config.metadata.validation.standard.Validatio
 /**
  * Валидатор источника данных
  */
-public abstract class DatasourceValidator<S extends N2oDatasource> extends AbstractDataSourceValidator<S> {
+public abstract class DatasourceValidator<S extends N2oDatasource> extends AbstractDatasourceValidator<S> {
 
     @Override
     public void validate(S source, SourceProcessor p) {

@@ -16,7 +16,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 
-public abstract class AbstractDataSourceValidator<S extends N2oAbstractDatasource> implements SourceValidator<S>, SourceClassAware {
+public abstract class AbstractDatasourceValidator<S extends N2oAbstractDatasource> implements SourceValidator<S>, SourceClassAware {
 
     @Override
     public void validate(S source, SourceProcessor p) {

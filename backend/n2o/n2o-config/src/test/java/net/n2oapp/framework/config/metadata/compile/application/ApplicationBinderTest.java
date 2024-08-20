@@ -14,7 +14,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class ApplicationBinderTest extends SourceCompileTestBase {
+class ApplicationBinderTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

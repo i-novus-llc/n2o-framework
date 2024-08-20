@@ -13,7 +13,9 @@ public class N2oSidebarMerger<T extends N2oSidebar> implements BaseSourceMerger<
 
     @Override
     public T merge(T source, T override) {
-        setIfNotNull(source::setVisible, override::getVisible);
+        setIfNotNull(source::setSrc, override::getSrc);
+        setIfNotNull(source::setCssClass, override::getCssClass);
+        setIfNotNull(source::setStyle, override::getStyle);
         setIfNotNull(source::setSide, override::getSide);
         setIfNotNull(source::setLogoSrc, override::getLogoSrc);
         setIfNotNull(source::setTitle, override::getTitle);

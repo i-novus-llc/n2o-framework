@@ -19,7 +19,7 @@ public class Sidebar extends Component {
     @JsonProperty
     private SimpleMenu extraMenu;
     @JsonProperty
-    private Side side;
+    private SidebarSide side;
     @JsonProperty
     private String path;
     @JsonProperty

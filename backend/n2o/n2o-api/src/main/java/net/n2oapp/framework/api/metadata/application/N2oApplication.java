@@ -14,42 +14,35 @@ import net.n2oapp.framework.api.metadata.header.N2oHeader;
 @Getter
 @Setter
 public class N2oApplication extends N2oMetadata {
-
+    /**
+     * Ссылка на страницу, которая открывается по /
+     */
+    private String welcomePageId;
     /**
      * Макет отображения элементов управления
      */
     private NavigationLayout navigationLayout;
-
     /**
      * Зафиксированы ли header и sidebar
      */
     private Boolean navigationLayoutFixed;
 
     /**
-     * Ссылка на страницу, которая открывается по /
-     */
-    private String welcomePageId;
-
-    /**
-     * Заголовок приложения
+     * Шапка приложения
      */
     private N2oHeader header;
-
     /**
-     * Боковая панель приложения
+     * Боковые панели приложения
      */
     private N2oSidebar[] sidebars;
-
     /**
      * Подвал приложения
      */
     private N2oFooter footer;
-
     /**
      * Источники данных
      */
     private N2oAbstractDatasource[] datasources;
-
     /**
      * События
      */

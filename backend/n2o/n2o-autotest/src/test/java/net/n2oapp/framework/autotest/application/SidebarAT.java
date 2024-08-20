@@ -42,7 +42,7 @@ public class SidebarAT extends AutoTestBase {
     }
 
     @Test
-    public void testSidebar() {
+    void testSidebar() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/simple/test.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/simple/index.page.xml")
@@ -58,11 +58,11 @@ public class SidebarAT extends AutoTestBase {
         page.sidebar().shouldHaveTitle("Лого");
         page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
-        page.sidebar().shouldHaveState(SidebarState.none);
+        page.sidebar().shouldHaveState(SidebarState.NONE);
     }
 
     @Test
-    public void testFullsizeSidebar() {
+    void testFullsizeSidebar() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fullsize/fullsize.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fullsize/index.page.xml")
@@ -78,7 +78,7 @@ public class SidebarAT extends AutoTestBase {
     }
 
     @Test
-    public void testFixedSidebar() {
+    void testFixedSidebar() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fixed/fixed.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/fixed/index.page.xml")
@@ -94,7 +94,7 @@ public class SidebarAT extends AutoTestBase {
     }
 
     @Test
-    public void testRightSidebar() {
+    void testRightSidebar() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/right/right.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/right/index.page.xml")
@@ -110,7 +110,7 @@ public class SidebarAT extends AutoTestBase {
     }
 
     @Test
-    public void testSidebarOverlay() {
+    void testSidebarOverlay() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/overlay/overlay.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/overlay/index.page.xml")
@@ -126,7 +126,7 @@ public class SidebarAT extends AutoTestBase {
     }
 
     @Test
-    public void testSidebarDefaultMicro() {
+    void testSidebarDefaultMicro() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/default_micro/default_micro.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/default_micro/index.page.xml")
@@ -135,11 +135,11 @@ public class SidebarAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.sidebar().shouldExists();
-        page.sidebar().shouldHaveState(SidebarState.micro);
+        page.sidebar().shouldHaveState(SidebarState.MICRO);
     }
 
     @Test
-    public void testSidebarDefaultMini() {
+    void testSidebarDefaultMini() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/default_mini/default_mini.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebar/default_mini/index.page.xml")
@@ -148,6 +148,6 @@ public class SidebarAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.sidebar().shouldExists();
-        page.sidebar().shouldHaveState(SidebarState.mini);
+        page.sidebar().shouldHaveState(SidebarState.MINI);
     }
 }

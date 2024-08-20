@@ -1,6 +1,5 @@
 package net.n2oapp.framework.sandbox.resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -21,13 +19,12 @@ import java.util.stream.Stream;
 @Component
 public class XsdSchemaParser {
 
-    @Autowired
-    private ResourceLoader resourceLoader;
-
     @Value("${n2o.sandbox.schemas.path}")
     private String xsdFolder;
 
-    private Map<String, Resource> resourceBySchemaName = new HashMap<>();
+    private final ResourceLoader resourceLoader;
+
+    private final Map<String, Resource> resourceBySchemaName = new HashMap<>();
 
     private static final String XSD_HEADER_START_TAG = "<?xml";
     private static final String XSD_END_TAG = "</xs:schema>";
@@ -37,10 +34,10 @@ public class XsdSchemaParser {
     private static final String BASE_ATTRIBUTE = "base=";
     private static final String REF_ATTRIBUTE = "ref=";
     private static final String NAME_ATTRIBUTE = "name=";
-    private static final Map<String, String> startEndDefinitionTags;
     private static final String GLOBAL_SCHEMA = "http://www.w3.org/2001/XMLSchema";
     private static final String XSD_EXTENSION = ".xsd";
     private static final String DEF_PREFIX_SEPARATOR = "__";
+    private static final Map<String, String> startEndDefinitionTags;
 
     static {
         startEndDefinitionTags = Map.of(
@@ -49,13 +46,16 @@ public class XsdSchemaParser {
         );
     }
 
+    public XsdSchemaParser(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
+
 
     /**
      * Получение ресурса схемы по ее неймспейсу
      *
      * @param schemaNamespace Неймспейс схемы
      * @return XSD cхема
-     * @throws IOException
      */
     public Resource getSchema(String schemaNamespace) throws IOException {
         return prepareSchema(schemaNamespace, new HashSet<>());
@@ -67,7 +67,6 @@ public class XsdSchemaParser {
      * @param schemaNamespace            Неймспейс схемы
      * @param preparedResourceNamespaces Неймспейсы преобразованных схем
      * @return XSD схема
-     * @throws IOException
      */
     private Resource prepareSchema(String schemaNamespace, Set<String> preparedResourceNamespaces) throws IOException {
         String schemaName = getSchemaNameByNamespace(schemaNamespace);
@@ -81,7 +80,7 @@ public class XsdSchemaParser {
                 .findFirst().orElseThrow(() -> new FileNotFoundException("Schema " + schemaName + XSD_EXTENSION + " is not found"));
 
         try (Stream<String> lines = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)).lines()) {
-            List<String> linesList = lines.collect(Collectors.toList());
+            List<String> linesList = lines.toList();
             Map<String, String> schemaNamespacesByAlias = getSchemaNamespaceByAliasMap(linesList);
             if (schemaNamespacesByAlias.isEmpty())
                 resourceBySchemaName.put(schemaName, resource);
@@ -108,13 +107,12 @@ public class XsdSchemaParser {
      *
      * @param schema            XSD схема
      * @param schemaDefinitions Map, которая будет заполняться определениями схемы
-     * @throws IOException
      */
     private void fillSchemaDefinitions(Resource schema, Map<String, List<String>> schemaDefinitions) throws IOException {
         String prefix = getSchemaPrefix(schema.getFilename());
 
         try (Stream<String> lines = new BufferedReader(new InputStreamReader(schema.getInputStream(), StandardCharsets.UTF_8)).lines()) {
-            List<String> linesList = lines.collect(Collectors.toList());
+            List<String> linesList = lines.toList();
             int i = 0;
             while (i < linesList.size()) {
                 String trimmedStr = linesList.get(i).trim();
@@ -229,7 +227,6 @@ public class XsdSchemaParser {
      * @param schemaName              Имя текущей схемы
      * @param schemaNamespacesByAlias Map неймспейсов внешних схем по псевдонимам, используемым в текущей схеме
      * @return Новая XSD схема, содержащая как текущую, так и определения внешних схем, от которых она зависит
-     * @throws IOException
      */
     private Resource mergeSchemas(List<String> lines, Map<String, List<String>> extSchemaDefinitions,
                                   String schemaName, Map<String, String> schemaNamespacesByAlias) throws IOException {

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи приложения версии 2.0
  */
-public class ApplicationIOv2Test {
+class ApplicationIOv2Test {
 
     @Test
     void test() {

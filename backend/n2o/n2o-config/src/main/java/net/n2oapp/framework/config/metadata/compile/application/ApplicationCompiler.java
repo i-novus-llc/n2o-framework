@@ -65,11 +65,13 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
                                           DataSourcesScope dataSourcesScope, CompileProcessor p) {
         if (sidebars == null)
             return null;
+
         List<Sidebar> result = new ArrayList<>();
         for (N2oSidebar n2oSidebar : sidebars) {
             Sidebar sidebar = initSidebar(n2oSidebar, header, context, dataSourcesScope, p);
             result.add(sidebar);
         }
+
         return result;
     }
 
@@ -83,65 +85,83 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     }
 
     private Header initHeader(N2oHeader source, ApplicationContext context, DataSourcesScope dataSourcesScope, CompileProcessor p) {
-        if (source == null) return null;
+        if (source == null)
+            return null;
+
         Header header = new Header();
-        header.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.header.src"), String.class)));
+
+        header.setSrc(castDefault(source.getSrc(),
+                () -> p.resolve(property("n2o.api.header.src"), String.class)));
         header.setClassName(source.getCssClass());
         header.setStyle(StylesResolver.resolveStyles(source.getStyle()));
+
         if (source.getDatasourceId() != null) {
             N2oAbstractDatasource datasource = dataSourcesScope.get(source.getDatasourceId());
             if (datasource != null)
                 datasource.setSize(p.resolve(property("n2o.api.header.size"), Integer.class));
             header.setDatasource(source.getDatasourceId());
         }
-        ComponentScope componentScope = new ComponentScope(source);
+
         Logo logo = new Logo();
         logo.setTitle(p.resolveJS(source.getTitle()));
         logo.setSrc(source.getLogoSrc());
         logo.setHref(source.getHomePageUrl());
         header.setLogo(logo);
-        header.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context, dataSourcesScope, componentScope) : new SimpleMenu());
-        header.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context, dataSourcesScope, componentScope) : new SimpleMenu());
-        header.setSearch(source.getSearchBar() != null ? p.compile(source.getSearchBar(), context) : null);
+
+        ComponentScope componentScope = new ComponentScope(source);
+        header.setMenu(source.getMenu() != null
+                ? p.compile(source.getMenu(), context, dataSourcesScope, componentScope)
+                : new SimpleMenu());
+        header.setExtraMenu(source.getExtraMenu() != null
+                ? p.compile(source.getExtraMenu(), context, dataSourcesScope, componentScope)
+                : new SimpleMenu());
+        header.setSearch(source.getSearchBar() != null
+                ? p.compile(source.getSearchBar(), context)
+                : null);
         header.setProperties(p.mapAttributes(source));
+
         if (source.getSidebarIcon() != null || source.getSidebarToggledIcon() != null) {
             Header.SidebarSwitcher sidebarSwitcher = new Header.SidebarSwitcher();
             sidebarSwitcher.setIcon(source.getSidebarIcon());
-            sidebarSwitcher.setToggledIcon(source.getSidebarToggledIcon());
+            sidebarSwitcher.setToggledIcon(castDefault(source.getSidebarToggledIcon(), source.getSidebarIcon()));
             header.setSidebarSwitcher(sidebarSwitcher);
         }
+
         return header;
     }
 
     private Sidebar initSidebar(N2oSidebar source, Header header, ApplicationContext context, DataSourcesScope dataSourcesScope, CompileProcessor p) {
-        if (source == null || Boolean.FALSE.equals(source.getVisible()))
+        if (source == null)
             return null;
+
         Sidebar sidebar = p.compile(source, context, dataSourcesScope);
         if (header != null && header.getSidebarSwitcher() != null) {
-            sidebar.setDefaultState(castDefault(source.getDefaultState(), SidebarState.none));
-            sidebar.setToggledState(castDefault(source.getToggledState(), SidebarState.maxi));
+            sidebar.setDefaultState(castDefault(source.getDefaultState(), SidebarState.NONE));
+            sidebar.setToggledState(castDefault(source.getToggledState(), SidebarState.MAXI));
         }
+
         return sidebar;
     }
 
     private Footer initFooter(N2oFooter source, CompileProcessor p) {
-        if (source == null || source.getVisible() != null && !source.getVisible()) return null;
+        if (source == null)
+            return null;
+
         Footer footer = new Footer();
-        footer.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.footer.src"), String.class)));
+        footer.setSrc(castDefault(source.getSrc(),
+                () -> p.resolve(property("n2o.api.footer.src"), String.class)));
         footer.setClassName(source.getCssClass());
         footer.setStyle(StylesResolver.resolveStyles(source.getStyle()));
-        footer.setTextRight(p.resolveJS(source.getRightText()));
         footer.setTextLeft(p.resolveJS(source.getLeftText()));
+        footer.setTextRight(p.resolveJS(source.getRightText()));
         footer.setProperties(p.mapAttributes(source));
+
         return footer;
     }
 
     private void initWelcomePage(N2oApplication source, CompileProcessor p) {
-        String welcomePageId;
-        if (source.getWelcomePageId() != null)
-            welcomePageId = source.getWelcomePageId();
-        else
-            welcomePageId = p.resolve(property("n2o.homepage.id"), String.class);
+        String welcomePageId = castDefault(source.getWelcomePageId(),
+                () -> p.resolve(property("n2o.homepage.id"), String.class));
         PageContext context = new PageContext(welcomePageId, "/");
         p.addRoute(context);
     }
@@ -159,6 +179,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     private List<Event> initEvents(N2oAbstractEvent[] source, ApplicationContext context, CompileProcessor p) {
         if (source == null)
             return null;
+
         List<Event> events = new ArrayList<>();
         for (N2oAbstractEvent e : source)
             events.add(p.compile(e, context));

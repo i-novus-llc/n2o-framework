@@ -6,10 +6,6 @@
                 url-field-id="href"
                 label-field-id="label"
                 icon-field-id="icon"
-                description-field-id="description"
-
-                advanced-target="application"
-                advanced-url="/search"
-                advanced-param="q"/>
+                description-field-id="description"/>
     </header>
 </application>

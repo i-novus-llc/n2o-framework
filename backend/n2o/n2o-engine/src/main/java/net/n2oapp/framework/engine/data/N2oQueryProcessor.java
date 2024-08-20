@@ -17,7 +17,7 @@ import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryListField;

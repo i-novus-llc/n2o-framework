@@ -1,11 +1,11 @@
 package net.n2oapp.framework.config.io.application.sidebar;
 
 import net.n2oapp.framework.api.metadata.application.N2oSidebar;
-import net.n2oapp.framework.api.metadata.application.Side;
+import net.n2oapp.framework.api.metadata.application.SidebarSide;
 import net.n2oapp.framework.api.metadata.application.SidebarState;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
-import net.n2oapp.framework.config.io.control.ComponentIO;
 import net.n2oapp.framework.config.io.menu.ExtraMenuIOv3;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
 import org.jdom2.Element;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * Чтение/запись боковой панели версии 2.0
  */
 @Component
-public class SidebarIOv2 extends ComponentIO<N2oSidebar> {
+public class SidebarIOv2 implements NamespaceIO<N2oSidebar> {
     @Override
     public String getElementName() {
         return "sidebar";
@@ -33,9 +33,12 @@ public class SidebarIOv2 extends ComponentIO<N2oSidebar> {
 
     @Override
     public void io(Element e, N2oSidebar m, IOProcessor p) {
-        super.io(e, m, p);
-        p.attributeBoolean(e, "visible", m::getVisible, m::setVisible);
-        p.attributeEnum(e, "side", m::getSide, m::setSide, Side.class);
+        p.attribute(e, "id", m::getId, m::setId);
+        p.attribute(e, "ref-id", m::getRefId, m::setRefId);
+        p.attribute(e, "src", m::getSrc, m::setSrc);
+        p.attribute(e, "class", m::getCssClass, m::setCssClass);
+        p.attribute(e, "style", m::getStyle, m::setStyle);
+        p.attributeEnum(e, "side", m::getSide, m::setSide, SidebarSide.class);
         p.attribute(e, "logo-src", m::getLogoSrc, m::setLogoSrc);
         p.attribute(e, "title", m::getTitle, m::setTitle);
         p.attribute(e, "home-page-url", m::getHomePageUrl, m::setHomePageUrl);
@@ -46,5 +49,6 @@ public class SidebarIOv2 extends ComponentIO<N2oSidebar> {
         p.attributeBoolean(e, "overlay", m::getOverlay, m::setOverlay);
         p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new NavMenuIOv3());
         p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new ExtraMenuIOv3());
+        p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 }

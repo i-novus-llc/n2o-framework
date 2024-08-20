@@ -30,11 +30,8 @@ public class FooterIO extends ComponentIO<N2oFooter> {
     @Override
     public void io(Element e, N2oFooter m, IOProcessor p) {
         super.io(e, m, p);
-        p.attributeBoolean(e, "visible", m::getVisible, m::setVisible);
-        p.attribute(e, "right-text", m::getRightText, m::setRightText);
         p.attribute(e, "left-text", m::getLeftText, m::setLeftText);
+        p.attribute(e, "right-text", m::getRightText, m::setRightText);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
-
-
 }

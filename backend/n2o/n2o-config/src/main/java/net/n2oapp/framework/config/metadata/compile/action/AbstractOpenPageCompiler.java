@@ -45,7 +45,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
 import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.api.StringUtils.isLink;
@@ -181,7 +180,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         if (context instanceof PageContext) {
             pageContext.addParentRoute(pageContext.getParentRoute(), ((PageContext) context));
-            pageContext.setParentDatasourceIdsMap(initParentDatasourceIdsMap(p, (PageContext) context, pageContext.getDatasources()));
+            pageContext.setParentDatasourceIdsMap(initParentDatasourceIdsMap(p, (PageContext) context));
         }
         pageContext.setRefreshOnClose(castDefault(source.getRefreshOnClose(), false));
         if ((!Boolean.FALSE.equals(source.getRefreshAfterSubmit()) || pageContext.getRefreshOnClose())
@@ -213,8 +212,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         return pageContext;
     }
 
-    private Map<String, String> initParentDatasourceIdsMap(CompileProcessor p, PageContext context,
-                                                           List<N2oAbstractDatasource> datasources) {
+    private Map<String, String> initParentDatasourceIdsMap(CompileProcessor p, PageContext context) {
         Map<String, String> parentDatasourceIdsMap = new HashMap<>();
 
         DataSourcesScope scope = p.getScope(DataSourcesScope.class);
@@ -231,29 +229,12 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         return parentDatasourceIdsMap;
     }
 
-    private String computeTargetDatasource(S source, PageScope pageScope, ComponentScope componentScope, WidgetScope widgetScope) {
-        String currentWidgetId = null;
-        if (widgetScope != null) {
-            currentWidgetId = widgetScope.getWidgetId();
-        }
-
-        String targetDatasourceId = source.getTargetDatasourceId();
-        if (pageScope != null && targetDatasourceId == null) {
-            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
-            if (nonNull(datasourceIdAware) && nonNull(datasourceIdAware.getDatasourceId()))
-                targetDatasourceId = datasourceIdAware.getDatasourceId();
-            else if (currentWidgetId != null)
-                targetDatasourceId = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
-        }
-        return targetDatasourceId;
-    }
-
     private List<Breadcrumb> initBreadcrumb(S source, PageContext pageContext, CompileProcessor p) {
         if (source.getBreadcrumbs() != null) {
             pageContext.setBreadcrumbFromParent(true);
             return Arrays.stream(source.getBreadcrumbs())
                     .map(crumb -> new Breadcrumb(crumb.getLabel(), crumb.getPath()))
-                    .collect(Collectors.toList());
+                    .toList();
         }
 
         pageContext.setBreadcrumbFromParent(false);

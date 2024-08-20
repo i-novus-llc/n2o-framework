@@ -26,9 +26,7 @@
                 label-field-id="labelId"
                 icon-field-id="iconId"
                 description-field-id="descriptionId"
-                advanced-target="application"
-                advanced-url="advancedUrl"
-                advanced-param="param"/>
+                target="application"/>
 
     </header>
 </application>

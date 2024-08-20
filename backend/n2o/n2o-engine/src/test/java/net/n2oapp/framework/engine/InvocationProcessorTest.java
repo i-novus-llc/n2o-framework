@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;

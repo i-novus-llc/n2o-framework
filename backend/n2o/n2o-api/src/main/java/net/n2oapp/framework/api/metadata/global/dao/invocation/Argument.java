@@ -1,4 +1,4 @@
-package net.n2oapp.framework.api.metadata.global.dao.invocation.model;
+package net.n2oapp.framework.api.metadata.global.dao.invocation;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.api.data;
 
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oArgumentsInvocation;
 
 /**
  * Сервис выполненения операций в виджетах, который на вход принимает массив аргументов
