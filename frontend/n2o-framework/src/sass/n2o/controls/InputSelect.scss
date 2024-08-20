@@ -159,8 +159,14 @@
         }
     }
 
-    .n2o-eclipse-content.n2o-eclipse-content__with-status {
+    .n2o-eclipse-content.with-status,
+    .n2o-eclipse-content.with-description {
         display: flex;
+    }
+
+    .n2o-eclipse-content.with-description {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .n2o-dropdown-control .n2o-eclipse-content__description {

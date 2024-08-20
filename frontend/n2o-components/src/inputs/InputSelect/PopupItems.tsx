@@ -1,8 +1,7 @@
 import React, { MouseEvent, useCallback } from 'react'
 import isNil from 'lodash/isNil'
-import isUndefined from 'lodash/isUndefined'
 import get from 'lodash/get'
-import cx from 'classnames'
+import classNames from 'classnames'
 import { DropdownItem } from 'reactstrap'
 import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view-if-needed'
@@ -157,15 +156,19 @@ export function PopupItems({
 
         const isSelected = inArray(selected, item)
         const disabled = getDisabled(item, isSelected)
+        const description = get(item, descriptionFieldId)
+        const withDescription = !isNil(description)
+        const icon = get(item, iconFieldId)
 
         return (
             <div ref={popUpItemRef}>
                 <DropdownItem
                     ref={handleRef}
-                    className={cx('n2o-eclipse-content', {
+                    className={classNames('n2o-eclipse-content', {
                         active: activeValueId === get(item, valueFieldId) && !disabled,
                         selected: isSelected && !hasCheckboxes,
-                        'n2o-eclipse-content__with-status': withStatus(item),
+                        'with-status': withStatus(item),
+                        'with-description': withDescription,
                     })}
                     onMouseOver={() => onMouseOver(item)}
                     onMouseLeave={onMouseLeave}
@@ -175,34 +178,30 @@ export function PopupItems({
                     title={displayTitle(item)}
                     toggle={false}
                 >
-                    <PopupIcon item={item} iconFieldId={iconFieldId} />
-                    <PopupImage item={item} imageFieldId={imageFieldId} />
-                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                    {shouldRenderBadge && isBadgeLeftPosition(badgePosition) && <Badge key="badge-left" {...resolveBadgeProps(badge, item as any)} shape={badge?.shape || Shape.Square} />}
-                    {hasCheckboxes ? (
-                        <Checkbox
-                            value={isSelected}
-                            label={displayTitle(item)}
-                            inline
-                            tabIndex={-1}
-                        />
-                    ) : renderLabel(item)
-                    }
-                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                    {shouldRenderBadge && isBadgeRightPosition(badgePosition) && <Badge key="badge-right" {...resolveBadgeProps(badge, item as any)} shape={badge?.shape || Shape.Square} />}
-                    {descriptionFieldId && !isUndefined(get(item, descriptionFieldId)) && (
+                    <div>
+                        <PopupIcon item={item} iconFieldId={iconFieldId} />
+                        <PopupImage item={item} imageFieldId={imageFieldId} />
+                        {shouldRenderBadge && isBadgeLeftPosition(badgePosition) &&
+                            /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+                            <Badge key="badge-left" {...resolveBadgeProps(badge, item as any)} shape={badge?.shape || Shape.Square} />}
+                        {hasCheckboxes
+                            ? <Checkbox value={isSelected} label={displayTitle(item)} inline tabIndex={-1} />
+                            : renderLabel(item)
+                        }
+                        {shouldRenderBadge && isBadgeRightPosition(badgePosition) &&
+                            /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+                            <Badge key="badge-right" {...resolveBadgeProps(badge, item as any)} shape={badge?.shape || Shape.Square} />}
+                    </div>
+                    {withDescription && (
                         <DropdownItem
-                            className={cx('n2o-eclipse-content__description', {
-                                'n2o-eclipse-content__description-with-icon':
-                                    !hasCheckboxes && get(item, iconFieldId),
-                                'n2o-eclipse-content__description-with-checkbox':
-                                    hasCheckboxes && !get(item, iconFieldId),
-                                'n2o-eclipse-content__description-with-icon-checkbox':
-                                    hasCheckboxes && get(item, iconFieldId),
-                            })}
                             header
+                            className={classNames('n2o-eclipse-content__description', {
+                                'n2o-eclipse-content__description-with-icon': !hasCheckboxes && icon,
+                                'n2o-eclipse-content__description-with-checkbox': hasCheckboxes && !icon,
+                                'n2o-eclipse-content__description-with-icon-checkbox': hasCheckboxes && icon,
+                            })}
                         >
-                            {get(item, descriptionFieldId)}
+                            {description}
                         </DropdownItem>
                     )}
                 </DropdownItem>
@@ -223,11 +222,7 @@ export function PopupItems({
 
     const renderGroup = (key: string, value: Props['options']) => (
         <React.Fragment key={key}>
-            {key && key !== UNKNOWN_GROUP_FIELD_ID ? (
-                <DropdownItem key={key} header>
-                    {key}
-                </DropdownItem>
-            ) : null}
+            {key && key !== UNKNOWN_GROUP_FIELD_ID ? <DropdownItem key={key} header>{key}</DropdownItem> : null}
             {renderSingleItems(value)}
             <DropdownItem divider />
         </React.Fragment>
