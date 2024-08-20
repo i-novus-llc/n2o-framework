@@ -24,7 +24,7 @@ function Footer({ textRight, textLeft, className, style }: Props) {
 
     return (
         <footer className={classNames('n2o-footer py-2', className)} style={currentStyle}>
-            <div className="container-fluid text-white d-flex">
+            <div className={classNames('container-fluid d-flex', { 'inherits-color': currentStyle?.color })}>
                 <PositionedText text={resolveText(textLeft)} position="left" />
                 <PositionedText text={resolveText(textRight)} position="right" />
             </div>
