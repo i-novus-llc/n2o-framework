@@ -46,10 +46,10 @@ class SandboxResourceRetrievalTest {
     @SneakyThrows
     @Test
     void testSchemasRetrieval() {
-        viewController.loadSchema("search-1.0");
-        ResponseEntity<Resource> responseSchema = viewController.loadSchema("search-1.0");
-        assertThat(responseSchema.getStatusCodeValue(), is(200));
+        viewController.loadSchema("base-1.0");
+        ResponseEntity<Resource> responseSchema = viewController.loadSchema("base-1.0");
+        assertThat(responseSchema.getStatusCode().value(), is(200));
         assertThat(responseSchema.getHeaders().get("Content-Type").get(0), is("application/octet-stream"));
-        assertThat(responseSchema.getBody(), is(schemaParser.getSchema("search-1.0")));
+        assertThat(responseSchema.getBody(), is(schemaParser.getSchema("base-1.0")));
     }
 }

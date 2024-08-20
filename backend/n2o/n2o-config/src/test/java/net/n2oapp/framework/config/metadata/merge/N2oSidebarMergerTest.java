@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class N2oSidebarMergerTest extends SourceMergerTestBase {
+class N2oSidebarMergerTest extends SourceMergerTestBase {
 
     @Override
     @BeforeEach

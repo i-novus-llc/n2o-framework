@@ -7,59 +7,46 @@ import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 
 /**
- * Исходная модель заголовка приложения
+ * Исходная модель шапки приложения
  */
 @Getter
 @Setter
 public class N2oHeader extends N2oComponent implements DatasourceIdAware {
     /**
-     * Видимость
+     * Заголовок шапки
      */
-    private Boolean visible;
+    private String title;
+    /**
+     * Идентификатор источника данных
+     */
+    private String datasourceId;
+    /**
+     * URL домашней страницы. Переход на нее происходит по клику на логотип или заголовок
+     */
+    private String homePageUrl;
+    /**
+     * Путь к файлу с логотипом, который будет отображаться в шапке
+     */
+    private String logoSrc;
+    /**
+     * Иконка открытия боковой панели
+     */
+    private String sidebarIcon;
+    /**
+     * Иконка скрытия боковой панели
+     */
+    private String sidebarToggledIcon;
 
     /**
      * Основное меню
      */
     private N2oSimpleMenu menu;
-
     /**
-     * Дополнительное меню, отображается в правой части заголовка
+     * Дополнительное меню. Отображается в правой части заголовка
      */
     private N2oSimpleMenu extraMenu;
-
     /**
-     * URL домашней страницы(переход на нее происходит по клику на логотип или название в заголовке)
-     */
-    private String homePageUrl;
-
-    /**
-     * Название в заголовке
-     */
-    private String title;
-
-    /**
-     * Путь к файлу с логотипом, который будет отображаться в заголовке
-     */
-    private String logoSrc;
-
-    /**
-     * Иконка открытия боковой панели, если не задана, значит кнопки не будет
-     */
-    private String sidebarIcon;
-
-    /**
-     * Иконка скрытия боковой панели, если не задана, значит кнопки не будет
-     */
-    private String sidebarToggledIcon;
-
-    /**
-     * Идентификатор источника данных, который будет использоваться в хедере
-     */
-    private String datasourceId;
-
-    /**
-     * Поиск в заголовке
+     * Панель поиска
      */
     private N2oSearchBar searchBar;
-
 }

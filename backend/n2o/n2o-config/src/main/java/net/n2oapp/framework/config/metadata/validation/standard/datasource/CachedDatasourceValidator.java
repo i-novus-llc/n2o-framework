@@ -17,7 +17,7 @@ import static net.n2oapp.framework.config.metadata.validation.standard.Validatio
  * Валидатор кэширующего источника данных
  */
 @Component
-public class CachedDatasourceValidator extends AbstractDataSourceValidator<N2oCachedDatasource> {
+public class CachedDatasourceValidator extends AbstractDatasourceValidator<N2oCachedDatasource> {
 
     private static final Pattern CACHES_EXPIRES_PATTERN = Pattern.compile("^(\\d+d\\s*)?(\\d+h\\s*)?(\\d+m)?$");
 

@@ -2,8 +2,8 @@ package net.n2oapp.framework.api.metadata.dataprovider;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.Argument;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oArgumentsInvocation;
 
 /**
  * Модель вызова java кода (статичные методы класса, spring бины, ejb бины)

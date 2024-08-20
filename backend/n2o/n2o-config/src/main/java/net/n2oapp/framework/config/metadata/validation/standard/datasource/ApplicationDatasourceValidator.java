@@ -15,7 +15,7 @@ import static java.util.Objects.isNull;
  * Валидатор источника данных, ссылающегося на источник из application.xml
  */
 @Component
-public class ApplicationDatasourceValidator extends AbstractDataSourceValidator<N2oApplicationDatasource> {
+public class ApplicationDatasourceValidator extends AbstractDatasourceValidator<N2oApplicationDatasource> {
 
     @Override
     public Class<? extends Source> getSourceClass() {

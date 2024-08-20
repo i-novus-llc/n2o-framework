@@ -259,7 +259,7 @@
         <xs:complexContent>
             <xs:annotation>
                 <xs:documentation>
-                    Источник, хранящий данные в браузере
+                    Источник, использующий хранилище браузера
                 </xs:documentation>
             </xs:annotation>
             <xs:extension base="baseDatasourceDefinition">
@@ -452,6 +452,11 @@
     </xs:complexType>
 
     <xs:complexType name="stompDatasourceDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Источник данных, получающий данные по STOMP протоколу
+            </xs:documentation>
+        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="datasourceDefinition">
                 <xs:sequence>

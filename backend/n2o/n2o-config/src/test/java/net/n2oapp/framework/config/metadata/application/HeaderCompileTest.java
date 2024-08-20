@@ -145,8 +145,6 @@ public class HeaderCompileTest extends SourceCompileTestBase {
         assertThat("descriptionId", is(searchBar.getDescrFieldId()));
 
         assertThat(searchBar.getSearchPageLocation(), notNullValue());
-        assertThat("advancedUrl", is(searchBar.getSearchPageLocation().getUrl()));
-        assertThat("param", is(searchBar.getSearchPageLocation().getSearchQueryName()));
         assertThat(SearchBar.LinkType.inner, is(searchBar.getSearchPageLocation().getLinkType()));
 
         assertThat(searchBar.getDataProvider(), notNullValue());

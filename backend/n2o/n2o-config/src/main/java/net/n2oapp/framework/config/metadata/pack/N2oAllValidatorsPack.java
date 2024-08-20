@@ -45,7 +45,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new TableValidator(), new PageActionValidator(), new InvokeActionValidator(), new StandardPageValidator(),
                 new LeftRightPageValidator(), new SimplePageValidator(), new BasePageValidator(), new SearchablePageValidator(),
                 new StandardDatasourceValidator(), new ApplicationDatasourceValidator(), new InheritedDatasourceValidator(),
-                new BrowserStorageDataSourceValidator(), new ParentDatasourceValidator(), new CachedDatasourceValidator(),
+                new BrowserStorageDatasourceValidator(), new ParentDatasourceValidator(), new CachedDatasourceValidator(),
                 new TopLeftRightPageValidator(),
                 new FieldValidator(), new InputTextValidator(), new DateTimeValidator(), new LineFieldSetValidator(),
                 new MultiFieldSetValidator(), new JavaDataProviderValidator(), new BaseButtonValidator(), new SubMenuValidator(),

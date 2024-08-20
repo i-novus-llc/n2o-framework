@@ -29,10 +29,6 @@ public class SearchBar implements Compiled {
     @Getter
     public static class SearchPageLocation implements Compiled {
         @JsonProperty
-        private String url;
-        @JsonProperty
-        private String searchQueryName;
-        @JsonProperty
         private LinkType linkType;
     }
 

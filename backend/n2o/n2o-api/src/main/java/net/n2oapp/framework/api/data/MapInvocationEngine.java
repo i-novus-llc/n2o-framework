@@ -1,6 +1,6 @@
 package net.n2oapp.framework.api.data;
 
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oMapInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oMapInvocation;
 
 import java.util.Map;
 

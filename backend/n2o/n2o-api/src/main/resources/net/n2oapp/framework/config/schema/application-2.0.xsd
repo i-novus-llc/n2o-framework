@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/application-2.0"
            xmlns:menu="http://n2oapp.net/framework/config/schema/menu-3.0"
-           xmlns:search="http://n2oapp.net/framework/config/schema/search-1.0"
+           xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
            xmlns:ac="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -94,7 +94,7 @@
 
     <xs:complexType name="headerDefinition">
         <xs:sequence>
-            <xs:element name="search" type="search:searchDefinition" minOccurs="0">
+            <xs:element name="search" type="searchDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Поиск в заголовке</xs:documentation>
                 </xs:annotation>
@@ -153,6 +153,49 @@
         <xs:attribute name="sidebar-toggled-icon" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Иконка скрытия боковой панели, если не задана, значит кнопки не будет. Иконка из https://fontawesome.com/v6/icons/</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="searchDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Панель поиска
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="query-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Запрос за данными.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="filter-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор поля фильтра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="url-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отвечающее за ссылку перехода на результат поиска.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="label-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отвечающее за заголовок.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отвечающее за иконку.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="description-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отвечающее за описание.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="target" type="act:openPageType" default="application">
+            <xs:annotation>
+                <xs:documentation>Сценарий открытия страницы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

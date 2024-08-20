@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.dataprovider;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oMapInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oMapInvocation;
 
 import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyType.integer;
 

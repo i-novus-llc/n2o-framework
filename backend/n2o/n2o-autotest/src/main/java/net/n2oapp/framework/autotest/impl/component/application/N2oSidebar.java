@@ -66,7 +66,7 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
 
     @Override
     public void shouldHaveState(SidebarState state) {
-        element().shouldHave(Condition.cssClass(state.name()));
+        element().shouldHave(Condition.cssClass(state.getId()));
     }
 
     @Override

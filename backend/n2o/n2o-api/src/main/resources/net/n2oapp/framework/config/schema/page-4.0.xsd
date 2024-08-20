@@ -30,7 +30,7 @@
                         <xs:documentation>
                             Наименование страницы.
                             Возможно использование плейсхолдеров.
-                            По умолчанию: значение `name` виджета
+                            По умолчанию: значение `page-name` действия открытия страницы
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -89,7 +89,7 @@
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Css стиль страницы
+                            CSS стиль страницы
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -121,7 +121,8 @@
             <xs:annotation>
                 <xs:documentation>
                     Наименование страницы.
-                    Возможно использование плейсхолдеров
+                    Возможно использование плейсхолдеров.
+                    По умолчанию: значение `page-name` действия открытия страницы
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -402,7 +403,7 @@
     <xs:complexType name="datasourcesDefinition">
         <xs:annotation>
             <xs:documentation>
-                Источники данных
+                Источники данных страницы
             </xs:documentation>
         </xs:annotation>
         <xs:complexContent>

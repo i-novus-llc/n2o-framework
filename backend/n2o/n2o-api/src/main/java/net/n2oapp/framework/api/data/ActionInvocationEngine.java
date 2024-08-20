@@ -1,7 +1,7 @@
 package net.n2oapp.framework.api.data;
 
 import net.n2oapp.engine.factory.ClassedEngine;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oInvocation;
 
 /**
  * Сервис выполненения операций в виджетах

@@ -14,26 +14,30 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 http://n2oapp.net/framework/config/schema/application-3.0
 ```
 
-## &lt;application&gt;
+
 
 **Атрибуты**
 
-|Наименование            |Тип            |Описание                                                 |Значение по умолчанию|
-|------------------------|---------------|---------------------------------------------------------|---------------------|
-|navigation-layout       |Строка         |Макет отображения элементов управления.<br/>Возможные значения:<br/>fullSizeHeader - заголовок во всю ширину экрана<br/>fullSizeSidebar - боковая панель во всю высоту экрана|fullSizeHeader|
-|navigation-layout-fixed |true false     |Зафиксированы ли header и sidebar                        |false                |
-|welcome-page-id         |Строка         |Ссылка на страницу, которая открывается по root(/)       |                     |
+| Наименование            | Тип                            | Описание                                                                                                                                              | Значение по умолчанию                |
+|-------------------------|--------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
+| welcome-page-id         | Строка                         | Ссылка на страницу, которая открывается по /                                                                                                          | Значение настройки `n2o.homepage.id` |
+| navigation-layout       | fullSizeHeader fullSizeSidebar | Макет отображения элементов управления.<br/>`fullSizeHeader` - шапка во всю ширину экрана<br/>`fullSizeSidebar` - боковая панель во всю высоту экрана | fullSizeHeader                       |
+| navigation-layout-fixed | true false                     | Фиксация шапки и бокового меню при скролле страницы                                                                                                   | false                                |
 
 **Настройки**
+
 ```yaml
-# Макет отображения элементов управления.
-n2o.application.navigation_layout=fullSizeHeader
-# Зафиксированы ли header и sidebar
-n2o.application.navigation_layout_fixed=false
+#Идентификатор домашней страницы
+n2o.homepage.id = index
+# Макет отображения элементов управления
+n2o.application.navigation_layout = fullSizeHeader
+# Фиксация шапки и бокового меню при скролле страницы
+n2o.application.navigation_layout_fixed = false
 ```
 
-**Тело**<br/>
-&lt;datasources&gt; - [Источники данных](../xml/datasource#datasources)<br/>
+**Тело**
+
+&lt;datasources&gt; - [Источники данных приложения](../xml/datasource#datasources)<br/>
 &lt;events&gt; - [События](#events)<br/>
 &lt;header&gt; - [Шапка](#header)<br/>
 &lt;sidebars&gt; - [Боковые панели](#sidebars)<br/>
@@ -44,7 +48,8 @@ n2o.application.navigation_layout_fixed=false
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0"
-    navigation-layout="fullSizeSidebar" navigation-layout-fixed="true" welcome-page-id="index">
+             navigation-layout="fullSizeSidebar"
+             navigation-layout-fixed="true">
     <datasources>...</datasources>
     <events>...</events>
     <header>...</header>
@@ -53,8 +58,11 @@ n2o.application.navigation_layout_fixed=false
 </application>
 ```
 
-### &lt;events&gt;
-События.
+
+
+## &lt;events&gt; {#events}
+
+События
 
 **Тело**
 
@@ -66,35 +74,37 @@ n2o.application.navigation_layout_fixed=false
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <events>
-        ...
+        <stomp-event>...</stomp-event>
+        <stomp-event>...</stomp-event>
     </events>
 </application>
 ```
 
 
 
-### &lt;header&gt;
-Шапка.
+## &lt;header&gt; {#header}
+
+Шапка
 
 **Атрибуты**
 
-|Наименование         |Тип             |Описание                                                                                       |Значение по умолчанию|
-|---------------------|----------------|-----------------------------------------------------------------------------------------------|---------------------|
-|src                  |Строка          |React компонент шапки                                                                          |Header               |
-|class                |CSS класс       |Класс компонента шапки                                                                         |                     |
-|style                |CSS свойство    |Стиль компонента шапки                                                                         |                     |
-|datasource           |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных                      |                     |
-|title                |Строка          |Заголовок шапки. Поддерживаются плейсхолдеры                                                   |                     |
-|visible              |true false      |Видимость шапки                                                                                |true                 |
-|logo-src             |Строка          |Путь к файлу с логотипом, который будет отображаться в шапке                                   |                     |
-|home-page-url        |Строка          |URL домашней страницы(переход на нее происходит по клику на логотип или название в шапке)      |                     |
-|sidebar-icon         |[Класс иконки](https://fontawesome.com/v6/icons/)|Иконка открытия боковой панели, если не задана, значит кнопки не будет|           |
-|sidebar-toggled-icon |[Класс иконки](https://fontawesome.com/v6/icons/)|Иконка скрытия боковой панели, если не задана, значит кнопки не будет |           |
+| Наименование         | Тип                                                        | Описание                                                                                 | Значение по умолчанию   |
+|----------------------|------------------------------------------------------------|------------------------------------------------------------------------------------------|-------------------------|
+| title                | Строка                                                     | Заголовок шапки. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры) |                         |
+| datasource           | Ссылка на [источник данных](../xml/datasource#datasources) | Идентификатор источника данных                                                           |                         |
+| home-page-url        | Строка                                                     | URL домашней страницы. Переход на нее происходит по клику на логотип или заголовок       |                         |
+| logo-src             | Строка                                                     | Путь к файлу с логотипом, который будет отображаться в шапке                             |                         |
+| sidebar-icon         | Строка                                                     | [Иконка](https://fontawesome.com/v6/icons/) открытия боковой панели                      |                         |
+| sidebar-toggled-icon | Строка                                                     | [Иконка](https://fontawesome.com/v6/icons/) скрытия боковой панели                       | Значение `sidebar-icon` |
+| src                  | Строка                                                     | React компонент шапки                                                                    |                         |
+| class                | Строка                                                     | CSS класс шапки                                                                          |                         |
+| style                | Строка                                                     | СSS стиль шапки                                                                          |                         |
 
-**Тело**<br/>
+**Тело**
+
 &lt;nav&gt; - [Основное меню](#nav)<br/>
 &lt;extra-menu&gt; - [Дополнительное меню](#extra-menu)<br/>
-&lt;search&gt; - [Панель поиска](#search)
+&lt;search&gt; - [Панель поиска](#header_search)
 
 **Пример**
 
@@ -111,64 +121,47 @@ n2o.application.navigation_layout_fixed=false
 
 <Sandbox height={300} projectId="uxcomponents_menu_header_on_top" showHeader />
 
-### &lt;sidebars&gt;
-Боковые панели.
 
-**Тело**<br/>
-&lt;sidebar&gt; - [Боковая панель](#sidebar)<br/>
 
-**Пример**
+### &lt;search&gt; {#header_search}
 
-```xml
-<?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
-    <sidebars>
-        ...
-    </sidebars>
-</application>
-```
-
-####  &lt;sidebar&gt;
-Боковая панель.
+Панель поиска
 
 **Атрибуты**
 
-|Наименование    |Тип            |Описание                                        |Значение по умолчанию|
-|----------------|---------------|------------------------------------------------|---------------------|
-|src             |Строка         |React компонент боковой панели                  |Sidebar              |
-|class           |CSS класс      |Класс компонента боковой панели                 |                     |
-|style           |CSS свойство   |Стиль компонента боковой панели                 |                     |
-|title           |Строка         |Название в заголовке боковой панели             |                     |
-|ref-id          |Строка         |Ссылка на родительский файл боковой панели      |                     |
-|subtitle        |Строка         |Название в подзаголовке боковой панели          |                     |
-|datasource      |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных боковой панели   |                     |
-|path            |Строка         |URL по которому будет отображаться боковая панель|                    |
-|visible         |true false     |Видимость боковой панели                        |true                 |
-|side            |left right     |Сторона появления боковой панели                |left                 |
-|welcome-page-id |Ссылка         |Ссылка на страницу                              |                     |
-|logo-src        |Строка         |Путь к файлу с логотипом, который будет<br/>отображаться в заголовке боковой панели |                     |
-|home-page-url   |Строка         |URL страницы, переход на которую происходит<br/>по клику на логотип или название<br/>в заголовке боковой панели|                     |
-|logo-class      |CSS класс      |CSS класс для области с логотипом и названием   |                     |
-|default-state   |none micro mini maxi|Состояние сайдбара по умолчанию.<br/>Возможные значения:<br/>none - скрыт полностью<br/>micro - отображается тонкая полоска<br/>mini - отображаются только иконки<br/>maxi - широкая боковая панель|none, если у `<header>` задан атрибут sidebar-icon или sidebar-toggled-icon, иначе maxi             |
-|toggled-state   |none micro mini maxi|Состояние боковой панели принимаемое<br/>при нажатии на кнопку toggle-sidebar, которую можно<br/>добавить в меню заголовка приложения с помощью атрибута sidebar-toggled-icon. Возможные значения:<br/>none - скрыт полностью<br/>micro - отображается тонкая полоска<br/>mini - отображаются только иконки<br/>maxi - широкая боковая панель|                |
-|toggle-on-hover |true false    |Открывается ли панель по hover                   |false               |
-|overlay         |true false    |Перекрывает ли боковая панель контент страницы   |true                |
+| Наименование         | Тип                               | Описание                                                                                               | Значение по умолчанию | Обязательность |
+|----------------------|-----------------------------------|--------------------------------------------------------------------------------------------------------|-----------------------|----------------|
+| query-id             | Ссылка на [выборку](../xml/query) | Идентификатор выборки, на основе которой происходит получение данных                                   |                       | !              |
+| filter-field-id      | Строка                            | Поле выборки, отвечающее за фильтрацию                                                                 |                       |                |
+| url-field-id         | Строка                            | Поле выборки, отвечающее за ссылку перехода варианта выбора                                            |                       |                |
+| label-field-id       | Строка                            | Поле выборки, отвечающее за заголовок варианта выбора                                                  |                       |                |
+| icon-field-id        | Строка                            | Поле выборки, отвечающее за иконку варианта выбора                                                     |                       |                |
+| description-field-id | Строка                            | Поле выборки, отвечающее за описание варианта выбора                                                   |                       |                |
+| target               | application newWindow             | Сценарий открытия страницы:<br/>`newWindow` - в новой вкладке<br/>`application` - в текущем приложении | application           |                |
 
-**Настройки**
-```yaml
-#Сторона появления
-n2o.api.sidebar.side=left
-#Открывается ли панель по hover
-n2o.api.sidebar.toggle_on_hover=false
-#Перекрывает ли боковая панель контент страницы
-n2o.api.sidebar.overlay=false
-#Количество записей в боковой панели (число)
-n2o.api.sidebar.size=1
+**Пример**
+
+```xml
+<search
+     query-id="popupSearch"
+     filter-field-id="name"
+     url-field-id="href"
+     label-field-id="name"
+     advanced-target="application"
+     advanced-url="/search"
+     advanced-param="q"
+/>
 ```
 
-**Тело**<br/>
-&lt;datasource&gt; - [Стандартный источник данных](../xml/datasource#datasource) <br/>
-Список элементов [навигационной панели](#navigation)
+
+
+## &lt;sidebars&gt; {#sidebars}
+
+Боковые панели
+
+**Тело**
+
+&lt;sidebar&gt; - [Боковая панель](#sidebar)
 
 **Пример**
 
@@ -176,30 +169,83 @@ n2o.api.sidebar.size=1
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <sidebars>
-        <sidebar title="N2O">
-            <datasource id="ds1"/>
-            <nav>...</nav>
-            <extra-menu>...</extra-menu>
-        </sidebar>
+        <sidebar>...</sidebar>
+        <sidebar>...</sidebar>
     </sidebars>
 </application>
+```
+
+
+
+###  &lt;sidebar&gt;
+
+Боковая панель
+
+**Атрибуты**
+
+| Наименование    | Тип                                                        | Описание                                                                                                                                                                                                                                                                       | Значение по умолчанию                                                                                                                        |
+|-----------------|------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| title           | Строка                                                     | Название в заголовке боковой панели. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)                                                                                                                                                                   |                                                                                                                                              |
+| subtitle        | Строка                                                     | Название в подзаголовке боковой панели. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)                                                                                                                                                                |                                                                                                                                              |
+| side            | left right                                                 | Сторона появления боковой панели                                                                                                                                                                                                                                               | left                                                                                                                                         |
+| path            | Строка                                                     | Путь, по которому будет отображаться боковая панель                                                                                                                                                                                                                            |                                                                                                                                              |
+| datasource      | Ссылка на [источник данных](../xml/datasource#datasources) | Идентификатор источника данных боковой панели                                                                                                                                                                                                                                  |                                                                                                                                              |
+| logo-src        | Строка                                                     | Путь к файлу с логотипом, который будет отображаться в боковой панели                                                                                                                                                                                                          |                                                                                                                                              |
+| logo-class      | Строка                                                     | CSS класс логотипа боковой панели                                                                                                                                                                                                                                              |                                                                                                                                              |
+| home-page-url   | Строка                                                     | URL страницы, переход на которую происходит по клику на логотип или заголовок                                                                                                                                                                                                  |                                                                                                                                              |
+| default-state   | none micro mini maxi                                       | Исходное состояние боковой панели:<br/>`none` - скрыта полностью<br/>`micro` - отображается тонкая полоска<br/>`mini` - отображаются только иконки<br/>`maxi` - широкая боковая панель                                                                                         | none - если у шапки задан атрибут `sidebar-icon` или `sidebar-toggled-icon`<br/>maxi - иначе                                                 |
+| toggled-state   | none micro mini maxi                                       | Состояние боковой панели принимаемое при нажатии на иконку, задаваемую атрибутом [`sidebar-toggled-icon`](#header) шапки :<br/>`none` - скрыта полностью<br/>`micro` - отображается тонкая полоска<br/>`mini` - отображаются только иконки<br/>`maxi` - широкая боковая панель | none - если у шапки задан атрибут `sidebar-icon` или `sidebar-toggled-icon`<br/>mini - если значение `default-state="maxi"`<br/>maxi - иначе |
+| toggle-on-hover | true false                                                 | Открывается ли панель по hover                                                                                                                                                                                                                                                 | false                                                                                                                                        |
+| overlay         | true false                                                 | Перекрывает ли боковая панель содержимое страницы                                                                                                                                                                                                                              | false                                                                                                                                        |
+| src             | Строка                                                     | React компонент боковой панели                                                                                                                                                                                                                                                 |                                                                                                                                              |
+| class           | Строка                                                     | CSS класс боковой панели                                                                                                                                                                                                                                                       |                                                                                                                                              |
+| style           | Строка                                                     | СSS стиль боковой панели                                                                                                                                                                                                                                                       |                                                                                                                                              |
+| ref-id          | Строка                                                     | Ссылка на родительский файл боковой панели                                                                                                                                                                                                                                     |                                                                                                                                              |
+
+**Настройки**
+
+```yaml
+#Сторона появления боковой панели
+n2o.api.sidebar.side = left
+#Открывается ли панель по hover
+n2o.api.sidebar.toggle_on_hover = false
+#Перекрывает ли боковая панель контент страницы
+n2o.api.sidebar.overlay = false
+```
+
+**Тело**
+
+&lt;datasource&gt; - [Встроенный источник данных](../xml/datasource#datasource) <br/>
+&lt;nav&gt; - [Основное меню](#nav)<br/>
+&lt;extra-menu&gt; - [Дополнительное меню](#extra-menu)
+
+**Пример**
+
+```xml
+<sidebar title="N2O" path="/person">
+    <datasource id="ds"/>
+    <nav>...</nav>
+    <extra-menu>...</extra-menu>
+</sidebar>
 ```
 
 <Sandbox height={450} projectId="uxcomponents_menu_sidebar_simple" showHeader />
 
-### &lt;footer&gt;
-Подвал.
+
+
+## &lt;footer&gt;
+
+Подвал
 
 **Атрибуты**
 
-|Наименование    |Тип            |Описание                                        |Значение по умолчанию|
-|----------------|---------------|------------------------------------------------|---------------------|
-|src             |Строка         |React компонент подвала                         |DefaultFooter        |
-|class           |CSS класс      |Класс компонента подвала                        |                     |
-|style           |CSS свойство   |Стиль компонента подвала                        |                     |
-|right-text      |Строка         |Текст в подвале справа                          |                     |
-|left-text       |Строка         |Текст в подвале слева                           |                     |
-|visible         |true false     |Видимость подвала                               |true                 |
+| Наименование | Тип    | Описание                |
+|--------------|--------|-------------------------|
+| left-text    | Строка | Текст слева             |
+| right-text   | Строка | Текст справа            |
+| src          | Строка | React компонент подвала |
+| class        | Строка | CSS класс подвала       |
+| style        | Строка | СSS стиль подвала       |
 
 **Пример**
 
@@ -210,83 +256,56 @@ n2o.api.sidebar.size=1
 </application>
 ```
 
+
+
 ## Навигационная панель {#navigation}
 
-### &lt;nav&gt;
-Основное меню.
+### &lt;nav&gt; {#nav}
+
+Основное меню
 
 **Атрибуты**
 
-|Наименование|Тип            |Описание                        |Значение по умолчанию|
-|------------|---------------|--------------------------------|---------------------|
-|src         |Строка         |React компонент меню            |                     |
-|ref-id      |Ссылка         |Ссылка на родительский файл меню|                     |
+| Наименование | Тип    | Описание                         |
+|--------------|--------|----------------------------------|
+| src          | Строка | React компонент меню             |
+| ref-id       | Ссылка | Ссылка на родительский файл меню |
 
-**Тело**<br/>
+**Тело**
+
 Список элементов [меню](../xml/menu)
 
 **Пример**
 
 ```xml
 <nav>
-    <a href="http://google.com/"/>
-    <page page-id="ProtoPage" route="/proto" label="Контакты"/>
-    <sub-menu>...</sub-menu>
+    <menu-item>...</menu-item>
+    <dropdown-menu>...</dropdown-menu>
 </nav>
 ```
 
-### &lt;extra-menu&gt;
-Дополнительное меню.
+
+
+### &lt;extra-menu&gt; {#extra-menu}
+
+Дополнительное меню
 
 **Атрибуты**
 
-|Наименование|Тип            |Описание                        |Значение по умолчанию|
-|------------|---------------|--------------------------------|---------------------|
-|src         |Строка         |React компонент шапки           |                     |
-|ref-id      |Ссылка         |Ссылка на родительский файл меню|                     |
+| Наименование | Тип    | Описание                         |
+|--------------|--------|----------------------------------|
+| src          | Строка | React компонент меню             |
+| ref-id       | Ссылка | Ссылка на родительский файл меню |
 
-**Тело**<br/>
+**Тело**
+
 Список элементов [меню](../xml/menu)
 
 **Пример**
 
 ```xml
 <extra-menu>
-    <page page-id="ProtoPage" route="/proto" label="Контакты"/>
-    <a href="http://google.com/"/>
-    <sub-menu>...</sub-menu>
+    <menu-item>...</menu-item>
+    <dropdown-menu>...</dropdown-menu>
 </extra-menu>
-```
-
-### &lt;search&gt;
-Панель поиска.
-
-**Атрибуты**
-
-|Наименование        |Тип                         |Описание                                                       |Значение по умолчанию|
-|--------------------|----------------------------|---------------------------------------------------------------|---------------------|
-|query-id            |Строка                      |Запрос за данными                                              |                     |
-|filter-field-id     |Строка                      |Идентификатор поля фильтра                                     |                     |
-|url-field-id        |Строка                      |Поле выборки, отвечающее за ссылку перехода на результат поиска|                     |
-|label-field-id      |Строка                      |Поле выборки, отвечающее за заголовок                          |                     |
-|icon-field-id       |Строка                      |Поле выборки, отвечающее за иконку                             |                     |
-|description-field-id|Строка                      |Поле выборки, отвечающее за описание                           |                     |
-|advanced-target     |self newWindow application  |Тип сценария открытия ссылки                                   |                     |
-|advanced-url        |Строка                      |Базовый url                                                    |                     |
-|advanced-param      |Строка                      |Параметр фильтра                                               |                     |
-
-**Пример**
-
-```xml
-<search
-     query-id="popupSearch"
-     filter-field-id="filterValue"
-     url-field-id="href"
-     label-field-id="label"
-     icon-field-id="icon"
-     description-field-id="description"
-     advanced-target="application"
-     advanced-url="/search"
-     advanced-param="q"
-/>
 ```

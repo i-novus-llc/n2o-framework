@@ -41,7 +41,7 @@ public class ListAT extends AutoTestBase {
     }
 
     @Test
-    public void testList() {
+    void testList() {
         setJsonPath("net/n2oapp/framework/autotest/widget/list");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/list/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/list/form.page.xml"),
@@ -57,8 +57,10 @@ public class ListAT extends AutoTestBase {
         listWidget.content(0).subHeader(BadgeCell.class).shouldHaveColor(Colors.SUCCESS);
         listWidget.paging().shouldHaveTotalElements(11);
         listWidget.paging().selectNext();
+        listWidget.paging().shouldHaveActivePage("2");
         listWidget.shouldHaveSize(1);
         listWidget.paging().selectPrev();
+        listWidget.paging().shouldHaveActivePage("1");
         listWidget.shouldHaveSize(10);
 
         listWidget.content(0).click();

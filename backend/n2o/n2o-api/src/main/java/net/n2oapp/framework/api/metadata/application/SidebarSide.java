@@ -4,21 +4,15 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 
 /**
- * Состояние боковой панели
- * NONE - Скрыта полностью
- * MICRO - Отображается тонкая полоска
- * MINI - Отображаются только иконки
- * MAXI - Широкая боковая панель
+ * Сторона боковой панели
  */
-public enum SidebarState implements IdAware {
-    NONE("none"),
-    MICRO("micro"),
-    MINI("mini"),
-    MAXI("maxi");
+public enum SidebarSide implements IdAware {
+    LEFT("left"),
+    RIGHT("right");
 
     private final String value;
 
-    SidebarState(String value) {
+    SidebarSide(String value) {
         this.value = value;
     }
 

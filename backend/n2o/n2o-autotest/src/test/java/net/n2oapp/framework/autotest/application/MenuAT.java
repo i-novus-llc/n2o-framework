@@ -182,7 +182,7 @@ public class MenuAT extends AutoTestBase {
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
         Sidebar sidebar = page.sidebar();
-        sidebar.shouldHaveState(SidebarState.mini);
+        sidebar.shouldHaveState(SidebarState.MINI);
         sidebar.nav().shouldHaveSize(1);
 
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
@@ -215,7 +215,7 @@ public class MenuAT extends AutoTestBase {
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
         Sidebar sidebar = page.sidebar();
-        sidebar.shouldHaveState(SidebarState.mini);
+        sidebar.shouldHaveState(SidebarState.MINI);
         sidebar.nav().shouldHaveSize(1);
 
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
@@ -246,7 +246,7 @@ public class MenuAT extends AutoTestBase {
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
         Sidebar sidebar = page.sidebar();
-        sidebar.shouldHaveState(SidebarState.mini);
+        sidebar.shouldHaveState(SidebarState.MINI);
         sidebar.nav().shouldHaveSize(1);
 
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);

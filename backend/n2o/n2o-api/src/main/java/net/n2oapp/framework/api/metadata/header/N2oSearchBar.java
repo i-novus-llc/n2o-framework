@@ -17,7 +17,5 @@ public class N2oSearchBar implements Source {
     private String labelFieldId;
     private String iconFieldId;
     private String descriptionFieldId;
-    private Target advancedTarget;
-    private String advancedUrl;
-    private String advancedParam;
+    private Target target;
 }

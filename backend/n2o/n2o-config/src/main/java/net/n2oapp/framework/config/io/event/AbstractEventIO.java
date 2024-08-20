@@ -11,7 +11,7 @@ import org.jdom2.Namespace;
  */
 public abstract class AbstractEventIO<T extends N2oAbstractEvent> implements NamespaceIO<T> {
 
-    public static Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/event-3.0");
+    public static final Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/event-3.0");
 
     @Override
     public String getNamespaceUri() {

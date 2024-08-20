@@ -43,7 +43,7 @@ public class SidebarsAT extends AutoTestBase {
     }
 
     @Test
-    public void testSingleSidebar() {
+    void testSingleSidebar() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/single_sidebar/single_sidebar.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/single_sidebar/index.page.xml"));
         SimplePage page = open(SimplePage.class);
@@ -56,11 +56,11 @@ public class SidebarsAT extends AutoTestBase {
         page.sidebar().shouldHaveTitle("Лого");
         page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
-        page.sidebar().shouldHaveState(SidebarState.none);
+        page.sidebar().shouldHaveState(SidebarState.NONE);
     }
 
     @Test
-    public void testDefaultAndPathSidebar() {
+    void testDefaultAndPathSidebar() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/default_and_path/default_and_path.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/default_and_path/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/default_and_path/persons.page.xml"));
@@ -74,7 +74,7 @@ public class SidebarsAT extends AutoTestBase {
         page.sidebar().shouldHaveTitle("Лого");
         page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
-        page.sidebar().shouldHaveState(SidebarState.none);
+        page.sidebar().shouldHaveState(SidebarState.NONE);
         FormWidget form = page.widget(FormWidget.class);
         form.shouldExists();
         form.toolbar().bottomLeft().button("Open").click();
@@ -93,7 +93,7 @@ public class SidebarsAT extends AutoTestBase {
     }
 
     @Test
-    public void testDynamicPathsSidebar(){
+    void testDynamicPathsSidebar(){
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/multi_sidebar/multi_sidebar.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/multi_sidebar/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/multi_sidebar/page.page.xml"));
@@ -107,7 +107,7 @@ public class SidebarsAT extends AutoTestBase {
         page.sidebar().shouldHaveTitle("Лого");
         page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
-        page.sidebar().shouldHaveState(SidebarState.none);
+        page.sidebar().shouldHaveState(SidebarState.NONE);
         FormWidget form = page.widget(FormWidget.class);
         form.shouldExists();
         form.toolbar().bottomLeft().button("Open").click();
@@ -126,7 +126,7 @@ public class SidebarsAT extends AutoTestBase {
     }
 
     @Test
-    public void testAllRegxPathSidebar(){
+    void testAllRegxPathSidebar(){
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/all_regx_path/all_regx_path.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/all_regx_path/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/all_regx_path/page.page.xml"));
@@ -140,7 +140,7 @@ public class SidebarsAT extends AutoTestBase {
         page.sidebar().shouldHaveTitle("Лого");
         page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
-        page.sidebar().shouldHaveState(SidebarState.none);
+        page.sidebar().shouldHaveState(SidebarState.NONE);
         FormWidget form = page.widget(FormWidget.class);
         form.shouldExists();
         form.toolbar().bottomLeft().button("Open").click();
@@ -159,7 +159,7 @@ public class SidebarsAT extends AutoTestBase {
     }
 
     @Test
-    public void testOverlappingPathsSidebar() {
+    void testOverlappingPathsSidebar() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/overlapping_case/overlapping_case.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/overlapping_case/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/overlapping_case/page.page.xml"),
@@ -174,7 +174,7 @@ public class SidebarsAT extends AutoTestBase {
         page.sidebar().shouldHaveTitle("Лого");
         page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
-        page.sidebar().shouldHaveState(SidebarState.none);
+        page.sidebar().shouldHaveState(SidebarState.NONE);
         FormWidget form = page.widget(FormWidget.class);
         form.shouldExists();
         form.toolbar().bottomLeft().button("Open").click();
@@ -191,7 +191,7 @@ public class SidebarsAT extends AutoTestBase {
         list.sidebar().shouldHaveTitle("Лист");
         list.sidebar().shouldHaveBrandLogo("images/logoList.png");
         openHeader.switchSidebar();
-        list.sidebar().shouldHaveState(SidebarState.none);
+        list.sidebar().shouldHaveState(SidebarState.NONE);
 
         form = list.widget(FormWidget.class);
         form.shouldExists();
@@ -210,7 +210,7 @@ public class SidebarsAT extends AutoTestBase {
     }
 
     @Test
-    public void testSidebarWithDatasource() {
+    void testSidebarWithDatasource() {
         setJsonPath("net/n2oapp/framework/autotest/application/sidebars/datasource");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/datasource/app.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/datasource/docs.page.xml"),
@@ -234,7 +234,7 @@ public class SidebarsAT extends AutoTestBase {
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/person/1/profile");
         page.breadcrumb().crumb(1).shouldHaveLabel("Страница профиля");
         sidebar.shouldExists();
-        sidebar.shouldHaveState(SidebarState.mini);
+        sidebar.shouldHaveState(SidebarState.MINI);
         sidebar.shouldHaveTitle("test1");
         sidebar.shouldHaveSubtitle("type11");
         sidebar.clickToggleBtn();

@@ -37,11 +37,12 @@ public class ApplicationIOv3 implements NamespaceIO<N2oApplication> {
 
     @Override
     public void io(Element e, N2oApplication m, IOProcessor p) {
-        p.attributeEnum(e, "navigation-layout", m::getNavigationLayout, m::setNavigationLayout, NavigationLayout.class);
         p.attribute(e, "welcome-page-id", m::getWelcomePageId, m::setWelcomePageId);
+        p.attributeEnum(e, "navigation-layout", m::getNavigationLayout, m::setNavigationLayout, NavigationLayout.class);
         p.attributeBoolean(e, "navigation-layout-fixed", m::getNavigationLayoutFixed, m::setNavigationLayoutFixed);
         p.child(e, null, "header", m::getHeader, m::setHeader, new HeaderIOv3());
         p.child(e, null, "footer", m::getFooter, m::setFooter, new FooterIO());
+
         p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources, p.anyOf(N2oAbstractDatasource.class), DatasourceIOv1.NAMESPACE);
         p.anyChildren(e, "events", m::getEvents, m::setEvents, p.anyOf(N2oAbstractEvent.class), AbstractEventIO.NAMESPACE);
         p.anyChildren(e, "sidebars", m::getSidebars, m::setSidebars, p.anyOf(N2oSidebar.class), SidebarIOv3.NAMESPACE);
