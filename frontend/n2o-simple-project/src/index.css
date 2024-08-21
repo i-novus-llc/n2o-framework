@@ -17,5 +17,9 @@ body,
 }
 
 .n2o-footer .container-fluid {
-    color: #e5e5e5 !important;
+    color: #e5e5e5;
+}
+
+.n2o-footer .container-fluid.inherits-color {
+    color: inherit;
 }
