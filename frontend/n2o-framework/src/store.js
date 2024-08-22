@@ -1,6 +1,6 @@
 import thunkMiddleware from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga'
-// import { createLogger } from 'redux-logger'
+import { createLogger } from 'redux-logger'
 import { routerMiddleware } from 'connected-react-router'
 import { configureStore } from '@reduxjs/toolkit'
 
@@ -47,9 +47,9 @@ export default (initialState, history, config = {}) => {
     ]
 
     if (process.env.NODE_ENV === 'development') {
-        // const loggerMiddleware = createLogger()
+        const loggerMiddleware = createLogger()
 
-        // middlewares.push(loggerMiddleware)
+        middlewares.push(loggerMiddleware)
     }
 
     const store = configureStore({
