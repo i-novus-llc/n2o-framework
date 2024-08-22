@@ -5,7 +5,7 @@ import { ValidationsKey } from '../../core/validation/types'
 import { Action, Meta } from '../Action'
 
 import type { DataSourceState } from './DataSource'
-import type { Provider, SubmitProvider, QueryResult } from './Provider'
+import type { Provider, SubmitProvider, QueryResult, Paging } from './Provider'
 
 export interface DatasourcePayload {
     id: string
@@ -65,10 +65,15 @@ export type SetAdditionalInfoAction = DatasourceAction<{
     additionalInfo: object
 }>
 
+export type UpdatePagingAction = DatasourceAction<{
+    id: string
+    paging: Partial<Paging>
+}>
+
 export type ChangePageAction = DatasourceAction<{
     id: string
     page: number
-    withCount?: boolean
+    options?: object
 }>
 
 export type ChangeSizeAction = DatasourceAction<{

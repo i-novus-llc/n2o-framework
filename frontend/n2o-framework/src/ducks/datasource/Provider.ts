@@ -81,6 +81,7 @@ export interface Paging {
     page: number
     size: number
     count: number
+    withCount?: boolean
 }
 
 export interface QueryResult<TModel extends object = Record<string, unknown>> {
@@ -92,7 +93,7 @@ export interface QueryResult<TModel extends object = Record<string, unknown>> {
     cachedMappings?: Mappings
 }
 
-export type QueryOptions = { page?: number }
+export type QueryOptions = { page?: number, withCount?: boolean }
 
 export type Query<TProvider extends Provider> = (
     id: string,

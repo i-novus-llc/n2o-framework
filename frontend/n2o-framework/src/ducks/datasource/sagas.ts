@@ -43,10 +43,10 @@ import { autoSubmit } from './sagas/autoSubmit'
 
 // Запуск запроса за данными при изменении мета-данных (фильтр, сортировка, страница)
 export function* runDataRequest({ payload }: ChangePageAction) {
-    const { id, page, withCount } = payload
+    const { id, page, options = {} } = payload
 
     // @ts-ignore поправить типы
-    yield put(dataRequest(id, { page: page || 1, withCount }))
+    yield put(dataRequest(id, { ...options, page: page || 1 }))
 }
 
 /** Список активных задач dataRequest, которые надо отменить при дестрое */

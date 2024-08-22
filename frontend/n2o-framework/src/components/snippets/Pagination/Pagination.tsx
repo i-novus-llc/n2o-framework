@@ -36,7 +36,7 @@ export function Pagination({
     const total = count ? `${TOTAL} ${count}` : null
     const totalPages = getTotalPages(count, size)
     const totalVisible = getTotalVisibility(showCount, showLast, count)
-    const totalClick = () => { onSelect(activePage, true) }
+    const totalClick = () => { onSelect(activePage, { withCount: true }) }
 
     const hasNext = getHasNext({
         loading,
@@ -56,11 +56,11 @@ export function Pagination({
     const nextDisabled = getNextDisabled()
 
     const prevClick = () => {
-        if (!prevDisabled) { onSelect(activePage - 1, showLast) }
+        if (!prevDisabled) { onSelect(activePage - 1) }
     }
 
     const nextClick = () => {
-        if (!nextDisabled) { onSelect(activePage + 1, showLast) }
+        if (!nextDisabled) { onSelect(activePage + 1) }
     }
 
     const multiplePages = pages.length > 1

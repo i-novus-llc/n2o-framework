@@ -36,7 +36,6 @@ const WidgetFilters = ({
     filterFieldsets: propsFilterFieldsets,
     datasource,
     style,
-    withCount,
     fetchOnClear = true,
 }) => {
     const { getState } = useStore()
@@ -77,7 +76,7 @@ const WidgetFilters = ({
             dispatch(setModel(ModelPrefix.filter, datasource, reduxFormFilter))
         }
 
-        fetchData({ page: 1, withCount }, forceUpdate)
+        fetchData({ page: 1 }, forceUpdate)
     }, [dispatch, fetchData, datasource, modelPrefix, reduxFormFilter])
 
     const reset = useCallback(() => {
@@ -96,7 +95,7 @@ const WidgetFilters = ({
         }
 
         if (fetchOnClear) {
-            fetchData({ page: 1, withCount }, true)
+            fetchData({ page: 1 }, true)
 
             return
         }
