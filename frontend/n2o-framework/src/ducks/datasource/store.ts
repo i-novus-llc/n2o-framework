@@ -26,6 +26,7 @@ import type {
     SetSortDirectionAction,
     StartValidateAction,
     SubmitAction,
+    UpdatePagingAction,
 } from './Actions'
 import type { DataSourceState } from './DataSource'
 import { DataSource } from './DataSource'
@@ -34,6 +35,7 @@ import {
     QueryResult,
     ProviderType,
     SubmitProvider,
+    Paging,
 } from './Provider'
 
 const initialState: Record<string, DataSourceState> = {}
@@ -61,7 +63,9 @@ const datasource = createSlice({
                     }
                 }
 
-                const datasource = { ...merge(DataSource.defaultState, initProps), provider }
+                const defaultState = state[id] || DataSource.defaultState
+
+                const datasource = { ...merge(defaultState, initProps), provider }
 
                 state[id] = datasource
             },
@@ -112,7 +116,7 @@ const datasource = createSlice({
 
                 const datasource = state[id]
 
-                // После закрытия оверлея удаление компонента изds может прилететь позже удаления самого ds
+                // После закрытия оверлея удаление компонента из ds может прилететь позже удаления самого ds
                 if (datasource) {
                     state[id] = {
                         ...datasource,
@@ -214,10 +218,26 @@ const datasource = createSlice({
             },
         },
 
+        updatePaging: {
+            prepare(id: string, paging: Partial<Paging>) {
+                return {
+                    payload: { id, paging },
+                }
+            },
+            reducer(state, { payload }: UpdatePagingAction) {
+                const { id, paging } = payload
+
+                state[id].paging = {
+                    ...state[id].paging,
+                    ...paging,
+                }
+            },
+        },
+
         changePage: {
-            prepare(id: string, page: number, withCount: boolean) {
+            prepare(id: string, page: number, options?: object) {
                 return ({
-                    payload: { id, page, withCount },
+                    payload: { id, page, options },
                 })
             },
             reducer(state, action: ChangePageAction) {
@@ -455,4 +475,5 @@ export const {
     submit,
     submitSuccess,
     submitFail,
+    updatePaging,
 } = datasource.actions

@@ -21,7 +21,7 @@ export function ExtraPage(props: ExtraPageProps) {
 
     const setPage = () => {
         if (canSelect && page) {
-            onSelect(page, showLast)
+            onSelect(page)
         }
     }
 
