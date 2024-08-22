@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import isEmpty from 'lodash/isEmpty'
 
 import { WithDataSourceTypes } from '../datasource/propTypes'
 import { WithDataSource as DataSourceHOC } from '../datasource/WithDataSource'
 import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../utils/emptyTypes'
 import { dataSourceModelByPrefixSelector } from '../../ducks/datasource/selectors'
+import { updatePaging } from '../../ducks/datasource/store'
 import { ModelPrefix } from '../datasource/const'
 
 import { FETCH_TYPE } from './const'
@@ -14,33 +14,29 @@ import { DataSourceContext, METHODS } from './context'
 export const WithDatasourceLifeCycle = (Component) => {
     class WithDatasourceLifeCycle extends React.Component {
         componentDidMount() {
-            const { visible } = this.props
+            const { visible, dispatch, paging = {}, datasource } = this.props
 
             this.switchRegistration(visible)
+
+            if (paging.showLast === false) {
+                dispatch(updatePaging(datasource, { withCount: false }))
+            }
         }
 
         componentDidUpdate({ visible: prevVisible, isInit: prevInit }) {
-            const { visible, isInit, fetchOnInit, fetchOnVisibility, paging = {} } = this.props
-
-            const options = {}
-
-            if (!isEmpty(paging)) {
-                const { showLast = true } = paging
-
-                options.withCount = showLast
-            }
+            const { visible, isInit, fetchOnInit, fetchOnVisibility } = this.props
 
             if (isInit !== prevInit) {
                 this.switchRegistration(visible)
 
                 if (fetchOnInit) {
-                    this.fetchData(options)
+                    this.fetchData()
                 }
             } else if (visible !== prevVisible) {
                 this.switchRegistration(visible)
 
                 if (fetchOnVisibility) {
-                    this.fetchData(options)
+                    this.fetchData()
                 }
             }
         }
@@ -97,8 +93,10 @@ const mapStateToProps = (state, { datasource }) => ({
         dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state)?.length || 0,
 })
 
+const mapDispatchToProps = dispatch => ({ dispatch })
+
 const WithSource = Component => DataSourceHOC(
-    connect(mapStateToProps)(WithDatasourceLifeCycle(Component)),
+    connect(mapStateToProps, mapDispatchToProps)(WithDatasourceLifeCycle(Component)),
 )
 
 export const WithDataSource = (Component) => {

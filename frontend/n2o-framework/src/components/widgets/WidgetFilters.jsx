@@ -38,7 +38,6 @@ const WidgetFilters = (props) => {
         blackResetList,
         filterFieldsets: propsFilterFieldsets,
         datasource,
-        withCount,
     } = props
     const { getState } = useStore()
     const dispatch = useDispatch()
@@ -85,7 +84,8 @@ const WidgetFilters = (props) => {
         if (modelPrefix === ModelPrefix.edit) {
             dispatch(setModel(ModelPrefix.filter, datasource, reduxFormFilter))
         }
-        fetchData({ page: 1, withCount }, forceUpdate)
+
+        fetchData({ page: 1 }, forceUpdate)
     }, [dispatch, fetchData, datasource, modelPrefix, reduxFormFilter])
 
     const handleFilterByFilter = useCallback(() => {
@@ -110,7 +110,7 @@ const WidgetFilters = (props) => {
         }
 
         if (fetchOnClear) {
-            fetchData({ page: 1, withCount }, forceFetch)
+            fetchData({ page: 1 }, forceFetch)
         } else {
             clearDatasourceModel()
         }
@@ -122,7 +122,7 @@ const WidgetFilters = (props) => {
 
     useEffect(() => {
         if (searchOnChange && reduxFormFilter) {
-            fetchData({ page: 1, withCount })
+            fetchData({ page: 1 })
         }
     }, [fetchData, reduxFormFilter, searchOnChange])
 
