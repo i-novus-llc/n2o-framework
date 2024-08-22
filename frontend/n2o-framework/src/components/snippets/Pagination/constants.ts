@@ -27,7 +27,7 @@ export const COUNT_NEVER = 'never'
 export const COUNT_BY_REQUEST = 'by-request'
 
 export type showCountType = 'always' | 'by-request' | 'never' | boolean
-type onSelectType = (page: number, withCount?: boolean) => void
+type onSelectType = (page: number, options?: object) => void
 
 export interface Props {
     className: string
