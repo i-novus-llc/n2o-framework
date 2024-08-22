@@ -37,7 +37,7 @@ export function Pages(props: PagesProps) {
                 const active = activePage === page
                 const setPage = () => {
                     if (!active && !loading) {
-                        onSelect(page, showLast)
+                        onSelect(page)
                     }
                 }
 

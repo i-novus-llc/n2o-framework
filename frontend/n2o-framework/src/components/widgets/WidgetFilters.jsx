@@ -27,20 +27,17 @@ export const WidgetFilterContext = createContext({
     reset() {},
 })
 
-const WidgetFilters = (props) => {
-    const {
-        widgetId,
-        fieldsets,
-        fetchData,
-        fetchOnChange,
-        blackResetList,
-        filterFieldsets: propsFilterFieldsets,
-        datasource,
-        style,
-        withCount,
-        fetchOnClear = true,
-    } = props
-
+const WidgetFilters = ({
+    widgetId,
+    fieldsets,
+    fetchData,
+    fetchOnChange,
+    blackResetList,
+    filterFieldsets: propsFilterFieldsets,
+    datasource,
+    style,
+    fetchOnClear = true,
+}) => {
     const { getState } = useStore()
     const dispatch = useDispatch()
     /*
@@ -79,7 +76,7 @@ const WidgetFilters = (props) => {
             dispatch(setModel(ModelPrefix.filter, datasource, reduxFormFilter))
         }
 
-        fetchData({ page: 1, withCount }, forceUpdate)
+        fetchData({ page: 1 }, forceUpdate)
     }, [dispatch, fetchData, datasource, modelPrefix, reduxFormFilter])
 
     const reset = useCallback(() => {
@@ -98,7 +95,7 @@ const WidgetFilters = (props) => {
         }
 
         if (fetchOnClear) {
-            fetchData({ page: 1, withCount }, true)
+            fetchData({ page: 1 }, true)
 
             return
         }
