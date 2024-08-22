@@ -30,16 +30,18 @@ import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 @Setter
 public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttributesAware {
 
-    protected AbstractField[] fields;
     private String name;
     private String objectId;
     private String route;
+
+    protected AbstractField[] fields;
     private Selection[] lists;
     private Selection[] uniques;
     private Selection[] counts;
     private Filter[] filters;
     private Map<String, Filter[]> filtersMap;
     private Map<N2oNamespace, Map<String, String>> extAttributes;
+
 
     @Override
     public final String getPostfix() {
@@ -70,8 +72,8 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
             String computedId = isNull(parentId) ? field.getId() : parentId + "." + field.getId();
             field.setAbsoluteId(computedId);
 
-            if (field instanceof QueryReferenceField && isNotEmpty(((QueryReferenceField) field).getFields()))
-                initAbsoluteId(((QueryReferenceField) field).getFields(), computedId);
+            if (field instanceof QueryReferenceField referenceField && isNotEmpty(referenceField.getFields()))
+                initAbsoluteId(referenceField.getFields(), computedId);
         }
     }
 
@@ -86,8 +88,8 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         if (isNull(fields))
             return;
         for (AbstractField field : fields) {
-            if (field instanceof QueryReferenceField)
-                collectSimpleFields(((QueryReferenceField) field).getFields(), simpleFields);
+            if (field instanceof QueryReferenceField referenceField)
+                collectSimpleFields(referenceField.getFields(), simpleFields);
             else
                 simpleFields.add((QuerySimpleField) field);
         }

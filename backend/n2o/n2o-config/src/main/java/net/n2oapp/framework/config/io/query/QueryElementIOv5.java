@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.cell.v2.SwitchIO;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
 import org.jdom2.Element;
-import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
-    private Namespace dataProviderDefaultNamespace = DataProviderIOv1.NAMESPACE;
 
     @Override
     public void io(Element e, N2oQuery t, IOProcessor p) {
@@ -64,7 +62,7 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
 
     private void selection(Element e, N2oQuery.Selection t, IOProcessor p) {
         p.attributeArray(e, "filters", ",", t::getFilters, t::setFilters);
-        p.anyChild(e, null, t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), dataProviderDefaultNamespace);
+        p.anyChild(e, null, t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), DataProviderIOv1.NAMESPACE);
     }
 
     private void listSelection(Element e, N2oQuery.Selection t, IOProcessor p) {
@@ -116,11 +114,6 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
     }
 
     @Override
-    public N2oQuery newInstance(Element element) {
-        return new N2oQuery();
-    }
-
-    @Override
     public String getElementName() {
         return "query";
     }
@@ -128,9 +121,5 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
     @Override
     public String getNamespaceUri() {
         return "http://n2oapp.net/framework/config/schema/query-5.0";
-    }
-
-    public void setDataProviderDefaultNamespace(String dataProviderDefaultNamespace) {
-        this.dataProviderDefaultNamespace = Namespace.getNamespace(dataProviderDefaultNamespace);
     }
 }

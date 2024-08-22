@@ -54,21 +54,21 @@
                 <xs:attribute name="result-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Маппинг списка результатов
+                            Маппинг списка результатов. Используется SpEL выражение
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="result-normalize" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Нормализация списка результатов
+                            Нормализация списка результатов. Используется SpEL выражение
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="count-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Маппинг общего количества записей
+                            Маппинг общего количества записей. Используется SpEL выражение
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -89,13 +89,8 @@
                 <xs:attribute name="additional-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Маппинг дополнительной информации
+                            Маппинг дополнительной информации. Используется SpEL выражение
                         </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="additional-mapping" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Маппинг дополнительной информации.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -113,7 +108,7 @@
                 <xs:attribute name="count-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Маппинг количества записей
+                            Маппинг количества записей. Используется SpEL выражение
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -132,14 +127,14 @@
                 <xs:attribute name="result-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Маппинг результата
+                            Маппинг результата. Используется SpEL выражение
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="result-normalize" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Нормализация результата
+                            Нормализация результата. Используется SpEL выражение
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -195,7 +190,9 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseFieldDefinition">
-                <xs:element name="switch" type="switchDefinition" minOccurs="0"/>
+                <xs:sequence>
+                    <xs:element name="switch" type="switchDefinition" minOccurs="0"/>
+                </xs:sequence>
                 <xs:attribute name="name" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
@@ -213,7 +210,7 @@
                 <xs:attribute name="default-value" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Значение по умолчанию. Проставится в поле, если в провайдере оно не задано
+                            Значение по умолчанию. Будет использовано, если значение для поля не передано
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -230,7 +227,7 @@
                     <xs:annotation>
                         <xs:documentation>
                             Маппинг направления сортировки поля.
-                            По умолчанию: [идентификатор_поля]Direction.
+                            По умолчанию: [идентификатор_поля]Direction
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -248,7 +245,7 @@
     <xs:complexType name="filtersElementDefinition">
         <xs:annotation>
             <xs:documentation>
-                Способы фильтраций полей выборки
+                Список фильтров выборки
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
@@ -293,15 +290,16 @@
             <xs:annotation>
                 <xs:documentation>
                     Маппинг значения фильтра в поле провайдера.
-                    По умолчанию: значение `filter-id`
+                    Используется SpEL выражение.
+                    По умолчанию: [' + `filter-id` + ']
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="domain" type="dmn:domainType">
             <xs:annotation>
                 <xs:documentation>
-                    Тип, в который будет сконвертировано значение фильтра.
-                    По умолчанию: Значение `domain` от `<field>`
+                    Тип данных, к которому будет приведено значение фильтра.
+                    По умолчанию: Значение `domain` от `<field/>`
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -312,10 +310,11 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="normalize" type="dmn:domainType">
+        <xs:attribute name="normalize" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Выражение для предварительной нормализации данных фильтра
+                    Выражение для предварительной нормализации данных фильтра.
+                    Используется SpEL выражение
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -345,14 +344,16 @@
             <xs:annotation>
                 <xs:documentation>
                     Маппинг данных поля из провайдера.
-                    По умолчанию: значение `id`
+                    Используется SpEL выражение.
+                    По умолчанию: [' + `id` + ']
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="normalize" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Нормализация данных поля из провайдера
+                    Нормализация данных поля из провайдера.
+                    Используется SpEL выражение
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -410,7 +411,7 @@
     <xs:complexType name="switchDefinition">
         <xs:annotation>
             <xs:documentation>
-                Переключатель
+                Конструкция switch
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
