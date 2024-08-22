@@ -667,7 +667,7 @@
     <xs:complexType name="switchDefinition">
         <xs:annotation>
             <xs:documentation>
-                Переключатель
+                Конструкция switch
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>

@@ -1,15 +1,14 @@
 package net.n2oapp.framework.config.io.query;
 
 import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
-import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
-import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
 import org.jdom2.Element;
-import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 
@@ -18,16 +17,18 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
-    private Namespace dataProviderDefaultNamespace = DataProviderIOv1.NAMESPACE;
 
     @Override
     public void io(Element e, N2oQuery t, IOProcessor p) {
         p.attribute(e, "object-id", t::getObjectId, t::setObjectId);
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
-        p.children(e, null, "list", t::getLists, t::setLists, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.list), this::selection);
-        p.children(e, null, "count", t::getCounts, t::setCounts, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.count), this::selection);
-        p.children(e, null, "unique", t::getUniques, t::setUniques, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.unique), this::selection);
+        p.children(e, null, "list", t::getLists, t::setLists,
+                () -> new N2oQuery.Selection(N2oQuery.Selection.Type.list), this::selection);
+        p.children(e, null, "count", t::getCounts, t::setCounts,
+                () -> new N2oQuery.Selection(N2oQuery.Selection.Type.count), this::selection);
+        p.children(e, null, "unique", t::getUniques, t::setUniques,
+                () -> new N2oQuery.Selection(N2oQuery.Selection.Type.unique), this::selection);
         p.anyChildren(e, "fields", t::getFields, t::setFields, p.oneOf(AbstractField.class)
                 .add("field", QuerySimpleField.class, this::field));
         t.adapterV4();
@@ -37,7 +38,7 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
         p.attributeArray(e, "filters", ",", t::getFilters, t::setFilters);
         p.attribute(e, "count-mapping", t::getCountMapping, t::setCountMapping);
         p.attribute(e, "result-mapping", t::getResultMapping, t::setResultMapping);
-        p.anyChild(e, null, t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), dataProviderDefaultNamespace);
+        p.anyChild(e, null, t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), DataProviderIOv1.NAMESPACE);
     }
 
     private void field(Element e, QuerySimpleField t, IOProcessor p) {
@@ -72,11 +73,6 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
     }
 
     @Override
-    public N2oQuery newInstance(Element element) {
-        return new N2oQuery();
-    }
-
-    @Override
     public String getElementName() {
         return "query";
     }
@@ -84,9 +80,5 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
     @Override
     public String getNamespaceUri() {
         return "http://n2oapp.net/framework/config/schema/query-4.0";
-    }
-
-    public void setDataProviderDefaultNamespace(String dataProviderDefaultNamespace) {
-        this.dataProviderDefaultNamespace = Namespace.getNamespace(dataProviderDefaultNamespace);
     }
 }
