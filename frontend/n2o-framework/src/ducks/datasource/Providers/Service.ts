@@ -32,7 +32,11 @@ export function* invoke() {
 }
 
 export function* query(id: string, provider: ServiceProvider, options: QueryOptions, apiProvider: unknown) {
-    const { sorting, paging: { page, size }, pageId } = yield select(dataSourceByIdSelector(id))
+    const {
+        sorting,
+        paging: { page, size, withCount },
+        pageId,
+    }: DataSourceState = yield select(dataSourceByIdSelector(id))
 
     if (!provider.url) {
         throw new Error('Parameter "url" is required for fetch data')
@@ -41,12 +45,13 @@ export function* query(id: string, provider: ServiceProvider, options: QueryOpti
     // Редакс состояние не успевает обновиться после маппинга из урла,
     // запрос за данными слишком быстро запускается
     yield delay(16)
-    yield call(mapQueryToUrl, pageId)
+    yield call(mapQueryToUrl, pageId || '')
 
     const query = {
         page: get(options, 'page', page),
         size,
         sorting,
+        withCount: get(options, 'withCount', withCount),
     }
 
     const state: GlobalState = yield select()
