@@ -15,7 +15,7 @@ export function WithTableProps(Component) {
         const { getState } = useStore()
         const state = getState()
 
-        const { filter, id, table, datasourceModelLength, datasource } = props
+        const { filter, id, table, datasourceModelLength, datasource, page } = props
         const { resolveProps } = useContext(FactoryContext)
         const { header, body } = table
 
@@ -44,11 +44,11 @@ export function WithTableProps(Component) {
 
         const paginationVisible = useMemo(
             () => {
-                if (datasourceModelLength === 0) { return false }
+                if (datasourceModelLength === 0 && page === 1) { return false }
 
                 return !columnsState.every(column => !column.visibleState || !column.visible)
             },
-            [columnsState, datasourceModelLength],
+            [columnsState, datasourceModelLength, page],
         )
 
         const validations = dataSourceValidationSelector(datasource, ValidationsKey.FilterValidations)(state) || {}
