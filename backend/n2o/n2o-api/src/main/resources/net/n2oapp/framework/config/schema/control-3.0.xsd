@@ -115,12 +115,12 @@
         </xs:attribute>
         <xs:attribute name="help" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Подсказка по полю</xs:documentation>
+                <xs:documentation>Подсказка по полю. Поддерживаются плейсхолдеры условия</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="label" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Заголовок поля</xs:documentation>
+                <xs:documentation>Заголовок поля. Поддерживаются плейсхолдеры условия</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="label-class" type="xs:string">
@@ -161,7 +161,7 @@
         </xs:attribute>
         <xs:attribute name="placeholder" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Подсказка для ввода</xs:documentation>
+                <xs:documentation>Подсказка для ввода. Поддерживаются плейсхолдеры условия</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="required" type="xs:string" default="false">
@@ -181,7 +181,7 @@
         </xs:attribute>
         <xs:attribute name="description" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Описание поля</xs:documentation>
+                <xs:documentation>Описание поля. Поддерживаются плейсхолдеры условия</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="copied" type="xs:boolean" default="true">
