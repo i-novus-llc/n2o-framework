@@ -52,4 +52,9 @@ public interface StandardField extends Field {
      */
     void shouldHaveValidationMessage(WebElementCondition condition, Duration... duration);
 
+    /**
+     * Проверка описания на соответствие
+     * @param text ожидаемый текст описания
+     */
+    void shouldHaveDescription(String text);
 }

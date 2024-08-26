@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Проверка резолва атрибутов для полей">
+    <form>
+        <fields>
+            <checkbox id="checkbox"/>
+            <input-text id="input1"
+                        label="{checkbox ? 'Checked_label' : 'Unchecked_label'}"
+                        description="{checkbox ? 'Checked_description' : 'Unchecked_description'}"
+                        placeholder="{checkbox ? 'Checked_placeholder' : 'Unchecked_placeholder'}"
+                        help="{checkbox ? 'Checked_help' : 'Unchecked_help'}"
+            />
+            <input-text id="input2"
+                        label="Label2"
+                        no-label="{checkbox}"
+            />
+            <input-text id="input3"
+                        label="Label3"
+                        no-label-block="{checkbox}"
+            />
+        </fields>
+    </form>
+</simple-page>

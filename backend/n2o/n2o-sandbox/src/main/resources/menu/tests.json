@@ -812,6 +812,10 @@
           "name": "DatePickerAT. testDefaultValue"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/control/field/resolve_attributes",
+          "name": "FieldAT"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/control/field_toolbar",
           "name": "FieldToolbarAT"
         },

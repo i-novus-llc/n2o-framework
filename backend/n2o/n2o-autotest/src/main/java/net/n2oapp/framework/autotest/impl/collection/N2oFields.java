@@ -16,6 +16,10 @@ public class N2oFields extends N2oComponentsCollection implements Fields {
     }
 
     @Override
+    public StandardField field(int index) {
+        return component(elements().get(index), StandardField.class);
+    }
+    @Override
     public StandardField field(WebElementCondition findBy) {
         return field(findBy, StandardField.class);
     }

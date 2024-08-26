@@ -11,7 +11,7 @@ import net.n2oapp.framework.autotest.api.component.snippet.Snippet;
 public interface Fields extends ComponentsCollection {
     /**
      * <p>
-     *     Возвращает поле страндартного типа из списка полей на форме по метке
+     *     Возвращает поле стандартного типа из списка полей на форме по метке
      * </p>
      *
      * <p>For example: {@code
@@ -25,7 +25,21 @@ public interface Fields extends ComponentsCollection {
 
     /**
      * <p>
-     *     Возвращает поле страндартного типа из списка полей на форме по условию
+     *     Возвращает поле стандартного типа из списка полей на форме по индексу из списка
+     * </p>
+     *
+     * <p>For example: {@code
+     *    fields().field(0);
+     * }</p>
+     *
+     * @param index номер требуемого поля
+     * @return Стандартное поле формы для автотестирования
+     */
+    StandardField field(int index);
+
+    /**
+     * <p>
+     *     Возвращает поле стандартного типа из списка полей на форме по условию
      * </p>
      *
      * <p>For example: {@code

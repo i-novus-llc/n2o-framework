@@ -56,6 +56,11 @@ public class N2oStandardField extends N2oField implements StandardField {
         should(condition, element().$(".n2o-validation-message"), duration);
     }
 
+    @Override
+    public void shouldHaveDescription(String text) {
+        element().shouldHave(Condition.text(text));
+    }
+
     protected SelenideElement requiredLabel() {
         return element().$(".n2o-field-label-required");
     }
