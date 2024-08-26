@@ -6,7 +6,10 @@ import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -117,5 +120,33 @@ public class ConditionValidationAT extends AutoTestBase {
         checkbox.setChecked(false);
         requiredInput.shouldHaveValidationMessage(Condition.exist);
         partialInput.shouldHaveValidationMessage(Condition.exist);
+    }
+
+    @Test
+    void testTableFilters() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/validation/table_filters/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+
+        StandardField ageBegin = table.filters().fields().field("Возраст от");
+        StandardField ageEnd = table.filters().fields().field("до");
+
+        ageBegin.shouldExists();
+        ageEnd.shouldExists();
+
+        ageBegin.control(InputText.class).setValue("1");
+        ageEnd.control(InputText.class).setValue("11");
+
+        ageEnd.shouldHaveValidationMessage(Condition.empty);
+
+        ageBegin.control(InputText.class).setValue("12");
+        ageEnd.shouldHaveValidationMessage(Condition.exist);
+        ageEnd.shouldHaveValidationMessage(Condition.text("Возраст ДО должен быть больше возраста ОТ"));
+
+        ageBegin.control(InputText.class).setValue("1");
+        ageEnd.shouldHaveValidationMessage(Condition.empty);
     }
 }
