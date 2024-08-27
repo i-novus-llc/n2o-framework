@@ -48,4 +48,11 @@ public interface Cell extends Component {
      * Проверка того, что ячейка не содержит иконку
      */
     void shouldNotHaveIcon();
+
+    /**
+     * Проверка выравнивания ячейки
+     * @param alignment ожидаемое выравнивание
+     */
+    void shouldHaveAlignment(String alignment);
+
 }

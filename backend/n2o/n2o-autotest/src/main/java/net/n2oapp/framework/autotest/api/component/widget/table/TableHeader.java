@@ -47,6 +47,12 @@ public interface TableHeader extends Component {
     void shouldHaveStyle(String style);
 
     /**
+     * Проверка выравнивания заголовка
+     * @param alignment ожидаемое выравнивание
+     */
+    void shouldHaveAlignment(String alignment);
+
+    /**
      * Проверка иконки заголовка
      * @param icon ожидаемая иконка
      */
