@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Валидация в фильтрах таблицы">
+    <regions>
+        <table>
+            <columns/>
+            <filters>
+                <row>
+                    <input-text id="age.begin" label="Возраст от" domain="integer" step="0"/>
+                    <input-text id="age.end" label="до" domain="integer" step="0">
+                        <validations >
+                            <condition id="ageCheck" severity="danger" on="age.end,age.begin"
+                                       message="Возраст ДО должен быть больше возраста ОТ">
+                                <![CDATA[age == null || age.begin == null || age.end == null || age.end >= age.begin]]>
+                            </condition>
+                        </validations>
+                    </input-text>
+                </row>
+            </filters>
+        </table>
+    </regions>
+</page>

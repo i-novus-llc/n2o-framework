@@ -1655,6 +1655,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/validation/two_validations",
           "name": "ConditionValidationAT. testTwoValidations"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/validation/table_filters",
+          "name": "ConditionValidationAT. testTableFilters"
         }
       ]
     }
