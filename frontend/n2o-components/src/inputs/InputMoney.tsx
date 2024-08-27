@@ -162,8 +162,9 @@ export class InputMoney extends React.Component<InputMoneyProps, State> {
         return convertedValue
     }
 
-    onChange(value: string) {
+    onChange(valueProps: string) {
         const { onChange, allowNegative } = this.props
+        const value = valueProps.replace(/\s+/g, '')
 
         if (isNaN(toNumber(value))) { return }
 
