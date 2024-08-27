@@ -59,4 +59,9 @@ public class N2oCell extends N2oComponent implements Cell {
     protected SelenideElement expandIcon() {
         return element().$(EXPAND_ICON_SELECTOR);
     }
+
+    @Override
+    public void shouldHaveAlignment(String alignment) {
+        element().shouldHave(Condition.attributeMatching("align", String.format(".*%s.*", alignment)));
+    }
 }

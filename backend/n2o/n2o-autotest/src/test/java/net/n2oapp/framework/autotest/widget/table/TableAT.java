@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
+import net.n2oapp.framework.autotest.api.collection.TableHeaders;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -301,5 +302,33 @@ public class TableAT extends AutoTestBase {
         } catch (TooManyActualInvocations e) {
             throw new AssertionError(errorMessage);
         }
+    }
+
+    @Test
+    void testAlignment() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/alignment");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/alignment/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/alignment/test.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        table.shouldExists();
+
+        TableHeaders headers = table.columns().headers();
+        headers.shouldHaveSize(4);
+        headers.header(0, TableHeader.class).shouldHaveAlignment("center");
+        headers.header(1, TableHeader.class).shouldHaveAlignment("right");
+        headers.header(2, TableHeader.class).shouldHaveAlignment("right");
+        headers.header(3, TableHeader.class).shouldHaveAlignment("left");
+
+        TableWidget.Rows rows = table.columns().rows();
+        rows.row(0).cell(0).shouldHaveAlignment("center");
+        rows.row(0).cell(1).shouldHaveAlignment("right");
+        rows.row(0).cell(2).shouldHaveAlignment("left");
+        rows.row(0).cell(3).shouldHaveAlignment("right");
     }
 }

@@ -421,6 +421,10 @@
           "name": "TableAT. fetchOnVisibilityTest"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/alignment",
+          "name": "TableAT. testAlignment"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/filter_column/simple",
           "name": "FilterColumnAT"
         },
