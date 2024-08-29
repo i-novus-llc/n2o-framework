@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
@@ -71,7 +72,8 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         compiled.setIconPosition(castDefault(source.getIconPosition(),
                 () -> p.resolve(property("n2o.api.menu.item.icon_position"), Position.class)));
         compiled.setImageSrc(p.resolveJS(source.getImage()));
-        compiled.setImageShape(source.getImageShape());
+        compiled.setImageShape(castDefault(source.getImageShape(),
+                () -> p.resolve(property("n2o.api.menu.item.image_shape"), ShapeType.class)));
 
         if (hasLink(source.getName()) && (source.getDatasourceId() == null &&
                 p.getScope(ComponentScope.class).unwrap(DatasourceIdAware.class).getDatasourceId() == null))
@@ -87,10 +89,10 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
             compiled.setDatasource(p.getScope(ComponentScope.class).unwrap(DatasourceIdAware.class).getDatasourceId());
         }
 
-        if (source instanceof N2oSimpleMenu.MenuItem) {
-            menuItem((N2oSimpleMenu.MenuItem) source, compiled, p, context);
-        } else if (source instanceof N2oSimpleMenu.DropdownMenuItem) {
-            initDropdownMenu((N2oSimpleMenu.DropdownMenuItem) source, compiled, p, context, idx);
+        if (source instanceof N2oSimpleMenu.MenuItem item) {
+            menuItem(item, compiled, p, context);
+        } else if (source instanceof N2oSimpleMenu.DropdownMenuItem dropdownItem) {
+            initDropdownMenu(dropdownItem, compiled, p, context, idx);
         }
 
         compiled.setProperties(p.mapAttributes(source));
@@ -112,8 +114,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
                     context,
                     new ComponentScope(source, p.getScope(ComponentScope.class))
             );
-            if (action instanceof LinkAction) {
-                LinkAction linkAction = (LinkAction) action;
+            if (action instanceof LinkAction linkAction) {
                 compiled.setHref(linkAction.getUrl());
                 compiled.setPathMapping(linkAction.getPathMapping());
                 compiled.setQueryMapping(linkAction.getQueryMapping());
@@ -140,7 +141,9 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     }
 
     private String initPageId(N2oAction action) {
-        return action instanceof N2oAbstractPageAction ? ((N2oAbstractPageAction) action).getPageId() : null;
+        return action instanceof N2oAbstractPageAction pageAction
+                ? pageAction.getPageId()
+                : null;
     }
 
     private String initDefaultName(N2oAction action, CompileProcessor p) {
@@ -151,8 +154,10 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
                 : p.getSource(pageId, N2oPage.class).getName();
     }
 
-    private void initDropdownMenu(N2oSimpleMenu.DropdownMenuItem source, MenuItem item, CompileProcessor p, ApplicationContext context, IndexScope idx) {
-        item.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.menu.dropdown.src"), String.class)));
+    private void initDropdownMenu(N2oSimpleMenu.DropdownMenuItem source, MenuItem item, CompileProcessor p,
+                                  ApplicationContext context, IndexScope idx) {
+        item.setSrc(castDefault(source.getSrc(),
+                () -> p.resolve(property("n2o.api.menu.dropdown.src"), String.class)));
         ArrayList<MenuItem> subItems = new ArrayList<>();
         for (N2oSimpleMenu.AbstractMenuItem subItem : source.getMenuItems()) {
             subItem.setDatasourceId(castDefault(subItem.getDatasourceId(), source.getDatasourceId()));

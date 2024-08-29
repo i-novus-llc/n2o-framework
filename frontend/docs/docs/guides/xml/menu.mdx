@@ -5,48 +5,50 @@ description: ""
 
 ### &lt;menu-item&gt; {#menu-item}
 
-Компонент меню
+Элемент меню
 
 **Атрибуты**
 
-|Наименование         |Тип                    |Описание                       |Значение по умолчанию|
-|---------------------|-----------------------|-------------------------------|---------------------|
-|id                   |Строка                 |Идентификатор компонента меню  |                     |
-|name                 |Строка                 |Наименование компонента меню   |                     |
-|datasource           |Строка                 |Идентификатор источника данных |                     |
-|icon                 |[Класс иконки](https://fontawesome.com/v6/icons/)      |                     |
-|icon-position        |left right             |Позиция иконки относительно наименования меню| left  |
-|src                  |Строка                 |React компонент меню           |                     |
-|class                |CSS класс              |Класс компонента меню          |                     |
-|style                |CSS свойство           |Стиль компонента меню          |                     |
-|badge                |Число                  |Значок компонента меню         |                     |
-|badge-color          |primary secondary success danger warning info light dark|Цвет значка. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)                    |                     |
-|badge-shape          |rounded circle square  |Форма значка                   |circle                |
-|badge-position       |left right             |Позиция значка                 |right                 |
-|badge-image          |Строка                 |Картинка в значке              |                      |
-|badge-image-shape    |rounded circle square  |Форма картинки в значке        |circle                |
-|badge-image-position |left right             |Позиция картинки в значке      |left                  |
-|image                |Строка                 |Путь к изображению             |                      |
-|image-shape          |square circle rounded  |Форма изображения              |rounded               |
-
+| Наименование         | Тип                                                      | Описание                                                                                             | Значение по умолчанию                                   |
+|----------------------|----------------------------------------------------------|------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
+| id                   | Строка                                                   | Идентификатор элемента меню                                                                          |                                                         |
+| name                 | Строка                                                   | Наименование элемента меню. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)  |                                                         |
+| datasource           | Строка                                                   | Идентификатор источника данных                                                                       | Идентификатор источника данных родительского компонента |
+| icon                 | Строка                                                   | [Иконка](https://fontawesome.com/v6/icons/) элемента меню                                            |                                                         |
+| icon-position        | left right                                               | Позиция иконки относительно наименования элемента меню                                               | left                                                    |
+| image                | Строка                                                   | Ссылка на картинку. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)          |                                                         |
+| image-shape          | square circle rounded                                    | Форма картинки                                                                                       | square                                                  |
+| badge                | Строка                                                   | Значок компонента меню. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)      |                                                         |
+| badge-color          | primary secondary success danger warning info light dark | Цвет значка. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)                 |                                                         |
+| badge-position       | left right                                               | Позиция значка                                                                                       | right                                                   |
+| badge-shape          | rounded circle square                                    | Форма значка                                                                                         | circle                                                  |
+| badge-image          | Строка                                                   | Ссылка на картинку в значке. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры) |                                                         |
+| badge-image-position | left right                                               | Позиция картинки в значке                                                                            | left                                                    |
+| badge-image-shape    | rounded circle square                                    | Форма картинки в значке                                                                              | circle                                                  |
+| src                  | Строка                                                   | React компонент элемента меню                                                                        |                                                         |
+| class                | Строка                                                   | CSS класс элемента меню                                                                              |                                                         |
+| style                | Строка                                                   | CSS стиль элемента меню                                                                              |                                                         |
 
 **Настройки**
+
 ```yaml
+#Позиция иконки относительно наименования элемента меню\выпадающего меню
+n2o.api.menu.item.icon_position = left
+#Форма картинки в элементе меню
+n2o.api.menu.item.image_shape = square
 #Позиция значка в элементе меню
-n2o.api.menu.item.badge.position=right
+n2o.api.menu.item.badge.position = right
 #Форма значка в элементе меню
-n2o.api.menu.item.badge.shape=circle
+n2o.api.menu.item.badge.shape = circle
 #Позиция картинки в значке в элементе меню
-n2o.api.menu.item.badge.image_position=left
+n2o.api.menu.item.badge.image_position = left
 #Форма картинки в значке в элементе меню
-n2o.api.menu.item.badge.image_shape=circle
-#Позиция иконки относительно наименования меню\выпадающего меню
-n2o.api.menu.item.icon_position=left
+n2o.api.menu.item.badge.image_shape = circle
 ```
 
 **Тело**
 
-[Действия](../xml/action)
+Список [действий](../xml/action)
 
 :::note
 Если не задать тело для `<menu-item>`, то он будет не кликабельным
@@ -55,15 +57,17 @@ n2o.api.menu.item.icon_position=left
 **Пример**
 
 ```xml
-    <menu-item id="notif"
-               name="Уведомления"
-               icon="fa fa-bell"
-               badge="2"
-               badge-color="warning">
-        <a label="N2O" href="https://n2oapp.net/demo/" target="newWindow"/>
-    </menu-item>
-    <menu-item name="Иванов И.И."/>
+<menu-item id="notification"
+           name="Уведомление"
+           icon="fa fa-bell"
+           badge="2"
+           badge-color="warning">
+    <a href="/notifications" target="newWindow"/>
+</menu-item>
+<menu-item name="Иванов И.И."/>
 ```
+
+
 
 ### &lt;dropdown-menu&gt; {#dropdown-menu}
 
@@ -71,28 +75,28 @@ n2o.api.menu.item.icon_position=left
 
 **Атрибуты**
 
-|Наименование |Тип                    |Описание                                                 |Значение по умолчанию|
-|------------ |-----------------------|---------------------------------------------------------|---------------------|
-|id           |Строка                 |Идентификатор выпадающего меню                           |                     |
-|name         |Строка                 |Наименование выпадающего меню                            |                     |
-|datasource   |Строка                 |Идентификатор источника данных|                          |                     |
-|icon         |Строка                 |Иконка выпадающего меню                                  |                     |
-|icon-position|left right             |Позиция иконки относительно наименования выпадающего меню|left                 |
-|image        |Строка                 |Путь к изображению                                       |                     |
-|image-shape  |square circle rounded  |Форма изображения                                        |rounded              |
+| Наименование         | Тип                                                      | Описание                                                                                                | Значение по умолчанию                                   |
+|----------------------|----------------------------------------------------------|---------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
+| id                   | Строка                                                   | Идентификатор выпадающего меню                                                                          |                                                         |
+| name                 | Строка                                                   | Наименование выпадающего меню. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)  |                                                         |
+| datasource           | Строка                                                   | Идентификатор источника данных                                                                          | Идентификатор источника данных родительского компонента |
+| icon                 | Строка                                                   | [Иконка](https://fontawesome.com/v6/icons/) выпадающего меню                                            |                                                         |
+| icon-position        | left right                                               | Позиция иконки относительно наименования выпадающего меню                                               | left                                                    |
+| image                | Строка                                                   | Ссылка на картинку. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры)             |                                                         |
+| image-shape          | square circle rounded                                    | Форма картинки                                                                                          | square                                                  |
 
 **Тело**
 
-&lt;menu-item&gt; - [Компонент меню](../xml/menu#menu-item)<br/>
+&lt;menu-item&gt; - [Компонент меню](../xml/menu#menu-item) <br/>
 &lt;dropdown-menu&gt; - [Выпадающее меню](../xml/menu#dropdown-menu)
 
 **Пример**
 
 ```xml
-<dropdown-menu id="user"
-               name="Виктория"
-               image="/static/users/vika91.png"
-               image-shape="circle" >
+<dropdown-menu id="list"
+               name="Список действий"
+               image="/static/image.png"
+               image-shape="circle">
     <menu-item>...</menu-item>
     <dropdown-menu>...</dropdown-menu>
 </dropdown-menu>
