@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "tooltip_text": "tooltip_text1",
+    "tooltip_checkbox": "tooltip_checkbox1",
+    "tooltip_icon": "tooltip_icon1",
+    "text": "text1",
+    "checkbox": true,
+    "icon": "fa fa-phone"
+  },
+  {
+    "id": 2,
+    "tooltip_text": "tooltip_text2",
+    "tooltip_checkbox": "tooltip_checkbox2",
+    "tooltip_icon": "tooltip_icon2",
+    "text": "text2",
+    "checkbox": false,
+    "icon": "fa fa-plus"
+  },
+  {
+    "id": 3,
+    "tooltip_text": "tooltip_text3",
+    "tooltip_checkbox": "tooltip_checkbox3",
+    "tooltip_icon": "tooltip_icon3",
+    "text": "text3",
+    "icon": "fa fa-fax"
+  },
+  {
+    "id": 4,
+    "tooltip_text": "tooltip_text4",
+    "tooltip_checkbox": "tooltip_checkbox4",
+    "tooltip_icon": "tooltip_icon4",
+    "text": "text4",
+    "checkbox": true,
+    "icon": "fa fa-minus"
+  }
+]

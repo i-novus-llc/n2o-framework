@@ -1,7 +1,5 @@
 package net.n2oapp.framework.autotest.api.component.cell;
 
-import net.n2oapp.framework.autotest.api.component.Tooltip;
-
 import java.time.Duration;
 
 /**
@@ -14,14 +12,4 @@ public interface IconCell extends Cell {
      */
     void shouldHaveText(String text, Duration... duration);
 
-    /**
-     * Наведение мыши на ячейку
-     */
-    void hover();
-
-    /**
-     * Возвращает тултим ячейки
-     * @return Тултип для автотестирования
-     */
-    Tooltip tooltip();
 }

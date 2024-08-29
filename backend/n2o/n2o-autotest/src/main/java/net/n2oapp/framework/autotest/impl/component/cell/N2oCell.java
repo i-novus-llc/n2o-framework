@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.impl.component.cell;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
@@ -63,5 +65,16 @@ public class N2oCell extends N2oComponent implements Cell {
     @Override
     public void shouldHaveAlignment(String alignment) {
         element().shouldHave(Condition.attributeMatching("align", String.format(".*%s.*", alignment)));
+    }
+
+    @Override
+    public Tooltip tooltip() {
+        SelenideElement element = element().$(".tooltip-container");
+        return N2oSelenide.component(element, Tooltip.class);
+    }
+
+    @Override
+    public void hover() {
+        element().hover();
     }
 }

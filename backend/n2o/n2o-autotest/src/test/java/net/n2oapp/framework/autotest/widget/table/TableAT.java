@@ -6,8 +6,11 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.collection.TableHeaders;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
+import net.n2oapp.framework.autotest.api.component.cell.IconCell;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.Checkbox;
@@ -330,5 +333,83 @@ public class TableAT extends AutoTestBase {
         rows.row(0).cell(1).shouldHaveAlignment("right");
         rows.row(0).cell(2).shouldHaveAlignment("left");
         rows.row(0).cell(3).shouldHaveAlignment("right");
+    }
+
+    @Test
+    void testCellTooltip() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/cell_tooltip");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/cell_tooltip/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/cell_tooltip/test.query.xml")
+        );
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget.Rows rows = page.widget(TableWidget.class).columns().rows();
+        rows.shouldHaveSize(4);
+        int cellIndex;
+
+        // Ячейка text
+        cellIndex = 0;
+        TextCell textCell = rows.row(2).cell(cellIndex, TextCell.class);
+        textCell.hover();
+        Tooltip tooltip = textCell.tooltip();
+        tooltip.shouldExists();
+        tooltip.shouldHaveText(new String[]{"tooltip_text3"});
+
+        textCell = rows.row(1).cell(cellIndex, TextCell.class);
+        textCell.hover();
+        tooltip = textCell.tooltip();
+        tooltip.shouldExists();
+        tooltip.shouldHaveText(new String[]{"tooltip_text2"});
+
+        textCell = rows.row(0).cell(cellIndex, TextCell.class);
+        textCell.hover();
+        tooltip = textCell.tooltip();
+        tooltip.shouldExists();
+        tooltip.shouldHaveText(new String[]{"tooltip_text1"});
+
+
+        // Ячейка checkbox
+        cellIndex = 1;
+        CheckboxCell checkboxCell = rows.row(2).cell(cellIndex, CheckboxCell.class);
+        checkboxCell.hover();
+        tooltip = checkboxCell.tooltip();
+        tooltip.shouldExists();
+        tooltip.shouldHaveText(new String[]{"tooltip_checkbox3"});
+
+        checkboxCell = rows.row(1).cell(cellIndex, CheckboxCell.class);
+        checkboxCell.hover();
+        tooltip = checkboxCell.tooltip();
+        tooltip.shouldExists();
+        tooltip.shouldHaveText(new String[]{"tooltip_checkbox2"});
+
+        checkboxCell = rows.row(0).cell(cellIndex, CheckboxCell.class);
+        checkboxCell.hover();
+        tooltip = checkboxCell.tooltip();
+        tooltip.shouldExists();
+        tooltip.shouldHaveText(new String[]{"tooltip_checkbox1"});
+
+
+        // Ячейка icon
+        cellIndex = 2;
+        // идем снизу вверх, чтобы tooltip не перекрывал ячейку
+        IconCell iconCell = rows.row(2).cell(cellIndex, IconCell.class);
+        iconCell.hover();
+        tooltip = iconCell.tooltip();
+        tooltip.shouldExists();
+        tooltip.shouldHaveText(new String[]{"tooltip_icon3"});
+
+        iconCell = rows.row(1).cell(cellIndex, IconCell.class);
+        iconCell.hover();
+        tooltip = iconCell.tooltip();
+        tooltip.shouldExists();
+        tooltip.shouldHaveText(new String[]{"tooltip_icon2"});
+
+        iconCell = rows.row(0).cell(cellIndex, IconCell.class);
+        iconCell.hover();
+        tooltip = iconCell.tooltip();
+        tooltip.shouldExists();
+        tooltip.shouldHaveText(new String[]{"tooltip_icon1"});
     }
 }

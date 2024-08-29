@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list>
+        <test file="test.json"/>
+    </list>
+    <fields>
+        <field id="id"/>
+        <field id="tooltip_text"/>
+        <field id="tooltip_checkbox"/>
+        <field id="tooltip_icon"/>
+        <field id="text"/>
+        <field id="checkbox"/>
+        <field id="icon"/>
+    </fields>
+</query>

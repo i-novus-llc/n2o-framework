@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.cells;
 
-import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.cell.IconCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -51,38 +50,9 @@ public class IconCellAT extends AutoTestBase {
     @Test
     public void iconCellTest() {
         int col = 0;
-
         rows.row(0).cell(col, IconCell.class).shouldHaveIcon("fa-phone");
         rows.row(0).cell(col, IconCell.class).shouldHaveText("fa fa-phone");
         rows.row(3).cell(col, IconCell.class).shouldHaveIcon("fa-minus");
         rows.row(3).cell(col, IconCell.class).shouldHaveText("fa fa-minus");
-    }
-
-    @Test
-    public void iconCellTooltipTest() {
-        // идем снизу вверх, чтобы tooltip не перекрывал ячейку
-        IconCell cell = rows.row(3).cell(0, IconCell.class);
-        cell.hover();
-        Tooltip tooltip = cell.tooltip();
-        tooltip.shouldExists();
-        tooltip.shouldHaveText(new String[]{"minus"});
-
-        cell = rows.row(2).cell(0, IconCell.class);
-        cell.hover();
-        tooltip = cell.tooltip();
-        tooltip.shouldExists();
-        tooltip.shouldHaveText(new String[]{"fax"});
-
-        cell = rows.row(1).cell(0, IconCell.class);
-        cell.hover();
-        tooltip = cell.tooltip();
-        tooltip.shouldExists();
-        tooltip.shouldHaveText(new String[]{"plus"});
-
-        cell = rows.row(0).cell(0, IconCell.class);
-        cell.hover();
-        tooltip = cell.tooltip();
-        tooltip.shouldExists();
-        tooltip.shouldHaveText(new String[]{"phone"});
     }
 }

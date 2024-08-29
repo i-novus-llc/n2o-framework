@@ -1,7 +1,5 @@
 package net.n2oapp.framework.autotest.api.component.cell;
 
-import net.n2oapp.framework.autotest.api.component.Tooltip;
-
 import java.time.Duration;
 
 /**
@@ -29,11 +27,6 @@ public interface TooltipListCell extends Cell {
      * Наведение мыши на ячейку
      */
     void hover();
-
-    /**
-     * @return Компонент тултип для автотестирования
-     */
-    Tooltip tooltip();
 
     /**
      * Клик по ячейке
