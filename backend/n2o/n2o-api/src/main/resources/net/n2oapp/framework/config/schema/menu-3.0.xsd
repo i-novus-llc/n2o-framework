@@ -14,20 +14,8 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="menu-item" type="menuItemDef" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>
-                        Компонент меню
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="dropdown-menu" type="dropdownMenuDef" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>
-                        Выпадающее меню
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
+            <xs:element name="menu-item" type="menuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="dropdown-menu" type="dropdownMenuDef" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="src">
             <xs:annotation>
@@ -52,9 +40,155 @@
         </xs:anyAttribute>
     </xs:complexType>
 
+    <xs:complexType name="menuItemDef">
+        <xs:annotation>
+            <xs:documentation>
+                Элемент меню
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="act:actions">
+                <xs:attribute name="id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор элемента меню
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="name" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Наименование элемента меню.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор источника данных.
+                            По умолчанию: источник данных родительского компонента
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Иконка элемента меню из https://fontawesome.com/v6/icons/
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Позиция иконки относительно наименования элемента меню
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="image" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Ссылка на картинку.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="image-shape" type="shapeType" default="square">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Форма картинки
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Значок элемента меню.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-color" type="bs:colorDefinition">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Цвет значка.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-position" type="positionType" default="right">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Позиция значка
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Форма значка
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Ссылка на картинку в значке.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Позиция картинки в значке
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Форма картинки в значке
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="src" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            React компонент элемента меню
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            CSS класс элемента меню
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            CSS стиль элемента меню
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>
+                            Возможность подключать любые атрибуты
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="dropdownMenuDef">
         <xs:annotation>
-            <xs:documentation>Выпадающее меню</xs:documentation>
+            <xs:documentation>
+                Выпадающее меню
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="menu-item" type="menuItemDef" minOccurs="0" maxOccurs="unbounded"/>
@@ -62,154 +196,69 @@
         </xs:sequence>
         <xs:attribute name="id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Идентификатор выпадающего меню</xs:documentation>
+                <xs:documentation>
+                    Идентификатор выпадающего меню
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="name" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Наименование выпадающего меню</xs:documentation>
+                <xs:documentation>
+                    Наименование выпадающего меню
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="datasource" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Идентификатор источника данных выпадающего меню</xs:documentation>
+                <xs:documentation>
+                    Идентификатор источника данных.
+                    По умолчанию: источник данных родительского компонента
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Иконка выпадающего меню из https://fontawesome.com/v6/icons/</xs:documentation>
+                <xs:documentation>
+                    Иконка выпадающего меню из https://fontawesome.com/v6/icons/
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="icon-position" type="positionType" default="left">
             <xs:annotation>
-                <xs:documentation>Позиция иконки относительно наименования выпадающего меню</xs:documentation>
+                <xs:documentation>
+                    Позиция иконки относительно наименования выпадающего меню
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="image" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Путь к изображению</xs:documentation>
+                <xs:documentation>
+                    Ссылка на картинку.
+                    Возможно использование плейсхолдеров
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="image-shape" type="shapeType" default="rounded">
+        <xs:attribute name="image-shape" type="shapeType" default="square">
             <xs:annotation>
-                <xs:documentation>Форма изображения</xs:documentation>
+                <xs:documentation>
+                    Форма картинки
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
-                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                <xs:documentation>
+                    Возможность подключать любые атрибуты
+                </xs:documentation>
             </xs:annotation>
         </xs:anyAttribute>
     </xs:complexType>
 
-    <xs:complexType name="menuItemDef">
-        <xs:annotation>
-            <xs:documentation>Компонент меню</xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="act:actions">
-                <xs:attribute name="id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор компонента меню</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="name" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Наименование компонента меню</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор источника данных</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="src" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>React компонент меню</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="class" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Класс компонента меню</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="style" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Стиль компонента меню</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор источника данных</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="icon" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Иконка компонента меню из https://fontawesome.com/v6/icons/</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="icon-position" type="positionType" default="left">
-                    <xs:annotation>
-                        <xs:documentation>Позиция иконки относительно наименования меню</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge" type="xs:integer">
-                    <xs:annotation>
-                        <xs:documentation>Значок компонента меню</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-color" type="bs:colorDefinition">
-                    <xs:annotation>
-                        <xs:documentation>Цвет значка. Возможно использование плейсхолдеров</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-shape" type="shapeType" default="circle">
-                    <xs:annotation>
-                        <xs:documentation>Форма значка</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-position" type="positionType" default="right">
-                    <xs:annotation>
-                        <xs:documentation>Позиция значка</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-image" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за картинку в значке</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-image-position" type="positionType" default="left">
-                    <xs:annotation>
-                        <xs:documentation>Позиция картинки в значке</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
-                    <xs:annotation>
-                        <xs:documentation>Форма картинки в значке</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="image" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Путь к изображению</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="image-shape" type="shapeType" default="rounded">
-                    <xs:annotation>
-                        <xs:documentation>Форма изображения</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:anyAttribute>
-                    <xs:annotation>
-                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
-                    </xs:annotation>
-                </xs:anyAttribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
     <xs:simpleType name="shapeType">
         <xs:annotation>
-            <xs:documentation>Тип формы изображения</xs:documentation>
+            <xs:documentation>
+                Форма
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="square"/>
@@ -219,6 +268,11 @@
     </xs:simpleType>
 
     <xs:simpleType name="positionType">
+        <xs:annotation>
+            <xs:documentation>
+                Позиция
+            </xs:documentation>
+        </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="left"/>
             <xs:enumeration value="right"/>

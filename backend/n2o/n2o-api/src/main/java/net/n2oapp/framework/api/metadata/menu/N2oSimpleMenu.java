@@ -5,13 +5,10 @@ import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
-import net.n2oapp.framework.api.metadata.action.N2oAnchor;
-import net.n2oapp.framework.api.metadata.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
@@ -25,7 +22,6 @@ import java.util.Map;
 @Getter
 @Setter
 public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
-
     private String src;
     private String refId;
 
@@ -44,15 +40,14 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
     @Getter
     @Setter
     public abstract static class AbstractMenuItem implements Source, IdAware, ExtensionAttributesAware, DatasourceIdAware {
-
         private String id;
         private String name;
         private String datasourceId;
         private String icon;
         private Position iconPosition;
         private String image;
-        private String src;
         private ShapeType imageShape;
+        private String src;
         @ExtAttributesSerializer
         private Map<N2oNamespace, Map<String, String>> extAttributes;
     }
@@ -63,9 +58,6 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
     @Getter
     @Setter
     public static class MenuItem extends AbstractMenuItem implements BadgeAware {
-
-        private String cssClass;
-        private String style;
         private String badge;
         private String badgeColor;
         private Position badgePosition;
@@ -73,66 +65,18 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
         private String badgeImage;
         private Position badgeImagePosition;
         private ShapeType badgeImageShape;
+        private String cssClass;
+        private String style;
+
         private N2oAction action;
     }
 
+    /**
+     * Выпадающее меню
+     */
     @Getter
     @Setter
     public static class DropdownMenuItem extends AbstractMenuItem {
-
         private AbstractMenuItem[] menuItems;
-    }
-
-    @Deprecated
-    public static class PageMenuItem extends MenuItem {
-
-        @Deprecated
-        public void setPageId(String pageId) {
-            getOpenPage().setPageId(pageId);
-        }
-        @Deprecated
-        public String getPageId() {
-            return getOpenPage().getPageId();
-        }
-        @Deprecated
-        public void setRoute(String route) {
-            getOpenPage().setRoute(route);
-        }
-        @Deprecated
-        public String getRoute() {
-            return getOpenPage().getRoute();
-        }
-
-        private N2oOpenPage getOpenPage() {
-            if (getAction() == null)
-                setAction(new N2oOpenPage());
-            return (N2oOpenPage) getAction();
-        }
-    }
-
-    @Deprecated
-    public static class AnchorMenuItem extends MenuItem {
-
-        public void setHref(String href) {
-            getAnchor().setHref(href);
-        }
-
-        public String getHref() {
-            return getAnchor().getHref();
-        }
-
-        public void setTarget(Target target) {
-            getAnchor().setTarget(target);
-        }
-
-        public Target getTarget() {
-            return getAnchor().getTarget();
-        }
-
-        private N2oAnchor getAnchor() {
-            if (getAction() == null)
-                setAction(new N2oAnchor());
-            return (N2oAnchor) getAction();
-        }
     }
 }

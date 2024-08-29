@@ -9,14 +9,11 @@ import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import net.n2oapp.framework.config.io.common.BadgeAwareIO;
 import org.jdom2.Element;
-import org.jdom2.Namespace;
 
 /**
  * Чтение/запись меню 3.0
  */
 public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu>, BadgeAwareIO<N2oSimpleMenu.MenuItem> {
-
-    private final Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
 
     @Override
     public Class<N2oSimpleMenu> getElementClass() {
@@ -41,29 +38,29 @@ public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu>, Badg
     private void menuItem(Element e, N2oSimpleMenu.MenuItem m, IOProcessor p) {
         p.attribute(e, "id", m::getId, m::setId);
         p.attribute(e, "name", m::getName, m::setName);
-        p.attribute(e, "src", m::getSrc, m::setSrc);
-        p.attribute(e, "class", m::getCssClass, m::setCssClass);
-        p.attribute(e, "style", m::getStyle, m::setStyle);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attributeEnum(e, "icon-position", m::getIconPosition, m::setIconPosition, Position.class);
         p.attribute(e, "image", m::getImage, m::setImage);
         p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ShapeType.class);
+        p.attribute(e, "src", m::getSrc, m::setSrc);
+        p.attribute(e, "class", m::getCssClass, m::setCssClass);
+        p.attribute(e, "style", m::getStyle, m::setStyle);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
-        p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
+        p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), ActionIOv2.NAMESPACE);
         badge(e, m, p);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 
     private void dropDownMenu(Element e, N2oSimpleMenu.DropdownMenuItem m, IOProcessor p) {
         p.attribute(e, "id", m::getId, m::setId);
-        p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "name", m::getName, m::setName);
+        p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attributeEnum(e, "icon-position", m::getIconPosition, m::setIconPosition, Position.class);
         p.attribute(e, "image", m::getImage, m::setImage);
-        p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ShapeType.class);
+        p.attribute(e, "src", m::getSrc, m::setSrc);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChildren(e, null, m::getMenuItems, m::setMenuItems, p.oneOf(N2oSimpleMenu.AbstractMenuItem.class)
                 .add("menu-item", N2oSimpleMenu.MenuItem.class, this::menuItem)
