@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.cell;
 
 import net.n2oapp.framework.autotest.api.component.Component;
+import net.n2oapp.framework.autotest.api.component.Tooltip;
 
 import java.time.Duration;
 
@@ -55,4 +56,14 @@ public interface Cell extends Component {
      */
     void shouldHaveAlignment(String alignment);
 
+    /**
+     * Возвращает тултип ячейки
+     * @return Тултип для автотестирования
+     */
+    Tooltip tooltip();
+
+    /**
+     * Наведение мыши на ячейку
+     */
+    void hover();
 }

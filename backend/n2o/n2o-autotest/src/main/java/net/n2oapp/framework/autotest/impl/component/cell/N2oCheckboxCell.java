@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.impl.component.cell;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 
 /**
@@ -44,5 +46,11 @@ public class N2oCheckboxCell extends N2oCell implements CheckboxCell {
     @Override
     public void shouldBeDisabled() {
         element().shouldBe(Condition.disabled);
+    }
+
+    @Override
+    public Tooltip tooltip() {
+        SelenideElement element = element().parent().$(".tooltip-inner");
+        return N2oSelenide.component(element, Tooltip.class);
     }
 }

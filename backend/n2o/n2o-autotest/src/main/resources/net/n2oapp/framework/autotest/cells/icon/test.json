@@ -1,52 +1,18 @@
 [
   {
     "id": 1,
-    "name": "test1",
-    "genderId": 1,
-    "genderName": "Male",
-    "vip": true,
-    "icon": "fa fa-phone",
-    "tooltip": "phone",
-    "image": "favicon.ico",
-    "progress": -50,
-    "rating" : -5,
-    "list": ["val1"]
+    "icon": "fa fa-phone"
   },
   {
     "id": 2,
-    "name": "test2",
-    "genderId": 0,
-    "genderName": "Female",
-    "vip": false,
-    "icon": "fa fa-plus",
-    "tooltip": "plus",
-    "progress": 0,
-    "rating" : 0,
-    "list": ["val1", "val2", "val3"]
+    "icon": "fa fa-plus"
   },
   {
     "id": 3,
-    "name": "test3",
-    "genderId": 1,
-    "genderName": "Male",
-    "vip": false,
-    "icon": "fa fa-fax",
-    "tooltip": "fax",
-    "image": "favicon.ico",
-    "progress": 100,
-    "rating" : 5,
-    "list": []
+    "icon": "fa fa-fax"
   },
   {
     "id": 4,
-    "name": "test4",
-    "genderId": 0,
-    "genderName": "Female",
-    "vip": true,
-    "icon": "fa fa-minus",
-    "tooltip": "minus",
-    "progress": 150,
-    "rating" : 15,
-     "list": ["val1", "val2", "val3", "val4", "val5"]
+    "icon": "fa fa-minus"
   }
 ]

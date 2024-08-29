@@ -1,9 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             name="Иконки ячейки таблицы">
-    <table query-id="testTable">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Проверка тултипа в нескольких видах ячеек: text, checkbox, icon">
+    <table>
+        <datasource query-id="test"/>
         <columns>
-            <column text-field-id="icon">
+            <column text-field-id="text" tooltip-field-id="tooltip_text"/>
+            <column text-field-id="checkbox" tooltip-field-id="tooltip_checkbox">
+                <checkbox/>
+            </column>
+            <column label="icon" tooltip-field-id="tooltip_icon">
                 <icon>
                     <switch value-field-id="icon">
                         <case value="fa fa-phone">fa fa-phone</case>

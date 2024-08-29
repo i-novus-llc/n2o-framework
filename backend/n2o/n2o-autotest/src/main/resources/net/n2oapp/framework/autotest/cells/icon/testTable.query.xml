@@ -7,34 +7,7 @@
         <field id="id">
             <select/>
         </field>
-        <field id="name">
-            <select/>
-        </field>
-        <field id="genderName" name="gender" domain="string">
-            <select/>
-        </field>
-        <field id="genderId" domain="integer">
-            <select/>
-        </field>
-        <field id="vip" domain="boolean">
-            <select/>
-        </field>
         <field id="icon" domain="string">
-            <select/>
-        </field>
-        <field id="tooltip" domain="string">
-            <select/>
-        </field>
-        <field id="image" domain="string">
-            <select/>
-        </field>
-        <field id="progress" domain="integer">
-            <select/>
-        </field>
-        <field id="rating" domain="integer">
-            <select/>
-        </field>
-        <field id="list">
             <select/>
         </field>
     </fields>

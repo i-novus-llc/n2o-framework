@@ -425,6 +425,10 @@
           "name": "TableAT. testAlignment"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/cell_tooltip",
+          "name": "TableAT. testCellTooltip"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/filter_column/simple",
           "name": "FilterColumnAT"
         },
