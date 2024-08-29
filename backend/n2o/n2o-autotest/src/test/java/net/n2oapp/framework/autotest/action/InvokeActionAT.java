@@ -2,11 +2,14 @@ package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -37,15 +40,15 @@ public class InvokeActionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-
-        setJsonPath("net/n2oapp/framework/autotest/action/invoke");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/invoke/test.object.xml"));
     }
 
     @Test
-    public void testFormParam() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/invoke/index.page.xml"));
+    void testFormParam() {
+        setJsonPath("net/n2oapp/framework/autotest/action/invoke/form_param");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/invoke/form_param/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/invoke/form_param/test.object.xml")
+        );
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -66,5 +69,34 @@ public class InvokeActionAT extends AutoTestBase {
         Alert alert = page.alerts(Alert.Placement.top).alert(0);
         alert.shouldHaveColor(Colors.SUCCESS);
         alert.shouldHaveText("form_value=1 second_form.value=2 second_form.value2=3");
+    }
+
+    @Test
+    void testSubmitAll() {
+        setJsonPath("net/n2oapp/framework/autotest/action/invoke/submit_all");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/invoke/submit_all/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/invoke/submit_all/test.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/invoke/submit_all/test.query.xml")
+        );
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget table = page.widget(TableWidget.class);
+        TableWidget.Rows rows = table.columns().rows();
+
+        rows.shouldHaveSize(4);
+        rows.row(1).cell(0, CheckboxCell.class).setChecked(true);
+        rows.row(2).cell(0, CheckboxCell.class).setChecked(true);
+
+        table.toolbar().topLeft().button("Отправить (submit-all='true')").click();
+        Alert alert = page.alerts(Alert.Placement.top).alert(0);
+        alert.shouldHaveColor(Colors.SUCCESS);
+        alert.shouldHaveText("[{id=2, name=test2, ids=[2, 3]}, {id=3, name=test3, ids=[2, 3]}]");
+
+        table.toolbar().topLeft().button("Отправить (submit-all='false')").click();
+        alert = page.alerts(Alert.Placement.top).alert(1);
+        alert.shouldHaveColor(Colors.SUCCESS);
+        alert.shouldHaveText("[2, 3]");
     }
 }

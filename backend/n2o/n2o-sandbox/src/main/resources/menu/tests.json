@@ -1412,8 +1412,12 @@
           "name": "IfElseActionAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/action/invoke",
-          "name": "InvokeActionAT"
+          "templateId": "net/n2oapp/framework/autotest/action/invoke/form_param",
+          "name": "InvokeActionAT. testFormParam"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/invoke/submit_all",
+          "name": "InvokeActionAT. testSubmitAll"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/action/modal/customize",
