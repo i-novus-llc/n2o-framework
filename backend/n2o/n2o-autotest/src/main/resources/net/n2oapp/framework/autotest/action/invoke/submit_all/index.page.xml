@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Bulk Операции">
+    <regions>
+        <table selection="checkbox">
+            <datasource query-id="test" object-id="test"/>
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+            <toolbar>
+                <button model="multi" label="Отправить (submit-all='true')">
+                    <invoke operation-id="send">
+                        <form-param id="ids" value="{this*.id}"/>
+                    </invoke>
+                </button>
+                <button model="multi" label="Отправить (submit-all='false')">
+                    <invoke operation-id="sendWithoutSubmitAll" submit-all="false">
+                        <form-param id="ids" value="{this*.id}"/>
+                    </invoke>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>
