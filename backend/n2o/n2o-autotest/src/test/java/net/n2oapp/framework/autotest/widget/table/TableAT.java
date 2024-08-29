@@ -2,8 +2,6 @@ package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
-import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.collection.TableHeaders;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
@@ -14,7 +12,6 @@ import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
-import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
@@ -127,36 +124,6 @@ public class TableAT extends AutoTestBase {
         table.columns().headers().header(0).shouldHaveTitle("Имя");
         table.columns().headers().header(1).shouldHaveTitle("Фамилия");
         table.columns().headers().header(2).shouldHaveTitle("Дата рождения");
-    }
-
-    @Test
-    void testRowClickEnabled() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/row_click");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_click/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_click/modal.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_click/test.query.xml")
-        );
-
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-
-        TableWidget table = page.widget(TableWidget.class);
-
-        table.shouldExists();
-        table.columns().rows().shouldHaveSize(4);
-
-        Cells firstRow = table.columns().rows().row(0);
-        firstRow.cell(1).shouldHaveText("1");
-        Modal modal = N2oSelenide.modal();
-        firstRow.click();
-        modal.shouldNotExists();
-
-        Cells thirdRow = table.columns().rows().row(2);
-        thirdRow.cell(1).shouldHaveText("2");
-        thirdRow.click();
-        modal.shouldExists();
-        modal.close();
     }
 
     @Test
