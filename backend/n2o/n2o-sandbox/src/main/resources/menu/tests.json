@@ -501,8 +501,12 @@
           "name": "PaginationAT. testPrevNextButtonsLabel"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/widget/table/row_click",
-          "name": "TableAT. testRowClickEnabled"
+          "templateId": "net/n2oapp/framework/autotest/widget/table/row_click/enabled",
+          "name": "TableRowClickAT. testRowClickEnabled"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/row_click/interactive_elements",
+          "name": "TableRowClickAT. testInteractiveElements"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/selection/active",

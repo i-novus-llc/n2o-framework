@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "name": "Иванов П.И.",
+    "checkbox": true
+  },
+  {
+    "id": 2,
+    "name": "Васильев Г.П.",
+    "checkbox": true
+  },
+  {
+    "id": 3,
+    "name": "Сергеев К.Л.",
+    "checkbox": false
+  },
+  {
+    "id": 4,
+    "name": "Алексеев Н.П.",
+    "checkbox": false
+  },
+  {
+    "id": 5,
+    "name": "Никитина Е.В.",
+    "checkbox": false
+  }
+]
