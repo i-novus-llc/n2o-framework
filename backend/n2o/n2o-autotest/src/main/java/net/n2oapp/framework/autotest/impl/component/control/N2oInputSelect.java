@@ -1,9 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
@@ -43,6 +40,11 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
             should(Condition.value(value), input(), duration);
         else
             should(Condition.text(value), cellInputElement(), duration);
+    }
+
+    @Override
+    public void shouldHaveDropdownMessage(String value, Duration... duration) {
+        should(Condition.exactText(value), element().parent().parent().parent().$(".n2o-dropdown-control"), duration);
     }
 
     protected SelenideElement cellInputElement() {

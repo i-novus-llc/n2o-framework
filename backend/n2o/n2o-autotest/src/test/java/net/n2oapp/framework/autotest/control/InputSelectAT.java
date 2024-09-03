@@ -358,6 +358,7 @@ public class InputSelectAT extends AutoTestBase {
         InputSelect inputSelect = simplePage.widget(FormWidget.class)
                 .fields().field("Input-select min-length=3").control(InputSelect.class);
         inputSelect.openPopup();
+        inputSelect.shouldHaveDropdownMessage("Введите не менее 3 символов");
         DropDown dropdown = inputSelect.dropdown();
         dropdown.shouldHaveOptions(0);
 
@@ -366,9 +367,14 @@ public class InputSelectAT extends AutoTestBase {
 
         inputSelect.setValue("au");
         dropdown.shouldHaveOptions(0);
+        inputSelect.shouldHaveDropdownMessage("Введите не менее 3 символов");
 
         inputSelect.setValue("aud");
         dropdown.shouldHaveOptions(1);
+
+        inputSelect.setValue("mer");
+        inputSelect.shouldHaveDropdownMessage("Ничего не найдено");
+
     }
 
     @Test

@@ -151,4 +151,9 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
     protected ElementsCollection selectedItems() {
         return element().$$(".n2o-select-tree-selection-item");
     }
+
+    @Override
+    public void shouldHaveDropdownMessage(String value, Duration... duration) {
+        should(Condition.exactText(value), element().$(".n2o-select-tree-empty"), duration);
+    }
 }
