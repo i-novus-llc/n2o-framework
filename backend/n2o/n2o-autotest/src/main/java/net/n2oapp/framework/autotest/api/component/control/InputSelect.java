@@ -70,4 +70,10 @@ public interface InputSelect extends Control, PopupControl {
      * через клавишу backspace
      */
     void backspace();
+
+    /**
+     * Проверка точного соответствия текста подсказки ожидаемому значению
+     * @param value ожидаемое значение подсказки
+     */
+    void shouldHaveDropdownMessage(String value, Duration... duration);
 }

@@ -89,4 +89,10 @@ public interface InputSelectTree extends Control, PopupControl {
      * @return Выпадающий список в виде дерева для автотестирования
      */
     DropDownTree dropdown();
+
+    /**
+     * Проверка точного соответствия текста подсказки ожидаемому значению
+     * @param value ожидаемое значение подсказки
+     */
+    void shouldHaveDropdownMessage(String value, Duration... duration);
 }

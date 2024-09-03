@@ -120,6 +120,7 @@ class InputSelectTreeAT extends AutoTestBase {
         InputSelectTree inputSelectTree = simplePage.widget(FormWidget.class)
                 .fields().field("Input-select-tree min-length=4").control(InputSelectTree.class);
         inputSelectTree.openPopup();
+        inputSelectTree.shouldHaveDropdownMessage("Введите не менее 4 символов");
         DropDownTree dropdown = inputSelectTree.dropdown();
         dropdown.shouldHaveItems(0);
 
@@ -130,11 +131,17 @@ class InputSelectTreeAT extends AutoTestBase {
         inputSelectTree.openPopup();
         dropdown.setValue("aud");
         dropdown.shouldHaveItems(0);
+        inputSelectTree.shouldHaveDropdownMessage("Введите не менее 4 символов");
 
         dropdown.clear();
         inputSelectTree.openPopup();
         dropdown.setValue("audi");
         dropdown.shouldHaveItems(1);
+
+        dropdown.clear();
+        inputSelectTree.openPopup();
+        dropdown.setValue("merc");
+        inputSelectTree.shouldHaveDropdownMessage("Нет данных для отображения");
     }
 
     @Test
