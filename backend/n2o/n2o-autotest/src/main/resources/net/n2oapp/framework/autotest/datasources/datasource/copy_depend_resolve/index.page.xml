@@ -10,6 +10,7 @@
                       source-model="resolve"/>
             </dependencies>
         </datasource>
+        <datasource id="integrationProfileDataSource"/>
     </datasources>
     <regions>
         <table datasource="ds1">
@@ -22,6 +23,14 @@
             <fields>
                 <input-text id="id" enabled="false"/>
                 <input-text id="name" enabled="false"/>
+            </fields>
+        </form>
+        <form datasource="integrationProfileDataSource">
+            <fields>
+                <input-text id="id" default-value="{$.uuid()}"/>
+                <button label="next">
+                    <show-modal page-id="modal"/>
+                </button>
             </fields>
         </form>
     </regions>

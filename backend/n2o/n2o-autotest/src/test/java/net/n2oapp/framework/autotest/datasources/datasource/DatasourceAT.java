@@ -1,9 +1,11 @@
 package net.n2oapp.framework.autotest.datasources.datasource;
 
+import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
@@ -244,6 +246,7 @@ public class DatasourceAT extends AutoTestBase {
         setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve/test.query.xml")
         );
 
@@ -270,6 +273,15 @@ public class DatasourceAT extends AutoTestBase {
         table.columns().rows().row(0).click();
         id.shouldHaveValue("1");
         name.shouldHaveValue("test1");
+
+        FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(2, FormWidget.class);
+        String uuid = form.fields().field("id").control(InputText.class).getValue();
+        form.fields().field("next", ButtonField.class).click();
+
+        StandardPage modal = N2oSelenide.modal().content(StandardPage.class);
+        SimpleRegion region = modal.regions().region(0, SimpleRegion.class);
+        OutputText profileId = region.content().widget(0, FormWidget.class).fields().field("profileId").control(OutputText.class);
+        profileId.shouldHaveValue(uuid);
     }
 
     /**
