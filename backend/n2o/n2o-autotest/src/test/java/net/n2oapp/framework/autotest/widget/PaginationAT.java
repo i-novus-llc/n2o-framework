@@ -2,8 +2,10 @@ package net.n2oapp.framework.autotest.widget;
 
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -105,6 +107,15 @@ public class PaginationAT extends AutoTestBase {
         paging.prevButtonShouldBeEnabled();
         paging.nextButtonShouldBeDisabled();
         table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test28");
+
+        FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class);
+        InputText filter = form.fields().field("filter").control(InputText.class);
+        filter.setValue("test1");
+        paging.shouldExists();
+        filter.setValue("test100");
+        paging.shouldNotExists();
+        filter.setValue("test2");
+        paging.shouldExists();
     }
 
     @Test
