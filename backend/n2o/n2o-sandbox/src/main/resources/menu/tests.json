@@ -1141,6 +1141,10 @@
           "name": "DatasourceAT. testSubmit"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/datasources/datasource/default_values_mode",
+          "name": "DatasourceAT. testDefaultValuesMode"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets",
           "name": "DatasourceAT. testOneDSManyWidgets"
         },

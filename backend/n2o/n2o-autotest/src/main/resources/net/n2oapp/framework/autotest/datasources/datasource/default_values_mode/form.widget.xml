@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <fields>
+        <input-text id="withoutDefault"/>
+        <input-text id="withDefault" default-value="default"/>
+        <input-text id="copiedTrue" copied="true" default-value="default"/>
+        <input-text id="copiedFalse" copied="false" default-value="default"/>
+        <input-text id="notExist" default-value="default"/>
+    </fields>
+</form>

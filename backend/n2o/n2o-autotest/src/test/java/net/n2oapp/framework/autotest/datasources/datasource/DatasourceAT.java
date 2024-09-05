@@ -1,6 +1,8 @@
 package net.n2oapp.framework.autotest.datasources.datasource;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
@@ -8,6 +10,7 @@ import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.cards.CardsWidget;
@@ -309,5 +312,48 @@ public class DatasourceAT extends AutoTestBase {
         name.setValue("submit-test");
         button.click();
         table.columns().rows().row(0).cell(1).shouldHaveText("submit-test");
+    }
+
+    /**
+     * Тестирование атрибута default-values-mode
+     */
+    @Test
+    public void testDefaultValuesMode() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/default_values_mode");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/default_values_mode/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/default_values_mode/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/default_values_mode/form.widget.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TabsRegion tabs = page.regions().region(0, TabsRegion.class);
+        TabsRegion.TabItem tab = tabs.tab(Condition.text("default-values-mode='query'"));
+        Fields fields = tab.content().widget(FormWidget.class).fields();
+        fields.field("withoutDefault").control(InputText.class).shouldHaveValue("test");
+        fields.field("withDefault").control(InputText.class).shouldHaveValue("test");
+        fields.field("copiedTrue").control(InputText.class).shouldHaveValue("test");
+        fields.field("copiedFalse").control(InputText.class).shouldHaveValue("test");
+        fields.field("notExist").control(InputText.class).shouldBeEmpty();
+
+        tab = tabs.tab(Condition.text("default-values-mode='defaults'"));
+        tab.click();
+        fields = tab.content().widget(FormWidget.class).fields();
+        fields.field("withoutDefault").control(InputText.class).shouldBeEmpty();
+        fields.field("withDefault").control(InputText.class).shouldHaveValue("default");
+        fields.field("copiedTrue").control(InputText.class).shouldHaveValue("default");
+        fields.field("copiedFalse").control(InputText.class).shouldHaveValue("default");
+        fields.field("notExist").control(InputText.class).shouldHaveValue("default");
+
+        tab = tabs.tab(Condition.text("default-values-mode='merge'"));
+        tab.click();
+        fields = tab.content().widget(FormWidget.class).fields();
+        fields.field("withoutDefault").control(InputText.class).shouldHaveValue("test");
+        fields.field("withDefault").control(InputText.class).shouldHaveValue("test");
+        fields.field("copiedTrue").control(InputText.class).shouldHaveValue("test");
+        fields.field("copiedFalse").control(InputText.class).shouldHaveValue("default");
+        fields.field("notExist").control(InputText.class).shouldHaveValue("default");
     }
 }
