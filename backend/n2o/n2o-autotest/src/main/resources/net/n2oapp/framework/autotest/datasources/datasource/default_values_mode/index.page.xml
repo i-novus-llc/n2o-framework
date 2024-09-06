@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Режимы подстановки значений по умолчанию 'default-values-mode'">
+    <regions>
+        <tabs>
+            <tab name="default-values-mode='query'">
+                <form ref-id="form">
+                    <datasource default-values-mode="query" query-id="test"/>
+                    <fields>
+                        <alert color="info"
+                               text="Данные берутся из запроса. Значения по умолчанию перетираются"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="default-values-mode='defaults'">
+                <form ref-id="form">
+                    <datasource default-values-mode="defaults" query-id="test"/>
+                    <fields>
+                        <alert color="info"
+                               text="Данные берутся только из значений по умолчанию"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="default-values-mode='merge'">
+                <form ref-id="form">
+                    <datasource default-values-mode="merge" query-id="test"/>
+                    <fields>
+                        <alert color="info"
+                               text="Данные заполняются путем слияния значений из запроса и значений по умолчанию (в пользу значений из запроса). При copied='false' данные поля берутся из умолчания."/>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
+    </regions>
+</page>

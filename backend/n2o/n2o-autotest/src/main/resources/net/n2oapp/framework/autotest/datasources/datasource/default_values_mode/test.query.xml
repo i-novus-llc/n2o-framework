@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list>
+        <test operation="findAll" file="test.json"/>
+    </list>
+
+    <fields>
+        <field id="id"/>
+        <field id="withoutDefault"/>
+        <field id="withDefault"/>
+        <field id="copiedTrue"/>
+        <field id="copiedFalse"/>
+        <field id="notExist"/>
+    </fields>
+</query>
