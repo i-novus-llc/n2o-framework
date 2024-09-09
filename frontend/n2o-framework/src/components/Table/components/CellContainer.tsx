@@ -30,7 +30,6 @@ export const CellContainer = memo<CellContainerProps>((props) => {
         <Table.Cell
             className={otherProps.id === 'selectionCell' ? 'cell-selection' : ''}
             align={alignment}
-            style={style}
         >
             <div className={classNames('cell-content', cellAttributes?.className)}>
                 {cellIndex === 0 && hasExpandedButton && (
@@ -39,7 +38,7 @@ export const CellContainer = memo<CellContainerProps>((props) => {
                         isTreeExpanded={isTreeExpanded}
                     />
                 )}
-                <CellComponent rowValue={rowValue} {...resolvedProps} rowIndex={rowIndex} />
+                <CellComponent rowValue={rowValue} {...resolvedProps} rowIndex={rowIndex} style={style} />
             </div>
         </Table.Cell>
     )
