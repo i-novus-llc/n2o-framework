@@ -49,7 +49,7 @@ type MainTagOwnProps = {
     onBlur(): void
 }
 
-type MainTagProps = MainTagOwnProps & Pick<Props, 'tag' | 'color' | 'className' | 'children'>
+type MainTagProps = MainTagOwnProps & Pick<Props, 'tag' | 'color' | 'className' | 'children' | 'style'>
 
 const MainTag = ({ tag, color, className, ...props }: MainTagProps) => createElement(tag || '', {
     className: classNames(className, {
@@ -139,6 +139,7 @@ export class Base extends Component<Props, State> {
             copyable,
             editable,
             className,
+            style,
             ...rest
         } = this.props
 
@@ -175,6 +176,7 @@ export class Base extends Component<Props, State> {
                 tag={tag}
                 onBlur={this.editableTagOnBlur}
                 color={color}
+                style={style}
             >
                 <ContentEditable editable={edit} onChange={this.handleContentEditable}>
                     <PropsEnd.Provider value={{ text, format, children }}>
