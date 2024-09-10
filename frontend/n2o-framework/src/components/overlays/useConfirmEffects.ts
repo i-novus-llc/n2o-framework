@@ -14,7 +14,7 @@ export const useConfirmEffects = (id: string, operation: Operation) => {
     const dispatch = useDispatch()
     const { id: operationId, type, key, buttonId } = operation
 
-    const onCancel = () => { dispatch(remove(id)) }
+    const onCancel = () => { dispatch(remove()) }
     const onConfirm = () => {
         dispatch(successOperation(type, operationId, 'ok', { key, buttonId }))
         onCancel()

@@ -19,10 +19,5 @@ interface InsertPayload {
     }
 }
 
-type RemovePayload = {
-    id: string
-}
-
 export type InsertOverlay = Action<string, InsertOverlayPayload>
 export type Insert = Action<string, InsertPayload>
-export type Remove = Action<string, RemovePayload>
