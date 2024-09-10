@@ -60,7 +60,7 @@ export function* checkPrompt(action: { payload: { name: string, prompt: boolean 
     }
 
     if (!needToShowPrompt) {
-        yield put(remove(name))
+        yield put(remove())
         yield call(resetQuerySaga, name)
     } else {
         yield put(showPrompt(name))
