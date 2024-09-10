@@ -23,7 +23,7 @@ function PageRegions({ id, regions, width, routable }) {
                     level={REGIONS}
                     {...region}
                     pageId={id}
-                    routable={routable}
+                    routable={routable || region?.routable}
                 />
             ))}
         </div>

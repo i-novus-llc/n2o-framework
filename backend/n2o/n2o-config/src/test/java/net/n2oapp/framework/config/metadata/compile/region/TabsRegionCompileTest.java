@@ -55,7 +55,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
 
         assertThat(page.getRegions().size(), is(1));
         List<Region> regions = page.getRegions().get("single");
-        assertThat(regions.size(), is(3));
+        assertThat(regions.size(), is(4));
 
         // TABS1
         TabsRegion tabsRegion = (TabsRegion) regions.get(0);
@@ -121,6 +121,10 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(region.getItems().size(), is(1));
         assertThat(region.getItems().get(0).getId(), is("testTabsRegion_tab7"));
         assertThat(region.getItems().get(0).getContent(), nullValue());
+
+        // TABS4
+        region = (TabsRegion) regions.get(3);
+        assertThat(region.getRoutable(), is(false));
     }
 
     @Test

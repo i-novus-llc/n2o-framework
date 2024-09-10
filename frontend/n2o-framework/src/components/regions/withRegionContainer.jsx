@@ -50,9 +50,9 @@ export const createRegionContainer = config => (WrappedComponent) => {
             setResolve,
             tabs,
             active,
+            routable,
             resolveModel = {},
             datasource = null,
-            routable = true,
             parent = null,
         } = props
 
@@ -89,7 +89,23 @@ export const createRegionContainer = config => (WrappedComponent) => {
 
         /** Эффект авто выбора активной вкладки TabsRegion **/
         useEffect(() => {
-            if (isEmpty(tabs) || !prepared || !routable) { return }
+            if (isEmpty(tabs) || !prepared) { return }
+
+            if (!routable) {
+                if (!activeEntity) {
+                    const state = getState()
+
+                    setFirstAvailableTab(
+                        service,
+                        changeActiveEntity,
+                        state,
+                    )
+
+                    return
+                }
+
+                return
+            }
 
             const delay = setTimeout(() => {
                 const state = getState()
