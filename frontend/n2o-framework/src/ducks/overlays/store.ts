@@ -3,7 +3,7 @@ import { createSlice, createAction } from '@reduxjs/toolkit'
 import OverlayResolver from './OverlayResolver'
 import { CLOSE } from './constants'
 import { State } from './Overlays'
-import { InsertOverlay, Insert, Remove } from './Actions'
+import { InsertOverlay, Insert } from './Actions'
 
 const initialState: State = []
 
@@ -120,16 +120,14 @@ const overlaysSlice = createSlice({
         },
 
         remove: {
-            prepare(id) {
-                return ({
-                    payload: { id },
-                })
+            prepare() {
+                return ({ payload: {} })
             },
 
-            reducer(state, action: Remove) {
-                const { id: removedId } = action.payload
+            reducer(state) {
+                state.splice(state.length - 1, 1)
 
-                return state.filter(({ id }) => id !== removedId)
+                return state
             },
         },
 
