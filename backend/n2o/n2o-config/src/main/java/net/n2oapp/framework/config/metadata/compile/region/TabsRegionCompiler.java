@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
+import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
@@ -68,7 +69,10 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         region.setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
         region.setActiveParam(source.getActiveParam());
         compileRoute(source, region.getId(), ROUTABLE, p);
-
+        if (!(context instanceof ModalPageContext))
+            region.setRoutable(
+                    castDefault(source.getRoutable(), () -> p.resolve(property(ROUTABLE), Boolean.class))
+            );
         return region;
     }
 
