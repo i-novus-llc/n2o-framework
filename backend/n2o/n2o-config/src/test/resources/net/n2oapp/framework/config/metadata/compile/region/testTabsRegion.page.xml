@@ -25,5 +25,6 @@
         <tabs>
             <tab/>
         </tabs>
+        <tabs routable="false"/>
     </regions>
 </page>

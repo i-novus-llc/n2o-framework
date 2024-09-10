@@ -32,6 +32,8 @@ public class TabsRegion extends Region implements CompiledRegionItem {
     private String datasource;
     @JsonProperty
     private String activeTabFieldId;
+    @JsonProperty
+    private Boolean routable;
 
     @JsonProperty("tabs")
     private List<Tab> items;
