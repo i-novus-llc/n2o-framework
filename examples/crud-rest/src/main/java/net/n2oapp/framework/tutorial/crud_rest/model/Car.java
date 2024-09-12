@@ -3,7 +3,7 @@ package net.n2oapp.framework.tutorial.crud_rest.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Data

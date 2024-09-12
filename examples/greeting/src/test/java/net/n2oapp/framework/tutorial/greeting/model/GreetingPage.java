@@ -27,6 +27,6 @@ public class GreetingPage {
     }
 
     public void greetingShouldHave(String text) {
-        simplePage.alerts(Alert.Placement.topLeft).alert(0).shouldHaveText(text);
+        simplePage.alerts(Alert.Placement.top).alert(0).shouldHaveText(text);
     }
 }

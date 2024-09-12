@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static com.codeborne.selenide.Configuration.browserSize;
 import static com.codeborne.selenide.Configuration.headless;
@@ -49,6 +49,6 @@ public class SimpleGreetingAT {
         inputText.clear();
         inputText.setValue("Иван");
         page.widget(FormWidget.class).toolbar().bottomLeft().button("Отправить").click();
-        page.alerts(Alert.Placement.topLeft).alert(0).shouldHaveText("Привет, Иван");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Привет, Иван");
     }
 }

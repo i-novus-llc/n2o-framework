@@ -9,7 +9,7 @@ import net.n2oapp.framework.tutorial.crud.model.CrudPage;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static com.codeborne.selenide.Configuration.browserSize;
