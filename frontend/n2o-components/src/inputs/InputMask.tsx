@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, ChangeEventHandler, KeyboardEvent } from 'react'
-import MaskedInput from 'react-text-mask'
-import cn from 'classnames'
+import MaskedInput, { conformToMask, Mask } from 'react-text-mask'
+import classNames from 'classnames'
 import isEqual from 'lodash/isEqual'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import { isArray, isFunction } from 'lodash'
@@ -213,6 +213,14 @@ class InputMaskComponent extends React.Component<InputMaskProps, InputMaskState>
         this.valid = this.isValid(valueFromState)
     }
 
+    formatToReactTextMask = (value: InputMaskState['value'], mask: Mask) => {
+        if (!value) { return '' }
+
+        const { conformedValue } = conformToMask(String(value), mask)
+
+        return conformedValue
+    }
+
     /**
      * базовый рендер компонента
      */
@@ -227,23 +235,19 @@ class InputMaskComponent extends React.Component<InputMaskProps, InputMaskState>
             keepCharPositions,
             onKeyDown,
         } = this.props
-        const { guide, value } = this.state
+        const { guide, value: stateValue } = this.state
         const mask = this.preset(preset)
 
         return (
             <MaskedInput
                 disabled={disabled}
-                className={cn([
-                    'form-control',
-                    'n2o-input-mask',
-                    className,
-                ])}
+                className={classNames(['form-control', 'n2o-input-mask', className])}
                 placeholderChar={placeholderChar}
                 placeholder={placeholder}
                 guide={guide}
                 autoFocus={autoFocus}
                 mask={mask || this.mask}
-                value={value}
+                value={this.formatToReactTextMask(stateValue, mask || this.mask)}
                 onBlur={this.onBlur}
                 onChange={this.onChange}
                 onFocus={this.onFocus}
