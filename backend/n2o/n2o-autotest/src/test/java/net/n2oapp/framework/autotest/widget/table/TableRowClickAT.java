@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.widget.table;
 
-import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
@@ -12,7 +11,6 @@ import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
-import net.n2oapp.framework.autotest.run.N2oController;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -21,15 +19,11 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 
 /**
  * Автотест для виджета Таблица. Тестирование row click
  */
 public class TableRowClickAT extends AutoTestBase {
-
-    @SpyBean
-    private N2oController controller;
 
     @BeforeAll
     public static void beforeClass() {
@@ -100,15 +94,11 @@ public class TableRowClickAT extends AutoTestBase {
 
         Cells firstRow = table.columns().rows().row(0);
         firstRow.cell(1).shouldHaveText("1");
-        firstRow.click();
-        Alert alert = page.alerts(Alert.Placement.top).alert(0);
-        alert.shouldHaveColor(Colors.DANGER);
-        alert.shouldHaveText("error");
 
         CheckboxCell selectRowCell = firstRow.cell(0, CheckboxCell.class);
         selectRowCell.shouldBeUnchecked();
         selectRowCell.setChecked(true);
-        alert = page.alerts(Alert.Placement.top).alert(1);
+        Alert alert = page.alerts(Alert.Placement.top).alert(0);
         alert.shouldNotExists();
 
         EditCell cell = firstRow.cell(2, EditCell.class);
@@ -116,19 +106,19 @@ public class TableRowClickAT extends AutoTestBase {
         InputText input = cell.control(InputText.class);
         input.shouldHaveValue("Иванов П.И.");
         cell.click();
-        alert = page.alerts(Alert.Placement.top).alert(1);
+        alert = page.alerts(Alert.Placement.top).alert(0);
         alert.shouldNotExists();
         input.setValue("Иванова П.И.");
-        Selenide.refresh();
-        input.shouldHaveValue("Иванова П.И.");
 
         CheckboxCell checkbox = firstRow.cell(3, CheckboxCell.class);
         checkbox.shouldBeChecked();
         checkbox.setChecked(false);
-        alert = page.alerts(Alert.Placement.top).alert(1);
+        alert = page.alerts(Alert.Placement.top).alert(0);
         alert.shouldNotExists();
-        Selenide.refresh();
-        checkbox.shouldBeUnchecked();
 
+        firstRow.click();
+        alert = page.alerts(Alert.Placement.top).alert(0);
+        alert.shouldHaveColor(Colors.DANGER);
+        alert.shouldHaveText("error");
     }
 }

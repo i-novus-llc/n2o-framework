@@ -53,7 +53,7 @@ public abstract class N2oTableHeader extends N2oComponent implements TableHeader
 
     @Override
     public void shouldHaveAlignment(String alignment) {
-        element().shouldHave(Condition.attributeMatching("align", String.format(".*%s.*", alignment)));
+        element().shouldHave(Condition.attribute("align", alignment));
     }
 
     @Override

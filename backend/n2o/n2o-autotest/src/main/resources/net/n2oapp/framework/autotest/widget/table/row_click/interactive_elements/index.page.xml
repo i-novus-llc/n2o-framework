@@ -17,7 +17,7 @@
             </column>
             <column text-field-id="checkbox">
                 <checkbox>
-                    <invoke operation-id="update"/>
+                    <invoke operation-id="update" message-on-success="false"/>
                 </checkbox>
             </column>
         </columns>

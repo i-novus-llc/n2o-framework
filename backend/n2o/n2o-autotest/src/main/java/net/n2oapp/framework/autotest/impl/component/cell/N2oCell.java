@@ -64,7 +64,7 @@ public class N2oCell extends N2oComponent implements Cell {
 
     @Override
     public void shouldHaveAlignment(String alignment) {
-        element().shouldHave(Condition.attributeMatching("align", String.format(".*%s.*", alignment)));
+        element().shouldHave(Condition.attribute("align", alignment));
     }
 
     @Override

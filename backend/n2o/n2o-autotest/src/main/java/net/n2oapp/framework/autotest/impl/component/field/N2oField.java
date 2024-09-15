@@ -25,6 +25,7 @@ public class N2oField extends N2oComponent implements Field {
     public void shouldHaveEmptyLabel() {
         label().should(Condition.empty);
     }
+
     protected SelenideElement label() {
         return element().$(".n2o-field-label");
     }

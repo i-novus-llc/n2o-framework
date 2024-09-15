@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.condition.field.dependency.fetch_value.fetch;
+package net.n2oapp.framework.autotest.condition.field.dependency.fetch_value;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
