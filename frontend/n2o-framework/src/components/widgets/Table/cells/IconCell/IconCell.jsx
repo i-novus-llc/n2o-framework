@@ -17,8 +17,9 @@ import { textPlaceTypes } from './cellTypes'
  * @reactProps {object} model - модель строки
  * @reactProps {string} icon - класс иконки
  * @reactProps {string} iconPosition - расположение кнопки относительно текста
+ * @reactProps {string | undefined} className - дополнительный класс для ячейки
  */
-function IconCell({ id, model, visible, icon, iconPosition, forwardedRef, style }) {
+function IconCell({ id, model, visible, icon, iconPosition, forwardedRef, style, className }) {
     if (!visible) {
         return null
     }
@@ -28,7 +29,7 @@ function IconCell({ id, model, visible, icon, iconPosition, forwardedRef, style 
         visible && (
             <div
                 ref={forwardedRef}
-                className={classNames('icon-cell-container', {
+                className={classNames('icon-cell-container', className, {
                     'icon-cell-container__with-tooltip': !isUndefined(model.tooltipFieldId),
                     'icon-cell-container__text-left': iconPosition === textPlaceTypes.RIGHT,
                 })}
@@ -61,6 +62,8 @@ IconCell.propTypes = {
      * Флаг видимости
      */
     visible: PropTypes.bool,
+
+    className: PropTypes.string,
 }
 
 IconCell.defaultProps = {
