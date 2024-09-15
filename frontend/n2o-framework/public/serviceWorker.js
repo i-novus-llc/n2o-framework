@@ -1,8 +1,9 @@
 const CACHE = 'Hestia';
 const ALLOWED_MASKS = [
-  // .hash(.chunk)?.ext
-  /(\..{8})(\.chunk)?\.js$/i,
-  /(\..{8})(\.chunk)?\.css$/i,
+  // -hash.ext
+  /(\-.{8})\.js$/i,
+  /(\-.{8})\.css$/i,
+  /(\-.{8})\.svg$/i,
   /\.woff2$/i
 ];
 const ALLOWED_LOCATION = [
