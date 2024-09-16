@@ -92,7 +92,11 @@ function htmlPlugin(env: Record<string, string>) {
         let result = html
 
         for (const [key, value] of Object.entries(env)) {
-            result = result.replaceAll(`%${key}%`, value)
+            // фикс двойных слешей при подмене параметра
+            const prefix = String(value).startsWith('/') ? '/' : ''
+            const suffix = String(value).endsWith('/') ? '/' : ''
+
+            result = result.replaceAll(`${prefix}%${key}%${suffix}`, value)
         }
 
         return result
