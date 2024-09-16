@@ -10,6 +10,23 @@
     <meta name="theme-color" content="#000000"/>
     <title>Simple Project</title>
     <script>
+        function installWorker(path) {
+            if (!path) { return }
+            if (!navigator?.serviceWorker) {
+                console.warn('ServiceWorker installing error: not supported')
+
+                return
+            }
+
+            navigator.serviceWorker.register(path).then(() => {
+                console.info('ServiceWorker installing success');
+            }, (error) => {
+                console.warn('ServiceWorker installing error: ', error);
+            })
+        }
+
+        installWorker('%PUBLIC_URL%/serviceWorker.js')
+
         // Используется из docusaurus для скрытия ненужных хедера, бредкрамба и футера
         window.N2O_ELEMENT_VISIBILITY = {
             header: true,

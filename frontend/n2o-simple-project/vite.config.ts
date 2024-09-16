@@ -7,7 +7,8 @@ import viteSvgr from 'vite-plugin-svgr'
 import { proxy } from './setupProxy'
 
 export default defineConfig(({ mode }) => {
-    dotenv();
+    const { parsed = {} } = dotenv();
+    const isProduction = mode === 'production';
 
     return {
         base: process.env.PUBLIC_URL,
@@ -22,7 +23,7 @@ export default defineConfig(({ mode }) => {
                 },
                 output: {
                     dir: 'build',
-                    entryFileNames: 'index.js'
+                    entryFileNames: isProduction ? 'index-[hash].js' : 'index.js'
                     // disable chunk splitting
                     // manualChunks: () => 'index.tsx',
                 },
@@ -49,6 +50,7 @@ export default defineConfig(({ mode }) => {
             },
         },
         plugins: [
+            htmlPlugin(isProduction ? {} : parsed),
             reactVirtualized(),
             react({
                 include: '**/*.{js,jsx,ts,tsx}',
@@ -81,6 +83,21 @@ export default defineConfig(({ mode }) => {
         },
     }
 })
+
+function htmlPlugin(env: Record<string, string>) {
+    return {
+      name: 'html-transform',
+      transformIndexHtml(html: string) {
+        let result = html
+
+        for (const [key, value] of Object.entries(env)) {
+            result = result.replaceAll(`%${key}%`, value)
+        }
+
+        return result
+      },
+    }
+}
 
 /* Фикс бага импорта в react-virtualized на котором падает vite */
 import type { Plugin } from "vite";
