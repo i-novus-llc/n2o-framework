@@ -50,7 +50,7 @@ export default defineConfig(({ mode }) => {
             },
         },
         plugins: [
-            htmlPlugin(isProduction ? {} : parsed),
+            htmlPlugin(parsed),
             reactVirtualized(),
             react({
                 include: '**/*.{js,jsx,ts,tsx}',
@@ -84,6 +84,7 @@ export default defineConfig(({ mode }) => {
     }
 })
 
+/* Подмена %параметров%  из .env файла, т.к. vite из коробки делает только для ключей по префиксу VITE_ */
 function htmlPlugin(env: Record<string, string>) {
     return {
       name: 'html-transform',
