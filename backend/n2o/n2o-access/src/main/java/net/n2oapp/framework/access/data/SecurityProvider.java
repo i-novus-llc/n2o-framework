@@ -11,10 +11,12 @@ import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFilter;
 import net.n2oapp.framework.access.simple.PermissionApi;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.Restriction;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.user.UserContext;
 
 import java.util.*;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -31,8 +33,9 @@ public class SecurityProvider {
 
     /**
      * Проверка есть ли у пользователя из userContext доступ к объекту, права к которуму регулирует security
-     * @param security      права доступа для проверки
-     * @param userContext   информация о пользователе
+     *
+     * @param security    права доступа для проверки
+     * @param userContext информация о пользователе
      */
     public void checkAccess(Security security, UserContext userContext) {
         if (security == null || security.getSecurityMap() == null)
@@ -44,9 +47,10 @@ public class SecurityProvider {
 
     /**
      * Сборка ограничений прав доступа актуальных для пользователя из userContext из общего списка фильтров
-     * @param securityFilters   фильтрация объекта
-     * @param userContext       информация о пользователе
-     * @return  список ограничений прав доступа к объекту
+     *
+     * @param securityFilters фильтрация объекта
+     * @param userContext     информация о пользователе
+     * @return список ограничений прав доступа к объекту
      */
     public List<Restriction> collectRestrictions(SecurityFilters securityFilters, UserContext userContext) {
         if (securityFilters == null)
@@ -104,20 +108,50 @@ public class SecurityProvider {
 
     private Restriction restriction(N2oObjectFilter filter) {
         Object value = filter.isArray() ? Arrays.asList(filter.getValues()) : filter.getValue();
-        return new Restriction(filter.getFieldId(), value, filter.getType());
+        return new Restriction(filter.getId(), filter.getFieldId(), value, filter.getType());
+    }
+
+    /**
+     * Вызывает исключение, если данные операции не удовлетворяют фильтрам доступа
+     *
+     * @param data            Данные
+     * @param securityFilters Фильтры доступа
+     * @param userContext     Контекст пользователя
+     */
+    public void checkObjectRestrictions(DataSet data, SecurityFilters securityFilters,
+                                        UserContext userContext) {
+        checkRestrictions(securityFilters, userContext, r -> data.get(r.getId()));
+    }
+
+    /**
+     * Вызывает исключение, если данные выборки не удовлетворяют фильтрам доступа
+     *
+     * @param data            Данные
+     * @param securityFilters Фильтры доступа
+     * @param userContext     Контекст пользователя
+     */
+    public void checkQueryRestrictions(DataSet data, SecurityFilters securityFilters,
+                                       UserContext userContext, Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap) {
+        checkRestrictions(securityFilters, userContext, r -> {
+            N2oQuery.Filter filter = filtersMap.get(r.getFieldId()).get(r.getType());
+            return filter != null ? data.get(filter.getFilterId()) : null;
+        });
     }
 
     /**
      * Вызывает исключение, если данные не удовлетворяют фильтрам доступа
-     * @param data Данные
-     * @param securityFilters Фильтры доступа
-     * @param userContext Контекст пользователя
+     *
+     * @param securityFilters   Фильтры доступа
+     * @param userContext       Контекст пользователя
+     * @param realValueFunction Функция, получающая реальное значение фильтра
      */
-    public void checkRestrictions(DataSet data, SecurityFilters securityFilters, UserContext userContext) {
+    private void checkRestrictions(SecurityFilters securityFilters,
+                                   UserContext userContext,
+                                   Function<Restriction, Object> realValueFunction) {
         List<Restriction> restrictions = collectRestrictions(securityFilters, userContext);
         ContextProcessor contextProcessor = new ContextProcessor(userContext);
         for (Restriction securityRestriction : restrictions) {
-            Object realValue = data.get(securityRestriction.getFieldId());
+            Object realValue = realValueFunction.apply(securityRestriction);
             if (realValue != null || strictFiltering) {
                 if (FilterType.Arity.nullary.equals(securityRestriction.getType().arity)) {
                     Filter securityFilter = new Filter(securityRestriction.getType());
@@ -135,9 +169,10 @@ public class SecurityProvider {
 
     /**
      * Проверка фильтра по полю
-     * @param fieldId   идентификатор поля
-     * @param realValue     значение
-     * @param securityFilter    фильтр поля
+     *
+     * @param fieldId        идентификатор поля
+     * @param realValue      значение
+     * @param securityFilter фильтр поля
      */
     private void checkByField(String fieldId, Object realValue, Filter securityFilter) {
         if (!securityFilter.check(realValue))
@@ -164,17 +199,19 @@ public class SecurityProvider {
                 throw new AccessDeniedException();
         }
 
-        if (!checkAccessList(userContext, securityObject.getRoles(), permissionApi::hasRole)
-                && !checkAccessList(userContext, securityObject.getPermissions(), permissionApi::hasPermission)
-                && !checkAccessList(userContext, securityObject.getUsernames(), permissionApi::hasUsername))
+        if (!(checkAccessList(userContext, securityObject.getRoles(), permissionApi::hasRole)
+                || checkAccessList(userContext, securityObject.getPermissions(), permissionApi::hasPermission)
+                || checkAccessList(userContext, securityObject.getUsernames(), permissionApi::hasUsername)))
             throw new AccessDeniedException();
     }
 
     private boolean checkAccessList(UserContext userContext, Set<String> accessList, BiPredicate<UserContext, String> f) {
-        if (accessList == null) return false;
-        for (String param : accessList) {
-            if (f.test(userContext, param)) return true;
-        }
+        if (accessList == null)
+            return false;
+
+        for (String param : accessList)
+            if (f.test(userContext, param))
+                return true;
         return false;
     }
 }
