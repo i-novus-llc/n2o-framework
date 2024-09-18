@@ -17,11 +17,11 @@
     "redux-thunk": "^2.4.2"
   },
   "devDependencies": {
-    "dotenv" : "8.2.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "dotenv": "8.2.0",
     "rimraf": "5.0.7",
     "typescript": "*",
     "vite": "^4.3.9",
-    "@vitejs/plugin-react": "^4.0.0",
     "vite-bundle-visualizer": "^0.7.0",
     "vite-plugin-svgr": "^3.2.0"
   },

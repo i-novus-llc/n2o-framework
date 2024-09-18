@@ -108,7 +108,7 @@ export function InputElements({
     if (typeof maxTagCount === 'number') {
         if (maxTagCount === 0) {
             const id = selected.length
-            const title = `${t('selected')}: ${selected.length}`
+            const title = `Выбрано: ${selected.length}`
 
             list = []
             rest = (

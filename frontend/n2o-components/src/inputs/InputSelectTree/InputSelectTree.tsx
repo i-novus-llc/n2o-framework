@@ -89,7 +89,7 @@ function InputSelectTree({
     value,
     onBlur,
     placeholder,
-    notFoundContent = t('noData'),
+    notFoundContent = 'Нет данных для отображения',
     loading,
     parentFieldId,
     valueFieldId,
@@ -289,7 +289,8 @@ function InputSelectTree({
             return <InlineSpinner />
         }
 
-        return notFoundContent
+        // TODO проверка вернуть как было
+        return 'Нет данных для отображения'
     }
 
     return (
