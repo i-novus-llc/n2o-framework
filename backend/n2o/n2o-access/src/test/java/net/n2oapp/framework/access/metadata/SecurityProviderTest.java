@@ -8,6 +8,7 @@ import net.n2oapp.framework.access.exception.UnauthorizedException;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFilter;
 import net.n2oapp.framework.access.simple.PermissionApi;
 import net.n2oapp.framework.api.criteria.Restriction;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.test.TestContextEngine;
 import net.n2oapp.framework.api.user.UserContext;
 import org.junit.jupiter.api.BeforeEach;
@@ -571,11 +572,21 @@ class SecurityProviderTest {
     }
 
     @Test
-    void checkRestrictions() {
+    void checkQueryRestrictions() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         SecurityProvider notStrictSecurityProvider = new SecurityProvider(permissionApi, false);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
+        Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap = Map.of(
+                "foo", Map.of(FilterType.eq, new N2oQuery.Filter("foo.val", FilterType.eq),
+                        FilterType.notEq, new N2oQuery.Filter("foo.val", FilterType.notEq)),
+                "name", Map.of(FilterType.isNotNull, new N2oQuery.Filter("name", FilterType.isNotNull),
+                        FilterType.eq, new N2oQuery.Filter("name", FilterType.eq)),
+                "surname", Map.of(FilterType.eqOrIsNull, new N2oQuery.Filter("surname", FilterType.eqOrIsNull)),
+                "age", Map.of(FilterType.isNull, new N2oQuery.Filter("age", FilterType.isNull)),
+                "bar", Map.of(FilterType.in, new N2oQuery.Filter("bar", FilterType.in)),
+                "list", Map.of(FilterType.contains, new N2oQuery.Filter("list", FilterType.contains))
+        );
 
         securityFilters.setAuthenticatedFilters(Arrays.asList(
                 new N2oObjectFilter("foo", "1", FilterType.eq, "filter1"),
@@ -594,19 +605,24 @@ class SecurityProviderTest {
         //аутентифицирован
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         //foo == 1 and name != null and surname == null
-        securityProvider.checkRestrictions(new DataSet().add("foo", 1).add("name", "Ivan"), securityFilters, userContext);
+        securityProvider.checkQueryRestrictions(new DataSet().add("foo.val", 1).add("name", "Ivan"),
+                securityFilters, userContext, filtersMap);
         //foo != 1
-        notStrictSecurityProvider.checkRestrictions(new DataSet().add("foo", 1).add("name", "Ivan"), securityFilters, userContext);
+        notStrictSecurityProvider.checkQueryRestrictions(new DataSet().add("foo.val", 1).add("name", "Ivan"),
+                securityFilters, userContext, filtersMap);
         try {
-            securityProvider.checkRestrictions(new DataSet().add("name", "Ivan").add("foo", 2), securityFilters, userContext);
+            securityProvider.checkQueryRestrictions(new DataSet().add("foo.val", 2).add("name", "Ivan"),
+                    securityFilters, userContext, filtersMap);
             fail();
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("foo"));
         }
         //foo == null
-        notStrictSecurityProvider.checkRestrictions(new DataSet(), securityFilters, userContext);
+        notStrictSecurityProvider.checkQueryRestrictions(new DataSet(),
+                securityFilters, userContext, filtersMap);
         try {
-            securityProvider.checkRestrictions(new DataSet().add("name", "Ivan"), securityFilters, userContext);
+            securityProvider.checkQueryRestrictions(new DataSet().add("name", "Ivan"),
+                    securityFilters, userContext, filtersMap);
             fail();
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("foo"));
@@ -615,17 +631,20 @@ class SecurityProviderTest {
         //анонимный доступ
         when(permissionApi.hasAuthentication(userContext)).thenReturn(false);
         //foo != 1
-        securityProvider.checkRestrictions(new DataSet().add("foo", 2), securityFilters, userContext);
+        securityProvider.checkQueryRestrictions(new DataSet().add("foo.val", 2),
+                securityFilters, userContext, filtersMap);
         //foo == 1
         try {
-            securityProvider.checkRestrictions(new DataSet().add("foo", 1), securityFilters, userContext);
+            securityProvider.checkQueryRestrictions(new DataSet().add("foo.val", 1),
+                    securityFilters, userContext, filtersMap);
             fail();
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("foo"));
         }
         //age != null
         try {
-            securityProvider.checkRestrictions(new DataSet().add("foo", 3).add("age", 10), securityFilters, userContext);
+            securityProvider.checkQueryRestrictions(new DataSet().add("foo.val", 3).add("age", 10),
+                    securityFilters, userContext, filtersMap);
             fail();
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("age"));
@@ -636,8 +655,162 @@ class SecurityProviderTest {
         when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
         //bar in (1, 2, 3)
         try {
-            securityProvider.checkRestrictions(new DataSet()
-                            .add("foo", 1)
+            securityProvider.checkQueryRestrictions(new DataSet()
+                            .add("foo.val", 1)
+                            .add("bar", 2)
+                            .add("name", "Ivan"),
+                    securityFilters, userContext, filtersMap);
+        } catch (AccessDeniedException e) {
+            fail();
+        }
+        //bar not in (1, 2, 3)
+        try {
+            securityProvider.checkQueryRestrictions(new DataSet()
+                            .add("foo.val", 1)
+                            .add("bar", 4)
+                            .add("name", "Ivan"),
+                    securityFilters, userContext, filtersMap);
+            fail();
+        } catch (AccessDeniedException e) {
+            assertThat(e.getMessage(), endsWith("bar"));
+        }
+
+        //доступ аутентифицированным, по ролям и по полномочиям
+        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
+        when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
+        when(permissionApi.hasPermission(userContext, "permission1")).thenReturn(true);
+        userContext.set("three", 3);
+        //list contains (1, 2, 3)
+        try {
+            securityProvider.checkQueryRestrictions(new DataSet()
+                            .add("foo.val", 1)
+                            .add("bar", 2)
+                            .add("name", "Ivan")
+                            .add("list", Arrays.asList(3, 2, 1, 4)),
+                    securityFilters, userContext, filtersMap);
+        } catch (AccessDeniedException e) {
+            fail();
+        }
+
+        //list not contains (1, 2, 3)
+        try {
+            securityProvider.checkQueryRestrictions(new DataSet()
+                            .add("foo.val", 1)
+                            .add("bar", 2)
+                            .add("name", "Ivan")
+                            .add("list", Arrays.asList(1, 2)),
+                    securityFilters, userContext, filtersMap);
+            fail();
+        } catch (AccessDeniedException e) {
+            assertThat(e.getMessage(), endsWith("list"));
+        }
+
+        //доступ аутентифицированным, по ролям, по полномочиям, по имени пользователя
+        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
+        when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
+        when(permissionApi.hasPermission(userContext, "permission1")).thenReturn(true);
+        when(permissionApi.hasUsername(userContext, "username1")).thenReturn(true);
+        userContext.set("username", "Joe");
+        //name == #{username}
+        try {
+            securityProvider.checkQueryRestrictions(new DataSet()
+                            .add("foo.val", 1)
+                            .add("bar", 2)
+                            .add("list", Arrays.asList(3, 2, 1, 4))
+                            .add("name", "Joe"),
+                    securityFilters, userContext, filtersMap);
+        } catch (AccessDeniedException e) {
+            fail();
+        }
+        //name != #{username}
+        try {
+            securityProvider.checkQueryRestrictions(new DataSet()
+                            .add("foo.val", 1)
+                            .add("bar", 2)
+                            .add("list", Arrays.asList(3, 2, 1, 4))
+                            .add("name", "Doe"),
+                    securityFilters, userContext, filtersMap);
+        } catch (AccessDeniedException e) {
+            assertThat(e.getMessage(), endsWith("name"));
+        }
+    }
+
+    @Test
+    void checkObjectRestrictions() {
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
+        SecurityProvider notStrictSecurityProvider = new SecurityProvider(permissionApi, false);
+        UserContext userContext = new UserContext(new TestContextEngine());
+        SecurityFilters securityFilters = new SecurityFilters();
+
+        securityFilters.setAuthenticatedFilters(Arrays.asList(
+                new N2oObjectFilter("foo", "1", FilterType.eq, "foo.val"),
+                new N2oObjectFilter("name", FilterType.isNotNull, "name"),
+                new N2oObjectFilter("surname", "1", FilterType.eqOrIsNull, "surname")));
+        securityFilters.setAnonymousFilters(Arrays.asList(
+                new N2oObjectFilter("age", FilterType.isNull, "age"),
+                new N2oObjectFilter("foo", "1", FilterType.notEq, "foo.val")));
+        securityFilters.setRoleFilters(Collections.singletonMap("role1", Collections.singletonList(
+                new N2oObjectFilter("bar", new String[]{"1", "2", "3"}, FilterType.in, "bar"))));
+        securityFilters.setPermissionFilters(Collections.singletonMap("permission1", Collections.singletonList(
+                new N2oObjectFilter("list", new String[]{"1", "2", "#{three}"}, FilterType.contains, "list"))));
+        securityFilters.setUserFilters(Collections.singletonMap("username1", Collections.singletonList(
+                new N2oObjectFilter("name", "#{username}", FilterType.eq, "name"))));
+
+        //аутентифицирован
+        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
+        //foo == 1 and name != null and surname == null
+        securityProvider.checkObjectRestrictions(new DataSet().add("foo.val", 1).add("name", "Ivan"),
+                securityFilters, userContext);
+        //foo != 1
+        notStrictSecurityProvider.checkObjectRestrictions(new DataSet().add("foo.val", 1).add("name", "Ivan"),
+                securityFilters, userContext);
+        try {
+            securityProvider.checkObjectRestrictions(new DataSet().add("foo.val", 2).add("name", "Ivan"),
+                    securityFilters, userContext);
+            fail();
+        } catch (AccessDeniedException e) {
+            assertThat(e.getMessage(), endsWith("foo"));
+        }
+        //foo == null
+        notStrictSecurityProvider.checkObjectRestrictions(new DataSet(),
+                securityFilters, userContext);
+        try {
+            securityProvider.checkObjectRestrictions(new DataSet().add("name", "Ivan"),
+                    securityFilters, userContext);
+            fail();
+        } catch (AccessDeniedException e) {
+            assertThat(e.getMessage(), endsWith("foo"));
+        }
+
+        //анонимный доступ
+        when(permissionApi.hasAuthentication(userContext)).thenReturn(false);
+        //foo != 1
+        securityProvider.checkObjectRestrictions(new DataSet().add("foo.val", 2),
+                securityFilters, userContext);
+        //foo == 1
+        try {
+            securityProvider.checkObjectRestrictions(new DataSet().add("foo.val", 1),
+                    securityFilters, userContext);
+            fail();
+        } catch (AccessDeniedException e) {
+            assertThat(e.getMessage(), endsWith("foo"));
+        }
+        //age != null
+        try {
+            securityProvider.checkObjectRestrictions(new DataSet().add("foo.val", 3).add("age", 10),
+                    securityFilters, userContext);
+            fail();
+        } catch (AccessDeniedException e) {
+            assertThat(e.getMessage(), endsWith("age"));
+        }
+
+        //доступ аутентифицированным и по ролям
+        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
+        when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
+        //bar in (1, 2, 3)
+        try {
+            securityProvider.checkObjectRestrictions(new DataSet()
+                            .add("foo.val", 1)
                             .add("bar", 2)
                             .add("name", "Ivan"),
                     securityFilters, userContext);
@@ -646,8 +819,8 @@ class SecurityProviderTest {
         }
         //bar not in (1, 2, 3)
         try {
-            securityProvider.checkRestrictions(new DataSet()
-                            .add("foo", 1)
+            securityProvider.checkObjectRestrictions(new DataSet()
+                            .add("foo.val", 1)
                             .add("bar", 4)
                             .add("name", "Ivan"),
                     securityFilters, userContext);
@@ -663,8 +836,8 @@ class SecurityProviderTest {
         userContext.set("three", 3);
         //list contains (1, 2, 3)
         try {
-            securityProvider.checkRestrictions(new DataSet()
-                            .add("foo", 1)
+            securityProvider.checkObjectRestrictions(new DataSet()
+                            .add("foo.val", 1)
                             .add("bar", 2)
                             .add("name", "Ivan")
                             .add("list", Arrays.asList(3, 2, 1, 4)),
@@ -675,8 +848,8 @@ class SecurityProviderTest {
 
         //list not contains (1, 2, 3)
         try {
-            securityProvider.checkRestrictions(new DataSet()
-                            .add("foo", 1)
+            securityProvider.checkObjectRestrictions(new DataSet()
+                            .add("foo.val", 1)
                             .add("bar", 2)
                             .add("name", "Ivan")
                             .add("list", Arrays.asList(1, 2)),
@@ -694,8 +867,8 @@ class SecurityProviderTest {
         userContext.set("username", "Joe");
         //name == #{username}
         try {
-            securityProvider.checkRestrictions(new DataSet()
-                            .add("foo", 1)
+            securityProvider.checkObjectRestrictions(new DataSet()
+                            .add("foo.val", 1)
                             .add("bar", 2)
                             .add("list", Arrays.asList(3, 2, 1, 4))
                             .add("name", "Joe"),
@@ -705,8 +878,8 @@ class SecurityProviderTest {
         }
         //name != #{username}
         try {
-            securityProvider.checkRestrictions(new DataSet()
-                            .add("foo", 1)
+            securityProvider.checkObjectRestrictions(new DataSet()
+                            .add("foo.val", 1)
                             .add("bar", 2)
                             .add("list", Arrays.asList(3, 2, 1, 4))
                             .add("name", "Doe"),

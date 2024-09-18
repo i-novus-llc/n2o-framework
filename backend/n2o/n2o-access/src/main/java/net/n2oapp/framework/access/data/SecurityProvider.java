@@ -12,11 +12,13 @@ import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFilter;
 import net.n2oapp.framework.access.simple.PermissionApi;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.Restriction;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.user.UserContext;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 
 /**
  * Сервис для проверки наличия прав доступа у пользователя
@@ -107,21 +109,50 @@ public class SecurityProvider {
 
     private Restriction restriction(N2oObjectFilter filter) {
         Object value = filter.isArray() ? Arrays.asList(filter.getValues()) : filter.getValue();
-        return new Restriction(filter.getFieldId(), value, filter.getType());
+        return new Restriction(filter.getId(), filter.getFieldId(), value, filter.getType());
     }
 
     /**
-     * Вызывает исключение, если данные не удовлетворяют фильтрам доступа
+     * Вызывает исключение, если данные операции не удовлетворяют фильтрам доступа
      *
      * @param data            Данные
      * @param securityFilters Фильтры доступа
      * @param userContext     Контекст пользователя
      */
-    public void checkRestrictions(DataSet data, SecurityFilters securityFilters, UserContext userContext) {
+    public void checkObjectRestrictions(DataSet data, SecurityFilters securityFilters,
+                                        UserContext userContext) {
+        checkRestrictions(securityFilters, userContext, r -> data.get(r.getId()));
+    }
+
+    /**
+     * Вызывает исключение, если данные выборки не удовлетворяют фильтрам доступа
+     *
+     * @param data            Данные
+     * @param securityFilters Фильтры доступа
+     * @param userContext     Контекст пользователя
+     */
+    public void checkQueryRestrictions(DataSet data, SecurityFilters securityFilters,
+                                       UserContext userContext, Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap) {
+        checkRestrictions(securityFilters, userContext, r -> {
+            N2oQuery.Filter filter = filtersMap.get(r.getFieldId()).get(r.getType());
+            return filter != null ? data.get(filter.getFilterId()) : null;
+        });
+    }
+
+    /**
+     * Вызывает исключение, если данные не удовлетворяют фильтрам доступа
+     *
+     * @param securityFilters   Фильтры доступа
+     * @param userContext       Контекст пользователя
+     * @param realValueFunction Функция, получающая реальное значение фильтра
+     */
+    private void checkRestrictions(SecurityFilters securityFilters,
+                                   UserContext userContext,
+                                   Function<Restriction, Object> realValueFunction) {
         List<Restriction> restrictions = collectRestrictions(securityFilters, userContext);
         ContextProcessor contextProcessor = new ContextProcessor(userContext);
         for (Restriction securityRestriction : restrictions) {
-            Object realValue = data.get(securityRestriction.getFieldId());
+            Object realValue = realValueFunction.apply(securityRestriction);
             if (realValue != null || strictFiltering) {
                 if (FilterType.Arity.nullary.equals(securityRestriction.getType().arity)) {
                     Filter securityFilter = new Filter(securityRestriction.getType());
@@ -169,17 +200,19 @@ public class SecurityProvider {
                 throw new AccessDeniedException();
         }
 
-        if (!checkAccessList(userContext, securityObject.getRoles(), permissionApi::hasRole)
-                && !checkAccessList(userContext, securityObject.getPermissions(), permissionApi::hasPermission)
-                && !checkAccessList(userContext, securityObject.getUsernames(), permissionApi::hasUsername))
+        if (!(checkAccessList(userContext, securityObject.getRoles(), permissionApi::hasRole)
+                || checkAccessList(userContext, securityObject.getPermissions(), permissionApi::hasPermission)
+                || checkAccessList(userContext, securityObject.getUsernames(), permissionApi::hasUsername)))
             throw new AccessDeniedException();
     }
 
     private boolean checkAccessList(UserContext userContext, Set<String> accessList, BiPredicate<UserContext, String> f) {
-        if (accessList == null) return false;
-        for (String param : accessList) {
-            if (f.test(userContext, param)) return true;
-        }
+        if (accessList == null)
+            return false;
+
+        for (String param : accessList)
+            if (f.test(userContext, param))
+                return true;
         return false;
     }
 }

@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFilter;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,7 +18,7 @@ public class SecurityFilters implements Serializable {
     /**
      * Ключ объекта Security в properties
      */
-    public static String SECURITY_FILTERS_PROP_NAME = "securityFilters";
+    public static final String SECURITY_FILTERS_PROP_NAME = "securityFilters";
 
     /**
      * Фильтры объектов, соответствующие ролям
@@ -28,8 +27,8 @@ public class SecurityFilters implements Serializable {
     private Map<String, List<N2oObjectFilter>> roleFilters;
 
     /**
-     * Фильтры объектов, соответствующие привелегиям
-     * В map ключом является идентификатор привелегии
+     * Фильтры объектов, соответствующие привилегиям
+     * В map ключом является идентификатор привилегии
      */
     private Map<String, List<N2oObjectFilter>> permissionFilters;
 
@@ -62,8 +61,8 @@ public class SecurityFilters implements Serializable {
     private Map<String, Set<String>> removeRoleFilters;
 
     /**
-     * Фильтры объектов, исключенные из привелегий
-     * В map ключом является идентификатор привелегии
+     * Фильтры объектов, исключенные из привилегий
+     * В map ключом является идентификатор привилегии
      */
     private Map<String, Set<String>> removePermissionFilters;
 
@@ -87,23 +86,4 @@ public class SecurityFilters implements Serializable {
      * Фильтры объектов, исключенные у всех пользователей
      */
     private Set<String> removePermitAllFilters;
-
-    public void addRemovePermitAllFilters(String filter) {
-        if (removePermitAllFilters == null)
-            removePermitAllFilters = new HashSet<>();
-        removePermitAllFilters.add(filter);
-    }
-
-    public void addRemoveAnonymousFilters(String filter) {
-        if (removeAnonymousFilters == null)
-            removeAnonymousFilters = new HashSet<>();
-        removeAnonymousFilters.add(filter);
-    }
-
-    public void addRemoveAuthenticatedFilters(String filter) {
-        if (removeAuthenticatedFilters == null)
-            removeAuthenticatedFilters = new HashSet<>();
-        removeAuthenticatedFilters.add(filter);
-    }
-
 }
