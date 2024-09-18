@@ -1,10 +1,16 @@
 package net.n2oapp.criteria.filters;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Фильтр
  */
+@Getter
+@Setter
 public class Filter implements Serializable {
 
     private Object value;
@@ -30,18 +36,6 @@ public class Filter implements Serializable {
         this.value = null;
     }
 
-    public Object getValue() {
-        return value;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
-    }
-
-    public FilterType getType() {
-        return type;
-    }
-
     public boolean check(Object value) {
         return FilterChecker.check(this, value);
     }
@@ -49,15 +43,16 @@ public class Filter implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         Filter filter = (Filter) o;
 
-        if (type != filter.type) return false;
-        if (value != null ? !value.equals(filter.value) : filter.value != null) return false;
-
-        return true;
+        if (type != filter.type)
+            return false;
+        return Objects.equals(value, filter.value);
     }
 
     @Override

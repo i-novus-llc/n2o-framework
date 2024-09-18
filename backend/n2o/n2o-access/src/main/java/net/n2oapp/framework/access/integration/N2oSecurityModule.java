@@ -1,5 +1,6 @@
 package net.n2oapp.framework.access.integration;
 
+import lombok.Setter;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.access.data.SecurityProvider;
@@ -23,6 +24,7 @@ import static net.n2oapp.framework.access.metadata.SecurityFilters.SECURITY_FILT
 /**
  * Проверка прав доступа на вызов действий и выборок N2O
  */
+@Setter
 public class N2oSecurityModule implements DataProcessing {
 
     private SecurityProvider securityProvider;
@@ -31,14 +33,11 @@ public class N2oSecurityModule implements DataProcessing {
         this.securityProvider = securityProvider;
     }
 
-    public void setSecurityProvider(SecurityProvider securityProvider) {
-        this.securityProvider = securityProvider;
-    }
-
     @Override
     public void processAction(ActionRequestInfo requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
         securityProvider.checkAccess(getSecurityObject(requestInfo.getOperation()), requestInfo.getUser());
-        securityProvider.checkRestrictions(dataSet, getSecurityFilters(requestInfo.getOperation()), requestInfo.getUser());
+        securityProvider.checkObjectRestrictions(dataSet, getSecurityFilters(requestInfo.getOperation()),
+                requestInfo.getUser());
     }
 
     @Override
@@ -48,7 +47,9 @@ public class N2oSecurityModule implements DataProcessing {
             if (security != null) {
                 securityProvider.checkAccess(security, requestInfo.getUser());
                 if (requestInfo.getSize() != 1) {
-                    List<Restriction> securityFilters = securityProvider.collectRestrictions(getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser());
+                    List<Restriction> securityFilters = securityProvider.collectRestrictions(
+                            getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser()
+                    );
                     requestInfo.getCriteria().addRestrictions(securityFilters);
                 }
             }
@@ -57,12 +58,12 @@ public class N2oSecurityModule implements DataProcessing {
 
     @Override
     public void processQueryResult(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, CollectionPage<DataSet> page) {
-        if (requestInfo.getMode().equals(DefaultValuesMode.query)
-                && requestInfo.getSize() == 1
-                && DefaultValuesMode.query.equals(requestInfo.getMode())) {
+        if (DefaultValuesMode.query.equals(requestInfo.getMode())
+                && requestInfo.getSize() == 1) {
             DataSet data = page.getCollection().iterator().next();
             securityProvider.checkAccess(getSecurityObject(requestInfo.getQuery()), requestInfo.getUser());
-            securityProvider.checkRestrictions(data, getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser());
+            securityProvider.checkQueryRestrictions(data, getSecurityFilters(requestInfo.getQuery()),
+                    requestInfo.getUser(), requestInfo.getQuery().getFiltersMap());
         }
     }
 
