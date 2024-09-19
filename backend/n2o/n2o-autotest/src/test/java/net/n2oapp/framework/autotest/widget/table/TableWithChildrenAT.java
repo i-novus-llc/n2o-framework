@@ -105,5 +105,11 @@ public class TableWithChildrenAT extends AutoTestBase {
         Modal modal = N2oSelenide.modal();
         modal.shouldExists();
         modal.close();
+        // проверка на недоступность row click
+        childrenRow = table.columns().rows().row(1);
+        childrenRow.cell(1).shouldHaveText("test2");
+        childrenRow.click();
+        modal = N2oSelenide.modal();
+        modal.shouldNotExists();
     }
 }
