@@ -1,4 +1,4 @@
-import moment, { LocaleSpecifier, Moment, MomentFormatSpecification, MomentInput } from 'moment/moment'
+import dayjs, { Dayjs } from 'dayjs'
 import flattenDeep from 'lodash/flattenDeep'
 import map from 'lodash/map'
 import isUndefined from 'lodash/isUndefined'
@@ -9,7 +9,7 @@ import { DateType, DatePickerValue, DefaultTime } from './types'
 /**
  * Дата (date) была после конца месяца другой даты(displayedMonth) или нет
  */
-export const isDateFromNextMonth = (date: Moment, displayedMonth: Moment) => (
+export const isDateFromNextMonth = (date: Dayjs, displayedMonth: Dayjs) => (
     date.year() > displayedMonth.year() ||
     (date.year() === displayedMonth.year() &&
         date.month() > displayedMonth.month())
@@ -18,7 +18,7 @@ export const isDateFromNextMonth = (date: Moment, displayedMonth: Moment) => (
 /**
  * Дата (date) была до начала месяца другой даты(displayedMonth) или нет
  */
-export const isDateFromPrevMonth = (date: Moment, displayedMonth: Moment) => (
+export const isDateFromPrevMonth = (date: Dayjs, displayedMonth: Dayjs) => (
     date.year() < displayedMonth.year() ||
     (date.year() === displayedMonth.year() &&
         date.month() < displayedMonth.month())
@@ -27,9 +27,9 @@ export const isDateFromPrevMonth = (date: Moment, displayedMonth: Moment) => (
 /**
  * Возвращает массив из недель(каждая неделя - массив из дней)
  */
-export const weeks = (firstDay: Moment) => {
+export const weeks = (firstDay: Dayjs) => {
     const lastDay = firstDay.clone().add(35, 'days')
-    const day = firstDay.clone()
+    let day = firstDay.clone()
     const weeks = []
 
     while (day <= lastDay) {
@@ -40,7 +40,7 @@ export const weeks = (firstDay: Moment) => {
             if (i === 6) {
                 weeks.push(week)
             }
-            day.add(1, 'days')
+            day = day.add(1, 'days')
         }
     }
 
@@ -50,26 +50,27 @@ export const weeks = (firstDay: Moment) => {
 /**
  * добавить часы и минуты к дате
  */
-export const addTime = (date: Moment, hours: number, minutes: number, secs: number) => date
+export const addTime = (date: Dayjs, hours: number, minutes: number, secs: number) => date
     .clone()
-    .add(hours, 'h')
-    .add(minutes, 'm')
-    .add(secs, 's')
+    .add(hours, 'hour')
+    .add(minutes, 'minute')
+    .add(secs, 'second')
 
-export const withLocale = (date: Moment, locale: LocaleSpecifier) => date.clone().locale(locale)
+export const withLocale = (date: Dayjs, locale: string) => date.clone().locale(locale)
 
 /**
- * преобразовать дату к moment-объекту
+ * преобразовать дату к dayjs
  */
-export const parseDate = (value: DateType, dateFormat: MomentFormatSpecification) => {
-    if (value instanceof Date) {
-        value = moment(value)
-    } else if (typeof value === 'string') {
-        value = moment(value, dateFormat)
-        if (!value.isValid()) {
+export const parseDate = (value: DateType) => {
+    if (value instanceof Date || typeof value === 'string') {
+        const date = dayjs(value)
+
+        if (!date.isValid()) {
             // eslint-disable-next-line no-console
             console.warn('Invalid date')
         }
+
+        return date
     }
 
     return value
@@ -82,7 +83,7 @@ export const mapToValue = (
     locale: string,
     defaultName: string,
 ) => {
-    const res: Record<string, Moment | null> = {}
+    const res: Record<string, Dayjs | null> = {}
 
     if (Array.isArray(val)) {
         map(val, ({ value, name }) => {
@@ -93,7 +94,7 @@ export const mapToValue = (
                 res[name] = null
             } else {
                 res[name] = addTime(
-                    withLocale(parseDate(value, dateFormat), locale).startOf('day'),
+                    withLocale(parseDate(value), locale).startOf('day'),
                     defaultTime[name].hours,
                     defaultTime[name].minutes,
                     defaultTime[name].seconds,
@@ -109,7 +110,7 @@ export const mapToValue = (
     }
 
     res[defaultName] = addTime(
-        withLocale(parseDate(val, dateFormat), locale).startOf('day'),
+        withLocale(parseDate(val), locale).startOf('day'),
         defaultTime[defaultName].hours,
         defaultTime[defaultName].minutes,
         defaultTime[defaultName].seconds,
@@ -122,7 +123,7 @@ export const mapToDefaultTime = (
     val: DatePickerValue,
     defaultTime: string,
     defaultName: string,
-    timeFormat = 'HH:mm:ss',
+    timeFormat = 'HH:mm',
 ) => {
     if (Array.isArray(val)) {
         const result: DefaultTime = {}
@@ -133,14 +134,14 @@ export const mapToDefaultTime = (
             }
             result[name] = {
                 hours: defaultTime
-                    ? moment(defaultTime || '00:00', timeFormat).hour()
-                    : (value && moment(value).hour()) || 0,
+                    ? dayjs(defaultTime || '00:00', timeFormat).hour()
+                    : (value && dayjs(value).hour()) || 0,
                 minutes: defaultTime
-                    ? moment(defaultTime || '00:00', timeFormat).minute()
-                    : (value && moment(value).minute()) || 0,
+                    ? dayjs(defaultTime || '00:00', timeFormat).minute()
+                    : (value && dayjs(value).minute()) || 0,
                 seconds: defaultTime
-                    ? moment(defaultTime || '00:00', timeFormat).second()
-                    : (value && moment(value).second()) || 0,
+                    ? dayjs(defaultTime || '00:00', timeFormat).second()
+                    : (value && dayjs(value).second()) || 0,
                 hasDefaultTime: false,
             }
 
@@ -160,9 +161,9 @@ export const mapToDefaultTime = (
     if (val) {
         return {
             [defaultName]: {
-                hours: moment(val).hour(),
-                minutes: moment(val).minute(),
-                seconds: moment(val).second(),
+                hours: dayjs(val).hour(),
+                minutes: dayjs(val).minute(),
+                seconds: dayjs(val).second(),
                 hasDefaultTime: true,
             },
         }
@@ -170,9 +171,9 @@ export const mapToDefaultTime = (
 
     const result = {
         [defaultName]: {
-            hours: moment(defaultTime, timeFormat).hour(),
-            minutes: moment(defaultTime, timeFormat).minute(),
-            seconds: moment(defaultTime, timeFormat).second(),
+            hours: dayjs(defaultTime, timeFormat).hour(),
+            minutes: dayjs(defaultTime, timeFormat).minute(),
+            seconds: dayjs(defaultTime, timeFormat).second(),
             hasDefaultTime: false,
         },
     }
@@ -236,30 +237,29 @@ export const formatToMask = (format: string) => {
 /**
  * Функция проверки находится ли дата в промежутке max и min
  */
-export const hasInsideMixMax = (
-    date: string,
-    { max, min }: Record<string, string>,
-    dateFormat: MomentFormatSpecification,
-) => {
-    const currentDate = moment(date, dateFormat)
-    // @ts-ignore @fixme не определяется библиотечный метод _f
-    // eslint-disable-next-line no-underscore-dangle
-    const hasFormat = (range: MomentInput) => !isUndefined(moment(range)._f)
+export const hasInsideMixMax = (date: string, { max, min }: { max?: string, min?: string }, dateFormat: string): boolean => {
+    if (!min && !max) { return true }
 
-    const lessOrEqual = (range: MomentInput, dateFormat: MomentFormatSpecification) => (hasFormat(range)
-        ? moment(range) <= currentDate
-        : moment(range, dateFormat) <= currentDate)
+    let isAfterMin = true
+    let isBeforeMax = true
 
-    const moreOrEqual = (range: MomentInput, dateFormat: MomentFormatSpecification) => (
-        hasFormat(range)
-            ? moment(range) >= currentDate
-            : moment(range, dateFormat) >= currentDate)
+    const formattedDate = dayjs(date, dateFormat)
 
-    if (!max && !min) { return true }
+    if (!formattedDate.isValid()) { return false }
 
-    return !!((!max && min && lessOrEqual(min, dateFormat)) ||
-        (max && !min && moreOrEqual(max, dateFormat)) ||
-        (max && min && lessOrEqual(min, dateFormat) && moreOrEqual(max, dateFormat)))
+    if (min) {
+        const minDate = dayjs(min)
+
+        isAfterMin = formattedDate.isAfter(minDate) || formattedDate.isSame(minDate)
+    }
+
+    if (max) {
+        const maxDate = dayjs(max)
+
+        isBeforeMax = formattedDate.isBefore(maxDate) || formattedDate.isSame(maxDate)
+    }
+
+    return isAfterMin && isBeforeMax
 }
 
 export const getDeletedSymbol = (value: string, index: number) => value.substring(index - 1, index)
@@ -270,8 +270,10 @@ export const replaceAt = (string: string, index: number, replacement: string) =>
         string.substring(index, string.length)
 )
 
-export const objFromTime = (date: Moment) => ({
-    minutes: date.minutes(),
-    seconds: date.seconds(),
-    hours: date.hours(),
-})
+export const objFromTime = (date: Dayjs) => {
+    return {
+        minutes: date.minute(),
+        seconds: date.second(),
+        hours: date.hour(),
+    }
+}

@@ -2,7 +2,7 @@ import React from 'react'
 import { compose, withHandlers, mapProps, defaultProps } from 'recompose'
 import map from 'lodash/map'
 import get from 'lodash/get'
-import moment from 'moment/moment'
+import dayjs from 'dayjs'
 import { connect } from 'react-redux'
 
 import { withWidgetHandlers } from '../hocs/withWidgetHandlers'
@@ -118,15 +118,15 @@ export default compose(
             },
             onSelectSlot: (e) => {
                 if (get(e, 'start')) {
-                    const dateIsSame = moment(get(e, 'start')).isSame(get(e, 'end'))
+                    const dateIsSame = dayjs(get(e, 'start')).isSame(get(e, 'end'))
                     const currentData = {
                         // eslint-disable-next-line sonarjs/no-duplicate-string
-                        start: moment(get(e, 'start')).format('YYYY-MM-DD HH:mm'),
+                        start: dayjs(get(e, 'start')).format('YYYY-MM-DD HH:mm'),
                         end: dateIsSame
-                            ? moment(get(e, 'end'))
+                            ? dayjs(get(e, 'end'))
                                 .add(1, 'days')
                                 .format('YYYY-MM-DD HH:mm')
-                            : moment(get(e, 'end')).format('YYYY-MM-DD HH:mm'),
+                            : dayjs(get(e, 'end')).format('YYYY-MM-DD HH:mm'),
                         resourceId: get(e, 'resourceId'),
                     }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import get from 'lodash/get'
-import moment from 'moment/moment'
+import dayjs from 'dayjs'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
@@ -60,7 +60,7 @@ export function CalendarEvent({
                 {title}
             </div>
             <div className="calendar__event-label">
-                {!isAllDay(begin, end) ? moment(begin).format('HH:mm') : null}
+                {!isAllDay(begin, end) ? dayjs(begin).format('HH:mm') : null}
             </div>
         </div>
     )

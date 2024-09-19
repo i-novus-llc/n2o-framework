@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import moment from 'moment/moment'
+import dayjs from 'dayjs'
 
 import { Alerts } from '../snippets/Alerts/Alerts'
 import { STORE_KEY_PATH, SUPPORTED_PLACEMENTS } from '../../ducks/alerts/constants'
@@ -13,7 +13,7 @@ const getTimestamp = (time) => {
         return null
     }
 
-    let timestamp = moment(time).fromNow()
+    let timestamp = dayjs(time).fromNow()
 
     if (timestamp === 'несколько секунд назад') {
         timestamp = 'только что'

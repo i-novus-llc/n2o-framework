@@ -1,12 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
-import moment from 'moment/moment'
+import { Calendar as BigCalendar, dayjsLocalizer } from 'react-big-calendar'
+import dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
+import localeData from 'dayjs/plugin/localeData'
+import 'dayjs/locale/ru'
 import classNames from 'classnames'
 import { getContext } from 'recompose'
 import { useTranslation } from 'react-i18next'
 
-import { formatsMap, timeParser } from './utils'
+import { formatsMap, timeParser } from './utils' // Импортируем локализацию
+
+dayjs.extend(localizedFormat)
+dayjs.extend(localeData)
 
 /**
  * Компонент Календарь
@@ -29,6 +35,8 @@ import { formatsMap, timeParser } from './utils'
  * @reactProps {string} maxDate - ограничивает максимальное время просмотра дня и недели
  * @reactProps {object} messages - переопределение названия кнопок действий (прим. messages: { month: 'Месяц', })
  */
+
+const localizer = dayjsLocalizer(dayjs)
 
 function Calendar({
     className,
@@ -55,10 +63,6 @@ function Calendar({
 }) {
     const { t } = useTranslation()
 
-    moment.locale(configLocale)
-
-    const localizer = momentLocalizer(moment)
-
     const messages = {
         month: t('calendarMonth'),
         day: t('calendarDay'),
@@ -76,6 +80,8 @@ function Calendar({
         date: t('calendarDate'),
         time: t('calendarTime'),
     }
+
+    dayjs.locale(configLocale)
 
     return (
         <BigCalendar

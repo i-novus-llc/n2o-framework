@@ -1,6 +1,6 @@
 import get from 'lodash/get'
 import { select } from 'redux-saga/effects'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 import type { State as GlobalState } from '../../../State'
 import { dataProviderResolver } from '../../../../core/dataProviderResolver'
@@ -69,7 +69,7 @@ export function* cachedRequest(params: Params) {
     const data: QueryResult = yield fetch(id, resolvedProvider, apiProvider)
     const cachedData = { ...data }
 
-    cachedData.timestamp = moment().format()
+    cachedData.timestamp = dayjs().format()
     cachedData.cachedMappings = createCachedMappings(invalidateParams, mappings)
 
     storage.setItem(getFullKey(key), JSON.stringify(cachedData))

@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react'
-import type { Moment } from 'moment'
-import 'moment/locale/ru'
+import { Dayjs } from 'dayjs'
 
 import { withLocale } from './utils'
 import { CalendarType } from './types'
@@ -10,7 +9,7 @@ import '../../styles/components/CalendarHeader.scss'
 type CalendarHeaderProps = {
     calendarType: CalendarType,
     changeCalendarType(type?: CalendarType): void,
-    displayesMonth: Moment,
+    displayesMonth: Dayjs,
     locale: string,
     nextDecade(): void,
     nextMonth(): void,
@@ -22,7 +21,7 @@ type CalendarHeaderProps = {
 }
 
 export class CalendarHeader extends React.Component<CalendarHeaderProps> {
-    renderHeaderValue(displayesMonth: Moment, locale: string, type = CalendarType.BY_DAYS) {
+    renderHeaderValue(displayesMonth: Dayjs, locale: string, type = CalendarType.BY_DAYS) {
         if (type === CalendarType.BY_DAYS) {
             return (
                 <>

@@ -993,19 +993,19 @@
                         <xs:documentation>Префикс.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="mode" default="hours,minutes,seconds">
+                <xs:attribute name="mode" default="hour,minute,second">
                     <xs:annotation>
                         <xs:documentation>
                             Режим отображения списка выбора.
-                            Может быть "hours,minutes,seconds" или "hours,minutes" или "hours" или "minutes".
+                            Может быть "hour,minute,second" или "hour,minute" или "hour" или "minute".
                         </xs:documentation>
                     </xs:annotation>
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
-                            <xs:enumeration value="hours,minutes,seconds"/>
-                            <xs:enumeration value="hours,minutes"/>
-                            <xs:enumeration value="hours"/>
-                            <xs:enumeration value="minutes"/>
+                            <xs:enumeration value="hour,minute,second"/>
+                            <xs:enumeration value="hour,minute"/>
+                            <xs:enumeration value="hour"/>
+                            <xs:enumeration value="minute"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>

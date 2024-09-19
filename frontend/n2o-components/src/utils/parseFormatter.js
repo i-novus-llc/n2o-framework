@@ -1,4 +1,4 @@
-import moment from 'moment/moment'
+import dayjs from 'dayjs'
 import numeral from 'numeral'
 import split from 'lodash/split'
 import trim from 'lodash/trim'
@@ -10,15 +10,15 @@ import isString from 'lodash/isString'
 import toString from 'lodash/toString'
 
 const typesFunctions = {
-    date: ({ data, format }) => moment(data).format(format),
+    date: ({ data, format }) => dayjs(data).format(format),
     password: ({ data }) => join(map(data, () => '*'), ''),
     number: ({ data, format }) => {
         const number = isString(data) ? Number(data) : data
 
         return numeral(number).format(format)
     },
-    dateFromNow: ({ format }) => moment().format(format),
-    time: ({ data, format }) => moment(data, 'HH:mm:ss').format(format),
+    dateFromNow: ({ format }) => dayjs().format(format),
+    time: ({ data, format }) => dayjs(data, 'HH:mm:ss').format(format),
     snils: ({ data }) => snils(data),
 }
 

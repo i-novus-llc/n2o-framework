@@ -1,19 +1,19 @@
 import React, { FocusEventHandler, KeyboardEvent, forwardRef } from 'react'
-import { Moment } from 'moment/moment'
+import { Dayjs } from 'dayjs'
 
 import { TBaseInputProps, TBaseProps } from '../../types'
 
 import { DateInput } from './DateInput'
 import { OnInputChangeHandler } from './types'
 
-type Value = Record<string, Moment | null>
+type Value = Record<string, Dayjs | null>
 
 type DateInputGroupProps = TBaseProps & Omit<TBaseInputProps<Value>, 'onBlur' | 'onFocus'> & {
     dateFormat: string,
     inputClassName?: string,
     max?: string,
     min?: string,
-    onBlur?(value: Moment | null, name: string): void,
+    onBlur?(value: Dayjs | null, name: string): void,
     onFocus?: FocusEventHandler<HTMLInputElement>,
     onInputChange?: OnInputChangeHandler,
     onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,

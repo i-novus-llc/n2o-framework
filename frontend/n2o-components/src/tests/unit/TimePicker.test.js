@@ -41,42 +41,42 @@ describe('<TimePicker />', () => {
         const { wrapper } = setup({
             format: 'digit',
             defaultValue: '10:20:30',
-            mode: ['hours', 'minutes', 'seconds'],
+            mode: ['hour', 'minute', 'second'],
             timeFormat: 'HH:mm:ss',
         })
         const input = wrapper.find('.n2o-input-text')
         input.first().simulate('click')
-        expect(wrapper.state().hours).toBe(10)
-        expect(wrapper.state().minutes).toBe(20)
-        expect(wrapper.state().seconds).toBe(30)
+        expect(wrapper.state().hour).toBe(10)
+        expect(wrapper.state().minute).toBe(20)
+        expect(wrapper.state().second).toBe(30)
         expect(wrapper.instance().getValue()).toBe('10:20:30')
         expect(wrapper.find('.n2o-time-picker__panel').length).toBe(3)
         wrapper.setProps({
-            mode: ['minutes', 'seconds'],
+            mode: ['minute', 'second'],
             timeFormat: 'HH:mm:ss',
         })
         expect(wrapper.instance().getValue()).toBe('10:20:30')
         expect(wrapper.find('.n2o-time-picker__panel').length).toBe(2)
         wrapper.setProps({
-            mode: ['minutes'],
+            mode: ['minute'],
             timeFormat: 'HH:mm:ss',
         })
         expect(wrapper.instance().getValue()).toBe('10:20:30')
         expect(wrapper.find('.n2o-time-picker__panel').length).toBe(1)
         wrapper.setProps({
-            mode: ['hours', 'seconds'],
+            mode: ['hour', 'second'],
             timeFormat: 'HH:ss',
         })
         expect(wrapper.instance().getValue()).toBe('10:30')
         expect(wrapper.find('.n2o-time-picker__panel').length).toBe(2)
         wrapper.setProps({
-            mode: ['seconds'],
+            mode: ['second'],
             timeFormat: 'ss',
         })
         expect(wrapper.instance().getValue()).toBe('30')
         expect(wrapper.find('.n2o-time-picker__panel').length).toBe(1)
         wrapper.setProps({
-            mode: ['minutes'],
+            mode: ['minute'],
             timeFormat: 'mm:ss',
         })
         expect(wrapper.instance().getValue()).toBe('20:30')
@@ -87,42 +87,42 @@ describe('<TimePicker />', () => {
         const { wrapper } = setup({
             format: 'symbols',
             defaultValue: '10:20:30',
-            mode: ['hours', 'minutes', 'seconds'],
+            mode: ['hour', 'minute', 'second'],
             timeFormat: 'HH:mm:ss',
         })
         const input = wrapper.find('.n2o-input-text')
         input.first().simulate('click')
-        expect(wrapper.state().hours).toBe(10)
-        expect(wrapper.state().minutes).toBe(20)
-        expect(wrapper.state().seconds).toBe(30)
+        expect(wrapper.state().hour).toBe(10)
+        expect(wrapper.state().minute).toBe(20)
+        expect(wrapper.state().second).toBe(30)
         expect(wrapper.instance().getValue()).toBe('10 ч 20 мин 30 сек')
         expect(wrapper.find('.n2o-time-picker__panel').length).toBe(3)
         wrapper.setProps({
-            mode: ['minutes', 'seconds'],
+            mode: ['minute', 'second'],
             timeFormat: 'HH:mm:ss',
         })
         expect(wrapper.instance().getValue()).toBe('20 мин 30 сек')
         expect(wrapper.find('.n2o-time-picker__panel').length).toBe(2)
         wrapper.setProps({
-            mode: ['minutes'],
+            mode: ['minute'],
             timeFormat: 'HH:mm:ss',
         })
         expect(wrapper.instance().getValue()).toBe('20 мин')
         expect(wrapper.find('.n2o-time-picker__panel').length).toBe(1)
         wrapper.setProps({
-            mode: ['hours', 'seconds'],
+            mode: ['hour', 'second'],
             timeFormat: 'HH:ss',
         })
         expect(wrapper.instance().getValue()).toBe('10 ч 30 сек')
         expect(wrapper.find('.n2o-time-picker__panel').length).toBe(2)
         wrapper.setProps({
-            mode: ['seconds'],
+            mode: ['second'],
             timeFormat: 'ss',
         })
         expect(wrapper.instance().getValue()).toBe('30 сек')
         expect(wrapper.find('.n2o-time-picker__panel').length).toBe(1)
         wrapper.setProps({
-            mode: ['minutes'],
+            mode: ['minute'],
             timeFormat: 'mm:ss',
         })
         expect(wrapper.instance().getValue()).toBe('20 мин')
@@ -151,9 +151,9 @@ describe('<TimePicker />', () => {
     //         .find('.n2o-time-picker__panel__item')
     //         .at(30)
     //         .simulate('mousedown')
-    //     expect(wrapper.state().hours).toBe(10)
-    //     expect(wrapper.state().minutes).toBe(20)
-    //     expect(wrapper.state().seconds).toBe(30)
+    //     expect(wrapper.state().hour).toBe(10)
+    //     expect(wrapper.state().minute).toBe(20)
+    //     expect(wrapper.state().second).toBe(30)
     //     expect(wrapper.instance().getValue()).toBe('10 ч 20 мин 30 сек')
     // })
 })

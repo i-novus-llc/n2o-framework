@@ -47,8 +47,8 @@ public class TimePickerCompileTest extends SourceCompileTestBase {
         assertThat(timePicker.getPrefix(), is("from: "));
         assertThat(timePicker.getFormat(), is("digit"));
         assertThat(timePicker.getMode().length, is(2));
-        assertThat(timePicker.getMode()[0], is("hours"));
-        assertThat(timePicker.getMode()[1], is("minutes"));
+        assertThat(timePicker.getMode()[0], is("hour"));
+        assertThat(timePicker.getMode()[1], is("minute"));
         assertThat(timePicker.getTimeFormat(), is("hh:mm"));
 
         timePicker = (TimePicker) ((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0)).getControl();
@@ -58,9 +58,9 @@ public class TimePickerCompileTest extends SourceCompileTestBase {
         assertThat(timePicker.getPrefix(), is(nullValue()));
         assertThat(timePicker.getFormat(), is("symbols"));
         assertThat(timePicker.getMode().length, is(3));
-        assertThat(timePicker.getMode()[0], is("hours"));
-        assertThat(timePicker.getMode()[1], is("minutes"));
-        assertThat(timePicker.getMode()[2], is("seconds"));
+        assertThat(timePicker.getMode()[0], is("hour"));
+        assertThat(timePicker.getMode()[1], is("minute"));
+        assertThat(timePicker.getMode()[2], is("second"));
         assertThat(timePicker.getTimeFormat(), is("HH:mm:ss"));
     }
 

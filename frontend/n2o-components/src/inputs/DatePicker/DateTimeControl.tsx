@@ -4,7 +4,7 @@ import every from 'lodash/every'
 import isUndefined from 'lodash/isUndefined'
 import isFunction from 'lodash/isFunction'
 import isNull from 'lodash/isNull'
-import moment, { Moment } from 'moment/moment'
+import dayjs, { Dayjs } from 'dayjs'
 import { Manager, Popper, Reference, RefHandler } from 'react-popper'
 import { WrapperInstance } from 'react-onclickoutside'
 import { isArray } from 'lodash'
@@ -46,7 +46,7 @@ type DateTimeControlProps = TBaseProps & Omit<TBaseInputProps<DatePickerValue>, 
 }
 
 type DateTimeControlState = {
-    inputs: Record<string, Moment | null>,
+    inputs: Record<string, Dayjs | null>,
     isFocus: boolean,
     isPopUpVisible: boolean,
     isTimeSet: Record<string, boolean | undefined>
@@ -169,7 +169,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
         }
 
         return utc
-            ? moment.utc(date).format(outputFormat)
+            ? dayjs(date).format(outputFormat)
             : date.format(outputFormat)
     }
 
@@ -199,7 +199,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
     /**
      * Выбор даты, прокидывается в календарь
      */
-    select = (day: Moment | null, inputName: string, close = true) => {
+    select = (day: Dayjs | null, inputName: string, close = true) => {
         const { inputs } = this.state
         const { type } = this.props
 
@@ -209,7 +209,8 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
             (inputName === DateTimeControlName.END &&
                 !inputs[DateTimeControlName.BEGIN]) ||
             (inputName === DateTimeControlName.END &&
-                moment(day).isSameOrAfter(inputs[DateTimeControlName.BEGIN]))
+                (dayjs(day).isSame(inputs[DateTimeControlName.BEGIN]) ||
+                    dayjs(day).isAfter(inputs[DateTimeControlName.BEGIN])))
         ) {
             const inputValue = () => {
                 if (
@@ -217,7 +218,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
                     // eslint-disable-next-line @typescript-eslint/no-use-before-define
                     inputs[DateTimeControlName.END] &&
                     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-                    moment(day).isAfter(inputs[DateTimeControlName.END])
+                    dayjs(day).isAfter(inputs[DateTimeControlName.END])
                 ) {
                     return {
                         [inputName]: day,
@@ -290,7 +291,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
         )
     }
 
-    onInputBlur = (date: Moment | null, inputName: string) => {
+    onInputBlur = (date: Dayjs | null, inputName: string) => {
         const { onBlur } = this.props
         const { isPopUpVisible } = this.state
 
@@ -333,7 +334,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
         const { inputs } = this.state
         const { begin, end } = inputs
 
-        if (!isNull(begin) && moment(begin).isAfter(moment(end))) {
+        if (!isNull(begin) && dayjs(begin).isAfter(dayjs(end))) {
             this.setState({ inputs: { ...inputs, end: null } })
         }
     }
@@ -378,19 +379,6 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
     }
 
     /**
-     * Приводит min, max к moment объекту, текущему формату
-     */
-    parseRange(range?: string) {
-        const { dateFormat = DEFAULT_DATE_FORMAT } = this.props
-
-        // @ts-ignore @fixme не определяется библиотечный метод
-        // eslint-disable-next-line no-underscore-dangle
-        return !isUndefined(moment(range)._f)
-            ? moment(range)
-            : moment(range, dateFormat)
-    }
-
-    /**
      * Рендер попапа
      */
     renderPopUp() {
@@ -416,8 +404,8 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
                 }}
                 value={inputs}
                 select={this.select}
-                max={this.parseRange(max)}
-                min={this.parseRange(min)}
+                max={max ? dayjs(max) : undefined}
+                min={min ? dayjs(min) : undefined}
                 locale={configLocale}
             />
         )

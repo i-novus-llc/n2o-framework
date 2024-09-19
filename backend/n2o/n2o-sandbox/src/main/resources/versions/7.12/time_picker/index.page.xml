@@ -5,7 +5,7 @@
         <fields>
             <time-picker id="time1" label="Время" default-value="15:37:30"/>
             <time-picker id="time2" label="Дата начала" prefix="От: " default-value="10:30"
-                         format="digit" time-format="HH:mm" mode="hours,minutes"/>
+                         format="digit" time-format="HH:mm" mode="hour,minute"/>
         </fields>
     </form>
 </simple-page>

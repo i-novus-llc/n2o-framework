@@ -5,7 +5,7 @@ import React, {
     KeyboardEventHandler,
     MouseEventHandler,
 } from 'react'
-import moment, { Moment } from 'moment/moment'
+import dayjs, { Dayjs } from 'dayjs'
 import cx from 'classnames'
 import isNaN from 'lodash/isNaN'
 import omit from 'lodash/omit'
@@ -16,7 +16,7 @@ import { TBaseInputProps, TBaseProps } from '../../types'
 import { formatToMask, getDeletedSymbol, hasInsideMixMax, replaceAt } from './utils'
 import { DateTimeControlName, OnInputChangeHandler } from './types'
 
-type DateInputProps = TBaseProps & Omit<TBaseInputProps<Moment | null>, 'onFocus' | 'onBlur'> & {
+type DateInputProps = TBaseProps & Omit<TBaseInputProps<Dayjs | null>, 'onFocus' | 'onBlur'> & {
     dateFormat: string,
     defaultTime?: string,
     inputClassName?: string,
@@ -24,7 +24,7 @@ type DateInputProps = TBaseProps & Omit<TBaseInputProps<Moment | null>, 'onFocus
     max?: string,
     min?: string,
     name: string,
-    onBlur?(value: Moment | null, name: string): void,
+    onBlur?(value: Dayjs | null, name: string): void,
     onClick?: MouseEventHandler<HTMLInputElement>,
     onFocus?: FocusEventHandler<HTMLInputElement>,
     onInputChange?: OnInputChangeHandler,
@@ -70,7 +70,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
             return
         }
 
-        const parsedValue = moment(value, dateFormat)
+        const parsedValue = dayjs(value, dateFormat)
         const isValidValue = parsedValue.format(dateFormat) === value &&
             hasInsideMixMax(value, { max, min }, dateFormat)
 
@@ -114,8 +114,8 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
             return
         }
-        if (moment(value).format(outputFormat) === value) {
-            onBlur?.(moment(value), name)
+        if (dayjs(value).format(outputFormat) === value) {
+            onBlur?.(dayjs(value), name)
         }
     }
 
