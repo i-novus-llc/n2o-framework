@@ -1,6 +1,8 @@
 import React, { ReactNode } from 'react'
 import isNull from 'lodash/isNull'
-import moment, { isMoment, Moment, MomentInput, unitOfTime } from 'moment/moment'
+import dayjs, { Dayjs, UnitType, isDayjs } from 'dayjs'
+import localeData from 'dayjs/plugin/localeData'
+import 'dayjs/locale/ru'
 import classNames from 'classnames'
 
 import { Day } from './Day'
@@ -16,6 +18,9 @@ import { CalendarType, DateTimeControlName, Time } from './types'
 
 import '../../styles/components/Calendar.scss'
 
+dayjs.extend(localeData)
+dayjs.locale('ru')
+
 type CalendarProps = {
     auto?: boolean,
     dateFormat: string,
@@ -24,22 +29,22 @@ type CalendarProps = {
     inputName: string,
     locale: 'en' | 'ru',
     markTimeAsSet(str: string): void,
-    max?: Moment | Date | string,
-    min?: Moment | Date | string,
-    select(day: Moment, name: string, type?: boolean): void,
+    max?: Dayjs | Date | string,
+    min?: Dayjs | Date | string,
+    select(day: Dayjs, name: string, type?: boolean): void,
     setPlacement?(): void,
     setVisibility?(): void,
     t(key: string): ReactNode,
     time: Time,
     timeFormat?: string,
     type?: string,
-    value: Moment | null,
-    values: Record<string, MomentInput>
+    value: Dayjs | null,
+    values: Record<string, Dayjs | null>
 }
 
 type CalendarState = {
     calendarType: CalendarType,
-    displayesMonth: Moment,
+    displayesMonth: Dayjs,
     tempTimeObj: Time
 }
 
@@ -58,7 +63,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         this.state = {
             displayesMonth: props.value
                 ? props.value.clone().startOf('month')
-                : moment().startOf('month'),
+                : dayjs().startOf('month'),
             calendarType: CalendarType.BY_DAYS,
             tempTimeObj: props.value ? objFromTime(props.value) : props.time,
         }
@@ -74,7 +79,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
             this.setState({
                 displayesMonth: props.value
                     ? props.value.clone().startOf('month')
-                    : moment().startOf('month'),
+                    : dayjs().startOf('month'),
                 tempTimeObj: props.value ? objFromTime(props.value) : props.time,
             })
         }
@@ -134,7 +139,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         this.setState({ displayesMonth: displayesMonth.add(1, 'months') })
     }
 
-    setMonth = (month: Moment) => {
+    setMonth = (month: Dayjs) => {
         this.setState({ displayesMonth: month })
     }
 
@@ -162,10 +167,10 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         this.setState({ displayesMonth: displayesMonth.subtract(10, 'years') })
     }
 
-    setDate(unit: string, value: number | string) {
+    setDate(unit: UnitType, value: number | string) {
         const { displayesMonth } = this.state
 
-        this.setState({ displayesMonth: displayesMonth.set(unit as unitOfTime.All, Number(value)) })
+        this.setState({ displayesMonth: displayesMonth.set(unit, Number(value)) })
     }
 
     renderNameOfDays() {
@@ -188,7 +193,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         const { displayesMonth, tempTimeObj } = this.state
         const { hours, minutes, seconds } = tempTimeObj || {}
         const firstDay = addTime(
-            displayesMonth.clone().startOf('isoWeek'),
+            displayesMonth.clone().startOf('week'),
             hours,
             minutes,
             seconds,
@@ -197,12 +202,12 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         return weeks(firstDay).map((week, i) => this.renderWeek(week, i))
     }
 
-    renderWeek(week: Moment[], i: number) {
+    renderWeek(week: Dayjs[], i: number) {
         return <tr key={i}>{week.map((day, i) => this.renderDay(day, i))}</tr>
     }
 
     // eslint-disable-next-line complexity
-    renderDay(day: Moment, i: number) {
+    renderDay(day: Dayjs, i: number) {
         const {
             min,
             max,
@@ -228,8 +233,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         if (type === ControlType.DATE_INTERVAL) {
             const { begin } = values
 
-            const disableDaysBefore = (range: MomentInput) => day.isBefore(range)
-            const disableDaysAfter = (range: MomentInput) => day.isAfter(range)
+            const disableDaysBefore = (range?: Dayjs | string | Date | null) => day.isBefore(range)
+            const disableDaysAfter = (range?: Dayjs | string | Date | null) => day.isAfter(range)
 
             const disabledDaysBeyondTheScopeMinMax = disableDaysBefore(min) || disableDaysAfter(max)
             const disabledDaysBeyondTheScopeBeginMax = disableDaysBefore(begin) || disableDaysAfter(max)
@@ -265,7 +270,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         const otherMonth = isDateFromNextMonth(day, displayesMonth) ||
             isDateFromPrevMonth(day, displayesMonth)
         const selected = day.isSame(value)
-        const current = day.format('DD.MM.YYYY') === moment().format('DD.MM.YYYY')
+        const current = day.format('DD.MM.YYYY') === dayjs().format('DD.MM.YYYY')
         const props = {
             day,
             otherMonth,
@@ -320,11 +325,11 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     }
 
     renderByMonths() {
-        const { locale = 'ru' } = this.props
+        const months = Array.from({ length: 12 }, (_, i) => dayjs().month(i).format('MMMM'))
 
         return (
             <div className="n2o-calendar-body">
-                {this.renderList(moment.localeData(locale).months(), MONTH_ITEM)}
+                {this.renderList(months, MONTH_ITEM)}
             </div>
         )
     }
@@ -387,7 +392,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
             const beginDisplayesMonth = values[DateTimeControlName.BEGIN]
             const { displayesMonth } = this.state
 
-            if (isMoment(beginDisplayesMonth) && displayesMonth.isBefore(beginDisplayesMonth, 'month')) {
+            if (isDayjs(beginDisplayesMonth) && displayesMonth.isBefore(beginDisplayesMonth, 'month')) {
                 const diffInMonths = beginDisplayesMonth.diff(displayesMonth, 'months')
 
                 this.setState({ displayesMonth: displayesMonth.add(diffInMonths, 'months') })
@@ -419,7 +424,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         const { value, inputName, markTimeAsSet, select } = this.props
         const { tempTimeObj } = this.state
         const { hours, minutes, seconds } = tempTimeObj || {}
-        const copyValue = value || moment()
+        const copyValue = value || dayjs()
 
         this.changeCalendarType(CalendarType.BY_DAYS)
         markTimeAsSet(inputName)

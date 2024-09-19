@@ -1,9 +1,9 @@
-import { momentLocalizer } from 'react-big-calendar'
+import { dayjsLocalizer } from 'react-big-calendar'
 import get from 'lodash/get'
 import isNumber from 'lodash/isNumber'
 import isEmpty from 'lodash/isEmpty'
 import split from 'lodash/split'
-import moment from 'moment/moment'
+import dayjs from 'dayjs'
 
 export function isDayOff(day) {
     return [0, 6].includes(day.getDay())
@@ -20,7 +20,7 @@ export function isCurrentDay(day) {
 }
 
 export function formatsMap(formats = {}) {
-    const localizerFormat = (date, format) => momentLocalizer(moment).format(date, format)
+    const localizerFormat = (date, format) => dayjsLocalizer(dayjs).format(date, format)
 
     const rangeFormat = (startFormat, endFormat) => ({ start, end }) => `${localizerFormat(start, startFormat)
     } — ${
@@ -28,8 +28,8 @@ export function formatsMap(formats = {}) {
 
     const {
         dateFormat = 'DD',
-        dayFormat = 'DD ddd',
-        weekdayFormat = 'ddd',
+        dayFormat = 'DD dd',
+        weekdayFormat = 'dd',
         timeStartFormat = 'HH:mm',
         timeEndFormat = 'HH:mm',
         dayStartFormat = 'DD MMM',
@@ -37,7 +37,7 @@ export function formatsMap(formats = {}) {
         timeGutterFormat = 'LT',
         monthHeaderFormat = 'MMMM YYYY',
         dayHeaderFormat = 'dddd MMM DD',
-        agendaDateFormat = 'ddd MMM DD',
+        agendaDateFormat = 'dd MMM DD',
         agendaTimeFormat = 'LT',
     } = formats
 
@@ -84,8 +84,8 @@ export function timeParser(min, max) {
 }
 
 export function isAllDay(start, end) {
-    const startDate = moment(start, 'YYYY-MM-DD HH:mm')
-    const endDate = moment(end, 'YYYY-MM-DD HH:mm')
+    const startDate = dayjs(start, 'YYYY-MM-DD HH:mm')
+    const endDate = dayjs(end, 'YYYY-MM-DD HH:mm')
     const dateDiff = endDate.diff(startDate, 'days')
 
     return dateDiff >= 1

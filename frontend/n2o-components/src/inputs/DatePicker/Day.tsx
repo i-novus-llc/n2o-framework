@@ -1,5 +1,5 @@
 import React from 'react'
-import { Moment } from 'moment'
+import { Dayjs } from 'dayjs'
 import classNames from 'classnames'
 
 import { TBaseProps } from '../../types'
@@ -8,10 +8,10 @@ import '../../styles/components/Day.scss'
 
 type DayProps = TBaseProps & {
     current?: boolean,
-    day: Moment,
+    day: Dayjs,
     inputName: string,
     otherMonth?: boolean,
-    select(day: Moment, name: string): void,
+    select(day: Dayjs, name: string): void,
     selected?: boolean,
 }
 

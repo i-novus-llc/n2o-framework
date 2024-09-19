@@ -6,7 +6,7 @@
             <time-picker
                 id="time_hours_minutes"
                 no-label="true"
-                mode="hours,minutes"
+                mode="hour,minute"
             />
         </fields>
     </form>

@@ -1067,7 +1067,7 @@ n2o.api.control.status.text_position=right
 |Наименование |Тип                                                         |Описание                                                             |Значение по умолчанию|
 |-------------|------------------------------------------------------------|---------------------------------------------------------------------|---------------------|
 |prefix       |Строка                                                      |Префикс                                                              |                     |
-|mode         |"hours,minutes,seconds"; "hours,minutes"; "hours"; "minutes"|Режим отображения списка выбора                                      |hours,minutes,seconds|
+|mode         |"hour,minute,second"; "hour,minute"; "hour"; "minute"       |Режим отображения списка выбора                                      |hour,minute,second   |
 |time-format  |Строка                                                      |Формат времени                                                       |HH:mm:ss             |
 |format       |digit symbols                                               |Формат отображения времени, digit ("00:00:00") или symbols ("15 мин")|symbols              |
 |default-value|Время                                                       |Значение по умолчанию                                                |                     |
@@ -1075,7 +1075,7 @@ n2o.api.control.status.text_position=right
 **Настройки**
 ```yaml
 # Режим отображения списка выбора
-n2o.api.control.time_picker.mode=hours,minutes,seconds
+n2o.api.control.time_picker.mode=hour,minute,second
 # Формат времени
 n2o.api.control.time_picker.time_format=HH:mm:ss
 # Формат отображения времени
@@ -1083,7 +1083,7 @@ n2o.api.control.time_picker.format=symbols
 ```
 **Пример**
 ```xml
-<time-picker id="test1" prefix="from: " format="digit" mode="hours,minutes" time-format="hh:mm"/>
+<time-picker id="test1" prefix="from: " format="digit" mode="hour,minute" time-format="hh:mm"/>
 ```
 <Sandbox height={400} projectId="uxcomponents_date_time_time" />
 

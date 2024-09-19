@@ -1,4 +1,4 @@
-import { Moment } from 'moment'
+import { Dayjs } from 'dayjs'
 import { PopperProps } from 'react-popper'
 
 export const enum CalendarType {
@@ -19,7 +19,7 @@ export type DatePickerValue =
     | string
     | null
 
-export type DateType = string | Moment | Date
+export type DateType = string | Dayjs | Date
 
 export type Time = {
     hours: number,
@@ -33,7 +33,7 @@ export type TimeExtended = Time & {
 
 export type DefaultTime = Record<string, TimeExtended>
 
-export type OnInputChangeHandler = (date: Moment | null, inputName: string, callback?: () => void) => void
+export type OnInputChangeHandler = (date: Dayjs | null, inputName: string, callback?: () => void) => void
 
 export type PopperPositioningStrategy = PopperProps<unknown>['strategy']
 export type PopperPlacement = PopperProps<unknown>['placement']

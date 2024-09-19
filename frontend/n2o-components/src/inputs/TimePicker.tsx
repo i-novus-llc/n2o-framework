@@ -1,6 +1,7 @@
-import React, { Component, KeyboardEvent, MouseEventHandler, RefObject } from 'react'
+import React, { Component, KeyboardEvent, MouseEventHandler, RefObject, ComponentType } from 'react'
 import { findDOMNode } from 'react-dom'
-import moment, { Moment } from 'moment/moment'
+import dayjs, { Dayjs } from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import includes from 'lodash/includes'
 import pick from 'lodash/pick'
 import keys from 'lodash/keys'
@@ -20,27 +21,29 @@ import { InputIcon } from '../display/InputIcon'
 
 import { InputText } from './InputText'
 
-const HOURS = 'hours'
-const MINUTES = 'minutes'
-const SECONDS = 'seconds'
+dayjs.extend(customParseFormat)
+
+const HOUR = 'hour'
+const MINUTE = 'minute'
+const SECOND = 'second'
 
 const DIGIT = 'digit'
 const SYMBOLS = 'symbols'
 
 const reference: Record<Mode, Record<string, string | number>> = {
-    [HOURS]: {
+    [HOUR]: {
         format: 'HH',
         en: 'h_hours',
         ru: 'ч_часы',
         values: 24,
     },
-    [MINUTES]: {
+    [MINUTE]: {
         format: 'mm',
         en: 'min_minutes',
         ru: 'мин_минуты',
         values: 60,
     },
-    [SECONDS]: {
+    [SECOND]: {
         format: 'ss',
         en: 'sec_seconds',
         ru: 'сек_секунды',
@@ -50,18 +53,17 @@ const reference: Record<Mode, Record<string, string | number>> = {
 
 const toTime = (value: number, noZero?: boolean) => (value < 10 && !noZero ? `0${value}` : value)
 
-const handlePrevent: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.preventDefault()
-}
+const handlePrevent: MouseEventHandler<HTMLButtonElement> = (e) => { e.preventDefault() }
 
-type Mode = 'hours' | 'minutes' | 'seconds'
+type Mode = 'hour' | 'minute' | 'second'
+type OldMode = 'hours' | 'minutes' | 'seconds'
 
 type TimePickerProps = Pick<TBaseProps, 'disabled'> & TBaseInputProps<string> & {
     defaultValue?: string,
     disabled?: boolean,
     format?: 'digit' | 'symbols',
     locale?: 'en' | 'ru',
-    mode?: Mode[],
+    mode: Mode[],
     noZero?: boolean,
     onChange(value: string): void,
     onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
@@ -71,14 +73,14 @@ type TimePickerProps = Pick<TBaseProps, 'disabled'> & TBaseInputProps<string> & 
 }
 
 type TimePickerState = {
-    'hours': number,
-    'minutes': number,
+    'hour': number,
+    'minute': number,
     open: boolean,
-    'seconds': number
+    'second': number
 }
 
-export class TimePicker extends Component<TimePickerProps, TimePickerState> {
-    value: Moment | null = null
+class TimePickerBody extends Component<TimePickerProps, TimePickerState> {
+    value: Dayjs | null = null
 
     controlRef: RefObject<HTMLDivElement> | null = null
 
@@ -92,12 +94,13 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
         super(props)
         const { value, defaultValue, timeFormat = 'HH:mm:ss' } = props
 
-        this.value = moment(value || defaultValue, timeFormat)
+        this.value = dayjs(value || defaultValue, timeFormat)
+
         this.state = {
             open: false,
-            hours: this.value.hours(),
-            minutes: this.value.minutes(),
-            seconds: this.value.seconds(),
+            hour: this.value.hour(),
+            minute: this.value.minute(),
+            second: this.value.second(),
         }
         this.hoursRef = React.createRef()
         this.minutesRef = React.createRef()
@@ -119,16 +122,16 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
         const hasChangeVisible = open !== prevState.open
 
         if (prevProps.value !== value) {
-            this.value = moment(value, timeFormat)
+            this.value = dayjs(value, timeFormat)
             this.setState({
-                hours: this.value.hours(),
-                minutes: this.value.minutes(),
-                seconds: this.value.seconds(),
+                hour: this.value.hour(),
+                minute: this.value.minute(),
+                second: this.value.second(),
             })
         }
 
-        each([HOURS, MINUTES, SECONDS], (mode) => {
-            const ref = this[`${mode}Ref` as keyof TimePicker]
+        each([HOUR, MINUTE, SECOND], (mode) => {
+            const ref = this[`${mode}Ref` as keyof TimePickerBody]
 
             if (ref?.current) {
                 scrollIntoView(ref.current, {
@@ -161,13 +164,13 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
         }
     }
 
-    getTimeConfig = () => {
+    getVisibilityConfig = () => {
         const { mode } = this.props
 
         return {
-            showHour: includes(mode, 'hours'),
-            showMinute: includes(mode, 'minutes'),
-            showSecond: includes(mode, 'seconds'),
+            hour: includes(mode, HOUR),
+            minute: includes(mode, MINUTE),
+            second: includes(mode, SECOND),
         }
     }
 
@@ -183,7 +186,7 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
 
     // eslint-disable-next-line consistent-return
     getValue = () => {
-        const { format = 'symbols', timeFormat = 'HH:mm:ss', mode = ['hours', 'minutes', 'seconds'] } = this.props
+        const { format = 'symbols', timeFormat = 'HH:mm:ss', mode } = this.props
 
         if (format === DIGIT) {
             return this.getTime(timeFormat)
@@ -218,25 +221,28 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
 
     handleChangeValue = (mode: Mode, value: number): MouseEventHandler<HTMLButtonElement> => (e) => {
         const {
-            [HOURS]: hours,
-            [MINUTES]: minutes,
-            [SECONDS]: seconds,
+            [HOUR]: hour,
+            [MINUTE]: minute,
+            [SECOND]: second,
         } = this.state
 
         e.preventDefault()
 
         const prevState = {
-            [HOURS]: hours || 0,
-            [MINUTES]: minutes || 0,
-            [SECONDS]: seconds || 0,
+            [HOUR]: hour || 0,
+            [MINUTE]: minute || 0,
+            [SECOND]: second || 0,
         }
 
         if (!this.value?.isValid()) {
-            this.value = moment()
-            this.value.set(prevState)
+            this.value = dayjs()
+
+            this.value = this.value.set(HOUR, prevState[HOUR])
+            this.value = this.value.set(MINUTE, prevState[MINUTE])
+            this.value = this.value.set(SECOND, prevState[SECOND])
         }
 
-        this.value.set(mode, value)
+        this.value = this.value.set(mode, value)
 
         this.setState(
             {
@@ -270,7 +276,7 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
             <button
                 type="button"
                 key={index}
-                ref={index === modeValue ? this[`${mode}Ref` as keyof TimePicker] : null}
+                ref={index === modeValue ? this[`${mode}Ref` as keyof TimePickerBody] : null}
                 className={cn('dropdown-item n2o-time-picker__panel__item', {
                     active: index === modeValue,
                 })}
@@ -285,7 +291,7 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
     render() {
         const { placeholder, disabled, onKeyDown } = this.props
         const { open } = this.state
-        const timeConfig = this.getTimeConfig()
+        const visibilityConfig = this.getVisibilityConfig()
         const readyValue = this.getValue()
         const prefixCmp = this.renderPrefix()
 
@@ -309,12 +315,12 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
                                         />
                                     </InputIcon>
                                 )}
-                                readOnly
                                 placeholder={placeholder}
                                 disabled={disabled}
                                 value={readyValue}
                                 onClick={this.handleToggle}
                                 onKeyDown={onKeyDown}
+                                readOnly
                             />
                         )}
                     </Reference>
@@ -331,36 +337,36 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
                                     className="n2o-pop-up"
                                 >
                                     <Row noGutters>
-                                        {timeConfig.showHour ? (
+                                        {visibilityConfig.hour && (
                                             <Col>
                                                 <div className="n2o-time-picker__header">
-                                                    {this.getLocaleText(HOURS, 1)}
+                                                    {this.getLocaleText(HOUR, 1)}
                                                 </div>
                                                 <div className="n2o-time-picker__panel">
-                                                    {this.renderPanelItems(HOURS)}
+                                                    {this.renderPanelItems(HOUR)}
                                                 </div>
                                             </Col>
-                                        ) : null}
-                                        {timeConfig.showMinute ? (
+                                        )}
+                                        {visibilityConfig.minute && (
                                             <Col>
                                                 <div className="n2o-time-picker__header">
-                                                    {this.getLocaleText(MINUTES, 1)}
+                                                    {this.getLocaleText(MINUTE, 1)}
                                                 </div>
                                                 <div className="n2o-time-picker__panel">
-                                                    {this.renderPanelItems(MINUTES)}
+                                                    {this.renderPanelItems(MINUTE)}
                                                 </div>
                                             </Col>
-                                        ) : null}
-                                        {timeConfig.showSecond ? (
+                                        )}
+                                        {visibilityConfig.second && (
                                             <Col>
                                                 <div className="n2o-time-picker__header last">
-                                                    {this.getLocaleText(SECONDS, 1)}
+                                                    {this.getLocaleText(SECOND, 1)}
                                                 </div>
                                                 <div className="n2o-time-picker__panel">
-                                                    {this.renderPanelItems(SECONDS)}
+                                                    {this.renderPanelItems(SECOND)}
                                                 </div>
                                             </Col>
-                                        ) : null}
+                                        )}
                                     </Row>
                                 </div>
                             )}
@@ -371,3 +377,29 @@ export class TimePicker extends Component<TimePickerProps, TimePickerState> {
         )
     }
 }
+
+const MODE_MAP = {
+    hours: 'hour',
+    minutes: 'minute',
+    seconds: 'second',
+    hour: 'hour',
+    minute: 'minute',
+    second: 'second',
+} as const
+
+// Для сохранения обратной совместимости, в ранних версиях используется множественное число ['hours', 'minutes', 'seconds']
+const patchMode = (mode?: Mode[] | OldMode[]): Mode[] => (mode
+    ? mode.map(m => MODE_MAP[m])
+    : [MODE_MAP.hour, MODE_MAP.minute, MODE_MAP.second])
+
+function PatchMode(Component: ComponentType<TimePickerProps>) {
+    function Wrapper(props: TimePickerProps) {
+        const { mode } = props
+
+        return <Component {...props} mode={patchMode(mode)} />
+    }
+
+    return Wrapper
+}
+
+export const TimePicker = PatchMode(TimePickerBody)
