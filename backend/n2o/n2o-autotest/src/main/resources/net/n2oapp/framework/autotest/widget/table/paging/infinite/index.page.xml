@@ -7,7 +7,7 @@
             <columns>
                 <column text-field-id="name"/>
             </columns>
-            <pagination show-last="false" next="true" prev="true"/>
+            <pagination show-count="never" show-last="false" next="true" prev="true"/>
         </table>
     </regions>
 </page>

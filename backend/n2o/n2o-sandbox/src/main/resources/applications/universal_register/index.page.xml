@@ -209,7 +209,7 @@
                     </toolbar>
                 </column>
             </columns>
-            <pagination show-last="false">
+            <pagination show-last="false" show-count="never">
                 
             </pagination>
         </table>
