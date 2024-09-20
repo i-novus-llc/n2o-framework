@@ -43,16 +43,15 @@ public class FilterColumnAT extends AutoTestBase {
                 new N2oAllPagesPack(),
                 new N2oAllDataPack()
         );
-    }
-
-    @Test
-    public void testFilterColumn() {
         setJsonPath("net/n2oapp/framework/autotest/widget/table/filter_column/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/simple/test.query.xml")
         );
+    }
 
+    @Test
+    void testFilterColumn() {
         page = open(SimplePage.class);
         page.shouldExists();
 
@@ -151,5 +150,69 @@ public class FilterColumnAT extends AutoTestBase {
         header.openFilterDropdown();
         header.clickResetButton();
         rows.shouldHaveSize(4);
+    }
+
+    @Test
+    void testIndicator() {
+        page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget table = page.widget(TableWidget.class);
+        table.shouldExists();
+
+        TableWidget.Rows rows = table.columns().rows();
+        TableHeaders headers = table.columns().headers();
+        headers.shouldHaveSize(4);
+
+        TableFilterHeader otherHeader = headers.header(2, TableFilterHeader.class);
+
+        TableFilterHeader header = headers.header(1, TableFilterHeader.class);
+        InputText headerInput = header.filterControl(InputText.class);
+
+        //1. ввод значения  -> закрытие dropdown.
+        //В этом случае должен появиться hollow индикатор
+        //Данные присутствуют при повторном открытии
+        header.openFilterDropdown();
+        headerInput.click();
+        headerInput.setValue("1");
+        otherHeader.click();
+        header.filterBadgeShouldExists();
+        header.filterBadgeIsHollow();
+        header.openFilterDropdown();
+        headerInput.shouldHaveValue("1");
+
+        //2. ручная очистка значения
+        //Индикатор исчезает
+        headerInput.clear();
+        header.filterBadgeShouldNotExists();
+
+        //3. ввод значения -> нажатие Найти.
+        // Появляется заполненный индикатор
+        //Данные присутствуют при повторном открытии
+        headerInput.setValue("1");
+        header.clickSearchButton();
+        header.filterBadgeShouldExists();
+        header.filterBadgeIsNotHollow();
+        header.openFilterDropdown();
+        headerInput.shouldHaveValue("1");
+
+        //4. ввод значения после поиска -> закрытие dropdown
+        //Заполненный индикатор
+        //В фильтре значение, которое было при поиске
+        headerInput.click();
+        headerInput.setValue("2");
+        otherHeader.click();
+        header.filterBadgeShouldExists();
+        header.filterBadgeIsNotHollow();
+        header.openFilterDropdown();
+        headerInput.shouldHaveValue("1");
+
+        //5. нажатие Сбросить
+        //Нет индикатора
+        //Данные пусты
+        header.clickResetButton();
+        header.filterBadgeShouldNotExists();
+        header.openFilterDropdown();
+        headerInput.shouldBeEmpty();
     }
 }

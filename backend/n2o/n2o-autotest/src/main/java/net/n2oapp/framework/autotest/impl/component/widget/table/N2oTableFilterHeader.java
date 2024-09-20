@@ -33,6 +33,30 @@ public class N2oTableFilterHeader extends N2oTableSimpleHeader implements TableF
         buttons().find(Condition.text("Сбросить")).click();
     }
 
+    @Override
+    public void filterBadgeShouldExists() {
+        filterBadge().should(Condition.exist);
+    }
+
+    @Override
+    public void filterBadgeShouldNotExists() {
+        filterBadge().shouldNot(Condition.exist);
+    }
+
+    @Override
+    public void filterBadgeIsHollow() {
+        filterBadge().should(Condition.cssClass("hollow"));
+    }
+
+    @Override
+    public void filterBadgeIsNotHollow() {
+        filterBadge().shouldNot(Condition.cssClass("hollow"));
+    }
+
+    protected SelenideElement filterBadge() {
+        return element().$(".n2o-advanced-table-filter-badge");
+    }
+
     protected SelenideElement filterDropdown() {
         return element().$(".n2o-advanced-table-filter-dropdown").shouldBe(Condition.exist);
     }

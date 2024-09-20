@@ -28,4 +28,24 @@ public interface TableFilterHeader extends TableSimpleHeader {
      * Клик по кнопке удаления введенного фильтра
      */
     void clickResetButton();
+
+    /**
+     * Индикатор введенного фильтра должен существовать
+     */
+    void filterBadgeShouldExists();
+
+    /**
+     * Индикатор введенного фильтра не должен существовать
+     */
+    void filterBadgeShouldNotExists();
+
+    /**
+     * Индикатор введенного фильтра должен быть пустым кружком
+     */
+    void filterBadgeIsHollow();
+
+    /**
+     * Индикатор введенного фильтра должен быть черным кружком
+     */
+    void filterBadgeIsNotHollow();
 }
