@@ -12,6 +12,7 @@ import net.n2oapp.framework.autotest.api.component.cell.IconCell;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.Checkbox;
+import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
@@ -378,5 +379,35 @@ public class TableAT extends AutoTestBase {
         tooltip = iconCell.tooltip();
         tooltip.shouldExists();
         tooltip.shouldHaveText(new String[]{"tooltip_icon1"});
+    }
+
+    @Test
+    void testClearFilters() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/clear_filters");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/clear_filters/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/clear_filters/test.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        StandardButton button = table.filters().toolbar().button("Сбросить");
+        InputText input = table.filters().fields().field("name").control(InputText.class);
+
+        button.shouldBeDisabled();
+        input.setValue("test");
+        button.shouldBeEnabled();
+        input.clear();
+        button.shouldBeDisabled();
+
+        InputSelect select = table.filters().fields().field("type").control(InputSelect.class);
+        select.openPopup();
+        button.shouldBeDisabled();
+        select.dropdown().selectItem(1);
+        button.shouldBeEnabled();
+        select.clear();
+        button.shouldBeDisabled();
     }
 }

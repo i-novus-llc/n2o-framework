@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Проверка активности кнопки Сбросить фильтры таблицы">
+    <datasources>
+        <datasource id="ds1" query-id="test" size="5"/>
+    </datasources>
+
+    <regions>
+        <table datasource="ds1" selection="none">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+                <column text-field-id="type"/>
+            </columns>
+            <filters place="top">
+                <row>
+                    <col size="4">
+                        <input-text id="name"/>
+                    </col>
+                    <col size="3">
+                        <input-select id="type">
+                            <options>
+                                <option id="1" name="1"/>
+                                <option id="2" name="2"/>
+                            </options>
+                        </input-select>
+                    </col>
+                </row>
+            </filters>
+            <toolbar place="topRight">
+                <group generate="tableSettings"/>
+            </toolbar>
+        </table>
+    </regions>
+</page>
