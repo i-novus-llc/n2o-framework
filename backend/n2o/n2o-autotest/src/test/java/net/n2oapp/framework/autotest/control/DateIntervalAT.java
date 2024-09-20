@@ -1,5 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.DateInterval;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -58,17 +60,6 @@ public class DateIntervalAT extends AutoTestBase {
         dateInterval.clickCalendarButton();
         dateInterval.beginDayShouldBeActive("12");
         dateInterval.endDayShouldBeActive("15");
-        // проверка, что всегда begin <= end
-        dateInterval.endDayShouldBeDisabled("11");
-        dateInterval.endDayShouldBeEnabled("12");
-        dateInterval.clickBeginDay("13");
-        dateInterval.beginShouldHaveValue("13.02.2020");
-        dateInterval.endDayShouldBeDisabled("12");
-        // проверка, что при begin > end, значение end стирается
-        dateInterval.clickBeginDay("16");
-        dateInterval.endShouldBeEmpty();
-        dateInterval.clickEndDay("18");
-        dateInterval.endShouldHaveValue("18.02.2020");
         // проверка значений месяцев / годов
         dateInterval.beginCurrentMonthShouldHaveValue("Февраль");
         dateInterval.endCurrentMonthShouldHaveValue("Февраль");
@@ -149,5 +140,40 @@ public class DateIntervalAT extends AutoTestBase {
         dateInterval.endDayShouldBeEnabled("10");
         dateInterval.endDayShouldBeEnabled("20");
         dateInterval.endDayShouldBeDisabled("21");
+    }
+
+    @Test
+    public void testBeginEndBehavior() {
+
+        Fields fields = page.widget(FormWidget.class).fields();
+        DateInterval dateInterval = fields.field("DateInterval1").control(DateInterval.class);
+        DateInput begin = fields.field("date1.begin").control(DateInput.class);
+        DateInput end = fields.field("date1.end").control(DateInput.class);
+
+        dateInterval.openPopup();
+        dateInterval.setValueInBegin("12.02.2020");
+        dateInterval.setValueInEnd("15.02.2020");
+        begin.shouldHaveValue("12.02.2020");
+        end.shouldHaveValue("15.02.2020");
+        // проверка, что всегда begin <= end
+        dateInterval.endDayShouldBeDisabled("11");
+        dateInterval.endDayShouldBeEnabled("12");
+        dateInterval.clickBeginDay("13");
+        dateInterval.beginShouldHaveValue("13.02.2020");
+        dateInterval.endDayShouldBeDisabled("12");
+        // проверка, что при begin > end, значение end стирается
+        dateInterval.clickBeginDay("16");
+        dateInterval.endShouldBeEmpty();
+        begin.shouldHaveValue("16.02.2020");
+        end.shouldBeEmpty();
+        dateInterval.clickEndDay("18");
+        dateInterval.endShouldHaveValue("18.02.2020");
+        begin.shouldHaveValue("16.02.2020");
+        end.shouldHaveValue("18.02.2020");
+        // проверка через клавиатуру
+        dateInterval.setValueInEnd("15.02.2020");
+        dateInterval.beginShouldBeEmpty();
+        begin.shouldBeEmpty();
+        end.shouldHaveValue("15.02.2020");
     }
 }
