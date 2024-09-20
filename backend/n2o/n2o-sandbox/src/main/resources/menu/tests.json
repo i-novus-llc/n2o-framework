@@ -429,6 +429,10 @@
           "name": "TableAT. testCellTooltip"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/clear_filters",
+          "name": "TableAT. testClearFilters"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/filter_column/simple",
           "name": "FilterColumnAT"
         },
