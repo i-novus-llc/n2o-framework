@@ -1,9 +1,11 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
             <date-interval id="date1" label="DateInterval1" date-format="DD.MM.YYYY"/>
             <date-interval id="date2" label="DateInterval2" date-format="DD/MM/YYYY" time-format="HH:mm:ss"/>
             <date-interval id="date3" label="DateInterval3" date-format="DD.MM.YYYY" min="2020-02-10" max="2020-02-20"/>
+            <date-time id="date1.begin" date-format="DD.MM.YYYY"/>
+            <date-time id="date1.end" date-format="DD.MM.YYYY"/>
         </fields>
     </form>
 </simple-page>
