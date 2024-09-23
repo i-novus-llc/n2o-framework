@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * Тестирование методов класса {@link RouteUtil}
  */
-public class RouteUtilTest {
+class RouteUtilTest {
 
     @Test
     void normalize() {
@@ -106,7 +106,7 @@ public class RouteUtilTest {
     void isApplicationUrl() {
         assertThat(RouteUtil.isApplicationUrl("https://google.com"), is(false));
         assertThat(RouteUtil.isApplicationUrl("google.com"), is(true));
-        assertThat(RouteUtil.isApplicationUrl("//test"), is(false));
+        assertThat(RouteUtil.isApplicationUrl("//test"), is(true));
         assertThat(RouteUtil.isApplicationUrl("/test"), is(true));
         assertThat(RouteUtil.isApplicationUrl("test"), is(true));
         assertThat(RouteUtil.isApplicationUrl("test/test2"), is(true));

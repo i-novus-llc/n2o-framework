@@ -132,7 +132,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         dataProvider.setFormParams(source.getFormParams());
         dataProvider.setHeaderParams(source.getHeaderParams());
         dataProvider.setMethod(source.getMethod());
-        dataProvider.setUrl(source.getRoute());
+        dataProvider.setUrl(RouteUtil.normalize(source.getRoute()));
         dataProvider.setSubmitForm(source.getSubmitAll());
 
         CompiledObject compiledObject = getObject(source, p);
