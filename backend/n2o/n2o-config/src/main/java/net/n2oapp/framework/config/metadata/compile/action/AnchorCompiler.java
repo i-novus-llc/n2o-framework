@@ -4,10 +4,10 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
@@ -45,19 +45,17 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
 
         compileAction(linkAction, source, p);
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-        Target sourceTarget = source.getTarget();
+
         String path = source.getHref();
+        Target target = castDefault(source.getTarget(), Target.self);
         if (!StringUtils.isLink(source.getHref())) {
-            if (Target.self.equals(sourceTarget) || Target.newWindow.equals(sourceTarget)) {
-                if (RouteUtil.isApplicationUrl(path)) {
-                    path = RouteUtil.normalize(path);
-                }
-            } else {
+            if (Target.application.equals(target)) {
                 path = RouteUtil.absolute(source.getHref(), routeScope != null ? routeScope.getUrl() : null);
             }
+            path = RouteUtil.normalize(path);
         }
+
         initUrl(linkAction, path, source, routeScope, p);
-        Target target = castDefault(source.getTarget(), Target.self);
         linkAction.setTarget(target);
         PageRoutes pageRoutes = p.getScope(PageRoutes.class);
         if (pageRoutes != null && Target.application.equals(source.getTarget())) {
@@ -79,8 +77,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
                 throw new N2oException("Datasource not found for action <a> with linked href " + source.getHref());
             }
             linkAction.getPayload().setModelLink(new ModelLink(reduxModel, getClientDatasourceId(datasourceId, p)).getBindLink());
-        }
-        else
+        } else
             initMappings(linkAction, source, p, routeScope);
     }
 

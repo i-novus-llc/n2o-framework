@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -10,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
 import net.n2oapp.framework.api.metadata.meta.control.ImageField;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
@@ -32,7 +34,11 @@ public class ImageFieldCompiler extends ActionFieldCompiler<ImageField, N2oImage
         ImageField imageField = new ImageField();
         initDefaults(source, context, p);
         compileField(imageField, source, context, p);
-        imageField.setData(castDefault(p.resolveJS(source.getData()), () -> p.resolveJS(source.getUrl())));
+        imageField.setData(castDefault(p.resolveJS(source.getData()),
+                () -> StringUtils.hasLink(source.getUrl())
+                        ? p.resolveJS(source.getUrl())
+                        : RouteUtil.normalize(source.getUrl())
+        ));
         imageField.setTitle(p.resolveJS(source.getTitle()));
         imageField.setDescription(p.resolveJS(source.getDescription()));
         imageField.setTextPosition(castDefault(source.getTextPosition(),
@@ -47,7 +53,8 @@ public class ImageFieldCompiler extends ActionFieldCompiler<ImageField, N2oImage
     }
 
     private ImageStatusElement[] compileStatuses(N2oImageStatusElement[] statuses, final CompileProcessor p) {
-        if (statuses == null) return null;
+        if (statuses == null)
+            return null;
         int i = 0;
         ImageStatusElement[] statusElements = new ImageStatusElement[statuses.length];
         for (N2oImageStatusElement e : statuses) {

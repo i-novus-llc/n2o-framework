@@ -368,7 +368,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String actionRoute = source.getRoute();
 
         if (actionRoute != null)
-            return actionRoute;
+            return normalize(actionRoute);
 
         actionRoute = normalize(source.getId());
         // генерация маршрута для динамической страницы с моделью resolve

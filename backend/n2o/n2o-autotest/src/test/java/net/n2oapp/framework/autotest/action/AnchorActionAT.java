@@ -60,12 +60,12 @@ public class AnchorActionAT extends AutoTestBase {
         page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         open.toolbar().bottomRight().button("Ссылка").click();
 
-        open.shouldHaveUrlMatches(getBaseUrl() + "/link/3/");
+        open.shouldHaveUrlMatches(getBaseUrl() + "/link/3");
     }
 
 
     /**
-     *Тест проверяющий резолв атрибута href
+     * Тест проверяющий резолв атрибута href
      */
     @Test
     public void testHrefResolve() {

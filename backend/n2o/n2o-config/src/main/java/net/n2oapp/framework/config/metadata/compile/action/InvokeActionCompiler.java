@@ -89,7 +89,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
 
     protected void initDefaults(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
-        source.setRoute(castDefault(source.getRoute(), "/" + source.getId()));
+        source.setRoute(castDefault(RouteUtil.normalize(source.getRoute()), "/" + source.getId()));
         initSubmitMessageDefaults(source, p);
         source.setOptimistic(
                 castDefault(source.getOptimistic(),
@@ -131,7 +131,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         dataProvider.setFormParams(source.getFormParams());
         dataProvider.setHeaderParams(source.getHeaderParams());
         dataProvider.setMethod(source.getMethod());
-        dataProvider.setUrl(source.getRoute());
+        dataProvider.setUrl(RouteUtil.normalize(source.getRoute()));
         dataProvider.setSubmitForm(source.getSubmitAll());
 
         CompiledObject compiledObject = getObject(source, p);

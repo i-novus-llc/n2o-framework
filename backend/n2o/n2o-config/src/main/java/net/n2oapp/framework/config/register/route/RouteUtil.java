@@ -27,13 +27,15 @@ public abstract class RouteUtil {
 
     /**
      * Нормализация URL.
-     * Убирает двойные слешы. Убирает слеш в конце. Ставит слеш в начало.
+     * Убирает двойные слеши. Убирает слеш в конце. Ставит слеш в начало.
      *
      * @param url Адрес URL
      * @return Нормализованный адрес URL
      */
     public static String normalize(String url) {
-        url = url.replaceAll("[/]+", "/");
+        if (url == null || !isApplicationUrl(url))
+            return url;
+        url = url.replaceAll("/+", "/");
         url = url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
         url = !url.startsWith("/") && !url.startsWith("../") ? "/" + url : url;
         return url;
@@ -237,7 +239,7 @@ public abstract class RouteUtil {
      */
     public static boolean isApplicationUrl(String url) {
         // target self or newWindow
-        return !url.startsWith("http") && !url.startsWith("//");
+        return !url.startsWith("http");
     }
 
     /**
