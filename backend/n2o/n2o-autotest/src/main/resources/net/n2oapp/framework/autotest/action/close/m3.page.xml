@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="m3">
+    <form>
+        <fields>
+            <button label="close">
+                <close />
+                <close />
+                <close />
+            </button>
+        </fields>
+    </form>
+</simple-page>

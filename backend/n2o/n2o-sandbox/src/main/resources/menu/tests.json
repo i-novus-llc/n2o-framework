@@ -1356,8 +1356,8 @@
           "name": "ClearActionAT. clearAfterAction"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/action/close/clear",
-          "name": "CloseWithClearAT"
+          "templateId": "net/n2oapp/framework/autotest/action/close",
+          "name": "CloseActionAT"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/action/close/refresh/drawer",
