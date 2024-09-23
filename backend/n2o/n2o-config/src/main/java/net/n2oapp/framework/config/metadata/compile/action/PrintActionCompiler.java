@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.PrintType;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -38,10 +39,12 @@ public class PrintActionCompiler extends AbstractActionCompiler<PrintAction, N2o
         compileAction(print, source, p);
         print.setType(p.resolve(property("n2o.api.action.print.type"), String.class));
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-        String path = source.getUrl().startsWith(":") ?
-                source.getUrl() :
-                RouteUtil.absolute(source.getUrl(), routeScope != null ? routeScope.getUrl() : null);
-        print.getPayload().setUrl(p.resolveJS(path));
+        String path = source.getUrl().startsWith(":")
+                ? source.getUrl()
+                : RouteUtil.absolute(source.getUrl(), routeScope != null ? routeScope.getUrl() : null);
+        print.getPayload().setUrl(StringUtils.hasLink(path)
+                ? p.resolveJS(path)
+                : RouteUtil.normalize(path));
         print.getPayload().setType(castDefault(source.getType(),
                 () -> p.resolve(property("n2o.api.action.print.document_type"), PrintType.class)));
         print.getPayload().setKeepIndent(castDefault(source.getKeepIndent(),

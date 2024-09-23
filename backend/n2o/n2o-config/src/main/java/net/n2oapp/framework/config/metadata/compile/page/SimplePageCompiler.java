@@ -29,8 +29,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
-import static net.n2oapp.framework.config.util.DatasourceUtil.getClientWidgetId;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 /**

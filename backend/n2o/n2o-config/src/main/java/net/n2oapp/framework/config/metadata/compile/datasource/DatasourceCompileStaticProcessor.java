@@ -105,7 +105,7 @@ public class DatasourceCompileStaticProcessor {
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setMethod(RequestMethod.POST);
-        dataProvider.setUrl(submit.getRoute());
+        dataProvider.setUrl(RouteUtil.normalize(submit.getRoute()));
         dataProvider.setTargetModel(ReduxModel.resolve);
         dataProvider.setPathParams(submit.getPathParams());
         dataProvider.setHeaderParams(submit.getHeaderParams());
@@ -115,7 +115,7 @@ public class DatasourceCompileStaticProcessor {
         N2oClientDataProvider.ActionContextData actionContextData = new N2oClientDataProvider.ActionContextData();
         actionContextData.setObjectId(object.getId());
         actionContextData.setOperationId(submit.getOperationId());
-        actionContextData.setRoute(submit.getRoute());
+        actionContextData.setRoute(RouteUtil.normalize(submit.getRoute()));
         actionContextData.setMessageOnSuccess(castDefault(submit.getMessageOnSuccess(),
                 () -> p.resolve(property("n2o.api.datasource.submit.message_on_success"), Boolean.class)));
         actionContextData.setMessageOnFail(castDefault(submit.getMessageOnFail(),
@@ -208,10 +208,10 @@ public class DatasourceCompileStaticProcessor {
      */
     public static String getDatasourceRoute(String sourceId, String compiledId, String sourceRoute, CompileProcessor p) {
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
-        String datasource = parentRouteScope != null && "/".equals(parentRouteScope.getUrl())
+        String datasourceRoute = parentRouteScope != null && "/".equals(parentRouteScope.getUrl())
                 ? compiledId
                 : sourceId;
-        String route = castDefault(sourceRoute, () -> normalize(datasource));
+        String route = castDefault(RouteUtil.normalize(sourceRoute), () -> normalize(datasourceRoute));
         return parentRouteScope != null
                 ? RouteUtil.normalize(parentRouteScope.getUrl() + route)
                 : route;
