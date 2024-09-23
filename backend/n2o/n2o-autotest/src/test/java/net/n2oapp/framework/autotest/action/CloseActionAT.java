@@ -5,6 +5,7 @@ import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -19,9 +20,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест очистки формы с закрытием
+ * Автотест закрытия модальных окон
  */
-public class CloseWithClearAT extends AutoTestBase {
+public class CloseActionAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -40,8 +41,11 @@ public class CloseWithClearAT extends AutoTestBase {
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
 
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/modal.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/m1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/m2.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/m3.page.xml"));
     }
 
     @Test
@@ -125,5 +129,31 @@ public class CloseWithClearAT extends AutoTestBase {
         inputText.shouldBeEmpty();
         drawer.close();
         drawer.shouldNotExists();
+    }
+
+    @Test
+    public void testMultiClose() {
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        page.widget(FormWidget.class).toolbar().topLeft().button("openMultiModal").click();
+        Modal modal1 = N2oSelenide.modal();
+        modal1.shouldExists();
+        modal1.shouldHaveTitle("m1");
+
+        modal1.content(SimplePage.class).widget(FormWidget.class).fields().field("next", ButtonField.class).click();
+        Modal modal2 = N2oSelenide.modal(1);
+        modal2.shouldExists();
+        modal2.shouldHaveTitle("m2");
+
+        modal2.content(SimplePage.class).widget(FormWidget.class).fields().field("next", ButtonField.class).click();
+        Modal modal3 = N2oSelenide.modal(2);
+        modal3.shouldExists();
+        modal3.shouldHaveTitle("m3");
+
+        modal3.content(SimplePage.class).widget(FormWidget.class).fields().field("close", ButtonField.class).click();
+        modal1.shouldNotExists();
+        modal2.shouldNotExists();
+        modal3.shouldNotExists();
     }
 }
