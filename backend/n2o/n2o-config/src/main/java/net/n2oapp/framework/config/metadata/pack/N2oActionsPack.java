@@ -57,6 +57,7 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new RefreshActionCompiler(),
                 new OpenPageCompiler(),
                 new AnchorCompiler(),
+                new MultiActionCompiler(),
                 new ClearActionCompiler(),
                 new ConfirmActionCompiler(),
                 new CopyActionCompiler(),

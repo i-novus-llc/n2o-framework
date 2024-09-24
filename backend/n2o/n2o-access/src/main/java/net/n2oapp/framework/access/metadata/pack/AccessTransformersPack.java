@@ -2,6 +2,7 @@ package net.n2oapp.framework.access.metadata.pack;
 
 import net.n2oapp.framework.access.integration.metadata.transform.*;
 import net.n2oapp.framework.access.integration.metadata.transform.action.InvokeActionAccessTransformer;
+import net.n2oapp.framework.access.integration.metadata.transform.action.MultiActionAccessTransformer;
 import net.n2oapp.framework.access.integration.metadata.transform.action.OpenPageAccessTransformer;
 import net.n2oapp.framework.access.integration.metadata.transform.action.ShowModalAccessTransformer;
 import net.n2oapp.framework.api.pack.MetadataPack;
@@ -21,6 +22,7 @@ public class AccessTransformersPack implements MetadataPack<N2oApplicationBuilde
                 new InvokeActionAccessTransformer(),
                 new OpenPageAccessTransformer(),
                 new ShowModalAccessTransformer(),
+                new MultiActionAccessTransformer(),
                 new TableAccessTransformer(),
                 new ListWidgetAccessTransformer(),
                 new StandardFieldAccessTransformer(),
