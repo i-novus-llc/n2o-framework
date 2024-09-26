@@ -101,6 +101,14 @@ public class ScriptProcessorTest {
                 is("(function(){return multi.slice(0, index).concat(multi.slice(index + 1))}).call(this)"));
         assertThat(ScriptProcessor.resolveFunction(" const result = [...input]; return result.sort(function(first, second) { return first - second });"),
                 is("(function(){const result = [...input]; return result.sort(function(first, second) { return first - second });}).call(this)"));
+        assertThat(ScriptProcessor.resolveFunction("i1 ? i1.filter( x => { return x % 2 }) : 'empty list'"),
+                is("i1 ? i1.filter( x => { return x % 2 }) : 'empty list'"));
+        assertThat(ScriptProcessor.resolveFunction("i1 ? i1.filter( function(x) { return x % 2 }) : 'empty list'"),
+                is("i1 ? i1.filter( function(x) { return x % 2 }) : 'empty list'"));
+        assertThat(ScriptProcessor.resolveFunction("list.filter(function(x) { return x >= 5 })"),
+                is("list.filter(function(x) { return x >= 5 })"));
+        assertThat(ScriptProcessor.resolveFunction("if (type && type.id === 2) { return null; } else { return anotherName; }"),
+                is("(function(){if (type && type.id === 2) { return null; } else { return anotherName; }}).call(this)"));
     }
 
     @Test
