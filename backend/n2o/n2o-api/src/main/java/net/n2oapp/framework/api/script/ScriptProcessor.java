@@ -16,6 +16,7 @@ import org.mozilla.javascript.ast.PropertyGet;
 import javax.script.*;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Predicate;
@@ -39,7 +40,6 @@ public class ScriptProcessor {
 
     private static final Pattern FUNCTION_PATTERN = Pattern.compile("function\\s*\\(\\)[\\s\\S]*");
     private static final Pattern TERNARY_IN_LINK_PATTERN = Pattern.compile(".*\\{.*\\?.*:.*\\}.*");
-    private static final Pattern METHOD_PATTERN = Pattern.compile("^(\\[(\\'?\\w+\\'?\\,?\\s?)+\\]|\\w+)\\.\\w+\\([\\s\\S]*\\)$");
 
     public static String resolveLinks(String text) {
         if (text == null)
@@ -105,11 +105,21 @@ public class ScriptProcessor {
         if (FUNCTION_PATTERN.matcher(trimmedText).matches()) {
             return String.format("(%s).call(this)", trimmedText);
         }
-        if (trimmedText.contains("return ") && !METHOD_PATTERN.matcher(trimmedText).matches()) {
+        if (isFunction(trimmedText)) {
             return String.format("(function(){%s}).call(this)", trimmedText);
         } else {
             return trimmedText;
         }
+    }
+
+    private static boolean isFunction(String text) {
+        String wordReplaced = text.replaceAll("\\'[^'']*\\'", "");
+        String bracesReplaced = wordReplaced.replaceAll("\\{[^{}]*\\}", "");
+        if (bracesReplaced.contains("return ") || bracesReplaced.contains("if") || bracesReplaced.contains("var") ||
+                bracesReplaced.contains("switch") || bracesReplaced.contains("const")) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -494,7 +504,7 @@ public class ScriptProcessor {
     }
 
     public static String addContextForAll(String script, final String context) {
-        return addContextFor(script, context, (s) -> true);
+        return addContextFor(script, context, s -> true);
     }
 
     //    'id, gender[0].id' to 'id, gender'
@@ -527,11 +537,11 @@ public class ScriptProcessor {
         Bindings bindings = scriptEngine.createBindings();
         bindings.putAll(global);
         for (String key : dataSet.keySet()) {
-            Object var = dataSet.get(key);
-            if (var instanceof Collection) {
-                bindings.put(key, ((Collection) var).toArray());
+            Object value = dataSet.get(key);
+            if (value instanceof Collection) {
+                bindings.put(key, ((Collection) value).toArray());
             } else {
-                bindings.put(key, var);
+                bindings.put(key, value);
             }
         }
         if (isNeedMoment(script)) {
@@ -626,10 +636,10 @@ public class ScriptProcessor {
             URL numeralUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/numeral.js");
             URL n2oUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/n2o.js");
             try {
-                MOMENT_JS = IOUtils.toString(momentUrl, "UTF-8");
-                scriptEngine.eval(IOUtils.toString(lodashUrl, "UTF-8"), bindings);
-                scriptEngine.eval(IOUtils.toString(numeralUrl, "UTF-8"), bindings);
-                scriptEngine.eval(IOUtils.toString(n2oUrl, "UTF-8"), bindings);
+                MOMENT_JS = IOUtils.toString(momentUrl, StandardCharsets.UTF_8);
+                scriptEngine.eval(IOUtils.toString(lodashUrl, StandardCharsets.UTF_8), bindings);
+                scriptEngine.eval(IOUtils.toString(numeralUrl, StandardCharsets.UTF_8), bindings);
+                scriptEngine.eval(IOUtils.toString(n2oUrl, StandardCharsets.UTF_8), bindings);
             } catch (IOException | ScriptException e) {
                 throw new N2oException(e);
             }
