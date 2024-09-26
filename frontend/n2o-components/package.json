@@ -58,7 +58,7 @@
     "rc-drawer": "^3.0.2",
     "rc-slider": "^8.6.11",
     "rc-switch": "4.1.0",
-    "rc-tree-select": "^5.22.0",
+    "rc-tree-select": "^5.23.0",
     "react": "17.0.2",
     "react-ace": "11.0.1",
     "react-copy-to-clipboard": "^5.0.1",

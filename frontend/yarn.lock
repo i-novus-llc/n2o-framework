@@ -3459,7 +3459,7 @@ __metadata:
     rc-drawer: ^3.0.2
     rc-slider: ^8.6.11
     rc-switch: 4.1.0
-    rc-tree-select: ^5.22.0
+    rc-tree-select: ^5.23.0
     react: 17.0.2
     react-ace: 11.0.1
     react-copy-to-clipboard: ^5.0.1
@@ -16664,19 +16664,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rc-tree-select@npm:^5.22.0":
-  version: 5.22.0
-  resolution: "rc-tree-select@npm:5.22.0"
+"rc-tree-select@npm:^5.23.0":
+  version: 5.23.0
+  resolution: "rc-tree-select@npm:5.23.0"
   dependencies:
     "@babel/runtime": ^7.10.1
     classnames: 2.x
     rc-select: ~14.15.0
-    rc-tree: ~5.8.1
+    rc-tree: ~5.9.0
     rc-util: ^5.16.1
   peerDependencies:
     react: "*"
     react-dom: "*"
-  checksum: 03a2bfd1797e31459119aa79584847b980d41fcd11fd6e20ead9df37f1f91f8fc73f6c3cb620be1b86f463805d6eb2e1129c380daa532e8b29789216ac1f222b
+  checksum: e3d055818b54d4c3ac79e8fab48b97cb4eabc769636f05524796d580041b7f088f727799ee29d2cd456d71e4dc97d3fac7b6be57aee273d51ee4a58064acf489
   languageName: node
   linkType: hard
 
@@ -16696,9 +16696,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rc-tree@npm:~5.8.1":
-  version: 5.8.8
-  resolution: "rc-tree@npm:5.8.8"
+"rc-tree@npm:~5.9.0":
+  version: 5.9.0
+  resolution: "rc-tree@npm:5.9.0"
   dependencies:
     "@babel/runtime": ^7.10.1
     classnames: 2.x
@@ -16708,7 +16708,7 @@ __metadata:
   peerDependencies:
     react: "*"
     react-dom: "*"
-  checksum: 502c1784dd0c99de7c5861dcc7578a63b3cc6950de59e88a7655c17e23b1f786c96b0aa77c1dcad7c65719f82f13edad94548ae588c4c746b4c21b55d1fe1c3b
+  checksum: 73f8372cf7607c3791e31d31347bac0093ddc1636b96abbb00965854eb3f88e21e2da43270c9ec9290092eccad9a14e6b682db04655391aa9a7263d91a9f015e
   languageName: node
   linkType: hard
 
