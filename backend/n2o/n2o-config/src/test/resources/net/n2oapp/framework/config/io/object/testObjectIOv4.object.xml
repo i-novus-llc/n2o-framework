@@ -113,28 +113,5 @@
             </invocation>
         </constraint>
         <mandatory id="id4" severity="success" message="test" enabled="{type=='type2'}" field-id="field1"/>
-        <dialog id="id5" server-moment="after-success-operation" message="message"
-                enabled="false" size="sm" result="name=='Ivan'">
-            <invocation>
-                <sql/>
-            </invocation>
-            <in>
-                <field id="name"/>
-                <field id="validated"/>
-            </in>
-            <out>
-                <field id="name"/>
-            </out>
-            <toolbar>
-                <button id="yes" label="Yes">
-                    <invoke operation-id="create">
-                        <header-param name="validated" value="true"/>
-                    </invoke>
-                </button>
-                <button>
-                    <close/>
-                </button>
-            </toolbar>
-        </dialog>
     </validations>
 </object>

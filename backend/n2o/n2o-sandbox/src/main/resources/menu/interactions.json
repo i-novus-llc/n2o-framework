@@ -249,10 +249,6 @@
           "name": "Отключение валидации"
         },
         {
-          "templateId": "interactions/validation/dialog",
-          "name": "Настраиваемый диалог"
-        },
-        {
           "templateId": "interactions/validation/whitelist",
           "name": "Список валидаций прикрепленных к полю"
         },

@@ -483,7 +483,6 @@
             <xs:element name="condition" type="conditionDefinition" minOccurs="0"/>
             <xs:element name="constraint" type="constraintDefinition" minOccurs="0"/>
             <xs:element name="mandatory" type="requiredDefinition" minOccurs="0"/>
-            <xs:element name="dialog" type="dialogDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -585,53 +584,6 @@
         <xs:attribute name="side" type="validationSideDefinition" default="client,server">
             <xs:annotation>
                 <xs:documentation>Выполнение на клиенте и/или сервере.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
-    <xs:complexType name="dialogDefinition">
-        <xs:annotation>
-            <xs:documentation>Валидация с диалогом выбора.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="invocation" type="operationInvocationDefinition" minOccurs="0"/>
-            <xs:element name="in" type="operationInParameterListDefinition" minOccurs="0"/>
-            <xs:element name="out" type="operationOutParameterListDefinition" minOccurs="0"/>
-            <xs:element name="toolbar" type="tool:toolbarDefinition"/>
-        </xs:sequence>
-        <xs:attribute name="id" use="required">
-            <xs:annotation>
-                <xs:documentation>Идентификатор валидации.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="server-moment" type="serverMomentDefinition">
-            <xs:annotation>
-                <xs:documentation>Момент срабатывания валидации на сервере.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="title" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Заголовок окна диалога</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="message" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Сообщение, в случае нарушения валидации. Может содержать параметры.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="result" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Результат валидации.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="enabled" type="xs:string" default="true">
-            <xs:annotation>
-                <xs:documentation>Включение валидации.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="size" type="act:modalSize" default="lg">
-            <xs:annotation>
-                <xs:documentation>Размер окна диалога.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

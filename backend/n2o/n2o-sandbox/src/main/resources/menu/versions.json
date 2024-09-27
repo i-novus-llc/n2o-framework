@@ -472,10 +472,6 @@
         {
           "templateId": "versions/7.19/datasource",
           "name": "Datasource"
-        },
-        {
-          "templateId": "versions/7.19/dialog_title",
-          "name": "Заголовок диалога"
         }
       ]
     },
@@ -618,18 +614,6 @@
         {
           "templateId": "versions/7.13/sized_table",
           "name": "Таблица с регулируемой высотой/шириной"
-        },
-        {
-          "templateId": "versions/7.13/dialog_after_fail_operation",
-          "name": "Диалог после выполнения операции с ошибкой"
-        },
-        {
-          "templateId": "versions/7.13/dialog_before_operation",
-          "name": "Диалог перед выполнением операции с вызовом invocation"
-        },
-        {
-          "templateId": "versions/7.13/dialog_before_operation_without_invocation",
-          "name": "Диалог перед выполнением операции без вызова invocation"
         },
         {
           "templateId": "versions/7.13/table_header_style",

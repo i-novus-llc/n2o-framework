@@ -67,34 +67,6 @@ export const overlaysSlice = createSlice({
             },
         },
 
-        INSERT_DIALOG: {
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(name, visible, mode, props) {
-                return ({
-                    payload: {
-                        name,
-                        visible,
-                        mode,
-                        props,
-                    },
-                })
-            },
-
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            reducer(state, action: InsertOverlay) {
-                const { name, visible, mode } = action.payload
-
-                state.push({
-                    name,
-                    visible,
-                    mode,
-                    type: 'page',
-                    id: name,
-                    props: { ...action.payload },
-                })
-            },
-        },
-
         insert: {
             prepare(name, visible, mode, type, props) {
                 return ({
@@ -185,7 +157,6 @@ export const {
     SHOW: showOverlay,
     SHOW_PROMPT: showPrompt,
     HIDE_PROMPT: hidePrompt,
-    INSERT_DIALOG: insertDialog,
     INSERT_DRAWER: insertDrawer,
     INSERT_MODAL: insertOverlay,
     insert,

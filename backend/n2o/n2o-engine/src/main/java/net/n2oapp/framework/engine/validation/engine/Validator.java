@@ -5,12 +5,14 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
-import net.n2oapp.framework.api.data.validation.*;
+import net.n2oapp.framework.api.data.validation.ConditionValidation;
+import net.n2oapp.framework.api.data.validation.ConstraintValidation;
+import net.n2oapp.framework.api.data.validation.MandatoryValidation;
+import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import java.lang.reflect.InvocationTargetException;
@@ -140,12 +142,6 @@ public class Validator implements Iterable<Validation> {
             failInfo.setFieldId(v.isForField() ? v.getFieldId() : null);
             failInfo.setMessage(StringUtils.resolveLinks(v.getMessage(), dataSet));
             failInfo.setMessageTitle(StringUtils.resolveLinks(v.getMessageTitle(), dataSet));
-            if (v instanceof DialogValidation) {
-                N2oDialog dialog = ((DialogValidation) v).getDialog();
-                dialog.setTitle(failInfo.getMessageTitle());
-                dialog.setDescription(failInfo.getMessage());
-                failInfo.setDialog(dialog);
-            }
             fails.add(failInfo);
             afterFail(v);
         }, domainProcessor);
@@ -197,8 +193,7 @@ public class Validator implements Iterable<Validation> {
     }
 
     private boolean checkRequiredConstraint(Validation validation) {
-        if (validation instanceof ConstraintValidation) {
-            ConstraintValidation v = (ConstraintValidation) validation;
+        if (validation instanceof ConstraintValidation v) {
             if (v.getInParametersList() != null) {
                 for (AbstractParameter inParam : v.getInParametersList()) {
                     if (inParam.getRequired() != null

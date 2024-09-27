@@ -9,7 +9,30 @@
             <fields>
                 <input-text id="name"/>
                 <input-text id="age" domain="integer"/>
+                <input-text id="test"/>
             </fields>
+            <toolbar>
+                <button label="Сохранить" datasource="ds1">
+                    <invoke operation-id="checkName" message-on-success="false"/>
+                    <if test="name == null || name == ''">
+                        <confirm title="Вы не заполнили имя." text="Заполнить его значением по умолчанию?">
+                            <ok label="Да"/>
+                            <cancel label="Нет"/>
+                        </confirm>
+                        <set-value to="name">'default'</set-value>
+                    </if>
+                    <if test="age == null || age == ''">
+                        <confirm title="Вы не заполнили возраст." text="Заполнить его значением по умолчанию?">
+                            <ok label="Да"/>
+                            <cancel label="Нет"/>
+                        </confirm>
+                        <set-value to="age">0</set-value>
+                    </if>
+                    <invoke operation-id="create"/>
+                    <refresh datasource="table1"/>
+                    <close/>
+                </button>
+            </toolbar>
         </form>
     </regions>
 </page>

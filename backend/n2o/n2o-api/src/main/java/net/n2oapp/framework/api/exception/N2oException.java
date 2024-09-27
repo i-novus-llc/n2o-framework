@@ -3,7 +3,6 @@ package net.n2oapp.framework.api.exception;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 
 /**
  * Базовое исключение N2O
@@ -18,8 +17,8 @@ public class N2oException extends RuntimeException {
      * @return Исключение N2O
      */
     public static N2oException wrap(Throwable e) {
-        if (e instanceof N2oException)
-            return (N2oException) e;
+        if (e instanceof N2oException n2oException)
+            return n2oException;
         return e.getMessage() != null ? new N2oException(e.getMessage(), e) : new N2oException(e);
     }
 
@@ -47,11 +46,6 @@ public class N2oException extends RuntimeException {
      * Данные сообщения
      */
     private Object data;
-
-    /**
-     * Диалог подтверждения действия
-     */
-    private N2oDialog dialog;
 
     public N2oException() {
         super();

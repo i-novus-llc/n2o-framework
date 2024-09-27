@@ -32,7 +32,6 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/test/master/:master_id/detail", getMasterDetailQueryContext()),
                 new RouteInfo("/test/select", new QueryContext("testSqlQuery4", "/test/select")),
                 new RouteInfo("/test/sql/validation", getQueryContext()),
-                new RouteInfo("/testDialog", getTestDialogActionContext()),
                 new RouteInfo("/testInsertMongo", getTestInsertMongodbContext("create", "/testInsertMongo")),
                 new RouteInfo("/testUpdateMongo", getTestInsertMongodbContext("update", "/testUpdateMongo")),
                 new RouteInfo("/testDeleteMongo", getTestInsertMongodbContext("delete", "/testDeleteMongo")),
@@ -143,15 +142,6 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         ActionContext actionContext = new ActionContext("testActionContext", "create", "/test/invoke/action");
         actionContext.setValidations(createValidations());
         actionContext.setMessagesForm("testForm");
-        return actionContext;
-    }
-
-    private ActionContext getTestDialogActionContext() {
-        ActionContext actionContext = new ActionContext("testDialog", "create", "/testDialog");
-        actionContext.setMessagesForm("testForm");
-        actionContext.setParentSourceDatasourceId("testForm");
-        actionContext.setParentClientWidgetId("testDialog_main");
-        actionContext.setParentPageId("testDialog");
         return actionContext;
     }
 

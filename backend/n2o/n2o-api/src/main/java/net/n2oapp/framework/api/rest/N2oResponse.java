@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.page.Dialog;
 import net.n2oapp.framework.api.metadata.meta.saga.*;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 
@@ -78,10 +77,6 @@ public class N2oResponse {
         if (messageList.stream().anyMatch(m -> m.getField() == null))
             getMeta().setAlert(new AlertSaga());
         messageList.forEach(m -> addResponseMessage(m, widgetId));
-    }
-
-    public void setDialog(Dialog dialog) {
-        safeGetMeta().setDialog(dialog);
     }
 
     public void addRedirect(RedirectSaga redirect) {

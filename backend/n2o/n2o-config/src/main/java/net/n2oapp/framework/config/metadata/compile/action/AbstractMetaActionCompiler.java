@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -50,19 +49,19 @@ public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2o
     protected MetaSaga initFailMeta(D compiled, S source,
                                     CompileContext<?, ?> context) {
         MetaSaga metaSaga = new MetaSaga();
-        if (source.getCloseOnFail() && (context instanceof ModalPageContext || context instanceof DialogContext))
+        if (Boolean.TRUE.equals(source.getCloseOnFail()) && context instanceof ModalPageContext)
             metaSaga.setModalsToClose(1);
         return metaSaga;
     }
 
     private void initCloseOnSuccess(CompileContext<?, ?> context, MetaSaga meta, boolean redirect, boolean doubleCloseOnSuccess, boolean closeOnSuccess) {
         if (closeOnSuccess) {
-            if (context instanceof ModalPageContext || context instanceof DialogContext)
+            if (context instanceof ModalPageContext)
                 meta.setModalsToClose(doubleCloseOnSuccess ? 2 : 1);
             else if (!redirect) {
                 String backRoute;
-                if (context instanceof PageContext) {
-                    backRoute = ((PageContext) context).getParentRoute();
+                if (context instanceof PageContext pageContext) {
+                    backRoute = pageContext.getParentRoute();
                 } else {
                     backRoute = "/";
                 }
@@ -74,34 +73,26 @@ public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2o
     }
 
     private void initRefreshOnClose(S source, CompileContext<?, ?> context, CompileProcessor p, MetaSaga meta, boolean closeOnSuccess) {
-        if (source.getRefreshOnSuccess()) {
-            if (context instanceof DialogContext) {
-                meta.setRefresh(((DialogContext) context).getParentRefresh());
-            } else {
-                meta.setRefresh(new RefreshSaga());
-                if (!closeOnSuccess && source.getRefreshDatasourceIds() != null) {
-                    PageScope pageScope = p.getScope(PageScope.class);
-                    if (pageScope != null)
-                        meta.getRefresh().setDatasources(getClientDatasourceIds(Arrays.asList(source.getRefreshDatasourceIds()), p));
-                } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSourceIds() != null)
-                    meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSourceIds());
-            }
+        if (Boolean.TRUE.equals(source.getRefreshOnSuccess())) {
+            meta.setRefresh(new RefreshSaga());
+            if (!closeOnSuccess && source.getRefreshDatasourceIds() != null) {
+                PageScope pageScope = p.getScope(PageScope.class);
+                if (pageScope != null)
+                    meta.getRefresh().setDatasources(getClientDatasourceIds(Arrays.asList(source.getRefreshDatasourceIds()), p));
+            } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSourceIds() != null)
+                meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSourceIds());
         }
     }
 
     private void initRedirect(S source, CompileContext<?, ?> context, CompileProcessor p, MetaSaga meta, boolean redirect, boolean doubleCloseOnSuccess) {
         if (redirect) {
-            if (context instanceof ModalPageContext || context instanceof DialogContext)
+            if (context instanceof ModalPageContext)
                 meta.setModalsToClose(doubleCloseOnSuccess ? 2 : 1);
-            if (context instanceof DialogContext) {
-                meta.setRedirect(((DialogContext) context).getParentRedirect());
-            } else {
-                meta.setRedirect(new RedirectSaga());
-                ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-                meta.getRedirect().setPath(absolute(source.getRedirectUrl(), routeScope != null ? routeScope.getUrl() : null));
-                meta.getRedirect().setTarget(source.getRedirectTarget());
-                meta.getRedirect().setServer(true);
-            }
+            meta.setRedirect(new RedirectSaga());
+            ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+            meta.getRedirect().setPath(absolute(source.getRedirectUrl(), routeScope != null ? routeScope.getUrl() : null));
+            meta.getRedirect().setTarget(source.getRedirectTarget());
+            meta.getRedirect().setServer(true);
         }
     }
 

@@ -10,7 +10,7 @@ import isArray from 'lodash/isArray'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 
-import { insertDialog, destroyOverlays } from '../ducks/overlays/store'
+import { destroyOverlays } from '../ducks/overlays/store'
 import { id } from '../utils/id'
 import { CALL_ALERT_META } from '../constants/meta'
 import { dataProviderResolver } from '../core/dataProviderResolver'
@@ -143,27 +143,6 @@ export function* redirectEffect(action: RedirectEffect) {
     }
 }
 
-interface UserDialogEffect {
-    dialog: {
-        title: string
-        description: string
-        toolbar: Record<string, unknown>
-    }
-}
-
-export function* userDialogEffect({ meta }: { meta: UserDialogEffect }) {
-    const { title, description, toolbar, ...rest } = meta.dialog
-
-    yield put(
-        insertDialog('dialog', true, 'dialog', {
-            title,
-            description,
-            toolbar,
-            ...rest,
-        }),
-    )
-}
-
 interface ClearEffect {
     meta: {
         clear: string
@@ -209,8 +188,6 @@ export const metaSagas = [
     takeEvery([action => action?.meta && action.meta.alert, CALL_ALERT_META], alertEffect),
     // @ts-ignore проблемы с типизацией saga
     takeEvery((action: { meta: { redirect: IRedirect } }) => action?.meta && action.meta.redirect, redirectEffect),
-    // @ts-ignore проблемы с типизацией saga
-    takeEvery((action: { meta: IUserDialogEffect }) => action?.meta && action.meta.dialog, userDialogEffect),
     takeEvery(requestConfigSuccess, dataSourcesRegister),
     // @ts-ignore проблемы с типизацией saga
     takeEvery((action: { meta: { clear: string } }) => action.meta?.clear, clearEffect),
