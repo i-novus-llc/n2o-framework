@@ -2,7 +2,6 @@ package net.n2oapp.framework.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
-import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
@@ -12,10 +11,8 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
@@ -24,7 +21,9 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -39,28 +38,6 @@ class DataTest {
 
     @LocalServerPort
     private int port;
-
-    /**
-     * Проверка возврата диалога в ответе на invoke
-     */
-    @Test
-    void testDialog() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        RestTemplate restTemplate = new RestTemplate();
-        String queryPath = "/n2o/data/testDialog";
-        String fooResourceUrl = "http://localhost:" + port + queryPath;
-        try {
-            restTemplate.postForObject(fooResourceUrl,
-                    new Request("1", "testName", "testSurname", new Date()), SetDataResponse.class);
-        } catch (HttpServerErrorException e) {
-
-            Map<String, Object> result = mapper.readValue(e.getResponseBodyAsByteArray(), Map.class);
-            Map<String, Object> dialog = (Map<String, Object>) ((Map<String, Object>) result.get("meta")).get("dialog");
-            assertThat(dialog.get("title"), is("Registration accept"));
-            assertThat(dialog.get("text"), is("Are you sure?"));
-            assertThat(((HashMap<String, Object>) ((ArrayList) ((Map<String, Object>) dialog.get("toolbar")).get("bottomRight")).get(0)).size(), is(2));
-        }
-    }
 
     @Test
     void testJavaDataQuery4() {

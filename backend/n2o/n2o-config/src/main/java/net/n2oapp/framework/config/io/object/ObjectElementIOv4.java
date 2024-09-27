@@ -13,7 +13,6 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.cell.v2.SwitchIO;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
-import net.n2oapp.framework.config.io.toolbar.v2.ToolbarIOv2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
@@ -45,8 +44,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.anyChildren(e, "validations", t::getN2oValidations, t::setN2oValidations, p.oneOf(N2oValidation.class)
                 .add("constraint", N2oConstraintValidation.class, this::constraint)
                 .add("condition", N2oConditionValidation.class, this::condition)
-                .add("mandatory", N2oMandatoryValidation.class, this::mandatory)
-                .add("dialog", N2oDialogValidation.class, this::dialog));
+                .add("mandatory", N2oMandatoryValidation.class, this::mandatory));
         p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
     }
 
@@ -87,8 +85,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.anyChildren(e, null, t::getInlineValidations, t::setInlineValidations, p.oneOf(N2oValidation.class)
                 .add("constraint", N2oConstraintValidation.class, this::constraint)
                 .add("condition", N2oConditionValidation.class, this::condition)
-                .add("mandatory", N2oMandatoryValidation.class, this::mandatory)
-                .add("dialog", N2oDialogValidation.class, this::dialog));
+                .add("mandatory", N2oMandatoryValidation.class, this::mandatory));
     }
 
     private void abstractParameter(Element e, AbstractParameter t, IOProcessor p) {
@@ -181,13 +178,6 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
 
     private void mandatory(Element e, N2oMandatoryValidation t, IOProcessor p) {
         validation(e, t, p);
-    }
-
-    private void dialog(Element e, N2oDialogValidation t, IOProcessor p) {
-        invocationValidation(e, t, p);
-        p.attribute(e, "result", t::getResult, t::setResult);
-        p.attribute(e, "size", t::getSize, t::setSize);
-        p.child(e, null, "toolbar", t::getToolbar, t::setToolbar, new ToolbarIOv2());
     }
 
     @Override

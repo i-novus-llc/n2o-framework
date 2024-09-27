@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.SeverityType;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 
 import java.util.*;
 
@@ -14,8 +13,7 @@ import java.util.*;
  */
 @Getter
 @Setter
-public class ResponseInfo  {
-    private N2oDialog dialog;
+public class ResponseInfo {
     private List<ResponseMessage> messageList;
     private Map<String, Object> attributes;
 

@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.object;
 
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
-import net.n2oapp.framework.api.data.validation.DialogValidation;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
@@ -30,7 +29,7 @@ import static org.hamcrest.core.Is.is;
 /**
  * Тестирование компиляции объекта
  */
-public class ObjectCompileTest extends SourceCompileTestBase {
+class ObjectCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -77,26 +76,23 @@ public class ObjectCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCompileValidations() {
+    void testCompileValidations() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/utValidation.object.xml")
                 .get(new ObjectContext("utValidation"));
-        assertThat(object.getValidations().size(), is(3));
+        assertThat(object.getValidations().size(), is(2));
         assertThat(object.getValidationsMap().get("v1").getId(), is("v1"));
         assertThat(object.getValidationsMap().get("v2").getId(), is("v2"));
-        assertThat(object.getValidationsMap().get("v3").getId(), is("v3"));
 
         assertThat(object.getOperations().size(), is(2));
         CompiledObject.Operation all = object.getOperations().get("all");
-        assertThat(all.getValidationList().size(), is(4));
+        assertThat(all.getValidationList().size(), is(3));
         assertThat(all.getValidationsMap().get("val1"), instanceOf(ConstraintValidation.class));
         assertThat(all.getValidationsMap().get("v1"), instanceOf(ConditionValidation.class));
         assertThat(all.getValidationsMap().get("v2"), instanceOf(ConstraintValidation.class));
-        assertThat(all.getValidationsMap().get("v3"), instanceOf(DialogValidation.class));
 
         CompiledObject.Operation black = object.getOperations().get("black");
-        assertThat(black.getValidationList().size(), is(2));
+        assertThat(black.getValidationList().size(), is(1));
         assertThat(black.getValidationsMap().containsKey("v2"), is(true));
-        assertThat(black.getValidationsMap().containsKey("v3"), is(true));
 
         N2oJavaDataProvider val1Provider =
                 (N2oJavaDataProvider) ((ConstraintValidation) all.getValidationsMap().get("val1")).getInvocation();
@@ -123,23 +119,10 @@ public class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(v2Provider.getArguments()[2].getName(), is("arg3"));
         assertThat(v2Provider.getArguments()[2].getClassName(), nullValue());
         assertThat(v2Provider.getArguments()[2].getType(), is(Argument.Type.PRIMITIVE));
-
-        N2oJavaDataProvider v3Provider =
-                (N2oJavaDataProvider) ((DialogValidation) all.getValidationsMap().get("v3")).getInvocation();
-        assertThat(v3Provider.getClassName(), is("TestService"));
-        assertThat(v3Provider.getArguments()[0].getName(), is("arg1"));
-        assertThat(v3Provider.getArguments()[0].getClassName(), is("TestEntity"));
-        assertThat(v3Provider.getArguments()[0].getType(), is(Argument.Type.ENTITY));
-        assertThat(v3Provider.getArguments()[1].getName(), is("arg2"));
-        assertThat(v3Provider.getArguments()[1].getClassName(), is("EntityClass"));
-        assertThat(v3Provider.getArguments()[1].getType(), is(Argument.Type.ENTITY));
-        assertThat(v3Provider.getArguments()[2].getName(), is("arg3"));
-        assertThat(v3Provider.getArguments()[2].getClassName(), nullValue());
-        assertThat(v3Provider.getArguments()[2].getType(), is(Argument.Type.PRIMITIVE));
     }
 
     @Test
-    public void testCompileFields() {
+    void testCompileFields() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/testObjectField.object.xml",
                 "net/n2oapp/framework/config/metadata/compile/object/entity.object.xml",
                 "net/n2oapp/framework/config/metadata/compile/object/entity2.object.xml",

@@ -460,7 +460,6 @@ http://n2oapp.net/framework/config/schema/object-4.0
 &lt;condition&gt; - [Валидация условия значений полей](#condition)<br/>
 &lt;mandatory&gt; - [Валидация обязательности заполнения поля](#mandatory)<br/>
 &lt;constraint&gt; - [Валидация ограничений полей](#constraint)<br/>
-&lt;dialog&gt; - [Валидация с диалогом выбора](#dialog)
 
 ### &lt;condition&gt;
 
@@ -559,50 +558,5 @@ JavaScript выражение.
       <field id="id" mapping="id"/>
     </in>
   </constraint>
-</validations>
-```
-
-### &lt;dialog&gt;
-
-Валидация с диалогом выбора.
-
-**Атрибуты**
-
-|Наименование |Тип                                                                                                             |Описание                                                          |Значение по умолчанию                                                                   |Обязательность
-|-------------|----------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|----------------------------------------------------------------------------------------|--------------
-|id           |Строка                                                                                                          |Идентификатор валидации                                           |                                                                                        |!
-|server-moment|before-operation before-query after-success-query after-fail-query after-success-operation after-fail-operation |Момент срабатывания валидации на сервере                          |before-operation при severity равном danger или warning, иначе - after-success-operation|
-|title        |Строка                                                                                                          |Заголовок окна с диалогом. Может содержать параметры              |                                                                                        |
-|message      |Строка                                                                                                          |Сообщение, в случае нарушения валидации. Может содержать параметры|                                                                                        |
-|result       |SpEL выражение                                                                                                  |Результат валидации                                               |                                                                                        |
-|size         |sm lg                                                                                                           |Размер окна диалога                                               |lg                                                                                      |
-
-**Тело**<br/>
-&lt;invocation&gt; - [Провайдер данных операции](#invocation)<br/>
-&lt;in&gt; - [Входящие параметры операции](#in)<br/>
-&lt;out&gt; - [Исходящие параметры операции](#out)<br/>
-&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)
-
-**Пример**
-
-```xml
-<validations>
-  <dialog
-    id="checkName" size="sm"
-    message="Имя не Иван. Вы уверены, что хотите продолжить?"
-    result="name == 'Ivan'">
-    <invocation>...</invocation>
-    <in>
-      <field id="name"/>
-      <field id="validated"/>
-      <list id="statuses"/>
-    </in>
-    <out>
-      <field id="name"/>
-    </out>
-    <toolbar>
-      ...
-    </toolbar>
-  </dialog>
 </validations>
 ```

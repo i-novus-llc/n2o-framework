@@ -1661,10 +1661,6 @@
           "name": "ValidationMessageAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/validation/resolve_dialog_title",
-          "name": "DialogValidationAT. test"
-        },
-        {
           "templateId": "net/n2oapp/framework/autotest/validation/tab",
           "name": "ValidationTabMessageAT"
         },

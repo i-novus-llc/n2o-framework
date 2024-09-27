@@ -6,14 +6,12 @@ import net.n2oapp.framework.api.exception.N2oValidationException;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.exception.ValidationMessage;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.engine.validation.engine.info.ObjectValidationInfo;
 import net.n2oapp.framework.engine.validation.engine.info.QueryValidationInfo;
 import net.n2oapp.framework.engine.validation.engine.info.ValidationInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ValidationProcessor {
 
@@ -74,24 +72,19 @@ public class ValidationProcessor {
         return fails
                 .stream()
                 .filter(fail -> SeverityType.danger.equals(fail.getSeverity()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private void throwDangerException(List<FailInfo> fails, String failWidgetId, String messageForm) {
         List<ValidationMessage> messages = new ArrayList<>();
         String userMessage = null;
-        N2oDialog dialog = null;
         for (FailInfo fail : fails) {
             messages.add(new ValidationMessage(fail.getMessage(), fail.getMessageTitle(), fail.getFieldId(), fail.getValidationId()));
             if (fail.getFieldId() == null) {
                 userMessage = fail.getMessage();
             }
-            if (fail.getDialog() != null)
-                dialog = fail.getDialog();
         }
 
-        N2oValidationException exc = new N2oValidationException(userMessage, failWidgetId, messages, messageForm);
-        exc.setDialog(dialog);
-        throw exc;
+        throw new N2oValidationException(userMessage, failWidgetId, messages, messageForm);
     }
 }

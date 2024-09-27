@@ -13,6 +13,95 @@ description: ""
 
 - Из элемента `<list>` был удален элемент `<switch>`.
 - В элементе `<list>` по умолчанию значения выводятся в столбец, а не в строку.
+- Упразднена валидация `<dialog>`. Диалоговое окно перед\после операции можно вызвать с помощью действий confirm или show-modal.
+
+*Пример, валидации в виде диалога в версии 7.27 и ниже*
+```xml title="test.object.xml"
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create">
+            <invocation>
+                ...
+            </invocation>
+            <validations white-list="nameCheck"/>
+        </operation>
+    </operations>
+    <validations>
+        <dialog id="nameCheck" server-moment="after-fail-operation"
+                result="!(#this[errorMessage].contains('Empty name'))"
+                title="Вы не заполнили имя."
+                message="Заполнить его значением по умолчанию?">
+            <toolbar>
+                <button label="Yes">
+                    <invoke operation-id="create">
+                        <header-param name="name" value="default"/>
+                    </invoke>
+                </button>
+                <button label="Close">
+                    <close/>
+                </button>
+            </toolbar>
+        </dialog>
+    </validations>
+ </object>
+```
+
+```xml title="modal.page.xml"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    ...
+    <form>
+        <toolbar>
+            <button label="Сохранить">
+                <invoke operation-id="create"/>
+            </button>
+        </toolbar>
+    </form>
+    ...
+</simple-page>
+```
+
+*Пример, валидации в виде диалога в версии 7.28*
+```xml title="test.object.xml"
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create">
+            <invocation>
+                ...
+            </invocation>
+        </operation>
+<!--      эта операция используется для валидации    -->
+        <operation id="checkName">
+            <invocation>
+                ...
+            </invocation>
+        </operation>
+    </operations>
+ </object>
+```
+
+```xml title="modal.page.xml"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    ...
+    <form>
+        <toolbar>
+            <button label="Сохранить">
+                <invoke operation-id="checkName" message-on-success="false"/>
+                <if test="name == null || name == ''">
+                    <confirm title="Вы не заполнили имя." text="Заполнить его значением по умолчанию?">
+                        <ok label="Да"/>
+                        <cancel label="Нет"/>
+                    </confirm>
+                    <set-value to="name">'default'</set-value>
+                </if>
+                <invoke operation-id="create"/>
+                <refresh datasource="ds"/>
+                <close/>
+            </button>
+        </toolbar>
+    </form>
+    ...
+</simple-page>
+```
 
 ## Изменения Frontend {#changes-frontend}
 

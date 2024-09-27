@@ -7,7 +7,6 @@ import net.n2oapp.framework.config.metadata.compile.object.*;
 import net.n2oapp.framework.config.metadata.compile.validation.ConditionValidationCompiler;
 import net.n2oapp.framework.config.metadata.compile.validation.ConstraintValidationCompiler;
 import net.n2oapp.framework.config.metadata.compile.validation.MandatoryValidationCompiler;
-import net.n2oapp.framework.config.metadata.compile.validation.DialogValidationCompiler;
 import net.n2oapp.framework.config.metadata.merge.object.N2oObjectListFieldMerger;
 import net.n2oapp.framework.config.metadata.merge.object.N2oObjectReferenceFieldMerger;
 import net.n2oapp.framework.config.metadata.merge.object.N2oObjectSetFieldMerger;
@@ -26,8 +25,7 @@ public class N2oObjectsPack implements MetadataPack<N2oApplicationBuilder> {
                 new N2oObjectCompiler(),
                 new ConstraintValidationCompiler(),
                 new MandatoryValidationCompiler(),
-                new ConditionValidationCompiler(),
-                new DialogValidationCompiler()
+                new ConditionValidationCompiler()
         );
         b.mergers(
                 new N2oObjectSimpleFieldMerger(),

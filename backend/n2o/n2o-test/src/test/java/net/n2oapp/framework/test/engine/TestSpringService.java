@@ -1,7 +1,6 @@
 package net.n2oapp.framework.test.engine;
 
 
-import net.n2oapp.framework.api.exception.N2oException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,9 +15,5 @@ public class TestSpringService {
             result.add(new TestRow(i, "value" + i));
         }
         return result;
-    }
-
-    public void testExceptionDialog() {
-        throw new N2oException("fail");
     }
 }

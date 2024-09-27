@@ -15,15 +15,6 @@
                     <datasources>
                         <parent-datasource id="table1"/>
                     </datasources>
-                    <toolbars>
-                        <toolbar>
-                            <button label="Save">
-                                <invoke operation-id="create"/>
-                                <refresh datasource="table1"/>
-                                <close/>
-                            </button>
-                        </toolbar>
-                    </toolbars>
                 </show-modal>
             </button>
         </toolbar>

@@ -3,55 +3,26 @@
     <operations>
         <operation id="create">
             <invocation>
-                <java method="create">
-                    <spring bean="dialogServiceForAT"/>
-                    <arguments>
-                        <argument type="primitive"/>
-                        <argument type="primitive"/>
-                    </arguments>
-                </java>
+                <test file="test.json" operation="create"/>
             </invocation>
             <in>
                 <field id="name" param="name"/>
                 <field id="age" param="age"/>
             </in>
-            <fail-out>
-                <field id="errorMessage" mapping="#this.getMessage()"/>
-            </fail-out>
-            <validations white-list="nameCheck,ageCheck"/>
+        </operation>
+
+        <operation id="checkName">
+            <invocation>
+                <test operation="echo"/>
+            </invocation>
+            <in>
+                <field id="name" param="name"/>
+                <field id="age" param="age"/>
+            </in>
+            <out>
+                <field id="name"/>
+                <field id="age"/>
+            </out>
         </operation>
     </operations>
-
-    <validations>
-        <dialog id="nameCheck" server-moment="after-fail-operation"
-                result="!(#this[errorMessage].contains('Empty name'))"
-                title="Вы не заполнили имя."
-                message="Заполнить его значением по умолчанию?">
-            <toolbar>
-                <button label="Yes">
-                    <invoke operation-id="create">
-                        <header-param name="name" value="default"/>
-                    </invoke>
-                </button>
-                <button label="Close">
-                    <close/>
-                </button>
-            </toolbar>
-        </dialog>
-        <dialog id="ageCheck" server-moment="after-fail-operation"
-                result="!(#this[errorMessage].contains('Empty age'))"
-                title="Вы не заполнили возраст."
-                message="Заполнить его значением по умолчанию?">
-            <toolbar>
-                <button label="Yes">
-                    <invoke operation-id="create">
-                        <header-param name="age" value="0"/>
-                    </invoke>
-                </button>
-                <button label="Close">
-                    <close/>
-                </button>
-            </toolbar>
-        </dialog>
-    </validations>
 </object>

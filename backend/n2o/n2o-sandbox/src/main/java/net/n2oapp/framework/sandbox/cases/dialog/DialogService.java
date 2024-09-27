@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.NonUniqueResultException;
 
+@Deprecated(since = "7.28")
 @Service
 public class DialogService {
     /**

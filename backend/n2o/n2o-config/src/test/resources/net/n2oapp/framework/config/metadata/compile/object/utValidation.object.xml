@@ -6,7 +6,7 @@
             <invocation>
                 <java method="test"/>
             </invocation>
-            <validations white-list="v1, v2, v3">
+            <validations white-list="v1, v2">
                 <constraint id="val1" severity="danger">
                     <invocation>
                         <java method="test">
@@ -52,22 +52,5 @@
                 <field id="out" mapping="[]"/>
             </out>
         </constraint>
-        <dialog id="v3" message="test" result="[0][0][0] == 1">
-            <invocation>
-                <java method="test">
-                    <arguments>
-                        <argument type="entity" name="arg1"/>
-                        <argument type="entity" name="arg2" class="EntityClass"/>
-                        <argument type="primitive" name="arg3"/>
-                    </arguments>
-                </java>
-            </invocation>
-            <in>
-                <field id="in" mapping="[]"/>
-            </in>
-            <out>
-                <field id="out" mapping="[]"/>
-            </out>
-        </dialog>
     </validations>
 </object>
