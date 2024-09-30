@@ -39,8 +39,8 @@ const includesField = (validations: Validation[], actionField: string) => valida
 )
 
 const getValidationFields = (state: State, id: string) => {
-    const filterValidation = dataSourceValidationSelector(id, ValidationsKey.FilterValidations)(state)
-    const validation = dataSourceValidationSelector(id, ValidationsKey.Validations)(state)
+    const filterValidation = dataSourceValidationSelector(id, ValidationsKey.FilterValidations)(state) || {}
+    const validation = dataSourceValidationSelector(id, ValidationsKey.Validations)(state) || {}
 
     return Object.keys(filterValidation).length ? filterValidation : validation
 }
