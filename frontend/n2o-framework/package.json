@@ -160,7 +160,7 @@
     "babel-plugin-require-context-hook": "^1.0.0",
     "babel-plugin-typescript-to-proptypes": "^2.1.0",
     "core-js": "^3.15.1",
-    "css-loader": "^0.28.9",
+    "css-loader": "^1.0.0",
     "enzyme": "^3.9.0",
     "enzyme-to-json": "3.6.2",
     "eslint": "8.57.0",
