@@ -10,6 +10,8 @@ import { makeFormByName } from '../form/selectors'
 import { Routes } from '../pages/sagas/types'
 import { State as WidgetsState } from '../widgets/Widgets'
 import { Form } from '../form/types'
+import { EffectWrapper } from '../api/utils/effectWrapper'
+import { stopTheSequence } from '../api/utils/stopTheSequence'
 
 import { CLOSE } from './constants'
 import {
@@ -125,6 +127,7 @@ export function* resetQuerySaga(pageId: string) {
 export const overlaysSagas = [
     // @ts-ignore проблемы с типизацией saga
     takeEvery(CLOSE, checkPrompt),
+    takeEvery([insertOverlay, insertDrawer], EffectWrapper(stopTheSequence)),
     takeEvery(
         // @ts-ignore проблемы с типизацией saga
         action => (
