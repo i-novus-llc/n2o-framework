@@ -3460,10 +3460,8 @@ __metadata:
     rc-slider: ^8.6.11
     rc-switch: 4.1.0
     rc-tree-select: ^5.23.0
-    react: 17.0.2
     react-ace: 11.0.1
     react-copy-to-clipboard: ^5.0.1
-    react-dom: 17.0.2
     react-draft-wysiwyg: 1.15.0
     react-i18next: 14.1.2
     react-onclickoutside: 6.7.1
@@ -3483,6 +3481,9 @@ __metadata:
     text-mask-addons: 3.8.0
     ts-jest: ^28.0.5
     typescript: 4.7.3
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -4857,12 +4858,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.2.7":
-  version: 18.2.7
-  resolution: "@types/react-dom@npm:18.2.7"
+"@types/react-dom@npm:18.3.0":
+  version: 18.3.0
+  resolution: "@types/react-dom@npm:18.3.0"
   dependencies:
     "@types/react": "*"
-  checksum: e02ea908289a7ad26053308248d2b87f6aeafd73d0e2de2a3d435947bcea0422599016ffd1c3e38ff36c42f5e1c87c7417f05b0a157e48649e4a02f21727d54f
+  checksum: a0cd9b1b815a6abd2a367a9eabdd8df8dd8f13f95897b2f9e1359ea3ac6619f957c1432ece004af7d95e2a7caddbba19faa045f831f32d6263483fc5404a7596
   languageName: node
   linkType: hard
 
@@ -14679,9 +14680,7 @@ __metadata:
     query-string: 9.0.0
     rc-collapse: ~1.10.0
     rc-tree: 5.7.9
-    react: 17.0.2
     react-big-calendar: 1.8.7
-    react-dom: 17.0.2
     react-dropzone: 7.0.1
     react-helmet: 6.1.0
     react-hotkeys: 1.0.3
@@ -14725,6 +14724,8 @@ __metadata:
     webpack-cli: ^4.7.2
   peerDependencies:
     css-animation: "*"
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
     redux-thunk: "*"
     sass: "*"
   languageName: unknown
@@ -14736,7 +14737,7 @@ __metadata:
   dependencies:
     "@i-novus/license-checker": 0.0.7
     "@jsdevtools/npm-publish": 3.0.1
-    "@types/react-dom": ^18.2.7
+    "@types/react-dom": 18.3.0
     concurrently: ^8.2.2
     cross-env: ^5.2.0
     rimraf: 5.0.7
@@ -14751,15 +14752,14 @@ __metadata:
     "@vitejs/plugin-react": ^4.0.0
     dotenv: 8.2.0
     n2o-framework: "*"
+    react: 18.3.1
+    react-dom: 18.3.1
     redux-thunk: ^2.4.2
     rimraf: 5.0.7
     typescript: "*"
     vite: ^4.3.9
     vite-bundle-visualizer: ^0.7.0
     vite-plugin-svgr: ^3.2.0
-  peerDependencies:
-    react: "*"
-    react-dom: "*"
   languageName: unknown
   linkType: soft
 
@@ -16836,16 +16836,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:17.0.2":
-  version: 17.0.2
-  resolution: "react-dom@npm:17.0.2"
+"react-dom@npm:18.3.1":
+  version: 18.3.1
+  resolution: "react-dom@npm:18.3.1"
   dependencies:
     loose-envify: ^1.1.0
-    object-assign: ^4.1.1
-    scheduler: ^0.20.2
+    scheduler: ^0.23.2
   peerDependencies:
-    react: 17.0.2
-  checksum: 1c1eaa3bca7c7228d24b70932e3d7c99e70d1d04e13bb0843bbf321582bc25d7961d6b8a6978a58a598af2af496d1cedcfb1bf65f6b0960a0a8161cb8dab743c
+    react: ^18.3.1
+  checksum: 298954ecd8f78288dcaece05e88b570014d8f6dce5db6f66e6ee91448debeb59dcd31561dddb354eee47e6c1bb234669459060deb238ed0213497146e555a0b9
   languageName: node
   linkType: hard
 
@@ -17250,13 +17249,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:17.0.2":
-  version: 17.0.2
-  resolution: "react@npm:17.0.2"
+"react@npm:18.3.1":
+  version: 18.3.1
+  resolution: "react@npm:18.3.1"
   dependencies:
     loose-envify: ^1.1.0
-    object-assign: ^4.1.1
-  checksum: b254cc17ce3011788330f7bbf383ab653c6848902d7936a87b09d835d091e3f295f7e9dd1597c6daac5dc80f90e778c8230218ba8ad599f74adcc11e33b9d61b
+  checksum: a27bcfa8ff7c15a1e50244ad0d0c1cb2ad4375eeffefd266a64889beea6f6b64c4966c9b37d14ee32d6c9fcd5aa6ba183b6988167ab4d127d13e7cb5b386a376
   languageName: node
   linkType: hard
 
@@ -18323,6 +18321,15 @@ __metadata:
     loose-envify: ^1.1.0
     object-assign: ^4.1.1
   checksum: c4b35cf967c8f0d3e65753252d0f260271f81a81e427241295c5a7b783abf4ea9e905f22f815ab66676f5313be0a25f47be582254db8f9241b259213e999b8fc
+  languageName: node
+  linkType: hard
+
+"scheduler@npm:^0.23.2":
+  version: 0.23.2
+  resolution: "scheduler@npm:0.23.2"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: 3e82d1f419e240ef6219d794ff29c7ee415fbdc19e038f680a10c067108e06284f1847450a210b29bbaf97b9d8a97ced5f624c31c681248ac84c80d56ad5a2c4
   languageName: node
   linkType: hard
 

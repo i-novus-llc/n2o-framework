@@ -38,7 +38,7 @@
   "devDependencies": {
     "@i-novus/license-checker": "0.0.7",
     "@jsdevtools/npm-publish": "3.0.1",
-    "@types/react-dom": "^18.2.7",
+    "@types/react-dom": "18.3.0",
     "concurrently": "^8.2.2",
     "cross-env": "^5.2.0",
     "rimraf": "5.0.7",

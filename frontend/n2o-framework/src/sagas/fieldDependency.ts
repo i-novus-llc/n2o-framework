@@ -247,12 +247,12 @@ interface ResolveOnUpdateModel {
     payload: {
         fieldName: string
         value: Record<string, unknown>
+        field: string
     }
 }
 
 export function* resolveOnUpdateModel({ type, meta, payload }: ResolveOnUpdateModel) {
     const { key: datasource, field, prefix, prevState } = meta
-
     // the updated model
     const { value } = payload
     // prev model
@@ -356,7 +356,9 @@ function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
 }
 
 export const fieldDependencySagas = [
-    takeEvery(registerFieldExtra, resolveOnInit),
+    takeEvery([
+        registerFieldExtra,
+    ], resolveOnInit),
     takeEvery([
         updateModel,
         appendFieldToArray,
