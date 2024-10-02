@@ -1202,7 +1202,15 @@
             <xs:documentation>Наведение на строку</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="toolbar" type="tool:toolbarDefinition"/>
+            <xs:element name="toolbar">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:restriction base="tool:toolbarDefinition">
+                            <xs:attribute name="place" type="placeType" use="prohibited"/>
+                        </xs:restriction>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
         </xs:sequence>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
