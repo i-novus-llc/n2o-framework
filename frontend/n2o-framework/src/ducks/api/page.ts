@@ -13,6 +13,7 @@ import { parseExpression } from '../../core/Expression/parse'
 
 import { EffectWrapper } from './utils/effectWrapper'
 import { PAGE_PREFIX, INVALID_URL_MESSAGE } from './constants'
+import { stopTheSequence } from './utils/stopTheSequence'
 
 export type OpenPagePayload = {
     url: string
@@ -31,7 +32,8 @@ export const openPagecreator = createAction(
     }),
 )
 
-export function* openPageEffect({ payload, meta = {} }: Action<string, OpenPagePayload>) {
+export function* openPageEffect(action: Action<string, OpenPagePayload>) {
+    const { payload, meta = {} } = action
     const state: GlobalState = yield select()
 
     const { url, pathMapping, queryMapping, target, modelLink, restore = false } = payload
@@ -72,6 +74,8 @@ export function* openPageEffect({ payload, meta = {} }: Action<string, OpenPageP
         // @ts-ignore import from js file
         window.location = compiledUrl
     }
+
+    stopTheSequence(action)
 }
 
 export const sagas = [
