@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import N2O from 'n2o-framework';
-import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
-import authProvider from "n2o-framework/lib/core/auth/authProvider";
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import N2O from 'n2o-framework'
+import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig"
+import authProvider from "n2o-framework/lib/core/auth/authProvider"
 
-import 'n2o-framework/dist/n2o.css';
-import './index.css';
+import 'n2o-framework/dist/n2o.css'
+import './index.css'
 
 const config = {
   security: {
@@ -20,6 +20,11 @@ const config = {
       info: 0,
     }
   }
-};
+}
 
-ReactDOM.render(<N2O {...createFactoryConfig(config)} />, document.getElementById('n2o'));
+const container = document.getElementById('n2o')
+
+if (container) {
+    const root = createRoot(container)
+    root.render(<N2O {...createFactoryConfig(config)} />)
+}

@@ -59,10 +59,8 @@
     "rc-slider": "^8.6.11",
     "rc-switch": "4.1.0",
     "rc-tree-select": "^5.23.0",
-    "react": "17.0.2",
     "react-ace": "11.0.1",
     "react-copy-to-clipboard": "^5.0.1",
-    "react-dom": "17.0.2",
     "react-draft-wysiwyg": "1.15.0",
     "react-i18next": "14.1.2",
     "react-onclickoutside": "6.7.1",
@@ -74,6 +72,10 @@
     "reactstrap": "8.10.1-popper2-beta.0",
     "scroll-into-view-if-needed": "2.2.26",
     "text-mask-addons": "3.8.0"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",

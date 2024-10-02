@@ -88,9 +88,7 @@
     "query-string": "9.0.0",
     "rc-collapse": "~1.10.0",
     "rc-tree": "5.7.9",
-    "react": "17.0.2",
     "react-big-calendar": "1.8.7",
-    "react-dom": "17.0.2",
     "react-dropzone": "7.0.1",
     "react-helmet": "6.1.0",
     "react-hotkeys": "1.0.3",
@@ -188,6 +186,8 @@
   },
   "peerDependencies": {
     "css-animation": "*",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
     "redux-thunk": "*",
     "sass": "*"
   },

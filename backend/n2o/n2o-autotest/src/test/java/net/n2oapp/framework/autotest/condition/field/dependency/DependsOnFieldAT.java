@@ -180,7 +180,7 @@ public class DependsOnFieldAT extends AutoTestBase {
         onAnyField.shouldHaveValue(increment(value, 1));
         onFieldset.shouldHaveValue(increment(value, 1));
         onInput.shouldHaveValue(value);
-        onSelect.shouldHaveValue(increment(value, 1));
+        onSelect.shouldBeEmpty();
 
         inputInFieldset.setValue("2");
         // setValue makes 2 or 3 inputs (selenide or n2o dependency problem!!!)
@@ -189,7 +189,7 @@ public class DependsOnFieldAT extends AutoTestBase {
         // wasn't changed
         onInput.shouldHaveValue(value);
         // wasn't changed
-        onSelect.shouldHaveValue(increment(value, 1));
+        onSelect.shouldBeEmpty();
 
         resetFieldsetBtn.click();
         onAnyField.shouldHaveValue(increment(value2, 1));
