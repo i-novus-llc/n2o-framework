@@ -51,7 +51,10 @@ public class N2oOperationProcessor {
                     outParameters
             );
         } catch (Exception e) {
-            inDataSet.putAll(getFailOutParameters(operation.getFailOutParametersMap(), e));
+            if (!CollectionUtils.isEmpty(operation.getFailOutParametersMap())) {
+                inDataSet.putAll(getFailOutParameters(operation.getFailOutParametersMap(), e));
+                return inDataSet;
+            }
             throw exceptionHandler.handle(operation, inDataSet, e);
         }
     }
@@ -80,7 +83,7 @@ public class N2oOperationProcessor {
         List<String> requiredFields = inParameters.stream()
                 .filter(in -> in.getRequired() != null && in.getRequired())
                 .map(AbstractParameter::getId)
-                .collect(Collectors.toList());
+                .toList();
 
         boolean allMatch = requiredFields.stream()
                 .allMatch(inDataSet::containsKey);
