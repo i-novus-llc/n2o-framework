@@ -29,8 +29,8 @@ export function* effect({ payload, meta }: ReturnType<typeof creator>) {
             mergeMeta(action, { target, key, buttonId, evalContext }),
         )
 
-        if (resultAction.type === failOperation.type) { yield cancel() }
         if (resultAction.error) { throw new Error(resultAction.error) }
+        if (resultAction.type === failOperation.type) { yield cancel() }
     }
 
     yield put(finisher({}, { target, key, buttonId, evalContext }))
