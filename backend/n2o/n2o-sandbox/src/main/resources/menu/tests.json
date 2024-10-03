@@ -1376,6 +1376,10 @@
           "name": "ConfirmAT. testReverse"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/action/confirm/multi",
+          "name": "ConfirmAT. testMultiConfirm"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/action/copy/field",
           "name": "CopyFieldAT"
         },
