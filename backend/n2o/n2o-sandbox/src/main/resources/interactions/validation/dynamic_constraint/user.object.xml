@@ -3,14 +3,8 @@
     <operations>
         <operation id="create" success-text="Пользователь добавлен">
             <invocation>
-                <sql>INSERT INTO user (id, username) VALUES (null, :username);</sql>
+                <test operation="echo"/>
             </invocation>
-            <in>
-                <field id="username"/>
-            </in>
-            <out>
-                <field id="id" mapping="[0]"/>
-            </out>
         </operation>
     </operations>
 </object>
