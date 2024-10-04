@@ -7,7 +7,7 @@
             </invocation>
             <in>
                 <field id="name"/>
-                <field id="type.id" domain="string"/>
+                <field id="type"/>
             </in>
             <out>
                 <field id="id" mapping="[0]"/>
@@ -20,7 +20,7 @@
             <in>
                 <field id="id"/>
                 <field id="name"/>
-                <field id="type.id" domain="string"/>
+                <field id="type"/>
             </in>
         </operation>
         <operation id="delete">

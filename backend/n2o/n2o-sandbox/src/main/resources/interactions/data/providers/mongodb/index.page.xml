@@ -6,7 +6,7 @@
         <columns>
             <column text-field-id="id" label="ID"/>
             <column text-field-id="name" label="Имя"/>
-            <column text-field-id="type.id" label="Тип"/>
+            <column text-field-id="type.name" label="Тип"/>
         </columns>
         <toolbar generate="crud"/>
     </table>
