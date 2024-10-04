@@ -43,11 +43,7 @@ export function EffectWrapper<
             const message = getErrorMessage(error)
 
             if (operationId) {
-                yield put(failOperation(
-                    type,
-                    operationId,
-                    message,
-                ))
+                yield put(failOperation(type, operationId, message, { ...meta }))
             } else {
                 // eslint-disable-next-line no-console
                 console.warn(`Saga effect<${action.type}> error: ${message}`)
