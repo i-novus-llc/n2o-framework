@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.OutputText;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -150,5 +152,37 @@ public class ConfirmActionAT extends AutoTestBase {
         dialog.button(0).shouldHaveLabel("Hell, yes");
         dialog.button(0).click();
         test1.shouldHaveValue("qwerty2");
+    }
+
+    @Test
+    void testMultiConfirm() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/confirm/multi/index.page.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        FormWidget form = page.widget(FormWidget.class);
+        OutputText output = form.fields().field("out").control(OutputText.class);
+        output.shouldBeEmpty();
+        ButtonField button = form.fields().field("test", ButtonField.class);
+
+        button.click();
+        output.shouldHaveValue("before first confirm");
+        Page.Dialog dialog = page.dialog("confirm 1");
+        dialog.shouldHaveText("test test");
+
+        dialog.button(0).click();
+        output.shouldHaveValue("before second confirm");
+        dialog = page.dialog("confirm 2");
+        dialog.shouldHaveText("test test2");
+
+        dialog.button(0).click();
+        output.shouldHaveValue("before third confirm");
+        dialog = page.dialog("confirm 3");
+        dialog.shouldHaveText("test test3");
+
+        dialog.button(0).click();
+        output.shouldHaveValue("after third confirm");
     }
 }

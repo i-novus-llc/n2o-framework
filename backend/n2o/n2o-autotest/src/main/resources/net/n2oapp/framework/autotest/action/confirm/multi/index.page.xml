@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Моя первая страница">
+    <form>
+        <fields>
+            <output-text id="out"/>
+            <button label="test">
+                <set-value to="out">'before first confirm'</set-value>
+                <confirm title="confirm 1" text="test test">
+                    <ok label="Да"/>
+                    <cancel label="Нет"/>
+                </confirm>
+
+                <set-value to="out">'before second confirm'</set-value>
+                <confirm title="confirm 2" text="test test2">
+                    <ok label="Да"/>
+                    <cancel label="Нет"/>
+                </confirm>
+
+                <set-value to="out">'before third confirm'</set-value>
+                <confirm title="confirm 3" text="test test3">
+                    <ok label="Да"/>
+                    <cancel label="Нет"/>
+                </confirm>
+
+                <set-value to="out">'after third confirm'</set-value>
+            </button>
+        </fields>
+    </form>
+</simple-page>
