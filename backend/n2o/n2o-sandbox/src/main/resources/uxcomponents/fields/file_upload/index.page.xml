@@ -3,7 +3,9 @@
              name="Поле загрузки файлов">
     <form>
         <fields>
-            <file-upload id="file" label="Файлы:"/>
+            <file-upload id="file" label="Файлы:"
+                         upload-url="${n2o.sandbox.url}/files"
+                         delete-url="${n2o.sandbox.url}/files"/>
         </fields>
     </form>
 </simple-page>
