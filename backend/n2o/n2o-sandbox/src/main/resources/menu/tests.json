@@ -1456,6 +1456,10 @@
           "name": "MultiActionAT. testActionAfterFail"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/action/multi/chain_break_after_page_action",
+          "name": "MultiActionAT. testChainBreakAfterPageAction"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/action/open_page/simple",
           "name": "OpenPageAT. testFilterState"
         },
