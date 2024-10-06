@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Атрибут search-filter-id при прокрутке выпадающего списка вниз">
+    <form>
+        <fields>
+            <input-select id="input"
+                          size="3"
+                          query-id="test"
+                          search-filter-id="id"/>
+        </fields>
+    </form>
+</simple-page>

@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.api.component;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.badge.Badge;
@@ -67,6 +66,11 @@ public interface DropDown extends Component {
      * @param size ожидаемое количество
      */
     void shouldHaveOptions(int size);
+
+    /**
+     * Прокрутка выпадающего списка вниз
+     */
+    void scrollDown();
 
     /**
      * Элемент выпадающего списка для автотестирования

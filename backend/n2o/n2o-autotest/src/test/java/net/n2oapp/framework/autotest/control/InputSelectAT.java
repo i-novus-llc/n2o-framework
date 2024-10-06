@@ -474,4 +474,40 @@ public class InputSelectAT extends AutoTestBase {
         inputSelectFewMulti.shouldSelectedMultiSize(4);
         inputSelectFewCheck.shouldSelectedMulti(new String[]{"test3", "test4", "test5", "+ 5..."});
     }
+
+    @Test
+    void testSearchFilterIdWithScrollDown() {
+        setJsonPath("net/n2oapp/framework/autotest/control/input_select/scroll");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/scroll/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/scroll/test.query.xml")
+        );
+
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        InputSelect inputSelect = simplePage.widget(FormWidget.class).fields().field("input").control(InputSelect.class);
+        inputSelect.openPopup();
+        DropDown dropdown = inputSelect.dropdown();
+
+        inputSelect.setValue("1");
+        dropdown.shouldHaveOptions(3);
+        dropdown.shouldHaveOptions(new String[]{"Первый", "Десятый", "Одиннадцатый"});
+
+        dropdown.scrollDown();
+        dropdown.shouldHaveOptions(6);
+
+        dropdown.scrollDown();
+        dropdown.shouldHaveOptions(9);
+
+        dropdown.scrollDown();
+        dropdown.shouldHaveOptions(12);
+
+        dropdown.scrollDown();
+        dropdown.shouldHaveOptions(12);
+        dropdown.shouldHaveOptions(new String[]{"Первый", "Десятый", "Одиннадцатый", "Двенадцатый", "Тринадцатый", "Четырнадцатый", "Пятнадцатый", "Шестнадцатый", "Семнадцатый", "Восемнадцатый", "Девятнадцатый", "Двадцать первый"});
+
+        dropdown.scrollDown();
+        dropdown.shouldHaveOptions(12);
+    }
 }

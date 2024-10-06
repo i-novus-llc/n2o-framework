@@ -84,6 +84,10 @@ public class N2oDropDown extends N2oComponent implements DropDown {
     public void shouldHaveOptions(int size) {
         items().shouldHave(CollectionCondition.size(size));
     }
+    @Override
+    public void scrollDown() {
+        Selenide.executeJavaScript("arguments[0].scrollTop = arguments[0].scrollHeight", element().getWrappedElement());
+    }
 
     private ElementsCollection items() {
         return element().$$(".dropdown-item");
@@ -97,7 +101,7 @@ public class N2oDropDown extends N2oComponent implements DropDown {
         return items().findBy(Condition.text(label));
     }
 
-    public class N2oDropDownItem extends N2oComponent  implements DropDownItem {
+    public class N2oDropDownItem extends N2oComponent implements DropDownItem {
 
         public N2oDropDownItem(SelenideElement element) {
             setElement(element);
