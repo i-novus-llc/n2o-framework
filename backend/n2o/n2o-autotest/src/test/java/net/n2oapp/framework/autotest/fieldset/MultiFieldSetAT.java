@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.fieldset;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.FieldSets;
 import net.n2oapp.framework.autotest.api.collection.Fields;
@@ -499,7 +498,6 @@ public class MultiFieldSetAT extends AutoTestBase {
     void testValidation() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validation/index.page.xml"));
 
-        Configuration.headless = false;
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
