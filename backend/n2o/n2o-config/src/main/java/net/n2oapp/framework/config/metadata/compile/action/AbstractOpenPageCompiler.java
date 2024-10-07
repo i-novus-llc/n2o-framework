@@ -122,12 +122,15 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         }
     }
 
-    protected abstract PageContext constructContext(String pageId, String route);
+    protected PageContext constructContext(S source, String route, CompileProcessor p) {
+        PageContext pageContext = new PageContext(source.getPageId(), route);
+        initToolbarBySubmitOperation(source, pageContext, p);
+        return pageContext;
+    }
 
     protected PageContext initPageContext(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         validatePathAndRoute(source.getRoute(), source.getPathParams(), routeScope);
-        String pageId = source.getPageId();
         ReduxModel actionDataModel = getModelFromComponentScope(p);
         PageScope pageScope = p.getScope(PageScope.class);
         String route = castDefault(routeScope != null ? routeScope.getUrl() : null,
@@ -155,24 +158,22 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String actionRoute = initActionRoute(source, actionModelLink, pathMapping);
         String parentRoute = normalize(route);
         route = normalize(route + actionRoute) + (actionRoute.endsWith("/") ? "/" : "");
-        PageContext pageContext = constructContext(pageId, route);
+        PageContext pageContext = constructContext(source, route, p);
         if (pageScope != null && pageScope.getTabIds() != null)
             pageContext.setParentTabIds(pageScope.getTabIds());
 
         pageContext.setPageName(source.getPageName());
         pageContext.setBreadcrumbs(initBreadcrumb(source, pageContext, p));
-        pageContext.setDatasources(source.getDatasources() == null
-                ? null
-                : new ArrayList<>(List.of(source.getDatasources()))
-        );
-        pageContext.setToolbars(source.getToolbars() == null
-                ? null
-                : new ArrayList<>(List.of(source.getToolbars()))
-        );
-        pageContext.setActions(source.getActions() == null
-                ? null
-                : Arrays.stream(source.getActions()).collect(Collectors.toMap(ActionBar::getId, Function.identity()))
-        );
+        if (source.getDatasources() != null) {
+            if (pageContext.getDatasources() == null)
+                pageContext.setDatasources(new ArrayList<>());
+            pageContext.getDatasources().addAll(Arrays.asList(source.getDatasources()));
+        }
+        if (source.getToolbars() != null)
+            pageContext.setToolbars(new ArrayList<>(List.of(source.getToolbars())));
+        if (source.getActions() != null)
+            pageContext.setActions(Arrays.stream(source.getActions())
+                    .collect(Collectors.toMap(ActionBar::getId, Function.identity())));
 
         pageContext.setParentClientWidgetId(currentClientWidgetId);
         String localDatasourceId = getLocalDatasourceId(p);

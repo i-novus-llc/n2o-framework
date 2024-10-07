@@ -6,14 +6,12 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModalPayload;
-import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.register.route.RouteUtil.convertPathToId;
 
 /**
  * Компиляция действия открытия модального окна
@@ -32,13 +30,6 @@ public class ShowModalCompiler extends AbstractModalCompiler<ShowModal, N2oShowM
         compileModal(source, showModal, context, p);
         showModal.setType(p.resolve(property("n2o.api.action.show_modal.type"), String.class));
         return showModal;
-    }
-
-    @Override
-    protected PageContext constructContext(String pageId, String route) {
-        ModalPageContext modalPageContext = new ModalPageContext(pageId, route);
-        modalPageContext.setClientPageId(convertPathToId(route));
-        return modalPageContext;
     }
 
     protected void compilePayload(N2oShowModal source, ShowModal showModal, PageContext pageContext, CompileProcessor p) {
