@@ -35,6 +35,7 @@ public interface CompileContext<D extends Compiled, S> extends Serializable {
 
     /**
      * Получить шаблон url
+     *
      * @return Шаблон url
      */
     String getUrlPattern();
@@ -42,14 +43,14 @@ public interface CompileContext<D extends Compiled, S> extends Serializable {
     /**
      * Получить список описаний, как можно разрешить query параметры маршрута
      *
-     * @return  список описаний параметров
+     * @return список описаний параметров
      */
     Map<String, ModelLink> getQueryRouteMapping();
 
     /**
      * Получить список описаний, как можно разрешить path параметры маршрута
      *
-     * @return  список описаний параметров
+     * @return список описаний параметров
      */
     Map<String, ModelLink> getPathRouteMapping();
 
@@ -70,9 +71,19 @@ public interface CompileContext<D extends Compiled, S> extends Serializable {
 
     /**
      * Получение данных из url, учитывая route в контексте и query параметры
-     * @param url           реальный url со значениями
-     * @param queryParams   query параметры
-     * @return              данные из url
+     *
+     * @param url         реальный url со значениями
+     * @param queryParams query параметры
+     * @return данные из url
      */
     DataSet getParams(String url, Map<String, String[]> queryParams);
+
+
+    /**
+     * Сравнить на идентичность поля текущего объекта с переданным
+     *
+     * @param obj Переданный объект
+     * @return true, если все сравниваемые поля идентичны, иначе - false
+     */
+    boolean isIdentical(CompileContext<D, S> obj);
 }

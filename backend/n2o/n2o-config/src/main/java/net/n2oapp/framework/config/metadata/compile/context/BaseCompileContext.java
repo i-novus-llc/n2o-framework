@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.context;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
@@ -14,15 +16,15 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     /**
      * Идентификатор исходной метаданной
      */
-    private String sourceId;
+    private final String sourceId;
     /**
      * Класс исходной метаданной
      */
-    private Class<S> sourceClass;
+    private final Class<S> sourceClass;
     /**
      * Класс собранной метаданной
      */
-    private Class<D> compiledClass;
+    private final Class<D> compiledClass;
     /**
      * Маршрут, по которому можно получить метаданную
      */
@@ -40,9 +42,11 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     /**
      * Список ссылок на модели данных родителей
      */
+    @Setter
+    @Getter
     private List<ModelLink> parentModelLinks;
 
-    public BaseCompileContext(String sourceId, Class<S> sourceClass, Class<D> compiledClass) {
+    protected BaseCompileContext(String sourceId, Class<S> sourceClass, Class<D> compiledClass) {
         if (sourceId == null)
             throw new IllegalArgumentException("SourceId must not be null");
         if (sourceClass == null && compiledClass == null)
@@ -52,27 +56,11 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         this.compiledClass = compiledClass;
     }
 
-    public BaseCompileContext(String route, String sourceId, Class<S> sourceClass, Class<D> compiledClass) {
+    protected BaseCompileContext(String route, String sourceId, Class<S> sourceClass, Class<D> compiledClass) {
         this(sourceId, sourceClass, compiledClass);
         if (route == null)
             throw new IllegalArgumentException("Route must not be null");
         this.route = route;
-    }
-
-    public BaseCompileContext(BaseCompileContext<D, S> context) {
-        this(context.sourceId, context.sourceClass, context.compiledClass);
-        this.route = context.route;
-        this.setPathRouteMapping(context.pathRouteMapping);
-        this.setQueryRouteMapping(context.queryRouteMapping);
-        this.setParentModelLinks(context.parentModelLinks);
-    }
-
-    public BaseCompileContext(String route, BaseCompileContext<D, S> context) {
-        this(context.sourceId, context.sourceClass, context.compiledClass);
-        this.route = route;
-        this.setPathRouteMapping(context.pathRouteMapping);
-        this.setQueryRouteMapping(context.queryRouteMapping);
-        this.setParentModelLinks(context.parentModelLinks);
     }
 
     @Override
@@ -144,14 +132,6 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
             this.pathRouteMapping = null;
     }
 
-    public List<ModelLink> getParentModelLinks() {
-        return parentModelLinks;
-    }
-
-    public void setParentModelLinks(List<ModelLink> parentModelLinks) {
-        this.parentModelLinks = parentModelLinks;
-    }
-
     @Override
     public Class<D> getCompiledClass() {
         return compiledClass;
@@ -172,7 +152,14 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         if (this == o) return true;
         if (!(o instanceof BaseCompileContext)) return false;
         BaseCompileContext<?, ?> that = (BaseCompileContext<?, ?>) o;
-        return this.sourceId.equals(that.sourceId) && this.compiledClass.equals(that.compiledClass);
+        return this.sourceId.equals(that.sourceId) &&
+                this.compiledClass.equals(that.compiledClass);
+    }
+
+    @Override
+    public boolean isIdentical(CompileContext<D, S> obj) {
+        return Objects.equals(queryRouteMapping, obj.getQueryRouteMapping()) &&
+                Objects.equals(pathRouteMapping, obj.getPathRouteMapping());
     }
 
     private void checkProcessor(BindProcessor p) {
