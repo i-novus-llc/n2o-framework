@@ -14,7 +14,6 @@ import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
-import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
@@ -29,7 +28,6 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -109,7 +107,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(submitPayload.getModel(), is(ReduxModel.resolve));
         assertThat(submitPayload.getDatasource(), is("page_action1_w1"));
         RefreshAction refresh = (RefreshAction) ((MultiAction) openPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
-        assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("page_test"));
+        assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("page_test"));
         LinkAction redirect = (LinkAction) ((MultiAction) openPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
         assertThat(redirect.getUrl(), is("/page"));
         ActionContext submitContext = (ActionContext) route("/page/action1/multi1", CompiledObject.class);
@@ -165,7 +163,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(submitPayload.getModel(), is(ReduxModel.resolve));
         assertThat(submitPayload.getDatasource(), is("page_action2_main"));
         RefreshAction refresh = (RefreshAction) ((MultiAction) openPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
-        assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("page_test"));
+        assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("page_test"));
         LinkAction redirect = (LinkAction) ((MultiAction) openPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
         assertThat(redirect.getUrl(), is("/page"));
 
@@ -480,7 +478,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(openPage.getModels().get("resolve['page_defaultValue_w1'].birthDate.end").getValue(), is("2022-03-20T00:00:00"));
         assertThat(((DefaultValues) openPage.getModels().get("resolve['page_defaultValue_w1'].birthDate")
                 .getValue()).getValues().get("begin"), is("2019-02-16T00:00:00"));
-        assertThat(((DefaultValues)openPage.getModels().get("resolve['page_defaultValue_w1'].gender").getValue()).getValues().get("id"), is(1));
+        assertThat(((DefaultValues) openPage.getModels().get("resolve['page_defaultValue_w1'].gender").getValue()).getValues().get("id"), is(1));
 
         context = (PageContext) route("/page/defaultValueQuery", Page.class);
         openPage = (SimplePage) read().compile().get(context);
@@ -555,7 +553,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
     void link() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testSimpleOpenPage.page.xml")
                 .get(new PageContext("testSimpleOpenPage"));
-        Toolbar toolbar =  page.getWidget().getToolbar();
+        Toolbar toolbar = page.getWidget().getToolbar();
         LinkAction link = (LinkAction) toolbar.getButton("id1").getAction();
         assertThat(link.getUrl(), is("/testSimpleOpenPage/id1"));
         assertThat(link.getTarget(), is(Target.application));
@@ -602,14 +600,14 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.get(0).getButtons().size(), is(1));
         assertThat(toolbar.get(0).getButtons().get(0).getLabel(), is("Button in center"));
         assertThat(toolbar.get(0).getButtons().get(0).getAction(), instanceOf(LinkAction.class));
-        assertThat(((LinkAction)toolbar.get(0).getButtons().get(0).getAction()).getUrl(), is("http://i-novus.ru"));
+        assertThat(((LinkAction) toolbar.get(0).getButtons().get(0).getAction()).getUrl(), is("http://i-novus.ru"));
 
         page = (StandardPage) routeAndGet("/p/update", Page.class);
         toolbar = page.getToolbar().get("bottomCenter");
         assertThat(toolbar.get(0).getButtons().size(), is(1));
         assertThat(toolbar.get(0).getButtons().get(0).getLabel(), is("Button in center"));
         assertThat(toolbar.get(0).getButtons().get(0).getAction(), instanceOf(LinkAction.class));
-        assertThat(((LinkAction)toolbar.get(0).getButtons().get(0).getAction()).getUrl(), is("http://i-novus.ru"));
+        assertThat(((LinkAction) toolbar.get(0).getButtons().get(0).getAction()).getUrl(), is("http://i-novus.ru"));
         toolbar = page.getToolbar().get("bottomRight");
         assertThat(toolbar.get(0).getButtons().size(), is(1));
         assertThat(toolbar.get(0).getButtons().get(0).getLabel(), is("Button2"));
