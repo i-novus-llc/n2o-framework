@@ -39,12 +39,14 @@ public class N2oRouteRegister implements RouteRegister, N2oEventListener<Metadat
         RouteInfoKey key = new RouteInfoKey(urlPattern, context.getCompiledClass());
         if (!key.getUrlMatching().startsWith("/"))
             throw new IncorrectRouteException(key.getUrlMatching());
+
         CompileContext registeredContext = register.get(key);
-        if (registeredContext == null) {
+        if (registeredContext != null && !context.equals(registeredContext)) {
+            throw new RouteAlreadyExistsException(urlPattern, context.getCompiledClass());
+        } else if (registeredContext == null || !context.isIdentical(registeredContext)) {
             register.put(key, context);
             repository.save(key, context);
-        } else if (!registeredContext.equals(context))
-            throw new RouteAlreadyExistsException(urlPattern, context.getCompiledClass());
+        }
 
         logger.info(String.format("Register route: '%s' to [%s]", context, urlPattern));
     }
