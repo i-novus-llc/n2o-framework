@@ -3,13 +3,11 @@ package net.n2oapp.framework.config.metadata.compile.context;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
-import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.control.PageRef;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
@@ -126,5 +124,32 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         if (context.getParentRoutes() != null)
             this.parentRoutes.addAll(context.getParentRoutes());
         this.parentRoutes.add(route);
+    }
+
+    @Override
+    public boolean isIdentical(CompileContext<Page, N2oPage> obj) {
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        PageContext that = (PageContext) obj;
+
+        return super.isIdentical(that) &&
+                Objects.equals(actions, that.actions) &&
+                Objects.equals(breadcrumbs, that.breadcrumbs) &&
+                Objects.equals(breadcrumbFromParent, that.breadcrumbFromParent) &&
+                Objects.equals(parentRoute, that.parentRoute) &&
+                Objects.equals(parentClientWidgetId, that.parentClientWidgetId) &&
+                Objects.equals(parentLocalDatasourceId, that.parentLocalDatasourceId) &&
+                Objects.equals(parentClientPageId, that.parentClientPageId) &&
+                Objects.equals(pageName, that.pageName) &&
+                Objects.equals(refreshClientDataSourceIds, that.refreshClientDataSourceIds) &&
+                Objects.equals(refreshOnClose, that.refreshOnClose) &&
+                Objects.equals(unsavedDataPromptOnClose, that.unsavedDataPromptOnClose) &&
+                Objects.equals(datasources, that.datasources) &&
+                Objects.equals(parentDatasourceIdsMap, that.parentDatasourceIdsMap) &&
+                Objects.equals(clientPageId, that.clientPageId) &&
+                Objects.equals(parentWidgetIdDatasourceMap, that.parentWidgetIdDatasourceMap) &&
+                Objects.equals(parentTabIds, that.parentTabIds) &&
+                Objects.equals(parentRoutes, that.parentRoutes) &&
+                Objects.equals(toolbars, that.toolbars);
     }
 }
