@@ -1,14 +1,13 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -38,14 +37,9 @@ public class OpenPageCompiler extends AbstractOpenPageCompiler<LinkAction, N2oOp
         openPage.setOperationId(source.getOperationId());
         openPage.setPageId(source.getPageId());
         compileAction(openPage, source, p);
-        PageContext pageContext = initPageContext(openPage, source, context, p);
-        initToolbarBySubmitOperation(source, pageContext, p);
-        return openPage;
-    }
+        initPageContext(openPage, source, context, p);
 
-    @Override
-    protected PageContext constructContext(String pageId, String route) {
-        return new PageContext(pageId, route);
+        return openPage;
     }
 
     @Override

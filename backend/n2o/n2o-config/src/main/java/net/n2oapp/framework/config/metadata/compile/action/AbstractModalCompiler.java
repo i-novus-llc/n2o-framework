@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.action.modal.ModalPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.CloseSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
+import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 
 import java.util.ArrayList;
@@ -34,14 +35,21 @@ public abstract class AbstractModalCompiler<D extends AbstractModal<? extends Mo
         PageContext pageContext = initPageContext(compiled, source, context, p);
         initOnCloseMeta(source, compiled, p);
         compilePayload(source, compiled, pageContext, p);
+    }
+
+    @Override
+    protected ModalPageContext constructContext(S source, String route, CompileProcessor p) {
+        ModalPageContext pageContext = new ModalPageContext(source.getPageId(), route);
         initToolbarBySubmitOperation(source, pageContext, p);
+        pageContext.setClientPageId(convertPathToId(route));
+        return pageContext;
     }
 
     protected abstract void compilePayload(S source, D compiled, PageContext pageContext, CompileProcessor p);
 
     @Override
     protected void initPageRoute(D compiled, String route, Map<String, ModelLink> pathMapping, Map<String, ModelLink> queryMapping) {
-        ModalPayload payload = (ModalPayload) compiled.getPayload();
+        ModalPayload payload = compiled.getPayload();
         String modalPageId = convertPathToId(route);
         payload.setName(modalPageId);
         payload.setPageId(modalPageId);

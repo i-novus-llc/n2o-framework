@@ -1,19 +1,17 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oOpenDrawer;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.action.N2oOpenDrawer;
 import net.n2oapp.framework.api.metadata.meta.action.modal.open_drawer.OpenDrawer;
 import net.n2oapp.framework.api.metadata.meta.action.modal.open_drawer.OpenDrawerPayload;
-import net.n2oapp.framework.config.metadata.compile.context.DrawerPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.register.route.RouteUtil.convertPathToId;
 
 /**
  * Компиляция действия открытия drawer окна
@@ -32,13 +30,6 @@ public class OpenDrawerCompiler extends AbstractModalCompiler<OpenDrawer, N2oOpe
         compileModal(source, drawer, context, p);
         drawer.setType(p.resolve(property("n2o.api.action.open_drawer.type"), String.class));
         return drawer;
-    }
-
-    @Override
-    protected PageContext constructContext(String pageId, String route) {
-        DrawerPageContext drawerPageContext = new DrawerPageContext(pageId, route);
-        drawerPageContext.setClientPageId(convertPathToId(route));
-        return drawerPageContext;
     }
 
     protected void compilePayload(N2oOpenDrawer source, OpenDrawer drawer, PageContext pageContext, CompileProcessor p) {

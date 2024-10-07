@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -33,8 +32,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -86,7 +85,10 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
 
         PageContext drawerContext = (PageContext) route("/p/create", Page.class);
         assertThat(drawerContext.getSourceId(null), is("testShowModalPage"));
-        assertThat(((N2oStandardDatasource) drawerContext.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        assertThat(drawerContext.getDatasources().get(0).getId(),
+                is("parent_second"));
+        assertThat(((N2oStandardDatasource) drawerContext.getDatasources().get(1)).getDefaultValuesMode(),
+                is(DefaultValuesMode.defaults));
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
         assertThat(drawerPage.getId(), is("p_create"));
         assertThat(drawerPage.getBreadcrumb(), nullValue());
@@ -118,9 +120,9 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(meta.getSuccess().getMessageWidgetId(), is("p_create_modal"));
         assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/create/multi1"));
         RefreshAction refresh = (RefreshAction) multiAction.getPayload().getActions().get(1);
-        assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("p_second"));
+        assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("p_second"));
         CloseAction close = (CloseAction) multiAction.getPayload().getActions().get(2);
-        assertThat(((CloseActionPayload)close.getPayload()).getPageId(), is("p_create"));
+        assertThat(((CloseActionPayload) close.getPayload()).getPageId(), is("p_create"));
 
         ActionContext submitContext = (ActionContext) route("/p/create/multi1", CompiledObject.class);
         assertThat(submitContext.getSourceId(null), is("testShowModal"));
@@ -149,7 +151,10 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(QuerySimpleField.PK));
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
-        assertThat(((N2oStandardDatasource) drawerContext.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.query));
+        assertThat(drawerContext.getDatasources().get(0).getId(),
+                is("parent_main"));
+        assertThat(((N2oStandardDatasource) drawerContext.getDatasources().get(1)).getDefaultValuesMode(),
+                is(DefaultValuesMode.query));
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
         assertThat(drawerPage.getId(), is("p_update"));
         assertThat(drawerPage.getBreadcrumb(), nullValue());
@@ -171,7 +176,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
     @Test
     void createFocus() {
         PageContext pageContext = new PageContext("testOpenDrawerRootPage", "/p");
-        StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
+        compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
                 .get(pageContext);
         SimplePage openDrawer = (SimplePage) routeAndGet("/p/createFocus", Page.class);
         MultiAction multiAction = (MultiAction) openDrawer.getToolbar().getButton("submit").getAction();
@@ -179,9 +184,9 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), nullValue());
         assertThat(submit.getMeta().getSuccess().getRefresh(), nullValue());
         RefreshAction refresh = (RefreshAction) multiAction.getPayload().getActions().get(1);
-        assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("p_main"));
+        assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("p_main"));
         CloseAction close = (CloseAction) multiAction.getPayload().getActions().get(2);
-        assertThat(((CloseActionPayload)close.getPayload()).getPageId(), is("p_createFocus"));
+        assertThat(((CloseActionPayload) close.getPayload()).getPageId(), is("p_createFocus"));
 
         close = (CloseAction) openDrawer.getToolbar().getButton("close").getAction();
         assertThat(close.getMeta().getRedirect(), nullValue());
@@ -199,9 +204,9 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), nullValue());
         assertThat(submit.getMeta().getSuccess().getRefresh(), nullValue());
         RefreshAction refresh = (RefreshAction) multiAction.getPayload().getActions().get(1);
-        assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("p_main"));
+        assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("p_main"));
         CloseAction close = (CloseAction) multiAction.getPayload().getActions().get(2);
-        assertThat(((CloseActionPayload)close.getPayload()).getPageId(), is("p_updateFocus"));
+        assertThat(((CloseActionPayload) close.getPayload()).getPageId(), is("p_updateFocus"));
 
         close = (CloseAction) openDrawer.getToolbar().getButton("close").getAction();
         assertThat(close.getMeta().getRedirect(), nullValue());
@@ -214,7 +219,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
     @Test
     void createUpdate() {
         PageContext pageContext = new PageContext("testOpenDrawerRootPage", "/p");
-        Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
+        compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
                 .get(pageContext);
         SimplePage openDrawer = (SimplePage) routeAndGet("/p/createUpdate", Page.class);
         InvokeAction submit = (InvokeAction) ((MultiAction) openDrawer.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(0);
@@ -222,7 +227,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id/update"));
         //Есть обновление, потому что по умолчанию true. Обновится родительский виджет, потому что close-after-submit=true
         RefreshAction refresh = (RefreshAction) ((MultiAction) openDrawer.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
-        assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("p_main"));
+        assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("p_main"));
         //Есть уведомление, потому что по умолчанию true. Уведомление будет на родительском виджете, потому что close-after-submit=true
         CloseAction close = (CloseAction) ((MultiAction) openDrawer.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
         assertThat(close.getMeta().getRedirect(), nullValue());
@@ -231,7 +236,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
 
     @Test
     void dynamicPage() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerDynamicPage.page.xml")
+        compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerDynamicPage.page.xml")
                 .get(new PageContext("testOpenDrawerDynamicPage", "/page"));
         PageContext context = (PageContext) route("/page/testOpenPageSimplePageAction1/id1", Page.class);
         DataSet data = new DataSet();
@@ -251,7 +256,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
     @Test
     void updateWithPreFilters() {
         PageContext pageContext = new PageContext("testOpenDrawerRootPage", "/p");
-        Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
+        compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
                 .get(pageContext);
 
         PageContext drawerContext = (PageContext) route("/p/123/updateWithPrefilters", Page.class);
@@ -263,7 +268,10 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(drawerContext.getPreFilters().get(0).getValue(), is("{id}"));
-        assertThat(((N2oStandardDatasource) drawerContext.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.query));
+        assertThat(drawerContext.getDatasources().get(0).getId(),
+                is("parent_main"));
+        assertThat(((N2oStandardDatasource) drawerContext.getDatasources().get(1)).getDefaultValuesMode(),
+                is(DefaultValuesMode.query));
 
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
         assertThat(drawerPage.getId(), is("p_updateWithPrefilters"));
@@ -287,10 +295,10 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         InvokeAction submit = (InvokeAction) ((MultiAction) drawerPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(0);
         assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:id/updateWithPrefilters/multi1"));
         RefreshAction refresh = (RefreshAction) ((MultiAction) drawerPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
-        assertThat(((RefreshPayload)refresh.getPayload()).getDatasource(), is("p_main"));
+        assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("p_main"));
         CloseAction close = (CloseAction) ((MultiAction) drawerPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
         assertThat(close.getMeta().getModalsToClose(), is(1));
-        assertThat(((CloseActionPayload)close.getPayload()).getPrompt(), is(false));
+        assertThat(((CloseActionPayload) close.getPayload()).getPrompt(), is(false));
         ActionContext submitContext = (ActionContext) route("/p/:id/updateWithPrefilters/multi1", CompiledObject.class);
         assertThat(submitContext.getSourceId(null), is("testShowModal"));
         assertThat(submitContext.getOperationId(), is("update"));
