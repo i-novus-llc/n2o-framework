@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
-
-import { Divider } from '../../snippets/Divider/Divider'
+import { Divider } from '@i-novus/n2o-components/lib/display/Divider/Divider'
 
 import { ScrollSpyTypes } from './ScrollSpyTypes'
 import { Title } from './Title'

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Panel as BasePanel } from 'rc-collapse'
 import classNames from 'classnames'
 
