@@ -55,6 +55,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.2",
     "numeral": "2.0.6",
+    "rc-collapse": "~1.10.0",
     "rc-drawer": "^3.0.2",
     "rc-slider": "^8.6.11",
     "rc-switch": "4.1.0",
