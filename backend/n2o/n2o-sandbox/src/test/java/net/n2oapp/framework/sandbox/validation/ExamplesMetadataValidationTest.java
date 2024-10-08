@@ -27,7 +27,7 @@ import static java.util.UUID.randomUUID;
 
 public class ExamplesMetadataValidationTest extends N2oTestBase {
 
-    private final static String CLASSES = "/classes/";
+    private static final String CLASSES = "/classes/";
     private static final String SKIPPED = "examples/crud_localstorage/form.page.xml";
     private final Pattern uuidPattern = Pattern.compile("\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}");
     private TestMetaDataRegister testMetaDataRegister = new TestMetaDataRegister();

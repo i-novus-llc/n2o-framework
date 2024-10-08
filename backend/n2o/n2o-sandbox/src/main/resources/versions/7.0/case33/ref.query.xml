@@ -14,7 +14,7 @@
         <field id="name">
             <select/>
             <filters>
-                <like filter-id="fullName"/>
+                <like/>
             </filters>
         </field>
     </fields>
