@@ -4,7 +4,7 @@
         <operation id="create"
                    success-text="value={value} path_value={path_value} header_value={header_value} form_value={form_value}">
             <invocation>
-                <test file="test.json" operation="echo"/>
+                <test operation="echo"/>
             </invocation>
             <in>
                 <field id="value"/>

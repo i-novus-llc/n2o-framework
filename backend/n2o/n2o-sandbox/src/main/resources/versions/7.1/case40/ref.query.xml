@@ -13,9 +13,6 @@
         </field>
         <field id="name">
             <select/>
-            <filters>
-                <like filter-id="fullName"/>
-            </filters>
         </field>
     </fields>
 </query>
