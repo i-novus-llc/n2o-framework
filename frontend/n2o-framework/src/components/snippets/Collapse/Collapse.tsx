@@ -2,8 +2,8 @@ import { Collapse, Props } from '@i-novus/n2o-components/lib/display/Collapse/Co
 
 import { Panel } from './Panel'
 
-export { Panel }
-
-export type { Props }
 export { Collapse }
+export type { Props }
 export default Collapse
+
+export { Panel }
