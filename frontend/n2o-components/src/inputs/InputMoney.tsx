@@ -25,7 +25,7 @@ type InputMoneyProps = TBaseProps & typeof defaultProps & {
     includeThousandsSeparator?: boolean,
     integerLimit?: number,
     onBlur?(value: number | null): void,
-    onChange?(value: number | '-' | null): void,
+    onChange?(value: string | null): void,
     prefix?: string,
     suffix?: string,
     t?(str?: string): string,
@@ -165,16 +165,11 @@ export class InputMoney extends React.Component<InputMoneyProps, State> {
         const { onChange, allowNegative } = this.props
         const value = valueProps.replace(/\s+/g, '')
 
-        if (isNaN(toNumber(value))) { return }
-
         const convertedValue = (allowNegative && value === '-') || isNil(value)
             ? value
             : parseFloat(this.convertToFloat(value))
 
-        if (onChange) {
-            onChange(!isNaN(convertedValue) ? convertedValue : null)
-        }
-
+        onChange?.(isNaN(convertedValue) ? null : String(convertedValue))
         this.setState({ value: isNaN(convertedValue) ? '' : String(convertedValue) })
     }
 
