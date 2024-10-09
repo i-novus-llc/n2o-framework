@@ -49,9 +49,8 @@ Collapse.defaultProps = {
     accordion: false,
     dataKey: 'items',
     collapsible: true,
-    // eslint-disable-next-line react/default-props-match-prop-types
     isVisible: true,
     onChange: () => {},
 }
 
-export default Collapse as never
+export default Collapse

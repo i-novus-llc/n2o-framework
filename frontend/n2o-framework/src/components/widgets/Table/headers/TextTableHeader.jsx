@@ -2,12 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, lifecycle, withHandlers } from 'recompose'
 
-// eslint-disable-next-line import/no-named-as-default
-import Sorter from '../../../snippets/Sorter/Sorter'
-import {
-    changeFrozenColumn,
-    changeColumnVisibility,
-} from '../../../../ducks/columns/store'
+import { Sorter } from '../../../snippets/Sorter/Sorter'
+import { changeFrozenColumn, changeColumnVisibility } from '../../../../ducks/columns/store'
 import { useDataSourceMethodsContext } from '../../../../core/widget/context'
 
 /**
@@ -22,13 +18,10 @@ const TextTableHeader = ({ sortingParam, sorting, label, style }) => {
 
     return (
         <span className="n2o-advanced-table-header-title" style={style}>
-            {sortingParam ? (
-                <Sorter sorting={sorting} sortingParam={sortingParam} onSort={setSorting}>
-                    {label}
-                </Sorter>
-            ) : (
-                label
-            )}
+            <Sorter visible={Boolean(sortingParam)} sorting={sorting} sortingParam={sortingParam} onSort={setSorting}>
+                {label}
+            </Sorter>
+            {!sortingParam && label}
         </span>
     )
 }
