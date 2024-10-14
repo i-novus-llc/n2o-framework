@@ -29,7 +29,6 @@ import static net.n2oapp.framework.api.StringUtils.*;
  * Утилитный класс для генерации js скриптов
  */
 public class ScriptProcessor {
-    private static final ScriptProcessor instance = new ScriptProcessor();
     private static final List<String> momentFuncs = Arrays.asList("moment", "now", "today", "yesterday", "tomorrow",
             "beginWeek", "endWeek", "beginMonth", "endMonth", "beginQuarter", "endQuarter", "beginYear", "endYear");
     private static final String spread_operator = "*.";
@@ -40,6 +39,7 @@ public class ScriptProcessor {
 
     private static final Pattern FUNCTION_PATTERN = Pattern.compile("function\\s*\\(\\)[\\s\\S]*");
     private static final Pattern TERNARY_IN_LINK_PATTERN = Pattern.compile(".*\\{.*\\?.*:.*\\}.*");
+    private static final Pattern FUNCTION_CONTENT_PATTERN = Pattern.compile("\\b(return|if|var|switch|const)\\b");
 
     public static String resolveLinks(String text) {
         if (text == null)
@@ -115,10 +115,8 @@ public class ScriptProcessor {
     private static boolean isFunction(String text) {
         String wordReplaced = text.replaceAll("\\'[^'']*\\'", "");
         String bracesReplaced = wordReplaced.replaceAll("\\{[^{}]*\\}", "");
-        if (bracesReplaced.contains("return ") || bracesReplaced.contains("if") || bracesReplaced.contains("var") ||
-                bracesReplaced.contains("switch") || bracesReplaced.contains("const")) {
+        if (FUNCTION_CONTENT_PATTERN.matcher(bracesReplaced).find())
             return true;
-        }
         return false;
     }
 
