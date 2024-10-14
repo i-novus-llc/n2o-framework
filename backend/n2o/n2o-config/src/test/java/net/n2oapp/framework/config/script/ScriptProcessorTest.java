@@ -20,7 +20,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 
-public class ScriptProcessorTest {
+class ScriptProcessorTest {
 
     private final ScriptProcessor scriptProcessor = new ScriptProcessor();
 
@@ -107,8 +107,14 @@ public class ScriptProcessorTest {
                 is("i1 ? i1.filter( function(x) { return x % 2 }) : 'empty list'"));
         assertThat(ScriptProcessor.resolveFunction("list.filter(function(x) { return x >= 5 })"),
                 is("list.filter(function(x) { return x >= 5 })"));
-        assertThat(ScriptProcessor.resolveFunction("if (type && type.id === 2) { return null; } else { return anotherName; }"),
-                is("(function(){if (type && type.id === 2) { return null; } else { return anotherName; }}).call(this)"));
+        assertThat(ScriptProcessor.resolveFunction("if(type && type.id === 2) { return null; } else { return anotherName; }"),
+                is("(function(){if(type && type.id === 2) { return null; } else { return anotherName; }}).call(this)"));
+        assertThat(ScriptProcessor.resolveFunction("typeof isModifyMode != 'undefined' &amp;&amp; isModifyMode != true &amp;&amp; notIdentified != true"),
+                is("typeof isModifyMode != 'undefined' &amp;&amp; isModifyMode != true &amp;&amp; notIdentified != true"));
+        assertThat(ScriptProcessor.resolveFunction("isModifyMode != true &amp;&amp; notIdentified != true"),
+                is("isModifyMode != true &amp;&amp; notIdentified != true"));
+        assertThat(ScriptProcessor.resolveFunction("!isModifyMode &amp;&amp; !notIdentified"),
+                is("!isModifyMode &amp;&amp; !notIdentified"));
     }
 
     @Test
