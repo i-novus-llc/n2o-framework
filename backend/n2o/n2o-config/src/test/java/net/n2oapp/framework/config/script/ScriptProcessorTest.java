@@ -115,6 +115,12 @@ class ScriptProcessorTest {
                 is("isModifyMode != true &amp;&amp; notIdentified != true"));
         assertThat(ScriptProcessor.resolveFunction("!isModifyMode &amp;&amp; !notIdentified"),
                 is("!isModifyMode &amp;&amp; !notIdentified"));
+        assertThat(ScriptProcessor.resolveFunction("let num = 5; alert(num)"),
+                is("(function(){let num = 5; alert(num)}).call(this)"));
+        assertThat(ScriptProcessor.resolveFunction("for(let i = 0; i<10; i++) {} alert(i)"),
+                is("(function(){for(let i = 0; i<10; i++) {} alert(i)}).call(this)"));
+        assertThat(ScriptProcessor.resolveFunction("while(i < 10) {} alert(i)"),
+                is("(function(){while(i < 10) {} alert(i)}).call(this)"));
     }
 
     @Test

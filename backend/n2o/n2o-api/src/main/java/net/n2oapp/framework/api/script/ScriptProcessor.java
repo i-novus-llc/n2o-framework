@@ -31,15 +31,15 @@ import static net.n2oapp.framework.api.StringUtils.*;
 public class ScriptProcessor {
     private static final List<String> momentFuncs = Arrays.asList("moment", "now", "today", "yesterday", "tomorrow",
             "beginWeek", "endWeek", "beginMonth", "endMonth", "beginQuarter", "endQuarter", "beginYear", "endYear");
-    private static final String spread_operator = "*.";
+    private static final String SPREAD_OPERATOR = "*.";
 
-    private final static ScriptEngineManager engineMgr = new ScriptEngineManager();
+    private static final ScriptEngineManager engineMgr = new ScriptEngineManager();
     private static volatile ScriptEngine scriptEngine;
-    private static String MOMENT_JS;
+    private static String momentJs;
 
     private static final Pattern FUNCTION_PATTERN = Pattern.compile("function\\s*\\(\\)[\\s\\S]*");
-    private static final Pattern TERNARY_IN_LINK_PATTERN = Pattern.compile(".*\\{.*\\?.*:.*\\}.*");
-    private static final Pattern FUNCTION_CONTENT_PATTERN = Pattern.compile("\\b(return|if|var|switch|const)\\b");
+    private static final Pattern TERNARY_IN_LINK_PATTERN = Pattern.compile(".*\\{.*\\?.*:.*}.*");
+    private static final Pattern FUNCTION_CONTENT_PATTERN = Pattern.compile("\\b(return|if|var|switch|const|let|for|while)\\b");
 
     public static String resolveLinks(String text) {
         if (text == null)
@@ -113,11 +113,9 @@ public class ScriptProcessor {
     }
 
     private static boolean isFunction(String text) {
-        String wordReplaced = text.replaceAll("\\'[^'']*\\'", "");
-        String bracesReplaced = wordReplaced.replaceAll("\\{[^{}]*\\}", "");
-        if (FUNCTION_CONTENT_PATTERN.matcher(bracesReplaced).find())
-            return true;
-        return false;
+        String wordReplaced = text.replaceAll("'[^']*'", "");
+        String bracesReplaced = wordReplaced.replaceAll("\\{[^{}]*}", "");
+        return FUNCTION_CONTENT_PATTERN.matcher(bracesReplaced).find();
     }
 
 
@@ -217,9 +215,9 @@ public class ScriptProcessor {
             int idxSuffix = split[i].indexOf("}");
             if (idxSuffix > 0) {
                 String value = split[i].substring(0, idxSuffix);
-                if (value.contains(spread_operator)) {
-                    value = value.substring(0, value.indexOf(spread_operator)) + ".map(function(t){return t." +
-                            value.substring(value.indexOf(spread_operator) + 2) + "})";
+                if (value.contains(SPREAD_OPERATOR)) {
+                    value = value.substring(0, value.indexOf(SPREAD_OPERATOR)) + ".map(function(t){return t." +
+                            value.substring(value.indexOf(SPREAD_OPERATOR) + 2) + "})";
                 }
                 sb.append("+").append(value);
                 if (idxSuffix < split[i].length() - 1) {
@@ -543,7 +541,7 @@ public class ScriptProcessor {
             }
         }
         if (isNeedMoment(script)) {
-            scriptEngine.eval(MOMENT_JS, bindings);
+            scriptEngine.eval(momentJs, bindings);
         }
         return (T) scriptEngine.eval(script, bindings);
     }
@@ -634,7 +632,7 @@ public class ScriptProcessor {
             URL numeralUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/numeral.js");
             URL n2oUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/n2o.js");
             try {
-                MOMENT_JS = IOUtils.toString(momentUrl, StandardCharsets.UTF_8);
+                momentJs = IOUtils.toString(momentUrl, StandardCharsets.UTF_8);
                 scriptEngine.eval(IOUtils.toString(lodashUrl, StandardCharsets.UTF_8), bindings);
                 scriptEngine.eval(IOUtils.toString(numeralUrl, StandardCharsets.UTF_8), bindings);
                 scriptEngine.eval(IOUtils.toString(n2oUrl, StandardCharsets.UTF_8), bindings);
