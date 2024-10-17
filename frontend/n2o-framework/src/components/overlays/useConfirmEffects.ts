@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux'
 
 import { remove } from '../../ducks/overlays/store'
 import { failOperation, successOperation } from '../../ducks/api/Operation'
+import { ERROR } from '../../ducks/api/utils/stopTheSequence'
 
 interface Operation {
     id: string
@@ -20,7 +21,7 @@ export const useConfirmEffects = (id: string, operation: Operation) => {
         dispatch(successOperation(type, operationId, 'ok', { key, buttonId }))
     }
     const onDeny = () => {
-        dispatch(failOperation(type, operationId, null, { key, buttonId }))
+        dispatch(failOperation(type, operationId, `Отмена подтверждения ${ERROR}`, { key, buttonId }))
         onCancel()
     }
 
