@@ -227,6 +227,10 @@ export const datasource = createSlice({
             reducer(state, { payload }: UpdatePagingAction) {
                 const { id, paging } = payload
 
+                if (!state[id]) {
+                    state[id] = DataSource.defaultState
+                }
+
                 state[id].paging = {
                     ...state[id].paging,
                     ...paging,

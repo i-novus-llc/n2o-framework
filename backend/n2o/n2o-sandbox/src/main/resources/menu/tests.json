@@ -505,6 +505,14 @@
           "name": "PaginationAT. testPrevNextButtonsLabel"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/paging/routable",
+          "name": "PaginationAT. testRoutable"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/paging/routable_many_widgets",
+          "name": "PaginationAT. testRoutableManyWidgets"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/row_click/enabled",
           "name": "TableRowClickAT. testRowClickEnabled"
         },

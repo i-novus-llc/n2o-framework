@@ -43,6 +43,7 @@ public abstract class AbstractListWidgetElementIOv5<T extends N2oAbstractListWid
         p.attribute(e, "class", page::getClassName, page::setClassName);
         p.attribute(e, "style", page::getStyle, page::setStyle);
         p.attributeEnum(e, "place", page::getPlace, page::setPlace, Place.class);
+        p.attributeBoolean(e, "routable", page::getRoutable, page::setRoutable);
     }
 
     private void rowClick(Element e, N2oRowClick m, IOProcessor p) {
