@@ -26,9 +26,10 @@ export type Props = TBaseProps & TBaseInputProps<any> & {
     help?: string, // Подсказка в popover
     inline?: boolean, // Флаг рендера label в одну строку с контролом
     label?: string,
-    onClick?(): void,
+    onClick?(event: React.MouseEvent<HTMLDivElement>): void,
     tabIndex?: number,
     forwardedRef?: React.RefObject<HTMLDivElement>,
+    preventDefault?: boolean
 }
 
 export class Checkbox extends React.Component<Props> {
@@ -39,23 +40,21 @@ export class Checkbox extends React.Component<Props> {
     }
 
     render() {
-        const { className,
-            label,
-            disabled,
-            value,
-            inline,
-            checked,
-            help,
-            tabIndex,
-            style,
-            onClick,
-            onFocus,
-            onChange,
-            onBlur,
-            forwardedRef,
-        } = this.props
+        const { className, label, disabled, value,
+            inline, checked, help, tabIndex,
+            style, onClick, onFocus, onChange,
+            onBlur, forwardedRef, preventDefault = false } = this.props
 
         const { id } = this.state
+
+        const onClickEnhancer = (event: React.MouseEvent<HTMLDivElement>): void => {
+            if (preventDefault) {
+                event.preventDefault()
+            }
+            if (onClick) {
+                onClick(event)
+            }
+        }
 
         return (
             <div
@@ -68,7 +67,7 @@ export class Checkbox extends React.Component<Props> {
                     'n2o-checkbox',
                     { 'custom-control-inline': inline, 'd-flex': help },
                 )}
-                onClick={onClick}
+                onClick={onClickEnhancer}
             >
                 <Input
                     id={id}

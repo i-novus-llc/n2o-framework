@@ -247,7 +247,7 @@ class Tree extends Component {
             filterPlaceholder,
         } = this.props
 
-        const checkable = hasCheckboxes && multiselect ? <Checkbox inline /> : false
+        const checkable = hasCheckboxes && multiselect ? <Checkbox preventDefault inline /> : false
 
         return (
             <div className={`${prefixCls}-wrapper pt-4`}>

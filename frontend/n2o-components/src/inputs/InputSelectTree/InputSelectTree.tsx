@@ -308,7 +308,7 @@ function InputSelectTree({
                 switcherIcon={renderSwitcherIcon}
                 suffixIcon={<Icon name="fa fa-chevron-down" visible={!disabled} />}
                 multiple={multiSelect}
-                treeCheckable={hasCheckboxes && <Checkbox inline />}
+                treeCheckable={hasCheckboxes && <Checkbox preventDefault inline />}
                 treeData={treeData}
                 filterTreeNode={handlerFilter}
                 treeNodeFilterProp={labelFieldId}
