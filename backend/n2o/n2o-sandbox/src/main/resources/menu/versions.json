@@ -5,6 +5,10 @@
       "name": "7.28",
       "templates": [
         {
+          "templateId": "versions/7.28/pagination_routable",
+          "name": "Восстановление параметров пагинации по урл"
+        },
+        {
           "templateId": "versions/7.28/cached_datasource",
           "name": "Кэширующий датасурс"
         },

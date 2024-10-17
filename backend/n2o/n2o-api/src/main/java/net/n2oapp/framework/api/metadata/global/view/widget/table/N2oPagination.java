@@ -24,4 +24,5 @@ public class N2oPagination implements Source {
     private String className;
     private String style;
     private Place place;
+    private Boolean routable;
 }
