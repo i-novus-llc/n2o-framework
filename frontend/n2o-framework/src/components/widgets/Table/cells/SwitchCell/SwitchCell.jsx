@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
 
-// eslint-disable-next-line import/no-named-as-default
-import Factory from '../../../../../core/factory/Factory'
+import { Factory } from '../../../../../core/factory/Factory'
 import { CELLS } from '../../../../../core/factory/factoryLevels'
 
 function SwitchCell({
@@ -11,12 +10,16 @@ function SwitchCell({
     switchFieldId,
     switchList,
     switchDefault,
+    style: propsStyle,
     ...props
 }) {
     const currentCellType = get(model, switchFieldId)
     const cellProps = get(switchList, currentCellType, switchDefault)
+    const currentCellStyle = get(cellProps, 'elementAttributes.style', {})
 
-    return <Factory level={CELLS} model={model} {...props} {...cellProps} />
+    const style = { ...propsStyle, ...currentCellStyle }
+
+    return <Factory level={CELLS} model={model} {...props} {...cellProps} style={style} />
 }
 
 SwitchCell.propTypes = {

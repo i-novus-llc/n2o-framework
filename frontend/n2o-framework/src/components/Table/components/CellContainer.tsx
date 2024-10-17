@@ -17,18 +17,18 @@ export const CellContainer = memo<CellContainerProps>((props) => {
         rowValue,
         rowIndex,
         alignment,
-        style,
-        ...otherProps
+        style = {},
+        ...rest
     } = props
-    const resolvedProps = useResolved(otherProps, otherProps.model, ['toolbar', 'security', 'model'])
+    const resolvedProps = useResolved(rest, rest.model, ['toolbar', 'security', 'model'])
 
-    const currentCellType = get(otherProps.model, otherProps.switchFieldId)
-    const cellProps = get(otherProps.switchList, currentCellType, otherProps.switchDefault)
+    const currentCellType = get(rest.model, rest.switchFieldId)
+    const cellProps = get(rest.switchList, currentCellType, rest.switchDefault)
     const cellAttributes = cellProps?.elementAttributes
 
     return (
         <Table.Cell
-            className={otherProps.id === 'selectionCell' ? 'cell-selection' : ''}
+            className={rest.id === 'selectionCell' ? 'cell-selection' : ''}
             align={alignment}
         >
             <div className={classNames('cell-content', cellAttributes?.className)}>
