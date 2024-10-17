@@ -11,6 +11,8 @@ import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailAction;
+
 @Component
 public class SubMenuValidator implements SourceValidator<N2oSubmenu>, SourceClassAware {
 
@@ -22,7 +24,10 @@ public class SubMenuValidator implements SourceValidator<N2oSubmenu>, SourceClas
     @Override
     public void validate(N2oSubmenu source, SourceProcessor p) {
         if (!ArrayUtils.isEmpty(source.getMenuItems()))
-            p.safeStreamOf(source.getMenuItems()).forEach(p::validate);
+            p.safeStreamOf(source.getMenuItems()).forEach(m -> {
+                p.validate(m);
+                checkOnFailAction(m.getActions());
+            });
         if (source.getGenerate() != null && source.getGenerate().length == 1 && StringUtils.isEmpty(source.getGenerate()[0]))
             throw new N2oMetadataValidationException(String.format("Атрибут 'generate' выпадающего меню %s не может содержать пустую строку", getLabelOrId(source)));
     }

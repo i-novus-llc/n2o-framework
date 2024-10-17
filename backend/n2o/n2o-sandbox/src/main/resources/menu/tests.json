@@ -1424,6 +1424,10 @@
           "name": "DataBackFromModalAT"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/action/on_fail",
+          "name": "OnFailActionAT"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/action/drawer/simple",
           "name": "OpenDrawerAT"
         },

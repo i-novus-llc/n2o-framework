@@ -22,7 +22,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailAction;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
@@ -36,6 +38,9 @@ public abstract class WidgetValidator<T extends N2oWidget> implements SourceVali
         MetaActions pageActions = p.getScope(MetaActions.class);
         checkActionIds(source, pageActions, p);
         MetaActions allMetaActions = getAllMetaActions(pageActions, source.getActions(), p);
+        if (source.getActions() != null)
+            Stream.of(source.getActions()).forEach(actionbar ->
+                    checkOnFailAction(actionbar.getN2oActions()));
 
         ComponentScope componentScope = new ComponentScope(source);
         if (source.getDatasource() != null) {
@@ -52,10 +57,10 @@ public abstract class WidgetValidator<T extends N2oWidget> implements SourceVali
             for (N2oToolbar toolbar : source.getToolbars()) {
                 if (toolbar.getItems() != null) {
                     for (ToolbarItem item : toolbar.getItems()) {
-                        if (item instanceof N2oButton) {
-                            menuItems.add((N2oButton) item);
-                        } else if (item instanceof N2oSubmenu && (((N2oSubmenu) item).getMenuItems() != null)) {
-                            menuItems.addAll(Arrays.asList(((N2oSubmenu) item).getMenuItems()));
+                        if (item instanceof N2oButton n2oButton) {
+                            menuItems.add(n2oButton);
+                        } else if (item instanceof N2oSubmenu submenu && submenu.getMenuItems() != null) {
+                            menuItems.addAll(Arrays.asList(submenu.getMenuItems()));
                         }
                     }
                 }

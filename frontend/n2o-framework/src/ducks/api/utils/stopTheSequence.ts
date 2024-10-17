@@ -11,5 +11,11 @@ const ERRORS = {
 }
 
 export function stopTheSequence(action: Action) {
-    if (action?.meta?.operationId) { throw new Error(ERRORS[action.type]) }
+    if (action?.meta?.operationId) {
+        const { abortController } = action.meta
+
+        abortController?.abort()
+
+        throw new Error(ERRORS[action.type])
+    }
 }

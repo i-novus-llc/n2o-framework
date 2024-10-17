@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование валидации действия switch
  */
-public class SwitchActionValidatorTest extends SourceValidationTestBase {
+class SwitchActionValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach
@@ -72,5 +72,13 @@ public class SwitchActionValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testCaseValueExistence.page.xml"));
         assertEquals("В <case> действия <switch> не указан атрибут 'value'", exception.getMessage());
+    }
+
+    @Test
+    void testOnFailActionNotExist() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testOnFailActionNotExist.page.xml"));
+        assertEquals("Действие <on-fail> нельзя использовать в <switch>", exception.getMessage());
     }
 }

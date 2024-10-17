@@ -4,8 +4,10 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
+import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueAction;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -105,5 +107,32 @@ class MultiActionCompileTest extends SourceCompileTestBase {
                 is("n2o/data/testDefaultDataproviderRoutes/multi4"));
         assertThat(((InvokeAction) multiAction.getPayload().getActions().get(1)).getPayload().getDataProvider().getUrl(),
                 is("n2o/data/testDefaultDataproviderRoutes/multi5"));
+    }
+
+    @Test
+    void withOnFail() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/multiaction/testMultiActionWithOnFail.page.xml")
+                .get(new PageContext("testMultiActionWithOnFail"));
+
+        PerformButton button = (PerformButton) page.getToolbar().getButton("test1");
+        MultiAction action = (MultiAction) button.getAction();
+        assertThat(action, instanceOf(MultiAction.class));
+        assertThat(action.getType(), is("n2o/api/action/sequence"));
+        assertThat(action.getPayload().getActions().size(), is(1));
+        assertThat(action.getPayload().getActions().get(0), instanceOf(InvokeAction.class));
+        assertThat(action.getPayload().getFallback(), instanceOf(AlertAction.class));
+
+        button = (PerformButton) page.getToolbar().getButton("test2");
+        action = (MultiAction) button.getAction();
+        assertThat(action, instanceOf(MultiAction.class));
+        assertThat(action.getType(), is("n2o/api/action/sequence"));
+        assertThat(action.getPayload().getActions().size(), is(1));
+        assertThat(action.getPayload().getActions().get(0), instanceOf(InvokeAction.class));
+        assertThat(action.getPayload().getFallback(), instanceOf(MultiAction.class));
+
+        action = (MultiAction) action.getPayload().getFallback();
+        assertThat(action.getPayload().getActions().size(), is(2));
+        assertThat(action.getPayload().getActions().get(0), instanceOf(AlertAction.class));
+        assertThat(action.getPayload().getActions().get(1), instanceOf(LinkActionImpl.class));
     }
 }

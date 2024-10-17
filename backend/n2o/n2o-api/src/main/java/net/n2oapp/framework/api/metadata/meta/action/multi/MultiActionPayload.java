@@ -16,6 +16,8 @@ import java.util.List;
 public class MultiActionPayload implements ActionPayload {
     @JsonProperty
     private List<Action> actions;
+    @JsonProperty
+    private Action fallback;
 
     public MultiActionPayload(List<Action> actions) {
         this.actions = actions;
