@@ -113,4 +113,28 @@ class ButtonValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/testConfirmAttrAndAction.page.xml"));
         assertEquals("Кнопка 'btn' одновременно имеет атрибут 'confirm' и действие <confirm>", exception.getMessage());
     }
+
+    @Test
+    void testOnFailAction() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/button/testOnFailAction.page.xml"));
+        assertEquals("Действие <on-fail> должно быть последним в списке действий", exception.getMessage());
+    }
+
+    @Test
+    void testManyOnFailAction() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/button/testManyOnFailAction.page.xml"));
+        assertEquals("Не может быть более одного элемента <on-fail>", exception.getMessage());
+    }
+
+    @Test
+    void testOnFailActionWithoutInvoke() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/button/testOnFailActionWithoutInvoke.page.xml"));
+        assertEquals("Задано действие <on-fail> при отсутствующем действии <invoke>", exception.getMessage());
+    }
 }

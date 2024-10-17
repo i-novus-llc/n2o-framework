@@ -869,6 +869,10 @@
         {
           "templateId": "uxcomponents/actions/change_data_events",
           "name": "События изменения данных"
+        },
+        {
+          "templateId": "uxcomponents/actions/on_fail",
+          "name": "Действие <on-fail>, выполняемое в случае операции, завершившейся ошибкой"
         }
       ]
     },

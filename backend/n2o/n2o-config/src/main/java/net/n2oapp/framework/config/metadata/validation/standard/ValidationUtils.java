@@ -1,5 +1,8 @@
 package net.n2oapp.framework.config.metadata.validation.standard;
 
+import net.n2oapp.framework.api.metadata.action.N2oAction;
+import net.n2oapp.framework.api.metadata.action.N2oInvokeAction;
+import net.n2oapp.framework.api.metadata.action.N2oOnFailAction;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oConditionBranch;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oElseBranchAction;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oElseIfBranchAction;
@@ -13,6 +16,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDepend
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Nonnull;
@@ -22,6 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
+import java.util.stream.Stream;
 
 /**
  * Утилиты проверки метаданных
@@ -236,6 +241,28 @@ public final class ValidationUtils {
     public static void checkDate(String date, String message) {
         if (!(isValidDateByFormat(date, SIMPLE_DATETIME_FORMAT) || isValidDateByFormat(date, SIMPLE_DATE_FORMAT))) {
             throw new N2oMetadataValidationException(message);
+        }
+    }
+
+    public static void checkOnFailActionNotExist(N2oAction[] actions, String componentName) {
+        if (actions != null && Stream.of(actions).anyMatch(N2oOnFailAction.class::isInstance))
+            throw new N2oMetadataValidationException(String.format("Действие <on-fail> нельзя использовать в %s", componentName));
+    }
+
+    public static void checkOnFailAction(N2oAction[] actions) {
+        if (actions == null || actions.length == 0) return;
+        List<N2oAction> onFailActions = Stream.of(actions).filter(N2oOnFailAction.class::isInstance).toList();
+        if (CollectionUtils.isNotEmpty(onFailActions)) {
+            if (onFailActions.size() > 1) {
+                throw new N2oMetadataValidationException("Не может быть более одного элемента <on-fail>");
+            } else if (onFailActions.size() == 1) {
+                if (!(actions[actions.length - 1] instanceof N2oOnFailAction)) {
+                    throw new N2oMetadataValidationException("Действие <on-fail> должно быть последним в списке действий");
+                }
+                if (Stream.of(actions).noneMatch(N2oInvokeAction.class::isInstance)) {
+                    throw new N2oMetadataValidationException("Задано действие <on-fail> при отсутствующем действии <invoke>");
+                }
+            }
         }
     }
 

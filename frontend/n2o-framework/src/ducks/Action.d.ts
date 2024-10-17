@@ -10,6 +10,7 @@ interface N2OMeta {
     evalContext?: Record<string, unknown>
     prevState?: State
     [key: string]: unknown
+    abortController?: AbortController
 }
 
 interface N2OAction<

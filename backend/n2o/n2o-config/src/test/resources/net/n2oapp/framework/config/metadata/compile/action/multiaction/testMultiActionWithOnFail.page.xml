@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <toolbar>
+        <button id="test1">
+            <invoke operation-id="op1" object-id="testBind"/>
+            <on-fail>
+                <alert/>
+            </on-fail>
+        </button>
+        <button id="test2">
+            <invoke operation-id="op2" object-id="testBind"/>
+            <on-fail>
+                <alert/>
+                <close/>
+            </on-fail>
+        </button>
+    </toolbar>
+</page>
