@@ -4,7 +4,8 @@
 }
 
 .n2o-rc-tree-indent {
-    .n2o-rc-tree-indent-unit-start {
+    .n2o-rc-tree-indent-unit-start,
+    .n2o-rc-tree-indent-unit-end {
         margin-left: 15px;
     }
 }
