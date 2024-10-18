@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { pure } from 'recompose'
 import isEmpty from 'lodash/isEmpty'
 import { Dropdown, DropdownToggle, DropdownMenu, Button, Badge } from 'reactstrap'
@@ -173,14 +172,6 @@ class AdvancedTableFilter extends Component {
             </>
         )
     }
-}
-
-AdvancedTableFilter.propTypes = {
-    children: PropTypes.object,
-    id: PropTypes.string,
-    onFilter: PropTypes.func,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    field: PropTypes.object,
 }
 
 AdvancedTableFilter.defaultProps = {

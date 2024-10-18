@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'enzyme'
 
-import Html from './Html.jsx'
+import Html from './Html.tsx'
 
 it('correct class in html', () => {
     const wrapper = render(

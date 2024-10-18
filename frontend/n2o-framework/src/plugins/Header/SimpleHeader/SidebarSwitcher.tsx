@@ -1,13 +1,19 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
+
+interface Props {
+    defaultIcon: string
+    toggledIcon: string
+    sidebarOpen: boolean
+    toggleSidebar(): void
+}
 
 export function SidebarSwitcher({
     defaultIcon,
     toggledIcon,
     sidebarOpen,
     toggleSidebar,
-}) {
+}: Props) {
     return (
         <i
             className={classNames('n2o-sidebar-switcher', sidebarOpen ? toggledIcon : defaultIcon)}
@@ -15,10 +21,4 @@ export function SidebarSwitcher({
             onClick={toggleSidebar}
         />
     )
-}
-SidebarSwitcher.propTypes = {
-    defaultIcon: PropTypes.string,
-    toggledIcon: PropTypes.string,
-    sidebarOpen: PropTypes.bool,
-    toggleSidebar: PropTypes.func,
 }

@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import map from 'lodash/map'
 import isUndefined from 'lodash/isUndefined'
 import set from 'lodash/set'
@@ -86,13 +85,6 @@ function getButtonKey(buttonProps, i) {
     const { id, label, hint } = buttonProps
 
     return `${id}-${label}-${hint}-${i}`
-}
-
-Toolbar.propTypes = {
-    toolbar: PropTypes.array,
-    entityKey: PropTypes.string,
-    onClick: PropTypes.func,
-    className: PropTypes.string,
 }
 
 Toolbar.defaultProps = {

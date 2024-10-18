@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import map from 'lodash/map'
 import { withResizeDetector } from 'react-resize-detector'
@@ -68,46 +67,6 @@ function Tiles({
             }
         </div>
     )
-}
-
-Tiles.propTypes = {
-    /**
-     * имя css класса карточки
-     */
-    className: PropTypes.string,
-    /**
-     * данные объектов cell
-     */
-    data: PropTypes.array,
-    /**
-     *  количество колонок в мобильном режиме
-     */
-    colsSm: PropTypes.number,
-    /**
-     * количество колонок в режиме планшета
-     */
-    colsMd: PropTypes.number,
-    /**
-     * количество колонок в режиме десктопа
-     */
-    colsLg: PropTypes.number,
-    /**
-     * id виджета
-     */
-    id: PropTypes.number,
-    /**
-     * высота виджета
-     */
-    tileHeight: PropTypes.string,
-    /**
-     * ширина виджета
-     */
-    tileWidth: PropTypes.string,
-    tile: PropTypes.node,
-    width: PropTypes.number,
-    onResolve: PropTypes.func,
-    dispatch: PropTypes.func,
-    datasource: PropTypes.string,
 }
 
 Tiles.defaultProps = {

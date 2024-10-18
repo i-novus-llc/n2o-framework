@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
 import classNames from 'classnames'
@@ -29,13 +28,6 @@ function TilesCell(props) {
             />
         </div>
     )
-}
-
-TilesCell.propTypes = {
-    className: PropTypes.string,
-    style: PropTypes.string,
-    model: PropTypes.object,
-    component: PropTypes.object,
 }
 
 export default TilesCell

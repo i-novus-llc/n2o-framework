@@ -3,7 +3,6 @@ import Dropzone from 'react-dropzone'
 import cn from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import { Button } from 'reactstrap'
-import PropTypes from 'prop-types'
 
 import FileUploaderList from './FileUploaderList'
 
@@ -85,31 +84,6 @@ function FileUploader({
 
 FileUploader.defaultProps = {
     t: () => {},
-}
-
-FileUploader.propTypes = {
-    saveBtnStyle: PropTypes.any,
-    uploaderClass: PropTypes.any,
-    componentClass: PropTypes.any,
-    files: PropTypes.any,
-    statusBarColor: PropTypes.any,
-    uploading: PropTypes.any,
-    showSize: PropTypes.any,
-    t: PropTypes.func,
-    onDrop: PropTypes.func,
-    onDropRejected: PropTypes.func,
-    onDragLeave: PropTypes.func,
-    onStartUpload: PropTypes.func,
-    onDragEnter: PropTypes.func,
-    onRemove: PropTypes.func,
-    accept: PropTypes.string,
-    className: PropTypes.string,
-    deleteIcon: PropTypes.string,
-    autoUpload: PropTypes.bool,
-    disabled: PropTypes.bool,
-    multiple: PropTypes.bool,
-    visible: PropTypes.bool,
-    children: PropTypes.any,
 }
 
 export default FileUploader

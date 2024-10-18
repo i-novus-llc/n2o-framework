@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { compose, mapProps } from 'recompose'
 import map from 'lodash/map'
 import get from 'lodash/get'
@@ -119,14 +118,6 @@ class DropdownButton extends React.Component {
             </div>
         )
     }
-}
-
-DropdownButton.propTypes = {
-    id: PropTypes.any,
-    className: PropTypes.string,
-    subMenu: PropTypes.array,
-    showToggleIcon: PropTypes.bool,
-    tooltipTriggerRef: PropTypes.func,
 }
 
 DropdownButton.defaultProps = { subMenu: [], showToggleIcon: true }

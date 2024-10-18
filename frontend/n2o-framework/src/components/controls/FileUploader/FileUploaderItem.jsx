@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import { Progress } from 'reactstrap'
-import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 
 import { Tooltip } from '../../snippets/Tooltip/TooltipHOC'
@@ -69,19 +68,6 @@ function FileUploaderItem({
           ))}
         </div>
     )
-}
-
-FileUploaderItem.propTypes = {
-    file: PropTypes.object,
-    percentage: PropTypes.number,
-    statusBarColor: PropTypes.string,
-    deleteIcon: PropTypes.string,
-    onRemove: PropTypes.func,
-    showSize: PropTypes.bool,
-    disabled: PropTypes.bool,
-    autoUpload: PropTypes.bool,
-    index: PropTypes.number,
-    loading: PropTypes.bool,
 }
 
 FileUploaderItem.defaultProps = {

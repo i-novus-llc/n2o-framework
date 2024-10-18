@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { ReactReduxContext, connect } from 'react-redux'
 
 import { makeFieldParam } from '../../ducks/form/selectors'
@@ -34,11 +33,6 @@ export default config => (WrappedComponent) => {
         render() {
             return <WrappedComponent {...this.props} ref={this.setComponentRef} />
         }
-    }
-
-    FetchDependency.propTypes = {
-        disabled: PropTypes.bool,
-        fetchTrigger: PropTypes.number,
     }
 
     FetchDependency.contextType = ReactReduxContext
