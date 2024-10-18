@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import { Button } from 'reactstrap'
 import classNames from 'classnames'
@@ -81,38 +80,6 @@ const SimpleButtonBody = ({
             </Button>
         </div>
     )
-}
-
-SimpleButtonBody.propTypes = {
-    id: PropTypes.string,
-    tag: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.string,
-        PropTypes.shape({ $$typeof: PropTypes.symbol, render: PropTypes.func }),
-        PropTypes.arrayOf(
-            PropTypes.oneOfType([
-                PropTypes.func,
-                PropTypes.string,
-                PropTypes.shape({ $$typeof: PropTypes.symbol, render: PropTypes.func }),
-            ]),
-        ),
-    ]),
-    label: PropTypes.string,
-    icon: PropTypes.string,
-    size: PropTypes.string,
-    color: PropTypes.string,
-    outline: PropTypes.bool,
-    visible: PropTypes.bool,
-    disabled: PropTypes.bool,
-    count: PropTypes.string,
-    onClick: PropTypes.func,
-    rounded: PropTypes.bool,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    badge: PropTypes.object,
-    tooltipTriggerRef: PropTypes.func,
-    dataSourceIsLoading: PropTypes.func,
-    iconPosition: PropTypes.string,
 }
 
 SimpleButtonBody.displayName = 'SimpleButtonBody'

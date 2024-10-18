@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
 import { getModelSelector } from '../../ducks/models/selectors'
@@ -8,7 +7,7 @@ import { ModelPrefix } from '../../core/datasource/const'
 import { resolveItems } from './utils'
 
 export const withItemsResolver = (Component) => {
-    const WithItemsResolver = (props) => {
+    return (props) => {
         const { menu, extraMenu, datasources, datasource } = props
 
         const datasourceModels = useSelector(getModelSelector(`models.${ModelPrefix.source}`))
@@ -30,15 +29,4 @@ export const withItemsResolver = (Component) => {
             />
         )
     }
-
-    WithItemsResolver.propTypes = {
-        datasources: PropTypes.object,
-        datasource: PropTypes.string,
-        menu: PropTypes.object,
-        fetchData: PropTypes.func,
-        models: PropTypes.object,
-        extraMenu: PropTypes.object,
-    }
-
-    return WithItemsResolver
 }

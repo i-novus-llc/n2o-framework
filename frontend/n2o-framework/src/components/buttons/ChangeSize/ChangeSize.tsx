@@ -1,11 +1,18 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 import { makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
 import { DataSourceContext } from '../../../core/widget/context'
 import { SIZES } from '../constants'
+import { State } from '../../../ducks/State'
+
+interface Props {
+    size: number
+    icon: string
+    label: string
+    nested?: boolean
+}
 
 /**
  * Дропдаун для выбора размера(size) виджета
@@ -14,7 +21,8 @@ import { SIZES } from '../constants'
  * @example
  * <ChangeSize entityKey='TestEntityKey'/>
  */
-function ChangeSizeComponent({ size: currentSize, icon, label, nested = false }) {
+
+function ChangeSizeComponent({ size: currentSize, icon, label, nested = false }: Props) {
     const { setSize } = useContext(DataSourceContext)
 
     const items = SIZES.map((size, i) => {
@@ -46,12 +54,8 @@ function ChangeSizeComponent({ size: currentSize, icon, label, nested = false })
         </UncontrolledButtonDropdown>
     )
 }
-ChangeSizeComponent.propTypes = {
-    size: PropTypes.number,
-    icon: PropTypes.string,
-}
 
-const mapStateToProps = (state, { entityKey: widgetId }) => ({
+const mapStateToProps = (state: State, { entityKey: widgetId }: { entityKey: string }) => ({
     size: makeWidgetSizeSelector(widgetId)(state),
 })
 

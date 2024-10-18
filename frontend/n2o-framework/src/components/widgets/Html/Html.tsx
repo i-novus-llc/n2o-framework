@@ -1,9 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { Html as HtmlSnippet } from '../../snippets/Html/Html'
 import { parseExpression } from '../../../utils/evalExpression'
 import { useHtmlResolver } from '../../../utils/useHtmlResolver'
+
+export type Props = {
+    id: string
+    html: string
+    data: Record<string, unknown>
+    className?: string
+    loading?: boolean
+}
 
 /**
  * Компонент встаквки html-кода производит резолв плейсхолдеров
@@ -20,8 +27,8 @@ export const Html = ({
     id,
     className,
     loading = false,
-}) => {
-    const resolvedHtml = useHtmlResolver(html, data)
+}: Props) => {
+    const resolvedHtml = useHtmlResolver(html, data) as string
 
     if (!resolvedHtml) {
         return null
@@ -32,15 +39,11 @@ export const Html = ({
         return null
     }
 
-    return (
-        !loading && (
-            <HtmlSnippet
-                html={resolvedHtml}
-                id={id}
-                className={className}
-            />
-        )
-    )
+    if (loading) {
+        return null
+    }
+
+    return <HtmlSnippet html={resolvedHtml} id={id} className={className} />
 }
 
 export default Html

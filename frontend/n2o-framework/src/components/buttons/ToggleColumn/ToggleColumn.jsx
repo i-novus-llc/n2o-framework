@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useStore } from 'react-redux'
-import PropTypes from 'prop-types'
 import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import classNames from 'classnames'
 
@@ -97,10 +96,6 @@ export const ToggleColumn = (props) => {
             </div>
         </UncontrolledButtonDropdown>
     )
-}
-
-ToggleColumn.propTypes = {
-    icon: PropTypes.string,
 }
 
 ToggleColumn.displayName = 'ToggleColumn'

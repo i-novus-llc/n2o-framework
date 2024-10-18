@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { compose, pure } from 'recompose'
 import { createStructuredSelector } from 'reselect'
 import pathToRegexp from 'path-to-regexp'
@@ -109,19 +108,6 @@ const withMetadata = (Component) => {
         render() {
             return <Component {...this.props} />
         }
-    }
-
-    ComponentWithMetadata.propTypes = {
-        pageId: PropTypes.string,
-        pageUrl: PropTypes.string,
-        pageMapping: PropTypes.object,
-        rootPage: PropTypes.bool,
-        metadata: PropTypes.object,
-        loading: PropTypes.bool,
-        error: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf([false])]),
-        location: PropTypes.object,
-        getMetadata: PropTypes.func,
-        reset: PropTypes.func,
     }
 
     ComponentWithMetadata.defaultProps = {

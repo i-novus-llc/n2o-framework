@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 
 import { withLinkAction } from './withLinkAction'
@@ -47,14 +46,4 @@ export function ActionWrapper({ url, target, pathMapping, queryMapping, action, 
     }
 
     return <Wrapper {...wrapperProps}>{children}</Wrapper>
-}
-
-ActionWrapper.propTypes = {
-    url: PropTypes.string,
-    target: PropTypes.string,
-    queryMapping: PropTypes.object,
-    pathMapping: PropTypes.object,
-    action: PropTypes.object,
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 }

@@ -1,10 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
 import StandardWidget from '../StandardWidget'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
-import { widgetPropTypes } from '../../../core/widget/propTypes'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 
@@ -49,12 +47,6 @@ function Widget({
             />
         </StandardWidget>
     )
-}
-
-Widget.propTypes = {
-    ...widgetPropTypes,
-    url: PropTypes.bool,
-    html: PropTypes.string,
 }
 
 /**
