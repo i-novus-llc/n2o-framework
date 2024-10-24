@@ -27,7 +27,7 @@ function defaultMeta(payload = {}, meta = {}) {
  * @param metaFunc
  */
 export default function createActionHelper(
-    type,
+    type: string,
     payloadFunc = defaultPayload,
     metaFunc = defaultMeta,
 ) {

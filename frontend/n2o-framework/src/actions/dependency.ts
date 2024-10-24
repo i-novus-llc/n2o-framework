@@ -9,6 +9,6 @@ import createActionHelper from './createActionHelper'
  * @param widgetId
  * @param dependency
  */
-export function registerDependency(widgetId, dependency) {
+export function registerDependency(widgetId: string, dependency: Record<string, unknown>) {
     return createActionHelper(REGISTER_DEPENDENCY)({ widgetId, dependency })
 }
