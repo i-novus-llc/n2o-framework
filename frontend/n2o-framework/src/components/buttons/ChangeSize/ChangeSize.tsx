@@ -7,7 +7,7 @@ import { DataSourceContext } from '../../../core/widget/context'
 import { SIZES } from '../constants'
 import { State } from '../../../ducks/State'
 
-interface Props {
+export interface Props {
     size: number
     icon: string
     label: string

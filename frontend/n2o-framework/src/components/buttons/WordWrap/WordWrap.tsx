@@ -12,7 +12,7 @@ function getIcon(nested: boolean, icon: string, textWrap: boolean): string | nul
     return null
 }
 
-interface Props {
+export interface Props {
     className?: string
     nested: boolean
     icon: string

@@ -10,15 +10,36 @@ import classNames from 'classnames'
 import { Factory } from '../../core/factory/Factory'
 import { BUTTONS } from '../../core/factory/factoryLevels'
 
-function Toolbar({ className, toolbar, entityKey, onClick }) {
+interface Button {
+    id: string
+    label: string
+    hint: string
+    enabled?: boolean
+    visible?: boolean
+    subMenu?: Button[]
+}
+
+interface ToolbarProps {
+    className?: string
+    toolbar: Array<{
+        className?: string
+        style?: React.CSSProperties
+        id?: string
+        buttons: Button[]
+    }>
+    entityKey: string
+    onClick?(): void
+}
+
+const Toolbar: React.FC<ToolbarProps> = ({ className, toolbar, entityKey, onClick = () => {} }) => {
     const { className: toolbarClassName, style, id } = toolbar[0] || {}
 
-    const handleClick = (e) => {
+    const handleClick = (e: React.MouseEvent) => {
         e.stopPropagation()
         onClick()
     }
 
-    const remapButtons = (buttonProps) => {
+    const remapButtons = (buttonProps: Button) => {
         const newProps = { ...buttonProps }
 
         const subMenu = get(newProps, 'subMenu')
@@ -37,7 +58,7 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
         return newProps
     }
 
-    const renderButtons = (buttonProps, i) => (
+    const renderButtons = (buttonProps: Button, i: number) => (
         <Factory
             key={getButtonKey(buttonProps, i)}
             level={BUTTONS}
@@ -45,7 +66,8 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
             entityKey={entityKey}
         />
     )
-    const renderBtnGroup = (toolbarProps) => {
+
+    const renderBtnGroup = (toolbarProps: { buttons: Button[]; id?: string }) => {
         const { buttons } = toolbarProps
 
         return (
@@ -81,7 +103,7 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
     )
 }
 
-function getButtonKey(buttonProps, i) {
+function getButtonKey(buttonProps: Button, i: number) {
     const { id, label, hint } = buttonProps
 
     return `${id}-${label}-${hint}-${i}`

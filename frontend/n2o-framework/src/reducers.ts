@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
+import { History } from 'history'
 
 import widgets from './ducks/widgets/store'
 import models from './ducks/models/store'
@@ -15,7 +16,7 @@ import alerts from './ducks/alerts/store'
 import regions from './ducks/regions/store'
 import table from './ducks/table/store'
 
-export default (history, customReducers = {}) => combineReducers({
+export default (history: History, customReducers = {}) => combineReducers({
     alerts,
     columns,
     datasource,

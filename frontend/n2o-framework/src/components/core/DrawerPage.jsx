@@ -1,16 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import get from 'lodash/get'
 import classNames from 'classnames'
 import { compose, withProps } from 'recompose'
 
-// eslint-disable-next-line import/no-named-as-default
-import Drawer from '../snippets/Drawer/Drawer'
+import { Drawer } from '../snippets/Drawer/Drawer'
 import { Spinner } from '../snippets/Spinner/Spinner'
 import Toolbar from '../buttons/Toolbar'
 
 import withOverlayMethods from './withOverlayMethods'
-// eslint-disable-next-line import/no-named-as-default,import/no-cycle
 import Page from './Page'
 
 /**
@@ -58,10 +55,7 @@ function DrawerPage(props) {
         renderFromSrc,
     } = props
 
-    const pageMapping = {
-        pathMapping,
-        queryMapping,
-    }
+    const pageMapping = { pathMapping, queryMapping }
 
     const showSpinner = !visible || loading || typeof loading === 'undefined'
     const classes = classNames({ 'd-none': loading })
@@ -129,33 +123,6 @@ function DrawerPage(props) {
 }
 
 export const DrawerWindow = DrawerPage
-
-DrawerPage.propTypes = {
-    pageId: PropTypes.string,
-    visible: PropTypes.bool,
-    modalHeaderTitle: PropTypes.string,
-    disabled: PropTypes.bool,
-    fixedFooter: PropTypes.bool,
-    closeOnEscape: PropTypes.bool,
-    closable: PropTypes.bool,
-    src: PropTypes.any,
-    pageUrl: PropTypes.string,
-    pathMapping: PropTypes.any,
-    queryMapping: PropTypes.any,
-    loading: PropTypes.bool,
-    footer: PropTypes.node,
-    toolbar: PropTypes.array,
-    entityKey: PropTypes.string,
-    width: PropTypes.string,
-    height: PropTypes.string,
-    placement: PropTypes.string,
-    backdrop: PropTypes.bool,
-    level: PropTypes.any,
-    closeOnBackdrop: PropTypes.bool,
-    animation: PropTypes.bool,
-    renderFromSrc: PropTypes.func,
-    closeOverlay: PropTypes.func,
-}
 
 export default compose(
     withOverlayMethods,
