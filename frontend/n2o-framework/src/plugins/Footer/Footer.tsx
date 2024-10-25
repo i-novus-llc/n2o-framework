@@ -6,14 +6,14 @@ import { ElementVisibility, WindowType } from '../../components/core/WindowType'
 import { resolveText } from './helpers'
 import { PositionedText } from './PositionedText'
 
-interface Props {
+export interface Props {
     textRight?: string
     textLeft?: string
     className?: string
     style?: CSSProperties
 }
 
-function Footer({ textRight, textLeft, className, style }: Props) {
+export function Footer({ textRight, textLeft, className, style }: Props) {
     const { N2O_ELEMENT_VISIBILITY = {} as ElementVisibility } = window as WindowType
 
     let currentStyle = { ...style }

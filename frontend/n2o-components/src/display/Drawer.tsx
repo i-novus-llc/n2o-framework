@@ -5,7 +5,7 @@ import { IPlacement } from 'rc-drawer/lib/IDrawerPropTypes'
 
 import { TBaseProps } from '../types'
 
-type Props = TBaseProps & {
+export type Props = TBaseProps & {
     // Включение маски(backdrop)
     animation: boolean;
     // Позиция компонента
