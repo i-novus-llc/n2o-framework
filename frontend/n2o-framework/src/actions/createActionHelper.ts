@@ -1,22 +1,20 @@
 import { createAction } from 'redux-actions'
 
 /**
- * дефолтный мэппер пэйлоада
+ * Дефолтный мэппер пэйлоада
  * @param payload
  * @param meta
  */
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-function defaultPayload(payload = {}, meta = {}) {
+function defaultPayload<Payload>(payload: Payload = {} as Payload, meta: Record<string, unknown> = {}): Payload {
     return payload
 }
 
 /**
- * дефолтный мэппер меты
+ * Дефолтный мэппер меты
  * @param payload
  * @param meta
  */
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-function defaultMeta(payload = {}, meta = {}) {
+function defaultMeta<Meta>(payload: Record<string, unknown> = {}, meta: Meta = {} as Meta): Meta {
     return meta
 }
 
@@ -26,6 +24,7 @@ function defaultMeta(payload = {}, meta = {}) {
  * @param payloadFunc
  * @param metaFunc
  */
+
 export default function createActionHelper(
     type: string,
     payloadFunc = defaultPayload,

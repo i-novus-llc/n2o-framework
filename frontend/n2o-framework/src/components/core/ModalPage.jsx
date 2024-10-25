@@ -6,7 +6,6 @@ import { compose } from 'recompose'
 
 import Toolbar from '../buttons/Toolbar'
 
-// eslint-disable-next-line import/no-cycle,import/no-named-as-default
 import Page from './Page'
 import { PageTitle } from './PageTitle'
 import withOverlayMethods from './withOverlayMethods'
@@ -56,10 +55,7 @@ function ModalPage({
     const { page = {} } = metadata
     const { modalHeaderTitle, datasource, model: modelPrefix = 'resolve' } = page
 
-    const pageMapping = {
-        pathMapping,
-        queryMapping,
-    }
+    const pageMapping = { pathMapping, queryMapping }
 
     const classes = classNames({ 'd-none': loading })
 
@@ -122,53 +118,6 @@ function ModalPage({
 }
 
 export const ModalWindow = ModalPage
-
-ModalPage.propTypes = {
-    /**
-     * ID страницы
-     */
-    pageId: PropTypes.string,
-    /**
-     * Видимость модального окна
-     */
-    visible: PropTypes.bool,
-    /**
-     * Размер окна
-     */
-    size: PropTypes.oneOf(['lg', 'sm']),
-    /**
-     * Настройка кнопок
-     */
-    toolbar: PropTypes.array,
-    disabled: PropTypes.bool,
-    /**
-     * Класс модального окна
-     */
-    className: PropTypes.string,
-    /**
-     * Объект стилей
-     */
-    style: PropTypes.object,
-    /**
-     * Значение для отоборажения хедера
-     */
-    hasHeader: PropTypes.bool,
-    /**
-     * Фон модального окна
-     */
-    backdrop: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['static'])]),
-    entityKey: PropTypes.string,
-    loading: PropTypes.bool,
-    pageUrl: PropTypes.string,
-    src: PropTypes.any,
-    pathMapping: PropTypes.any,
-    queryMapping: PropTypes.any,
-    scrollable: PropTypes.bool,
-    prompt: PropTypes.func,
-    renderFromSrc: PropTypes.func,
-    closeOverlay: PropTypes.func,
-    metadata: PropTypes.object,
-}
 
 ModalPage.defaultProps = {
     size: 'lg',
