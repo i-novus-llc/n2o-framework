@@ -1,35 +1,50 @@
-import React from 'react'
+import React, { ReactNode, CSSProperties } from 'react'
 import PropTypes from 'prop-types'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import classNames from 'classnames'
 import { compose } from 'recompose'
 
-import Toolbar from '../buttons/Toolbar'
+import { Toolbar, ToolbarProps } from '../buttons/Toolbar'
+import { ModelPrefix } from '../../core/datasource/const'
 
 import Page from './Page'
 import { PageTitle } from './PageTitle'
 import withOverlayMethods from './withOverlayMethods'
-/**
- * Компонент, отображающий модальное окно
- * @reactProps {string} pageId - id пейджа
- * @reactProps {string} name - имя модалки
- * @reactProps {boolean} visible - отображается модалка или нет
- * @reactProps {string} size - размер('sm' или 'lg')
- * @reactProps {string | bool} backdrop -  наличие фона модального окна  false/true/'static'
- * @reactProps {string} modalHeaderTitle - заголовок в хэдере
- * @reactProps {boolean} closeButton - Есть кнопка закрытия или нет
- * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
- * @reactProps {object} props - аргументы для экшенов-функций
- * @reactProps {boolean}  disabled - блокировка модалки
- * @reactProps {function}  hidePrompt - скрытие окна подтверждения
- * @example
- *  <ModalPage props={props}
- *             name={name}
- *             pageId={pageId}
- *  />
- */
 
-function ModalPage({
+interface Props {
+    entityKey?: string
+    toolbar?: {
+        bottomLeft?: ToolbarProps;
+        bottomCenter?: ToolbarProps;
+        bottomRight?: ToolbarProps;
+    };
+    visible: boolean
+    loading?: boolean
+    pageUrl?: string
+    pageId: string
+    src?: string
+    pathMapping?: Record<string, string>
+    queryMapping?: Record<string, string>
+    size?: 'sm' | 'lg'
+    disabled?: boolean
+    scrollable?: boolean
+    prompt?: string
+    className?: string
+    backdrop?: 'static' | true | false
+    style?: CSSProperties
+    hasHeader?: boolean
+    renderFromSrc?(src: string): ReactNode
+    closeOverlay(prompt?: string): void
+    metadata?: {
+        page?: {
+            modalHeaderTitle?: string
+            datasource?: string
+            model?: ModelPrefix
+        };
+    };
+}
+
+const ModalPage = ({
     entityKey,
     toolbar,
     visible,
@@ -50,18 +65,37 @@ function ModalPage({
     renderFromSrc,
     closeOverlay,
     metadata = {},
-    ...modalProps
-}) {
+    ...rest
+}: Props) => {
     const { page = {} } = metadata
-    const { modalHeaderTitle, datasource, model: modelPrefix = 'resolve' } = page
+    const { modalHeaderTitle, datasource, model: modelPrefix = ModelPrefix.active } = page
 
     const pageMapping = { pathMapping, queryMapping }
 
     const classes = classNames({ 'd-none': loading })
 
+    const renderModalBody = () => {
+        if (pageUrl) {
+            return (
+                <Page
+                    pageUrl={pageUrl}
+                    pageId={pageId}
+                    pageMapping={pageMapping}
+                    entityKey={entityKey}
+                    routable={false}
+                    needMetadata
+                />
+            )
+        }
+
+        if (src && renderFromSrc) { return renderFromSrc(src) }
+
+        return null
+    }
+
     return (
         <Modal
-            {...modalProps}
+            {...rest}
             isOpen={visible}
             toggle={() => closeOverlay(prompt)}
             size={size}
@@ -85,19 +119,7 @@ function ModalPage({
             )}
 
             <ModalBody className={classes}>
-                {/* eslint-disable-next-line no-nested-ternary */}
-                {pageUrl ? (
-                    <Page
-                        pageUrl={pageUrl}
-                        pageId={pageId}
-                        pageMapping={pageMapping}
-                        entityKey={entityKey}
-                        routable={false}
-                        needMetadata
-                    />
-                ) : src ? (
-                    renderFromSrc(src)
-                ) : null}
+                {renderModalBody()}
             </ModalBody>
 
             {toolbar && (
@@ -131,4 +153,5 @@ ModalPage.contextTypes = {
     scrollable: false,
 }
 
+// @ts-ignore import from js file
 export default compose(withOverlayMethods)(ModalPage)

@@ -34,7 +34,7 @@ import { Menu, Menu as ExtraMenu } from './Menu/Menu'
  * @example
  */
 
-class SimpleHeader extends React.Component {
+class SimpleHeaderBody extends React.Component {
     state = { isOpen: false }
 
     toggle = () => {
@@ -168,7 +168,7 @@ const menuType = PropTypes.shape(
         ) },
 )
 
-SimpleHeader.propTypes = {
+SimpleHeaderBody.propTypes = {
     /**
      * location object
      */
@@ -212,7 +212,7 @@ SimpleHeader.propTypes = {
     datasource: PropTypes.string,
 }
 
-SimpleHeader.defaultProps = {
+SimpleHeaderBody.defaultProps = {
     color: 'default',
     fixed: true,
     collapsed: true,
@@ -224,15 +224,15 @@ SimpleHeader.defaultProps = {
     localeSelect: false,
 }
 
-const Enhancer = flowRight(
+export const SimpleHeader = flowRight(
     WithDataSource,
     WithContextDataSource,
     withItemsResolver,
     withTitlesResolver,
-)(withResizeDetector(SimpleHeader, {
+)(withResizeDetector(SimpleHeaderBody, {
     handleHeight: false,
     refreshMode: 'debounce',
     refreshRate: 100,
 }))
 
-export default Enhancer
+export default SimpleHeader

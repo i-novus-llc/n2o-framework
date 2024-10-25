@@ -19,19 +19,21 @@ interface Button {
     subMenu?: Button[]
 }
 
-interface ToolbarProps {
+export type ToolbarProps = Array<{
     className?: string
-    toolbar: Array<{
-        className?: string
-        style?: React.CSSProperties
-        id?: string
-        buttons: Button[]
-    }>
-    entityKey: string
+    style?: React.CSSProperties
+    id?: string
+    buttons: Button[]
+}>
+
+interface Props {
+    className?: string
+    toolbar?: ToolbarProps
+    entityKey?: string
     onClick?(): void
 }
 
-const Toolbar: React.FC<ToolbarProps> = ({ className, toolbar, entityKey, onClick = () => {} }) => {
+export const Toolbar = ({ className, entityKey, toolbar = [], onClick = () => {} }: Props) => {
     const { className: toolbarClassName, style, id } = toolbar[0] || {}
 
     const handleClick = (e: React.MouseEvent) => {
@@ -107,11 +109,6 @@ function getButtonKey(buttonProps: Button, i: number) {
     const { id, label, hint } = buttonProps
 
     return `${id}-${label}-${hint}-${i}`
-}
-
-Toolbar.defaultProps = {
-    toolbar: [],
-    onClick: () => {},
 }
 
 export default Toolbar
