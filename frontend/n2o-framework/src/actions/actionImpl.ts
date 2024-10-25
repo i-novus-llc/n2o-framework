@@ -13,13 +13,12 @@ import createActionHelper from './createActionHelper'
  * @param model
  * @param pageId
  * @param meta
- * @param needResolve
  */
 export function startInvoke(
-    datasource,
-    dataProvider,
-    model,
-    pageId,
+    datasource: string,
+    dataProvider: Record<string, unknown>,
+    model: Record<string, unknown>,
+    pageId: string,
     meta = {},
 ) {
     return createActionHelper(START_INVOKE)(
@@ -38,13 +37,8 @@ export function startInvoke(
  * @param datasource
  * @param meta
  */
-export function successInvoke(datasource, meta) {
-    return createActionHelper(SUCCESS_INVOKE)(
-        {
-            datasource,
-        },
-        meta,
-    )
+export function successInvoke(datasource: string, meta: Record<string, unknown>) {
+    return createActionHelper(SUCCESS_INVOKE)({ datasource }, meta)
 }
 
 /**
@@ -52,11 +46,6 @@ export function successInvoke(datasource, meta) {
  * @param datasource
  * @param meta
  */
-export function failInvoke(datasource, meta) {
-    return createActionHelper(FAIL_INVOKE)(
-        {
-            datasource,
-        },
-        meta,
-    )
+export function failInvoke(datasource: string, meta: Record<string, unknown>) {
+    return createActionHelper(FAIL_INVOKE)({ datasource }, meta)
 }

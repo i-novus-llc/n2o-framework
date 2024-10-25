@@ -12,8 +12,7 @@ import {
     mapProps,
 } from 'recompose'
 
-// eslint-disable-next-line import/no-named-as-default
-import Factory from '../../core/factory/Factory'
+import { Factory } from '../../core/factory/Factory'
 import { PAGES } from '../../core/factory/factoryLevels'
 import {
     makePageDisabledByIdSelector,
@@ -24,7 +23,6 @@ import { ErrorContainer } from '../../core/error/Container'
 
 import withMetadata from './withMetadata'
 import withActions from './withActions'
-// eslint-disable-next-line import/no-cycle
 import Root from './Root'
 
 function Page(props, context) {

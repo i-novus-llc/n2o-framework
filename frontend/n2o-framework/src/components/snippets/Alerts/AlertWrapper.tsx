@@ -1,8 +1,18 @@
-import React from 'react'
+import React, { ReactNode, CSSProperties } from 'react'
 import classNames from 'classnames'
-import PropTypes from 'prop-types'
 
-export function AlertWrapper({
+interface Props {
+    children: ReactNode
+    className?: string
+    severity?: string
+    animate?: boolean
+    stacktrace?: boolean
+    href?: string
+    style?: CSSProperties
+    animationDirection?: 'default' | 'reversed'
+}
+
+export const AlertWrapper = ({
     children,
     className,
     severity,
@@ -10,8 +20,8 @@ export function AlertWrapper({
     stacktrace,
     href,
     style,
-    animationDirection,
-}) {
+    animationDirection = 'default',
+}: Props) => {
     return (
         <div
             className={classNames(
@@ -41,19 +51,4 @@ export function AlertWrapper({
             </a>
         </div>
     )
-}
-
-AlertWrapper.propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    severity: PropTypes.string,
-    animate: PropTypes.bool,
-    stacktrace: PropTypes.bool,
-    href: PropTypes.string,
-    style: PropTypes.object,
-    animationDirection: PropTypes.oneOf(['default', 'reversed']),
-}
-
-AlertWrapper.defaultProps = {
-    animationDirection: 'default',
 }

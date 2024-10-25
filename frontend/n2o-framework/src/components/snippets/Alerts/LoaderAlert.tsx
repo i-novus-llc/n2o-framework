@@ -3,9 +3,23 @@ import React from 'react'
 
 import InlineSpinner from '../Spinner/InlineSpinner'
 
-import { AlertTypes } from './AlertsTypes'
+interface Props {
+    text?: string
+    severity?: string
+    className?: string
+    style?: React.CSSProperties
+    animate?: boolean
+    t(key: string): string
+}
 
-export const LoaderAlert = ({ text, severity, className, style, animate, t }) => (
+export const LoaderAlert = ({
+    text,
+    severity,
+    className,
+    style,
+    animate,
+    t,
+}: Props) => (
     <div
         className={classNames(
             'n2o-alert',
@@ -26,5 +40,3 @@ export const LoaderAlert = ({ text, severity, className, style, animate, t }) =>
         </div>
     </div>
 )
-
-LoaderAlert.propTypes = AlertTypes
