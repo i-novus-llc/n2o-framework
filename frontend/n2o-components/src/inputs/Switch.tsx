@@ -6,13 +6,13 @@ import type { SwitchChangeEventHandler } from 'rc-switch'
 import { TBaseInputProps, TBaseProps } from '../types'
 import '../styles/controls/Switch.scss'
 
-type SwitchProps = TBaseProps & TBaseInputProps<string | number | boolean> & {
+export type Props = TBaseProps & TBaseInputProps<string | number | boolean> & {
     checked?: boolean
     label?: string
     onChange?: SwitchChangeEventHandler
 }
 
-export const Switch = ({ disabled, value, checked, onChange, label, id }: SwitchProps) => {
+export const Switch = ({ disabled, value, checked, onChange, label, id }: Props) => {
     const isChecked = isNil(checked) ? !!value : checked
 
     return (

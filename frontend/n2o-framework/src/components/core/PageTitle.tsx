@@ -12,7 +12,7 @@ interface Props {
     className?: string,
     datasource?: string,
     modelPrefix?: ModelPrefix,
-    titleLayout: boolean,
+    titleLayout?: boolean,
 }
 
 /** Renders the main-title or html title of the page **/

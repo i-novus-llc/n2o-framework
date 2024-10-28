@@ -47,7 +47,9 @@ const NetworkErrorPage = () => (
     </>
 )
 
-const InternalErrorPage = ({ error }) => {
+type Error = { error?: { text?: string } }
+
+const InternalErrorPage = ({ error = {} }: Error) => {
     const { text } = error
 
     return (
@@ -57,7 +59,7 @@ const InternalErrorPage = ({ error }) => {
         </>
     )
 }
-const defaultComponents = {
+const defaultComponents: Record<number | string, React.ComponentType<Error>> = {
     403: ForbiddenPage,
     404: NotFoundPage,
     500: ServerErrorPage,
@@ -69,14 +71,14 @@ const defaultComponents = {
 
 /* example config = {404: CustomComponent} */
 // eslint-disable-next-line @typescript-eslint/default-param-last
-export const errorTemplates = (config = {}, isOnline) => {
-    const components = {
+export const errorTemplates = (config: Record<number | string, React.ComponentType> = {}, isOnline: boolean) => {
+    const components: Record<number | string, React.ComponentType> = {
         ...defaultComponents,
         ...config,
     }
 
-    return (error) => {
-        if (error.status) { return components[error.status] }
+    return (error: { status: number }) => {
+        if (components[error?.status]) { return components[error.status] }
         if (!isOnline) { return components.networkError }
 
         return components.internalError

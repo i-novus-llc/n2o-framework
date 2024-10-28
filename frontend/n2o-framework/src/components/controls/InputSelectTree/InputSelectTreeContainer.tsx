@@ -60,7 +60,7 @@ function mapIds(options: TOption[], valueFieldId: keyof TOption, parentFieldId: 
     })
 }
 
-function InputSelectTreeContainer(props: Props) {
+function InputSelectTreeContainerBody(props: Props) {
     const { options, ajax, value, valueFieldId, parentFieldId } = props
     const [unionOptions, setOptions] = useState(options)
 
@@ -106,7 +106,8 @@ function InputSelectTreeContainer(props: Props) {
     )
 }
 
-InputSelectTreeContainer.defaultProps = defaultProps
+InputSelectTreeContainerBody.defaultProps = defaultProps
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default listContainer(InputSelectTreeContainer as any)
+export const InputSelectTreeContainer = listContainer(InputSelectTreeContainerBody as never)
+
+export default InputSelectTreeContainer
