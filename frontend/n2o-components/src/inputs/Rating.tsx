@@ -20,7 +20,7 @@ const prepareValue = (rating: number | string, half: boolean): number => {
     return Math.round(+rating)
 }
 
-type RatingProps = TBaseProps & {
+export type Props = TBaseProps & {
     half: boolean,
     max: number | string,
     onChange(value: number): void,
@@ -31,15 +31,15 @@ type RatingProps = TBaseProps & {
 }
 
 type RatingState = {
-    rating: RatingProps['rating'],
+    rating: Props['rating'],
     value: number
 }
 
 // TODO отказаться от rating в параметрах в пользу value для единообразия со всеми полями ввода
-export class Rating extends Component<RatingProps, RatingState> {
+export class Rating extends Component<Props, RatingState> {
     id: string
 
-    constructor(props: RatingProps) {
+    constructor(props: Props) {
         super(props)
         this.state = {
             rating: props.rating,
@@ -48,14 +48,14 @@ export class Rating extends Component<RatingProps, RatingState> {
         this.id = generateId()
     }
 
-    componentDidUpdate(prevProps: Readonly<RatingProps>, prevState: Readonly<RatingState>): void {
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<RatingState>): void {
         const { value } = this.state
         const { value: propsValue } = this.props
 
         if (value && propsValue === null) { this.setState({ value: 0 }) }
     }
 
-    static getDerivedStateFromProps(props: RatingProps, state: RatingState) {
+    static getDerivedStateFromProps(props: Props, state: RatingState) {
         const { value } = props
         const rating = props.rating || value
 
@@ -187,5 +187,5 @@ export class Rating extends Component<RatingProps, RatingState> {
         showTooltip: false,
         readonly: false,
         onChange: () => {},
-    } as RatingProps
+    } as Props
 }
