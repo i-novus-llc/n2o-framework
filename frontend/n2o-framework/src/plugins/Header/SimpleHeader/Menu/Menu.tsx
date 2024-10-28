@@ -13,15 +13,18 @@ interface Props {
 }
 
 export function Menu({ pathname, datasources = [], items = [] }: Props) {
-    if (isEmpty(items)) {
-        return null
-    }
+    if (isEmpty(items)) { return null }
 
-    return items.map(item => (
-        <ItemComponent
-            {...item}
-            pathname={pathname}
-            datasources={datasources}
-        />
-    ))
+    return (
+        <>
+            {items.map((item, index) => (
+                <ItemComponent
+                    key={item.id || index}
+                    {...item}
+                    pathname={pathname}
+                    datasources={datasources}
+                />
+            ))}
+        </>
+    )
 }
