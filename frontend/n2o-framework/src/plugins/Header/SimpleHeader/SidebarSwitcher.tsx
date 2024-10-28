@@ -2,8 +2,8 @@ import React from 'react'
 import classNames from 'classnames'
 
 interface Props {
-    defaultIcon: string
-    toggledIcon: string
+    defaultIcon?: string
+    toggledIcon?: string
     sidebarOpen: boolean
     toggleSidebar(): void
 }

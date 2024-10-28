@@ -5,10 +5,28 @@ import { libAsterisk } from '../Menu/helpers'
 
 export const EXPRESSION_SYMBOL = ':'
 
-const resolveItem = (item, datasourceModels, datasource) => {
+interface Item {
+    href?: string
+    title?: string
+    pathMapping?: Record<string, { value: string }>
+    queryMapping?: Record<string, { value: string }>
+    items?: Item[]
+    datasource?: string
+}
+
+interface DatasourceModels {
+    [key: string]: Array<Record<string, unknown>>
+}
+
+interface ResolveExpressionResult {
+    key: string | undefined;
+    value: string | undefined;
+}
+
+const resolveItem = (item: Item, datasourceModels: DatasourceModels, datasource: string): Item => {
     const { datasource: childrenDataSource } = item
 
-    let datasourceModel = null
+    let datasourceModel: Record<string, unknown> = {}
 
     if (childrenDataSource) {
         datasourceModel = datasourceModels[childrenDataSource]?.[0]
@@ -18,20 +36,20 @@ const resolveItem = (item, datasourceModels, datasource) => {
 
     if (isEmpty(datasourceModel)) { return item }
 
-    let newHref = item.href
+    let newHref = item.href || ''
     let newTitle = item.title
 
     if (newHref) {
-        const pathVariables = Object.entries(item.pathMapping)
+        const pathVariables = Object.entries(item.pathMapping || {})
 
         pathVariables.forEach(([key, valueObj]) => {
             if (key in datasourceModel) {
-                newHref = newHref.replaceAll(valueObj.value, datasourceModel[key])
+                newHref = newHref.replaceAll(valueObj.value, <string>datasourceModel[key])
             }
         })
 
         let hasQuery = false
-        const queryVariables = Object.entries(item.queryMapping)
+        const queryVariables = Object.entries(item.queryMapping || {})
 
         queryVariables.forEach(([queryKey, queryValueObj]) => {
             const queryObj = propsResolver({ [queryKey]: queryValueObj.value }, datasourceModel)
@@ -49,29 +67,32 @@ const resolveItem = (item, datasourceModels, datasource) => {
         newTitle = title
     }
 
-    let newItems = []
+    let newItems: Item[] = []
 
     if (item.items) {
         newItems = item.items.map(i => resolveItem(i, datasourceModels, childrenDataSource || datasource))
     }
 
-    return { ...item,
+    return {
+        ...item,
         ...(item.items && { items: newItems }),
         ...(item.href && { href: newHref }),
-        ...(item.title && { title: newTitle }) }
+        ...(item.title && { title: newTitle }),
+    }
 }
 
-export const resolveItems = (items, datasourceModels, datasource) => items
-    .map(item => resolveItem(item, datasourceModels, datasource))
+export const resolveItems = (items: Item[], datasourceModels: DatasourceModels, datasource: string): Item[] => {
+    return items.map(item => resolveItem(item, datasourceModels, datasource))
+}
 
-export const resolveExpression = (location, path) => {
-    if (!location || !path) { return {} }
+export const resolveExpression = (location: { pathname: string }, path: string): ResolveExpressionResult => {
+    if (!location || !path) { return { key: undefined, value: undefined } }
     let key
 
     const expressionPosition = path.split('/').findIndex((e) => {
         key = e.substring(1).replaceAll(libAsterisk, '')
 
-        return e[0] === EXPRESSION_SYMBOL
+        return e.startsWith(EXPRESSION_SYMBOL)
     })
     const value = location.pathname.split('/')[expressionPosition]
 
