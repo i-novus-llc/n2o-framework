@@ -1,13 +1,44 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Dropzone from 'react-dropzone'
+import React, { ReactNode, FC, CSSProperties } from 'react'
+import Dropzone, { DropFilesEventHandler } from 'react-dropzone'
 import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import { Button } from 'reactstrap'
 
-import ImageUploaderList from './ImageUploaderList'
+import { ImageUploaderList } from './ImageUploaderList'
+import { type File } from './ImageUploaderItem'
+import { type ImgError } from './utils'
 
-function ImageUpload({
+export interface Props {
+    uploading: Record<string, boolean>
+    statusBarColor?: string
+    onRemove(index: number, id: string): void
+    autoUpload?: boolean
+    showSize?: boolean
+    showName?: boolean
+    disabled?: boolean
+    children?: ReactNode | FC
+    onImagesDrop: DropFilesEventHandler
+    onDragEnter?(): void
+    onDragLeave?(): void
+    multiple?: boolean
+    visible?: boolean
+    className?: string
+    files: File[]
+    componentClass?: string
+    onStartUpload?(): void
+    uploaderClass?: string
+    saveBtnStyle?: CSSProperties
+    lightbox?: boolean
+    listType?: 'card' | 'image'
+    imgError?: ImgError
+    showTooltip?: boolean
+    customUploaderSize?: CSSProperties
+    canDelete?: boolean
+    shape?: 'circle' | 'square'
+    accept?: string
+}
+
+export const ImageUpload = ({
     uploading,
     statusBarColor,
     onRemove,
@@ -35,32 +66,24 @@ function ImageUpload({
     canDelete,
     shape,
     accept,
-}) {
+}: Props) => {
     const showControl = multiple || (!multiple && isEmpty(files))
     const componentClassContainer = `${componentClass}-container`
 
-    if (!visible) {
-        return null
-    }
+    if (!visible) { return null }
 
     const defaultClassName = 'n2o-image-uploader-control'
-    const compiledClassName = shape
-        ? `${defaultClassName}--shape-${shape}`
-        : defaultClassName
+    const compiledClassName = shape ? `${defaultClassName}--shape-${shape}` : defaultClassName
 
     return (
         <div>
-            <div
-                className={classNames('n2o-image-uploader-container', {
-                    [componentClassContainer]: componentClass,
-                })}
-            >
+            <div className={classNames('n2o-image-uploader-container', { [componentClassContainer]: componentClass })}>
                 {visible && (
                     <Dropzone
                         className={classNames('n2o-image-uploader-control', componentClass, compiledClassName, {
                             'd-none': !showControl,
-                            [className]: className,
-                            [uploaderClass]: uploaderClass,
+                            className,
+                            uploaderClass,
                             'img-error': !isEmpty(imgError),
                         })}
                         style={customUploaderSize}
@@ -95,46 +118,10 @@ function ImageUpload({
                 )}
             </div>
             {!autoUpload && (
-                <Button
-                    className="n2o-drop-zone-save-btn"
-                    style={saveBtnStyle}
-                    onClick={onStartUpload}
-                >
-                    Сохранить
-                </Button>
+                <Button className="n2o-drop-zone-save-btn" style={saveBtnStyle} onClick={onStartUpload}>Сохранить</Button>
             )}
         </div>
     )
-}
-
-ImageUpload.propTypes = {
-    uploading: PropTypes.object,
-    statusBarColor: PropTypes.string,
-    onRemove: PropTypes.func,
-    autoUpload: PropTypes.bool,
-    showSize: PropTypes.bool,
-    showName: PropTypes.bool,
-    disabled: PropTypes.bool,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    onImagesDrop: PropTypes.func,
-    onDragEnter: PropTypes.func,
-    onDragLeave: PropTypes.func,
-    multiple: PropTypes.bool,
-    visible: PropTypes.bool,
-    className: PropTypes.string,
-    files: PropTypes.arrayOf(PropTypes.object),
-    componentClass: PropTypes.string,
-    onStartUpload: PropTypes.func,
-    uploaderClass: PropTypes.string,
-    saveBtnStyle: PropTypes.object,
-    lightbox: PropTypes.bool,
-    listType: PropTypes.string,
-    imgError: PropTypes.string,
-    showTooltip: PropTypes.bool,
-    customUploaderSize: PropTypes.number,
-    canDelete: PropTypes.bool,
-    shape: PropTypes.string,
-    accept: PropTypes.string,
 }
 
 export default ImageUpload

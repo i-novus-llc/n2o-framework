@@ -20,6 +20,7 @@ export type Props = TBaseProps & {
     title: string,
     transparent: boolean,
     type: SpinnerType
+    size?: string
 }
 
 type State = {
