@@ -1,11 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 
-export function Factory(props, context) {
+import { FactoryContext } from './context'
+
+export function Factory(props) {
     const { src, level, security, children, ...rest } = props
     let { component = null } = props
 
-    if (!component) { component = context.getComponent(src, level) }
+    const { getComponent } = useContext(FactoryContext)
+
+    if (!component) { component = getComponent(src, level) }
 
     if (component) { return React.createElement(component, rest, children) }
 
@@ -15,7 +18,5 @@ export function Factory(props, context) {
 
     return null
 }
-
-Factory.contextTypes = { getComponent: PropTypes.func }
 
 export default Factory
