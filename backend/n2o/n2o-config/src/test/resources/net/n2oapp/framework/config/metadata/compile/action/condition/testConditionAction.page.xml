@@ -57,6 +57,13 @@
             <if datasource="ds1" test="code == 'B'">
                 <alert text="Next"/>
             </if>
+
+            <if datasource="ds1" test="code == 'C'">
+                <alert/>
+            </if>
+            <else-if test="code == 'D'">
+                <alert/>
+            </else-if>
         </action>
     </actions>
 </page>

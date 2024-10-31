@@ -172,15 +172,34 @@ public class ActionCompileStaticProcessor {
                 new ComponentScope(source, p.getScope(ComponentScope.class)), scopes);
     }
 
+    /**
+     * Проверка, что действие не является `else` или `else-if`
+     * @param n2oAction Действие
+     * @return true - если действие не является `else` или `else-if`, иначе - false
+     */
+    public static boolean isNotFailConditions(N2oAction n2oAction) {
+        return !(n2oAction instanceof N2oElseIfBranchAction) && !(n2oAction instanceof N2oElseBranchAction);
+    }
+
+    /**
+     * Наполнение действия `if` информацией о его `else` и `else-if` ветках
+     * @param n2oAction Действие
+     * @param n2oActions Список действий цепочки
+     * @return Скоуп действия `if`, заполненный информацией о его `else` и `else-if` ветках
+     */
     public static ConditionBranchesScope initFailConditionBranchesScope(N2oAction n2oAction, N2oAction[] n2oActions) {
         if (!(n2oAction instanceof N2oIfBranchAction))
             return null;
         List<N2oConditionBranch> failBranches = new ArrayList<>();
-        for (N2oAction act : n2oActions) {
-            if (act instanceof N2oIfBranchAction && !act.equals(n2oAction))
-                break;
-            if (act instanceof N2oElseIfBranchAction || act instanceof N2oElseBranchAction)
-                failBranches.add((N2oConditionBranch) act);
+
+        int i = 0;
+        while (!n2oAction.equals(n2oActions[i]))
+            i++;
+        i++;
+
+        while (i < n2oActions.length && !isNotFailConditions(n2oActions[i])) {
+            failBranches.add((N2oConditionBranch) n2oActions[i]);
+            i++;
         }
 
         return new ConditionBranchesScope(failBranches);
@@ -201,9 +220,5 @@ public class ActionCompileStaticProcessor {
             Arrays.stream(actions).filter(ActionCompileStaticProcessor::isNotFailConditions)
                     .forEach(action -> action.setId(castDefault(action.getId(), prefix + indexScope.get())));
         }
-    }
-
-    public static boolean isNotFailConditions(N2oAction n2oAction) {
-        return !(n2oAction instanceof N2oElseIfBranchAction) && !(n2oAction instanceof N2oElseBranchAction);
     }
 }
