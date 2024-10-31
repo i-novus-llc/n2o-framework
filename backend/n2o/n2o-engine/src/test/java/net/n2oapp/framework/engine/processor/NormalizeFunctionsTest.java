@@ -26,7 +26,6 @@ import net.n2oapp.framework.engine.data.N2oInvocationFactory;
 import net.n2oapp.framework.engine.data.N2oQueryExceptionHandler;
 import net.n2oapp.framework.engine.data.N2oQueryProcessor;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -197,8 +196,11 @@ public class NormalizeFunctionsTest {
         assertThat(result.get(0).get("dateTimeInputFormat"), is("03.08.2011"));
         assertThat(result.get(0).get("dateTimeOutputFormat"), is("03.8.2011 10:15:00"));
         assertThat(result.get(0).get("dateTimeInputAndOutputFormat"), is("2011-08-03T10:15:00"));
-
         assertThat(result.get(0).get("dateTimeOutputFormatParseWithMs"), is("03.8.2011"));
+
         assertThat(result.get(0).get("datePeriod"), is("12.09.2022 - 13.09.2022"));
+        assertThat(result.get(0).get("datePeriod2"), is("12.09.2022 - "));
+        assertThat(result.get(0).get("datePeriod3"), is(" - 13.09.2022"));
+        assertThat(result.get(0).get("datePeriod4"), is(" - "));
     }
 }

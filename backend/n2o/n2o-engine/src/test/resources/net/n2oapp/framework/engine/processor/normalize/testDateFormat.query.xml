@@ -23,5 +23,8 @@
         <field id="startDate"/>
         <field id="endDate"/>
         <field id="datePeriod" normalize="#period(#data['startDate'], #data['endDate'])"/>
+        <field id="datePeriod2" normalize="#period(#data['startDate'], null)"/>
+        <field id="datePeriod3" normalize="#period(null, #data['endDate'])"/>
+        <field id="datePeriod4" normalize="#period(null, null)"/>
     </fields>
 </query>
